@@ -24,12 +24,12 @@ func Test_LoadBalancers_SPECARM_WhenSerializedToJson_DeserializesAsEqual(t *test
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancers_SPECARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoadBalancersSPECARM, LoadBalancersSPECARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForLoadBalancers_SPECARM, LoadBalancers_SPECARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLoadBalancersSPECARM runs a test to see if a specific instance of LoadBalancers_SPECARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoadBalancersSPECARM(subject LoadBalancers_SPECARM) string {
+// RunJSONSerializationTestForLoadBalancers_SPECARM runs a test to see if a specific instance of LoadBalancers_SPECARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForLoadBalancers_SPECARM(subject LoadBalancers_SPECARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,33 +56,33 @@ func RunJSONSerializationTestForLoadBalancersSPECARM(subject LoadBalancers_SPECA
 }
 
 // Generator of LoadBalancers_SPECARM instances for property testing - lazily instantiated by
-//LoadBalancersSPECARMGenerator()
-var loadBalancersSPECARMGenerator gopter.Gen
+//LoadBalancers_SPECARMGenerator()
+var loadBalancers_specarmGenerator gopter.Gen
 
-// LoadBalancersSPECARMGenerator returns a generator of LoadBalancers_SPECARM instances for property testing.
-// We first initialize loadBalancersSPECARMGenerator with a simplified generator based on the
+// LoadBalancers_SPECARMGenerator returns a generator of LoadBalancers_SPECARM instances for property testing.
+// We first initialize loadBalancers_specarmGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func LoadBalancersSPECARMGenerator() gopter.Gen {
-	if loadBalancersSPECARMGenerator != nil {
-		return loadBalancersSPECARMGenerator
+func LoadBalancers_SPECARMGenerator() gopter.Gen {
+	if loadBalancers_specarmGenerator != nil {
+		return loadBalancers_specarmGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancersSPECARM(generators)
-	loadBalancersSPECARMGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancers_SPECARM(generators)
+	loadBalancers_specarmGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_SPECARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancersSPECARM(generators)
-	AddRelatedPropertyGeneratorsForLoadBalancersSPECARM(generators)
-	loadBalancersSPECARMGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancers_SPECARM(generators)
+	AddRelatedPropertyGeneratorsForLoadBalancers_SPECARM(generators)
+	loadBalancers_specarmGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_SPECARM{}), generators)
 
-	return loadBalancersSPECARMGenerator
+	return loadBalancers_specarmGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLoadBalancersSPECARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLoadBalancersSPECARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForLoadBalancers_SPECARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForLoadBalancers_SPECARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
@@ -90,11 +90,11 @@ func AddIndependentPropertyGeneratorsForLoadBalancersSPECARM(gens map[string]gop
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForLoadBalancersSPECARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLoadBalancersSPECARM(gens map[string]gopter.Gen) {
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationSpecARMGenerator())
-	gens["Properties"] = gen.PtrOf(LoadBalancerPropertiesFormatSpecARMGenerator())
-	gens["Sku"] = gen.PtrOf(LoadBalancerSkuSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForLoadBalancers_SPECARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForLoadBalancers_SPECARM(gens map[string]gopter.Gen) {
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_SpecARMGenerator())
+	gens["Properties"] = gen.PtrOf(LoadBalancerPropertiesFormat_SpecARMGenerator())
+	gens["Sku"] = gen.PtrOf(LoadBalancerSku_SpecARMGenerator())
 }
 
 func Test_ExtendedLocation_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -104,12 +104,12 @@ func Test_ExtendedLocation_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *t
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ExtendedLocation_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForExtendedLocationSpecARM, ExtendedLocationSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForExtendedLocation_SpecARM, ExtendedLocation_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForExtendedLocationSpecARM runs a test to see if a specific instance of ExtendedLocation_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForExtendedLocationSpecARM(subject ExtendedLocation_SpecARM) string {
+// RunJSONSerializationTestForExtendedLocation_SpecARM runs a test to see if a specific instance of ExtendedLocation_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForExtendedLocation_SpecARM(subject ExtendedLocation_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -136,24 +136,24 @@ func RunJSONSerializationTestForExtendedLocationSpecARM(subject ExtendedLocation
 }
 
 // Generator of ExtendedLocation_SpecARM instances for property testing - lazily instantiated by
-//ExtendedLocationSpecARMGenerator()
-var extendedLocationSpecARMGenerator gopter.Gen
+//ExtendedLocation_SpecARMGenerator()
+var extendedLocation_specARMGenerator gopter.Gen
 
-// ExtendedLocationSpecARMGenerator returns a generator of ExtendedLocation_SpecARM instances for property testing.
-func ExtendedLocationSpecARMGenerator() gopter.Gen {
-	if extendedLocationSpecARMGenerator != nil {
-		return extendedLocationSpecARMGenerator
+// ExtendedLocation_SpecARMGenerator returns a generator of ExtendedLocation_SpecARM instances for property testing.
+func ExtendedLocation_SpecARMGenerator() gopter.Gen {
+	if extendedLocation_specARMGenerator != nil {
+		return extendedLocation_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForExtendedLocationSpecARM(generators)
-	extendedLocationSpecARMGenerator = gen.Struct(reflect.TypeOf(ExtendedLocation_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForExtendedLocation_SpecARM(generators)
+	extendedLocation_specARMGenerator = gen.Struct(reflect.TypeOf(ExtendedLocation_SpecARM{}), generators)
 
-	return extendedLocationSpecARMGenerator
+	return extendedLocation_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForExtendedLocationSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForExtendedLocationSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForExtendedLocation_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForExtendedLocation_SpecARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.AlphaString()
 	gens["Type"] = gen.OneConstOf(ExtendedLocationType_SpecEdgeZone)
 }
@@ -165,12 +165,12 @@ func Test_LoadBalancerPropertiesFormat_SpecARM_WhenSerializedToJson_Deserializes
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancerPropertiesFormat_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoadBalancerPropertiesFormatSpecARM, LoadBalancerPropertiesFormatSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForLoadBalancerPropertiesFormat_SpecARM, LoadBalancerPropertiesFormat_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLoadBalancerPropertiesFormatSpecARM runs a test to see if a specific instance of LoadBalancerPropertiesFormat_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoadBalancerPropertiesFormatSpecARM(subject LoadBalancerPropertiesFormat_SpecARM) string {
+// RunJSONSerializationTestForLoadBalancerPropertiesFormat_SpecARM runs a test to see if a specific instance of LoadBalancerPropertiesFormat_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForLoadBalancerPropertiesFormat_SpecARM(subject LoadBalancerPropertiesFormat_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -197,31 +197,31 @@ func RunJSONSerializationTestForLoadBalancerPropertiesFormatSpecARM(subject Load
 }
 
 // Generator of LoadBalancerPropertiesFormat_SpecARM instances for property testing - lazily instantiated by
-//LoadBalancerPropertiesFormatSpecARMGenerator()
-var loadBalancerPropertiesFormatSpecARMGenerator gopter.Gen
+//LoadBalancerPropertiesFormat_SpecARMGenerator()
+var loadBalancerPropertiesFormat_specARMGenerator gopter.Gen
 
-// LoadBalancerPropertiesFormatSpecARMGenerator returns a generator of LoadBalancerPropertiesFormat_SpecARM instances for property testing.
-func LoadBalancerPropertiesFormatSpecARMGenerator() gopter.Gen {
-	if loadBalancerPropertiesFormatSpecARMGenerator != nil {
-		return loadBalancerPropertiesFormatSpecARMGenerator
+// LoadBalancerPropertiesFormat_SpecARMGenerator returns a generator of LoadBalancerPropertiesFormat_SpecARM instances for property testing.
+func LoadBalancerPropertiesFormat_SpecARMGenerator() gopter.Gen {
+	if loadBalancerPropertiesFormat_specARMGenerator != nil {
+		return loadBalancerPropertiesFormat_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForLoadBalancerPropertiesFormatSpecARM(generators)
-	loadBalancerPropertiesFormatSpecARMGenerator = gen.Struct(reflect.TypeOf(LoadBalancerPropertiesFormat_SpecARM{}), generators)
+	AddRelatedPropertyGeneratorsForLoadBalancerPropertiesFormat_SpecARM(generators)
+	loadBalancerPropertiesFormat_specARMGenerator = gen.Struct(reflect.TypeOf(LoadBalancerPropertiesFormat_SpecARM{}), generators)
 
-	return loadBalancerPropertiesFormatSpecARMGenerator
+	return loadBalancerPropertiesFormat_specARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForLoadBalancerPropertiesFormatSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLoadBalancerPropertiesFormatSpecARM(gens map[string]gopter.Gen) {
-	gens["BackendAddressPools"] = gen.SliceOf(BackendAddressPoolSpecLoadBalancerSubResourceEmbeddedARMGenerator())
-	gens["FrontendIPConfigurations"] = gen.SliceOf(FrontendIPConfigurationSpecLoadBalancerSubResourceEmbeddedARMGenerator())
-	gens["InboundNatPools"] = gen.SliceOf(InboundNatPoolSpecARMGenerator())
-	gens["InboundNatRules"] = gen.SliceOf(InboundNatRuleSpecLoadBalancerSubResourceEmbeddedARMGenerator())
-	gens["LoadBalancingRules"] = gen.SliceOf(LoadBalancingRuleSpecARMGenerator())
-	gens["OutboundRules"] = gen.SliceOf(OutboundRuleSpecARMGenerator())
-	gens["Probes"] = gen.SliceOf(ProbeSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForLoadBalancerPropertiesFormat_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForLoadBalancerPropertiesFormat_SpecARM(gens map[string]gopter.Gen) {
+	gens["BackendAddressPools"] = gen.SliceOf(BackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator())
+	gens["FrontendIPConfigurations"] = gen.SliceOf(FrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator())
+	gens["InboundNatPools"] = gen.SliceOf(InboundNatPool_SpecARMGenerator())
+	gens["InboundNatRules"] = gen.SliceOf(InboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator())
+	gens["LoadBalancingRules"] = gen.SliceOf(LoadBalancingRule_SpecARMGenerator())
+	gens["OutboundRules"] = gen.SliceOf(OutboundRule_SpecARMGenerator())
+	gens["Probes"] = gen.SliceOf(Probe_SpecARMGenerator())
 }
 
 func Test_LoadBalancerSku_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -231,12 +231,12 @@ func Test_LoadBalancerSku_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *te
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancerSku_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoadBalancerSkuSpecARM, LoadBalancerSkuSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForLoadBalancerSku_SpecARM, LoadBalancerSku_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLoadBalancerSkuSpecARM runs a test to see if a specific instance of LoadBalancerSku_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoadBalancerSkuSpecARM(subject LoadBalancerSku_SpecARM) string {
+// RunJSONSerializationTestForLoadBalancerSku_SpecARM runs a test to see if a specific instance of LoadBalancerSku_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForLoadBalancerSku_SpecARM(subject LoadBalancerSku_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -263,26 +263,26 @@ func RunJSONSerializationTestForLoadBalancerSkuSpecARM(subject LoadBalancerSku_S
 }
 
 // Generator of LoadBalancerSku_SpecARM instances for property testing - lazily instantiated by
-//LoadBalancerSkuSpecARMGenerator()
-var loadBalancerSkuSpecARMGenerator gopter.Gen
+//LoadBalancerSku_SpecARMGenerator()
+var loadBalancerSku_specARMGenerator gopter.Gen
 
-// LoadBalancerSkuSpecARMGenerator returns a generator of LoadBalancerSku_SpecARM instances for property testing.
-func LoadBalancerSkuSpecARMGenerator() gopter.Gen {
-	if loadBalancerSkuSpecARMGenerator != nil {
-		return loadBalancerSkuSpecARMGenerator
+// LoadBalancerSku_SpecARMGenerator returns a generator of LoadBalancerSku_SpecARM instances for property testing.
+func LoadBalancerSku_SpecARMGenerator() gopter.Gen {
+	if loadBalancerSku_specARMGenerator != nil {
+		return loadBalancerSku_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancerSkuSpecARM(generators)
-	loadBalancerSkuSpecARMGenerator = gen.Struct(reflect.TypeOf(LoadBalancerSku_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancerSku_SpecARM(generators)
+	loadBalancerSku_specARMGenerator = gen.Struct(reflect.TypeOf(LoadBalancerSku_SpecARM{}), generators)
 
-	return loadBalancerSkuSpecARMGenerator
+	return loadBalancerSku_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLoadBalancerSkuSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLoadBalancerSkuSpecARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSkuSpecNameBasic, LoadBalancerSkuSpecNameStandard))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSkuSpecTierGlobal, LoadBalancerSkuSpecTierRegional))
+// AddIndependentPropertyGeneratorsForLoadBalancerSku_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForLoadBalancerSku_SpecARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSku_Name_SpecBasic, LoadBalancerSku_Name_SpecStandard))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSku_Tier_SpecGlobal, LoadBalancerSku_Tier_SpecRegional))
 }
 
 func Test_BackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -292,12 +292,12 @@ func Test_BackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARM_WhenSerial
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of BackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBackendAddressPoolSpecLoadBalancerSubResourceEmbeddedARM, BackendAddressPoolSpecLoadBalancerSubResourceEmbeddedARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForBackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARM, BackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForBackendAddressPoolSpecLoadBalancerSubResourceEmbeddedARM runs a test to see if a specific instance of BackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForBackendAddressPoolSpecLoadBalancerSubResourceEmbeddedARM(subject BackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARM) string {
+// RunJSONSerializationTestForBackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARM runs a test to see if a specific instance of BackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForBackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARM(subject BackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -324,24 +324,24 @@ func RunJSONSerializationTestForBackendAddressPoolSpecLoadBalancerSubResourceEmb
 }
 
 // Generator of BackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARM instances for property testing - lazily
-//instantiated by BackendAddressPoolSpecLoadBalancerSubResourceEmbeddedARMGenerator()
-var backendAddressPoolSpecLoadBalancerSubResourceEmbeddedARMGenerator gopter.Gen
+//instantiated by BackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator()
+var backendAddressPool_spec_loadBalancer_subResourceEmbeddedARMGenerator gopter.Gen
 
-// BackendAddressPoolSpecLoadBalancerSubResourceEmbeddedARMGenerator returns a generator of BackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARM instances for property testing.
-func BackendAddressPoolSpecLoadBalancerSubResourceEmbeddedARMGenerator() gopter.Gen {
-	if backendAddressPoolSpecLoadBalancerSubResourceEmbeddedARMGenerator != nil {
-		return backendAddressPoolSpecLoadBalancerSubResourceEmbeddedARMGenerator
+// BackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator returns a generator of BackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARM instances for property testing.
+func BackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator() gopter.Gen {
+	if backendAddressPool_spec_loadBalancer_subResourceEmbeddedARMGenerator != nil {
+		return backendAddressPool_spec_loadBalancer_subResourceEmbeddedARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackendAddressPoolSpecLoadBalancerSubResourceEmbeddedARM(generators)
-	backendAddressPoolSpecLoadBalancerSubResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(BackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARM{}), generators)
+	AddIndependentPropertyGeneratorsForBackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARM(generators)
+	backendAddressPool_spec_loadBalancer_subResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(BackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARM{}), generators)
 
-	return backendAddressPoolSpecLoadBalancerSubResourceEmbeddedARMGenerator
+	return backendAddressPool_spec_loadBalancer_subResourceEmbeddedARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForBackendAddressPoolSpecLoadBalancerSubResourceEmbeddedARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBackendAddressPoolSpecLoadBalancerSubResourceEmbeddedARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForBackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -352,12 +352,12 @@ func Test_FrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARM_WhenS
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of FrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFrontendIPConfigurationSpecLoadBalancerSubResourceEmbeddedARM, FrontendIPConfigurationSpecLoadBalancerSubResourceEmbeddedARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForFrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARM, FrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForFrontendIPConfigurationSpecLoadBalancerSubResourceEmbeddedARM runs a test to see if a specific instance of FrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForFrontendIPConfigurationSpecLoadBalancerSubResourceEmbeddedARM(subject FrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARM) string {
+// RunJSONSerializationTestForFrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARM runs a test to see if a specific instance of FrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForFrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARM(subject FrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -384,41 +384,41 @@ func RunJSONSerializationTestForFrontendIPConfigurationSpecLoadBalancerSubResour
 }
 
 // Generator of FrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARM instances for property testing - lazily
-//instantiated by FrontendIPConfigurationSpecLoadBalancerSubResourceEmbeddedARMGenerator()
-var frontendIPConfigurationSpecLoadBalancerSubResourceEmbeddedARMGenerator gopter.Gen
+//instantiated by FrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator()
+var frontendIPConfiguration_spec_loadBalancer_subResourceEmbeddedARMGenerator gopter.Gen
 
-// FrontendIPConfigurationSpecLoadBalancerSubResourceEmbeddedARMGenerator returns a generator of FrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARM instances for property testing.
-// We first initialize frontendIPConfigurationSpecLoadBalancerSubResourceEmbeddedARMGenerator with a simplified generator based on the
+// FrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator returns a generator of FrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARM instances for property testing.
+// We first initialize frontendIPConfiguration_spec_loadBalancer_subResourceEmbeddedARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func FrontendIPConfigurationSpecLoadBalancerSubResourceEmbeddedARMGenerator() gopter.Gen {
-	if frontendIPConfigurationSpecLoadBalancerSubResourceEmbeddedARMGenerator != nil {
-		return frontendIPConfigurationSpecLoadBalancerSubResourceEmbeddedARMGenerator
+func FrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator() gopter.Gen {
+	if frontendIPConfiguration_spec_loadBalancer_subResourceEmbeddedARMGenerator != nil {
+		return frontendIPConfiguration_spec_loadBalancer_subResourceEmbeddedARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFrontendIPConfigurationSpecLoadBalancerSubResourceEmbeddedARM(generators)
-	frontendIPConfigurationSpecLoadBalancerSubResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(FrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARM{}), generators)
+	AddIndependentPropertyGeneratorsForFrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARM(generators)
+	frontendIPConfiguration_spec_loadBalancer_subResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(FrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFrontendIPConfigurationSpecLoadBalancerSubResourceEmbeddedARM(generators)
-	AddRelatedPropertyGeneratorsForFrontendIPConfigurationSpecLoadBalancerSubResourceEmbeddedARM(generators)
-	frontendIPConfigurationSpecLoadBalancerSubResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(FrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARM{}), generators)
+	AddIndependentPropertyGeneratorsForFrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARM(generators)
+	AddRelatedPropertyGeneratorsForFrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARM(generators)
+	frontendIPConfiguration_spec_loadBalancer_subResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(FrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARM{}), generators)
 
-	return frontendIPConfigurationSpecLoadBalancerSubResourceEmbeddedARMGenerator
+	return frontendIPConfiguration_spec_loadBalancer_subResourceEmbeddedARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForFrontendIPConfigurationSpecLoadBalancerSubResourceEmbeddedARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFrontendIPConfigurationSpecLoadBalancerSubResourceEmbeddedARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForFrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForFrontendIPConfigurationSpecLoadBalancerSubResourceEmbeddedARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFrontendIPConfigurationSpecLoadBalancerSubResourceEmbeddedARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(FrontendIPConfigurationPropertiesFormatSpecLoadBalancerSubResourceEmbeddedARMGenerator())
+// AddRelatedPropertyGeneratorsForFrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbeddedARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(FrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator())
 }
 
 func Test_InboundNatPool_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -428,12 +428,12 @@ func Test_InboundNatPool_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *tes
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of InboundNatPool_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForInboundNatPoolSpecARM, InboundNatPoolSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForInboundNatPool_SpecARM, InboundNatPool_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForInboundNatPoolSpecARM runs a test to see if a specific instance of InboundNatPool_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForInboundNatPoolSpecARM(subject InboundNatPool_SpecARM) string {
+// RunJSONSerializationTestForInboundNatPool_SpecARM runs a test to see if a specific instance of InboundNatPool_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForInboundNatPool_SpecARM(subject InboundNatPool_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -460,40 +460,40 @@ func RunJSONSerializationTestForInboundNatPoolSpecARM(subject InboundNatPool_Spe
 }
 
 // Generator of InboundNatPool_SpecARM instances for property testing - lazily instantiated by
-//InboundNatPoolSpecARMGenerator()
-var inboundNatPoolSpecARMGenerator gopter.Gen
+//InboundNatPool_SpecARMGenerator()
+var inboundNatPool_specARMGenerator gopter.Gen
 
-// InboundNatPoolSpecARMGenerator returns a generator of InboundNatPool_SpecARM instances for property testing.
-// We first initialize inboundNatPoolSpecARMGenerator with a simplified generator based on the
+// InboundNatPool_SpecARMGenerator returns a generator of InboundNatPool_SpecARM instances for property testing.
+// We first initialize inboundNatPool_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func InboundNatPoolSpecARMGenerator() gopter.Gen {
-	if inboundNatPoolSpecARMGenerator != nil {
-		return inboundNatPoolSpecARMGenerator
+func InboundNatPool_SpecARMGenerator() gopter.Gen {
+	if inboundNatPool_specARMGenerator != nil {
+		return inboundNatPool_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForInboundNatPoolSpecARM(generators)
-	inboundNatPoolSpecARMGenerator = gen.Struct(reflect.TypeOf(InboundNatPool_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForInboundNatPool_SpecARM(generators)
+	inboundNatPool_specARMGenerator = gen.Struct(reflect.TypeOf(InboundNatPool_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForInboundNatPoolSpecARM(generators)
-	AddRelatedPropertyGeneratorsForInboundNatPoolSpecARM(generators)
-	inboundNatPoolSpecARMGenerator = gen.Struct(reflect.TypeOf(InboundNatPool_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForInboundNatPool_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForInboundNatPool_SpecARM(generators)
+	inboundNatPool_specARMGenerator = gen.Struct(reflect.TypeOf(InboundNatPool_SpecARM{}), generators)
 
-	return inboundNatPoolSpecARMGenerator
+	return inboundNatPool_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForInboundNatPoolSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForInboundNatPoolSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForInboundNatPool_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForInboundNatPool_SpecARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForInboundNatPoolSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForInboundNatPoolSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(InboundNatPoolPropertiesFormatSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForInboundNatPool_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForInboundNatPool_SpecARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(InboundNatPoolPropertiesFormat_SpecARMGenerator())
 }
 
 func Test_InboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -503,12 +503,12 @@ func Test_InboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARM_WhenSerialized
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of InboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForInboundNatRuleSpecLoadBalancerSubResourceEmbeddedARM, InboundNatRuleSpecLoadBalancerSubResourceEmbeddedARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForInboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARM, InboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForInboundNatRuleSpecLoadBalancerSubResourceEmbeddedARM runs a test to see if a specific instance of InboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForInboundNatRuleSpecLoadBalancerSubResourceEmbeddedARM(subject InboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARM) string {
+// RunJSONSerializationTestForInboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARM runs a test to see if a specific instance of InboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForInboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARM(subject InboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -535,24 +535,24 @@ func RunJSONSerializationTestForInboundNatRuleSpecLoadBalancerSubResourceEmbedde
 }
 
 // Generator of InboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARM instances for property testing - lazily
-//instantiated by InboundNatRuleSpecLoadBalancerSubResourceEmbeddedARMGenerator()
-var inboundNatRuleSpecLoadBalancerSubResourceEmbeddedARMGenerator gopter.Gen
+//instantiated by InboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator()
+var inboundNatRule_spec_loadBalancer_subResourceEmbeddedARMGenerator gopter.Gen
 
-// InboundNatRuleSpecLoadBalancerSubResourceEmbeddedARMGenerator returns a generator of InboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARM instances for property testing.
-func InboundNatRuleSpecLoadBalancerSubResourceEmbeddedARMGenerator() gopter.Gen {
-	if inboundNatRuleSpecLoadBalancerSubResourceEmbeddedARMGenerator != nil {
-		return inboundNatRuleSpecLoadBalancerSubResourceEmbeddedARMGenerator
+// InboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator returns a generator of InboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARM instances for property testing.
+func InboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator() gopter.Gen {
+	if inboundNatRule_spec_loadBalancer_subResourceEmbeddedARMGenerator != nil {
+		return inboundNatRule_spec_loadBalancer_subResourceEmbeddedARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForInboundNatRuleSpecLoadBalancerSubResourceEmbeddedARM(generators)
-	inboundNatRuleSpecLoadBalancerSubResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(InboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARM{}), generators)
+	AddIndependentPropertyGeneratorsForInboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARM(generators)
+	inboundNatRule_spec_loadBalancer_subResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(InboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARM{}), generators)
 
-	return inboundNatRuleSpecLoadBalancerSubResourceEmbeddedARMGenerator
+	return inboundNatRule_spec_loadBalancer_subResourceEmbeddedARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForInboundNatRuleSpecLoadBalancerSubResourceEmbeddedARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForInboundNatRuleSpecLoadBalancerSubResourceEmbeddedARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForInboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForInboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -563,12 +563,12 @@ func Test_LoadBalancingRule_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancingRule_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoadBalancingRuleSpecARM, LoadBalancingRuleSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForLoadBalancingRule_SpecARM, LoadBalancingRule_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLoadBalancingRuleSpecARM runs a test to see if a specific instance of LoadBalancingRule_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoadBalancingRuleSpecARM(subject LoadBalancingRule_SpecARM) string {
+// RunJSONSerializationTestForLoadBalancingRule_SpecARM runs a test to see if a specific instance of LoadBalancingRule_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForLoadBalancingRule_SpecARM(subject LoadBalancingRule_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -595,40 +595,40 @@ func RunJSONSerializationTestForLoadBalancingRuleSpecARM(subject LoadBalancingRu
 }
 
 // Generator of LoadBalancingRule_SpecARM instances for property testing - lazily instantiated by
-//LoadBalancingRuleSpecARMGenerator()
-var loadBalancingRuleSpecARMGenerator gopter.Gen
+//LoadBalancingRule_SpecARMGenerator()
+var loadBalancingRule_specARMGenerator gopter.Gen
 
-// LoadBalancingRuleSpecARMGenerator returns a generator of LoadBalancingRule_SpecARM instances for property testing.
-// We first initialize loadBalancingRuleSpecARMGenerator with a simplified generator based on the
+// LoadBalancingRule_SpecARMGenerator returns a generator of LoadBalancingRule_SpecARM instances for property testing.
+// We first initialize loadBalancingRule_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func LoadBalancingRuleSpecARMGenerator() gopter.Gen {
-	if loadBalancingRuleSpecARMGenerator != nil {
-		return loadBalancingRuleSpecARMGenerator
+func LoadBalancingRule_SpecARMGenerator() gopter.Gen {
+	if loadBalancingRule_specARMGenerator != nil {
+		return loadBalancingRule_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancingRuleSpecARM(generators)
-	loadBalancingRuleSpecARMGenerator = gen.Struct(reflect.TypeOf(LoadBalancingRule_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancingRule_SpecARM(generators)
+	loadBalancingRule_specARMGenerator = gen.Struct(reflect.TypeOf(LoadBalancingRule_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancingRuleSpecARM(generators)
-	AddRelatedPropertyGeneratorsForLoadBalancingRuleSpecARM(generators)
-	loadBalancingRuleSpecARMGenerator = gen.Struct(reflect.TypeOf(LoadBalancingRule_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancingRule_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForLoadBalancingRule_SpecARM(generators)
+	loadBalancingRule_specARMGenerator = gen.Struct(reflect.TypeOf(LoadBalancingRule_SpecARM{}), generators)
 
-	return loadBalancingRuleSpecARMGenerator
+	return loadBalancingRule_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLoadBalancingRuleSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLoadBalancingRuleSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForLoadBalancingRule_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForLoadBalancingRule_SpecARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForLoadBalancingRuleSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLoadBalancingRuleSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(LoadBalancingRulePropertiesFormatSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForLoadBalancingRule_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForLoadBalancingRule_SpecARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(LoadBalancingRulePropertiesFormat_SpecARMGenerator())
 }
 
 func Test_OutboundRule_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -638,12 +638,12 @@ func Test_OutboundRule_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testi
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of OutboundRule_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOutboundRuleSpecARM, OutboundRuleSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForOutboundRule_SpecARM, OutboundRule_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForOutboundRuleSpecARM runs a test to see if a specific instance of OutboundRule_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForOutboundRuleSpecARM(subject OutboundRule_SpecARM) string {
+// RunJSONSerializationTestForOutboundRule_SpecARM runs a test to see if a specific instance of OutboundRule_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForOutboundRule_SpecARM(subject OutboundRule_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -670,40 +670,40 @@ func RunJSONSerializationTestForOutboundRuleSpecARM(subject OutboundRule_SpecARM
 }
 
 // Generator of OutboundRule_SpecARM instances for property testing - lazily instantiated by
-//OutboundRuleSpecARMGenerator()
-var outboundRuleSpecARMGenerator gopter.Gen
+//OutboundRule_SpecARMGenerator()
+var outboundRule_specARMGenerator gopter.Gen
 
-// OutboundRuleSpecARMGenerator returns a generator of OutboundRule_SpecARM instances for property testing.
-// We first initialize outboundRuleSpecARMGenerator with a simplified generator based on the
+// OutboundRule_SpecARMGenerator returns a generator of OutboundRule_SpecARM instances for property testing.
+// We first initialize outboundRule_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func OutboundRuleSpecARMGenerator() gopter.Gen {
-	if outboundRuleSpecARMGenerator != nil {
-		return outboundRuleSpecARMGenerator
+func OutboundRule_SpecARMGenerator() gopter.Gen {
+	if outboundRule_specARMGenerator != nil {
+		return outboundRule_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOutboundRuleSpecARM(generators)
-	outboundRuleSpecARMGenerator = gen.Struct(reflect.TypeOf(OutboundRule_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForOutboundRule_SpecARM(generators)
+	outboundRule_specARMGenerator = gen.Struct(reflect.TypeOf(OutboundRule_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOutboundRuleSpecARM(generators)
-	AddRelatedPropertyGeneratorsForOutboundRuleSpecARM(generators)
-	outboundRuleSpecARMGenerator = gen.Struct(reflect.TypeOf(OutboundRule_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForOutboundRule_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForOutboundRule_SpecARM(generators)
+	outboundRule_specARMGenerator = gen.Struct(reflect.TypeOf(OutboundRule_SpecARM{}), generators)
 
-	return outboundRuleSpecARMGenerator
+	return outboundRule_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForOutboundRuleSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOutboundRuleSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForOutboundRule_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForOutboundRule_SpecARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForOutboundRuleSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForOutboundRuleSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(OutboundRulePropertiesFormatSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForOutboundRule_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForOutboundRule_SpecARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(OutboundRulePropertiesFormat_SpecARMGenerator())
 }
 
 func Test_Probe_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -713,12 +713,12 @@ func Test_Probe_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Probe_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProbeSpecARM, ProbeSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForProbe_SpecARM, Probe_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForProbeSpecARM runs a test to see if a specific instance of Probe_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForProbeSpecARM(subject Probe_SpecARM) string {
+// RunJSONSerializationTestForProbe_SpecARM runs a test to see if a specific instance of Probe_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForProbe_SpecARM(subject Probe_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -744,40 +744,40 @@ func RunJSONSerializationTestForProbeSpecARM(subject Probe_SpecARM) string {
 	return ""
 }
 
-// Generator of Probe_SpecARM instances for property testing - lazily instantiated by ProbeSpecARMGenerator()
-var probeSpecARMGenerator gopter.Gen
+// Generator of Probe_SpecARM instances for property testing - lazily instantiated by Probe_SpecARMGenerator()
+var probe_specARMGenerator gopter.Gen
 
-// ProbeSpecARMGenerator returns a generator of Probe_SpecARM instances for property testing.
-// We first initialize probeSpecARMGenerator with a simplified generator based on the
+// Probe_SpecARMGenerator returns a generator of Probe_SpecARM instances for property testing.
+// We first initialize probe_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ProbeSpecARMGenerator() gopter.Gen {
-	if probeSpecARMGenerator != nil {
-		return probeSpecARMGenerator
+func Probe_SpecARMGenerator() gopter.Gen {
+	if probe_specARMGenerator != nil {
+		return probe_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProbeSpecARM(generators)
-	probeSpecARMGenerator = gen.Struct(reflect.TypeOf(Probe_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForProbe_SpecARM(generators)
+	probe_specARMGenerator = gen.Struct(reflect.TypeOf(Probe_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProbeSpecARM(generators)
-	AddRelatedPropertyGeneratorsForProbeSpecARM(generators)
-	probeSpecARMGenerator = gen.Struct(reflect.TypeOf(Probe_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForProbe_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForProbe_SpecARM(generators)
+	probe_specARMGenerator = gen.Struct(reflect.TypeOf(Probe_SpecARM{}), generators)
 
-	return probeSpecARMGenerator
+	return probe_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForProbeSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProbeSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForProbe_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProbe_SpecARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForProbeSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProbeSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ProbePropertiesFormatSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForProbe_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForProbe_SpecARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(ProbePropertiesFormat_SpecARMGenerator())
 }
 
 func Test_FrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -787,12 +787,12 @@ func Test_FrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceE
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of FrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFrontendIPConfigurationPropertiesFormatSpecLoadBalancerSubResourceEmbeddedARM, FrontendIPConfigurationPropertiesFormatSpecLoadBalancerSubResourceEmbeddedARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForFrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARM, FrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForFrontendIPConfigurationPropertiesFormatSpecLoadBalancerSubResourceEmbeddedARM runs a test to see if a specific instance of FrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForFrontendIPConfigurationPropertiesFormatSpecLoadBalancerSubResourceEmbeddedARM(subject FrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARM) string {
+// RunJSONSerializationTestForFrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARM runs a test to see if a specific instance of FrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForFrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARM(subject FrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -819,43 +819,44 @@ func RunJSONSerializationTestForFrontendIPConfigurationPropertiesFormatSpecLoadB
 }
 
 // Generator of FrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARM instances for property
-//testing - lazily instantiated by FrontendIPConfigurationPropertiesFormatSpecLoadBalancerSubResourceEmbeddedARMGenerator()
-var frontendIPConfigurationPropertiesFormatSpecLoadBalancerSubResourceEmbeddedARMGenerator gopter.Gen
+//testing - lazily instantiated by
+//FrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator()
+var frontendIPConfigurationPropertiesFormat_spec_loadBalancer_subResourceEmbeddedARMGenerator gopter.Gen
 
-// FrontendIPConfigurationPropertiesFormatSpecLoadBalancerSubResourceEmbeddedARMGenerator returns a generator of FrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARM instances for property testing.
-// We first initialize frontendIPConfigurationPropertiesFormatSpecLoadBalancerSubResourceEmbeddedARMGenerator with a simplified generator based on the
+// FrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator returns a generator of FrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARM instances for property testing.
+// We first initialize frontendIPConfigurationPropertiesFormat_spec_loadBalancer_subResourceEmbeddedARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func FrontendIPConfigurationPropertiesFormatSpecLoadBalancerSubResourceEmbeddedARMGenerator() gopter.Gen {
-	if frontendIPConfigurationPropertiesFormatSpecLoadBalancerSubResourceEmbeddedARMGenerator != nil {
-		return frontendIPConfigurationPropertiesFormatSpecLoadBalancerSubResourceEmbeddedARMGenerator
+func FrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator() gopter.Gen {
+	if frontendIPConfigurationPropertiesFormat_spec_loadBalancer_subResourceEmbeddedARMGenerator != nil {
+		return frontendIPConfigurationPropertiesFormat_spec_loadBalancer_subResourceEmbeddedARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFrontendIPConfigurationPropertiesFormatSpecLoadBalancerSubResourceEmbeddedARM(generators)
-	frontendIPConfigurationPropertiesFormatSpecLoadBalancerSubResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(FrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARM{}), generators)
+	AddIndependentPropertyGeneratorsForFrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARM(generators)
+	frontendIPConfigurationPropertiesFormat_spec_loadBalancer_subResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(FrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFrontendIPConfigurationPropertiesFormatSpecLoadBalancerSubResourceEmbeddedARM(generators)
-	AddRelatedPropertyGeneratorsForFrontendIPConfigurationPropertiesFormatSpecLoadBalancerSubResourceEmbeddedARM(generators)
-	frontendIPConfigurationPropertiesFormatSpecLoadBalancerSubResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(FrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARM{}), generators)
+	AddIndependentPropertyGeneratorsForFrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARM(generators)
+	AddRelatedPropertyGeneratorsForFrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARM(generators)
+	frontendIPConfigurationPropertiesFormat_spec_loadBalancer_subResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(FrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARM{}), generators)
 
-	return frontendIPConfigurationPropertiesFormatSpecLoadBalancerSubResourceEmbeddedARMGenerator
+	return frontendIPConfigurationPropertiesFormat_spec_loadBalancer_subResourceEmbeddedARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForFrontendIPConfigurationPropertiesFormatSpecLoadBalancerSubResourceEmbeddedARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFrontendIPConfigurationPropertiesFormatSpecLoadBalancerSubResourceEmbeddedARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForFrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARM(gens map[string]gopter.Gen) {
 	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_SpecIPv4, IPVersion_SpecIPv6))
 	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_SpecDynamic, IPAllocationMethod_SpecStatic))
 }
 
-// AddRelatedPropertyGeneratorsForFrontendIPConfigurationPropertiesFormatSpecLoadBalancerSubResourceEmbeddedARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFrontendIPConfigurationPropertiesFormatSpecLoadBalancerSubResourceEmbeddedARM(gens map[string]gopter.Gen) {
-	gens["PublicIPAddress"] = gen.PtrOf(PublicIPAddressSpecARMGenerator())
-	gens["PublicIPPrefix"] = gen.PtrOf(SubResourceSpecARMGenerator())
-	gens["Subnet"] = gen.PtrOf(SubnetSpecLoadBalancerSubResourceEmbeddedARMGenerator())
+// AddRelatedPropertyGeneratorsForFrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFrontendIPConfigurationPropertiesFormat_Spec_LoadBalancer_SubResourceEmbeddedARM(gens map[string]gopter.Gen) {
+	gens["PublicIPAddress"] = gen.PtrOf(PublicIPAddress_SpecARMGenerator())
+	gens["PublicIPPrefix"] = gen.PtrOf(SubResource_SpecARMGenerator())
+	gens["Subnet"] = gen.PtrOf(Subnet_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator())
 }
 
 func Test_InboundNatPoolPropertiesFormat_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -865,12 +866,12 @@ func Test_InboundNatPoolPropertiesFormat_SpecARM_WhenSerializedToJson_Deserializ
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of InboundNatPoolPropertiesFormat_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForInboundNatPoolPropertiesFormatSpecARM, InboundNatPoolPropertiesFormatSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForInboundNatPoolPropertiesFormat_SpecARM, InboundNatPoolPropertiesFormat_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForInboundNatPoolPropertiesFormatSpecARM runs a test to see if a specific instance of InboundNatPoolPropertiesFormat_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForInboundNatPoolPropertiesFormatSpecARM(subject InboundNatPoolPropertiesFormat_SpecARM) string {
+// RunJSONSerializationTestForInboundNatPoolPropertiesFormat_SpecARM runs a test to see if a specific instance of InboundNatPoolPropertiesFormat_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForInboundNatPoolPropertiesFormat_SpecARM(subject InboundNatPoolPropertiesFormat_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -897,33 +898,33 @@ func RunJSONSerializationTestForInboundNatPoolPropertiesFormatSpecARM(subject In
 }
 
 // Generator of InboundNatPoolPropertiesFormat_SpecARM instances for property testing - lazily instantiated by
-//InboundNatPoolPropertiesFormatSpecARMGenerator()
-var inboundNatPoolPropertiesFormatSpecARMGenerator gopter.Gen
+//InboundNatPoolPropertiesFormat_SpecARMGenerator()
+var inboundNatPoolPropertiesFormat_specARMGenerator gopter.Gen
 
-// InboundNatPoolPropertiesFormatSpecARMGenerator returns a generator of InboundNatPoolPropertiesFormat_SpecARM instances for property testing.
-// We first initialize inboundNatPoolPropertiesFormatSpecARMGenerator with a simplified generator based on the
+// InboundNatPoolPropertiesFormat_SpecARMGenerator returns a generator of InboundNatPoolPropertiesFormat_SpecARM instances for property testing.
+// We first initialize inboundNatPoolPropertiesFormat_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func InboundNatPoolPropertiesFormatSpecARMGenerator() gopter.Gen {
-	if inboundNatPoolPropertiesFormatSpecARMGenerator != nil {
-		return inboundNatPoolPropertiesFormatSpecARMGenerator
+func InboundNatPoolPropertiesFormat_SpecARMGenerator() gopter.Gen {
+	if inboundNatPoolPropertiesFormat_specARMGenerator != nil {
+		return inboundNatPoolPropertiesFormat_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForInboundNatPoolPropertiesFormatSpecARM(generators)
-	inboundNatPoolPropertiesFormatSpecARMGenerator = gen.Struct(reflect.TypeOf(InboundNatPoolPropertiesFormat_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForInboundNatPoolPropertiesFormat_SpecARM(generators)
+	inboundNatPoolPropertiesFormat_specARMGenerator = gen.Struct(reflect.TypeOf(InboundNatPoolPropertiesFormat_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForInboundNatPoolPropertiesFormatSpecARM(generators)
-	AddRelatedPropertyGeneratorsForInboundNatPoolPropertiesFormatSpecARM(generators)
-	inboundNatPoolPropertiesFormatSpecARMGenerator = gen.Struct(reflect.TypeOf(InboundNatPoolPropertiesFormat_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForInboundNatPoolPropertiesFormat_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForInboundNatPoolPropertiesFormat_SpecARM(generators)
+	inboundNatPoolPropertiesFormat_specARMGenerator = gen.Struct(reflect.TypeOf(InboundNatPoolPropertiesFormat_SpecARM{}), generators)
 
-	return inboundNatPoolPropertiesFormatSpecARMGenerator
+	return inboundNatPoolPropertiesFormat_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForInboundNatPoolPropertiesFormatSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForInboundNatPoolPropertiesFormatSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForInboundNatPoolPropertiesFormat_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForInboundNatPoolPropertiesFormat_SpecARM(gens map[string]gopter.Gen) {
 	gens["BackendPort"] = gen.Int()
 	gens["EnableFloatingIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
@@ -933,9 +934,9 @@ func AddIndependentPropertyGeneratorsForInboundNatPoolPropertiesFormatSpecARM(ge
 	gens["Protocol"] = gen.OneConstOf(TransportProtocol_SpecAll, TransportProtocol_SpecTcp, TransportProtocol_SpecUdp)
 }
 
-// AddRelatedPropertyGeneratorsForInboundNatPoolPropertiesFormatSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForInboundNatPoolPropertiesFormatSpecARM(gens map[string]gopter.Gen) {
-	gens["FrontendIPConfiguration"] = gen.PtrOf(SubResourceSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForInboundNatPoolPropertiesFormat_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForInboundNatPoolPropertiesFormat_SpecARM(gens map[string]gopter.Gen) {
+	gens["FrontendIPConfiguration"] = gen.PtrOf(SubResource_SpecARMGenerator())
 }
 
 func Test_LoadBalancingRulePropertiesFormat_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -945,12 +946,12 @@ func Test_LoadBalancingRulePropertiesFormat_SpecARM_WhenSerializedToJson_Deseria
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancingRulePropertiesFormat_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoadBalancingRulePropertiesFormatSpecARM, LoadBalancingRulePropertiesFormatSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForLoadBalancingRulePropertiesFormat_SpecARM, LoadBalancingRulePropertiesFormat_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLoadBalancingRulePropertiesFormatSpecARM runs a test to see if a specific instance of LoadBalancingRulePropertiesFormat_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoadBalancingRulePropertiesFormatSpecARM(subject LoadBalancingRulePropertiesFormat_SpecARM) string {
+// RunJSONSerializationTestForLoadBalancingRulePropertiesFormat_SpecARM runs a test to see if a specific instance of LoadBalancingRulePropertiesFormat_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForLoadBalancingRulePropertiesFormat_SpecARM(subject LoadBalancingRulePropertiesFormat_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -977,48 +978,48 @@ func RunJSONSerializationTestForLoadBalancingRulePropertiesFormatSpecARM(subject
 }
 
 // Generator of LoadBalancingRulePropertiesFormat_SpecARM instances for property testing - lazily instantiated by
-//LoadBalancingRulePropertiesFormatSpecARMGenerator()
-var loadBalancingRulePropertiesFormatSpecARMGenerator gopter.Gen
+//LoadBalancingRulePropertiesFormat_SpecARMGenerator()
+var loadBalancingRulePropertiesFormat_specARMGenerator gopter.Gen
 
-// LoadBalancingRulePropertiesFormatSpecARMGenerator returns a generator of LoadBalancingRulePropertiesFormat_SpecARM instances for property testing.
-// We first initialize loadBalancingRulePropertiesFormatSpecARMGenerator with a simplified generator based on the
+// LoadBalancingRulePropertiesFormat_SpecARMGenerator returns a generator of LoadBalancingRulePropertiesFormat_SpecARM instances for property testing.
+// We first initialize loadBalancingRulePropertiesFormat_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func LoadBalancingRulePropertiesFormatSpecARMGenerator() gopter.Gen {
-	if loadBalancingRulePropertiesFormatSpecARMGenerator != nil {
-		return loadBalancingRulePropertiesFormatSpecARMGenerator
+func LoadBalancingRulePropertiesFormat_SpecARMGenerator() gopter.Gen {
+	if loadBalancingRulePropertiesFormat_specARMGenerator != nil {
+		return loadBalancingRulePropertiesFormat_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancingRulePropertiesFormatSpecARM(generators)
-	loadBalancingRulePropertiesFormatSpecARMGenerator = gen.Struct(reflect.TypeOf(LoadBalancingRulePropertiesFormat_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancingRulePropertiesFormat_SpecARM(generators)
+	loadBalancingRulePropertiesFormat_specARMGenerator = gen.Struct(reflect.TypeOf(LoadBalancingRulePropertiesFormat_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancingRulePropertiesFormatSpecARM(generators)
-	AddRelatedPropertyGeneratorsForLoadBalancingRulePropertiesFormatSpecARM(generators)
-	loadBalancingRulePropertiesFormatSpecARMGenerator = gen.Struct(reflect.TypeOf(LoadBalancingRulePropertiesFormat_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancingRulePropertiesFormat_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForLoadBalancingRulePropertiesFormat_SpecARM(generators)
+	loadBalancingRulePropertiesFormat_specARMGenerator = gen.Struct(reflect.TypeOf(LoadBalancingRulePropertiesFormat_SpecARM{}), generators)
 
-	return loadBalancingRulePropertiesFormatSpecARMGenerator
+	return loadBalancingRulePropertiesFormat_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLoadBalancingRulePropertiesFormatSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLoadBalancingRulePropertiesFormatSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForLoadBalancingRulePropertiesFormat_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForLoadBalancingRulePropertiesFormat_SpecARM(gens map[string]gopter.Gen) {
 	gens["BackendPort"] = gen.PtrOf(gen.Int())
 	gens["DisableOutboundSnat"] = gen.PtrOf(gen.Bool())
 	gens["EnableFloatingIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
 	gens["FrontendPort"] = gen.Int()
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["LoadDistribution"] = gen.PtrOf(gen.OneConstOf(LoadBalancingRulePropertiesFormatSpecLoadDistributionDefault, LoadBalancingRulePropertiesFormatSpecLoadDistributionSourceIP, LoadBalancingRulePropertiesFormatSpecLoadDistributionSourceIPProtocol))
+	gens["LoadDistribution"] = gen.PtrOf(gen.OneConstOf(LoadBalancingRulePropertiesFormat_LoadDistribution_SpecDefault, LoadBalancingRulePropertiesFormat_LoadDistribution_SpecSourceIP, LoadBalancingRulePropertiesFormat_LoadDistribution_SpecSourceIPProtocol))
 	gens["Protocol"] = gen.OneConstOf(TransportProtocol_SpecAll, TransportProtocol_SpecTcp, TransportProtocol_SpecUdp)
 }
 
-// AddRelatedPropertyGeneratorsForLoadBalancingRulePropertiesFormatSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLoadBalancingRulePropertiesFormatSpecARM(gens map[string]gopter.Gen) {
-	gens["BackendAddressPool"] = gen.PtrOf(SubResourceSpecARMGenerator())
-	gens["FrontendIPConfiguration"] = gen.PtrOf(SubResourceSpecARMGenerator())
-	gens["Probe"] = gen.PtrOf(SubResourceSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForLoadBalancingRulePropertiesFormat_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForLoadBalancingRulePropertiesFormat_SpecARM(gens map[string]gopter.Gen) {
+	gens["BackendAddressPool"] = gen.PtrOf(SubResource_SpecARMGenerator())
+	gens["FrontendIPConfiguration"] = gen.PtrOf(SubResource_SpecARMGenerator())
+	gens["Probe"] = gen.PtrOf(SubResource_SpecARMGenerator())
 }
 
 func Test_OutboundRulePropertiesFormat_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1028,12 +1029,12 @@ func Test_OutboundRulePropertiesFormat_SpecARM_WhenSerializedToJson_Deserializes
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of OutboundRulePropertiesFormat_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOutboundRulePropertiesFormatSpecARM, OutboundRulePropertiesFormatSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForOutboundRulePropertiesFormat_SpecARM, OutboundRulePropertiesFormat_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForOutboundRulePropertiesFormatSpecARM runs a test to see if a specific instance of OutboundRulePropertiesFormat_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForOutboundRulePropertiesFormatSpecARM(subject OutboundRulePropertiesFormat_SpecARM) string {
+// RunJSONSerializationTestForOutboundRulePropertiesFormat_SpecARM runs a test to see if a specific instance of OutboundRulePropertiesFormat_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForOutboundRulePropertiesFormat_SpecARM(subject OutboundRulePropertiesFormat_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1060,43 +1061,43 @@ func RunJSONSerializationTestForOutboundRulePropertiesFormatSpecARM(subject Outb
 }
 
 // Generator of OutboundRulePropertiesFormat_SpecARM instances for property testing - lazily instantiated by
-//OutboundRulePropertiesFormatSpecARMGenerator()
-var outboundRulePropertiesFormatSpecARMGenerator gopter.Gen
+//OutboundRulePropertiesFormat_SpecARMGenerator()
+var outboundRulePropertiesFormat_specARMGenerator gopter.Gen
 
-// OutboundRulePropertiesFormatSpecARMGenerator returns a generator of OutboundRulePropertiesFormat_SpecARM instances for property testing.
-// We first initialize outboundRulePropertiesFormatSpecARMGenerator with a simplified generator based on the
+// OutboundRulePropertiesFormat_SpecARMGenerator returns a generator of OutboundRulePropertiesFormat_SpecARM instances for property testing.
+// We first initialize outboundRulePropertiesFormat_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func OutboundRulePropertiesFormatSpecARMGenerator() gopter.Gen {
-	if outboundRulePropertiesFormatSpecARMGenerator != nil {
-		return outboundRulePropertiesFormatSpecARMGenerator
+func OutboundRulePropertiesFormat_SpecARMGenerator() gopter.Gen {
+	if outboundRulePropertiesFormat_specARMGenerator != nil {
+		return outboundRulePropertiesFormat_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOutboundRulePropertiesFormatSpecARM(generators)
-	outboundRulePropertiesFormatSpecARMGenerator = gen.Struct(reflect.TypeOf(OutboundRulePropertiesFormat_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForOutboundRulePropertiesFormat_SpecARM(generators)
+	outboundRulePropertiesFormat_specARMGenerator = gen.Struct(reflect.TypeOf(OutboundRulePropertiesFormat_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOutboundRulePropertiesFormatSpecARM(generators)
-	AddRelatedPropertyGeneratorsForOutboundRulePropertiesFormatSpecARM(generators)
-	outboundRulePropertiesFormatSpecARMGenerator = gen.Struct(reflect.TypeOf(OutboundRulePropertiesFormat_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForOutboundRulePropertiesFormat_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForOutboundRulePropertiesFormat_SpecARM(generators)
+	outboundRulePropertiesFormat_specARMGenerator = gen.Struct(reflect.TypeOf(OutboundRulePropertiesFormat_SpecARM{}), generators)
 
-	return outboundRulePropertiesFormatSpecARMGenerator
+	return outboundRulePropertiesFormat_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForOutboundRulePropertiesFormatSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOutboundRulePropertiesFormatSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForOutboundRulePropertiesFormat_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForOutboundRulePropertiesFormat_SpecARM(gens map[string]gopter.Gen) {
 	gens["AllocatedOutboundPorts"] = gen.PtrOf(gen.Int())
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.OneConstOf(OutboundRulePropertiesFormatSpecProtocolAll, OutboundRulePropertiesFormatSpecProtocolTcp, OutboundRulePropertiesFormatSpecProtocolUdp)
+	gens["Protocol"] = gen.OneConstOf(OutboundRulePropertiesFormat_Protocol_SpecAll, OutboundRulePropertiesFormat_Protocol_SpecTcp, OutboundRulePropertiesFormat_Protocol_SpecUdp)
 }
 
-// AddRelatedPropertyGeneratorsForOutboundRulePropertiesFormatSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForOutboundRulePropertiesFormatSpecARM(gens map[string]gopter.Gen) {
-	gens["BackendAddressPool"] = SubResourceSpecARMGenerator()
-	gens["FrontendIPConfigurations"] = gen.SliceOf(SubResourceSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForOutboundRulePropertiesFormat_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForOutboundRulePropertiesFormat_SpecARM(gens map[string]gopter.Gen) {
+	gens["BackendAddressPool"] = SubResource_SpecARMGenerator()
+	gens["FrontendIPConfigurations"] = gen.SliceOf(SubResource_SpecARMGenerator())
 }
 
 func Test_ProbePropertiesFormat_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1106,12 +1107,12 @@ func Test_ProbePropertiesFormat_SpecARM_WhenSerializedToJson_DeserializesAsEqual
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ProbePropertiesFormat_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProbePropertiesFormatSpecARM, ProbePropertiesFormatSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForProbePropertiesFormat_SpecARM, ProbePropertiesFormat_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForProbePropertiesFormatSpecARM runs a test to see if a specific instance of ProbePropertiesFormat_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForProbePropertiesFormatSpecARM(subject ProbePropertiesFormat_SpecARM) string {
+// RunJSONSerializationTestForProbePropertiesFormat_SpecARM runs a test to see if a specific instance of ProbePropertiesFormat_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForProbePropertiesFormat_SpecARM(subject ProbePropertiesFormat_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1138,28 +1139,28 @@ func RunJSONSerializationTestForProbePropertiesFormatSpecARM(subject ProbeProper
 }
 
 // Generator of ProbePropertiesFormat_SpecARM instances for property testing - lazily instantiated by
-//ProbePropertiesFormatSpecARMGenerator()
-var probePropertiesFormatSpecARMGenerator gopter.Gen
+//ProbePropertiesFormat_SpecARMGenerator()
+var probePropertiesFormat_specARMGenerator gopter.Gen
 
-// ProbePropertiesFormatSpecARMGenerator returns a generator of ProbePropertiesFormat_SpecARM instances for property testing.
-func ProbePropertiesFormatSpecARMGenerator() gopter.Gen {
-	if probePropertiesFormatSpecARMGenerator != nil {
-		return probePropertiesFormatSpecARMGenerator
+// ProbePropertiesFormat_SpecARMGenerator returns a generator of ProbePropertiesFormat_SpecARM instances for property testing.
+func ProbePropertiesFormat_SpecARMGenerator() gopter.Gen {
+	if probePropertiesFormat_specARMGenerator != nil {
+		return probePropertiesFormat_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProbePropertiesFormatSpecARM(generators)
-	probePropertiesFormatSpecARMGenerator = gen.Struct(reflect.TypeOf(ProbePropertiesFormat_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForProbePropertiesFormat_SpecARM(generators)
+	probePropertiesFormat_specARMGenerator = gen.Struct(reflect.TypeOf(ProbePropertiesFormat_SpecARM{}), generators)
 
-	return probePropertiesFormatSpecARMGenerator
+	return probePropertiesFormat_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForProbePropertiesFormatSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProbePropertiesFormatSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForProbePropertiesFormat_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProbePropertiesFormat_SpecARM(gens map[string]gopter.Gen) {
 	gens["IntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["NumberOfProbes"] = gen.PtrOf(gen.Int())
 	gens["Port"] = gen.Int()
-	gens["Protocol"] = gen.OneConstOf(ProbePropertiesFormatSpecProtocolHttp, ProbePropertiesFormatSpecProtocolHttps, ProbePropertiesFormatSpecProtocolTcp)
+	gens["Protocol"] = gen.OneConstOf(ProbePropertiesFormat_Protocol_SpecHttp, ProbePropertiesFormat_Protocol_SpecHttps, ProbePropertiesFormat_Protocol_SpecTcp)
 	gens["RequestPath"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1170,12 +1171,12 @@ func Test_PublicIPAddress_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *te
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PublicIPAddress_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPublicIPAddressSpecARM, PublicIPAddressSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForPublicIPAddress_SpecARM, PublicIPAddress_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPublicIPAddressSpecARM runs a test to see if a specific instance of PublicIPAddress_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPublicIPAddressSpecARM(subject PublicIPAddress_SpecARM) string {
+// RunJSONSerializationTestForPublicIPAddress_SpecARM runs a test to see if a specific instance of PublicIPAddress_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPublicIPAddress_SpecARM(subject PublicIPAddress_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1202,44 +1203,44 @@ func RunJSONSerializationTestForPublicIPAddressSpecARM(subject PublicIPAddress_S
 }
 
 // Generator of PublicIPAddress_SpecARM instances for property testing - lazily instantiated by
-//PublicIPAddressSpecARMGenerator()
-var publicIPAddressSpecARMGenerator gopter.Gen
+//PublicIPAddress_SpecARMGenerator()
+var publicIPAddress_specARMGenerator gopter.Gen
 
-// PublicIPAddressSpecARMGenerator returns a generator of PublicIPAddress_SpecARM instances for property testing.
-// We first initialize publicIPAddressSpecARMGenerator with a simplified generator based on the
+// PublicIPAddress_SpecARMGenerator returns a generator of PublicIPAddress_SpecARM instances for property testing.
+// We first initialize publicIPAddress_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func PublicIPAddressSpecARMGenerator() gopter.Gen {
-	if publicIPAddressSpecARMGenerator != nil {
-		return publicIPAddressSpecARMGenerator
+func PublicIPAddress_SpecARMGenerator() gopter.Gen {
+	if publicIPAddress_specARMGenerator != nil {
+		return publicIPAddress_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPublicIPAddressSpecARM(generators)
-	publicIPAddressSpecARMGenerator = gen.Struct(reflect.TypeOf(PublicIPAddress_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForPublicIPAddress_SpecARM(generators)
+	publicIPAddress_specARMGenerator = gen.Struct(reflect.TypeOf(PublicIPAddress_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPublicIPAddressSpecARM(generators)
-	AddRelatedPropertyGeneratorsForPublicIPAddressSpecARM(generators)
-	publicIPAddressSpecARMGenerator = gen.Struct(reflect.TypeOf(PublicIPAddress_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForPublicIPAddress_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForPublicIPAddress_SpecARM(generators)
+	publicIPAddress_specARMGenerator = gen.Struct(reflect.TypeOf(PublicIPAddress_SpecARM{}), generators)
 
-	return publicIPAddressSpecARMGenerator
+	return publicIPAddress_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPublicIPAddressSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPublicIPAddressSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPublicIPAddress_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPublicIPAddress_SpecARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForPublicIPAddressSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPublicIPAddressSpecARM(gens map[string]gopter.Gen) {
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationSpecARMGenerator())
-	gens["Properties"] = gen.PtrOf(PublicIPAddressPropertiesFormatSpecARMGenerator())
-	gens["Sku"] = gen.PtrOf(PublicIPAddressSkuSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForPublicIPAddress_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPublicIPAddress_SpecARM(gens map[string]gopter.Gen) {
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_SpecARMGenerator())
+	gens["Properties"] = gen.PtrOf(PublicIPAddressPropertiesFormat_SpecARMGenerator())
+	gens["Sku"] = gen.PtrOf(PublicIPAddressSku_SpecARMGenerator())
 }
 
 func Test_Subnet_Spec_LoadBalancer_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1249,12 +1250,12 @@ func Test_Subnet_Spec_LoadBalancer_SubResourceEmbeddedARM_WhenSerializedToJson_D
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Subnet_Spec_LoadBalancer_SubResourceEmbeddedARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubnetSpecLoadBalancerSubResourceEmbeddedARM, SubnetSpecLoadBalancerSubResourceEmbeddedARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSubnet_Spec_LoadBalancer_SubResourceEmbeddedARM, Subnet_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSubnetSpecLoadBalancerSubResourceEmbeddedARM runs a test to see if a specific instance of Subnet_Spec_LoadBalancer_SubResourceEmbeddedARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubnetSpecLoadBalancerSubResourceEmbeddedARM(subject Subnet_Spec_LoadBalancer_SubResourceEmbeddedARM) string {
+// RunJSONSerializationTestForSubnet_Spec_LoadBalancer_SubResourceEmbeddedARM runs a test to see if a specific instance of Subnet_Spec_LoadBalancer_SubResourceEmbeddedARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSubnet_Spec_LoadBalancer_SubResourceEmbeddedARM(subject Subnet_Spec_LoadBalancer_SubResourceEmbeddedARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1281,24 +1282,24 @@ func RunJSONSerializationTestForSubnetSpecLoadBalancerSubResourceEmbeddedARM(sub
 }
 
 // Generator of Subnet_Spec_LoadBalancer_SubResourceEmbeddedARM instances for property testing - lazily instantiated by
-//SubnetSpecLoadBalancerSubResourceEmbeddedARMGenerator()
-var subnetSpecLoadBalancerSubResourceEmbeddedARMGenerator gopter.Gen
+//Subnet_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator()
+var subnet_spec_loadBalancer_subResourceEmbeddedARMGenerator gopter.Gen
 
-// SubnetSpecLoadBalancerSubResourceEmbeddedARMGenerator returns a generator of Subnet_Spec_LoadBalancer_SubResourceEmbeddedARM instances for property testing.
-func SubnetSpecLoadBalancerSubResourceEmbeddedARMGenerator() gopter.Gen {
-	if subnetSpecLoadBalancerSubResourceEmbeddedARMGenerator != nil {
-		return subnetSpecLoadBalancerSubResourceEmbeddedARMGenerator
+// Subnet_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator returns a generator of Subnet_Spec_LoadBalancer_SubResourceEmbeddedARM instances for property testing.
+func Subnet_Spec_LoadBalancer_SubResourceEmbeddedARMGenerator() gopter.Gen {
+	if subnet_spec_loadBalancer_subResourceEmbeddedARMGenerator != nil {
+		return subnet_spec_loadBalancer_subResourceEmbeddedARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubnetSpecLoadBalancerSubResourceEmbeddedARM(generators)
-	subnetSpecLoadBalancerSubResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(Subnet_Spec_LoadBalancer_SubResourceEmbeddedARM{}), generators)
+	AddIndependentPropertyGeneratorsForSubnet_Spec_LoadBalancer_SubResourceEmbeddedARM(generators)
+	subnet_spec_loadBalancer_subResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(Subnet_Spec_LoadBalancer_SubResourceEmbeddedARM{}), generators)
 
-	return subnetSpecLoadBalancerSubResourceEmbeddedARMGenerator
+	return subnet_spec_loadBalancer_subResourceEmbeddedARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSubnetSpecLoadBalancerSubResourceEmbeddedARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubnetSpecLoadBalancerSubResourceEmbeddedARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSubnet_Spec_LoadBalancer_SubResourceEmbeddedARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSubnet_Spec_LoadBalancer_SubResourceEmbeddedARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1309,12 +1310,12 @@ func Test_PublicIPAddressPropertiesFormat_SpecARM_WhenSerializedToJson_Deseriali
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PublicIPAddressPropertiesFormat_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPublicIPAddressPropertiesFormatSpecARM, PublicIPAddressPropertiesFormatSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForPublicIPAddressPropertiesFormat_SpecARM, PublicIPAddressPropertiesFormat_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPublicIPAddressPropertiesFormatSpecARM runs a test to see if a specific instance of PublicIPAddressPropertiesFormat_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPublicIPAddressPropertiesFormatSpecARM(subject PublicIPAddressPropertiesFormat_SpecARM) string {
+// RunJSONSerializationTestForPublicIPAddressPropertiesFormat_SpecARM runs a test to see if a specific instance of PublicIPAddressPropertiesFormat_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPublicIPAddressPropertiesFormat_SpecARM(subject PublicIPAddressPropertiesFormat_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1341,52 +1342,52 @@ func RunJSONSerializationTestForPublicIPAddressPropertiesFormatSpecARM(subject P
 }
 
 // Generator of PublicIPAddressPropertiesFormat_SpecARM instances for property testing - lazily instantiated by
-//PublicIPAddressPropertiesFormatSpecARMGenerator()
-var publicIPAddressPropertiesFormatSpecARMGenerator gopter.Gen
+//PublicIPAddressPropertiesFormat_SpecARMGenerator()
+var publicIPAddressPropertiesFormat_specARMGenerator gopter.Gen
 
-// PublicIPAddressPropertiesFormatSpecARMGenerator returns a generator of PublicIPAddressPropertiesFormat_SpecARM instances for property testing.
-// We first initialize publicIPAddressPropertiesFormatSpecARMGenerator with a simplified generator based on the
+// PublicIPAddressPropertiesFormat_SpecARMGenerator returns a generator of PublicIPAddressPropertiesFormat_SpecARM instances for property testing.
+// We first initialize publicIPAddressPropertiesFormat_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func PublicIPAddressPropertiesFormatSpecARMGenerator() gopter.Gen {
-	if publicIPAddressPropertiesFormatSpecARMGenerator != nil {
-		return publicIPAddressPropertiesFormatSpecARMGenerator
+func PublicIPAddressPropertiesFormat_SpecARMGenerator() gopter.Gen {
+	if publicIPAddressPropertiesFormat_specARMGenerator != nil {
+		return publicIPAddressPropertiesFormat_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPublicIPAddressPropertiesFormatSpecARM(generators)
-	publicIPAddressPropertiesFormatSpecARMGenerator = gen.Struct(reflect.TypeOf(PublicIPAddressPropertiesFormat_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForPublicIPAddressPropertiesFormat_SpecARM(generators)
+	publicIPAddressPropertiesFormat_specARMGenerator = gen.Struct(reflect.TypeOf(PublicIPAddressPropertiesFormat_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPublicIPAddressPropertiesFormatSpecARM(generators)
-	AddRelatedPropertyGeneratorsForPublicIPAddressPropertiesFormatSpecARM(generators)
-	publicIPAddressPropertiesFormatSpecARMGenerator = gen.Struct(reflect.TypeOf(PublicIPAddressPropertiesFormat_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForPublicIPAddressPropertiesFormat_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForPublicIPAddressPropertiesFormat_SpecARM(generators)
+	publicIPAddressPropertiesFormat_specARMGenerator = gen.Struct(reflect.TypeOf(PublicIPAddressPropertiesFormat_SpecARM{}), generators)
 
-	return publicIPAddressPropertiesFormatSpecARMGenerator
+	return publicIPAddressPropertiesFormat_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPublicIPAddressPropertiesFormatSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPublicIPAddressPropertiesFormatSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPublicIPAddressPropertiesFormat_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPublicIPAddressPropertiesFormat_SpecARM(gens map[string]gopter.Gen) {
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["IpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["MigrationPhase"] = gen.PtrOf(gen.OneConstOf(
-		PublicIPAddressPropertiesFormatSpecMigrationPhaseAbort,
-		PublicIPAddressPropertiesFormatSpecMigrationPhaseCommit,
-		PublicIPAddressPropertiesFormatSpecMigrationPhaseCommitted,
-		PublicIPAddressPropertiesFormatSpecMigrationPhaseNone,
-		PublicIPAddressPropertiesFormatSpecMigrationPhasePrepare))
+		PublicIPAddressPropertiesFormat_MigrationPhase_SpecAbort,
+		PublicIPAddressPropertiesFormat_MigrationPhase_SpecCommit,
+		PublicIPAddressPropertiesFormat_MigrationPhase_SpecCommitted,
+		PublicIPAddressPropertiesFormat_MigrationPhase_SpecNone,
+		PublicIPAddressPropertiesFormat_MigrationPhase_SpecPrepare))
 	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_SpecIPv4, IPVersion_SpecIPv6))
 	gens["PublicIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_SpecDynamic, IPAllocationMethod_SpecStatic))
 }
 
-// AddRelatedPropertyGeneratorsForPublicIPAddressPropertiesFormatSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPublicIPAddressPropertiesFormatSpecARM(gens map[string]gopter.Gen) {
-	gens["DdosSettings"] = gen.PtrOf(DdosSettingsSpecARMGenerator())
-	gens["DnsSettings"] = gen.PtrOf(PublicIPAddressDnsSettingsSpecARMGenerator())
-	gens["IpTags"] = gen.SliceOf(IpTagSpecARMGenerator())
-	gens["LinkedPublicIPAddress"] = gen.PtrOf(PublicIPAddressSpecARMGenerator())
-	gens["NatGateway"] = gen.PtrOf(NatGatewaySpecARMGenerator())
-	gens["PublicIPPrefix"] = gen.PtrOf(SubResourceSpecARMGenerator())
-	gens["ServicePublicIPAddress"] = gen.PtrOf(PublicIPAddressSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForPublicIPAddressPropertiesFormat_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPublicIPAddressPropertiesFormat_SpecARM(gens map[string]gopter.Gen) {
+	gens["DdosSettings"] = gen.PtrOf(DdosSettings_SpecARMGenerator())
+	gens["DnsSettings"] = gen.PtrOf(PublicIPAddressDnsSettings_SpecARMGenerator())
+	gens["IpTags"] = gen.SliceOf(IpTag_SpecARMGenerator())
+	gens["LinkedPublicIPAddress"] = gen.PtrOf(PublicIPAddress_SpecARMGenerator())
+	gens["NatGateway"] = gen.PtrOf(NatGateway_SpecARMGenerator())
+	gens["PublicIPPrefix"] = gen.PtrOf(SubResource_SpecARMGenerator())
+	gens["ServicePublicIPAddress"] = gen.PtrOf(PublicIPAddress_SpecARMGenerator())
 }

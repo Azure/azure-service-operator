@@ -248,17 +248,17 @@ func (container *SqlDatabaseContainer) AssignPropertiesFromSqlDatabaseContainer(
 
 	// Spec
 	var spec DatabaseAccountsSqlDatabasesContainers_SPEC
-	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSPEC(&source.Spec)
+	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainers_SPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainers_SPEC() to populate field Spec")
 	}
 	container.Spec = spec
 
 	// Status
 	var status SqlContainerCreateUpdateParameters_Status
-	err = status.AssignPropertiesFromSqlContainerCreateUpdateParametersStatus(&source.Status)
+	err = status.AssignPropertiesFromSqlContainerCreateUpdateParameters_Status(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerCreateUpdateParametersStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerCreateUpdateParameters_Status() to populate field Status")
 	}
 	container.Status = status
 
@@ -274,17 +274,17 @@ func (container *SqlDatabaseContainer) AssignPropertiesToSqlDatabaseContainer(de
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_SPEC
-	err := container.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSPEC(&spec)
+	err := container.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainers_SPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainers_SPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v1alpha1api20210515storage.SqlContainerCreateUpdateParameters_Status
-	err = container.Status.AssignPropertiesToSqlContainerCreateUpdateParametersStatus(&status)
+	err = container.Status.AssignPropertiesToSqlContainerCreateUpdateParameters_Status(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSqlContainerCreateUpdateParametersStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToSqlContainerCreateUpdateParameters_Status() to populate field Status")
 	}
 	destination.Status = status
 
@@ -444,7 +444,7 @@ func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) ConvertSpecFrom(source 
 	src, ok := source.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_SPEC)
 	if ok {
 		// Populate our instance from source
-		return spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSPEC(src)
+		return spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainers_SPEC(src)
 	}
 
 	// Convert to an intermediate form
@@ -455,7 +455,7 @@ func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) ConvertSpecFrom(source 
 	}
 
 	// Update our instance from src
-	err = spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSPEC(src)
+	err = spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainers_SPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -468,12 +468,12 @@ func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) ConvertSpecTo(destinati
 	dst, ok := destination.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSPEC(dst)
+		return spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainers_SPEC(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_SPEC{}
-	err := spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSPEC(dst)
+	err := spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainers_SPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -487,8 +487,8 @@ func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) ConvertSpecTo(destinati
 	return nil
 }
 
-// AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSPEC populates our DatabaseAccountsSqlDatabasesContainers_SPEC from the provided source DatabaseAccountsSqlDatabasesContainers_SPEC
-func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSPEC(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_SPEC) error {
+// AssignPropertiesFromDatabaseAccountsSqlDatabasesContainers_SPEC populates our DatabaseAccountsSqlDatabasesContainers_SPEC from the provided source DatabaseAccountsSqlDatabasesContainers_SPEC
+func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainers_SPEC(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_SPEC) error {
 
 	// AzureName
 	spec.AzureName = source.AzureName
@@ -499,9 +499,9 @@ func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) AssignPropertiesFromDat
 	// Options
 	if source.Options != nil {
 		var option CreateUpdateOptions_Spec
-		err := option.AssignPropertiesFromCreateUpdateOptionsSpec(source.Options)
+		err := option.AssignPropertiesFromCreateUpdateOptions_Spec(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptionsSpec() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_Spec() to populate field Options")
 		}
 		spec.Options = &option
 	} else {
@@ -514,9 +514,9 @@ func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) AssignPropertiesFromDat
 	// Resource
 	if source.Resource != nil {
 		var resource SqlContainerResource_Spec
-		err := resource.AssignPropertiesFromSqlContainerResourceSpec(source.Resource)
+		err := resource.AssignPropertiesFromSqlContainerResource_Spec(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerResourceSpec() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerResource_Spec() to populate field Resource")
 		}
 		spec.Resource = resource
 	} else {
@@ -530,8 +530,8 @@ func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) AssignPropertiesFromDat
 	return nil
 }
 
-// AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSPEC populates the provided destination DatabaseAccountsSqlDatabasesContainers_SPEC from our DatabaseAccountsSqlDatabasesContainers_SPEC
-func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSPEC(destination *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_SPEC) error {
+// AssignPropertiesToDatabaseAccountsSqlDatabasesContainers_SPEC populates the provided destination DatabaseAccountsSqlDatabasesContainers_SPEC from our DatabaseAccountsSqlDatabasesContainers_SPEC
+func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) AssignPropertiesToDatabaseAccountsSqlDatabasesContainers_SPEC(destination *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -544,9 +544,9 @@ func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) AssignPropertiesToDatab
 	// Options
 	if spec.Options != nil {
 		var option v1alpha1api20210515storage.CreateUpdateOptions_Spec
-		err := spec.Options.AssignPropertiesToCreateUpdateOptionsSpec(&option)
+		err := spec.Options.AssignPropertiesToCreateUpdateOptions_Spec(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptionsSpec() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_Spec() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -561,9 +561,9 @@ func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) AssignPropertiesToDatab
 
 	// Resource
 	var resource v1alpha1api20210515storage.SqlContainerResource_Spec
-	err := spec.Resource.AssignPropertiesToSqlContainerResourceSpec(&resource)
+	err := spec.Resource.AssignPropertiesToSqlContainerResource_Spec(&resource)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSqlContainerResourceSpec() to populate field Resource")
+		return errors.Wrap(err, "calling AssignPropertiesToSqlContainerResource_Spec() to populate field Resource")
 	}
 	destination.Resource = &resource
 
@@ -623,7 +623,7 @@ func (parameters *SqlContainerCreateUpdateParameters_Status) ConvertStatusFrom(s
 	src, ok := source.(*v1alpha1api20210515storage.SqlContainerCreateUpdateParameters_Status)
 	if ok {
 		// Populate our instance from source
-		return parameters.AssignPropertiesFromSqlContainerCreateUpdateParametersStatus(src)
+		return parameters.AssignPropertiesFromSqlContainerCreateUpdateParameters_Status(src)
 	}
 
 	// Convert to an intermediate form
@@ -634,7 +634,7 @@ func (parameters *SqlContainerCreateUpdateParameters_Status) ConvertStatusFrom(s
 	}
 
 	// Update our instance from src
-	err = parameters.AssignPropertiesFromSqlContainerCreateUpdateParametersStatus(src)
+	err = parameters.AssignPropertiesFromSqlContainerCreateUpdateParameters_Status(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -647,12 +647,12 @@ func (parameters *SqlContainerCreateUpdateParameters_Status) ConvertStatusTo(des
 	dst, ok := destination.(*v1alpha1api20210515storage.SqlContainerCreateUpdateParameters_Status)
 	if ok {
 		// Populate destination from our instance
-		return parameters.AssignPropertiesToSqlContainerCreateUpdateParametersStatus(dst)
+		return parameters.AssignPropertiesToSqlContainerCreateUpdateParameters_Status(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210515storage.SqlContainerCreateUpdateParameters_Status{}
-	err := parameters.AssignPropertiesToSqlContainerCreateUpdateParametersStatus(dst)
+	err := parameters.AssignPropertiesToSqlContainerCreateUpdateParameters_Status(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -745,8 +745,8 @@ func (parameters *SqlContainerCreateUpdateParameters_Status) PopulateFromARM(own
 	return nil
 }
 
-// AssignPropertiesFromSqlContainerCreateUpdateParametersStatus populates our SqlContainerCreateUpdateParameters_Status from the provided source SqlContainerCreateUpdateParameters_Status
-func (parameters *SqlContainerCreateUpdateParameters_Status) AssignPropertiesFromSqlContainerCreateUpdateParametersStatus(source *v1alpha1api20210515storage.SqlContainerCreateUpdateParameters_Status) error {
+// AssignPropertiesFromSqlContainerCreateUpdateParameters_Status populates our SqlContainerCreateUpdateParameters_Status from the provided source SqlContainerCreateUpdateParameters_Status
+func (parameters *SqlContainerCreateUpdateParameters_Status) AssignPropertiesFromSqlContainerCreateUpdateParameters_Status(source *v1alpha1api20210515storage.SqlContainerCreateUpdateParameters_Status) error {
 
 	// Conditions
 	parameters.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -763,9 +763,9 @@ func (parameters *SqlContainerCreateUpdateParameters_Status) AssignPropertiesFro
 	// Options
 	if source.Options != nil {
 		var option CreateUpdateOptions_Status
-		err := option.AssignPropertiesFromCreateUpdateOptionsStatus(source.Options)
+		err := option.AssignPropertiesFromCreateUpdateOptions_Status(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptionsStatus() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_Status() to populate field Options")
 		}
 		parameters.Options = &option
 	} else {
@@ -775,9 +775,9 @@ func (parameters *SqlContainerCreateUpdateParameters_Status) AssignPropertiesFro
 	// Resource
 	if source.Resource != nil {
 		var resource SqlContainerResource_Status
-		err := resource.AssignPropertiesFromSqlContainerResourceStatus(source.Resource)
+		err := resource.AssignPropertiesFromSqlContainerResource_Status(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerResourceStatus() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerResource_Status() to populate field Resource")
 		}
 		parameters.Resource = &resource
 	} else {
@@ -794,8 +794,8 @@ func (parameters *SqlContainerCreateUpdateParameters_Status) AssignPropertiesFro
 	return nil
 }
 
-// AssignPropertiesToSqlContainerCreateUpdateParametersStatus populates the provided destination SqlContainerCreateUpdateParameters_Status from our SqlContainerCreateUpdateParameters_Status
-func (parameters *SqlContainerCreateUpdateParameters_Status) AssignPropertiesToSqlContainerCreateUpdateParametersStatus(destination *v1alpha1api20210515storage.SqlContainerCreateUpdateParameters_Status) error {
+// AssignPropertiesToSqlContainerCreateUpdateParameters_Status populates the provided destination SqlContainerCreateUpdateParameters_Status from our SqlContainerCreateUpdateParameters_Status
+func (parameters *SqlContainerCreateUpdateParameters_Status) AssignPropertiesToSqlContainerCreateUpdateParameters_Status(destination *v1alpha1api20210515storage.SqlContainerCreateUpdateParameters_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -814,9 +814,9 @@ func (parameters *SqlContainerCreateUpdateParameters_Status) AssignPropertiesToS
 	// Options
 	if parameters.Options != nil {
 		var option v1alpha1api20210515storage.CreateUpdateOptions_Status
-		err := parameters.Options.AssignPropertiesToCreateUpdateOptionsStatus(&option)
+		err := parameters.Options.AssignPropertiesToCreateUpdateOptions_Status(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptionsStatus() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_Status() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -826,9 +826,9 @@ func (parameters *SqlContainerCreateUpdateParameters_Status) AssignPropertiesToS
 	// Resource
 	if parameters.Resource != nil {
 		var resource v1alpha1api20210515storage.SqlContainerResource_Status
-		err := parameters.Resource.AssignPropertiesToSqlContainerResourceStatus(&resource)
+		err := parameters.Resource.AssignPropertiesToSqlContainerResource_Status(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSqlContainerResourceStatus() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesToSqlContainerResource_Status() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -1020,8 +1020,8 @@ func (resource *SqlContainerResource_Spec) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignPropertiesFromSqlContainerResourceSpec populates our SqlContainerResource_Spec from the provided source SqlContainerResource_Spec
-func (resource *SqlContainerResource_Spec) AssignPropertiesFromSqlContainerResourceSpec(source *v1alpha1api20210515storage.SqlContainerResource_Spec) error {
+// AssignPropertiesFromSqlContainerResource_Spec populates our SqlContainerResource_Spec from the provided source SqlContainerResource_Spec
+func (resource *SqlContainerResource_Spec) AssignPropertiesFromSqlContainerResource_Spec(source *v1alpha1api20210515storage.SqlContainerResource_Spec) error {
 
 	// AnalyticalStorageTtl
 	resource.AnalyticalStorageTtl = genruntime.ClonePointerToInt(source.AnalyticalStorageTtl)
@@ -1029,9 +1029,9 @@ func (resource *SqlContainerResource_Spec) AssignPropertiesFromSqlContainerResou
 	// ConflictResolutionPolicy
 	if source.ConflictResolutionPolicy != nil {
 		var conflictResolutionPolicy ConflictResolutionPolicy_Spec
-		err := conflictResolutionPolicy.AssignPropertiesFromConflictResolutionPolicySpec(source.ConflictResolutionPolicy)
+		err := conflictResolutionPolicy.AssignPropertiesFromConflictResolutionPolicy_Spec(source.ConflictResolutionPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromConflictResolutionPolicySpec() to populate field ConflictResolutionPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesFromConflictResolutionPolicy_Spec() to populate field ConflictResolutionPolicy")
 		}
 		resource.ConflictResolutionPolicy = &conflictResolutionPolicy
 	} else {
@@ -1047,9 +1047,9 @@ func (resource *SqlContainerResource_Spec) AssignPropertiesFromSqlContainerResou
 	// IndexingPolicy
 	if source.IndexingPolicy != nil {
 		var indexingPolicy IndexingPolicy_Spec
-		err := indexingPolicy.AssignPropertiesFromIndexingPolicySpec(source.IndexingPolicy)
+		err := indexingPolicy.AssignPropertiesFromIndexingPolicy_Spec(source.IndexingPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIndexingPolicySpec() to populate field IndexingPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesFromIndexingPolicy_Spec() to populate field IndexingPolicy")
 		}
 		resource.IndexingPolicy = &indexingPolicy
 	} else {
@@ -1059,9 +1059,9 @@ func (resource *SqlContainerResource_Spec) AssignPropertiesFromSqlContainerResou
 	// PartitionKey
 	if source.PartitionKey != nil {
 		var partitionKey ContainerPartitionKey_Spec
-		err := partitionKey.AssignPropertiesFromContainerPartitionKeySpec(source.PartitionKey)
+		err := partitionKey.AssignPropertiesFromContainerPartitionKey_Spec(source.PartitionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromContainerPartitionKeySpec() to populate field PartitionKey")
+			return errors.Wrap(err, "calling AssignPropertiesFromContainerPartitionKey_Spec() to populate field PartitionKey")
 		}
 		resource.PartitionKey = &partitionKey
 	} else {
@@ -1071,9 +1071,9 @@ func (resource *SqlContainerResource_Spec) AssignPropertiesFromSqlContainerResou
 	// UniqueKeyPolicy
 	if source.UniqueKeyPolicy != nil {
 		var uniqueKeyPolicy UniqueKeyPolicy_Spec
-		err := uniqueKeyPolicy.AssignPropertiesFromUniqueKeyPolicySpec(source.UniqueKeyPolicy)
+		err := uniqueKeyPolicy.AssignPropertiesFromUniqueKeyPolicy_Spec(source.UniqueKeyPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUniqueKeyPolicySpec() to populate field UniqueKeyPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesFromUniqueKeyPolicy_Spec() to populate field UniqueKeyPolicy")
 		}
 		resource.UniqueKeyPolicy = &uniqueKeyPolicy
 	} else {
@@ -1084,8 +1084,8 @@ func (resource *SqlContainerResource_Spec) AssignPropertiesFromSqlContainerResou
 	return nil
 }
 
-// AssignPropertiesToSqlContainerResourceSpec populates the provided destination SqlContainerResource_Spec from our SqlContainerResource_Spec
-func (resource *SqlContainerResource_Spec) AssignPropertiesToSqlContainerResourceSpec(destination *v1alpha1api20210515storage.SqlContainerResource_Spec) error {
+// AssignPropertiesToSqlContainerResource_Spec populates the provided destination SqlContainerResource_Spec from our SqlContainerResource_Spec
+func (resource *SqlContainerResource_Spec) AssignPropertiesToSqlContainerResource_Spec(destination *v1alpha1api20210515storage.SqlContainerResource_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1095,9 +1095,9 @@ func (resource *SqlContainerResource_Spec) AssignPropertiesToSqlContainerResourc
 	// ConflictResolutionPolicy
 	if resource.ConflictResolutionPolicy != nil {
 		var conflictResolutionPolicy v1alpha1api20210515storage.ConflictResolutionPolicy_Spec
-		err := resource.ConflictResolutionPolicy.AssignPropertiesToConflictResolutionPolicySpec(&conflictResolutionPolicy)
+		err := resource.ConflictResolutionPolicy.AssignPropertiesToConflictResolutionPolicy_Spec(&conflictResolutionPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToConflictResolutionPolicySpec() to populate field ConflictResolutionPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesToConflictResolutionPolicy_Spec() to populate field ConflictResolutionPolicy")
 		}
 		destination.ConflictResolutionPolicy = &conflictResolutionPolicy
 	} else {
@@ -1114,9 +1114,9 @@ func (resource *SqlContainerResource_Spec) AssignPropertiesToSqlContainerResourc
 	// IndexingPolicy
 	if resource.IndexingPolicy != nil {
 		var indexingPolicy v1alpha1api20210515storage.IndexingPolicy_Spec
-		err := resource.IndexingPolicy.AssignPropertiesToIndexingPolicySpec(&indexingPolicy)
+		err := resource.IndexingPolicy.AssignPropertiesToIndexingPolicy_Spec(&indexingPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIndexingPolicySpec() to populate field IndexingPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesToIndexingPolicy_Spec() to populate field IndexingPolicy")
 		}
 		destination.IndexingPolicy = &indexingPolicy
 	} else {
@@ -1126,9 +1126,9 @@ func (resource *SqlContainerResource_Spec) AssignPropertiesToSqlContainerResourc
 	// PartitionKey
 	if resource.PartitionKey != nil {
 		var partitionKey v1alpha1api20210515storage.ContainerPartitionKey_Spec
-		err := resource.PartitionKey.AssignPropertiesToContainerPartitionKeySpec(&partitionKey)
+		err := resource.PartitionKey.AssignPropertiesToContainerPartitionKey_Spec(&partitionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToContainerPartitionKeySpec() to populate field PartitionKey")
+			return errors.Wrap(err, "calling AssignPropertiesToContainerPartitionKey_Spec() to populate field PartitionKey")
 		}
 		destination.PartitionKey = &partitionKey
 	} else {
@@ -1138,9 +1138,9 @@ func (resource *SqlContainerResource_Spec) AssignPropertiesToSqlContainerResourc
 	// UniqueKeyPolicy
 	if resource.UniqueKeyPolicy != nil {
 		var uniqueKeyPolicy v1alpha1api20210515storage.UniqueKeyPolicy_Spec
-		err := resource.UniqueKeyPolicy.AssignPropertiesToUniqueKeyPolicySpec(&uniqueKeyPolicy)
+		err := resource.UniqueKeyPolicy.AssignPropertiesToUniqueKeyPolicy_Spec(&uniqueKeyPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUniqueKeyPolicySpec() to populate field UniqueKeyPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesToUniqueKeyPolicy_Spec() to populate field UniqueKeyPolicy")
 		}
 		destination.UniqueKeyPolicy = &uniqueKeyPolicy
 	} else {
@@ -1262,8 +1262,8 @@ func (resource *SqlContainerResource_Status) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
-// AssignPropertiesFromSqlContainerResourceStatus populates our SqlContainerResource_Status from the provided source SqlContainerResource_Status
-func (resource *SqlContainerResource_Status) AssignPropertiesFromSqlContainerResourceStatus(source *v1alpha1api20210515storage.SqlContainerResource_Status) error {
+// AssignPropertiesFromSqlContainerResource_Status populates our SqlContainerResource_Status from the provided source SqlContainerResource_Status
+func (resource *SqlContainerResource_Status) AssignPropertiesFromSqlContainerResource_Status(source *v1alpha1api20210515storage.SqlContainerResource_Status) error {
 
 	// AnalyticalStorageTtl
 	resource.AnalyticalStorageTtl = genruntime.ClonePointerToInt(source.AnalyticalStorageTtl)
@@ -1271,9 +1271,9 @@ func (resource *SqlContainerResource_Status) AssignPropertiesFromSqlContainerRes
 	// ConflictResolutionPolicy
 	if source.ConflictResolutionPolicy != nil {
 		var conflictResolutionPolicy ConflictResolutionPolicy_Status
-		err := conflictResolutionPolicy.AssignPropertiesFromConflictResolutionPolicyStatus(source.ConflictResolutionPolicy)
+		err := conflictResolutionPolicy.AssignPropertiesFromConflictResolutionPolicy_Status(source.ConflictResolutionPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromConflictResolutionPolicyStatus() to populate field ConflictResolutionPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesFromConflictResolutionPolicy_Status() to populate field ConflictResolutionPolicy")
 		}
 		resource.ConflictResolutionPolicy = &conflictResolutionPolicy
 	} else {
@@ -1289,9 +1289,9 @@ func (resource *SqlContainerResource_Status) AssignPropertiesFromSqlContainerRes
 	// IndexingPolicy
 	if source.IndexingPolicy != nil {
 		var indexingPolicy IndexingPolicy_Status
-		err := indexingPolicy.AssignPropertiesFromIndexingPolicyStatus(source.IndexingPolicy)
+		err := indexingPolicy.AssignPropertiesFromIndexingPolicy_Status(source.IndexingPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIndexingPolicyStatus() to populate field IndexingPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesFromIndexingPolicy_Status() to populate field IndexingPolicy")
 		}
 		resource.IndexingPolicy = &indexingPolicy
 	} else {
@@ -1301,9 +1301,9 @@ func (resource *SqlContainerResource_Status) AssignPropertiesFromSqlContainerRes
 	// PartitionKey
 	if source.PartitionKey != nil {
 		var partitionKey ContainerPartitionKey_Status
-		err := partitionKey.AssignPropertiesFromContainerPartitionKeyStatus(source.PartitionKey)
+		err := partitionKey.AssignPropertiesFromContainerPartitionKey_Status(source.PartitionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromContainerPartitionKeyStatus() to populate field PartitionKey")
+			return errors.Wrap(err, "calling AssignPropertiesFromContainerPartitionKey_Status() to populate field PartitionKey")
 		}
 		resource.PartitionKey = &partitionKey
 	} else {
@@ -1313,9 +1313,9 @@ func (resource *SqlContainerResource_Status) AssignPropertiesFromSqlContainerRes
 	// UniqueKeyPolicy
 	if source.UniqueKeyPolicy != nil {
 		var uniqueKeyPolicy UniqueKeyPolicy_Status
-		err := uniqueKeyPolicy.AssignPropertiesFromUniqueKeyPolicyStatus(source.UniqueKeyPolicy)
+		err := uniqueKeyPolicy.AssignPropertiesFromUniqueKeyPolicy_Status(source.UniqueKeyPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUniqueKeyPolicyStatus() to populate field UniqueKeyPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesFromUniqueKeyPolicy_Status() to populate field UniqueKeyPolicy")
 		}
 		resource.UniqueKeyPolicy = &uniqueKeyPolicy
 	} else {
@@ -1326,8 +1326,8 @@ func (resource *SqlContainerResource_Status) AssignPropertiesFromSqlContainerRes
 	return nil
 }
 
-// AssignPropertiesToSqlContainerResourceStatus populates the provided destination SqlContainerResource_Status from our SqlContainerResource_Status
-func (resource *SqlContainerResource_Status) AssignPropertiesToSqlContainerResourceStatus(destination *v1alpha1api20210515storage.SqlContainerResource_Status) error {
+// AssignPropertiesToSqlContainerResource_Status populates the provided destination SqlContainerResource_Status from our SqlContainerResource_Status
+func (resource *SqlContainerResource_Status) AssignPropertiesToSqlContainerResource_Status(destination *v1alpha1api20210515storage.SqlContainerResource_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1337,9 +1337,9 @@ func (resource *SqlContainerResource_Status) AssignPropertiesToSqlContainerResou
 	// ConflictResolutionPolicy
 	if resource.ConflictResolutionPolicy != nil {
 		var conflictResolutionPolicy v1alpha1api20210515storage.ConflictResolutionPolicy_Status
-		err := resource.ConflictResolutionPolicy.AssignPropertiesToConflictResolutionPolicyStatus(&conflictResolutionPolicy)
+		err := resource.ConflictResolutionPolicy.AssignPropertiesToConflictResolutionPolicy_Status(&conflictResolutionPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToConflictResolutionPolicyStatus() to populate field ConflictResolutionPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesToConflictResolutionPolicy_Status() to populate field ConflictResolutionPolicy")
 		}
 		destination.ConflictResolutionPolicy = &conflictResolutionPolicy
 	} else {
@@ -1356,9 +1356,9 @@ func (resource *SqlContainerResource_Status) AssignPropertiesToSqlContainerResou
 	// IndexingPolicy
 	if resource.IndexingPolicy != nil {
 		var indexingPolicy v1alpha1api20210515storage.IndexingPolicy_Status
-		err := resource.IndexingPolicy.AssignPropertiesToIndexingPolicyStatus(&indexingPolicy)
+		err := resource.IndexingPolicy.AssignPropertiesToIndexingPolicy_Status(&indexingPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIndexingPolicyStatus() to populate field IndexingPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesToIndexingPolicy_Status() to populate field IndexingPolicy")
 		}
 		destination.IndexingPolicy = &indexingPolicy
 	} else {
@@ -1368,9 +1368,9 @@ func (resource *SqlContainerResource_Status) AssignPropertiesToSqlContainerResou
 	// PartitionKey
 	if resource.PartitionKey != nil {
 		var partitionKey v1alpha1api20210515storage.ContainerPartitionKey_Status
-		err := resource.PartitionKey.AssignPropertiesToContainerPartitionKeyStatus(&partitionKey)
+		err := resource.PartitionKey.AssignPropertiesToContainerPartitionKey_Status(&partitionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToContainerPartitionKeyStatus() to populate field PartitionKey")
+			return errors.Wrap(err, "calling AssignPropertiesToContainerPartitionKey_Status() to populate field PartitionKey")
 		}
 		destination.PartitionKey = &partitionKey
 	} else {
@@ -1380,9 +1380,9 @@ func (resource *SqlContainerResource_Status) AssignPropertiesToSqlContainerResou
 	// UniqueKeyPolicy
 	if resource.UniqueKeyPolicy != nil {
 		var uniqueKeyPolicy v1alpha1api20210515storage.UniqueKeyPolicy_Status
-		err := resource.UniqueKeyPolicy.AssignPropertiesToUniqueKeyPolicyStatus(&uniqueKeyPolicy)
+		err := resource.UniqueKeyPolicy.AssignPropertiesToUniqueKeyPolicy_Status(&uniqueKeyPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUniqueKeyPolicyStatus() to populate field UniqueKeyPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesToUniqueKeyPolicy_Status() to populate field UniqueKeyPolicy")
 		}
 		destination.UniqueKeyPolicy = &uniqueKeyPolicy
 	} else {
@@ -1410,7 +1410,7 @@ type ConflictResolutionPolicy_Spec struct {
 	ConflictResolutionProcedure *string `json:"conflictResolutionProcedure,omitempty"`
 
 	//Mode: Indicates the conflict resolution mode.
-	Mode *ConflictResolutionPolicySpecMode `json:"mode,omitempty"`
+	Mode *ConflictResolutionPolicy_Mode_Spec `json:"mode,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ConflictResolutionPolicy_Spec{}
@@ -1476,8 +1476,8 @@ func (policy *ConflictResolutionPolicy_Spec) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
-// AssignPropertiesFromConflictResolutionPolicySpec populates our ConflictResolutionPolicy_Spec from the provided source ConflictResolutionPolicy_Spec
-func (policy *ConflictResolutionPolicy_Spec) AssignPropertiesFromConflictResolutionPolicySpec(source *v1alpha1api20210515storage.ConflictResolutionPolicy_Spec) error {
+// AssignPropertiesFromConflictResolutionPolicy_Spec populates our ConflictResolutionPolicy_Spec from the provided source ConflictResolutionPolicy_Spec
+func (policy *ConflictResolutionPolicy_Spec) AssignPropertiesFromConflictResolutionPolicy_Spec(source *v1alpha1api20210515storage.ConflictResolutionPolicy_Spec) error {
 
 	// ConflictResolutionPath
 	policy.ConflictResolutionPath = genruntime.ClonePointerToString(source.ConflictResolutionPath)
@@ -1487,7 +1487,7 @@ func (policy *ConflictResolutionPolicy_Spec) AssignPropertiesFromConflictResolut
 
 	// Mode
 	if source.Mode != nil {
-		mode := ConflictResolutionPolicySpecMode(*source.Mode)
+		mode := ConflictResolutionPolicy_Mode_Spec(*source.Mode)
 		policy.Mode = &mode
 	} else {
 		policy.Mode = nil
@@ -1497,8 +1497,8 @@ func (policy *ConflictResolutionPolicy_Spec) AssignPropertiesFromConflictResolut
 	return nil
 }
 
-// AssignPropertiesToConflictResolutionPolicySpec populates the provided destination ConflictResolutionPolicy_Spec from our ConflictResolutionPolicy_Spec
-func (policy *ConflictResolutionPolicy_Spec) AssignPropertiesToConflictResolutionPolicySpec(destination *v1alpha1api20210515storage.ConflictResolutionPolicy_Spec) error {
+// AssignPropertiesToConflictResolutionPolicy_Spec populates the provided destination ConflictResolutionPolicy_Spec from our ConflictResolutionPolicy_Spec
+func (policy *ConflictResolutionPolicy_Spec) AssignPropertiesToConflictResolutionPolicy_Spec(destination *v1alpha1api20210515storage.ConflictResolutionPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1537,7 +1537,7 @@ type ConflictResolutionPolicy_Status struct {
 	ConflictResolutionProcedure *string `json:"conflictResolutionProcedure,omitempty"`
 
 	//Mode: Indicates the conflict resolution mode.
-	Mode *ConflictResolutionPolicyStatusMode `json:"mode,omitempty"`
+	Mode *ConflictResolutionPolicy_Mode_Status `json:"mode,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ConflictResolutionPolicy_Status{}
@@ -1576,8 +1576,8 @@ func (policy *ConflictResolutionPolicy_Status) PopulateFromARM(owner genruntime.
 	return nil
 }
 
-// AssignPropertiesFromConflictResolutionPolicyStatus populates our ConflictResolutionPolicy_Status from the provided source ConflictResolutionPolicy_Status
-func (policy *ConflictResolutionPolicy_Status) AssignPropertiesFromConflictResolutionPolicyStatus(source *v1alpha1api20210515storage.ConflictResolutionPolicy_Status) error {
+// AssignPropertiesFromConflictResolutionPolicy_Status populates our ConflictResolutionPolicy_Status from the provided source ConflictResolutionPolicy_Status
+func (policy *ConflictResolutionPolicy_Status) AssignPropertiesFromConflictResolutionPolicy_Status(source *v1alpha1api20210515storage.ConflictResolutionPolicy_Status) error {
 
 	// ConflictResolutionPath
 	policy.ConflictResolutionPath = genruntime.ClonePointerToString(source.ConflictResolutionPath)
@@ -1587,7 +1587,7 @@ func (policy *ConflictResolutionPolicy_Status) AssignPropertiesFromConflictResol
 
 	// Mode
 	if source.Mode != nil {
-		mode := ConflictResolutionPolicyStatusMode(*source.Mode)
+		mode := ConflictResolutionPolicy_Mode_Status(*source.Mode)
 		policy.Mode = &mode
 	} else {
 		policy.Mode = nil
@@ -1597,8 +1597,8 @@ func (policy *ConflictResolutionPolicy_Status) AssignPropertiesFromConflictResol
 	return nil
 }
 
-// AssignPropertiesToConflictResolutionPolicyStatus populates the provided destination ConflictResolutionPolicy_Status from our ConflictResolutionPolicy_Status
-func (policy *ConflictResolutionPolicy_Status) AssignPropertiesToConflictResolutionPolicyStatus(destination *v1alpha1api20210515storage.ConflictResolutionPolicy_Status) error {
+// AssignPropertiesToConflictResolutionPolicy_Status populates the provided destination ConflictResolutionPolicy_Status from our ConflictResolutionPolicy_Status
+func (policy *ConflictResolutionPolicy_Status) AssignPropertiesToConflictResolutionPolicy_Status(destination *v1alpha1api20210515storage.ConflictResolutionPolicy_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1630,7 +1630,7 @@ func (policy *ConflictResolutionPolicy_Status) AssignPropertiesToConflictResolut
 type ContainerPartitionKey_Spec struct {
 	//Kind: Indicates the kind of algorithm used for partitioning. For MultiHash,
 	//multiple partition keys (upto three maximum) are supported for container create
-	Kind *ContainerPartitionKeySpecKind `json:"kind,omitempty"`
+	Kind *ContainerPartitionKey_Kind_Spec `json:"kind,omitempty"`
 
 	//Paths: List of paths using which data within the container can be partitioned
 	Paths []string `json:"paths,omitempty"`
@@ -1702,12 +1702,12 @@ func (partitionKey *ContainerPartitionKey_Spec) PopulateFromARM(owner genruntime
 	return nil
 }
 
-// AssignPropertiesFromContainerPartitionKeySpec populates our ContainerPartitionKey_Spec from the provided source ContainerPartitionKey_Spec
-func (partitionKey *ContainerPartitionKey_Spec) AssignPropertiesFromContainerPartitionKeySpec(source *v1alpha1api20210515storage.ContainerPartitionKey_Spec) error {
+// AssignPropertiesFromContainerPartitionKey_Spec populates our ContainerPartitionKey_Spec from the provided source ContainerPartitionKey_Spec
+func (partitionKey *ContainerPartitionKey_Spec) AssignPropertiesFromContainerPartitionKey_Spec(source *v1alpha1api20210515storage.ContainerPartitionKey_Spec) error {
 
 	// Kind
 	if source.Kind != nil {
-		kind := ContainerPartitionKeySpecKind(*source.Kind)
+		kind := ContainerPartitionKey_Kind_Spec(*source.Kind)
 		partitionKey.Kind = &kind
 	} else {
 		partitionKey.Kind = nil
@@ -1728,8 +1728,8 @@ func (partitionKey *ContainerPartitionKey_Spec) AssignPropertiesFromContainerPar
 	return nil
 }
 
-// AssignPropertiesToContainerPartitionKeySpec populates the provided destination ContainerPartitionKey_Spec from our ContainerPartitionKey_Spec
-func (partitionKey *ContainerPartitionKey_Spec) AssignPropertiesToContainerPartitionKeySpec(destination *v1alpha1api20210515storage.ContainerPartitionKey_Spec) error {
+// AssignPropertiesToContainerPartitionKey_Spec populates the provided destination ContainerPartitionKey_Spec from our ContainerPartitionKey_Spec
+func (partitionKey *ContainerPartitionKey_Spec) AssignPropertiesToContainerPartitionKey_Spec(destination *v1alpha1api20210515storage.ContainerPartitionKey_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1766,7 +1766,7 @@ func (partitionKey *ContainerPartitionKey_Spec) AssignPropertiesToContainerParti
 type ContainerPartitionKey_Status struct {
 	//Kind: Indicates the kind of algorithm used for partitioning. For MultiHash,
 	//multiple partition keys (upto three maximum) are supported for container create
-	Kind *ContainerPartitionKeyStatusKind `json:"kind,omitempty"`
+	Kind *ContainerPartitionKey_Kind_Status `json:"kind,omitempty"`
 
 	//Paths: List of paths using which data within the container can be partitioned
 	Paths []string `json:"paths,omitempty"`
@@ -1819,12 +1819,12 @@ func (partitionKey *ContainerPartitionKey_Status) PopulateFromARM(owner genrunti
 	return nil
 }
 
-// AssignPropertiesFromContainerPartitionKeyStatus populates our ContainerPartitionKey_Status from the provided source ContainerPartitionKey_Status
-func (partitionKey *ContainerPartitionKey_Status) AssignPropertiesFromContainerPartitionKeyStatus(source *v1alpha1api20210515storage.ContainerPartitionKey_Status) error {
+// AssignPropertiesFromContainerPartitionKey_Status populates our ContainerPartitionKey_Status from the provided source ContainerPartitionKey_Status
+func (partitionKey *ContainerPartitionKey_Status) AssignPropertiesFromContainerPartitionKey_Status(source *v1alpha1api20210515storage.ContainerPartitionKey_Status) error {
 
 	// Kind
 	if source.Kind != nil {
-		kind := ContainerPartitionKeyStatusKind(*source.Kind)
+		kind := ContainerPartitionKey_Kind_Status(*source.Kind)
 		partitionKey.Kind = &kind
 	} else {
 		partitionKey.Kind = nil
@@ -1848,8 +1848,8 @@ func (partitionKey *ContainerPartitionKey_Status) AssignPropertiesFromContainerP
 	return nil
 }
 
-// AssignPropertiesToContainerPartitionKeyStatus populates the provided destination ContainerPartitionKey_Status from our ContainerPartitionKey_Status
-func (partitionKey *ContainerPartitionKey_Status) AssignPropertiesToContainerPartitionKeyStatus(destination *v1alpha1api20210515storage.ContainerPartitionKey_Status) error {
+// AssignPropertiesToContainerPartitionKey_Status populates the provided destination ContainerPartitionKey_Status from our ContainerPartitionKey_Status
+func (partitionKey *ContainerPartitionKey_Status) AssignPropertiesToContainerPartitionKey_Status(destination *v1alpha1api20210515storage.ContainerPartitionKey_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1900,7 +1900,7 @@ type IndexingPolicy_Spec struct {
 	IncludedPaths []IncludedPath_Spec `json:"includedPaths,omitempty"`
 
 	//IndexingMode: Indicates the indexing mode.
-	IndexingMode *IndexingPolicySpecIndexingMode `json:"indexingMode,omitempty"`
+	IndexingMode *IndexingPolicy_IndexingMode_Spec `json:"indexingMode,omitempty"`
 
 	//SpatialIndexes: List of spatial specifics
 	SpatialIndexes []SpatialSpec_Spec `json:"spatialIndexes,omitempty"`
@@ -2041,8 +2041,8 @@ func (policy *IndexingPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-// AssignPropertiesFromIndexingPolicySpec populates our IndexingPolicy_Spec from the provided source IndexingPolicy_Spec
-func (policy *IndexingPolicy_Spec) AssignPropertiesFromIndexingPolicySpec(source *v1alpha1api20210515storage.IndexingPolicy_Spec) error {
+// AssignPropertiesFromIndexingPolicy_Spec populates our IndexingPolicy_Spec from the provided source IndexingPolicy_Spec
+func (policy *IndexingPolicy_Spec) AssignPropertiesFromIndexingPolicy_Spec(source *v1alpha1api20210515storage.IndexingPolicy_Spec) error {
 
 	// Automatic
 	if source.Automatic != nil {
@@ -2064,9 +2064,9 @@ func (policy *IndexingPolicy_Spec) AssignPropertiesFromIndexingPolicySpec(source
 					// Shadow the loop variable to avoid aliasing
 					compositeIndexItem1 := compositeIndexItem1
 					var compositeIndexLocal CompositePath_Spec
-					err := compositeIndexLocal.AssignPropertiesFromCompositePathSpec(&compositeIndexItem1)
+					err := compositeIndexLocal.AssignPropertiesFromCompositePath_Spec(&compositeIndexItem1)
 					if err != nil {
-						return errors.Wrap(err, "calling AssignPropertiesFromCompositePathSpec() to populate field CompositeIndexes")
+						return errors.Wrap(err, "calling AssignPropertiesFromCompositePath_Spec() to populate field CompositeIndexes")
 					}
 					compositeIndexList1[compositeIndex1] = compositeIndexLocal
 				}
@@ -2087,9 +2087,9 @@ func (policy *IndexingPolicy_Spec) AssignPropertiesFromIndexingPolicySpec(source
 			// Shadow the loop variable to avoid aliasing
 			excludedPathItem := excludedPathItem
 			var excludedPath ExcludedPath_Spec
-			err := excludedPath.AssignPropertiesFromExcludedPathSpec(&excludedPathItem)
+			err := excludedPath.AssignPropertiesFromExcludedPath_Spec(&excludedPathItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromExcludedPathSpec() to populate field ExcludedPaths")
+				return errors.Wrap(err, "calling AssignPropertiesFromExcludedPath_Spec() to populate field ExcludedPaths")
 			}
 			excludedPathList[excludedPathIndex] = excludedPath
 		}
@@ -2105,9 +2105,9 @@ func (policy *IndexingPolicy_Spec) AssignPropertiesFromIndexingPolicySpec(source
 			// Shadow the loop variable to avoid aliasing
 			includedPathItem := includedPathItem
 			var includedPath IncludedPath_Spec
-			err := includedPath.AssignPropertiesFromIncludedPathSpec(&includedPathItem)
+			err := includedPath.AssignPropertiesFromIncludedPath_Spec(&includedPathItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromIncludedPathSpec() to populate field IncludedPaths")
+				return errors.Wrap(err, "calling AssignPropertiesFromIncludedPath_Spec() to populate field IncludedPaths")
 			}
 			includedPathList[includedPathIndex] = includedPath
 		}
@@ -2118,7 +2118,7 @@ func (policy *IndexingPolicy_Spec) AssignPropertiesFromIndexingPolicySpec(source
 
 	// IndexingMode
 	if source.IndexingMode != nil {
-		indexingMode := IndexingPolicySpecIndexingMode(*source.IndexingMode)
+		indexingMode := IndexingPolicy_IndexingMode_Spec(*source.IndexingMode)
 		policy.IndexingMode = &indexingMode
 	} else {
 		policy.IndexingMode = nil
@@ -2131,9 +2131,9 @@ func (policy *IndexingPolicy_Spec) AssignPropertiesFromIndexingPolicySpec(source
 			// Shadow the loop variable to avoid aliasing
 			spatialIndexItem := spatialIndexItem
 			var spatialIndexLocal SpatialSpec_Spec
-			err := spatialIndexLocal.AssignPropertiesFromSpatialSpecSpec(&spatialIndexItem)
+			err := spatialIndexLocal.AssignPropertiesFromSpatialSpec_Spec(&spatialIndexItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSpatialSpecSpec() to populate field SpatialIndexes")
+				return errors.Wrap(err, "calling AssignPropertiesFromSpatialSpec_Spec() to populate field SpatialIndexes")
 			}
 			spatialIndexList[spatialIndex] = spatialIndexLocal
 		}
@@ -2146,8 +2146,8 @@ func (policy *IndexingPolicy_Spec) AssignPropertiesFromIndexingPolicySpec(source
 	return nil
 }
 
-// AssignPropertiesToIndexingPolicySpec populates the provided destination IndexingPolicy_Spec from our IndexingPolicy_Spec
-func (policy *IndexingPolicy_Spec) AssignPropertiesToIndexingPolicySpec(destination *v1alpha1api20210515storage.IndexingPolicy_Spec) error {
+// AssignPropertiesToIndexingPolicy_Spec populates the provided destination IndexingPolicy_Spec from our IndexingPolicy_Spec
+func (policy *IndexingPolicy_Spec) AssignPropertiesToIndexingPolicy_Spec(destination *v1alpha1api20210515storage.IndexingPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2171,9 +2171,9 @@ func (policy *IndexingPolicy_Spec) AssignPropertiesToIndexingPolicySpec(destinat
 					// Shadow the loop variable to avoid aliasing
 					compositeIndexItem1 := compositeIndexItem1
 					var compositeIndexLocal v1alpha1api20210515storage.CompositePath_Spec
-					err := compositeIndexItem1.AssignPropertiesToCompositePathSpec(&compositeIndexLocal)
+					err := compositeIndexItem1.AssignPropertiesToCompositePath_Spec(&compositeIndexLocal)
 					if err != nil {
-						return errors.Wrap(err, "calling AssignPropertiesToCompositePathSpec() to populate field CompositeIndexes")
+						return errors.Wrap(err, "calling AssignPropertiesToCompositePath_Spec() to populate field CompositeIndexes")
 					}
 					compositeIndexList1[compositeIndex1] = compositeIndexLocal
 				}
@@ -2194,9 +2194,9 @@ func (policy *IndexingPolicy_Spec) AssignPropertiesToIndexingPolicySpec(destinat
 			// Shadow the loop variable to avoid aliasing
 			excludedPathItem := excludedPathItem
 			var excludedPath v1alpha1api20210515storage.ExcludedPath_Spec
-			err := excludedPathItem.AssignPropertiesToExcludedPathSpec(&excludedPath)
+			err := excludedPathItem.AssignPropertiesToExcludedPath_Spec(&excludedPath)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToExcludedPathSpec() to populate field ExcludedPaths")
+				return errors.Wrap(err, "calling AssignPropertiesToExcludedPath_Spec() to populate field ExcludedPaths")
 			}
 			excludedPathList[excludedPathIndex] = excludedPath
 		}
@@ -2212,9 +2212,9 @@ func (policy *IndexingPolicy_Spec) AssignPropertiesToIndexingPolicySpec(destinat
 			// Shadow the loop variable to avoid aliasing
 			includedPathItem := includedPathItem
 			var includedPath v1alpha1api20210515storage.IncludedPath_Spec
-			err := includedPathItem.AssignPropertiesToIncludedPathSpec(&includedPath)
+			err := includedPathItem.AssignPropertiesToIncludedPath_Spec(&includedPath)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToIncludedPathSpec() to populate field IncludedPaths")
+				return errors.Wrap(err, "calling AssignPropertiesToIncludedPath_Spec() to populate field IncludedPaths")
 			}
 			includedPathList[includedPathIndex] = includedPath
 		}
@@ -2238,9 +2238,9 @@ func (policy *IndexingPolicy_Spec) AssignPropertiesToIndexingPolicySpec(destinat
 			// Shadow the loop variable to avoid aliasing
 			spatialIndexItem := spatialIndexItem
 			var spatialIndexLocal v1alpha1api20210515storage.SpatialSpec_Spec
-			err := spatialIndexItem.AssignPropertiesToSpatialSpecSpec(&spatialIndexLocal)
+			err := spatialIndexItem.AssignPropertiesToSpatialSpec_Spec(&spatialIndexLocal)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSpatialSpecSpec() to populate field SpatialIndexes")
+				return errors.Wrap(err, "calling AssignPropertiesToSpatialSpec_Spec() to populate field SpatialIndexes")
 			}
 			spatialIndexList[spatialIndex] = spatialIndexLocal
 		}
@@ -2274,7 +2274,7 @@ type IndexingPolicy_Status struct {
 	IncludedPaths []IncludedPath_Status `json:"includedPaths,omitempty"`
 
 	//IndexingMode: Indicates the indexing mode.
-	IndexingMode *IndexingPolicyStatusIndexingMode `json:"indexingMode,omitempty"`
+	IndexingMode *IndexingPolicy_IndexingMode_Status `json:"indexingMode,omitempty"`
 
 	//SpatialIndexes: List of spatial specifics
 	SpatialIndexes []SpatialSpec_Status `json:"spatialIndexes,omitempty"`
@@ -2354,8 +2354,8 @@ func (policy *IndexingPolicy_Status) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-// AssignPropertiesFromIndexingPolicyStatus populates our IndexingPolicy_Status from the provided source IndexingPolicy_Status
-func (policy *IndexingPolicy_Status) AssignPropertiesFromIndexingPolicyStatus(source *v1alpha1api20210515storage.IndexingPolicy_Status) error {
+// AssignPropertiesFromIndexingPolicy_Status populates our IndexingPolicy_Status from the provided source IndexingPolicy_Status
+func (policy *IndexingPolicy_Status) AssignPropertiesFromIndexingPolicy_Status(source *v1alpha1api20210515storage.IndexingPolicy_Status) error {
 
 	// Automatic
 	if source.Automatic != nil {
@@ -2377,9 +2377,9 @@ func (policy *IndexingPolicy_Status) AssignPropertiesFromIndexingPolicyStatus(so
 					// Shadow the loop variable to avoid aliasing
 					compositeIndexItem1 := compositeIndexItem1
 					var compositeIndexLocal CompositePath_Status
-					err := compositeIndexLocal.AssignPropertiesFromCompositePathStatus(&compositeIndexItem1)
+					err := compositeIndexLocal.AssignPropertiesFromCompositePath_Status(&compositeIndexItem1)
 					if err != nil {
-						return errors.Wrap(err, "calling AssignPropertiesFromCompositePathStatus() to populate field CompositeIndexes")
+						return errors.Wrap(err, "calling AssignPropertiesFromCompositePath_Status() to populate field CompositeIndexes")
 					}
 					compositeIndexList1[compositeIndex1] = compositeIndexLocal
 				}
@@ -2400,9 +2400,9 @@ func (policy *IndexingPolicy_Status) AssignPropertiesFromIndexingPolicyStatus(so
 			// Shadow the loop variable to avoid aliasing
 			excludedPathItem := excludedPathItem
 			var excludedPath ExcludedPath_Status
-			err := excludedPath.AssignPropertiesFromExcludedPathStatus(&excludedPathItem)
+			err := excludedPath.AssignPropertiesFromExcludedPath_Status(&excludedPathItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromExcludedPathStatus() to populate field ExcludedPaths")
+				return errors.Wrap(err, "calling AssignPropertiesFromExcludedPath_Status() to populate field ExcludedPaths")
 			}
 			excludedPathList[excludedPathIndex] = excludedPath
 		}
@@ -2418,9 +2418,9 @@ func (policy *IndexingPolicy_Status) AssignPropertiesFromIndexingPolicyStatus(so
 			// Shadow the loop variable to avoid aliasing
 			includedPathItem := includedPathItem
 			var includedPath IncludedPath_Status
-			err := includedPath.AssignPropertiesFromIncludedPathStatus(&includedPathItem)
+			err := includedPath.AssignPropertiesFromIncludedPath_Status(&includedPathItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromIncludedPathStatus() to populate field IncludedPaths")
+				return errors.Wrap(err, "calling AssignPropertiesFromIncludedPath_Status() to populate field IncludedPaths")
 			}
 			includedPathList[includedPathIndex] = includedPath
 		}
@@ -2431,7 +2431,7 @@ func (policy *IndexingPolicy_Status) AssignPropertiesFromIndexingPolicyStatus(so
 
 	// IndexingMode
 	if source.IndexingMode != nil {
-		indexingMode := IndexingPolicyStatusIndexingMode(*source.IndexingMode)
+		indexingMode := IndexingPolicy_IndexingMode_Status(*source.IndexingMode)
 		policy.IndexingMode = &indexingMode
 	} else {
 		policy.IndexingMode = nil
@@ -2444,9 +2444,9 @@ func (policy *IndexingPolicy_Status) AssignPropertiesFromIndexingPolicyStatus(so
 			// Shadow the loop variable to avoid aliasing
 			spatialIndexItem := spatialIndexItem
 			var spatialIndexLocal SpatialSpec_Status
-			err := spatialIndexLocal.AssignPropertiesFromSpatialSpecStatus(&spatialIndexItem)
+			err := spatialIndexLocal.AssignPropertiesFromSpatialSpec_Status(&spatialIndexItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSpatialSpecStatus() to populate field SpatialIndexes")
+				return errors.Wrap(err, "calling AssignPropertiesFromSpatialSpec_Status() to populate field SpatialIndexes")
 			}
 			spatialIndexList[spatialIndex] = spatialIndexLocal
 		}
@@ -2459,8 +2459,8 @@ func (policy *IndexingPolicy_Status) AssignPropertiesFromIndexingPolicyStatus(so
 	return nil
 }
 
-// AssignPropertiesToIndexingPolicyStatus populates the provided destination IndexingPolicy_Status from our IndexingPolicy_Status
-func (policy *IndexingPolicy_Status) AssignPropertiesToIndexingPolicyStatus(destination *v1alpha1api20210515storage.IndexingPolicy_Status) error {
+// AssignPropertiesToIndexingPolicy_Status populates the provided destination IndexingPolicy_Status from our IndexingPolicy_Status
+func (policy *IndexingPolicy_Status) AssignPropertiesToIndexingPolicy_Status(destination *v1alpha1api20210515storage.IndexingPolicy_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2484,9 +2484,9 @@ func (policy *IndexingPolicy_Status) AssignPropertiesToIndexingPolicyStatus(dest
 					// Shadow the loop variable to avoid aliasing
 					compositeIndexItem1 := compositeIndexItem1
 					var compositeIndexLocal v1alpha1api20210515storage.CompositePath_Status
-					err := compositeIndexItem1.AssignPropertiesToCompositePathStatus(&compositeIndexLocal)
+					err := compositeIndexItem1.AssignPropertiesToCompositePath_Status(&compositeIndexLocal)
 					if err != nil {
-						return errors.Wrap(err, "calling AssignPropertiesToCompositePathStatus() to populate field CompositeIndexes")
+						return errors.Wrap(err, "calling AssignPropertiesToCompositePath_Status() to populate field CompositeIndexes")
 					}
 					compositeIndexList1[compositeIndex1] = compositeIndexLocal
 				}
@@ -2507,9 +2507,9 @@ func (policy *IndexingPolicy_Status) AssignPropertiesToIndexingPolicyStatus(dest
 			// Shadow the loop variable to avoid aliasing
 			excludedPathItem := excludedPathItem
 			var excludedPath v1alpha1api20210515storage.ExcludedPath_Status
-			err := excludedPathItem.AssignPropertiesToExcludedPathStatus(&excludedPath)
+			err := excludedPathItem.AssignPropertiesToExcludedPath_Status(&excludedPath)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToExcludedPathStatus() to populate field ExcludedPaths")
+				return errors.Wrap(err, "calling AssignPropertiesToExcludedPath_Status() to populate field ExcludedPaths")
 			}
 			excludedPathList[excludedPathIndex] = excludedPath
 		}
@@ -2525,9 +2525,9 @@ func (policy *IndexingPolicy_Status) AssignPropertiesToIndexingPolicyStatus(dest
 			// Shadow the loop variable to avoid aliasing
 			includedPathItem := includedPathItem
 			var includedPath v1alpha1api20210515storage.IncludedPath_Status
-			err := includedPathItem.AssignPropertiesToIncludedPathStatus(&includedPath)
+			err := includedPathItem.AssignPropertiesToIncludedPath_Status(&includedPath)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToIncludedPathStatus() to populate field IncludedPaths")
+				return errors.Wrap(err, "calling AssignPropertiesToIncludedPath_Status() to populate field IncludedPaths")
 			}
 			includedPathList[includedPathIndex] = includedPath
 		}
@@ -2551,9 +2551,9 @@ func (policy *IndexingPolicy_Status) AssignPropertiesToIndexingPolicyStatus(dest
 			// Shadow the loop variable to avoid aliasing
 			spatialIndexItem := spatialIndexItem
 			var spatialIndexLocal v1alpha1api20210515storage.SpatialSpec_Status
-			err := spatialIndexItem.AssignPropertiesToSpatialSpecStatus(&spatialIndexLocal)
+			err := spatialIndexItem.AssignPropertiesToSpatialSpec_Status(&spatialIndexLocal)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSpatialSpecStatus() to populate field SpatialIndexes")
+				return errors.Wrap(err, "calling AssignPropertiesToSpatialSpec_Status() to populate field SpatialIndexes")
 			}
 			spatialIndexList[spatialIndex] = spatialIndexLocal
 		}
@@ -2625,8 +2625,8 @@ func (policy *UniqueKeyPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
-// AssignPropertiesFromUniqueKeyPolicySpec populates our UniqueKeyPolicy_Spec from the provided source UniqueKeyPolicy_Spec
-func (policy *UniqueKeyPolicy_Spec) AssignPropertiesFromUniqueKeyPolicySpec(source *v1alpha1api20210515storage.UniqueKeyPolicy_Spec) error {
+// AssignPropertiesFromUniqueKeyPolicy_Spec populates our UniqueKeyPolicy_Spec from the provided source UniqueKeyPolicy_Spec
+func (policy *UniqueKeyPolicy_Spec) AssignPropertiesFromUniqueKeyPolicy_Spec(source *v1alpha1api20210515storage.UniqueKeyPolicy_Spec) error {
 
 	// UniqueKeys
 	if source.UniqueKeys != nil {
@@ -2635,9 +2635,9 @@ func (policy *UniqueKeyPolicy_Spec) AssignPropertiesFromUniqueKeyPolicySpec(sour
 			// Shadow the loop variable to avoid aliasing
 			uniqueKeyItem := uniqueKeyItem
 			var uniqueKey UniqueKey_Spec
-			err := uniqueKey.AssignPropertiesFromUniqueKeySpec(&uniqueKeyItem)
+			err := uniqueKey.AssignPropertiesFromUniqueKey_Spec(&uniqueKeyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromUniqueKeySpec() to populate field UniqueKeys")
+				return errors.Wrap(err, "calling AssignPropertiesFromUniqueKey_Spec() to populate field UniqueKeys")
 			}
 			uniqueKeyList[uniqueKeyIndex] = uniqueKey
 		}
@@ -2650,8 +2650,8 @@ func (policy *UniqueKeyPolicy_Spec) AssignPropertiesFromUniqueKeyPolicySpec(sour
 	return nil
 }
 
-// AssignPropertiesToUniqueKeyPolicySpec populates the provided destination UniqueKeyPolicy_Spec from our UniqueKeyPolicy_Spec
-func (policy *UniqueKeyPolicy_Spec) AssignPropertiesToUniqueKeyPolicySpec(destination *v1alpha1api20210515storage.UniqueKeyPolicy_Spec) error {
+// AssignPropertiesToUniqueKeyPolicy_Spec populates the provided destination UniqueKeyPolicy_Spec from our UniqueKeyPolicy_Spec
+func (policy *UniqueKeyPolicy_Spec) AssignPropertiesToUniqueKeyPolicy_Spec(destination *v1alpha1api20210515storage.UniqueKeyPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2662,9 +2662,9 @@ func (policy *UniqueKeyPolicy_Spec) AssignPropertiesToUniqueKeyPolicySpec(destin
 			// Shadow the loop variable to avoid aliasing
 			uniqueKeyItem := uniqueKeyItem
 			var uniqueKey v1alpha1api20210515storage.UniqueKey_Spec
-			err := uniqueKeyItem.AssignPropertiesToUniqueKeySpec(&uniqueKey)
+			err := uniqueKeyItem.AssignPropertiesToUniqueKey_Spec(&uniqueKey)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToUniqueKeySpec() to populate field UniqueKeys")
+				return errors.Wrap(err, "calling AssignPropertiesToUniqueKey_Spec() to populate field UniqueKeys")
 			}
 			uniqueKeyList[uniqueKeyIndex] = uniqueKey
 		}
@@ -2718,8 +2718,8 @@ func (policy *UniqueKeyPolicy_Status) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromUniqueKeyPolicyStatus populates our UniqueKeyPolicy_Status from the provided source UniqueKeyPolicy_Status
-func (policy *UniqueKeyPolicy_Status) AssignPropertiesFromUniqueKeyPolicyStatus(source *v1alpha1api20210515storage.UniqueKeyPolicy_Status) error {
+// AssignPropertiesFromUniqueKeyPolicy_Status populates our UniqueKeyPolicy_Status from the provided source UniqueKeyPolicy_Status
+func (policy *UniqueKeyPolicy_Status) AssignPropertiesFromUniqueKeyPolicy_Status(source *v1alpha1api20210515storage.UniqueKeyPolicy_Status) error {
 
 	// UniqueKeys
 	if source.UniqueKeys != nil {
@@ -2728,9 +2728,9 @@ func (policy *UniqueKeyPolicy_Status) AssignPropertiesFromUniqueKeyPolicyStatus(
 			// Shadow the loop variable to avoid aliasing
 			uniqueKeyItem := uniqueKeyItem
 			var uniqueKey UniqueKey_Status
-			err := uniqueKey.AssignPropertiesFromUniqueKeyStatus(&uniqueKeyItem)
+			err := uniqueKey.AssignPropertiesFromUniqueKey_Status(&uniqueKeyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromUniqueKeyStatus() to populate field UniqueKeys")
+				return errors.Wrap(err, "calling AssignPropertiesFromUniqueKey_Status() to populate field UniqueKeys")
 			}
 			uniqueKeyList[uniqueKeyIndex] = uniqueKey
 		}
@@ -2743,8 +2743,8 @@ func (policy *UniqueKeyPolicy_Status) AssignPropertiesFromUniqueKeyPolicyStatus(
 	return nil
 }
 
-// AssignPropertiesToUniqueKeyPolicyStatus populates the provided destination UniqueKeyPolicy_Status from our UniqueKeyPolicy_Status
-func (policy *UniqueKeyPolicy_Status) AssignPropertiesToUniqueKeyPolicyStatus(destination *v1alpha1api20210515storage.UniqueKeyPolicy_Status) error {
+// AssignPropertiesToUniqueKeyPolicy_Status populates the provided destination UniqueKeyPolicy_Status from our UniqueKeyPolicy_Status
+func (policy *UniqueKeyPolicy_Status) AssignPropertiesToUniqueKeyPolicy_Status(destination *v1alpha1api20210515storage.UniqueKeyPolicy_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2755,9 +2755,9 @@ func (policy *UniqueKeyPolicy_Status) AssignPropertiesToUniqueKeyPolicyStatus(de
 			// Shadow the loop variable to avoid aliasing
 			uniqueKeyItem := uniqueKeyItem
 			var uniqueKey v1alpha1api20210515storage.UniqueKey_Status
-			err := uniqueKeyItem.AssignPropertiesToUniqueKeyStatus(&uniqueKey)
+			err := uniqueKeyItem.AssignPropertiesToUniqueKey_Status(&uniqueKey)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToUniqueKeyStatus() to populate field UniqueKeys")
+				return errors.Wrap(err, "calling AssignPropertiesToUniqueKey_Status() to populate field UniqueKeys")
 			}
 			uniqueKeyList[uniqueKeyIndex] = uniqueKey
 		}
@@ -2779,7 +2779,7 @@ func (policy *UniqueKeyPolicy_Status) AssignPropertiesToUniqueKeyPolicyStatus(de
 
 type CompositePath_Spec struct {
 	//Order: Sort order for composite paths.
-	Order *CompositePathSpecOrder `json:"order,omitempty"`
+	Order *CompositePath_Order_Spec `json:"order,omitempty"`
 
 	//Path: The path for which the indexing behavior applies to. Index paths typically
 	//start with root and end with wildcard (/path/*)
@@ -2837,12 +2837,12 @@ func (path *CompositePath_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	return nil
 }
 
-// AssignPropertiesFromCompositePathSpec populates our CompositePath_Spec from the provided source CompositePath_Spec
-func (path *CompositePath_Spec) AssignPropertiesFromCompositePathSpec(source *v1alpha1api20210515storage.CompositePath_Spec) error {
+// AssignPropertiesFromCompositePath_Spec populates our CompositePath_Spec from the provided source CompositePath_Spec
+func (path *CompositePath_Spec) AssignPropertiesFromCompositePath_Spec(source *v1alpha1api20210515storage.CompositePath_Spec) error {
 
 	// Order
 	if source.Order != nil {
-		order := CompositePathSpecOrder(*source.Order)
+		order := CompositePath_Order_Spec(*source.Order)
 		path.Order = &order
 	} else {
 		path.Order = nil
@@ -2855,8 +2855,8 @@ func (path *CompositePath_Spec) AssignPropertiesFromCompositePathSpec(source *v1
 	return nil
 }
 
-// AssignPropertiesToCompositePathSpec populates the provided destination CompositePath_Spec from our CompositePath_Spec
-func (path *CompositePath_Spec) AssignPropertiesToCompositePathSpec(destination *v1alpha1api20210515storage.CompositePath_Spec) error {
+// AssignPropertiesToCompositePath_Spec populates the provided destination CompositePath_Spec from our CompositePath_Spec
+func (path *CompositePath_Spec) AssignPropertiesToCompositePath_Spec(destination *v1alpha1api20210515storage.CompositePath_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2884,7 +2884,7 @@ func (path *CompositePath_Spec) AssignPropertiesToCompositePathSpec(destination 
 
 type CompositePath_Status struct {
 	//Order: Sort order for composite paths.
-	Order *CompositePathStatusOrder `json:"order,omitempty"`
+	Order *CompositePath_Order_Status `json:"order,omitempty"`
 
 	//Path: The path for which the indexing behavior applies to. Index paths typically
 	//start with root and end with wildcard (/path/*)
@@ -2921,12 +2921,12 @@ func (path *CompositePath_Status) PopulateFromARM(owner genruntime.ArbitraryOwne
 	return nil
 }
 
-// AssignPropertiesFromCompositePathStatus populates our CompositePath_Status from the provided source CompositePath_Status
-func (path *CompositePath_Status) AssignPropertiesFromCompositePathStatus(source *v1alpha1api20210515storage.CompositePath_Status) error {
+// AssignPropertiesFromCompositePath_Status populates our CompositePath_Status from the provided source CompositePath_Status
+func (path *CompositePath_Status) AssignPropertiesFromCompositePath_Status(source *v1alpha1api20210515storage.CompositePath_Status) error {
 
 	// Order
 	if source.Order != nil {
-		order := CompositePathStatusOrder(*source.Order)
+		order := CompositePath_Order_Status(*source.Order)
 		path.Order = &order
 	} else {
 		path.Order = nil
@@ -2939,8 +2939,8 @@ func (path *CompositePath_Status) AssignPropertiesFromCompositePathStatus(source
 	return nil
 }
 
-// AssignPropertiesToCompositePathStatus populates the provided destination CompositePath_Status from our CompositePath_Status
-func (path *CompositePath_Status) AssignPropertiesToCompositePathStatus(destination *v1alpha1api20210515storage.CompositePath_Status) error {
+// AssignPropertiesToCompositePath_Status populates the provided destination CompositePath_Status from our CompositePath_Status
+func (path *CompositePath_Status) AssignPropertiesToCompositePath_Status(destination *v1alpha1api20210515storage.CompositePath_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3011,8 +3011,8 @@ func (path *ExcludedPath_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromExcludedPathSpec populates our ExcludedPath_Spec from the provided source ExcludedPath_Spec
-func (path *ExcludedPath_Spec) AssignPropertiesFromExcludedPathSpec(source *v1alpha1api20210515storage.ExcludedPath_Spec) error {
+// AssignPropertiesFromExcludedPath_Spec populates our ExcludedPath_Spec from the provided source ExcludedPath_Spec
+func (path *ExcludedPath_Spec) AssignPropertiesFromExcludedPath_Spec(source *v1alpha1api20210515storage.ExcludedPath_Spec) error {
 
 	// Path
 	path.Path = genruntime.ClonePointerToString(source.Path)
@@ -3021,8 +3021,8 @@ func (path *ExcludedPath_Spec) AssignPropertiesFromExcludedPathSpec(source *v1al
 	return nil
 }
 
-// AssignPropertiesToExcludedPathSpec populates the provided destination ExcludedPath_Spec from our ExcludedPath_Spec
-func (path *ExcludedPath_Spec) AssignPropertiesToExcludedPathSpec(destination *v1alpha1api20210515storage.ExcludedPath_Spec) error {
+// AssignPropertiesToExcludedPath_Spec populates the provided destination ExcludedPath_Spec from our ExcludedPath_Spec
+func (path *ExcludedPath_Spec) AssignPropertiesToExcludedPath_Spec(destination *v1alpha1api20210515storage.ExcludedPath_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3070,8 +3070,8 @@ func (path *ExcludedPath_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromExcludedPathStatus populates our ExcludedPath_Status from the provided source ExcludedPath_Status
-func (path *ExcludedPath_Status) AssignPropertiesFromExcludedPathStatus(source *v1alpha1api20210515storage.ExcludedPath_Status) error {
+// AssignPropertiesFromExcludedPath_Status populates our ExcludedPath_Status from the provided source ExcludedPath_Status
+func (path *ExcludedPath_Status) AssignPropertiesFromExcludedPath_Status(source *v1alpha1api20210515storage.ExcludedPath_Status) error {
 
 	// Path
 	path.Path = genruntime.ClonePointerToString(source.Path)
@@ -3080,8 +3080,8 @@ func (path *ExcludedPath_Status) AssignPropertiesFromExcludedPathStatus(source *
 	return nil
 }
 
-// AssignPropertiesToExcludedPathStatus populates the provided destination ExcludedPath_Status from our ExcludedPath_Status
-func (path *ExcludedPath_Status) AssignPropertiesToExcludedPathStatus(destination *v1alpha1api20210515storage.ExcludedPath_Status) error {
+// AssignPropertiesToExcludedPath_Status populates the provided destination ExcludedPath_Status from our ExcludedPath_Status
+func (path *ExcludedPath_Status) AssignPropertiesToExcludedPath_Status(destination *v1alpha1api20210515storage.ExcludedPath_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3166,8 +3166,8 @@ func (path *IncludedPath_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromIncludedPathSpec populates our IncludedPath_Spec from the provided source IncludedPath_Spec
-func (path *IncludedPath_Spec) AssignPropertiesFromIncludedPathSpec(source *v1alpha1api20210515storage.IncludedPath_Spec) error {
+// AssignPropertiesFromIncludedPath_Spec populates our IncludedPath_Spec from the provided source IncludedPath_Spec
+func (path *IncludedPath_Spec) AssignPropertiesFromIncludedPath_Spec(source *v1alpha1api20210515storage.IncludedPath_Spec) error {
 
 	// Indexes
 	if source.Indexes != nil {
@@ -3176,9 +3176,9 @@ func (path *IncludedPath_Spec) AssignPropertiesFromIncludedPathSpec(source *v1al
 			// Shadow the loop variable to avoid aliasing
 			indexItem := indexItem
 			var indexLocal Indexes_Spec
-			err := indexLocal.AssignPropertiesFromIndexesSpec(&indexItem)
+			err := indexLocal.AssignPropertiesFromIndexes_Spec(&indexItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromIndexesSpec() to populate field Indexes")
+				return errors.Wrap(err, "calling AssignPropertiesFromIndexes_Spec() to populate field Indexes")
 			}
 			indexList[index] = indexLocal
 		}
@@ -3194,8 +3194,8 @@ func (path *IncludedPath_Spec) AssignPropertiesFromIncludedPathSpec(source *v1al
 	return nil
 }
 
-// AssignPropertiesToIncludedPathSpec populates the provided destination IncludedPath_Spec from our IncludedPath_Spec
-func (path *IncludedPath_Spec) AssignPropertiesToIncludedPathSpec(destination *v1alpha1api20210515storage.IncludedPath_Spec) error {
+// AssignPropertiesToIncludedPath_Spec populates the provided destination IncludedPath_Spec from our IncludedPath_Spec
+func (path *IncludedPath_Spec) AssignPropertiesToIncludedPath_Spec(destination *v1alpha1api20210515storage.IncludedPath_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3206,9 +3206,9 @@ func (path *IncludedPath_Spec) AssignPropertiesToIncludedPathSpec(destination *v
 			// Shadow the loop variable to avoid aliasing
 			indexItem := indexItem
 			var indexLocal v1alpha1api20210515storage.Indexes_Spec
-			err := indexItem.AssignPropertiesToIndexesSpec(&indexLocal)
+			err := indexItem.AssignPropertiesToIndexes_Spec(&indexLocal)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToIndexesSpec() to populate field Indexes")
+				return errors.Wrap(err, "calling AssignPropertiesToIndexes_Spec() to populate field Indexes")
 			}
 			indexList[index] = indexLocal
 		}
@@ -3274,8 +3274,8 @@ func (path *IncludedPath_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromIncludedPathStatus populates our IncludedPath_Status from the provided source IncludedPath_Status
-func (path *IncludedPath_Status) AssignPropertiesFromIncludedPathStatus(source *v1alpha1api20210515storage.IncludedPath_Status) error {
+// AssignPropertiesFromIncludedPath_Status populates our IncludedPath_Status from the provided source IncludedPath_Status
+func (path *IncludedPath_Status) AssignPropertiesFromIncludedPath_Status(source *v1alpha1api20210515storage.IncludedPath_Status) error {
 
 	// Indexes
 	if source.Indexes != nil {
@@ -3284,9 +3284,9 @@ func (path *IncludedPath_Status) AssignPropertiesFromIncludedPathStatus(source *
 			// Shadow the loop variable to avoid aliasing
 			indexItem := indexItem
 			var indexLocal Indexes_Status
-			err := indexLocal.AssignPropertiesFromIndexesStatus(&indexItem)
+			err := indexLocal.AssignPropertiesFromIndexes_Status(&indexItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromIndexesStatus() to populate field Indexes")
+				return errors.Wrap(err, "calling AssignPropertiesFromIndexes_Status() to populate field Indexes")
 			}
 			indexList[index] = indexLocal
 		}
@@ -3302,8 +3302,8 @@ func (path *IncludedPath_Status) AssignPropertiesFromIncludedPathStatus(source *
 	return nil
 }
 
-// AssignPropertiesToIncludedPathStatus populates the provided destination IncludedPath_Status from our IncludedPath_Status
-func (path *IncludedPath_Status) AssignPropertiesToIncludedPathStatus(destination *v1alpha1api20210515storage.IncludedPath_Status) error {
+// AssignPropertiesToIncludedPath_Status populates the provided destination IncludedPath_Status from our IncludedPath_Status
+func (path *IncludedPath_Status) AssignPropertiesToIncludedPath_Status(destination *v1alpha1api20210515storage.IncludedPath_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3314,9 +3314,9 @@ func (path *IncludedPath_Status) AssignPropertiesToIncludedPathStatus(destinatio
 			// Shadow the loop variable to avoid aliasing
 			indexItem := indexItem
 			var indexLocal v1alpha1api20210515storage.Indexes_Status
-			err := indexItem.AssignPropertiesToIndexesStatus(&indexLocal)
+			err := indexItem.AssignPropertiesToIndexes_Status(&indexLocal)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToIndexesStatus() to populate field Indexes")
+				return errors.Wrap(err, "calling AssignPropertiesToIndexes_Status() to populate field Indexes")
 			}
 			indexList[index] = indexLocal
 		}
@@ -3397,8 +3397,8 @@ func (spatial *SpatialSpec_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromSpatialSpecSpec populates our SpatialSpec_Spec from the provided source SpatialSpec_Spec
-func (spatial *SpatialSpec_Spec) AssignPropertiesFromSpatialSpecSpec(source *v1alpha1api20210515storage.SpatialSpec_Spec) error {
+// AssignPropertiesFromSpatialSpec_Spec populates our SpatialSpec_Spec from the provided source SpatialSpec_Spec
+func (spatial *SpatialSpec_Spec) AssignPropertiesFromSpatialSpec_Spec(source *v1alpha1api20210515storage.SpatialSpec_Spec) error {
 
 	// Path
 	spatial.Path = genruntime.ClonePointerToString(source.Path)
@@ -3420,8 +3420,8 @@ func (spatial *SpatialSpec_Spec) AssignPropertiesFromSpatialSpecSpec(source *v1a
 	return nil
 }
 
-// AssignPropertiesToSpatialSpecSpec populates the provided destination SpatialSpec_Spec from our SpatialSpec_Spec
-func (spatial *SpatialSpec_Spec) AssignPropertiesToSpatialSpecSpec(destination *v1alpha1api20210515storage.SpatialSpec_Spec) error {
+// AssignPropertiesToSpatialSpec_Spec populates the provided destination SpatialSpec_Spec from our SpatialSpec_Spec
+func (spatial *SpatialSpec_Spec) AssignPropertiesToSpatialSpec_Spec(destination *v1alpha1api20210515storage.SpatialSpec_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3490,8 +3490,8 @@ func (spatial *SpatialSpec_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-// AssignPropertiesFromSpatialSpecStatus populates our SpatialSpec_Status from the provided source SpatialSpec_Status
-func (spatial *SpatialSpec_Status) AssignPropertiesFromSpatialSpecStatus(source *v1alpha1api20210515storage.SpatialSpec_Status) error {
+// AssignPropertiesFromSpatialSpec_Status populates our SpatialSpec_Status from the provided source SpatialSpec_Status
+func (spatial *SpatialSpec_Status) AssignPropertiesFromSpatialSpec_Status(source *v1alpha1api20210515storage.SpatialSpec_Status) error {
 
 	// Path
 	spatial.Path = genruntime.ClonePointerToString(source.Path)
@@ -3513,8 +3513,8 @@ func (spatial *SpatialSpec_Status) AssignPropertiesFromSpatialSpecStatus(source 
 	return nil
 }
 
-// AssignPropertiesToSpatialSpecStatus populates the provided destination SpatialSpec_Status from our SpatialSpec_Status
-func (spatial *SpatialSpec_Status) AssignPropertiesToSpatialSpecStatus(destination *v1alpha1api20210515storage.SpatialSpec_Status) error {
+// AssignPropertiesToSpatialSpec_Status populates the provided destination SpatialSpec_Status from our SpatialSpec_Status
+func (spatial *SpatialSpec_Status) AssignPropertiesToSpatialSpec_Status(destination *v1alpha1api20210515storage.SpatialSpec_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3588,8 +3588,8 @@ func (uniqueKey *UniqueKey_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromUniqueKeySpec populates our UniqueKey_Spec from the provided source UniqueKey_Spec
-func (uniqueKey *UniqueKey_Spec) AssignPropertiesFromUniqueKeySpec(source *v1alpha1api20210515storage.UniqueKey_Spec) error {
+// AssignPropertiesFromUniqueKey_Spec populates our UniqueKey_Spec from the provided source UniqueKey_Spec
+func (uniqueKey *UniqueKey_Spec) AssignPropertiesFromUniqueKey_Spec(source *v1alpha1api20210515storage.UniqueKey_Spec) error {
 
 	// Paths
 	uniqueKey.Paths = genruntime.CloneSliceOfString(source.Paths)
@@ -3598,8 +3598,8 @@ func (uniqueKey *UniqueKey_Spec) AssignPropertiesFromUniqueKeySpec(source *v1alp
 	return nil
 }
 
-// AssignPropertiesToUniqueKeySpec populates the provided destination UniqueKey_Spec from our UniqueKey_Spec
-func (uniqueKey *UniqueKey_Spec) AssignPropertiesToUniqueKeySpec(destination *v1alpha1api20210515storage.UniqueKey_Spec) error {
+// AssignPropertiesToUniqueKey_Spec populates the provided destination UniqueKey_Spec from our UniqueKey_Spec
+func (uniqueKey *UniqueKey_Spec) AssignPropertiesToUniqueKey_Spec(destination *v1alpha1api20210515storage.UniqueKey_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3646,8 +3646,8 @@ func (uniqueKey *UniqueKey_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-// AssignPropertiesFromUniqueKeyStatus populates our UniqueKey_Status from the provided source UniqueKey_Status
-func (uniqueKey *UniqueKey_Status) AssignPropertiesFromUniqueKeyStatus(source *v1alpha1api20210515storage.UniqueKey_Status) error {
+// AssignPropertiesFromUniqueKey_Status populates our UniqueKey_Status from the provided source UniqueKey_Status
+func (uniqueKey *UniqueKey_Status) AssignPropertiesFromUniqueKey_Status(source *v1alpha1api20210515storage.UniqueKey_Status) error {
 
 	// Paths
 	uniqueKey.Paths = genruntime.CloneSliceOfString(source.Paths)
@@ -3656,8 +3656,8 @@ func (uniqueKey *UniqueKey_Status) AssignPropertiesFromUniqueKeyStatus(source *v
 	return nil
 }
 
-// AssignPropertiesToUniqueKeyStatus populates the provided destination UniqueKey_Status from our UniqueKey_Status
-func (uniqueKey *UniqueKey_Status) AssignPropertiesToUniqueKeyStatus(destination *v1alpha1api20210515storage.UniqueKey_Status) error {
+// AssignPropertiesToUniqueKey_Status populates the provided destination UniqueKey_Status from our UniqueKey_Status
+func (uniqueKey *UniqueKey_Status) AssignPropertiesToUniqueKey_Status(destination *v1alpha1api20210515storage.UniqueKey_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3677,10 +3677,10 @@ func (uniqueKey *UniqueKey_Status) AssignPropertiesToUniqueKeyStatus(destination
 
 type Indexes_Spec struct {
 	//DataType: The datatype for which the indexing behavior is applied to.
-	DataType *IndexesSpecDataType `json:"dataType,omitempty"`
+	DataType *Indexes_DataType_Spec `json:"dataType,omitempty"`
 
 	//Kind: Indicates the type of index.
-	Kind *IndexesSpecKind `json:"kind,omitempty"`
+	Kind *Indexes_Kind_Spec `json:"kind,omitempty"`
 
 	//Precision: The precision of the index. -1 is maximum precision.
 	Precision *int `json:"precision,omitempty"`
@@ -3749,12 +3749,12 @@ func (indexes *Indexes_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	return nil
 }
 
-// AssignPropertiesFromIndexesSpec populates our Indexes_Spec from the provided source Indexes_Spec
-func (indexes *Indexes_Spec) AssignPropertiesFromIndexesSpec(source *v1alpha1api20210515storage.Indexes_Spec) error {
+// AssignPropertiesFromIndexes_Spec populates our Indexes_Spec from the provided source Indexes_Spec
+func (indexes *Indexes_Spec) AssignPropertiesFromIndexes_Spec(source *v1alpha1api20210515storage.Indexes_Spec) error {
 
 	// DataType
 	if source.DataType != nil {
-		dataType := IndexesSpecDataType(*source.DataType)
+		dataType := Indexes_DataType_Spec(*source.DataType)
 		indexes.DataType = &dataType
 	} else {
 		indexes.DataType = nil
@@ -3762,7 +3762,7 @@ func (indexes *Indexes_Spec) AssignPropertiesFromIndexesSpec(source *v1alpha1api
 
 	// Kind
 	if source.Kind != nil {
-		kind := IndexesSpecKind(*source.Kind)
+		kind := Indexes_Kind_Spec(*source.Kind)
 		indexes.Kind = &kind
 	} else {
 		indexes.Kind = nil
@@ -3775,8 +3775,8 @@ func (indexes *Indexes_Spec) AssignPropertiesFromIndexesSpec(source *v1alpha1api
 	return nil
 }
 
-// AssignPropertiesToIndexesSpec populates the provided destination Indexes_Spec from our Indexes_Spec
-func (indexes *Indexes_Spec) AssignPropertiesToIndexesSpec(destination *v1alpha1api20210515storage.Indexes_Spec) error {
+// AssignPropertiesToIndexes_Spec populates the provided destination Indexes_Spec from our Indexes_Spec
+func (indexes *Indexes_Spec) AssignPropertiesToIndexes_Spec(destination *v1alpha1api20210515storage.Indexes_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3812,10 +3812,10 @@ func (indexes *Indexes_Spec) AssignPropertiesToIndexesSpec(destination *v1alpha1
 
 type Indexes_Status struct {
 	//DataType: The datatype for which the indexing behavior is applied to.
-	DataType *IndexesStatusDataType `json:"dataType,omitempty"`
+	DataType *Indexes_DataType_Status `json:"dataType,omitempty"`
 
 	//Kind: Indicates the type of index.
-	Kind *IndexesStatusKind `json:"kind,omitempty"`
+	Kind *Indexes_Kind_Status `json:"kind,omitempty"`
 
 	//Precision: The precision of the index. -1 is maximum precision.
 	Precision *int `json:"precision,omitempty"`
@@ -3857,12 +3857,12 @@ func (indexes *Indexes_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromIndexesStatus populates our Indexes_Status from the provided source Indexes_Status
-func (indexes *Indexes_Status) AssignPropertiesFromIndexesStatus(source *v1alpha1api20210515storage.Indexes_Status) error {
+// AssignPropertiesFromIndexes_Status populates our Indexes_Status from the provided source Indexes_Status
+func (indexes *Indexes_Status) AssignPropertiesFromIndexes_Status(source *v1alpha1api20210515storage.Indexes_Status) error {
 
 	// DataType
 	if source.DataType != nil {
-		dataType := IndexesStatusDataType(*source.DataType)
+		dataType := Indexes_DataType_Status(*source.DataType)
 		indexes.DataType = &dataType
 	} else {
 		indexes.DataType = nil
@@ -3870,7 +3870,7 @@ func (indexes *Indexes_Status) AssignPropertiesFromIndexesStatus(source *v1alpha
 
 	// Kind
 	if source.Kind != nil {
-		kind := IndexesStatusKind(*source.Kind)
+		kind := Indexes_Kind_Status(*source.Kind)
 		indexes.Kind = &kind
 	} else {
 		indexes.Kind = nil
@@ -3883,8 +3883,8 @@ func (indexes *Indexes_Status) AssignPropertiesFromIndexesStatus(source *v1alpha
 	return nil
 }
 
-// AssignPropertiesToIndexesStatus populates the provided destination Indexes_Status from our Indexes_Status
-func (indexes *Indexes_Status) AssignPropertiesToIndexesStatus(destination *v1alpha1api20210515storage.Indexes_Status) error {
+// AssignPropertiesToIndexes_Status populates the provided destination Indexes_Status from our Indexes_Status
+func (indexes *Indexes_Status) AssignPropertiesToIndexes_Status(destination *v1alpha1api20210515storage.Indexes_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

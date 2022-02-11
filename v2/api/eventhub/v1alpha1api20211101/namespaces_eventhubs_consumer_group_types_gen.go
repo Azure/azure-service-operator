@@ -248,17 +248,17 @@ func (group *NamespacesEventhubsConsumerGroup) AssignPropertiesFromNamespacesEve
 
 	// Spec
 	var spec NamespacesEventhubsConsumergroups_SPEC
-	err := spec.AssignPropertiesFromNamespacesEventhubsConsumergroupsSPEC(&source.Spec)
+	err := spec.AssignPropertiesFromNamespacesEventhubsConsumergroups_SPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesEventhubsConsumergroupsSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesEventhubsConsumergroups_SPEC() to populate field Spec")
 	}
 	group.Spec = spec
 
 	// Status
 	var status ConsumerGroup_Status
-	err = status.AssignPropertiesFromConsumerGroupStatus(&source.Status)
+	err = status.AssignPropertiesFromConsumerGroup_Status(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromConsumerGroupStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromConsumerGroup_Status() to populate field Status")
 	}
 	group.Status = status
 
@@ -274,17 +274,17 @@ func (group *NamespacesEventhubsConsumerGroup) AssignPropertiesToNamespacesEvent
 
 	// Spec
 	var spec v1alpha1api20211101storage.NamespacesEventhubsConsumergroups_SPEC
-	err := group.Spec.AssignPropertiesToNamespacesEventhubsConsumergroupsSPEC(&spec)
+	err := group.Spec.AssignPropertiesToNamespacesEventhubsConsumergroups_SPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToNamespacesEventhubsConsumergroupsSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToNamespacesEventhubsConsumergroups_SPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v1alpha1api20211101storage.ConsumerGroup_Status
-	err = group.Status.AssignPropertiesToConsumerGroupStatus(&status)
+	err = group.Status.AssignPropertiesToConsumerGroup_Status(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToConsumerGroupStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToConsumerGroup_Status() to populate field Status")
 	}
 	destination.Status = status
 
@@ -352,7 +352,7 @@ func (group *ConsumerGroup_Status) ConvertStatusFrom(source genruntime.Convertib
 	src, ok := source.(*v1alpha1api20211101storage.ConsumerGroup_Status)
 	if ok {
 		// Populate our instance from source
-		return group.AssignPropertiesFromConsumerGroupStatus(src)
+		return group.AssignPropertiesFromConsumerGroup_Status(src)
 	}
 
 	// Convert to an intermediate form
@@ -363,7 +363,7 @@ func (group *ConsumerGroup_Status) ConvertStatusFrom(source genruntime.Convertib
 	}
 
 	// Update our instance from src
-	err = group.AssignPropertiesFromConsumerGroupStatus(src)
+	err = group.AssignPropertiesFromConsumerGroup_Status(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -376,12 +376,12 @@ func (group *ConsumerGroup_Status) ConvertStatusTo(destination genruntime.Conver
 	dst, ok := destination.(*v1alpha1api20211101storage.ConsumerGroup_Status)
 	if ok {
 		// Populate destination from our instance
-		return group.AssignPropertiesToConsumerGroupStatus(dst)
+		return group.AssignPropertiesToConsumerGroup_Status(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20211101storage.ConsumerGroup_Status{}
-	err := group.AssignPropertiesToConsumerGroupStatus(dst)
+	err := group.AssignPropertiesToConsumerGroup_Status(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -477,8 +477,8 @@ func (group *ConsumerGroup_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-// AssignPropertiesFromConsumerGroupStatus populates our ConsumerGroup_Status from the provided source ConsumerGroup_Status
-func (group *ConsumerGroup_Status) AssignPropertiesFromConsumerGroupStatus(source *v1alpha1api20211101storage.ConsumerGroup_Status) error {
+// AssignPropertiesFromConsumerGroup_Status populates our ConsumerGroup_Status from the provided source ConsumerGroup_Status
+func (group *ConsumerGroup_Status) AssignPropertiesFromConsumerGroup_Status(source *v1alpha1api20211101storage.ConsumerGroup_Status) error {
 
 	// Conditions
 	group.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -498,9 +498,9 @@ func (group *ConsumerGroup_Status) AssignPropertiesFromConsumerGroupStatus(sourc
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_Status
-		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		err := systemDatum.AssignPropertiesFromSystemData_Status(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_Status() to populate field SystemData")
 		}
 		group.SystemData = &systemDatum
 	} else {
@@ -520,8 +520,8 @@ func (group *ConsumerGroup_Status) AssignPropertiesFromConsumerGroupStatus(sourc
 	return nil
 }
 
-// AssignPropertiesToConsumerGroupStatus populates the provided destination ConsumerGroup_Status from our ConsumerGroup_Status
-func (group *ConsumerGroup_Status) AssignPropertiesToConsumerGroupStatus(destination *v1alpha1api20211101storage.ConsumerGroup_Status) error {
+// AssignPropertiesToConsumerGroup_Status populates the provided destination ConsumerGroup_Status from our ConsumerGroup_Status
+func (group *ConsumerGroup_Status) AssignPropertiesToConsumerGroup_Status(destination *v1alpha1api20211101storage.ConsumerGroup_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -543,9 +543,9 @@ func (group *ConsumerGroup_Status) AssignPropertiesToConsumerGroupStatus(destina
 	// SystemData
 	if group.SystemData != nil {
 		var systemDatum v1alpha1api20211101storage.SystemData_Status
-		err := group.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		err := group.SystemData.AssignPropertiesToSystemData_Status(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData_Status() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -604,7 +604,7 @@ func (spec *NamespacesEventhubsConsumergroups_SPEC) ConvertToARM(resolved genrun
 
 	// Set property ‘Properties’:
 	if spec.UserMetadata != nil {
-		result.Properties = &NamespacesEventhubsConsumergroups_SPEC_PropertiesARM{}
+		result.Properties = &NamespacesEventhubsConsumergroups_Properties_SPECARM{}
 	}
 	if spec.UserMetadata != nil {
 		userMetadata := *spec.UserMetadata
@@ -653,7 +653,7 @@ func (spec *NamespacesEventhubsConsumergroups_SPEC) ConvertSpecFrom(source genru
 	src, ok := source.(*v1alpha1api20211101storage.NamespacesEventhubsConsumergroups_SPEC)
 	if ok {
 		// Populate our instance from source
-		return spec.AssignPropertiesFromNamespacesEventhubsConsumergroupsSPEC(src)
+		return spec.AssignPropertiesFromNamespacesEventhubsConsumergroups_SPEC(src)
 	}
 
 	// Convert to an intermediate form
@@ -664,7 +664,7 @@ func (spec *NamespacesEventhubsConsumergroups_SPEC) ConvertSpecFrom(source genru
 	}
 
 	// Update our instance from src
-	err = spec.AssignPropertiesFromNamespacesEventhubsConsumergroupsSPEC(src)
+	err = spec.AssignPropertiesFromNamespacesEventhubsConsumergroups_SPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -677,12 +677,12 @@ func (spec *NamespacesEventhubsConsumergroups_SPEC) ConvertSpecTo(destination ge
 	dst, ok := destination.(*v1alpha1api20211101storage.NamespacesEventhubsConsumergroups_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return spec.AssignPropertiesToNamespacesEventhubsConsumergroupsSPEC(dst)
+		return spec.AssignPropertiesToNamespacesEventhubsConsumergroups_SPEC(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20211101storage.NamespacesEventhubsConsumergroups_SPEC{}
-	err := spec.AssignPropertiesToNamespacesEventhubsConsumergroupsSPEC(dst)
+	err := spec.AssignPropertiesToNamespacesEventhubsConsumergroups_SPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -696,8 +696,8 @@ func (spec *NamespacesEventhubsConsumergroups_SPEC) ConvertSpecTo(destination ge
 	return nil
 }
 
-// AssignPropertiesFromNamespacesEventhubsConsumergroupsSPEC populates our NamespacesEventhubsConsumergroups_SPEC from the provided source NamespacesEventhubsConsumergroups_SPEC
-func (spec *NamespacesEventhubsConsumergroups_SPEC) AssignPropertiesFromNamespacesEventhubsConsumergroupsSPEC(source *v1alpha1api20211101storage.NamespacesEventhubsConsumergroups_SPEC) error {
+// AssignPropertiesFromNamespacesEventhubsConsumergroups_SPEC populates our NamespacesEventhubsConsumergroups_SPEC from the provided source NamespacesEventhubsConsumergroups_SPEC
+func (spec *NamespacesEventhubsConsumergroups_SPEC) AssignPropertiesFromNamespacesEventhubsConsumergroups_SPEC(source *v1alpha1api20211101storage.NamespacesEventhubsConsumergroups_SPEC) error {
 
 	// AzureName
 	spec.AzureName = source.AzureName
@@ -712,8 +712,8 @@ func (spec *NamespacesEventhubsConsumergroups_SPEC) AssignPropertiesFromNamespac
 	return nil
 }
 
-// AssignPropertiesToNamespacesEventhubsConsumergroupsSPEC populates the provided destination NamespacesEventhubsConsumergroups_SPEC from our NamespacesEventhubsConsumergroups_SPEC
-func (spec *NamespacesEventhubsConsumergroups_SPEC) AssignPropertiesToNamespacesEventhubsConsumergroupsSPEC(destination *v1alpha1api20211101storage.NamespacesEventhubsConsumergroups_SPEC) error {
+// AssignPropertiesToNamespacesEventhubsConsumergroups_SPEC populates the provided destination NamespacesEventhubsConsumergroups_SPEC from our NamespacesEventhubsConsumergroups_SPEC
+func (spec *NamespacesEventhubsConsumergroups_SPEC) AssignPropertiesToNamespacesEventhubsConsumergroups_SPEC(destination *v1alpha1api20211101storage.NamespacesEventhubsConsumergroups_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

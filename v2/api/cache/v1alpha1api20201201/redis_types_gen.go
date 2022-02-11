@@ -248,17 +248,17 @@ func (redis *Redis) AssignPropertiesFromRedis(source *v1alpha1api20201201storage
 
 	// Spec
 	var spec Redis_SPEC
-	err := spec.AssignPropertiesFromRedisSPEC(&source.Spec)
+	err := spec.AssignPropertiesFromRedis_SPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromRedisSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromRedis_SPEC() to populate field Spec")
 	}
 	redis.Spec = spec
 
 	// Status
 	var status Redis_Status
-	err = status.AssignPropertiesFromRedisStatus(&source.Status)
+	err = status.AssignPropertiesFromRedis_Status(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromRedisStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromRedis_Status() to populate field Status")
 	}
 	redis.Status = status
 
@@ -274,17 +274,17 @@ func (redis *Redis) AssignPropertiesToRedis(destination *v1alpha1api20201201stor
 
 	// Spec
 	var spec v1alpha1api20201201storage.Redis_SPEC
-	err := redis.Spec.AssignPropertiesToRedisSPEC(&spec)
+	err := redis.Spec.AssignPropertiesToRedis_SPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToRedisSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToRedis_SPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v1alpha1api20201201storage.Redis_Status
-	err = redis.Status.AssignPropertiesToRedisStatus(&status)
+	err = redis.Status.AssignPropertiesToRedis_Status(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToRedisStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToRedis_Status() to populate field Status")
 	}
 	destination.Status = status
 
@@ -331,7 +331,7 @@ type Redis_SPEC struct {
 
 	//MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or
 	//higher) to connect (e,g, '1.0', '1.1', '1.2')
-	MinimumTlsVersion *RedisCreatePropertiesSpecMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *RedisCreateProperties_MinimumTlsVersion_Spec `json:"minimumTlsVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
@@ -340,12 +340,12 @@ type Redis_SPEC struct {
 	//cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If
 	//'Disabled', private endpoints are the exclusive access method. Default value is
 	//'Enabled'
-	PublicNetworkAccess *RedisCreatePropertiesSpecPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess_Spec `json:"publicNetworkAccess,omitempty"`
 
 	//RedisConfiguration: All Redis Settings. Few possible keys:
 	//rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
 	//etc.
-	RedisConfiguration *RedisCreateProperties_Spec_RedisConfiguration `json:"redisConfiguration,omitempty"`
+	RedisConfiguration *RedisCreateProperties_RedisConfiguration_Spec `json:"redisConfiguration,omitempty"`
 
 	//RedisVersion: Redis version. Only major version will be used in PUT/PATCH
 	//request with current valid values: (4, 6)
@@ -422,7 +422,7 @@ func (spec *Redis_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		if err != nil {
 			return nil, err
 		}
-		redisConfiguration := redisConfigurationARM.(RedisCreateProperties_Spec_RedisConfigurationARM)
+		redisConfiguration := redisConfigurationARM.(RedisCreateProperties_RedisConfiguration_SpecARM)
 		result.Properties.RedisConfiguration = &redisConfiguration
 	}
 	if spec.RedisVersion != nil {
@@ -523,7 +523,7 @@ func (spec *Redis_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 	// Set property ‘RedisConfiguration’:
 	// copying flattened property:
 	if typedInput.Properties.RedisConfiguration != nil {
-		var redisConfiguration1 RedisCreateProperties_Spec_RedisConfiguration
+		var redisConfiguration1 RedisCreateProperties_RedisConfiguration_Spec
 		err := redisConfiguration1.PopulateFromARM(owner, *typedInput.Properties.RedisConfiguration)
 		if err != nil {
 			return err
@@ -616,7 +616,7 @@ func (spec *Redis_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error
 	src, ok := source.(*v1alpha1api20201201storage.Redis_SPEC)
 	if ok {
 		// Populate our instance from source
-		return spec.AssignPropertiesFromRedisSPEC(src)
+		return spec.AssignPropertiesFromRedis_SPEC(src)
 	}
 
 	// Convert to an intermediate form
@@ -627,7 +627,7 @@ func (spec *Redis_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error
 	}
 
 	// Update our instance from src
-	err = spec.AssignPropertiesFromRedisSPEC(src)
+	err = spec.AssignPropertiesFromRedis_SPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -640,12 +640,12 @@ func (spec *Redis_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) er
 	dst, ok := destination.(*v1alpha1api20201201storage.Redis_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return spec.AssignPropertiesToRedisSPEC(dst)
+		return spec.AssignPropertiesToRedis_SPEC(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20201201storage.Redis_SPEC{}
-	err := spec.AssignPropertiesToRedisSPEC(dst)
+	err := spec.AssignPropertiesToRedis_SPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -659,8 +659,8 @@ func (spec *Redis_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) er
 	return nil
 }
 
-// AssignPropertiesFromRedisSPEC populates our Redis_SPEC from the provided source Redis_SPEC
-func (spec *Redis_SPEC) AssignPropertiesFromRedisSPEC(source *v1alpha1api20201201storage.Redis_SPEC) error {
+// AssignPropertiesFromRedis_SPEC populates our Redis_SPEC from the provided source Redis_SPEC
+func (spec *Redis_SPEC) AssignPropertiesFromRedis_SPEC(source *v1alpha1api20201201storage.Redis_SPEC) error {
 
 	// AzureName
 	spec.AzureName = source.AzureName
@@ -678,7 +678,7 @@ func (spec *Redis_SPEC) AssignPropertiesFromRedisSPEC(source *v1alpha1api2020120
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := RedisCreatePropertiesSpecMinimumTlsVersion(*source.MinimumTlsVersion)
+		minimumTlsVersion := RedisCreateProperties_MinimumTlsVersion_Spec(*source.MinimumTlsVersion)
 		spec.MinimumTlsVersion = &minimumTlsVersion
 	} else {
 		spec.MinimumTlsVersion = nil
@@ -689,7 +689,7 @@ func (spec *Redis_SPEC) AssignPropertiesFromRedisSPEC(source *v1alpha1api2020120
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := RedisCreatePropertiesSpecPublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := RedisCreateProperties_PublicNetworkAccess_Spec(*source.PublicNetworkAccess)
 		spec.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		spec.PublicNetworkAccess = nil
@@ -697,10 +697,10 @@ func (spec *Redis_SPEC) AssignPropertiesFromRedisSPEC(source *v1alpha1api2020120
 
 	// RedisConfiguration
 	if source.RedisConfiguration != nil {
-		var redisConfiguration RedisCreateProperties_Spec_RedisConfiguration
-		err := redisConfiguration.AssignPropertiesFromRedisCreatePropertiesSpecRedisConfiguration(source.RedisConfiguration)
+		var redisConfiguration RedisCreateProperties_RedisConfiguration_Spec
+		err := redisConfiguration.AssignPropertiesFromRedisCreateProperties_RedisConfiguration_Spec(source.RedisConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRedisCreatePropertiesSpecRedisConfiguration() to populate field RedisConfiguration")
+			return errors.Wrap(err, "calling AssignPropertiesFromRedisCreateProperties_RedisConfiguration_Spec() to populate field RedisConfiguration")
 		}
 		spec.RedisConfiguration = &redisConfiguration
 	} else {
@@ -722,9 +722,9 @@ func (spec *Redis_SPEC) AssignPropertiesFromRedisSPEC(source *v1alpha1api2020120
 	// Sku
 	if source.Sku != nil {
 		var sku Sku_Spec
-		err := sku.AssignPropertiesFromSkuSpec(source.Sku)
+		err := sku.AssignPropertiesFromSku_Spec(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSkuSpec() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesFromSku_Spec() to populate field Sku")
 		}
 		spec.Sku = sku
 	} else {
@@ -760,8 +760,8 @@ func (spec *Redis_SPEC) AssignPropertiesFromRedisSPEC(source *v1alpha1api2020120
 	return nil
 }
 
-// AssignPropertiesToRedisSPEC populates the provided destination Redis_SPEC from our Redis_SPEC
-func (spec *Redis_SPEC) AssignPropertiesToRedisSPEC(destination *v1alpha1api20201201storage.Redis_SPEC) error {
+// AssignPropertiesToRedis_SPEC populates the provided destination Redis_SPEC from our Redis_SPEC
+func (spec *Redis_SPEC) AssignPropertiesToRedis_SPEC(destination *v1alpha1api20201201storage.Redis_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -804,10 +804,10 @@ func (spec *Redis_SPEC) AssignPropertiesToRedisSPEC(destination *v1alpha1api2020
 
 	// RedisConfiguration
 	if spec.RedisConfiguration != nil {
-		var redisConfiguration v1alpha1api20201201storage.RedisCreateProperties_Spec_RedisConfiguration
-		err := spec.RedisConfiguration.AssignPropertiesToRedisCreatePropertiesSpecRedisConfiguration(&redisConfiguration)
+		var redisConfiguration v1alpha1api20201201storage.RedisCreateProperties_RedisConfiguration_Spec
+		err := spec.RedisConfiguration.AssignPropertiesToRedisCreateProperties_RedisConfiguration_Spec(&redisConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRedisCreatePropertiesSpecRedisConfiguration() to populate field RedisConfiguration")
+			return errors.Wrap(err, "calling AssignPropertiesToRedisCreateProperties_RedisConfiguration_Spec() to populate field RedisConfiguration")
 		}
 		destination.RedisConfiguration = &redisConfiguration
 	} else {
@@ -828,9 +828,9 @@ func (spec *Redis_SPEC) AssignPropertiesToRedisSPEC(destination *v1alpha1api2020
 
 	// Sku
 	var sku v1alpha1api20201201storage.Sku_Spec
-	err := spec.Sku.AssignPropertiesToSkuSpec(&sku)
+	err := spec.Sku.AssignPropertiesToSku_Spec(&sku)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSkuSpec() to populate field Sku")
+		return errors.Wrap(err, "calling AssignPropertiesToSku_Spec() to populate field Sku")
 	}
 	destination.Sku = &sku
 
@@ -891,18 +891,18 @@ type Redis_Status struct {
 
 	//MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or
 	//higher) to connect (e,g, '1.0', '1.1', '1.2')
-	MinimumTlsVersion *RedisCreatePropertiesStatusMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *RedisCreateProperties_MinimumTlsVersion_Status `json:"minimumTlsVersion,omitempty"`
 
 	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this
 	//cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If
 	//'Disabled', private endpoints are the exclusive access method. Default value is
 	//'Enabled'
-	PublicNetworkAccess *RedisCreatePropertiesStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess_Status `json:"publicNetworkAccess,omitempty"`
 
 	//RedisConfiguration: All Redis Settings. Few possible keys:
 	//rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
 	//etc.
-	RedisConfiguration *RedisCreateProperties_Status_RedisConfiguration `json:"redisConfiguration,omitempty"`
+	RedisConfiguration *RedisCreateProperties_RedisConfiguration_Status `json:"redisConfiguration,omitempty"`
 
 	//RedisVersion: Redis version. Only major version will be used in PUT/PATCH
 	//request with current valid values: (4, 6)
@@ -947,7 +947,7 @@ func (redis *Redis_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus
 	src, ok := source.(*v1alpha1api20201201storage.Redis_Status)
 	if ok {
 		// Populate our instance from source
-		return redis.AssignPropertiesFromRedisStatus(src)
+		return redis.AssignPropertiesFromRedis_Status(src)
 	}
 
 	// Convert to an intermediate form
@@ -958,7 +958,7 @@ func (redis *Redis_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus
 	}
 
 	// Update our instance from src
-	err = redis.AssignPropertiesFromRedisStatus(src)
+	err = redis.AssignPropertiesFromRedis_Status(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -971,12 +971,12 @@ func (redis *Redis_Status) ConvertStatusTo(destination genruntime.ConvertibleSta
 	dst, ok := destination.(*v1alpha1api20201201storage.Redis_Status)
 	if ok {
 		// Populate destination from our instance
-		return redis.AssignPropertiesToRedisStatus(dst)
+		return redis.AssignPropertiesToRedis_Status(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20201201storage.Redis_Status{}
-	err := redis.AssignPropertiesToRedisStatus(dst)
+	err := redis.AssignPropertiesToRedis_Status(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1043,7 +1043,7 @@ func (redis *Redis_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RedisConfiguration != nil {
-			var redisConfiguration1 RedisCreateProperties_Status_RedisConfiguration
+			var redisConfiguration1 RedisCreateProperties_RedisConfiguration_Status
 			err := redisConfiguration1.PopulateFromARM(owner, *typedInput.Properties.RedisConfiguration)
 			if err != nil {
 				return err
@@ -1148,8 +1148,8 @@ func (redis *Redis_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	return nil
 }
 
-// AssignPropertiesFromRedisStatus populates our Redis_Status from the provided source Redis_Status
-func (redis *Redis_Status) AssignPropertiesFromRedisStatus(source *v1alpha1api20201201storage.Redis_Status) error {
+// AssignPropertiesFromRedis_Status populates our Redis_Status from the provided source Redis_Status
+func (redis *Redis_Status) AssignPropertiesFromRedis_Status(source *v1alpha1api20201201storage.Redis_Status) error {
 
 	// Conditions
 	redis.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -1167,7 +1167,7 @@ func (redis *Redis_Status) AssignPropertiesFromRedisStatus(source *v1alpha1api20
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := RedisCreatePropertiesStatusMinimumTlsVersion(*source.MinimumTlsVersion)
+		minimumTlsVersion := RedisCreateProperties_MinimumTlsVersion_Status(*source.MinimumTlsVersion)
 		redis.MinimumTlsVersion = &minimumTlsVersion
 	} else {
 		redis.MinimumTlsVersion = nil
@@ -1175,7 +1175,7 @@ func (redis *Redis_Status) AssignPropertiesFromRedisStatus(source *v1alpha1api20
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := RedisCreatePropertiesStatusPublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := RedisCreateProperties_PublicNetworkAccess_Status(*source.PublicNetworkAccess)
 		redis.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		redis.PublicNetworkAccess = nil
@@ -1183,10 +1183,10 @@ func (redis *Redis_Status) AssignPropertiesFromRedisStatus(source *v1alpha1api20
 
 	// RedisConfiguration
 	if source.RedisConfiguration != nil {
-		var redisConfiguration RedisCreateProperties_Status_RedisConfiguration
-		err := redisConfiguration.AssignPropertiesFromRedisCreatePropertiesStatusRedisConfiguration(source.RedisConfiguration)
+		var redisConfiguration RedisCreateProperties_RedisConfiguration_Status
+		err := redisConfiguration.AssignPropertiesFromRedisCreateProperties_RedisConfiguration_Status(source.RedisConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRedisCreatePropertiesStatusRedisConfiguration() to populate field RedisConfiguration")
+			return errors.Wrap(err, "calling AssignPropertiesFromRedisCreateProperties_RedisConfiguration_Status() to populate field RedisConfiguration")
 		}
 		redis.RedisConfiguration = &redisConfiguration
 	} else {
@@ -1208,9 +1208,9 @@ func (redis *Redis_Status) AssignPropertiesFromRedisStatus(source *v1alpha1api20
 	// Sku
 	if source.Sku != nil {
 		var sku Sku_Status
-		err := sku.AssignPropertiesFromSkuStatus(source.Sku)
+		err := sku.AssignPropertiesFromSku_Status(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesFromSku_Status() to populate field Sku")
 		}
 		redis.Sku = &sku
 	} else {
@@ -1236,8 +1236,8 @@ func (redis *Redis_Status) AssignPropertiesFromRedisStatus(source *v1alpha1api20
 	return nil
 }
 
-// AssignPropertiesToRedisStatus populates the provided destination Redis_Status from our Redis_Status
-func (redis *Redis_Status) AssignPropertiesToRedisStatus(destination *v1alpha1api20201201storage.Redis_Status) error {
+// AssignPropertiesToRedis_Status populates the provided destination Redis_Status from our Redis_Status
+func (redis *Redis_Status) AssignPropertiesToRedis_Status(destination *v1alpha1api20201201storage.Redis_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1273,10 +1273,10 @@ func (redis *Redis_Status) AssignPropertiesToRedisStatus(destination *v1alpha1ap
 
 	// RedisConfiguration
 	if redis.RedisConfiguration != nil {
-		var redisConfiguration v1alpha1api20201201storage.RedisCreateProperties_Status_RedisConfiguration
-		err := redis.RedisConfiguration.AssignPropertiesToRedisCreatePropertiesStatusRedisConfiguration(&redisConfiguration)
+		var redisConfiguration v1alpha1api20201201storage.RedisCreateProperties_RedisConfiguration_Status
+		err := redis.RedisConfiguration.AssignPropertiesToRedisCreateProperties_RedisConfiguration_Status(&redisConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRedisCreatePropertiesStatusRedisConfiguration() to populate field RedisConfiguration")
+			return errors.Wrap(err, "calling AssignPropertiesToRedisCreateProperties_RedisConfiguration_Status() to populate field RedisConfiguration")
 		}
 		destination.RedisConfiguration = &redisConfiguration
 	} else {
@@ -1298,9 +1298,9 @@ func (redis *Redis_Status) AssignPropertiesToRedisStatus(destination *v1alpha1ap
 	// Sku
 	if redis.Sku != nil {
 		var sku v1alpha1api20201201storage.Sku_Status
-		err := redis.Sku.AssignPropertiesToSkuStatus(&sku)
+		err := redis.Sku.AssignPropertiesToSku_Status(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesToSku_Status() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1334,38 +1334,38 @@ func (redis *Redis_Status) AssignPropertiesToRedisStatus(destination *v1alpha1ap
 }
 
 // +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
-type RedisCreatePropertiesSpecMinimumTlsVersion string
+type RedisCreateProperties_MinimumTlsVersion_Spec string
 
 const (
-	RedisCreatePropertiesSpecMinimumTlsVersion10 = RedisCreatePropertiesSpecMinimumTlsVersion("1.0")
-	RedisCreatePropertiesSpecMinimumTlsVersion11 = RedisCreatePropertiesSpecMinimumTlsVersion("1.1")
-	RedisCreatePropertiesSpecMinimumTlsVersion12 = RedisCreatePropertiesSpecMinimumTlsVersion("1.2")
+	RedisCreateProperties_MinimumTlsVersion_Spec10 = RedisCreateProperties_MinimumTlsVersion_Spec("1.0")
+	RedisCreateProperties_MinimumTlsVersion_Spec11 = RedisCreateProperties_MinimumTlsVersion_Spec("1.1")
+	RedisCreateProperties_MinimumTlsVersion_Spec12 = RedisCreateProperties_MinimumTlsVersion_Spec("1.2")
+)
+
+type RedisCreateProperties_MinimumTlsVersion_Status string
+
+const (
+	RedisCreateProperties_MinimumTlsVersion_Status10 = RedisCreateProperties_MinimumTlsVersion_Status("1.0")
+	RedisCreateProperties_MinimumTlsVersion_Status11 = RedisCreateProperties_MinimumTlsVersion_Status("1.1")
+	RedisCreateProperties_MinimumTlsVersion_Status12 = RedisCreateProperties_MinimumTlsVersion_Status("1.2")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type RedisCreatePropertiesSpecPublicNetworkAccess string
+type RedisCreateProperties_PublicNetworkAccess_Spec string
 
 const (
-	RedisCreatePropertiesSpecPublicNetworkAccessDisabled = RedisCreatePropertiesSpecPublicNetworkAccess("Disabled")
-	RedisCreatePropertiesSpecPublicNetworkAccessEnabled  = RedisCreatePropertiesSpecPublicNetworkAccess("Enabled")
+	RedisCreateProperties_PublicNetworkAccess_SpecDisabled = RedisCreateProperties_PublicNetworkAccess_Spec("Disabled")
+	RedisCreateProperties_PublicNetworkAccess_SpecEnabled  = RedisCreateProperties_PublicNetworkAccess_Spec("Enabled")
 )
 
-type RedisCreatePropertiesStatusMinimumTlsVersion string
+type RedisCreateProperties_PublicNetworkAccess_Status string
 
 const (
-	RedisCreatePropertiesStatusMinimumTlsVersion10 = RedisCreatePropertiesStatusMinimumTlsVersion("1.0")
-	RedisCreatePropertiesStatusMinimumTlsVersion11 = RedisCreatePropertiesStatusMinimumTlsVersion("1.1")
-	RedisCreatePropertiesStatusMinimumTlsVersion12 = RedisCreatePropertiesStatusMinimumTlsVersion("1.2")
+	RedisCreateProperties_PublicNetworkAccess_StatusDisabled = RedisCreateProperties_PublicNetworkAccess_Status("Disabled")
+	RedisCreateProperties_PublicNetworkAccess_StatusEnabled  = RedisCreateProperties_PublicNetworkAccess_Status("Enabled")
 )
 
-type RedisCreatePropertiesStatusPublicNetworkAccess string
-
-const (
-	RedisCreatePropertiesStatusPublicNetworkAccessDisabled = RedisCreatePropertiesStatusPublicNetworkAccess("Disabled")
-	RedisCreatePropertiesStatusPublicNetworkAccessEnabled  = RedisCreatePropertiesStatusPublicNetworkAccess("Enabled")
-)
-
-type RedisCreateProperties_Spec_RedisConfiguration struct {
+type RedisCreateProperties_RedisConfiguration_Spec struct {
 	//AofStorageConnectionString0: First storage account connection string
 	AofStorageConnectionString0 *string `json:"aof-storage-connection-string-0,omitempty"`
 
@@ -1404,14 +1404,14 @@ type RedisCreateProperties_Spec_RedisConfiguration struct {
 	additionalProperties       map[string]string `json:"additionalProperties"`
 }
 
-var _ genruntime.ARMTransformer = &RedisCreateProperties_Spec_RedisConfiguration{}
+var _ genruntime.ARMTransformer = &RedisCreateProperties_RedisConfiguration_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (configuration *RedisCreateProperties_Spec_RedisConfiguration) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (configuration *RedisCreateProperties_RedisConfiguration_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if configuration == nil {
 		return nil, nil
 	}
-	var result RedisCreateProperties_Spec_RedisConfigurationARM
+	var result RedisCreateProperties_RedisConfiguration_SpecARM
 
 	// Set property ‘AofStorageConnectionString0’:
 	if configuration.AofStorageConnectionString0 != nil {
@@ -1484,15 +1484,15 @@ func (configuration *RedisCreateProperties_Spec_RedisConfiguration) ConvertToARM
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (configuration *RedisCreateProperties_Spec_RedisConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisCreateProperties_Spec_RedisConfigurationARM{}
+func (configuration *RedisCreateProperties_RedisConfiguration_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &RedisCreateProperties_RedisConfiguration_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (configuration *RedisCreateProperties_Spec_RedisConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisCreateProperties_Spec_RedisConfigurationARM)
+func (configuration *RedisCreateProperties_RedisConfiguration_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(RedisCreateProperties_RedisConfiguration_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisCreateProperties_Spec_RedisConfigurationARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisCreateProperties_RedisConfiguration_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AofStorageConnectionString0’:
@@ -1567,8 +1567,8 @@ func (configuration *RedisCreateProperties_Spec_RedisConfiguration) PopulateFrom
 	return nil
 }
 
-// AssignPropertiesFromRedisCreatePropertiesSpecRedisConfiguration populates our RedisCreateProperties_Spec_RedisConfiguration from the provided source RedisCreateProperties_Spec_RedisConfiguration
-func (configuration *RedisCreateProperties_Spec_RedisConfiguration) AssignPropertiesFromRedisCreatePropertiesSpecRedisConfiguration(source *v1alpha1api20201201storage.RedisCreateProperties_Spec_RedisConfiguration) error {
+// AssignPropertiesFromRedisCreateProperties_RedisConfiguration_Spec populates our RedisCreateProperties_RedisConfiguration_Spec from the provided source RedisCreateProperties_RedisConfiguration_Spec
+func (configuration *RedisCreateProperties_RedisConfiguration_Spec) AssignPropertiesFromRedisCreateProperties_RedisConfiguration_Spec(source *v1alpha1api20201201storage.RedisCreateProperties_RedisConfiguration_Spec) error {
 
 	// AofStorageConnectionString0
 	configuration.AofStorageConnectionString0 = genruntime.ClonePointerToString(source.AofStorageConnectionString0)
@@ -1607,8 +1607,8 @@ func (configuration *RedisCreateProperties_Spec_RedisConfiguration) AssignProper
 	return nil
 }
 
-// AssignPropertiesToRedisCreatePropertiesSpecRedisConfiguration populates the provided destination RedisCreateProperties_Spec_RedisConfiguration from our RedisCreateProperties_Spec_RedisConfiguration
-func (configuration *RedisCreateProperties_Spec_RedisConfiguration) AssignPropertiesToRedisCreatePropertiesSpecRedisConfiguration(destination *v1alpha1api20201201storage.RedisCreateProperties_Spec_RedisConfiguration) error {
+// AssignPropertiesToRedisCreateProperties_RedisConfiguration_Spec populates the provided destination RedisCreateProperties_RedisConfiguration_Spec from our RedisCreateProperties_RedisConfiguration_Spec
+func (configuration *RedisCreateProperties_RedisConfiguration_Spec) AssignPropertiesToRedisCreateProperties_RedisConfiguration_Spec(destination *v1alpha1api20201201storage.RedisCreateProperties_RedisConfiguration_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1656,7 +1656,7 @@ func (configuration *RedisCreateProperties_Spec_RedisConfiguration) AssignProper
 	return nil
 }
 
-type RedisCreateProperties_Status_RedisConfiguration struct {
+type RedisCreateProperties_RedisConfiguration_Status struct {
 	//AofStorageConnectionString0: First storage account connection string
 	AofStorageConnectionString0 *string `json:"aof-storage-connection-string-0,omitempty"`
 
@@ -1698,18 +1698,18 @@ type RedisCreateProperties_Status_RedisConfiguration struct {
 	additionalProperties       map[string]string `json:"additionalProperties"`
 }
 
-var _ genruntime.FromARMConverter = &RedisCreateProperties_Status_RedisConfiguration{}
+var _ genruntime.FromARMConverter = &RedisCreateProperties_RedisConfiguration_Status{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (configuration *RedisCreateProperties_Status_RedisConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisCreateProperties_Status_RedisConfigurationARM{}
+func (configuration *RedisCreateProperties_RedisConfiguration_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &RedisCreateProperties_RedisConfiguration_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (configuration *RedisCreateProperties_Status_RedisConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisCreateProperties_Status_RedisConfigurationARM)
+func (configuration *RedisCreateProperties_RedisConfiguration_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(RedisCreateProperties_RedisConfiguration_StatusARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisCreateProperties_Status_RedisConfigurationARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisCreateProperties_RedisConfiguration_StatusARM, got %T", armInput)
 	}
 
 	// Set property ‘AofStorageConnectionString0’:
@@ -1790,8 +1790,8 @@ func (configuration *RedisCreateProperties_Status_RedisConfiguration) PopulateFr
 	return nil
 }
 
-// AssignPropertiesFromRedisCreatePropertiesStatusRedisConfiguration populates our RedisCreateProperties_Status_RedisConfiguration from the provided source RedisCreateProperties_Status_RedisConfiguration
-func (configuration *RedisCreateProperties_Status_RedisConfiguration) AssignPropertiesFromRedisCreatePropertiesStatusRedisConfiguration(source *v1alpha1api20201201storage.RedisCreateProperties_Status_RedisConfiguration) error {
+// AssignPropertiesFromRedisCreateProperties_RedisConfiguration_Status populates our RedisCreateProperties_RedisConfiguration_Status from the provided source RedisCreateProperties_RedisConfiguration_Status
+func (configuration *RedisCreateProperties_RedisConfiguration_Status) AssignPropertiesFromRedisCreateProperties_RedisConfiguration_Status(source *v1alpha1api20201201storage.RedisCreateProperties_RedisConfiguration_Status) error {
 
 	// AofStorageConnectionString0
 	configuration.AofStorageConnectionString0 = genruntime.ClonePointerToString(source.AofStorageConnectionString0)
@@ -1833,8 +1833,8 @@ func (configuration *RedisCreateProperties_Status_RedisConfiguration) AssignProp
 	return nil
 }
 
-// AssignPropertiesToRedisCreatePropertiesStatusRedisConfiguration populates the provided destination RedisCreateProperties_Status_RedisConfiguration from our RedisCreateProperties_Status_RedisConfiguration
-func (configuration *RedisCreateProperties_Status_RedisConfiguration) AssignPropertiesToRedisCreatePropertiesStatusRedisConfiguration(destination *v1alpha1api20201201storage.RedisCreateProperties_Status_RedisConfiguration) error {
+// AssignPropertiesToRedisCreateProperties_RedisConfiguration_Status populates the provided destination RedisCreateProperties_RedisConfiguration_Status from our RedisCreateProperties_RedisConfiguration_Status
+func (configuration *RedisCreateProperties_RedisConfiguration_Status) AssignPropertiesToRedisCreateProperties_RedisConfiguration_Status(destination *v1alpha1api20201201storage.RedisCreateProperties_RedisConfiguration_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1895,11 +1895,11 @@ type Sku_Spec struct {
 	// +kubebuilder:validation:Required
 	//Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P =
 	//Premium).
-	Family SkuSpecFamily `json:"family"`
+	Family Sku_Family_Spec `json:"family"`
 
 	// +kubebuilder:validation:Required
 	//Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
-	Name SkuSpecName `json:"name"`
+	Name Sku_Name_Spec `json:"name"`
 }
 
 var _ genruntime.ARMTransformer = &Sku_Spec{}
@@ -1947,22 +1947,22 @@ func (sku *Sku_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, a
 	return nil
 }
 
-// AssignPropertiesFromSkuSpec populates our Sku_Spec from the provided source Sku_Spec
-func (sku *Sku_Spec) AssignPropertiesFromSkuSpec(source *v1alpha1api20201201storage.Sku_Spec) error {
+// AssignPropertiesFromSku_Spec populates our Sku_Spec from the provided source Sku_Spec
+func (sku *Sku_Spec) AssignPropertiesFromSku_Spec(source *v1alpha1api20201201storage.Sku_Spec) error {
 
 	// Capacity
 	sku.Capacity = genruntime.GetOptionalIntValue(source.Capacity)
 
 	// Family
 	if source.Family != nil {
-		sku.Family = SkuSpecFamily(*source.Family)
+		sku.Family = Sku_Family_Spec(*source.Family)
 	} else {
 		sku.Family = ""
 	}
 
 	// Name
 	if source.Name != nil {
-		sku.Name = SkuSpecName(*source.Name)
+		sku.Name = Sku_Name_Spec(*source.Name)
 	} else {
 		sku.Name = ""
 	}
@@ -1971,8 +1971,8 @@ func (sku *Sku_Spec) AssignPropertiesFromSkuSpec(source *v1alpha1api20201201stor
 	return nil
 }
 
-// AssignPropertiesToSkuSpec populates the provided destination Sku_Spec from our Sku_Spec
-func (sku *Sku_Spec) AssignPropertiesToSkuSpec(destination *v1alpha1api20201201storage.Sku_Spec) error {
+// AssignPropertiesToSku_Spec populates the provided destination Sku_Spec from our Sku_Spec
+func (sku *Sku_Spec) AssignPropertiesToSku_Spec(destination *v1alpha1api20201201storage.Sku_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2009,11 +2009,11 @@ type Sku_Status struct {
 	// +kubebuilder:validation:Required
 	//Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P =
 	//Premium).
-	Family SkuStatusFamily `json:"family"`
+	Family Sku_Family_Status `json:"family"`
 
 	// +kubebuilder:validation:Required
 	//Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
-	Name SkuStatusName `json:"name"`
+	Name Sku_Name_Status `json:"name"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_Status{}
@@ -2043,22 +2043,22 @@ func (sku *Sku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	return nil
 }
 
-// AssignPropertiesFromSkuStatus populates our Sku_Status from the provided source Sku_Status
-func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v1alpha1api20201201storage.Sku_Status) error {
+// AssignPropertiesFromSku_Status populates our Sku_Status from the provided source Sku_Status
+func (sku *Sku_Status) AssignPropertiesFromSku_Status(source *v1alpha1api20201201storage.Sku_Status) error {
 
 	// Capacity
 	sku.Capacity = genruntime.GetOptionalIntValue(source.Capacity)
 
 	// Family
 	if source.Family != nil {
-		sku.Family = SkuStatusFamily(*source.Family)
+		sku.Family = Sku_Family_Status(*source.Family)
 	} else {
 		sku.Family = ""
 	}
 
 	// Name
 	if source.Name != nil {
-		sku.Name = SkuStatusName(*source.Name)
+		sku.Name = Sku_Name_Status(*source.Name)
 	} else {
 		sku.Name = ""
 	}
@@ -2067,8 +2067,8 @@ func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v1alpha1api20201201
 	return nil
 }
 
-// AssignPropertiesToSkuStatus populates the provided destination Sku_Status from our Sku_Status
-func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1api20201201storage.Sku_Status) error {
+// AssignPropertiesToSku_Status populates the provided destination Sku_Status from our Sku_Status
+func (sku *Sku_Status) AssignPropertiesToSku_Status(destination *v1alpha1api20201201storage.Sku_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2096,35 +2096,35 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1api20201
 }
 
 // +kubebuilder:validation:Enum={"C","P"}
-type SkuSpecFamily string
+type Sku_Family_Spec string
 
 const (
-	SkuSpecFamilyC = SkuSpecFamily("C")
-	SkuSpecFamilyP = SkuSpecFamily("P")
+	Sku_Family_SpecC = Sku_Family_Spec("C")
+	Sku_Family_SpecP = Sku_Family_Spec("P")
+)
+
+type Sku_Family_Status string
+
+const (
+	Sku_Family_StatusC = Sku_Family_Status("C")
+	Sku_Family_StatusP = Sku_Family_Status("P")
 )
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
-type SkuSpecName string
+type Sku_Name_Spec string
 
 const (
-	SkuSpecNameBasic    = SkuSpecName("Basic")
-	SkuSpecNamePremium  = SkuSpecName("Premium")
-	SkuSpecNameStandard = SkuSpecName("Standard")
+	Sku_Name_SpecBasic    = Sku_Name_Spec("Basic")
+	Sku_Name_SpecPremium  = Sku_Name_Spec("Premium")
+	Sku_Name_SpecStandard = Sku_Name_Spec("Standard")
 )
 
-type SkuStatusFamily string
+type Sku_Name_Status string
 
 const (
-	SkuStatusFamilyC = SkuStatusFamily("C")
-	SkuStatusFamilyP = SkuStatusFamily("P")
-)
-
-type SkuStatusName string
-
-const (
-	SkuStatusNameBasic    = SkuStatusName("Basic")
-	SkuStatusNamePremium  = SkuStatusName("Premium")
-	SkuStatusNameStandard = SkuStatusName("Standard")
+	Sku_Name_StatusBasic    = Sku_Name_Status("Basic")
+	Sku_Name_StatusPremium  = Sku_Name_Status("Premium")
+	Sku_Name_StatusStandard = Sku_Name_Status("Standard")
 )
 
 func init() {

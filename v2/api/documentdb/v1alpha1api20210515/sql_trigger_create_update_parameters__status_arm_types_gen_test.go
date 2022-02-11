@@ -24,12 +24,12 @@ func Test_SqlTriggerCreateUpdateParameters_StatusARM_WhenSerializedToJson_Deseri
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlTriggerCreateUpdateParameters_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlTriggerCreateUpdateParametersStatusARM, SqlTriggerCreateUpdateParametersStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSqlTriggerCreateUpdateParameters_StatusARM, SqlTriggerCreateUpdateParameters_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlTriggerCreateUpdateParametersStatusARM runs a test to see if a specific instance of SqlTriggerCreateUpdateParameters_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlTriggerCreateUpdateParametersStatusARM(subject SqlTriggerCreateUpdateParameters_StatusARM) string {
+// RunJSONSerializationTestForSqlTriggerCreateUpdateParameters_StatusARM runs a test to see if a specific instance of SqlTriggerCreateUpdateParameters_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlTriggerCreateUpdateParameters_StatusARM(subject SqlTriggerCreateUpdateParameters_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,33 +56,33 @@ func RunJSONSerializationTestForSqlTriggerCreateUpdateParametersStatusARM(subjec
 }
 
 // Generator of SqlTriggerCreateUpdateParameters_StatusARM instances for property testing - lazily instantiated by
-//SqlTriggerCreateUpdateParametersStatusARMGenerator()
-var sqlTriggerCreateUpdateParametersStatusARMGenerator gopter.Gen
+//SqlTriggerCreateUpdateParameters_StatusARMGenerator()
+var sqlTriggerCreateUpdateParameters_statusARMGenerator gopter.Gen
 
-// SqlTriggerCreateUpdateParametersStatusARMGenerator returns a generator of SqlTriggerCreateUpdateParameters_StatusARM instances for property testing.
-// We first initialize sqlTriggerCreateUpdateParametersStatusARMGenerator with a simplified generator based on the
+// SqlTriggerCreateUpdateParameters_StatusARMGenerator returns a generator of SqlTriggerCreateUpdateParameters_StatusARM instances for property testing.
+// We first initialize sqlTriggerCreateUpdateParameters_statusARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SqlTriggerCreateUpdateParametersStatusARMGenerator() gopter.Gen {
-	if sqlTriggerCreateUpdateParametersStatusARMGenerator != nil {
-		return sqlTriggerCreateUpdateParametersStatusARMGenerator
+func SqlTriggerCreateUpdateParameters_StatusARMGenerator() gopter.Gen {
+	if sqlTriggerCreateUpdateParameters_statusARMGenerator != nil {
+		return sqlTriggerCreateUpdateParameters_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlTriggerCreateUpdateParametersStatusARM(generators)
-	sqlTriggerCreateUpdateParametersStatusARMGenerator = gen.Struct(reflect.TypeOf(SqlTriggerCreateUpdateParameters_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForSqlTriggerCreateUpdateParameters_StatusARM(generators)
+	sqlTriggerCreateUpdateParameters_statusARMGenerator = gen.Struct(reflect.TypeOf(SqlTriggerCreateUpdateParameters_StatusARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlTriggerCreateUpdateParametersStatusARM(generators)
-	AddRelatedPropertyGeneratorsForSqlTriggerCreateUpdateParametersStatusARM(generators)
-	sqlTriggerCreateUpdateParametersStatusARMGenerator = gen.Struct(reflect.TypeOf(SqlTriggerCreateUpdateParameters_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForSqlTriggerCreateUpdateParameters_StatusARM(generators)
+	AddRelatedPropertyGeneratorsForSqlTriggerCreateUpdateParameters_StatusARM(generators)
+	sqlTriggerCreateUpdateParameters_statusARMGenerator = gen.Struct(reflect.TypeOf(SqlTriggerCreateUpdateParameters_StatusARM{}), generators)
 
-	return sqlTriggerCreateUpdateParametersStatusARMGenerator
+	return sqlTriggerCreateUpdateParameters_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSqlTriggerCreateUpdateParametersStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSqlTriggerCreateUpdateParametersStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSqlTriggerCreateUpdateParameters_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSqlTriggerCreateUpdateParameters_StatusARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -90,9 +90,9 @@ func AddIndependentPropertyGeneratorsForSqlTriggerCreateUpdateParametersStatusAR
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSqlTriggerCreateUpdateParametersStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSqlTriggerCreateUpdateParametersStatusARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(SqlTriggerCreateUpdatePropertiesStatusARMGenerator())
+// AddRelatedPropertyGeneratorsForSqlTriggerCreateUpdateParameters_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSqlTriggerCreateUpdateParameters_StatusARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(SqlTriggerCreateUpdateProperties_StatusARMGenerator())
 }
 
 func Test_SqlTriggerCreateUpdateProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -102,12 +102,12 @@ func Test_SqlTriggerCreateUpdateProperties_StatusARM_WhenSerializedToJson_Deseri
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlTriggerCreateUpdateProperties_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlTriggerCreateUpdatePropertiesStatusARM, SqlTriggerCreateUpdatePropertiesStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSqlTriggerCreateUpdateProperties_StatusARM, SqlTriggerCreateUpdateProperties_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlTriggerCreateUpdatePropertiesStatusARM runs a test to see if a specific instance of SqlTriggerCreateUpdateProperties_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlTriggerCreateUpdatePropertiesStatusARM(subject SqlTriggerCreateUpdateProperties_StatusARM) string {
+// RunJSONSerializationTestForSqlTriggerCreateUpdateProperties_StatusARM runs a test to see if a specific instance of SqlTriggerCreateUpdateProperties_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlTriggerCreateUpdateProperties_StatusARM(subject SqlTriggerCreateUpdateProperties_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -134,26 +134,26 @@ func RunJSONSerializationTestForSqlTriggerCreateUpdatePropertiesStatusARM(subjec
 }
 
 // Generator of SqlTriggerCreateUpdateProperties_StatusARM instances for property testing - lazily instantiated by
-//SqlTriggerCreateUpdatePropertiesStatusARMGenerator()
-var sqlTriggerCreateUpdatePropertiesStatusARMGenerator gopter.Gen
+//SqlTriggerCreateUpdateProperties_StatusARMGenerator()
+var sqlTriggerCreateUpdateProperties_statusARMGenerator gopter.Gen
 
-// SqlTriggerCreateUpdatePropertiesStatusARMGenerator returns a generator of SqlTriggerCreateUpdateProperties_StatusARM instances for property testing.
-func SqlTriggerCreateUpdatePropertiesStatusARMGenerator() gopter.Gen {
-	if sqlTriggerCreateUpdatePropertiesStatusARMGenerator != nil {
-		return sqlTriggerCreateUpdatePropertiesStatusARMGenerator
+// SqlTriggerCreateUpdateProperties_StatusARMGenerator returns a generator of SqlTriggerCreateUpdateProperties_StatusARM instances for property testing.
+func SqlTriggerCreateUpdateProperties_StatusARMGenerator() gopter.Gen {
+	if sqlTriggerCreateUpdateProperties_statusARMGenerator != nil {
+		return sqlTriggerCreateUpdateProperties_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForSqlTriggerCreateUpdatePropertiesStatusARM(generators)
-	sqlTriggerCreateUpdatePropertiesStatusARMGenerator = gen.Struct(reflect.TypeOf(SqlTriggerCreateUpdateProperties_StatusARM{}), generators)
+	AddRelatedPropertyGeneratorsForSqlTriggerCreateUpdateProperties_StatusARM(generators)
+	sqlTriggerCreateUpdateProperties_statusARMGenerator = gen.Struct(reflect.TypeOf(SqlTriggerCreateUpdateProperties_StatusARM{}), generators)
 
-	return sqlTriggerCreateUpdatePropertiesStatusARMGenerator
+	return sqlTriggerCreateUpdateProperties_statusARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForSqlTriggerCreateUpdatePropertiesStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSqlTriggerCreateUpdatePropertiesStatusARM(gens map[string]gopter.Gen) {
-	gens["Options"] = gen.PtrOf(CreateUpdateOptionsStatusARMGenerator())
-	gens["Resource"] = SqlTriggerResourceStatusARMGenerator()
+// AddRelatedPropertyGeneratorsForSqlTriggerCreateUpdateProperties_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSqlTriggerCreateUpdateProperties_StatusARM(gens map[string]gopter.Gen) {
+	gens["Options"] = gen.PtrOf(CreateUpdateOptions_StatusARMGenerator())
+	gens["Resource"] = SqlTriggerResource_StatusARMGenerator()
 }
 
 func Test_SqlTriggerResource_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -163,12 +163,12 @@ func Test_SqlTriggerResource_StatusARM_WhenSerializedToJson_DeserializesAsEqual(
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlTriggerResource_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlTriggerResourceStatusARM, SqlTriggerResourceStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSqlTriggerResource_StatusARM, SqlTriggerResource_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlTriggerResourceStatusARM runs a test to see if a specific instance of SqlTriggerResource_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlTriggerResourceStatusARM(subject SqlTriggerResource_StatusARM) string {
+// RunJSONSerializationTestForSqlTriggerResource_StatusARM runs a test to see if a specific instance of SqlTriggerResource_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlTriggerResource_StatusARM(subject SqlTriggerResource_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -195,31 +195,31 @@ func RunJSONSerializationTestForSqlTriggerResourceStatusARM(subject SqlTriggerRe
 }
 
 // Generator of SqlTriggerResource_StatusARM instances for property testing - lazily instantiated by
-//SqlTriggerResourceStatusARMGenerator()
-var sqlTriggerResourceStatusARMGenerator gopter.Gen
+//SqlTriggerResource_StatusARMGenerator()
+var sqlTriggerResource_statusARMGenerator gopter.Gen
 
-// SqlTriggerResourceStatusARMGenerator returns a generator of SqlTriggerResource_StatusARM instances for property testing.
-func SqlTriggerResourceStatusARMGenerator() gopter.Gen {
-	if sqlTriggerResourceStatusARMGenerator != nil {
-		return sqlTriggerResourceStatusARMGenerator
+// SqlTriggerResource_StatusARMGenerator returns a generator of SqlTriggerResource_StatusARM instances for property testing.
+func SqlTriggerResource_StatusARMGenerator() gopter.Gen {
+	if sqlTriggerResource_statusARMGenerator != nil {
+		return sqlTriggerResource_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlTriggerResourceStatusARM(generators)
-	sqlTriggerResourceStatusARMGenerator = gen.Struct(reflect.TypeOf(SqlTriggerResource_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForSqlTriggerResource_StatusARM(generators)
+	sqlTriggerResource_statusARMGenerator = gen.Struct(reflect.TypeOf(SqlTriggerResource_StatusARM{}), generators)
 
-	return sqlTriggerResourceStatusARMGenerator
+	return sqlTriggerResource_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSqlTriggerResourceStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSqlTriggerResourceStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSqlTriggerResource_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSqlTriggerResource_StatusARM(gens map[string]gopter.Gen) {
 	gens["Body"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.AlphaString()
 	gens["TriggerOperation"] = gen.PtrOf(gen.OneConstOf(
-		SqlTriggerResourceStatusTriggerOperationAll,
-		SqlTriggerResourceStatusTriggerOperationCreate,
-		SqlTriggerResourceStatusTriggerOperationDelete,
-		SqlTriggerResourceStatusTriggerOperationReplace,
-		SqlTriggerResourceStatusTriggerOperationUpdate))
-	gens["TriggerType"] = gen.PtrOf(gen.OneConstOf(SqlTriggerResourceStatusTriggerTypePost, SqlTriggerResourceStatusTriggerTypePre))
+		SqlTriggerResource_TriggerOperation_StatusAll,
+		SqlTriggerResource_TriggerOperation_StatusCreate,
+		SqlTriggerResource_TriggerOperation_StatusDelete,
+		SqlTriggerResource_TriggerOperation_StatusReplace,
+		SqlTriggerResource_TriggerOperation_StatusUpdate))
+	gens["TriggerType"] = gen.PtrOf(gen.OneConstOf(SqlTriggerResource_TriggerType_StatusPost, SqlTriggerResource_TriggerType_StatusPre))
 }

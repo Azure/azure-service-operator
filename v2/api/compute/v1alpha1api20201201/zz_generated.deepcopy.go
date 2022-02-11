@@ -102,7 +102,7 @@ func (in *AdditionalUnattendContent_Spec) DeepCopyInto(out *AdditionalUnattendCo
 	*out = *in
 	if in.ComponentName != nil {
 		in, out := &in.ComponentName, &out.ComponentName
-		*out = new(AdditionalUnattendContentSpecComponentName)
+		*out = new(AdditionalUnattendContent_ComponentName_Spec)
 		**out = **in
 	}
 	if in.Content != nil {
@@ -112,12 +112,12 @@ func (in *AdditionalUnattendContent_Spec) DeepCopyInto(out *AdditionalUnattendCo
 	}
 	if in.PassName != nil {
 		in, out := &in.PassName, &out.PassName
-		*out = new(AdditionalUnattendContentSpecPassName)
+		*out = new(AdditionalUnattendContent_PassName_Spec)
 		**out = **in
 	}
 	if in.SettingName != nil {
 		in, out := &in.SettingName, &out.SettingName
-		*out = new(AdditionalUnattendContentSpecSettingName)
+		*out = new(AdditionalUnattendContent_SettingName_Spec)
 		**out = **in
 	}
 }
@@ -137,7 +137,7 @@ func (in *AdditionalUnattendContent_SpecARM) DeepCopyInto(out *AdditionalUnatten
 	*out = *in
 	if in.ComponentName != nil {
 		in, out := &in.ComponentName, &out.ComponentName
-		*out = new(AdditionalUnattendContentSpecComponentName)
+		*out = new(AdditionalUnattendContent_ComponentName_Spec)
 		**out = **in
 	}
 	if in.Content != nil {
@@ -147,12 +147,12 @@ func (in *AdditionalUnattendContent_SpecARM) DeepCopyInto(out *AdditionalUnatten
 	}
 	if in.PassName != nil {
 		in, out := &in.PassName, &out.PassName
-		*out = new(AdditionalUnattendContentSpecPassName)
+		*out = new(AdditionalUnattendContent_PassName_Spec)
 		**out = **in
 	}
 	if in.SettingName != nil {
 		in, out := &in.SettingName, &out.SettingName
-		*out = new(AdditionalUnattendContentSpecSettingName)
+		*out = new(AdditionalUnattendContent_SettingName_Spec)
 		**out = **in
 	}
 }
@@ -172,7 +172,7 @@ func (in *AdditionalUnattendContent_Status) DeepCopyInto(out *AdditionalUnattend
 	*out = *in
 	if in.ComponentName != nil {
 		in, out := &in.ComponentName, &out.ComponentName
-		*out = new(AdditionalUnattendContentStatusComponentName)
+		*out = new(AdditionalUnattendContent_ComponentName_Status)
 		**out = **in
 	}
 	if in.Content != nil {
@@ -182,12 +182,12 @@ func (in *AdditionalUnattendContent_Status) DeepCopyInto(out *AdditionalUnattend
 	}
 	if in.PassName != nil {
 		in, out := &in.PassName, &out.PassName
-		*out = new(AdditionalUnattendContentStatusPassName)
+		*out = new(AdditionalUnattendContent_PassName_Status)
 		**out = **in
 	}
 	if in.SettingName != nil {
 		in, out := &in.SettingName, &out.SettingName
-		*out = new(AdditionalUnattendContentStatusSettingName)
+		*out = new(AdditionalUnattendContent_SettingName_Status)
 		**out = **in
 	}
 }
@@ -207,7 +207,7 @@ func (in *AdditionalUnattendContent_StatusARM) DeepCopyInto(out *AdditionalUnatt
 	*out = *in
 	if in.ComponentName != nil {
 		in, out := &in.ComponentName, &out.ComponentName
-		*out = new(AdditionalUnattendContentStatusComponentName)
+		*out = new(AdditionalUnattendContent_ComponentName_Status)
 		**out = **in
 	}
 	if in.Content != nil {
@@ -217,12 +217,12 @@ func (in *AdditionalUnattendContent_StatusARM) DeepCopyInto(out *AdditionalUnatt
 	}
 	if in.PassName != nil {
 		in, out := &in.PassName, &out.PassName
-		*out = new(AdditionalUnattendContentStatusPassName)
+		*out = new(AdditionalUnattendContent_PassName_Status)
 		**out = **in
 	}
 	if in.SettingName != nil {
 		in, out := &in.SettingName, &out.SettingName
-		*out = new(AdditionalUnattendContentStatusSettingName)
+		*out = new(AdditionalUnattendContent_SettingName_Status)
 		**out = **in
 	}
 }
@@ -701,7 +701,7 @@ func (in *AvailablePatchSummary_Status) DeepCopyInto(out *AvailablePatchSummary_
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(AvailablePatchSummaryStatusStatus)
+		*out = new(AvailablePatchSummary_Status_Status)
 		**out = **in
 	}
 }
@@ -756,7 +756,7 @@ func (in *AvailablePatchSummary_StatusARM) DeepCopyInto(out *AvailablePatchSumma
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(AvailablePatchSummaryStatusStatus)
+		*out = new(AvailablePatchSummary_Status_Status)
 		**out = **in
 	}
 }
@@ -1744,7 +1744,7 @@ func (in *HardwareProfile_Spec) DeepCopyInto(out *HardwareProfile_Spec) {
 	*out = *in
 	if in.VmSize != nil {
 		in, out := &in.VmSize, &out.VmSize
-		*out = new(HardwareProfileSpecVmSize)
+		*out = new(HardwareProfile_VmSize_Spec)
 		**out = **in
 	}
 }
@@ -1764,7 +1764,7 @@ func (in *HardwareProfile_SpecARM) DeepCopyInto(out *HardwareProfile_SpecARM) {
 	*out = *in
 	if in.VmSize != nil {
 		in, out := &in.VmSize, &out.VmSize
-		*out = new(HardwareProfileSpecVmSize)
+		*out = new(HardwareProfile_VmSize_Spec)
 		**out = **in
 	}
 }
@@ -1784,7 +1784,7 @@ func (in *HardwareProfile_Status) DeepCopyInto(out *HardwareProfile_Status) {
 	*out = *in
 	if in.VmSize != nil {
 		in, out := &in.VmSize, &out.VmSize
-		*out = new(HardwareProfileStatusVmSize)
+		*out = new(HardwareProfile_VmSize_Status)
 		**out = **in
 	}
 }
@@ -1804,7 +1804,7 @@ func (in *HardwareProfile_StatusARM) DeepCopyInto(out *HardwareProfile_StatusARM
 	*out = *in
 	if in.VmSize != nil {
 		in, out := &in.VmSize, &out.VmSize
-		*out = new(HardwareProfileStatusVmSize)
+		*out = new(HardwareProfile_VmSize_Status)
 		**out = **in
 	}
 }
@@ -2054,7 +2054,7 @@ func (in *InstanceViewStatus_Status) DeepCopyInto(out *InstanceViewStatus_Status
 	}
 	if in.Level != nil {
 		in, out := &in.Level, &out.Level
-		*out = new(InstanceViewStatusStatusLevel)
+		*out = new(InstanceViewStatus_Level_Status)
 		**out = **in
 	}
 	if in.Message != nil {
@@ -2094,7 +2094,7 @@ func (in *InstanceViewStatus_StatusARM) DeepCopyInto(out *InstanceViewStatus_Sta
 	}
 	if in.Level != nil {
 		in, out := &in.Level, &out.Level
-		*out = new(InstanceViewStatusStatusLevel)
+		*out = new(InstanceViewStatus_Level_Status)
 		**out = **in
 	}
 	if in.Message != nil {
@@ -2302,7 +2302,7 @@ func (in *LastPatchInstallationSummary_Status) DeepCopyInto(out *LastPatchInstal
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(LastPatchInstallationSummaryStatusStatus)
+		*out = new(LastPatchInstallationSummary_Status_Status)
 		**out = **in
 	}
 }
@@ -2372,7 +2372,7 @@ func (in *LastPatchInstallationSummary_StatusARM) DeepCopyInto(out *LastPatchIns
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(LastPatchInstallationSummaryStatusStatus)
+		*out = new(LastPatchInstallationSummary_Status_Status)
 		**out = **in
 	}
 }
@@ -2532,7 +2532,7 @@ func (in *LinuxPatchSettings_Spec) DeepCopyInto(out *LinuxPatchSettings_Spec) {
 	*out = *in
 	if in.PatchMode != nil {
 		in, out := &in.PatchMode, &out.PatchMode
-		*out = new(LinuxPatchSettingsSpecPatchMode)
+		*out = new(LinuxPatchSettings_PatchMode_Spec)
 		**out = **in
 	}
 }
@@ -2552,7 +2552,7 @@ func (in *LinuxPatchSettings_SpecARM) DeepCopyInto(out *LinuxPatchSettings_SpecA
 	*out = *in
 	if in.PatchMode != nil {
 		in, out := &in.PatchMode, &out.PatchMode
-		*out = new(LinuxPatchSettingsSpecPatchMode)
+		*out = new(LinuxPatchSettings_PatchMode_Spec)
 		**out = **in
 	}
 }
@@ -2572,7 +2572,7 @@ func (in *LinuxPatchSettings_Status) DeepCopyInto(out *LinuxPatchSettings_Status
 	*out = *in
 	if in.PatchMode != nil {
 		in, out := &in.PatchMode, &out.PatchMode
-		*out = new(LinuxPatchSettingsStatusPatchMode)
+		*out = new(LinuxPatchSettings_PatchMode_Status)
 		**out = **in
 	}
 }
@@ -2592,7 +2592,7 @@ func (in *LinuxPatchSettings_StatusARM) DeepCopyInto(out *LinuxPatchSettings_Sta
 	*out = *in
 	if in.PatchMode != nil {
 		in, out := &in.PatchMode, &out.PatchMode
-		*out = new(LinuxPatchSettingsStatusPatchMode)
+		*out = new(LinuxPatchSettings_PatchMode_Status)
 		**out = **in
 	}
 }
@@ -2622,7 +2622,7 @@ func (in *MaintenanceRedeployStatus_Status) DeepCopyInto(out *MaintenanceRedeplo
 	}
 	if in.LastOperationResultCode != nil {
 		in, out := &in.LastOperationResultCode, &out.LastOperationResultCode
-		*out = new(MaintenanceRedeployStatusStatusLastOperationResultCode)
+		*out = new(MaintenanceRedeployStatus_LastOperationResultCode_Status)
 		**out = **in
 	}
 	if in.MaintenanceWindowEndTime != nil {
@@ -2672,7 +2672,7 @@ func (in *MaintenanceRedeployStatus_StatusARM) DeepCopyInto(out *MaintenanceRede
 	}
 	if in.LastOperationResultCode != nil {
 		in, out := &in.LastOperationResultCode, &out.LastOperationResultCode
-		*out = new(MaintenanceRedeployStatusStatusLastOperationResultCode)
+		*out = new(MaintenanceRedeployStatus_LastOperationResultCode_Status)
 		**out = **in
 	}
 	if in.MaintenanceWindowEndTime != nil {
@@ -3095,7 +3095,7 @@ func (in *OSDisk_Spec) DeepCopyInto(out *OSDisk_Spec) {
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(OSDiskSpecOsType)
+		*out = new(OSDisk_OsType_Spec)
 		**out = **in
 	}
 	if in.Vhd != nil {
@@ -3160,7 +3160,7 @@ func (in *OSDisk_SpecARM) DeepCopyInto(out *OSDisk_SpecARM) {
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(OSDiskSpecOsType)
+		*out = new(OSDisk_OsType_Spec)
 		**out = **in
 	}
 	if in.Vhd != nil {
@@ -3225,7 +3225,7 @@ func (in *OSDisk_Status) DeepCopyInto(out *OSDisk_Status) {
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(OSDiskStatusOsType)
+		*out = new(OSDisk_OsType_Status)
 		**out = **in
 	}
 	if in.Vhd != nil {
@@ -3290,7 +3290,7 @@ func (in *OSDisk_StatusARM) DeepCopyInto(out *OSDisk_StatusARM) {
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(OSDiskStatusOsType)
+		*out = new(OSDisk_OsType_Status)
 		**out = **in
 	}
 	if in.Vhd != nil {
@@ -3573,7 +3573,7 @@ func (in *PatchSettings_Spec) DeepCopyInto(out *PatchSettings_Spec) {
 	}
 	if in.PatchMode != nil {
 		in, out := &in.PatchMode, &out.PatchMode
-		*out = new(PatchSettingsSpecPatchMode)
+		*out = new(PatchSettings_PatchMode_Spec)
 		**out = **in
 	}
 }
@@ -3598,7 +3598,7 @@ func (in *PatchSettings_SpecARM) DeepCopyInto(out *PatchSettings_SpecARM) {
 	}
 	if in.PatchMode != nil {
 		in, out := &in.PatchMode, &out.PatchMode
-		*out = new(PatchSettingsSpecPatchMode)
+		*out = new(PatchSettings_PatchMode_Spec)
 		**out = **in
 	}
 }
@@ -3623,7 +3623,7 @@ func (in *PatchSettings_Status) DeepCopyInto(out *PatchSettings_Status) {
 	}
 	if in.PatchMode != nil {
 		in, out := &in.PatchMode, &out.PatchMode
-		*out = new(PatchSettingsStatusPatchMode)
+		*out = new(PatchSettings_PatchMode_Status)
 		**out = **in
 	}
 }
@@ -3648,7 +3648,7 @@ func (in *PatchSettings_StatusARM) DeepCopyInto(out *PatchSettings_StatusARM) {
 	}
 	if in.PatchMode != nil {
 		in, out := &in.PatchMode, &out.PatchMode
-		*out = new(PatchSettingsStatusPatchMode)
+		*out = new(PatchSettings_PatchMode_Status)
 		**out = **in
 	}
 }
@@ -3988,7 +3988,7 @@ func (in *ScaleInPolicy_Spec) DeepCopyInto(out *ScaleInPolicy_Spec) {
 	*out = *in
 	if in.Rules != nil {
 		in, out := &in.Rules, &out.Rules
-		*out = make([]ScaleInPolicySpecRules, len(*in))
+		*out = make([]ScaleInPolicy_Rules_Spec, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -4008,7 +4008,7 @@ func (in *ScaleInPolicy_SpecARM) DeepCopyInto(out *ScaleInPolicy_SpecARM) {
 	*out = *in
 	if in.Rules != nil {
 		in, out := &in.Rules, &out.Rules
-		*out = make([]ScaleInPolicySpecRules, len(*in))
+		*out = make([]ScaleInPolicy_Rules_Spec, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -4028,7 +4028,7 @@ func (in *ScaleInPolicy_Status) DeepCopyInto(out *ScaleInPolicy_Status) {
 	*out = *in
 	if in.Rules != nil {
 		in, out := &in.Rules, &out.Rules
-		*out = make([]ScaleInPolicyStatusRules, len(*in))
+		*out = make([]ScaleInPolicy_Rules_Status, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -4048,7 +4048,7 @@ func (in *ScaleInPolicy_StatusARM) DeepCopyInto(out *ScaleInPolicy_StatusARM) {
 	*out = *in
 	if in.Rules != nil {
 		in, out := &in.Rules, &out.Rules
-		*out = make([]ScaleInPolicyStatusRules, len(*in))
+		*out = make([]ScaleInPolicy_Rules_Status, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -4153,7 +4153,7 @@ func (in *SecurityProfile_Spec) DeepCopyInto(out *SecurityProfile_Spec) {
 	}
 	if in.SecurityType != nil {
 		in, out := &in.SecurityType, &out.SecurityType
-		*out = new(SecurityProfileSpecSecurityType)
+		*out = new(SecurityProfile_SecurityType_Spec)
 		**out = **in
 	}
 	if in.UefiSettings != nil {
@@ -4183,7 +4183,7 @@ func (in *SecurityProfile_SpecARM) DeepCopyInto(out *SecurityProfile_SpecARM) {
 	}
 	if in.SecurityType != nil {
 		in, out := &in.SecurityType, &out.SecurityType
-		*out = new(SecurityProfileSpecSecurityType)
+		*out = new(SecurityProfile_SecurityType_Spec)
 		**out = **in
 	}
 	if in.UefiSettings != nil {
@@ -4213,7 +4213,7 @@ func (in *SecurityProfile_Status) DeepCopyInto(out *SecurityProfile_Status) {
 	}
 	if in.SecurityType != nil {
 		in, out := &in.SecurityType, &out.SecurityType
-		*out = new(SecurityProfileStatusSecurityType)
+		*out = new(SecurityProfile_SecurityType_Status)
 		**out = **in
 	}
 	if in.UefiSettings != nil {
@@ -4243,7 +4243,7 @@ func (in *SecurityProfile_StatusARM) DeepCopyInto(out *SecurityProfile_StatusARM
 	}
 	if in.SecurityType != nil {
 		in, out := &in.SecurityType, &out.SecurityType
-		*out = new(SecurityProfileStatusSecurityType)
+		*out = new(SecurityProfile_SecurityType_Status)
 		**out = **in
 	}
 	if in.UefiSettings != nil {
@@ -4989,7 +4989,7 @@ func (in *UpgradePolicy_Spec) DeepCopyInto(out *UpgradePolicy_Spec) {
 	}
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-		*out = new(UpgradePolicySpecMode)
+		*out = new(UpgradePolicy_Mode_Spec)
 		**out = **in
 	}
 	if in.RollingUpgradePolicy != nil {
@@ -5019,7 +5019,7 @@ func (in *UpgradePolicy_SpecARM) DeepCopyInto(out *UpgradePolicy_SpecARM) {
 	}
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-		*out = new(UpgradePolicySpecMode)
+		*out = new(UpgradePolicy_Mode_Spec)
 		**out = **in
 	}
 	if in.RollingUpgradePolicy != nil {
@@ -5049,7 +5049,7 @@ func (in *UpgradePolicy_Status) DeepCopyInto(out *UpgradePolicy_Status) {
 	}
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-		*out = new(UpgradePolicyStatusMode)
+		*out = new(UpgradePolicy_Mode_Status)
 		**out = **in
 	}
 	if in.RollingUpgradePolicy != nil {
@@ -5079,7 +5079,7 @@ func (in *UpgradePolicy_StatusARM) DeepCopyInto(out *UpgradePolicy_StatusARM) {
 	}
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-		*out = new(UpgradePolicyStatusMode)
+		*out = new(UpgradePolicy_Mode_Status)
 		**out = **in
 	}
 	if in.RollingUpgradePolicy != nil {
@@ -5887,7 +5887,7 @@ func (in *VirtualMachineIdentity_Spec) DeepCopyInto(out *VirtualMachineIdentity_
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(VirtualMachineIdentitySpecType)
+		*out = new(VirtualMachineIdentity_Type_Spec)
 		**out = **in
 	}
 }
@@ -5907,7 +5907,7 @@ func (in *VirtualMachineIdentity_SpecARM) DeepCopyInto(out *VirtualMachineIdenti
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(VirtualMachineIdentitySpecType)
+		*out = new(VirtualMachineIdentity_Type_Spec)
 		**out = **in
 	}
 }
@@ -5937,12 +5937,12 @@ func (in *VirtualMachineIdentity_Status) DeepCopyInto(out *VirtualMachineIdentit
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(VirtualMachineIdentityStatusType)
+		*out = new(VirtualMachineIdentity_Type_Status)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
 		in, out := &in.UserAssignedIdentities, &out.UserAssignedIdentities
-		*out = make(map[string]VirtualMachineIdentity_Status_UserAssignedIdentities, len(*in))
+		*out = make(map[string]VirtualMachineIdentity_UserAssignedIdentities_Status, len(*in))
 		for key, val := range *in {
 			(*out)[key] = *val.DeepCopy()
 		}
@@ -5974,12 +5974,12 @@ func (in *VirtualMachineIdentity_StatusARM) DeepCopyInto(out *VirtualMachineIden
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(VirtualMachineIdentityStatusType)
+		*out = new(VirtualMachineIdentity_Type_Status)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
 		in, out := &in.UserAssignedIdentities, &out.UserAssignedIdentities
-		*out = make(map[string]VirtualMachineIdentity_Status_UserAssignedIdentitiesARM, len(*in))
+		*out = make(map[string]VirtualMachineIdentity_UserAssignedIdentities_StatusARM, len(*in))
 		for key, val := range *in {
 			(*out)[key] = *val.DeepCopy()
 		}
@@ -5997,7 +5997,7 @@ func (in *VirtualMachineIdentity_StatusARM) DeepCopy() *VirtualMachineIdentity_S
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachineIdentity_Status_UserAssignedIdentities) DeepCopyInto(out *VirtualMachineIdentity_Status_UserAssignedIdentities) {
+func (in *VirtualMachineIdentity_UserAssignedIdentities_Status) DeepCopyInto(out *VirtualMachineIdentity_UserAssignedIdentities_Status) {
 	*out = *in
 	if in.ClientId != nil {
 		in, out := &in.ClientId, &out.ClientId
@@ -6011,18 +6011,18 @@ func (in *VirtualMachineIdentity_Status_UserAssignedIdentities) DeepCopyInto(out
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineIdentity_Status_UserAssignedIdentities.
-func (in *VirtualMachineIdentity_Status_UserAssignedIdentities) DeepCopy() *VirtualMachineIdentity_Status_UserAssignedIdentities {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineIdentity_UserAssignedIdentities_Status.
+func (in *VirtualMachineIdentity_UserAssignedIdentities_Status) DeepCopy() *VirtualMachineIdentity_UserAssignedIdentities_Status {
 	if in == nil {
 		return nil
 	}
-	out := new(VirtualMachineIdentity_Status_UserAssignedIdentities)
+	out := new(VirtualMachineIdentity_UserAssignedIdentities_Status)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachineIdentity_Status_UserAssignedIdentitiesARM) DeepCopyInto(out *VirtualMachineIdentity_Status_UserAssignedIdentitiesARM) {
+func (in *VirtualMachineIdentity_UserAssignedIdentities_StatusARM) DeepCopyInto(out *VirtualMachineIdentity_UserAssignedIdentities_StatusARM) {
 	*out = *in
 	if in.ClientId != nil {
 		in, out := &in.ClientId, &out.ClientId
@@ -6036,12 +6036,12 @@ func (in *VirtualMachineIdentity_Status_UserAssignedIdentitiesARM) DeepCopyInto(
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineIdentity_Status_UserAssignedIdentitiesARM.
-func (in *VirtualMachineIdentity_Status_UserAssignedIdentitiesARM) DeepCopy() *VirtualMachineIdentity_Status_UserAssignedIdentitiesARM {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineIdentity_UserAssignedIdentities_StatusARM.
+func (in *VirtualMachineIdentity_UserAssignedIdentities_StatusARM) DeepCopy() *VirtualMachineIdentity_UserAssignedIdentities_StatusARM {
 	if in == nil {
 		return nil
 	}
-	out := new(VirtualMachineIdentity_Status_UserAssignedIdentitiesARM)
+	out := new(VirtualMachineIdentity_UserAssignedIdentities_StatusARM)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -6080,7 +6080,7 @@ func (in *VirtualMachineInstanceView_Status) DeepCopyInto(out *VirtualMachineIns
 	}
 	if in.HyperVGeneration != nil {
 		in, out := &in.HyperVGeneration, &out.HyperVGeneration
-		*out = new(VirtualMachineInstanceViewStatusHyperVGeneration)
+		*out = new(VirtualMachineInstanceView_HyperVGeneration_Status)
 		**out = **in
 	}
 	if in.MaintenanceRedeployStatus != nil {
@@ -6181,7 +6181,7 @@ func (in *VirtualMachineInstanceView_StatusARM) DeepCopyInto(out *VirtualMachine
 	}
 	if in.HyperVGeneration != nil {
 		in, out := &in.HyperVGeneration, &out.HyperVGeneration
-		*out = new(VirtualMachineInstanceViewStatusHyperVGeneration)
+		*out = new(VirtualMachineInstanceView_HyperVGeneration_Status)
 		**out = **in
 	}
 	if in.MaintenanceRedeployStatus != nil {
@@ -6968,7 +6968,7 @@ func (in *VirtualMachineScaleSetIPConfigurationProperties_SpecARM) DeepCopyInto(
 	}
 	if in.PrivateIPAddressVersion != nil {
 		in, out := &in.PrivateIPAddressVersion, &out.PrivateIPAddressVersion
-		*out = new(VirtualMachineScaleSetIPConfigurationPropertiesSpecPrivateIPAddressVersion)
+		*out = new(VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_Spec)
 		**out = **in
 	}
 	if in.PublicIPAddressConfiguration != nil {
@@ -7031,7 +7031,7 @@ func (in *VirtualMachineScaleSetIPConfigurationProperties_StatusARM) DeepCopyInt
 	}
 	if in.PrivateIPAddressVersion != nil {
 		in, out := &in.PrivateIPAddressVersion, &out.PrivateIPAddressVersion
-		*out = new(VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersion)
+		*out = new(VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_Status)
 		**out = **in
 	}
 	if in.PublicIPAddressConfiguration != nil {
@@ -7094,7 +7094,7 @@ func (in *VirtualMachineScaleSetIPConfiguration_Spec) DeepCopyInto(out *VirtualM
 	}
 	if in.PrivateIPAddressVersion != nil {
 		in, out := &in.PrivateIPAddressVersion, &out.PrivateIPAddressVersion
-		*out = new(VirtualMachineScaleSetIPConfigurationPropertiesSpecPrivateIPAddressVersion)
+		*out = new(VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_Spec)
 		**out = **in
 	}
 	if in.PublicIPAddressConfiguration != nil {
@@ -7192,7 +7192,7 @@ func (in *VirtualMachineScaleSetIPConfiguration_Status) DeepCopyInto(out *Virtua
 	}
 	if in.PrivateIPAddressVersion != nil {
 		in, out := &in.PrivateIPAddressVersion, &out.PrivateIPAddressVersion
-		*out = new(VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersion)
+		*out = new(VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_Status)
 		**out = **in
 	}
 	if in.PublicIPAddressConfiguration != nil {
@@ -7247,7 +7247,7 @@ func (in *VirtualMachineScaleSetIdentity_Spec) DeepCopyInto(out *VirtualMachineS
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(VirtualMachineScaleSetIdentitySpecType)
+		*out = new(VirtualMachineScaleSetIdentity_Type_Spec)
 		**out = **in
 	}
 }
@@ -7267,7 +7267,7 @@ func (in *VirtualMachineScaleSetIdentity_SpecARM) DeepCopyInto(out *VirtualMachi
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(VirtualMachineScaleSetIdentitySpecType)
+		*out = new(VirtualMachineScaleSetIdentity_Type_Spec)
 		**out = **in
 	}
 }
@@ -7297,12 +7297,12 @@ func (in *VirtualMachineScaleSetIdentity_Status) DeepCopyInto(out *VirtualMachin
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(VirtualMachineScaleSetIdentityStatusType)
+		*out = new(VirtualMachineScaleSetIdentity_Type_Status)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
 		in, out := &in.UserAssignedIdentities, &out.UserAssignedIdentities
-		*out = make(map[string]VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities, len(*in))
+		*out = make(map[string]VirtualMachineScaleSetIdentity_UserAssignedIdentities_Status, len(*in))
 		for key, val := range *in {
 			(*out)[key] = *val.DeepCopy()
 		}
@@ -7334,12 +7334,12 @@ func (in *VirtualMachineScaleSetIdentity_StatusARM) DeepCopyInto(out *VirtualMac
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(VirtualMachineScaleSetIdentityStatusType)
+		*out = new(VirtualMachineScaleSetIdentity_Type_Status)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
 		in, out := &in.UserAssignedIdentities, &out.UserAssignedIdentities
-		*out = make(map[string]VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM, len(*in))
+		*out = make(map[string]VirtualMachineScaleSetIdentity_UserAssignedIdentities_StatusARM, len(*in))
 		for key, val := range *in {
 			(*out)[key] = *val.DeepCopy()
 		}
@@ -7357,7 +7357,7 @@ func (in *VirtualMachineScaleSetIdentity_StatusARM) DeepCopy() *VirtualMachineSc
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities) DeepCopyInto(out *VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities) {
+func (in *VirtualMachineScaleSetIdentity_UserAssignedIdentities_Status) DeepCopyInto(out *VirtualMachineScaleSetIdentity_UserAssignedIdentities_Status) {
 	*out = *in
 	if in.ClientId != nil {
 		in, out := &in.ClientId, &out.ClientId
@@ -7371,18 +7371,18 @@ func (in *VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities) DeepCopy
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities.
-func (in *VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities) DeepCopy() *VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineScaleSetIdentity_UserAssignedIdentities_Status.
+func (in *VirtualMachineScaleSetIdentity_UserAssignedIdentities_Status) DeepCopy() *VirtualMachineScaleSetIdentity_UserAssignedIdentities_Status {
 	if in == nil {
 		return nil
 	}
-	out := new(VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities)
+	out := new(VirtualMachineScaleSetIdentity_UserAssignedIdentities_Status)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM) DeepCopyInto(out *VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM) {
+func (in *VirtualMachineScaleSetIdentity_UserAssignedIdentities_StatusARM) DeepCopyInto(out *VirtualMachineScaleSetIdentity_UserAssignedIdentities_StatusARM) {
 	*out = *in
 	if in.ClientId != nil {
 		in, out := &in.ClientId, &out.ClientId
@@ -7396,12 +7396,12 @@ func (in *VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM) DeepC
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM.
-func (in *VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM) DeepCopy() *VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineScaleSetIdentity_UserAssignedIdentities_StatusARM.
+func (in *VirtualMachineScaleSetIdentity_UserAssignedIdentities_StatusARM) DeepCopy() *VirtualMachineScaleSetIdentity_UserAssignedIdentities_StatusARM {
 	if in == nil {
 		return nil
 	}
-	out := new(VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM)
+	out := new(VirtualMachineScaleSetIdentity_UserAssignedIdentities_StatusARM)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -8129,7 +8129,7 @@ func (in *VirtualMachineScaleSetOSDisk_Spec) DeepCopyInto(out *VirtualMachineSca
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(VirtualMachineScaleSetOSDiskSpecOsType)
+		*out = new(VirtualMachineScaleSetOSDisk_OsType_Spec)
 		**out = **in
 	}
 	if in.VhdContainers != nil {
@@ -8189,7 +8189,7 @@ func (in *VirtualMachineScaleSetOSDisk_SpecARM) DeepCopyInto(out *VirtualMachine
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(VirtualMachineScaleSetOSDiskSpecOsType)
+		*out = new(VirtualMachineScaleSetOSDisk_OsType_Spec)
 		**out = **in
 	}
 	if in.VhdContainers != nil {
@@ -8249,7 +8249,7 @@ func (in *VirtualMachineScaleSetOSDisk_Status) DeepCopyInto(out *VirtualMachineS
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(VirtualMachineScaleSetOSDiskStatusOsType)
+		*out = new(VirtualMachineScaleSetOSDisk_OsType_Status)
 		**out = **in
 	}
 	if in.VhdContainers != nil {
@@ -8309,7 +8309,7 @@ func (in *VirtualMachineScaleSetOSDisk_StatusARM) DeepCopyInto(out *VirtualMachi
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(VirtualMachineScaleSetOSDiskStatusOsType)
+		*out = new(VirtualMachineScaleSetOSDisk_OsType_Status)
 		**out = **in
 	}
 	if in.VhdContainers != nil {
@@ -8794,7 +8794,7 @@ func (in *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM) 
 	}
 	if in.PublicIPAddressVersion != nil {
 		in, out := &in.PublicIPAddressVersion, &out.PublicIPAddressVersion
-		*out = new(VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecPublicIPAddressVersion)
+		*out = new(VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_Spec)
 		**out = **in
 	}
 	if in.PublicIPPrefix != nil {
@@ -8836,7 +8836,7 @@ func (in *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_StatusARM
 	}
 	if in.PublicIPAddressVersion != nil {
 		in, out := &in.PublicIPAddressVersion, &out.PublicIPAddressVersion
-		*out = new(VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersion)
+		*out = new(VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_Status)
 		**out = **in
 	}
 	if in.PublicIPPrefix != nil {
@@ -8878,7 +8878,7 @@ func (in *VirtualMachineScaleSetPublicIPAddressConfiguration_Spec) DeepCopyInto(
 	}
 	if in.PublicIPAddressVersion != nil {
 		in, out := &in.PublicIPAddressVersion, &out.PublicIPAddressVersion
-		*out = new(VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecPublicIPAddressVersion)
+		*out = new(VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_Spec)
 		**out = **in
 	}
 	if in.PublicIPPrefix != nil {
@@ -8940,7 +8940,7 @@ func (in *VirtualMachineScaleSetPublicIPAddressConfiguration_Status) DeepCopyInt
 	}
 	if in.PublicIPAddressVersion != nil {
 		in, out := &in.PublicIPAddressVersion, &out.PublicIPAddressVersion
-		*out = new(VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersion)
+		*out = new(VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_Status)
 		**out = **in
 	}
 	if in.PublicIPPrefix != nil {
@@ -10307,7 +10307,7 @@ func (in *WinRMListener_Spec) DeepCopyInto(out *WinRMListener_Spec) {
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(WinRMListenerSpecProtocol)
+		*out = new(WinRMListener_Protocol_Spec)
 		**out = **in
 	}
 }
@@ -10332,7 +10332,7 @@ func (in *WinRMListener_SpecARM) DeepCopyInto(out *WinRMListener_SpecARM) {
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(WinRMListenerSpecProtocol)
+		*out = new(WinRMListener_Protocol_Spec)
 		**out = **in
 	}
 }
@@ -10357,7 +10357,7 @@ func (in *WinRMListener_Status) DeepCopyInto(out *WinRMListener_Status) {
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(WinRMListenerStatusProtocol)
+		*out = new(WinRMListener_Protocol_Status)
 		**out = **in
 	}
 }
@@ -10382,7 +10382,7 @@ func (in *WinRMListener_StatusARM) DeepCopyInto(out *WinRMListener_StatusARM) {
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(WinRMListenerStatusProtocol)
+		*out = new(WinRMListener_Protocol_Status)
 		**out = **in
 	}
 }

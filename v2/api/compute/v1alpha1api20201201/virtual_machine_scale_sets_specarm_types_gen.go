@@ -97,7 +97,7 @@ type VirtualMachineScaleSetIdentity_SpecARM struct {
 	//'SystemAssigned, UserAssigned' includes both an implicitly created identity and
 	//a set of user assigned identities. The type 'None' will remove any identities
 	//from the virtual machine scale set.
-	Type *VirtualMachineScaleSetIdentitySpecType `json:"type,omitempty"`
+	Type *VirtualMachineScaleSetIdentity_Type_Spec `json:"type,omitempty"`
 }
 
 type VirtualMachineScaleSetProperties_SpecARM struct {
@@ -203,7 +203,7 @@ type ScaleInPolicy_SpecARM struct {
 	//zonal virtual machine scale sets, the scale set will first be balanced across
 	//zones. Within each zone, the newest virtual machines that are not protected will
 	//be chosen for removal.
-	Rules []ScaleInPolicySpecRules `json:"rules,omitempty"`
+	Rules []ScaleInPolicy_Rules_Spec `json:"rules,omitempty"`
 }
 
 type SubResource_SpecARM struct {
@@ -221,7 +221,7 @@ type UpgradePolicy_SpecARM struct {
 	//scale set. You do this by using the manualUpgrade action.
 	//Automatic - All virtual machines in the scale set are  automatically updated at
 	//the same time.
-	Mode *UpgradePolicySpecMode `json:"mode,omitempty"`
+	Mode *UpgradePolicy_Mode_Spec `json:"mode,omitempty"`
 
 	//RollingUpgradePolicy: The configuration parameters used while performing a
 	//rolling upgrade.
@@ -229,13 +229,13 @@ type UpgradePolicy_SpecARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type VirtualMachineScaleSetIdentitySpecType string
+type VirtualMachineScaleSetIdentity_Type_Spec string
 
 const (
-	VirtualMachineScaleSetIdentitySpecTypeNone                       = VirtualMachineScaleSetIdentitySpecType("None")
-	VirtualMachineScaleSetIdentitySpecTypeSystemAssigned             = VirtualMachineScaleSetIdentitySpecType("SystemAssigned")
-	VirtualMachineScaleSetIdentitySpecTypeSystemAssignedUserAssigned = VirtualMachineScaleSetIdentitySpecType("SystemAssigned, UserAssigned")
-	VirtualMachineScaleSetIdentitySpecTypeUserAssigned               = VirtualMachineScaleSetIdentitySpecType("UserAssigned")
+	VirtualMachineScaleSetIdentity_Type_SpecNone                       = VirtualMachineScaleSetIdentity_Type_Spec("None")
+	VirtualMachineScaleSetIdentity_Type_SpecSystemAssigned             = VirtualMachineScaleSetIdentity_Type_Spec("SystemAssigned")
+	VirtualMachineScaleSetIdentity_Type_SpecSystemAssignedUserAssigned = VirtualMachineScaleSetIdentity_Type_Spec("SystemAssigned, UserAssigned")
+	VirtualMachineScaleSetIdentity_Type_SpecUserAssigned               = VirtualMachineScaleSetIdentity_Type_Spec("UserAssigned")
 )
 
 type VirtualMachineScaleSetVMProfile_SpecARM struct {
@@ -570,7 +570,7 @@ type VirtualMachineScaleSetOSDisk_SpecARM struct {
 	//Possible values are:
 	//Windows
 	//Linux
-	OsType *VirtualMachineScaleSetOSDiskSpecOsType `json:"osType,omitempty"`
+	OsType *VirtualMachineScaleSetOSDisk_OsType_Spec `json:"osType,omitempty"`
 
 	//VhdContainers: Specifies the container urls that are used to store operating
 	//system disks for the scale set.
@@ -660,7 +660,7 @@ type VirtualMachineScaleSetIPConfigurationProperties_SpecARM struct {
 	//PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it
 	//represents whether the specific ipconfiguration is IPv4 or IPv6. Default is
 	//taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
-	PrivateIPAddressVersion *VirtualMachineScaleSetIPConfigurationPropertiesSpecPrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAddressVersion *VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_Spec `json:"privateIPAddressVersion,omitempty"`
 
 	//PublicIPAddressConfiguration: The publicIPAddressConfiguration.
 	PublicIPAddressConfiguration *VirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM `json:"publicIPAddressConfiguration,omitempty"`
@@ -688,7 +688,7 @@ type VirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM struct
 	//PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it
 	//represents whether the specific ipconfiguration is IPv4 or IPv6. Default is
 	//taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
-	PublicIPAddressVersion *VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecPublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
+	PublicIPAddressVersion *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_Spec `json:"publicIPAddressVersion,omitempty"`
 
 	//PublicIPPrefix: The PublicIPPrefix from which to allocate publicIP addresses.
 	PublicIPPrefix *SubResource_SpecARM `json:"publicIPPrefix,omitempty"`

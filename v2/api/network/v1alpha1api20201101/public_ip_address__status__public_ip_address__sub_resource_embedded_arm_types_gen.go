@@ -57,7 +57,7 @@ type PublicIPAddressPropertiesFormat_StatusARM struct {
 	IpTags []IpTag_StatusARM `json:"ipTags,omitempty"`
 
 	//MigrationPhase: Migration phase of Public IP Address.
-	MigrationPhase *PublicIPAddressPropertiesFormatStatusMigrationPhase `json:"migrationPhase,omitempty"`
+	MigrationPhase *PublicIPAddressPropertiesFormat_MigrationPhase_Status `json:"migrationPhase,omitempty"`
 
 	//NatGateway: The NatGateway for the Public IP address.
 	NatGateway *NatGateway_Status_PublicIPAddress_SubResourceEmbeddedARM `json:"natGateway,omitempty"`
@@ -81,10 +81,10 @@ type PublicIPAddressPropertiesFormat_StatusARM struct {
 
 type PublicIPAddressSku_StatusARM struct {
 	//Name: Name of a public IP address SKU.
-	Name *PublicIPAddressSkuStatusName `json:"name,omitempty"`
+	Name *PublicIPAddressSku_Name_Status `json:"name,omitempty"`
 
 	//Tier: Tier of a public IP address SKU.
-	Tier *PublicIPAddressSkuStatusTier `json:"tier,omitempty"`
+	Tier *PublicIPAddressSku_Tier_Status `json:"tier,omitempty"`
 }
 
 type DdosSettings_StatusARM struct {
@@ -96,7 +96,7 @@ type DdosSettings_StatusARM struct {
 
 	//ProtectionCoverage: The DDoS protection policy customizability of the public IP.
 	//Only standard coverage will have the ability to be customized.
-	ProtectionCoverage *DdosSettingsStatusProtectionCoverage `json:"protectionCoverage,omitempty"`
+	ProtectionCoverage *DdosSettings_ProtectionCoverage_Status `json:"protectionCoverage,omitempty"`
 }
 
 type IPConfiguration_Status_PublicIPAddress_SubResourceEmbeddedARM struct {
@@ -153,18 +153,18 @@ type PublicIPAddressDnsSettings_StatusARM struct {
 	ReverseFqdn *string `json:"reverseFqdn,omitempty"`
 }
 
-type PublicIPAddressSkuStatusName string
+type PublicIPAddressSku_Name_Status string
 
 const (
-	PublicIPAddressSkuStatusNameBasic    = PublicIPAddressSkuStatusName("Basic")
-	PublicIPAddressSkuStatusNameStandard = PublicIPAddressSkuStatusName("Standard")
+	PublicIPAddressSku_Name_StatusBasic    = PublicIPAddressSku_Name_Status("Basic")
+	PublicIPAddressSku_Name_StatusStandard = PublicIPAddressSku_Name_Status("Standard")
 )
 
-type PublicIPAddressSkuStatusTier string
+type PublicIPAddressSku_Tier_Status string
 
 const (
-	PublicIPAddressSkuStatusTierGlobal   = PublicIPAddressSkuStatusTier("Global")
-	PublicIPAddressSkuStatusTierRegional = PublicIPAddressSkuStatusTier("Regional")
+	PublicIPAddressSku_Tier_StatusGlobal   = PublicIPAddressSku_Tier_Status("Global")
+	PublicIPAddressSku_Tier_StatusRegional = PublicIPAddressSku_Tier_Status("Regional")
 )
 
 type IPConfigurationPropertiesFormat_Status_PublicIPAddress_SubResourceEmbeddedARM struct {
@@ -183,7 +183,7 @@ type IPConfigurationPropertiesFormat_Status_PublicIPAddress_SubResourceEmbeddedA
 
 type NatGatewaySku_StatusARM struct {
 	//Name: Name of Nat Gateway SKU.
-	Name *NatGatewaySkuStatusName `json:"name,omitempty"`
+	Name *NatGatewaySku_Name_Status `json:"name,omitempty"`
 }
 
 type Subnet_Status_PublicIPAddress_SubResourceEmbeddedARM struct {

@@ -307,7 +307,7 @@ type VirtualMachineScaleSetIdentity_Status struct {
 	PropertyBag            genruntime.PropertyBag                                                  `json:"$propertyBag,omitempty"`
 	TenantId               *string                                                                 `json:"tenantId,omitempty"`
 	Type                   *string                                                                 `json:"type,omitempty"`
-	UserAssignedIdentities map[string]VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]VirtualMachineScaleSetIdentity_UserAssignedIdentities_Status `json:"userAssignedIdentities,omitempty"`
 }
 
 //Storage version of v1alpha1api20201201.VirtualMachineScaleSetVMProfile_Spec
@@ -403,8 +403,8 @@ type VirtualMachineScaleSetExtensionProfile_Status struct {
 	PropertyBag          genruntime.PropertyBag                                       `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20201201.VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities
-type VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities struct {
+//Storage version of v1alpha1api20201201.VirtualMachineScaleSetIdentity_UserAssignedIdentities_Status
+type VirtualMachineScaleSetIdentity_UserAssignedIdentities_Status struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

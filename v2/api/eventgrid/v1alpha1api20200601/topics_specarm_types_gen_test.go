@@ -24,12 +24,12 @@ func Test_Topics_SPECARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Topics_SPECARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTopicsSPECARM, TopicsSPECARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForTopics_SPECARM, Topics_SPECARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForTopicsSPECARM runs a test to see if a specific instance of Topics_SPECARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForTopicsSPECARM(subject Topics_SPECARM) string {
+// RunJSONSerializationTestForTopics_SPECARM runs a test to see if a specific instance of Topics_SPECARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForTopics_SPECARM(subject Topics_SPECARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -55,24 +55,24 @@ func RunJSONSerializationTestForTopicsSPECARM(subject Topics_SPECARM) string {
 	return ""
 }
 
-// Generator of Topics_SPECARM instances for property testing - lazily instantiated by TopicsSPECARMGenerator()
-var topicsSPECARMGenerator gopter.Gen
+// Generator of Topics_SPECARM instances for property testing - lazily instantiated by Topics_SPECARMGenerator()
+var topics_specarmGenerator gopter.Gen
 
-// TopicsSPECARMGenerator returns a generator of Topics_SPECARM instances for property testing.
-func TopicsSPECARMGenerator() gopter.Gen {
-	if topicsSPECARMGenerator != nil {
-		return topicsSPECARMGenerator
+// Topics_SPECARMGenerator returns a generator of Topics_SPECARM instances for property testing.
+func Topics_SPECARMGenerator() gopter.Gen {
+	if topics_specarmGenerator != nil {
+		return topics_specarmGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTopicsSPECARM(generators)
-	topicsSPECARMGenerator = gen.Struct(reflect.TypeOf(Topics_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForTopics_SPECARM(generators)
+	topics_specarmGenerator = gen.Struct(reflect.TypeOf(Topics_SPECARM{}), generators)
 
-	return topicsSPECARMGenerator
+	return topics_specarmGenerator
 }
 
-// AddIndependentPropertyGeneratorsForTopicsSPECARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTopicsSPECARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForTopics_SPECARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForTopics_SPECARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()

@@ -377,7 +377,7 @@ type ManagedServiceIdentity_Status struct {
 	PropertyBag            genruntime.PropertyBag                                          `json:"$propertyBag,omitempty"`
 	TenantId               *string                                                         `json:"tenantId,omitempty"`
 	Type                   *string                                                         `json:"type,omitempty"`
-	UserAssignedIdentities map[string]ManagedServiceIdentity_Status_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]ManagedServiceIdentity_UserAssignedIdentities_Status `json:"userAssignedIdentities,omitempty"`
 }
 
 //Storage version of v1alpha1api20210515.VirtualNetworkRule_Spec
@@ -397,8 +397,8 @@ type VirtualNetworkRule_Status struct {
 	PropertyBag                      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.ManagedServiceIdentity_Status_UserAssignedIdentities
-type ManagedServiceIdentity_Status_UserAssignedIdentities struct {
+//Storage version of v1alpha1api20210515.ManagedServiceIdentity_UserAssignedIdentities_Status
+type ManagedServiceIdentity_UserAssignedIdentities_Status struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

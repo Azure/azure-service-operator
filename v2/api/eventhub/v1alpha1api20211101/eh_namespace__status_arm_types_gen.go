@@ -18,7 +18,7 @@ type EHNamespace_StatusARM struct {
 	Name *string `json:"name,omitempty"`
 
 	//Properties: Namespace properties supplied for create namespace operation.
-	Properties *EHNamespace_Status_PropertiesARM `json:"properties,omitempty"`
+	Properties *EHNamespace_Properties_StatusARM `json:"properties,omitempty"`
 
 	//Sku: Properties of sku resource
 	Sku *Sku_StatusARM `json:"sku,omitempty"`
@@ -34,7 +34,7 @@ type EHNamespace_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type EHNamespace_Status_PropertiesARM struct {
+type EHNamespace_Properties_StatusARM struct {
 	//AlternateName: Alternate name specified when alias and namespace names are same.
 	AlternateName *string `json:"alternateName,omitempty"`
 
@@ -95,7 +95,7 @@ type Identity_StatusARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	//Type: Type of managed service identity.
-	Type *IdentityStatusType `json:"type,omitempty"`
+	Type *Identity_Type_Status `json:"type,omitempty"`
 
 	//UserAssignedIdentities: Properties for User Assigned Identities
 	UserAssignedIdentities map[string]UserAssignedIdentity_StatusARM `json:"userAssignedIdentities,omitempty"`
@@ -108,15 +108,15 @@ type Sku_StatusARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	//Name: Name of this SKU.
-	Name SkuStatusName `json:"name"`
+	Name Sku_Name_Status `json:"name"`
 
 	//Tier: The billing tier of this particular SKU.
-	Tier *SkuStatusTier `json:"tier,omitempty"`
+	Tier *Sku_Tier_Status `json:"tier,omitempty"`
 }
 
 type Encryption_StatusARM struct {
 	//KeySource: Enumerates the possible value of keySource for Encryption
-	KeySource *EncryptionStatusKeySource `json:"keySource,omitempty"`
+	KeySource *Encryption_KeySource_Status `json:"keySource,omitempty"`
 
 	//KeyVaultProperties: Properties of KeyVault
 	KeyVaultProperties []KeyVaultProperties_StatusARM `json:"keyVaultProperties,omitempty"`
@@ -126,13 +126,13 @@ type Encryption_StatusARM struct {
 	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
 }
 
-type IdentityStatusType string
+type Identity_Type_Status string
 
 const (
-	IdentityStatusTypeNone                       = IdentityStatusType("None")
-	IdentityStatusTypeSystemAssigned             = IdentityStatusType("SystemAssigned")
-	IdentityStatusTypeSystemAssignedUserAssigned = IdentityStatusType("SystemAssigned, UserAssigned")
-	IdentityStatusTypeUserAssigned               = IdentityStatusType("UserAssigned")
+	Identity_Type_StatusNone                       = Identity_Type_Status("None")
+	Identity_Type_StatusSystemAssigned             = Identity_Type_Status("SystemAssigned")
+	Identity_Type_StatusSystemAssignedUserAssigned = Identity_Type_Status("SystemAssigned, UserAssigned")
+	Identity_Type_StatusUserAssigned               = Identity_Type_Status("UserAssigned")
 )
 
 type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
@@ -144,20 +144,20 @@ type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
 }
 
-type SkuStatusName string
+type Sku_Name_Status string
 
 const (
-	SkuStatusNameBasic    = SkuStatusName("Basic")
-	SkuStatusNamePremium  = SkuStatusName("Premium")
-	SkuStatusNameStandard = SkuStatusName("Standard")
+	Sku_Name_StatusBasic    = Sku_Name_Status("Basic")
+	Sku_Name_StatusPremium  = Sku_Name_Status("Premium")
+	Sku_Name_StatusStandard = Sku_Name_Status("Standard")
 )
 
-type SkuStatusTier string
+type Sku_Tier_Status string
 
 const (
-	SkuStatusTierBasic    = SkuStatusTier("Basic")
-	SkuStatusTierPremium  = SkuStatusTier("Premium")
-	SkuStatusTierStandard = SkuStatusTier("Standard")
+	Sku_Tier_StatusBasic    = Sku_Tier_Status("Basic")
+	Sku_Tier_StatusPremium  = Sku_Tier_Status("Premium")
+	Sku_Tier_StatusStandard = Sku_Tier_Status("Standard")
 )
 
 type UserAssignedIdentity_StatusARM struct {
@@ -168,9 +168,9 @@ type UserAssignedIdentity_StatusARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-type EncryptionStatusKeySource string
+type Encryption_KeySource_Status string
 
-const EncryptionStatusKeySourceMicrosoftKeyVault = EncryptionStatusKeySource("Microsoft.KeyVault")
+const Encryption_KeySource_StatusMicrosoftKeyVault = Encryption_KeySource_Status("Microsoft.KeyVault")
 
 type KeyVaultProperties_StatusARM struct {
 	Identity *UserAssignedIdentityProperties_StatusARM `json:"identity,omitempty"`

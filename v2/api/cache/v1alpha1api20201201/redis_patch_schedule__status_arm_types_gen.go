@@ -26,7 +26,7 @@ type ScheduleEntries_StatusARM struct {
 
 type ScheduleEntry_StatusARM struct {
 	//DayOfWeek: Day of the week when a cache can be patched.
-	DayOfWeek ScheduleEntryStatusDayOfWeek `json:"dayOfWeek"`
+	DayOfWeek ScheduleEntry_DayOfWeek_Status `json:"dayOfWeek"`
 
 	//MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can
 	//take.

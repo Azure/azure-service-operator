@@ -446,7 +446,7 @@ type VirtualMachineIdentity_Status struct {
 	PropertyBag            genruntime.PropertyBag                                          `json:"$propertyBag,omitempty"`
 	TenantId               *string                                                         `json:"tenantId,omitempty"`
 	Type                   *string                                                         `json:"type,omitempty"`
-	UserAssignedIdentities map[string]VirtualMachineIdentity_Status_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]VirtualMachineIdentity_UserAssignedIdentities_Status `json:"userAssignedIdentities,omitempty"`
 }
 
 //Storage version of v1alpha1api20201201.VirtualMachineInstanceView_Status
@@ -697,8 +697,8 @@ type VirtualMachineHealthStatus_Status struct {
 	Status      *InstanceViewStatus_Status `json:"status,omitempty"`
 }
 
-//Storage version of v1alpha1api20201201.VirtualMachineIdentity_Status_UserAssignedIdentities
-type VirtualMachineIdentity_Status_UserAssignedIdentities struct {
+//Storage version of v1alpha1api20201201.VirtualMachineIdentity_UserAssignedIdentities_Status
+type VirtualMachineIdentity_UserAssignedIdentities_Status struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

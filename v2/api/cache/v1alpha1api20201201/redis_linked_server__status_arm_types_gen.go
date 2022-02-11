@@ -16,5 +16,5 @@ type RedisLinkedServerCreateProperties_StatusARM struct {
 	LinkedRedisCacheLocation string `json:"linkedRedisCacheLocation"`
 
 	//ServerRole: Role of the linked server.
-	ServerRole RedisLinkedServerCreatePropertiesStatusServerRole `json:"serverRole"`
+	ServerRole RedisLinkedServerCreateProperties_ServerRole_Status `json:"serverRole"`
 }

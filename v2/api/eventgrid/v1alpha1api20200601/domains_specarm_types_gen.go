@@ -43,7 +43,7 @@ type DomainProperties_SpecARM struct {
 
 	//InputSchema: This determines the format that Event Grid should expect for
 	//incoming events published to the domain.
-	InputSchema *DomainPropertiesSpecInputSchema `json:"inputSchema,omitempty"`
+	InputSchema *DomainProperties_InputSchema_Spec `json:"inputSchema,omitempty"`
 
 	//InputSchemaMapping: Information about the InputSchemaMapping which specified the
 	//info about mapping event payload.
@@ -54,12 +54,12 @@ type DomainProperties_SpecARM struct {
 	//You can further restrict to specific IPs by configuring <seealso
 	//cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules"
 	///>
-	PublicNetworkAccess *DomainPropertiesSpecPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *DomainProperties_PublicNetworkAccess_Spec `json:"publicNetworkAccess,omitempty"`
 }
 
 type InboundIpRule_SpecARM struct {
 	//Action: Action to perform based on the match or no match of the IpMask.
-	Action *InboundIpRuleSpecAction `json:"action,omitempty"`
+	Action *InboundIpRule_Action_Spec `json:"action,omitempty"`
 
 	//IpMask: IP Address in CIDR notation e.g., 10.0.0.0/8.
 	IpMask *string `json:"ipMask,omitempty"`
@@ -67,5 +67,5 @@ type InboundIpRule_SpecARM struct {
 
 type InputSchemaMapping_SpecARM struct {
 	//InputSchemaMappingType: Type of the custom mapping
-	InputSchemaMappingType InputSchemaMappingSpecInputSchemaMappingType `json:"inputSchemaMappingType"`
+	InputSchemaMappingType InputSchemaMapping_InputSchemaMappingType_Spec `json:"inputSchemaMappingType"`
 }

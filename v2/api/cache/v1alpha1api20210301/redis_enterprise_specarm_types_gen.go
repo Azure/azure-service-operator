@@ -44,7 +44,7 @@ func (specarm RedisEnterprise_SPECARM) GetType() string {
 
 type ClusterProperties_SpecARM struct {
 	//MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'
-	MinimumTlsVersion *ClusterPropertiesSpecMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *ClusterProperties_MinimumTlsVersion_Spec `json:"minimumTlsVersion,omitempty"`
 }
 
 type Sku_SpecARM struct {
@@ -55,18 +55,18 @@ type Sku_SpecARM struct {
 
 	//Name: The type of RedisEnterprise cluster to deploy. Possible values:
 	//(Enterprise_E10, EnterpriseFlash_F300 etc.)
-	Name SkuSpecName `json:"name"`
+	Name Sku_Name_Spec `json:"name"`
 }
 
-// +kubebuilder:validation:Enum={"Enterprise_E10","Enterprise_E100","Enterprise_E20","Enterprise_E50","EnterpriseFlash_F1500","EnterpriseFlash_F300","EnterpriseFlash_F700"}
-type SkuSpecName string
+// +kubebuilder:validation:Enum={"EnterpriseFlash_F1500","EnterpriseFlash_F300","EnterpriseFlash_F700","Enterprise_E10","Enterprise_E100","Enterprise_E20","Enterprise_E50"}
+type Sku_Name_Spec string
 
 const (
-	SkuSpecNameEnterpriseE10        = SkuSpecName("Enterprise_E10")
-	SkuSpecNameEnterpriseE100       = SkuSpecName("Enterprise_E100")
-	SkuSpecNameEnterpriseE20        = SkuSpecName("Enterprise_E20")
-	SkuSpecNameEnterpriseE50        = SkuSpecName("Enterprise_E50")
-	SkuSpecNameEnterpriseFlashF1500 = SkuSpecName("EnterpriseFlash_F1500")
-	SkuSpecNameEnterpriseFlashF300  = SkuSpecName("EnterpriseFlash_F300")
-	SkuSpecNameEnterpriseFlashF700  = SkuSpecName("EnterpriseFlash_F700")
+	Sku_Name_SpecEnterpriseFlash_F1500 = Sku_Name_Spec("EnterpriseFlash_F1500")
+	Sku_Name_SpecEnterpriseFlash_F300  = Sku_Name_Spec("EnterpriseFlash_F300")
+	Sku_Name_SpecEnterpriseFlash_F700  = Sku_Name_Spec("EnterpriseFlash_F700")
+	Sku_Name_SpecEnterprise_E10        = Sku_Name_Spec("Enterprise_E10")
+	Sku_Name_SpecEnterprise_E100       = Sku_Name_Spec("Enterprise_E100")
+	Sku_Name_SpecEnterprise_E20        = Sku_Name_Spec("Enterprise_E20")
+	Sku_Name_SpecEnterprise_E50        = Sku_Name_Spec("Enterprise_E50")
 )

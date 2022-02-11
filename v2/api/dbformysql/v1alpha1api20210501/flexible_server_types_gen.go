@@ -248,17 +248,17 @@ func (server *FlexibleServer) AssignPropertiesFromFlexibleServer(source *v1alpha
 
 	// Spec
 	var spec FlexibleServers_SPEC
-	err := spec.AssignPropertiesFromFlexibleServersSPEC(&source.Spec)
+	err := spec.AssignPropertiesFromFlexibleServers_SPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServersSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServers_SPEC() to populate field Spec")
 	}
 	server.Spec = spec
 
 	// Status
 	var status Server_Status
-	err = status.AssignPropertiesFromServerStatus(&source.Status)
+	err = status.AssignPropertiesFromServer_Status(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromServerStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromServer_Status() to populate field Status")
 	}
 	server.Status = status
 
@@ -274,17 +274,17 @@ func (server *FlexibleServer) AssignPropertiesToFlexibleServer(destination *v1al
 
 	// Spec
 	var spec v1alpha1api20210501storage.FlexibleServers_SPEC
-	err := server.Spec.AssignPropertiesToFlexibleServersSPEC(&spec)
+	err := server.Spec.AssignPropertiesToFlexibleServers_SPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServers_SPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v1alpha1api20210501storage.Server_Status
-	err = server.Status.AssignPropertiesToServerStatus(&status)
+	err = server.Status.AssignPropertiesToServer_Status(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToServerStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToServer_Status() to populate field Status")
 	}
 	destination.Status = status
 
@@ -336,7 +336,7 @@ type FlexibleServers_SPEC struct {
 	Backup *Backup_Spec `json:"backup,omitempty"`
 
 	//CreateMode: The mode to create a new MySQL server.
-	CreateMode *ServerPropertiesSpecCreateMode `json:"createMode,omitempty"`
+	CreateMode *ServerProperties_CreateMode_Spec `json:"createMode,omitempty"`
 
 	//HighAvailability: High availability related properties of a server.
 	HighAvailability *HighAvailability_Spec `json:"highAvailability,omitempty"`
@@ -696,7 +696,7 @@ func (spec *FlexibleServers_SPEC) ConvertSpecFrom(source genruntime.ConvertibleS
 	src, ok := source.(*v1alpha1api20210501storage.FlexibleServers_SPEC)
 	if ok {
 		// Populate our instance from source
-		return spec.AssignPropertiesFromFlexibleServersSPEC(src)
+		return spec.AssignPropertiesFromFlexibleServers_SPEC(src)
 	}
 
 	// Convert to an intermediate form
@@ -707,7 +707,7 @@ func (spec *FlexibleServers_SPEC) ConvertSpecFrom(source genruntime.ConvertibleS
 	}
 
 	// Update our instance from src
-	err = spec.AssignPropertiesFromFlexibleServersSPEC(src)
+	err = spec.AssignPropertiesFromFlexibleServers_SPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -720,12 +720,12 @@ func (spec *FlexibleServers_SPEC) ConvertSpecTo(destination genruntime.Convertib
 	dst, ok := destination.(*v1alpha1api20210501storage.FlexibleServers_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return spec.AssignPropertiesToFlexibleServersSPEC(dst)
+		return spec.AssignPropertiesToFlexibleServers_SPEC(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210501storage.FlexibleServers_SPEC{}
-	err := spec.AssignPropertiesToFlexibleServersSPEC(dst)
+	err := spec.AssignPropertiesToFlexibleServers_SPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -739,8 +739,8 @@ func (spec *FlexibleServers_SPEC) ConvertSpecTo(destination genruntime.Convertib
 	return nil
 }
 
-// AssignPropertiesFromFlexibleServersSPEC populates our FlexibleServers_SPEC from the provided source FlexibleServers_SPEC
-func (spec *FlexibleServers_SPEC) AssignPropertiesFromFlexibleServersSPEC(source *v1alpha1api20210501storage.FlexibleServers_SPEC) error {
+// AssignPropertiesFromFlexibleServers_SPEC populates our FlexibleServers_SPEC from the provided source FlexibleServers_SPEC
+func (spec *FlexibleServers_SPEC) AssignPropertiesFromFlexibleServers_SPEC(source *v1alpha1api20210501storage.FlexibleServers_SPEC) error {
 
 	// AdministratorLogin
 	spec.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
@@ -762,9 +762,9 @@ func (spec *FlexibleServers_SPEC) AssignPropertiesFromFlexibleServersSPEC(source
 	// Backup
 	if source.Backup != nil {
 		var backup Backup_Spec
-		err := backup.AssignPropertiesFromBackupSpec(source.Backup)
+		err := backup.AssignPropertiesFromBackup_Spec(source.Backup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromBackupSpec() to populate field Backup")
+			return errors.Wrap(err, "calling AssignPropertiesFromBackup_Spec() to populate field Backup")
 		}
 		spec.Backup = &backup
 	} else {
@@ -773,7 +773,7 @@ func (spec *FlexibleServers_SPEC) AssignPropertiesFromFlexibleServersSPEC(source
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := ServerPropertiesSpecCreateMode(*source.CreateMode)
+		createMode := ServerProperties_CreateMode_Spec(*source.CreateMode)
 		spec.CreateMode = &createMode
 	} else {
 		spec.CreateMode = nil
@@ -782,9 +782,9 @@ func (spec *FlexibleServers_SPEC) AssignPropertiesFromFlexibleServersSPEC(source
 	// HighAvailability
 	if source.HighAvailability != nil {
 		var highAvailability HighAvailability_Spec
-		err := highAvailability.AssignPropertiesFromHighAvailabilitySpec(source.HighAvailability)
+		err := highAvailability.AssignPropertiesFromHighAvailability_Spec(source.HighAvailability)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHighAvailabilitySpec() to populate field HighAvailability")
+			return errors.Wrap(err, "calling AssignPropertiesFromHighAvailability_Spec() to populate field HighAvailability")
 		}
 		spec.HighAvailability = &highAvailability
 	} else {
@@ -797,9 +797,9 @@ func (spec *FlexibleServers_SPEC) AssignPropertiesFromFlexibleServersSPEC(source
 	// MaintenanceWindow
 	if source.MaintenanceWindow != nil {
 		var maintenanceWindow MaintenanceWindow_Spec
-		err := maintenanceWindow.AssignPropertiesFromMaintenanceWindowSpec(source.MaintenanceWindow)
+		err := maintenanceWindow.AssignPropertiesFromMaintenanceWindow_Spec(source.MaintenanceWindow)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromMaintenanceWindowSpec() to populate field MaintenanceWindow")
+			return errors.Wrap(err, "calling AssignPropertiesFromMaintenanceWindow_Spec() to populate field MaintenanceWindow")
 		}
 		spec.MaintenanceWindow = &maintenanceWindow
 	} else {
@@ -809,9 +809,9 @@ func (spec *FlexibleServers_SPEC) AssignPropertiesFromFlexibleServersSPEC(source
 	// Network
 	if source.Network != nil {
 		var network Network_Spec
-		err := network.AssignPropertiesFromNetworkSpec(source.Network)
+		err := network.AssignPropertiesFromNetwork_Spec(source.Network)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromNetworkSpec() to populate field Network")
+			return errors.Wrap(err, "calling AssignPropertiesFromNetwork_Spec() to populate field Network")
 		}
 		spec.Network = &network
 	} else {
@@ -840,9 +840,9 @@ func (spec *FlexibleServers_SPEC) AssignPropertiesFromFlexibleServersSPEC(source
 	// Sku
 	if source.Sku != nil {
 		var sku Sku_Spec
-		err := sku.AssignPropertiesFromSkuSpec(source.Sku)
+		err := sku.AssignPropertiesFromSku_Spec(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSkuSpec() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesFromSku_Spec() to populate field Sku")
 		}
 		spec.Sku = &sku
 	} else {
@@ -855,9 +855,9 @@ func (spec *FlexibleServers_SPEC) AssignPropertiesFromFlexibleServersSPEC(source
 	// Storage
 	if source.Storage != nil {
 		var storage Storage_Spec
-		err := storage.AssignPropertiesFromStorageSpec(source.Storage)
+		err := storage.AssignPropertiesFromStorage_Spec(source.Storage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromStorageSpec() to populate field Storage")
+			return errors.Wrap(err, "calling AssignPropertiesFromStorage_Spec() to populate field Storage")
 		}
 		spec.Storage = &storage
 	} else {
@@ -879,8 +879,8 @@ func (spec *FlexibleServers_SPEC) AssignPropertiesFromFlexibleServersSPEC(source
 	return nil
 }
 
-// AssignPropertiesToFlexibleServersSPEC populates the provided destination FlexibleServers_SPEC from our FlexibleServers_SPEC
-func (spec *FlexibleServers_SPEC) AssignPropertiesToFlexibleServersSPEC(destination *v1alpha1api20210501storage.FlexibleServers_SPEC) error {
+// AssignPropertiesToFlexibleServers_SPEC populates the provided destination FlexibleServers_SPEC from our FlexibleServers_SPEC
+func (spec *FlexibleServers_SPEC) AssignPropertiesToFlexibleServers_SPEC(destination *v1alpha1api20210501storage.FlexibleServers_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -904,9 +904,9 @@ func (spec *FlexibleServers_SPEC) AssignPropertiesToFlexibleServersSPEC(destinat
 	// Backup
 	if spec.Backup != nil {
 		var backup v1alpha1api20210501storage.Backup_Spec
-		err := spec.Backup.AssignPropertiesToBackupSpec(&backup)
+		err := spec.Backup.AssignPropertiesToBackup_Spec(&backup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToBackupSpec() to populate field Backup")
+			return errors.Wrap(err, "calling AssignPropertiesToBackup_Spec() to populate field Backup")
 		}
 		destination.Backup = &backup
 	} else {
@@ -924,9 +924,9 @@ func (spec *FlexibleServers_SPEC) AssignPropertiesToFlexibleServersSPEC(destinat
 	// HighAvailability
 	if spec.HighAvailability != nil {
 		var highAvailability v1alpha1api20210501storage.HighAvailability_Spec
-		err := spec.HighAvailability.AssignPropertiesToHighAvailabilitySpec(&highAvailability)
+		err := spec.HighAvailability.AssignPropertiesToHighAvailability_Spec(&highAvailability)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHighAvailabilitySpec() to populate field HighAvailability")
+			return errors.Wrap(err, "calling AssignPropertiesToHighAvailability_Spec() to populate field HighAvailability")
 		}
 		destination.HighAvailability = &highAvailability
 	} else {
@@ -940,9 +940,9 @@ func (spec *FlexibleServers_SPEC) AssignPropertiesToFlexibleServersSPEC(destinat
 	// MaintenanceWindow
 	if spec.MaintenanceWindow != nil {
 		var maintenanceWindow v1alpha1api20210501storage.MaintenanceWindow_Spec
-		err := spec.MaintenanceWindow.AssignPropertiesToMaintenanceWindowSpec(&maintenanceWindow)
+		err := spec.MaintenanceWindow.AssignPropertiesToMaintenanceWindow_Spec(&maintenanceWindow)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToMaintenanceWindowSpec() to populate field MaintenanceWindow")
+			return errors.Wrap(err, "calling AssignPropertiesToMaintenanceWindow_Spec() to populate field MaintenanceWindow")
 		}
 		destination.MaintenanceWindow = &maintenanceWindow
 	} else {
@@ -952,9 +952,9 @@ func (spec *FlexibleServers_SPEC) AssignPropertiesToFlexibleServersSPEC(destinat
 	// Network
 	if spec.Network != nil {
 		var network v1alpha1api20210501storage.Network_Spec
-		err := spec.Network.AssignPropertiesToNetworkSpec(&network)
+		err := spec.Network.AssignPropertiesToNetwork_Spec(&network)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToNetworkSpec() to populate field Network")
+			return errors.Wrap(err, "calling AssignPropertiesToNetwork_Spec() to populate field Network")
 		}
 		destination.Network = &network
 	} else {
@@ -986,9 +986,9 @@ func (spec *FlexibleServers_SPEC) AssignPropertiesToFlexibleServersSPEC(destinat
 	// Sku
 	if spec.Sku != nil {
 		var sku v1alpha1api20210501storage.Sku_Spec
-		err := spec.Sku.AssignPropertiesToSkuSpec(&sku)
+		err := spec.Sku.AssignPropertiesToSku_Spec(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSkuSpec() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesToSku_Spec() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1001,9 +1001,9 @@ func (spec *FlexibleServers_SPEC) AssignPropertiesToFlexibleServersSPEC(destinat
 	// Storage
 	if spec.Storage != nil {
 		var storage v1alpha1api20210501storage.Storage_Spec
-		err := spec.Storage.AssignPropertiesToStorageSpec(&storage)
+		err := spec.Storage.AssignPropertiesToStorage_Spec(&storage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToStorageSpec() to populate field Storage")
+			return errors.Wrap(err, "calling AssignPropertiesToStorage_Spec() to populate field Storage")
 		}
 		destination.Storage = &storage
 	} else {
@@ -1055,7 +1055,7 @@ type Server_Status struct {
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
 	//CreateMode: The mode to create a new MySQL server.
-	CreateMode *ServerPropertiesStatusCreateMode `json:"createMode,omitempty"`
+	CreateMode *ServerProperties_CreateMode_Status `json:"createMode,omitempty"`
 
 	//FullyQualifiedDomainName: The fully qualified domain name of a server.
 	FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
@@ -1096,7 +1096,7 @@ type Server_Status struct {
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
 	//State: The state of a server.
-	State *ServerPropertiesStatusState `json:"state,omitempty"`
+	State *ServerProperties_State_Status `json:"state,omitempty"`
 
 	//Storage: Storage related properties of a server.
 	Storage *Storage_Status `json:"storage,omitempty"`
@@ -1122,7 +1122,7 @@ func (server *Server_Status) ConvertStatusFrom(source genruntime.ConvertibleStat
 	src, ok := source.(*v1alpha1api20210501storage.Server_Status)
 	if ok {
 		// Populate our instance from source
-		return server.AssignPropertiesFromServerStatus(src)
+		return server.AssignPropertiesFromServer_Status(src)
 	}
 
 	// Convert to an intermediate form
@@ -1133,7 +1133,7 @@ func (server *Server_Status) ConvertStatusFrom(source genruntime.ConvertibleStat
 	}
 
 	// Update our instance from src
-	err = server.AssignPropertiesFromServerStatus(src)
+	err = server.AssignPropertiesFromServer_Status(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1146,12 +1146,12 @@ func (server *Server_Status) ConvertStatusTo(destination genruntime.ConvertibleS
 	dst, ok := destination.(*v1alpha1api20210501storage.Server_Status)
 	if ok {
 		// Populate destination from our instance
-		return server.AssignPropertiesToServerStatus(dst)
+		return server.AssignPropertiesToServer_Status(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210501storage.Server_Status{}
-	err := server.AssignPropertiesToServerStatus(dst)
+	err := server.AssignPropertiesToServer_Status(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1399,8 +1399,8 @@ func (server *Server_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	return nil
 }
 
-// AssignPropertiesFromServerStatus populates our Server_Status from the provided source Server_Status
-func (server *Server_Status) AssignPropertiesFromServerStatus(source *v1alpha1api20210501storage.Server_Status) error {
+// AssignPropertiesFromServer_Status populates our Server_Status from the provided source Server_Status
+func (server *Server_Status) AssignPropertiesFromServer_Status(source *v1alpha1api20210501storage.Server_Status) error {
 
 	// AdministratorLogin
 	server.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
@@ -1411,9 +1411,9 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v1alpha1ap
 	// Backup
 	if source.Backup != nil {
 		var backup Backup_Status
-		err := backup.AssignPropertiesFromBackupStatus(source.Backup)
+		err := backup.AssignPropertiesFromBackup_Status(source.Backup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromBackupStatus() to populate field Backup")
+			return errors.Wrap(err, "calling AssignPropertiesFromBackup_Status() to populate field Backup")
 		}
 		server.Backup = &backup
 	} else {
@@ -1425,7 +1425,7 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v1alpha1ap
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := ServerPropertiesStatusCreateMode(*source.CreateMode)
+		createMode := ServerProperties_CreateMode_Status(*source.CreateMode)
 		server.CreateMode = &createMode
 	} else {
 		server.CreateMode = nil
@@ -1437,9 +1437,9 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v1alpha1ap
 	// HighAvailability
 	if source.HighAvailability != nil {
 		var highAvailability HighAvailability_Status
-		err := highAvailability.AssignPropertiesFromHighAvailabilityStatus(source.HighAvailability)
+		err := highAvailability.AssignPropertiesFromHighAvailability_Status(source.HighAvailability)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHighAvailabilityStatus() to populate field HighAvailability")
+			return errors.Wrap(err, "calling AssignPropertiesFromHighAvailability_Status() to populate field HighAvailability")
 		}
 		server.HighAvailability = &highAvailability
 	} else {
@@ -1455,9 +1455,9 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v1alpha1ap
 	// MaintenanceWindow
 	if source.MaintenanceWindow != nil {
 		var maintenanceWindow MaintenanceWindow_Status
-		err := maintenanceWindow.AssignPropertiesFromMaintenanceWindowStatus(source.MaintenanceWindow)
+		err := maintenanceWindow.AssignPropertiesFromMaintenanceWindow_Status(source.MaintenanceWindow)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromMaintenanceWindowStatus() to populate field MaintenanceWindow")
+			return errors.Wrap(err, "calling AssignPropertiesFromMaintenanceWindow_Status() to populate field MaintenanceWindow")
 		}
 		server.MaintenanceWindow = &maintenanceWindow
 	} else {
@@ -1470,9 +1470,9 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v1alpha1ap
 	// Network
 	if source.Network != nil {
 		var network Network_Status
-		err := network.AssignPropertiesFromNetworkStatus(source.Network)
+		err := network.AssignPropertiesFromNetwork_Status(source.Network)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromNetworkStatus() to populate field Network")
+			return errors.Wrap(err, "calling AssignPropertiesFromNetwork_Status() to populate field Network")
 		}
 		server.Network = &network
 	} else {
@@ -1496,9 +1496,9 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v1alpha1ap
 	// Sku
 	if source.Sku != nil {
 		var sku Sku_Status
-		err := sku.AssignPropertiesFromSkuStatus(source.Sku)
+		err := sku.AssignPropertiesFromSku_Status(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesFromSku_Status() to populate field Sku")
 		}
 		server.Sku = &sku
 	} else {
@@ -1510,7 +1510,7 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v1alpha1ap
 
 	// State
 	if source.State != nil {
-		state := ServerPropertiesStatusState(*source.State)
+		state := ServerProperties_State_Status(*source.State)
 		server.State = &state
 	} else {
 		server.State = nil
@@ -1519,9 +1519,9 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v1alpha1ap
 	// Storage
 	if source.Storage != nil {
 		var storage Storage_Status
-		err := storage.AssignPropertiesFromStorageStatus(source.Storage)
+		err := storage.AssignPropertiesFromStorage_Status(source.Storage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromStorageStatus() to populate field Storage")
+			return errors.Wrap(err, "calling AssignPropertiesFromStorage_Status() to populate field Storage")
 		}
 		server.Storage = &storage
 	} else {
@@ -1531,9 +1531,9 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v1alpha1ap
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_Status
-		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		err := systemDatum.AssignPropertiesFromSystemData_Status(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_Status() to populate field SystemData")
 		}
 		server.SystemData = &systemDatum
 	} else {
@@ -1558,8 +1558,8 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v1alpha1ap
 	return nil
 }
 
-// AssignPropertiesToServerStatus populates the provided destination Server_Status from our Server_Status
-func (server *Server_Status) AssignPropertiesToServerStatus(destination *v1alpha1api20210501storage.Server_Status) error {
+// AssignPropertiesToServer_Status populates the provided destination Server_Status from our Server_Status
+func (server *Server_Status) AssignPropertiesToServer_Status(destination *v1alpha1api20210501storage.Server_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1572,9 +1572,9 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v1alpha
 	// Backup
 	if server.Backup != nil {
 		var backup v1alpha1api20210501storage.Backup_Status
-		err := server.Backup.AssignPropertiesToBackupStatus(&backup)
+		err := server.Backup.AssignPropertiesToBackup_Status(&backup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToBackupStatus() to populate field Backup")
+			return errors.Wrap(err, "calling AssignPropertiesToBackup_Status() to populate field Backup")
 		}
 		destination.Backup = &backup
 	} else {
@@ -1598,9 +1598,9 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v1alpha
 	// HighAvailability
 	if server.HighAvailability != nil {
 		var highAvailability v1alpha1api20210501storage.HighAvailability_Status
-		err := server.HighAvailability.AssignPropertiesToHighAvailabilityStatus(&highAvailability)
+		err := server.HighAvailability.AssignPropertiesToHighAvailability_Status(&highAvailability)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHighAvailabilityStatus() to populate field HighAvailability")
+			return errors.Wrap(err, "calling AssignPropertiesToHighAvailability_Status() to populate field HighAvailability")
 		}
 		destination.HighAvailability = &highAvailability
 	} else {
@@ -1616,9 +1616,9 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v1alpha
 	// MaintenanceWindow
 	if server.MaintenanceWindow != nil {
 		var maintenanceWindow v1alpha1api20210501storage.MaintenanceWindow_Status
-		err := server.MaintenanceWindow.AssignPropertiesToMaintenanceWindowStatus(&maintenanceWindow)
+		err := server.MaintenanceWindow.AssignPropertiesToMaintenanceWindow_Status(&maintenanceWindow)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToMaintenanceWindowStatus() to populate field MaintenanceWindow")
+			return errors.Wrap(err, "calling AssignPropertiesToMaintenanceWindow_Status() to populate field MaintenanceWindow")
 		}
 		destination.MaintenanceWindow = &maintenanceWindow
 	} else {
@@ -1631,9 +1631,9 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v1alpha
 	// Network
 	if server.Network != nil {
 		var network v1alpha1api20210501storage.Network_Status
-		err := server.Network.AssignPropertiesToNetworkStatus(&network)
+		err := server.Network.AssignPropertiesToNetwork_Status(&network)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToNetworkStatus() to populate field Network")
+			return errors.Wrap(err, "calling AssignPropertiesToNetwork_Status() to populate field Network")
 		}
 		destination.Network = &network
 	} else {
@@ -1657,9 +1657,9 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v1alpha
 	// Sku
 	if server.Sku != nil {
 		var sku v1alpha1api20210501storage.Sku_Status
-		err := server.Sku.AssignPropertiesToSkuStatus(&sku)
+		err := server.Sku.AssignPropertiesToSku_Status(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesToSku_Status() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1680,9 +1680,9 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v1alpha
 	// Storage
 	if server.Storage != nil {
 		var storage v1alpha1api20210501storage.Storage_Status
-		err := server.Storage.AssignPropertiesToStorageStatus(&storage)
+		err := server.Storage.AssignPropertiesToStorage_Status(&storage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToStorageStatus() to populate field Storage")
+			return errors.Wrap(err, "calling AssignPropertiesToStorage_Status() to populate field Storage")
 		}
 		destination.Storage = &storage
 	} else {
@@ -1692,9 +1692,9 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v1alpha
 	// SystemData
 	if server.SystemData != nil {
 		var systemDatum v1alpha1api20210501storage.SystemData_Status
-		err := server.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		err := server.SystemData.AssignPropertiesToSystemData_Status(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData_Status() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1785,8 +1785,8 @@ func (backup *Backup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	return nil
 }
 
-// AssignPropertiesFromBackupSpec populates our Backup_Spec from the provided source Backup_Spec
-func (backup *Backup_Spec) AssignPropertiesFromBackupSpec(source *v1alpha1api20210501storage.Backup_Spec) error {
+// AssignPropertiesFromBackup_Spec populates our Backup_Spec from the provided source Backup_Spec
+func (backup *Backup_Spec) AssignPropertiesFromBackup_Spec(source *v1alpha1api20210501storage.Backup_Spec) error {
 
 	// BackupRetentionDays
 	backup.BackupRetentionDays = genruntime.ClonePointerToInt(source.BackupRetentionDays)
@@ -1803,8 +1803,8 @@ func (backup *Backup_Spec) AssignPropertiesFromBackupSpec(source *v1alpha1api202
 	return nil
 }
 
-// AssignPropertiesToBackupSpec populates the provided destination Backup_Spec from our Backup_Spec
-func (backup *Backup_Spec) AssignPropertiesToBackupSpec(destination *v1alpha1api20210501storage.Backup_Spec) error {
+// AssignPropertiesToBackup_Spec populates the provided destination Backup_Spec from our Backup_Spec
+func (backup *Backup_Spec) AssignPropertiesToBackup_Spec(destination *v1alpha1api20210501storage.Backup_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1877,8 +1877,8 @@ func (backup *Backup_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	return nil
 }
 
-// AssignPropertiesFromBackupStatus populates our Backup_Status from the provided source Backup_Status
-func (backup *Backup_Status) AssignPropertiesFromBackupStatus(source *v1alpha1api20210501storage.Backup_Status) error {
+// AssignPropertiesFromBackup_Status populates our Backup_Status from the provided source Backup_Status
+func (backup *Backup_Status) AssignPropertiesFromBackup_Status(source *v1alpha1api20210501storage.Backup_Status) error {
 
 	// BackupRetentionDays
 	backup.BackupRetentionDays = genruntime.ClonePointerToInt(source.BackupRetentionDays)
@@ -1898,8 +1898,8 @@ func (backup *Backup_Status) AssignPropertiesFromBackupStatus(source *v1alpha1ap
 	return nil
 }
 
-// AssignPropertiesToBackupStatus populates the provided destination Backup_Status from our Backup_Status
-func (backup *Backup_Status) AssignPropertiesToBackupStatus(destination *v1alpha1api20210501storage.Backup_Status) error {
+// AssignPropertiesToBackup_Status populates the provided destination Backup_Status from our Backup_Status
+func (backup *Backup_Status) AssignPropertiesToBackup_Status(destination *v1alpha1api20210501storage.Backup_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1930,7 +1930,7 @@ func (backup *Backup_Status) AssignPropertiesToBackupStatus(destination *v1alpha
 
 type HighAvailability_Spec struct {
 	//Mode: High availability mode for a server.
-	Mode *HighAvailabilitySpecMode `json:"mode,omitempty"`
+	Mode *HighAvailability_Mode_Spec `json:"mode,omitempty"`
 
 	//StandbyAvailabilityZone: Availability zone of the standby server.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
@@ -1987,12 +1987,12 @@ func (availability *HighAvailability_Spec) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignPropertiesFromHighAvailabilitySpec populates our HighAvailability_Spec from the provided source HighAvailability_Spec
-func (availability *HighAvailability_Spec) AssignPropertiesFromHighAvailabilitySpec(source *v1alpha1api20210501storage.HighAvailability_Spec) error {
+// AssignPropertiesFromHighAvailability_Spec populates our HighAvailability_Spec from the provided source HighAvailability_Spec
+func (availability *HighAvailability_Spec) AssignPropertiesFromHighAvailability_Spec(source *v1alpha1api20210501storage.HighAvailability_Spec) error {
 
 	// Mode
 	if source.Mode != nil {
-		mode := HighAvailabilitySpecMode(*source.Mode)
+		mode := HighAvailability_Mode_Spec(*source.Mode)
 		availability.Mode = &mode
 	} else {
 		availability.Mode = nil
@@ -2005,8 +2005,8 @@ func (availability *HighAvailability_Spec) AssignPropertiesFromHighAvailabilityS
 	return nil
 }
 
-// AssignPropertiesToHighAvailabilitySpec populates the provided destination HighAvailability_Spec from our HighAvailability_Spec
-func (availability *HighAvailability_Spec) AssignPropertiesToHighAvailabilitySpec(destination *v1alpha1api20210501storage.HighAvailability_Spec) error {
+// AssignPropertiesToHighAvailability_Spec populates the provided destination HighAvailability_Spec from our HighAvailability_Spec
+func (availability *HighAvailability_Spec) AssignPropertiesToHighAvailability_Spec(destination *v1alpha1api20210501storage.HighAvailability_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2034,13 +2034,13 @@ func (availability *HighAvailability_Spec) AssignPropertiesToHighAvailabilitySpe
 
 type HighAvailability_Status struct {
 	//Mode: High availability mode for a server.
-	Mode *HighAvailabilityStatusMode `json:"mode,omitempty"`
+	Mode *HighAvailability_Mode_Status `json:"mode,omitempty"`
 
 	//StandbyAvailabilityZone: Availability zone of the standby server.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
 
 	//State: The state of server high availability.
-	State *HighAvailabilityStatusState `json:"state,omitempty"`
+	State *HighAvailability_State_Status `json:"state,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &HighAvailability_Status{}
@@ -2079,12 +2079,12 @@ func (availability *HighAvailability_Status) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
-// AssignPropertiesFromHighAvailabilityStatus populates our HighAvailability_Status from the provided source HighAvailability_Status
-func (availability *HighAvailability_Status) AssignPropertiesFromHighAvailabilityStatus(source *v1alpha1api20210501storage.HighAvailability_Status) error {
+// AssignPropertiesFromHighAvailability_Status populates our HighAvailability_Status from the provided source HighAvailability_Status
+func (availability *HighAvailability_Status) AssignPropertiesFromHighAvailability_Status(source *v1alpha1api20210501storage.HighAvailability_Status) error {
 
 	// Mode
 	if source.Mode != nil {
-		mode := HighAvailabilityStatusMode(*source.Mode)
+		mode := HighAvailability_Mode_Status(*source.Mode)
 		availability.Mode = &mode
 	} else {
 		availability.Mode = nil
@@ -2095,7 +2095,7 @@ func (availability *HighAvailability_Status) AssignPropertiesFromHighAvailabilit
 
 	// State
 	if source.State != nil {
-		state := HighAvailabilityStatusState(*source.State)
+		state := HighAvailability_State_Status(*source.State)
 		availability.State = &state
 	} else {
 		availability.State = nil
@@ -2105,8 +2105,8 @@ func (availability *HighAvailability_Status) AssignPropertiesFromHighAvailabilit
 	return nil
 }
 
-// AssignPropertiesToHighAvailabilityStatus populates the provided destination HighAvailability_Status from our HighAvailability_Status
-func (availability *HighAvailability_Status) AssignPropertiesToHighAvailabilityStatus(destination *v1alpha1api20210501storage.HighAvailability_Status) error {
+// AssignPropertiesToHighAvailability_Status populates the provided destination HighAvailability_Status from our HighAvailability_Status
+func (availability *HighAvailability_Status) AssignPropertiesToHighAvailability_Status(destination *v1alpha1api20210501storage.HighAvailability_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2229,8 +2229,8 @@ func (window *MaintenanceWindow_Spec) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromMaintenanceWindowSpec populates our MaintenanceWindow_Spec from the provided source MaintenanceWindow_Spec
-func (window *MaintenanceWindow_Spec) AssignPropertiesFromMaintenanceWindowSpec(source *v1alpha1api20210501storage.MaintenanceWindow_Spec) error {
+// AssignPropertiesFromMaintenanceWindow_Spec populates our MaintenanceWindow_Spec from the provided source MaintenanceWindow_Spec
+func (window *MaintenanceWindow_Spec) AssignPropertiesFromMaintenanceWindow_Spec(source *v1alpha1api20210501storage.MaintenanceWindow_Spec) error {
 
 	// CustomWindow
 	window.CustomWindow = genruntime.ClonePointerToString(source.CustomWindow)
@@ -2248,8 +2248,8 @@ func (window *MaintenanceWindow_Spec) AssignPropertiesFromMaintenanceWindowSpec(
 	return nil
 }
 
-// AssignPropertiesToMaintenanceWindowSpec populates the provided destination MaintenanceWindow_Spec from our MaintenanceWindow_Spec
-func (window *MaintenanceWindow_Spec) AssignPropertiesToMaintenanceWindowSpec(destination *v1alpha1api20210501storage.MaintenanceWindow_Spec) error {
+// AssignPropertiesToMaintenanceWindow_Spec populates the provided destination MaintenanceWindow_Spec from our MaintenanceWindow_Spec
+func (window *MaintenanceWindow_Spec) AssignPropertiesToMaintenanceWindow_Spec(destination *v1alpha1api20210501storage.MaintenanceWindow_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2332,8 +2332,8 @@ func (window *MaintenanceWindow_Status) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromMaintenanceWindowStatus populates our MaintenanceWindow_Status from the provided source MaintenanceWindow_Status
-func (window *MaintenanceWindow_Status) AssignPropertiesFromMaintenanceWindowStatus(source *v1alpha1api20210501storage.MaintenanceWindow_Status) error {
+// AssignPropertiesFromMaintenanceWindow_Status populates our MaintenanceWindow_Status from the provided source MaintenanceWindow_Status
+func (window *MaintenanceWindow_Status) AssignPropertiesFromMaintenanceWindow_Status(source *v1alpha1api20210501storage.MaintenanceWindow_Status) error {
 
 	// CustomWindow
 	window.CustomWindow = genruntime.ClonePointerToString(source.CustomWindow)
@@ -2351,8 +2351,8 @@ func (window *MaintenanceWindow_Status) AssignPropertiesFromMaintenanceWindowSta
 	return nil
 }
 
-// AssignPropertiesToMaintenanceWindowStatus populates the provided destination MaintenanceWindow_Status from our MaintenanceWindow_Status
-func (window *MaintenanceWindow_Status) AssignPropertiesToMaintenanceWindowStatus(destination *v1alpha1api20210501storage.MaintenanceWindow_Status) error {
+// AssignPropertiesToMaintenanceWindow_Status populates the provided destination MaintenanceWindow_Status from our MaintenanceWindow_Status
+func (window *MaintenanceWindow_Status) AssignPropertiesToMaintenanceWindow_Status(destination *v1alpha1api20210501storage.MaintenanceWindow_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2439,8 +2439,8 @@ func (network *Network_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	return nil
 }
 
-// AssignPropertiesFromNetworkSpec populates our Network_Spec from the provided source Network_Spec
-func (network *Network_Spec) AssignPropertiesFromNetworkSpec(source *v1alpha1api20210501storage.Network_Spec) error {
+// AssignPropertiesFromNetwork_Spec populates our Network_Spec from the provided source Network_Spec
+func (network *Network_Spec) AssignPropertiesFromNetwork_Spec(source *v1alpha1api20210501storage.Network_Spec) error {
 
 	// DelegatedSubnetResourceReference
 	if source.DelegatedSubnetResourceReference != nil {
@@ -2462,8 +2462,8 @@ func (network *Network_Spec) AssignPropertiesFromNetworkSpec(source *v1alpha1api
 	return nil
 }
 
-// AssignPropertiesToNetworkSpec populates the provided destination Network_Spec from our Network_Spec
-func (network *Network_Spec) AssignPropertiesToNetworkSpec(destination *v1alpha1api20210501storage.Network_Spec) error {
+// AssignPropertiesToNetwork_Spec populates the provided destination Network_Spec from our Network_Spec
+func (network *Network_Spec) AssignPropertiesToNetwork_Spec(destination *v1alpha1api20210501storage.Network_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2543,8 +2543,8 @@ func (network *Network_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromNetworkStatus populates our Network_Status from the provided source Network_Status
-func (network *Network_Status) AssignPropertiesFromNetworkStatus(source *v1alpha1api20210501storage.Network_Status) error {
+// AssignPropertiesFromNetwork_Status populates our Network_Status from the provided source Network_Status
+func (network *Network_Status) AssignPropertiesFromNetwork_Status(source *v1alpha1api20210501storage.Network_Status) error {
 
 	// DelegatedSubnetResourceId
 	network.DelegatedSubnetResourceId = genruntime.ClonePointerToString(source.DelegatedSubnetResourceId)
@@ -2564,8 +2564,8 @@ func (network *Network_Status) AssignPropertiesFromNetworkStatus(source *v1alpha
 	return nil
 }
 
-// AssignPropertiesToNetworkStatus populates the provided destination Network_Status from our Network_Status
-func (network *Network_Status) AssignPropertiesToNetworkStatus(destination *v1alpha1api20210501storage.Network_Status) error {
+// AssignPropertiesToNetwork_Status populates the provided destination Network_Status from our Network_Status
+func (network *Network_Status) AssignPropertiesToNetwork_Status(destination *v1alpha1api20210501storage.Network_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2612,34 +2612,34 @@ const (
 )
 
 // +kubebuilder:validation:Enum={"Default","GeoRestore","PointInTimeRestore","Replica"}
-type ServerPropertiesSpecCreateMode string
+type ServerProperties_CreateMode_Spec string
 
 const (
-	ServerPropertiesSpecCreateModeDefault            = ServerPropertiesSpecCreateMode("Default")
-	ServerPropertiesSpecCreateModeGeoRestore         = ServerPropertiesSpecCreateMode("GeoRestore")
-	ServerPropertiesSpecCreateModePointInTimeRestore = ServerPropertiesSpecCreateMode("PointInTimeRestore")
-	ServerPropertiesSpecCreateModeReplica            = ServerPropertiesSpecCreateMode("Replica")
+	ServerProperties_CreateMode_SpecDefault            = ServerProperties_CreateMode_Spec("Default")
+	ServerProperties_CreateMode_SpecGeoRestore         = ServerProperties_CreateMode_Spec("GeoRestore")
+	ServerProperties_CreateMode_SpecPointInTimeRestore = ServerProperties_CreateMode_Spec("PointInTimeRestore")
+	ServerProperties_CreateMode_SpecReplica            = ServerProperties_CreateMode_Spec("Replica")
 )
 
-type ServerPropertiesStatusCreateMode string
+type ServerProperties_CreateMode_Status string
 
 const (
-	ServerPropertiesStatusCreateModeDefault            = ServerPropertiesStatusCreateMode("Default")
-	ServerPropertiesStatusCreateModeGeoRestore         = ServerPropertiesStatusCreateMode("GeoRestore")
-	ServerPropertiesStatusCreateModePointInTimeRestore = ServerPropertiesStatusCreateMode("PointInTimeRestore")
-	ServerPropertiesStatusCreateModeReplica            = ServerPropertiesStatusCreateMode("Replica")
+	ServerProperties_CreateMode_StatusDefault            = ServerProperties_CreateMode_Status("Default")
+	ServerProperties_CreateMode_StatusGeoRestore         = ServerProperties_CreateMode_Status("GeoRestore")
+	ServerProperties_CreateMode_StatusPointInTimeRestore = ServerProperties_CreateMode_Status("PointInTimeRestore")
+	ServerProperties_CreateMode_StatusReplica            = ServerProperties_CreateMode_Status("Replica")
 )
 
-type ServerPropertiesStatusState string
+type ServerProperties_State_Status string
 
 const (
-	ServerPropertiesStatusStateDisabled = ServerPropertiesStatusState("Disabled")
-	ServerPropertiesStatusStateDropping = ServerPropertiesStatusState("Dropping")
-	ServerPropertiesStatusStateReady    = ServerPropertiesStatusState("Ready")
-	ServerPropertiesStatusStateStarting = ServerPropertiesStatusState("Starting")
-	ServerPropertiesStatusStateStopped  = ServerPropertiesStatusState("Stopped")
-	ServerPropertiesStatusStateStopping = ServerPropertiesStatusState("Stopping")
-	ServerPropertiesStatusStateUpdating = ServerPropertiesStatusState("Updating")
+	ServerProperties_State_StatusDisabled = ServerProperties_State_Status("Disabled")
+	ServerProperties_State_StatusDropping = ServerProperties_State_Status("Dropping")
+	ServerProperties_State_StatusReady    = ServerProperties_State_Status("Ready")
+	ServerProperties_State_StatusStarting = ServerProperties_State_Status("Starting")
+	ServerProperties_State_StatusStopped  = ServerProperties_State_Status("Stopped")
+	ServerProperties_State_StatusStopping = ServerProperties_State_Status("Stopping")
+	ServerProperties_State_StatusUpdating = ServerProperties_State_Status("Updating")
 )
 
 // +kubebuilder:validation:Enum={"5.7","8.0.21"}
@@ -2664,7 +2664,7 @@ type Sku_Spec struct {
 
 	// +kubebuilder:validation:Required
 	//Tier: The tier of the particular SKU, e.g. GeneralPurpose.
-	Tier SkuSpecTier `json:"tier"`
+	Tier Sku_Tier_Spec `json:"tier"`
 }
 
 var _ genruntime.ARMTransformer = &Sku_Spec{}
@@ -2706,15 +2706,15 @@ func (sku *Sku_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, a
 	return nil
 }
 
-// AssignPropertiesFromSkuSpec populates our Sku_Spec from the provided source Sku_Spec
-func (sku *Sku_Spec) AssignPropertiesFromSkuSpec(source *v1alpha1api20210501storage.Sku_Spec) error {
+// AssignPropertiesFromSku_Spec populates our Sku_Spec from the provided source Sku_Spec
+func (sku *Sku_Spec) AssignPropertiesFromSku_Spec(source *v1alpha1api20210501storage.Sku_Spec) error {
 
 	// Name
 	sku.Name = genruntime.GetOptionalStringValue(source.Name)
 
 	// Tier
 	if source.Tier != nil {
-		sku.Tier = SkuSpecTier(*source.Tier)
+		sku.Tier = Sku_Tier_Spec(*source.Tier)
 	} else {
 		sku.Tier = ""
 	}
@@ -2723,8 +2723,8 @@ func (sku *Sku_Spec) AssignPropertiesFromSkuSpec(source *v1alpha1api20210501stor
 	return nil
 }
 
-// AssignPropertiesToSkuSpec populates the provided destination Sku_Spec from our Sku_Spec
-func (sku *Sku_Spec) AssignPropertiesToSkuSpec(destination *v1alpha1api20210501storage.Sku_Spec) error {
+// AssignPropertiesToSku_Spec populates the provided destination Sku_Spec from our Sku_Spec
+func (sku *Sku_Spec) AssignPropertiesToSku_Spec(destination *v1alpha1api20210501storage.Sku_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2754,7 +2754,7 @@ type Sku_Status struct {
 
 	// +kubebuilder:validation:Required
 	//Tier: The tier of the particular SKU, e.g. GeneralPurpose.
-	Tier SkuStatusTier `json:"tier"`
+	Tier Sku_Tier_Status `json:"tier"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_Status{}
@@ -2781,15 +2781,15 @@ func (sku *Sku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	return nil
 }
 
-// AssignPropertiesFromSkuStatus populates our Sku_Status from the provided source Sku_Status
-func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v1alpha1api20210501storage.Sku_Status) error {
+// AssignPropertiesFromSku_Status populates our Sku_Status from the provided source Sku_Status
+func (sku *Sku_Status) AssignPropertiesFromSku_Status(source *v1alpha1api20210501storage.Sku_Status) error {
 
 	// Name
 	sku.Name = genruntime.GetOptionalStringValue(source.Name)
 
 	// Tier
 	if source.Tier != nil {
-		sku.Tier = SkuStatusTier(*source.Tier)
+		sku.Tier = Sku_Tier_Status(*source.Tier)
 	} else {
 		sku.Tier = ""
 	}
@@ -2798,8 +2798,8 @@ func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v1alpha1api20210501
 	return nil
 }
 
-// AssignPropertiesToSkuStatus populates the provided destination Sku_Status from our Sku_Status
-func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1api20210501storage.Sku_Status) error {
+// AssignPropertiesToSku_Status populates the provided destination Sku_Status from our Sku_Status
+func (sku *Sku_Status) AssignPropertiesToSku_Status(destination *v1alpha1api20210501storage.Sku_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2896,8 +2896,8 @@ func (storage *Storage_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	return nil
 }
 
-// AssignPropertiesFromStorageSpec populates our Storage_Spec from the provided source Storage_Spec
-func (storage *Storage_Spec) AssignPropertiesFromStorageSpec(source *v1alpha1api20210501storage.Storage_Spec) error {
+// AssignPropertiesFromStorage_Spec populates our Storage_Spec from the provided source Storage_Spec
+func (storage *Storage_Spec) AssignPropertiesFromStorage_Spec(source *v1alpha1api20210501storage.Storage_Spec) error {
 
 	// AutoGrow
 	if source.AutoGrow != nil {
@@ -2917,8 +2917,8 @@ func (storage *Storage_Spec) AssignPropertiesFromStorageSpec(source *v1alpha1api
 	return nil
 }
 
-// AssignPropertiesToStorageSpec populates the provided destination Storage_Spec from our Storage_Spec
-func (storage *Storage_Spec) AssignPropertiesToStorageSpec(destination *v1alpha1api20210501storage.Storage_Spec) error {
+// AssignPropertiesToStorage_Spec populates the provided destination Storage_Spec from our Storage_Spec
+func (storage *Storage_Spec) AssignPropertiesToStorage_Spec(destination *v1alpha1api20210501storage.Storage_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3003,8 +3003,8 @@ func (storage *Storage_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromStorageStatus populates our Storage_Status from the provided source Storage_Status
-func (storage *Storage_Status) AssignPropertiesFromStorageStatus(source *v1alpha1api20210501storage.Storage_Status) error {
+// AssignPropertiesFromStorage_Status populates our Storage_Status from the provided source Storage_Status
+func (storage *Storage_Status) AssignPropertiesFromStorage_Status(source *v1alpha1api20210501storage.Storage_Status) error {
 
 	// AutoGrow
 	if source.AutoGrow != nil {
@@ -3027,8 +3027,8 @@ func (storage *Storage_Status) AssignPropertiesFromStorageStatus(source *v1alpha
 	return nil
 }
 
-// AssignPropertiesToStorageStatus populates the provided destination Storage_Status from our Storage_Status
-func (storage *Storage_Status) AssignPropertiesToStorageStatus(destination *v1alpha1api20210501storage.Storage_Status) error {
+// AssignPropertiesToStorage_Status populates the provided destination Storage_Status from our Storage_Status
+func (storage *Storage_Status) AssignPropertiesToStorage_Status(destination *v1alpha1api20210501storage.Storage_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3068,7 +3068,7 @@ type SystemData_Status struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	//CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemDataStatusCreatedByType `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_Status `json:"createdByType,omitempty"`
 
 	//LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -3077,7 +3077,7 @@ type SystemData_Status struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	//LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_Status `json:"lastModifiedByType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SystemData_Status{}
@@ -3134,8 +3134,8 @@ func (data *SystemData_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromSystemDataStatus populates our SystemData_Status from the provided source SystemData_Status
-func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v1alpha1api20210501storage.SystemData_Status) error {
+// AssignPropertiesFromSystemData_Status populates our SystemData_Status from the provided source SystemData_Status
+func (data *SystemData_Status) AssignPropertiesFromSystemData_Status(source *v1alpha1api20210501storage.SystemData_Status) error {
 
 	// CreatedAt
 	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
@@ -3145,7 +3145,7 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v1al
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemDataStatusCreatedByType(*source.CreatedByType)
+		createdByType := SystemData_CreatedByType_Status(*source.CreatedByType)
 		data.CreatedByType = &createdByType
 	} else {
 		data.CreatedByType = nil
@@ -3159,7 +3159,7 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v1al
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemDataStatusLastModifiedByType(*source.LastModifiedByType)
+		lastModifiedByType := SystemData_LastModifiedByType_Status(*source.LastModifiedByType)
 		data.LastModifiedByType = &lastModifiedByType
 	} else {
 		data.LastModifiedByType = nil
@@ -3169,8 +3169,8 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v1al
 	return nil
 }
 
-// AssignPropertiesToSystemDataStatus populates the provided destination SystemData_Status from our SystemData_Status
-func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v1alpha1api20210501storage.SystemData_Status) error {
+// AssignPropertiesToSystemData_Status populates the provided destination SystemData_Status from our SystemData_Status
+func (data *SystemData_Status) AssignPropertiesToSystemData_Status(destination *v1alpha1api20210501storage.SystemData_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3229,30 +3229,30 @@ const (
 )
 
 // +kubebuilder:validation:Enum={"Disabled","SameZone","ZoneRedundant"}
-type HighAvailabilitySpecMode string
+type HighAvailability_Mode_Spec string
 
 const (
-	HighAvailabilitySpecModeDisabled      = HighAvailabilitySpecMode("Disabled")
-	HighAvailabilitySpecModeSameZone      = HighAvailabilitySpecMode("SameZone")
-	HighAvailabilitySpecModeZoneRedundant = HighAvailabilitySpecMode("ZoneRedundant")
+	HighAvailability_Mode_SpecDisabled      = HighAvailability_Mode_Spec("Disabled")
+	HighAvailability_Mode_SpecSameZone      = HighAvailability_Mode_Spec("SameZone")
+	HighAvailability_Mode_SpecZoneRedundant = HighAvailability_Mode_Spec("ZoneRedundant")
 )
 
-type HighAvailabilityStatusMode string
+type HighAvailability_Mode_Status string
 
 const (
-	HighAvailabilityStatusModeDisabled      = HighAvailabilityStatusMode("Disabled")
-	HighAvailabilityStatusModeSameZone      = HighAvailabilityStatusMode("SameZone")
-	HighAvailabilityStatusModeZoneRedundant = HighAvailabilityStatusMode("ZoneRedundant")
+	HighAvailability_Mode_StatusDisabled      = HighAvailability_Mode_Status("Disabled")
+	HighAvailability_Mode_StatusSameZone      = HighAvailability_Mode_Status("SameZone")
+	HighAvailability_Mode_StatusZoneRedundant = HighAvailability_Mode_Status("ZoneRedundant")
 )
 
-type HighAvailabilityStatusState string
+type HighAvailability_State_Status string
 
 const (
-	HighAvailabilityStatusStateCreatingStandby = HighAvailabilityStatusState("CreatingStandby")
-	HighAvailabilityStatusStateFailingOver     = HighAvailabilityStatusState("FailingOver")
-	HighAvailabilityStatusStateHealthy         = HighAvailabilityStatusState("Healthy")
-	HighAvailabilityStatusStateNotEnabled      = HighAvailabilityStatusState("NotEnabled")
-	HighAvailabilityStatusStateRemovingStandby = HighAvailabilityStatusState("RemovingStandby")
+	HighAvailability_State_StatusCreatingStandby = HighAvailability_State_Status("CreatingStandby")
+	HighAvailability_State_StatusFailingOver     = HighAvailability_State_Status("FailingOver")
+	HighAvailability_State_StatusHealthy         = HighAvailability_State_Status("Healthy")
+	HighAvailability_State_StatusNotEnabled      = HighAvailability_State_Status("NotEnabled")
+	HighAvailability_State_StatusRemovingStandby = HighAvailability_State_Status("RemovingStandby")
 )
 
 func init() {

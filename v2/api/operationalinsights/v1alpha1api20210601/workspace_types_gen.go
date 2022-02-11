@@ -248,17 +248,17 @@ func (workspace *Workspace) AssignPropertiesFromWorkspace(source *v1alpha1api202
 
 	// Spec
 	var spec Workspaces_SPEC
-	err := spec.AssignPropertiesFromWorkspacesSPEC(&source.Spec)
+	err := spec.AssignPropertiesFromWorkspaces_SPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromWorkspacesSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromWorkspaces_SPEC() to populate field Spec")
 	}
 	workspace.Spec = spec
 
 	// Status
 	var status Workspace_Status
-	err = status.AssignPropertiesFromWorkspaceStatus(&source.Status)
+	err = status.AssignPropertiesFromWorkspace_Status(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromWorkspace_Status() to populate field Status")
 	}
 	workspace.Status = status
 
@@ -274,17 +274,17 @@ func (workspace *Workspace) AssignPropertiesToWorkspace(destination *v1alpha1api
 
 	// Spec
 	var spec v1alpha1api20210601storage.Workspaces_SPEC
-	err := workspace.Spec.AssignPropertiesToWorkspacesSPEC(&spec)
+	err := workspace.Spec.AssignPropertiesToWorkspaces_SPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToWorkspacesSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToWorkspaces_SPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v1alpha1api20210601storage.Workspace_Status
-	err = workspace.Status.AssignPropertiesToWorkspaceStatus(&status)
+	err = workspace.Status.AssignPropertiesToWorkspace_Status(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToWorkspaceStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToWorkspace_Status() to populate field Status")
 	}
 	destination.Status = status
 
@@ -354,7 +354,7 @@ type Workspace_Status struct {
 	PrivateLinkScopedResources []PrivateLinkScopedResource_Status `json:"privateLinkScopedResources,omitempty"`
 
 	//ProvisioningState: The provisioning state of the workspace.
-	ProvisioningState *WorkspacePropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *WorkspaceProperties_ProvisioningState_Status `json:"provisioningState,omitempty"`
 
 	//PublicNetworkAccessForIngestion: The network access type for accessing Log
 	//Analytics ingestion.
@@ -389,7 +389,7 @@ func (workspace *Workspace_Status) ConvertStatusFrom(source genruntime.Convertib
 	src, ok := source.(*v1alpha1api20210601storage.Workspace_Status)
 	if ok {
 		// Populate our instance from source
-		return workspace.AssignPropertiesFromWorkspaceStatus(src)
+		return workspace.AssignPropertiesFromWorkspace_Status(src)
 	}
 
 	// Convert to an intermediate form
@@ -400,7 +400,7 @@ func (workspace *Workspace_Status) ConvertStatusFrom(source genruntime.Convertib
 	}
 
 	// Update our instance from src
-	err = workspace.AssignPropertiesFromWorkspaceStatus(src)
+	err = workspace.AssignPropertiesFromWorkspace_Status(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -413,12 +413,12 @@ func (workspace *Workspace_Status) ConvertStatusTo(destination genruntime.Conver
 	dst, ok := destination.(*v1alpha1api20210601storage.Workspace_Status)
 	if ok {
 		// Populate destination from our instance
-		return workspace.AssignPropertiesToWorkspaceStatus(dst)
+		return workspace.AssignPropertiesToWorkspace_Status(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210601storage.Workspace_Status{}
-	err := workspace.AssignPropertiesToWorkspaceStatus(dst)
+	err := workspace.AssignPropertiesToWorkspace_Status(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -617,8 +617,8 @@ func (workspace *Workspace_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-// AssignPropertiesFromWorkspaceStatus populates our Workspace_Status from the provided source Workspace_Status
-func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v1alpha1api20210601storage.Workspace_Status) error {
+// AssignPropertiesFromWorkspace_Status populates our Workspace_Status from the provided source Workspace_Status
+func (workspace *Workspace_Status) AssignPropertiesFromWorkspace_Status(source *v1alpha1api20210601storage.Workspace_Status) error {
 
 	// Conditions
 	workspace.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -635,9 +635,9 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 	// Features
 	if source.Features != nil {
 		var feature WorkspaceFeatures_Status
-		err := feature.AssignPropertiesFromWorkspaceFeaturesStatus(source.Features)
+		err := feature.AssignPropertiesFromWorkspaceFeatures_Status(source.Features)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceFeaturesStatus() to populate field Features")
+			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceFeatures_Status() to populate field Features")
 		}
 		workspace.Features = &feature
 	} else {
@@ -671,9 +671,9 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 			// Shadow the loop variable to avoid aliasing
 			privateLinkScopedResourceItem := privateLinkScopedResourceItem
 			var privateLinkScopedResource PrivateLinkScopedResource_Status
-			err := privateLinkScopedResource.AssignPropertiesFromPrivateLinkScopedResourceStatus(&privateLinkScopedResourceItem)
+			err := privateLinkScopedResource.AssignPropertiesFromPrivateLinkScopedResource_Status(&privateLinkScopedResourceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateLinkScopedResourceStatus() to populate field PrivateLinkScopedResources")
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateLinkScopedResource_Status() to populate field PrivateLinkScopedResources")
 			}
 			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
 		}
@@ -684,7 +684,7 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := WorkspacePropertiesStatusProvisioningState(*source.ProvisioningState)
+		provisioningState := WorkspaceProperties_ProvisioningState_Status(*source.ProvisioningState)
 		workspace.ProvisioningState = &provisioningState
 	} else {
 		workspace.ProvisioningState = nil
@@ -712,9 +712,9 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 	// Sku
 	if source.Sku != nil {
 		var sku WorkspaceSku_Status
-		err := sku.AssignPropertiesFromWorkspaceSkuStatus(source.Sku)
+		err := sku.AssignPropertiesFromWorkspaceSku_Status(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceSku_Status() to populate field Sku")
 		}
 		workspace.Sku = &sku
 	} else {
@@ -730,9 +730,9 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 	// WorkspaceCapping
 	if source.WorkspaceCapping != nil {
 		var workspaceCapping WorkspaceCapping_Status
-		err := workspaceCapping.AssignPropertiesFromWorkspaceCappingStatus(source.WorkspaceCapping)
+		err := workspaceCapping.AssignPropertiesFromWorkspaceCapping_Status(source.WorkspaceCapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceCappingStatus() to populate field WorkspaceCapping")
+			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceCapping_Status() to populate field WorkspaceCapping")
 		}
 		workspace.WorkspaceCapping = &workspaceCapping
 	} else {
@@ -743,8 +743,8 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 	return nil
 }
 
-// AssignPropertiesToWorkspaceStatus populates the provided destination Workspace_Status from our Workspace_Status
-func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination *v1alpha1api20210601storage.Workspace_Status) error {
+// AssignPropertiesToWorkspace_Status populates the provided destination Workspace_Status from our Workspace_Status
+func (workspace *Workspace_Status) AssignPropertiesToWorkspace_Status(destination *v1alpha1api20210601storage.Workspace_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -763,9 +763,9 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 	// Features
 	if workspace.Features != nil {
 		var feature v1alpha1api20210601storage.WorkspaceFeatures_Status
-		err := workspace.Features.AssignPropertiesToWorkspaceFeaturesStatus(&feature)
+		err := workspace.Features.AssignPropertiesToWorkspaceFeatures_Status(&feature)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceFeaturesStatus() to populate field Features")
+			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceFeatures_Status() to populate field Features")
 		}
 		destination.Features = &feature
 	} else {
@@ -799,9 +799,9 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 			// Shadow the loop variable to avoid aliasing
 			privateLinkScopedResourceItem := privateLinkScopedResourceItem
 			var privateLinkScopedResource v1alpha1api20210601storage.PrivateLinkScopedResource_Status
-			err := privateLinkScopedResourceItem.AssignPropertiesToPrivateLinkScopedResourceStatus(&privateLinkScopedResource)
+			err := privateLinkScopedResourceItem.AssignPropertiesToPrivateLinkScopedResource_Status(&privateLinkScopedResource)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkScopedResourceStatus() to populate field PrivateLinkScopedResources")
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkScopedResource_Status() to populate field PrivateLinkScopedResources")
 			}
 			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
 		}
@@ -840,9 +840,9 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 	// Sku
 	if workspace.Sku != nil {
 		var sku v1alpha1api20210601storage.WorkspaceSku_Status
-		err := workspace.Sku.AssignPropertiesToWorkspaceSkuStatus(&sku)
+		err := workspace.Sku.AssignPropertiesToWorkspaceSku_Status(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceSku_Status() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -858,9 +858,9 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 	// WorkspaceCapping
 	if workspace.WorkspaceCapping != nil {
 		var workspaceCapping v1alpha1api20210601storage.WorkspaceCapping_Status
-		err := workspace.WorkspaceCapping.AssignPropertiesToWorkspaceCappingStatus(&workspaceCapping)
+		err := workspace.WorkspaceCapping.AssignPropertiesToWorkspaceCapping_Status(&workspaceCapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceCappingStatus() to populate field WorkspaceCapping")
+			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceCapping_Status() to populate field WorkspaceCapping")
 		}
 		destination.WorkspaceCapping = &workspaceCapping
 	} else {
@@ -901,7 +901,7 @@ type Workspaces_SPEC struct {
 	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
 	//ProvisioningState: The provisioning state of the workspace.
-	ProvisioningState *WorkspacePropertiesSpecProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *WorkspaceProperties_ProvisioningState_Spec `json:"provisioningState,omitempty"`
 
 	//PublicNetworkAccessForIngestion: The network access type for accessing Log
 	//Analytics ingestion.
@@ -1150,7 +1150,7 @@ func (spec *Workspaces_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 	src, ok := source.(*v1alpha1api20210601storage.Workspaces_SPEC)
 	if ok {
 		// Populate our instance from source
-		return spec.AssignPropertiesFromWorkspacesSPEC(src)
+		return spec.AssignPropertiesFromWorkspaces_SPEC(src)
 	}
 
 	// Convert to an intermediate form
@@ -1161,7 +1161,7 @@ func (spec *Workspaces_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 	}
 
 	// Update our instance from src
-	err = spec.AssignPropertiesFromWorkspacesSPEC(src)
+	err = spec.AssignPropertiesFromWorkspaces_SPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -1174,12 +1174,12 @@ func (spec *Workspaces_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpe
 	dst, ok := destination.(*v1alpha1api20210601storage.Workspaces_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return spec.AssignPropertiesToWorkspacesSPEC(dst)
+		return spec.AssignPropertiesToWorkspaces_SPEC(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210601storage.Workspaces_SPEC{}
-	err := spec.AssignPropertiesToWorkspacesSPEC(dst)
+	err := spec.AssignPropertiesToWorkspaces_SPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -1193,8 +1193,8 @@ func (spec *Workspaces_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpe
 	return nil
 }
 
-// AssignPropertiesFromWorkspacesSPEC populates our Workspaces_SPEC from the provided source Workspaces_SPEC
-func (spec *Workspaces_SPEC) AssignPropertiesFromWorkspacesSPEC(source *v1alpha1api20210601storage.Workspaces_SPEC) error {
+// AssignPropertiesFromWorkspaces_SPEC populates our Workspaces_SPEC from the provided source Workspaces_SPEC
+func (spec *Workspaces_SPEC) AssignPropertiesFromWorkspaces_SPEC(source *v1alpha1api20210601storage.Workspaces_SPEC) error {
 
 	// AzureName
 	spec.AzureName = source.AzureName
@@ -1205,9 +1205,9 @@ func (spec *Workspaces_SPEC) AssignPropertiesFromWorkspacesSPEC(source *v1alpha1
 	// Features
 	if source.Features != nil {
 		var feature WorkspaceFeatures_Spec
-		err := feature.AssignPropertiesFromWorkspaceFeaturesSpec(source.Features)
+		err := feature.AssignPropertiesFromWorkspaceFeatures_Spec(source.Features)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceFeaturesSpec() to populate field Features")
+			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceFeatures_Spec() to populate field Features")
 		}
 		spec.Features = &feature
 	} else {
@@ -1230,7 +1230,7 @@ func (spec *Workspaces_SPEC) AssignPropertiesFromWorkspacesSPEC(source *v1alpha1
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := WorkspacePropertiesSpecProvisioningState(*source.ProvisioningState)
+		provisioningState := WorkspaceProperties_ProvisioningState_Spec(*source.ProvisioningState)
 		spec.ProvisioningState = &provisioningState
 	} else {
 		spec.ProvisioningState = nil
@@ -1258,9 +1258,9 @@ func (spec *Workspaces_SPEC) AssignPropertiesFromWorkspacesSPEC(source *v1alpha1
 	// Sku
 	if source.Sku != nil {
 		var sku WorkspaceSku_Spec
-		err := sku.AssignPropertiesFromWorkspaceSkuSpec(source.Sku)
+		err := sku.AssignPropertiesFromWorkspaceSku_Spec(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceSkuSpec() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceSku_Spec() to populate field Sku")
 		}
 		spec.Sku = &sku
 	} else {
@@ -1273,9 +1273,9 @@ func (spec *Workspaces_SPEC) AssignPropertiesFromWorkspacesSPEC(source *v1alpha1
 	// WorkspaceCapping
 	if source.WorkspaceCapping != nil {
 		var workspaceCapping WorkspaceCapping_Spec
-		err := workspaceCapping.AssignPropertiesFromWorkspaceCappingSpec(source.WorkspaceCapping)
+		err := workspaceCapping.AssignPropertiesFromWorkspaceCapping_Spec(source.WorkspaceCapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceCappingSpec() to populate field WorkspaceCapping")
+			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceCapping_Spec() to populate field WorkspaceCapping")
 		}
 		spec.WorkspaceCapping = &workspaceCapping
 	} else {
@@ -1286,8 +1286,8 @@ func (spec *Workspaces_SPEC) AssignPropertiesFromWorkspacesSPEC(source *v1alpha1
 	return nil
 }
 
-// AssignPropertiesToWorkspacesSPEC populates the provided destination Workspaces_SPEC from our Workspaces_SPEC
-func (spec *Workspaces_SPEC) AssignPropertiesToWorkspacesSPEC(destination *v1alpha1api20210601storage.Workspaces_SPEC) error {
+// AssignPropertiesToWorkspaces_SPEC populates the provided destination Workspaces_SPEC from our Workspaces_SPEC
+func (spec *Workspaces_SPEC) AssignPropertiesToWorkspaces_SPEC(destination *v1alpha1api20210601storage.Workspaces_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1300,9 +1300,9 @@ func (spec *Workspaces_SPEC) AssignPropertiesToWorkspacesSPEC(destination *v1alp
 	// Features
 	if spec.Features != nil {
 		var feature v1alpha1api20210601storage.WorkspaceFeatures_Spec
-		err := spec.Features.AssignPropertiesToWorkspaceFeaturesSpec(&feature)
+		err := spec.Features.AssignPropertiesToWorkspaceFeatures_Spec(&feature)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceFeaturesSpec() to populate field Features")
+			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceFeatures_Spec() to populate field Features")
 		}
 		destination.Features = &feature
 	} else {
@@ -1357,9 +1357,9 @@ func (spec *Workspaces_SPEC) AssignPropertiesToWorkspacesSPEC(destination *v1alp
 	// Sku
 	if spec.Sku != nil {
 		var sku v1alpha1api20210601storage.WorkspaceSku_Spec
-		err := spec.Sku.AssignPropertiesToWorkspaceSkuSpec(&sku)
+		err := spec.Sku.AssignPropertiesToWorkspaceSku_Spec(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceSkuSpec() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceSku_Spec() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1372,9 +1372,9 @@ func (spec *Workspaces_SPEC) AssignPropertiesToWorkspacesSPEC(destination *v1alp
 	// WorkspaceCapping
 	if spec.WorkspaceCapping != nil {
 		var workspaceCapping v1alpha1api20210601storage.WorkspaceCapping_Spec
-		err := spec.WorkspaceCapping.AssignPropertiesToWorkspaceCappingSpec(&workspaceCapping)
+		err := spec.WorkspaceCapping.AssignPropertiesToWorkspaceCapping_Spec(&workspaceCapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceCappingSpec() to populate field WorkspaceCapping")
+			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceCapping_Spec() to populate field WorkspaceCapping")
 		}
 		destination.WorkspaceCapping = &workspaceCapping
 	} else {
@@ -1438,8 +1438,8 @@ func (resource *PrivateLinkScopedResource_Status) PopulateFromARM(owner genrunti
 	return nil
 }
 
-// AssignPropertiesFromPrivateLinkScopedResourceStatus populates our PrivateLinkScopedResource_Status from the provided source PrivateLinkScopedResource_Status
-func (resource *PrivateLinkScopedResource_Status) AssignPropertiesFromPrivateLinkScopedResourceStatus(source *v1alpha1api20210601storage.PrivateLinkScopedResource_Status) error {
+// AssignPropertiesFromPrivateLinkScopedResource_Status populates our PrivateLinkScopedResource_Status from the provided source PrivateLinkScopedResource_Status
+func (resource *PrivateLinkScopedResource_Status) AssignPropertiesFromPrivateLinkScopedResource_Status(source *v1alpha1api20210601storage.PrivateLinkScopedResource_Status) error {
 
 	// ResourceId
 	resource.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
@@ -1451,8 +1451,8 @@ func (resource *PrivateLinkScopedResource_Status) AssignPropertiesFromPrivateLin
 	return nil
 }
 
-// AssignPropertiesToPrivateLinkScopedResourceStatus populates the provided destination PrivateLinkScopedResource_Status from our PrivateLinkScopedResource_Status
-func (resource *PrivateLinkScopedResource_Status) AssignPropertiesToPrivateLinkScopedResourceStatus(destination *v1alpha1api20210601storage.PrivateLinkScopedResource_Status) error {
+// AssignPropertiesToPrivateLinkScopedResource_Status populates the provided destination PrivateLinkScopedResource_Status from our PrivateLinkScopedResource_Status
+func (resource *PrivateLinkScopedResource_Status) AssignPropertiesToPrivateLinkScopedResource_Status(destination *v1alpha1api20210601storage.PrivateLinkScopedResource_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1532,8 +1532,8 @@ func (capping *WorkspaceCapping_Spec) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromWorkspaceCappingSpec populates our WorkspaceCapping_Spec from the provided source WorkspaceCapping_Spec
-func (capping *WorkspaceCapping_Spec) AssignPropertiesFromWorkspaceCappingSpec(source *v1alpha1api20210601storage.WorkspaceCapping_Spec) error {
+// AssignPropertiesFromWorkspaceCapping_Spec populates our WorkspaceCapping_Spec from the provided source WorkspaceCapping_Spec
+func (capping *WorkspaceCapping_Spec) AssignPropertiesFromWorkspaceCapping_Spec(source *v1alpha1api20210601storage.WorkspaceCapping_Spec) error {
 
 	// DailyQuotaGb
 	if source.DailyQuotaGb != nil {
@@ -1547,8 +1547,8 @@ func (capping *WorkspaceCapping_Spec) AssignPropertiesFromWorkspaceCappingSpec(s
 	return nil
 }
 
-// AssignPropertiesToWorkspaceCappingSpec populates the provided destination WorkspaceCapping_Spec from our WorkspaceCapping_Spec
-func (capping *WorkspaceCapping_Spec) AssignPropertiesToWorkspaceCappingSpec(destination *v1alpha1api20210601storage.WorkspaceCapping_Spec) error {
+// AssignPropertiesToWorkspaceCapping_Spec populates the provided destination WorkspaceCapping_Spec from our WorkspaceCapping_Spec
+func (capping *WorkspaceCapping_Spec) AssignPropertiesToWorkspaceCapping_Spec(destination *v1alpha1api20210601storage.WorkspaceCapping_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1576,7 +1576,7 @@ type WorkspaceCapping_Status struct {
 	DailyQuotaGb *float64 `json:"dailyQuotaGb,omitempty"`
 
 	//DataIngestionStatus: The status of data ingestion for this workspace.
-	DataIngestionStatus *WorkspaceCappingStatusDataIngestionStatus `json:"dataIngestionStatus,omitempty"`
+	DataIngestionStatus *WorkspaceCapping_DataIngestionStatus_Status `json:"dataIngestionStatus,omitempty"`
 
 	//QuotaNextResetTime: The time when the quota will be rest.
 	QuotaNextResetTime *string `json:"quotaNextResetTime,omitempty"`
@@ -1618,8 +1618,8 @@ func (capping *WorkspaceCapping_Status) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromWorkspaceCappingStatus populates our WorkspaceCapping_Status from the provided source WorkspaceCapping_Status
-func (capping *WorkspaceCapping_Status) AssignPropertiesFromWorkspaceCappingStatus(source *v1alpha1api20210601storage.WorkspaceCapping_Status) error {
+// AssignPropertiesFromWorkspaceCapping_Status populates our WorkspaceCapping_Status from the provided source WorkspaceCapping_Status
+func (capping *WorkspaceCapping_Status) AssignPropertiesFromWorkspaceCapping_Status(source *v1alpha1api20210601storage.WorkspaceCapping_Status) error {
 
 	// DailyQuotaGb
 	if source.DailyQuotaGb != nil {
@@ -1631,7 +1631,7 @@ func (capping *WorkspaceCapping_Status) AssignPropertiesFromWorkspaceCappingStat
 
 	// DataIngestionStatus
 	if source.DataIngestionStatus != nil {
-		dataIngestionStatus := WorkspaceCappingStatusDataIngestionStatus(*source.DataIngestionStatus)
+		dataIngestionStatus := WorkspaceCapping_DataIngestionStatus_Status(*source.DataIngestionStatus)
 		capping.DataIngestionStatus = &dataIngestionStatus
 	} else {
 		capping.DataIngestionStatus = nil
@@ -1644,8 +1644,8 @@ func (capping *WorkspaceCapping_Status) AssignPropertiesFromWorkspaceCappingStat
 	return nil
 }
 
-// AssignPropertiesToWorkspaceCappingStatus populates the provided destination WorkspaceCapping_Status from our WorkspaceCapping_Status
-func (capping *WorkspaceCapping_Status) AssignPropertiesToWorkspaceCappingStatus(destination *v1alpha1api20210601storage.WorkspaceCapping_Status) error {
+// AssignPropertiesToWorkspaceCapping_Status populates the provided destination WorkspaceCapping_Status from our WorkspaceCapping_Status
+func (capping *WorkspaceCapping_Status) AssignPropertiesToWorkspaceCapping_Status(destination *v1alpha1api20210601storage.WorkspaceCapping_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1786,8 +1786,8 @@ func (features *WorkspaceFeatures_Spec) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromWorkspaceFeaturesSpec populates our WorkspaceFeatures_Spec from the provided source WorkspaceFeatures_Spec
-func (features *WorkspaceFeatures_Spec) AssignPropertiesFromWorkspaceFeaturesSpec(source *v1alpha1api20210601storage.WorkspaceFeatures_Spec) error {
+// AssignPropertiesFromWorkspaceFeatures_Spec populates our WorkspaceFeatures_Spec from the provided source WorkspaceFeatures_Spec
+func (features *WorkspaceFeatures_Spec) AssignPropertiesFromWorkspaceFeatures_Spec(source *v1alpha1api20210601storage.WorkspaceFeatures_Spec) error {
 
 	// ClusterResourceReference
 	if source.ClusterResourceReference != nil {
@@ -1833,8 +1833,8 @@ func (features *WorkspaceFeatures_Spec) AssignPropertiesFromWorkspaceFeaturesSpe
 	return nil
 }
 
-// AssignPropertiesToWorkspaceFeaturesSpec populates the provided destination WorkspaceFeatures_Spec from our WorkspaceFeatures_Spec
-func (features *WorkspaceFeatures_Spec) AssignPropertiesToWorkspaceFeaturesSpec(destination *v1alpha1api20210601storage.WorkspaceFeatures_Spec) error {
+// AssignPropertiesToWorkspaceFeatures_Spec populates the provided destination WorkspaceFeatures_Spec from our WorkspaceFeatures_Spec
+func (features *WorkspaceFeatures_Spec) AssignPropertiesToWorkspaceFeatures_Spec(destination *v1alpha1api20210601storage.WorkspaceFeatures_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1957,8 +1957,8 @@ func (features *WorkspaceFeatures_Status) PopulateFromARM(owner genruntime.Arbit
 	return nil
 }
 
-// AssignPropertiesFromWorkspaceFeaturesStatus populates our WorkspaceFeatures_Status from the provided source WorkspaceFeatures_Status
-func (features *WorkspaceFeatures_Status) AssignPropertiesFromWorkspaceFeaturesStatus(source *v1alpha1api20210601storage.WorkspaceFeatures_Status) error {
+// AssignPropertiesFromWorkspaceFeatures_Status populates our WorkspaceFeatures_Status from the provided source WorkspaceFeatures_Status
+func (features *WorkspaceFeatures_Status) AssignPropertiesFromWorkspaceFeatures_Status(source *v1alpha1api20210601storage.WorkspaceFeatures_Status) error {
 
 	// ClusterResourceId
 	features.ClusterResourceId = genruntime.ClonePointerToString(source.ClusterResourceId)
@@ -1999,8 +1999,8 @@ func (features *WorkspaceFeatures_Status) AssignPropertiesFromWorkspaceFeaturesS
 	return nil
 }
 
-// AssignPropertiesToWorkspaceFeaturesStatus populates the provided destination WorkspaceFeatures_Status from our WorkspaceFeatures_Status
-func (features *WorkspaceFeatures_Status) AssignPropertiesToWorkspaceFeaturesStatus(destination *v1alpha1api20210601storage.WorkspaceFeatures_Status) error {
+// AssignPropertiesToWorkspaceFeatures_Status populates the provided destination WorkspaceFeatures_Status from our WorkspaceFeatures_Status
+func (features *WorkspaceFeatures_Status) AssignPropertiesToWorkspaceFeatures_Status(destination *v1alpha1api20210601storage.WorkspaceFeatures_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2051,38 +2051,38 @@ func (features *WorkspaceFeatures_Status) AssignPropertiesToWorkspaceFeaturesSta
 }
 
 // +kubebuilder:validation:Enum={"Canceled","Creating","Deleting","Failed","ProvisioningAccount","Succeeded","Updating"}
-type WorkspacePropertiesSpecProvisioningState string
+type WorkspaceProperties_ProvisioningState_Spec string
 
 const (
-	WorkspacePropertiesSpecProvisioningStateCanceled            = WorkspacePropertiesSpecProvisioningState("Canceled")
-	WorkspacePropertiesSpecProvisioningStateCreating            = WorkspacePropertiesSpecProvisioningState("Creating")
-	WorkspacePropertiesSpecProvisioningStateDeleting            = WorkspacePropertiesSpecProvisioningState("Deleting")
-	WorkspacePropertiesSpecProvisioningStateFailed              = WorkspacePropertiesSpecProvisioningState("Failed")
-	WorkspacePropertiesSpecProvisioningStateProvisioningAccount = WorkspacePropertiesSpecProvisioningState("ProvisioningAccount")
-	WorkspacePropertiesSpecProvisioningStateSucceeded           = WorkspacePropertiesSpecProvisioningState("Succeeded")
-	WorkspacePropertiesSpecProvisioningStateUpdating            = WorkspacePropertiesSpecProvisioningState("Updating")
+	WorkspaceProperties_ProvisioningState_SpecCanceled            = WorkspaceProperties_ProvisioningState_Spec("Canceled")
+	WorkspaceProperties_ProvisioningState_SpecCreating            = WorkspaceProperties_ProvisioningState_Spec("Creating")
+	WorkspaceProperties_ProvisioningState_SpecDeleting            = WorkspaceProperties_ProvisioningState_Spec("Deleting")
+	WorkspaceProperties_ProvisioningState_SpecFailed              = WorkspaceProperties_ProvisioningState_Spec("Failed")
+	WorkspaceProperties_ProvisioningState_SpecProvisioningAccount = WorkspaceProperties_ProvisioningState_Spec("ProvisioningAccount")
+	WorkspaceProperties_ProvisioningState_SpecSucceeded           = WorkspaceProperties_ProvisioningState_Spec("Succeeded")
+	WorkspaceProperties_ProvisioningState_SpecUpdating            = WorkspaceProperties_ProvisioningState_Spec("Updating")
 )
 
-type WorkspacePropertiesStatusProvisioningState string
+type WorkspaceProperties_ProvisioningState_Status string
 
 const (
-	WorkspacePropertiesStatusProvisioningStateCanceled            = WorkspacePropertiesStatusProvisioningState("Canceled")
-	WorkspacePropertiesStatusProvisioningStateCreating            = WorkspacePropertiesStatusProvisioningState("Creating")
-	WorkspacePropertiesStatusProvisioningStateDeleting            = WorkspacePropertiesStatusProvisioningState("Deleting")
-	WorkspacePropertiesStatusProvisioningStateFailed              = WorkspacePropertiesStatusProvisioningState("Failed")
-	WorkspacePropertiesStatusProvisioningStateProvisioningAccount = WorkspacePropertiesStatusProvisioningState("ProvisioningAccount")
-	WorkspacePropertiesStatusProvisioningStateSucceeded           = WorkspacePropertiesStatusProvisioningState("Succeeded")
-	WorkspacePropertiesStatusProvisioningStateUpdating            = WorkspacePropertiesStatusProvisioningState("Updating")
+	WorkspaceProperties_ProvisioningState_StatusCanceled            = WorkspaceProperties_ProvisioningState_Status("Canceled")
+	WorkspaceProperties_ProvisioningState_StatusCreating            = WorkspaceProperties_ProvisioningState_Status("Creating")
+	WorkspaceProperties_ProvisioningState_StatusDeleting            = WorkspaceProperties_ProvisioningState_Status("Deleting")
+	WorkspaceProperties_ProvisioningState_StatusFailed              = WorkspaceProperties_ProvisioningState_Status("Failed")
+	WorkspaceProperties_ProvisioningState_StatusProvisioningAccount = WorkspaceProperties_ProvisioningState_Status("ProvisioningAccount")
+	WorkspaceProperties_ProvisioningState_StatusSucceeded           = WorkspaceProperties_ProvisioningState_Status("Succeeded")
+	WorkspaceProperties_ProvisioningState_StatusUpdating            = WorkspaceProperties_ProvisioningState_Status("Updating")
 )
 
 type WorkspaceSku_Spec struct {
 	//CapacityReservationLevel: The capacity reservation level in GB for this
 	//workspace, when CapacityReservation sku is selected.
-	CapacityReservationLevel *WorkspaceSkuSpecCapacityReservationLevel `json:"capacityReservationLevel,omitempty"`
+	CapacityReservationLevel *WorkspaceSku_CapacityReservationLevel_Spec `json:"capacityReservationLevel,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Name: The name of the SKU.
-	Name WorkspaceSkuSpecName `json:"name"`
+	Name WorkspaceSku_Name_Spec `json:"name"`
 }
 
 var _ genruntime.ARMTransformer = &WorkspaceSku_Spec{}
@@ -2130,12 +2130,12 @@ func (workspaceSku *WorkspaceSku_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-// AssignPropertiesFromWorkspaceSkuSpec populates our WorkspaceSku_Spec from the provided source WorkspaceSku_Spec
-func (workspaceSku *WorkspaceSku_Spec) AssignPropertiesFromWorkspaceSkuSpec(source *v1alpha1api20210601storage.WorkspaceSku_Spec) error {
+// AssignPropertiesFromWorkspaceSku_Spec populates our WorkspaceSku_Spec from the provided source WorkspaceSku_Spec
+func (workspaceSku *WorkspaceSku_Spec) AssignPropertiesFromWorkspaceSku_Spec(source *v1alpha1api20210601storage.WorkspaceSku_Spec) error {
 
 	// CapacityReservationLevel
 	if source.CapacityReservationLevel != nil {
-		capacityReservationLevel := WorkspaceSkuSpecCapacityReservationLevel(*source.CapacityReservationLevel)
+		capacityReservationLevel := WorkspaceSku_CapacityReservationLevel_Spec(*source.CapacityReservationLevel)
 		workspaceSku.CapacityReservationLevel = &capacityReservationLevel
 	} else {
 		workspaceSku.CapacityReservationLevel = nil
@@ -2143,7 +2143,7 @@ func (workspaceSku *WorkspaceSku_Spec) AssignPropertiesFromWorkspaceSkuSpec(sour
 
 	// Name
 	if source.Name != nil {
-		workspaceSku.Name = WorkspaceSkuSpecName(*source.Name)
+		workspaceSku.Name = WorkspaceSku_Name_Spec(*source.Name)
 	} else {
 		workspaceSku.Name = ""
 	}
@@ -2152,8 +2152,8 @@ func (workspaceSku *WorkspaceSku_Spec) AssignPropertiesFromWorkspaceSkuSpec(sour
 	return nil
 }
 
-// AssignPropertiesToWorkspaceSkuSpec populates the provided destination WorkspaceSku_Spec from our WorkspaceSku_Spec
-func (workspaceSku *WorkspaceSku_Spec) AssignPropertiesToWorkspaceSkuSpec(destination *v1alpha1api20210601storage.WorkspaceSku_Spec) error {
+// AssignPropertiesToWorkspaceSku_Spec populates the provided destination WorkspaceSku_Spec from our WorkspaceSku_Spec
+func (workspaceSku *WorkspaceSku_Spec) AssignPropertiesToWorkspaceSku_Spec(destination *v1alpha1api20210601storage.WorkspaceSku_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2183,14 +2183,14 @@ func (workspaceSku *WorkspaceSku_Spec) AssignPropertiesToWorkspaceSkuSpec(destin
 type WorkspaceSku_Status struct {
 	//CapacityReservationLevel: The capacity reservation level in GB for this
 	//workspace, when CapacityReservation sku is selected.
-	CapacityReservationLevel *WorkspaceSkuStatusCapacityReservationLevel `json:"capacityReservationLevel,omitempty"`
+	CapacityReservationLevel *WorkspaceSku_CapacityReservationLevel_Status `json:"capacityReservationLevel,omitempty"`
 
 	//LastSkuUpdate: The last time when the sku was updated.
 	LastSkuUpdate *string `json:"lastSkuUpdate,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Name: The name of the SKU.
-	Name WorkspaceSkuStatusName `json:"name"`
+	Name WorkspaceSku_Name_Status `json:"name"`
 }
 
 var _ genruntime.FromARMConverter = &WorkspaceSku_Status{}
@@ -2226,12 +2226,12 @@ func (workspaceSku *WorkspaceSku_Status) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromWorkspaceSkuStatus populates our WorkspaceSku_Status from the provided source WorkspaceSku_Status
-func (workspaceSku *WorkspaceSku_Status) AssignPropertiesFromWorkspaceSkuStatus(source *v1alpha1api20210601storage.WorkspaceSku_Status) error {
+// AssignPropertiesFromWorkspaceSku_Status populates our WorkspaceSku_Status from the provided source WorkspaceSku_Status
+func (workspaceSku *WorkspaceSku_Status) AssignPropertiesFromWorkspaceSku_Status(source *v1alpha1api20210601storage.WorkspaceSku_Status) error {
 
 	// CapacityReservationLevel
 	if source.CapacityReservationLevel != nil {
-		capacityReservationLevel := WorkspaceSkuStatusCapacityReservationLevel(*source.CapacityReservationLevel)
+		capacityReservationLevel := WorkspaceSku_CapacityReservationLevel_Status(*source.CapacityReservationLevel)
 		workspaceSku.CapacityReservationLevel = &capacityReservationLevel
 	} else {
 		workspaceSku.CapacityReservationLevel = nil
@@ -2242,7 +2242,7 @@ func (workspaceSku *WorkspaceSku_Status) AssignPropertiesFromWorkspaceSkuStatus(
 
 	// Name
 	if source.Name != nil {
-		workspaceSku.Name = WorkspaceSkuStatusName(*source.Name)
+		workspaceSku.Name = WorkspaceSku_Name_Status(*source.Name)
 	} else {
 		workspaceSku.Name = ""
 	}
@@ -2251,8 +2251,8 @@ func (workspaceSku *WorkspaceSku_Status) AssignPropertiesFromWorkspaceSkuStatus(
 	return nil
 }
 
-// AssignPropertiesToWorkspaceSkuStatus populates the provided destination WorkspaceSku_Status from our WorkspaceSku_Status
-func (workspaceSku *WorkspaceSku_Status) AssignPropertiesToWorkspaceSkuStatus(destination *v1alpha1api20210601storage.WorkspaceSku_Status) error {
+// AssignPropertiesToWorkspaceSku_Status populates the provided destination WorkspaceSku_Status from our WorkspaceSku_Status
+func (workspaceSku *WorkspaceSku_Status) AssignPropertiesToWorkspaceSku_Status(destination *v1alpha1api20210601storage.WorkspaceSku_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2282,69 +2282,69 @@ func (workspaceSku *WorkspaceSku_Status) AssignPropertiesToWorkspaceSkuStatus(de
 	return nil
 }
 
-type WorkspaceCappingStatusDataIngestionStatus string
+type WorkspaceCapping_DataIngestionStatus_Status string
 
 const (
-	WorkspaceCappingStatusDataIngestionStatusApproachingQuota      = WorkspaceCappingStatusDataIngestionStatus("ApproachingQuota")
-	WorkspaceCappingStatusDataIngestionStatusForceOff              = WorkspaceCappingStatusDataIngestionStatus("ForceOff")
-	WorkspaceCappingStatusDataIngestionStatusForceOn               = WorkspaceCappingStatusDataIngestionStatus("ForceOn")
-	WorkspaceCappingStatusDataIngestionStatusOverQuota             = WorkspaceCappingStatusDataIngestionStatus("OverQuota")
-	WorkspaceCappingStatusDataIngestionStatusRespectQuota          = WorkspaceCappingStatusDataIngestionStatus("RespectQuota")
-	WorkspaceCappingStatusDataIngestionStatusSubscriptionSuspended = WorkspaceCappingStatusDataIngestionStatus("SubscriptionSuspended")
+	WorkspaceCapping_DataIngestionStatus_StatusApproachingQuota      = WorkspaceCapping_DataIngestionStatus_Status("ApproachingQuota")
+	WorkspaceCapping_DataIngestionStatus_StatusForceOff              = WorkspaceCapping_DataIngestionStatus_Status("ForceOff")
+	WorkspaceCapping_DataIngestionStatus_StatusForceOn               = WorkspaceCapping_DataIngestionStatus_Status("ForceOn")
+	WorkspaceCapping_DataIngestionStatus_StatusOverQuota             = WorkspaceCapping_DataIngestionStatus_Status("OverQuota")
+	WorkspaceCapping_DataIngestionStatus_StatusRespectQuota          = WorkspaceCapping_DataIngestionStatus_Status("RespectQuota")
+	WorkspaceCapping_DataIngestionStatus_StatusSubscriptionSuspended = WorkspaceCapping_DataIngestionStatus_Status("SubscriptionSuspended")
 )
 
 // +kubebuilder:validation:Enum={100,1000,200,2000,300,400,500,5000}
-type WorkspaceSkuSpecCapacityReservationLevel int
+type WorkspaceSku_CapacityReservationLevel_Spec int
 
 const (
-	WorkspaceSkuSpecCapacityReservationLevel100  = WorkspaceSkuSpecCapacityReservationLevel(100)
-	WorkspaceSkuSpecCapacityReservationLevel1000 = WorkspaceSkuSpecCapacityReservationLevel(1000)
-	WorkspaceSkuSpecCapacityReservationLevel200  = WorkspaceSkuSpecCapacityReservationLevel(200)
-	WorkspaceSkuSpecCapacityReservationLevel2000 = WorkspaceSkuSpecCapacityReservationLevel(2000)
-	WorkspaceSkuSpecCapacityReservationLevel300  = WorkspaceSkuSpecCapacityReservationLevel(300)
-	WorkspaceSkuSpecCapacityReservationLevel400  = WorkspaceSkuSpecCapacityReservationLevel(400)
-	WorkspaceSkuSpecCapacityReservationLevel500  = WorkspaceSkuSpecCapacityReservationLevel(500)
-	WorkspaceSkuSpecCapacityReservationLevel5000 = WorkspaceSkuSpecCapacityReservationLevel(5000)
+	WorkspaceSku_CapacityReservationLevel_Spec100  = WorkspaceSku_CapacityReservationLevel_Spec(100)
+	WorkspaceSku_CapacityReservationLevel_Spec1000 = WorkspaceSku_CapacityReservationLevel_Spec(1000)
+	WorkspaceSku_CapacityReservationLevel_Spec200  = WorkspaceSku_CapacityReservationLevel_Spec(200)
+	WorkspaceSku_CapacityReservationLevel_Spec2000 = WorkspaceSku_CapacityReservationLevel_Spec(2000)
+	WorkspaceSku_CapacityReservationLevel_Spec300  = WorkspaceSku_CapacityReservationLevel_Spec(300)
+	WorkspaceSku_CapacityReservationLevel_Spec400  = WorkspaceSku_CapacityReservationLevel_Spec(400)
+	WorkspaceSku_CapacityReservationLevel_Spec500  = WorkspaceSku_CapacityReservationLevel_Spec(500)
+	WorkspaceSku_CapacityReservationLevel_Spec5000 = WorkspaceSku_CapacityReservationLevel_Spec(5000)
+)
+
+type WorkspaceSku_CapacityReservationLevel_Status int
+
+const (
+	WorkspaceSku_CapacityReservationLevel_Status100  = WorkspaceSku_CapacityReservationLevel_Status(100)
+	WorkspaceSku_CapacityReservationLevel_Status1000 = WorkspaceSku_CapacityReservationLevel_Status(1000)
+	WorkspaceSku_CapacityReservationLevel_Status200  = WorkspaceSku_CapacityReservationLevel_Status(200)
+	WorkspaceSku_CapacityReservationLevel_Status2000 = WorkspaceSku_CapacityReservationLevel_Status(2000)
+	WorkspaceSku_CapacityReservationLevel_Status300  = WorkspaceSku_CapacityReservationLevel_Status(300)
+	WorkspaceSku_CapacityReservationLevel_Status400  = WorkspaceSku_CapacityReservationLevel_Status(400)
+	WorkspaceSku_CapacityReservationLevel_Status500  = WorkspaceSku_CapacityReservationLevel_Status(500)
+	WorkspaceSku_CapacityReservationLevel_Status5000 = WorkspaceSku_CapacityReservationLevel_Status(5000)
 )
 
 // +kubebuilder:validation:Enum={"CapacityReservation","Free","LACluster","PerGB2018","PerNode","Premium","Standalone","Standard"}
-type WorkspaceSkuSpecName string
+type WorkspaceSku_Name_Spec string
 
 const (
-	WorkspaceSkuSpecNameCapacityReservation = WorkspaceSkuSpecName("CapacityReservation")
-	WorkspaceSkuSpecNameFree                = WorkspaceSkuSpecName("Free")
-	WorkspaceSkuSpecNameLACluster           = WorkspaceSkuSpecName("LACluster")
-	WorkspaceSkuSpecNamePerGB2018           = WorkspaceSkuSpecName("PerGB2018")
-	WorkspaceSkuSpecNamePerNode             = WorkspaceSkuSpecName("PerNode")
-	WorkspaceSkuSpecNamePremium             = WorkspaceSkuSpecName("Premium")
-	WorkspaceSkuSpecNameStandalone          = WorkspaceSkuSpecName("Standalone")
-	WorkspaceSkuSpecNameStandard            = WorkspaceSkuSpecName("Standard")
+	WorkspaceSku_Name_SpecCapacityReservation = WorkspaceSku_Name_Spec("CapacityReservation")
+	WorkspaceSku_Name_SpecFree                = WorkspaceSku_Name_Spec("Free")
+	WorkspaceSku_Name_SpecLACluster           = WorkspaceSku_Name_Spec("LACluster")
+	WorkspaceSku_Name_SpecPerGB2018           = WorkspaceSku_Name_Spec("PerGB2018")
+	WorkspaceSku_Name_SpecPerNode             = WorkspaceSku_Name_Spec("PerNode")
+	WorkspaceSku_Name_SpecPremium             = WorkspaceSku_Name_Spec("Premium")
+	WorkspaceSku_Name_SpecStandalone          = WorkspaceSku_Name_Spec("Standalone")
+	WorkspaceSku_Name_SpecStandard            = WorkspaceSku_Name_Spec("Standard")
 )
 
-type WorkspaceSkuStatusCapacityReservationLevel int
+type WorkspaceSku_Name_Status string
 
 const (
-	WorkspaceSkuStatusCapacityReservationLevel100  = WorkspaceSkuStatusCapacityReservationLevel(100)
-	WorkspaceSkuStatusCapacityReservationLevel1000 = WorkspaceSkuStatusCapacityReservationLevel(1000)
-	WorkspaceSkuStatusCapacityReservationLevel200  = WorkspaceSkuStatusCapacityReservationLevel(200)
-	WorkspaceSkuStatusCapacityReservationLevel2000 = WorkspaceSkuStatusCapacityReservationLevel(2000)
-	WorkspaceSkuStatusCapacityReservationLevel300  = WorkspaceSkuStatusCapacityReservationLevel(300)
-	WorkspaceSkuStatusCapacityReservationLevel400  = WorkspaceSkuStatusCapacityReservationLevel(400)
-	WorkspaceSkuStatusCapacityReservationLevel500  = WorkspaceSkuStatusCapacityReservationLevel(500)
-	WorkspaceSkuStatusCapacityReservationLevel5000 = WorkspaceSkuStatusCapacityReservationLevel(5000)
-)
-
-type WorkspaceSkuStatusName string
-
-const (
-	WorkspaceSkuStatusNameCapacityReservation = WorkspaceSkuStatusName("CapacityReservation")
-	WorkspaceSkuStatusNameFree                = WorkspaceSkuStatusName("Free")
-	WorkspaceSkuStatusNameLACluster           = WorkspaceSkuStatusName("LACluster")
-	WorkspaceSkuStatusNamePerGB2018           = WorkspaceSkuStatusName("PerGB2018")
-	WorkspaceSkuStatusNamePerNode             = WorkspaceSkuStatusName("PerNode")
-	WorkspaceSkuStatusNamePremium             = WorkspaceSkuStatusName("Premium")
-	WorkspaceSkuStatusNameStandalone          = WorkspaceSkuStatusName("Standalone")
-	WorkspaceSkuStatusNameStandard            = WorkspaceSkuStatusName("Standard")
+	WorkspaceSku_Name_StatusCapacityReservation = WorkspaceSku_Name_Status("CapacityReservation")
+	WorkspaceSku_Name_StatusFree                = WorkspaceSku_Name_Status("Free")
+	WorkspaceSku_Name_StatusLACluster           = WorkspaceSku_Name_Status("LACluster")
+	WorkspaceSku_Name_StatusPerGB2018           = WorkspaceSku_Name_Status("PerGB2018")
+	WorkspaceSku_Name_StatusPerNode             = WorkspaceSku_Name_Status("PerNode")
+	WorkspaceSku_Name_StatusPremium             = WorkspaceSku_Name_Status("Premium")
+	WorkspaceSku_Name_StatusStandalone          = WorkspaceSku_Name_Status("Standalone")
+	WorkspaceSku_Name_StatusStandard            = WorkspaceSku_Name_Status("Standard")
 )
 
 func init() {

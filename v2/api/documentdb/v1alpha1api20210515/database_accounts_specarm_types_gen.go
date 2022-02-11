@@ -11,7 +11,7 @@ type DatabaseAccounts_SPECARM struct {
 
 	//Kind: Indicates the type of database account. This can only be set at database
 	//account creation.
-	Kind *DatabaseAccountsSPECKind `json:"kind,omitempty"`
+	Kind *DatabaseAccounts_Kind_SPEC `json:"kind,omitempty"`
 
 	//Location: The location of the resource group to which the resource belongs.
 	Location   *string                                       `json:"location,omitempty"`
@@ -123,12 +123,12 @@ type DatabaseAccountCreateUpdateProperties_SpecARM struct {
 }
 
 // +kubebuilder:validation:Enum={"GlobalDocumentDB","MongoDB","Parse"}
-type DatabaseAccountsSPECKind string
+type DatabaseAccounts_Kind_SPEC string
 
 const (
-	DatabaseAccountsSPECKindGlobalDocumentDB = DatabaseAccountsSPECKind("GlobalDocumentDB")
-	DatabaseAccountsSPECKindMongoDB          = DatabaseAccountsSPECKind("MongoDB")
-	DatabaseAccountsSPECKindParse            = DatabaseAccountsSPECKind("Parse")
+	DatabaseAccounts_Kind_SPECGlobalDocumentDB = DatabaseAccounts_Kind_SPEC("GlobalDocumentDB")
+	DatabaseAccounts_Kind_SPECMongoDB          = DatabaseAccounts_Kind_SPEC("MongoDB")
+	DatabaseAccounts_Kind_SPECParse            = DatabaseAccounts_Kind_SPEC("Parse")
 )
 
 type ManagedServiceIdentity_SpecARM struct {
@@ -136,7 +136,7 @@ type ManagedServiceIdentity_SpecARM struct {
 	//'SystemAssigned,UserAssigned' includes both an implicitly created identity and a
 	//set of user assigned identities. The type 'None' will remove any identities from
 	//the service.
-	Type *ManagedServiceIdentitySpecType `json:"type,omitempty"`
+	Type *ManagedServiceIdentity_Type_Spec `json:"type,omitempty"`
 }
 
 type AnalyticalStorageConfiguration_SpecARM struct {
@@ -145,7 +145,7 @@ type AnalyticalStorageConfiguration_SpecARM struct {
 
 type ApiProperties_SpecARM struct {
 	//ServerVersion: Describes the ServerVersion of an a MongoDB account.
-	ServerVersion *ApiPropertiesSpecServerVersion `json:"serverVersion,omitempty"`
+	ServerVersion *ApiProperties_ServerVersion_Spec `json:"serverVersion,omitempty"`
 }
 
 type BackupPolicy_SpecARM struct {
@@ -161,7 +161,7 @@ type Capability_SpecARM struct {
 type ConsistencyPolicy_SpecARM struct {
 	//DefaultConsistencyLevel: The default consistency level and configuration
 	//settings of the Cosmos DB account.
-	DefaultConsistencyLevel ConsistencyPolicySpecDefaultConsistencyLevel `json:"defaultConsistencyLevel"`
+	DefaultConsistencyLevel ConsistencyPolicy_DefaultConsistencyLevel_Spec `json:"defaultConsistencyLevel"`
 
 	//MaxIntervalInSeconds: When used with the Bounded Staleness consistency level,
 	//this value represents the time amount of staleness (in seconds) tolerated.
@@ -224,13 +224,13 @@ type Location_SpecARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
-type ManagedServiceIdentitySpecType string
+type ManagedServiceIdentity_Type_Spec string
 
 const (
-	ManagedServiceIdentitySpecTypeNone                       = ManagedServiceIdentitySpecType("None")
-	ManagedServiceIdentitySpecTypeSystemAssigned             = ManagedServiceIdentitySpecType("SystemAssigned")
-	ManagedServiceIdentitySpecTypeSystemAssignedUserAssigned = ManagedServiceIdentitySpecType("SystemAssigned,UserAssigned")
-	ManagedServiceIdentitySpecTypeUserAssigned               = ManagedServiceIdentitySpecType("UserAssigned")
+	ManagedServiceIdentity_Type_SpecNone                       = ManagedServiceIdentity_Type_Spec("None")
+	ManagedServiceIdentity_Type_SpecSystemAssigned             = ManagedServiceIdentity_Type_Spec("SystemAssigned")
+	ManagedServiceIdentity_Type_SpecSystemAssignedUserAssigned = ManagedServiceIdentity_Type_Spec("SystemAssigned,UserAssigned")
+	ManagedServiceIdentity_Type_SpecUserAssigned               = ManagedServiceIdentity_Type_Spec("UserAssigned")
 )
 
 type VirtualNetworkRule_SpecARM struct {

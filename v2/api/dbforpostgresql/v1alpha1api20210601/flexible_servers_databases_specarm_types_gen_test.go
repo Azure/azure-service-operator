@@ -24,12 +24,12 @@ func Test_FlexibleServersDatabases_SPECARM_WhenSerializedToJson_DeserializesAsEq
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of FlexibleServersDatabases_SPECARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFlexibleServersDatabasesSPECARM, FlexibleServersDatabasesSPECARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForFlexibleServersDatabases_SPECARM, FlexibleServersDatabases_SPECARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForFlexibleServersDatabasesSPECARM runs a test to see if a specific instance of FlexibleServersDatabases_SPECARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForFlexibleServersDatabasesSPECARM(subject FlexibleServersDatabases_SPECARM) string {
+// RunJSONSerializationTestForFlexibleServersDatabases_SPECARM runs a test to see if a specific instance of FlexibleServersDatabases_SPECARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForFlexibleServersDatabases_SPECARM(subject FlexibleServersDatabases_SPECARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,40 +56,40 @@ func RunJSONSerializationTestForFlexibleServersDatabasesSPECARM(subject Flexible
 }
 
 // Generator of FlexibleServersDatabases_SPECARM instances for property testing - lazily instantiated by
-//FlexibleServersDatabasesSPECARMGenerator()
-var flexibleServersDatabasesSPECARMGenerator gopter.Gen
+//FlexibleServersDatabases_SPECARMGenerator()
+var flexibleServersDatabases_specarmGenerator gopter.Gen
 
-// FlexibleServersDatabasesSPECARMGenerator returns a generator of FlexibleServersDatabases_SPECARM instances for property testing.
-// We first initialize flexibleServersDatabasesSPECARMGenerator with a simplified generator based on the
+// FlexibleServersDatabases_SPECARMGenerator returns a generator of FlexibleServersDatabases_SPECARM instances for property testing.
+// We first initialize flexibleServersDatabases_specarmGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func FlexibleServersDatabasesSPECARMGenerator() gopter.Gen {
-	if flexibleServersDatabasesSPECARMGenerator != nil {
-		return flexibleServersDatabasesSPECARMGenerator
+func FlexibleServersDatabases_SPECARMGenerator() gopter.Gen {
+	if flexibleServersDatabases_specarmGenerator != nil {
+		return flexibleServersDatabases_specarmGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersDatabasesSPECARM(generators)
-	flexibleServersDatabasesSPECARMGenerator = gen.Struct(reflect.TypeOf(FlexibleServersDatabases_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForFlexibleServersDatabases_SPECARM(generators)
+	flexibleServersDatabases_specarmGenerator = gen.Struct(reflect.TypeOf(FlexibleServersDatabases_SPECARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersDatabasesSPECARM(generators)
-	AddRelatedPropertyGeneratorsForFlexibleServersDatabasesSPECARM(generators)
-	flexibleServersDatabasesSPECARMGenerator = gen.Struct(reflect.TypeOf(FlexibleServersDatabases_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForFlexibleServersDatabases_SPECARM(generators)
+	AddRelatedPropertyGeneratorsForFlexibleServersDatabases_SPECARM(generators)
+	flexibleServersDatabases_specarmGenerator = gen.Struct(reflect.TypeOf(FlexibleServersDatabases_SPECARM{}), generators)
 
-	return flexibleServersDatabasesSPECARMGenerator
+	return flexibleServersDatabases_specarmGenerator
 }
 
-// AddIndependentPropertyGeneratorsForFlexibleServersDatabasesSPECARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFlexibleServersDatabasesSPECARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForFlexibleServersDatabases_SPECARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFlexibleServersDatabases_SPECARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForFlexibleServersDatabasesSPECARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFlexibleServersDatabasesSPECARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(DatabasePropertiesSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForFlexibleServersDatabases_SPECARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFlexibleServersDatabases_SPECARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(DatabaseProperties_SpecARMGenerator())
 }
 
 func Test_DatabaseProperties_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -99,12 +99,12 @@ func Test_DatabaseProperties_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t 
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DatabaseProperties_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabasePropertiesSpecARM, DatabasePropertiesSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForDatabaseProperties_SpecARM, DatabaseProperties_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabasePropertiesSpecARM runs a test to see if a specific instance of DatabaseProperties_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabasePropertiesSpecARM(subject DatabaseProperties_SpecARM) string {
+// RunJSONSerializationTestForDatabaseProperties_SpecARM runs a test to see if a specific instance of DatabaseProperties_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseProperties_SpecARM(subject DatabaseProperties_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -131,24 +131,24 @@ func RunJSONSerializationTestForDatabasePropertiesSpecARM(subject DatabaseProper
 }
 
 // Generator of DatabaseProperties_SpecARM instances for property testing - lazily instantiated by
-//DatabasePropertiesSpecARMGenerator()
-var databasePropertiesSpecARMGenerator gopter.Gen
+//DatabaseProperties_SpecARMGenerator()
+var databaseProperties_specARMGenerator gopter.Gen
 
-// DatabasePropertiesSpecARMGenerator returns a generator of DatabaseProperties_SpecARM instances for property testing.
-func DatabasePropertiesSpecARMGenerator() gopter.Gen {
-	if databasePropertiesSpecARMGenerator != nil {
-		return databasePropertiesSpecARMGenerator
+// DatabaseProperties_SpecARMGenerator returns a generator of DatabaseProperties_SpecARM instances for property testing.
+func DatabaseProperties_SpecARMGenerator() gopter.Gen {
+	if databaseProperties_specARMGenerator != nil {
+		return databaseProperties_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabasePropertiesSpecARM(generators)
-	databasePropertiesSpecARMGenerator = gen.Struct(reflect.TypeOf(DatabaseProperties_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseProperties_SpecARM(generators)
+	databaseProperties_specARMGenerator = gen.Struct(reflect.TypeOf(DatabaseProperties_SpecARM{}), generators)
 
-	return databasePropertiesSpecARMGenerator
+	return databaseProperties_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDatabasePropertiesSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabasePropertiesSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabaseProperties_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseProperties_SpecARM(gens map[string]gopter.Gen) {
 	gens["Charset"] = gen.PtrOf(gen.AlphaString())
 	gens["Collation"] = gen.PtrOf(gen.AlphaString())
 }

@@ -248,17 +248,17 @@ func (subnet *VirtualNetworksSubnet) AssignPropertiesFromVirtualNetworksSubnet(s
 
 	// Spec
 	var spec VirtualNetworksSubnets_SPEC
-	err := spec.AssignPropertiesFromVirtualNetworksSubnetsSPEC(&source.Spec)
+	err := spec.AssignPropertiesFromVirtualNetworksSubnets_SPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworksSubnetsSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworksSubnets_SPEC() to populate field Spec")
 	}
 	subnet.Spec = spec
 
 	// Status
 	var status Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded
-	err = status.AssignPropertiesFromSubnetStatusVirtualNetworksSubnetSubResourceEmbedded(&source.Status)
+	err = status.AssignPropertiesFromSubnet_Status_VirtualNetworksSubnet_SubResourceEmbedded(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromSubnetStatusVirtualNetworksSubnetSubResourceEmbedded() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromSubnet_Status_VirtualNetworksSubnet_SubResourceEmbedded() to populate field Status")
 	}
 	subnet.Status = status
 
@@ -274,17 +274,17 @@ func (subnet *VirtualNetworksSubnet) AssignPropertiesToVirtualNetworksSubnet(des
 
 	// Spec
 	var spec v1alpha1api20201101storage.VirtualNetworksSubnets_SPEC
-	err := subnet.Spec.AssignPropertiesToVirtualNetworksSubnetsSPEC(&spec)
+	err := subnet.Spec.AssignPropertiesToVirtualNetworksSubnets_SPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworksSubnetsSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworksSubnets_SPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v1alpha1api20201101storage.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded
-	err = subnet.Status.AssignPropertiesToSubnetStatusVirtualNetworksSubnetSubResourceEmbedded(&status)
+	err = subnet.Status.AssignPropertiesToSubnet_Status_VirtualNetworksSubnet_SubResourceEmbedded(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSubnetStatusVirtualNetworksSubnetSubResourceEmbedded() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToSubnet_Status_VirtualNetworksSubnet_SubResourceEmbedded() to populate field Status")
 	}
 	destination.Status = status
 
@@ -357,14 +357,14 @@ type Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 
 	//PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on
 	//private end point in the subnet.
-	PrivateEndpointNetworkPolicies *SubnetPropertiesFormatStatusPrivateEndpointNetworkPolicies `json:"privateEndpointNetworkPolicies,omitempty"`
+	PrivateEndpointNetworkPolicies *SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Status `json:"privateEndpointNetworkPolicies,omitempty"`
 
 	//PrivateEndpoints: An array of references to private endpoints.
 	PrivateEndpoints []PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded `json:"privateEndpoints,omitempty"`
 
 	//PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on
 	//private link service in the subnet.
-	PrivateLinkServiceNetworkPolicies *SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPolicies `json:"privateLinkServiceNetworkPolicies,omitempty"`
+	PrivateLinkServiceNetworkPolicies *SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Status `json:"privateLinkServiceNetworkPolicies,omitempty"`
 
 	//ProvisioningState: The provisioning state of the subnet resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
@@ -401,7 +401,7 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) Convert
 	src, ok := source.(*v1alpha1api20201101storage.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded)
 	if ok {
 		// Populate our instance from source
-		return embedded.AssignPropertiesFromSubnetStatusVirtualNetworksSubnetSubResourceEmbedded(src)
+		return embedded.AssignPropertiesFromSubnet_Status_VirtualNetworksSubnet_SubResourceEmbedded(src)
 	}
 
 	// Convert to an intermediate form
@@ -412,7 +412,7 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) Convert
 	}
 
 	// Update our instance from src
-	err = embedded.AssignPropertiesFromSubnetStatusVirtualNetworksSubnetSubResourceEmbedded(src)
+	err = embedded.AssignPropertiesFromSubnet_Status_VirtualNetworksSubnet_SubResourceEmbedded(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -425,12 +425,12 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) Convert
 	dst, ok := destination.(*v1alpha1api20201101storage.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded)
 	if ok {
 		// Populate destination from our instance
-		return embedded.AssignPropertiesToSubnetStatusVirtualNetworksSubnetSubResourceEmbedded(dst)
+		return embedded.AssignPropertiesToSubnet_Status_VirtualNetworksSubnet_SubResourceEmbedded(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20201101storage.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded{}
-	err := embedded.AssignPropertiesToSubnetStatusVirtualNetworksSubnetSubResourceEmbedded(dst)
+	err := embedded.AssignPropertiesToSubnet_Status_VirtualNetworksSubnet_SubResourceEmbedded(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -713,8 +713,8 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) Populat
 	return nil
 }
 
-// AssignPropertiesFromSubnetStatusVirtualNetworksSubnetSubResourceEmbedded populates our Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromSubnetStatusVirtualNetworksSubnetSubResourceEmbedded(source *v1alpha1api20201101storage.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesFromSubnet_Status_VirtualNetworksSubnet_SubResourceEmbedded populates our Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromSubnet_Status_VirtualNetworksSubnet_SubResourceEmbedded(source *v1alpha1api20201101storage.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
 
 	// AddressPrefix
 	embedded.AddressPrefix = genruntime.ClonePointerToString(source.AddressPrefix)
@@ -729,9 +729,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 			// Shadow the loop variable to avoid aliasing
 			applicationGatewayIpConfigurationItem := applicationGatewayIpConfigurationItem
 			var applicationGatewayIpConfiguration ApplicationGatewayIPConfiguration_Status
-			err := applicationGatewayIpConfiguration.AssignPropertiesFromApplicationGatewayIPConfigurationStatus(&applicationGatewayIpConfigurationItem)
+			err := applicationGatewayIpConfiguration.AssignPropertiesFromApplicationGatewayIPConfiguration_Status(&applicationGatewayIpConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromApplicationGatewayIPConfigurationStatus() to populate field ApplicationGatewayIpConfigurations")
+				return errors.Wrap(err, "calling AssignPropertiesFromApplicationGatewayIPConfiguration_Status() to populate field ApplicationGatewayIpConfigurations")
 			}
 			applicationGatewayIpConfigurationList[applicationGatewayIpConfigurationIndex] = applicationGatewayIpConfiguration
 		}
@@ -750,9 +750,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 			// Shadow the loop variable to avoid aliasing
 			delegationItem := delegationItem
 			var delegation Delegation_Status
-			err := delegation.AssignPropertiesFromDelegationStatus(&delegationItem)
+			err := delegation.AssignPropertiesFromDelegation_Status(&delegationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDelegationStatus() to populate field Delegations")
+				return errors.Wrap(err, "calling AssignPropertiesFromDelegation_Status() to populate field Delegations")
 			}
 			delegationList[delegationIndex] = delegation
 		}
@@ -774,9 +774,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 			// Shadow the loop variable to avoid aliasing
 			ipAllocationItem := ipAllocationItem
 			var ipAllocation SubResource_Status
-			err := ipAllocation.AssignPropertiesFromSubResourceStatus(&ipAllocationItem)
+			err := ipAllocation.AssignPropertiesFromSubResource_Status(&ipAllocationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field IpAllocations")
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResource_Status() to populate field IpAllocations")
 			}
 			ipAllocationList[ipAllocationIndex] = ipAllocation
 		}
@@ -792,9 +792,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationProfileItem := ipConfigurationProfileItem
 			var ipConfigurationProfile IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded
-			err := ipConfigurationProfile.AssignPropertiesFromIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded(&ipConfigurationProfileItem)
+			err := ipConfigurationProfile.AssignPropertiesFromIPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded(&ipConfigurationProfileItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded() to populate field IpConfigurationProfiles")
+				return errors.Wrap(err, "calling AssignPropertiesFromIPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded() to populate field IpConfigurationProfiles")
 			}
 			ipConfigurationProfileList[ipConfigurationProfileIndex] = ipConfigurationProfile
 		}
@@ -810,9 +810,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded
-			err := ipConfiguration.AssignPropertiesFromIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded(&ipConfigurationItem)
+			err := ipConfiguration.AssignPropertiesFromIPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded(&ipConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded() to populate field IpConfigurations")
+				return errors.Wrap(err, "calling AssignPropertiesFromIPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -827,9 +827,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 	// NatGateway
 	if source.NatGateway != nil {
 		var natGateway SubResource_Status
-		err := natGateway.AssignPropertiesFromSubResourceStatus(source.NatGateway)
+		err := natGateway.AssignPropertiesFromSubResource_Status(source.NatGateway)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field NatGateway")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_Status() to populate field NatGateway")
 		}
 		embedded.NatGateway = &natGateway
 	} else {
@@ -839,9 +839,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 	// NetworkSecurityGroup
 	if source.NetworkSecurityGroup != nil {
 		var networkSecurityGroup NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded
-		err := networkSecurityGroup.AssignPropertiesFromNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded(source.NetworkSecurityGroup)
+		err := networkSecurityGroup.AssignPropertiesFromNetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded(source.NetworkSecurityGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded() to populate field NetworkSecurityGroup")
+			return errors.Wrap(err, "calling AssignPropertiesFromNetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded() to populate field NetworkSecurityGroup")
 		}
 		embedded.NetworkSecurityGroup = &networkSecurityGroup
 	} else {
@@ -850,7 +850,7 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 
 	// PrivateEndpointNetworkPolicies
 	if source.PrivateEndpointNetworkPolicies != nil {
-		privateEndpointNetworkPolicy := SubnetPropertiesFormatStatusPrivateEndpointNetworkPolicies(*source.PrivateEndpointNetworkPolicies)
+		privateEndpointNetworkPolicy := SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Status(*source.PrivateEndpointNetworkPolicies)
 		embedded.PrivateEndpointNetworkPolicies = &privateEndpointNetworkPolicy
 	} else {
 		embedded.PrivateEndpointNetworkPolicies = nil
@@ -863,9 +863,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointItem := privateEndpointItem
 			var privateEndpoint PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded
-			err := privateEndpoint.AssignPropertiesFromPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded(&privateEndpointItem)
+			err := privateEndpoint.AssignPropertiesFromPrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded(&privateEndpointItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded() to populate field PrivateEndpoints")
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded() to populate field PrivateEndpoints")
 			}
 			privateEndpointList[privateEndpointIndex] = privateEndpoint
 		}
@@ -876,7 +876,7 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 
 	// PrivateLinkServiceNetworkPolicies
 	if source.PrivateLinkServiceNetworkPolicies != nil {
-		privateLinkServiceNetworkPolicy := SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPolicies(*source.PrivateLinkServiceNetworkPolicies)
+		privateLinkServiceNetworkPolicy := SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Status(*source.PrivateLinkServiceNetworkPolicies)
 		embedded.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicy
 	} else {
 		embedded.PrivateLinkServiceNetworkPolicies = nil
@@ -900,9 +900,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 			// Shadow the loop variable to avoid aliasing
 			resourceNavigationLinkItem := resourceNavigationLinkItem
 			var resourceNavigationLink ResourceNavigationLink_Status
-			err := resourceNavigationLink.AssignPropertiesFromResourceNavigationLinkStatus(&resourceNavigationLinkItem)
+			err := resourceNavigationLink.AssignPropertiesFromResourceNavigationLink_Status(&resourceNavigationLinkItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromResourceNavigationLinkStatus() to populate field ResourceNavigationLinks")
+				return errors.Wrap(err, "calling AssignPropertiesFromResourceNavigationLink_Status() to populate field ResourceNavigationLinks")
 			}
 			resourceNavigationLinkList[resourceNavigationLinkIndex] = resourceNavigationLink
 		}
@@ -914,9 +914,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 	// RouteTable
 	if source.RouteTable != nil {
 		var routeTable RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
-		err := routeTable.AssignPropertiesFromRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded(source.RouteTable)
+		err := routeTable.AssignPropertiesFromRouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded(source.RouteTable)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded() to populate field RouteTable")
+			return errors.Wrap(err, "calling AssignPropertiesFromRouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded() to populate field RouteTable")
 		}
 		embedded.RouteTable = &routeTable
 	} else {
@@ -930,9 +930,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 			// Shadow the loop variable to avoid aliasing
 			serviceAssociationLinkItem := serviceAssociationLinkItem
 			var serviceAssociationLink ServiceAssociationLink_Status
-			err := serviceAssociationLink.AssignPropertiesFromServiceAssociationLinkStatus(&serviceAssociationLinkItem)
+			err := serviceAssociationLink.AssignPropertiesFromServiceAssociationLink_Status(&serviceAssociationLinkItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromServiceAssociationLinkStatus() to populate field ServiceAssociationLinks")
+				return errors.Wrap(err, "calling AssignPropertiesFromServiceAssociationLink_Status() to populate field ServiceAssociationLinks")
 			}
 			serviceAssociationLinkList[serviceAssociationLinkIndex] = serviceAssociationLink
 		}
@@ -948,9 +948,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 			// Shadow the loop variable to avoid aliasing
 			serviceEndpointPolicyItem := serviceEndpointPolicyItem
 			var serviceEndpointPolicy ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded
-			err := serviceEndpointPolicy.AssignPropertiesFromServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded(&serviceEndpointPolicyItem)
+			err := serviceEndpointPolicy.AssignPropertiesFromServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded(&serviceEndpointPolicyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded() to populate field ServiceEndpointPolicies")
+				return errors.Wrap(err, "calling AssignPropertiesFromServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded() to populate field ServiceEndpointPolicies")
 			}
 			serviceEndpointPolicyList[serviceEndpointPolicyIndex] = serviceEndpointPolicy
 		}
@@ -966,9 +966,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 			// Shadow the loop variable to avoid aliasing
 			serviceEndpointItem := serviceEndpointItem
 			var serviceEndpoint ServiceEndpointPropertiesFormat_Status
-			err := serviceEndpoint.AssignPropertiesFromServiceEndpointPropertiesFormatStatus(&serviceEndpointItem)
+			err := serviceEndpoint.AssignPropertiesFromServiceEndpointPropertiesFormat_Status(&serviceEndpointItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromServiceEndpointPropertiesFormatStatus() to populate field ServiceEndpoints")
+				return errors.Wrap(err, "calling AssignPropertiesFromServiceEndpointPropertiesFormat_Status() to populate field ServiceEndpoints")
 			}
 			serviceEndpointList[serviceEndpointIndex] = serviceEndpoint
 		}
@@ -984,8 +984,8 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 	return nil
 }
 
-// AssignPropertiesToSubnetStatusVirtualNetworksSubnetSubResourceEmbedded populates the provided destination Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded from our Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToSubnetStatusVirtualNetworksSubnetSubResourceEmbedded(destination *v1alpha1api20201101storage.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesToSubnet_Status_VirtualNetworksSubnet_SubResourceEmbedded populates the provided destination Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded from our Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToSubnet_Status_VirtualNetworksSubnet_SubResourceEmbedded(destination *v1alpha1api20201101storage.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1002,9 +1002,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 			// Shadow the loop variable to avoid aliasing
 			applicationGatewayIpConfigurationItem := applicationGatewayIpConfigurationItem
 			var applicationGatewayIpConfiguration v1alpha1api20201101storage.ApplicationGatewayIPConfiguration_Status
-			err := applicationGatewayIpConfigurationItem.AssignPropertiesToApplicationGatewayIPConfigurationStatus(&applicationGatewayIpConfiguration)
+			err := applicationGatewayIpConfigurationItem.AssignPropertiesToApplicationGatewayIPConfiguration_Status(&applicationGatewayIpConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToApplicationGatewayIPConfigurationStatus() to populate field ApplicationGatewayIpConfigurations")
+				return errors.Wrap(err, "calling AssignPropertiesToApplicationGatewayIPConfiguration_Status() to populate field ApplicationGatewayIpConfigurations")
 			}
 			applicationGatewayIpConfigurationList[applicationGatewayIpConfigurationIndex] = applicationGatewayIpConfiguration
 		}
@@ -1023,9 +1023,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 			// Shadow the loop variable to avoid aliasing
 			delegationItem := delegationItem
 			var delegation v1alpha1api20201101storage.Delegation_Status
-			err := delegationItem.AssignPropertiesToDelegationStatus(&delegation)
+			err := delegationItem.AssignPropertiesToDelegation_Status(&delegation)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDelegationStatus() to populate field Delegations")
+				return errors.Wrap(err, "calling AssignPropertiesToDelegation_Status() to populate field Delegations")
 			}
 			delegationList[delegationIndex] = delegation
 		}
@@ -1047,9 +1047,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 			// Shadow the loop variable to avoid aliasing
 			ipAllocationItem := ipAllocationItem
 			var ipAllocation v1alpha1api20201101storage.SubResource_Status
-			err := ipAllocationItem.AssignPropertiesToSubResourceStatus(&ipAllocation)
+			err := ipAllocationItem.AssignPropertiesToSubResource_Status(&ipAllocation)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field IpAllocations")
+				return errors.Wrap(err, "calling AssignPropertiesToSubResource_Status() to populate field IpAllocations")
 			}
 			ipAllocationList[ipAllocationIndex] = ipAllocation
 		}
@@ -1065,9 +1065,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationProfileItem := ipConfigurationProfileItem
 			var ipConfigurationProfile v1alpha1api20201101storage.IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded
-			err := ipConfigurationProfileItem.AssignPropertiesToIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded(&ipConfigurationProfile)
+			err := ipConfigurationProfileItem.AssignPropertiesToIPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded(&ipConfigurationProfile)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded() to populate field IpConfigurationProfiles")
+				return errors.Wrap(err, "calling AssignPropertiesToIPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded() to populate field IpConfigurationProfiles")
 			}
 			ipConfigurationProfileList[ipConfigurationProfileIndex] = ipConfigurationProfile
 		}
@@ -1083,9 +1083,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration v1alpha1api20201101storage.IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded
-			err := ipConfigurationItem.AssignPropertiesToIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded(&ipConfiguration)
+			err := ipConfigurationItem.AssignPropertiesToIPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded(&ipConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded() to populate field IpConfigurations")
+				return errors.Wrap(err, "calling AssignPropertiesToIPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -1100,9 +1100,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 	// NatGateway
 	if embedded.NatGateway != nil {
 		var natGateway v1alpha1api20201101storage.SubResource_Status
-		err := embedded.NatGateway.AssignPropertiesToSubResourceStatus(&natGateway)
+		err := embedded.NatGateway.AssignPropertiesToSubResource_Status(&natGateway)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field NatGateway")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_Status() to populate field NatGateway")
 		}
 		destination.NatGateway = &natGateway
 	} else {
@@ -1112,9 +1112,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 	// NetworkSecurityGroup
 	if embedded.NetworkSecurityGroup != nil {
 		var networkSecurityGroup v1alpha1api20201101storage.NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded
-		err := embedded.NetworkSecurityGroup.AssignPropertiesToNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded(&networkSecurityGroup)
+		err := embedded.NetworkSecurityGroup.AssignPropertiesToNetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded(&networkSecurityGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded() to populate field NetworkSecurityGroup")
+			return errors.Wrap(err, "calling AssignPropertiesToNetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded() to populate field NetworkSecurityGroup")
 		}
 		destination.NetworkSecurityGroup = &networkSecurityGroup
 	} else {
@@ -1136,9 +1136,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointItem := privateEndpointItem
 			var privateEndpoint v1alpha1api20201101storage.PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded
-			err := privateEndpointItem.AssignPropertiesToPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded(&privateEndpoint)
+			err := privateEndpointItem.AssignPropertiesToPrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded(&privateEndpoint)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded() to populate field PrivateEndpoints")
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded() to populate field PrivateEndpoints")
 			}
 			privateEndpointList[privateEndpointIndex] = privateEndpoint
 		}
@@ -1173,9 +1173,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 			// Shadow the loop variable to avoid aliasing
 			resourceNavigationLinkItem := resourceNavigationLinkItem
 			var resourceNavigationLink v1alpha1api20201101storage.ResourceNavigationLink_Status
-			err := resourceNavigationLinkItem.AssignPropertiesToResourceNavigationLinkStatus(&resourceNavigationLink)
+			err := resourceNavigationLinkItem.AssignPropertiesToResourceNavigationLink_Status(&resourceNavigationLink)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToResourceNavigationLinkStatus() to populate field ResourceNavigationLinks")
+				return errors.Wrap(err, "calling AssignPropertiesToResourceNavigationLink_Status() to populate field ResourceNavigationLinks")
 			}
 			resourceNavigationLinkList[resourceNavigationLinkIndex] = resourceNavigationLink
 		}
@@ -1187,9 +1187,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 	// RouteTable
 	if embedded.RouteTable != nil {
 		var routeTable v1alpha1api20201101storage.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
-		err := embedded.RouteTable.AssignPropertiesToRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded(&routeTable)
+		err := embedded.RouteTable.AssignPropertiesToRouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded(&routeTable)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded() to populate field RouteTable")
+			return errors.Wrap(err, "calling AssignPropertiesToRouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded() to populate field RouteTable")
 		}
 		destination.RouteTable = &routeTable
 	} else {
@@ -1203,9 +1203,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 			// Shadow the loop variable to avoid aliasing
 			serviceAssociationLinkItem := serviceAssociationLinkItem
 			var serviceAssociationLink v1alpha1api20201101storage.ServiceAssociationLink_Status
-			err := serviceAssociationLinkItem.AssignPropertiesToServiceAssociationLinkStatus(&serviceAssociationLink)
+			err := serviceAssociationLinkItem.AssignPropertiesToServiceAssociationLink_Status(&serviceAssociationLink)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToServiceAssociationLinkStatus() to populate field ServiceAssociationLinks")
+				return errors.Wrap(err, "calling AssignPropertiesToServiceAssociationLink_Status() to populate field ServiceAssociationLinks")
 			}
 			serviceAssociationLinkList[serviceAssociationLinkIndex] = serviceAssociationLink
 		}
@@ -1221,9 +1221,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 			// Shadow the loop variable to avoid aliasing
 			serviceEndpointPolicyItem := serviceEndpointPolicyItem
 			var serviceEndpointPolicy v1alpha1api20201101storage.ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded
-			err := serviceEndpointPolicyItem.AssignPropertiesToServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded(&serviceEndpointPolicy)
+			err := serviceEndpointPolicyItem.AssignPropertiesToServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded(&serviceEndpointPolicy)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded() to populate field ServiceEndpointPolicies")
+				return errors.Wrap(err, "calling AssignPropertiesToServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded() to populate field ServiceEndpointPolicies")
 			}
 			serviceEndpointPolicyList[serviceEndpointPolicyIndex] = serviceEndpointPolicy
 		}
@@ -1239,9 +1239,9 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 			// Shadow the loop variable to avoid aliasing
 			serviceEndpointItem := serviceEndpointItem
 			var serviceEndpoint v1alpha1api20201101storage.ServiceEndpointPropertiesFormat_Status
-			err := serviceEndpointItem.AssignPropertiesToServiceEndpointPropertiesFormatStatus(&serviceEndpoint)
+			err := serviceEndpointItem.AssignPropertiesToServiceEndpointPropertiesFormat_Status(&serviceEndpoint)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToServiceEndpointPropertiesFormatStatus() to populate field ServiceEndpoints")
+				return errors.Wrap(err, "calling AssignPropertiesToServiceEndpointPropertiesFormat_Status() to populate field ServiceEndpoints")
 			}
 			serviceEndpointList[serviceEndpointIndex] = serviceEndpoint
 		}
@@ -1296,11 +1296,11 @@ type VirtualNetworksSubnets_SPEC struct {
 
 	//PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on
 	//private end point in the subnet.
-	PrivateEndpointNetworkPolicies *SubnetPropertiesFormatSpecPrivateEndpointNetworkPolicies `json:"privateEndpointNetworkPolicies,omitempty"`
+	PrivateEndpointNetworkPolicies *SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Spec `json:"privateEndpointNetworkPolicies,omitempty"`
 
 	//PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on
 	//private link service in the subnet.
-	PrivateLinkServiceNetworkPolicies *SubnetPropertiesFormatSpecPrivateLinkServiceNetworkPolicies `json:"privateLinkServiceNetworkPolicies,omitempty"`
+	PrivateLinkServiceNetworkPolicies *SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Spec `json:"privateLinkServiceNetworkPolicies,omitempty"`
 
 	//Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -1622,7 +1622,7 @@ func (spec *VirtualNetworksSubnets_SPEC) ConvertSpecFrom(source genruntime.Conve
 	src, ok := source.(*v1alpha1api20201101storage.VirtualNetworksSubnets_SPEC)
 	if ok {
 		// Populate our instance from source
-		return spec.AssignPropertiesFromVirtualNetworksSubnetsSPEC(src)
+		return spec.AssignPropertiesFromVirtualNetworksSubnets_SPEC(src)
 	}
 
 	// Convert to an intermediate form
@@ -1633,7 +1633,7 @@ func (spec *VirtualNetworksSubnets_SPEC) ConvertSpecFrom(source genruntime.Conve
 	}
 
 	// Update our instance from src
-	err = spec.AssignPropertiesFromVirtualNetworksSubnetsSPEC(src)
+	err = spec.AssignPropertiesFromVirtualNetworksSubnets_SPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -1646,12 +1646,12 @@ func (spec *VirtualNetworksSubnets_SPEC) ConvertSpecTo(destination genruntime.Co
 	dst, ok := destination.(*v1alpha1api20201101storage.VirtualNetworksSubnets_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return spec.AssignPropertiesToVirtualNetworksSubnetsSPEC(dst)
+		return spec.AssignPropertiesToVirtualNetworksSubnets_SPEC(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20201101storage.VirtualNetworksSubnets_SPEC{}
-	err := spec.AssignPropertiesToVirtualNetworksSubnetsSPEC(dst)
+	err := spec.AssignPropertiesToVirtualNetworksSubnets_SPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -1665,8 +1665,8 @@ func (spec *VirtualNetworksSubnets_SPEC) ConvertSpecTo(destination genruntime.Co
 	return nil
 }
 
-// AssignPropertiesFromVirtualNetworksSubnetsSPEC populates our VirtualNetworksSubnets_SPEC from the provided source VirtualNetworksSubnets_SPEC
-func (spec *VirtualNetworksSubnets_SPEC) AssignPropertiesFromVirtualNetworksSubnetsSPEC(source *v1alpha1api20201101storage.VirtualNetworksSubnets_SPEC) error {
+// AssignPropertiesFromVirtualNetworksSubnets_SPEC populates our VirtualNetworksSubnets_SPEC from the provided source VirtualNetworksSubnets_SPEC
+func (spec *VirtualNetworksSubnets_SPEC) AssignPropertiesFromVirtualNetworksSubnets_SPEC(source *v1alpha1api20201101storage.VirtualNetworksSubnets_SPEC) error {
 
 	// AddressPrefix
 	spec.AddressPrefix = genruntime.ClonePointerToString(source.AddressPrefix)
@@ -1681,9 +1681,9 @@ func (spec *VirtualNetworksSubnets_SPEC) AssignPropertiesFromVirtualNetworksSubn
 			// Shadow the loop variable to avoid aliasing
 			applicationGatewayIpConfigurationItem := applicationGatewayIpConfigurationItem
 			var applicationGatewayIpConfiguration ApplicationGatewayIPConfiguration_Spec
-			err := applicationGatewayIpConfiguration.AssignPropertiesFromApplicationGatewayIPConfigurationSpec(&applicationGatewayIpConfigurationItem)
+			err := applicationGatewayIpConfiguration.AssignPropertiesFromApplicationGatewayIPConfiguration_Spec(&applicationGatewayIpConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromApplicationGatewayIPConfigurationSpec() to populate field ApplicationGatewayIpConfigurations")
+				return errors.Wrap(err, "calling AssignPropertiesFromApplicationGatewayIPConfiguration_Spec() to populate field ApplicationGatewayIpConfigurations")
 			}
 			applicationGatewayIpConfigurationList[applicationGatewayIpConfigurationIndex] = applicationGatewayIpConfiguration
 		}
@@ -1702,9 +1702,9 @@ func (spec *VirtualNetworksSubnets_SPEC) AssignPropertiesFromVirtualNetworksSubn
 			// Shadow the loop variable to avoid aliasing
 			delegationItem := delegationItem
 			var delegation Delegation_Spec
-			err := delegation.AssignPropertiesFromDelegationSpec(&delegationItem)
+			err := delegation.AssignPropertiesFromDelegation_Spec(&delegationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDelegationSpec() to populate field Delegations")
+				return errors.Wrap(err, "calling AssignPropertiesFromDelegation_Spec() to populate field Delegations")
 			}
 			delegationList[delegationIndex] = delegation
 		}
@@ -1720,9 +1720,9 @@ func (spec *VirtualNetworksSubnets_SPEC) AssignPropertiesFromVirtualNetworksSubn
 			// Shadow the loop variable to avoid aliasing
 			ipAllocationItem := ipAllocationItem
 			var ipAllocation SubResource_Spec
-			err := ipAllocation.AssignPropertiesFromSubResourceSpec(&ipAllocationItem)
+			err := ipAllocation.AssignPropertiesFromSubResource_Spec(&ipAllocationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSpec() to populate field IpAllocations")
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResource_Spec() to populate field IpAllocations")
 			}
 			ipAllocationList[ipAllocationIndex] = ipAllocation
 		}
@@ -1734,9 +1734,9 @@ func (spec *VirtualNetworksSubnets_SPEC) AssignPropertiesFromVirtualNetworksSubn
 	// NatGateway
 	if source.NatGateway != nil {
 		var natGateway SubResource_Spec
-		err := natGateway.AssignPropertiesFromSubResourceSpec(source.NatGateway)
+		err := natGateway.AssignPropertiesFromSubResource_Spec(source.NatGateway)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSpec() to populate field NatGateway")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_Spec() to populate field NatGateway")
 		}
 		spec.NatGateway = &natGateway
 	} else {
@@ -1746,9 +1746,9 @@ func (spec *VirtualNetworksSubnets_SPEC) AssignPropertiesFromVirtualNetworksSubn
 	// NetworkSecurityGroup
 	if source.NetworkSecurityGroup != nil {
 		var networkSecurityGroup NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded
-		err := networkSecurityGroup.AssignPropertiesFromNetworkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbedded(source.NetworkSecurityGroup)
+		err := networkSecurityGroup.AssignPropertiesFromNetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded(source.NetworkSecurityGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromNetworkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbedded() to populate field NetworkSecurityGroup")
+			return errors.Wrap(err, "calling AssignPropertiesFromNetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded() to populate field NetworkSecurityGroup")
 		}
 		spec.NetworkSecurityGroup = &networkSecurityGroup
 	} else {
@@ -1760,7 +1760,7 @@ func (spec *VirtualNetworksSubnets_SPEC) AssignPropertiesFromVirtualNetworksSubn
 
 	// PrivateEndpointNetworkPolicies
 	if source.PrivateEndpointNetworkPolicies != nil {
-		privateEndpointNetworkPolicy := SubnetPropertiesFormatSpecPrivateEndpointNetworkPolicies(*source.PrivateEndpointNetworkPolicies)
+		privateEndpointNetworkPolicy := SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Spec(*source.PrivateEndpointNetworkPolicies)
 		spec.PrivateEndpointNetworkPolicies = &privateEndpointNetworkPolicy
 	} else {
 		spec.PrivateEndpointNetworkPolicies = nil
@@ -1768,7 +1768,7 @@ func (spec *VirtualNetworksSubnets_SPEC) AssignPropertiesFromVirtualNetworksSubn
 
 	// PrivateLinkServiceNetworkPolicies
 	if source.PrivateLinkServiceNetworkPolicies != nil {
-		privateLinkServiceNetworkPolicy := SubnetPropertiesFormatSpecPrivateLinkServiceNetworkPolicies(*source.PrivateLinkServiceNetworkPolicies)
+		privateLinkServiceNetworkPolicy := SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Spec(*source.PrivateLinkServiceNetworkPolicies)
 		spec.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicy
 	} else {
 		spec.PrivateLinkServiceNetworkPolicies = nil
@@ -1785,9 +1785,9 @@ func (spec *VirtualNetworksSubnets_SPEC) AssignPropertiesFromVirtualNetworksSubn
 	// RouteTable
 	if source.RouteTable != nil {
 		var routeTable RouteTable_Spec
-		err := routeTable.AssignPropertiesFromRouteTableSpec(source.RouteTable)
+		err := routeTable.AssignPropertiesFromRouteTable_Spec(source.RouteTable)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRouteTableSpec() to populate field RouteTable")
+			return errors.Wrap(err, "calling AssignPropertiesFromRouteTable_Spec() to populate field RouteTable")
 		}
 		spec.RouteTable = &routeTable
 	} else {
@@ -1801,9 +1801,9 @@ func (spec *VirtualNetworksSubnets_SPEC) AssignPropertiesFromVirtualNetworksSubn
 			// Shadow the loop variable to avoid aliasing
 			serviceEndpointPolicyItem := serviceEndpointPolicyItem
 			var serviceEndpointPolicy ServiceEndpointPolicy_Spec
-			err := serviceEndpointPolicy.AssignPropertiesFromServiceEndpointPolicySpec(&serviceEndpointPolicyItem)
+			err := serviceEndpointPolicy.AssignPropertiesFromServiceEndpointPolicy_Spec(&serviceEndpointPolicyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromServiceEndpointPolicySpec() to populate field ServiceEndpointPolicies")
+				return errors.Wrap(err, "calling AssignPropertiesFromServiceEndpointPolicy_Spec() to populate field ServiceEndpointPolicies")
 			}
 			serviceEndpointPolicyList[serviceEndpointPolicyIndex] = serviceEndpointPolicy
 		}
@@ -1819,9 +1819,9 @@ func (spec *VirtualNetworksSubnets_SPEC) AssignPropertiesFromVirtualNetworksSubn
 			// Shadow the loop variable to avoid aliasing
 			serviceEndpointItem := serviceEndpointItem
 			var serviceEndpoint ServiceEndpointPropertiesFormat_Spec
-			err := serviceEndpoint.AssignPropertiesFromServiceEndpointPropertiesFormatSpec(&serviceEndpointItem)
+			err := serviceEndpoint.AssignPropertiesFromServiceEndpointPropertiesFormat_Spec(&serviceEndpointItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromServiceEndpointPropertiesFormatSpec() to populate field ServiceEndpoints")
+				return errors.Wrap(err, "calling AssignPropertiesFromServiceEndpointPropertiesFormat_Spec() to populate field ServiceEndpoints")
 			}
 			serviceEndpointList[serviceEndpointIndex] = serviceEndpoint
 		}
@@ -1837,8 +1837,8 @@ func (spec *VirtualNetworksSubnets_SPEC) AssignPropertiesFromVirtualNetworksSubn
 	return nil
 }
 
-// AssignPropertiesToVirtualNetworksSubnetsSPEC populates the provided destination VirtualNetworksSubnets_SPEC from our VirtualNetworksSubnets_SPEC
-func (spec *VirtualNetworksSubnets_SPEC) AssignPropertiesToVirtualNetworksSubnetsSPEC(destination *v1alpha1api20201101storage.VirtualNetworksSubnets_SPEC) error {
+// AssignPropertiesToVirtualNetworksSubnets_SPEC populates the provided destination VirtualNetworksSubnets_SPEC from our VirtualNetworksSubnets_SPEC
+func (spec *VirtualNetworksSubnets_SPEC) AssignPropertiesToVirtualNetworksSubnets_SPEC(destination *v1alpha1api20201101storage.VirtualNetworksSubnets_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1855,9 +1855,9 @@ func (spec *VirtualNetworksSubnets_SPEC) AssignPropertiesToVirtualNetworksSubnet
 			// Shadow the loop variable to avoid aliasing
 			applicationGatewayIpConfigurationItem := applicationGatewayIpConfigurationItem
 			var applicationGatewayIpConfiguration v1alpha1api20201101storage.ApplicationGatewayIPConfiguration_Spec
-			err := applicationGatewayIpConfigurationItem.AssignPropertiesToApplicationGatewayIPConfigurationSpec(&applicationGatewayIpConfiguration)
+			err := applicationGatewayIpConfigurationItem.AssignPropertiesToApplicationGatewayIPConfiguration_Spec(&applicationGatewayIpConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToApplicationGatewayIPConfigurationSpec() to populate field ApplicationGatewayIpConfigurations")
+				return errors.Wrap(err, "calling AssignPropertiesToApplicationGatewayIPConfiguration_Spec() to populate field ApplicationGatewayIpConfigurations")
 			}
 			applicationGatewayIpConfigurationList[applicationGatewayIpConfigurationIndex] = applicationGatewayIpConfiguration
 		}
@@ -1876,9 +1876,9 @@ func (spec *VirtualNetworksSubnets_SPEC) AssignPropertiesToVirtualNetworksSubnet
 			// Shadow the loop variable to avoid aliasing
 			delegationItem := delegationItem
 			var delegation v1alpha1api20201101storage.Delegation_Spec
-			err := delegationItem.AssignPropertiesToDelegationSpec(&delegation)
+			err := delegationItem.AssignPropertiesToDelegation_Spec(&delegation)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDelegationSpec() to populate field Delegations")
+				return errors.Wrap(err, "calling AssignPropertiesToDelegation_Spec() to populate field Delegations")
 			}
 			delegationList[delegationIndex] = delegation
 		}
@@ -1894,9 +1894,9 @@ func (spec *VirtualNetworksSubnets_SPEC) AssignPropertiesToVirtualNetworksSubnet
 			// Shadow the loop variable to avoid aliasing
 			ipAllocationItem := ipAllocationItem
 			var ipAllocation v1alpha1api20201101storage.SubResource_Spec
-			err := ipAllocationItem.AssignPropertiesToSubResourceSpec(&ipAllocation)
+			err := ipAllocationItem.AssignPropertiesToSubResource_Spec(&ipAllocation)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSubResourceSpec() to populate field IpAllocations")
+				return errors.Wrap(err, "calling AssignPropertiesToSubResource_Spec() to populate field IpAllocations")
 			}
 			ipAllocationList[ipAllocationIndex] = ipAllocation
 		}
@@ -1908,9 +1908,9 @@ func (spec *VirtualNetworksSubnets_SPEC) AssignPropertiesToVirtualNetworksSubnet
 	// NatGateway
 	if spec.NatGateway != nil {
 		var natGateway v1alpha1api20201101storage.SubResource_Spec
-		err := spec.NatGateway.AssignPropertiesToSubResourceSpec(&natGateway)
+		err := spec.NatGateway.AssignPropertiesToSubResource_Spec(&natGateway)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceSpec() to populate field NatGateway")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_Spec() to populate field NatGateway")
 		}
 		destination.NatGateway = &natGateway
 	} else {
@@ -1920,9 +1920,9 @@ func (spec *VirtualNetworksSubnets_SPEC) AssignPropertiesToVirtualNetworksSubnet
 	// NetworkSecurityGroup
 	if spec.NetworkSecurityGroup != nil {
 		var networkSecurityGroup v1alpha1api20201101storage.NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded
-		err := spec.NetworkSecurityGroup.AssignPropertiesToNetworkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbedded(&networkSecurityGroup)
+		err := spec.NetworkSecurityGroup.AssignPropertiesToNetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded(&networkSecurityGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToNetworkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbedded() to populate field NetworkSecurityGroup")
+			return errors.Wrap(err, "calling AssignPropertiesToNetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded() to populate field NetworkSecurityGroup")
 		}
 		destination.NetworkSecurityGroup = &networkSecurityGroup
 	} else {
@@ -1962,9 +1962,9 @@ func (spec *VirtualNetworksSubnets_SPEC) AssignPropertiesToVirtualNetworksSubnet
 	// RouteTable
 	if spec.RouteTable != nil {
 		var routeTable v1alpha1api20201101storage.RouteTable_Spec
-		err := spec.RouteTable.AssignPropertiesToRouteTableSpec(&routeTable)
+		err := spec.RouteTable.AssignPropertiesToRouteTable_Spec(&routeTable)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRouteTableSpec() to populate field RouteTable")
+			return errors.Wrap(err, "calling AssignPropertiesToRouteTable_Spec() to populate field RouteTable")
 		}
 		destination.RouteTable = &routeTable
 	} else {
@@ -1978,9 +1978,9 @@ func (spec *VirtualNetworksSubnets_SPEC) AssignPropertiesToVirtualNetworksSubnet
 			// Shadow the loop variable to avoid aliasing
 			serviceEndpointPolicyItem := serviceEndpointPolicyItem
 			var serviceEndpointPolicy v1alpha1api20201101storage.ServiceEndpointPolicy_Spec
-			err := serviceEndpointPolicyItem.AssignPropertiesToServiceEndpointPolicySpec(&serviceEndpointPolicy)
+			err := serviceEndpointPolicyItem.AssignPropertiesToServiceEndpointPolicy_Spec(&serviceEndpointPolicy)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToServiceEndpointPolicySpec() to populate field ServiceEndpointPolicies")
+				return errors.Wrap(err, "calling AssignPropertiesToServiceEndpointPolicy_Spec() to populate field ServiceEndpointPolicies")
 			}
 			serviceEndpointPolicyList[serviceEndpointPolicyIndex] = serviceEndpointPolicy
 		}
@@ -1996,9 +1996,9 @@ func (spec *VirtualNetworksSubnets_SPEC) AssignPropertiesToVirtualNetworksSubnet
 			// Shadow the loop variable to avoid aliasing
 			serviceEndpointItem := serviceEndpointItem
 			var serviceEndpoint v1alpha1api20201101storage.ServiceEndpointPropertiesFormat_Spec
-			err := serviceEndpointItem.AssignPropertiesToServiceEndpointPropertiesFormatSpec(&serviceEndpoint)
+			err := serviceEndpointItem.AssignPropertiesToServiceEndpointPropertiesFormat_Spec(&serviceEndpoint)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToServiceEndpointPropertiesFormatSpec() to populate field ServiceEndpoints")
+				return errors.Wrap(err, "calling AssignPropertiesToServiceEndpointPropertiesFormat_Spec() to populate field ServiceEndpoints")
 			}
 			serviceEndpointList[serviceEndpointIndex] = serviceEndpoint
 		}
@@ -2119,8 +2119,8 @@ func (configuration *ApplicationGatewayIPConfiguration_Spec) PopulateFromARM(own
 	return nil
 }
 
-// AssignPropertiesFromApplicationGatewayIPConfigurationSpec populates our ApplicationGatewayIPConfiguration_Spec from the provided source ApplicationGatewayIPConfiguration_Spec
-func (configuration *ApplicationGatewayIPConfiguration_Spec) AssignPropertiesFromApplicationGatewayIPConfigurationSpec(source *v1alpha1api20201101storage.ApplicationGatewayIPConfiguration_Spec) error {
+// AssignPropertiesFromApplicationGatewayIPConfiguration_Spec populates our ApplicationGatewayIPConfiguration_Spec from the provided source ApplicationGatewayIPConfiguration_Spec
+func (configuration *ApplicationGatewayIPConfiguration_Spec) AssignPropertiesFromApplicationGatewayIPConfiguration_Spec(source *v1alpha1api20201101storage.ApplicationGatewayIPConfiguration_Spec) error {
 
 	// Name
 	configuration.Name = genruntime.ClonePointerToString(source.Name)
@@ -2136,9 +2136,9 @@ func (configuration *ApplicationGatewayIPConfiguration_Spec) AssignPropertiesFro
 	// Subnet
 	if source.Subnet != nil {
 		var subnet SubResource_Spec
-		err := subnet.AssignPropertiesFromSubResourceSpec(source.Subnet)
+		err := subnet.AssignPropertiesFromSubResource_Spec(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSpec() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_Spec() to populate field Subnet")
 		}
 		configuration.Subnet = &subnet
 	} else {
@@ -2149,8 +2149,8 @@ func (configuration *ApplicationGatewayIPConfiguration_Spec) AssignPropertiesFro
 	return nil
 }
 
-// AssignPropertiesToApplicationGatewayIPConfigurationSpec populates the provided destination ApplicationGatewayIPConfiguration_Spec from our ApplicationGatewayIPConfiguration_Spec
-func (configuration *ApplicationGatewayIPConfiguration_Spec) AssignPropertiesToApplicationGatewayIPConfigurationSpec(destination *v1alpha1api20201101storage.ApplicationGatewayIPConfiguration_Spec) error {
+// AssignPropertiesToApplicationGatewayIPConfiguration_Spec populates the provided destination ApplicationGatewayIPConfiguration_Spec from our ApplicationGatewayIPConfiguration_Spec
+func (configuration *ApplicationGatewayIPConfiguration_Spec) AssignPropertiesToApplicationGatewayIPConfiguration_Spec(destination *v1alpha1api20201101storage.ApplicationGatewayIPConfiguration_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2168,9 +2168,9 @@ func (configuration *ApplicationGatewayIPConfiguration_Spec) AssignPropertiesToA
 	// Subnet
 	if configuration.Subnet != nil {
 		var subnet v1alpha1api20201101storage.SubResource_Spec
-		err := configuration.Subnet.AssignPropertiesToSubResourceSpec(&subnet)
+		err := configuration.Subnet.AssignPropertiesToSubResource_Spec(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceSpec() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_Spec() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -2275,8 +2275,8 @@ func (configuration *ApplicationGatewayIPConfiguration_Status) PopulateFromARM(o
 	return nil
 }
 
-// AssignPropertiesFromApplicationGatewayIPConfigurationStatus populates our ApplicationGatewayIPConfiguration_Status from the provided source ApplicationGatewayIPConfiguration_Status
-func (configuration *ApplicationGatewayIPConfiguration_Status) AssignPropertiesFromApplicationGatewayIPConfigurationStatus(source *v1alpha1api20201101storage.ApplicationGatewayIPConfiguration_Status) error {
+// AssignPropertiesFromApplicationGatewayIPConfiguration_Status populates our ApplicationGatewayIPConfiguration_Status from the provided source ApplicationGatewayIPConfiguration_Status
+func (configuration *ApplicationGatewayIPConfiguration_Status) AssignPropertiesFromApplicationGatewayIPConfiguration_Status(source *v1alpha1api20201101storage.ApplicationGatewayIPConfiguration_Status) error {
 
 	// Etag
 	configuration.Etag = genruntime.ClonePointerToString(source.Etag)
@@ -2298,9 +2298,9 @@ func (configuration *ApplicationGatewayIPConfiguration_Status) AssignPropertiesF
 	// Subnet
 	if source.Subnet != nil {
 		var subnet SubResource_Status
-		err := subnet.AssignPropertiesFromSubResourceStatus(source.Subnet)
+		err := subnet.AssignPropertiesFromSubResource_Status(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_Status() to populate field Subnet")
 		}
 		configuration.Subnet = &subnet
 	} else {
@@ -2314,8 +2314,8 @@ func (configuration *ApplicationGatewayIPConfiguration_Status) AssignPropertiesF
 	return nil
 }
 
-// AssignPropertiesToApplicationGatewayIPConfigurationStatus populates the provided destination ApplicationGatewayIPConfiguration_Status from our ApplicationGatewayIPConfiguration_Status
-func (configuration *ApplicationGatewayIPConfiguration_Status) AssignPropertiesToApplicationGatewayIPConfigurationStatus(destination *v1alpha1api20201101storage.ApplicationGatewayIPConfiguration_Status) error {
+// AssignPropertiesToApplicationGatewayIPConfiguration_Status populates the provided destination ApplicationGatewayIPConfiguration_Status from our ApplicationGatewayIPConfiguration_Status
+func (configuration *ApplicationGatewayIPConfiguration_Status) AssignPropertiesToApplicationGatewayIPConfiguration_Status(destination *v1alpha1api20201101storage.ApplicationGatewayIPConfiguration_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2339,9 +2339,9 @@ func (configuration *ApplicationGatewayIPConfiguration_Status) AssignPropertiesT
 	// Subnet
 	if configuration.Subnet != nil {
 		var subnet v1alpha1api20201101storage.SubResource_Status
-		err := configuration.Subnet.AssignPropertiesToSubResourceStatus(&subnet)
+		err := configuration.Subnet.AssignPropertiesToSubResource_Status(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_Status() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -2459,8 +2459,8 @@ func (delegation *Delegation_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-// AssignPropertiesFromDelegationSpec populates our Delegation_Spec from the provided source Delegation_Spec
-func (delegation *Delegation_Spec) AssignPropertiesFromDelegationSpec(source *v1alpha1api20201101storage.Delegation_Spec) error {
+// AssignPropertiesFromDelegation_Spec populates our Delegation_Spec from the provided source Delegation_Spec
+func (delegation *Delegation_Spec) AssignPropertiesFromDelegation_Spec(source *v1alpha1api20201101storage.Delegation_Spec) error {
 
 	// Name
 	delegation.Name = genruntime.ClonePointerToString(source.Name)
@@ -2483,8 +2483,8 @@ func (delegation *Delegation_Spec) AssignPropertiesFromDelegationSpec(source *v1
 	return nil
 }
 
-// AssignPropertiesToDelegationSpec populates the provided destination Delegation_Spec from our Delegation_Spec
-func (delegation *Delegation_Spec) AssignPropertiesToDelegationSpec(destination *v1alpha1api20201101storage.Delegation_Spec) error {
+// AssignPropertiesToDelegation_Spec populates the provided destination Delegation_Spec from our Delegation_Spec
+func (delegation *Delegation_Spec) AssignPropertiesToDelegation_Spec(destination *v1alpha1api20201101storage.Delegation_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2609,8 +2609,8 @@ func (delegation *Delegation_Status) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-// AssignPropertiesFromDelegationStatus populates our Delegation_Status from the provided source Delegation_Status
-func (delegation *Delegation_Status) AssignPropertiesFromDelegationStatus(source *v1alpha1api20201101storage.Delegation_Status) error {
+// AssignPropertiesFromDelegation_Status populates our Delegation_Status from the provided source Delegation_Status
+func (delegation *Delegation_Status) AssignPropertiesFromDelegation_Status(source *v1alpha1api20201101storage.Delegation_Status) error {
 
 	// Actions
 	delegation.Actions = genruntime.CloneSliceOfString(source.Actions)
@@ -2642,8 +2642,8 @@ func (delegation *Delegation_Status) AssignPropertiesFromDelegationStatus(source
 	return nil
 }
 
-// AssignPropertiesToDelegationStatus populates the provided destination Delegation_Status from our Delegation_Status
-func (delegation *Delegation_Status) AssignPropertiesToDelegationStatus(destination *v1alpha1api20201101storage.Delegation_Status) error {
+// AssignPropertiesToDelegation_Status populates the provided destination Delegation_Status from our Delegation_Status
+func (delegation *Delegation_Status) AssignPropertiesToDelegation_Status(destination *v1alpha1api20201101storage.Delegation_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2753,8 +2753,8 @@ func (embedded *IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceE
 	return nil
 }
 
-// AssignPropertiesFromIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded populates our IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded(source *v1alpha1api20201101storage.IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesFromIPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded populates our IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromIPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded(source *v1alpha1api20201101storage.IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
 
 	// Etag
 	embedded.Etag = genruntime.ClonePointerToString(source.Etag)
@@ -2780,8 +2780,8 @@ func (embedded *IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceE
 	return nil
 }
 
-// AssignPropertiesToIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded populates the provided destination IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded from our IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded(destination *v1alpha1api20201101storage.IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesToIPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded populates the provided destination IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded from our IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToIPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded(destination *v1alpha1api20201101storage.IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2917,8 +2917,8 @@ func (embedded *IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	return nil
 }
 
-// AssignPropertiesFromIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded populates our IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded(source *v1alpha1api20201101storage.IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesFromIPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded populates our IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromIPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded(source *v1alpha1api20201101storage.IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
 
 	// Etag
 	embedded.Etag = genruntime.ClonePointerToString(source.Etag)
@@ -2951,9 +2951,9 @@ func (embedded *IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	// PublicIPAddress
 	if source.PublicIPAddress != nil {
 		var publicIPAddress PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded
-		err := publicIPAddress.AssignPropertiesFromPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded(source.PublicIPAddress)
+		err := publicIPAddress.AssignPropertiesFromPublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded(source.PublicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded() to populate field PublicIPAddress")
+			return errors.Wrap(err, "calling AssignPropertiesFromPublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded() to populate field PublicIPAddress")
 		}
 		embedded.PublicIPAddress = &publicIPAddress
 	} else {
@@ -2964,8 +2964,8 @@ func (embedded *IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	return nil
 }
 
-// AssignPropertiesToIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded populates the provided destination IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded from our IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded(destination *v1alpha1api20201101storage.IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesToIPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded populates the provided destination IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded from our IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToIPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded(destination *v1alpha1api20201101storage.IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3000,9 +3000,9 @@ func (embedded *IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	// PublicIPAddress
 	if embedded.PublicIPAddress != nil {
 		var publicIPAddress v1alpha1api20201101storage.PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded
-		err := embedded.PublicIPAddress.AssignPropertiesToPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded(&publicIPAddress)
+		err := embedded.PublicIPAddress.AssignPropertiesToPublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded(&publicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded() to populate field PublicIPAddress")
+			return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded() to populate field PublicIPAddress")
 		}
 		destination.PublicIPAddress = &publicIPAddress
 	} else {
@@ -3126,8 +3126,8 @@ func (embedded *NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbed
 	return nil
 }
 
-// AssignPropertiesFromNetworkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbedded populates our NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded from the provided source NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromNetworkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbedded(source *v1alpha1api20201101storage.NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesFromNetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded populates our NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded from the provided source NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromNetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded(source *v1alpha1api20201101storage.NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded) error {
 
 	// Location
 	embedded.Location = genruntime.ClonePointerToString(source.Location)
@@ -3147,9 +3147,9 @@ func (embedded *NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbed
 			// Shadow the loop variable to avoid aliasing
 			securityRuleItem := securityRuleItem
 			var securityRule SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded
-			err := securityRule.AssignPropertiesFromSecurityRuleSpecVirtualNetworksSubnetSubResourceEmbedded(&securityRuleItem)
+			err := securityRule.AssignPropertiesFromSecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded(&securityRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSecurityRuleSpecVirtualNetworksSubnetSubResourceEmbedded() to populate field SecurityRules")
+				return errors.Wrap(err, "calling AssignPropertiesFromSecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded() to populate field SecurityRules")
 			}
 			securityRuleList[securityRuleIndex] = securityRule
 		}
@@ -3165,8 +3165,8 @@ func (embedded *NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbed
 	return nil
 }
 
-// AssignPropertiesToNetworkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbedded populates the provided destination NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded from our NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToNetworkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbedded(destination *v1alpha1api20201101storage.NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesToNetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded populates the provided destination NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded from our NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToNetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded(destination *v1alpha1api20201101storage.NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3188,9 +3188,9 @@ func (embedded *NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbed
 			// Shadow the loop variable to avoid aliasing
 			securityRuleItem := securityRuleItem
 			var securityRule v1alpha1api20201101storage.SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded
-			err := securityRuleItem.AssignPropertiesToSecurityRuleSpecVirtualNetworksSubnetSubResourceEmbedded(&securityRule)
+			err := securityRuleItem.AssignPropertiesToSecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded(&securityRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSecurityRuleSpecVirtualNetworksSubnetSubResourceEmbedded() to populate field SecurityRules")
+				return errors.Wrap(err, "calling AssignPropertiesToSecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded() to populate field SecurityRules")
 			}
 			securityRuleList[securityRuleIndex] = securityRule
 		}
@@ -3242,8 +3242,8 @@ func (embedded *NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmb
 	return nil
 }
 
-// AssignPropertiesFromNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded populates our NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded(source *v1alpha1api20201101storage.NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesFromNetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded populates our NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromNetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded(source *v1alpha1api20201101storage.NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -3252,8 +3252,8 @@ func (embedded *NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmb
 	return nil
 }
 
-// AssignPropertiesToNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded populates the provided destination NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded from our NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded(destination *v1alpha1api20201101storage.NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesToNetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded populates the provided destination NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded from our NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToNetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded(destination *v1alpha1api20201101storage.NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3314,15 +3314,15 @@ func (embedded *PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	return nil
 }
 
-// AssignPropertiesFromPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded populates our PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded(source *v1alpha1api20201101storage.PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesFromPrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded populates our PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromPrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded(source *v1alpha1api20201101storage.PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
 		var extendedLocation ExtendedLocation_Status
-		err := extendedLocation.AssignPropertiesFromExtendedLocationStatus(source.ExtendedLocation)
+		err := extendedLocation.AssignPropertiesFromExtendedLocation_Status(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation_Status() to populate field ExtendedLocation")
 		}
 		embedded.ExtendedLocation = &extendedLocation
 	} else {
@@ -3336,17 +3336,17 @@ func (embedded *PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	return nil
 }
 
-// AssignPropertiesToPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded populates the provided destination PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded from our PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded(destination *v1alpha1api20201101storage.PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesToPrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded populates the provided destination PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded from our PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToPrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded(destination *v1alpha1api20201101storage.PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ExtendedLocation
 	if embedded.ExtendedLocation != nil {
 		var extendedLocation v1alpha1api20201101storage.ExtendedLocation_Status
-		err := embedded.ExtendedLocation.AssignPropertiesToExtendedLocationStatus(&extendedLocation)
+		err := embedded.ExtendedLocation.AssignPropertiesToExtendedLocation_Status(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation_Status() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -3461,8 +3461,8 @@ func (link *ResourceNavigationLink_Status) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignPropertiesFromResourceNavigationLinkStatus populates our ResourceNavigationLink_Status from the provided source ResourceNavigationLink_Status
-func (link *ResourceNavigationLink_Status) AssignPropertiesFromResourceNavigationLinkStatus(source *v1alpha1api20201101storage.ResourceNavigationLink_Status) error {
+// AssignPropertiesFromResourceNavigationLink_Status populates our ResourceNavigationLink_Status from the provided source ResourceNavigationLink_Status
+func (link *ResourceNavigationLink_Status) AssignPropertiesFromResourceNavigationLink_Status(source *v1alpha1api20201101storage.ResourceNavigationLink_Status) error {
 
 	// Etag
 	link.Etag = genruntime.ClonePointerToString(source.Etag)
@@ -3494,8 +3494,8 @@ func (link *ResourceNavigationLink_Status) AssignPropertiesFromResourceNavigatio
 	return nil
 }
 
-// AssignPropertiesToResourceNavigationLinkStatus populates the provided destination ResourceNavigationLink_Status from our ResourceNavigationLink_Status
-func (link *ResourceNavigationLink_Status) AssignPropertiesToResourceNavigationLinkStatus(destination *v1alpha1api20201101storage.ResourceNavigationLink_Status) error {
+// AssignPropertiesToResourceNavigationLink_Status populates the provided destination ResourceNavigationLink_Status from our ResourceNavigationLink_Status
+func (link *ResourceNavigationLink_Status) AssignPropertiesToResourceNavigationLink_Status(destination *v1alpha1api20201101storage.ResourceNavigationLink_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3659,8 +3659,8 @@ func (table *RouteTable_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	return nil
 }
 
-// AssignPropertiesFromRouteTableSpec populates our RouteTable_Spec from the provided source RouteTable_Spec
-func (table *RouteTable_Spec) AssignPropertiesFromRouteTableSpec(source *v1alpha1api20201101storage.RouteTable_Spec) error {
+// AssignPropertiesFromRouteTable_Spec populates our RouteTable_Spec from the provided source RouteTable_Spec
+func (table *RouteTable_Spec) AssignPropertiesFromRouteTable_Spec(source *v1alpha1api20201101storage.RouteTable_Spec) error {
 
 	// DisableBgpRoutePropagation
 	if source.DisableBgpRoutePropagation != nil {
@@ -3688,9 +3688,9 @@ func (table *RouteTable_Spec) AssignPropertiesFromRouteTableSpec(source *v1alpha
 			// Shadow the loop variable to avoid aliasing
 			routeItem := routeItem
 			var route Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded
-			err := route.AssignPropertiesFromRouteSpecVirtualNetworksSubnetSubResourceEmbedded(&routeItem)
+			err := route.AssignPropertiesFromRoute_Spec_VirtualNetworksSubnet_SubResourceEmbedded(&routeItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromRouteSpecVirtualNetworksSubnetSubResourceEmbedded() to populate field Routes")
+				return errors.Wrap(err, "calling AssignPropertiesFromRoute_Spec_VirtualNetworksSubnet_SubResourceEmbedded() to populate field Routes")
 			}
 			routeList[routeIndex] = route
 		}
@@ -3706,8 +3706,8 @@ func (table *RouteTable_Spec) AssignPropertiesFromRouteTableSpec(source *v1alpha
 	return nil
 }
 
-// AssignPropertiesToRouteTableSpec populates the provided destination RouteTable_Spec from our RouteTable_Spec
-func (table *RouteTable_Spec) AssignPropertiesToRouteTableSpec(destination *v1alpha1api20201101storage.RouteTable_Spec) error {
+// AssignPropertiesToRouteTable_Spec populates the provided destination RouteTable_Spec from our RouteTable_Spec
+func (table *RouteTable_Spec) AssignPropertiesToRouteTable_Spec(destination *v1alpha1api20201101storage.RouteTable_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3737,9 +3737,9 @@ func (table *RouteTable_Spec) AssignPropertiesToRouteTableSpec(destination *v1al
 			// Shadow the loop variable to avoid aliasing
 			routeItem := routeItem
 			var route v1alpha1api20201101storage.Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded
-			err := routeItem.AssignPropertiesToRouteSpecVirtualNetworksSubnetSubResourceEmbedded(&route)
+			err := routeItem.AssignPropertiesToRoute_Spec_VirtualNetworksSubnet_SubResourceEmbedded(&route)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToRouteSpecVirtualNetworksSubnetSubResourceEmbedded() to populate field Routes")
+				return errors.Wrap(err, "calling AssignPropertiesToRoute_Spec_VirtualNetworksSubnet_SubResourceEmbedded() to populate field Routes")
 			}
 			routeList[routeIndex] = route
 		}
@@ -3791,8 +3791,8 @@ func (embedded *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) Pop
 	return nil
 }
 
-// AssignPropertiesFromRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded populates our RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded(source *v1alpha1api20201101storage.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesFromRouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded populates our RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromRouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded(source *v1alpha1api20201101storage.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -3801,8 +3801,8 @@ func (embedded *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) Ass
 	return nil
 }
 
-// AssignPropertiesToRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded populates the provided destination RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded from our RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded(destination *v1alpha1api20201101storage.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesToRouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded populates the provided destination RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded from our RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToRouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded(destination *v1alpha1api20201101storage.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3937,8 +3937,8 @@ func (link *ServiceAssociationLink_Status) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignPropertiesFromServiceAssociationLinkStatus populates our ServiceAssociationLink_Status from the provided source ServiceAssociationLink_Status
-func (link *ServiceAssociationLink_Status) AssignPropertiesFromServiceAssociationLinkStatus(source *v1alpha1api20201101storage.ServiceAssociationLink_Status) error {
+// AssignPropertiesFromServiceAssociationLink_Status populates our ServiceAssociationLink_Status from the provided source ServiceAssociationLink_Status
+func (link *ServiceAssociationLink_Status) AssignPropertiesFromServiceAssociationLink_Status(source *v1alpha1api20201101storage.ServiceAssociationLink_Status) error {
 
 	// AllowDelete
 	if source.AllowDelete != nil {
@@ -3981,8 +3981,8 @@ func (link *ServiceAssociationLink_Status) AssignPropertiesFromServiceAssociatio
 	return nil
 }
 
-// AssignPropertiesToServiceAssociationLinkStatus populates the provided destination ServiceAssociationLink_Status from our ServiceAssociationLink_Status
-func (link *ServiceAssociationLink_Status) AssignPropertiesToServiceAssociationLinkStatus(destination *v1alpha1api20201101storage.ServiceAssociationLink_Status) error {
+// AssignPropertiesToServiceAssociationLink_Status populates the provided destination ServiceAssociationLink_Status from our ServiceAssociationLink_Status
+func (link *ServiceAssociationLink_Status) AssignPropertiesToServiceAssociationLink_Status(destination *v1alpha1api20201101storage.ServiceAssociationLink_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4141,8 +4141,8 @@ func (policy *ServiceEndpointPolicy_Spec) PopulateFromARM(owner genruntime.Arbit
 	return nil
 }
 
-// AssignPropertiesFromServiceEndpointPolicySpec populates our ServiceEndpointPolicy_Spec from the provided source ServiceEndpointPolicy_Spec
-func (policy *ServiceEndpointPolicy_Spec) AssignPropertiesFromServiceEndpointPolicySpec(source *v1alpha1api20201101storage.ServiceEndpointPolicy_Spec) error {
+// AssignPropertiesFromServiceEndpointPolicy_Spec populates our ServiceEndpointPolicy_Spec from the provided source ServiceEndpointPolicy_Spec
+func (policy *ServiceEndpointPolicy_Spec) AssignPropertiesFromServiceEndpointPolicy_Spec(source *v1alpha1api20201101storage.ServiceEndpointPolicy_Spec) error {
 
 	// Location
 	policy.Location = genruntime.ClonePointerToString(source.Location)
@@ -4162,9 +4162,9 @@ func (policy *ServiceEndpointPolicy_Spec) AssignPropertiesFromServiceEndpointPol
 			// Shadow the loop variable to avoid aliasing
 			serviceEndpointPolicyDefinitionItem := serviceEndpointPolicyDefinitionItem
 			var serviceEndpointPolicyDefinition ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded
-			err := serviceEndpointPolicyDefinition.AssignPropertiesFromServiceEndpointPolicyDefinitionSpecVirtualNetworksSubnetSubResourceEmbedded(&serviceEndpointPolicyDefinitionItem)
+			err := serviceEndpointPolicyDefinition.AssignPropertiesFromServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded(&serviceEndpointPolicyDefinitionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromServiceEndpointPolicyDefinitionSpecVirtualNetworksSubnetSubResourceEmbedded() to populate field ServiceEndpointPolicyDefinitions")
+				return errors.Wrap(err, "calling AssignPropertiesFromServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded() to populate field ServiceEndpointPolicyDefinitions")
 			}
 			serviceEndpointPolicyDefinitionList[serviceEndpointPolicyDefinitionIndex] = serviceEndpointPolicyDefinition
 		}
@@ -4180,8 +4180,8 @@ func (policy *ServiceEndpointPolicy_Spec) AssignPropertiesFromServiceEndpointPol
 	return nil
 }
 
-// AssignPropertiesToServiceEndpointPolicySpec populates the provided destination ServiceEndpointPolicy_Spec from our ServiceEndpointPolicy_Spec
-func (policy *ServiceEndpointPolicy_Spec) AssignPropertiesToServiceEndpointPolicySpec(destination *v1alpha1api20201101storage.ServiceEndpointPolicy_Spec) error {
+// AssignPropertiesToServiceEndpointPolicy_Spec populates the provided destination ServiceEndpointPolicy_Spec from our ServiceEndpointPolicy_Spec
+func (policy *ServiceEndpointPolicy_Spec) AssignPropertiesToServiceEndpointPolicy_Spec(destination *v1alpha1api20201101storage.ServiceEndpointPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4203,9 +4203,9 @@ func (policy *ServiceEndpointPolicy_Spec) AssignPropertiesToServiceEndpointPolic
 			// Shadow the loop variable to avoid aliasing
 			serviceEndpointPolicyDefinitionItem := serviceEndpointPolicyDefinitionItem
 			var serviceEndpointPolicyDefinition v1alpha1api20201101storage.ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded
-			err := serviceEndpointPolicyDefinitionItem.AssignPropertiesToServiceEndpointPolicyDefinitionSpecVirtualNetworksSubnetSubResourceEmbedded(&serviceEndpointPolicyDefinition)
+			err := serviceEndpointPolicyDefinitionItem.AssignPropertiesToServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded(&serviceEndpointPolicyDefinition)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToServiceEndpointPolicyDefinitionSpecVirtualNetworksSubnetSubResourceEmbedded() to populate field ServiceEndpointPolicyDefinitions")
+				return errors.Wrap(err, "calling AssignPropertiesToServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded() to populate field ServiceEndpointPolicyDefinitions")
 			}
 			serviceEndpointPolicyDefinitionList[serviceEndpointPolicyDefinitionIndex] = serviceEndpointPolicyDefinition
 		}
@@ -4267,8 +4267,8 @@ func (embedded *ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEm
 	return nil
 }
 
-// AssignPropertiesFromServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded populates our ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded(source *v1alpha1api20201101storage.ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesFromServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded populates our ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded(source *v1alpha1api20201101storage.ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -4280,8 +4280,8 @@ func (embedded *ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEm
 	return nil
 }
 
-// AssignPropertiesToServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded populates the provided destination ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded from our ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded(destination *v1alpha1api20201101storage.ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesToServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded populates the provided destination ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded from our ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded(destination *v1alpha1api20201101storage.ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4359,8 +4359,8 @@ func (format *ServiceEndpointPropertiesFormat_Spec) PopulateFromARM(owner genrun
 	return nil
 }
 
-// AssignPropertiesFromServiceEndpointPropertiesFormatSpec populates our ServiceEndpointPropertiesFormat_Spec from the provided source ServiceEndpointPropertiesFormat_Spec
-func (format *ServiceEndpointPropertiesFormat_Spec) AssignPropertiesFromServiceEndpointPropertiesFormatSpec(source *v1alpha1api20201101storage.ServiceEndpointPropertiesFormat_Spec) error {
+// AssignPropertiesFromServiceEndpointPropertiesFormat_Spec populates our ServiceEndpointPropertiesFormat_Spec from the provided source ServiceEndpointPropertiesFormat_Spec
+func (format *ServiceEndpointPropertiesFormat_Spec) AssignPropertiesFromServiceEndpointPropertiesFormat_Spec(source *v1alpha1api20201101storage.ServiceEndpointPropertiesFormat_Spec) error {
 
 	// Locations
 	format.Locations = genruntime.CloneSliceOfString(source.Locations)
@@ -4372,8 +4372,8 @@ func (format *ServiceEndpointPropertiesFormat_Spec) AssignPropertiesFromServiceE
 	return nil
 }
 
-// AssignPropertiesToServiceEndpointPropertiesFormatSpec populates the provided destination ServiceEndpointPropertiesFormat_Spec from our ServiceEndpointPropertiesFormat_Spec
-func (format *ServiceEndpointPropertiesFormat_Spec) AssignPropertiesToServiceEndpointPropertiesFormatSpec(destination *v1alpha1api20201101storage.ServiceEndpointPropertiesFormat_Spec) error {
+// AssignPropertiesToServiceEndpointPropertiesFormat_Spec populates the provided destination ServiceEndpointPropertiesFormat_Spec from our ServiceEndpointPropertiesFormat_Spec
+func (format *ServiceEndpointPropertiesFormat_Spec) AssignPropertiesToServiceEndpointPropertiesFormat_Spec(destination *v1alpha1api20201101storage.ServiceEndpointPropertiesFormat_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4440,8 +4440,8 @@ func (format *ServiceEndpointPropertiesFormat_Status) PopulateFromARM(owner genr
 	return nil
 }
 
-// AssignPropertiesFromServiceEndpointPropertiesFormatStatus populates our ServiceEndpointPropertiesFormat_Status from the provided source ServiceEndpointPropertiesFormat_Status
-func (format *ServiceEndpointPropertiesFormat_Status) AssignPropertiesFromServiceEndpointPropertiesFormatStatus(source *v1alpha1api20201101storage.ServiceEndpointPropertiesFormat_Status) error {
+// AssignPropertiesFromServiceEndpointPropertiesFormat_Status populates our ServiceEndpointPropertiesFormat_Status from the provided source ServiceEndpointPropertiesFormat_Status
+func (format *ServiceEndpointPropertiesFormat_Status) AssignPropertiesFromServiceEndpointPropertiesFormat_Status(source *v1alpha1api20201101storage.ServiceEndpointPropertiesFormat_Status) error {
 
 	// Locations
 	format.Locations = genruntime.CloneSliceOfString(source.Locations)
@@ -4461,8 +4461,8 @@ func (format *ServiceEndpointPropertiesFormat_Status) AssignPropertiesFromServic
 	return nil
 }
 
-// AssignPropertiesToServiceEndpointPropertiesFormatStatus populates the provided destination ServiceEndpointPropertiesFormat_Status from our ServiceEndpointPropertiesFormat_Status
-func (format *ServiceEndpointPropertiesFormat_Status) AssignPropertiesToServiceEndpointPropertiesFormatStatus(destination *v1alpha1api20201101storage.ServiceEndpointPropertiesFormat_Status) error {
+// AssignPropertiesToServiceEndpointPropertiesFormat_Status populates the provided destination ServiceEndpointPropertiesFormat_Status from our ServiceEndpointPropertiesFormat_Status
+func (format *ServiceEndpointPropertiesFormat_Status) AssignPropertiesToServiceEndpointPropertiesFormat_Status(destination *v1alpha1api20201101storage.ServiceEndpointPropertiesFormat_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4492,19 +4492,19 @@ func (format *ServiceEndpointPropertiesFormat_Status) AssignPropertiesToServiceE
 }
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type SubnetPropertiesFormatSpecPrivateEndpointNetworkPolicies string
+type SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Spec string
 
 const (
-	SubnetPropertiesFormatSpecPrivateEndpointNetworkPoliciesDisabled = SubnetPropertiesFormatSpecPrivateEndpointNetworkPolicies("Disabled")
-	SubnetPropertiesFormatSpecPrivateEndpointNetworkPoliciesEnabled  = SubnetPropertiesFormatSpecPrivateEndpointNetworkPolicies("Enabled")
+	SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_SpecDisabled = SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Spec("Disabled")
+	SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_SpecEnabled  = SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Spec("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type SubnetPropertiesFormatSpecPrivateLinkServiceNetworkPolicies string
+type SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Spec string
 
 const (
-	SubnetPropertiesFormatSpecPrivateLinkServiceNetworkPoliciesDisabled = SubnetPropertiesFormatSpecPrivateLinkServiceNetworkPolicies("Disabled")
-	SubnetPropertiesFormatSpecPrivateLinkServiceNetworkPoliciesEnabled  = SubnetPropertiesFormatSpecPrivateLinkServiceNetworkPolicies("Enabled")
+	SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_SpecDisabled = SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Spec("Disabled")
+	SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_SpecEnabled  = SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Spec("Enabled")
 )
 
 type PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
@@ -4573,15 +4573,15 @@ func (embedded *PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	return nil
 }
 
-// AssignPropertiesFromPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded populates our PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded(source *v1alpha1api20201101storage.PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesFromPublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded populates our PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromPublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded(source *v1alpha1api20201101storage.PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
 		var extendedLocation ExtendedLocation_Status
-		err := extendedLocation.AssignPropertiesFromExtendedLocationStatus(source.ExtendedLocation)
+		err := extendedLocation.AssignPropertiesFromExtendedLocation_Status(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation_Status() to populate field ExtendedLocation")
 		}
 		embedded.ExtendedLocation = &extendedLocation
 	} else {
@@ -4594,9 +4594,9 @@ func (embedded *PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	// Sku
 	if source.Sku != nil {
 		var sku PublicIPAddressSku_Status
-		err := sku.AssignPropertiesFromPublicIPAddressSkuStatus(source.Sku)
+		err := sku.AssignPropertiesFromPublicIPAddressSku_Status(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPublicIPAddressSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesFromPublicIPAddressSku_Status() to populate field Sku")
 		}
 		embedded.Sku = &sku
 	} else {
@@ -4610,17 +4610,17 @@ func (embedded *PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	return nil
 }
 
-// AssignPropertiesToPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded populates the provided destination PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded from our PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded(destination *v1alpha1api20201101storage.PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesToPublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded populates the provided destination PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded from our PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToPublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded(destination *v1alpha1api20201101storage.PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ExtendedLocation
 	if embedded.ExtendedLocation != nil {
 		var extendedLocation v1alpha1api20201101storage.ExtendedLocation_Status
-		err := embedded.ExtendedLocation.AssignPropertiesToExtendedLocationStatus(&extendedLocation)
+		err := embedded.ExtendedLocation.AssignPropertiesToExtendedLocation_Status(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation_Status() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -4633,9 +4633,9 @@ func (embedded *PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	// Sku
 	if embedded.Sku != nil {
 		var sku v1alpha1api20201101storage.PublicIPAddressSku_Status
-		err := embedded.Sku.AssignPropertiesToPublicIPAddressSkuStatus(&sku)
+		err := embedded.Sku.AssignPropertiesToPublicIPAddressSku_Status(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddressSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddressSku_Status() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -4700,8 +4700,8 @@ func (embedded *Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded) PopulateFr
 	return nil
 }
 
-// AssignPropertiesFromRouteSpecVirtualNetworksSubnetSubResourceEmbedded populates our Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded from the provided source Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromRouteSpecVirtualNetworksSubnetSubResourceEmbedded(source *v1alpha1api20201101storage.Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesFromRoute_Spec_VirtualNetworksSubnet_SubResourceEmbedded populates our Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded from the provided source Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromRoute_Spec_VirtualNetworksSubnet_SubResourceEmbedded(source *v1alpha1api20201101storage.Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded) error {
 
 	// Reference
 	if source.Reference != nil {
@@ -4715,8 +4715,8 @@ func (embedded *Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded) AssignProp
 	return nil
 }
 
-// AssignPropertiesToRouteSpecVirtualNetworksSubnetSubResourceEmbedded populates the provided destination Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded from our Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToRouteSpecVirtualNetworksSubnetSubResourceEmbedded(destination *v1alpha1api20201101storage.Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesToRoute_Spec_VirtualNetworksSubnet_SubResourceEmbedded populates the provided destination Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded from our Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToRoute_Spec_VirtualNetworksSubnet_SubResourceEmbedded(destination *v1alpha1api20201101storage.Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4783,8 +4783,8 @@ func (embedded *SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded) Pop
 	return nil
 }
 
-// AssignPropertiesFromSecurityRuleSpecVirtualNetworksSubnetSubResourceEmbedded populates our SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded from the provided source SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromSecurityRuleSpecVirtualNetworksSubnetSubResourceEmbedded(source *v1alpha1api20201101storage.SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesFromSecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded populates our SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded from the provided source SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromSecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded(source *v1alpha1api20201101storage.SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded) error {
 
 	// Reference
 	if source.Reference != nil {
@@ -4798,8 +4798,8 @@ func (embedded *SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded) Ass
 	return nil
 }
 
-// AssignPropertiesToSecurityRuleSpecVirtualNetworksSubnetSubResourceEmbedded populates the provided destination SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded from our SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToSecurityRuleSpecVirtualNetworksSubnetSubResourceEmbedded(destination *v1alpha1api20201101storage.SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesToSecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded populates the provided destination SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded from our SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToSecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded(destination *v1alpha1api20201101storage.SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4866,8 +4866,8 @@ func (embedded *ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubRe
 	return nil
 }
 
-// AssignPropertiesFromServiceEndpointPolicyDefinitionSpecVirtualNetworksSubnetSubResourceEmbedded populates our ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded from the provided source ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromServiceEndpointPolicyDefinitionSpecVirtualNetworksSubnetSubResourceEmbedded(source *v1alpha1api20201101storage.ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesFromServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded populates our ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded from the provided source ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded(source *v1alpha1api20201101storage.ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded) error {
 
 	// Reference
 	if source.Reference != nil {
@@ -4881,8 +4881,8 @@ func (embedded *ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubRe
 	return nil
 }
 
-// AssignPropertiesToServiceEndpointPolicyDefinitionSpecVirtualNetworksSubnetSubResourceEmbedded populates the provided destination ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded from our ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToServiceEndpointPolicyDefinitionSpecVirtualNetworksSubnetSubResourceEmbedded(destination *v1alpha1api20201101storage.ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesToServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded populates the provided destination ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded from our ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded
+func (embedded *ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded(destination *v1alpha1api20201101storage.ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

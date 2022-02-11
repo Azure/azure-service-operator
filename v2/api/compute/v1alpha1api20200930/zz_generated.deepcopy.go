@@ -341,7 +341,7 @@ func (in *DiskProperties_SpecARM) DeepCopyInto(out *DiskProperties_SpecARM) {
 	}
 	if in.HyperVGeneration != nil {
 		in, out := &in.HyperVGeneration, &out.HyperVGeneration
-		*out = new(DiskPropertiesSpecHyperVGeneration)
+		*out = new(DiskProperties_HyperVGeneration_Spec)
 		**out = **in
 	}
 	if in.MaxShares != nil {
@@ -356,7 +356,7 @@ func (in *DiskProperties_SpecARM) DeepCopyInto(out *DiskProperties_SpecARM) {
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(DiskPropertiesSpecOsType)
+		*out = new(DiskProperties_OsType_Spec)
 		**out = **in
 	}
 	if in.PurchasePlan != nil {
@@ -442,7 +442,7 @@ func (in *DiskProperties_StatusARM) DeepCopyInto(out *DiskProperties_StatusARM) 
 	}
 	if in.HyperVGeneration != nil {
 		in, out := &in.HyperVGeneration, &out.HyperVGeneration
-		*out = new(DiskPropertiesStatusHyperVGeneration)
+		*out = new(DiskProperties_HyperVGeneration_Status)
 		**out = **in
 	}
 	if in.MaxShares != nil {
@@ -457,7 +457,7 @@ func (in *DiskProperties_StatusARM) DeepCopyInto(out *DiskProperties_StatusARM) 
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(DiskPropertiesStatusOsType)
+		*out = new(DiskProperties_OsType_Status)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
@@ -509,7 +509,7 @@ func (in *DiskSku_Spec) DeepCopyInto(out *DiskSku_Spec) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(DiskSkuSpecName)
+		*out = new(DiskSku_Name_Spec)
 		**out = **in
 	}
 }
@@ -529,7 +529,7 @@ func (in *DiskSku_SpecARM) DeepCopyInto(out *DiskSku_SpecARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(DiskSkuSpecName)
+		*out = new(DiskSku_Name_Spec)
 		**out = **in
 	}
 }
@@ -549,7 +549,7 @@ func (in *DiskSku_Status) DeepCopyInto(out *DiskSku_Status) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(DiskSkuStatusName)
+		*out = new(DiskSku_Name_Status)
 		**out = **in
 	}
 	if in.Tier != nil {
@@ -574,7 +574,7 @@ func (in *DiskSku_StatusARM) DeepCopyInto(out *DiskSku_StatusARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(DiskSkuStatusName)
+		*out = new(DiskSku_Name_Status)
 		**out = **in
 	}
 	if in.Tier != nil {
@@ -671,7 +671,7 @@ func (in *Disk_Status) DeepCopyInto(out *Disk_Status) {
 	}
 	if in.HyperVGeneration != nil {
 		in, out := &in.HyperVGeneration, &out.HyperVGeneration
-		*out = new(DiskPropertiesStatusHyperVGeneration)
+		*out = new(DiskProperties_HyperVGeneration_Status)
 		**out = **in
 	}
 	if in.Id != nil {
@@ -711,7 +711,7 @@ func (in *Disk_Status) DeepCopyInto(out *Disk_Status) {
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(DiskPropertiesStatusOsType)
+		*out = new(DiskProperties_OsType_Status)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
@@ -917,7 +917,7 @@ func (in *Disks_SPEC) DeepCopyInto(out *Disks_SPEC) {
 	}
 	if in.HyperVGeneration != nil {
 		in, out := &in.HyperVGeneration, &out.HyperVGeneration
-		*out = new(DiskPropertiesSpecHyperVGeneration)
+		*out = new(DiskProperties_HyperVGeneration_Spec)
 		**out = **in
 	}
 	if in.MaxShares != nil {
@@ -932,7 +932,7 @@ func (in *Disks_SPEC) DeepCopyInto(out *Disks_SPEC) {
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(DiskPropertiesSpecOsType)
+		*out = new(DiskProperties_OsType_Spec)
 		**out = **in
 	}
 	out.Owner = in.Owner

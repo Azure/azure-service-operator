@@ -38,7 +38,7 @@ type SystemData_StatusARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	//CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemDataStatusCreatedByType `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_Status `json:"createdByType,omitempty"`
 
 	//LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -47,23 +47,23 @@ type SystemData_StatusARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	//LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_Status `json:"lastModifiedByType,omitempty"`
 }
 
-type SystemDataStatusCreatedByType string
+type SystemData_CreatedByType_Status string
 
 const (
-	SystemDataStatusCreatedByTypeApplication     = SystemDataStatusCreatedByType("Application")
-	SystemDataStatusCreatedByTypeKey             = SystemDataStatusCreatedByType("Key")
-	SystemDataStatusCreatedByTypeManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
-	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
+	SystemData_CreatedByType_StatusApplication     = SystemData_CreatedByType_Status("Application")
+	SystemData_CreatedByType_StatusKey             = SystemData_CreatedByType_Status("Key")
+	SystemData_CreatedByType_StatusManagedIdentity = SystemData_CreatedByType_Status("ManagedIdentity")
+	SystemData_CreatedByType_StatusUser            = SystemData_CreatedByType_Status("User")
 )
 
-type SystemDataStatusLastModifiedByType string
+type SystemData_LastModifiedByType_Status string
 
 const (
-	SystemDataStatusLastModifiedByTypeApplication     = SystemDataStatusLastModifiedByType("Application")
-	SystemDataStatusLastModifiedByTypeKey             = SystemDataStatusLastModifiedByType("Key")
-	SystemDataStatusLastModifiedByTypeManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
-	SystemDataStatusLastModifiedByTypeUser            = SystemDataStatusLastModifiedByType("User")
+	SystemData_LastModifiedByType_StatusApplication     = SystemData_LastModifiedByType_Status("Application")
+	SystemData_LastModifiedByType_StatusKey             = SystemData_LastModifiedByType_Status("Key")
+	SystemData_LastModifiedByType_StatusManagedIdentity = SystemData_LastModifiedByType_Status("ManagedIdentity")
+	SystemData_LastModifiedByType_StatusUser            = SystemData_LastModifiedByType_Status("User")
 )

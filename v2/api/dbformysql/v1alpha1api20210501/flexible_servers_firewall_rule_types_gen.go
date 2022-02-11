@@ -248,17 +248,17 @@ func (rule *FlexibleServersFirewallRule) AssignPropertiesFromFlexibleServersFire
 
 	// Spec
 	var spec FlexibleServersFirewallRules_SPEC
-	err := spec.AssignPropertiesFromFlexibleServersFirewallRulesSPEC(&source.Spec)
+	err := spec.AssignPropertiesFromFlexibleServersFirewallRules_SPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServersFirewallRulesSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServersFirewallRules_SPEC() to populate field Spec")
 	}
 	rule.Spec = spec
 
 	// Status
 	var status FirewallRule_Status
-	err = status.AssignPropertiesFromFirewallRuleStatus(&source.Status)
+	err = status.AssignPropertiesFromFirewallRule_Status(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromFirewallRuleStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromFirewallRule_Status() to populate field Status")
 	}
 	rule.Status = status
 
@@ -274,17 +274,17 @@ func (rule *FlexibleServersFirewallRule) AssignPropertiesToFlexibleServersFirewa
 
 	// Spec
 	var spec v1alpha1api20210501storage.FlexibleServersFirewallRules_SPEC
-	err := rule.Spec.AssignPropertiesToFlexibleServersFirewallRulesSPEC(&spec)
+	err := rule.Spec.AssignPropertiesToFlexibleServersFirewallRules_SPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersFirewallRulesSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersFirewallRules_SPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v1alpha1api20210501storage.FirewallRule_Status
-	err = rule.Status.AssignPropertiesToFirewallRuleStatus(&status)
+	err = rule.Status.AssignPropertiesToFirewallRule_Status(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToFirewallRuleStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToFirewallRule_Status() to populate field Status")
 	}
 	destination.Status = status
 
@@ -345,7 +345,7 @@ func (rule *FirewallRule_Status) ConvertStatusFrom(source genruntime.Convertible
 	src, ok := source.(*v1alpha1api20210501storage.FirewallRule_Status)
 	if ok {
 		// Populate our instance from source
-		return rule.AssignPropertiesFromFirewallRuleStatus(src)
+		return rule.AssignPropertiesFromFirewallRule_Status(src)
 	}
 
 	// Convert to an intermediate form
@@ -356,7 +356,7 @@ func (rule *FirewallRule_Status) ConvertStatusFrom(source genruntime.Convertible
 	}
 
 	// Update our instance from src
-	err = rule.AssignPropertiesFromFirewallRuleStatus(src)
+	err = rule.AssignPropertiesFromFirewallRule_Status(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -369,12 +369,12 @@ func (rule *FirewallRule_Status) ConvertStatusTo(destination genruntime.Converti
 	dst, ok := destination.(*v1alpha1api20210501storage.FirewallRule_Status)
 	if ok {
 		// Populate destination from our instance
-		return rule.AssignPropertiesToFirewallRuleStatus(dst)
+		return rule.AssignPropertiesToFirewallRule_Status(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210501storage.FirewallRule_Status{}
-	err := rule.AssignPropertiesToFirewallRuleStatus(dst)
+	err := rule.AssignPropertiesToFirewallRule_Status(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -449,8 +449,8 @@ func (rule *FirewallRule_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromFirewallRuleStatus populates our FirewallRule_Status from the provided source FirewallRule_Status
-func (rule *FirewallRule_Status) AssignPropertiesFromFirewallRuleStatus(source *v1alpha1api20210501storage.FirewallRule_Status) error {
+// AssignPropertiesFromFirewallRule_Status populates our FirewallRule_Status from the provided source FirewallRule_Status
+func (rule *FirewallRule_Status) AssignPropertiesFromFirewallRule_Status(source *v1alpha1api20210501storage.FirewallRule_Status) error {
 
 	// Conditions
 	rule.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -470,9 +470,9 @@ func (rule *FirewallRule_Status) AssignPropertiesFromFirewallRuleStatus(source *
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_Status
-		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		err := systemDatum.AssignPropertiesFromSystemData_Status(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_Status() to populate field SystemData")
 		}
 		rule.SystemData = &systemDatum
 	} else {
@@ -486,8 +486,8 @@ func (rule *FirewallRule_Status) AssignPropertiesFromFirewallRuleStatus(source *
 	return nil
 }
 
-// AssignPropertiesToFirewallRuleStatus populates the provided destination FirewallRule_Status from our FirewallRule_Status
-func (rule *FirewallRule_Status) AssignPropertiesToFirewallRuleStatus(destination *v1alpha1api20210501storage.FirewallRule_Status) error {
+// AssignPropertiesToFirewallRule_Status populates the provided destination FirewallRule_Status from our FirewallRule_Status
+func (rule *FirewallRule_Status) AssignPropertiesToFirewallRule_Status(destination *v1alpha1api20210501storage.FirewallRule_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -509,9 +509,9 @@ func (rule *FirewallRule_Status) AssignPropertiesToFirewallRuleStatus(destinatio
 	// SystemData
 	if rule.SystemData != nil {
 		var systemDatum v1alpha1api20210501storage.SystemData_Status
-		err := rule.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		err := rule.SystemData.AssignPropertiesToSystemData_Status(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData_Status() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -613,7 +613,7 @@ func (spec *FlexibleServersFirewallRules_SPEC) ConvertSpecFrom(source genruntime
 	src, ok := source.(*v1alpha1api20210501storage.FlexibleServersFirewallRules_SPEC)
 	if ok {
 		// Populate our instance from source
-		return spec.AssignPropertiesFromFlexibleServersFirewallRulesSPEC(src)
+		return spec.AssignPropertiesFromFlexibleServersFirewallRules_SPEC(src)
 	}
 
 	// Convert to an intermediate form
@@ -624,7 +624,7 @@ func (spec *FlexibleServersFirewallRules_SPEC) ConvertSpecFrom(source genruntime
 	}
 
 	// Update our instance from src
-	err = spec.AssignPropertiesFromFlexibleServersFirewallRulesSPEC(src)
+	err = spec.AssignPropertiesFromFlexibleServersFirewallRules_SPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -637,12 +637,12 @@ func (spec *FlexibleServersFirewallRules_SPEC) ConvertSpecTo(destination genrunt
 	dst, ok := destination.(*v1alpha1api20210501storage.FlexibleServersFirewallRules_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return spec.AssignPropertiesToFlexibleServersFirewallRulesSPEC(dst)
+		return spec.AssignPropertiesToFlexibleServersFirewallRules_SPEC(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210501storage.FlexibleServersFirewallRules_SPEC{}
-	err := spec.AssignPropertiesToFlexibleServersFirewallRulesSPEC(dst)
+	err := spec.AssignPropertiesToFlexibleServersFirewallRules_SPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -656,8 +656,8 @@ func (spec *FlexibleServersFirewallRules_SPEC) ConvertSpecTo(destination genrunt
 	return nil
 }
 
-// AssignPropertiesFromFlexibleServersFirewallRulesSPEC populates our FlexibleServersFirewallRules_SPEC from the provided source FlexibleServersFirewallRules_SPEC
-func (spec *FlexibleServersFirewallRules_SPEC) AssignPropertiesFromFlexibleServersFirewallRulesSPEC(source *v1alpha1api20210501storage.FlexibleServersFirewallRules_SPEC) error {
+// AssignPropertiesFromFlexibleServersFirewallRules_SPEC populates our FlexibleServersFirewallRules_SPEC from the provided source FlexibleServersFirewallRules_SPEC
+func (spec *FlexibleServersFirewallRules_SPEC) AssignPropertiesFromFlexibleServersFirewallRules_SPEC(source *v1alpha1api20210501storage.FlexibleServersFirewallRules_SPEC) error {
 
 	// AzureName
 	spec.AzureName = source.AzureName
@@ -683,8 +683,8 @@ func (spec *FlexibleServersFirewallRules_SPEC) AssignPropertiesFromFlexibleServe
 	return nil
 }
 
-// AssignPropertiesToFlexibleServersFirewallRulesSPEC populates the provided destination FlexibleServersFirewallRules_SPEC from our FlexibleServersFirewallRules_SPEC
-func (spec *FlexibleServersFirewallRules_SPEC) AssignPropertiesToFlexibleServersFirewallRulesSPEC(destination *v1alpha1api20210501storage.FlexibleServersFirewallRules_SPEC) error {
+// AssignPropertiesToFlexibleServersFirewallRules_SPEC populates the provided destination FlexibleServersFirewallRules_SPEC from our FlexibleServersFirewallRules_SPEC
+func (spec *FlexibleServersFirewallRules_SPEC) AssignPropertiesToFlexibleServersFirewallRules_SPEC(destination *v1alpha1api20210501storage.FlexibleServersFirewallRules_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

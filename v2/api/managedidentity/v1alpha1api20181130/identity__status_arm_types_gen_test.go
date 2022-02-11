@@ -24,12 +24,12 @@ func Test_Identity_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Identity_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIdentityStatusARM, IdentityStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForIdentity_StatusARM, Identity_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForIdentityStatusARM runs a test to see if a specific instance of Identity_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForIdentityStatusARM(subject Identity_StatusARM) string {
+// RunJSONSerializationTestForIdentity_StatusARM runs a test to see if a specific instance of Identity_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForIdentity_StatusARM(subject Identity_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -55,33 +55,33 @@ func RunJSONSerializationTestForIdentityStatusARM(subject Identity_StatusARM) st
 	return ""
 }
 
-// Generator of Identity_StatusARM instances for property testing - lazily instantiated by IdentityStatusARMGenerator()
-var identityStatusARMGenerator gopter.Gen
+// Generator of Identity_StatusARM instances for property testing - lazily instantiated by Identity_StatusARMGenerator()
+var identity_statusARMGenerator gopter.Gen
 
-// IdentityStatusARMGenerator returns a generator of Identity_StatusARM instances for property testing.
-// We first initialize identityStatusARMGenerator with a simplified generator based on the
+// Identity_StatusARMGenerator returns a generator of Identity_StatusARM instances for property testing.
+// We first initialize identity_statusARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func IdentityStatusARMGenerator() gopter.Gen {
-	if identityStatusARMGenerator != nil {
-		return identityStatusARMGenerator
+func Identity_StatusARMGenerator() gopter.Gen {
+	if identity_statusARMGenerator != nil {
+		return identity_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIdentityStatusARM(generators)
-	identityStatusARMGenerator = gen.Struct(reflect.TypeOf(Identity_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForIdentity_StatusARM(generators)
+	identity_statusARMGenerator = gen.Struct(reflect.TypeOf(Identity_StatusARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIdentityStatusARM(generators)
-	AddRelatedPropertyGeneratorsForIdentityStatusARM(generators)
-	identityStatusARMGenerator = gen.Struct(reflect.TypeOf(Identity_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForIdentity_StatusARM(generators)
+	AddRelatedPropertyGeneratorsForIdentity_StatusARM(generators)
+	identity_statusARMGenerator = gen.Struct(reflect.TypeOf(Identity_StatusARM{}), generators)
 
-	return identityStatusARMGenerator
+	return identity_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForIdentityStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIdentityStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForIdentity_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIdentity_StatusARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -89,9 +89,9 @@ func AddIndependentPropertyGeneratorsForIdentityStatusARM(gens map[string]gopter
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForIdentityStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForIdentityStatusARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(UserAssignedIdentityPropertiesStatusARMGenerator())
+// AddRelatedPropertyGeneratorsForIdentity_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForIdentity_StatusARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(UserAssignedIdentityProperties_StatusARMGenerator())
 }
 
 func Test_UserAssignedIdentityProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -101,12 +101,12 @@ func Test_UserAssignedIdentityProperties_StatusARM_WhenSerializedToJson_Deserial
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UserAssignedIdentityProperties_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentityPropertiesStatusARM, UserAssignedIdentityPropertiesStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentityProperties_StatusARM, UserAssignedIdentityProperties_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForUserAssignedIdentityPropertiesStatusARM runs a test to see if a specific instance of UserAssignedIdentityProperties_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForUserAssignedIdentityPropertiesStatusARM(subject UserAssignedIdentityProperties_StatusARM) string {
+// RunJSONSerializationTestForUserAssignedIdentityProperties_StatusARM runs a test to see if a specific instance of UserAssignedIdentityProperties_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForUserAssignedIdentityProperties_StatusARM(subject UserAssignedIdentityProperties_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -133,24 +133,24 @@ func RunJSONSerializationTestForUserAssignedIdentityPropertiesStatusARM(subject 
 }
 
 // Generator of UserAssignedIdentityProperties_StatusARM instances for property testing - lazily instantiated by
-//UserAssignedIdentityPropertiesStatusARMGenerator()
-var userAssignedIdentityPropertiesStatusARMGenerator gopter.Gen
+//UserAssignedIdentityProperties_StatusARMGenerator()
+var userAssignedIdentityProperties_statusARMGenerator gopter.Gen
 
-// UserAssignedIdentityPropertiesStatusARMGenerator returns a generator of UserAssignedIdentityProperties_StatusARM instances for property testing.
-func UserAssignedIdentityPropertiesStatusARMGenerator() gopter.Gen {
-	if userAssignedIdentityPropertiesStatusARMGenerator != nil {
-		return userAssignedIdentityPropertiesStatusARMGenerator
+// UserAssignedIdentityProperties_StatusARMGenerator returns a generator of UserAssignedIdentityProperties_StatusARM instances for property testing.
+func UserAssignedIdentityProperties_StatusARMGenerator() gopter.Gen {
+	if userAssignedIdentityProperties_statusARMGenerator != nil {
+		return userAssignedIdentityProperties_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUserAssignedIdentityPropertiesStatusARM(generators)
-	userAssignedIdentityPropertiesStatusARMGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentityProperties_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForUserAssignedIdentityProperties_StatusARM(generators)
+	userAssignedIdentityProperties_statusARMGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentityProperties_StatusARM{}), generators)
 
-	return userAssignedIdentityPropertiesStatusARMGenerator
+	return userAssignedIdentityProperties_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUserAssignedIdentityPropertiesStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUserAssignedIdentityPropertiesStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForUserAssignedIdentityProperties_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUserAssignedIdentityProperties_StatusARM(gens map[string]gopter.Gen) {
 	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())

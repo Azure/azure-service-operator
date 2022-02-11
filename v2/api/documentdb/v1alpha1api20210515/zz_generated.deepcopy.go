@@ -101,7 +101,7 @@ func (in *ApiProperties_Spec) DeepCopyInto(out *ApiProperties_Spec) {
 	*out = *in
 	if in.ServerVersion != nil {
 		in, out := &in.ServerVersion, &out.ServerVersion
-		*out = new(ApiPropertiesSpecServerVersion)
+		*out = new(ApiProperties_ServerVersion_Spec)
 		**out = **in
 	}
 }
@@ -121,7 +121,7 @@ func (in *ApiProperties_SpecARM) DeepCopyInto(out *ApiProperties_SpecARM) {
 	*out = *in
 	if in.ServerVersion != nil {
 		in, out := &in.ServerVersion, &out.ServerVersion
-		*out = new(ApiPropertiesSpecServerVersion)
+		*out = new(ApiProperties_ServerVersion_Spec)
 		**out = **in
 	}
 }
@@ -141,7 +141,7 @@ func (in *ApiProperties_Status) DeepCopyInto(out *ApiProperties_Status) {
 	*out = *in
 	if in.ServerVersion != nil {
 		in, out := &in.ServerVersion, &out.ServerVersion
-		*out = new(ApiPropertiesStatusServerVersion)
+		*out = new(ApiProperties_ServerVersion_Status)
 		**out = **in
 	}
 }
@@ -161,7 +161,7 @@ func (in *ApiProperties_StatusARM) DeepCopyInto(out *ApiProperties_StatusARM) {
 	*out = *in
 	if in.ServerVersion != nil {
 		in, out := &in.ServerVersion, &out.ServerVersion
-		*out = new(ApiPropertiesStatusServerVersion)
+		*out = new(ApiProperties_ServerVersion_Status)
 		**out = **in
 	}
 }
@@ -571,7 +571,7 @@ func (in *CompositePath_Spec) DeepCopyInto(out *CompositePath_Spec) {
 	*out = *in
 	if in.Order != nil {
 		in, out := &in.Order, &out.Order
-		*out = new(CompositePathSpecOrder)
+		*out = new(CompositePath_Order_Spec)
 		**out = **in
 	}
 	if in.Path != nil {
@@ -596,7 +596,7 @@ func (in *CompositePath_SpecARM) DeepCopyInto(out *CompositePath_SpecARM) {
 	*out = *in
 	if in.Order != nil {
 		in, out := &in.Order, &out.Order
-		*out = new(CompositePathSpecOrder)
+		*out = new(CompositePath_Order_Spec)
 		**out = **in
 	}
 	if in.Path != nil {
@@ -621,7 +621,7 @@ func (in *CompositePath_Status) DeepCopyInto(out *CompositePath_Status) {
 	*out = *in
 	if in.Order != nil {
 		in, out := &in.Order, &out.Order
-		*out = new(CompositePathStatusOrder)
+		*out = new(CompositePath_Order_Status)
 		**out = **in
 	}
 	if in.Path != nil {
@@ -646,7 +646,7 @@ func (in *CompositePath_StatusARM) DeepCopyInto(out *CompositePath_StatusARM) {
 	*out = *in
 	if in.Order != nil {
 		in, out := &in.Order, &out.Order
-		*out = new(CompositePathStatusOrder)
+		*out = new(CompositePath_Order_Status)
 		**out = **in
 	}
 	if in.Path != nil {
@@ -681,7 +681,7 @@ func (in *ConflictResolutionPolicy_Spec) DeepCopyInto(out *ConflictResolutionPol
 	}
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-		*out = new(ConflictResolutionPolicySpecMode)
+		*out = new(ConflictResolutionPolicy_Mode_Spec)
 		**out = **in
 	}
 }
@@ -711,7 +711,7 @@ func (in *ConflictResolutionPolicy_SpecARM) DeepCopyInto(out *ConflictResolution
 	}
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-		*out = new(ConflictResolutionPolicySpecMode)
+		*out = new(ConflictResolutionPolicy_Mode_Spec)
 		**out = **in
 	}
 }
@@ -741,7 +741,7 @@ func (in *ConflictResolutionPolicy_Status) DeepCopyInto(out *ConflictResolutionP
 	}
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-		*out = new(ConflictResolutionPolicyStatusMode)
+		*out = new(ConflictResolutionPolicy_Mode_Status)
 		**out = **in
 	}
 }
@@ -771,7 +771,7 @@ func (in *ConflictResolutionPolicy_StatusARM) DeepCopyInto(out *ConflictResoluti
 	}
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-		*out = new(ConflictResolutionPolicyStatusMode)
+		*out = new(ConflictResolutionPolicy_Mode_Status)
 		**out = **in
 	}
 }
@@ -891,7 +891,7 @@ func (in *ContainerPartitionKey_Spec) DeepCopyInto(out *ContainerPartitionKey_Sp
 	*out = *in
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(ContainerPartitionKeySpecKind)
+		*out = new(ContainerPartitionKey_Kind_Spec)
 		**out = **in
 	}
 	if in.Paths != nil {
@@ -921,7 +921,7 @@ func (in *ContainerPartitionKey_SpecARM) DeepCopyInto(out *ContainerPartitionKey
 	*out = *in
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(ContainerPartitionKeySpecKind)
+		*out = new(ContainerPartitionKey_Kind_Spec)
 		**out = **in
 	}
 	if in.Paths != nil {
@@ -951,7 +951,7 @@ func (in *ContainerPartitionKey_Status) DeepCopyInto(out *ContainerPartitionKey_
 	*out = *in
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(ContainerPartitionKeyStatusKind)
+		*out = new(ContainerPartitionKey_Kind_Status)
 		**out = **in
 	}
 	if in.Paths != nil {
@@ -986,7 +986,7 @@ func (in *ContainerPartitionKey_StatusARM) DeepCopyInto(out *ContainerPartitionK
 	*out = *in
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(ContainerPartitionKeyStatusKind)
+		*out = new(ContainerPartitionKey_Kind_Status)
 		**out = **in
 	}
 	if in.Paths != nil {
@@ -1401,7 +1401,7 @@ func (in *DatabaseAccountCreateUpdateParameters_Status) DeepCopyInto(out *Databa
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(DatabaseAccountCreateUpdateParametersStatusKind)
+		*out = new(DatabaseAccountCreateUpdateParameters_Kind_Status)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -1482,7 +1482,7 @@ func (in *DatabaseAccountCreateUpdateParameters_StatusARM) DeepCopyInto(out *Dat
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(DatabaseAccountCreateUpdateParametersStatusKind)
+		*out = new(DatabaseAccountCreateUpdateParameters_Kind_Status)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -2589,7 +2589,7 @@ func (in *DatabaseAccounts_SPEC) DeepCopyInto(out *DatabaseAccounts_SPEC) {
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(DatabaseAccountsSPECKind)
+		*out = new(DatabaseAccounts_Kind_SPEC)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -2656,7 +2656,7 @@ func (in *DatabaseAccounts_SPECARM) DeepCopyInto(out *DatabaseAccounts_SPECARM) 
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(DatabaseAccountsSPECKind)
+		*out = new(DatabaseAccounts_Kind_SPEC)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -2877,12 +2877,12 @@ func (in *Indexes_Spec) DeepCopyInto(out *Indexes_Spec) {
 	*out = *in
 	if in.DataType != nil {
 		in, out := &in.DataType, &out.DataType
-		*out = new(IndexesSpecDataType)
+		*out = new(Indexes_DataType_Spec)
 		**out = **in
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(IndexesSpecKind)
+		*out = new(Indexes_Kind_Spec)
 		**out = **in
 	}
 	if in.Precision != nil {
@@ -2907,12 +2907,12 @@ func (in *Indexes_SpecARM) DeepCopyInto(out *Indexes_SpecARM) {
 	*out = *in
 	if in.DataType != nil {
 		in, out := &in.DataType, &out.DataType
-		*out = new(IndexesSpecDataType)
+		*out = new(Indexes_DataType_Spec)
 		**out = **in
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(IndexesSpecKind)
+		*out = new(Indexes_Kind_Spec)
 		**out = **in
 	}
 	if in.Precision != nil {
@@ -2937,12 +2937,12 @@ func (in *Indexes_Status) DeepCopyInto(out *Indexes_Status) {
 	*out = *in
 	if in.DataType != nil {
 		in, out := &in.DataType, &out.DataType
-		*out = new(IndexesStatusDataType)
+		*out = new(Indexes_DataType_Status)
 		**out = **in
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(IndexesStatusKind)
+		*out = new(Indexes_Kind_Status)
 		**out = **in
 	}
 	if in.Precision != nil {
@@ -2967,12 +2967,12 @@ func (in *Indexes_StatusARM) DeepCopyInto(out *Indexes_StatusARM) {
 	*out = *in
 	if in.DataType != nil {
 		in, out := &in.DataType, &out.DataType
-		*out = new(IndexesStatusDataType)
+		*out = new(Indexes_DataType_Status)
 		**out = **in
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(IndexesStatusKind)
+		*out = new(Indexes_Kind_Status)
 		**out = **in
 	}
 	if in.Precision != nil {
@@ -3029,7 +3029,7 @@ func (in *IndexingPolicy_Spec) DeepCopyInto(out *IndexingPolicy_Spec) {
 	}
 	if in.IndexingMode != nil {
 		in, out := &in.IndexingMode, &out.IndexingMode
-		*out = new(IndexingPolicySpecIndexingMode)
+		*out = new(IndexingPolicy_IndexingMode_Spec)
 		**out = **in
 	}
 	if in.SpatialIndexes != nil {
@@ -3088,7 +3088,7 @@ func (in *IndexingPolicy_SpecARM) DeepCopyInto(out *IndexingPolicy_SpecARM) {
 	}
 	if in.IndexingMode != nil {
 		in, out := &in.IndexingMode, &out.IndexingMode
-		*out = new(IndexingPolicySpecIndexingMode)
+		*out = new(IndexingPolicy_IndexingMode_Spec)
 		**out = **in
 	}
 	if in.SpatialIndexes != nil {
@@ -3147,7 +3147,7 @@ func (in *IndexingPolicy_Status) DeepCopyInto(out *IndexingPolicy_Status) {
 	}
 	if in.IndexingMode != nil {
 		in, out := &in.IndexingMode, &out.IndexingMode
-		*out = new(IndexingPolicyStatusIndexingMode)
+		*out = new(IndexingPolicy_IndexingMode_Status)
 		**out = **in
 	}
 	if in.SpatialIndexes != nil {
@@ -3206,7 +3206,7 @@ func (in *IndexingPolicy_StatusARM) DeepCopyInto(out *IndexingPolicy_StatusARM) 
 	}
 	if in.IndexingMode != nil {
 		in, out := &in.IndexingMode, &out.IndexingMode
-		*out = new(IndexingPolicyStatusIndexingMode)
+		*out = new(IndexingPolicy_IndexingMode_Status)
 		**out = **in
 	}
 	if in.SpatialIndexes != nil {
@@ -3473,7 +3473,7 @@ func (in *ManagedServiceIdentity_Spec) DeepCopyInto(out *ManagedServiceIdentity_
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedServiceIdentitySpecType)
+		*out = new(ManagedServiceIdentity_Type_Spec)
 		**out = **in
 	}
 }
@@ -3493,7 +3493,7 @@ func (in *ManagedServiceIdentity_SpecARM) DeepCopyInto(out *ManagedServiceIdenti
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedServiceIdentitySpecType)
+		*out = new(ManagedServiceIdentity_Type_Spec)
 		**out = **in
 	}
 }
@@ -3523,12 +3523,12 @@ func (in *ManagedServiceIdentity_Status) DeepCopyInto(out *ManagedServiceIdentit
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedServiceIdentityStatusType)
+		*out = new(ManagedServiceIdentity_Type_Status)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
 		in, out := &in.UserAssignedIdentities, &out.UserAssignedIdentities
-		*out = make(map[string]ManagedServiceIdentity_Status_UserAssignedIdentities, len(*in))
+		*out = make(map[string]ManagedServiceIdentity_UserAssignedIdentities_Status, len(*in))
 		for key, val := range *in {
 			(*out)[key] = *val.DeepCopy()
 		}
@@ -3560,12 +3560,12 @@ func (in *ManagedServiceIdentity_StatusARM) DeepCopyInto(out *ManagedServiceIden
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedServiceIdentityStatusType)
+		*out = new(ManagedServiceIdentity_Type_Status)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
 		in, out := &in.UserAssignedIdentities, &out.UserAssignedIdentities
-		*out = make(map[string]ManagedServiceIdentity_Status_UserAssignedIdentitiesARM, len(*in))
+		*out = make(map[string]ManagedServiceIdentity_UserAssignedIdentities_StatusARM, len(*in))
 		for key, val := range *in {
 			(*out)[key] = *val.DeepCopy()
 		}
@@ -3583,7 +3583,7 @@ func (in *ManagedServiceIdentity_StatusARM) DeepCopy() *ManagedServiceIdentity_S
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ManagedServiceIdentity_Status_UserAssignedIdentities) DeepCopyInto(out *ManagedServiceIdentity_Status_UserAssignedIdentities) {
+func (in *ManagedServiceIdentity_UserAssignedIdentities_Status) DeepCopyInto(out *ManagedServiceIdentity_UserAssignedIdentities_Status) {
 	*out = *in
 	if in.ClientId != nil {
 		in, out := &in.ClientId, &out.ClientId
@@ -3597,18 +3597,18 @@ func (in *ManagedServiceIdentity_Status_UserAssignedIdentities) DeepCopyInto(out
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedServiceIdentity_Status_UserAssignedIdentities.
-func (in *ManagedServiceIdentity_Status_UserAssignedIdentities) DeepCopy() *ManagedServiceIdentity_Status_UserAssignedIdentities {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedServiceIdentity_UserAssignedIdentities_Status.
+func (in *ManagedServiceIdentity_UserAssignedIdentities_Status) DeepCopy() *ManagedServiceIdentity_UserAssignedIdentities_Status {
 	if in == nil {
 		return nil
 	}
-	out := new(ManagedServiceIdentity_Status_UserAssignedIdentities)
+	out := new(ManagedServiceIdentity_UserAssignedIdentities_Status)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ManagedServiceIdentity_Status_UserAssignedIdentitiesARM) DeepCopyInto(out *ManagedServiceIdentity_Status_UserAssignedIdentitiesARM) {
+func (in *ManagedServiceIdentity_UserAssignedIdentities_StatusARM) DeepCopyInto(out *ManagedServiceIdentity_UserAssignedIdentities_StatusARM) {
 	*out = *in
 	if in.ClientId != nil {
 		in, out := &in.ClientId, &out.ClientId
@@ -3622,12 +3622,12 @@ func (in *ManagedServiceIdentity_Status_UserAssignedIdentitiesARM) DeepCopyInto(
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedServiceIdentity_Status_UserAssignedIdentitiesARM.
-func (in *ManagedServiceIdentity_Status_UserAssignedIdentitiesARM) DeepCopy() *ManagedServiceIdentity_Status_UserAssignedIdentitiesARM {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedServiceIdentity_UserAssignedIdentities_StatusARM.
+func (in *ManagedServiceIdentity_UserAssignedIdentities_StatusARM) DeepCopy() *ManagedServiceIdentity_UserAssignedIdentities_StatusARM {
 	if in == nil {
 		return nil
 	}
-	out := new(ManagedServiceIdentity_Status_UserAssignedIdentitiesARM)
+	out := new(ManagedServiceIdentity_UserAssignedIdentities_StatusARM)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -6075,12 +6075,12 @@ func (in *SqlTriggerResource_Spec) DeepCopyInto(out *SqlTriggerResource_Spec) {
 	}
 	if in.TriggerOperation != nil {
 		in, out := &in.TriggerOperation, &out.TriggerOperation
-		*out = new(SqlTriggerResourceSpecTriggerOperation)
+		*out = new(SqlTriggerResource_TriggerOperation_Spec)
 		**out = **in
 	}
 	if in.TriggerType != nil {
 		in, out := &in.TriggerType, &out.TriggerType
-		*out = new(SqlTriggerResourceSpecTriggerType)
+		*out = new(SqlTriggerResource_TriggerType_Spec)
 		**out = **in
 	}
 }
@@ -6105,12 +6105,12 @@ func (in *SqlTriggerResource_SpecARM) DeepCopyInto(out *SqlTriggerResource_SpecA
 	}
 	if in.TriggerOperation != nil {
 		in, out := &in.TriggerOperation, &out.TriggerOperation
-		*out = new(SqlTriggerResourceSpecTriggerOperation)
+		*out = new(SqlTriggerResource_TriggerOperation_Spec)
 		**out = **in
 	}
 	if in.TriggerType != nil {
 		in, out := &in.TriggerType, &out.TriggerType
-		*out = new(SqlTriggerResourceSpecTriggerType)
+		*out = new(SqlTriggerResource_TriggerType_Spec)
 		**out = **in
 	}
 }
@@ -6135,12 +6135,12 @@ func (in *SqlTriggerResource_Status) DeepCopyInto(out *SqlTriggerResource_Status
 	}
 	if in.TriggerOperation != nil {
 		in, out := &in.TriggerOperation, &out.TriggerOperation
-		*out = new(SqlTriggerResourceStatusTriggerOperation)
+		*out = new(SqlTriggerResource_TriggerOperation_Status)
 		**out = **in
 	}
 	if in.TriggerType != nil {
 		in, out := &in.TriggerType, &out.TriggerType
-		*out = new(SqlTriggerResourceStatusTriggerType)
+		*out = new(SqlTriggerResource_TriggerType_Status)
 		**out = **in
 	}
 }
@@ -6165,12 +6165,12 @@ func (in *SqlTriggerResource_StatusARM) DeepCopyInto(out *SqlTriggerResource_Sta
 	}
 	if in.TriggerOperation != nil {
 		in, out := &in.TriggerOperation, &out.TriggerOperation
-		*out = new(SqlTriggerResourceStatusTriggerOperation)
+		*out = new(SqlTriggerResource_TriggerOperation_Status)
 		**out = **in
 	}
 	if in.TriggerType != nil {
 		in, out := &in.TriggerType, &out.TriggerType
-		*out = new(SqlTriggerResourceStatusTriggerType)
+		*out = new(SqlTriggerResource_TriggerType_Status)
 		**out = **in
 	}
 }

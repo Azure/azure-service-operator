@@ -41,7 +41,7 @@ func (specarm Webtests_SPECARM) GetType() string {
 
 type WebTestProperties_SpecARM struct {
 	//Configuration: An XML configuration specification for a WebTest.
-	Configuration *WebTestProperties_Spec_ConfigurationARM `json:"Configuration,omitempty"`
+	Configuration *WebTestProperties_Configuration_SpecARM `json:"Configuration,omitempty"`
 
 	//Description: User defined description for this WebTest.
 	Description *string `json:"Description,omitempty"`
@@ -55,7 +55,7 @@ type WebTestProperties_SpecARM struct {
 
 	//Kind: The kind of web test this is, valid choices are ping, multistep, basic,
 	//and standard.
-	Kind WebTestPropertiesSpecKind `json:"Kind"`
+	Kind WebTestProperties_Kind_Spec `json:"Kind"`
 
 	//Locations: A list of where to physically run the tests from to give global
 	//coverage for accessibility of your application.
@@ -65,7 +65,7 @@ type WebTestProperties_SpecARM struct {
 	Name string `json:"Name"`
 
 	//Request: The collection of request properties
-	Request *WebTestProperties_Spec_RequestARM `json:"Request,omitempty"`
+	Request *WebTestProperties_Request_SpecARM `json:"Request,omitempty"`
 
 	//RetryEnabled: Allow for retries should this WebTest fail.
 	RetryEnabled *bool `json:"RetryEnabled,omitempty"`
@@ -78,7 +78,7 @@ type WebTestProperties_SpecARM struct {
 	Timeout *int `json:"Timeout,omitempty"`
 
 	//ValidationRules: The collection of validation rule properties
-	ValidationRules *WebTestProperties_Spec_ValidationRulesARM `json:"ValidationRules,omitempty"`
+	ValidationRules *WebTestProperties_ValidationRules_SpecARM `json:"ValidationRules,omitempty"`
 }
 
 type WebTestGeolocation_SpecARM struct {
@@ -86,12 +86,12 @@ type WebTestGeolocation_SpecARM struct {
 	Id *string `json:"Id,omitempty"`
 }
 
-type WebTestProperties_Spec_ConfigurationARM struct {
+type WebTestProperties_Configuration_SpecARM struct {
 	//WebTest: The XML specification of a WebTest to run against an application.
 	WebTest *string `json:"WebTest,omitempty"`
 }
 
-type WebTestProperties_Spec_RequestARM struct {
+type WebTestProperties_Request_SpecARM struct {
 	//FollowRedirects: Follow redirects for this web test.
 	FollowRedirects *bool `json:"FollowRedirects,omitempty"`
 
@@ -111,9 +111,9 @@ type WebTestProperties_Spec_RequestARM struct {
 	RequestUrl *string `json:"RequestUrl,omitempty"`
 }
 
-type WebTestProperties_Spec_ValidationRulesARM struct {
+type WebTestProperties_ValidationRules_SpecARM struct {
 	//ContentValidation: The collection of content validation properties
-	ContentValidation *WebTestProperties_Spec_ValidationRules_ContentValidationARM `json:"ContentValidation,omitempty"`
+	ContentValidation *WebTestProperties_ValidationRules_ContentValidation_SpecARM `json:"ContentValidation,omitempty"`
 
 	//ExpectedHttpStatusCode: Validate that the WebTest returns the http status code
 	//provided.
@@ -139,7 +139,7 @@ type HeaderField_SpecARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
-type WebTestProperties_Spec_ValidationRules_ContentValidationARM struct {
+type WebTestProperties_ValidationRules_ContentValidation_SpecARM struct {
 	//ContentMatch: Content to look for in the return of the WebTest.  Must not be
 	//null or empty.
 	ContentMatch *string `json:"ContentMatch,omitempty"`

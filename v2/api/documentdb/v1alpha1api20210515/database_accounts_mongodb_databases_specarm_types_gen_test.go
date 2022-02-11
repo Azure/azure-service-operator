@@ -24,12 +24,12 @@ func Test_DatabaseAccountsMongodbDatabases_SPECARM_WhenSerializedToJson_Deserial
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DatabaseAccountsMongodbDatabases_SPECARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesSPECARM, DatabaseAccountsMongodbDatabasesSPECARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsMongodbDatabases_SPECARM, DatabaseAccountsMongodbDatabases_SPECARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesSPECARM runs a test to see if a specific instance of DatabaseAccountsMongodbDatabases_SPECARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesSPECARM(subject DatabaseAccountsMongodbDatabases_SPECARM) string {
+// RunJSONSerializationTestForDatabaseAccountsMongodbDatabases_SPECARM runs a test to see if a specific instance of DatabaseAccountsMongodbDatabases_SPECARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccountsMongodbDatabases_SPECARM(subject DatabaseAccountsMongodbDatabases_SPECARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,42 +56,42 @@ func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesSPECARM(subject 
 }
 
 // Generator of DatabaseAccountsMongodbDatabases_SPECARM instances for property testing - lazily instantiated by
-//DatabaseAccountsMongodbDatabasesSPECARMGenerator()
-var databaseAccountsMongodbDatabasesSPECARMGenerator gopter.Gen
+//DatabaseAccountsMongodbDatabases_SPECARMGenerator()
+var databaseAccountsMongodbDatabases_specarmGenerator gopter.Gen
 
-// DatabaseAccountsMongodbDatabasesSPECARMGenerator returns a generator of DatabaseAccountsMongodbDatabases_SPECARM instances for property testing.
-// We first initialize databaseAccountsMongodbDatabasesSPECARMGenerator with a simplified generator based on the
+// DatabaseAccountsMongodbDatabases_SPECARMGenerator returns a generator of DatabaseAccountsMongodbDatabases_SPECARM instances for property testing.
+// We first initialize databaseAccountsMongodbDatabases_specarmGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DatabaseAccountsMongodbDatabasesSPECARMGenerator() gopter.Gen {
-	if databaseAccountsMongodbDatabasesSPECARMGenerator != nil {
-		return databaseAccountsMongodbDatabasesSPECARMGenerator
+func DatabaseAccountsMongodbDatabases_SPECARMGenerator() gopter.Gen {
+	if databaseAccountsMongodbDatabases_specarmGenerator != nil {
+		return databaseAccountsMongodbDatabases_specarmGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesSPECARM(generators)
-	databaseAccountsMongodbDatabasesSPECARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabases_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabases_SPECARM(generators)
+	databaseAccountsMongodbDatabases_specarmGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabases_SPECARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesSPECARM(generators)
-	AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesSPECARM(generators)
-	databaseAccountsMongodbDatabasesSPECARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabases_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabases_SPECARM(generators)
+	AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabases_SPECARM(generators)
+	databaseAccountsMongodbDatabases_specarmGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabases_SPECARM{}), generators)
 
-	return databaseAccountsMongodbDatabasesSPECARMGenerator
+	return databaseAccountsMongodbDatabases_specarmGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesSPECARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesSPECARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabases_SPECARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabases_SPECARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesSPECARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesSPECARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = MongoDBDatabaseCreateUpdatePropertiesSpecARMGenerator()
+// AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabases_SPECARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabases_SPECARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = MongoDBDatabaseCreateUpdateProperties_SpecARMGenerator()
 }
 
 func Test_MongoDBDatabaseCreateUpdateProperties_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -101,12 +101,12 @@ func Test_MongoDBDatabaseCreateUpdateProperties_SpecARM_WhenSerializedToJson_Des
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongoDBDatabaseCreateUpdateProperties_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMongoDBDatabaseCreateUpdatePropertiesSpecARM, MongoDBDatabaseCreateUpdatePropertiesSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForMongoDBDatabaseCreateUpdateProperties_SpecARM, MongoDBDatabaseCreateUpdateProperties_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMongoDBDatabaseCreateUpdatePropertiesSpecARM runs a test to see if a specific instance of MongoDBDatabaseCreateUpdateProperties_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForMongoDBDatabaseCreateUpdatePropertiesSpecARM(subject MongoDBDatabaseCreateUpdateProperties_SpecARM) string {
+// RunJSONSerializationTestForMongoDBDatabaseCreateUpdateProperties_SpecARM runs a test to see if a specific instance of MongoDBDatabaseCreateUpdateProperties_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongoDBDatabaseCreateUpdateProperties_SpecARM(subject MongoDBDatabaseCreateUpdateProperties_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -133,26 +133,26 @@ func RunJSONSerializationTestForMongoDBDatabaseCreateUpdatePropertiesSpecARM(sub
 }
 
 // Generator of MongoDBDatabaseCreateUpdateProperties_SpecARM instances for property testing - lazily instantiated by
-//MongoDBDatabaseCreateUpdatePropertiesSpecARMGenerator()
-var mongoDBDatabaseCreateUpdatePropertiesSpecARMGenerator gopter.Gen
+//MongoDBDatabaseCreateUpdateProperties_SpecARMGenerator()
+var mongoDBDatabaseCreateUpdateProperties_specARMGenerator gopter.Gen
 
-// MongoDBDatabaseCreateUpdatePropertiesSpecARMGenerator returns a generator of MongoDBDatabaseCreateUpdateProperties_SpecARM instances for property testing.
-func MongoDBDatabaseCreateUpdatePropertiesSpecARMGenerator() gopter.Gen {
-	if mongoDBDatabaseCreateUpdatePropertiesSpecARMGenerator != nil {
-		return mongoDBDatabaseCreateUpdatePropertiesSpecARMGenerator
+// MongoDBDatabaseCreateUpdateProperties_SpecARMGenerator returns a generator of MongoDBDatabaseCreateUpdateProperties_SpecARM instances for property testing.
+func MongoDBDatabaseCreateUpdateProperties_SpecARMGenerator() gopter.Gen {
+	if mongoDBDatabaseCreateUpdateProperties_specARMGenerator != nil {
+		return mongoDBDatabaseCreateUpdateProperties_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForMongoDBDatabaseCreateUpdatePropertiesSpecARM(generators)
-	mongoDBDatabaseCreateUpdatePropertiesSpecARMGenerator = gen.Struct(reflect.TypeOf(MongoDBDatabaseCreateUpdateProperties_SpecARM{}), generators)
+	AddRelatedPropertyGeneratorsForMongoDBDatabaseCreateUpdateProperties_SpecARM(generators)
+	mongoDBDatabaseCreateUpdateProperties_specARMGenerator = gen.Struct(reflect.TypeOf(MongoDBDatabaseCreateUpdateProperties_SpecARM{}), generators)
 
-	return mongoDBDatabaseCreateUpdatePropertiesSpecARMGenerator
+	return mongoDBDatabaseCreateUpdateProperties_specARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForMongoDBDatabaseCreateUpdatePropertiesSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMongoDBDatabaseCreateUpdatePropertiesSpecARM(gens map[string]gopter.Gen) {
-	gens["Options"] = gen.PtrOf(CreateUpdateOptionsSpecARMGenerator())
-	gens["Resource"] = MongoDBDatabaseResourceSpecARMGenerator()
+// AddRelatedPropertyGeneratorsForMongoDBDatabaseCreateUpdateProperties_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMongoDBDatabaseCreateUpdateProperties_SpecARM(gens map[string]gopter.Gen) {
+	gens["Options"] = gen.PtrOf(CreateUpdateOptions_SpecARMGenerator())
+	gens["Resource"] = MongoDBDatabaseResource_SpecARMGenerator()
 }
 
 func Test_MongoDBDatabaseResource_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -162,12 +162,12 @@ func Test_MongoDBDatabaseResource_SpecARM_WhenSerializedToJson_DeserializesAsEqu
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongoDBDatabaseResource_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMongoDBDatabaseResourceSpecARM, MongoDBDatabaseResourceSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForMongoDBDatabaseResource_SpecARM, MongoDBDatabaseResource_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMongoDBDatabaseResourceSpecARM runs a test to see if a specific instance of MongoDBDatabaseResource_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForMongoDBDatabaseResourceSpecARM(subject MongoDBDatabaseResource_SpecARM) string {
+// RunJSONSerializationTestForMongoDBDatabaseResource_SpecARM runs a test to see if a specific instance of MongoDBDatabaseResource_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongoDBDatabaseResource_SpecARM(subject MongoDBDatabaseResource_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -194,23 +194,23 @@ func RunJSONSerializationTestForMongoDBDatabaseResourceSpecARM(subject MongoDBDa
 }
 
 // Generator of MongoDBDatabaseResource_SpecARM instances for property testing - lazily instantiated by
-//MongoDBDatabaseResourceSpecARMGenerator()
-var mongoDBDatabaseResourceSpecARMGenerator gopter.Gen
+//MongoDBDatabaseResource_SpecARMGenerator()
+var mongoDBDatabaseResource_specARMGenerator gopter.Gen
 
-// MongoDBDatabaseResourceSpecARMGenerator returns a generator of MongoDBDatabaseResource_SpecARM instances for property testing.
-func MongoDBDatabaseResourceSpecARMGenerator() gopter.Gen {
-	if mongoDBDatabaseResourceSpecARMGenerator != nil {
-		return mongoDBDatabaseResourceSpecARMGenerator
+// MongoDBDatabaseResource_SpecARMGenerator returns a generator of MongoDBDatabaseResource_SpecARM instances for property testing.
+func MongoDBDatabaseResource_SpecARMGenerator() gopter.Gen {
+	if mongoDBDatabaseResource_specARMGenerator != nil {
+		return mongoDBDatabaseResource_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMongoDBDatabaseResourceSpecARM(generators)
-	mongoDBDatabaseResourceSpecARMGenerator = gen.Struct(reflect.TypeOf(MongoDBDatabaseResource_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForMongoDBDatabaseResource_SpecARM(generators)
+	mongoDBDatabaseResource_specARMGenerator = gen.Struct(reflect.TypeOf(MongoDBDatabaseResource_SpecARM{}), generators)
 
-	return mongoDBDatabaseResourceSpecARMGenerator
+	return mongoDBDatabaseResource_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForMongoDBDatabaseResourceSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMongoDBDatabaseResourceSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForMongoDBDatabaseResource_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMongoDBDatabaseResource_SpecARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.AlphaString()
 }

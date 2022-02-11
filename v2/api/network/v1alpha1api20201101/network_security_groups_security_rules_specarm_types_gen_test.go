@@ -24,12 +24,12 @@ func Test_NetworkSecurityGroupsSecurityRules_SPECARM_WhenSerializedToJson_Deseri
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkSecurityGroupsSecurityRules_SPECARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNetworkSecurityGroupsSecurityRulesSPECARM, NetworkSecurityGroupsSecurityRulesSPECARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForNetworkSecurityGroupsSecurityRules_SPECARM, NetworkSecurityGroupsSecurityRules_SPECARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNetworkSecurityGroupsSecurityRulesSPECARM runs a test to see if a specific instance of NetworkSecurityGroupsSecurityRules_SPECARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForNetworkSecurityGroupsSecurityRulesSPECARM(subject NetworkSecurityGroupsSecurityRules_SPECARM) string {
+// RunJSONSerializationTestForNetworkSecurityGroupsSecurityRules_SPECARM runs a test to see if a specific instance of NetworkSecurityGroupsSecurityRules_SPECARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNetworkSecurityGroupsSecurityRules_SPECARM(subject NetworkSecurityGroupsSecurityRules_SPECARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,42 +56,42 @@ func RunJSONSerializationTestForNetworkSecurityGroupsSecurityRulesSPECARM(subjec
 }
 
 // Generator of NetworkSecurityGroupsSecurityRules_SPECARM instances for property testing - lazily instantiated by
-//NetworkSecurityGroupsSecurityRulesSPECARMGenerator()
-var networkSecurityGroupsSecurityRulesSPECARMGenerator gopter.Gen
+//NetworkSecurityGroupsSecurityRules_SPECARMGenerator()
+var networkSecurityGroupsSecurityRules_specarmGenerator gopter.Gen
 
-// NetworkSecurityGroupsSecurityRulesSPECARMGenerator returns a generator of NetworkSecurityGroupsSecurityRules_SPECARM instances for property testing.
-// We first initialize networkSecurityGroupsSecurityRulesSPECARMGenerator with a simplified generator based on the
+// NetworkSecurityGroupsSecurityRules_SPECARMGenerator returns a generator of NetworkSecurityGroupsSecurityRules_SPECARM instances for property testing.
+// We first initialize networkSecurityGroupsSecurityRules_specarmGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func NetworkSecurityGroupsSecurityRulesSPECARMGenerator() gopter.Gen {
-	if networkSecurityGroupsSecurityRulesSPECARMGenerator != nil {
-		return networkSecurityGroupsSecurityRulesSPECARMGenerator
+func NetworkSecurityGroupsSecurityRules_SPECARMGenerator() gopter.Gen {
+	if networkSecurityGroupsSecurityRules_specarmGenerator != nil {
+		return networkSecurityGroupsSecurityRules_specarmGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRulesSPECARM(generators)
-	networkSecurityGroupsSecurityRulesSPECARMGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroupsSecurityRules_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRules_SPECARM(generators)
+	networkSecurityGroupsSecurityRules_specarmGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroupsSecurityRules_SPECARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRulesSPECARM(generators)
-	AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRulesSPECARM(generators)
-	networkSecurityGroupsSecurityRulesSPECARMGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroupsSecurityRules_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRules_SPECARM(generators)
+	AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRules_SPECARM(generators)
+	networkSecurityGroupsSecurityRules_specarmGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroupsSecurityRules_SPECARM{}), generators)
 
-	return networkSecurityGroupsSecurityRulesSPECARMGenerator
+	return networkSecurityGroupsSecurityRules_specarmGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRulesSPECARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRulesSPECARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRules_SPECARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRules_SPECARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRulesSPECARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRulesSPECARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(SecurityRulePropertiesFormatSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRules_SPECARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRules_SPECARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(SecurityRulePropertiesFormat_SpecARMGenerator())
 }
 
 func Test_SecurityRulePropertiesFormat_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -101,12 +101,12 @@ func Test_SecurityRulePropertiesFormat_SpecARM_WhenSerializedToJson_Deserializes
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SecurityRulePropertiesFormat_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSecurityRulePropertiesFormatSpecARM, SecurityRulePropertiesFormatSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSecurityRulePropertiesFormat_SpecARM, SecurityRulePropertiesFormat_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSecurityRulePropertiesFormatSpecARM runs a test to see if a specific instance of SecurityRulePropertiesFormat_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSecurityRulePropertiesFormatSpecARM(subject SecurityRulePropertiesFormat_SpecARM) string {
+// RunJSONSerializationTestForSecurityRulePropertiesFormat_SpecARM runs a test to see if a specific instance of SecurityRulePropertiesFormat_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSecurityRulePropertiesFormat_SpecARM(subject SecurityRulePropertiesFormat_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -133,33 +133,33 @@ func RunJSONSerializationTestForSecurityRulePropertiesFormatSpecARM(subject Secu
 }
 
 // Generator of SecurityRulePropertiesFormat_SpecARM instances for property testing - lazily instantiated by
-//SecurityRulePropertiesFormatSpecARMGenerator()
-var securityRulePropertiesFormatSpecARMGenerator gopter.Gen
+//SecurityRulePropertiesFormat_SpecARMGenerator()
+var securityRulePropertiesFormat_specARMGenerator gopter.Gen
 
-// SecurityRulePropertiesFormatSpecARMGenerator returns a generator of SecurityRulePropertiesFormat_SpecARM instances for property testing.
-// We first initialize securityRulePropertiesFormatSpecARMGenerator with a simplified generator based on the
+// SecurityRulePropertiesFormat_SpecARMGenerator returns a generator of SecurityRulePropertiesFormat_SpecARM instances for property testing.
+// We first initialize securityRulePropertiesFormat_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SecurityRulePropertiesFormatSpecARMGenerator() gopter.Gen {
-	if securityRulePropertiesFormatSpecARMGenerator != nil {
-		return securityRulePropertiesFormatSpecARMGenerator
+func SecurityRulePropertiesFormat_SpecARMGenerator() gopter.Gen {
+	if securityRulePropertiesFormat_specARMGenerator != nil {
+		return securityRulePropertiesFormat_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSecurityRulePropertiesFormatSpecARM(generators)
-	securityRulePropertiesFormatSpecARMGenerator = gen.Struct(reflect.TypeOf(SecurityRulePropertiesFormat_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForSecurityRulePropertiesFormat_SpecARM(generators)
+	securityRulePropertiesFormat_specARMGenerator = gen.Struct(reflect.TypeOf(SecurityRulePropertiesFormat_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSecurityRulePropertiesFormatSpecARM(generators)
-	AddRelatedPropertyGeneratorsForSecurityRulePropertiesFormatSpecARM(generators)
-	securityRulePropertiesFormatSpecARMGenerator = gen.Struct(reflect.TypeOf(SecurityRulePropertiesFormat_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForSecurityRulePropertiesFormat_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForSecurityRulePropertiesFormat_SpecARM(generators)
+	securityRulePropertiesFormat_specARMGenerator = gen.Struct(reflect.TypeOf(SecurityRulePropertiesFormat_SpecARM{}), generators)
 
-	return securityRulePropertiesFormatSpecARMGenerator
+	return securityRulePropertiesFormat_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSecurityRulePropertiesFormatSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSecurityRulePropertiesFormatSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSecurityRulePropertiesFormat_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSecurityRulePropertiesFormat_SpecARM(gens map[string]gopter.Gen) {
 	gens["Access"] = gen.OneConstOf(SecurityRuleAccess_SpecAllow, SecurityRuleAccess_SpecDeny)
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationAddressPrefix"] = gen.PtrOf(gen.AlphaString())
@@ -169,22 +169,22 @@ func AddIndependentPropertyGeneratorsForSecurityRulePropertiesFormatSpecARM(gens
 	gens["Direction"] = gen.OneConstOf(SecurityRuleDirection_SpecInbound, SecurityRuleDirection_SpecOutbound)
 	gens["Priority"] = gen.PtrOf(gen.Int())
 	gens["Protocol"] = gen.OneConstOf(
-		SecurityRulePropertiesFormatSpecProtocolAh,
-		SecurityRulePropertiesFormatSpecProtocolEsp,
-		SecurityRulePropertiesFormatSpecProtocolIcmp,
-		SecurityRulePropertiesFormatSpecProtocolStar,
-		SecurityRulePropertiesFormatSpecProtocolTcp,
-		SecurityRulePropertiesFormatSpecProtocolUdp)
+		SecurityRulePropertiesFormat_Protocol_SpecAh,
+		SecurityRulePropertiesFormat_Protocol_SpecEsp,
+		SecurityRulePropertiesFormat_Protocol_SpecIcmp,
+		SecurityRulePropertiesFormat_Protocol_SpecStar,
+		SecurityRulePropertiesFormat_Protocol_SpecTcp,
+		SecurityRulePropertiesFormat_Protocol_SpecUdp)
 	gens["SourceAddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["SourcePortRange"] = gen.PtrOf(gen.AlphaString())
 	gens["SourcePortRanges"] = gen.SliceOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSecurityRulePropertiesFormatSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSecurityRulePropertiesFormatSpecARM(gens map[string]gopter.Gen) {
-	gens["DestinationApplicationSecurityGroups"] = gen.SliceOf(ApplicationSecurityGroupSpecARMGenerator())
-	gens["SourceApplicationSecurityGroups"] = gen.SliceOf(ApplicationSecurityGroupSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForSecurityRulePropertiesFormat_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSecurityRulePropertiesFormat_SpecARM(gens map[string]gopter.Gen) {
+	gens["DestinationApplicationSecurityGroups"] = gen.SliceOf(ApplicationSecurityGroup_SpecARMGenerator())
+	gens["SourceApplicationSecurityGroups"] = gen.SliceOf(ApplicationSecurityGroup_SpecARMGenerator())
 }
 
 func Test_ApplicationSecurityGroup_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -194,12 +194,12 @@ func Test_ApplicationSecurityGroup_SpecARM_WhenSerializedToJson_DeserializesAsEq
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ApplicationSecurityGroup_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationSecurityGroupSpecARM, ApplicationSecurityGroupSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForApplicationSecurityGroup_SpecARM, ApplicationSecurityGroup_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForApplicationSecurityGroupSpecARM runs a test to see if a specific instance of ApplicationSecurityGroup_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationSecurityGroupSpecARM(subject ApplicationSecurityGroup_SpecARM) string {
+// RunJSONSerializationTestForApplicationSecurityGroup_SpecARM runs a test to see if a specific instance of ApplicationSecurityGroup_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationSecurityGroup_SpecARM(subject ApplicationSecurityGroup_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -226,24 +226,24 @@ func RunJSONSerializationTestForApplicationSecurityGroupSpecARM(subject Applicat
 }
 
 // Generator of ApplicationSecurityGroup_SpecARM instances for property testing - lazily instantiated by
-//ApplicationSecurityGroupSpecARMGenerator()
-var applicationSecurityGroupSpecARMGenerator gopter.Gen
+//ApplicationSecurityGroup_SpecARMGenerator()
+var applicationSecurityGroup_specARMGenerator gopter.Gen
 
-// ApplicationSecurityGroupSpecARMGenerator returns a generator of ApplicationSecurityGroup_SpecARM instances for property testing.
-func ApplicationSecurityGroupSpecARMGenerator() gopter.Gen {
-	if applicationSecurityGroupSpecARMGenerator != nil {
-		return applicationSecurityGroupSpecARMGenerator
+// ApplicationSecurityGroup_SpecARMGenerator returns a generator of ApplicationSecurityGroup_SpecARM instances for property testing.
+func ApplicationSecurityGroup_SpecARMGenerator() gopter.Gen {
+	if applicationSecurityGroup_specARMGenerator != nil {
+		return applicationSecurityGroup_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationSecurityGroupSpecARM(generators)
-	applicationSecurityGroupSpecARMGenerator = gen.Struct(reflect.TypeOf(ApplicationSecurityGroup_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForApplicationSecurityGroup_SpecARM(generators)
+	applicationSecurityGroup_specARMGenerator = gen.Struct(reflect.TypeOf(ApplicationSecurityGroup_SpecARM{}), generators)
 
-	return applicationSecurityGroupSpecARMGenerator
+	return applicationSecurityGroup_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForApplicationSecurityGroupSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationSecurityGroupSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForApplicationSecurityGroup_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationSecurityGroup_SpecARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())

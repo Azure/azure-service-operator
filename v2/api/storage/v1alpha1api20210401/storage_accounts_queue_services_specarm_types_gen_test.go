@@ -24,12 +24,12 @@ func Test_StorageAccountsQueueServices_SPECARM_WhenSerializedToJson_Deserializes
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of StorageAccountsQueueServices_SPECARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccountsQueueServicesSPECARM, StorageAccountsQueueServicesSPECARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForStorageAccountsQueueServices_SPECARM, StorageAccountsQueueServices_SPECARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForStorageAccountsQueueServicesSPECARM runs a test to see if a specific instance of StorageAccountsQueueServices_SPECARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccountsQueueServicesSPECARM(subject StorageAccountsQueueServices_SPECARM) string {
+// RunJSONSerializationTestForStorageAccountsQueueServices_SPECARM runs a test to see if a specific instance of StorageAccountsQueueServices_SPECARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccountsQueueServices_SPECARM(subject StorageAccountsQueueServices_SPECARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,55 +56,55 @@ func RunJSONSerializationTestForStorageAccountsQueueServicesSPECARM(subject Stor
 }
 
 // Generator of StorageAccountsQueueServices_SPECARM instances for property testing - lazily instantiated by
-//StorageAccountsQueueServicesSPECARMGenerator()
-var storageAccountsQueueServicesSPECARMGenerator gopter.Gen
+//StorageAccountsQueueServices_SPECARMGenerator()
+var storageAccountsQueueServices_specarmGenerator gopter.Gen
 
-// StorageAccountsQueueServicesSPECARMGenerator returns a generator of StorageAccountsQueueServices_SPECARM instances for property testing.
-// We first initialize storageAccountsQueueServicesSPECARMGenerator with a simplified generator based on the
+// StorageAccountsQueueServices_SPECARMGenerator returns a generator of StorageAccountsQueueServices_SPECARM instances for property testing.
+// We first initialize storageAccountsQueueServices_specarmGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func StorageAccountsQueueServicesSPECARMGenerator() gopter.Gen {
-	if storageAccountsQueueServicesSPECARMGenerator != nil {
-		return storageAccountsQueueServicesSPECARMGenerator
+func StorageAccountsQueueServices_SPECARMGenerator() gopter.Gen {
+	if storageAccountsQueueServices_specarmGenerator != nil {
+		return storageAccountsQueueServices_specarmGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccountsQueueServicesSPECARM(generators)
-	storageAccountsQueueServicesSPECARMGenerator = gen.Struct(reflect.TypeOf(StorageAccountsQueueServices_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccountsQueueServices_SPECARM(generators)
+	storageAccountsQueueServices_specarmGenerator = gen.Struct(reflect.TypeOf(StorageAccountsQueueServices_SPECARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccountsQueueServicesSPECARM(generators)
-	AddRelatedPropertyGeneratorsForStorageAccountsQueueServicesSPECARM(generators)
-	storageAccountsQueueServicesSPECARMGenerator = gen.Struct(reflect.TypeOf(StorageAccountsQueueServices_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccountsQueueServices_SPECARM(generators)
+	AddRelatedPropertyGeneratorsForStorageAccountsQueueServices_SPECARM(generators)
+	storageAccountsQueueServices_specarmGenerator = gen.Struct(reflect.TypeOf(StorageAccountsQueueServices_SPECARM{}), generators)
 
-	return storageAccountsQueueServicesSPECARMGenerator
+	return storageAccountsQueueServices_specarmGenerator
 }
 
-// AddIndependentPropertyGeneratorsForStorageAccountsQueueServicesSPECARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStorageAccountsQueueServicesSPECARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForStorageAccountsQueueServices_SPECARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageAccountsQueueServices_SPECARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForStorageAccountsQueueServicesSPECARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccountsQueueServicesSPECARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(StorageAccountsQueueServicesSPECPropertiesARMGenerator())
+// AddRelatedPropertyGeneratorsForStorageAccountsQueueServices_SPECARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccountsQueueServices_SPECARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(StorageAccountsQueueServices_Properties_SPECARMGenerator())
 }
 
-func Test_StorageAccountsQueueServices_SPEC_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_StorageAccountsQueueServices_Properties_SPECARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of StorageAccountsQueueServices_SPEC_PropertiesARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccountsQueueServicesSPECPropertiesARM, StorageAccountsQueueServicesSPECPropertiesARMGenerator()))
+		"Round trip of StorageAccountsQueueServices_Properties_SPECARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccountsQueueServices_Properties_SPECARM, StorageAccountsQueueServices_Properties_SPECARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForStorageAccountsQueueServicesSPECPropertiesARM runs a test to see if a specific instance of StorageAccountsQueueServices_SPEC_PropertiesARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccountsQueueServicesSPECPropertiesARM(subject StorageAccountsQueueServices_SPEC_PropertiesARM) string {
+// RunJSONSerializationTestForStorageAccountsQueueServices_Properties_SPECARM runs a test to see if a specific instance of StorageAccountsQueueServices_Properties_SPECARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccountsQueueServices_Properties_SPECARM(subject StorageAccountsQueueServices_Properties_SPECARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -112,7 +112,7 @@ func RunJSONSerializationTestForStorageAccountsQueueServicesSPECPropertiesARM(su
 	}
 
 	// Deserialize back into memory
-	var actual StorageAccountsQueueServices_SPEC_PropertiesARM
+	var actual StorageAccountsQueueServices_Properties_SPECARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -130,24 +130,24 @@ func RunJSONSerializationTestForStorageAccountsQueueServicesSPECPropertiesARM(su
 	return ""
 }
 
-// Generator of StorageAccountsQueueServices_SPEC_PropertiesARM instances for property testing - lazily instantiated by
-//StorageAccountsQueueServicesSPECPropertiesARMGenerator()
-var storageAccountsQueueServicesSPECPropertiesARMGenerator gopter.Gen
+// Generator of StorageAccountsQueueServices_Properties_SPECARM instances for property testing - lazily instantiated by
+//StorageAccountsQueueServices_Properties_SPECARMGenerator()
+var storageAccountsQueueServices_properties_specarmGenerator gopter.Gen
 
-// StorageAccountsQueueServicesSPECPropertiesARMGenerator returns a generator of StorageAccountsQueueServices_SPEC_PropertiesARM instances for property testing.
-func StorageAccountsQueueServicesSPECPropertiesARMGenerator() gopter.Gen {
-	if storageAccountsQueueServicesSPECPropertiesARMGenerator != nil {
-		return storageAccountsQueueServicesSPECPropertiesARMGenerator
+// StorageAccountsQueueServices_Properties_SPECARMGenerator returns a generator of StorageAccountsQueueServices_Properties_SPECARM instances for property testing.
+func StorageAccountsQueueServices_Properties_SPECARMGenerator() gopter.Gen {
+	if storageAccountsQueueServices_properties_specarmGenerator != nil {
+		return storageAccountsQueueServices_properties_specarmGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForStorageAccountsQueueServicesSPECPropertiesARM(generators)
-	storageAccountsQueueServicesSPECPropertiesARMGenerator = gen.Struct(reflect.TypeOf(StorageAccountsQueueServices_SPEC_PropertiesARM{}), generators)
+	AddRelatedPropertyGeneratorsForStorageAccountsQueueServices_Properties_SPECARM(generators)
+	storageAccountsQueueServices_properties_specarmGenerator = gen.Struct(reflect.TypeOf(StorageAccountsQueueServices_Properties_SPECARM{}), generators)
 
-	return storageAccountsQueueServicesSPECPropertiesARMGenerator
+	return storageAccountsQueueServices_properties_specarmGenerator
 }
 
-// AddRelatedPropertyGeneratorsForStorageAccountsQueueServicesSPECPropertiesARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccountsQueueServicesSPECPropertiesARM(gens map[string]gopter.Gen) {
-	gens["Cors"] = gen.PtrOf(CorsRulesSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForStorageAccountsQueueServices_Properties_SPECARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccountsQueueServices_Properties_SPECARM(gens map[string]gopter.Gen) {
+	gens["Cors"] = gen.PtrOf(CorsRules_SpecARMGenerator())
 }

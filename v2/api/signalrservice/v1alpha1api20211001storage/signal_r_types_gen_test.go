@@ -73,8 +73,8 @@ func SignalRGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForSignalR is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSignalR(gens map[string]gopter.Gen) {
-	gens["Spec"] = SignalRSPECGenerator()
-	gens["Status"] = SignalRResourceStatusGenerator()
+	gens["Spec"] = SignalR_SPECGenerator()
+	gens["Status"] = SignalRResource_StatusGenerator()
 }
 
 func Test_SignalRResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -84,12 +84,12 @@ func Test_SignalRResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *tes
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SignalRResource_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSignalRResourceStatus, SignalRResourceStatusGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSignalRResource_Status, SignalRResource_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSignalRResourceStatus runs a test to see if a specific instance of SignalRResource_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForSignalRResourceStatus(subject SignalRResource_Status) string {
+// RunJSONSerializationTestForSignalRResource_Status runs a test to see if a specific instance of SignalRResource_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForSignalRResource_Status(subject SignalRResource_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -116,33 +116,33 @@ func RunJSONSerializationTestForSignalRResourceStatus(subject SignalRResource_St
 }
 
 // Generator of SignalRResource_Status instances for property testing - lazily instantiated by
-//SignalRResourceStatusGenerator()
-var signalRResourceStatusGenerator gopter.Gen
+//SignalRResource_StatusGenerator()
+var signalRResource_statusGenerator gopter.Gen
 
-// SignalRResourceStatusGenerator returns a generator of SignalRResource_Status instances for property testing.
-// We first initialize signalRResourceStatusGenerator with a simplified generator based on the
+// SignalRResource_StatusGenerator returns a generator of SignalRResource_Status instances for property testing.
+// We first initialize signalRResource_statusGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SignalRResourceStatusGenerator() gopter.Gen {
-	if signalRResourceStatusGenerator != nil {
-		return signalRResourceStatusGenerator
+func SignalRResource_StatusGenerator() gopter.Gen {
+	if signalRResource_statusGenerator != nil {
+		return signalRResource_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSignalRResourceStatus(generators)
-	signalRResourceStatusGenerator = gen.Struct(reflect.TypeOf(SignalRResource_Status{}), generators)
+	AddIndependentPropertyGeneratorsForSignalRResource_Status(generators)
+	signalRResource_statusGenerator = gen.Struct(reflect.TypeOf(SignalRResource_Status{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSignalRResourceStatus(generators)
-	AddRelatedPropertyGeneratorsForSignalRResourceStatus(generators)
-	signalRResourceStatusGenerator = gen.Struct(reflect.TypeOf(SignalRResource_Status{}), generators)
+	AddIndependentPropertyGeneratorsForSignalRResource_Status(generators)
+	AddRelatedPropertyGeneratorsForSignalRResource_Status(generators)
+	signalRResource_statusGenerator = gen.Struct(reflect.TypeOf(SignalRResource_Status{}), generators)
 
-	return signalRResourceStatusGenerator
+	return signalRResource_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSignalRResourceStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSignalRResourceStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSignalRResource_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSignalRResource_Status(gens map[string]gopter.Gen) {
 	gens["DisableAadAuth"] = gen.PtrOf(gen.Bool())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["ExternalIP"] = gen.PtrOf(gen.AlphaString())
@@ -161,19 +161,19 @@ func AddIndependentPropertyGeneratorsForSignalRResourceStatus(gens map[string]go
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSignalRResourceStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSignalRResourceStatus(gens map[string]gopter.Gen) {
-	gens["Cors"] = gen.PtrOf(SignalRCorsSettingsStatusGenerator())
-	gens["Features"] = gen.SliceOf(SignalRFeatureStatusGenerator())
-	gens["Identity"] = gen.PtrOf(ManagedIdentityStatusGenerator())
-	gens["NetworkACLs"] = gen.PtrOf(SignalRNetworkACLsStatusGenerator())
-	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnectionStatusSignalRSubResourceEmbeddedGenerator())
-	gens["ResourceLogConfiguration"] = gen.PtrOf(ResourceLogConfigurationStatusGenerator())
-	gens["SharedPrivateLinkResources"] = gen.SliceOf(SharedPrivateLinkResourceStatusSignalRSubResourceEmbeddedGenerator())
-	gens["Sku"] = gen.PtrOf(ResourceSkuStatusGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataStatusGenerator())
-	gens["Tls"] = gen.PtrOf(SignalRTlsSettingsStatusGenerator())
-	gens["Upstream"] = gen.PtrOf(ServerlessUpstreamSettingsStatusGenerator())
+// AddRelatedPropertyGeneratorsForSignalRResource_Status is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSignalRResource_Status(gens map[string]gopter.Gen) {
+	gens["Cors"] = gen.PtrOf(SignalRCorsSettings_StatusGenerator())
+	gens["Features"] = gen.SliceOf(SignalRFeature_StatusGenerator())
+	gens["Identity"] = gen.PtrOf(ManagedIdentity_StatusGenerator())
+	gens["NetworkACLs"] = gen.PtrOf(SignalRNetworkACLs_StatusGenerator())
+	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_Status_SignalR_SubResourceEmbeddedGenerator())
+	gens["ResourceLogConfiguration"] = gen.PtrOf(ResourceLogConfiguration_StatusGenerator())
+	gens["SharedPrivateLinkResources"] = gen.SliceOf(SharedPrivateLinkResource_Status_SignalR_SubResourceEmbeddedGenerator())
+	gens["Sku"] = gen.PtrOf(ResourceSku_StatusGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_StatusGenerator())
+	gens["Tls"] = gen.PtrOf(SignalRTlsSettings_StatusGenerator())
+	gens["Upstream"] = gen.PtrOf(ServerlessUpstreamSettings_StatusGenerator())
 }
 
 func Test_SignalR_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -183,12 +183,12 @@ func Test_SignalR_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SignalR_SPEC via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSignalRSPEC, SignalRSPECGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSignalR_SPEC, SignalR_SPECGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSignalRSPEC runs a test to see if a specific instance of SignalR_SPEC round trips to JSON and back losslessly
-func RunJSONSerializationTestForSignalRSPEC(subject SignalR_SPEC) string {
+// RunJSONSerializationTestForSignalR_SPEC runs a test to see if a specific instance of SignalR_SPEC round trips to JSON and back losslessly
+func RunJSONSerializationTestForSignalR_SPEC(subject SignalR_SPEC) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -214,33 +214,33 @@ func RunJSONSerializationTestForSignalRSPEC(subject SignalR_SPEC) string {
 	return ""
 }
 
-// Generator of SignalR_SPEC instances for property testing - lazily instantiated by SignalRSPECGenerator()
-var signalRSPECGenerator gopter.Gen
+// Generator of SignalR_SPEC instances for property testing - lazily instantiated by SignalR_SPECGenerator()
+var signalR_specGenerator gopter.Gen
 
-// SignalRSPECGenerator returns a generator of SignalR_SPEC instances for property testing.
-// We first initialize signalRSPECGenerator with a simplified generator based on the
+// SignalR_SPECGenerator returns a generator of SignalR_SPEC instances for property testing.
+// We first initialize signalR_specGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SignalRSPECGenerator() gopter.Gen {
-	if signalRSPECGenerator != nil {
-		return signalRSPECGenerator
+func SignalR_SPECGenerator() gopter.Gen {
+	if signalR_specGenerator != nil {
+		return signalR_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSignalRSPEC(generators)
-	signalRSPECGenerator = gen.Struct(reflect.TypeOf(SignalR_SPEC{}), generators)
+	AddIndependentPropertyGeneratorsForSignalR_SPEC(generators)
+	signalR_specGenerator = gen.Struct(reflect.TypeOf(SignalR_SPEC{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSignalRSPEC(generators)
-	AddRelatedPropertyGeneratorsForSignalRSPEC(generators)
-	signalRSPECGenerator = gen.Struct(reflect.TypeOf(SignalR_SPEC{}), generators)
+	AddIndependentPropertyGeneratorsForSignalR_SPEC(generators)
+	AddRelatedPropertyGeneratorsForSignalR_SPEC(generators)
+	signalR_specGenerator = gen.Struct(reflect.TypeOf(SignalR_SPEC{}), generators)
 
-	return signalRSPECGenerator
+	return signalR_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSignalRSPEC is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSignalRSPEC(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSignalR_SPEC is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSignalR_SPEC(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["DisableAadAuth"] = gen.PtrOf(gen.Bool())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
@@ -251,16 +251,16 @@ func AddIndependentPropertyGeneratorsForSignalRSPEC(gens map[string]gopter.Gen) 
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSignalRSPEC is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSignalRSPEC(gens map[string]gopter.Gen) {
-	gens["Cors"] = gen.PtrOf(SignalRCorsSettingsSpecGenerator())
-	gens["Features"] = gen.SliceOf(SignalRFeatureSpecGenerator())
-	gens["Identity"] = gen.PtrOf(ManagedIdentitySpecGenerator())
-	gens["NetworkACLs"] = gen.PtrOf(SignalRNetworkACLsSpecGenerator())
-	gens["ResourceLogConfiguration"] = gen.PtrOf(ResourceLogConfigurationSpecGenerator())
-	gens["Sku"] = gen.PtrOf(ResourceSkuSpecGenerator())
-	gens["Tls"] = gen.PtrOf(SignalRTlsSettingsSpecGenerator())
-	gens["Upstream"] = gen.PtrOf(ServerlessUpstreamSettingsSpecGenerator())
+// AddRelatedPropertyGeneratorsForSignalR_SPEC is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSignalR_SPEC(gens map[string]gopter.Gen) {
+	gens["Cors"] = gen.PtrOf(SignalRCorsSettings_SpecGenerator())
+	gens["Features"] = gen.SliceOf(SignalRFeature_SpecGenerator())
+	gens["Identity"] = gen.PtrOf(ManagedIdentity_SpecGenerator())
+	gens["NetworkACLs"] = gen.PtrOf(SignalRNetworkACLs_SpecGenerator())
+	gens["ResourceLogConfiguration"] = gen.PtrOf(ResourceLogConfiguration_SpecGenerator())
+	gens["Sku"] = gen.PtrOf(ResourceSku_SpecGenerator())
+	gens["Tls"] = gen.PtrOf(SignalRTlsSettings_SpecGenerator())
+	gens["Upstream"] = gen.PtrOf(ServerlessUpstreamSettings_SpecGenerator())
 }
 
 func Test_ManagedIdentity_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -270,12 +270,12 @@ func Test_ManagedIdentity_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testi
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedIdentity_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedIdentitySpec, ManagedIdentitySpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForManagedIdentity_Spec, ManagedIdentity_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedIdentitySpec runs a test to see if a specific instance of ManagedIdentity_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedIdentitySpec(subject ManagedIdentity_Spec) string {
+// RunJSONSerializationTestForManagedIdentity_Spec runs a test to see if a specific instance of ManagedIdentity_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedIdentity_Spec(subject ManagedIdentity_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -302,24 +302,24 @@ func RunJSONSerializationTestForManagedIdentitySpec(subject ManagedIdentity_Spec
 }
 
 // Generator of ManagedIdentity_Spec instances for property testing - lazily instantiated by
-//ManagedIdentitySpecGenerator()
-var managedIdentitySpecGenerator gopter.Gen
+//ManagedIdentity_SpecGenerator()
+var managedIdentity_specGenerator gopter.Gen
 
-// ManagedIdentitySpecGenerator returns a generator of ManagedIdentity_Spec instances for property testing.
-func ManagedIdentitySpecGenerator() gopter.Gen {
-	if managedIdentitySpecGenerator != nil {
-		return managedIdentitySpecGenerator
+// ManagedIdentity_SpecGenerator returns a generator of ManagedIdentity_Spec instances for property testing.
+func ManagedIdentity_SpecGenerator() gopter.Gen {
+	if managedIdentity_specGenerator != nil {
+		return managedIdentity_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedIdentitySpec(generators)
-	managedIdentitySpecGenerator = gen.Struct(reflect.TypeOf(ManagedIdentity_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForManagedIdentity_Spec(generators)
+	managedIdentity_specGenerator = gen.Struct(reflect.TypeOf(ManagedIdentity_Spec{}), generators)
 
-	return managedIdentitySpecGenerator
+	return managedIdentity_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedIdentitySpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedIdentitySpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedIdentity_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedIdentity_Spec(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -330,12 +330,12 @@ func Test_ManagedIdentity_Status_WhenSerializedToJson_DeserializesAsEqual(t *tes
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedIdentity_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedIdentityStatus, ManagedIdentityStatusGenerator()))
+		prop.ForAll(RunJSONSerializationTestForManagedIdentity_Status, ManagedIdentity_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedIdentityStatus runs a test to see if a specific instance of ManagedIdentity_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedIdentityStatus(subject ManagedIdentity_Status) string {
+// RunJSONSerializationTestForManagedIdentity_Status runs a test to see if a specific instance of ManagedIdentity_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedIdentity_Status(subject ManagedIdentity_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -362,41 +362,41 @@ func RunJSONSerializationTestForManagedIdentityStatus(subject ManagedIdentity_St
 }
 
 // Generator of ManagedIdentity_Status instances for property testing - lazily instantiated by
-//ManagedIdentityStatusGenerator()
-var managedIdentityStatusGenerator gopter.Gen
+//ManagedIdentity_StatusGenerator()
+var managedIdentity_statusGenerator gopter.Gen
 
-// ManagedIdentityStatusGenerator returns a generator of ManagedIdentity_Status instances for property testing.
-// We first initialize managedIdentityStatusGenerator with a simplified generator based on the
+// ManagedIdentity_StatusGenerator returns a generator of ManagedIdentity_Status instances for property testing.
+// We first initialize managedIdentity_statusGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ManagedIdentityStatusGenerator() gopter.Gen {
-	if managedIdentityStatusGenerator != nil {
-		return managedIdentityStatusGenerator
+func ManagedIdentity_StatusGenerator() gopter.Gen {
+	if managedIdentity_statusGenerator != nil {
+		return managedIdentity_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedIdentityStatus(generators)
-	managedIdentityStatusGenerator = gen.Struct(reflect.TypeOf(ManagedIdentity_Status{}), generators)
+	AddIndependentPropertyGeneratorsForManagedIdentity_Status(generators)
+	managedIdentity_statusGenerator = gen.Struct(reflect.TypeOf(ManagedIdentity_Status{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedIdentityStatus(generators)
-	AddRelatedPropertyGeneratorsForManagedIdentityStatus(generators)
-	managedIdentityStatusGenerator = gen.Struct(reflect.TypeOf(ManagedIdentity_Status{}), generators)
+	AddIndependentPropertyGeneratorsForManagedIdentity_Status(generators)
+	AddRelatedPropertyGeneratorsForManagedIdentity_Status(generators)
+	managedIdentity_statusGenerator = gen.Struct(reflect.TypeOf(ManagedIdentity_Status{}), generators)
 
-	return managedIdentityStatusGenerator
+	return managedIdentity_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedIdentityStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedIdentityStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedIdentity_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedIdentity_Status(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForManagedIdentityStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedIdentityStatus(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentityPropertyStatusGenerator())
+// AddRelatedPropertyGeneratorsForManagedIdentity_Status is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedIdentity_Status(gens map[string]gopter.Gen) {
+	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentityProperty_StatusGenerator())
 }
 
 func Test_PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -406,12 +406,12 @@ func Test_PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded_WhenSeria
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnectionStatusSignalRSubResourceEmbedded, PrivateEndpointConnectionStatusSignalRSubResourceEmbeddedGenerator()))
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnection_Status_SignalR_SubResourceEmbedded, PrivateEndpointConnection_Status_SignalR_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateEndpointConnectionStatusSignalRSubResourceEmbedded runs a test to see if a specific instance of PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpointConnectionStatusSignalRSubResourceEmbedded(subject PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded) string {
+// RunJSONSerializationTestForPrivateEndpointConnection_Status_SignalR_SubResourceEmbedded runs a test to see if a specific instance of PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpointConnection_Status_SignalR_SubResourceEmbedded(subject PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -438,39 +438,39 @@ func RunJSONSerializationTestForPrivateEndpointConnectionStatusSignalRSubResourc
 }
 
 // Generator of PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded instances for property testing - lazily
-//instantiated by PrivateEndpointConnectionStatusSignalRSubResourceEmbeddedGenerator()
-var privateEndpointConnectionStatusSignalRSubResourceEmbeddedGenerator gopter.Gen
+//instantiated by PrivateEndpointConnection_Status_SignalR_SubResourceEmbeddedGenerator()
+var privateEndpointConnection_status_signalR_subResourceEmbeddedGenerator gopter.Gen
 
-// PrivateEndpointConnectionStatusSignalRSubResourceEmbeddedGenerator returns a generator of PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded instances for property testing.
-// We first initialize privateEndpointConnectionStatusSignalRSubResourceEmbeddedGenerator with a simplified generator based on the
+// PrivateEndpointConnection_Status_SignalR_SubResourceEmbeddedGenerator returns a generator of PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded instances for property testing.
+// We first initialize privateEndpointConnection_status_signalR_subResourceEmbeddedGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func PrivateEndpointConnectionStatusSignalRSubResourceEmbeddedGenerator() gopter.Gen {
-	if privateEndpointConnectionStatusSignalRSubResourceEmbeddedGenerator != nil {
-		return privateEndpointConnectionStatusSignalRSubResourceEmbeddedGenerator
+func PrivateEndpointConnection_Status_SignalR_SubResourceEmbeddedGenerator() gopter.Gen {
+	if privateEndpointConnection_status_signalR_subResourceEmbeddedGenerator != nil {
+		return privateEndpointConnection_status_signalR_subResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointConnectionStatusSignalRSubResourceEmbedded(generators)
-	privateEndpointConnectionStatusSignalRSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateEndpointConnection_Status_SignalR_SubResourceEmbedded(generators)
+	privateEndpointConnection_status_signalR_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointConnectionStatusSignalRSubResourceEmbedded(generators)
-	AddRelatedPropertyGeneratorsForPrivateEndpointConnectionStatusSignalRSubResourceEmbedded(generators)
-	privateEndpointConnectionStatusSignalRSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateEndpointConnection_Status_SignalR_SubResourceEmbedded(generators)
+	AddRelatedPropertyGeneratorsForPrivateEndpointConnection_Status_SignalR_SubResourceEmbedded(generators)
+	privateEndpointConnection_status_signalR_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded{}), generators)
 
-	return privateEndpointConnectionStatusSignalRSubResourceEmbeddedGenerator
+	return privateEndpointConnection_status_signalR_subResourceEmbeddedGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateEndpointConnectionStatusSignalRSubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpointConnectionStatusSignalRSubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPrivateEndpointConnection_Status_SignalR_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_Status_SignalR_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForPrivateEndpointConnectionStatusSignalRSubResourceEmbedded is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateEndpointConnectionStatusSignalRSubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemDataStatusGenerator())
+// AddRelatedPropertyGeneratorsForPrivateEndpointConnection_Status_SignalR_SubResourceEmbedded is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPrivateEndpointConnection_Status_SignalR_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["SystemData"] = gen.PtrOf(SystemData_StatusGenerator())
 }
 
 func Test_ResourceLogConfiguration_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -480,12 +480,12 @@ func Test_ResourceLogConfiguration_Spec_WhenSerializedToJson_DeserializesAsEqual
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ResourceLogConfiguration_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceLogConfigurationSpec, ResourceLogConfigurationSpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForResourceLogConfiguration_Spec, ResourceLogConfiguration_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForResourceLogConfigurationSpec runs a test to see if a specific instance of ResourceLogConfiguration_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceLogConfigurationSpec(subject ResourceLogConfiguration_Spec) string {
+// RunJSONSerializationTestForResourceLogConfiguration_Spec runs a test to see if a specific instance of ResourceLogConfiguration_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForResourceLogConfiguration_Spec(subject ResourceLogConfiguration_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -512,25 +512,25 @@ func RunJSONSerializationTestForResourceLogConfigurationSpec(subject ResourceLog
 }
 
 // Generator of ResourceLogConfiguration_Spec instances for property testing - lazily instantiated by
-//ResourceLogConfigurationSpecGenerator()
-var resourceLogConfigurationSpecGenerator gopter.Gen
+//ResourceLogConfiguration_SpecGenerator()
+var resourceLogConfiguration_specGenerator gopter.Gen
 
-// ResourceLogConfigurationSpecGenerator returns a generator of ResourceLogConfiguration_Spec instances for property testing.
-func ResourceLogConfigurationSpecGenerator() gopter.Gen {
-	if resourceLogConfigurationSpecGenerator != nil {
-		return resourceLogConfigurationSpecGenerator
+// ResourceLogConfiguration_SpecGenerator returns a generator of ResourceLogConfiguration_Spec instances for property testing.
+func ResourceLogConfiguration_SpecGenerator() gopter.Gen {
+	if resourceLogConfiguration_specGenerator != nil {
+		return resourceLogConfiguration_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForResourceLogConfigurationSpec(generators)
-	resourceLogConfigurationSpecGenerator = gen.Struct(reflect.TypeOf(ResourceLogConfiguration_Spec{}), generators)
+	AddRelatedPropertyGeneratorsForResourceLogConfiguration_Spec(generators)
+	resourceLogConfiguration_specGenerator = gen.Struct(reflect.TypeOf(ResourceLogConfiguration_Spec{}), generators)
 
-	return resourceLogConfigurationSpecGenerator
+	return resourceLogConfiguration_specGenerator
 }
 
-// AddRelatedPropertyGeneratorsForResourceLogConfigurationSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForResourceLogConfigurationSpec(gens map[string]gopter.Gen) {
-	gens["Categories"] = gen.SliceOf(ResourceLogCategorySpecGenerator())
+// AddRelatedPropertyGeneratorsForResourceLogConfiguration_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForResourceLogConfiguration_Spec(gens map[string]gopter.Gen) {
+	gens["Categories"] = gen.SliceOf(ResourceLogCategory_SpecGenerator())
 }
 
 func Test_ResourceLogConfiguration_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -540,12 +540,12 @@ func Test_ResourceLogConfiguration_Status_WhenSerializedToJson_DeserializesAsEqu
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ResourceLogConfiguration_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceLogConfigurationStatus, ResourceLogConfigurationStatusGenerator()))
+		prop.ForAll(RunJSONSerializationTestForResourceLogConfiguration_Status, ResourceLogConfiguration_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForResourceLogConfigurationStatus runs a test to see if a specific instance of ResourceLogConfiguration_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceLogConfigurationStatus(subject ResourceLogConfiguration_Status) string {
+// RunJSONSerializationTestForResourceLogConfiguration_Status runs a test to see if a specific instance of ResourceLogConfiguration_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForResourceLogConfiguration_Status(subject ResourceLogConfiguration_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -572,25 +572,25 @@ func RunJSONSerializationTestForResourceLogConfigurationStatus(subject ResourceL
 }
 
 // Generator of ResourceLogConfiguration_Status instances for property testing - lazily instantiated by
-//ResourceLogConfigurationStatusGenerator()
-var resourceLogConfigurationStatusGenerator gopter.Gen
+//ResourceLogConfiguration_StatusGenerator()
+var resourceLogConfiguration_statusGenerator gopter.Gen
 
-// ResourceLogConfigurationStatusGenerator returns a generator of ResourceLogConfiguration_Status instances for property testing.
-func ResourceLogConfigurationStatusGenerator() gopter.Gen {
-	if resourceLogConfigurationStatusGenerator != nil {
-		return resourceLogConfigurationStatusGenerator
+// ResourceLogConfiguration_StatusGenerator returns a generator of ResourceLogConfiguration_Status instances for property testing.
+func ResourceLogConfiguration_StatusGenerator() gopter.Gen {
+	if resourceLogConfiguration_statusGenerator != nil {
+		return resourceLogConfiguration_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForResourceLogConfigurationStatus(generators)
-	resourceLogConfigurationStatusGenerator = gen.Struct(reflect.TypeOf(ResourceLogConfiguration_Status{}), generators)
+	AddRelatedPropertyGeneratorsForResourceLogConfiguration_Status(generators)
+	resourceLogConfiguration_statusGenerator = gen.Struct(reflect.TypeOf(ResourceLogConfiguration_Status{}), generators)
 
-	return resourceLogConfigurationStatusGenerator
+	return resourceLogConfiguration_statusGenerator
 }
 
-// AddRelatedPropertyGeneratorsForResourceLogConfigurationStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForResourceLogConfigurationStatus(gens map[string]gopter.Gen) {
-	gens["Categories"] = gen.SliceOf(ResourceLogCategoryStatusGenerator())
+// AddRelatedPropertyGeneratorsForResourceLogConfiguration_Status is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForResourceLogConfiguration_Status(gens map[string]gopter.Gen) {
+	gens["Categories"] = gen.SliceOf(ResourceLogCategory_StatusGenerator())
 }
 
 func Test_ResourceSku_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -600,12 +600,12 @@ func Test_ResourceSku_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ResourceSku_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceSkuSpec, ResourceSkuSpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForResourceSku_Spec, ResourceSku_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForResourceSkuSpec runs a test to see if a specific instance of ResourceSku_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceSkuSpec(subject ResourceSku_Spec) string {
+// RunJSONSerializationTestForResourceSku_Spec runs a test to see if a specific instance of ResourceSku_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForResourceSku_Spec(subject ResourceSku_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -631,24 +631,24 @@ func RunJSONSerializationTestForResourceSkuSpec(subject ResourceSku_Spec) string
 	return ""
 }
 
-// Generator of ResourceSku_Spec instances for property testing - lazily instantiated by ResourceSkuSpecGenerator()
-var resourceSkuSpecGenerator gopter.Gen
+// Generator of ResourceSku_Spec instances for property testing - lazily instantiated by ResourceSku_SpecGenerator()
+var resourceSku_specGenerator gopter.Gen
 
-// ResourceSkuSpecGenerator returns a generator of ResourceSku_Spec instances for property testing.
-func ResourceSkuSpecGenerator() gopter.Gen {
-	if resourceSkuSpecGenerator != nil {
-		return resourceSkuSpecGenerator
+// ResourceSku_SpecGenerator returns a generator of ResourceSku_Spec instances for property testing.
+func ResourceSku_SpecGenerator() gopter.Gen {
+	if resourceSku_specGenerator != nil {
+		return resourceSku_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForResourceSkuSpec(generators)
-	resourceSkuSpecGenerator = gen.Struct(reflect.TypeOf(ResourceSku_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForResourceSku_Spec(generators)
+	resourceSku_specGenerator = gen.Struct(reflect.TypeOf(ResourceSku_Spec{}), generators)
 
-	return resourceSkuSpecGenerator
+	return resourceSku_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForResourceSkuSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForResourceSkuSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForResourceSku_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForResourceSku_Spec(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
@@ -661,12 +661,12 @@ func Test_ResourceSku_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ResourceSku_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceSkuStatus, ResourceSkuStatusGenerator()))
+		prop.ForAll(RunJSONSerializationTestForResourceSku_Status, ResourceSku_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForResourceSkuStatus runs a test to see if a specific instance of ResourceSku_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceSkuStatus(subject ResourceSku_Status) string {
+// RunJSONSerializationTestForResourceSku_Status runs a test to see if a specific instance of ResourceSku_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForResourceSku_Status(subject ResourceSku_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -692,24 +692,24 @@ func RunJSONSerializationTestForResourceSkuStatus(subject ResourceSku_Status) st
 	return ""
 }
 
-// Generator of ResourceSku_Status instances for property testing - lazily instantiated by ResourceSkuStatusGenerator()
-var resourceSkuStatusGenerator gopter.Gen
+// Generator of ResourceSku_Status instances for property testing - lazily instantiated by ResourceSku_StatusGenerator()
+var resourceSku_statusGenerator gopter.Gen
 
-// ResourceSkuStatusGenerator returns a generator of ResourceSku_Status instances for property testing.
-func ResourceSkuStatusGenerator() gopter.Gen {
-	if resourceSkuStatusGenerator != nil {
-		return resourceSkuStatusGenerator
+// ResourceSku_StatusGenerator returns a generator of ResourceSku_Status instances for property testing.
+func ResourceSku_StatusGenerator() gopter.Gen {
+	if resourceSku_statusGenerator != nil {
+		return resourceSku_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForResourceSkuStatus(generators)
-	resourceSkuStatusGenerator = gen.Struct(reflect.TypeOf(ResourceSku_Status{}), generators)
+	AddIndependentPropertyGeneratorsForResourceSku_Status(generators)
+	resourceSku_statusGenerator = gen.Struct(reflect.TypeOf(ResourceSku_Status{}), generators)
 
-	return resourceSkuStatusGenerator
+	return resourceSku_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForResourceSkuStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForResourceSkuStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForResourceSku_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForResourceSku_Status(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Family"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -724,12 +724,12 @@ func Test_ServerlessUpstreamSettings_Spec_WhenSerializedToJson_DeserializesAsEqu
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ServerlessUpstreamSettings_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServerlessUpstreamSettingsSpec, ServerlessUpstreamSettingsSpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForServerlessUpstreamSettings_Spec, ServerlessUpstreamSettings_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServerlessUpstreamSettingsSpec runs a test to see if a specific instance of ServerlessUpstreamSettings_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForServerlessUpstreamSettingsSpec(subject ServerlessUpstreamSettings_Spec) string {
+// RunJSONSerializationTestForServerlessUpstreamSettings_Spec runs a test to see if a specific instance of ServerlessUpstreamSettings_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServerlessUpstreamSettings_Spec(subject ServerlessUpstreamSettings_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -756,25 +756,25 @@ func RunJSONSerializationTestForServerlessUpstreamSettingsSpec(subject Serverles
 }
 
 // Generator of ServerlessUpstreamSettings_Spec instances for property testing - lazily instantiated by
-//ServerlessUpstreamSettingsSpecGenerator()
-var serverlessUpstreamSettingsSpecGenerator gopter.Gen
+//ServerlessUpstreamSettings_SpecGenerator()
+var serverlessUpstreamSettings_specGenerator gopter.Gen
 
-// ServerlessUpstreamSettingsSpecGenerator returns a generator of ServerlessUpstreamSettings_Spec instances for property testing.
-func ServerlessUpstreamSettingsSpecGenerator() gopter.Gen {
-	if serverlessUpstreamSettingsSpecGenerator != nil {
-		return serverlessUpstreamSettingsSpecGenerator
+// ServerlessUpstreamSettings_SpecGenerator returns a generator of ServerlessUpstreamSettings_Spec instances for property testing.
+func ServerlessUpstreamSettings_SpecGenerator() gopter.Gen {
+	if serverlessUpstreamSettings_specGenerator != nil {
+		return serverlessUpstreamSettings_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForServerlessUpstreamSettingsSpec(generators)
-	serverlessUpstreamSettingsSpecGenerator = gen.Struct(reflect.TypeOf(ServerlessUpstreamSettings_Spec{}), generators)
+	AddRelatedPropertyGeneratorsForServerlessUpstreamSettings_Spec(generators)
+	serverlessUpstreamSettings_specGenerator = gen.Struct(reflect.TypeOf(ServerlessUpstreamSettings_Spec{}), generators)
 
-	return serverlessUpstreamSettingsSpecGenerator
+	return serverlessUpstreamSettings_specGenerator
 }
 
-// AddRelatedPropertyGeneratorsForServerlessUpstreamSettingsSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServerlessUpstreamSettingsSpec(gens map[string]gopter.Gen) {
-	gens["Templates"] = gen.SliceOf(UpstreamTemplateSpecGenerator())
+// AddRelatedPropertyGeneratorsForServerlessUpstreamSettings_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServerlessUpstreamSettings_Spec(gens map[string]gopter.Gen) {
+	gens["Templates"] = gen.SliceOf(UpstreamTemplate_SpecGenerator())
 }
 
 func Test_ServerlessUpstreamSettings_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -784,12 +784,12 @@ func Test_ServerlessUpstreamSettings_Status_WhenSerializedToJson_DeserializesAsE
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ServerlessUpstreamSettings_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServerlessUpstreamSettingsStatus, ServerlessUpstreamSettingsStatusGenerator()))
+		prop.ForAll(RunJSONSerializationTestForServerlessUpstreamSettings_Status, ServerlessUpstreamSettings_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServerlessUpstreamSettingsStatus runs a test to see if a specific instance of ServerlessUpstreamSettings_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForServerlessUpstreamSettingsStatus(subject ServerlessUpstreamSettings_Status) string {
+// RunJSONSerializationTestForServerlessUpstreamSettings_Status runs a test to see if a specific instance of ServerlessUpstreamSettings_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForServerlessUpstreamSettings_Status(subject ServerlessUpstreamSettings_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -816,25 +816,25 @@ func RunJSONSerializationTestForServerlessUpstreamSettingsStatus(subject Serverl
 }
 
 // Generator of ServerlessUpstreamSettings_Status instances for property testing - lazily instantiated by
-//ServerlessUpstreamSettingsStatusGenerator()
-var serverlessUpstreamSettingsStatusGenerator gopter.Gen
+//ServerlessUpstreamSettings_StatusGenerator()
+var serverlessUpstreamSettings_statusGenerator gopter.Gen
 
-// ServerlessUpstreamSettingsStatusGenerator returns a generator of ServerlessUpstreamSettings_Status instances for property testing.
-func ServerlessUpstreamSettingsStatusGenerator() gopter.Gen {
-	if serverlessUpstreamSettingsStatusGenerator != nil {
-		return serverlessUpstreamSettingsStatusGenerator
+// ServerlessUpstreamSettings_StatusGenerator returns a generator of ServerlessUpstreamSettings_Status instances for property testing.
+func ServerlessUpstreamSettings_StatusGenerator() gopter.Gen {
+	if serverlessUpstreamSettings_statusGenerator != nil {
+		return serverlessUpstreamSettings_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForServerlessUpstreamSettingsStatus(generators)
-	serverlessUpstreamSettingsStatusGenerator = gen.Struct(reflect.TypeOf(ServerlessUpstreamSettings_Status{}), generators)
+	AddRelatedPropertyGeneratorsForServerlessUpstreamSettings_Status(generators)
+	serverlessUpstreamSettings_statusGenerator = gen.Struct(reflect.TypeOf(ServerlessUpstreamSettings_Status{}), generators)
 
-	return serverlessUpstreamSettingsStatusGenerator
+	return serverlessUpstreamSettings_statusGenerator
 }
 
-// AddRelatedPropertyGeneratorsForServerlessUpstreamSettingsStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServerlessUpstreamSettingsStatus(gens map[string]gopter.Gen) {
-	gens["Templates"] = gen.SliceOf(UpstreamTemplateStatusGenerator())
+// AddRelatedPropertyGeneratorsForServerlessUpstreamSettings_Status is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServerlessUpstreamSettings_Status(gens map[string]gopter.Gen) {
+	gens["Templates"] = gen.SliceOf(UpstreamTemplate_StatusGenerator())
 }
 
 func Test_SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -844,12 +844,12 @@ func Test_SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded_WhenSeria
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSharedPrivateLinkResourceStatusSignalRSubResourceEmbedded, SharedPrivateLinkResourceStatusSignalRSubResourceEmbeddedGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded, SharedPrivateLinkResource_Status_SignalR_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSharedPrivateLinkResourceStatusSignalRSubResourceEmbedded runs a test to see if a specific instance of SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForSharedPrivateLinkResourceStatusSignalRSubResourceEmbedded(subject SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded) string {
+// RunJSONSerializationTestForSharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded runs a test to see if a specific instance of SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForSharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded(subject SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -876,39 +876,39 @@ func RunJSONSerializationTestForSharedPrivateLinkResourceStatusSignalRSubResourc
 }
 
 // Generator of SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded instances for property testing - lazily
-//instantiated by SharedPrivateLinkResourceStatusSignalRSubResourceEmbeddedGenerator()
-var sharedPrivateLinkResourceStatusSignalRSubResourceEmbeddedGenerator gopter.Gen
+//instantiated by SharedPrivateLinkResource_Status_SignalR_SubResourceEmbeddedGenerator()
+var sharedPrivateLinkResource_status_signalR_subResourceEmbeddedGenerator gopter.Gen
 
-// SharedPrivateLinkResourceStatusSignalRSubResourceEmbeddedGenerator returns a generator of SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded instances for property testing.
-// We first initialize sharedPrivateLinkResourceStatusSignalRSubResourceEmbeddedGenerator with a simplified generator based on the
+// SharedPrivateLinkResource_Status_SignalR_SubResourceEmbeddedGenerator returns a generator of SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded instances for property testing.
+// We first initialize sharedPrivateLinkResource_status_signalR_subResourceEmbeddedGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SharedPrivateLinkResourceStatusSignalRSubResourceEmbeddedGenerator() gopter.Gen {
-	if sharedPrivateLinkResourceStatusSignalRSubResourceEmbeddedGenerator != nil {
-		return sharedPrivateLinkResourceStatusSignalRSubResourceEmbeddedGenerator
+func SharedPrivateLinkResource_Status_SignalR_SubResourceEmbeddedGenerator() gopter.Gen {
+	if sharedPrivateLinkResource_status_signalR_subResourceEmbeddedGenerator != nil {
+		return sharedPrivateLinkResource_status_signalR_subResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSharedPrivateLinkResourceStatusSignalRSubResourceEmbedded(generators)
-	sharedPrivateLinkResourceStatusSignalRSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForSharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded(generators)
+	sharedPrivateLinkResource_status_signalR_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSharedPrivateLinkResourceStatusSignalRSubResourceEmbedded(generators)
-	AddRelatedPropertyGeneratorsForSharedPrivateLinkResourceStatusSignalRSubResourceEmbedded(generators)
-	sharedPrivateLinkResourceStatusSignalRSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForSharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded(generators)
+	AddRelatedPropertyGeneratorsForSharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded(generators)
+	sharedPrivateLinkResource_status_signalR_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded{}), generators)
 
-	return sharedPrivateLinkResourceStatusSignalRSubResourceEmbeddedGenerator
+	return sharedPrivateLinkResource_status_signalR_subResourceEmbeddedGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSharedPrivateLinkResourceStatusSignalRSubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSharedPrivateLinkResourceStatusSignalRSubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSharedPrivateLinkResourceStatusSignalRSubResourceEmbedded is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSharedPrivateLinkResourceStatusSignalRSubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemDataStatusGenerator())
+// AddRelatedPropertyGeneratorsForSharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["SystemData"] = gen.PtrOf(SystemData_StatusGenerator())
 }
 
 func Test_SignalRCorsSettings_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -918,12 +918,12 @@ func Test_SignalRCorsSettings_Spec_WhenSerializedToJson_DeserializesAsEqual(t *t
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SignalRCorsSettings_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSignalRCorsSettingsSpec, SignalRCorsSettingsSpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSignalRCorsSettings_Spec, SignalRCorsSettings_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSignalRCorsSettingsSpec runs a test to see if a specific instance of SignalRCorsSettings_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForSignalRCorsSettingsSpec(subject SignalRCorsSettings_Spec) string {
+// RunJSONSerializationTestForSignalRCorsSettings_Spec runs a test to see if a specific instance of SignalRCorsSettings_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSignalRCorsSettings_Spec(subject SignalRCorsSettings_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -950,24 +950,24 @@ func RunJSONSerializationTestForSignalRCorsSettingsSpec(subject SignalRCorsSetti
 }
 
 // Generator of SignalRCorsSettings_Spec instances for property testing - lazily instantiated by
-//SignalRCorsSettingsSpecGenerator()
-var signalRCorsSettingsSpecGenerator gopter.Gen
+//SignalRCorsSettings_SpecGenerator()
+var signalRCorsSettings_specGenerator gopter.Gen
 
-// SignalRCorsSettingsSpecGenerator returns a generator of SignalRCorsSettings_Spec instances for property testing.
-func SignalRCorsSettingsSpecGenerator() gopter.Gen {
-	if signalRCorsSettingsSpecGenerator != nil {
-		return signalRCorsSettingsSpecGenerator
+// SignalRCorsSettings_SpecGenerator returns a generator of SignalRCorsSettings_Spec instances for property testing.
+func SignalRCorsSettings_SpecGenerator() gopter.Gen {
+	if signalRCorsSettings_specGenerator != nil {
+		return signalRCorsSettings_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSignalRCorsSettingsSpec(generators)
-	signalRCorsSettingsSpecGenerator = gen.Struct(reflect.TypeOf(SignalRCorsSettings_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForSignalRCorsSettings_Spec(generators)
+	signalRCorsSettings_specGenerator = gen.Struct(reflect.TypeOf(SignalRCorsSettings_Spec{}), generators)
 
-	return signalRCorsSettingsSpecGenerator
+	return signalRCorsSettings_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSignalRCorsSettingsSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSignalRCorsSettingsSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSignalRCorsSettings_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSignalRCorsSettings_Spec(gens map[string]gopter.Gen) {
 	gens["AllowedOrigins"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -978,12 +978,12 @@ func Test_SignalRCorsSettings_Status_WhenSerializedToJson_DeserializesAsEqual(t 
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SignalRCorsSettings_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSignalRCorsSettingsStatus, SignalRCorsSettingsStatusGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSignalRCorsSettings_Status, SignalRCorsSettings_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSignalRCorsSettingsStatus runs a test to see if a specific instance of SignalRCorsSettings_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForSignalRCorsSettingsStatus(subject SignalRCorsSettings_Status) string {
+// RunJSONSerializationTestForSignalRCorsSettings_Status runs a test to see if a specific instance of SignalRCorsSettings_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForSignalRCorsSettings_Status(subject SignalRCorsSettings_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1010,24 +1010,24 @@ func RunJSONSerializationTestForSignalRCorsSettingsStatus(subject SignalRCorsSet
 }
 
 // Generator of SignalRCorsSettings_Status instances for property testing - lazily instantiated by
-//SignalRCorsSettingsStatusGenerator()
-var signalRCorsSettingsStatusGenerator gopter.Gen
+//SignalRCorsSettings_StatusGenerator()
+var signalRCorsSettings_statusGenerator gopter.Gen
 
-// SignalRCorsSettingsStatusGenerator returns a generator of SignalRCorsSettings_Status instances for property testing.
-func SignalRCorsSettingsStatusGenerator() gopter.Gen {
-	if signalRCorsSettingsStatusGenerator != nil {
-		return signalRCorsSettingsStatusGenerator
+// SignalRCorsSettings_StatusGenerator returns a generator of SignalRCorsSettings_Status instances for property testing.
+func SignalRCorsSettings_StatusGenerator() gopter.Gen {
+	if signalRCorsSettings_statusGenerator != nil {
+		return signalRCorsSettings_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSignalRCorsSettingsStatus(generators)
-	signalRCorsSettingsStatusGenerator = gen.Struct(reflect.TypeOf(SignalRCorsSettings_Status{}), generators)
+	AddIndependentPropertyGeneratorsForSignalRCorsSettings_Status(generators)
+	signalRCorsSettings_statusGenerator = gen.Struct(reflect.TypeOf(SignalRCorsSettings_Status{}), generators)
 
-	return signalRCorsSettingsStatusGenerator
+	return signalRCorsSettings_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSignalRCorsSettingsStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSignalRCorsSettingsStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSignalRCorsSettings_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSignalRCorsSettings_Status(gens map[string]gopter.Gen) {
 	gens["AllowedOrigins"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -1038,12 +1038,12 @@ func Test_SignalRFeature_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testin
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SignalRFeature_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSignalRFeatureSpec, SignalRFeatureSpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSignalRFeature_Spec, SignalRFeature_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSignalRFeatureSpec runs a test to see if a specific instance of SignalRFeature_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForSignalRFeatureSpec(subject SignalRFeature_Spec) string {
+// RunJSONSerializationTestForSignalRFeature_Spec runs a test to see if a specific instance of SignalRFeature_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSignalRFeature_Spec(subject SignalRFeature_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1069,24 +1069,25 @@ func RunJSONSerializationTestForSignalRFeatureSpec(subject SignalRFeature_Spec) 
 	return ""
 }
 
-// Generator of SignalRFeature_Spec instances for property testing - lazily instantiated by SignalRFeatureSpecGenerator()
-var signalRFeatureSpecGenerator gopter.Gen
+// Generator of SignalRFeature_Spec instances for property testing - lazily instantiated by
+//SignalRFeature_SpecGenerator()
+var signalRFeature_specGenerator gopter.Gen
 
-// SignalRFeatureSpecGenerator returns a generator of SignalRFeature_Spec instances for property testing.
-func SignalRFeatureSpecGenerator() gopter.Gen {
-	if signalRFeatureSpecGenerator != nil {
-		return signalRFeatureSpecGenerator
+// SignalRFeature_SpecGenerator returns a generator of SignalRFeature_Spec instances for property testing.
+func SignalRFeature_SpecGenerator() gopter.Gen {
+	if signalRFeature_specGenerator != nil {
+		return signalRFeature_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSignalRFeatureSpec(generators)
-	signalRFeatureSpecGenerator = gen.Struct(reflect.TypeOf(SignalRFeature_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForSignalRFeature_Spec(generators)
+	signalRFeature_specGenerator = gen.Struct(reflect.TypeOf(SignalRFeature_Spec{}), generators)
 
-	return signalRFeatureSpecGenerator
+	return signalRFeature_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSignalRFeatureSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSignalRFeatureSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSignalRFeature_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSignalRFeature_Spec(gens map[string]gopter.Gen) {
 	gens["Flag"] = gen.PtrOf(gen.AlphaString())
 	gens["Properties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
@@ -1099,12 +1100,12 @@ func Test_SignalRFeature_Status_WhenSerializedToJson_DeserializesAsEqual(t *test
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SignalRFeature_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSignalRFeatureStatus, SignalRFeatureStatusGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSignalRFeature_Status, SignalRFeature_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSignalRFeatureStatus runs a test to see if a specific instance of SignalRFeature_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForSignalRFeatureStatus(subject SignalRFeature_Status) string {
+// RunJSONSerializationTestForSignalRFeature_Status runs a test to see if a specific instance of SignalRFeature_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForSignalRFeature_Status(subject SignalRFeature_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1131,24 +1132,24 @@ func RunJSONSerializationTestForSignalRFeatureStatus(subject SignalRFeature_Stat
 }
 
 // Generator of SignalRFeature_Status instances for property testing - lazily instantiated by
-//SignalRFeatureStatusGenerator()
-var signalRFeatureStatusGenerator gopter.Gen
+//SignalRFeature_StatusGenerator()
+var signalRFeature_statusGenerator gopter.Gen
 
-// SignalRFeatureStatusGenerator returns a generator of SignalRFeature_Status instances for property testing.
-func SignalRFeatureStatusGenerator() gopter.Gen {
-	if signalRFeatureStatusGenerator != nil {
-		return signalRFeatureStatusGenerator
+// SignalRFeature_StatusGenerator returns a generator of SignalRFeature_Status instances for property testing.
+func SignalRFeature_StatusGenerator() gopter.Gen {
+	if signalRFeature_statusGenerator != nil {
+		return signalRFeature_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSignalRFeatureStatus(generators)
-	signalRFeatureStatusGenerator = gen.Struct(reflect.TypeOf(SignalRFeature_Status{}), generators)
+	AddIndependentPropertyGeneratorsForSignalRFeature_Status(generators)
+	signalRFeature_statusGenerator = gen.Struct(reflect.TypeOf(SignalRFeature_Status{}), generators)
 
-	return signalRFeatureStatusGenerator
+	return signalRFeature_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSignalRFeatureStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSignalRFeatureStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSignalRFeature_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSignalRFeature_Status(gens map[string]gopter.Gen) {
 	gens["Flag"] = gen.PtrOf(gen.AlphaString())
 	gens["Properties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
@@ -1161,12 +1162,12 @@ func Test_SignalRNetworkACLs_Spec_WhenSerializedToJson_DeserializesAsEqual(t *te
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SignalRNetworkACLs_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSignalRNetworkACLsSpec, SignalRNetworkACLsSpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSignalRNetworkACLs_Spec, SignalRNetworkACLs_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSignalRNetworkACLsSpec runs a test to see if a specific instance of SignalRNetworkACLs_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForSignalRNetworkACLsSpec(subject SignalRNetworkACLs_Spec) string {
+// RunJSONSerializationTestForSignalRNetworkACLs_Spec runs a test to see if a specific instance of SignalRNetworkACLs_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSignalRNetworkACLs_Spec(subject SignalRNetworkACLs_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1193,40 +1194,40 @@ func RunJSONSerializationTestForSignalRNetworkACLsSpec(subject SignalRNetworkACL
 }
 
 // Generator of SignalRNetworkACLs_Spec instances for property testing - lazily instantiated by
-//SignalRNetworkACLsSpecGenerator()
-var signalRNetworkACLsSpecGenerator gopter.Gen
+//SignalRNetworkACLs_SpecGenerator()
+var signalRNetworkACLs_specGenerator gopter.Gen
 
-// SignalRNetworkACLsSpecGenerator returns a generator of SignalRNetworkACLs_Spec instances for property testing.
-// We first initialize signalRNetworkACLsSpecGenerator with a simplified generator based on the
+// SignalRNetworkACLs_SpecGenerator returns a generator of SignalRNetworkACLs_Spec instances for property testing.
+// We first initialize signalRNetworkACLs_specGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SignalRNetworkACLsSpecGenerator() gopter.Gen {
-	if signalRNetworkACLsSpecGenerator != nil {
-		return signalRNetworkACLsSpecGenerator
+func SignalRNetworkACLs_SpecGenerator() gopter.Gen {
+	if signalRNetworkACLs_specGenerator != nil {
+		return signalRNetworkACLs_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSignalRNetworkACLsSpec(generators)
-	signalRNetworkACLsSpecGenerator = gen.Struct(reflect.TypeOf(SignalRNetworkACLs_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForSignalRNetworkACLs_Spec(generators)
+	signalRNetworkACLs_specGenerator = gen.Struct(reflect.TypeOf(SignalRNetworkACLs_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSignalRNetworkACLsSpec(generators)
-	AddRelatedPropertyGeneratorsForSignalRNetworkACLsSpec(generators)
-	signalRNetworkACLsSpecGenerator = gen.Struct(reflect.TypeOf(SignalRNetworkACLs_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForSignalRNetworkACLs_Spec(generators)
+	AddRelatedPropertyGeneratorsForSignalRNetworkACLs_Spec(generators)
+	signalRNetworkACLs_specGenerator = gen.Struct(reflect.TypeOf(SignalRNetworkACLs_Spec{}), generators)
 
-	return signalRNetworkACLsSpecGenerator
+	return signalRNetworkACLs_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSignalRNetworkACLsSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSignalRNetworkACLsSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSignalRNetworkACLs_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSignalRNetworkACLs_Spec(gens map[string]gopter.Gen) {
 	gens["DefaultAction"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSignalRNetworkACLsSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSignalRNetworkACLsSpec(gens map[string]gopter.Gen) {
-	gens["PrivateEndpoints"] = gen.SliceOf(PrivateEndpointACLSpecGenerator())
-	gens["PublicNetwork"] = gen.PtrOf(NetworkACLSpecGenerator())
+// AddRelatedPropertyGeneratorsForSignalRNetworkACLs_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSignalRNetworkACLs_Spec(gens map[string]gopter.Gen) {
+	gens["PrivateEndpoints"] = gen.SliceOf(PrivateEndpointACL_SpecGenerator())
+	gens["PublicNetwork"] = gen.PtrOf(NetworkACL_SpecGenerator())
 }
 
 func Test_SignalRNetworkACLs_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1236,12 +1237,12 @@ func Test_SignalRNetworkACLs_Status_WhenSerializedToJson_DeserializesAsEqual(t *
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SignalRNetworkACLs_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSignalRNetworkACLsStatus, SignalRNetworkACLsStatusGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSignalRNetworkACLs_Status, SignalRNetworkACLs_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSignalRNetworkACLsStatus runs a test to see if a specific instance of SignalRNetworkACLs_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForSignalRNetworkACLsStatus(subject SignalRNetworkACLs_Status) string {
+// RunJSONSerializationTestForSignalRNetworkACLs_Status runs a test to see if a specific instance of SignalRNetworkACLs_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForSignalRNetworkACLs_Status(subject SignalRNetworkACLs_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1268,40 +1269,40 @@ func RunJSONSerializationTestForSignalRNetworkACLsStatus(subject SignalRNetworkA
 }
 
 // Generator of SignalRNetworkACLs_Status instances for property testing - lazily instantiated by
-//SignalRNetworkACLsStatusGenerator()
-var signalRNetworkACLsStatusGenerator gopter.Gen
+//SignalRNetworkACLs_StatusGenerator()
+var signalRNetworkACLs_statusGenerator gopter.Gen
 
-// SignalRNetworkACLsStatusGenerator returns a generator of SignalRNetworkACLs_Status instances for property testing.
-// We first initialize signalRNetworkACLsStatusGenerator with a simplified generator based on the
+// SignalRNetworkACLs_StatusGenerator returns a generator of SignalRNetworkACLs_Status instances for property testing.
+// We first initialize signalRNetworkACLs_statusGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SignalRNetworkACLsStatusGenerator() gopter.Gen {
-	if signalRNetworkACLsStatusGenerator != nil {
-		return signalRNetworkACLsStatusGenerator
+func SignalRNetworkACLs_StatusGenerator() gopter.Gen {
+	if signalRNetworkACLs_statusGenerator != nil {
+		return signalRNetworkACLs_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSignalRNetworkACLsStatus(generators)
-	signalRNetworkACLsStatusGenerator = gen.Struct(reflect.TypeOf(SignalRNetworkACLs_Status{}), generators)
+	AddIndependentPropertyGeneratorsForSignalRNetworkACLs_Status(generators)
+	signalRNetworkACLs_statusGenerator = gen.Struct(reflect.TypeOf(SignalRNetworkACLs_Status{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSignalRNetworkACLsStatus(generators)
-	AddRelatedPropertyGeneratorsForSignalRNetworkACLsStatus(generators)
-	signalRNetworkACLsStatusGenerator = gen.Struct(reflect.TypeOf(SignalRNetworkACLs_Status{}), generators)
+	AddIndependentPropertyGeneratorsForSignalRNetworkACLs_Status(generators)
+	AddRelatedPropertyGeneratorsForSignalRNetworkACLs_Status(generators)
+	signalRNetworkACLs_statusGenerator = gen.Struct(reflect.TypeOf(SignalRNetworkACLs_Status{}), generators)
 
-	return signalRNetworkACLsStatusGenerator
+	return signalRNetworkACLs_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSignalRNetworkACLsStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSignalRNetworkACLsStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSignalRNetworkACLs_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSignalRNetworkACLs_Status(gens map[string]gopter.Gen) {
 	gens["DefaultAction"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSignalRNetworkACLsStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSignalRNetworkACLsStatus(gens map[string]gopter.Gen) {
-	gens["PrivateEndpoints"] = gen.SliceOf(PrivateEndpointACLStatusGenerator())
-	gens["PublicNetwork"] = gen.PtrOf(NetworkACLStatusGenerator())
+// AddRelatedPropertyGeneratorsForSignalRNetworkACLs_Status is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSignalRNetworkACLs_Status(gens map[string]gopter.Gen) {
+	gens["PrivateEndpoints"] = gen.SliceOf(PrivateEndpointACL_StatusGenerator())
+	gens["PublicNetwork"] = gen.PtrOf(NetworkACL_StatusGenerator())
 }
 
 func Test_SignalRTlsSettings_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1311,12 +1312,12 @@ func Test_SignalRTlsSettings_Spec_WhenSerializedToJson_DeserializesAsEqual(t *te
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SignalRTlsSettings_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSignalRTlsSettingsSpec, SignalRTlsSettingsSpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSignalRTlsSettings_Spec, SignalRTlsSettings_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSignalRTlsSettingsSpec runs a test to see if a specific instance of SignalRTlsSettings_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForSignalRTlsSettingsSpec(subject SignalRTlsSettings_Spec) string {
+// RunJSONSerializationTestForSignalRTlsSettings_Spec runs a test to see if a specific instance of SignalRTlsSettings_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSignalRTlsSettings_Spec(subject SignalRTlsSettings_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1343,24 +1344,24 @@ func RunJSONSerializationTestForSignalRTlsSettingsSpec(subject SignalRTlsSetting
 }
 
 // Generator of SignalRTlsSettings_Spec instances for property testing - lazily instantiated by
-//SignalRTlsSettingsSpecGenerator()
-var signalRTlsSettingsSpecGenerator gopter.Gen
+//SignalRTlsSettings_SpecGenerator()
+var signalRTlsSettings_specGenerator gopter.Gen
 
-// SignalRTlsSettingsSpecGenerator returns a generator of SignalRTlsSettings_Spec instances for property testing.
-func SignalRTlsSettingsSpecGenerator() gopter.Gen {
-	if signalRTlsSettingsSpecGenerator != nil {
-		return signalRTlsSettingsSpecGenerator
+// SignalRTlsSettings_SpecGenerator returns a generator of SignalRTlsSettings_Spec instances for property testing.
+func SignalRTlsSettings_SpecGenerator() gopter.Gen {
+	if signalRTlsSettings_specGenerator != nil {
+		return signalRTlsSettings_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSignalRTlsSettingsSpec(generators)
-	signalRTlsSettingsSpecGenerator = gen.Struct(reflect.TypeOf(SignalRTlsSettings_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForSignalRTlsSettings_Spec(generators)
+	signalRTlsSettings_specGenerator = gen.Struct(reflect.TypeOf(SignalRTlsSettings_Spec{}), generators)
 
-	return signalRTlsSettingsSpecGenerator
+	return signalRTlsSettings_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSignalRTlsSettingsSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSignalRTlsSettingsSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSignalRTlsSettings_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSignalRTlsSettings_Spec(gens map[string]gopter.Gen) {
 	gens["ClientCertEnabled"] = gen.PtrOf(gen.Bool())
 }
 
@@ -1371,12 +1372,12 @@ func Test_SignalRTlsSettings_Status_WhenSerializedToJson_DeserializesAsEqual(t *
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SignalRTlsSettings_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSignalRTlsSettingsStatus, SignalRTlsSettingsStatusGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSignalRTlsSettings_Status, SignalRTlsSettings_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSignalRTlsSettingsStatus runs a test to see if a specific instance of SignalRTlsSettings_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForSignalRTlsSettingsStatus(subject SignalRTlsSettings_Status) string {
+// RunJSONSerializationTestForSignalRTlsSettings_Status runs a test to see if a specific instance of SignalRTlsSettings_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForSignalRTlsSettings_Status(subject SignalRTlsSettings_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1403,24 +1404,24 @@ func RunJSONSerializationTestForSignalRTlsSettingsStatus(subject SignalRTlsSetti
 }
 
 // Generator of SignalRTlsSettings_Status instances for property testing - lazily instantiated by
-//SignalRTlsSettingsStatusGenerator()
-var signalRTlsSettingsStatusGenerator gopter.Gen
+//SignalRTlsSettings_StatusGenerator()
+var signalRTlsSettings_statusGenerator gopter.Gen
 
-// SignalRTlsSettingsStatusGenerator returns a generator of SignalRTlsSettings_Status instances for property testing.
-func SignalRTlsSettingsStatusGenerator() gopter.Gen {
-	if signalRTlsSettingsStatusGenerator != nil {
-		return signalRTlsSettingsStatusGenerator
+// SignalRTlsSettings_StatusGenerator returns a generator of SignalRTlsSettings_Status instances for property testing.
+func SignalRTlsSettings_StatusGenerator() gopter.Gen {
+	if signalRTlsSettings_statusGenerator != nil {
+		return signalRTlsSettings_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSignalRTlsSettingsStatus(generators)
-	signalRTlsSettingsStatusGenerator = gen.Struct(reflect.TypeOf(SignalRTlsSettings_Status{}), generators)
+	AddIndependentPropertyGeneratorsForSignalRTlsSettings_Status(generators)
+	signalRTlsSettings_statusGenerator = gen.Struct(reflect.TypeOf(SignalRTlsSettings_Status{}), generators)
 
-	return signalRTlsSettingsStatusGenerator
+	return signalRTlsSettings_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSignalRTlsSettingsStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSignalRTlsSettingsStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSignalRTlsSettings_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSignalRTlsSettings_Status(gens map[string]gopter.Gen) {
 	gens["ClientCertEnabled"] = gen.PtrOf(gen.Bool())
 }
 
@@ -1431,12 +1432,12 @@ func Test_SystemData_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SystemData_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSystemDataStatus, SystemDataStatusGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSystemData_Status, SystemData_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSystemDataStatus runs a test to see if a specific instance of SystemData_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForSystemDataStatus(subject SystemData_Status) string {
+// RunJSONSerializationTestForSystemData_Status runs a test to see if a specific instance of SystemData_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForSystemData_Status(subject SystemData_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1462,24 +1463,24 @@ func RunJSONSerializationTestForSystemDataStatus(subject SystemData_Status) stri
 	return ""
 }
 
-// Generator of SystemData_Status instances for property testing - lazily instantiated by SystemDataStatusGenerator()
-var systemDataStatusGenerator gopter.Gen
+// Generator of SystemData_Status instances for property testing - lazily instantiated by SystemData_StatusGenerator()
+var systemData_statusGenerator gopter.Gen
 
-// SystemDataStatusGenerator returns a generator of SystemData_Status instances for property testing.
-func SystemDataStatusGenerator() gopter.Gen {
-	if systemDataStatusGenerator != nil {
-		return systemDataStatusGenerator
+// SystemData_StatusGenerator returns a generator of SystemData_Status instances for property testing.
+func SystemData_StatusGenerator() gopter.Gen {
+	if systemData_statusGenerator != nil {
+		return systemData_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemDataStatus(generators)
-	systemDataStatusGenerator = gen.Struct(reflect.TypeOf(SystemData_Status{}), generators)
+	AddIndependentPropertyGeneratorsForSystemData_Status(generators)
+	systemData_statusGenerator = gen.Struct(reflect.TypeOf(SystemData_Status{}), generators)
 
-	return systemDataStatusGenerator
+	return systemData_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSystemDataStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSystemDataStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSystemData_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSystemData_Status(gens map[string]gopter.Gen) {
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.AlphaString())
@@ -1495,12 +1496,12 @@ func Test_NetworkACL_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkACL_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNetworkACLSpec, NetworkACLSpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForNetworkACL_Spec, NetworkACL_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNetworkACLSpec runs a test to see if a specific instance of NetworkACL_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForNetworkACLSpec(subject NetworkACL_Spec) string {
+// RunJSONSerializationTestForNetworkACL_Spec runs a test to see if a specific instance of NetworkACL_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNetworkACL_Spec(subject NetworkACL_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1526,24 +1527,24 @@ func RunJSONSerializationTestForNetworkACLSpec(subject NetworkACL_Spec) string {
 	return ""
 }
 
-// Generator of NetworkACL_Spec instances for property testing - lazily instantiated by NetworkACLSpecGenerator()
-var networkACLSpecGenerator gopter.Gen
+// Generator of NetworkACL_Spec instances for property testing - lazily instantiated by NetworkACL_SpecGenerator()
+var networkACL_specGenerator gopter.Gen
 
-// NetworkACLSpecGenerator returns a generator of NetworkACL_Spec instances for property testing.
-func NetworkACLSpecGenerator() gopter.Gen {
-	if networkACLSpecGenerator != nil {
-		return networkACLSpecGenerator
+// NetworkACL_SpecGenerator returns a generator of NetworkACL_Spec instances for property testing.
+func NetworkACL_SpecGenerator() gopter.Gen {
+	if networkACL_specGenerator != nil {
+		return networkACL_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkACLSpec(generators)
-	networkACLSpecGenerator = gen.Struct(reflect.TypeOf(NetworkACL_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForNetworkACL_Spec(generators)
+	networkACL_specGenerator = gen.Struct(reflect.TypeOf(NetworkACL_Spec{}), generators)
 
-	return networkACLSpecGenerator
+	return networkACL_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNetworkACLSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNetworkACLSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNetworkACL_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNetworkACL_Spec(gens map[string]gopter.Gen) {
 	gens["Allow"] = gen.SliceOf(gen.AlphaString())
 	gens["Deny"] = gen.SliceOf(gen.AlphaString())
 }
@@ -1555,12 +1556,12 @@ func Test_NetworkACL_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkACL_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNetworkACLStatus, NetworkACLStatusGenerator()))
+		prop.ForAll(RunJSONSerializationTestForNetworkACL_Status, NetworkACL_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNetworkACLStatus runs a test to see if a specific instance of NetworkACL_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForNetworkACLStatus(subject NetworkACL_Status) string {
+// RunJSONSerializationTestForNetworkACL_Status runs a test to see if a specific instance of NetworkACL_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForNetworkACL_Status(subject NetworkACL_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1586,24 +1587,24 @@ func RunJSONSerializationTestForNetworkACLStatus(subject NetworkACL_Status) stri
 	return ""
 }
 
-// Generator of NetworkACL_Status instances for property testing - lazily instantiated by NetworkACLStatusGenerator()
-var networkACLStatusGenerator gopter.Gen
+// Generator of NetworkACL_Status instances for property testing - lazily instantiated by NetworkACL_StatusGenerator()
+var networkACL_statusGenerator gopter.Gen
 
-// NetworkACLStatusGenerator returns a generator of NetworkACL_Status instances for property testing.
-func NetworkACLStatusGenerator() gopter.Gen {
-	if networkACLStatusGenerator != nil {
-		return networkACLStatusGenerator
+// NetworkACL_StatusGenerator returns a generator of NetworkACL_Status instances for property testing.
+func NetworkACL_StatusGenerator() gopter.Gen {
+	if networkACL_statusGenerator != nil {
+		return networkACL_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkACLStatus(generators)
-	networkACLStatusGenerator = gen.Struct(reflect.TypeOf(NetworkACL_Status{}), generators)
+	AddIndependentPropertyGeneratorsForNetworkACL_Status(generators)
+	networkACL_statusGenerator = gen.Struct(reflect.TypeOf(NetworkACL_Status{}), generators)
 
-	return networkACLStatusGenerator
+	return networkACL_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNetworkACLStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNetworkACLStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNetworkACL_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNetworkACL_Status(gens map[string]gopter.Gen) {
 	gens["Allow"] = gen.SliceOf(gen.AlphaString())
 	gens["Deny"] = gen.SliceOf(gen.AlphaString())
 }
@@ -1615,12 +1616,12 @@ func Test_PrivateEndpointACL_Spec_WhenSerializedToJson_DeserializesAsEqual(t *te
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PrivateEndpointACL_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpointACLSpec, PrivateEndpointACLSpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpointACL_Spec, PrivateEndpointACL_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateEndpointACLSpec runs a test to see if a specific instance of PrivateEndpointACL_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpointACLSpec(subject PrivateEndpointACL_Spec) string {
+// RunJSONSerializationTestForPrivateEndpointACL_Spec runs a test to see if a specific instance of PrivateEndpointACL_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpointACL_Spec(subject PrivateEndpointACL_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1647,24 +1648,24 @@ func RunJSONSerializationTestForPrivateEndpointACLSpec(subject PrivateEndpointAC
 }
 
 // Generator of PrivateEndpointACL_Spec instances for property testing - lazily instantiated by
-//PrivateEndpointACLSpecGenerator()
-var privateEndpointACLSpecGenerator gopter.Gen
+//PrivateEndpointACL_SpecGenerator()
+var privateEndpointACL_specGenerator gopter.Gen
 
-// PrivateEndpointACLSpecGenerator returns a generator of PrivateEndpointACL_Spec instances for property testing.
-func PrivateEndpointACLSpecGenerator() gopter.Gen {
-	if privateEndpointACLSpecGenerator != nil {
-		return privateEndpointACLSpecGenerator
+// PrivateEndpointACL_SpecGenerator returns a generator of PrivateEndpointACL_Spec instances for property testing.
+func PrivateEndpointACL_SpecGenerator() gopter.Gen {
+	if privateEndpointACL_specGenerator != nil {
+		return privateEndpointACL_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointACLSpec(generators)
-	privateEndpointACLSpecGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointACL_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateEndpointACL_Spec(generators)
+	privateEndpointACL_specGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointACL_Spec{}), generators)
 
-	return privateEndpointACLSpecGenerator
+	return privateEndpointACL_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateEndpointACLSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpointACLSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPrivateEndpointACL_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateEndpointACL_Spec(gens map[string]gopter.Gen) {
 	gens["Allow"] = gen.SliceOf(gen.AlphaString())
 	gens["Deny"] = gen.SliceOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -1677,12 +1678,12 @@ func Test_PrivateEndpointACL_Status_WhenSerializedToJson_DeserializesAsEqual(t *
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PrivateEndpointACL_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpointACLStatus, PrivateEndpointACLStatusGenerator()))
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpointACL_Status, PrivateEndpointACL_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateEndpointACLStatus runs a test to see if a specific instance of PrivateEndpointACL_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpointACLStatus(subject PrivateEndpointACL_Status) string {
+// RunJSONSerializationTestForPrivateEndpointACL_Status runs a test to see if a specific instance of PrivateEndpointACL_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpointACL_Status(subject PrivateEndpointACL_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1709,24 +1710,24 @@ func RunJSONSerializationTestForPrivateEndpointACLStatus(subject PrivateEndpoint
 }
 
 // Generator of PrivateEndpointACL_Status instances for property testing - lazily instantiated by
-//PrivateEndpointACLStatusGenerator()
-var privateEndpointACLStatusGenerator gopter.Gen
+//PrivateEndpointACL_StatusGenerator()
+var privateEndpointACL_statusGenerator gopter.Gen
 
-// PrivateEndpointACLStatusGenerator returns a generator of PrivateEndpointACL_Status instances for property testing.
-func PrivateEndpointACLStatusGenerator() gopter.Gen {
-	if privateEndpointACLStatusGenerator != nil {
-		return privateEndpointACLStatusGenerator
+// PrivateEndpointACL_StatusGenerator returns a generator of PrivateEndpointACL_Status instances for property testing.
+func PrivateEndpointACL_StatusGenerator() gopter.Gen {
+	if privateEndpointACL_statusGenerator != nil {
+		return privateEndpointACL_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointACLStatus(generators)
-	privateEndpointACLStatusGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointACL_Status{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateEndpointACL_Status(generators)
+	privateEndpointACL_statusGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointACL_Status{}), generators)
 
-	return privateEndpointACLStatusGenerator
+	return privateEndpointACL_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateEndpointACLStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpointACLStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPrivateEndpointACL_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateEndpointACL_Status(gens map[string]gopter.Gen) {
 	gens["Allow"] = gen.SliceOf(gen.AlphaString())
 	gens["Deny"] = gen.SliceOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -1739,12 +1740,12 @@ func Test_ResourceLogCategory_Spec_WhenSerializedToJson_DeserializesAsEqual(t *t
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ResourceLogCategory_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceLogCategorySpec, ResourceLogCategorySpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForResourceLogCategory_Spec, ResourceLogCategory_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForResourceLogCategorySpec runs a test to see if a specific instance of ResourceLogCategory_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceLogCategorySpec(subject ResourceLogCategory_Spec) string {
+// RunJSONSerializationTestForResourceLogCategory_Spec runs a test to see if a specific instance of ResourceLogCategory_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForResourceLogCategory_Spec(subject ResourceLogCategory_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1771,24 +1772,24 @@ func RunJSONSerializationTestForResourceLogCategorySpec(subject ResourceLogCateg
 }
 
 // Generator of ResourceLogCategory_Spec instances for property testing - lazily instantiated by
-//ResourceLogCategorySpecGenerator()
-var resourceLogCategorySpecGenerator gopter.Gen
+//ResourceLogCategory_SpecGenerator()
+var resourceLogCategory_specGenerator gopter.Gen
 
-// ResourceLogCategorySpecGenerator returns a generator of ResourceLogCategory_Spec instances for property testing.
-func ResourceLogCategorySpecGenerator() gopter.Gen {
-	if resourceLogCategorySpecGenerator != nil {
-		return resourceLogCategorySpecGenerator
+// ResourceLogCategory_SpecGenerator returns a generator of ResourceLogCategory_Spec instances for property testing.
+func ResourceLogCategory_SpecGenerator() gopter.Gen {
+	if resourceLogCategory_specGenerator != nil {
+		return resourceLogCategory_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForResourceLogCategorySpec(generators)
-	resourceLogCategorySpecGenerator = gen.Struct(reflect.TypeOf(ResourceLogCategory_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForResourceLogCategory_Spec(generators)
+	resourceLogCategory_specGenerator = gen.Struct(reflect.TypeOf(ResourceLogCategory_Spec{}), generators)
 
-	return resourceLogCategorySpecGenerator
+	return resourceLogCategory_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForResourceLogCategorySpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForResourceLogCategorySpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForResourceLogCategory_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForResourceLogCategory_Spec(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
@@ -1800,12 +1801,12 @@ func Test_ResourceLogCategory_Status_WhenSerializedToJson_DeserializesAsEqual(t 
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ResourceLogCategory_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceLogCategoryStatus, ResourceLogCategoryStatusGenerator()))
+		prop.ForAll(RunJSONSerializationTestForResourceLogCategory_Status, ResourceLogCategory_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForResourceLogCategoryStatus runs a test to see if a specific instance of ResourceLogCategory_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceLogCategoryStatus(subject ResourceLogCategory_Status) string {
+// RunJSONSerializationTestForResourceLogCategory_Status runs a test to see if a specific instance of ResourceLogCategory_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForResourceLogCategory_Status(subject ResourceLogCategory_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1832,24 +1833,24 @@ func RunJSONSerializationTestForResourceLogCategoryStatus(subject ResourceLogCat
 }
 
 // Generator of ResourceLogCategory_Status instances for property testing - lazily instantiated by
-//ResourceLogCategoryStatusGenerator()
-var resourceLogCategoryStatusGenerator gopter.Gen
+//ResourceLogCategory_StatusGenerator()
+var resourceLogCategory_statusGenerator gopter.Gen
 
-// ResourceLogCategoryStatusGenerator returns a generator of ResourceLogCategory_Status instances for property testing.
-func ResourceLogCategoryStatusGenerator() gopter.Gen {
-	if resourceLogCategoryStatusGenerator != nil {
-		return resourceLogCategoryStatusGenerator
+// ResourceLogCategory_StatusGenerator returns a generator of ResourceLogCategory_Status instances for property testing.
+func ResourceLogCategory_StatusGenerator() gopter.Gen {
+	if resourceLogCategory_statusGenerator != nil {
+		return resourceLogCategory_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForResourceLogCategoryStatus(generators)
-	resourceLogCategoryStatusGenerator = gen.Struct(reflect.TypeOf(ResourceLogCategory_Status{}), generators)
+	AddIndependentPropertyGeneratorsForResourceLogCategory_Status(generators)
+	resourceLogCategory_statusGenerator = gen.Struct(reflect.TypeOf(ResourceLogCategory_Status{}), generators)
 
-	return resourceLogCategoryStatusGenerator
+	return resourceLogCategory_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForResourceLogCategoryStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForResourceLogCategoryStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForResourceLogCategory_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForResourceLogCategory_Status(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
@@ -1861,12 +1862,12 @@ func Test_UpstreamTemplate_Spec_WhenSerializedToJson_DeserializesAsEqual(t *test
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UpstreamTemplate_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUpstreamTemplateSpec, UpstreamTemplateSpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForUpstreamTemplate_Spec, UpstreamTemplate_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForUpstreamTemplateSpec runs a test to see if a specific instance of UpstreamTemplate_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForUpstreamTemplateSpec(subject UpstreamTemplate_Spec) string {
+// RunJSONSerializationTestForUpstreamTemplate_Spec runs a test to see if a specific instance of UpstreamTemplate_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForUpstreamTemplate_Spec(subject UpstreamTemplate_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1893,42 +1894,42 @@ func RunJSONSerializationTestForUpstreamTemplateSpec(subject UpstreamTemplate_Sp
 }
 
 // Generator of UpstreamTemplate_Spec instances for property testing - lazily instantiated by
-//UpstreamTemplateSpecGenerator()
-var upstreamTemplateSpecGenerator gopter.Gen
+//UpstreamTemplate_SpecGenerator()
+var upstreamTemplate_specGenerator gopter.Gen
 
-// UpstreamTemplateSpecGenerator returns a generator of UpstreamTemplate_Spec instances for property testing.
-// We first initialize upstreamTemplateSpecGenerator with a simplified generator based on the
+// UpstreamTemplate_SpecGenerator returns a generator of UpstreamTemplate_Spec instances for property testing.
+// We first initialize upstreamTemplate_specGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func UpstreamTemplateSpecGenerator() gopter.Gen {
-	if upstreamTemplateSpecGenerator != nil {
-		return upstreamTemplateSpecGenerator
+func UpstreamTemplate_SpecGenerator() gopter.Gen {
+	if upstreamTemplate_specGenerator != nil {
+		return upstreamTemplate_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUpstreamTemplateSpec(generators)
-	upstreamTemplateSpecGenerator = gen.Struct(reflect.TypeOf(UpstreamTemplate_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForUpstreamTemplate_Spec(generators)
+	upstreamTemplate_specGenerator = gen.Struct(reflect.TypeOf(UpstreamTemplate_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUpstreamTemplateSpec(generators)
-	AddRelatedPropertyGeneratorsForUpstreamTemplateSpec(generators)
-	upstreamTemplateSpecGenerator = gen.Struct(reflect.TypeOf(UpstreamTemplate_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForUpstreamTemplate_Spec(generators)
+	AddRelatedPropertyGeneratorsForUpstreamTemplate_Spec(generators)
+	upstreamTemplate_specGenerator = gen.Struct(reflect.TypeOf(UpstreamTemplate_Spec{}), generators)
 
-	return upstreamTemplateSpecGenerator
+	return upstreamTemplate_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUpstreamTemplateSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUpstreamTemplateSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForUpstreamTemplate_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUpstreamTemplate_Spec(gens map[string]gopter.Gen) {
 	gens["CategoryPattern"] = gen.PtrOf(gen.AlphaString())
 	gens["EventPattern"] = gen.PtrOf(gen.AlphaString())
 	gens["HubPattern"] = gen.PtrOf(gen.AlphaString())
 	gens["UrlTemplate"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForUpstreamTemplateSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUpstreamTemplateSpec(gens map[string]gopter.Gen) {
-	gens["Auth"] = gen.PtrOf(UpstreamAuthSettingsSpecGenerator())
+// AddRelatedPropertyGeneratorsForUpstreamTemplate_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForUpstreamTemplate_Spec(gens map[string]gopter.Gen) {
+	gens["Auth"] = gen.PtrOf(UpstreamAuthSettings_SpecGenerator())
 }
 
 func Test_UpstreamTemplate_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1938,12 +1939,12 @@ func Test_UpstreamTemplate_Status_WhenSerializedToJson_DeserializesAsEqual(t *te
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UpstreamTemplate_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUpstreamTemplateStatus, UpstreamTemplateStatusGenerator()))
+		prop.ForAll(RunJSONSerializationTestForUpstreamTemplate_Status, UpstreamTemplate_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForUpstreamTemplateStatus runs a test to see if a specific instance of UpstreamTemplate_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForUpstreamTemplateStatus(subject UpstreamTemplate_Status) string {
+// RunJSONSerializationTestForUpstreamTemplate_Status runs a test to see if a specific instance of UpstreamTemplate_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForUpstreamTemplate_Status(subject UpstreamTemplate_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1970,42 +1971,42 @@ func RunJSONSerializationTestForUpstreamTemplateStatus(subject UpstreamTemplate_
 }
 
 // Generator of UpstreamTemplate_Status instances for property testing - lazily instantiated by
-//UpstreamTemplateStatusGenerator()
-var upstreamTemplateStatusGenerator gopter.Gen
+//UpstreamTemplate_StatusGenerator()
+var upstreamTemplate_statusGenerator gopter.Gen
 
-// UpstreamTemplateStatusGenerator returns a generator of UpstreamTemplate_Status instances for property testing.
-// We first initialize upstreamTemplateStatusGenerator with a simplified generator based on the
+// UpstreamTemplate_StatusGenerator returns a generator of UpstreamTemplate_Status instances for property testing.
+// We first initialize upstreamTemplate_statusGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func UpstreamTemplateStatusGenerator() gopter.Gen {
-	if upstreamTemplateStatusGenerator != nil {
-		return upstreamTemplateStatusGenerator
+func UpstreamTemplate_StatusGenerator() gopter.Gen {
+	if upstreamTemplate_statusGenerator != nil {
+		return upstreamTemplate_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUpstreamTemplateStatus(generators)
-	upstreamTemplateStatusGenerator = gen.Struct(reflect.TypeOf(UpstreamTemplate_Status{}), generators)
+	AddIndependentPropertyGeneratorsForUpstreamTemplate_Status(generators)
+	upstreamTemplate_statusGenerator = gen.Struct(reflect.TypeOf(UpstreamTemplate_Status{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUpstreamTemplateStatus(generators)
-	AddRelatedPropertyGeneratorsForUpstreamTemplateStatus(generators)
-	upstreamTemplateStatusGenerator = gen.Struct(reflect.TypeOf(UpstreamTemplate_Status{}), generators)
+	AddIndependentPropertyGeneratorsForUpstreamTemplate_Status(generators)
+	AddRelatedPropertyGeneratorsForUpstreamTemplate_Status(generators)
+	upstreamTemplate_statusGenerator = gen.Struct(reflect.TypeOf(UpstreamTemplate_Status{}), generators)
 
-	return upstreamTemplateStatusGenerator
+	return upstreamTemplate_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUpstreamTemplateStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUpstreamTemplateStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForUpstreamTemplate_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUpstreamTemplate_Status(gens map[string]gopter.Gen) {
 	gens["CategoryPattern"] = gen.PtrOf(gen.AlphaString())
 	gens["EventPattern"] = gen.PtrOf(gen.AlphaString())
 	gens["HubPattern"] = gen.PtrOf(gen.AlphaString())
 	gens["UrlTemplate"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForUpstreamTemplateStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUpstreamTemplateStatus(gens map[string]gopter.Gen) {
-	gens["Auth"] = gen.PtrOf(UpstreamAuthSettingsStatusGenerator())
+// AddRelatedPropertyGeneratorsForUpstreamTemplate_Status is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForUpstreamTemplate_Status(gens map[string]gopter.Gen) {
+	gens["Auth"] = gen.PtrOf(UpstreamAuthSettings_StatusGenerator())
 }
 
 func Test_UserAssignedIdentityProperty_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2015,12 +2016,12 @@ func Test_UserAssignedIdentityProperty_Status_WhenSerializedToJson_DeserializesA
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UserAssignedIdentityProperty_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentityPropertyStatus, UserAssignedIdentityPropertyStatusGenerator()))
+		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentityProperty_Status, UserAssignedIdentityProperty_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForUserAssignedIdentityPropertyStatus runs a test to see if a specific instance of UserAssignedIdentityProperty_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForUserAssignedIdentityPropertyStatus(subject UserAssignedIdentityProperty_Status) string {
+// RunJSONSerializationTestForUserAssignedIdentityProperty_Status runs a test to see if a specific instance of UserAssignedIdentityProperty_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForUserAssignedIdentityProperty_Status(subject UserAssignedIdentityProperty_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2047,24 +2048,24 @@ func RunJSONSerializationTestForUserAssignedIdentityPropertyStatus(subject UserA
 }
 
 // Generator of UserAssignedIdentityProperty_Status instances for property testing - lazily instantiated by
-//UserAssignedIdentityPropertyStatusGenerator()
-var userAssignedIdentityPropertyStatusGenerator gopter.Gen
+//UserAssignedIdentityProperty_StatusGenerator()
+var userAssignedIdentityProperty_statusGenerator gopter.Gen
 
-// UserAssignedIdentityPropertyStatusGenerator returns a generator of UserAssignedIdentityProperty_Status instances for property testing.
-func UserAssignedIdentityPropertyStatusGenerator() gopter.Gen {
-	if userAssignedIdentityPropertyStatusGenerator != nil {
-		return userAssignedIdentityPropertyStatusGenerator
+// UserAssignedIdentityProperty_StatusGenerator returns a generator of UserAssignedIdentityProperty_Status instances for property testing.
+func UserAssignedIdentityProperty_StatusGenerator() gopter.Gen {
+	if userAssignedIdentityProperty_statusGenerator != nil {
+		return userAssignedIdentityProperty_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUserAssignedIdentityPropertyStatus(generators)
-	userAssignedIdentityPropertyStatusGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentityProperty_Status{}), generators)
+	AddIndependentPropertyGeneratorsForUserAssignedIdentityProperty_Status(generators)
+	userAssignedIdentityProperty_statusGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentityProperty_Status{}), generators)
 
-	return userAssignedIdentityPropertyStatusGenerator
+	return userAssignedIdentityProperty_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUserAssignedIdentityPropertyStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUserAssignedIdentityPropertyStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForUserAssignedIdentityProperty_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUserAssignedIdentityProperty_Status(gens map[string]gopter.Gen) {
 	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 }
@@ -2076,12 +2077,12 @@ func Test_UpstreamAuthSettings_Spec_WhenSerializedToJson_DeserializesAsEqual(t *
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UpstreamAuthSettings_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUpstreamAuthSettingsSpec, UpstreamAuthSettingsSpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForUpstreamAuthSettings_Spec, UpstreamAuthSettings_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForUpstreamAuthSettingsSpec runs a test to see if a specific instance of UpstreamAuthSettings_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForUpstreamAuthSettingsSpec(subject UpstreamAuthSettings_Spec) string {
+// RunJSONSerializationTestForUpstreamAuthSettings_Spec runs a test to see if a specific instance of UpstreamAuthSettings_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForUpstreamAuthSettings_Spec(subject UpstreamAuthSettings_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2108,39 +2109,39 @@ func RunJSONSerializationTestForUpstreamAuthSettingsSpec(subject UpstreamAuthSet
 }
 
 // Generator of UpstreamAuthSettings_Spec instances for property testing - lazily instantiated by
-//UpstreamAuthSettingsSpecGenerator()
-var upstreamAuthSettingsSpecGenerator gopter.Gen
+//UpstreamAuthSettings_SpecGenerator()
+var upstreamAuthSettings_specGenerator gopter.Gen
 
-// UpstreamAuthSettingsSpecGenerator returns a generator of UpstreamAuthSettings_Spec instances for property testing.
-// We first initialize upstreamAuthSettingsSpecGenerator with a simplified generator based on the
+// UpstreamAuthSettings_SpecGenerator returns a generator of UpstreamAuthSettings_Spec instances for property testing.
+// We first initialize upstreamAuthSettings_specGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func UpstreamAuthSettingsSpecGenerator() gopter.Gen {
-	if upstreamAuthSettingsSpecGenerator != nil {
-		return upstreamAuthSettingsSpecGenerator
+func UpstreamAuthSettings_SpecGenerator() gopter.Gen {
+	if upstreamAuthSettings_specGenerator != nil {
+		return upstreamAuthSettings_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUpstreamAuthSettingsSpec(generators)
-	upstreamAuthSettingsSpecGenerator = gen.Struct(reflect.TypeOf(UpstreamAuthSettings_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForUpstreamAuthSettings_Spec(generators)
+	upstreamAuthSettings_specGenerator = gen.Struct(reflect.TypeOf(UpstreamAuthSettings_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUpstreamAuthSettingsSpec(generators)
-	AddRelatedPropertyGeneratorsForUpstreamAuthSettingsSpec(generators)
-	upstreamAuthSettingsSpecGenerator = gen.Struct(reflect.TypeOf(UpstreamAuthSettings_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForUpstreamAuthSettings_Spec(generators)
+	AddRelatedPropertyGeneratorsForUpstreamAuthSettings_Spec(generators)
+	upstreamAuthSettings_specGenerator = gen.Struct(reflect.TypeOf(UpstreamAuthSettings_Spec{}), generators)
 
-	return upstreamAuthSettingsSpecGenerator
+	return upstreamAuthSettings_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUpstreamAuthSettingsSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUpstreamAuthSettingsSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForUpstreamAuthSettings_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUpstreamAuthSettings_Spec(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForUpstreamAuthSettingsSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUpstreamAuthSettingsSpec(gens map[string]gopter.Gen) {
-	gens["ManagedIdentity"] = gen.PtrOf(ManagedIdentitySettingsSpecGenerator())
+// AddRelatedPropertyGeneratorsForUpstreamAuthSettings_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForUpstreamAuthSettings_Spec(gens map[string]gopter.Gen) {
+	gens["ManagedIdentity"] = gen.PtrOf(ManagedIdentitySettings_SpecGenerator())
 }
 
 func Test_UpstreamAuthSettings_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2150,12 +2151,12 @@ func Test_UpstreamAuthSettings_Status_WhenSerializedToJson_DeserializesAsEqual(t
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UpstreamAuthSettings_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUpstreamAuthSettingsStatus, UpstreamAuthSettingsStatusGenerator()))
+		prop.ForAll(RunJSONSerializationTestForUpstreamAuthSettings_Status, UpstreamAuthSettings_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForUpstreamAuthSettingsStatus runs a test to see if a specific instance of UpstreamAuthSettings_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForUpstreamAuthSettingsStatus(subject UpstreamAuthSettings_Status) string {
+// RunJSONSerializationTestForUpstreamAuthSettings_Status runs a test to see if a specific instance of UpstreamAuthSettings_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForUpstreamAuthSettings_Status(subject UpstreamAuthSettings_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2182,39 +2183,39 @@ func RunJSONSerializationTestForUpstreamAuthSettingsStatus(subject UpstreamAuthS
 }
 
 // Generator of UpstreamAuthSettings_Status instances for property testing - lazily instantiated by
-//UpstreamAuthSettingsStatusGenerator()
-var upstreamAuthSettingsStatusGenerator gopter.Gen
+//UpstreamAuthSettings_StatusGenerator()
+var upstreamAuthSettings_statusGenerator gopter.Gen
 
-// UpstreamAuthSettingsStatusGenerator returns a generator of UpstreamAuthSettings_Status instances for property testing.
-// We first initialize upstreamAuthSettingsStatusGenerator with a simplified generator based on the
+// UpstreamAuthSettings_StatusGenerator returns a generator of UpstreamAuthSettings_Status instances for property testing.
+// We first initialize upstreamAuthSettings_statusGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func UpstreamAuthSettingsStatusGenerator() gopter.Gen {
-	if upstreamAuthSettingsStatusGenerator != nil {
-		return upstreamAuthSettingsStatusGenerator
+func UpstreamAuthSettings_StatusGenerator() gopter.Gen {
+	if upstreamAuthSettings_statusGenerator != nil {
+		return upstreamAuthSettings_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUpstreamAuthSettingsStatus(generators)
-	upstreamAuthSettingsStatusGenerator = gen.Struct(reflect.TypeOf(UpstreamAuthSettings_Status{}), generators)
+	AddIndependentPropertyGeneratorsForUpstreamAuthSettings_Status(generators)
+	upstreamAuthSettings_statusGenerator = gen.Struct(reflect.TypeOf(UpstreamAuthSettings_Status{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUpstreamAuthSettingsStatus(generators)
-	AddRelatedPropertyGeneratorsForUpstreamAuthSettingsStatus(generators)
-	upstreamAuthSettingsStatusGenerator = gen.Struct(reflect.TypeOf(UpstreamAuthSettings_Status{}), generators)
+	AddIndependentPropertyGeneratorsForUpstreamAuthSettings_Status(generators)
+	AddRelatedPropertyGeneratorsForUpstreamAuthSettings_Status(generators)
+	upstreamAuthSettings_statusGenerator = gen.Struct(reflect.TypeOf(UpstreamAuthSettings_Status{}), generators)
 
-	return upstreamAuthSettingsStatusGenerator
+	return upstreamAuthSettings_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUpstreamAuthSettingsStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUpstreamAuthSettingsStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForUpstreamAuthSettings_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUpstreamAuthSettings_Status(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForUpstreamAuthSettingsStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUpstreamAuthSettingsStatus(gens map[string]gopter.Gen) {
-	gens["ManagedIdentity"] = gen.PtrOf(ManagedIdentitySettingsStatusGenerator())
+// AddRelatedPropertyGeneratorsForUpstreamAuthSettings_Status is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForUpstreamAuthSettings_Status(gens map[string]gopter.Gen) {
+	gens["ManagedIdentity"] = gen.PtrOf(ManagedIdentitySettings_StatusGenerator())
 }
 
 func Test_ManagedIdentitySettings_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2224,12 +2225,12 @@ func Test_ManagedIdentitySettings_Spec_WhenSerializedToJson_DeserializesAsEqual(
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedIdentitySettings_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedIdentitySettingsSpec, ManagedIdentitySettingsSpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForManagedIdentitySettings_Spec, ManagedIdentitySettings_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedIdentitySettingsSpec runs a test to see if a specific instance of ManagedIdentitySettings_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedIdentitySettingsSpec(subject ManagedIdentitySettings_Spec) string {
+// RunJSONSerializationTestForManagedIdentitySettings_Spec runs a test to see if a specific instance of ManagedIdentitySettings_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedIdentitySettings_Spec(subject ManagedIdentitySettings_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2256,24 +2257,24 @@ func RunJSONSerializationTestForManagedIdentitySettingsSpec(subject ManagedIdent
 }
 
 // Generator of ManagedIdentitySettings_Spec instances for property testing - lazily instantiated by
-//ManagedIdentitySettingsSpecGenerator()
-var managedIdentitySettingsSpecGenerator gopter.Gen
+//ManagedIdentitySettings_SpecGenerator()
+var managedIdentitySettings_specGenerator gopter.Gen
 
-// ManagedIdentitySettingsSpecGenerator returns a generator of ManagedIdentitySettings_Spec instances for property testing.
-func ManagedIdentitySettingsSpecGenerator() gopter.Gen {
-	if managedIdentitySettingsSpecGenerator != nil {
-		return managedIdentitySettingsSpecGenerator
+// ManagedIdentitySettings_SpecGenerator returns a generator of ManagedIdentitySettings_Spec instances for property testing.
+func ManagedIdentitySettings_SpecGenerator() gopter.Gen {
+	if managedIdentitySettings_specGenerator != nil {
+		return managedIdentitySettings_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedIdentitySettingsSpec(generators)
-	managedIdentitySettingsSpecGenerator = gen.Struct(reflect.TypeOf(ManagedIdentitySettings_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForManagedIdentitySettings_Spec(generators)
+	managedIdentitySettings_specGenerator = gen.Struct(reflect.TypeOf(ManagedIdentitySettings_Spec{}), generators)
 
-	return managedIdentitySettingsSpecGenerator
+	return managedIdentitySettings_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedIdentitySettingsSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedIdentitySettingsSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedIdentitySettings_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedIdentitySettings_Spec(gens map[string]gopter.Gen) {
 	gens["Resource"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -2284,12 +2285,12 @@ func Test_ManagedIdentitySettings_Status_WhenSerializedToJson_DeserializesAsEqua
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedIdentitySettings_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedIdentitySettingsStatus, ManagedIdentitySettingsStatusGenerator()))
+		prop.ForAll(RunJSONSerializationTestForManagedIdentitySettings_Status, ManagedIdentitySettings_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedIdentitySettingsStatus runs a test to see if a specific instance of ManagedIdentitySettings_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedIdentitySettingsStatus(subject ManagedIdentitySettings_Status) string {
+// RunJSONSerializationTestForManagedIdentitySettings_Status runs a test to see if a specific instance of ManagedIdentitySettings_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedIdentitySettings_Status(subject ManagedIdentitySettings_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2316,23 +2317,23 @@ func RunJSONSerializationTestForManagedIdentitySettingsStatus(subject ManagedIde
 }
 
 // Generator of ManagedIdentitySettings_Status instances for property testing - lazily instantiated by
-//ManagedIdentitySettingsStatusGenerator()
-var managedIdentitySettingsStatusGenerator gopter.Gen
+//ManagedIdentitySettings_StatusGenerator()
+var managedIdentitySettings_statusGenerator gopter.Gen
 
-// ManagedIdentitySettingsStatusGenerator returns a generator of ManagedIdentitySettings_Status instances for property testing.
-func ManagedIdentitySettingsStatusGenerator() gopter.Gen {
-	if managedIdentitySettingsStatusGenerator != nil {
-		return managedIdentitySettingsStatusGenerator
+// ManagedIdentitySettings_StatusGenerator returns a generator of ManagedIdentitySettings_Status instances for property testing.
+func ManagedIdentitySettings_StatusGenerator() gopter.Gen {
+	if managedIdentitySettings_statusGenerator != nil {
+		return managedIdentitySettings_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedIdentitySettingsStatus(generators)
-	managedIdentitySettingsStatusGenerator = gen.Struct(reflect.TypeOf(ManagedIdentitySettings_Status{}), generators)
+	AddIndependentPropertyGeneratorsForManagedIdentitySettings_Status(generators)
+	managedIdentitySettings_statusGenerator = gen.Struct(reflect.TypeOf(ManagedIdentitySettings_Status{}), generators)
 
-	return managedIdentitySettingsStatusGenerator
+	return managedIdentitySettings_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedIdentitySettingsStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedIdentitySettingsStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedIdentitySettings_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedIdentitySettings_Status(gens map[string]gopter.Gen) {
 	gens["Resource"] = gen.PtrOf(gen.AlphaString())
 }

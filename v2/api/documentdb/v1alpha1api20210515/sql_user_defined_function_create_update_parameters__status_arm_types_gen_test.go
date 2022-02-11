@@ -24,12 +24,12 @@ func Test_SqlUserDefinedFunctionCreateUpdateParameters_StatusARM_WhenSerializedT
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlUserDefinedFunctionCreateUpdateParameters_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlUserDefinedFunctionCreateUpdateParametersStatusARM, SqlUserDefinedFunctionCreateUpdateParametersStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSqlUserDefinedFunctionCreateUpdateParameters_StatusARM, SqlUserDefinedFunctionCreateUpdateParameters_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlUserDefinedFunctionCreateUpdateParametersStatusARM runs a test to see if a specific instance of SqlUserDefinedFunctionCreateUpdateParameters_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlUserDefinedFunctionCreateUpdateParametersStatusARM(subject SqlUserDefinedFunctionCreateUpdateParameters_StatusARM) string {
+// RunJSONSerializationTestForSqlUserDefinedFunctionCreateUpdateParameters_StatusARM runs a test to see if a specific instance of SqlUserDefinedFunctionCreateUpdateParameters_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlUserDefinedFunctionCreateUpdateParameters_StatusARM(subject SqlUserDefinedFunctionCreateUpdateParameters_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,33 +56,33 @@ func RunJSONSerializationTestForSqlUserDefinedFunctionCreateUpdateParametersStat
 }
 
 // Generator of SqlUserDefinedFunctionCreateUpdateParameters_StatusARM instances for property testing - lazily
-//instantiated by SqlUserDefinedFunctionCreateUpdateParametersStatusARMGenerator()
-var sqlUserDefinedFunctionCreateUpdateParametersStatusARMGenerator gopter.Gen
+//instantiated by SqlUserDefinedFunctionCreateUpdateParameters_StatusARMGenerator()
+var sqlUserDefinedFunctionCreateUpdateParameters_statusARMGenerator gopter.Gen
 
-// SqlUserDefinedFunctionCreateUpdateParametersStatusARMGenerator returns a generator of SqlUserDefinedFunctionCreateUpdateParameters_StatusARM instances for property testing.
-// We first initialize sqlUserDefinedFunctionCreateUpdateParametersStatusARMGenerator with a simplified generator based on the
+// SqlUserDefinedFunctionCreateUpdateParameters_StatusARMGenerator returns a generator of SqlUserDefinedFunctionCreateUpdateParameters_StatusARM instances for property testing.
+// We first initialize sqlUserDefinedFunctionCreateUpdateParameters_statusARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SqlUserDefinedFunctionCreateUpdateParametersStatusARMGenerator() gopter.Gen {
-	if sqlUserDefinedFunctionCreateUpdateParametersStatusARMGenerator != nil {
-		return sqlUserDefinedFunctionCreateUpdateParametersStatusARMGenerator
+func SqlUserDefinedFunctionCreateUpdateParameters_StatusARMGenerator() gopter.Gen {
+	if sqlUserDefinedFunctionCreateUpdateParameters_statusARMGenerator != nil {
+		return sqlUserDefinedFunctionCreateUpdateParameters_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdateParametersStatusARM(generators)
-	sqlUserDefinedFunctionCreateUpdateParametersStatusARMGenerator = gen.Struct(reflect.TypeOf(SqlUserDefinedFunctionCreateUpdateParameters_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdateParameters_StatusARM(generators)
+	sqlUserDefinedFunctionCreateUpdateParameters_statusARMGenerator = gen.Struct(reflect.TypeOf(SqlUserDefinedFunctionCreateUpdateParameters_StatusARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdateParametersStatusARM(generators)
-	AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdateParametersStatusARM(generators)
-	sqlUserDefinedFunctionCreateUpdateParametersStatusARMGenerator = gen.Struct(reflect.TypeOf(SqlUserDefinedFunctionCreateUpdateParameters_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdateParameters_StatusARM(generators)
+	AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdateParameters_StatusARM(generators)
+	sqlUserDefinedFunctionCreateUpdateParameters_statusARMGenerator = gen.Struct(reflect.TypeOf(SqlUserDefinedFunctionCreateUpdateParameters_StatusARM{}), generators)
 
-	return sqlUserDefinedFunctionCreateUpdateParametersStatusARMGenerator
+	return sqlUserDefinedFunctionCreateUpdateParameters_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdateParametersStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdateParametersStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdateParameters_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdateParameters_StatusARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -90,9 +90,9 @@ func AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdateParame
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdateParametersStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdateParametersStatusARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(SqlUserDefinedFunctionCreateUpdatePropertiesStatusARMGenerator())
+// AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdateParameters_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdateParameters_StatusARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(SqlUserDefinedFunctionCreateUpdateProperties_StatusARMGenerator())
 }
 
 func Test_SqlUserDefinedFunctionCreateUpdateProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -102,12 +102,12 @@ func Test_SqlUserDefinedFunctionCreateUpdateProperties_StatusARM_WhenSerializedT
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlUserDefinedFunctionCreateUpdateProperties_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlUserDefinedFunctionCreateUpdatePropertiesStatusARM, SqlUserDefinedFunctionCreateUpdatePropertiesStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSqlUserDefinedFunctionCreateUpdateProperties_StatusARM, SqlUserDefinedFunctionCreateUpdateProperties_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlUserDefinedFunctionCreateUpdatePropertiesStatusARM runs a test to see if a specific instance of SqlUserDefinedFunctionCreateUpdateProperties_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlUserDefinedFunctionCreateUpdatePropertiesStatusARM(subject SqlUserDefinedFunctionCreateUpdateProperties_StatusARM) string {
+// RunJSONSerializationTestForSqlUserDefinedFunctionCreateUpdateProperties_StatusARM runs a test to see if a specific instance of SqlUserDefinedFunctionCreateUpdateProperties_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlUserDefinedFunctionCreateUpdateProperties_StatusARM(subject SqlUserDefinedFunctionCreateUpdateProperties_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -134,26 +134,26 @@ func RunJSONSerializationTestForSqlUserDefinedFunctionCreateUpdatePropertiesStat
 }
 
 // Generator of SqlUserDefinedFunctionCreateUpdateProperties_StatusARM instances for property testing - lazily
-//instantiated by SqlUserDefinedFunctionCreateUpdatePropertiesStatusARMGenerator()
-var sqlUserDefinedFunctionCreateUpdatePropertiesStatusARMGenerator gopter.Gen
+//instantiated by SqlUserDefinedFunctionCreateUpdateProperties_StatusARMGenerator()
+var sqlUserDefinedFunctionCreateUpdateProperties_statusARMGenerator gopter.Gen
 
-// SqlUserDefinedFunctionCreateUpdatePropertiesStatusARMGenerator returns a generator of SqlUserDefinedFunctionCreateUpdateProperties_StatusARM instances for property testing.
-func SqlUserDefinedFunctionCreateUpdatePropertiesStatusARMGenerator() gopter.Gen {
-	if sqlUserDefinedFunctionCreateUpdatePropertiesStatusARMGenerator != nil {
-		return sqlUserDefinedFunctionCreateUpdatePropertiesStatusARMGenerator
+// SqlUserDefinedFunctionCreateUpdateProperties_StatusARMGenerator returns a generator of SqlUserDefinedFunctionCreateUpdateProperties_StatusARM instances for property testing.
+func SqlUserDefinedFunctionCreateUpdateProperties_StatusARMGenerator() gopter.Gen {
+	if sqlUserDefinedFunctionCreateUpdateProperties_statusARMGenerator != nil {
+		return sqlUserDefinedFunctionCreateUpdateProperties_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdatePropertiesStatusARM(generators)
-	sqlUserDefinedFunctionCreateUpdatePropertiesStatusARMGenerator = gen.Struct(reflect.TypeOf(SqlUserDefinedFunctionCreateUpdateProperties_StatusARM{}), generators)
+	AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdateProperties_StatusARM(generators)
+	sqlUserDefinedFunctionCreateUpdateProperties_statusARMGenerator = gen.Struct(reflect.TypeOf(SqlUserDefinedFunctionCreateUpdateProperties_StatusARM{}), generators)
 
-	return sqlUserDefinedFunctionCreateUpdatePropertiesStatusARMGenerator
+	return sqlUserDefinedFunctionCreateUpdateProperties_statusARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdatePropertiesStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdatePropertiesStatusARM(gens map[string]gopter.Gen) {
-	gens["Options"] = gen.PtrOf(CreateUpdateOptionsStatusARMGenerator())
-	gens["Resource"] = SqlUserDefinedFunctionResourceStatusARMGenerator()
+// AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdateProperties_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdateProperties_StatusARM(gens map[string]gopter.Gen) {
+	gens["Options"] = gen.PtrOf(CreateUpdateOptions_StatusARMGenerator())
+	gens["Resource"] = SqlUserDefinedFunctionResource_StatusARMGenerator()
 }
 
 func Test_SqlUserDefinedFunctionResource_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -163,12 +163,12 @@ func Test_SqlUserDefinedFunctionResource_StatusARM_WhenSerializedToJson_Deserial
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlUserDefinedFunctionResource_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlUserDefinedFunctionResourceStatusARM, SqlUserDefinedFunctionResourceStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSqlUserDefinedFunctionResource_StatusARM, SqlUserDefinedFunctionResource_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlUserDefinedFunctionResourceStatusARM runs a test to see if a specific instance of SqlUserDefinedFunctionResource_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlUserDefinedFunctionResourceStatusARM(subject SqlUserDefinedFunctionResource_StatusARM) string {
+// RunJSONSerializationTestForSqlUserDefinedFunctionResource_StatusARM runs a test to see if a specific instance of SqlUserDefinedFunctionResource_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlUserDefinedFunctionResource_StatusARM(subject SqlUserDefinedFunctionResource_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -195,24 +195,24 @@ func RunJSONSerializationTestForSqlUserDefinedFunctionResourceStatusARM(subject 
 }
 
 // Generator of SqlUserDefinedFunctionResource_StatusARM instances for property testing - lazily instantiated by
-//SqlUserDefinedFunctionResourceStatusARMGenerator()
-var sqlUserDefinedFunctionResourceStatusARMGenerator gopter.Gen
+//SqlUserDefinedFunctionResource_StatusARMGenerator()
+var sqlUserDefinedFunctionResource_statusARMGenerator gopter.Gen
 
-// SqlUserDefinedFunctionResourceStatusARMGenerator returns a generator of SqlUserDefinedFunctionResource_StatusARM instances for property testing.
-func SqlUserDefinedFunctionResourceStatusARMGenerator() gopter.Gen {
-	if sqlUserDefinedFunctionResourceStatusARMGenerator != nil {
-		return sqlUserDefinedFunctionResourceStatusARMGenerator
+// SqlUserDefinedFunctionResource_StatusARMGenerator returns a generator of SqlUserDefinedFunctionResource_StatusARM instances for property testing.
+func SqlUserDefinedFunctionResource_StatusARMGenerator() gopter.Gen {
+	if sqlUserDefinedFunctionResource_statusARMGenerator != nil {
+		return sqlUserDefinedFunctionResource_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionResourceStatusARM(generators)
-	sqlUserDefinedFunctionResourceStatusARMGenerator = gen.Struct(reflect.TypeOf(SqlUserDefinedFunctionResource_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionResource_StatusARM(generators)
+	sqlUserDefinedFunctionResource_statusARMGenerator = gen.Struct(reflect.TypeOf(SqlUserDefinedFunctionResource_StatusARM{}), generators)
 
-	return sqlUserDefinedFunctionResourceStatusARMGenerator
+	return sqlUserDefinedFunctionResource_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionResourceStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionResourceStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionResource_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionResource_StatusARM(gens map[string]gopter.Gen) {
 	gens["Body"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.AlphaString()
 }

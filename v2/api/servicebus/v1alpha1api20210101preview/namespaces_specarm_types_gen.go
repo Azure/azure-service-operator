@@ -44,7 +44,7 @@ func (specarm Namespaces_SPECARM) GetType() string {
 
 type Identity_SpecARM struct {
 	//Type: Type of managed service identity.
-	Type *IdentitySpecType `json:"type,omitempty"`
+	Type *Identity_Type_Spec `json:"type,omitempty"`
 }
 
 type SBNamespaceProperties_SpecARM struct {
@@ -65,15 +65,15 @@ type SBSku_SpecARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	//Name: Name of this SKU.
-	Name SBSkuSpecName `json:"name"`
+	Name SBSku_Name_Spec `json:"name"`
 
 	//Tier: The billing tier of this particular SKU.
-	Tier *SBSkuSpecTier `json:"tier,omitempty"`
+	Tier *SBSku_Tier_Spec `json:"tier,omitempty"`
 }
 
 type Encryption_SpecARM struct {
 	//KeySource: Enumerates the possible value of keySource for Encryption
-	KeySource *EncryptionSpecKeySource `json:"keySource,omitempty"`
+	KeySource *Encryption_KeySource_Spec `json:"keySource,omitempty"`
 
 	//KeyVaultProperties: Properties of KeyVault
 	KeyVaultProperties []KeyVaultProperties_SpecARM `json:"keyVaultProperties,omitempty"`
@@ -84,13 +84,13 @@ type Encryption_SpecARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type IdentitySpecType string
+type Identity_Type_Spec string
 
 const (
-	IdentitySpecTypeNone                       = IdentitySpecType("None")
-	IdentitySpecTypeSystemAssigned             = IdentitySpecType("SystemAssigned")
-	IdentitySpecTypeSystemAssignedUserAssigned = IdentitySpecType("SystemAssigned, UserAssigned")
-	IdentitySpecTypeUserAssigned               = IdentitySpecType("UserAssigned")
+	Identity_Type_SpecNone                       = Identity_Type_Spec("None")
+	Identity_Type_SpecSystemAssigned             = Identity_Type_Spec("SystemAssigned")
+	Identity_Type_SpecSystemAssignedUserAssigned = Identity_Type_Spec("SystemAssigned, UserAssigned")
+	Identity_Type_SpecUserAssigned               = Identity_Type_Spec("UserAssigned")
 )
 
 type PrivateEndpointConnection_SpecARM struct {
@@ -99,21 +99,21 @@ type PrivateEndpointConnection_SpecARM struct {
 }
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
-type SBSkuSpecName string
+type SBSku_Name_Spec string
 
 const (
-	SBSkuSpecNameBasic    = SBSkuSpecName("Basic")
-	SBSkuSpecNamePremium  = SBSkuSpecName("Premium")
-	SBSkuSpecNameStandard = SBSkuSpecName("Standard")
+	SBSku_Name_SpecBasic    = SBSku_Name_Spec("Basic")
+	SBSku_Name_SpecPremium  = SBSku_Name_Spec("Premium")
+	SBSku_Name_SpecStandard = SBSku_Name_Spec("Standard")
 )
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
-type SBSkuSpecTier string
+type SBSku_Tier_Spec string
 
 const (
-	SBSkuSpecTierBasic    = SBSkuSpecTier("Basic")
-	SBSkuSpecTierPremium  = SBSkuSpecTier("Premium")
-	SBSkuSpecTierStandard = SBSkuSpecTier("Standard")
+	SBSku_Tier_SpecBasic    = SBSku_Tier_Spec("Basic")
+	SBSku_Tier_SpecPremium  = SBSku_Tier_Spec("Premium")
+	SBSku_Tier_SpecStandard = SBSku_Tier_Spec("Standard")
 )
 
 type KeyVaultProperties_SpecARM struct {
@@ -137,7 +137,7 @@ type PrivateEndpointConnectionProperties_SpecARM struct {
 	PrivateLinkServiceConnectionState *ConnectionState_SpecARM `json:"privateLinkServiceConnectionState,omitempty"`
 
 	//ProvisioningState: Provisioning state of the Private Endpoint Connection.
-	ProvisioningState *PrivateEndpointConnectionPropertiesSpecProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *PrivateEndpointConnectionProperties_ProvisioningState_Spec `json:"provisioningState,omitempty"`
 }
 
 type ConnectionState_SpecARM struct {
@@ -145,7 +145,7 @@ type ConnectionState_SpecARM struct {
 	Description *string `json:"description,omitempty"`
 
 	//Status: Status of the connection.
-	Status *ConnectionStateSpecStatus `json:"status,omitempty"`
+	Status *ConnectionState_Status_Spec `json:"status,omitempty"`
 }
 
 type PrivateEndpoint_SpecARM struct {

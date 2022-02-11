@@ -248,17 +248,17 @@ func (setting *SqlDatabaseThroughputSetting) AssignPropertiesFromSqlDatabaseThro
 
 	// Spec
 	var spec DatabaseAccountsSqlDatabasesThroughputSettings_SPEC
-	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSettingsSPEC(&source.Spec)
+	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSettings_SPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSettingsSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSettings_SPEC() to populate field Spec")
 	}
 	setting.Spec = spec
 
 	// Status
 	var status ThroughputSettingsUpdateParameters_Status
-	err = status.AssignPropertiesFromThroughputSettingsUpdateParametersStatus(&source.Status)
+	err = status.AssignPropertiesFromThroughputSettingsUpdateParameters_Status(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsUpdateParametersStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsUpdateParameters_Status() to populate field Status")
 	}
 	setting.Status = status
 
@@ -274,17 +274,17 @@ func (setting *SqlDatabaseThroughputSetting) AssignPropertiesToSqlDatabaseThroug
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesThroughputSettings_SPEC
-	err := setting.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettingsSPEC(&spec)
+	err := setting.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettings_SPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettingsSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettings_SPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v1alpha1api20210515storage.ThroughputSettingsUpdateParameters_Status
-	err = setting.Status.AssignPropertiesToThroughputSettingsUpdateParametersStatus(&status)
+	err = setting.Status.AssignPropertiesToThroughputSettingsUpdateParameters_Status(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsUpdateParametersStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsUpdateParameters_Status() to populate field Status")
 	}
 	destination.Status = status
 
@@ -420,7 +420,7 @@ func (spec *DatabaseAccountsSqlDatabasesThroughputSettings_SPEC) ConvertSpecFrom
 	src, ok := source.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesThroughputSettings_SPEC)
 	if ok {
 		// Populate our instance from source
-		return spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSettingsSPEC(src)
+		return spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSettings_SPEC(src)
 	}
 
 	// Convert to an intermediate form
@@ -431,7 +431,7 @@ func (spec *DatabaseAccountsSqlDatabasesThroughputSettings_SPEC) ConvertSpecFrom
 	}
 
 	// Update our instance from src
-	err = spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSettingsSPEC(src)
+	err = spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSettings_SPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -444,12 +444,12 @@ func (spec *DatabaseAccountsSqlDatabasesThroughputSettings_SPEC) ConvertSpecTo(d
 	dst, ok := destination.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesThroughputSettings_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return spec.AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettingsSPEC(dst)
+		return spec.AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettings_SPEC(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesThroughputSettings_SPEC{}
-	err := spec.AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettingsSPEC(dst)
+	err := spec.AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettings_SPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -463,8 +463,8 @@ func (spec *DatabaseAccountsSqlDatabasesThroughputSettings_SPEC) ConvertSpecTo(d
 	return nil
 }
 
-// AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSettingsSPEC populates our DatabaseAccountsSqlDatabasesThroughputSettings_SPEC from the provided source DatabaseAccountsSqlDatabasesThroughputSettings_SPEC
-func (spec *DatabaseAccountsSqlDatabasesThroughputSettings_SPEC) AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSettingsSPEC(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesThroughputSettings_SPEC) error {
+// AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSettings_SPEC populates our DatabaseAccountsSqlDatabasesThroughputSettings_SPEC from the provided source DatabaseAccountsSqlDatabasesThroughputSettings_SPEC
+func (spec *DatabaseAccountsSqlDatabasesThroughputSettings_SPEC) AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSettings_SPEC(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesThroughputSettings_SPEC) error {
 
 	// AzureName
 	spec.AzureName = source.AzureName
@@ -478,9 +478,9 @@ func (spec *DatabaseAccountsSqlDatabasesThroughputSettings_SPEC) AssignPropertie
 	// Resource
 	if source.Resource != nil {
 		var resource ThroughputSettingsResource_Spec
-		err := resource.AssignPropertiesFromThroughputSettingsResourceSpec(source.Resource)
+		err := resource.AssignPropertiesFromThroughputSettingsResource_Spec(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsResourceSpec() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsResource_Spec() to populate field Resource")
 		}
 		spec.Resource = resource
 	} else {
@@ -494,8 +494,8 @@ func (spec *DatabaseAccountsSqlDatabasesThroughputSettings_SPEC) AssignPropertie
 	return nil
 }
 
-// AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettingsSPEC populates the provided destination DatabaseAccountsSqlDatabasesThroughputSettings_SPEC from our DatabaseAccountsSqlDatabasesThroughputSettings_SPEC
-func (spec *DatabaseAccountsSqlDatabasesThroughputSettings_SPEC) AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettingsSPEC(destination *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesThroughputSettings_SPEC) error {
+// AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettings_SPEC populates the provided destination DatabaseAccountsSqlDatabasesThroughputSettings_SPEC from our DatabaseAccountsSqlDatabasesThroughputSettings_SPEC
+func (spec *DatabaseAccountsSqlDatabasesThroughputSettings_SPEC) AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettings_SPEC(destination *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesThroughputSettings_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -513,9 +513,9 @@ func (spec *DatabaseAccountsSqlDatabasesThroughputSettings_SPEC) AssignPropertie
 
 	// Resource
 	var resource v1alpha1api20210515storage.ThroughputSettingsResource_Spec
-	err := spec.Resource.AssignPropertiesToThroughputSettingsResourceSpec(&resource)
+	err := spec.Resource.AssignPropertiesToThroughputSettingsResource_Spec(&resource)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsResourceSpec() to populate field Resource")
+		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsResource_Spec() to populate field Resource")
 	}
 	destination.Resource = &resource
 

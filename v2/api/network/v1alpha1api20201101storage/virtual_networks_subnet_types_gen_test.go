@@ -74,8 +74,8 @@ func VirtualNetworksSubnetGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForVirtualNetworksSubnet is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualNetworksSubnet(gens map[string]gopter.Gen) {
-	gens["Spec"] = VirtualNetworksSubnetsSPECGenerator()
-	gens["Status"] = SubnetStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
+	gens["Spec"] = VirtualNetworksSubnets_SPECGenerator()
+	gens["Status"] = Subnet_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()
 }
 
 func Test_Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -85,12 +85,12 @@ func Test_Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerialized
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubnetStatusVirtualNetworksSubnetSubResourceEmbedded, SubnetStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSubnet_Status_VirtualNetworksSubnet_SubResourceEmbedded, Subnet_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSubnetStatusVirtualNetworksSubnetSubResourceEmbedded runs a test to see if a specific instance of Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubnetStatusVirtualNetworksSubnetSubResourceEmbedded(subject Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+// RunJSONSerializationTestForSubnet_Status_VirtualNetworksSubnet_SubResourceEmbedded runs a test to see if a specific instance of Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForSubnet_Status_VirtualNetworksSubnet_SubResourceEmbedded(subject Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -117,33 +117,33 @@ func RunJSONSerializationTestForSubnetStatusVirtualNetworksSubnetSubResourceEmbe
 }
 
 // Generator of Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing - lazily
-//instantiated by SubnetStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
-var subnetStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
+//instantiated by Subnet_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()
+var subnet_status_virtualNetworksSubnet_subResourceEmbeddedGenerator gopter.Gen
 
-// SubnetStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
-// We first initialize subnetStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator with a simplified generator based on the
+// Subnet_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator returns a generator of Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
+// We first initialize subnet_status_virtualNetworksSubnet_subResourceEmbeddedGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SubnetStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator() gopter.Gen {
-	if subnetStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator != nil {
-		return subnetStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator
+func Subnet_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator() gopter.Gen {
+	if subnet_status_virtualNetworksSubnet_subResourceEmbeddedGenerator != nil {
+		return subnet_status_virtualNetworksSubnet_subResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubnetStatusVirtualNetworksSubnetSubResourceEmbedded(generators)
-	subnetStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForSubnet_Status_VirtualNetworksSubnet_SubResourceEmbedded(generators)
+	subnet_status_virtualNetworksSubnet_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubnetStatusVirtualNetworksSubnetSubResourceEmbedded(generators)
-	AddRelatedPropertyGeneratorsForSubnetStatusVirtualNetworksSubnetSubResourceEmbedded(generators)
-	subnetStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForSubnet_Status_VirtualNetworksSubnet_SubResourceEmbedded(generators)
+	AddRelatedPropertyGeneratorsForSubnet_Status_VirtualNetworksSubnet_SubResourceEmbedded(generators)
+	subnet_status_virtualNetworksSubnet_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
 
-	return subnetStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator
+	return subnet_status_virtualNetworksSubnet_subResourceEmbeddedGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSubnetStatusVirtualNetworksSubnetSubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubnetStatusVirtualNetworksSubnetSubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSubnet_Status_VirtualNetworksSubnet_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSubnet_Status_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["AddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["AddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
@@ -156,21 +156,21 @@ func AddIndependentPropertyGeneratorsForSubnetStatusVirtualNetworksSubnetSubReso
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSubnetStatusVirtualNetworksSubnetSubResourceEmbedded is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSubnetStatusVirtualNetworksSubnetSubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["ApplicationGatewayIpConfigurations"] = gen.SliceOf(ApplicationGatewayIPConfigurationStatusGenerator())
-	gens["Delegations"] = gen.SliceOf(DelegationStatusGenerator())
-	gens["IpAllocations"] = gen.SliceOf(SubResourceStatusGenerator())
-	gens["IpConfigurationProfiles"] = gen.SliceOf(IPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator())
-	gens["IpConfigurations"] = gen.SliceOf(IPConfigurationStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator())
-	gens["NatGateway"] = gen.PtrOf(SubResourceStatusGenerator())
-	gens["NetworkSecurityGroup"] = gen.PtrOf(NetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator())
-	gens["PrivateEndpoints"] = gen.SliceOf(PrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator())
-	gens["ResourceNavigationLinks"] = gen.SliceOf(ResourceNavigationLinkStatusGenerator())
-	gens["RouteTable"] = gen.PtrOf(RouteTableStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator())
-	gens["ServiceAssociationLinks"] = gen.SliceOf(ServiceAssociationLinkStatusGenerator())
-	gens["ServiceEndpointPolicies"] = gen.SliceOf(ServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator())
-	gens["ServiceEndpoints"] = gen.SliceOf(ServiceEndpointPropertiesFormatStatusGenerator())
+// AddRelatedPropertyGeneratorsForSubnet_Status_VirtualNetworksSubnet_SubResourceEmbedded is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSubnet_Status_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["ApplicationGatewayIpConfigurations"] = gen.SliceOf(ApplicationGatewayIPConfiguration_StatusGenerator())
+	gens["Delegations"] = gen.SliceOf(Delegation_StatusGenerator())
+	gens["IpAllocations"] = gen.SliceOf(SubResource_StatusGenerator())
+	gens["IpConfigurationProfiles"] = gen.SliceOf(IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator())
+	gens["IpConfigurations"] = gen.SliceOf(IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator())
+	gens["NatGateway"] = gen.PtrOf(SubResource_StatusGenerator())
+	gens["NetworkSecurityGroup"] = gen.PtrOf(NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator())
+	gens["PrivateEndpoints"] = gen.SliceOf(PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator())
+	gens["ResourceNavigationLinks"] = gen.SliceOf(ResourceNavigationLink_StatusGenerator())
+	gens["RouteTable"] = gen.PtrOf(RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator())
+	gens["ServiceAssociationLinks"] = gen.SliceOf(ServiceAssociationLink_StatusGenerator())
+	gens["ServiceEndpointPolicies"] = gen.SliceOf(ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator())
+	gens["ServiceEndpoints"] = gen.SliceOf(ServiceEndpointPropertiesFormat_StatusGenerator())
 }
 
 func Test_VirtualNetworksSubnets_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -180,12 +180,12 @@ func Test_VirtualNetworksSubnets_SPEC_WhenSerializedToJson_DeserializesAsEqual(t
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworksSubnets_SPEC via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworksSubnetsSPEC, VirtualNetworksSubnetsSPECGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworksSubnets_SPEC, VirtualNetworksSubnets_SPECGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualNetworksSubnetsSPEC runs a test to see if a specific instance of VirtualNetworksSubnets_SPEC round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworksSubnetsSPEC(subject VirtualNetworksSubnets_SPEC) string {
+// RunJSONSerializationTestForVirtualNetworksSubnets_SPEC runs a test to see if a specific instance of VirtualNetworksSubnets_SPEC round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworksSubnets_SPEC(subject VirtualNetworksSubnets_SPEC) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -212,33 +212,33 @@ func RunJSONSerializationTestForVirtualNetworksSubnetsSPEC(subject VirtualNetwor
 }
 
 // Generator of VirtualNetworksSubnets_SPEC instances for property testing - lazily instantiated by
-//VirtualNetworksSubnetsSPECGenerator()
-var virtualNetworksSubnetsSPECGenerator gopter.Gen
+//VirtualNetworksSubnets_SPECGenerator()
+var virtualNetworksSubnets_specGenerator gopter.Gen
 
-// VirtualNetworksSubnetsSPECGenerator returns a generator of VirtualNetworksSubnets_SPEC instances for property testing.
-// We first initialize virtualNetworksSubnetsSPECGenerator with a simplified generator based on the
+// VirtualNetworksSubnets_SPECGenerator returns a generator of VirtualNetworksSubnets_SPEC instances for property testing.
+// We first initialize virtualNetworksSubnets_specGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualNetworksSubnetsSPECGenerator() gopter.Gen {
-	if virtualNetworksSubnetsSPECGenerator != nil {
-		return virtualNetworksSubnetsSPECGenerator
+func VirtualNetworksSubnets_SPECGenerator() gopter.Gen {
+	if virtualNetworksSubnets_specGenerator != nil {
+		return virtualNetworksSubnets_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworksSubnetsSPEC(generators)
-	virtualNetworksSubnetsSPECGenerator = gen.Struct(reflect.TypeOf(VirtualNetworksSubnets_SPEC{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworksSubnets_SPEC(generators)
+	virtualNetworksSubnets_specGenerator = gen.Struct(reflect.TypeOf(VirtualNetworksSubnets_SPEC{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworksSubnetsSPEC(generators)
-	AddRelatedPropertyGeneratorsForVirtualNetworksSubnetsSPEC(generators)
-	virtualNetworksSubnetsSPECGenerator = gen.Struct(reflect.TypeOf(VirtualNetworksSubnets_SPEC{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworksSubnets_SPEC(generators)
+	AddRelatedPropertyGeneratorsForVirtualNetworksSubnets_SPEC(generators)
+	virtualNetworksSubnets_specGenerator = gen.Struct(reflect.TypeOf(VirtualNetworksSubnets_SPEC{}), generators)
 
-	return virtualNetworksSubnetsSPECGenerator
+	return virtualNetworksSubnets_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualNetworksSubnetsSPEC is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworksSubnetsSPEC(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualNetworksSubnets_SPEC is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworksSubnets_SPEC(gens map[string]gopter.Gen) {
 	gens["AddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["AddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
@@ -248,16 +248,16 @@ func AddIndependentPropertyGeneratorsForVirtualNetworksSubnetsSPEC(gens map[stri
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForVirtualNetworksSubnetsSPEC is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualNetworksSubnetsSPEC(gens map[string]gopter.Gen) {
-	gens["ApplicationGatewayIpConfigurations"] = gen.SliceOf(ApplicationGatewayIPConfigurationSpecGenerator())
-	gens["Delegations"] = gen.SliceOf(DelegationSpecGenerator())
-	gens["IpAllocations"] = gen.SliceOf(SubResourceSpecGenerator())
-	gens["NatGateway"] = gen.PtrOf(SubResourceSpecGenerator())
-	gens["NetworkSecurityGroup"] = gen.PtrOf(NetworkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator())
-	gens["RouteTable"] = gen.PtrOf(RouteTableSpecGenerator())
-	gens["ServiceEndpointPolicies"] = gen.SliceOf(ServiceEndpointPolicySpecGenerator())
-	gens["ServiceEndpoints"] = gen.SliceOf(ServiceEndpointPropertiesFormatSpecGenerator())
+// AddRelatedPropertyGeneratorsForVirtualNetworksSubnets_SPEC is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualNetworksSubnets_SPEC(gens map[string]gopter.Gen) {
+	gens["ApplicationGatewayIpConfigurations"] = gen.SliceOf(ApplicationGatewayIPConfiguration_SpecGenerator())
+	gens["Delegations"] = gen.SliceOf(Delegation_SpecGenerator())
+	gens["IpAllocations"] = gen.SliceOf(SubResource_SpecGenerator())
+	gens["NatGateway"] = gen.PtrOf(SubResource_SpecGenerator())
+	gens["NetworkSecurityGroup"] = gen.PtrOf(NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator())
+	gens["RouteTable"] = gen.PtrOf(RouteTable_SpecGenerator())
+	gens["ServiceEndpointPolicies"] = gen.SliceOf(ServiceEndpointPolicy_SpecGenerator())
+	gens["ServiceEndpoints"] = gen.SliceOf(ServiceEndpointPropertiesFormat_SpecGenerator())
 }
 
 func Test_ApplicationGatewayIPConfiguration_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -267,12 +267,12 @@ func Test_ApplicationGatewayIPConfiguration_Spec_WhenSerializedToJson_Deserializ
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ApplicationGatewayIPConfiguration_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewayIPConfigurationSpec, ApplicationGatewayIPConfigurationSpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayIPConfiguration_Spec, ApplicationGatewayIPConfiguration_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForApplicationGatewayIPConfigurationSpec runs a test to see if a specific instance of ApplicationGatewayIPConfiguration_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewayIPConfigurationSpec(subject ApplicationGatewayIPConfiguration_Spec) string {
+// RunJSONSerializationTestForApplicationGatewayIPConfiguration_Spec runs a test to see if a specific instance of ApplicationGatewayIPConfiguration_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayIPConfiguration_Spec(subject ApplicationGatewayIPConfiguration_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -299,39 +299,39 @@ func RunJSONSerializationTestForApplicationGatewayIPConfigurationSpec(subject Ap
 }
 
 // Generator of ApplicationGatewayIPConfiguration_Spec instances for property testing - lazily instantiated by
-//ApplicationGatewayIPConfigurationSpecGenerator()
-var applicationGatewayIPConfigurationSpecGenerator gopter.Gen
+//ApplicationGatewayIPConfiguration_SpecGenerator()
+var applicationGatewayIPConfiguration_specGenerator gopter.Gen
 
-// ApplicationGatewayIPConfigurationSpecGenerator returns a generator of ApplicationGatewayIPConfiguration_Spec instances for property testing.
-// We first initialize applicationGatewayIPConfigurationSpecGenerator with a simplified generator based on the
+// ApplicationGatewayIPConfiguration_SpecGenerator returns a generator of ApplicationGatewayIPConfiguration_Spec instances for property testing.
+// We first initialize applicationGatewayIPConfiguration_specGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ApplicationGatewayIPConfigurationSpecGenerator() gopter.Gen {
-	if applicationGatewayIPConfigurationSpecGenerator != nil {
-		return applicationGatewayIPConfigurationSpecGenerator
+func ApplicationGatewayIPConfiguration_SpecGenerator() gopter.Gen {
+	if applicationGatewayIPConfiguration_specGenerator != nil {
+		return applicationGatewayIPConfiguration_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayIPConfigurationSpec(generators)
-	applicationGatewayIPConfigurationSpecGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayIPConfiguration_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForApplicationGatewayIPConfiguration_Spec(generators)
+	applicationGatewayIPConfiguration_specGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayIPConfiguration_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayIPConfigurationSpec(generators)
-	AddRelatedPropertyGeneratorsForApplicationGatewayIPConfigurationSpec(generators)
-	applicationGatewayIPConfigurationSpecGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayIPConfiguration_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForApplicationGatewayIPConfiguration_Spec(generators)
+	AddRelatedPropertyGeneratorsForApplicationGatewayIPConfiguration_Spec(generators)
+	applicationGatewayIPConfiguration_specGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayIPConfiguration_Spec{}), generators)
 
-	return applicationGatewayIPConfigurationSpecGenerator
+	return applicationGatewayIPConfiguration_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForApplicationGatewayIPConfigurationSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGatewayIPConfigurationSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForApplicationGatewayIPConfiguration_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGatewayIPConfiguration_Spec(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForApplicationGatewayIPConfigurationSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApplicationGatewayIPConfigurationSpec(gens map[string]gopter.Gen) {
-	gens["Subnet"] = gen.PtrOf(SubResourceSpecGenerator())
+// AddRelatedPropertyGeneratorsForApplicationGatewayIPConfiguration_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForApplicationGatewayIPConfiguration_Spec(gens map[string]gopter.Gen) {
+	gens["Subnet"] = gen.PtrOf(SubResource_SpecGenerator())
 }
 
 func Test_ApplicationGatewayIPConfiguration_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -341,12 +341,12 @@ func Test_ApplicationGatewayIPConfiguration_Status_WhenSerializedToJson_Deserial
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ApplicationGatewayIPConfiguration_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewayIPConfigurationStatus, ApplicationGatewayIPConfigurationStatusGenerator()))
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayIPConfiguration_Status, ApplicationGatewayIPConfiguration_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForApplicationGatewayIPConfigurationStatus runs a test to see if a specific instance of ApplicationGatewayIPConfiguration_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewayIPConfigurationStatus(subject ApplicationGatewayIPConfiguration_Status) string {
+// RunJSONSerializationTestForApplicationGatewayIPConfiguration_Status runs a test to see if a specific instance of ApplicationGatewayIPConfiguration_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayIPConfiguration_Status(subject ApplicationGatewayIPConfiguration_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -373,33 +373,33 @@ func RunJSONSerializationTestForApplicationGatewayIPConfigurationStatus(subject 
 }
 
 // Generator of ApplicationGatewayIPConfiguration_Status instances for property testing - lazily instantiated by
-//ApplicationGatewayIPConfigurationStatusGenerator()
-var applicationGatewayIPConfigurationStatusGenerator gopter.Gen
+//ApplicationGatewayIPConfiguration_StatusGenerator()
+var applicationGatewayIPConfiguration_statusGenerator gopter.Gen
 
-// ApplicationGatewayIPConfigurationStatusGenerator returns a generator of ApplicationGatewayIPConfiguration_Status instances for property testing.
-// We first initialize applicationGatewayIPConfigurationStatusGenerator with a simplified generator based on the
+// ApplicationGatewayIPConfiguration_StatusGenerator returns a generator of ApplicationGatewayIPConfiguration_Status instances for property testing.
+// We first initialize applicationGatewayIPConfiguration_statusGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ApplicationGatewayIPConfigurationStatusGenerator() gopter.Gen {
-	if applicationGatewayIPConfigurationStatusGenerator != nil {
-		return applicationGatewayIPConfigurationStatusGenerator
+func ApplicationGatewayIPConfiguration_StatusGenerator() gopter.Gen {
+	if applicationGatewayIPConfiguration_statusGenerator != nil {
+		return applicationGatewayIPConfiguration_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayIPConfigurationStatus(generators)
-	applicationGatewayIPConfigurationStatusGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayIPConfiguration_Status{}), generators)
+	AddIndependentPropertyGeneratorsForApplicationGatewayIPConfiguration_Status(generators)
+	applicationGatewayIPConfiguration_statusGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayIPConfiguration_Status{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayIPConfigurationStatus(generators)
-	AddRelatedPropertyGeneratorsForApplicationGatewayIPConfigurationStatus(generators)
-	applicationGatewayIPConfigurationStatusGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayIPConfiguration_Status{}), generators)
+	AddIndependentPropertyGeneratorsForApplicationGatewayIPConfiguration_Status(generators)
+	AddRelatedPropertyGeneratorsForApplicationGatewayIPConfiguration_Status(generators)
+	applicationGatewayIPConfiguration_statusGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayIPConfiguration_Status{}), generators)
 
-	return applicationGatewayIPConfigurationStatusGenerator
+	return applicationGatewayIPConfiguration_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForApplicationGatewayIPConfigurationStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGatewayIPConfigurationStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForApplicationGatewayIPConfiguration_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGatewayIPConfiguration_Status(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -407,9 +407,9 @@ func AddIndependentPropertyGeneratorsForApplicationGatewayIPConfigurationStatus(
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForApplicationGatewayIPConfigurationStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApplicationGatewayIPConfigurationStatus(gens map[string]gopter.Gen) {
-	gens["Subnet"] = gen.PtrOf(SubResourceStatusGenerator())
+// AddRelatedPropertyGeneratorsForApplicationGatewayIPConfiguration_Status is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForApplicationGatewayIPConfiguration_Status(gens map[string]gopter.Gen) {
+	gens["Subnet"] = gen.PtrOf(SubResource_StatusGenerator())
 }
 
 func Test_Delegation_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -419,12 +419,12 @@ func Test_Delegation_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Delegation_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDelegationSpec, DelegationSpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForDelegation_Spec, Delegation_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDelegationSpec runs a test to see if a specific instance of Delegation_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDelegationSpec(subject Delegation_Spec) string {
+// RunJSONSerializationTestForDelegation_Spec runs a test to see if a specific instance of Delegation_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDelegation_Spec(subject Delegation_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -450,24 +450,24 @@ func RunJSONSerializationTestForDelegationSpec(subject Delegation_Spec) string {
 	return ""
 }
 
-// Generator of Delegation_Spec instances for property testing - lazily instantiated by DelegationSpecGenerator()
-var delegationSpecGenerator gopter.Gen
+// Generator of Delegation_Spec instances for property testing - lazily instantiated by Delegation_SpecGenerator()
+var delegation_specGenerator gopter.Gen
 
-// DelegationSpecGenerator returns a generator of Delegation_Spec instances for property testing.
-func DelegationSpecGenerator() gopter.Gen {
-	if delegationSpecGenerator != nil {
-		return delegationSpecGenerator
+// Delegation_SpecGenerator returns a generator of Delegation_Spec instances for property testing.
+func Delegation_SpecGenerator() gopter.Gen {
+	if delegation_specGenerator != nil {
+		return delegation_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDelegationSpec(generators)
-	delegationSpecGenerator = gen.Struct(reflect.TypeOf(Delegation_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForDelegation_Spec(generators)
+	delegation_specGenerator = gen.Struct(reflect.TypeOf(Delegation_Spec{}), generators)
 
-	return delegationSpecGenerator
+	return delegation_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDelegationSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDelegationSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDelegation_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDelegation_Spec(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ServiceName"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
@@ -480,12 +480,12 @@ func Test_Delegation_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Delegation_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDelegationStatus, DelegationStatusGenerator()))
+		prop.ForAll(RunJSONSerializationTestForDelegation_Status, Delegation_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDelegationStatus runs a test to see if a specific instance of Delegation_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForDelegationStatus(subject Delegation_Status) string {
+// RunJSONSerializationTestForDelegation_Status runs a test to see if a specific instance of Delegation_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForDelegation_Status(subject Delegation_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -511,24 +511,24 @@ func RunJSONSerializationTestForDelegationStatus(subject Delegation_Status) stri
 	return ""
 }
 
-// Generator of Delegation_Status instances for property testing - lazily instantiated by DelegationStatusGenerator()
-var delegationStatusGenerator gopter.Gen
+// Generator of Delegation_Status instances for property testing - lazily instantiated by Delegation_StatusGenerator()
+var delegation_statusGenerator gopter.Gen
 
-// DelegationStatusGenerator returns a generator of Delegation_Status instances for property testing.
-func DelegationStatusGenerator() gopter.Gen {
-	if delegationStatusGenerator != nil {
-		return delegationStatusGenerator
+// Delegation_StatusGenerator returns a generator of Delegation_Status instances for property testing.
+func Delegation_StatusGenerator() gopter.Gen {
+	if delegation_statusGenerator != nil {
+		return delegation_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDelegationStatus(generators)
-	delegationStatusGenerator = gen.Struct(reflect.TypeOf(Delegation_Status{}), generators)
+	AddIndependentPropertyGeneratorsForDelegation_Status(generators)
+	delegation_statusGenerator = gen.Struct(reflect.TypeOf(Delegation_Status{}), generators)
 
-	return delegationStatusGenerator
+	return delegation_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDelegationStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDelegationStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDelegation_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDelegation_Status(gens map[string]gopter.Gen) {
 	gens["Actions"] = gen.SliceOf(gen.AlphaString())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
@@ -545,12 +545,12 @@ func Test_IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedde
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded, IPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()))
+		prop.ForAll(RunJSONSerializationTestForIPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded, IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded runs a test to see if a specific instance of IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded(subject IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+// RunJSONSerializationTestForIPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded runs a test to see if a specific instance of IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForIPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded(subject IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -577,24 +577,24 @@ func RunJSONSerializationTestForIPConfigurationProfileStatusVirtualNetworksSubne
 }
 
 // Generator of IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing -
-//lazily instantiated by IPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
-var ipConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
+//lazily instantiated by IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()
+var ipConfigurationProfile_status_virtualNetworksSubnet_subResourceEmbeddedGenerator gopter.Gen
 
-// IPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
-func IPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator() gopter.Gen {
-	if ipConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator != nil {
-		return ipConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator
+// IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator returns a generator of IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
+func IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator() gopter.Gen {
+	if ipConfigurationProfile_status_virtualNetworksSubnet_subResourceEmbeddedGenerator != nil {
+		return ipConfigurationProfile_status_virtualNetworksSubnet_subResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded(generators)
-	ipConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForIPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded(generators)
+	ipConfigurationProfile_status_virtualNetworksSubnet_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
 
-	return ipConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator
+	return ipConfigurationProfile_status_virtualNetworksSubnet_subResourceEmbeddedGenerator
 }
 
-// AddIndependentPropertyGeneratorsForIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForIPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -609,12 +609,12 @@ func Test_IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenS
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded, IPConfigurationStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()))
+		prop.ForAll(RunJSONSerializationTestForIPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded, IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded runs a test to see if a specific instance of IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded(subject IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+// RunJSONSerializationTestForIPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded runs a test to see if a specific instance of IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForIPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded(subject IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -641,33 +641,33 @@ func RunJSONSerializationTestForIPConfigurationStatusVirtualNetworksSubnetSubRes
 }
 
 // Generator of IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing - lazily
-//instantiated by IPConfigurationStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
-var ipConfigurationStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
+//instantiated by IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()
+var ipConfiguration_status_virtualNetworksSubnet_subResourceEmbeddedGenerator gopter.Gen
 
-// IPConfigurationStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
-// We first initialize ipConfigurationStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator with a simplified generator based on the
+// IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator returns a generator of IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
+// We first initialize ipConfiguration_status_virtualNetworksSubnet_subResourceEmbeddedGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func IPConfigurationStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator() gopter.Gen {
-	if ipConfigurationStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator != nil {
-		return ipConfigurationStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator
+func IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator() gopter.Gen {
+	if ipConfiguration_status_virtualNetworksSubnet_subResourceEmbeddedGenerator != nil {
+		return ipConfiguration_status_virtualNetworksSubnet_subResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded(generators)
-	ipConfigurationStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForIPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded(generators)
+	ipConfiguration_status_virtualNetworksSubnet_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded(generators)
-	AddRelatedPropertyGeneratorsForIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded(generators)
-	ipConfigurationStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForIPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded(generators)
+	AddRelatedPropertyGeneratorsForIPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded(generators)
+	ipConfiguration_status_virtualNetworksSubnet_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
 
-	return ipConfigurationStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator
+	return ipConfiguration_status_virtualNetworksSubnet_subResourceEmbeddedGenerator
 }
 
-// AddIndependentPropertyGeneratorsForIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForIPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -676,9 +676,9 @@ func AddIndependentPropertyGeneratorsForIPConfigurationStatusVirtualNetworksSubn
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["PublicIPAddress"] = gen.PtrOf(PublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator())
+// AddRelatedPropertyGeneratorsForIPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForIPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["PublicIPAddress"] = gen.PtrOf(PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator())
 }
 
 func Test_NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -688,12 +688,12 @@ func Test_NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded_Wh
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNetworkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbedded, NetworkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator()))
+		prop.ForAll(RunJSONSerializationTestForNetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded, NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNetworkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbedded runs a test to see if a specific instance of NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForNetworkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbedded(subject NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded) string {
+// RunJSONSerializationTestForNetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded runs a test to see if a specific instance of NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForNetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded(subject NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -720,40 +720,40 @@ func RunJSONSerializationTestForNetworkSecurityGroupSpecVirtualNetworksSubnetSub
 }
 
 // Generator of NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing -
-//lazily instantiated by NetworkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator()
-var networkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
+//lazily instantiated by NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()
+var networkSecurityGroup_spec_virtualNetworksSubnet_subResourceEmbeddedGenerator gopter.Gen
 
-// NetworkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
-// We first initialize networkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator with a simplified generator based on the
+// NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator returns a generator of NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
+// We first initialize networkSecurityGroup_spec_virtualNetworksSubnet_subResourceEmbeddedGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func NetworkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator() gopter.Gen {
-	if networkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator != nil {
-		return networkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator
+func NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator() gopter.Gen {
+	if networkSecurityGroup_spec_virtualNetworksSubnet_subResourceEmbeddedGenerator != nil {
+		return networkSecurityGroup_spec_virtualNetworksSubnet_subResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbedded(generators)
-	networkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForNetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded(generators)
+	networkSecurityGroup_spec_virtualNetworksSubnet_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbedded(generators)
-	AddRelatedPropertyGeneratorsForNetworkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbedded(generators)
-	networkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForNetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded(generators)
+	AddRelatedPropertyGeneratorsForNetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded(generators)
+	networkSecurityGroup_spec_virtualNetworksSubnet_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
 
-	return networkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator
+	return networkSecurityGroup_spec_virtualNetworksSubnet_subResourceEmbeddedGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNetworkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNetworkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForNetworkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbedded is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNetworkSecurityGroupSpecVirtualNetworksSubnetSubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["SecurityRules"] = gen.SliceOf(SecurityRuleSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator())
+// AddRelatedPropertyGeneratorsForNetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["SecurityRules"] = gen.SliceOf(SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator())
 }
 
 func Test_NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -763,12 +763,12 @@ func Test_NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded_
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded, NetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()))
+		prop.ForAll(RunJSONSerializationTestForNetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded, NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded runs a test to see if a specific instance of NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded(subject NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+// RunJSONSerializationTestForNetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded runs a test to see if a specific instance of NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForNetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded(subject NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -795,24 +795,24 @@ func RunJSONSerializationTestForNetworkSecurityGroupStatusVirtualNetworksSubnetS
 }
 
 // Generator of NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing -
-//lazily instantiated by NetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
-var networkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
+//lazily instantiated by NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()
+var networkSecurityGroup_status_virtualNetworksSubnet_subResourceEmbeddedGenerator gopter.Gen
 
-// NetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
-func NetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator() gopter.Gen {
-	if networkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator != nil {
-		return networkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator
+// NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator returns a generator of NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
+func NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator() gopter.Gen {
+	if networkSecurityGroup_status_virtualNetworksSubnet_subResourceEmbeddedGenerator != nil {
+		return networkSecurityGroup_status_virtualNetworksSubnet_subResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded(generators)
-	networkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForNetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded(generators)
+	networkSecurityGroup_status_virtualNetworksSubnet_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
 
-	return networkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator
+	return networkSecurityGroup_status_virtualNetworksSubnet_subResourceEmbeddedGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -823,12 +823,12 @@ func Test_PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenS
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded, PrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()))
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded, PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded runs a test to see if a specific instance of PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded(subject PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+// RunJSONSerializationTestForPrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded runs a test to see if a specific instance of PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded(subject PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -855,39 +855,39 @@ func RunJSONSerializationTestForPrivateEndpointStatusVirtualNetworksSubnetSubRes
 }
 
 // Generator of PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing - lazily
-//instantiated by PrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
-var privateEndpointStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
+//instantiated by PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()
+var privateEndpoint_status_virtualNetworksSubnet_subResourceEmbeddedGenerator gopter.Gen
 
-// PrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
-// We first initialize privateEndpointStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator with a simplified generator based on the
+// PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator returns a generator of PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
+// We first initialize privateEndpoint_status_virtualNetworksSubnet_subResourceEmbeddedGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func PrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator() gopter.Gen {
-	if privateEndpointStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator != nil {
-		return privateEndpointStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator
+func PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator() gopter.Gen {
+	if privateEndpoint_status_virtualNetworksSubnet_subResourceEmbeddedGenerator != nil {
+		return privateEndpoint_status_virtualNetworksSubnet_subResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded(generators)
-	privateEndpointStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded(generators)
+	privateEndpoint_status_virtualNetworksSubnet_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded(generators)
-	AddRelatedPropertyGeneratorsForPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded(generators)
-	privateEndpointStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded(generators)
+	AddRelatedPropertyGeneratorsForPrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded(generators)
+	privateEndpoint_status_virtualNetworksSubnet_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
 
-	return privateEndpointStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator
+	return privateEndpoint_status_virtualNetworksSubnet_subResourceEmbeddedGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationStatusGenerator())
+// AddRelatedPropertyGeneratorsForPrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_StatusGenerator())
 }
 
 func Test_ResourceNavigationLink_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -897,12 +897,12 @@ func Test_ResourceNavigationLink_Status_WhenSerializedToJson_DeserializesAsEqual
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ResourceNavigationLink_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceNavigationLinkStatus, ResourceNavigationLinkStatusGenerator()))
+		prop.ForAll(RunJSONSerializationTestForResourceNavigationLink_Status, ResourceNavigationLink_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForResourceNavigationLinkStatus runs a test to see if a specific instance of ResourceNavigationLink_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceNavigationLinkStatus(subject ResourceNavigationLink_Status) string {
+// RunJSONSerializationTestForResourceNavigationLink_Status runs a test to see if a specific instance of ResourceNavigationLink_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForResourceNavigationLink_Status(subject ResourceNavigationLink_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -929,24 +929,24 @@ func RunJSONSerializationTestForResourceNavigationLinkStatus(subject ResourceNav
 }
 
 // Generator of ResourceNavigationLink_Status instances for property testing - lazily instantiated by
-//ResourceNavigationLinkStatusGenerator()
-var resourceNavigationLinkStatusGenerator gopter.Gen
+//ResourceNavigationLink_StatusGenerator()
+var resourceNavigationLink_statusGenerator gopter.Gen
 
-// ResourceNavigationLinkStatusGenerator returns a generator of ResourceNavigationLink_Status instances for property testing.
-func ResourceNavigationLinkStatusGenerator() gopter.Gen {
-	if resourceNavigationLinkStatusGenerator != nil {
-		return resourceNavigationLinkStatusGenerator
+// ResourceNavigationLink_StatusGenerator returns a generator of ResourceNavigationLink_Status instances for property testing.
+func ResourceNavigationLink_StatusGenerator() gopter.Gen {
+	if resourceNavigationLink_statusGenerator != nil {
+		return resourceNavigationLink_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForResourceNavigationLinkStatus(generators)
-	resourceNavigationLinkStatusGenerator = gen.Struct(reflect.TypeOf(ResourceNavigationLink_Status{}), generators)
+	AddIndependentPropertyGeneratorsForResourceNavigationLink_Status(generators)
+	resourceNavigationLink_statusGenerator = gen.Struct(reflect.TypeOf(ResourceNavigationLink_Status{}), generators)
 
-	return resourceNavigationLinkStatusGenerator
+	return resourceNavigationLink_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForResourceNavigationLinkStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForResourceNavigationLinkStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForResourceNavigationLink_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForResourceNavigationLink_Status(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Link"] = gen.PtrOf(gen.AlphaString())
@@ -963,12 +963,12 @@ func Test_RouteTable_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RouteTable_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRouteTableSpec, RouteTableSpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForRouteTable_Spec, RouteTable_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRouteTableSpec runs a test to see if a specific instance of RouteTable_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRouteTableSpec(subject RouteTable_Spec) string {
+// RunJSONSerializationTestForRouteTable_Spec runs a test to see if a specific instance of RouteTable_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForRouteTable_Spec(subject RouteTable_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -994,41 +994,41 @@ func RunJSONSerializationTestForRouteTableSpec(subject RouteTable_Spec) string {
 	return ""
 }
 
-// Generator of RouteTable_Spec instances for property testing - lazily instantiated by RouteTableSpecGenerator()
-var routeTableSpecGenerator gopter.Gen
+// Generator of RouteTable_Spec instances for property testing - lazily instantiated by RouteTable_SpecGenerator()
+var routeTable_specGenerator gopter.Gen
 
-// RouteTableSpecGenerator returns a generator of RouteTable_Spec instances for property testing.
-// We first initialize routeTableSpecGenerator with a simplified generator based on the
+// RouteTable_SpecGenerator returns a generator of RouteTable_Spec instances for property testing.
+// We first initialize routeTable_specGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func RouteTableSpecGenerator() gopter.Gen {
-	if routeTableSpecGenerator != nil {
-		return routeTableSpecGenerator
+func RouteTable_SpecGenerator() gopter.Gen {
+	if routeTable_specGenerator != nil {
+		return routeTable_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRouteTableSpec(generators)
-	routeTableSpecGenerator = gen.Struct(reflect.TypeOf(RouteTable_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForRouteTable_Spec(generators)
+	routeTable_specGenerator = gen.Struct(reflect.TypeOf(RouteTable_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRouteTableSpec(generators)
-	AddRelatedPropertyGeneratorsForRouteTableSpec(generators)
-	routeTableSpecGenerator = gen.Struct(reflect.TypeOf(RouteTable_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForRouteTable_Spec(generators)
+	AddRelatedPropertyGeneratorsForRouteTable_Spec(generators)
+	routeTable_specGenerator = gen.Struct(reflect.TypeOf(RouteTable_Spec{}), generators)
 
-	return routeTableSpecGenerator
+	return routeTable_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRouteTableSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRouteTableSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRouteTable_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRouteTable_Spec(gens map[string]gopter.Gen) {
 	gens["DisableBgpRoutePropagation"] = gen.PtrOf(gen.Bool())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForRouteTableSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRouteTableSpec(gens map[string]gopter.Gen) {
-	gens["Routes"] = gen.SliceOf(RouteSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator())
+// AddRelatedPropertyGeneratorsForRouteTable_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRouteTable_Spec(gens map[string]gopter.Gen) {
+	gens["Routes"] = gen.SliceOf(Route_Spec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator())
 }
 
 func Test_RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1038,12 +1038,12 @@ func Test_RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerial
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded, RouteTableStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()))
+		prop.ForAll(RunJSONSerializationTestForRouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded, RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded runs a test to see if a specific instance of RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded(subject RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+// RunJSONSerializationTestForRouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded runs a test to see if a specific instance of RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForRouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded(subject RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1070,24 +1070,24 @@ func RunJSONSerializationTestForRouteTableStatusVirtualNetworksSubnetSubResource
 }
 
 // Generator of RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing - lazily
-//instantiated by RouteTableStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
-var routeTableStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
+//instantiated by RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()
+var routeTable_status_virtualNetworksSubnet_subResourceEmbeddedGenerator gopter.Gen
 
-// RouteTableStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
-func RouteTableStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator() gopter.Gen {
-	if routeTableStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator != nil {
-		return routeTableStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator
+// RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator returns a generator of RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
+func RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator() gopter.Gen {
+	if routeTable_status_virtualNetworksSubnet_subResourceEmbeddedGenerator != nil {
+		return routeTable_status_virtualNetworksSubnet_subResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded(generators)
-	routeTableStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForRouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded(generators)
+	routeTable_status_virtualNetworksSubnet_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
 
-	return routeTableStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator
+	return routeTable_status_virtualNetworksSubnet_subResourceEmbeddedGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1098,12 +1098,12 @@ func Test_ServiceAssociationLink_Status_WhenSerializedToJson_DeserializesAsEqual
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ServiceAssociationLink_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceAssociationLinkStatus, ServiceAssociationLinkStatusGenerator()))
+		prop.ForAll(RunJSONSerializationTestForServiceAssociationLink_Status, ServiceAssociationLink_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServiceAssociationLinkStatus runs a test to see if a specific instance of ServiceAssociationLink_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceAssociationLinkStatus(subject ServiceAssociationLink_Status) string {
+// RunJSONSerializationTestForServiceAssociationLink_Status runs a test to see if a specific instance of ServiceAssociationLink_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForServiceAssociationLink_Status(subject ServiceAssociationLink_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1130,24 +1130,24 @@ func RunJSONSerializationTestForServiceAssociationLinkStatus(subject ServiceAsso
 }
 
 // Generator of ServiceAssociationLink_Status instances for property testing - lazily instantiated by
-//ServiceAssociationLinkStatusGenerator()
-var serviceAssociationLinkStatusGenerator gopter.Gen
+//ServiceAssociationLink_StatusGenerator()
+var serviceAssociationLink_statusGenerator gopter.Gen
 
-// ServiceAssociationLinkStatusGenerator returns a generator of ServiceAssociationLink_Status instances for property testing.
-func ServiceAssociationLinkStatusGenerator() gopter.Gen {
-	if serviceAssociationLinkStatusGenerator != nil {
-		return serviceAssociationLinkStatusGenerator
+// ServiceAssociationLink_StatusGenerator returns a generator of ServiceAssociationLink_Status instances for property testing.
+func ServiceAssociationLink_StatusGenerator() gopter.Gen {
+	if serviceAssociationLink_statusGenerator != nil {
+		return serviceAssociationLink_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServiceAssociationLinkStatus(generators)
-	serviceAssociationLinkStatusGenerator = gen.Struct(reflect.TypeOf(ServiceAssociationLink_Status{}), generators)
+	AddIndependentPropertyGeneratorsForServiceAssociationLink_Status(generators)
+	serviceAssociationLink_statusGenerator = gen.Struct(reflect.TypeOf(ServiceAssociationLink_Status{}), generators)
 
-	return serviceAssociationLinkStatusGenerator
+	return serviceAssociationLink_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServiceAssociationLinkStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServiceAssociationLinkStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForServiceAssociationLink_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServiceAssociationLink_Status(gens map[string]gopter.Gen) {
 	gens["AllowDelete"] = gen.PtrOf(gen.Bool())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
@@ -1166,12 +1166,12 @@ func Test_ServiceEndpointPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t 
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ServiceEndpointPolicy_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceEndpointPolicySpec, ServiceEndpointPolicySpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForServiceEndpointPolicy_Spec, ServiceEndpointPolicy_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServiceEndpointPolicySpec runs a test to see if a specific instance of ServiceEndpointPolicy_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceEndpointPolicySpec(subject ServiceEndpointPolicy_Spec) string {
+// RunJSONSerializationTestForServiceEndpointPolicy_Spec runs a test to see if a specific instance of ServiceEndpointPolicy_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServiceEndpointPolicy_Spec(subject ServiceEndpointPolicy_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1198,40 +1198,40 @@ func RunJSONSerializationTestForServiceEndpointPolicySpec(subject ServiceEndpoin
 }
 
 // Generator of ServiceEndpointPolicy_Spec instances for property testing - lazily instantiated by
-//ServiceEndpointPolicySpecGenerator()
-var serviceEndpointPolicySpecGenerator gopter.Gen
+//ServiceEndpointPolicy_SpecGenerator()
+var serviceEndpointPolicy_specGenerator gopter.Gen
 
-// ServiceEndpointPolicySpecGenerator returns a generator of ServiceEndpointPolicy_Spec instances for property testing.
-// We first initialize serviceEndpointPolicySpecGenerator with a simplified generator based on the
+// ServiceEndpointPolicy_SpecGenerator returns a generator of ServiceEndpointPolicy_Spec instances for property testing.
+// We first initialize serviceEndpointPolicy_specGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ServiceEndpointPolicySpecGenerator() gopter.Gen {
-	if serviceEndpointPolicySpecGenerator != nil {
-		return serviceEndpointPolicySpecGenerator
+func ServiceEndpointPolicy_SpecGenerator() gopter.Gen {
+	if serviceEndpointPolicy_specGenerator != nil {
+		return serviceEndpointPolicy_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServiceEndpointPolicySpec(generators)
-	serviceEndpointPolicySpecGenerator = gen.Struct(reflect.TypeOf(ServiceEndpointPolicy_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForServiceEndpointPolicy_Spec(generators)
+	serviceEndpointPolicy_specGenerator = gen.Struct(reflect.TypeOf(ServiceEndpointPolicy_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServiceEndpointPolicySpec(generators)
-	AddRelatedPropertyGeneratorsForServiceEndpointPolicySpec(generators)
-	serviceEndpointPolicySpecGenerator = gen.Struct(reflect.TypeOf(ServiceEndpointPolicy_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForServiceEndpointPolicy_Spec(generators)
+	AddRelatedPropertyGeneratorsForServiceEndpointPolicy_Spec(generators)
+	serviceEndpointPolicy_specGenerator = gen.Struct(reflect.TypeOf(ServiceEndpointPolicy_Spec{}), generators)
 
-	return serviceEndpointPolicySpecGenerator
+	return serviceEndpointPolicy_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServiceEndpointPolicySpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServiceEndpointPolicySpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForServiceEndpointPolicy_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServiceEndpointPolicy_Spec(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForServiceEndpointPolicySpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServiceEndpointPolicySpec(gens map[string]gopter.Gen) {
-	gens["ServiceEndpointPolicyDefinitions"] = gen.SliceOf(ServiceEndpointPolicyDefinitionSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator())
+// AddRelatedPropertyGeneratorsForServiceEndpointPolicy_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServiceEndpointPolicy_Spec(gens map[string]gopter.Gen) {
+	gens["ServiceEndpointPolicyDefinitions"] = gen.SliceOf(ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator())
 }
 
 func Test_ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1241,12 +1241,12 @@ func Test_ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded, ServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()))
+		prop.ForAll(RunJSONSerializationTestForServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded, ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded runs a test to see if a specific instance of ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded(subject ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+// RunJSONSerializationTestForServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded runs a test to see if a specific instance of ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded(subject ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1273,24 +1273,24 @@ func RunJSONSerializationTestForServiceEndpointPolicyStatusVirtualNetworksSubnet
 }
 
 // Generator of ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing -
-//lazily instantiated by ServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
-var serviceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
+//lazily instantiated by ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()
+var serviceEndpointPolicy_status_virtualNetworksSubnet_subResourceEmbeddedGenerator gopter.Gen
 
-// ServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
-func ServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator() gopter.Gen {
-	if serviceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator != nil {
-		return serviceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator
+// ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator returns a generator of ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
+func ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator() gopter.Gen {
+	if serviceEndpointPolicy_status_virtualNetworksSubnet_subResourceEmbeddedGenerator != nil {
+		return serviceEndpointPolicy_status_virtualNetworksSubnet_subResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded(generators)
-	serviceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded(generators)
+	serviceEndpointPolicy_status_virtualNetworksSubnet_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
 
-	return serviceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator
+	return serviceEndpointPolicy_status_virtualNetworksSubnet_subResourceEmbeddedGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Kind"] = gen.PtrOf(gen.AlphaString())
 }
@@ -1302,12 +1302,12 @@ func Test_ServiceEndpointPropertiesFormat_Spec_WhenSerializedToJson_Deserializes
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ServiceEndpointPropertiesFormat_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceEndpointPropertiesFormatSpec, ServiceEndpointPropertiesFormatSpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForServiceEndpointPropertiesFormat_Spec, ServiceEndpointPropertiesFormat_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServiceEndpointPropertiesFormatSpec runs a test to see if a specific instance of ServiceEndpointPropertiesFormat_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceEndpointPropertiesFormatSpec(subject ServiceEndpointPropertiesFormat_Spec) string {
+// RunJSONSerializationTestForServiceEndpointPropertiesFormat_Spec runs a test to see if a specific instance of ServiceEndpointPropertiesFormat_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServiceEndpointPropertiesFormat_Spec(subject ServiceEndpointPropertiesFormat_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1334,24 +1334,24 @@ func RunJSONSerializationTestForServiceEndpointPropertiesFormatSpec(subject Serv
 }
 
 // Generator of ServiceEndpointPropertiesFormat_Spec instances for property testing - lazily instantiated by
-//ServiceEndpointPropertiesFormatSpecGenerator()
-var serviceEndpointPropertiesFormatSpecGenerator gopter.Gen
+//ServiceEndpointPropertiesFormat_SpecGenerator()
+var serviceEndpointPropertiesFormat_specGenerator gopter.Gen
 
-// ServiceEndpointPropertiesFormatSpecGenerator returns a generator of ServiceEndpointPropertiesFormat_Spec instances for property testing.
-func ServiceEndpointPropertiesFormatSpecGenerator() gopter.Gen {
-	if serviceEndpointPropertiesFormatSpecGenerator != nil {
-		return serviceEndpointPropertiesFormatSpecGenerator
+// ServiceEndpointPropertiesFormat_SpecGenerator returns a generator of ServiceEndpointPropertiesFormat_Spec instances for property testing.
+func ServiceEndpointPropertiesFormat_SpecGenerator() gopter.Gen {
+	if serviceEndpointPropertiesFormat_specGenerator != nil {
+		return serviceEndpointPropertiesFormat_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServiceEndpointPropertiesFormatSpec(generators)
-	serviceEndpointPropertiesFormatSpecGenerator = gen.Struct(reflect.TypeOf(ServiceEndpointPropertiesFormat_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForServiceEndpointPropertiesFormat_Spec(generators)
+	serviceEndpointPropertiesFormat_specGenerator = gen.Struct(reflect.TypeOf(ServiceEndpointPropertiesFormat_Spec{}), generators)
 
-	return serviceEndpointPropertiesFormatSpecGenerator
+	return serviceEndpointPropertiesFormat_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServiceEndpointPropertiesFormatSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServiceEndpointPropertiesFormatSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForServiceEndpointPropertiesFormat_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServiceEndpointPropertiesFormat_Spec(gens map[string]gopter.Gen) {
 	gens["Locations"] = gen.SliceOf(gen.AlphaString())
 	gens["Service"] = gen.PtrOf(gen.AlphaString())
 }
@@ -1363,12 +1363,12 @@ func Test_ServiceEndpointPropertiesFormat_Status_WhenSerializedToJson_Deserializ
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ServiceEndpointPropertiesFormat_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceEndpointPropertiesFormatStatus, ServiceEndpointPropertiesFormatStatusGenerator()))
+		prop.ForAll(RunJSONSerializationTestForServiceEndpointPropertiesFormat_Status, ServiceEndpointPropertiesFormat_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServiceEndpointPropertiesFormatStatus runs a test to see if a specific instance of ServiceEndpointPropertiesFormat_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceEndpointPropertiesFormatStatus(subject ServiceEndpointPropertiesFormat_Status) string {
+// RunJSONSerializationTestForServiceEndpointPropertiesFormat_Status runs a test to see if a specific instance of ServiceEndpointPropertiesFormat_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForServiceEndpointPropertiesFormat_Status(subject ServiceEndpointPropertiesFormat_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1395,24 +1395,24 @@ func RunJSONSerializationTestForServiceEndpointPropertiesFormatStatus(subject Se
 }
 
 // Generator of ServiceEndpointPropertiesFormat_Status instances for property testing - lazily instantiated by
-//ServiceEndpointPropertiesFormatStatusGenerator()
-var serviceEndpointPropertiesFormatStatusGenerator gopter.Gen
+//ServiceEndpointPropertiesFormat_StatusGenerator()
+var serviceEndpointPropertiesFormat_statusGenerator gopter.Gen
 
-// ServiceEndpointPropertiesFormatStatusGenerator returns a generator of ServiceEndpointPropertiesFormat_Status instances for property testing.
-func ServiceEndpointPropertiesFormatStatusGenerator() gopter.Gen {
-	if serviceEndpointPropertiesFormatStatusGenerator != nil {
-		return serviceEndpointPropertiesFormatStatusGenerator
+// ServiceEndpointPropertiesFormat_StatusGenerator returns a generator of ServiceEndpointPropertiesFormat_Status instances for property testing.
+func ServiceEndpointPropertiesFormat_StatusGenerator() gopter.Gen {
+	if serviceEndpointPropertiesFormat_statusGenerator != nil {
+		return serviceEndpointPropertiesFormat_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServiceEndpointPropertiesFormatStatus(generators)
-	serviceEndpointPropertiesFormatStatusGenerator = gen.Struct(reflect.TypeOf(ServiceEndpointPropertiesFormat_Status{}), generators)
+	AddIndependentPropertyGeneratorsForServiceEndpointPropertiesFormat_Status(generators)
+	serviceEndpointPropertiesFormat_statusGenerator = gen.Struct(reflect.TypeOf(ServiceEndpointPropertiesFormat_Status{}), generators)
 
-	return serviceEndpointPropertiesFormatStatusGenerator
+	return serviceEndpointPropertiesFormat_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServiceEndpointPropertiesFormatStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServiceEndpointPropertiesFormatStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForServiceEndpointPropertiesFormat_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServiceEndpointPropertiesFormat_Status(gens map[string]gopter.Gen) {
 	gens["Locations"] = gen.SliceOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["Service"] = gen.PtrOf(gen.AlphaString())
@@ -1425,12 +1425,12 @@ func Test_PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenS
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded, PublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()))
+		prop.ForAll(RunJSONSerializationTestForPublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded, PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded runs a test to see if a specific instance of PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded(subject PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+// RunJSONSerializationTestForPublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded runs a test to see if a specific instance of PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForPublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded(subject PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1457,41 +1457,41 @@ func RunJSONSerializationTestForPublicIPAddressStatusVirtualNetworksSubnetSubRes
 }
 
 // Generator of PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing - lazily
-//instantiated by PublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
-var publicIPAddressStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
+//instantiated by PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()
+var publicIPAddress_status_virtualNetworksSubnet_subResourceEmbeddedGenerator gopter.Gen
 
-// PublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
-// We first initialize publicIPAddressStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator with a simplified generator based on the
+// PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator returns a generator of PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
+// We first initialize publicIPAddress_status_virtualNetworksSubnet_subResourceEmbeddedGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func PublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator() gopter.Gen {
-	if publicIPAddressStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator != nil {
-		return publicIPAddressStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator
+func PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator() gopter.Gen {
+	if publicIPAddress_status_virtualNetworksSubnet_subResourceEmbeddedGenerator != nil {
+		return publicIPAddress_status_virtualNetworksSubnet_subResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded(generators)
-	publicIPAddressStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForPublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded(generators)
+	publicIPAddress_status_virtualNetworksSubnet_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded(generators)
-	AddRelatedPropertyGeneratorsForPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded(generators)
-	publicIPAddressStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForPublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded(generators)
+	AddRelatedPropertyGeneratorsForPublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded(generators)
+	publicIPAddress_status_virtualNetworksSubnet_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
 
-	return publicIPAddressStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator
+	return publicIPAddress_status_virtualNetworksSubnet_subResourceEmbeddedGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationStatusGenerator())
-	gens["Sku"] = gen.PtrOf(PublicIPAddressSkuStatusGenerator())
+// AddRelatedPropertyGeneratorsForPublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_StatusGenerator())
+	gens["Sku"] = gen.PtrOf(PublicIPAddressSku_StatusGenerator())
 }
 
 func Test_Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1501,12 +1501,12 @@ func Test_Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerializedToJ
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRouteSpecVirtualNetworksSubnetSubResourceEmbedded, RouteSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator()))
+		prop.ForAll(RunJSONSerializationTestForRoute_Spec_VirtualNetworksSubnet_SubResourceEmbedded, Route_Spec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRouteSpecVirtualNetworksSubnetSubResourceEmbedded runs a test to see if a specific instance of Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForRouteSpecVirtualNetworksSubnetSubResourceEmbedded(subject Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded) string {
+// RunJSONSerializationTestForRoute_Spec_VirtualNetworksSubnet_SubResourceEmbedded runs a test to see if a specific instance of Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForRoute_Spec_VirtualNetworksSubnet_SubResourceEmbedded(subject Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1533,19 +1533,19 @@ func RunJSONSerializationTestForRouteSpecVirtualNetworksSubnetSubResourceEmbedde
 }
 
 // Generator of Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing - lazily
-//instantiated by RouteSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator()
-var routeSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
+//instantiated by Route_Spec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()
+var route_spec_virtualNetworksSubnet_subResourceEmbeddedGenerator gopter.Gen
 
-// RouteSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
-func RouteSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator() gopter.Gen {
-	if routeSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator != nil {
-		return routeSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator
+// Route_Spec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator returns a generator of Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
+func Route_Spec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator() gopter.Gen {
+	if route_spec_virtualNetworksSubnet_subResourceEmbeddedGenerator != nil {
+		return route_spec_virtualNetworksSubnet_subResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	routeSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
+	route_spec_virtualNetworksSubnet_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
 
-	return routeSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator
+	return route_spec_virtualNetworksSubnet_subResourceEmbeddedGenerator
 }
 
 func Test_SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1555,12 +1555,12 @@ func Test_SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerial
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSecurityRuleSpecVirtualNetworksSubnetSubResourceEmbedded, SecurityRuleSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded, SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSecurityRuleSpecVirtualNetworksSubnetSubResourceEmbedded runs a test to see if a specific instance of SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForSecurityRuleSpecVirtualNetworksSubnetSubResourceEmbedded(subject SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded) string {
+// RunJSONSerializationTestForSecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded runs a test to see if a specific instance of SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForSecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded(subject SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1587,19 +1587,19 @@ func RunJSONSerializationTestForSecurityRuleSpecVirtualNetworksSubnetSubResource
 }
 
 // Generator of SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing - lazily
-//instantiated by SecurityRuleSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator()
-var securityRuleSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
+//instantiated by SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()
+var securityRule_spec_virtualNetworksSubnet_subResourceEmbeddedGenerator gopter.Gen
 
-// SecurityRuleSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
-func SecurityRuleSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator() gopter.Gen {
-	if securityRuleSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator != nil {
-		return securityRuleSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator
+// SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator returns a generator of SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
+func SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator() gopter.Gen {
+	if securityRule_spec_virtualNetworksSubnet_subResourceEmbeddedGenerator != nil {
+		return securityRule_spec_virtualNetworksSubnet_subResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	securityRuleSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
+	securityRule_spec_virtualNetworksSubnet_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
 
-	return securityRuleSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator
+	return securityRule_spec_virtualNetworksSubnet_subResourceEmbeddedGenerator
 }
 
 func Test_ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1609,12 +1609,12 @@ func Test_ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResource
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceEndpointPolicyDefinitionSpecVirtualNetworksSubnetSubResourceEmbedded, ServiceEndpointPolicyDefinitionSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator()))
+		prop.ForAll(RunJSONSerializationTestForServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded, ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServiceEndpointPolicyDefinitionSpecVirtualNetworksSubnetSubResourceEmbedded runs a test to see if a specific instance of ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceEndpointPolicyDefinitionSpecVirtualNetworksSubnetSubResourceEmbedded(subject ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded) string {
+// RunJSONSerializationTestForServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded runs a test to see if a specific instance of ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded(subject ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1641,17 +1641,18 @@ func RunJSONSerializationTestForServiceEndpointPolicyDefinitionSpecVirtualNetwor
 }
 
 // Generator of ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded instances for property
-//testing - lazily instantiated by ServiceEndpointPolicyDefinitionSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator()
-var serviceEndpointPolicyDefinitionSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
+//testing - lazily instantiated by
+//ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()
+var serviceEndpointPolicyDefinition_spec_virtualNetworksSubnet_subResourceEmbeddedGenerator gopter.Gen
 
-// ServiceEndpointPolicyDefinitionSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
-func ServiceEndpointPolicyDefinitionSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator() gopter.Gen {
-	if serviceEndpointPolicyDefinitionSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator != nil {
-		return serviceEndpointPolicyDefinitionSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator
+// ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator returns a generator of ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
+func ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator() gopter.Gen {
+	if serviceEndpointPolicyDefinition_spec_virtualNetworksSubnet_subResourceEmbeddedGenerator != nil {
+		return serviceEndpointPolicyDefinition_spec_virtualNetworksSubnet_subResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	serviceEndpointPolicyDefinitionSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
+	serviceEndpointPolicyDefinition_spec_virtualNetworksSubnet_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
 
-	return serviceEndpointPolicyDefinitionSpecVirtualNetworksSubnetSubResourceEmbeddedGenerator
+	return serviceEndpointPolicyDefinition_spec_virtualNetworksSubnet_subResourceEmbeddedGenerator
 }

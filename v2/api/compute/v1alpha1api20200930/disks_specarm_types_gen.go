@@ -92,7 +92,7 @@ type DiskProperties_SpecARM struct {
 
 	//HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable
 	//to OS disks only.
-	HyperVGeneration *DiskPropertiesSpecHyperVGeneration `json:"hyperVGeneration,omitempty"`
+	HyperVGeneration *DiskProperties_HyperVGeneration_Spec `json:"hyperVGeneration,omitempty"`
 
 	//MaxShares: The maximum number of VMs that can attach to the disk at the same
 	//time. Value greater than one indicates a disk that can be mounted on multiple
@@ -101,7 +101,7 @@ type DiskProperties_SpecARM struct {
 	NetworkAccessPolicy *NetworkAccessPolicy_Spec `json:"networkAccessPolicy,omitempty"`
 
 	//OsType: The Operating System type.
-	OsType *DiskPropertiesSpecOsType `json:"osType,omitempty"`
+	OsType *DiskProperties_OsType_Spec `json:"osType,omitempty"`
 
 	//PurchasePlan: Purchase plan information for the the image from which the OS disk
 	//was created. E.g. - {name: 2019-Datacenter, publisher: MicrosoftWindowsServer,
@@ -116,7 +116,7 @@ type DiskProperties_SpecARM struct {
 
 type DiskSku_SpecARM struct {
 	//Name: The sku name.
-	Name *DiskSkuSpecName `json:"name,omitempty"`
+	Name *DiskSku_Name_Spec `json:"name,omitempty"`
 }
 
 type ExtendedLocation_SpecARM struct {
@@ -129,7 +129,7 @@ type ExtendedLocation_SpecARM struct {
 
 type CreationData_SpecARM struct {
 	//CreateOption: This enumerates the possible sources of a disk's creation.
-	CreateOption CreationDataSpecCreateOption `json:"createOption"`
+	CreateOption CreationData_CreateOption_Spec `json:"createOption"`
 
 	//GalleryImageReference: Required if creating from a Gallery Image. The id of the
 	//ImageDiskReference will be the ARM id of the shared galley image version from
@@ -159,14 +159,14 @@ type CreationData_SpecARM struct {
 	UploadSizeBytes *int `json:"uploadSizeBytes,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"Premium_LRS","Standard_LRS","StandardSSD_LRS","UltraSSD_LRS"}
-type DiskSkuSpecName string
+// +kubebuilder:validation:Enum={"Premium_LRS","StandardSSD_LRS","Standard_LRS","UltraSSD_LRS"}
+type DiskSku_Name_Spec string
 
 const (
-	DiskSkuSpecNamePremiumLRS     = DiskSkuSpecName("Premium_LRS")
-	DiskSkuSpecNameStandardLRS    = DiskSkuSpecName("Standard_LRS")
-	DiskSkuSpecNameStandardSSDLRS = DiskSkuSpecName("StandardSSD_LRS")
-	DiskSkuSpecNameUltraSSDLRS    = DiskSkuSpecName("UltraSSD_LRS")
+	DiskSku_Name_SpecPremium_LRS     = DiskSku_Name_Spec("Premium_LRS")
+	DiskSku_Name_SpecStandardSSD_LRS = DiskSku_Name_Spec("StandardSSD_LRS")
+	DiskSku_Name_SpecStandard_LRS    = DiskSku_Name_Spec("Standard_LRS")
+	DiskSku_Name_SpecUltraSSD_LRS    = DiskSku_Name_Spec("UltraSSD_LRS")
 )
 
 type EncryptionSettingsCollection_SpecARM struct {

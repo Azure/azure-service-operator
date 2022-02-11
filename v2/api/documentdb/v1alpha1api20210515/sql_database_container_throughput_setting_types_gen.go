@@ -249,17 +249,17 @@ func (setting *SqlDatabaseContainerThroughputSetting) AssignPropertiesFromSqlDat
 
 	// Spec
 	var spec DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC
-	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC(&source.Spec)
+	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC() to populate field Spec")
 	}
 	setting.Spec = spec
 
 	// Status
 	var status ThroughputSettingsUpdateParameters_Status
-	err = status.AssignPropertiesFromThroughputSettingsUpdateParametersStatus(&source.Status)
+	err = status.AssignPropertiesFromThroughputSettingsUpdateParameters_Status(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsUpdateParametersStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsUpdateParameters_Status() to populate field Status")
 	}
 	setting.Status = status
 
@@ -275,17 +275,17 @@ func (setting *SqlDatabaseContainerThroughputSetting) AssignPropertiesToSqlDatab
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC
-	err := setting.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC(&spec)
+	err := setting.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v1alpha1api20210515storage.ThroughputSettingsUpdateParameters_Status
-	err = setting.Status.AssignPropertiesToThroughputSettingsUpdateParametersStatus(&status)
+	err = setting.Status.AssignPropertiesToThroughputSettingsUpdateParameters_Status(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsUpdateParametersStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsUpdateParameters_Status() to populate field Status")
 	}
 	destination.Status = status
 
@@ -422,7 +422,7 @@ func (spec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) Conve
 	src, ok := source.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC)
 	if ok {
 		// Populate our instance from source
-		return spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC(src)
+		return spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC(src)
 	}
 
 	// Convert to an intermediate form
@@ -433,7 +433,7 @@ func (spec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) Conve
 	}
 
 	// Update our instance from src
-	err = spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC(src)
+	err = spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -446,12 +446,12 @@ func (spec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) Conve
 	dst, ok := destination.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC(dst)
+		return spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC{}
-	err := spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC(dst)
+	err := spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -465,8 +465,8 @@ func (spec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) Conve
 	return nil
 }
 
-// AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC populates our DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC from the provided source DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC
-func (spec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) error {
+// AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC populates our DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC from the provided source DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC
+func (spec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) error {
 
 	// AzureName
 	spec.AzureName = source.AzureName
@@ -480,9 +480,9 @@ func (spec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) Assig
 	// Resource
 	if source.Resource != nil {
 		var resource ThroughputSettingsResource_Spec
-		err := resource.AssignPropertiesFromThroughputSettingsResourceSpec(source.Resource)
+		err := resource.AssignPropertiesFromThroughputSettingsResource_Spec(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsResourceSpec() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsResource_Spec() to populate field Resource")
 		}
 		spec.Resource = resource
 	} else {
@@ -496,8 +496,8 @@ func (spec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) Assig
 	return nil
 }
 
-// AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC populates the provided destination DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC from our DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC
-func (spec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC(destination *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) error {
+// AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC populates the provided destination DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC from our DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC
+func (spec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC(destination *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -515,9 +515,9 @@ func (spec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) Assig
 
 	// Resource
 	var resource v1alpha1api20210515storage.ThroughputSettingsResource_Spec
-	err := spec.Resource.AssignPropertiesToThroughputSettingsResourceSpec(&resource)
+	err := spec.Resource.AssignPropertiesToThroughputSettingsResource_Spec(&resource)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsResourceSpec() to populate field Resource")
+		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsResource_Spec() to populate field Resource")
 	}
 	destination.Resource = &resource
 

@@ -10,7 +10,7 @@ type NamespacesEventhubs_SPECARM struct {
 	Name      string `json:"name"`
 
 	//Properties: Properties supplied to the Create Or Update Event Hub operation.
-	Properties *NamespacesEventhubs_SPEC_PropertiesARM `json:"properties,omitempty"`
+	Properties *NamespacesEventhubs_Properties_SPECARM `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NamespacesEventhubs_SPECARM{}
@@ -30,7 +30,7 @@ func (specarm NamespacesEventhubs_SPECARM) GetType() string {
 	return ""
 }
 
-type NamespacesEventhubs_SPEC_PropertiesARM struct {
+type NamespacesEventhubs_Properties_SPECARM struct {
 	//CaptureDescription: Properties of capture description
 	CaptureDescription *CaptureDescription_SpecARM `json:"captureDescription,omitempty"`
 
@@ -41,6 +41,9 @@ type NamespacesEventhubs_SPEC_PropertiesARM struct {
 	//PartitionCount: Number of partitions created for the Event Hub, allowed values
 	//are from 1 to 32 partitions.
 	PartitionCount *int `json:"partitionCount,omitempty"`
+
+	//Status: Enumerates the possible values for the status of the Event Hub.
+	Status *NamespacesEventhubs_Properties_Status_SPEC `json:"status,omitempty"`
 }
 
 type CaptureDescription_SpecARM struct {
@@ -53,7 +56,7 @@ type CaptureDescription_SpecARM struct {
 
 	//Encoding: Enumerates the possible values for the encoding format of capture
 	//description. Note: 'AvroDeflate' will be deprecated in New API Version
-	Encoding *CaptureDescriptionSpecEncoding `json:"encoding,omitempty"`
+	Encoding *CaptureDescription_Encoding_Spec `json:"encoding,omitempty"`
 
 	//IntervalInSeconds: The time window allows you to set the frequency with which
 	//the capture to Azure Blobs will happen, value should between 60 to 900 seconds
@@ -74,10 +77,10 @@ type Destination_SpecARM struct {
 
 	//Properties: Properties describing the storage account, blob container and
 	//archive name format for capture destination
-	Properties *Destination_Spec_PropertiesARM `json:"properties,omitempty"`
+	Properties *Destination_Properties_SpecARM `json:"properties,omitempty"`
 }
 
-type Destination_Spec_PropertiesARM struct {
+type Destination_Properties_SpecARM struct {
 	//ArchiveNameFormat: Blob naming convention for archive, e.g.
 	//{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}.
 	//Here all the parameters (Namespace,EventHub .. etc) are mandatory irrespective

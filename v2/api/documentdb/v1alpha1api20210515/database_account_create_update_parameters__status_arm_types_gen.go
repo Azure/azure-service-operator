@@ -10,7 +10,7 @@ type DatabaseAccountCreateUpdateParameters_StatusARM struct {
 
 	//Kind: Indicates the type of database account. This can only be set at database
 	//account creation.
-	Kind *DatabaseAccountCreateUpdateParametersStatusKind `json:"kind,omitempty"`
+	Kind *DatabaseAccountCreateUpdateParameters_Kind_Status `json:"kind,omitempty"`
 
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
@@ -24,12 +24,12 @@ type DatabaseAccountCreateUpdateParameters_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type DatabaseAccountCreateUpdateParametersStatusKind string
+type DatabaseAccountCreateUpdateParameters_Kind_Status string
 
 const (
-	DatabaseAccountCreateUpdateParametersStatusKindGlobalDocumentDB = DatabaseAccountCreateUpdateParametersStatusKind("GlobalDocumentDB")
-	DatabaseAccountCreateUpdateParametersStatusKindMongoDB          = DatabaseAccountCreateUpdateParametersStatusKind("MongoDB")
-	DatabaseAccountCreateUpdateParametersStatusKindParse            = DatabaseAccountCreateUpdateParametersStatusKind("Parse")
+	DatabaseAccountCreateUpdateParameters_Kind_StatusGlobalDocumentDB = DatabaseAccountCreateUpdateParameters_Kind_Status("GlobalDocumentDB")
+	DatabaseAccountCreateUpdateParameters_Kind_StatusMongoDB          = DatabaseAccountCreateUpdateParameters_Kind_Status("MongoDB")
+	DatabaseAccountCreateUpdateParameters_Kind_StatusParse            = DatabaseAccountCreateUpdateParameters_Kind_Status("Parse")
 )
 
 type DatabaseAccountCreateUpdateProperties_StatusARM struct {
@@ -130,13 +130,13 @@ type ManagedServiceIdentity_StatusARM struct {
 	//'SystemAssigned,UserAssigned' includes both an implicitly created identity and a
 	//set of user assigned identities. The type 'None' will remove any identities from
 	//the service.
-	Type *ManagedServiceIdentityStatusType `json:"type,omitempty"`
+	Type *ManagedServiceIdentity_Type_Status `json:"type,omitempty"`
 
 	//UserAssignedIdentities: The list of user identities associated with resource.
 	//The user identity dictionary key references will be ARM resource ids in the
 	//form:
 	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]ManagedServiceIdentity_Status_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]ManagedServiceIdentity_UserAssignedIdentities_StatusARM `json:"userAssignedIdentities,omitempty"`
 }
 
 type AnalyticalStorageConfiguration_StatusARM struct {
@@ -145,7 +145,7 @@ type AnalyticalStorageConfiguration_StatusARM struct {
 
 type ApiProperties_StatusARM struct {
 	//ServerVersion: Describes the ServerVersion of an a MongoDB account.
-	ServerVersion *ApiPropertiesStatusServerVersion `json:"serverVersion,omitempty"`
+	ServerVersion *ApiProperties_ServerVersion_Status `json:"serverVersion,omitempty"`
 }
 
 type BackupPolicy_StatusARM struct {
@@ -161,7 +161,7 @@ type Capability_StatusARM struct {
 type ConsistencyPolicy_StatusARM struct {
 	//DefaultConsistencyLevel: The default consistency level and configuration
 	//settings of the Cosmos DB account.
-	DefaultConsistencyLevel ConsistencyPolicyStatusDefaultConsistencyLevel `json:"defaultConsistencyLevel"`
+	DefaultConsistencyLevel ConsistencyPolicy_DefaultConsistencyLevel_Status `json:"defaultConsistencyLevel"`
 
 	//MaxIntervalInSeconds: When used with the Bounded Staleness consistency level,
 	//this value represents the time amount of staleness (in seconds) tolerated.
@@ -231,16 +231,16 @@ type Location_StatusARM struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
 
-type ManagedServiceIdentityStatusType string
+type ManagedServiceIdentity_Type_Status string
 
 const (
-	ManagedServiceIdentityStatusTypeNone                       = ManagedServiceIdentityStatusType("None")
-	ManagedServiceIdentityStatusTypeSystemAssigned             = ManagedServiceIdentityStatusType("SystemAssigned")
-	ManagedServiceIdentityStatusTypeSystemAssignedUserAssigned = ManagedServiceIdentityStatusType("SystemAssigned,UserAssigned")
-	ManagedServiceIdentityStatusTypeUserAssigned               = ManagedServiceIdentityStatusType("UserAssigned")
+	ManagedServiceIdentity_Type_StatusNone                       = ManagedServiceIdentity_Type_Status("None")
+	ManagedServiceIdentity_Type_StatusSystemAssigned             = ManagedServiceIdentity_Type_Status("SystemAssigned")
+	ManagedServiceIdentity_Type_StatusSystemAssignedUserAssigned = ManagedServiceIdentity_Type_Status("SystemAssigned,UserAssigned")
+	ManagedServiceIdentity_Type_StatusUserAssigned               = ManagedServiceIdentity_Type_Status("UserAssigned")
 )
 
-type ManagedServiceIdentity_Status_UserAssignedIdentitiesARM struct {
+type ManagedServiceIdentity_UserAssignedIdentities_StatusARM struct {
 	//ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 

@@ -10,7 +10,7 @@ type NamespacesAuthorizationRules_SPECARM struct {
 	Name      string `json:"name"`
 
 	//Properties: Properties supplied to create or update AuthorizationRule
-	Properties *NamespacesAuthorizationRules_SPEC_PropertiesARM `json:"properties,omitempty"`
+	Properties *NamespacesAuthorizationRules_Properties_SPECARM `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NamespacesAuthorizationRules_SPECARM{}
@@ -30,7 +30,7 @@ func (specarm NamespacesAuthorizationRules_SPECARM) GetType() string {
 	return ""
 }
 
-type NamespacesAuthorizationRules_SPEC_PropertiesARM struct {
+type NamespacesAuthorizationRules_Properties_SPECARM struct {
 	//Rights: The rights associated with the rule.
-	Rights []NamespacesAuthorizationRulesSPECPropertiesRights `json:"rights"`
+	Rights []NamespacesAuthorizationRules_Properties_Rights_SPEC `json:"rights"`
 }

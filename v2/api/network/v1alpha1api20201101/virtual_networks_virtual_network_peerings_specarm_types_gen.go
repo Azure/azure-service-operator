@@ -55,7 +55,7 @@ type VirtualNetworkPeeringPropertiesFormat_SpecARM struct {
 	DoNotVerifyRemoteGateways *bool `json:"doNotVerifyRemoteGateways,omitempty"`
 
 	//PeeringState: The status of the virtual network peering.
-	PeeringState *VirtualNetworkPeeringPropertiesFormatSpecPeeringState `json:"peeringState,omitempty"`
+	PeeringState *VirtualNetworkPeeringPropertiesFormat_PeeringState_Spec `json:"peeringState,omitempty"`
 
 	//RemoteAddressSpace: The reference to the remote virtual network address space.
 	RemoteAddressSpace *AddressSpace_SpecARM `json:"remoteAddressSpace,omitempty"`

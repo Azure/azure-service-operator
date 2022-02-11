@@ -33,14 +33,14 @@ func (specarm RedisEnterpriseDatabases_SPECARM) GetType() string {
 type DatabaseProperties_SpecARM struct {
 	//ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted
 	//or plaintext redis protocols. Default is TLS-encrypted.
-	ClientProtocol *DatabasePropertiesSpecClientProtocol `json:"clientProtocol,omitempty"`
+	ClientProtocol *DatabaseProperties_ClientProtocol_Spec `json:"clientProtocol,omitempty"`
 
 	//ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create
 	//time.
-	ClusteringPolicy *DatabasePropertiesSpecClusteringPolicy `json:"clusteringPolicy,omitempty"`
+	ClusteringPolicy *DatabaseProperties_ClusteringPolicy_Spec `json:"clusteringPolicy,omitempty"`
 
 	//EvictionPolicy: Redis eviction policy - default is VolatileLRU
-	EvictionPolicy *DatabasePropertiesSpecEvictionPolicy `json:"evictionPolicy,omitempty"`
+	EvictionPolicy *DatabaseProperties_EvictionPolicy_Spec `json:"evictionPolicy,omitempty"`
 
 	//Modules: Optional set of redis modules to enable in this database - modules can
 	//only be added at creation time.
@@ -68,11 +68,11 @@ type Persistence_SpecARM struct {
 	AofEnabled *bool `json:"aofEnabled,omitempty"`
 
 	//AofFrequency: Sets the frequency at which data is written to disk.
-	AofFrequency *PersistenceSpecAofFrequency `json:"aofFrequency,omitempty"`
+	AofFrequency *Persistence_AofFrequency_Spec `json:"aofFrequency,omitempty"`
 
 	//RdbEnabled: Sets whether RDB is enabled.
 	RdbEnabled *bool `json:"rdbEnabled,omitempty"`
 
 	//RdbFrequency: Sets the frequency at which a snapshot of the database is created.
-	RdbFrequency *PersistenceSpecRdbFrequency `json:"rdbFrequency,omitempty"`
+	RdbFrequency *Persistence_RdbFrequency_Spec `json:"rdbFrequency,omitempty"`
 }

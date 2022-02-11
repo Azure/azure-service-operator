@@ -40,7 +40,7 @@ type Identity_StatusARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	//Type: Type of managed service identity.
-	Type *IdentityStatusType `json:"type,omitempty"`
+	Type *Identity_Type_Status `json:"type,omitempty"`
 
 	//UserAssignedIdentities: Properties for User Assigned Identities
 	UserAssignedIdentities map[string]DictionaryValue_StatusARM `json:"userAssignedIdentities,omitempty"`
@@ -82,10 +82,10 @@ type SBSku_StatusARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	//Name: Name of this SKU.
-	Name SBSkuStatusName `json:"name"`
+	Name SBSku_Name_Status `json:"name"`
 
 	//Tier: The billing tier of this particular SKU.
-	Tier *SBSkuStatusTier `json:"tier,omitempty"`
+	Tier *SBSku_Tier_Status `json:"tier,omitempty"`
 }
 
 type SystemData_StatusARM struct {
@@ -96,7 +96,7 @@ type SystemData_StatusARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	//CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemDataStatusCreatedByType `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_Status `json:"createdByType,omitempty"`
 
 	//LastModifiedAt: The type of identity that last modified the resource.
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -105,7 +105,7 @@ type SystemData_StatusARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	//LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_Status `json:"lastModifiedByType,omitempty"`
 }
 
 type DictionaryValue_StatusARM struct {
@@ -118,7 +118,7 @@ type DictionaryValue_StatusARM struct {
 
 type Encryption_StatusARM struct {
 	//KeySource: Enumerates the possible value of keySource for Encryption
-	KeySource *EncryptionStatusKeySource `json:"keySource,omitempty"`
+	KeySource *Encryption_KeySource_Status `json:"keySource,omitempty"`
 
 	//KeyVaultProperties: Properties of KeyVault
 	KeyVaultProperties []KeyVaultProperties_StatusARM `json:"keyVaultProperties,omitempty"`
@@ -128,13 +128,13 @@ type Encryption_StatusARM struct {
 	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
 }
 
-type IdentityStatusType string
+type Identity_Type_Status string
 
 const (
-	IdentityStatusTypeNone                       = IdentityStatusType("None")
-	IdentityStatusTypeSystemAssigned             = IdentityStatusType("SystemAssigned")
-	IdentityStatusTypeSystemAssignedUserAssigned = IdentityStatusType("SystemAssigned, UserAssigned")
-	IdentityStatusTypeUserAssigned               = IdentityStatusType("UserAssigned")
+	Identity_Type_StatusNone                       = Identity_Type_Status("None")
+	Identity_Type_StatusSystemAssigned             = Identity_Type_Status("SystemAssigned")
+	Identity_Type_StatusSystemAssignedUserAssigned = Identity_Type_Status("SystemAssigned, UserAssigned")
+	Identity_Type_StatusUserAssigned               = Identity_Type_Status("UserAssigned")
 )
 
 type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
@@ -145,38 +145,38 @@ type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
 }
 
-type SBSkuStatusName string
+type SBSku_Name_Status string
 
 const (
-	SBSkuStatusNameBasic    = SBSkuStatusName("Basic")
-	SBSkuStatusNamePremium  = SBSkuStatusName("Premium")
-	SBSkuStatusNameStandard = SBSkuStatusName("Standard")
+	SBSku_Name_StatusBasic    = SBSku_Name_Status("Basic")
+	SBSku_Name_StatusPremium  = SBSku_Name_Status("Premium")
+	SBSku_Name_StatusStandard = SBSku_Name_Status("Standard")
 )
 
-type SBSkuStatusTier string
+type SBSku_Tier_Status string
 
 const (
-	SBSkuStatusTierBasic    = SBSkuStatusTier("Basic")
-	SBSkuStatusTierPremium  = SBSkuStatusTier("Premium")
-	SBSkuStatusTierStandard = SBSkuStatusTier("Standard")
+	SBSku_Tier_StatusBasic    = SBSku_Tier_Status("Basic")
+	SBSku_Tier_StatusPremium  = SBSku_Tier_Status("Premium")
+	SBSku_Tier_StatusStandard = SBSku_Tier_Status("Standard")
 )
 
-type SystemDataStatusCreatedByType string
+type SystemData_CreatedByType_Status string
 
 const (
-	SystemDataStatusCreatedByTypeApplication     = SystemDataStatusCreatedByType("Application")
-	SystemDataStatusCreatedByTypeKey             = SystemDataStatusCreatedByType("Key")
-	SystemDataStatusCreatedByTypeManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
-	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
+	SystemData_CreatedByType_StatusApplication     = SystemData_CreatedByType_Status("Application")
+	SystemData_CreatedByType_StatusKey             = SystemData_CreatedByType_Status("Key")
+	SystemData_CreatedByType_StatusManagedIdentity = SystemData_CreatedByType_Status("ManagedIdentity")
+	SystemData_CreatedByType_StatusUser            = SystemData_CreatedByType_Status("User")
 )
 
-type SystemDataStatusLastModifiedByType string
+type SystemData_LastModifiedByType_Status string
 
 const (
-	SystemDataStatusLastModifiedByTypeApplication     = SystemDataStatusLastModifiedByType("Application")
-	SystemDataStatusLastModifiedByTypeKey             = SystemDataStatusLastModifiedByType("Key")
-	SystemDataStatusLastModifiedByTypeManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
-	SystemDataStatusLastModifiedByTypeUser            = SystemDataStatusLastModifiedByType("User")
+	SystemData_LastModifiedByType_StatusApplication     = SystemData_LastModifiedByType_Status("Application")
+	SystemData_LastModifiedByType_StatusKey             = SystemData_LastModifiedByType_Status("Key")
+	SystemData_LastModifiedByType_StatusManagedIdentity = SystemData_LastModifiedByType_Status("ManagedIdentity")
+	SystemData_LastModifiedByType_StatusUser            = SystemData_LastModifiedByType_Status("User")
 )
 
 type KeyVaultProperties_StatusARM struct {

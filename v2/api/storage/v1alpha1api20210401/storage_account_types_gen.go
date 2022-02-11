@@ -248,17 +248,17 @@ func (account *StorageAccount) AssignPropertiesFromStorageAccount(source *v1alph
 
 	// Spec
 	var spec StorageAccounts_SPEC
-	err := spec.AssignPropertiesFromStorageAccountsSPEC(&source.Spec)
+	err := spec.AssignPropertiesFromStorageAccounts_SPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountsSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccounts_SPEC() to populate field Spec")
 	}
 	account.Spec = spec
 
 	// Status
 	var status StorageAccount_Status
-	err = status.AssignPropertiesFromStorageAccountStatus(&source.Status)
+	err = status.AssignPropertiesFromStorageAccount_Status(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccount_Status() to populate field Status")
 	}
 	account.Status = status
 
@@ -274,17 +274,17 @@ func (account *StorageAccount) AssignPropertiesToStorageAccount(destination *v1a
 
 	// Spec
 	var spec v1alpha1api20210401storage.StorageAccounts_SPEC
-	err := account.Spec.AssignPropertiesToStorageAccountsSPEC(&spec)
+	err := account.Spec.AssignPropertiesToStorageAccounts_SPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToStorageAccounts_SPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v1alpha1api20210401storage.StorageAccount_Status
-	err = account.Status.AssignPropertiesToStorageAccountStatus(&status)
+	err = account.Status.AssignPropertiesToStorageAccount_Status(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToStorageAccount_Status() to populate field Status")
 	}
 	destination.Status = status
 
@@ -319,7 +319,7 @@ const APIVersionValue = APIVersion("2021-04-01")
 type StorageAccount_Status struct {
 	//AccessTier: Required for storage accounts where kind = BlobStorage. The access
 	//tier used for billing.
-	AccessTier *StorageAccountPropertiesStatusAccessTier `json:"accessTier,omitempty"`
+	AccessTier *StorageAccountProperties_AccessTier_Status `json:"accessTier,omitempty"`
 
 	//AllowBlobPublicAccess: Allow or disallow public access to all blobs or
 	//containers in the storage account. The default interpretation is true for this
@@ -372,11 +372,11 @@ type StorageAccount_Status struct {
 	KeyPolicy *KeyPolicy_Status `json:"keyPolicy,omitempty"`
 
 	//Kind: Required. Indicates the type of storage account.
-	Kind *StorageAccountStatusKind `json:"kind,omitempty"`
+	Kind *StorageAccount_Kind_Status `json:"kind,omitempty"`
 
 	//LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be
 	//disabled once it is enabled.
-	LargeFileSharesState *StorageAccountPropertiesStatusLargeFileSharesState `json:"largeFileSharesState,omitempty"`
+	LargeFileSharesState *StorageAccountProperties_LargeFileSharesState_Status `json:"largeFileSharesState,omitempty"`
 
 	//Location: Required. Gets or sets the location of the resource. This will be one
 	//of the supported and registered Azure Geo Regions (e.g. West US, East US,
@@ -387,7 +387,7 @@ type StorageAccount_Status struct {
 
 	//MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to
 	//storage. The default interpretation is TLS 1.0 for this property.
-	MinimumTlsVersion *StorageAccountPropertiesStatusMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *StorageAccountProperties_MinimumTlsVersion_Status `json:"minimumTlsVersion,omitempty"`
 
 	//NetworkAcls: Network rule set
 	NetworkAcls *NetworkRuleSet_Status `json:"networkAcls,omitempty"`
@@ -421,7 +421,7 @@ func (account *StorageAccount_Status) ConvertStatusFrom(source genruntime.Conver
 	src, ok := source.(*v1alpha1api20210401storage.StorageAccount_Status)
 	if ok {
 		// Populate our instance from source
-		return account.AssignPropertiesFromStorageAccountStatus(src)
+		return account.AssignPropertiesFromStorageAccount_Status(src)
 	}
 
 	// Convert to an intermediate form
@@ -432,7 +432,7 @@ func (account *StorageAccount_Status) ConvertStatusFrom(source genruntime.Conver
 	}
 
 	// Update our instance from src
-	err = account.AssignPropertiesFromStorageAccountStatus(src)
+	err = account.AssignPropertiesFromStorageAccount_Status(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -445,12 +445,12 @@ func (account *StorageAccount_Status) ConvertStatusTo(destination genruntime.Con
 	dst, ok := destination.(*v1alpha1api20210401storage.StorageAccount_Status)
 	if ok {
 		// Populate destination from our instance
-		return account.AssignPropertiesToStorageAccountStatus(dst)
+		return account.AssignPropertiesToStorageAccount_Status(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210401storage.StorageAccount_Status{}
-	err := account.AssignPropertiesToStorageAccountStatus(dst)
+	err := account.AssignPropertiesToStorageAccount_Status(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -716,12 +716,12 @@ func (account *StorageAccount_Status) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromStorageAccountStatus populates our StorageAccount_Status from the provided source StorageAccount_Status
-func (account *StorageAccount_Status) AssignPropertiesFromStorageAccountStatus(source *v1alpha1api20210401storage.StorageAccount_Status) error {
+// AssignPropertiesFromStorageAccount_Status populates our StorageAccount_Status from the provided source StorageAccount_Status
+func (account *StorageAccount_Status) AssignPropertiesFromStorageAccount_Status(source *v1alpha1api20210401storage.StorageAccount_Status) error {
 
 	// AccessTier
 	if source.AccessTier != nil {
-		accessTier := StorageAccountPropertiesStatusAccessTier(*source.AccessTier)
+		accessTier := StorageAccountProperties_AccessTier_Status(*source.AccessTier)
 		account.AccessTier = &accessTier
 	} else {
 		account.AccessTier = nil
@@ -754,9 +754,9 @@ func (account *StorageAccount_Status) AssignPropertiesFromStorageAccountStatus(s
 	// AzureFilesIdentityBasedAuthentication
 	if source.AzureFilesIdentityBasedAuthentication != nil {
 		var azureFilesIdentityBasedAuthentication AzureFilesIdentityBasedAuthentication_Status
-		err := azureFilesIdentityBasedAuthentication.AssignPropertiesFromAzureFilesIdentityBasedAuthenticationStatus(source.AzureFilesIdentityBasedAuthentication)
+		err := azureFilesIdentityBasedAuthentication.AssignPropertiesFromAzureFilesIdentityBasedAuthentication_Status(source.AzureFilesIdentityBasedAuthentication)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAzureFilesIdentityBasedAuthenticationStatus() to populate field AzureFilesIdentityBasedAuthentication")
+			return errors.Wrap(err, "calling AssignPropertiesFromAzureFilesIdentityBasedAuthentication_Status() to populate field AzureFilesIdentityBasedAuthentication")
 		}
 		account.AzureFilesIdentityBasedAuthentication = &azureFilesIdentityBasedAuthentication
 	} else {
@@ -769,9 +769,9 @@ func (account *StorageAccount_Status) AssignPropertiesFromStorageAccountStatus(s
 	// CustomDomain
 	if source.CustomDomain != nil {
 		var customDomain CustomDomain_Status
-		err := customDomain.AssignPropertiesFromCustomDomainStatus(source.CustomDomain)
+		err := customDomain.AssignPropertiesFromCustomDomain_Status(source.CustomDomain)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCustomDomainStatus() to populate field CustomDomain")
+			return errors.Wrap(err, "calling AssignPropertiesFromCustomDomain_Status() to populate field CustomDomain")
 		}
 		account.CustomDomain = &customDomain
 	} else {
@@ -781,9 +781,9 @@ func (account *StorageAccount_Status) AssignPropertiesFromStorageAccountStatus(s
 	// Encryption
 	if source.Encryption != nil {
 		var encryption Encryption_Status
-		err := encryption.AssignPropertiesFromEncryptionStatus(source.Encryption)
+		err := encryption.AssignPropertiesFromEncryption_Status(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionStatus() to populate field Encryption")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryption_Status() to populate field Encryption")
 		}
 		account.Encryption = &encryption
 	} else {
@@ -793,9 +793,9 @@ func (account *StorageAccount_Status) AssignPropertiesFromStorageAccountStatus(s
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
 		var extendedLocation ExtendedLocation_Status
-		err := extendedLocation.AssignPropertiesFromExtendedLocationStatus(source.ExtendedLocation)
+		err := extendedLocation.AssignPropertiesFromExtendedLocation_Status(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation_Status() to populate field ExtendedLocation")
 		}
 		account.ExtendedLocation = &extendedLocation
 	} else {
@@ -805,9 +805,9 @@ func (account *StorageAccount_Status) AssignPropertiesFromStorageAccountStatus(s
 	// Identity
 	if source.Identity != nil {
 		var identity Identity_Status
-		err := identity.AssignPropertiesFromIdentityStatus(source.Identity)
+		err := identity.AssignPropertiesFromIdentity_Status(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIdentityStatus() to populate field Identity")
+			return errors.Wrap(err, "calling AssignPropertiesFromIdentity_Status() to populate field Identity")
 		}
 		account.Identity = &identity
 	} else {
@@ -833,9 +833,9 @@ func (account *StorageAccount_Status) AssignPropertiesFromStorageAccountStatus(s
 	// KeyPolicy
 	if source.KeyPolicy != nil {
 		var keyPolicy KeyPolicy_Status
-		err := keyPolicy.AssignPropertiesFromKeyPolicyStatus(source.KeyPolicy)
+		err := keyPolicy.AssignPropertiesFromKeyPolicy_Status(source.KeyPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromKeyPolicyStatus() to populate field KeyPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyPolicy_Status() to populate field KeyPolicy")
 		}
 		account.KeyPolicy = &keyPolicy
 	} else {
@@ -844,7 +844,7 @@ func (account *StorageAccount_Status) AssignPropertiesFromStorageAccountStatus(s
 
 	// Kind
 	if source.Kind != nil {
-		kind := StorageAccountStatusKind(*source.Kind)
+		kind := StorageAccount_Kind_Status(*source.Kind)
 		account.Kind = &kind
 	} else {
 		account.Kind = nil
@@ -852,7 +852,7 @@ func (account *StorageAccount_Status) AssignPropertiesFromStorageAccountStatus(s
 
 	// LargeFileSharesState
 	if source.LargeFileSharesState != nil {
-		largeFileSharesState := StorageAccountPropertiesStatusLargeFileSharesState(*source.LargeFileSharesState)
+		largeFileSharesState := StorageAccountProperties_LargeFileSharesState_Status(*source.LargeFileSharesState)
 		account.LargeFileSharesState = &largeFileSharesState
 	} else {
 		account.LargeFileSharesState = nil
@@ -863,7 +863,7 @@ func (account *StorageAccount_Status) AssignPropertiesFromStorageAccountStatus(s
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := StorageAccountPropertiesStatusMinimumTlsVersion(*source.MinimumTlsVersion)
+		minimumTlsVersion := StorageAccountProperties_MinimumTlsVersion_Status(*source.MinimumTlsVersion)
 		account.MinimumTlsVersion = &minimumTlsVersion
 	} else {
 		account.MinimumTlsVersion = nil
@@ -872,9 +872,9 @@ func (account *StorageAccount_Status) AssignPropertiesFromStorageAccountStatus(s
 	// NetworkAcls
 	if source.NetworkAcls != nil {
 		var networkAcl NetworkRuleSet_Status
-		err := networkAcl.AssignPropertiesFromNetworkRuleSetStatus(source.NetworkAcls)
+		err := networkAcl.AssignPropertiesFromNetworkRuleSet_Status(source.NetworkAcls)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromNetworkRuleSetStatus() to populate field NetworkAcls")
+			return errors.Wrap(err, "calling AssignPropertiesFromNetworkRuleSet_Status() to populate field NetworkAcls")
 		}
 		account.NetworkAcls = &networkAcl
 	} else {
@@ -884,9 +884,9 @@ func (account *StorageAccount_Status) AssignPropertiesFromStorageAccountStatus(s
 	// RoutingPreference
 	if source.RoutingPreference != nil {
 		var routingPreference RoutingPreference_Status
-		err := routingPreference.AssignPropertiesFromRoutingPreferenceStatus(source.RoutingPreference)
+		err := routingPreference.AssignPropertiesFromRoutingPreference_Status(source.RoutingPreference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRoutingPreferenceStatus() to populate field RoutingPreference")
+			return errors.Wrap(err, "calling AssignPropertiesFromRoutingPreference_Status() to populate field RoutingPreference")
 		}
 		account.RoutingPreference = &routingPreference
 	} else {
@@ -896,9 +896,9 @@ func (account *StorageAccount_Status) AssignPropertiesFromStorageAccountStatus(s
 	// SasPolicy
 	if source.SasPolicy != nil {
 		var sasPolicy SasPolicy_Status
-		err := sasPolicy.AssignPropertiesFromSasPolicyStatus(source.SasPolicy)
+		err := sasPolicy.AssignPropertiesFromSasPolicy_Status(source.SasPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSasPolicyStatus() to populate field SasPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesFromSasPolicy_Status() to populate field SasPolicy")
 		}
 		account.SasPolicy = &sasPolicy
 	} else {
@@ -908,9 +908,9 @@ func (account *StorageAccount_Status) AssignPropertiesFromStorageAccountStatus(s
 	// Sku
 	if source.Sku != nil {
 		var sku Sku_Status
-		err := sku.AssignPropertiesFromSkuStatus(source.Sku)
+		err := sku.AssignPropertiesFromSku_Status(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesFromSku_Status() to populate field Sku")
 		}
 		account.Sku = &sku
 	} else {
@@ -932,8 +932,8 @@ func (account *StorageAccount_Status) AssignPropertiesFromStorageAccountStatus(s
 	return nil
 }
 
-// AssignPropertiesToStorageAccountStatus populates the provided destination StorageAccount_Status from our StorageAccount_Status
-func (account *StorageAccount_Status) AssignPropertiesToStorageAccountStatus(destination *v1alpha1api20210401storage.StorageAccount_Status) error {
+// AssignPropertiesToStorageAccount_Status populates the provided destination StorageAccount_Status from our StorageAccount_Status
+func (account *StorageAccount_Status) AssignPropertiesToStorageAccount_Status(destination *v1alpha1api20210401storage.StorageAccount_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -972,9 +972,9 @@ func (account *StorageAccount_Status) AssignPropertiesToStorageAccountStatus(des
 	// AzureFilesIdentityBasedAuthentication
 	if account.AzureFilesIdentityBasedAuthentication != nil {
 		var azureFilesIdentityBasedAuthentication v1alpha1api20210401storage.AzureFilesIdentityBasedAuthentication_Status
-		err := account.AzureFilesIdentityBasedAuthentication.AssignPropertiesToAzureFilesIdentityBasedAuthenticationStatus(&azureFilesIdentityBasedAuthentication)
+		err := account.AzureFilesIdentityBasedAuthentication.AssignPropertiesToAzureFilesIdentityBasedAuthentication_Status(&azureFilesIdentityBasedAuthentication)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAzureFilesIdentityBasedAuthenticationStatus() to populate field AzureFilesIdentityBasedAuthentication")
+			return errors.Wrap(err, "calling AssignPropertiesToAzureFilesIdentityBasedAuthentication_Status() to populate field AzureFilesIdentityBasedAuthentication")
 		}
 		destination.AzureFilesIdentityBasedAuthentication = &azureFilesIdentityBasedAuthentication
 	} else {
@@ -987,9 +987,9 @@ func (account *StorageAccount_Status) AssignPropertiesToStorageAccountStatus(des
 	// CustomDomain
 	if account.CustomDomain != nil {
 		var customDomain v1alpha1api20210401storage.CustomDomain_Status
-		err := account.CustomDomain.AssignPropertiesToCustomDomainStatus(&customDomain)
+		err := account.CustomDomain.AssignPropertiesToCustomDomain_Status(&customDomain)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCustomDomainStatus() to populate field CustomDomain")
+			return errors.Wrap(err, "calling AssignPropertiesToCustomDomain_Status() to populate field CustomDomain")
 		}
 		destination.CustomDomain = &customDomain
 	} else {
@@ -999,9 +999,9 @@ func (account *StorageAccount_Status) AssignPropertiesToStorageAccountStatus(des
 	// Encryption
 	if account.Encryption != nil {
 		var encryption v1alpha1api20210401storage.Encryption_Status
-		err := account.Encryption.AssignPropertiesToEncryptionStatus(&encryption)
+		err := account.Encryption.AssignPropertiesToEncryption_Status(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionStatus() to populate field Encryption")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryption_Status() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -1011,9 +1011,9 @@ func (account *StorageAccount_Status) AssignPropertiesToStorageAccountStatus(des
 	// ExtendedLocation
 	if account.ExtendedLocation != nil {
 		var extendedLocation v1alpha1api20210401storage.ExtendedLocation_Status
-		err := account.ExtendedLocation.AssignPropertiesToExtendedLocationStatus(&extendedLocation)
+		err := account.ExtendedLocation.AssignPropertiesToExtendedLocation_Status(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation_Status() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -1023,9 +1023,9 @@ func (account *StorageAccount_Status) AssignPropertiesToStorageAccountStatus(des
 	// Identity
 	if account.Identity != nil {
 		var identity v1alpha1api20210401storage.Identity_Status
-		err := account.Identity.AssignPropertiesToIdentityStatus(&identity)
+		err := account.Identity.AssignPropertiesToIdentity_Status(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIdentityStatus() to populate field Identity")
+			return errors.Wrap(err, "calling AssignPropertiesToIdentity_Status() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -1051,9 +1051,9 @@ func (account *StorageAccount_Status) AssignPropertiesToStorageAccountStatus(des
 	// KeyPolicy
 	if account.KeyPolicy != nil {
 		var keyPolicy v1alpha1api20210401storage.KeyPolicy_Status
-		err := account.KeyPolicy.AssignPropertiesToKeyPolicyStatus(&keyPolicy)
+		err := account.KeyPolicy.AssignPropertiesToKeyPolicy_Status(&keyPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToKeyPolicyStatus() to populate field KeyPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesToKeyPolicy_Status() to populate field KeyPolicy")
 		}
 		destination.KeyPolicy = &keyPolicy
 	} else {
@@ -1090,9 +1090,9 @@ func (account *StorageAccount_Status) AssignPropertiesToStorageAccountStatus(des
 	// NetworkAcls
 	if account.NetworkAcls != nil {
 		var networkAcl v1alpha1api20210401storage.NetworkRuleSet_Status
-		err := account.NetworkAcls.AssignPropertiesToNetworkRuleSetStatus(&networkAcl)
+		err := account.NetworkAcls.AssignPropertiesToNetworkRuleSet_Status(&networkAcl)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToNetworkRuleSetStatus() to populate field NetworkAcls")
+			return errors.Wrap(err, "calling AssignPropertiesToNetworkRuleSet_Status() to populate field NetworkAcls")
 		}
 		destination.NetworkAcls = &networkAcl
 	} else {
@@ -1102,9 +1102,9 @@ func (account *StorageAccount_Status) AssignPropertiesToStorageAccountStatus(des
 	// RoutingPreference
 	if account.RoutingPreference != nil {
 		var routingPreference v1alpha1api20210401storage.RoutingPreference_Status
-		err := account.RoutingPreference.AssignPropertiesToRoutingPreferenceStatus(&routingPreference)
+		err := account.RoutingPreference.AssignPropertiesToRoutingPreference_Status(&routingPreference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRoutingPreferenceStatus() to populate field RoutingPreference")
+			return errors.Wrap(err, "calling AssignPropertiesToRoutingPreference_Status() to populate field RoutingPreference")
 		}
 		destination.RoutingPreference = &routingPreference
 	} else {
@@ -1114,9 +1114,9 @@ func (account *StorageAccount_Status) AssignPropertiesToStorageAccountStatus(des
 	// SasPolicy
 	if account.SasPolicy != nil {
 		var sasPolicy v1alpha1api20210401storage.SasPolicy_Status
-		err := account.SasPolicy.AssignPropertiesToSasPolicyStatus(&sasPolicy)
+		err := account.SasPolicy.AssignPropertiesToSasPolicy_Status(&sasPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSasPolicyStatus() to populate field SasPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesToSasPolicy_Status() to populate field SasPolicy")
 		}
 		destination.SasPolicy = &sasPolicy
 	} else {
@@ -1126,9 +1126,9 @@ func (account *StorageAccount_Status) AssignPropertiesToStorageAccountStatus(des
 	// Sku
 	if account.Sku != nil {
 		var sku v1alpha1api20210401storage.Sku_Status
-		err := account.Sku.AssignPropertiesToSkuStatus(&sku)
+		err := account.Sku.AssignPropertiesToSku_Status(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesToSku_Status() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1160,7 +1160,7 @@ func (account *StorageAccount_Status) AssignPropertiesToStorageAccountStatus(des
 type StorageAccounts_SPEC struct {
 	//AccessTier: Required for storage accounts where kind = BlobStorage. The access
 	//tier used for billing.
-	AccessTier *StorageAccountPropertiesSpecAccessTier `json:"accessTier,omitempty"`
+	AccessTier *StorageAccountProperties_AccessTier_Spec `json:"accessTier,omitempty"`
 
 	//AllowBlobPublicAccess: Allow or disallow public access to all blobs or
 	//containers in the storage account. The default interpretation is true for this
@@ -1215,11 +1215,11 @@ type StorageAccounts_SPEC struct {
 
 	// +kubebuilder:validation:Required
 	//Kind: Required. Indicates the type of storage account.
-	Kind StorageAccountsSPECKind `json:"kind"`
+	Kind StorageAccounts_Kind_SPEC `json:"kind"`
 
 	//LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be
 	//disabled once it is enabled.
-	LargeFileSharesState *StorageAccountPropertiesSpecLargeFileSharesState `json:"largeFileSharesState,omitempty"`
+	LargeFileSharesState *StorageAccountProperties_LargeFileSharesState_Spec `json:"largeFileSharesState,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Location: Required. Gets or sets the location of the resource. This will be one
@@ -1231,7 +1231,7 @@ type StorageAccounts_SPEC struct {
 
 	//MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to
 	//storage. The default interpretation is TLS 1.0 for this property.
-	MinimumTlsVersion *StorageAccountPropertiesSpecMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *StorageAccountProperties_MinimumTlsVersion_Spec `json:"minimumTlsVersion,omitempty"`
 
 	//NetworkAcls: Network rule set
 	NetworkAcls *NetworkRuleSet_Spec `json:"networkAcls,omitempty"`
@@ -1686,7 +1686,7 @@ func (spec *StorageAccounts_SPEC) ConvertSpecFrom(source genruntime.ConvertibleS
 	src, ok := source.(*v1alpha1api20210401storage.StorageAccounts_SPEC)
 	if ok {
 		// Populate our instance from source
-		return spec.AssignPropertiesFromStorageAccountsSPEC(src)
+		return spec.AssignPropertiesFromStorageAccounts_SPEC(src)
 	}
 
 	// Convert to an intermediate form
@@ -1697,7 +1697,7 @@ func (spec *StorageAccounts_SPEC) ConvertSpecFrom(source genruntime.ConvertibleS
 	}
 
 	// Update our instance from src
-	err = spec.AssignPropertiesFromStorageAccountsSPEC(src)
+	err = spec.AssignPropertiesFromStorageAccounts_SPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -1710,12 +1710,12 @@ func (spec *StorageAccounts_SPEC) ConvertSpecTo(destination genruntime.Convertib
 	dst, ok := destination.(*v1alpha1api20210401storage.StorageAccounts_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return spec.AssignPropertiesToStorageAccountsSPEC(dst)
+		return spec.AssignPropertiesToStorageAccounts_SPEC(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210401storage.StorageAccounts_SPEC{}
-	err := spec.AssignPropertiesToStorageAccountsSPEC(dst)
+	err := spec.AssignPropertiesToStorageAccounts_SPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -1729,12 +1729,12 @@ func (spec *StorageAccounts_SPEC) ConvertSpecTo(destination genruntime.Convertib
 	return nil
 }
 
-// AssignPropertiesFromStorageAccountsSPEC populates our StorageAccounts_SPEC from the provided source StorageAccounts_SPEC
-func (spec *StorageAccounts_SPEC) AssignPropertiesFromStorageAccountsSPEC(source *v1alpha1api20210401storage.StorageAccounts_SPEC) error {
+// AssignPropertiesFromStorageAccounts_SPEC populates our StorageAccounts_SPEC from the provided source StorageAccounts_SPEC
+func (spec *StorageAccounts_SPEC) AssignPropertiesFromStorageAccounts_SPEC(source *v1alpha1api20210401storage.StorageAccounts_SPEC) error {
 
 	// AccessTier
 	if source.AccessTier != nil {
-		accessTier := StorageAccountPropertiesSpecAccessTier(*source.AccessTier)
+		accessTier := StorageAccountProperties_AccessTier_Spec(*source.AccessTier)
 		spec.AccessTier = &accessTier
 	} else {
 		spec.AccessTier = nil
@@ -1767,9 +1767,9 @@ func (spec *StorageAccounts_SPEC) AssignPropertiesFromStorageAccountsSPEC(source
 	// AzureFilesIdentityBasedAuthentication
 	if source.AzureFilesIdentityBasedAuthentication != nil {
 		var azureFilesIdentityBasedAuthentication AzureFilesIdentityBasedAuthentication_Spec
-		err := azureFilesIdentityBasedAuthentication.AssignPropertiesFromAzureFilesIdentityBasedAuthenticationSpec(source.AzureFilesIdentityBasedAuthentication)
+		err := azureFilesIdentityBasedAuthentication.AssignPropertiesFromAzureFilesIdentityBasedAuthentication_Spec(source.AzureFilesIdentityBasedAuthentication)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAzureFilesIdentityBasedAuthenticationSpec() to populate field AzureFilesIdentityBasedAuthentication")
+			return errors.Wrap(err, "calling AssignPropertiesFromAzureFilesIdentityBasedAuthentication_Spec() to populate field AzureFilesIdentityBasedAuthentication")
 		}
 		spec.AzureFilesIdentityBasedAuthentication = &azureFilesIdentityBasedAuthentication
 	} else {
@@ -1782,9 +1782,9 @@ func (spec *StorageAccounts_SPEC) AssignPropertiesFromStorageAccountsSPEC(source
 	// CustomDomain
 	if source.CustomDomain != nil {
 		var customDomain CustomDomain_Spec
-		err := customDomain.AssignPropertiesFromCustomDomainSpec(source.CustomDomain)
+		err := customDomain.AssignPropertiesFromCustomDomain_Spec(source.CustomDomain)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCustomDomainSpec() to populate field CustomDomain")
+			return errors.Wrap(err, "calling AssignPropertiesFromCustomDomain_Spec() to populate field CustomDomain")
 		}
 		spec.CustomDomain = &customDomain
 	} else {
@@ -1794,9 +1794,9 @@ func (spec *StorageAccounts_SPEC) AssignPropertiesFromStorageAccountsSPEC(source
 	// Encryption
 	if source.Encryption != nil {
 		var encryption Encryption_Spec
-		err := encryption.AssignPropertiesFromEncryptionSpec(source.Encryption)
+		err := encryption.AssignPropertiesFromEncryption_Spec(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionSpec() to populate field Encryption")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryption_Spec() to populate field Encryption")
 		}
 		spec.Encryption = &encryption
 	} else {
@@ -1806,9 +1806,9 @@ func (spec *StorageAccounts_SPEC) AssignPropertiesFromStorageAccountsSPEC(source
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
 		var extendedLocation ExtendedLocation_Spec
-		err := extendedLocation.AssignPropertiesFromExtendedLocationSpec(source.ExtendedLocation)
+		err := extendedLocation.AssignPropertiesFromExtendedLocation_Spec(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationSpec() to populate field ExtendedLocation")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation_Spec() to populate field ExtendedLocation")
 		}
 		spec.ExtendedLocation = &extendedLocation
 	} else {
@@ -1818,9 +1818,9 @@ func (spec *StorageAccounts_SPEC) AssignPropertiesFromStorageAccountsSPEC(source
 	// Identity
 	if source.Identity != nil {
 		var identity Identity_Spec
-		err := identity.AssignPropertiesFromIdentitySpec(source.Identity)
+		err := identity.AssignPropertiesFromIdentity_Spec(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIdentitySpec() to populate field Identity")
+			return errors.Wrap(err, "calling AssignPropertiesFromIdentity_Spec() to populate field Identity")
 		}
 		spec.Identity = &identity
 	} else {
@@ -1846,9 +1846,9 @@ func (spec *StorageAccounts_SPEC) AssignPropertiesFromStorageAccountsSPEC(source
 	// KeyPolicy
 	if source.KeyPolicy != nil {
 		var keyPolicy KeyPolicy_Spec
-		err := keyPolicy.AssignPropertiesFromKeyPolicySpec(source.KeyPolicy)
+		err := keyPolicy.AssignPropertiesFromKeyPolicy_Spec(source.KeyPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromKeyPolicySpec() to populate field KeyPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyPolicy_Spec() to populate field KeyPolicy")
 		}
 		spec.KeyPolicy = &keyPolicy
 	} else {
@@ -1857,14 +1857,14 @@ func (spec *StorageAccounts_SPEC) AssignPropertiesFromStorageAccountsSPEC(source
 
 	// Kind
 	if source.Kind != nil {
-		spec.Kind = StorageAccountsSPECKind(*source.Kind)
+		spec.Kind = StorageAccounts_Kind_SPEC(*source.Kind)
 	} else {
 		spec.Kind = ""
 	}
 
 	// LargeFileSharesState
 	if source.LargeFileSharesState != nil {
-		largeFileSharesState := StorageAccountPropertiesSpecLargeFileSharesState(*source.LargeFileSharesState)
+		largeFileSharesState := StorageAccountProperties_LargeFileSharesState_Spec(*source.LargeFileSharesState)
 		spec.LargeFileSharesState = &largeFileSharesState
 	} else {
 		spec.LargeFileSharesState = nil
@@ -1875,7 +1875,7 @@ func (spec *StorageAccounts_SPEC) AssignPropertiesFromStorageAccountsSPEC(source
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := StorageAccountPropertiesSpecMinimumTlsVersion(*source.MinimumTlsVersion)
+		minimumTlsVersion := StorageAccountProperties_MinimumTlsVersion_Spec(*source.MinimumTlsVersion)
 		spec.MinimumTlsVersion = &minimumTlsVersion
 	} else {
 		spec.MinimumTlsVersion = nil
@@ -1884,9 +1884,9 @@ func (spec *StorageAccounts_SPEC) AssignPropertiesFromStorageAccountsSPEC(source
 	// NetworkAcls
 	if source.NetworkAcls != nil {
 		var networkAcl NetworkRuleSet_Spec
-		err := networkAcl.AssignPropertiesFromNetworkRuleSetSpec(source.NetworkAcls)
+		err := networkAcl.AssignPropertiesFromNetworkRuleSet_Spec(source.NetworkAcls)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromNetworkRuleSetSpec() to populate field NetworkAcls")
+			return errors.Wrap(err, "calling AssignPropertiesFromNetworkRuleSet_Spec() to populate field NetworkAcls")
 		}
 		spec.NetworkAcls = &networkAcl
 	} else {
@@ -1899,9 +1899,9 @@ func (spec *StorageAccounts_SPEC) AssignPropertiesFromStorageAccountsSPEC(source
 	// RoutingPreference
 	if source.RoutingPreference != nil {
 		var routingPreference RoutingPreference_Spec
-		err := routingPreference.AssignPropertiesFromRoutingPreferenceSpec(source.RoutingPreference)
+		err := routingPreference.AssignPropertiesFromRoutingPreference_Spec(source.RoutingPreference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRoutingPreferenceSpec() to populate field RoutingPreference")
+			return errors.Wrap(err, "calling AssignPropertiesFromRoutingPreference_Spec() to populate field RoutingPreference")
 		}
 		spec.RoutingPreference = &routingPreference
 	} else {
@@ -1911,9 +1911,9 @@ func (spec *StorageAccounts_SPEC) AssignPropertiesFromStorageAccountsSPEC(source
 	// SasPolicy
 	if source.SasPolicy != nil {
 		var sasPolicy SasPolicy_Spec
-		err := sasPolicy.AssignPropertiesFromSasPolicySpec(source.SasPolicy)
+		err := sasPolicy.AssignPropertiesFromSasPolicy_Spec(source.SasPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSasPolicySpec() to populate field SasPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesFromSasPolicy_Spec() to populate field SasPolicy")
 		}
 		spec.SasPolicy = &sasPolicy
 	} else {
@@ -1923,9 +1923,9 @@ func (spec *StorageAccounts_SPEC) AssignPropertiesFromStorageAccountsSPEC(source
 	// Sku
 	if source.Sku != nil {
 		var sku Sku_Spec
-		err := sku.AssignPropertiesFromSkuSpec(source.Sku)
+		err := sku.AssignPropertiesFromSku_Spec(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSkuSpec() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesFromSku_Spec() to populate field Sku")
 		}
 		spec.Sku = sku
 	} else {
@@ -1947,8 +1947,8 @@ func (spec *StorageAccounts_SPEC) AssignPropertiesFromStorageAccountsSPEC(source
 	return nil
 }
 
-// AssignPropertiesToStorageAccountsSPEC populates the provided destination StorageAccounts_SPEC from our StorageAccounts_SPEC
-func (spec *StorageAccounts_SPEC) AssignPropertiesToStorageAccountsSPEC(destination *v1alpha1api20210401storage.StorageAccounts_SPEC) error {
+// AssignPropertiesToStorageAccounts_SPEC populates the provided destination StorageAccounts_SPEC from our StorageAccounts_SPEC
+func (spec *StorageAccounts_SPEC) AssignPropertiesToStorageAccounts_SPEC(destination *v1alpha1api20210401storage.StorageAccounts_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1987,9 +1987,9 @@ func (spec *StorageAccounts_SPEC) AssignPropertiesToStorageAccountsSPEC(destinat
 	// AzureFilesIdentityBasedAuthentication
 	if spec.AzureFilesIdentityBasedAuthentication != nil {
 		var azureFilesIdentityBasedAuthentication v1alpha1api20210401storage.AzureFilesIdentityBasedAuthentication_Spec
-		err := spec.AzureFilesIdentityBasedAuthentication.AssignPropertiesToAzureFilesIdentityBasedAuthenticationSpec(&azureFilesIdentityBasedAuthentication)
+		err := spec.AzureFilesIdentityBasedAuthentication.AssignPropertiesToAzureFilesIdentityBasedAuthentication_Spec(&azureFilesIdentityBasedAuthentication)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAzureFilesIdentityBasedAuthenticationSpec() to populate field AzureFilesIdentityBasedAuthentication")
+			return errors.Wrap(err, "calling AssignPropertiesToAzureFilesIdentityBasedAuthentication_Spec() to populate field AzureFilesIdentityBasedAuthentication")
 		}
 		destination.AzureFilesIdentityBasedAuthentication = &azureFilesIdentityBasedAuthentication
 	} else {
@@ -2002,9 +2002,9 @@ func (spec *StorageAccounts_SPEC) AssignPropertiesToStorageAccountsSPEC(destinat
 	// CustomDomain
 	if spec.CustomDomain != nil {
 		var customDomain v1alpha1api20210401storage.CustomDomain_Spec
-		err := spec.CustomDomain.AssignPropertiesToCustomDomainSpec(&customDomain)
+		err := spec.CustomDomain.AssignPropertiesToCustomDomain_Spec(&customDomain)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCustomDomainSpec() to populate field CustomDomain")
+			return errors.Wrap(err, "calling AssignPropertiesToCustomDomain_Spec() to populate field CustomDomain")
 		}
 		destination.CustomDomain = &customDomain
 	} else {
@@ -2014,9 +2014,9 @@ func (spec *StorageAccounts_SPEC) AssignPropertiesToStorageAccountsSPEC(destinat
 	// Encryption
 	if spec.Encryption != nil {
 		var encryption v1alpha1api20210401storage.Encryption_Spec
-		err := spec.Encryption.AssignPropertiesToEncryptionSpec(&encryption)
+		err := spec.Encryption.AssignPropertiesToEncryption_Spec(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionSpec() to populate field Encryption")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryption_Spec() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -2026,9 +2026,9 @@ func (spec *StorageAccounts_SPEC) AssignPropertiesToStorageAccountsSPEC(destinat
 	// ExtendedLocation
 	if spec.ExtendedLocation != nil {
 		var extendedLocation v1alpha1api20210401storage.ExtendedLocation_Spec
-		err := spec.ExtendedLocation.AssignPropertiesToExtendedLocationSpec(&extendedLocation)
+		err := spec.ExtendedLocation.AssignPropertiesToExtendedLocation_Spec(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationSpec() to populate field ExtendedLocation")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation_Spec() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -2038,9 +2038,9 @@ func (spec *StorageAccounts_SPEC) AssignPropertiesToStorageAccountsSPEC(destinat
 	// Identity
 	if spec.Identity != nil {
 		var identity v1alpha1api20210401storage.Identity_Spec
-		err := spec.Identity.AssignPropertiesToIdentitySpec(&identity)
+		err := spec.Identity.AssignPropertiesToIdentity_Spec(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIdentitySpec() to populate field Identity")
+			return errors.Wrap(err, "calling AssignPropertiesToIdentity_Spec() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -2066,9 +2066,9 @@ func (spec *StorageAccounts_SPEC) AssignPropertiesToStorageAccountsSPEC(destinat
 	// KeyPolicy
 	if spec.KeyPolicy != nil {
 		var keyPolicy v1alpha1api20210401storage.KeyPolicy_Spec
-		err := spec.KeyPolicy.AssignPropertiesToKeyPolicySpec(&keyPolicy)
+		err := spec.KeyPolicy.AssignPropertiesToKeyPolicy_Spec(&keyPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToKeyPolicySpec() to populate field KeyPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesToKeyPolicy_Spec() to populate field KeyPolicy")
 		}
 		destination.KeyPolicy = &keyPolicy
 	} else {
@@ -2102,9 +2102,9 @@ func (spec *StorageAccounts_SPEC) AssignPropertiesToStorageAccountsSPEC(destinat
 	// NetworkAcls
 	if spec.NetworkAcls != nil {
 		var networkAcl v1alpha1api20210401storage.NetworkRuleSet_Spec
-		err := spec.NetworkAcls.AssignPropertiesToNetworkRuleSetSpec(&networkAcl)
+		err := spec.NetworkAcls.AssignPropertiesToNetworkRuleSet_Spec(&networkAcl)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToNetworkRuleSetSpec() to populate field NetworkAcls")
+			return errors.Wrap(err, "calling AssignPropertiesToNetworkRuleSet_Spec() to populate field NetworkAcls")
 		}
 		destination.NetworkAcls = &networkAcl
 	} else {
@@ -2120,9 +2120,9 @@ func (spec *StorageAccounts_SPEC) AssignPropertiesToStorageAccountsSPEC(destinat
 	// RoutingPreference
 	if spec.RoutingPreference != nil {
 		var routingPreference v1alpha1api20210401storage.RoutingPreference_Spec
-		err := spec.RoutingPreference.AssignPropertiesToRoutingPreferenceSpec(&routingPreference)
+		err := spec.RoutingPreference.AssignPropertiesToRoutingPreference_Spec(&routingPreference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRoutingPreferenceSpec() to populate field RoutingPreference")
+			return errors.Wrap(err, "calling AssignPropertiesToRoutingPreference_Spec() to populate field RoutingPreference")
 		}
 		destination.RoutingPreference = &routingPreference
 	} else {
@@ -2132,9 +2132,9 @@ func (spec *StorageAccounts_SPEC) AssignPropertiesToStorageAccountsSPEC(destinat
 	// SasPolicy
 	if spec.SasPolicy != nil {
 		var sasPolicy v1alpha1api20210401storage.SasPolicy_Spec
-		err := spec.SasPolicy.AssignPropertiesToSasPolicySpec(&sasPolicy)
+		err := spec.SasPolicy.AssignPropertiesToSasPolicy_Spec(&sasPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSasPolicySpec() to populate field SasPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesToSasPolicy_Spec() to populate field SasPolicy")
 		}
 		destination.SasPolicy = &sasPolicy
 	} else {
@@ -2143,9 +2143,9 @@ func (spec *StorageAccounts_SPEC) AssignPropertiesToStorageAccountsSPEC(destinat
 
 	// Sku
 	var sku v1alpha1api20210401storage.Sku_Spec
-	err := spec.Sku.AssignPropertiesToSkuSpec(&sku)
+	err := spec.Sku.AssignPropertiesToSku_Spec(&sku)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSkuSpec() to populate field Sku")
+		return errors.Wrap(err, "calling AssignPropertiesToSku_Spec() to populate field Sku")
 	}
 	destination.Sku = &sku
 
@@ -2185,11 +2185,11 @@ type AzureFilesIdentityBasedAuthentication_Spec struct {
 
 	//DefaultSharePermission: Default share permission for users using Kerberos
 	//authentication if RBAC role is not assigned.
-	DefaultSharePermission *AzureFilesIdentityBasedAuthenticationSpecDefaultSharePermission `json:"defaultSharePermission,omitempty"`
+	DefaultSharePermission *AzureFilesIdentityBasedAuthentication_DefaultSharePermission_Spec `json:"defaultSharePermission,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//DirectoryServiceOptions: Indicates the directory service used.
-	DirectoryServiceOptions AzureFilesIdentityBasedAuthenticationSpecDirectoryServiceOptions `json:"directoryServiceOptions"`
+	DirectoryServiceOptions AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_Spec `json:"directoryServiceOptions"`
 }
 
 var _ genruntime.ARMTransformer = &AzureFilesIdentityBasedAuthentication_Spec{}
@@ -2258,15 +2258,15 @@ func (authentication *AzureFilesIdentityBasedAuthentication_Spec) PopulateFromAR
 	return nil
 }
 
-// AssignPropertiesFromAzureFilesIdentityBasedAuthenticationSpec populates our AzureFilesIdentityBasedAuthentication_Spec from the provided source AzureFilesIdentityBasedAuthentication_Spec
-func (authentication *AzureFilesIdentityBasedAuthentication_Spec) AssignPropertiesFromAzureFilesIdentityBasedAuthenticationSpec(source *v1alpha1api20210401storage.AzureFilesIdentityBasedAuthentication_Spec) error {
+// AssignPropertiesFromAzureFilesIdentityBasedAuthentication_Spec populates our AzureFilesIdentityBasedAuthentication_Spec from the provided source AzureFilesIdentityBasedAuthentication_Spec
+func (authentication *AzureFilesIdentityBasedAuthentication_Spec) AssignPropertiesFromAzureFilesIdentityBasedAuthentication_Spec(source *v1alpha1api20210401storage.AzureFilesIdentityBasedAuthentication_Spec) error {
 
 	// ActiveDirectoryProperties
 	if source.ActiveDirectoryProperties != nil {
 		var activeDirectoryProperty ActiveDirectoryProperties_Spec
-		err := activeDirectoryProperty.AssignPropertiesFromActiveDirectoryPropertiesSpec(source.ActiveDirectoryProperties)
+		err := activeDirectoryProperty.AssignPropertiesFromActiveDirectoryProperties_Spec(source.ActiveDirectoryProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromActiveDirectoryPropertiesSpec() to populate field ActiveDirectoryProperties")
+			return errors.Wrap(err, "calling AssignPropertiesFromActiveDirectoryProperties_Spec() to populate field ActiveDirectoryProperties")
 		}
 		authentication.ActiveDirectoryProperties = &activeDirectoryProperty
 	} else {
@@ -2275,7 +2275,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication_Spec) AssignProperti
 
 	// DefaultSharePermission
 	if source.DefaultSharePermission != nil {
-		defaultSharePermission := AzureFilesIdentityBasedAuthenticationSpecDefaultSharePermission(*source.DefaultSharePermission)
+		defaultSharePermission := AzureFilesIdentityBasedAuthentication_DefaultSharePermission_Spec(*source.DefaultSharePermission)
 		authentication.DefaultSharePermission = &defaultSharePermission
 	} else {
 		authentication.DefaultSharePermission = nil
@@ -2283,7 +2283,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication_Spec) AssignProperti
 
 	// DirectoryServiceOptions
 	if source.DirectoryServiceOptions != nil {
-		authentication.DirectoryServiceOptions = AzureFilesIdentityBasedAuthenticationSpecDirectoryServiceOptions(*source.DirectoryServiceOptions)
+		authentication.DirectoryServiceOptions = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_Spec(*source.DirectoryServiceOptions)
 	} else {
 		authentication.DirectoryServiceOptions = ""
 	}
@@ -2292,17 +2292,17 @@ func (authentication *AzureFilesIdentityBasedAuthentication_Spec) AssignProperti
 	return nil
 }
 
-// AssignPropertiesToAzureFilesIdentityBasedAuthenticationSpec populates the provided destination AzureFilesIdentityBasedAuthentication_Spec from our AzureFilesIdentityBasedAuthentication_Spec
-func (authentication *AzureFilesIdentityBasedAuthentication_Spec) AssignPropertiesToAzureFilesIdentityBasedAuthenticationSpec(destination *v1alpha1api20210401storage.AzureFilesIdentityBasedAuthentication_Spec) error {
+// AssignPropertiesToAzureFilesIdentityBasedAuthentication_Spec populates the provided destination AzureFilesIdentityBasedAuthentication_Spec from our AzureFilesIdentityBasedAuthentication_Spec
+func (authentication *AzureFilesIdentityBasedAuthentication_Spec) AssignPropertiesToAzureFilesIdentityBasedAuthentication_Spec(destination *v1alpha1api20210401storage.AzureFilesIdentityBasedAuthentication_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ActiveDirectoryProperties
 	if authentication.ActiveDirectoryProperties != nil {
 		var activeDirectoryProperty v1alpha1api20210401storage.ActiveDirectoryProperties_Spec
-		err := authentication.ActiveDirectoryProperties.AssignPropertiesToActiveDirectoryPropertiesSpec(&activeDirectoryProperty)
+		err := authentication.ActiveDirectoryProperties.AssignPropertiesToActiveDirectoryProperties_Spec(&activeDirectoryProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToActiveDirectoryPropertiesSpec() to populate field ActiveDirectoryProperties")
+			return errors.Wrap(err, "calling AssignPropertiesToActiveDirectoryProperties_Spec() to populate field ActiveDirectoryProperties")
 		}
 		destination.ActiveDirectoryProperties = &activeDirectoryProperty
 	} else {
@@ -2338,11 +2338,11 @@ type AzureFilesIdentityBasedAuthentication_Status struct {
 
 	//DefaultSharePermission: Default share permission for users using Kerberos
 	//authentication if RBAC role is not assigned.
-	DefaultSharePermission *AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission `json:"defaultSharePermission,omitempty"`
+	DefaultSharePermission *AzureFilesIdentityBasedAuthentication_DefaultSharePermission_Status `json:"defaultSharePermission,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//DirectoryServiceOptions: Indicates the directory service used.
-	DirectoryServiceOptions AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions `json:"directoryServiceOptions"`
+	DirectoryServiceOptions AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_Status `json:"directoryServiceOptions"`
 }
 
 var _ genruntime.FromARMConverter = &AzureFilesIdentityBasedAuthentication_Status{}
@@ -2383,15 +2383,15 @@ func (authentication *AzureFilesIdentityBasedAuthentication_Status) PopulateFrom
 	return nil
 }
 
-// AssignPropertiesFromAzureFilesIdentityBasedAuthenticationStatus populates our AzureFilesIdentityBasedAuthentication_Status from the provided source AzureFilesIdentityBasedAuthentication_Status
-func (authentication *AzureFilesIdentityBasedAuthentication_Status) AssignPropertiesFromAzureFilesIdentityBasedAuthenticationStatus(source *v1alpha1api20210401storage.AzureFilesIdentityBasedAuthentication_Status) error {
+// AssignPropertiesFromAzureFilesIdentityBasedAuthentication_Status populates our AzureFilesIdentityBasedAuthentication_Status from the provided source AzureFilesIdentityBasedAuthentication_Status
+func (authentication *AzureFilesIdentityBasedAuthentication_Status) AssignPropertiesFromAzureFilesIdentityBasedAuthentication_Status(source *v1alpha1api20210401storage.AzureFilesIdentityBasedAuthentication_Status) error {
 
 	// ActiveDirectoryProperties
 	if source.ActiveDirectoryProperties != nil {
 		var activeDirectoryProperty ActiveDirectoryProperties_Status
-		err := activeDirectoryProperty.AssignPropertiesFromActiveDirectoryPropertiesStatus(source.ActiveDirectoryProperties)
+		err := activeDirectoryProperty.AssignPropertiesFromActiveDirectoryProperties_Status(source.ActiveDirectoryProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromActiveDirectoryPropertiesStatus() to populate field ActiveDirectoryProperties")
+			return errors.Wrap(err, "calling AssignPropertiesFromActiveDirectoryProperties_Status() to populate field ActiveDirectoryProperties")
 		}
 		authentication.ActiveDirectoryProperties = &activeDirectoryProperty
 	} else {
@@ -2400,7 +2400,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication_Status) AssignProper
 
 	// DefaultSharePermission
 	if source.DefaultSharePermission != nil {
-		defaultSharePermission := AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission(*source.DefaultSharePermission)
+		defaultSharePermission := AzureFilesIdentityBasedAuthentication_DefaultSharePermission_Status(*source.DefaultSharePermission)
 		authentication.DefaultSharePermission = &defaultSharePermission
 	} else {
 		authentication.DefaultSharePermission = nil
@@ -2408,7 +2408,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication_Status) AssignProper
 
 	// DirectoryServiceOptions
 	if source.DirectoryServiceOptions != nil {
-		authentication.DirectoryServiceOptions = AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions(*source.DirectoryServiceOptions)
+		authentication.DirectoryServiceOptions = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_Status(*source.DirectoryServiceOptions)
 	} else {
 		authentication.DirectoryServiceOptions = ""
 	}
@@ -2417,17 +2417,17 @@ func (authentication *AzureFilesIdentityBasedAuthentication_Status) AssignProper
 	return nil
 }
 
-// AssignPropertiesToAzureFilesIdentityBasedAuthenticationStatus populates the provided destination AzureFilesIdentityBasedAuthentication_Status from our AzureFilesIdentityBasedAuthentication_Status
-func (authentication *AzureFilesIdentityBasedAuthentication_Status) AssignPropertiesToAzureFilesIdentityBasedAuthenticationStatus(destination *v1alpha1api20210401storage.AzureFilesIdentityBasedAuthentication_Status) error {
+// AssignPropertiesToAzureFilesIdentityBasedAuthentication_Status populates the provided destination AzureFilesIdentityBasedAuthentication_Status from our AzureFilesIdentityBasedAuthentication_Status
+func (authentication *AzureFilesIdentityBasedAuthentication_Status) AssignPropertiesToAzureFilesIdentityBasedAuthentication_Status(destination *v1alpha1api20210401storage.AzureFilesIdentityBasedAuthentication_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ActiveDirectoryProperties
 	if authentication.ActiveDirectoryProperties != nil {
 		var activeDirectoryProperty v1alpha1api20210401storage.ActiveDirectoryProperties_Status
-		err := authentication.ActiveDirectoryProperties.AssignPropertiesToActiveDirectoryPropertiesStatus(&activeDirectoryProperty)
+		err := authentication.ActiveDirectoryProperties.AssignPropertiesToActiveDirectoryProperties_Status(&activeDirectoryProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToActiveDirectoryPropertiesStatus() to populate field ActiveDirectoryProperties")
+			return errors.Wrap(err, "calling AssignPropertiesToActiveDirectoryProperties_Status() to populate field ActiveDirectoryProperties")
 		}
 		destination.ActiveDirectoryProperties = &activeDirectoryProperty
 	} else {
@@ -2513,8 +2513,8 @@ func (domain *CustomDomain_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromCustomDomainSpec populates our CustomDomain_Spec from the provided source CustomDomain_Spec
-func (domain *CustomDomain_Spec) AssignPropertiesFromCustomDomainSpec(source *v1alpha1api20210401storage.CustomDomain_Spec) error {
+// AssignPropertiesFromCustomDomain_Spec populates our CustomDomain_Spec from the provided source CustomDomain_Spec
+func (domain *CustomDomain_Spec) AssignPropertiesFromCustomDomain_Spec(source *v1alpha1api20210401storage.CustomDomain_Spec) error {
 
 	// Name
 	domain.Name = genruntime.GetOptionalStringValue(source.Name)
@@ -2531,8 +2531,8 @@ func (domain *CustomDomain_Spec) AssignPropertiesFromCustomDomainSpec(source *v1
 	return nil
 }
 
-// AssignPropertiesToCustomDomainSpec populates the provided destination CustomDomain_Spec from our CustomDomain_Spec
-func (domain *CustomDomain_Spec) AssignPropertiesToCustomDomainSpec(destination *v1alpha1api20210401storage.CustomDomain_Spec) error {
+// AssignPropertiesToCustomDomain_Spec populates the provided destination CustomDomain_Spec from our CustomDomain_Spec
+func (domain *CustomDomain_Spec) AssignPropertiesToCustomDomain_Spec(destination *v1alpha1api20210401storage.CustomDomain_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2597,8 +2597,8 @@ func (domain *CustomDomain_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-// AssignPropertiesFromCustomDomainStatus populates our CustomDomain_Status from the provided source CustomDomain_Status
-func (domain *CustomDomain_Status) AssignPropertiesFromCustomDomainStatus(source *v1alpha1api20210401storage.CustomDomain_Status) error {
+// AssignPropertiesFromCustomDomain_Status populates our CustomDomain_Status from the provided source CustomDomain_Status
+func (domain *CustomDomain_Status) AssignPropertiesFromCustomDomain_Status(source *v1alpha1api20210401storage.CustomDomain_Status) error {
 
 	// Name
 	domain.Name = genruntime.GetOptionalStringValue(source.Name)
@@ -2615,8 +2615,8 @@ func (domain *CustomDomain_Status) AssignPropertiesFromCustomDomainStatus(source
 	return nil
 }
 
-// AssignPropertiesToCustomDomainStatus populates the provided destination CustomDomain_Status from our CustomDomain_Status
-func (domain *CustomDomain_Status) AssignPropertiesToCustomDomainStatus(destination *v1alpha1api20210401storage.CustomDomain_Status) error {
+// AssignPropertiesToCustomDomain_Status populates the provided destination CustomDomain_Status from our CustomDomain_Status
+func (domain *CustomDomain_Status) AssignPropertiesToCustomDomain_Status(destination *v1alpha1api20210401storage.CustomDomain_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2650,7 +2650,7 @@ type Encryption_Spec struct {
 	// +kubebuilder:validation:Required
 	//KeySource: The encryption keySource (provider). Possible values
 	//(case-insensitive):  Microsoft.Storage, Microsoft.Keyvault
-	KeySource EncryptionSpecKeySource `json:"keySource"`
+	KeySource Encryption_KeySource_Spec `json:"keySource"`
 
 	//Keyvaultproperties: Properties provided by key vault.
 	Keyvaultproperties *KeyVaultProperties_Spec `json:"keyvaultproperties,omitempty"`
@@ -2772,15 +2772,15 @@ func (encryption *Encryption_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-// AssignPropertiesFromEncryptionSpec populates our Encryption_Spec from the provided source Encryption_Spec
-func (encryption *Encryption_Spec) AssignPropertiesFromEncryptionSpec(source *v1alpha1api20210401storage.Encryption_Spec) error {
+// AssignPropertiesFromEncryption_Spec populates our Encryption_Spec from the provided source Encryption_Spec
+func (encryption *Encryption_Spec) AssignPropertiesFromEncryption_Spec(source *v1alpha1api20210401storage.Encryption_Spec) error {
 
 	// Identity
 	if source.Identity != nil {
 		var identity EncryptionIdentity_Spec
-		err := identity.AssignPropertiesFromEncryptionIdentitySpec(source.Identity)
+		err := identity.AssignPropertiesFromEncryptionIdentity_Spec(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionIdentitySpec() to populate field Identity")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionIdentity_Spec() to populate field Identity")
 		}
 		encryption.Identity = &identity
 	} else {
@@ -2789,7 +2789,7 @@ func (encryption *Encryption_Spec) AssignPropertiesFromEncryptionSpec(source *v1
 
 	// KeySource
 	if source.KeySource != nil {
-		encryption.KeySource = EncryptionSpecKeySource(*source.KeySource)
+		encryption.KeySource = Encryption_KeySource_Spec(*source.KeySource)
 	} else {
 		encryption.KeySource = ""
 	}
@@ -2797,9 +2797,9 @@ func (encryption *Encryption_Spec) AssignPropertiesFromEncryptionSpec(source *v1
 	// Keyvaultproperties
 	if source.Keyvaultproperties != nil {
 		var keyvaultproperty KeyVaultProperties_Spec
-		err := keyvaultproperty.AssignPropertiesFromKeyVaultPropertiesSpec(source.Keyvaultproperties)
+		err := keyvaultproperty.AssignPropertiesFromKeyVaultProperties_Spec(source.Keyvaultproperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultPropertiesSpec() to populate field Keyvaultproperties")
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultProperties_Spec() to populate field Keyvaultproperties")
 		}
 		encryption.Keyvaultproperties = &keyvaultproperty
 	} else {
@@ -2817,9 +2817,9 @@ func (encryption *Encryption_Spec) AssignPropertiesFromEncryptionSpec(source *v1
 	// Services
 	if source.Services != nil {
 		var service EncryptionServices_Spec
-		err := service.AssignPropertiesFromEncryptionServicesSpec(source.Services)
+		err := service.AssignPropertiesFromEncryptionServices_Spec(source.Services)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionServicesSpec() to populate field Services")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionServices_Spec() to populate field Services")
 		}
 		encryption.Services = &service
 	} else {
@@ -2830,17 +2830,17 @@ func (encryption *Encryption_Spec) AssignPropertiesFromEncryptionSpec(source *v1
 	return nil
 }
 
-// AssignPropertiesToEncryptionSpec populates the provided destination Encryption_Spec from our Encryption_Spec
-func (encryption *Encryption_Spec) AssignPropertiesToEncryptionSpec(destination *v1alpha1api20210401storage.Encryption_Spec) error {
+// AssignPropertiesToEncryption_Spec populates the provided destination Encryption_Spec from our Encryption_Spec
+func (encryption *Encryption_Spec) AssignPropertiesToEncryption_Spec(destination *v1alpha1api20210401storage.Encryption_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Identity
 	if encryption.Identity != nil {
 		var identity v1alpha1api20210401storage.EncryptionIdentity_Spec
-		err := encryption.Identity.AssignPropertiesToEncryptionIdentitySpec(&identity)
+		err := encryption.Identity.AssignPropertiesToEncryptionIdentity_Spec(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionIdentitySpec() to populate field Identity")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionIdentity_Spec() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -2854,9 +2854,9 @@ func (encryption *Encryption_Spec) AssignPropertiesToEncryptionSpec(destination 
 	// Keyvaultproperties
 	if encryption.Keyvaultproperties != nil {
 		var keyvaultproperty v1alpha1api20210401storage.KeyVaultProperties_Spec
-		err := encryption.Keyvaultproperties.AssignPropertiesToKeyVaultPropertiesSpec(&keyvaultproperty)
+		err := encryption.Keyvaultproperties.AssignPropertiesToKeyVaultProperties_Spec(&keyvaultproperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultPropertiesSpec() to populate field Keyvaultproperties")
+			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultProperties_Spec() to populate field Keyvaultproperties")
 		}
 		destination.Keyvaultproperties = &keyvaultproperty
 	} else {
@@ -2874,9 +2874,9 @@ func (encryption *Encryption_Spec) AssignPropertiesToEncryptionSpec(destination 
 	// Services
 	if encryption.Services != nil {
 		var service v1alpha1api20210401storage.EncryptionServices_Spec
-		err := encryption.Services.AssignPropertiesToEncryptionServicesSpec(&service)
+		err := encryption.Services.AssignPropertiesToEncryptionServices_Spec(&service)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionServicesSpec() to populate field Services")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionServices_Spec() to populate field Services")
 		}
 		destination.Services = &service
 	} else {
@@ -2901,7 +2901,7 @@ type Encryption_Status struct {
 	// +kubebuilder:validation:Required
 	//KeySource: The encryption keySource (provider). Possible values
 	//(case-insensitive):  Microsoft.Storage, Microsoft.Keyvault
-	KeySource EncryptionStatusKeySource `json:"keySource"`
+	KeySource Encryption_KeySource_Status `json:"keySource"`
 
 	//Keyvaultproperties: Properties provided by key vault.
 	Keyvaultproperties *KeyVaultProperties_Status `json:"keyvaultproperties,omitempty"`
@@ -2975,15 +2975,15 @@ func (encryption *Encryption_Status) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-// AssignPropertiesFromEncryptionStatus populates our Encryption_Status from the provided source Encryption_Status
-func (encryption *Encryption_Status) AssignPropertiesFromEncryptionStatus(source *v1alpha1api20210401storage.Encryption_Status) error {
+// AssignPropertiesFromEncryption_Status populates our Encryption_Status from the provided source Encryption_Status
+func (encryption *Encryption_Status) AssignPropertiesFromEncryption_Status(source *v1alpha1api20210401storage.Encryption_Status) error {
 
 	// Identity
 	if source.Identity != nil {
 		var identity EncryptionIdentity_Status
-		err := identity.AssignPropertiesFromEncryptionIdentityStatus(source.Identity)
+		err := identity.AssignPropertiesFromEncryptionIdentity_Status(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionIdentityStatus() to populate field Identity")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionIdentity_Status() to populate field Identity")
 		}
 		encryption.Identity = &identity
 	} else {
@@ -2992,7 +2992,7 @@ func (encryption *Encryption_Status) AssignPropertiesFromEncryptionStatus(source
 
 	// KeySource
 	if source.KeySource != nil {
-		encryption.KeySource = EncryptionStatusKeySource(*source.KeySource)
+		encryption.KeySource = Encryption_KeySource_Status(*source.KeySource)
 	} else {
 		encryption.KeySource = ""
 	}
@@ -3000,9 +3000,9 @@ func (encryption *Encryption_Status) AssignPropertiesFromEncryptionStatus(source
 	// Keyvaultproperties
 	if source.Keyvaultproperties != nil {
 		var keyvaultproperty KeyVaultProperties_Status
-		err := keyvaultproperty.AssignPropertiesFromKeyVaultPropertiesStatus(source.Keyvaultproperties)
+		err := keyvaultproperty.AssignPropertiesFromKeyVaultProperties_Status(source.Keyvaultproperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultPropertiesStatus() to populate field Keyvaultproperties")
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultProperties_Status() to populate field Keyvaultproperties")
 		}
 		encryption.Keyvaultproperties = &keyvaultproperty
 	} else {
@@ -3020,9 +3020,9 @@ func (encryption *Encryption_Status) AssignPropertiesFromEncryptionStatus(source
 	// Services
 	if source.Services != nil {
 		var service EncryptionServices_Status
-		err := service.AssignPropertiesFromEncryptionServicesStatus(source.Services)
+		err := service.AssignPropertiesFromEncryptionServices_Status(source.Services)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionServicesStatus() to populate field Services")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionServices_Status() to populate field Services")
 		}
 		encryption.Services = &service
 	} else {
@@ -3033,17 +3033,17 @@ func (encryption *Encryption_Status) AssignPropertiesFromEncryptionStatus(source
 	return nil
 }
 
-// AssignPropertiesToEncryptionStatus populates the provided destination Encryption_Status from our Encryption_Status
-func (encryption *Encryption_Status) AssignPropertiesToEncryptionStatus(destination *v1alpha1api20210401storage.Encryption_Status) error {
+// AssignPropertiesToEncryption_Status populates the provided destination Encryption_Status from our Encryption_Status
+func (encryption *Encryption_Status) AssignPropertiesToEncryption_Status(destination *v1alpha1api20210401storage.Encryption_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Identity
 	if encryption.Identity != nil {
 		var identity v1alpha1api20210401storage.EncryptionIdentity_Status
-		err := encryption.Identity.AssignPropertiesToEncryptionIdentityStatus(&identity)
+		err := encryption.Identity.AssignPropertiesToEncryptionIdentity_Status(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionIdentityStatus() to populate field Identity")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionIdentity_Status() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -3057,9 +3057,9 @@ func (encryption *Encryption_Status) AssignPropertiesToEncryptionStatus(destinat
 	// Keyvaultproperties
 	if encryption.Keyvaultproperties != nil {
 		var keyvaultproperty v1alpha1api20210401storage.KeyVaultProperties_Status
-		err := encryption.Keyvaultproperties.AssignPropertiesToKeyVaultPropertiesStatus(&keyvaultproperty)
+		err := encryption.Keyvaultproperties.AssignPropertiesToKeyVaultProperties_Status(&keyvaultproperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultPropertiesStatus() to populate field Keyvaultproperties")
+			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultProperties_Status() to populate field Keyvaultproperties")
 		}
 		destination.Keyvaultproperties = &keyvaultproperty
 	} else {
@@ -3077,9 +3077,9 @@ func (encryption *Encryption_Status) AssignPropertiesToEncryptionStatus(destinat
 	// Services
 	if encryption.Services != nil {
 		var service v1alpha1api20210401storage.EncryptionServices_Status
-		err := encryption.Services.AssignPropertiesToEncryptionServicesStatus(&service)
+		err := encryption.Services.AssignPropertiesToEncryptionServices_Status(&service)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionServicesStatus() to populate field Services")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionServices_Status() to populate field Services")
 		}
 		destination.Services = &service
 	} else {
@@ -3156,8 +3156,8 @@ func (location *ExtendedLocation_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-// AssignPropertiesFromExtendedLocationSpec populates our ExtendedLocation_Spec from the provided source ExtendedLocation_Spec
-func (location *ExtendedLocation_Spec) AssignPropertiesFromExtendedLocationSpec(source *v1alpha1api20210401storage.ExtendedLocation_Spec) error {
+// AssignPropertiesFromExtendedLocation_Spec populates our ExtendedLocation_Spec from the provided source ExtendedLocation_Spec
+func (location *ExtendedLocation_Spec) AssignPropertiesFromExtendedLocation_Spec(source *v1alpha1api20210401storage.ExtendedLocation_Spec) error {
 
 	// Name
 	location.Name = genruntime.ClonePointerToString(source.Name)
@@ -3174,8 +3174,8 @@ func (location *ExtendedLocation_Spec) AssignPropertiesFromExtendedLocationSpec(
 	return nil
 }
 
-// AssignPropertiesToExtendedLocationSpec populates the provided destination ExtendedLocation_Spec from our ExtendedLocation_Spec
-func (location *ExtendedLocation_Spec) AssignPropertiesToExtendedLocationSpec(destination *v1alpha1api20210401storage.ExtendedLocation_Spec) error {
+// AssignPropertiesToExtendedLocation_Spec populates the provided destination ExtendedLocation_Spec from our ExtendedLocation_Spec
+func (location *ExtendedLocation_Spec) AssignPropertiesToExtendedLocation_Spec(destination *v1alpha1api20210401storage.ExtendedLocation_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3239,8 +3239,8 @@ func (location *ExtendedLocation_Status) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromExtendedLocationStatus populates our ExtendedLocation_Status from the provided source ExtendedLocation_Status
-func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationStatus(source *v1alpha1api20210401storage.ExtendedLocation_Status) error {
+// AssignPropertiesFromExtendedLocation_Status populates our ExtendedLocation_Status from the provided source ExtendedLocation_Status
+func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocation_Status(source *v1alpha1api20210401storage.ExtendedLocation_Status) error {
 
 	// Name
 	location.Name = genruntime.ClonePointerToString(source.Name)
@@ -3257,8 +3257,8 @@ func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationSta
 	return nil
 }
 
-// AssignPropertiesToExtendedLocationStatus populates the provided destination ExtendedLocation_Status from our ExtendedLocation_Status
-func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatus(destination *v1alpha1api20210401storage.ExtendedLocation_Status) error {
+// AssignPropertiesToExtendedLocation_Status populates the provided destination ExtendedLocation_Status from our ExtendedLocation_Status
+func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocation_Status(destination *v1alpha1api20210401storage.ExtendedLocation_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3287,7 +3287,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 type Identity_Spec struct {
 	// +kubebuilder:validation:Required
 	//Type: The identity type.
-	Type IdentitySpecType `json:"type"`
+	Type Identity_Type_Spec `json:"type"`
 }
 
 var _ genruntime.ARMTransformer = &Identity_Spec{}
@@ -3323,12 +3323,12 @@ func (identity *Identity_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromIdentitySpec populates our Identity_Spec from the provided source Identity_Spec
-func (identity *Identity_Spec) AssignPropertiesFromIdentitySpec(source *v1alpha1api20210401storage.Identity_Spec) error {
+// AssignPropertiesFromIdentity_Spec populates our Identity_Spec from the provided source Identity_Spec
+func (identity *Identity_Spec) AssignPropertiesFromIdentity_Spec(source *v1alpha1api20210401storage.Identity_Spec) error {
 
 	// Type
 	if source.Type != nil {
-		identity.Type = IdentitySpecType(*source.Type)
+		identity.Type = Identity_Type_Spec(*source.Type)
 	} else {
 		identity.Type = ""
 	}
@@ -3337,8 +3337,8 @@ func (identity *Identity_Spec) AssignPropertiesFromIdentitySpec(source *v1alpha1
 	return nil
 }
 
-// AssignPropertiesToIdentitySpec populates the provided destination Identity_Spec from our Identity_Spec
-func (identity *Identity_Spec) AssignPropertiesToIdentitySpec(destination *v1alpha1api20210401storage.Identity_Spec) error {
+// AssignPropertiesToIdentity_Spec populates the provided destination Identity_Spec from our Identity_Spec
+func (identity *Identity_Spec) AssignPropertiesToIdentity_Spec(destination *v1alpha1api20210401storage.Identity_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3366,7 +3366,7 @@ type Identity_Status struct {
 
 	// +kubebuilder:validation:Required
 	//Type: The identity type.
-	Type IdentityStatusType `json:"type"`
+	Type Identity_Type_Status `json:"type"`
 
 	//UserAssignedIdentities: Gets or sets a list of key value pairs that describe the
 	//set of User Assigned identities that will be used with this storage account. The
@@ -3421,8 +3421,8 @@ func (identity *Identity_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromIdentityStatus populates our Identity_Status from the provided source Identity_Status
-func (identity *Identity_Status) AssignPropertiesFromIdentityStatus(source *v1alpha1api20210401storage.Identity_Status) error {
+// AssignPropertiesFromIdentity_Status populates our Identity_Status from the provided source Identity_Status
+func (identity *Identity_Status) AssignPropertiesFromIdentity_Status(source *v1alpha1api20210401storage.Identity_Status) error {
 
 	// PrincipalId
 	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
@@ -3432,7 +3432,7 @@ func (identity *Identity_Status) AssignPropertiesFromIdentityStatus(source *v1al
 
 	// Type
 	if source.Type != nil {
-		identity.Type = IdentityStatusType(*source.Type)
+		identity.Type = Identity_Type_Status(*source.Type)
 	} else {
 		identity.Type = ""
 	}
@@ -3444,9 +3444,9 @@ func (identity *Identity_Status) AssignPropertiesFromIdentityStatus(source *v1al
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity UserAssignedIdentity_Status
-			err := userAssignedIdentity.AssignPropertiesFromUserAssignedIdentityStatus(&userAssignedIdentityValue)
+			err := userAssignedIdentity.AssignPropertiesFromUserAssignedIdentity_Status(&userAssignedIdentityValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromUserAssignedIdentityStatus() to populate field UserAssignedIdentities")
+				return errors.Wrap(err, "calling AssignPropertiesFromUserAssignedIdentity_Status() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -3459,8 +3459,8 @@ func (identity *Identity_Status) AssignPropertiesFromIdentityStatus(source *v1al
 	return nil
 }
 
-// AssignPropertiesToIdentityStatus populates the provided destination Identity_Status from our Identity_Status
-func (identity *Identity_Status) AssignPropertiesToIdentityStatus(destination *v1alpha1api20210401storage.Identity_Status) error {
+// AssignPropertiesToIdentity_Status populates the provided destination Identity_Status from our Identity_Status
+func (identity *Identity_Status) AssignPropertiesToIdentity_Status(destination *v1alpha1api20210401storage.Identity_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3481,9 +3481,9 @@ func (identity *Identity_Status) AssignPropertiesToIdentityStatus(destination *v
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity v1alpha1api20210401storage.UserAssignedIdentity_Status
-			err := userAssignedIdentityValue.AssignPropertiesToUserAssignedIdentityStatus(&userAssignedIdentity)
+			err := userAssignedIdentityValue.AssignPropertiesToUserAssignedIdentity_Status(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentityStatus() to populate field UserAssignedIdentities")
+				return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentity_Status() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -3542,8 +3542,8 @@ func (policy *KeyPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	return nil
 }
 
-// AssignPropertiesFromKeyPolicySpec populates our KeyPolicy_Spec from the provided source KeyPolicy_Spec
-func (policy *KeyPolicy_Spec) AssignPropertiesFromKeyPolicySpec(source *v1alpha1api20210401storage.KeyPolicy_Spec) error {
+// AssignPropertiesFromKeyPolicy_Spec populates our KeyPolicy_Spec from the provided source KeyPolicy_Spec
+func (policy *KeyPolicy_Spec) AssignPropertiesFromKeyPolicy_Spec(source *v1alpha1api20210401storage.KeyPolicy_Spec) error {
 
 	// KeyExpirationPeriodInDays
 	policy.KeyExpirationPeriodInDays = genruntime.GetOptionalIntValue(source.KeyExpirationPeriodInDays)
@@ -3552,8 +3552,8 @@ func (policy *KeyPolicy_Spec) AssignPropertiesFromKeyPolicySpec(source *v1alpha1
 	return nil
 }
 
-// AssignPropertiesToKeyPolicySpec populates the provided destination KeyPolicy_Spec from our KeyPolicy_Spec
-func (policy *KeyPolicy_Spec) AssignPropertiesToKeyPolicySpec(destination *v1alpha1api20210401storage.KeyPolicy_Spec) error {
+// AssignPropertiesToKeyPolicy_Spec populates the provided destination KeyPolicy_Spec from our KeyPolicy_Spec
+func (policy *KeyPolicy_Spec) AssignPropertiesToKeyPolicy_Spec(destination *v1alpha1api20210401storage.KeyPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3599,8 +3599,8 @@ func (policy *KeyPolicy_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	return nil
 }
 
-// AssignPropertiesFromKeyPolicyStatus populates our KeyPolicy_Status from the provided source KeyPolicy_Status
-func (policy *KeyPolicy_Status) AssignPropertiesFromKeyPolicyStatus(source *v1alpha1api20210401storage.KeyPolicy_Status) error {
+// AssignPropertiesFromKeyPolicy_Status populates our KeyPolicy_Status from the provided source KeyPolicy_Status
+func (policy *KeyPolicy_Status) AssignPropertiesFromKeyPolicy_Status(source *v1alpha1api20210401storage.KeyPolicy_Status) error {
 
 	// KeyExpirationPeriodInDays
 	policy.KeyExpirationPeriodInDays = genruntime.GetOptionalIntValue(source.KeyExpirationPeriodInDays)
@@ -3609,8 +3609,8 @@ func (policy *KeyPolicy_Status) AssignPropertiesFromKeyPolicyStatus(source *v1al
 	return nil
 }
 
-// AssignPropertiesToKeyPolicyStatus populates the provided destination KeyPolicy_Status from our KeyPolicy_Status
-func (policy *KeyPolicy_Status) AssignPropertiesToKeyPolicyStatus(destination *v1alpha1api20210401storage.KeyPolicy_Status) error {
+// AssignPropertiesToKeyPolicy_Status populates the provided destination KeyPolicy_Status from our KeyPolicy_Status
+func (policy *KeyPolicy_Status) AssignPropertiesToKeyPolicy_Status(destination *v1alpha1api20210401storage.KeyPolicy_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3633,12 +3633,12 @@ type NetworkRuleSet_Spec struct {
 	//Bypass: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices.
 	//Possible values are any combination of Logging|Metrics|AzureServices (For
 	//example, "Logging, Metrics"), or None to bypass none of those traffics.
-	Bypass *NetworkRuleSetSpecBypass `json:"bypass,omitempty"`
+	Bypass *NetworkRuleSet_Bypass_Spec `json:"bypass,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//DefaultAction: Specifies the default action of allow or deny when no other rules
 	//match.
-	DefaultAction NetworkRuleSetSpecDefaultAction `json:"defaultAction"`
+	DefaultAction NetworkRuleSet_DefaultAction_Spec `json:"defaultAction"`
 
 	//IpRules: Sets the IP ACL rules
 	IpRules []IPRule_Spec `json:"ipRules,omitempty"`
@@ -3752,12 +3752,12 @@ func (ruleSet *NetworkRuleSet_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
-// AssignPropertiesFromNetworkRuleSetSpec populates our NetworkRuleSet_Spec from the provided source NetworkRuleSet_Spec
-func (ruleSet *NetworkRuleSet_Spec) AssignPropertiesFromNetworkRuleSetSpec(source *v1alpha1api20210401storage.NetworkRuleSet_Spec) error {
+// AssignPropertiesFromNetworkRuleSet_Spec populates our NetworkRuleSet_Spec from the provided source NetworkRuleSet_Spec
+func (ruleSet *NetworkRuleSet_Spec) AssignPropertiesFromNetworkRuleSet_Spec(source *v1alpha1api20210401storage.NetworkRuleSet_Spec) error {
 
 	// Bypass
 	if source.Bypass != nil {
-		bypass := NetworkRuleSetSpecBypass(*source.Bypass)
+		bypass := NetworkRuleSet_Bypass_Spec(*source.Bypass)
 		ruleSet.Bypass = &bypass
 	} else {
 		ruleSet.Bypass = nil
@@ -3765,7 +3765,7 @@ func (ruleSet *NetworkRuleSet_Spec) AssignPropertiesFromNetworkRuleSetSpec(sourc
 
 	// DefaultAction
 	if source.DefaultAction != nil {
-		ruleSet.DefaultAction = NetworkRuleSetSpecDefaultAction(*source.DefaultAction)
+		ruleSet.DefaultAction = NetworkRuleSet_DefaultAction_Spec(*source.DefaultAction)
 	} else {
 		ruleSet.DefaultAction = ""
 	}
@@ -3777,9 +3777,9 @@ func (ruleSet *NetworkRuleSet_Spec) AssignPropertiesFromNetworkRuleSetSpec(sourc
 			// Shadow the loop variable to avoid aliasing
 			ipRuleItem := ipRuleItem
 			var ipRule IPRule_Spec
-			err := ipRule.AssignPropertiesFromIPRuleSpec(&ipRuleItem)
+			err := ipRule.AssignPropertiesFromIPRule_Spec(&ipRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromIPRuleSpec() to populate field IpRules")
+				return errors.Wrap(err, "calling AssignPropertiesFromIPRule_Spec() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -3795,9 +3795,9 @@ func (ruleSet *NetworkRuleSet_Spec) AssignPropertiesFromNetworkRuleSetSpec(sourc
 			// Shadow the loop variable to avoid aliasing
 			resourceAccessRuleItem := resourceAccessRuleItem
 			var resourceAccessRule ResourceAccessRule_Spec
-			err := resourceAccessRule.AssignPropertiesFromResourceAccessRuleSpec(&resourceAccessRuleItem)
+			err := resourceAccessRule.AssignPropertiesFromResourceAccessRule_Spec(&resourceAccessRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromResourceAccessRuleSpec() to populate field ResourceAccessRules")
+				return errors.Wrap(err, "calling AssignPropertiesFromResourceAccessRule_Spec() to populate field ResourceAccessRules")
 			}
 			resourceAccessRuleList[resourceAccessRuleIndex] = resourceAccessRule
 		}
@@ -3813,9 +3813,9 @@ func (ruleSet *NetworkRuleSet_Spec) AssignPropertiesFromNetworkRuleSetSpec(sourc
 			// Shadow the loop variable to avoid aliasing
 			virtualNetworkRuleItem := virtualNetworkRuleItem
 			var virtualNetworkRule VirtualNetworkRule_Spec
-			err := virtualNetworkRule.AssignPropertiesFromVirtualNetworkRuleSpec(&virtualNetworkRuleItem)
+			err := virtualNetworkRule.AssignPropertiesFromVirtualNetworkRule_Spec(&virtualNetworkRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkRuleSpec() to populate field VirtualNetworkRules")
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkRule_Spec() to populate field VirtualNetworkRules")
 			}
 			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
 		}
@@ -3828,8 +3828,8 @@ func (ruleSet *NetworkRuleSet_Spec) AssignPropertiesFromNetworkRuleSetSpec(sourc
 	return nil
 }
 
-// AssignPropertiesToNetworkRuleSetSpec populates the provided destination NetworkRuleSet_Spec from our NetworkRuleSet_Spec
-func (ruleSet *NetworkRuleSet_Spec) AssignPropertiesToNetworkRuleSetSpec(destination *v1alpha1api20210401storage.NetworkRuleSet_Spec) error {
+// AssignPropertiesToNetworkRuleSet_Spec populates the provided destination NetworkRuleSet_Spec from our NetworkRuleSet_Spec
+func (ruleSet *NetworkRuleSet_Spec) AssignPropertiesToNetworkRuleSet_Spec(destination *v1alpha1api20210401storage.NetworkRuleSet_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3852,9 +3852,9 @@ func (ruleSet *NetworkRuleSet_Spec) AssignPropertiesToNetworkRuleSetSpec(destina
 			// Shadow the loop variable to avoid aliasing
 			ipRuleItem := ipRuleItem
 			var ipRule v1alpha1api20210401storage.IPRule_Spec
-			err := ipRuleItem.AssignPropertiesToIPRuleSpec(&ipRule)
+			err := ipRuleItem.AssignPropertiesToIPRule_Spec(&ipRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToIPRuleSpec() to populate field IpRules")
+				return errors.Wrap(err, "calling AssignPropertiesToIPRule_Spec() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -3870,9 +3870,9 @@ func (ruleSet *NetworkRuleSet_Spec) AssignPropertiesToNetworkRuleSetSpec(destina
 			// Shadow the loop variable to avoid aliasing
 			resourceAccessRuleItem := resourceAccessRuleItem
 			var resourceAccessRule v1alpha1api20210401storage.ResourceAccessRule_Spec
-			err := resourceAccessRuleItem.AssignPropertiesToResourceAccessRuleSpec(&resourceAccessRule)
+			err := resourceAccessRuleItem.AssignPropertiesToResourceAccessRule_Spec(&resourceAccessRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToResourceAccessRuleSpec() to populate field ResourceAccessRules")
+				return errors.Wrap(err, "calling AssignPropertiesToResourceAccessRule_Spec() to populate field ResourceAccessRules")
 			}
 			resourceAccessRuleList[resourceAccessRuleIndex] = resourceAccessRule
 		}
@@ -3888,9 +3888,9 @@ func (ruleSet *NetworkRuleSet_Spec) AssignPropertiesToNetworkRuleSetSpec(destina
 			// Shadow the loop variable to avoid aliasing
 			virtualNetworkRuleItem := virtualNetworkRuleItem
 			var virtualNetworkRule v1alpha1api20210401storage.VirtualNetworkRule_Spec
-			err := virtualNetworkRuleItem.AssignPropertiesToVirtualNetworkRuleSpec(&virtualNetworkRule)
+			err := virtualNetworkRuleItem.AssignPropertiesToVirtualNetworkRule_Spec(&virtualNetworkRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkRuleSpec() to populate field VirtualNetworkRules")
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkRule_Spec() to populate field VirtualNetworkRules")
 			}
 			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
 		}
@@ -3914,12 +3914,12 @@ type NetworkRuleSet_Status struct {
 	//Bypass: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices.
 	//Possible values are any combination of Logging|Metrics|AzureServices (For
 	//example, "Logging, Metrics"), or None to bypass none of those traffics.
-	Bypass *NetworkRuleSetStatusBypass `json:"bypass,omitempty"`
+	Bypass *NetworkRuleSet_Bypass_Status `json:"bypass,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//DefaultAction: Specifies the default action of allow or deny when no other rules
 	//match.
-	DefaultAction NetworkRuleSetStatusDefaultAction `json:"defaultAction"`
+	DefaultAction NetworkRuleSet_DefaultAction_Status `json:"defaultAction"`
 
 	//IpRules: Sets the IP ACL rules
 	IpRules []IPRule_Status `json:"ipRules,omitempty"`
@@ -3988,12 +3988,12 @@ func (ruleSet *NetworkRuleSet_Status) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromNetworkRuleSetStatus populates our NetworkRuleSet_Status from the provided source NetworkRuleSet_Status
-func (ruleSet *NetworkRuleSet_Status) AssignPropertiesFromNetworkRuleSetStatus(source *v1alpha1api20210401storage.NetworkRuleSet_Status) error {
+// AssignPropertiesFromNetworkRuleSet_Status populates our NetworkRuleSet_Status from the provided source NetworkRuleSet_Status
+func (ruleSet *NetworkRuleSet_Status) AssignPropertiesFromNetworkRuleSet_Status(source *v1alpha1api20210401storage.NetworkRuleSet_Status) error {
 
 	// Bypass
 	if source.Bypass != nil {
-		bypass := NetworkRuleSetStatusBypass(*source.Bypass)
+		bypass := NetworkRuleSet_Bypass_Status(*source.Bypass)
 		ruleSet.Bypass = &bypass
 	} else {
 		ruleSet.Bypass = nil
@@ -4001,7 +4001,7 @@ func (ruleSet *NetworkRuleSet_Status) AssignPropertiesFromNetworkRuleSetStatus(s
 
 	// DefaultAction
 	if source.DefaultAction != nil {
-		ruleSet.DefaultAction = NetworkRuleSetStatusDefaultAction(*source.DefaultAction)
+		ruleSet.DefaultAction = NetworkRuleSet_DefaultAction_Status(*source.DefaultAction)
 	} else {
 		ruleSet.DefaultAction = ""
 	}
@@ -4013,9 +4013,9 @@ func (ruleSet *NetworkRuleSet_Status) AssignPropertiesFromNetworkRuleSetStatus(s
 			// Shadow the loop variable to avoid aliasing
 			ipRuleItem := ipRuleItem
 			var ipRule IPRule_Status
-			err := ipRule.AssignPropertiesFromIPRuleStatus(&ipRuleItem)
+			err := ipRule.AssignPropertiesFromIPRule_Status(&ipRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromIPRuleStatus() to populate field IpRules")
+				return errors.Wrap(err, "calling AssignPropertiesFromIPRule_Status() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -4031,9 +4031,9 @@ func (ruleSet *NetworkRuleSet_Status) AssignPropertiesFromNetworkRuleSetStatus(s
 			// Shadow the loop variable to avoid aliasing
 			resourceAccessRuleItem := resourceAccessRuleItem
 			var resourceAccessRule ResourceAccessRule_Status
-			err := resourceAccessRule.AssignPropertiesFromResourceAccessRuleStatus(&resourceAccessRuleItem)
+			err := resourceAccessRule.AssignPropertiesFromResourceAccessRule_Status(&resourceAccessRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromResourceAccessRuleStatus() to populate field ResourceAccessRules")
+				return errors.Wrap(err, "calling AssignPropertiesFromResourceAccessRule_Status() to populate field ResourceAccessRules")
 			}
 			resourceAccessRuleList[resourceAccessRuleIndex] = resourceAccessRule
 		}
@@ -4049,9 +4049,9 @@ func (ruleSet *NetworkRuleSet_Status) AssignPropertiesFromNetworkRuleSetStatus(s
 			// Shadow the loop variable to avoid aliasing
 			virtualNetworkRuleItem := virtualNetworkRuleItem
 			var virtualNetworkRule VirtualNetworkRule_Status
-			err := virtualNetworkRule.AssignPropertiesFromVirtualNetworkRuleStatus(&virtualNetworkRuleItem)
+			err := virtualNetworkRule.AssignPropertiesFromVirtualNetworkRule_Status(&virtualNetworkRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkRuleStatus() to populate field VirtualNetworkRules")
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkRule_Status() to populate field VirtualNetworkRules")
 			}
 			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
 		}
@@ -4064,8 +4064,8 @@ func (ruleSet *NetworkRuleSet_Status) AssignPropertiesFromNetworkRuleSetStatus(s
 	return nil
 }
 
-// AssignPropertiesToNetworkRuleSetStatus populates the provided destination NetworkRuleSet_Status from our NetworkRuleSet_Status
-func (ruleSet *NetworkRuleSet_Status) AssignPropertiesToNetworkRuleSetStatus(destination *v1alpha1api20210401storage.NetworkRuleSet_Status) error {
+// AssignPropertiesToNetworkRuleSet_Status populates the provided destination NetworkRuleSet_Status from our NetworkRuleSet_Status
+func (ruleSet *NetworkRuleSet_Status) AssignPropertiesToNetworkRuleSet_Status(destination *v1alpha1api20210401storage.NetworkRuleSet_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4088,9 +4088,9 @@ func (ruleSet *NetworkRuleSet_Status) AssignPropertiesToNetworkRuleSetStatus(des
 			// Shadow the loop variable to avoid aliasing
 			ipRuleItem := ipRuleItem
 			var ipRule v1alpha1api20210401storage.IPRule_Status
-			err := ipRuleItem.AssignPropertiesToIPRuleStatus(&ipRule)
+			err := ipRuleItem.AssignPropertiesToIPRule_Status(&ipRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToIPRuleStatus() to populate field IpRules")
+				return errors.Wrap(err, "calling AssignPropertiesToIPRule_Status() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -4106,9 +4106,9 @@ func (ruleSet *NetworkRuleSet_Status) AssignPropertiesToNetworkRuleSetStatus(des
 			// Shadow the loop variable to avoid aliasing
 			resourceAccessRuleItem := resourceAccessRuleItem
 			var resourceAccessRule v1alpha1api20210401storage.ResourceAccessRule_Status
-			err := resourceAccessRuleItem.AssignPropertiesToResourceAccessRuleStatus(&resourceAccessRule)
+			err := resourceAccessRuleItem.AssignPropertiesToResourceAccessRule_Status(&resourceAccessRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToResourceAccessRuleStatus() to populate field ResourceAccessRules")
+				return errors.Wrap(err, "calling AssignPropertiesToResourceAccessRule_Status() to populate field ResourceAccessRules")
 			}
 			resourceAccessRuleList[resourceAccessRuleIndex] = resourceAccessRule
 		}
@@ -4124,9 +4124,9 @@ func (ruleSet *NetworkRuleSet_Status) AssignPropertiesToNetworkRuleSetStatus(des
 			// Shadow the loop variable to avoid aliasing
 			virtualNetworkRuleItem := virtualNetworkRuleItem
 			var virtualNetworkRule v1alpha1api20210401storage.VirtualNetworkRule_Status
-			err := virtualNetworkRuleItem.AssignPropertiesToVirtualNetworkRuleStatus(&virtualNetworkRule)
+			err := virtualNetworkRuleItem.AssignPropertiesToVirtualNetworkRule_Status(&virtualNetworkRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkRuleStatus() to populate field VirtualNetworkRules")
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkRule_Status() to populate field VirtualNetworkRules")
 			}
 			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
 		}
@@ -4157,7 +4157,7 @@ type RoutingPreference_Spec struct {
 
 	//RoutingChoice: Routing Choice defines the kind of network routing opted by the
 	//user.
-	RoutingChoice *RoutingPreferenceSpecRoutingChoice `json:"routingChoice,omitempty"`
+	RoutingChoice *RoutingPreference_RoutingChoice_Spec `json:"routingChoice,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RoutingPreference_Spec{}
@@ -4223,8 +4223,8 @@ func (preference *RoutingPreference_Spec) PopulateFromARM(owner genruntime.Arbit
 	return nil
 }
 
-// AssignPropertiesFromRoutingPreferenceSpec populates our RoutingPreference_Spec from the provided source RoutingPreference_Spec
-func (preference *RoutingPreference_Spec) AssignPropertiesFromRoutingPreferenceSpec(source *v1alpha1api20210401storage.RoutingPreference_Spec) error {
+// AssignPropertiesFromRoutingPreference_Spec populates our RoutingPreference_Spec from the provided source RoutingPreference_Spec
+func (preference *RoutingPreference_Spec) AssignPropertiesFromRoutingPreference_Spec(source *v1alpha1api20210401storage.RoutingPreference_Spec) error {
 
 	// PublishInternetEndpoints
 	if source.PublishInternetEndpoints != nil {
@@ -4244,7 +4244,7 @@ func (preference *RoutingPreference_Spec) AssignPropertiesFromRoutingPreferenceS
 
 	// RoutingChoice
 	if source.RoutingChoice != nil {
-		routingChoice := RoutingPreferenceSpecRoutingChoice(*source.RoutingChoice)
+		routingChoice := RoutingPreference_RoutingChoice_Spec(*source.RoutingChoice)
 		preference.RoutingChoice = &routingChoice
 	} else {
 		preference.RoutingChoice = nil
@@ -4254,8 +4254,8 @@ func (preference *RoutingPreference_Spec) AssignPropertiesFromRoutingPreferenceS
 	return nil
 }
 
-// AssignPropertiesToRoutingPreferenceSpec populates the provided destination RoutingPreference_Spec from our RoutingPreference_Spec
-func (preference *RoutingPreference_Spec) AssignPropertiesToRoutingPreferenceSpec(destination *v1alpha1api20210401storage.RoutingPreference_Spec) error {
+// AssignPropertiesToRoutingPreference_Spec populates the provided destination RoutingPreference_Spec from our RoutingPreference_Spec
+func (preference *RoutingPreference_Spec) AssignPropertiesToRoutingPreference_Spec(destination *v1alpha1api20210401storage.RoutingPreference_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4305,7 +4305,7 @@ type RoutingPreference_Status struct {
 
 	//RoutingChoice: Routing Choice defines the kind of network routing opted by the
 	//user.
-	RoutingChoice *RoutingPreferenceStatusRoutingChoice `json:"routingChoice,omitempty"`
+	RoutingChoice *RoutingPreference_RoutingChoice_Status `json:"routingChoice,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &RoutingPreference_Status{}
@@ -4344,8 +4344,8 @@ func (preference *RoutingPreference_Status) PopulateFromARM(owner genruntime.Arb
 	return nil
 }
 
-// AssignPropertiesFromRoutingPreferenceStatus populates our RoutingPreference_Status from the provided source RoutingPreference_Status
-func (preference *RoutingPreference_Status) AssignPropertiesFromRoutingPreferenceStatus(source *v1alpha1api20210401storage.RoutingPreference_Status) error {
+// AssignPropertiesFromRoutingPreference_Status populates our RoutingPreference_Status from the provided source RoutingPreference_Status
+func (preference *RoutingPreference_Status) AssignPropertiesFromRoutingPreference_Status(source *v1alpha1api20210401storage.RoutingPreference_Status) error {
 
 	// PublishInternetEndpoints
 	if source.PublishInternetEndpoints != nil {
@@ -4365,7 +4365,7 @@ func (preference *RoutingPreference_Status) AssignPropertiesFromRoutingPreferenc
 
 	// RoutingChoice
 	if source.RoutingChoice != nil {
-		routingChoice := RoutingPreferenceStatusRoutingChoice(*source.RoutingChoice)
+		routingChoice := RoutingPreference_RoutingChoice_Status(*source.RoutingChoice)
 		preference.RoutingChoice = &routingChoice
 	} else {
 		preference.RoutingChoice = nil
@@ -4375,8 +4375,8 @@ func (preference *RoutingPreference_Status) AssignPropertiesFromRoutingPreferenc
 	return nil
 }
 
-// AssignPropertiesToRoutingPreferenceStatus populates the provided destination RoutingPreference_Status from our RoutingPreference_Status
-func (preference *RoutingPreference_Status) AssignPropertiesToRoutingPreferenceStatus(destination *v1alpha1api20210401storage.RoutingPreference_Status) error {
+// AssignPropertiesToRoutingPreference_Status populates the provided destination RoutingPreference_Status from our RoutingPreference_Status
+func (preference *RoutingPreference_Status) AssignPropertiesToRoutingPreference_Status(destination *v1alpha1api20210401storage.RoutingPreference_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4418,7 +4418,7 @@ func (preference *RoutingPreference_Status) AssignPropertiesToRoutingPreferenceS
 type SasPolicy_Spec struct {
 	// +kubebuilder:validation:Required
 	//ExpirationAction: The SAS expiration action. Can only be Log.
-	ExpirationAction SasPolicySpecExpirationAction `json:"expirationAction"`
+	ExpirationAction SasPolicy_ExpirationAction_Spec `json:"expirationAction"`
 
 	// +kubebuilder:validation:Required
 	//SasExpirationPeriod: The SAS expiration period, DD.HH:MM:SS.
@@ -4464,12 +4464,12 @@ func (policy *SasPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	return nil
 }
 
-// AssignPropertiesFromSasPolicySpec populates our SasPolicy_Spec from the provided source SasPolicy_Spec
-func (policy *SasPolicy_Spec) AssignPropertiesFromSasPolicySpec(source *v1alpha1api20210401storage.SasPolicy_Spec) error {
+// AssignPropertiesFromSasPolicy_Spec populates our SasPolicy_Spec from the provided source SasPolicy_Spec
+func (policy *SasPolicy_Spec) AssignPropertiesFromSasPolicy_Spec(source *v1alpha1api20210401storage.SasPolicy_Spec) error {
 
 	// ExpirationAction
 	if source.ExpirationAction != nil {
-		policy.ExpirationAction = SasPolicySpecExpirationAction(*source.ExpirationAction)
+		policy.ExpirationAction = SasPolicy_ExpirationAction_Spec(*source.ExpirationAction)
 	} else {
 		policy.ExpirationAction = ""
 	}
@@ -4481,8 +4481,8 @@ func (policy *SasPolicy_Spec) AssignPropertiesFromSasPolicySpec(source *v1alpha1
 	return nil
 }
 
-// AssignPropertiesToSasPolicySpec populates the provided destination SasPolicy_Spec from our SasPolicy_Spec
-func (policy *SasPolicy_Spec) AssignPropertiesToSasPolicySpec(destination *v1alpha1api20210401storage.SasPolicy_Spec) error {
+// AssignPropertiesToSasPolicy_Spec populates the provided destination SasPolicy_Spec from our SasPolicy_Spec
+func (policy *SasPolicy_Spec) AssignPropertiesToSasPolicy_Spec(destination *v1alpha1api20210401storage.SasPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4508,7 +4508,7 @@ func (policy *SasPolicy_Spec) AssignPropertiesToSasPolicySpec(destination *v1alp
 type SasPolicy_Status struct {
 	// +kubebuilder:validation:Required
 	//ExpirationAction: The SAS expiration action. Can only be Log.
-	ExpirationAction SasPolicyStatusExpirationAction `json:"expirationAction"`
+	ExpirationAction SasPolicy_ExpirationAction_Status `json:"expirationAction"`
 
 	// +kubebuilder:validation:Required
 	//SasExpirationPeriod: The SAS expiration period, DD.HH:MM:SS.
@@ -4539,12 +4539,12 @@ func (policy *SasPolicy_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	return nil
 }
 
-// AssignPropertiesFromSasPolicyStatus populates our SasPolicy_Status from the provided source SasPolicy_Status
-func (policy *SasPolicy_Status) AssignPropertiesFromSasPolicyStatus(source *v1alpha1api20210401storage.SasPolicy_Status) error {
+// AssignPropertiesFromSasPolicy_Status populates our SasPolicy_Status from the provided source SasPolicy_Status
+func (policy *SasPolicy_Status) AssignPropertiesFromSasPolicy_Status(source *v1alpha1api20210401storage.SasPolicy_Status) error {
 
 	// ExpirationAction
 	if source.ExpirationAction != nil {
-		policy.ExpirationAction = SasPolicyStatusExpirationAction(*source.ExpirationAction)
+		policy.ExpirationAction = SasPolicy_ExpirationAction_Status(*source.ExpirationAction)
 	} else {
 		policy.ExpirationAction = ""
 	}
@@ -4556,8 +4556,8 @@ func (policy *SasPolicy_Status) AssignPropertiesFromSasPolicyStatus(source *v1al
 	return nil
 }
 
-// AssignPropertiesToSasPolicyStatus populates the provided destination SasPolicy_Status from our SasPolicy_Status
-func (policy *SasPolicy_Status) AssignPropertiesToSasPolicyStatus(destination *v1alpha1api20210401storage.SasPolicy_Status) error {
+// AssignPropertiesToSasPolicy_Status populates the provided destination SasPolicy_Status from our SasPolicy_Status
+func (policy *SasPolicy_Status) AssignPropertiesToSasPolicy_Status(destination *v1alpha1api20210401storage.SasPolicy_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4631,8 +4631,8 @@ func (sku *Sku_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, a
 	return nil
 }
 
-// AssignPropertiesFromSkuSpec populates our Sku_Spec from the provided source Sku_Spec
-func (sku *Sku_Spec) AssignPropertiesFromSkuSpec(source *v1alpha1api20210401storage.Sku_Spec) error {
+// AssignPropertiesFromSku_Spec populates our Sku_Spec from the provided source Sku_Spec
+func (sku *Sku_Spec) AssignPropertiesFromSku_Spec(source *v1alpha1api20210401storage.Sku_Spec) error {
 
 	// Name
 	if source.Name != nil {
@@ -4653,8 +4653,8 @@ func (sku *Sku_Spec) AssignPropertiesFromSkuSpec(source *v1alpha1api20210401stor
 	return nil
 }
 
-// AssignPropertiesToSkuSpec populates the provided destination Sku_Spec from our Sku_Spec
-func (sku *Sku_Spec) AssignPropertiesToSkuSpec(destination *v1alpha1api20210401storage.Sku_Spec) error {
+// AssignPropertiesToSku_Spec populates the provided destination Sku_Spec from our Sku_Spec
+func (sku *Sku_Spec) AssignPropertiesToSku_Spec(destination *v1alpha1api20210401storage.Sku_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4714,8 +4714,8 @@ func (sku *Sku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	return nil
 }
 
-// AssignPropertiesFromSkuStatus populates our Sku_Status from the provided source Sku_Status
-func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v1alpha1api20210401storage.Sku_Status) error {
+// AssignPropertiesFromSku_Status populates our Sku_Status from the provided source Sku_Status
+func (sku *Sku_Status) AssignPropertiesFromSku_Status(source *v1alpha1api20210401storage.Sku_Status) error {
 
 	// Name
 	if source.Name != nil {
@@ -4736,8 +4736,8 @@ func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v1alpha1api20210401
 	return nil
 }
 
-// AssignPropertiesToSkuStatus populates the provided destination Sku_Status from our Sku_Status
-func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1api20210401storage.Sku_Status) error {
+// AssignPropertiesToSku_Status populates the provided destination Sku_Status from our Sku_Status
+func (sku *Sku_Status) AssignPropertiesToSku_Status(destination *v1alpha1api20210401storage.Sku_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4765,50 +4765,50 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1api20210
 }
 
 // +kubebuilder:validation:Enum={"Cool","Hot"}
-type StorageAccountPropertiesSpecAccessTier string
+type StorageAccountProperties_AccessTier_Spec string
 
 const (
-	StorageAccountPropertiesSpecAccessTierCool = StorageAccountPropertiesSpecAccessTier("Cool")
-	StorageAccountPropertiesSpecAccessTierHot  = StorageAccountPropertiesSpecAccessTier("Hot")
+	StorageAccountProperties_AccessTier_SpecCool = StorageAccountProperties_AccessTier_Spec("Cool")
+	StorageAccountProperties_AccessTier_SpecHot  = StorageAccountProperties_AccessTier_Spec("Hot")
+)
+
+type StorageAccountProperties_AccessTier_Status string
+
+const (
+	StorageAccountProperties_AccessTier_StatusCool = StorageAccountProperties_AccessTier_Status("Cool")
+	StorageAccountProperties_AccessTier_StatusHot  = StorageAccountProperties_AccessTier_Status("Hot")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type StorageAccountPropertiesSpecLargeFileSharesState string
+type StorageAccountProperties_LargeFileSharesState_Spec string
 
 const (
-	StorageAccountPropertiesSpecLargeFileSharesStateDisabled = StorageAccountPropertiesSpecLargeFileSharesState("Disabled")
-	StorageAccountPropertiesSpecLargeFileSharesStateEnabled  = StorageAccountPropertiesSpecLargeFileSharesState("Enabled")
+	StorageAccountProperties_LargeFileSharesState_SpecDisabled = StorageAccountProperties_LargeFileSharesState_Spec("Disabled")
+	StorageAccountProperties_LargeFileSharesState_SpecEnabled  = StorageAccountProperties_LargeFileSharesState_Spec("Enabled")
+)
+
+type StorageAccountProperties_LargeFileSharesState_Status string
+
+const (
+	StorageAccountProperties_LargeFileSharesState_StatusDisabled = StorageAccountProperties_LargeFileSharesState_Status("Disabled")
+	StorageAccountProperties_LargeFileSharesState_StatusEnabled  = StorageAccountProperties_LargeFileSharesState_Status("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"TLS1_0","TLS1_1","TLS1_2"}
-type StorageAccountPropertiesSpecMinimumTlsVersion string
+type StorageAccountProperties_MinimumTlsVersion_Spec string
 
 const (
-	StorageAccountPropertiesSpecMinimumTlsVersionTLS10 = StorageAccountPropertiesSpecMinimumTlsVersion("TLS1_0")
-	StorageAccountPropertiesSpecMinimumTlsVersionTLS11 = StorageAccountPropertiesSpecMinimumTlsVersion("TLS1_1")
-	StorageAccountPropertiesSpecMinimumTlsVersionTLS12 = StorageAccountPropertiesSpecMinimumTlsVersion("TLS1_2")
+	StorageAccountProperties_MinimumTlsVersion_SpecTLS1_0 = StorageAccountProperties_MinimumTlsVersion_Spec("TLS1_0")
+	StorageAccountProperties_MinimumTlsVersion_SpecTLS1_1 = StorageAccountProperties_MinimumTlsVersion_Spec("TLS1_1")
+	StorageAccountProperties_MinimumTlsVersion_SpecTLS1_2 = StorageAccountProperties_MinimumTlsVersion_Spec("TLS1_2")
 )
 
-type StorageAccountPropertiesStatusAccessTier string
+type StorageAccountProperties_MinimumTlsVersion_Status string
 
 const (
-	StorageAccountPropertiesStatusAccessTierCool = StorageAccountPropertiesStatusAccessTier("Cool")
-	StorageAccountPropertiesStatusAccessTierHot  = StorageAccountPropertiesStatusAccessTier("Hot")
-)
-
-type StorageAccountPropertiesStatusLargeFileSharesState string
-
-const (
-	StorageAccountPropertiesStatusLargeFileSharesStateDisabled = StorageAccountPropertiesStatusLargeFileSharesState("Disabled")
-	StorageAccountPropertiesStatusLargeFileSharesStateEnabled  = StorageAccountPropertiesStatusLargeFileSharesState("Enabled")
-)
-
-type StorageAccountPropertiesStatusMinimumTlsVersion string
-
-const (
-	StorageAccountPropertiesStatusMinimumTlsVersionTLS10 = StorageAccountPropertiesStatusMinimumTlsVersion("TLS1_0")
-	StorageAccountPropertiesStatusMinimumTlsVersionTLS11 = StorageAccountPropertiesStatusMinimumTlsVersion("TLS1_1")
-	StorageAccountPropertiesStatusMinimumTlsVersionTLS12 = StorageAccountPropertiesStatusMinimumTlsVersion("TLS1_2")
+	StorageAccountProperties_MinimumTlsVersion_StatusTLS1_0 = StorageAccountProperties_MinimumTlsVersion_Status("TLS1_0")
+	StorageAccountProperties_MinimumTlsVersion_StatusTLS1_1 = StorageAccountProperties_MinimumTlsVersion_Status("TLS1_1")
+	StorageAccountProperties_MinimumTlsVersion_StatusTLS1_2 = StorageAccountProperties_MinimumTlsVersion_Status("TLS1_2")
 )
 
 type ActiveDirectoryProperties_Spec struct {
@@ -4901,8 +4901,8 @@ func (properties *ActiveDirectoryProperties_Spec) PopulateFromARM(owner genrunti
 	return nil
 }
 
-// AssignPropertiesFromActiveDirectoryPropertiesSpec populates our ActiveDirectoryProperties_Spec from the provided source ActiveDirectoryProperties_Spec
-func (properties *ActiveDirectoryProperties_Spec) AssignPropertiesFromActiveDirectoryPropertiesSpec(source *v1alpha1api20210401storage.ActiveDirectoryProperties_Spec) error {
+// AssignPropertiesFromActiveDirectoryProperties_Spec populates our ActiveDirectoryProperties_Spec from the provided source ActiveDirectoryProperties_Spec
+func (properties *ActiveDirectoryProperties_Spec) AssignPropertiesFromActiveDirectoryProperties_Spec(source *v1alpha1api20210401storage.ActiveDirectoryProperties_Spec) error {
 
 	// AzureStorageSid
 	properties.AzureStorageSid = genruntime.GetOptionalStringValue(source.AzureStorageSid)
@@ -4926,8 +4926,8 @@ func (properties *ActiveDirectoryProperties_Spec) AssignPropertiesFromActiveDire
 	return nil
 }
 
-// AssignPropertiesToActiveDirectoryPropertiesSpec populates the provided destination ActiveDirectoryProperties_Spec from our ActiveDirectoryProperties_Spec
-func (properties *ActiveDirectoryProperties_Spec) AssignPropertiesToActiveDirectoryPropertiesSpec(destination *v1alpha1api20210401storage.ActiveDirectoryProperties_Spec) error {
+// AssignPropertiesToActiveDirectoryProperties_Spec populates the provided destination ActiveDirectoryProperties_Spec from our ActiveDirectoryProperties_Spec
+func (properties *ActiveDirectoryProperties_Spec) AssignPropertiesToActiveDirectoryProperties_Spec(destination *v1alpha1api20210401storage.ActiveDirectoryProperties_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5029,8 +5029,8 @@ func (properties *ActiveDirectoryProperties_Status) PopulateFromARM(owner genrun
 	return nil
 }
 
-// AssignPropertiesFromActiveDirectoryPropertiesStatus populates our ActiveDirectoryProperties_Status from the provided source ActiveDirectoryProperties_Status
-func (properties *ActiveDirectoryProperties_Status) AssignPropertiesFromActiveDirectoryPropertiesStatus(source *v1alpha1api20210401storage.ActiveDirectoryProperties_Status) error {
+// AssignPropertiesFromActiveDirectoryProperties_Status populates our ActiveDirectoryProperties_Status from the provided source ActiveDirectoryProperties_Status
+func (properties *ActiveDirectoryProperties_Status) AssignPropertiesFromActiveDirectoryProperties_Status(source *v1alpha1api20210401storage.ActiveDirectoryProperties_Status) error {
 
 	// AzureStorageSid
 	properties.AzureStorageSid = genruntime.GetOptionalStringValue(source.AzureStorageSid)
@@ -5054,8 +5054,8 @@ func (properties *ActiveDirectoryProperties_Status) AssignPropertiesFromActiveDi
 	return nil
 }
 
-// AssignPropertiesToActiveDirectoryPropertiesStatus populates the provided destination ActiveDirectoryProperties_Status from our ActiveDirectoryProperties_Status
-func (properties *ActiveDirectoryProperties_Status) AssignPropertiesToActiveDirectoryPropertiesStatus(destination *v1alpha1api20210401storage.ActiveDirectoryProperties_Status) error {
+// AssignPropertiesToActiveDirectoryProperties_Status populates the provided destination ActiveDirectoryProperties_Status from our ActiveDirectoryProperties_Status
+func (properties *ActiveDirectoryProperties_Status) AssignPropertiesToActiveDirectoryProperties_Status(destination *v1alpha1api20210401storage.ActiveDirectoryProperties_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5095,41 +5095,41 @@ func (properties *ActiveDirectoryProperties_Status) AssignPropertiesToActiveDire
 }
 
 // +kubebuilder:validation:Enum={"None","StorageFileDataSmbShareContributor","StorageFileDataSmbShareElevatedContributor","StorageFileDataSmbShareOwner","StorageFileDataSmbShareReader"}
-type AzureFilesIdentityBasedAuthenticationSpecDefaultSharePermission string
+type AzureFilesIdentityBasedAuthentication_DefaultSharePermission_Spec string
 
 const (
-	AzureFilesIdentityBasedAuthenticationSpecDefaultSharePermissionNone                                       = AzureFilesIdentityBasedAuthenticationSpecDefaultSharePermission("None")
-	AzureFilesIdentityBasedAuthenticationSpecDefaultSharePermissionStorageFileDataSmbShareContributor         = AzureFilesIdentityBasedAuthenticationSpecDefaultSharePermission("StorageFileDataSmbShareContributor")
-	AzureFilesIdentityBasedAuthenticationSpecDefaultSharePermissionStorageFileDataSmbShareElevatedContributor = AzureFilesIdentityBasedAuthenticationSpecDefaultSharePermission("StorageFileDataSmbShareElevatedContributor")
-	AzureFilesIdentityBasedAuthenticationSpecDefaultSharePermissionStorageFileDataSmbShareOwner               = AzureFilesIdentityBasedAuthenticationSpecDefaultSharePermission("StorageFileDataSmbShareOwner")
-	AzureFilesIdentityBasedAuthenticationSpecDefaultSharePermissionStorageFileDataSmbShareReader              = AzureFilesIdentityBasedAuthenticationSpecDefaultSharePermission("StorageFileDataSmbShareReader")
+	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_SpecNone                                       = AzureFilesIdentityBasedAuthentication_DefaultSharePermission_Spec("None")
+	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_SpecStorageFileDataSmbShareContributor         = AzureFilesIdentityBasedAuthentication_DefaultSharePermission_Spec("StorageFileDataSmbShareContributor")
+	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_SpecStorageFileDataSmbShareElevatedContributor = AzureFilesIdentityBasedAuthentication_DefaultSharePermission_Spec("StorageFileDataSmbShareElevatedContributor")
+	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_SpecStorageFileDataSmbShareOwner               = AzureFilesIdentityBasedAuthentication_DefaultSharePermission_Spec("StorageFileDataSmbShareOwner")
+	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_SpecStorageFileDataSmbShareReader              = AzureFilesIdentityBasedAuthentication_DefaultSharePermission_Spec("StorageFileDataSmbShareReader")
+)
+
+type AzureFilesIdentityBasedAuthentication_DefaultSharePermission_Status string
+
+const (
+	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StatusNone                                       = AzureFilesIdentityBasedAuthentication_DefaultSharePermission_Status("None")
+	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StatusStorageFileDataSmbShareContributor         = AzureFilesIdentityBasedAuthentication_DefaultSharePermission_Status("StorageFileDataSmbShareContributor")
+	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StatusStorageFileDataSmbShareElevatedContributor = AzureFilesIdentityBasedAuthentication_DefaultSharePermission_Status("StorageFileDataSmbShareElevatedContributor")
+	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StatusStorageFileDataSmbShareOwner               = AzureFilesIdentityBasedAuthentication_DefaultSharePermission_Status("StorageFileDataSmbShareOwner")
+	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StatusStorageFileDataSmbShareReader              = AzureFilesIdentityBasedAuthentication_DefaultSharePermission_Status("StorageFileDataSmbShareReader")
 )
 
 // +kubebuilder:validation:Enum={"AADDS","AD","None"}
-type AzureFilesIdentityBasedAuthenticationSpecDirectoryServiceOptions string
+type AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_Spec string
 
 const (
-	AzureFilesIdentityBasedAuthenticationSpecDirectoryServiceOptionsAADDS = AzureFilesIdentityBasedAuthenticationSpecDirectoryServiceOptions("AADDS")
-	AzureFilesIdentityBasedAuthenticationSpecDirectoryServiceOptionsAD    = AzureFilesIdentityBasedAuthenticationSpecDirectoryServiceOptions("AD")
-	AzureFilesIdentityBasedAuthenticationSpecDirectoryServiceOptionsNone  = AzureFilesIdentityBasedAuthenticationSpecDirectoryServiceOptions("None")
+	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_SpecAADDS = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_Spec("AADDS")
+	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_SpecAD    = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_Spec("AD")
+	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_SpecNone  = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_Spec("None")
 )
 
-type AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission string
+type AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_Status string
 
 const (
-	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionNone                                       = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("None")
-	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareContributor         = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareContributor")
-	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareElevatedContributor = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareElevatedContributor")
-	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareOwner               = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareOwner")
-	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareReader              = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareReader")
-)
-
-type AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions string
-
-const (
-	AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptionsAADDS = AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions("AADDS")
-	AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptionsAD    = AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions("AD")
-	AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptionsNone  = AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions("None")
+	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_StatusAADDS = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_Status("AADDS")
+	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_StatusAD    = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_Status("AD")
+	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_StatusNone  = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_Status("None")
 )
 
 type EncryptionIdentity_Spec struct {
@@ -5177,8 +5177,8 @@ func (identity *EncryptionIdentity_Spec) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromEncryptionIdentitySpec populates our EncryptionIdentity_Spec from the provided source EncryptionIdentity_Spec
-func (identity *EncryptionIdentity_Spec) AssignPropertiesFromEncryptionIdentitySpec(source *v1alpha1api20210401storage.EncryptionIdentity_Spec) error {
+// AssignPropertiesFromEncryptionIdentity_Spec populates our EncryptionIdentity_Spec from the provided source EncryptionIdentity_Spec
+func (identity *EncryptionIdentity_Spec) AssignPropertiesFromEncryptionIdentity_Spec(source *v1alpha1api20210401storage.EncryptionIdentity_Spec) error {
 
 	// UserAssignedIdentityReference
 	if source.UserAssignedIdentityReference != nil {
@@ -5192,8 +5192,8 @@ func (identity *EncryptionIdentity_Spec) AssignPropertiesFromEncryptionIdentityS
 	return nil
 }
 
-// AssignPropertiesToEncryptionIdentitySpec populates the provided destination EncryptionIdentity_Spec from our EncryptionIdentity_Spec
-func (identity *EncryptionIdentity_Spec) AssignPropertiesToEncryptionIdentitySpec(destination *v1alpha1api20210401storage.EncryptionIdentity_Spec) error {
+// AssignPropertiesToEncryptionIdentity_Spec populates the provided destination EncryptionIdentity_Spec from our EncryptionIdentity_Spec
+func (identity *EncryptionIdentity_Spec) AssignPropertiesToEncryptionIdentity_Spec(destination *v1alpha1api20210401storage.EncryptionIdentity_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5246,8 +5246,8 @@ func (identity *EncryptionIdentity_Status) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignPropertiesFromEncryptionIdentityStatus populates our EncryptionIdentity_Status from the provided source EncryptionIdentity_Status
-func (identity *EncryptionIdentity_Status) AssignPropertiesFromEncryptionIdentityStatus(source *v1alpha1api20210401storage.EncryptionIdentity_Status) error {
+// AssignPropertiesFromEncryptionIdentity_Status populates our EncryptionIdentity_Status from the provided source EncryptionIdentity_Status
+func (identity *EncryptionIdentity_Status) AssignPropertiesFromEncryptionIdentity_Status(source *v1alpha1api20210401storage.EncryptionIdentity_Status) error {
 
 	// UserAssignedIdentity
 	identity.UserAssignedIdentity = genruntime.ClonePointerToString(source.UserAssignedIdentity)
@@ -5256,8 +5256,8 @@ func (identity *EncryptionIdentity_Status) AssignPropertiesFromEncryptionIdentit
 	return nil
 }
 
-// AssignPropertiesToEncryptionIdentityStatus populates the provided destination EncryptionIdentity_Status from our EncryptionIdentity_Status
-func (identity *EncryptionIdentity_Status) AssignPropertiesToEncryptionIdentityStatus(destination *v1alpha1api20210401storage.EncryptionIdentity_Status) error {
+// AssignPropertiesToEncryptionIdentity_Status populates the provided destination EncryptionIdentity_Status from our EncryptionIdentity_Status
+func (identity *EncryptionIdentity_Status) AssignPropertiesToEncryptionIdentity_Status(destination *v1alpha1api20210401storage.EncryptionIdentity_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5400,15 +5400,15 @@ func (services *EncryptionServices_Spec) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromEncryptionServicesSpec populates our EncryptionServices_Spec from the provided source EncryptionServices_Spec
-func (services *EncryptionServices_Spec) AssignPropertiesFromEncryptionServicesSpec(source *v1alpha1api20210401storage.EncryptionServices_Spec) error {
+// AssignPropertiesFromEncryptionServices_Spec populates our EncryptionServices_Spec from the provided source EncryptionServices_Spec
+func (services *EncryptionServices_Spec) AssignPropertiesFromEncryptionServices_Spec(source *v1alpha1api20210401storage.EncryptionServices_Spec) error {
 
 	// Blob
 	if source.Blob != nil {
 		var blob EncryptionService_Spec
-		err := blob.AssignPropertiesFromEncryptionServiceSpec(source.Blob)
+		err := blob.AssignPropertiesFromEncryptionService_Spec(source.Blob)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionServiceSpec() to populate field Blob")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionService_Spec() to populate field Blob")
 		}
 		services.Blob = &blob
 	} else {
@@ -5418,9 +5418,9 @@ func (services *EncryptionServices_Spec) AssignPropertiesFromEncryptionServicesS
 	// File
 	if source.File != nil {
 		var file EncryptionService_Spec
-		err := file.AssignPropertiesFromEncryptionServiceSpec(source.File)
+		err := file.AssignPropertiesFromEncryptionService_Spec(source.File)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionServiceSpec() to populate field File")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionService_Spec() to populate field File")
 		}
 		services.File = &file
 	} else {
@@ -5430,9 +5430,9 @@ func (services *EncryptionServices_Spec) AssignPropertiesFromEncryptionServicesS
 	// Queue
 	if source.Queue != nil {
 		var queue EncryptionService_Spec
-		err := queue.AssignPropertiesFromEncryptionServiceSpec(source.Queue)
+		err := queue.AssignPropertiesFromEncryptionService_Spec(source.Queue)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionServiceSpec() to populate field Queue")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionService_Spec() to populate field Queue")
 		}
 		services.Queue = &queue
 	} else {
@@ -5442,9 +5442,9 @@ func (services *EncryptionServices_Spec) AssignPropertiesFromEncryptionServicesS
 	// Table
 	if source.Table != nil {
 		var table EncryptionService_Spec
-		err := table.AssignPropertiesFromEncryptionServiceSpec(source.Table)
+		err := table.AssignPropertiesFromEncryptionService_Spec(source.Table)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionServiceSpec() to populate field Table")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionService_Spec() to populate field Table")
 		}
 		services.Table = &table
 	} else {
@@ -5455,17 +5455,17 @@ func (services *EncryptionServices_Spec) AssignPropertiesFromEncryptionServicesS
 	return nil
 }
 
-// AssignPropertiesToEncryptionServicesSpec populates the provided destination EncryptionServices_Spec from our EncryptionServices_Spec
-func (services *EncryptionServices_Spec) AssignPropertiesToEncryptionServicesSpec(destination *v1alpha1api20210401storage.EncryptionServices_Spec) error {
+// AssignPropertiesToEncryptionServices_Spec populates the provided destination EncryptionServices_Spec from our EncryptionServices_Spec
+func (services *EncryptionServices_Spec) AssignPropertiesToEncryptionServices_Spec(destination *v1alpha1api20210401storage.EncryptionServices_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Blob
 	if services.Blob != nil {
 		var blob v1alpha1api20210401storage.EncryptionService_Spec
-		err := services.Blob.AssignPropertiesToEncryptionServiceSpec(&blob)
+		err := services.Blob.AssignPropertiesToEncryptionService_Spec(&blob)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionServiceSpec() to populate field Blob")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionService_Spec() to populate field Blob")
 		}
 		destination.Blob = &blob
 	} else {
@@ -5475,9 +5475,9 @@ func (services *EncryptionServices_Spec) AssignPropertiesToEncryptionServicesSpe
 	// File
 	if services.File != nil {
 		var file v1alpha1api20210401storage.EncryptionService_Spec
-		err := services.File.AssignPropertiesToEncryptionServiceSpec(&file)
+		err := services.File.AssignPropertiesToEncryptionService_Spec(&file)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionServiceSpec() to populate field File")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionService_Spec() to populate field File")
 		}
 		destination.File = &file
 	} else {
@@ -5487,9 +5487,9 @@ func (services *EncryptionServices_Spec) AssignPropertiesToEncryptionServicesSpe
 	// Queue
 	if services.Queue != nil {
 		var queue v1alpha1api20210401storage.EncryptionService_Spec
-		err := services.Queue.AssignPropertiesToEncryptionServiceSpec(&queue)
+		err := services.Queue.AssignPropertiesToEncryptionService_Spec(&queue)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionServiceSpec() to populate field Queue")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionService_Spec() to populate field Queue")
 		}
 		destination.Queue = &queue
 	} else {
@@ -5499,9 +5499,9 @@ func (services *EncryptionServices_Spec) AssignPropertiesToEncryptionServicesSpe
 	// Table
 	if services.Table != nil {
 		var table v1alpha1api20210401storage.EncryptionService_Spec
-		err := services.Table.AssignPropertiesToEncryptionServiceSpec(&table)
+		err := services.Table.AssignPropertiesToEncryptionService_Spec(&table)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionServiceSpec() to populate field Table")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionService_Spec() to populate field Table")
 		}
 		destination.Table = &table
 	} else {
@@ -5595,15 +5595,15 @@ func (services *EncryptionServices_Status) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignPropertiesFromEncryptionServicesStatus populates our EncryptionServices_Status from the provided source EncryptionServices_Status
-func (services *EncryptionServices_Status) AssignPropertiesFromEncryptionServicesStatus(source *v1alpha1api20210401storage.EncryptionServices_Status) error {
+// AssignPropertiesFromEncryptionServices_Status populates our EncryptionServices_Status from the provided source EncryptionServices_Status
+func (services *EncryptionServices_Status) AssignPropertiesFromEncryptionServices_Status(source *v1alpha1api20210401storage.EncryptionServices_Status) error {
 
 	// Blob
 	if source.Blob != nil {
 		var blob EncryptionService_Status
-		err := blob.AssignPropertiesFromEncryptionServiceStatus(source.Blob)
+		err := blob.AssignPropertiesFromEncryptionService_Status(source.Blob)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionServiceStatus() to populate field Blob")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionService_Status() to populate field Blob")
 		}
 		services.Blob = &blob
 	} else {
@@ -5613,9 +5613,9 @@ func (services *EncryptionServices_Status) AssignPropertiesFromEncryptionService
 	// File
 	if source.File != nil {
 		var file EncryptionService_Status
-		err := file.AssignPropertiesFromEncryptionServiceStatus(source.File)
+		err := file.AssignPropertiesFromEncryptionService_Status(source.File)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionServiceStatus() to populate field File")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionService_Status() to populate field File")
 		}
 		services.File = &file
 	} else {
@@ -5625,9 +5625,9 @@ func (services *EncryptionServices_Status) AssignPropertiesFromEncryptionService
 	// Queue
 	if source.Queue != nil {
 		var queue EncryptionService_Status
-		err := queue.AssignPropertiesFromEncryptionServiceStatus(source.Queue)
+		err := queue.AssignPropertiesFromEncryptionService_Status(source.Queue)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionServiceStatus() to populate field Queue")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionService_Status() to populate field Queue")
 		}
 		services.Queue = &queue
 	} else {
@@ -5637,9 +5637,9 @@ func (services *EncryptionServices_Status) AssignPropertiesFromEncryptionService
 	// Table
 	if source.Table != nil {
 		var table EncryptionService_Status
-		err := table.AssignPropertiesFromEncryptionServiceStatus(source.Table)
+		err := table.AssignPropertiesFromEncryptionService_Status(source.Table)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionServiceStatus() to populate field Table")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionService_Status() to populate field Table")
 		}
 		services.Table = &table
 	} else {
@@ -5650,17 +5650,17 @@ func (services *EncryptionServices_Status) AssignPropertiesFromEncryptionService
 	return nil
 }
 
-// AssignPropertiesToEncryptionServicesStatus populates the provided destination EncryptionServices_Status from our EncryptionServices_Status
-func (services *EncryptionServices_Status) AssignPropertiesToEncryptionServicesStatus(destination *v1alpha1api20210401storage.EncryptionServices_Status) error {
+// AssignPropertiesToEncryptionServices_Status populates the provided destination EncryptionServices_Status from our EncryptionServices_Status
+func (services *EncryptionServices_Status) AssignPropertiesToEncryptionServices_Status(destination *v1alpha1api20210401storage.EncryptionServices_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Blob
 	if services.Blob != nil {
 		var blob v1alpha1api20210401storage.EncryptionService_Status
-		err := services.Blob.AssignPropertiesToEncryptionServiceStatus(&blob)
+		err := services.Blob.AssignPropertiesToEncryptionService_Status(&blob)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionServiceStatus() to populate field Blob")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionService_Status() to populate field Blob")
 		}
 		destination.Blob = &blob
 	} else {
@@ -5670,9 +5670,9 @@ func (services *EncryptionServices_Status) AssignPropertiesToEncryptionServicesS
 	// File
 	if services.File != nil {
 		var file v1alpha1api20210401storage.EncryptionService_Status
-		err := services.File.AssignPropertiesToEncryptionServiceStatus(&file)
+		err := services.File.AssignPropertiesToEncryptionService_Status(&file)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionServiceStatus() to populate field File")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionService_Status() to populate field File")
 		}
 		destination.File = &file
 	} else {
@@ -5682,9 +5682,9 @@ func (services *EncryptionServices_Status) AssignPropertiesToEncryptionServicesS
 	// Queue
 	if services.Queue != nil {
 		var queue v1alpha1api20210401storage.EncryptionService_Status
-		err := services.Queue.AssignPropertiesToEncryptionServiceStatus(&queue)
+		err := services.Queue.AssignPropertiesToEncryptionService_Status(&queue)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionServiceStatus() to populate field Queue")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionService_Status() to populate field Queue")
 		}
 		destination.Queue = &queue
 	} else {
@@ -5694,9 +5694,9 @@ func (services *EncryptionServices_Status) AssignPropertiesToEncryptionServicesS
 	// Table
 	if services.Table != nil {
 		var table v1alpha1api20210401storage.EncryptionService_Status
-		err := services.Table.AssignPropertiesToEncryptionServiceStatus(&table)
+		err := services.Table.AssignPropertiesToEncryptionService_Status(&table)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionServiceStatus() to populate field Table")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionService_Status() to populate field Table")
 		}
 		destination.Table = &table
 	} else {
@@ -5715,23 +5715,23 @@ func (services *EncryptionServices_Status) AssignPropertiesToEncryptionServicesS
 }
 
 // +kubebuilder:validation:Enum={"Microsoft.Keyvault","Microsoft.Storage"}
-type EncryptionSpecKeySource string
+type Encryption_KeySource_Spec string
 
 const (
-	EncryptionSpecKeySourceMicrosoftKeyvault = EncryptionSpecKeySource("Microsoft.Keyvault")
-	EncryptionSpecKeySourceMicrosoftStorage  = EncryptionSpecKeySource("Microsoft.Storage")
+	Encryption_KeySource_SpecMicrosoftKeyvault = Encryption_KeySource_Spec("Microsoft.Keyvault")
+	Encryption_KeySource_SpecMicrosoftStorage  = Encryption_KeySource_Spec("Microsoft.Storage")
 )
 
-type EncryptionStatusKeySource string
+type Encryption_KeySource_Status string
 
 const (
-	EncryptionStatusKeySourceMicrosoftKeyvault = EncryptionStatusKeySource("Microsoft.Keyvault")
-	EncryptionStatusKeySourceMicrosoftStorage  = EncryptionStatusKeySource("Microsoft.Storage")
+	Encryption_KeySource_StatusMicrosoftKeyvault = Encryption_KeySource_Status("Microsoft.Keyvault")
+	Encryption_KeySource_StatusMicrosoftStorage  = Encryption_KeySource_Status("Microsoft.Storage")
 )
 
 type IPRule_Spec struct {
 	//Action: The action of IP ACL rule.
-	Action *IPRuleSpecAction `json:"action,omitempty"`
+	Action *IPRule_Action_Spec `json:"action,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
@@ -5783,12 +5783,12 @@ func (rule *IPRule_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	return nil
 }
 
-// AssignPropertiesFromIPRuleSpec populates our IPRule_Spec from the provided source IPRule_Spec
-func (rule *IPRule_Spec) AssignPropertiesFromIPRuleSpec(source *v1alpha1api20210401storage.IPRule_Spec) error {
+// AssignPropertiesFromIPRule_Spec populates our IPRule_Spec from the provided source IPRule_Spec
+func (rule *IPRule_Spec) AssignPropertiesFromIPRule_Spec(source *v1alpha1api20210401storage.IPRule_Spec) error {
 
 	// Action
 	if source.Action != nil {
-		action := IPRuleSpecAction(*source.Action)
+		action := IPRule_Action_Spec(*source.Action)
 		rule.Action = &action
 	} else {
 		rule.Action = nil
@@ -5801,8 +5801,8 @@ func (rule *IPRule_Spec) AssignPropertiesFromIPRuleSpec(source *v1alpha1api20210
 	return nil
 }
 
-// AssignPropertiesToIPRuleSpec populates the provided destination IPRule_Spec from our IPRule_Spec
-func (rule *IPRule_Spec) AssignPropertiesToIPRuleSpec(destination *v1alpha1api20210401storage.IPRule_Spec) error {
+// AssignPropertiesToIPRule_Spec populates the provided destination IPRule_Spec from our IPRule_Spec
+func (rule *IPRule_Spec) AssignPropertiesToIPRule_Spec(destination *v1alpha1api20210401storage.IPRule_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5831,7 +5831,7 @@ func (rule *IPRule_Spec) AssignPropertiesToIPRuleSpec(destination *v1alpha1api20
 
 type IPRule_Status struct {
 	//Action: The action of IP ACL rule.
-	Action *IPRuleStatusAction `json:"action,omitempty"`
+	Action *IPRule_Action_Status `json:"action,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
@@ -5865,12 +5865,12 @@ func (rule *IPRule_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	return nil
 }
 
-// AssignPropertiesFromIPRuleStatus populates our IPRule_Status from the provided source IPRule_Status
-func (rule *IPRule_Status) AssignPropertiesFromIPRuleStatus(source *v1alpha1api20210401storage.IPRule_Status) error {
+// AssignPropertiesFromIPRule_Status populates our IPRule_Status from the provided source IPRule_Status
+func (rule *IPRule_Status) AssignPropertiesFromIPRule_Status(source *v1alpha1api20210401storage.IPRule_Status) error {
 
 	// Action
 	if source.Action != nil {
-		action := IPRuleStatusAction(*source.Action)
+		action := IPRule_Action_Status(*source.Action)
 		rule.Action = &action
 	} else {
 		rule.Action = nil
@@ -5883,8 +5883,8 @@ func (rule *IPRule_Status) AssignPropertiesFromIPRuleStatus(source *v1alpha1api2
 	return nil
 }
 
-// AssignPropertiesToIPRuleStatus populates the provided destination IPRule_Status from our IPRule_Status
-func (rule *IPRule_Status) AssignPropertiesToIPRuleStatus(destination *v1alpha1api20210401storage.IPRule_Status) error {
+// AssignPropertiesToIPRule_Status populates the provided destination IPRule_Status from our IPRule_Status
+func (rule *IPRule_Status) AssignPropertiesToIPRule_Status(destination *v1alpha1api20210401storage.IPRule_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5985,8 +5985,8 @@ func (properties *KeyVaultProperties_Spec) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignPropertiesFromKeyVaultPropertiesSpec populates our KeyVaultProperties_Spec from the provided source KeyVaultProperties_Spec
-func (properties *KeyVaultProperties_Spec) AssignPropertiesFromKeyVaultPropertiesSpec(source *v1alpha1api20210401storage.KeyVaultProperties_Spec) error {
+// AssignPropertiesFromKeyVaultProperties_Spec populates our KeyVaultProperties_Spec from the provided source KeyVaultProperties_Spec
+func (properties *KeyVaultProperties_Spec) AssignPropertiesFromKeyVaultProperties_Spec(source *v1alpha1api20210401storage.KeyVaultProperties_Spec) error {
 
 	// Keyname
 	properties.Keyname = genruntime.ClonePointerToString(source.Keyname)
@@ -6001,8 +6001,8 @@ func (properties *KeyVaultProperties_Spec) AssignPropertiesFromKeyVaultPropertie
 	return nil
 }
 
-// AssignPropertiesToKeyVaultPropertiesSpec populates the provided destination KeyVaultProperties_Spec from our KeyVaultProperties_Spec
-func (properties *KeyVaultProperties_Spec) AssignPropertiesToKeyVaultPropertiesSpec(destination *v1alpha1api20210401storage.KeyVaultProperties_Spec) error {
+// AssignPropertiesToKeyVaultProperties_Spec populates the provided destination KeyVaultProperties_Spec from our KeyVaultProperties_Spec
+func (properties *KeyVaultProperties_Spec) AssignPropertiesToKeyVaultProperties_Spec(destination *v1alpha1api20210401storage.KeyVaultProperties_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6092,8 +6092,8 @@ func (properties *KeyVaultProperties_Status) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
-// AssignPropertiesFromKeyVaultPropertiesStatus populates our KeyVaultProperties_Status from the provided source KeyVaultProperties_Status
-func (properties *KeyVaultProperties_Status) AssignPropertiesFromKeyVaultPropertiesStatus(source *v1alpha1api20210401storage.KeyVaultProperties_Status) error {
+// AssignPropertiesFromKeyVaultProperties_Status populates our KeyVaultProperties_Status from the provided source KeyVaultProperties_Status
+func (properties *KeyVaultProperties_Status) AssignPropertiesFromKeyVaultProperties_Status(source *v1alpha1api20210401storage.KeyVaultProperties_Status) error {
 
 	// CurrentVersionedKeyIdentifier
 	properties.CurrentVersionedKeyIdentifier = genruntime.ClonePointerToString(source.CurrentVersionedKeyIdentifier)
@@ -6114,8 +6114,8 @@ func (properties *KeyVaultProperties_Status) AssignPropertiesFromKeyVaultPropert
 	return nil
 }
 
-// AssignPropertiesToKeyVaultPropertiesStatus populates the provided destination KeyVaultProperties_Status from our KeyVaultProperties_Status
-func (properties *KeyVaultProperties_Status) AssignPropertiesToKeyVaultPropertiesStatus(destination *v1alpha1api20210401storage.KeyVaultProperties_Status) error {
+// AssignPropertiesToKeyVaultProperties_Status populates the provided destination KeyVaultProperties_Status from our KeyVaultProperties_Status
+func (properties *KeyVaultProperties_Status) AssignPropertiesToKeyVaultProperties_Status(destination *v1alpha1api20210401storage.KeyVaultProperties_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6146,37 +6146,37 @@ func (properties *KeyVaultProperties_Status) AssignPropertiesToKeyVaultPropertie
 }
 
 // +kubebuilder:validation:Enum={"AzureServices","Logging","Metrics","None"}
-type NetworkRuleSetSpecBypass string
+type NetworkRuleSet_Bypass_Spec string
 
 const (
-	NetworkRuleSetSpecBypassAzureServices = NetworkRuleSetSpecBypass("AzureServices")
-	NetworkRuleSetSpecBypassLogging       = NetworkRuleSetSpecBypass("Logging")
-	NetworkRuleSetSpecBypassMetrics       = NetworkRuleSetSpecBypass("Metrics")
-	NetworkRuleSetSpecBypassNone          = NetworkRuleSetSpecBypass("None")
+	NetworkRuleSet_Bypass_SpecAzureServices = NetworkRuleSet_Bypass_Spec("AzureServices")
+	NetworkRuleSet_Bypass_SpecLogging       = NetworkRuleSet_Bypass_Spec("Logging")
+	NetworkRuleSet_Bypass_SpecMetrics       = NetworkRuleSet_Bypass_Spec("Metrics")
+	NetworkRuleSet_Bypass_SpecNone          = NetworkRuleSet_Bypass_Spec("None")
+)
+
+type NetworkRuleSet_Bypass_Status string
+
+const (
+	NetworkRuleSet_Bypass_StatusAzureServices = NetworkRuleSet_Bypass_Status("AzureServices")
+	NetworkRuleSet_Bypass_StatusLogging       = NetworkRuleSet_Bypass_Status("Logging")
+	NetworkRuleSet_Bypass_StatusMetrics       = NetworkRuleSet_Bypass_Status("Metrics")
+	NetworkRuleSet_Bypass_StatusNone          = NetworkRuleSet_Bypass_Status("None")
 )
 
 // +kubebuilder:validation:Enum={"Allow","Deny"}
-type NetworkRuleSetSpecDefaultAction string
+type NetworkRuleSet_DefaultAction_Spec string
 
 const (
-	NetworkRuleSetSpecDefaultActionAllow = NetworkRuleSetSpecDefaultAction("Allow")
-	NetworkRuleSetSpecDefaultActionDeny  = NetworkRuleSetSpecDefaultAction("Deny")
+	NetworkRuleSet_DefaultAction_SpecAllow = NetworkRuleSet_DefaultAction_Spec("Allow")
+	NetworkRuleSet_DefaultAction_SpecDeny  = NetworkRuleSet_DefaultAction_Spec("Deny")
 )
 
-type NetworkRuleSetStatusBypass string
+type NetworkRuleSet_DefaultAction_Status string
 
 const (
-	NetworkRuleSetStatusBypassAzureServices = NetworkRuleSetStatusBypass("AzureServices")
-	NetworkRuleSetStatusBypassLogging       = NetworkRuleSetStatusBypass("Logging")
-	NetworkRuleSetStatusBypassMetrics       = NetworkRuleSetStatusBypass("Metrics")
-	NetworkRuleSetStatusBypassNone          = NetworkRuleSetStatusBypass("None")
-)
-
-type NetworkRuleSetStatusDefaultAction string
-
-const (
-	NetworkRuleSetStatusDefaultActionAllow = NetworkRuleSetStatusDefaultAction("Allow")
-	NetworkRuleSetStatusDefaultActionDeny  = NetworkRuleSetStatusDefaultAction("Deny")
+	NetworkRuleSet_DefaultAction_StatusAllow = NetworkRuleSet_DefaultAction_Status("Allow")
+	NetworkRuleSet_DefaultAction_StatusDeny  = NetworkRuleSet_DefaultAction_Status("Deny")
 )
 
 type ResourceAccessRule_Spec struct {
@@ -6238,8 +6238,8 @@ func (rule *ResourceAccessRule_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-// AssignPropertiesFromResourceAccessRuleSpec populates our ResourceAccessRule_Spec from the provided source ResourceAccessRule_Spec
-func (rule *ResourceAccessRule_Spec) AssignPropertiesFromResourceAccessRuleSpec(source *v1alpha1api20210401storage.ResourceAccessRule_Spec) error {
+// AssignPropertiesFromResourceAccessRule_Spec populates our ResourceAccessRule_Spec from the provided source ResourceAccessRule_Spec
+func (rule *ResourceAccessRule_Spec) AssignPropertiesFromResourceAccessRule_Spec(source *v1alpha1api20210401storage.ResourceAccessRule_Spec) error {
 
 	// ResourceReference
 	if source.ResourceReference != nil {
@@ -6256,8 +6256,8 @@ func (rule *ResourceAccessRule_Spec) AssignPropertiesFromResourceAccessRuleSpec(
 	return nil
 }
 
-// AssignPropertiesToResourceAccessRuleSpec populates the provided destination ResourceAccessRule_Spec from our ResourceAccessRule_Spec
-func (rule *ResourceAccessRule_Spec) AssignPropertiesToResourceAccessRuleSpec(destination *v1alpha1api20210401storage.ResourceAccessRule_Spec) error {
+// AssignPropertiesToResourceAccessRule_Spec populates the provided destination ResourceAccessRule_Spec from our ResourceAccessRule_Spec
+func (rule *ResourceAccessRule_Spec) AssignPropertiesToResourceAccessRule_Spec(destination *v1alpha1api20210401storage.ResourceAccessRule_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6321,8 +6321,8 @@ func (rule *ResourceAccessRule_Status) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-// AssignPropertiesFromResourceAccessRuleStatus populates our ResourceAccessRule_Status from the provided source ResourceAccessRule_Status
-func (rule *ResourceAccessRule_Status) AssignPropertiesFromResourceAccessRuleStatus(source *v1alpha1api20210401storage.ResourceAccessRule_Status) error {
+// AssignPropertiesFromResourceAccessRule_Status populates our ResourceAccessRule_Status from the provided source ResourceAccessRule_Status
+func (rule *ResourceAccessRule_Status) AssignPropertiesFromResourceAccessRule_Status(source *v1alpha1api20210401storage.ResourceAccessRule_Status) error {
 
 	// ResourceId
 	rule.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
@@ -6334,8 +6334,8 @@ func (rule *ResourceAccessRule_Status) AssignPropertiesFromResourceAccessRuleSta
 	return nil
 }
 
-// AssignPropertiesToResourceAccessRuleStatus populates the provided destination ResourceAccessRule_Status from our ResourceAccessRule_Status
-func (rule *ResourceAccessRule_Status) AssignPropertiesToResourceAccessRuleStatus(destination *v1alpha1api20210401storage.ResourceAccessRule_Status) error {
+// AssignPropertiesToResourceAccessRule_Status populates the provided destination ResourceAccessRule_Status from our ResourceAccessRule_Status
+func (rule *ResourceAccessRule_Status) AssignPropertiesToResourceAccessRule_Status(destination *v1alpha1api20210401storage.ResourceAccessRule_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6357,28 +6357,28 @@ func (rule *ResourceAccessRule_Status) AssignPropertiesToResourceAccessRuleStatu
 }
 
 // +kubebuilder:validation:Enum={"InternetRouting","MicrosoftRouting"}
-type RoutingPreferenceSpecRoutingChoice string
+type RoutingPreference_RoutingChoice_Spec string
 
 const (
-	RoutingPreferenceSpecRoutingChoiceInternetRouting  = RoutingPreferenceSpecRoutingChoice("InternetRouting")
-	RoutingPreferenceSpecRoutingChoiceMicrosoftRouting = RoutingPreferenceSpecRoutingChoice("MicrosoftRouting")
+	RoutingPreference_RoutingChoice_SpecInternetRouting  = RoutingPreference_RoutingChoice_Spec("InternetRouting")
+	RoutingPreference_RoutingChoice_SpecMicrosoftRouting = RoutingPreference_RoutingChoice_Spec("MicrosoftRouting")
 )
 
-type RoutingPreferenceStatusRoutingChoice string
+type RoutingPreference_RoutingChoice_Status string
 
 const (
-	RoutingPreferenceStatusRoutingChoiceInternetRouting  = RoutingPreferenceStatusRoutingChoice("InternetRouting")
-	RoutingPreferenceStatusRoutingChoiceMicrosoftRouting = RoutingPreferenceStatusRoutingChoice("MicrosoftRouting")
+	RoutingPreference_RoutingChoice_StatusInternetRouting  = RoutingPreference_RoutingChoice_Status("InternetRouting")
+	RoutingPreference_RoutingChoice_StatusMicrosoftRouting = RoutingPreference_RoutingChoice_Status("MicrosoftRouting")
 )
 
 // +kubebuilder:validation:Enum={"Log"}
-type SasPolicySpecExpirationAction string
+type SasPolicy_ExpirationAction_Spec string
 
-const SasPolicySpecExpirationActionLog = SasPolicySpecExpirationAction("Log")
+const SasPolicy_ExpirationAction_SpecLog = SasPolicy_ExpirationAction_Spec("Log")
 
-type SasPolicyStatusExpirationAction string
+type SasPolicy_ExpirationAction_Status string
 
-const SasPolicyStatusExpirationActionLog = SasPolicyStatusExpirationAction("Log")
+const SasPolicy_ExpirationAction_StatusLog = SasPolicy_ExpirationAction_Status("Log")
 
 type UserAssignedIdentity_Status struct {
 	//ClientId: The client ID of the identity.
@@ -6418,8 +6418,8 @@ func (identity *UserAssignedIdentity_Status) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
-// AssignPropertiesFromUserAssignedIdentityStatus populates our UserAssignedIdentity_Status from the provided source UserAssignedIdentity_Status
-func (identity *UserAssignedIdentity_Status) AssignPropertiesFromUserAssignedIdentityStatus(source *v1alpha1api20210401storage.UserAssignedIdentity_Status) error {
+// AssignPropertiesFromUserAssignedIdentity_Status populates our UserAssignedIdentity_Status from the provided source UserAssignedIdentity_Status
+func (identity *UserAssignedIdentity_Status) AssignPropertiesFromUserAssignedIdentity_Status(source *v1alpha1api20210401storage.UserAssignedIdentity_Status) error {
 
 	// ClientId
 	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -6431,8 +6431,8 @@ func (identity *UserAssignedIdentity_Status) AssignPropertiesFromUserAssignedIde
 	return nil
 }
 
-// AssignPropertiesToUserAssignedIdentityStatus populates the provided destination UserAssignedIdentity_Status from our UserAssignedIdentity_Status
-func (identity *UserAssignedIdentity_Status) AssignPropertiesToUserAssignedIdentityStatus(destination *v1alpha1api20210401storage.UserAssignedIdentity_Status) error {
+// AssignPropertiesToUserAssignedIdentity_Status populates the provided destination UserAssignedIdentity_Status from our UserAssignedIdentity_Status
+func (identity *UserAssignedIdentity_Status) AssignPropertiesToUserAssignedIdentity_Status(destination *v1alpha1api20210401storage.UserAssignedIdentity_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6455,7 +6455,7 @@ func (identity *UserAssignedIdentity_Status) AssignPropertiesToUserAssignedIdent
 
 type VirtualNetworkRule_Spec struct {
 	//Action: The action of virtual network rule.
-	Action *VirtualNetworkRuleSpecAction `json:"action,omitempty"`
+	Action *VirtualNetworkRule_Action_Spec `json:"action,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Reference: Resource ID of a subnet, for example:
@@ -6463,7 +6463,7 @@ type VirtualNetworkRule_Spec struct {
 	Reference genruntime.ResourceReference `armReference:"Id" json:"reference"`
 
 	//State: Gets the state of virtual network rule.
-	State *VirtualNetworkRuleSpecState `json:"state,omitempty"`
+	State *VirtualNetworkRule_State_Spec `json:"state,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualNetworkRule_Spec{}
@@ -6526,12 +6526,12 @@ func (rule *VirtualNetworkRule_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-// AssignPropertiesFromVirtualNetworkRuleSpec populates our VirtualNetworkRule_Spec from the provided source VirtualNetworkRule_Spec
-func (rule *VirtualNetworkRule_Spec) AssignPropertiesFromVirtualNetworkRuleSpec(source *v1alpha1api20210401storage.VirtualNetworkRule_Spec) error {
+// AssignPropertiesFromVirtualNetworkRule_Spec populates our VirtualNetworkRule_Spec from the provided source VirtualNetworkRule_Spec
+func (rule *VirtualNetworkRule_Spec) AssignPropertiesFromVirtualNetworkRule_Spec(source *v1alpha1api20210401storage.VirtualNetworkRule_Spec) error {
 
 	// Action
 	if source.Action != nil {
-		action := VirtualNetworkRuleSpecAction(*source.Action)
+		action := VirtualNetworkRule_Action_Spec(*source.Action)
 		rule.Action = &action
 	} else {
 		rule.Action = nil
@@ -6542,7 +6542,7 @@ func (rule *VirtualNetworkRule_Spec) AssignPropertiesFromVirtualNetworkRuleSpec(
 
 	// State
 	if source.State != nil {
-		state := VirtualNetworkRuleSpecState(*source.State)
+		state := VirtualNetworkRule_State_Spec(*source.State)
 		rule.State = &state
 	} else {
 		rule.State = nil
@@ -6552,8 +6552,8 @@ func (rule *VirtualNetworkRule_Spec) AssignPropertiesFromVirtualNetworkRuleSpec(
 	return nil
 }
 
-// AssignPropertiesToVirtualNetworkRuleSpec populates the provided destination VirtualNetworkRule_Spec from our VirtualNetworkRule_Spec
-func (rule *VirtualNetworkRule_Spec) AssignPropertiesToVirtualNetworkRuleSpec(destination *v1alpha1api20210401storage.VirtualNetworkRule_Spec) error {
+// AssignPropertiesToVirtualNetworkRule_Spec populates the provided destination VirtualNetworkRule_Spec from our VirtualNetworkRule_Spec
+func (rule *VirtualNetworkRule_Spec) AssignPropertiesToVirtualNetworkRule_Spec(destination *v1alpha1api20210401storage.VirtualNetworkRule_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6589,7 +6589,7 @@ func (rule *VirtualNetworkRule_Spec) AssignPropertiesToVirtualNetworkRuleSpec(de
 
 type VirtualNetworkRule_Status struct {
 	//Action: The action of virtual network rule.
-	Action *VirtualNetworkRuleStatusAction `json:"action,omitempty"`
+	Action *VirtualNetworkRule_Action_Status `json:"action,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Id: Resource ID of a subnet, for example:
@@ -6597,7 +6597,7 @@ type VirtualNetworkRule_Status struct {
 	Id string `json:"id"`
 
 	//State: Gets the state of virtual network rule.
-	State *VirtualNetworkRuleStatusState `json:"state,omitempty"`
+	State *VirtualNetworkRule_State_Status `json:"state,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualNetworkRule_Status{}
@@ -6633,12 +6633,12 @@ func (rule *VirtualNetworkRule_Status) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-// AssignPropertiesFromVirtualNetworkRuleStatus populates our VirtualNetworkRule_Status from the provided source VirtualNetworkRule_Status
-func (rule *VirtualNetworkRule_Status) AssignPropertiesFromVirtualNetworkRuleStatus(source *v1alpha1api20210401storage.VirtualNetworkRule_Status) error {
+// AssignPropertiesFromVirtualNetworkRule_Status populates our VirtualNetworkRule_Status from the provided source VirtualNetworkRule_Status
+func (rule *VirtualNetworkRule_Status) AssignPropertiesFromVirtualNetworkRule_Status(source *v1alpha1api20210401storage.VirtualNetworkRule_Status) error {
 
 	// Action
 	if source.Action != nil {
-		action := VirtualNetworkRuleStatusAction(*source.Action)
+		action := VirtualNetworkRule_Action_Status(*source.Action)
 		rule.Action = &action
 	} else {
 		rule.Action = nil
@@ -6649,7 +6649,7 @@ func (rule *VirtualNetworkRule_Status) AssignPropertiesFromVirtualNetworkRuleSta
 
 	// State
 	if source.State != nil {
-		state := VirtualNetworkRuleStatusState(*source.State)
+		state := VirtualNetworkRule_State_Status(*source.State)
 		rule.State = &state
 	} else {
 		rule.State = nil
@@ -6659,8 +6659,8 @@ func (rule *VirtualNetworkRule_Status) AssignPropertiesFromVirtualNetworkRuleSta
 	return nil
 }
 
-// AssignPropertiesToVirtualNetworkRuleStatus populates the provided destination VirtualNetworkRule_Status from our VirtualNetworkRule_Status
-func (rule *VirtualNetworkRule_Status) AssignPropertiesToVirtualNetworkRuleStatus(destination *v1alpha1api20210401storage.VirtualNetworkRule_Status) error {
+// AssignPropertiesToVirtualNetworkRule_Status populates the provided destination VirtualNetworkRule_Status from our VirtualNetworkRule_Status
+func (rule *VirtualNetworkRule_Status) AssignPropertiesToVirtualNetworkRule_Status(destination *v1alpha1api20210401storage.VirtualNetworkRule_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6703,7 +6703,7 @@ type EncryptionService_Spec struct {
 	//KeyType: Encryption key type to be used for the encryption service. 'Account'
 	//key type implies that an account-scoped encryption key will be used. 'Service'
 	//key type implies that a default service key is used.
-	KeyType *EncryptionServiceSpecKeyType `json:"keyType,omitempty"`
+	KeyType *EncryptionService_KeyType_Spec `json:"keyType,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &EncryptionService_Spec{}
@@ -6757,8 +6757,8 @@ func (service *EncryptionService_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-// AssignPropertiesFromEncryptionServiceSpec populates our EncryptionService_Spec from the provided source EncryptionService_Spec
-func (service *EncryptionService_Spec) AssignPropertiesFromEncryptionServiceSpec(source *v1alpha1api20210401storage.EncryptionService_Spec) error {
+// AssignPropertiesFromEncryptionService_Spec populates our EncryptionService_Spec from the provided source EncryptionService_Spec
+func (service *EncryptionService_Spec) AssignPropertiesFromEncryptionService_Spec(source *v1alpha1api20210401storage.EncryptionService_Spec) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -6770,7 +6770,7 @@ func (service *EncryptionService_Spec) AssignPropertiesFromEncryptionServiceSpec
 
 	// KeyType
 	if source.KeyType != nil {
-		keyType := EncryptionServiceSpecKeyType(*source.KeyType)
+		keyType := EncryptionService_KeyType_Spec(*source.KeyType)
 		service.KeyType = &keyType
 	} else {
 		service.KeyType = nil
@@ -6780,8 +6780,8 @@ func (service *EncryptionService_Spec) AssignPropertiesFromEncryptionServiceSpec
 	return nil
 }
 
-// AssignPropertiesToEncryptionServiceSpec populates the provided destination EncryptionService_Spec from our EncryptionService_Spec
-func (service *EncryptionService_Spec) AssignPropertiesToEncryptionServiceSpec(destination *v1alpha1api20210401storage.EncryptionService_Spec) error {
+// AssignPropertiesToEncryptionService_Spec populates the provided destination EncryptionService_Spec from our EncryptionService_Spec
+func (service *EncryptionService_Spec) AssignPropertiesToEncryptionService_Spec(destination *v1alpha1api20210401storage.EncryptionService_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6820,7 +6820,7 @@ type EncryptionService_Status struct {
 	//KeyType: Encryption key type to be used for the encryption service. 'Account'
 	//key type implies that an account-scoped encryption key will be used. 'Service'
 	//key type implies that a default service key is used.
-	KeyType *EncryptionServiceStatusKeyType `json:"keyType,omitempty"`
+	KeyType *EncryptionService_KeyType_Status `json:"keyType,omitempty"`
 
 	//LastEnabledTime: Gets a rough estimate of the date/time when the encryption was
 	//last enabled by the user. Only returned when encryption is enabled. There might
@@ -6865,8 +6865,8 @@ func (service *EncryptionService_Status) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromEncryptionServiceStatus populates our EncryptionService_Status from the provided source EncryptionService_Status
-func (service *EncryptionService_Status) AssignPropertiesFromEncryptionServiceStatus(source *v1alpha1api20210401storage.EncryptionService_Status) error {
+// AssignPropertiesFromEncryptionService_Status populates our EncryptionService_Status from the provided source EncryptionService_Status
+func (service *EncryptionService_Status) AssignPropertiesFromEncryptionService_Status(source *v1alpha1api20210401storage.EncryptionService_Status) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -6878,7 +6878,7 @@ func (service *EncryptionService_Status) AssignPropertiesFromEncryptionServiceSt
 
 	// KeyType
 	if source.KeyType != nil {
-		keyType := EncryptionServiceStatusKeyType(*source.KeyType)
+		keyType := EncryptionService_KeyType_Status(*source.KeyType)
 		service.KeyType = &keyType
 	} else {
 		service.KeyType = nil
@@ -6891,8 +6891,8 @@ func (service *EncryptionService_Status) AssignPropertiesFromEncryptionServiceSt
 	return nil
 }
 
-// AssignPropertiesToEncryptionServiceStatus populates the provided destination EncryptionService_Status from our EncryptionService_Status
-func (service *EncryptionService_Status) AssignPropertiesToEncryptionServiceStatus(destination *v1alpha1api20210401storage.EncryptionService_Status) error {
+// AssignPropertiesToEncryptionService_Status populates the provided destination EncryptionService_Status from our EncryptionService_Status
+func (service *EncryptionService_Status) AssignPropertiesToEncryptionService_Status(destination *v1alpha1api20210401storage.EncryptionService_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6927,57 +6927,57 @@ func (service *EncryptionService_Status) AssignPropertiesToEncryptionServiceStat
 }
 
 // +kubebuilder:validation:Enum={"Allow"}
-type IPRuleSpecAction string
+type IPRule_Action_Spec string
 
-const IPRuleSpecActionAllow = IPRuleSpecAction("Allow")
+const IPRule_Action_SpecAllow = IPRule_Action_Spec("Allow")
 
-type IPRuleStatusAction string
+type IPRule_Action_Status string
 
-const IPRuleStatusActionAllow = IPRuleStatusAction("Allow")
+const IPRule_Action_StatusAllow = IPRule_Action_Status("Allow")
 
 // +kubebuilder:validation:Enum={"Allow"}
-type VirtualNetworkRuleSpecAction string
+type VirtualNetworkRule_Action_Spec string
 
-const VirtualNetworkRuleSpecActionAllow = VirtualNetworkRuleSpecAction("Allow")
+const VirtualNetworkRule_Action_SpecAllow = VirtualNetworkRule_Action_Spec("Allow")
+
+type VirtualNetworkRule_Action_Status string
+
+const VirtualNetworkRule_Action_StatusAllow = VirtualNetworkRule_Action_Status("Allow")
 
 // +kubebuilder:validation:Enum={"Deprovisioning","Failed","NetworkSourceDeleted","Provisioning","Succeeded"}
-type VirtualNetworkRuleSpecState string
+type VirtualNetworkRule_State_Spec string
 
 const (
-	VirtualNetworkRuleSpecStateDeprovisioning       = VirtualNetworkRuleSpecState("Deprovisioning")
-	VirtualNetworkRuleSpecStateFailed               = VirtualNetworkRuleSpecState("Failed")
-	VirtualNetworkRuleSpecStateNetworkSourceDeleted = VirtualNetworkRuleSpecState("NetworkSourceDeleted")
-	VirtualNetworkRuleSpecStateProvisioning         = VirtualNetworkRuleSpecState("Provisioning")
-	VirtualNetworkRuleSpecStateSucceeded            = VirtualNetworkRuleSpecState("Succeeded")
+	VirtualNetworkRule_State_SpecDeprovisioning       = VirtualNetworkRule_State_Spec("Deprovisioning")
+	VirtualNetworkRule_State_SpecFailed               = VirtualNetworkRule_State_Spec("Failed")
+	VirtualNetworkRule_State_SpecNetworkSourceDeleted = VirtualNetworkRule_State_Spec("NetworkSourceDeleted")
+	VirtualNetworkRule_State_SpecProvisioning         = VirtualNetworkRule_State_Spec("Provisioning")
+	VirtualNetworkRule_State_SpecSucceeded            = VirtualNetworkRule_State_Spec("Succeeded")
 )
 
-type VirtualNetworkRuleStatusAction string
-
-const VirtualNetworkRuleStatusActionAllow = VirtualNetworkRuleStatusAction("Allow")
-
-type VirtualNetworkRuleStatusState string
+type VirtualNetworkRule_State_Status string
 
 const (
-	VirtualNetworkRuleStatusStateDeprovisioning       = VirtualNetworkRuleStatusState("Deprovisioning")
-	VirtualNetworkRuleStatusStateFailed               = VirtualNetworkRuleStatusState("Failed")
-	VirtualNetworkRuleStatusStateNetworkSourceDeleted = VirtualNetworkRuleStatusState("NetworkSourceDeleted")
-	VirtualNetworkRuleStatusStateProvisioning         = VirtualNetworkRuleStatusState("Provisioning")
-	VirtualNetworkRuleStatusStateSucceeded            = VirtualNetworkRuleStatusState("Succeeded")
+	VirtualNetworkRule_State_StatusDeprovisioning       = VirtualNetworkRule_State_Status("Deprovisioning")
+	VirtualNetworkRule_State_StatusFailed               = VirtualNetworkRule_State_Status("Failed")
+	VirtualNetworkRule_State_StatusNetworkSourceDeleted = VirtualNetworkRule_State_Status("NetworkSourceDeleted")
+	VirtualNetworkRule_State_StatusProvisioning         = VirtualNetworkRule_State_Status("Provisioning")
+	VirtualNetworkRule_State_StatusSucceeded            = VirtualNetworkRule_State_Status("Succeeded")
 )
 
 // +kubebuilder:validation:Enum={"Account","Service"}
-type EncryptionServiceSpecKeyType string
+type EncryptionService_KeyType_Spec string
 
 const (
-	EncryptionServiceSpecKeyTypeAccount = EncryptionServiceSpecKeyType("Account")
-	EncryptionServiceSpecKeyTypeService = EncryptionServiceSpecKeyType("Service")
+	EncryptionService_KeyType_SpecAccount = EncryptionService_KeyType_Spec("Account")
+	EncryptionService_KeyType_SpecService = EncryptionService_KeyType_Spec("Service")
 )
 
-type EncryptionServiceStatusKeyType string
+type EncryptionService_KeyType_Status string
 
 const (
-	EncryptionServiceStatusKeyTypeAccount = EncryptionServiceStatusKeyType("Account")
-	EncryptionServiceStatusKeyTypeService = EncryptionServiceStatusKeyType("Service")
+	EncryptionService_KeyType_StatusAccount = EncryptionService_KeyType_Status("Account")
+	EncryptionService_KeyType_StatusService = EncryptionService_KeyType_Status("Service")
 )
 
 func init() {

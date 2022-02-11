@@ -56,13 +56,13 @@ type NetworkInterfacePropertiesFormat_SpecARM struct {
 	IpConfigurations []NetworkInterfaceIPConfiguration_Spec_NetworkInterface_SubResourceEmbeddedARM `json:"ipConfigurations,omitempty"`
 
 	//MigrationPhase: Migration phase of Network Interface resource.
-	MigrationPhase *NetworkInterfacePropertiesFormatSpecMigrationPhase `json:"migrationPhase,omitempty"`
+	MigrationPhase *NetworkInterfacePropertiesFormat_MigrationPhase_Spec `json:"migrationPhase,omitempty"`
 
 	//NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
 	NetworkSecurityGroup *NetworkSecurityGroup_Spec_NetworkInterface_SubResourceEmbeddedARM `json:"networkSecurityGroup,omitempty"`
 
 	//NicType: Type of Network Interface resource.
-	NicType *NetworkInterfacePropertiesFormatSpecNicType `json:"nicType,omitempty"`
+	NicType *NetworkInterfacePropertiesFormat_NicType_Spec `json:"nicType,omitempty"`
 
 	//PrivateLinkService: Privatelinkservice of the network interface resource.
 	PrivateLinkService *PrivateLinkService_SpecARM `json:"privateLinkService,omitempty"`

@@ -10,7 +10,7 @@ type StorageAccountsBlobServices_SPECARM struct {
 	Name      string `json:"name"`
 
 	//Properties: The properties of a storage account’s Blob service.
-	Properties *StorageAccountsBlobServices_SPEC_PropertiesARM `json:"properties,omitempty"`
+	Properties *StorageAccountsBlobServices_Properties_SPECARM `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccountsBlobServices_SPECARM{}
@@ -30,7 +30,7 @@ func (specarm StorageAccountsBlobServices_SPECARM) GetType() string {
 	return ""
 }
 
-type StorageAccountsBlobServices_SPEC_PropertiesARM struct {
+type StorageAccountsBlobServices_Properties_SPECARM struct {
 	//AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled
 	//property.
 	AutomaticSnapshotPolicyEnabled *bool `json:"automaticSnapshotPolicyEnabled,omitempty"`
@@ -104,7 +104,7 @@ type LastAccessTimeTrackingPolicy_SpecARM struct {
 
 	//Name: Name of the policy. The valid value is AccessTimeTracking. This field is
 	//currently read only
-	Name *LastAccessTimeTrackingPolicySpecName `json:"name,omitempty"`
+	Name *LastAccessTimeTrackingPolicy_Name_Spec `json:"name,omitempty"`
 
 	//TrackingGranularityInDays: The field specifies blob object tracking granularity
 	//in days, typically how often the blob object should be tracked.This field is
@@ -128,7 +128,7 @@ type CorsRule_SpecARM struct {
 
 	//AllowedMethods: Required if CorsRule element is present. A list of HTTP methods
 	//that are allowed to be executed by the origin.
-	AllowedMethods []CorsRuleSpecAllowedMethods `json:"allowedMethods"`
+	AllowedMethods []CorsRule_AllowedMethods_Spec `json:"allowedMethods"`
 
 	//AllowedOrigins: Required if CorsRule element is present. A list of origin
 	//domains that will be allowed via CORS, or "*" to allow all domains

@@ -24,12 +24,12 @@ func Test_DatabaseAccountsSqlDatabasesContainersTriggers_SPECARM_WhenSerializedT
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DatabaseAccountsSqlDatabasesContainersTriggers_SPECARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersTriggersSPECARM, DatabaseAccountsSqlDatabasesContainersTriggersSPECARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersTriggers_SPECARM, DatabaseAccountsSqlDatabasesContainersTriggers_SPECARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersTriggersSPECARM runs a test to see if a specific instance of DatabaseAccountsSqlDatabasesContainersTriggers_SPECARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersTriggersSPECARM(subject DatabaseAccountsSqlDatabasesContainersTriggers_SPECARM) string {
+// RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersTriggers_SPECARM runs a test to see if a specific instance of DatabaseAccountsSqlDatabasesContainersTriggers_SPECARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersTriggers_SPECARM(subject DatabaseAccountsSqlDatabasesContainersTriggers_SPECARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,42 +56,42 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersTriggersSP
 }
 
 // Generator of DatabaseAccountsSqlDatabasesContainersTriggers_SPECARM instances for property testing - lazily
-//instantiated by DatabaseAccountsSqlDatabasesContainersTriggersSPECARMGenerator()
-var databaseAccountsSqlDatabasesContainersTriggersSPECARMGenerator gopter.Gen
+//instantiated by DatabaseAccountsSqlDatabasesContainersTriggers_SPECARMGenerator()
+var databaseAccountsSqlDatabasesContainersTriggers_specarmGenerator gopter.Gen
 
-// DatabaseAccountsSqlDatabasesContainersTriggersSPECARMGenerator returns a generator of DatabaseAccountsSqlDatabasesContainersTriggers_SPECARM instances for property testing.
-// We first initialize databaseAccountsSqlDatabasesContainersTriggersSPECARMGenerator with a simplified generator based on the
+// DatabaseAccountsSqlDatabasesContainersTriggers_SPECARMGenerator returns a generator of DatabaseAccountsSqlDatabasesContainersTriggers_SPECARM instances for property testing.
+// We first initialize databaseAccountsSqlDatabasesContainersTriggers_specarmGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DatabaseAccountsSqlDatabasesContainersTriggersSPECARMGenerator() gopter.Gen {
-	if databaseAccountsSqlDatabasesContainersTriggersSPECARMGenerator != nil {
-		return databaseAccountsSqlDatabasesContainersTriggersSPECARMGenerator
+func DatabaseAccountsSqlDatabasesContainersTriggers_SPECARMGenerator() gopter.Gen {
+	if databaseAccountsSqlDatabasesContainersTriggers_specarmGenerator != nil {
+		return databaseAccountsSqlDatabasesContainersTriggers_specarmGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTriggersSPECARM(generators)
-	databaseAccountsSqlDatabasesContainersTriggersSPECARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsSqlDatabasesContainersTriggers_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTriggers_SPECARM(generators)
+	databaseAccountsSqlDatabasesContainersTriggers_specarmGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsSqlDatabasesContainersTriggers_SPECARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTriggersSPECARM(generators)
-	AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTriggersSPECARM(generators)
-	databaseAccountsSqlDatabasesContainersTriggersSPECARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsSqlDatabasesContainersTriggers_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTriggers_SPECARM(generators)
+	AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTriggers_SPECARM(generators)
+	databaseAccountsSqlDatabasesContainersTriggers_specarmGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsSqlDatabasesContainersTriggers_SPECARM{}), generators)
 
-	return databaseAccountsSqlDatabasesContainersTriggersSPECARMGenerator
+	return databaseAccountsSqlDatabasesContainersTriggers_specarmGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTriggersSPECARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTriggersSPECARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTriggers_SPECARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTriggers_SPECARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTriggersSPECARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTriggersSPECARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = SqlTriggerCreateUpdatePropertiesSpecARMGenerator()
+// AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTriggers_SPECARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTriggers_SPECARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = SqlTriggerCreateUpdateProperties_SpecARMGenerator()
 }
 
 func Test_SqlTriggerCreateUpdateProperties_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -101,12 +101,12 @@ func Test_SqlTriggerCreateUpdateProperties_SpecARM_WhenSerializedToJson_Deserial
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlTriggerCreateUpdateProperties_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlTriggerCreateUpdatePropertiesSpecARM, SqlTriggerCreateUpdatePropertiesSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSqlTriggerCreateUpdateProperties_SpecARM, SqlTriggerCreateUpdateProperties_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlTriggerCreateUpdatePropertiesSpecARM runs a test to see if a specific instance of SqlTriggerCreateUpdateProperties_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlTriggerCreateUpdatePropertiesSpecARM(subject SqlTriggerCreateUpdateProperties_SpecARM) string {
+// RunJSONSerializationTestForSqlTriggerCreateUpdateProperties_SpecARM runs a test to see if a specific instance of SqlTriggerCreateUpdateProperties_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlTriggerCreateUpdateProperties_SpecARM(subject SqlTriggerCreateUpdateProperties_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -133,26 +133,26 @@ func RunJSONSerializationTestForSqlTriggerCreateUpdatePropertiesSpecARM(subject 
 }
 
 // Generator of SqlTriggerCreateUpdateProperties_SpecARM instances for property testing - lazily instantiated by
-//SqlTriggerCreateUpdatePropertiesSpecARMGenerator()
-var sqlTriggerCreateUpdatePropertiesSpecARMGenerator gopter.Gen
+//SqlTriggerCreateUpdateProperties_SpecARMGenerator()
+var sqlTriggerCreateUpdateProperties_specARMGenerator gopter.Gen
 
-// SqlTriggerCreateUpdatePropertiesSpecARMGenerator returns a generator of SqlTriggerCreateUpdateProperties_SpecARM instances for property testing.
-func SqlTriggerCreateUpdatePropertiesSpecARMGenerator() gopter.Gen {
-	if sqlTriggerCreateUpdatePropertiesSpecARMGenerator != nil {
-		return sqlTriggerCreateUpdatePropertiesSpecARMGenerator
+// SqlTriggerCreateUpdateProperties_SpecARMGenerator returns a generator of SqlTriggerCreateUpdateProperties_SpecARM instances for property testing.
+func SqlTriggerCreateUpdateProperties_SpecARMGenerator() gopter.Gen {
+	if sqlTriggerCreateUpdateProperties_specARMGenerator != nil {
+		return sqlTriggerCreateUpdateProperties_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForSqlTriggerCreateUpdatePropertiesSpecARM(generators)
-	sqlTriggerCreateUpdatePropertiesSpecARMGenerator = gen.Struct(reflect.TypeOf(SqlTriggerCreateUpdateProperties_SpecARM{}), generators)
+	AddRelatedPropertyGeneratorsForSqlTriggerCreateUpdateProperties_SpecARM(generators)
+	sqlTriggerCreateUpdateProperties_specARMGenerator = gen.Struct(reflect.TypeOf(SqlTriggerCreateUpdateProperties_SpecARM{}), generators)
 
-	return sqlTriggerCreateUpdatePropertiesSpecARMGenerator
+	return sqlTriggerCreateUpdateProperties_specARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForSqlTriggerCreateUpdatePropertiesSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSqlTriggerCreateUpdatePropertiesSpecARM(gens map[string]gopter.Gen) {
-	gens["Options"] = gen.PtrOf(CreateUpdateOptionsSpecARMGenerator())
-	gens["Resource"] = SqlTriggerResourceSpecARMGenerator()
+// AddRelatedPropertyGeneratorsForSqlTriggerCreateUpdateProperties_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSqlTriggerCreateUpdateProperties_SpecARM(gens map[string]gopter.Gen) {
+	gens["Options"] = gen.PtrOf(CreateUpdateOptions_SpecARMGenerator())
+	gens["Resource"] = SqlTriggerResource_SpecARMGenerator()
 }
 
 func Test_SqlTriggerResource_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -162,12 +162,12 @@ func Test_SqlTriggerResource_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t 
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlTriggerResource_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlTriggerResourceSpecARM, SqlTriggerResourceSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSqlTriggerResource_SpecARM, SqlTriggerResource_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlTriggerResourceSpecARM runs a test to see if a specific instance of SqlTriggerResource_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlTriggerResourceSpecARM(subject SqlTriggerResource_SpecARM) string {
+// RunJSONSerializationTestForSqlTriggerResource_SpecARM runs a test to see if a specific instance of SqlTriggerResource_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlTriggerResource_SpecARM(subject SqlTriggerResource_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -194,31 +194,31 @@ func RunJSONSerializationTestForSqlTriggerResourceSpecARM(subject SqlTriggerReso
 }
 
 // Generator of SqlTriggerResource_SpecARM instances for property testing - lazily instantiated by
-//SqlTriggerResourceSpecARMGenerator()
-var sqlTriggerResourceSpecARMGenerator gopter.Gen
+//SqlTriggerResource_SpecARMGenerator()
+var sqlTriggerResource_specARMGenerator gopter.Gen
 
-// SqlTriggerResourceSpecARMGenerator returns a generator of SqlTriggerResource_SpecARM instances for property testing.
-func SqlTriggerResourceSpecARMGenerator() gopter.Gen {
-	if sqlTriggerResourceSpecARMGenerator != nil {
-		return sqlTriggerResourceSpecARMGenerator
+// SqlTriggerResource_SpecARMGenerator returns a generator of SqlTriggerResource_SpecARM instances for property testing.
+func SqlTriggerResource_SpecARMGenerator() gopter.Gen {
+	if sqlTriggerResource_specARMGenerator != nil {
+		return sqlTriggerResource_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlTriggerResourceSpecARM(generators)
-	sqlTriggerResourceSpecARMGenerator = gen.Struct(reflect.TypeOf(SqlTriggerResource_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForSqlTriggerResource_SpecARM(generators)
+	sqlTriggerResource_specARMGenerator = gen.Struct(reflect.TypeOf(SqlTriggerResource_SpecARM{}), generators)
 
-	return sqlTriggerResourceSpecARMGenerator
+	return sqlTriggerResource_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSqlTriggerResourceSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSqlTriggerResourceSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSqlTriggerResource_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSqlTriggerResource_SpecARM(gens map[string]gopter.Gen) {
 	gens["Body"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.AlphaString()
 	gens["TriggerOperation"] = gen.PtrOf(gen.OneConstOf(
-		SqlTriggerResourceSpecTriggerOperationAll,
-		SqlTriggerResourceSpecTriggerOperationCreate,
-		SqlTriggerResourceSpecTriggerOperationDelete,
-		SqlTriggerResourceSpecTriggerOperationReplace,
-		SqlTriggerResourceSpecTriggerOperationUpdate))
-	gens["TriggerType"] = gen.PtrOf(gen.OneConstOf(SqlTriggerResourceSpecTriggerTypePost, SqlTriggerResourceSpecTriggerTypePre))
+		SqlTriggerResource_TriggerOperation_SpecAll,
+		SqlTriggerResource_TriggerOperation_SpecCreate,
+		SqlTriggerResource_TriggerOperation_SpecDelete,
+		SqlTriggerResource_TriggerOperation_SpecReplace,
+		SqlTriggerResource_TriggerOperation_SpecUpdate))
+	gens["TriggerType"] = gen.PtrOf(gen.OneConstOf(SqlTriggerResource_TriggerType_SpecPost, SqlTriggerResource_TriggerType_SpecPre))
 }

@@ -226,7 +226,7 @@ func (in *DomainProperties_SpecARM) DeepCopyInto(out *DomainProperties_SpecARM) 
 	}
 	if in.InputSchema != nil {
 		in, out := &in.InputSchema, &out.InputSchema
-		*out = new(DomainPropertiesSpecInputSchema)
+		*out = new(DomainProperties_InputSchema_Spec)
 		**out = **in
 	}
 	if in.InputSchemaMapping != nil {
@@ -236,7 +236,7 @@ func (in *DomainProperties_SpecARM) DeepCopyInto(out *DomainProperties_SpecARM) 
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(DomainPropertiesSpecPublicNetworkAccess)
+		*out = new(DomainProperties_PublicNetworkAccess_Spec)
 		**out = **in
 	}
 }
@@ -268,7 +268,7 @@ func (in *DomainProperties_StatusARM) DeepCopyInto(out *DomainProperties_StatusA
 	}
 	if in.InputSchema != nil {
 		in, out := &in.InputSchema, &out.InputSchema
-		*out = new(DomainPropertiesStatusInputSchema)
+		*out = new(DomainProperties_InputSchema_Status)
 		**out = **in
 	}
 	if in.InputSchemaMapping != nil {
@@ -290,12 +290,12 @@ func (in *DomainProperties_StatusARM) DeepCopyInto(out *DomainProperties_StatusA
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(DomainPropertiesStatusProvisioningState)
+		*out = new(DomainProperties_ProvisioningState_Status)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(DomainPropertiesStatusPublicNetworkAccess)
+		*out = new(DomainProperties_PublicNetworkAccess_Status)
 		**out = **in
 	}
 }
@@ -339,7 +339,7 @@ func (in *Domain_Status) DeepCopyInto(out *Domain_Status) {
 	}
 	if in.InputSchema != nil {
 		in, out := &in.InputSchema, &out.InputSchema
-		*out = new(DomainPropertiesStatusInputSchema)
+		*out = new(DomainProperties_InputSchema_Status)
 		**out = **in
 	}
 	if in.InputSchemaMapping != nil {
@@ -371,12 +371,12 @@ func (in *Domain_Status) DeepCopyInto(out *Domain_Status) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(DomainPropertiesStatusProvisioningState)
+		*out = new(DomainProperties_ProvisioningState_Status)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(DomainPropertiesStatusPublicNetworkAccess)
+		*out = new(DomainProperties_PublicNetworkAccess_Status)
 		**out = **in
 	}
 	if in.SystemData != nil {
@@ -472,7 +472,7 @@ func (in *Domains_SPEC) DeepCopyInto(out *Domains_SPEC) {
 	}
 	if in.InputSchema != nil {
 		in, out := &in.InputSchema, &out.InputSchema
-		*out = new(DomainPropertiesSpecInputSchema)
+		*out = new(DomainProperties_InputSchema_Spec)
 		**out = **in
 	}
 	if in.InputSchemaMapping != nil {
@@ -483,7 +483,7 @@ func (in *Domains_SPEC) DeepCopyInto(out *Domains_SPEC) {
 	out.Owner = in.Owner
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(DomainPropertiesSpecPublicNetworkAccess)
+		*out = new(DomainProperties_PublicNetworkAccess_Spec)
 		**out = **in
 	}
 	if in.Tags != nil {
@@ -834,7 +834,7 @@ func (in *EventSubscriptionProperties_SpecARM) DeepCopyInto(out *EventSubscripti
 	}
 	if in.EventDeliverySchema != nil {
 		in, out := &in.EventDeliverySchema, &out.EventDeliverySchema
-		*out = new(EventSubscriptionPropertiesSpecEventDeliverySchema)
+		*out = new(EventSubscriptionProperties_EventDeliverySchema_Spec)
 		**out = **in
 	}
 	if in.ExpirationTimeUtc != nil {
@@ -884,7 +884,7 @@ func (in *EventSubscriptionProperties_StatusARM) DeepCopyInto(out *EventSubscrip
 	}
 	if in.EventDeliverySchema != nil {
 		in, out := &in.EventDeliverySchema, &out.EventDeliverySchema
-		*out = new(EventSubscriptionPropertiesStatusEventDeliverySchema)
+		*out = new(EventSubscriptionProperties_EventDeliverySchema_Status)
 		**out = **in
 	}
 	if in.ExpirationTimeUtc != nil {
@@ -904,7 +904,7 @@ func (in *EventSubscriptionProperties_StatusARM) DeepCopyInto(out *EventSubscrip
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(EventSubscriptionPropertiesStatusProvisioningState)
+		*out = new(EventSubscriptionProperties_ProvisioningState_Status)
 		**out = **in
 	}
 	if in.RetryPolicy != nil {
@@ -951,7 +951,7 @@ func (in *EventSubscription_Status) DeepCopyInto(out *EventSubscription_Status) 
 	}
 	if in.EventDeliverySchema != nil {
 		in, out := &in.EventDeliverySchema, &out.EventDeliverySchema
-		*out = new(EventSubscriptionPropertiesStatusEventDeliverySchema)
+		*out = new(EventSubscriptionProperties_EventDeliverySchema_Status)
 		**out = **in
 	}
 	if in.ExpirationTimeUtc != nil {
@@ -981,7 +981,7 @@ func (in *EventSubscription_Status) DeepCopyInto(out *EventSubscription_Status) 
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(EventSubscriptionPropertiesStatusProvisioningState)
+		*out = new(EventSubscriptionProperties_ProvisioningState_Status)
 		**out = **in
 	}
 	if in.RetryPolicy != nil {
@@ -1071,7 +1071,7 @@ func (in *EventSubscriptions_SPEC) DeepCopyInto(out *EventSubscriptions_SPEC) {
 	}
 	if in.EventDeliverySchema != nil {
 		in, out := &in.EventDeliverySchema, &out.EventDeliverySchema
-		*out = new(EventSubscriptionPropertiesSpecEventDeliverySchema)
+		*out = new(EventSubscriptionProperties_EventDeliverySchema_Spec)
 		**out = **in
 	}
 	if in.ExpirationTimeUtc != nil {
@@ -1132,7 +1132,7 @@ func (in *InboundIpRule_Spec) DeepCopyInto(out *InboundIpRule_Spec) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(InboundIpRuleSpecAction)
+		*out = new(InboundIpRule_Action_Spec)
 		**out = **in
 	}
 	if in.IpMask != nil {
@@ -1157,7 +1157,7 @@ func (in *InboundIpRule_SpecARM) DeepCopyInto(out *InboundIpRule_SpecARM) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(InboundIpRuleSpecAction)
+		*out = new(InboundIpRule_Action_Spec)
 		**out = **in
 	}
 	if in.IpMask != nil {
@@ -1182,7 +1182,7 @@ func (in *InboundIpRule_Status) DeepCopyInto(out *InboundIpRule_Status) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(InboundIpRuleStatusAction)
+		*out = new(InboundIpRule_Action_Status)
 		**out = **in
 	}
 	if in.IpMask != nil {
@@ -1207,7 +1207,7 @@ func (in *InboundIpRule_StatusARM) DeepCopyInto(out *InboundIpRule_StatusARM) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(InboundIpRuleStatusAction)
+		*out = new(InboundIpRule_Action_Status)
 		**out = **in
 	}
 	if in.IpMask != nil {
@@ -1482,7 +1482,7 @@ func (in *SystemData_Status) DeepCopyInto(out *SystemData_Status) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemDataStatusCreatedByType)
+		*out = new(SystemData_CreatedByType_Status)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -1497,7 +1497,7 @@ func (in *SystemData_Status) DeepCopyInto(out *SystemData_Status) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemDataStatusLastModifiedByType)
+		*out = new(SystemData_LastModifiedByType_Status)
 		**out = **in
 	}
 }
@@ -1527,7 +1527,7 @@ func (in *SystemData_StatusARM) DeepCopyInto(out *SystemData_StatusARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemDataStatusCreatedByType)
+		*out = new(SystemData_CreatedByType_Status)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -1542,7 +1542,7 @@ func (in *SystemData_StatusARM) DeepCopyInto(out *SystemData_StatusARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemDataStatusLastModifiedByType)
+		*out = new(SystemData_LastModifiedByType_Status)
 		**out = **in
 	}
 }
@@ -1633,7 +1633,7 @@ func (in *TopicProperties_StatusARM) DeepCopyInto(out *TopicProperties_StatusARM
 	}
 	if in.InputSchema != nil {
 		in, out := &in.InputSchema, &out.InputSchema
-		*out = new(TopicPropertiesStatusInputSchema)
+		*out = new(TopicProperties_InputSchema_Status)
 		**out = **in
 	}
 	if in.InputSchemaMapping != nil {
@@ -1655,12 +1655,12 @@ func (in *TopicProperties_StatusARM) DeepCopyInto(out *TopicProperties_StatusARM
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(TopicPropertiesStatusProvisioningState)
+		*out = new(TopicProperties_ProvisioningState_Status)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(TopicPropertiesStatusPublicNetworkAccess)
+		*out = new(TopicProperties_PublicNetworkAccess_Status)
 		**out = **in
 	}
 }
@@ -1704,7 +1704,7 @@ func (in *Topic_Status) DeepCopyInto(out *Topic_Status) {
 	}
 	if in.InputSchema != nil {
 		in, out := &in.InputSchema, &out.InputSchema
-		*out = new(TopicPropertiesStatusInputSchema)
+		*out = new(TopicProperties_InputSchema_Status)
 		**out = **in
 	}
 	if in.InputSchemaMapping != nil {
@@ -1736,12 +1736,12 @@ func (in *Topic_Status) DeepCopyInto(out *Topic_Status) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(TopicPropertiesStatusProvisioningState)
+		*out = new(TopicProperties_ProvisioningState_Status)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(TopicPropertiesStatusPublicNetworkAccess)
+		*out = new(TopicProperties_PublicNetworkAccess_Status)
 		**out = **in
 	}
 	if in.SystemData != nil {

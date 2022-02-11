@@ -10,7 +10,7 @@ type StorageAccountsQueueServices_SPECARM struct {
 	Name      string `json:"name"`
 
 	//Properties: The properties of a storage account’s Queue service.
-	Properties *StorageAccountsQueueServices_SPEC_PropertiesARM `json:"properties,omitempty"`
+	Properties *StorageAccountsQueueServices_Properties_SPECARM `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccountsQueueServices_SPECARM{}
@@ -30,7 +30,7 @@ func (specarm StorageAccountsQueueServices_SPECARM) GetType() string {
 	return ""
 }
 
-type StorageAccountsQueueServices_SPEC_PropertiesARM struct {
+type StorageAccountsQueueServices_Properties_SPECARM struct {
 	//Cors: Specifies CORS rules for the Queue service. You can include up to five
 	//CorsRule elements in the request. If no CorsRule elements are included in the
 	//request body, all CORS rules will be deleted, and CORS will be disabled for the

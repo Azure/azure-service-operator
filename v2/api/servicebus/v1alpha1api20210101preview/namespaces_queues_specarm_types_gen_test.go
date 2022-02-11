@@ -24,12 +24,12 @@ func Test_NamespacesQueues_SPECARM_WhenSerializedToJson_DeserializesAsEqual(t *t
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NamespacesQueues_SPECARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespacesQueuesSPECARM, NamespacesQueuesSPECARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForNamespacesQueues_SPECARM, NamespacesQueues_SPECARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespacesQueuesSPECARM runs a test to see if a specific instance of NamespacesQueues_SPECARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespacesQueuesSPECARM(subject NamespacesQueues_SPECARM) string {
+// RunJSONSerializationTestForNamespacesQueues_SPECARM runs a test to see if a specific instance of NamespacesQueues_SPECARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespacesQueues_SPECARM(subject NamespacesQueues_SPECARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,40 +56,40 @@ func RunJSONSerializationTestForNamespacesQueuesSPECARM(subject NamespacesQueues
 }
 
 // Generator of NamespacesQueues_SPECARM instances for property testing - lazily instantiated by
-//NamespacesQueuesSPECARMGenerator()
-var namespacesQueuesSPECARMGenerator gopter.Gen
+//NamespacesQueues_SPECARMGenerator()
+var namespacesQueues_specarmGenerator gopter.Gen
 
-// NamespacesQueuesSPECARMGenerator returns a generator of NamespacesQueues_SPECARM instances for property testing.
-// We first initialize namespacesQueuesSPECARMGenerator with a simplified generator based on the
+// NamespacesQueues_SPECARMGenerator returns a generator of NamespacesQueues_SPECARM instances for property testing.
+// We first initialize namespacesQueues_specarmGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func NamespacesQueuesSPECARMGenerator() gopter.Gen {
-	if namespacesQueuesSPECARMGenerator != nil {
-		return namespacesQueuesSPECARMGenerator
+func NamespacesQueues_SPECARMGenerator() gopter.Gen {
+	if namespacesQueues_specarmGenerator != nil {
+		return namespacesQueues_specarmGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesQueuesSPECARM(generators)
-	namespacesQueuesSPECARMGenerator = gen.Struct(reflect.TypeOf(NamespacesQueues_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespacesQueues_SPECARM(generators)
+	namespacesQueues_specarmGenerator = gen.Struct(reflect.TypeOf(NamespacesQueues_SPECARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesQueuesSPECARM(generators)
-	AddRelatedPropertyGeneratorsForNamespacesQueuesSPECARM(generators)
-	namespacesQueuesSPECARMGenerator = gen.Struct(reflect.TypeOf(NamespacesQueues_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespacesQueues_SPECARM(generators)
+	AddRelatedPropertyGeneratorsForNamespacesQueues_SPECARM(generators)
+	namespacesQueues_specarmGenerator = gen.Struct(reflect.TypeOf(NamespacesQueues_SPECARM{}), generators)
 
-	return namespacesQueuesSPECARMGenerator
+	return namespacesQueues_specarmGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespacesQueuesSPECARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespacesQueuesSPECARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespacesQueues_SPECARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespacesQueues_SPECARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForNamespacesQueuesSPECARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespacesQueuesSPECARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(SBQueuePropertiesSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForNamespacesQueues_SPECARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespacesQueues_SPECARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(SBQueueProperties_SpecARMGenerator())
 }
 
 func Test_SBQueueProperties_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -99,12 +99,12 @@ func Test_SBQueueProperties_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SBQueueProperties_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSBQueuePropertiesSpecARM, SBQueuePropertiesSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSBQueueProperties_SpecARM, SBQueueProperties_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSBQueuePropertiesSpecARM runs a test to see if a specific instance of SBQueueProperties_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSBQueuePropertiesSpecARM(subject SBQueueProperties_SpecARM) string {
+// RunJSONSerializationTestForSBQueueProperties_SpecARM runs a test to see if a specific instance of SBQueueProperties_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSBQueueProperties_SpecARM(subject SBQueueProperties_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -131,24 +131,24 @@ func RunJSONSerializationTestForSBQueuePropertiesSpecARM(subject SBQueueProperti
 }
 
 // Generator of SBQueueProperties_SpecARM instances for property testing - lazily instantiated by
-//SBQueuePropertiesSpecARMGenerator()
-var sbQueuePropertiesSpecARMGenerator gopter.Gen
+//SBQueueProperties_SpecARMGenerator()
+var sbQueueProperties_specARMGenerator gopter.Gen
 
-// SBQueuePropertiesSpecARMGenerator returns a generator of SBQueueProperties_SpecARM instances for property testing.
-func SBQueuePropertiesSpecARMGenerator() gopter.Gen {
-	if sbQueuePropertiesSpecARMGenerator != nil {
-		return sbQueuePropertiesSpecARMGenerator
+// SBQueueProperties_SpecARMGenerator returns a generator of SBQueueProperties_SpecARM instances for property testing.
+func SBQueueProperties_SpecARMGenerator() gopter.Gen {
+	if sbQueueProperties_specARMGenerator != nil {
+		return sbQueueProperties_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSBQueuePropertiesSpecARM(generators)
-	sbQueuePropertiesSpecARMGenerator = gen.Struct(reflect.TypeOf(SBQueueProperties_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForSBQueueProperties_SpecARM(generators)
+	sbQueueProperties_specARMGenerator = gen.Struct(reflect.TypeOf(SBQueueProperties_SpecARM{}), generators)
 
-	return sbQueuePropertiesSpecARMGenerator
+	return sbQueueProperties_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSBQueuePropertiesSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSBQueuePropertiesSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSBQueueProperties_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSBQueueProperties_SpecARM(gens map[string]gopter.Gen) {
 	gens["AutoDeleteOnIdle"] = gen.PtrOf(gen.AlphaString())
 	gens["DeadLetteringOnMessageExpiration"] = gen.PtrOf(gen.Bool())
 	gens["DefaultMessageTimeToLive"] = gen.PtrOf(gen.AlphaString())

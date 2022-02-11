@@ -50,7 +50,7 @@ type RoleAssignmentProperties_SpecARM struct {
 	PrincipalId string `json:"principalId"`
 
 	//PrincipalType: The principal type of the assigned principal ID.
-	PrincipalType *RoleAssignmentPropertiesSpecPrincipalType `json:"principalType,omitempty"`
+	PrincipalType *RoleAssignmentProperties_PrincipalType_Spec `json:"principalType,omitempty"`
 
 	//RoleDefinitionId: The role definition ID.
 	RoleDefinitionId string `json:"roleDefinitionId"`

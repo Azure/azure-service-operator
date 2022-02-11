@@ -36,7 +36,7 @@ type ClusterProperties_StatusARM struct {
 	HostName *string `json:"hostName,omitempty"`
 
 	//MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'
-	MinimumTlsVersion *ClusterPropertiesStatusMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *ClusterProperties_MinimumTlsVersion_Status `json:"minimumTlsVersion,omitempty"`
 
 	//PrivateEndpointConnections: List of private endpoint connections associated with
 	//the specified RedisEnterprise cluster
@@ -60,15 +60,15 @@ type Sku_StatusARM struct {
 
 	//Name: The type of RedisEnterprise cluster to deploy. Possible values:
 	//(Enterprise_E10, EnterpriseFlash_F300 etc.)
-	Name SkuStatusName `json:"name"`
+	Name Sku_Name_Status `json:"name"`
 }
 
-type ClusterPropertiesStatusMinimumTlsVersion string
+type ClusterProperties_MinimumTlsVersion_Status string
 
 const (
-	ClusterPropertiesStatusMinimumTlsVersion10 = ClusterPropertiesStatusMinimumTlsVersion("1.0")
-	ClusterPropertiesStatusMinimumTlsVersion11 = ClusterPropertiesStatusMinimumTlsVersion("1.1")
-	ClusterPropertiesStatusMinimumTlsVersion12 = ClusterPropertiesStatusMinimumTlsVersion("1.2")
+	ClusterProperties_MinimumTlsVersion_Status10 = ClusterProperties_MinimumTlsVersion_Status("1.0")
+	ClusterProperties_MinimumTlsVersion_Status11 = ClusterProperties_MinimumTlsVersion_Status("1.1")
+	ClusterProperties_MinimumTlsVersion_Status12 = ClusterProperties_MinimumTlsVersion_Status("1.2")
 )
 
 type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
@@ -105,14 +105,14 @@ const (
 	ResourceState_StatusUpdating      = ResourceState_Status("Updating")
 )
 
-type SkuStatusName string
+type Sku_Name_Status string
 
 const (
-	SkuStatusNameEnterpriseE10        = SkuStatusName("Enterprise_E10")
-	SkuStatusNameEnterpriseE100       = SkuStatusName("Enterprise_E100")
-	SkuStatusNameEnterpriseE20        = SkuStatusName("Enterprise_E20")
-	SkuStatusNameEnterpriseE50        = SkuStatusName("Enterprise_E50")
-	SkuStatusNameEnterpriseFlashF1500 = SkuStatusName("EnterpriseFlash_F1500")
-	SkuStatusNameEnterpriseFlashF300  = SkuStatusName("EnterpriseFlash_F300")
-	SkuStatusNameEnterpriseFlashF700  = SkuStatusName("EnterpriseFlash_F700")
+	Sku_Name_StatusEnterpriseFlash_F1500 = Sku_Name_Status("EnterpriseFlash_F1500")
+	Sku_Name_StatusEnterpriseFlash_F300  = Sku_Name_Status("EnterpriseFlash_F300")
+	Sku_Name_StatusEnterpriseFlash_F700  = Sku_Name_Status("EnterpriseFlash_F700")
+	Sku_Name_StatusEnterprise_E10        = Sku_Name_Status("Enterprise_E10")
+	Sku_Name_StatusEnterprise_E100       = Sku_Name_Status("Enterprise_E100")
+	Sku_Name_StatusEnterprise_E20        = Sku_Name_Status("Enterprise_E20")
+	Sku_Name_StatusEnterprise_E50        = Sku_Name_Status("Enterprise_E50")
 )

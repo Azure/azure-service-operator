@@ -51,27 +51,27 @@ type SqlTriggerResource_SpecARM struct {
 	Id string `json:"id"`
 
 	//TriggerOperation: The operation the trigger is associated with
-	TriggerOperation *SqlTriggerResourceSpecTriggerOperation `json:"triggerOperation,omitempty"`
+	TriggerOperation *SqlTriggerResource_TriggerOperation_Spec `json:"triggerOperation,omitempty"`
 
 	//TriggerType: Type of the Trigger
-	TriggerType *SqlTriggerResourceSpecTriggerType `json:"triggerType,omitempty"`
+	TriggerType *SqlTriggerResource_TriggerType_Spec `json:"triggerType,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"All","Create","Delete","Replace","Update"}
-type SqlTriggerResourceSpecTriggerOperation string
+type SqlTriggerResource_TriggerOperation_Spec string
 
 const (
-	SqlTriggerResourceSpecTriggerOperationAll     = SqlTriggerResourceSpecTriggerOperation("All")
-	SqlTriggerResourceSpecTriggerOperationCreate  = SqlTriggerResourceSpecTriggerOperation("Create")
-	SqlTriggerResourceSpecTriggerOperationDelete  = SqlTriggerResourceSpecTriggerOperation("Delete")
-	SqlTriggerResourceSpecTriggerOperationReplace = SqlTriggerResourceSpecTriggerOperation("Replace")
-	SqlTriggerResourceSpecTriggerOperationUpdate  = SqlTriggerResourceSpecTriggerOperation("Update")
+	SqlTriggerResource_TriggerOperation_SpecAll     = SqlTriggerResource_TriggerOperation_Spec("All")
+	SqlTriggerResource_TriggerOperation_SpecCreate  = SqlTriggerResource_TriggerOperation_Spec("Create")
+	SqlTriggerResource_TriggerOperation_SpecDelete  = SqlTriggerResource_TriggerOperation_Spec("Delete")
+	SqlTriggerResource_TriggerOperation_SpecReplace = SqlTriggerResource_TriggerOperation_Spec("Replace")
+	SqlTriggerResource_TriggerOperation_SpecUpdate  = SqlTriggerResource_TriggerOperation_Spec("Update")
 )
 
 // +kubebuilder:validation:Enum={"Post","Pre"}
-type SqlTriggerResourceSpecTriggerType string
+type SqlTriggerResource_TriggerType_Spec string
 
 const (
-	SqlTriggerResourceSpecTriggerTypePost = SqlTriggerResourceSpecTriggerType("Post")
-	SqlTriggerResourceSpecTriggerTypePre  = SqlTriggerResourceSpecTriggerType("Pre")
+	SqlTriggerResource_TriggerType_SpecPost = SqlTriggerResource_TriggerType_Spec("Post")
+	SqlTriggerResource_TriggerType_SpecPre  = SqlTriggerResource_TriggerType_Spec("Pre")
 )

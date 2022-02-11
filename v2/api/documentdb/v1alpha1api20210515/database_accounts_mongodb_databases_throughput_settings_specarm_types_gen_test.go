@@ -24,12 +24,12 @@ func Test_DatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM_WhenSeriali
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesThroughputSettingsSPECARM, DatabaseAccountsMongodbDatabasesThroughputSettingsSPECARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM, DatabaseAccountsMongodbDatabasesThroughputSettings_SPECARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesThroughputSettingsSPECARM runs a test to see if a specific instance of DatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesThroughputSettingsSPECARM(subject DatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM) string {
+// RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM runs a test to see if a specific instance of DatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM(subject DatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,40 +56,40 @@ func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesThroughputSettin
 }
 
 // Generator of DatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM instances for property testing - lazily
-//instantiated by DatabaseAccountsMongodbDatabasesThroughputSettingsSPECARMGenerator()
-var databaseAccountsMongodbDatabasesThroughputSettingsSPECARMGenerator gopter.Gen
+//instantiated by DatabaseAccountsMongodbDatabasesThroughputSettings_SPECARMGenerator()
+var databaseAccountsMongodbDatabasesThroughputSettings_specarmGenerator gopter.Gen
 
-// DatabaseAccountsMongodbDatabasesThroughputSettingsSPECARMGenerator returns a generator of DatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM instances for property testing.
-// We first initialize databaseAccountsMongodbDatabasesThroughputSettingsSPECARMGenerator with a simplified generator based on the
+// DatabaseAccountsMongodbDatabasesThroughputSettings_SPECARMGenerator returns a generator of DatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM instances for property testing.
+// We first initialize databaseAccountsMongodbDatabasesThroughputSettings_specarmGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DatabaseAccountsMongodbDatabasesThroughputSettingsSPECARMGenerator() gopter.Gen {
-	if databaseAccountsMongodbDatabasesThroughputSettingsSPECARMGenerator != nil {
-		return databaseAccountsMongodbDatabasesThroughputSettingsSPECARMGenerator
+func DatabaseAccountsMongodbDatabasesThroughputSettings_SPECARMGenerator() gopter.Gen {
+	if databaseAccountsMongodbDatabasesThroughputSettings_specarmGenerator != nil {
+		return databaseAccountsMongodbDatabasesThroughputSettings_specarmGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSettingsSPECARM(generators)
-	databaseAccountsMongodbDatabasesThroughputSettingsSPECARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM(generators)
+	databaseAccountsMongodbDatabasesThroughputSettings_specarmGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSettingsSPECARM(generators)
-	AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSettingsSPECARM(generators)
-	databaseAccountsMongodbDatabasesThroughputSettingsSPECARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM(generators)
+	AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM(generators)
+	databaseAccountsMongodbDatabasesThroughputSettings_specarmGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM{}), generators)
 
-	return databaseAccountsMongodbDatabasesThroughputSettingsSPECARMGenerator
+	return databaseAccountsMongodbDatabasesThroughputSettings_specarmGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSettingsSPECARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSettingsSPECARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSettingsSPECARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSettingsSPECARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = ThroughputSettingsUpdatePropertiesSpecARMGenerator()
+// AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = ThroughputSettingsUpdateProperties_SpecARMGenerator()
 }

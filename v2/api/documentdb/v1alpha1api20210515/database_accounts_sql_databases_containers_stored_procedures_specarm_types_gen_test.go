@@ -24,12 +24,12 @@ func Test_DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM_WhenSer
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersStoredProceduresSPECARM, DatabaseAccountsSqlDatabasesContainersStoredProceduresSPECARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM, DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersStoredProceduresSPECARM runs a test to see if a specific instance of DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersStoredProceduresSPECARM(subject DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM) string {
+// RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM runs a test to see if a specific instance of DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM(subject DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,42 +56,42 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersStoredProc
 }
 
 // Generator of DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM instances for property testing - lazily
-//instantiated by DatabaseAccountsSqlDatabasesContainersStoredProceduresSPECARMGenerator()
-var databaseAccountsSqlDatabasesContainersStoredProceduresSPECARMGenerator gopter.Gen
+//instantiated by DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARMGenerator()
+var databaseAccountsSqlDatabasesContainersStoredProcedures_specarmGenerator gopter.Gen
 
-// DatabaseAccountsSqlDatabasesContainersStoredProceduresSPECARMGenerator returns a generator of DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM instances for property testing.
-// We first initialize databaseAccountsSqlDatabasesContainersStoredProceduresSPECARMGenerator with a simplified generator based on the
+// DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARMGenerator returns a generator of DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM instances for property testing.
+// We first initialize databaseAccountsSqlDatabasesContainersStoredProcedures_specarmGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DatabaseAccountsSqlDatabasesContainersStoredProceduresSPECARMGenerator() gopter.Gen {
-	if databaseAccountsSqlDatabasesContainersStoredProceduresSPECARMGenerator != nil {
-		return databaseAccountsSqlDatabasesContainersStoredProceduresSPECARMGenerator
+func DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARMGenerator() gopter.Gen {
+	if databaseAccountsSqlDatabasesContainersStoredProcedures_specarmGenerator != nil {
+		return databaseAccountsSqlDatabasesContainersStoredProcedures_specarmGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStoredProceduresSPECARM(generators)
-	databaseAccountsSqlDatabasesContainersStoredProceduresSPECARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM(generators)
+	databaseAccountsSqlDatabasesContainersStoredProcedures_specarmGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStoredProceduresSPECARM(generators)
-	AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStoredProceduresSPECARM(generators)
-	databaseAccountsSqlDatabasesContainersStoredProceduresSPECARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM(generators)
+	AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM(generators)
+	databaseAccountsSqlDatabasesContainersStoredProcedures_specarmGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM{}), generators)
 
-	return databaseAccountsSqlDatabasesContainersStoredProceduresSPECARMGenerator
+	return databaseAccountsSqlDatabasesContainersStoredProcedures_specarmGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStoredProceduresSPECARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStoredProceduresSPECARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStoredProceduresSPECARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStoredProceduresSPECARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = SqlStoredProcedureCreateUpdatePropertiesSpecARMGenerator()
+// AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = SqlStoredProcedureCreateUpdateProperties_SpecARMGenerator()
 }
 
 func Test_SqlStoredProcedureCreateUpdateProperties_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -101,12 +101,12 @@ func Test_SqlStoredProcedureCreateUpdateProperties_SpecARM_WhenSerializedToJson_
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlStoredProcedureCreateUpdateProperties_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlStoredProcedureCreateUpdatePropertiesSpecARM, SqlStoredProcedureCreateUpdatePropertiesSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSqlStoredProcedureCreateUpdateProperties_SpecARM, SqlStoredProcedureCreateUpdateProperties_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlStoredProcedureCreateUpdatePropertiesSpecARM runs a test to see if a specific instance of SqlStoredProcedureCreateUpdateProperties_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlStoredProcedureCreateUpdatePropertiesSpecARM(subject SqlStoredProcedureCreateUpdateProperties_SpecARM) string {
+// RunJSONSerializationTestForSqlStoredProcedureCreateUpdateProperties_SpecARM runs a test to see if a specific instance of SqlStoredProcedureCreateUpdateProperties_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlStoredProcedureCreateUpdateProperties_SpecARM(subject SqlStoredProcedureCreateUpdateProperties_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -133,26 +133,26 @@ func RunJSONSerializationTestForSqlStoredProcedureCreateUpdatePropertiesSpecARM(
 }
 
 // Generator of SqlStoredProcedureCreateUpdateProperties_SpecARM instances for property testing - lazily instantiated by
-//SqlStoredProcedureCreateUpdatePropertiesSpecARMGenerator()
-var sqlStoredProcedureCreateUpdatePropertiesSpecARMGenerator gopter.Gen
+//SqlStoredProcedureCreateUpdateProperties_SpecARMGenerator()
+var sqlStoredProcedureCreateUpdateProperties_specARMGenerator gopter.Gen
 
-// SqlStoredProcedureCreateUpdatePropertiesSpecARMGenerator returns a generator of SqlStoredProcedureCreateUpdateProperties_SpecARM instances for property testing.
-func SqlStoredProcedureCreateUpdatePropertiesSpecARMGenerator() gopter.Gen {
-	if sqlStoredProcedureCreateUpdatePropertiesSpecARMGenerator != nil {
-		return sqlStoredProcedureCreateUpdatePropertiesSpecARMGenerator
+// SqlStoredProcedureCreateUpdateProperties_SpecARMGenerator returns a generator of SqlStoredProcedureCreateUpdateProperties_SpecARM instances for property testing.
+func SqlStoredProcedureCreateUpdateProperties_SpecARMGenerator() gopter.Gen {
+	if sqlStoredProcedureCreateUpdateProperties_specARMGenerator != nil {
+		return sqlStoredProcedureCreateUpdateProperties_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForSqlStoredProcedureCreateUpdatePropertiesSpecARM(generators)
-	sqlStoredProcedureCreateUpdatePropertiesSpecARMGenerator = gen.Struct(reflect.TypeOf(SqlStoredProcedureCreateUpdateProperties_SpecARM{}), generators)
+	AddRelatedPropertyGeneratorsForSqlStoredProcedureCreateUpdateProperties_SpecARM(generators)
+	sqlStoredProcedureCreateUpdateProperties_specARMGenerator = gen.Struct(reflect.TypeOf(SqlStoredProcedureCreateUpdateProperties_SpecARM{}), generators)
 
-	return sqlStoredProcedureCreateUpdatePropertiesSpecARMGenerator
+	return sqlStoredProcedureCreateUpdateProperties_specARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForSqlStoredProcedureCreateUpdatePropertiesSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSqlStoredProcedureCreateUpdatePropertiesSpecARM(gens map[string]gopter.Gen) {
-	gens["Options"] = gen.PtrOf(CreateUpdateOptionsSpecARMGenerator())
-	gens["Resource"] = SqlStoredProcedureResourceSpecARMGenerator()
+// AddRelatedPropertyGeneratorsForSqlStoredProcedureCreateUpdateProperties_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSqlStoredProcedureCreateUpdateProperties_SpecARM(gens map[string]gopter.Gen) {
+	gens["Options"] = gen.PtrOf(CreateUpdateOptions_SpecARMGenerator())
+	gens["Resource"] = SqlStoredProcedureResource_SpecARMGenerator()
 }
 
 func Test_SqlStoredProcedureResource_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -162,12 +162,12 @@ func Test_SqlStoredProcedureResource_SpecARM_WhenSerializedToJson_DeserializesAs
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlStoredProcedureResource_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlStoredProcedureResourceSpecARM, SqlStoredProcedureResourceSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSqlStoredProcedureResource_SpecARM, SqlStoredProcedureResource_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlStoredProcedureResourceSpecARM runs a test to see if a specific instance of SqlStoredProcedureResource_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlStoredProcedureResourceSpecARM(subject SqlStoredProcedureResource_SpecARM) string {
+// RunJSONSerializationTestForSqlStoredProcedureResource_SpecARM runs a test to see if a specific instance of SqlStoredProcedureResource_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlStoredProcedureResource_SpecARM(subject SqlStoredProcedureResource_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -194,24 +194,24 @@ func RunJSONSerializationTestForSqlStoredProcedureResourceSpecARM(subject SqlSto
 }
 
 // Generator of SqlStoredProcedureResource_SpecARM instances for property testing - lazily instantiated by
-//SqlStoredProcedureResourceSpecARMGenerator()
-var sqlStoredProcedureResourceSpecARMGenerator gopter.Gen
+//SqlStoredProcedureResource_SpecARMGenerator()
+var sqlStoredProcedureResource_specARMGenerator gopter.Gen
 
-// SqlStoredProcedureResourceSpecARMGenerator returns a generator of SqlStoredProcedureResource_SpecARM instances for property testing.
-func SqlStoredProcedureResourceSpecARMGenerator() gopter.Gen {
-	if sqlStoredProcedureResourceSpecARMGenerator != nil {
-		return sqlStoredProcedureResourceSpecARMGenerator
+// SqlStoredProcedureResource_SpecARMGenerator returns a generator of SqlStoredProcedureResource_SpecARM instances for property testing.
+func SqlStoredProcedureResource_SpecARMGenerator() gopter.Gen {
+	if sqlStoredProcedureResource_specARMGenerator != nil {
+		return sqlStoredProcedureResource_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlStoredProcedureResourceSpecARM(generators)
-	sqlStoredProcedureResourceSpecARMGenerator = gen.Struct(reflect.TypeOf(SqlStoredProcedureResource_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForSqlStoredProcedureResource_SpecARM(generators)
+	sqlStoredProcedureResource_specARMGenerator = gen.Struct(reflect.TypeOf(SqlStoredProcedureResource_SpecARM{}), generators)
 
-	return sqlStoredProcedureResourceSpecARMGenerator
+	return sqlStoredProcedureResource_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSqlStoredProcedureResourceSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSqlStoredProcedureResourceSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSqlStoredProcedureResource_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSqlStoredProcedureResource_SpecARM(gens map[string]gopter.Gen) {
 	gens["Body"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.AlphaString()
 }

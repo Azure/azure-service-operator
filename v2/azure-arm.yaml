@@ -1072,10 +1072,10 @@ objectModelConfiguration:
           $armReference: true
   eventhub:
     2021-11-01:
-      Destination_Spec_Properties:
+      Destination_Properties_Spec:
         StorageAccountResourceId:
           $armReference: true
-      Namespaces_Spec_Properties:
+      Namespaces_Properties_SPEC:
         ClusterArmId:
           $armReference: true
       UserAssignedIdentityProperties_Spec:

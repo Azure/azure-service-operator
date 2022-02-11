@@ -25,18 +25,18 @@ type RedisCreateProperties_StatusARM struct {
 
 	//MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or
 	//higher) to connect (e,g, '1.0', '1.1', '1.2')
-	MinimumTlsVersion *RedisCreatePropertiesStatusMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *RedisCreateProperties_MinimumTlsVersion_Status `json:"minimumTlsVersion,omitempty"`
 
 	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this
 	//cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If
 	//'Disabled', private endpoints are the exclusive access method. Default value is
 	//'Enabled'
-	PublicNetworkAccess *RedisCreatePropertiesStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess_Status `json:"publicNetworkAccess,omitempty"`
 
 	//RedisConfiguration: All Redis Settings. Few possible keys:
 	//rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
 	//etc.
-	RedisConfiguration *RedisCreateProperties_Status_RedisConfigurationARM `json:"redisConfiguration,omitempty"`
+	RedisConfiguration *RedisCreateProperties_RedisConfiguration_StatusARM `json:"redisConfiguration,omitempty"`
 
 	//RedisVersion: Redis version. Only major version will be used in PUT/PATCH
 	//request with current valid values: (4, 6)
@@ -67,7 +67,7 @@ type RedisCreateProperties_StatusARM struct {
 	TenantSettings map[string]string `json:"tenantSettings,omitempty"`
 }
 
-type RedisCreateProperties_Status_RedisConfigurationARM struct {
+type RedisCreateProperties_RedisConfiguration_StatusARM struct {
 	//AofStorageConnectionString0: First storage account connection string
 	AofStorageConnectionString0 *string `json:"aof-storage-connection-string-0,omitempty"`
 
@@ -117,8 +117,8 @@ type Sku_StatusARM struct {
 
 	//Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P =
 	//Premium).
-	Family SkuStatusFamily `json:"family"`
+	Family Sku_Family_Status `json:"family"`
 
 	//Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
-	Name SkuStatusName `json:"name"`
+	Name Sku_Name_Status `json:"name"`
 }

@@ -248,17 +248,17 @@ func (schedule *RedisPatchSchedule) AssignPropertiesFromRedisPatchSchedule(sourc
 
 	// Spec
 	var spec RedisPatchSchedules_SPEC
-	err := spec.AssignPropertiesFromRedisPatchSchedulesSPEC(&source.Spec)
+	err := spec.AssignPropertiesFromRedisPatchSchedules_SPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromRedisPatchSchedulesSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromRedisPatchSchedules_SPEC() to populate field Spec")
 	}
 	schedule.Spec = spec
 
 	// Status
 	var status RedisPatchSchedule_Status
-	err = status.AssignPropertiesFromRedisPatchScheduleStatus(&source.Status)
+	err = status.AssignPropertiesFromRedisPatchSchedule_Status(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromRedisPatchScheduleStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromRedisPatchSchedule_Status() to populate field Status")
 	}
 	schedule.Status = status
 
@@ -274,17 +274,17 @@ func (schedule *RedisPatchSchedule) AssignPropertiesToRedisPatchSchedule(destina
 
 	// Spec
 	var spec v1alpha1api20201201storage.RedisPatchSchedules_SPEC
-	err := schedule.Spec.AssignPropertiesToRedisPatchSchedulesSPEC(&spec)
+	err := schedule.Spec.AssignPropertiesToRedisPatchSchedules_SPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToRedisPatchSchedulesSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToRedisPatchSchedules_SPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v1alpha1api20201201storage.RedisPatchSchedule_Status
-	err = schedule.Status.AssignPropertiesToRedisPatchScheduleStatus(&status)
+	err = schedule.Status.AssignPropertiesToRedisPatchSchedule_Status(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToRedisPatchScheduleStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToRedisPatchSchedule_Status() to populate field Status")
 	}
 	destination.Status = status
 
@@ -337,7 +337,7 @@ func (schedule *RedisPatchSchedule_Status) ConvertStatusFrom(source genruntime.C
 	src, ok := source.(*v1alpha1api20201201storage.RedisPatchSchedule_Status)
 	if ok {
 		// Populate our instance from source
-		return schedule.AssignPropertiesFromRedisPatchScheduleStatus(src)
+		return schedule.AssignPropertiesFromRedisPatchSchedule_Status(src)
 	}
 
 	// Convert to an intermediate form
@@ -348,7 +348,7 @@ func (schedule *RedisPatchSchedule_Status) ConvertStatusFrom(source genruntime.C
 	}
 
 	// Update our instance from src
-	err = schedule.AssignPropertiesFromRedisPatchScheduleStatus(src)
+	err = schedule.AssignPropertiesFromRedisPatchSchedule_Status(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -361,12 +361,12 @@ func (schedule *RedisPatchSchedule_Status) ConvertStatusTo(destination genruntim
 	dst, ok := destination.(*v1alpha1api20201201storage.RedisPatchSchedule_Status)
 	if ok {
 		// Populate destination from our instance
-		return schedule.AssignPropertiesToRedisPatchScheduleStatus(dst)
+		return schedule.AssignPropertiesToRedisPatchSchedule_Status(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20201201storage.RedisPatchSchedule_Status{}
-	err := schedule.AssignPropertiesToRedisPatchScheduleStatus(dst)
+	err := schedule.AssignPropertiesToRedisPatchSchedule_Status(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -431,8 +431,8 @@ func (schedule *RedisPatchSchedule_Status) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignPropertiesFromRedisPatchScheduleStatus populates our RedisPatchSchedule_Status from the provided source RedisPatchSchedule_Status
-func (schedule *RedisPatchSchedule_Status) AssignPropertiesFromRedisPatchScheduleStatus(source *v1alpha1api20201201storage.RedisPatchSchedule_Status) error {
+// AssignPropertiesFromRedisPatchSchedule_Status populates our RedisPatchSchedule_Status from the provided source RedisPatchSchedule_Status
+func (schedule *RedisPatchSchedule_Status) AssignPropertiesFromRedisPatchSchedule_Status(source *v1alpha1api20201201storage.RedisPatchSchedule_Status) error {
 
 	// Conditions
 	schedule.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -450,9 +450,9 @@ func (schedule *RedisPatchSchedule_Status) AssignPropertiesFromRedisPatchSchedul
 			// Shadow the loop variable to avoid aliasing
 			scheduleEntryItem := scheduleEntryItem
 			var scheduleEntry ScheduleEntry_Status
-			err := scheduleEntry.AssignPropertiesFromScheduleEntryStatus(&scheduleEntryItem)
+			err := scheduleEntry.AssignPropertiesFromScheduleEntry_Status(&scheduleEntryItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromScheduleEntryStatus() to populate field ScheduleEntries")
+				return errors.Wrap(err, "calling AssignPropertiesFromScheduleEntry_Status() to populate field ScheduleEntries")
 			}
 			scheduleEntryList[scheduleEntryIndex] = scheduleEntry
 		}
@@ -468,8 +468,8 @@ func (schedule *RedisPatchSchedule_Status) AssignPropertiesFromRedisPatchSchedul
 	return nil
 }
 
-// AssignPropertiesToRedisPatchScheduleStatus populates the provided destination RedisPatchSchedule_Status from our RedisPatchSchedule_Status
-func (schedule *RedisPatchSchedule_Status) AssignPropertiesToRedisPatchScheduleStatus(destination *v1alpha1api20201201storage.RedisPatchSchedule_Status) error {
+// AssignPropertiesToRedisPatchSchedule_Status populates the provided destination RedisPatchSchedule_Status from our RedisPatchSchedule_Status
+func (schedule *RedisPatchSchedule_Status) AssignPropertiesToRedisPatchSchedule_Status(destination *v1alpha1api20201201storage.RedisPatchSchedule_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -489,9 +489,9 @@ func (schedule *RedisPatchSchedule_Status) AssignPropertiesToRedisPatchScheduleS
 			// Shadow the loop variable to avoid aliasing
 			scheduleEntryItem := scheduleEntryItem
 			var scheduleEntry v1alpha1api20201201storage.ScheduleEntry_Status
-			err := scheduleEntryItem.AssignPropertiesToScheduleEntryStatus(&scheduleEntry)
+			err := scheduleEntryItem.AssignPropertiesToScheduleEntry_Status(&scheduleEntry)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToScheduleEntryStatus() to populate field ScheduleEntries")
+				return errors.Wrap(err, "calling AssignPropertiesToScheduleEntry_Status() to populate field ScheduleEntries")
 			}
 			scheduleEntryList[scheduleEntryIndex] = scheduleEntry
 		}
@@ -595,7 +595,7 @@ func (spec *RedisPatchSchedules_SPEC) ConvertSpecFrom(source genruntime.Converti
 	src, ok := source.(*v1alpha1api20201201storage.RedisPatchSchedules_SPEC)
 	if ok {
 		// Populate our instance from source
-		return spec.AssignPropertiesFromRedisPatchSchedulesSPEC(src)
+		return spec.AssignPropertiesFromRedisPatchSchedules_SPEC(src)
 	}
 
 	// Convert to an intermediate form
@@ -606,7 +606,7 @@ func (spec *RedisPatchSchedules_SPEC) ConvertSpecFrom(source genruntime.Converti
 	}
 
 	// Update our instance from src
-	err = spec.AssignPropertiesFromRedisPatchSchedulesSPEC(src)
+	err = spec.AssignPropertiesFromRedisPatchSchedules_SPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -619,12 +619,12 @@ func (spec *RedisPatchSchedules_SPEC) ConvertSpecTo(destination genruntime.Conve
 	dst, ok := destination.(*v1alpha1api20201201storage.RedisPatchSchedules_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return spec.AssignPropertiesToRedisPatchSchedulesSPEC(dst)
+		return spec.AssignPropertiesToRedisPatchSchedules_SPEC(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20201201storage.RedisPatchSchedules_SPEC{}
-	err := spec.AssignPropertiesToRedisPatchSchedulesSPEC(dst)
+	err := spec.AssignPropertiesToRedisPatchSchedules_SPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -638,8 +638,8 @@ func (spec *RedisPatchSchedules_SPEC) ConvertSpecTo(destination genruntime.Conve
 	return nil
 }
 
-// AssignPropertiesFromRedisPatchSchedulesSPEC populates our RedisPatchSchedules_SPEC from the provided source RedisPatchSchedules_SPEC
-func (spec *RedisPatchSchedules_SPEC) AssignPropertiesFromRedisPatchSchedulesSPEC(source *v1alpha1api20201201storage.RedisPatchSchedules_SPEC) error {
+// AssignPropertiesFromRedisPatchSchedules_SPEC populates our RedisPatchSchedules_SPEC from the provided source RedisPatchSchedules_SPEC
+func (spec *RedisPatchSchedules_SPEC) AssignPropertiesFromRedisPatchSchedules_SPEC(source *v1alpha1api20201201storage.RedisPatchSchedules_SPEC) error {
 
 	// AzureName
 	spec.AzureName = source.AzureName
@@ -654,9 +654,9 @@ func (spec *RedisPatchSchedules_SPEC) AssignPropertiesFromRedisPatchSchedulesSPE
 			// Shadow the loop variable to avoid aliasing
 			scheduleEntryItem := scheduleEntryItem
 			var scheduleEntry ScheduleEntry_Spec
-			err := scheduleEntry.AssignPropertiesFromScheduleEntrySpec(&scheduleEntryItem)
+			err := scheduleEntry.AssignPropertiesFromScheduleEntry_Spec(&scheduleEntryItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromScheduleEntrySpec() to populate field ScheduleEntries")
+				return errors.Wrap(err, "calling AssignPropertiesFromScheduleEntry_Spec() to populate field ScheduleEntries")
 			}
 			scheduleEntryList[scheduleEntryIndex] = scheduleEntry
 		}
@@ -669,8 +669,8 @@ func (spec *RedisPatchSchedules_SPEC) AssignPropertiesFromRedisPatchSchedulesSPE
 	return nil
 }
 
-// AssignPropertiesToRedisPatchSchedulesSPEC populates the provided destination RedisPatchSchedules_SPEC from our RedisPatchSchedules_SPEC
-func (spec *RedisPatchSchedules_SPEC) AssignPropertiesToRedisPatchSchedulesSPEC(destination *v1alpha1api20201201storage.RedisPatchSchedules_SPEC) error {
+// AssignPropertiesToRedisPatchSchedules_SPEC populates the provided destination RedisPatchSchedules_SPEC from our RedisPatchSchedules_SPEC
+func (spec *RedisPatchSchedules_SPEC) AssignPropertiesToRedisPatchSchedules_SPEC(destination *v1alpha1api20201201storage.RedisPatchSchedules_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -690,9 +690,9 @@ func (spec *RedisPatchSchedules_SPEC) AssignPropertiesToRedisPatchSchedulesSPEC(
 			// Shadow the loop variable to avoid aliasing
 			scheduleEntryItem := scheduleEntryItem
 			var scheduleEntry v1alpha1api20201201storage.ScheduleEntry_Spec
-			err := scheduleEntryItem.AssignPropertiesToScheduleEntrySpec(&scheduleEntry)
+			err := scheduleEntryItem.AssignPropertiesToScheduleEntry_Spec(&scheduleEntry)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToScheduleEntrySpec() to populate field ScheduleEntries")
+				return errors.Wrap(err, "calling AssignPropertiesToScheduleEntry_Spec() to populate field ScheduleEntries")
 			}
 			scheduleEntryList[scheduleEntryIndex] = scheduleEntry
 		}
@@ -723,7 +723,7 @@ func (spec *RedisPatchSchedules_SPEC) SetAzureName(azureName string) { spec.Azur
 type ScheduleEntry_Spec struct {
 	// +kubebuilder:validation:Required
 	//DayOfWeek: Day of the week when a cache can be patched.
-	DayOfWeek ScheduleEntrySpecDayOfWeek `json:"dayOfWeek"`
+	DayOfWeek ScheduleEntry_DayOfWeek_Spec `json:"dayOfWeek"`
 
 	//MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can
 	//take.
@@ -785,12 +785,12 @@ func (entry *ScheduleEntry_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromScheduleEntrySpec populates our ScheduleEntry_Spec from the provided source ScheduleEntry_Spec
-func (entry *ScheduleEntry_Spec) AssignPropertiesFromScheduleEntrySpec(source *v1alpha1api20201201storage.ScheduleEntry_Spec) error {
+// AssignPropertiesFromScheduleEntry_Spec populates our ScheduleEntry_Spec from the provided source ScheduleEntry_Spec
+func (entry *ScheduleEntry_Spec) AssignPropertiesFromScheduleEntry_Spec(source *v1alpha1api20201201storage.ScheduleEntry_Spec) error {
 
 	// DayOfWeek
 	if source.DayOfWeek != nil {
-		entry.DayOfWeek = ScheduleEntrySpecDayOfWeek(*source.DayOfWeek)
+		entry.DayOfWeek = ScheduleEntry_DayOfWeek_Spec(*source.DayOfWeek)
 	} else {
 		entry.DayOfWeek = ""
 	}
@@ -810,8 +810,8 @@ func (entry *ScheduleEntry_Spec) AssignPropertiesFromScheduleEntrySpec(source *v
 	return nil
 }
 
-// AssignPropertiesToScheduleEntrySpec populates the provided destination ScheduleEntry_Spec from our ScheduleEntry_Spec
-func (entry *ScheduleEntry_Spec) AssignPropertiesToScheduleEntrySpec(destination *v1alpha1api20201201storage.ScheduleEntry_Spec) error {
+// AssignPropertiesToScheduleEntry_Spec populates the provided destination ScheduleEntry_Spec from our ScheduleEntry_Spec
+func (entry *ScheduleEntry_Spec) AssignPropertiesToScheduleEntry_Spec(destination *v1alpha1api20201201storage.ScheduleEntry_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -845,7 +845,7 @@ func (entry *ScheduleEntry_Spec) AssignPropertiesToScheduleEntrySpec(destination
 type ScheduleEntry_Status struct {
 	// +kubebuilder:validation:Required
 	//DayOfWeek: Day of the week when a cache can be patched.
-	DayOfWeek ScheduleEntryStatusDayOfWeek `json:"dayOfWeek"`
+	DayOfWeek ScheduleEntry_DayOfWeek_Status `json:"dayOfWeek"`
 
 	//MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can
 	//take.
@@ -886,12 +886,12 @@ func (entry *ScheduleEntry_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-// AssignPropertiesFromScheduleEntryStatus populates our ScheduleEntry_Status from the provided source ScheduleEntry_Status
-func (entry *ScheduleEntry_Status) AssignPropertiesFromScheduleEntryStatus(source *v1alpha1api20201201storage.ScheduleEntry_Status) error {
+// AssignPropertiesFromScheduleEntry_Status populates our ScheduleEntry_Status from the provided source ScheduleEntry_Status
+func (entry *ScheduleEntry_Status) AssignPropertiesFromScheduleEntry_Status(source *v1alpha1api20201201storage.ScheduleEntry_Status) error {
 
 	// DayOfWeek
 	if source.DayOfWeek != nil {
-		entry.DayOfWeek = ScheduleEntryStatusDayOfWeek(*source.DayOfWeek)
+		entry.DayOfWeek = ScheduleEntry_DayOfWeek_Status(*source.DayOfWeek)
 	} else {
 		entry.DayOfWeek = ""
 	}
@@ -906,8 +906,8 @@ func (entry *ScheduleEntry_Status) AssignPropertiesFromScheduleEntryStatus(sourc
 	return nil
 }
 
-// AssignPropertiesToScheduleEntryStatus populates the provided destination ScheduleEntry_Status from our ScheduleEntry_Status
-func (entry *ScheduleEntry_Status) AssignPropertiesToScheduleEntryStatus(destination *v1alpha1api20201201storage.ScheduleEntry_Status) error {
+// AssignPropertiesToScheduleEntry_Status populates the provided destination ScheduleEntry_Status from our ScheduleEntry_Status
+func (entry *ScheduleEntry_Status) AssignPropertiesToScheduleEntry_Status(destination *v1alpha1api20201201storage.ScheduleEntry_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -934,32 +934,32 @@ func (entry *ScheduleEntry_Status) AssignPropertiesToScheduleEntryStatus(destina
 }
 
 // +kubebuilder:validation:Enum={"Everyday","Friday","Monday","Saturday","Sunday","Thursday","Tuesday","Wednesday","Weekend"}
-type ScheduleEntrySpecDayOfWeek string
+type ScheduleEntry_DayOfWeek_Spec string
 
 const (
-	ScheduleEntrySpecDayOfWeekEveryday  = ScheduleEntrySpecDayOfWeek("Everyday")
-	ScheduleEntrySpecDayOfWeekFriday    = ScheduleEntrySpecDayOfWeek("Friday")
-	ScheduleEntrySpecDayOfWeekMonday    = ScheduleEntrySpecDayOfWeek("Monday")
-	ScheduleEntrySpecDayOfWeekSaturday  = ScheduleEntrySpecDayOfWeek("Saturday")
-	ScheduleEntrySpecDayOfWeekSunday    = ScheduleEntrySpecDayOfWeek("Sunday")
-	ScheduleEntrySpecDayOfWeekThursday  = ScheduleEntrySpecDayOfWeek("Thursday")
-	ScheduleEntrySpecDayOfWeekTuesday   = ScheduleEntrySpecDayOfWeek("Tuesday")
-	ScheduleEntrySpecDayOfWeekWednesday = ScheduleEntrySpecDayOfWeek("Wednesday")
-	ScheduleEntrySpecDayOfWeekWeekend   = ScheduleEntrySpecDayOfWeek("Weekend")
+	ScheduleEntry_DayOfWeek_SpecEveryday  = ScheduleEntry_DayOfWeek_Spec("Everyday")
+	ScheduleEntry_DayOfWeek_SpecFriday    = ScheduleEntry_DayOfWeek_Spec("Friday")
+	ScheduleEntry_DayOfWeek_SpecMonday    = ScheduleEntry_DayOfWeek_Spec("Monday")
+	ScheduleEntry_DayOfWeek_SpecSaturday  = ScheduleEntry_DayOfWeek_Spec("Saturday")
+	ScheduleEntry_DayOfWeek_SpecSunday    = ScheduleEntry_DayOfWeek_Spec("Sunday")
+	ScheduleEntry_DayOfWeek_SpecThursday  = ScheduleEntry_DayOfWeek_Spec("Thursday")
+	ScheduleEntry_DayOfWeek_SpecTuesday   = ScheduleEntry_DayOfWeek_Spec("Tuesday")
+	ScheduleEntry_DayOfWeek_SpecWednesday = ScheduleEntry_DayOfWeek_Spec("Wednesday")
+	ScheduleEntry_DayOfWeek_SpecWeekend   = ScheduleEntry_DayOfWeek_Spec("Weekend")
 )
 
-type ScheduleEntryStatusDayOfWeek string
+type ScheduleEntry_DayOfWeek_Status string
 
 const (
-	ScheduleEntryStatusDayOfWeekEveryday  = ScheduleEntryStatusDayOfWeek("Everyday")
-	ScheduleEntryStatusDayOfWeekFriday    = ScheduleEntryStatusDayOfWeek("Friday")
-	ScheduleEntryStatusDayOfWeekMonday    = ScheduleEntryStatusDayOfWeek("Monday")
-	ScheduleEntryStatusDayOfWeekSaturday  = ScheduleEntryStatusDayOfWeek("Saturday")
-	ScheduleEntryStatusDayOfWeekSunday    = ScheduleEntryStatusDayOfWeek("Sunday")
-	ScheduleEntryStatusDayOfWeekThursday  = ScheduleEntryStatusDayOfWeek("Thursday")
-	ScheduleEntryStatusDayOfWeekTuesday   = ScheduleEntryStatusDayOfWeek("Tuesday")
-	ScheduleEntryStatusDayOfWeekWednesday = ScheduleEntryStatusDayOfWeek("Wednesday")
-	ScheduleEntryStatusDayOfWeekWeekend   = ScheduleEntryStatusDayOfWeek("Weekend")
+	ScheduleEntry_DayOfWeek_StatusEveryday  = ScheduleEntry_DayOfWeek_Status("Everyday")
+	ScheduleEntry_DayOfWeek_StatusFriday    = ScheduleEntry_DayOfWeek_Status("Friday")
+	ScheduleEntry_DayOfWeek_StatusMonday    = ScheduleEntry_DayOfWeek_Status("Monday")
+	ScheduleEntry_DayOfWeek_StatusSaturday  = ScheduleEntry_DayOfWeek_Status("Saturday")
+	ScheduleEntry_DayOfWeek_StatusSunday    = ScheduleEntry_DayOfWeek_Status("Sunday")
+	ScheduleEntry_DayOfWeek_StatusThursday  = ScheduleEntry_DayOfWeek_Status("Thursday")
+	ScheduleEntry_DayOfWeek_StatusTuesday   = ScheduleEntry_DayOfWeek_Status("Tuesday")
+	ScheduleEntry_DayOfWeek_StatusWednesday = ScheduleEntry_DayOfWeek_Status("Wednesday")
+	ScheduleEntry_DayOfWeek_StatusWeekend   = ScheduleEntry_DayOfWeek_Status("Weekend")
 )
 
 func init() {

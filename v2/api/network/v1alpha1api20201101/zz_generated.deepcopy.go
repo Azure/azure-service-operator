@@ -1051,7 +1051,7 @@ func (in *DdosSettings_Spec) DeepCopyInto(out *DdosSettings_Spec) {
 	}
 	if in.ProtectionCoverage != nil {
 		in, out := &in.ProtectionCoverage, &out.ProtectionCoverage
-		*out = new(DdosSettingsSpecProtectionCoverage)
+		*out = new(DdosSettings_ProtectionCoverage_Spec)
 		**out = **in
 	}
 }
@@ -1081,7 +1081,7 @@ func (in *DdosSettings_SpecARM) DeepCopyInto(out *DdosSettings_SpecARM) {
 	}
 	if in.ProtectionCoverage != nil {
 		in, out := &in.ProtectionCoverage, &out.ProtectionCoverage
-		*out = new(DdosSettingsSpecProtectionCoverage)
+		*out = new(DdosSettings_ProtectionCoverage_Spec)
 		**out = **in
 	}
 }
@@ -1111,7 +1111,7 @@ func (in *DdosSettings_Status) DeepCopyInto(out *DdosSettings_Status) {
 	}
 	if in.ProtectionCoverage != nil {
 		in, out := &in.ProtectionCoverage, &out.ProtectionCoverage
-		*out = new(DdosSettingsStatusProtectionCoverage)
+		*out = new(DdosSettings_ProtectionCoverage_Status)
 		**out = **in
 	}
 }
@@ -1141,7 +1141,7 @@ func (in *DdosSettings_StatusARM) DeepCopyInto(out *DdosSettings_StatusARM) {
 	}
 	if in.ProtectionCoverage != nil {
 		in, out := &in.ProtectionCoverage, &out.ProtectionCoverage
-		*out = new(DdosSettingsStatusProtectionCoverage)
+		*out = new(DdosSettings_ProtectionCoverage_Status)
 		**out = **in
 	}
 }
@@ -3274,12 +3274,12 @@ func (in *LoadBalancerSku_Spec) DeepCopyInto(out *LoadBalancerSku_Spec) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(LoadBalancerSkuSpecName)
+		*out = new(LoadBalancerSku_Name_Spec)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(LoadBalancerSkuSpecTier)
+		*out = new(LoadBalancerSku_Tier_Spec)
 		**out = **in
 	}
 }
@@ -3299,12 +3299,12 @@ func (in *LoadBalancerSku_SpecARM) DeepCopyInto(out *LoadBalancerSku_SpecARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(LoadBalancerSkuSpecName)
+		*out = new(LoadBalancerSku_Name_Spec)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(LoadBalancerSkuSpecTier)
+		*out = new(LoadBalancerSku_Tier_Spec)
 		**out = **in
 	}
 }
@@ -3324,12 +3324,12 @@ func (in *LoadBalancerSku_Status) DeepCopyInto(out *LoadBalancerSku_Status) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(LoadBalancerSkuStatusName)
+		*out = new(LoadBalancerSku_Name_Status)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(LoadBalancerSkuStatusTier)
+		*out = new(LoadBalancerSku_Tier_Status)
 		**out = **in
 	}
 }
@@ -3349,12 +3349,12 @@ func (in *LoadBalancerSku_StatusARM) DeepCopyInto(out *LoadBalancerSku_StatusARM
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(LoadBalancerSkuStatusName)
+		*out = new(LoadBalancerSku_Name_Status)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(LoadBalancerSkuStatusTier)
+		*out = new(LoadBalancerSku_Tier_Status)
 		**out = **in
 	}
 }
@@ -3733,7 +3733,7 @@ func (in *LoadBalancingRulePropertiesFormat_SpecARM) DeepCopyInto(out *LoadBalan
 	}
 	if in.LoadDistribution != nil {
 		in, out := &in.LoadDistribution, &out.LoadDistribution
-		*out = new(LoadBalancingRulePropertiesFormatSpecLoadDistribution)
+		*out = new(LoadBalancingRulePropertiesFormat_LoadDistribution_Spec)
 		**out = **in
 	}
 	if in.Probe != nil {
@@ -3793,7 +3793,7 @@ func (in *LoadBalancingRulePropertiesFormat_StatusARM) DeepCopyInto(out *LoadBal
 	}
 	if in.LoadDistribution != nil {
 		in, out := &in.LoadDistribution, &out.LoadDistribution
-		*out = new(LoadBalancingRulePropertiesFormatStatusLoadDistribution)
+		*out = new(LoadBalancingRulePropertiesFormat_LoadDistribution_Status)
 		**out = **in
 	}
 	if in.Probe != nil {
@@ -3863,7 +3863,7 @@ func (in *LoadBalancingRule_Spec) DeepCopyInto(out *LoadBalancingRule_Spec) {
 	}
 	if in.LoadDistribution != nil {
 		in, out := &in.LoadDistribution, &out.LoadDistribution
-		*out = new(LoadBalancingRulePropertiesFormatSpecLoadDistribution)
+		*out = new(LoadBalancingRulePropertiesFormat_LoadDistribution_Spec)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -3983,7 +3983,7 @@ func (in *LoadBalancingRule_Status) DeepCopyInto(out *LoadBalancingRule_Status) 
 	}
 	if in.LoadDistribution != nil {
 		in, out := &in.LoadDistribution, &out.LoadDistribution
-		*out = new(LoadBalancingRulePropertiesFormatStatusLoadDistribution)
+		*out = new(LoadBalancingRulePropertiesFormat_LoadDistribution_Status)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -4102,7 +4102,7 @@ func (in *NatGatewaySku_Spec) DeepCopyInto(out *NatGatewaySku_Spec) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(NatGatewaySkuSpecName)
+		*out = new(NatGatewaySku_Name_Spec)
 		**out = **in
 	}
 }
@@ -4122,7 +4122,7 @@ func (in *NatGatewaySku_SpecARM) DeepCopyInto(out *NatGatewaySku_SpecARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(NatGatewaySkuSpecName)
+		*out = new(NatGatewaySku_Name_Spec)
 		**out = **in
 	}
 }
@@ -4142,7 +4142,7 @@ func (in *NatGatewaySku_Status) DeepCopyInto(out *NatGatewaySku_Status) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(NatGatewaySkuStatusName)
+		*out = new(NatGatewaySku_Name_Status)
 		**out = **in
 	}
 }
@@ -4162,7 +4162,7 @@ func (in *NatGatewaySku_StatusARM) DeepCopyInto(out *NatGatewaySku_StatusARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(NatGatewaySkuStatusName)
+		*out = new(NatGatewaySku_Name_Status)
 		**out = **in
 	}
 }
@@ -5071,7 +5071,7 @@ func (in *NetworkInterfacePropertiesFormat_SpecARM) DeepCopyInto(out *NetworkInt
 	}
 	if in.MigrationPhase != nil {
 		in, out := &in.MigrationPhase, &out.MigrationPhase
-		*out = new(NetworkInterfacePropertiesFormatSpecMigrationPhase)
+		*out = new(NetworkInterfacePropertiesFormat_MigrationPhase_Spec)
 		**out = **in
 	}
 	if in.NetworkSecurityGroup != nil {
@@ -5081,7 +5081,7 @@ func (in *NetworkInterfacePropertiesFormat_SpecARM) DeepCopyInto(out *NetworkInt
 	}
 	if in.NicType != nil {
 		in, out := &in.NicType, &out.NicType
-		*out = new(NetworkInterfacePropertiesFormatSpecNicType)
+		*out = new(NetworkInterfacePropertiesFormat_NicType_Spec)
 		**out = **in
 	}
 	if in.PrivateLinkService != nil {
@@ -5143,7 +5143,7 @@ func (in *NetworkInterfacePropertiesFormat_StatusARM) DeepCopyInto(out *NetworkI
 	}
 	if in.MigrationPhase != nil {
 		in, out := &in.MigrationPhase, &out.MigrationPhase
-		*out = new(NetworkInterfacePropertiesFormatStatusMigrationPhase)
+		*out = new(NetworkInterfacePropertiesFormat_MigrationPhase_Status)
 		**out = **in
 	}
 	if in.NetworkSecurityGroup != nil {
@@ -5153,7 +5153,7 @@ func (in *NetworkInterfacePropertiesFormat_StatusARM) DeepCopyInto(out *NetworkI
 	}
 	if in.NicType != nil {
 		in, out := &in.NicType, &out.NicType
-		*out = new(NetworkInterfacePropertiesFormatStatusNicType)
+		*out = new(NetworkInterfacePropertiesFormat_NicType_Status)
 		**out = **in
 	}
 	if in.Primary != nil {
@@ -5314,7 +5314,7 @@ func (in *NetworkInterface_Status_NetworkInterface_SubResourceEmbedded) DeepCopy
 	}
 	if in.MigrationPhase != nil {
 		in, out := &in.MigrationPhase, &out.MigrationPhase
-		*out = new(NetworkInterfacePropertiesFormatStatusMigrationPhase)
+		*out = new(NetworkInterfacePropertiesFormat_MigrationPhase_Status)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -5329,7 +5329,7 @@ func (in *NetworkInterface_Status_NetworkInterface_SubResourceEmbedded) DeepCopy
 	}
 	if in.NicType != nil {
 		in, out := &in.NicType, &out.NicType
-		*out = new(NetworkInterfacePropertiesFormatStatusNicType)
+		*out = new(NetworkInterfacePropertiesFormat_NicType_Status)
 		**out = **in
 	}
 	if in.Primary != nil {
@@ -5537,7 +5537,7 @@ func (in *NetworkInterfaces_SPEC) DeepCopyInto(out *NetworkInterfaces_SPEC) {
 	}
 	if in.MigrationPhase != nil {
 		in, out := &in.MigrationPhase, &out.MigrationPhase
-		*out = new(NetworkInterfacePropertiesFormatSpecMigrationPhase)
+		*out = new(NetworkInterfacePropertiesFormat_MigrationPhase_Spec)
 		**out = **in
 	}
 	if in.NetworkSecurityGroup != nil {
@@ -5547,7 +5547,7 @@ func (in *NetworkInterfaces_SPEC) DeepCopyInto(out *NetworkInterfaces_SPEC) {
 	}
 	if in.NicType != nil {
 		in, out := &in.NicType, &out.NicType
-		*out = new(NetworkInterfacePropertiesFormatSpecNicType)
+		*out = new(NetworkInterfacePropertiesFormat_NicType_Spec)
 		**out = **in
 	}
 	out.Owner = in.Owner
@@ -6302,7 +6302,7 @@ func (in *NetworkSecurityGroupsSecurityRules_SPEC) DeepCopyInto(out *NetworkSecu
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(SecurityRulePropertiesFormatSpecProtocol)
+		*out = new(SecurityRulePropertiesFormat_Protocol_Spec)
 		**out = **in
 	}
 	if in.Reference != nil {
@@ -6579,7 +6579,7 @@ func (in *OutboundRule_Spec) DeepCopyInto(out *OutboundRule_Spec) {
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(OutboundRulePropertiesFormatSpecProtocol)
+		*out = new(OutboundRulePropertiesFormat_Protocol_Spec)
 		**out = **in
 	}
 	if in.Reference != nil {
@@ -6676,7 +6676,7 @@ func (in *OutboundRule_Status) DeepCopyInto(out *OutboundRule_Status) {
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(OutboundRulePropertiesFormatStatusProtocol)
+		*out = new(OutboundRulePropertiesFormat_Protocol_Status)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
@@ -7270,7 +7270,7 @@ func (in *Probe_Spec) DeepCopyInto(out *Probe_Spec) {
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(ProbePropertiesFormatSpecProtocol)
+		*out = new(ProbePropertiesFormat_Protocol_Spec)
 		**out = **in
 	}
 	if in.Reference != nil {
@@ -7367,7 +7367,7 @@ func (in *Probe_Status) DeepCopyInto(out *Probe_Status) {
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(ProbePropertiesFormatStatusProtocol)
+		*out = new(ProbePropertiesFormat_Protocol_Status)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
@@ -7653,7 +7653,7 @@ func (in *PublicIPAddressPropertiesFormat_SpecARM) DeepCopyInto(out *PublicIPAdd
 	}
 	if in.MigrationPhase != nil {
 		in, out := &in.MigrationPhase, &out.MigrationPhase
-		*out = new(PublicIPAddressPropertiesFormatSpecMigrationPhase)
+		*out = new(PublicIPAddressPropertiesFormat_MigrationPhase_Spec)
 		**out = **in
 	}
 	if in.NatGateway != nil {
@@ -7730,7 +7730,7 @@ func (in *PublicIPAddressPropertiesFormat_Spec_SubResourceEmbeddedARM) DeepCopyI
 	}
 	if in.MigrationPhase != nil {
 		in, out := &in.MigrationPhase, &out.MigrationPhase
-		*out = new(PublicIPAddressPropertiesFormatSpecMigrationPhase)
+		*out = new(PublicIPAddressPropertiesFormat_MigrationPhase_Spec)
 		**out = **in
 	}
 	if in.NatGateway != nil {
@@ -7807,7 +7807,7 @@ func (in *PublicIPAddressPropertiesFormat_StatusARM) DeepCopyInto(out *PublicIPA
 	}
 	if in.MigrationPhase != nil {
 		in, out := &in.MigrationPhase, &out.MigrationPhase
-		*out = new(PublicIPAddressPropertiesFormatStatusMigrationPhase)
+		*out = new(PublicIPAddressPropertiesFormat_MigrationPhase_Status)
 		**out = **in
 	}
 	if in.NatGateway != nil {
@@ -7857,12 +7857,12 @@ func (in *PublicIPAddressSku_Spec) DeepCopyInto(out *PublicIPAddressSku_Spec) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(PublicIPAddressSkuSpecName)
+		*out = new(PublicIPAddressSku_Name_Spec)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(PublicIPAddressSkuSpecTier)
+		*out = new(PublicIPAddressSku_Tier_Spec)
 		**out = **in
 	}
 }
@@ -7882,12 +7882,12 @@ func (in *PublicIPAddressSku_SpecARM) DeepCopyInto(out *PublicIPAddressSku_SpecA
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(PublicIPAddressSkuSpecName)
+		*out = new(PublicIPAddressSku_Name_Spec)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(PublicIPAddressSkuSpecTier)
+		*out = new(PublicIPAddressSku_Tier_Spec)
 		**out = **in
 	}
 }
@@ -7907,12 +7907,12 @@ func (in *PublicIPAddressSku_Status) DeepCopyInto(out *PublicIPAddressSku_Status
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(PublicIPAddressSkuStatusName)
+		*out = new(PublicIPAddressSku_Name_Status)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(PublicIPAddressSkuStatusTier)
+		*out = new(PublicIPAddressSku_Tier_Status)
 		**out = **in
 	}
 }
@@ -7932,12 +7932,12 @@ func (in *PublicIPAddressSku_StatusARM) DeepCopyInto(out *PublicIPAddressSku_Sta
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(PublicIPAddressSkuStatusName)
+		*out = new(PublicIPAddressSku_Name_Status)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(PublicIPAddressSkuStatusTier)
+		*out = new(PublicIPAddressSku_Tier_Status)
 		**out = **in
 	}
 }
@@ -7999,7 +7999,7 @@ func (in *PublicIPAddress_Spec) DeepCopyInto(out *PublicIPAddress_Spec) {
 	}
 	if in.MigrationPhase != nil {
 		in, out := &in.MigrationPhase, &out.MigrationPhase
-		*out = new(PublicIPAddressPropertiesFormatSpecMigrationPhase)
+		*out = new(PublicIPAddressPropertiesFormat_MigrationPhase_Spec)
 		**out = **in
 	}
 	if in.NatGateway != nil {
@@ -8411,7 +8411,7 @@ func (in *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) DeepCopyIn
 	}
 	if in.MigrationPhase != nil {
 		in, out := &in.MigrationPhase, &out.MigrationPhase
-		*out = new(PublicIPAddressPropertiesFormatStatusMigrationPhase)
+		*out = new(PublicIPAddressPropertiesFormat_MigrationPhase_Status)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -8667,7 +8667,7 @@ func (in *PublicIPAddresses_SPEC) DeepCopyInto(out *PublicIPAddresses_SPEC) {
 	}
 	if in.MigrationPhase != nil {
 		in, out := &in.MigrationPhase, &out.MigrationPhase
-		*out = new(PublicIPAddressPropertiesFormatSpecMigrationPhase)
+		*out = new(PublicIPAddressPropertiesFormat_MigrationPhase_Spec)
 		**out = **in
 	}
 	if in.NatGateway != nil {
@@ -9627,7 +9627,7 @@ func (in *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbed
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(SecurityRulePropertiesFormatStatusProtocol)
+		*out = new(SecurityRulePropertiesFormat_Protocol_Status)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
@@ -10333,12 +10333,12 @@ func (in *SubnetPropertiesFormat_SpecARM) DeepCopyInto(out *SubnetPropertiesForm
 	}
 	if in.PrivateEndpointNetworkPolicies != nil {
 		in, out := &in.PrivateEndpointNetworkPolicies, &out.PrivateEndpointNetworkPolicies
-		*out = new(SubnetPropertiesFormatSpecPrivateEndpointNetworkPolicies)
+		*out = new(SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Spec)
 		**out = **in
 	}
 	if in.PrivateLinkServiceNetworkPolicies != nil {
 		in, out := &in.PrivateLinkServiceNetworkPolicies, &out.PrivateLinkServiceNetworkPolicies
-		*out = new(SubnetPropertiesFormatSpecPrivateLinkServiceNetworkPolicies)
+		*out = new(SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Spec)
 		**out = **in
 	}
 	if in.RouteTable != nil {
@@ -10432,7 +10432,7 @@ func (in *SubnetPropertiesFormat_StatusARM) DeepCopyInto(out *SubnetPropertiesFo
 	}
 	if in.PrivateEndpointNetworkPolicies != nil {
 		in, out := &in.PrivateEndpointNetworkPolicies, &out.PrivateEndpointNetworkPolicies
-		*out = new(SubnetPropertiesFormatStatusPrivateEndpointNetworkPolicies)
+		*out = new(SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Status)
 		**out = **in
 	}
 	if in.PrivateEndpoints != nil {
@@ -10444,7 +10444,7 @@ func (in *SubnetPropertiesFormat_StatusARM) DeepCopyInto(out *SubnetPropertiesFo
 	}
 	if in.PrivateLinkServiceNetworkPolicies != nil {
 		in, out := &in.PrivateLinkServiceNetworkPolicies, &out.PrivateLinkServiceNetworkPolicies
-		*out = new(SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPolicies)
+		*out = new(SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Status)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
@@ -10904,7 +10904,7 @@ func (in *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) DeepCopyInto(
 	}
 	if in.PrivateEndpointNetworkPolicies != nil {
 		in, out := &in.PrivateEndpointNetworkPolicies, &out.PrivateEndpointNetworkPolicies
-		*out = new(SubnetPropertiesFormatStatusPrivateEndpointNetworkPolicies)
+		*out = new(SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Status)
 		**out = **in
 	}
 	if in.PrivateEndpoints != nil {
@@ -10916,7 +10916,7 @@ func (in *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) DeepCopyInto(
 	}
 	if in.PrivateLinkServiceNetworkPolicies != nil {
 		in, out := &in.PrivateLinkServiceNetworkPolicies, &out.PrivateLinkServiceNetworkPolicies
-		*out = new(SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPolicies)
+		*out = new(SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Status)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
@@ -11445,7 +11445,7 @@ func (in *VirtualNetworkGatewayPropertiesFormat_SpecARM) DeepCopyInto(out *Virtu
 	}
 	if in.GatewayType != nil {
 		in, out := &in.GatewayType, &out.GatewayType
-		*out = new(VirtualNetworkGatewayPropertiesFormatSpecGatewayType)
+		*out = new(VirtualNetworkGatewayPropertiesFormat_GatewayType_Spec)
 		**out = **in
 	}
 	if in.IpConfigurations != nil {
@@ -11472,12 +11472,12 @@ func (in *VirtualNetworkGatewayPropertiesFormat_SpecARM) DeepCopyInto(out *Virtu
 	}
 	if in.VpnGatewayGeneration != nil {
 		in, out := &in.VpnGatewayGeneration, &out.VpnGatewayGeneration
-		*out = new(VirtualNetworkGatewayPropertiesFormatSpecVpnGatewayGeneration)
+		*out = new(VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Spec)
 		**out = **in
 	}
 	if in.VpnType != nil {
 		in, out := &in.VpnType, &out.VpnType
-		*out = new(VirtualNetworkGatewayPropertiesFormatSpecVpnType)
+		*out = new(VirtualNetworkGatewayPropertiesFormat_VpnType_Spec)
 		**out = **in
 	}
 }
@@ -11532,7 +11532,7 @@ func (in *VirtualNetworkGatewayPropertiesFormat_StatusARM) DeepCopyInto(out *Vir
 	}
 	if in.GatewayType != nil {
 		in, out := &in.GatewayType, &out.GatewayType
-		*out = new(VirtualNetworkGatewayPropertiesFormatStatusGatewayType)
+		*out = new(VirtualNetworkGatewayPropertiesFormat_GatewayType_Status)
 		**out = **in
 	}
 	if in.InboundDnsForwardingEndpoint != nil {
@@ -11574,12 +11574,12 @@ func (in *VirtualNetworkGatewayPropertiesFormat_StatusARM) DeepCopyInto(out *Vir
 	}
 	if in.VpnGatewayGeneration != nil {
 		in, out := &in.VpnGatewayGeneration, &out.VpnGatewayGeneration
-		*out = new(VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration)
+		*out = new(VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Status)
 		**out = **in
 	}
 	if in.VpnType != nil {
 		in, out := &in.VpnType, &out.VpnType
-		*out = new(VirtualNetworkGatewayPropertiesFormatStatusVpnType)
+		*out = new(VirtualNetworkGatewayPropertiesFormat_VpnType_Status)
 		**out = **in
 	}
 }
@@ -11599,12 +11599,12 @@ func (in *VirtualNetworkGatewaySku_Spec) DeepCopyInto(out *VirtualNetworkGateway
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(VirtualNetworkGatewaySkuSpecName)
+		*out = new(VirtualNetworkGatewaySku_Name_Spec)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(VirtualNetworkGatewaySkuSpecTier)
+		*out = new(VirtualNetworkGatewaySku_Tier_Spec)
 		**out = **in
 	}
 }
@@ -11624,12 +11624,12 @@ func (in *VirtualNetworkGatewaySku_SpecARM) DeepCopyInto(out *VirtualNetworkGate
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(VirtualNetworkGatewaySkuSpecName)
+		*out = new(VirtualNetworkGatewaySku_Name_Spec)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(VirtualNetworkGatewaySkuSpecTier)
+		*out = new(VirtualNetworkGatewaySku_Tier_Spec)
 		**out = **in
 	}
 }
@@ -11654,12 +11654,12 @@ func (in *VirtualNetworkGatewaySku_Status) DeepCopyInto(out *VirtualNetworkGatew
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(VirtualNetworkGatewaySkuStatusName)
+		*out = new(VirtualNetworkGatewaySku_Name_Status)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(VirtualNetworkGatewaySkuStatusTier)
+		*out = new(VirtualNetworkGatewaySku_Tier_Status)
 		**out = **in
 	}
 }
@@ -11684,12 +11684,12 @@ func (in *VirtualNetworkGatewaySku_StatusARM) DeepCopyInto(out *VirtualNetworkGa
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(VirtualNetworkGatewaySkuStatusName)
+		*out = new(VirtualNetworkGatewaySku_Name_Status)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(VirtualNetworkGatewaySkuStatusTier)
+		*out = new(VirtualNetworkGatewaySku_Tier_Status)
 		**out = **in
 	}
 }
@@ -11761,7 +11761,7 @@ func (in *VirtualNetworkGateway_Status) DeepCopyInto(out *VirtualNetworkGateway_
 	}
 	if in.GatewayType != nil {
 		in, out := &in.GatewayType, &out.GatewayType
-		*out = new(VirtualNetworkGatewayPropertiesFormatStatusGatewayType)
+		*out = new(VirtualNetworkGatewayPropertiesFormat_GatewayType_Status)
 		**out = **in
 	}
 	if in.Id != nil {
@@ -11830,12 +11830,12 @@ func (in *VirtualNetworkGateway_Status) DeepCopyInto(out *VirtualNetworkGateway_
 	}
 	if in.VpnGatewayGeneration != nil {
 		in, out := &in.VpnGatewayGeneration, &out.VpnGatewayGeneration
-		*out = new(VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration)
+		*out = new(VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Status)
 		**out = **in
 	}
 	if in.VpnType != nil {
 		in, out := &in.VpnType, &out.VpnType
-		*out = new(VirtualNetworkGatewayPropertiesFormatStatusVpnType)
+		*out = new(VirtualNetworkGatewayPropertiesFormat_VpnType_Status)
 		**out = **in
 	}
 }
@@ -11952,7 +11952,7 @@ func (in *VirtualNetworkGateways_SPEC) DeepCopyInto(out *VirtualNetworkGateways_
 	}
 	if in.GatewayType != nil {
 		in, out := &in.GatewayType, &out.GatewayType
-		*out = new(VirtualNetworkGatewayPropertiesFormatSpecGatewayType)
+		*out = new(VirtualNetworkGatewayPropertiesFormat_GatewayType_Spec)
 		**out = **in
 	}
 	if in.IpConfigurations != nil {
@@ -11997,12 +11997,12 @@ func (in *VirtualNetworkGateways_SPEC) DeepCopyInto(out *VirtualNetworkGateways_
 	}
 	if in.VpnGatewayGeneration != nil {
 		in, out := &in.VpnGatewayGeneration, &out.VpnGatewayGeneration
-		*out = new(VirtualNetworkGatewayPropertiesFormatSpecVpnGatewayGeneration)
+		*out = new(VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Spec)
 		**out = **in
 	}
 	if in.VpnType != nil {
 		in, out := &in.VpnType, &out.VpnType
-		*out = new(VirtualNetworkGatewayPropertiesFormatSpecVpnType)
+		*out = new(VirtualNetworkGatewayPropertiesFormat_VpnType_Spec)
 		**out = **in
 	}
 }
@@ -12112,7 +12112,7 @@ func (in *VirtualNetworkPeeringPropertiesFormat_SpecARM) DeepCopyInto(out *Virtu
 	}
 	if in.PeeringState != nil {
 		in, out := &in.PeeringState, &out.PeeringState
-		*out = new(VirtualNetworkPeeringPropertiesFormatSpecPeeringState)
+		*out = new(VirtualNetworkPeeringPropertiesFormat_PeeringState_Spec)
 		**out = **in
 	}
 	if in.RemoteAddressSpace != nil {
@@ -12172,7 +12172,7 @@ func (in *VirtualNetworkPeeringPropertiesFormat_StatusARM) DeepCopyInto(out *Vir
 	}
 	if in.PeeringState != nil {
 		in, out := &in.PeeringState, &out.PeeringState
-		*out = new(VirtualNetworkPeeringPropertiesFormatStatusPeeringState)
+		*out = new(VirtualNetworkPeeringPropertiesFormat_PeeringState_Status)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
@@ -12304,7 +12304,7 @@ func (in *VirtualNetworkPeering_Status) DeepCopyInto(out *VirtualNetworkPeering_
 	}
 	if in.PeeringState != nil {
 		in, out := &in.PeeringState, &out.PeeringState
-		*out = new(VirtualNetworkPeeringPropertiesFormatStatusPeeringState)
+		*out = new(VirtualNetworkPeeringPropertiesFormat_PeeringState_Status)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
@@ -13003,12 +13003,12 @@ func (in *VirtualNetworksSubnets_SPEC) DeepCopyInto(out *VirtualNetworksSubnets_
 	out.Owner = in.Owner
 	if in.PrivateEndpointNetworkPolicies != nil {
 		in, out := &in.PrivateEndpointNetworkPolicies, &out.PrivateEndpointNetworkPolicies
-		*out = new(SubnetPropertiesFormatSpecPrivateEndpointNetworkPolicies)
+		*out = new(SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Spec)
 		**out = **in
 	}
 	if in.PrivateLinkServiceNetworkPolicies != nil {
 		in, out := &in.PrivateLinkServiceNetworkPolicies, &out.PrivateLinkServiceNetworkPolicies
-		*out = new(SubnetPropertiesFormatSpecPrivateLinkServiceNetworkPolicies)
+		*out = new(SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Spec)
 		**out = **in
 	}
 	if in.Reference != nil {
@@ -13167,7 +13167,7 @@ func (in *VirtualNetworksVirtualNetworkPeerings_SPEC) DeepCopyInto(out *VirtualN
 	out.Owner = in.Owner
 	if in.PeeringState != nil {
 		in, out := &in.PeeringState, &out.PeeringState
-		*out = new(VirtualNetworkPeeringPropertiesFormatSpecPeeringState)
+		*out = new(VirtualNetworkPeeringPropertiesFormat_PeeringState_Spec)
 		**out = **in
 	}
 	if in.Reference != nil {
@@ -13410,7 +13410,7 @@ func (in *VpnClientConfiguration_Spec) DeepCopyInto(out *VpnClientConfiguration_
 	}
 	if in.VpnAuthenticationTypes != nil {
 		in, out := &in.VpnAuthenticationTypes, &out.VpnAuthenticationTypes
-		*out = make([]VpnClientConfigurationSpecVpnAuthenticationTypes, len(*in))
+		*out = make([]VpnClientConfiguration_VpnAuthenticationTypes_Spec, len(*in))
 		copy(*out, *in)
 	}
 	if in.VpnClientAddressPool != nil {
@@ -13425,7 +13425,7 @@ func (in *VpnClientConfiguration_Spec) DeepCopyInto(out *VpnClientConfiguration_
 	}
 	if in.VpnClientProtocols != nil {
 		in, out := &in.VpnClientProtocols, &out.VpnClientProtocols
-		*out = make([]VpnClientConfigurationSpecVpnClientProtocols, len(*in))
+		*out = make([]VpnClientConfiguration_VpnClientProtocols_Spec, len(*in))
 		copy(*out, *in)
 	}
 	if in.VpnClientRevokedCertificates != nil {
@@ -13491,7 +13491,7 @@ func (in *VpnClientConfiguration_SpecARM) DeepCopyInto(out *VpnClientConfigurati
 	}
 	if in.VpnAuthenticationTypes != nil {
 		in, out := &in.VpnAuthenticationTypes, &out.VpnAuthenticationTypes
-		*out = make([]VpnClientConfigurationSpecVpnAuthenticationTypes, len(*in))
+		*out = make([]VpnClientConfiguration_VpnAuthenticationTypes_Spec, len(*in))
 		copy(*out, *in)
 	}
 	if in.VpnClientAddressPool != nil {
@@ -13506,7 +13506,7 @@ func (in *VpnClientConfiguration_SpecARM) DeepCopyInto(out *VpnClientConfigurati
 	}
 	if in.VpnClientProtocols != nil {
 		in, out := &in.VpnClientProtocols, &out.VpnClientProtocols
-		*out = make([]VpnClientConfigurationSpecVpnClientProtocols, len(*in))
+		*out = make([]VpnClientConfiguration_VpnClientProtocols_Spec, len(*in))
 		copy(*out, *in)
 	}
 	if in.VpnClientRevokedCertificates != nil {
@@ -13572,7 +13572,7 @@ func (in *VpnClientConfiguration_Status) DeepCopyInto(out *VpnClientConfiguratio
 	}
 	if in.VpnAuthenticationTypes != nil {
 		in, out := &in.VpnAuthenticationTypes, &out.VpnAuthenticationTypes
-		*out = make([]VpnClientConfigurationStatusVpnAuthenticationTypes, len(*in))
+		*out = make([]VpnClientConfiguration_VpnAuthenticationTypes_Status, len(*in))
 		copy(*out, *in)
 	}
 	if in.VpnClientAddressPool != nil {
@@ -13587,7 +13587,7 @@ func (in *VpnClientConfiguration_Status) DeepCopyInto(out *VpnClientConfiguratio
 	}
 	if in.VpnClientProtocols != nil {
 		in, out := &in.VpnClientProtocols, &out.VpnClientProtocols
-		*out = make([]VpnClientConfigurationStatusVpnClientProtocols, len(*in))
+		*out = make([]VpnClientConfiguration_VpnClientProtocols_Status, len(*in))
 		copy(*out, *in)
 	}
 	if in.VpnClientRevokedCertificates != nil {
@@ -13653,7 +13653,7 @@ func (in *VpnClientConfiguration_StatusARM) DeepCopyInto(out *VpnClientConfigura
 	}
 	if in.VpnAuthenticationTypes != nil {
 		in, out := &in.VpnAuthenticationTypes, &out.VpnAuthenticationTypes
-		*out = make([]VpnClientConfigurationStatusVpnAuthenticationTypes, len(*in))
+		*out = make([]VpnClientConfiguration_VpnAuthenticationTypes_Status, len(*in))
 		copy(*out, *in)
 	}
 	if in.VpnClientAddressPool != nil {
@@ -13668,7 +13668,7 @@ func (in *VpnClientConfiguration_StatusARM) DeepCopyInto(out *VpnClientConfigura
 	}
 	if in.VpnClientProtocols != nil {
 		in, out := &in.VpnClientProtocols, &out.VpnClientProtocols
-		*out = make([]VpnClientConfigurationStatusVpnClientProtocols, len(*in))
+		*out = make([]VpnClientConfiguration_VpnClientProtocols_Status, len(*in))
 		copy(*out, *in)
 	}
 	if in.VpnClientRevokedCertificates != nil {

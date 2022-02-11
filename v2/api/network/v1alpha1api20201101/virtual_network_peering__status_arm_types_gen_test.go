@@ -24,12 +24,12 @@ func Test_VirtualNetworkPeering_StatusARM_WhenSerializedToJson_DeserializesAsEqu
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkPeering_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkPeeringStatusARM, VirtualNetworkPeeringStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworkPeering_StatusARM, VirtualNetworkPeering_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualNetworkPeeringStatusARM runs a test to see if a specific instance of VirtualNetworkPeering_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkPeeringStatusARM(subject VirtualNetworkPeering_StatusARM) string {
+// RunJSONSerializationTestForVirtualNetworkPeering_StatusARM runs a test to see if a specific instance of VirtualNetworkPeering_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworkPeering_StatusARM(subject VirtualNetworkPeering_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,42 +56,42 @@ func RunJSONSerializationTestForVirtualNetworkPeeringStatusARM(subject VirtualNe
 }
 
 // Generator of VirtualNetworkPeering_StatusARM instances for property testing - lazily instantiated by
-//VirtualNetworkPeeringStatusARMGenerator()
-var virtualNetworkPeeringStatusARMGenerator gopter.Gen
+//VirtualNetworkPeering_StatusARMGenerator()
+var virtualNetworkPeering_statusARMGenerator gopter.Gen
 
-// VirtualNetworkPeeringStatusARMGenerator returns a generator of VirtualNetworkPeering_StatusARM instances for property testing.
-// We first initialize virtualNetworkPeeringStatusARMGenerator with a simplified generator based on the
+// VirtualNetworkPeering_StatusARMGenerator returns a generator of VirtualNetworkPeering_StatusARM instances for property testing.
+// We first initialize virtualNetworkPeering_statusARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualNetworkPeeringStatusARMGenerator() gopter.Gen {
-	if virtualNetworkPeeringStatusARMGenerator != nil {
-		return virtualNetworkPeeringStatusARMGenerator
+func VirtualNetworkPeering_StatusARMGenerator() gopter.Gen {
+	if virtualNetworkPeering_statusARMGenerator != nil {
+		return virtualNetworkPeering_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkPeeringStatusARM(generators)
-	virtualNetworkPeeringStatusARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkPeering_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworkPeering_StatusARM(generators)
+	virtualNetworkPeering_statusARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkPeering_StatusARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkPeeringStatusARM(generators)
-	AddRelatedPropertyGeneratorsForVirtualNetworkPeeringStatusARM(generators)
-	virtualNetworkPeeringStatusARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkPeering_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworkPeering_StatusARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualNetworkPeering_StatusARM(generators)
+	virtualNetworkPeering_statusARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkPeering_StatusARM{}), generators)
 
-	return virtualNetworkPeeringStatusARMGenerator
+	return virtualNetworkPeering_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualNetworkPeeringStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkPeeringStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualNetworkPeering_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworkPeering_StatusARM(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForVirtualNetworkPeeringStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualNetworkPeeringStatusARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(VirtualNetworkPeeringPropertiesFormatStatusARMGenerator())
+// AddRelatedPropertyGeneratorsForVirtualNetworkPeering_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualNetworkPeering_StatusARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(VirtualNetworkPeeringPropertiesFormat_StatusARMGenerator())
 }
 
 func Test_VirtualNetworkPeeringPropertiesFormat_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -101,12 +101,12 @@ func Test_VirtualNetworkPeeringPropertiesFormat_StatusARM_WhenSerializedToJson_D
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkPeeringPropertiesFormat_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkPeeringPropertiesFormatStatusARM, VirtualNetworkPeeringPropertiesFormatStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworkPeeringPropertiesFormat_StatusARM, VirtualNetworkPeeringPropertiesFormat_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualNetworkPeeringPropertiesFormatStatusARM runs a test to see if a specific instance of VirtualNetworkPeeringPropertiesFormat_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkPeeringPropertiesFormatStatusARM(subject VirtualNetworkPeeringPropertiesFormat_StatusARM) string {
+// RunJSONSerializationTestForVirtualNetworkPeeringPropertiesFormat_StatusARM runs a test to see if a specific instance of VirtualNetworkPeeringPropertiesFormat_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworkPeeringPropertiesFormat_StatusARM(subject VirtualNetworkPeeringPropertiesFormat_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -133,38 +133,38 @@ func RunJSONSerializationTestForVirtualNetworkPeeringPropertiesFormatStatusARM(s
 }
 
 // Generator of VirtualNetworkPeeringPropertiesFormat_StatusARM instances for property testing - lazily instantiated by
-//VirtualNetworkPeeringPropertiesFormatStatusARMGenerator()
-var virtualNetworkPeeringPropertiesFormatStatusARMGenerator gopter.Gen
+//VirtualNetworkPeeringPropertiesFormat_StatusARMGenerator()
+var virtualNetworkPeeringPropertiesFormat_statusARMGenerator gopter.Gen
 
-// VirtualNetworkPeeringPropertiesFormatStatusARMGenerator returns a generator of VirtualNetworkPeeringPropertiesFormat_StatusARM instances for property testing.
-// We first initialize virtualNetworkPeeringPropertiesFormatStatusARMGenerator with a simplified generator based on the
+// VirtualNetworkPeeringPropertiesFormat_StatusARMGenerator returns a generator of VirtualNetworkPeeringPropertiesFormat_StatusARM instances for property testing.
+// We first initialize virtualNetworkPeeringPropertiesFormat_statusARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualNetworkPeeringPropertiesFormatStatusARMGenerator() gopter.Gen {
-	if virtualNetworkPeeringPropertiesFormatStatusARMGenerator != nil {
-		return virtualNetworkPeeringPropertiesFormatStatusARMGenerator
+func VirtualNetworkPeeringPropertiesFormat_StatusARMGenerator() gopter.Gen {
+	if virtualNetworkPeeringPropertiesFormat_statusARMGenerator != nil {
+		return virtualNetworkPeeringPropertiesFormat_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkPeeringPropertiesFormatStatusARM(generators)
-	virtualNetworkPeeringPropertiesFormatStatusARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkPeeringPropertiesFormat_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworkPeeringPropertiesFormat_StatusARM(generators)
+	virtualNetworkPeeringPropertiesFormat_statusARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkPeeringPropertiesFormat_StatusARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkPeeringPropertiesFormatStatusARM(generators)
-	AddRelatedPropertyGeneratorsForVirtualNetworkPeeringPropertiesFormatStatusARM(generators)
-	virtualNetworkPeeringPropertiesFormatStatusARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkPeeringPropertiesFormat_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworkPeeringPropertiesFormat_StatusARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualNetworkPeeringPropertiesFormat_StatusARM(generators)
+	virtualNetworkPeeringPropertiesFormat_statusARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkPeeringPropertiesFormat_StatusARM{}), generators)
 
-	return virtualNetworkPeeringPropertiesFormatStatusARMGenerator
+	return virtualNetworkPeeringPropertiesFormat_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualNetworkPeeringPropertiesFormatStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkPeeringPropertiesFormatStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualNetworkPeeringPropertiesFormat_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworkPeeringPropertiesFormat_StatusARM(gens map[string]gopter.Gen) {
 	gens["AllowForwardedTraffic"] = gen.PtrOf(gen.Bool())
 	gens["AllowGatewayTransit"] = gen.PtrOf(gen.Bool())
 	gens["AllowVirtualNetworkAccess"] = gen.PtrOf(gen.Bool())
 	gens["DoNotVerifyRemoteGateways"] = gen.PtrOf(gen.Bool())
-	gens["PeeringState"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkPeeringPropertiesFormatStatusPeeringStateConnected, VirtualNetworkPeeringPropertiesFormatStatusPeeringStateDisconnected, VirtualNetworkPeeringPropertiesFormatStatusPeeringStateInitiated))
+	gens["PeeringState"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkPeeringPropertiesFormat_PeeringState_StatusConnected, VirtualNetworkPeeringPropertiesFormat_PeeringState_StatusDisconnected, VirtualNetworkPeeringPropertiesFormat_PeeringState_StatusInitiated))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
 		ProvisioningState_StatusDeleting,
 		ProvisioningState_StatusFailed,
@@ -174,11 +174,11 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkPeeringPropertiesFormatSta
 	gens["UseRemoteGateways"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForVirtualNetworkPeeringPropertiesFormatStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualNetworkPeeringPropertiesFormatStatusARM(gens map[string]gopter.Gen) {
-	gens["RemoteAddressSpace"] = gen.PtrOf(AddressSpaceStatusARMGenerator())
-	gens["RemoteBgpCommunities"] = gen.PtrOf(VirtualNetworkBgpCommunitiesStatusARMGenerator())
-	gens["RemoteVirtualNetwork"] = gen.PtrOf(SubResourceStatusARMGenerator())
+// AddRelatedPropertyGeneratorsForVirtualNetworkPeeringPropertiesFormat_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualNetworkPeeringPropertiesFormat_StatusARM(gens map[string]gopter.Gen) {
+	gens["RemoteAddressSpace"] = gen.PtrOf(AddressSpace_StatusARMGenerator())
+	gens["RemoteBgpCommunities"] = gen.PtrOf(VirtualNetworkBgpCommunities_StatusARMGenerator())
+	gens["RemoteVirtualNetwork"] = gen.PtrOf(SubResource_StatusARMGenerator())
 }
 
 func Test_VirtualNetworkBgpCommunities_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -188,12 +188,12 @@ func Test_VirtualNetworkBgpCommunities_StatusARM_WhenSerializedToJson_Deserializ
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkBgpCommunities_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkBgpCommunitiesStatusARM, VirtualNetworkBgpCommunitiesStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworkBgpCommunities_StatusARM, VirtualNetworkBgpCommunities_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualNetworkBgpCommunitiesStatusARM runs a test to see if a specific instance of VirtualNetworkBgpCommunities_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkBgpCommunitiesStatusARM(subject VirtualNetworkBgpCommunities_StatusARM) string {
+// RunJSONSerializationTestForVirtualNetworkBgpCommunities_StatusARM runs a test to see if a specific instance of VirtualNetworkBgpCommunities_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworkBgpCommunities_StatusARM(subject VirtualNetworkBgpCommunities_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -220,24 +220,24 @@ func RunJSONSerializationTestForVirtualNetworkBgpCommunitiesStatusARM(subject Vi
 }
 
 // Generator of VirtualNetworkBgpCommunities_StatusARM instances for property testing - lazily instantiated by
-//VirtualNetworkBgpCommunitiesStatusARMGenerator()
-var virtualNetworkBgpCommunitiesStatusARMGenerator gopter.Gen
+//VirtualNetworkBgpCommunities_StatusARMGenerator()
+var virtualNetworkBgpCommunities_statusARMGenerator gopter.Gen
 
-// VirtualNetworkBgpCommunitiesStatusARMGenerator returns a generator of VirtualNetworkBgpCommunities_StatusARM instances for property testing.
-func VirtualNetworkBgpCommunitiesStatusARMGenerator() gopter.Gen {
-	if virtualNetworkBgpCommunitiesStatusARMGenerator != nil {
-		return virtualNetworkBgpCommunitiesStatusARMGenerator
+// VirtualNetworkBgpCommunities_StatusARMGenerator returns a generator of VirtualNetworkBgpCommunities_StatusARM instances for property testing.
+func VirtualNetworkBgpCommunities_StatusARMGenerator() gopter.Gen {
+	if virtualNetworkBgpCommunities_statusARMGenerator != nil {
+		return virtualNetworkBgpCommunities_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunitiesStatusARM(generators)
-	virtualNetworkBgpCommunitiesStatusARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkBgpCommunities_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities_StatusARM(generators)
+	virtualNetworkBgpCommunities_statusARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkBgpCommunities_StatusARM{}), generators)
 
-	return virtualNetworkBgpCommunitiesStatusARMGenerator
+	return virtualNetworkBgpCommunities_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunitiesStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunitiesStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities_StatusARM(gens map[string]gopter.Gen) {
 	gens["RegionalCommunity"] = gen.PtrOf(gen.AlphaString())
 	gens["VirtualNetworkCommunity"] = gen.AlphaString()
 }

@@ -29,7 +29,7 @@ type EventSubscriptionProperties_StatusARM struct {
 	Destination *EventSubscriptionDestination_StatusARM `json:"destination,omitempty"`
 
 	//EventDeliverySchema: The event delivery schema for the event subscription.
-	EventDeliverySchema *EventSubscriptionPropertiesStatusEventDeliverySchema `json:"eventDeliverySchema,omitempty"`
+	EventDeliverySchema *EventSubscriptionProperties_EventDeliverySchema_Status `json:"eventDeliverySchema,omitempty"`
 
 	//ExpirationTimeUtc: Expiration time of the event subscription.
 	ExpirationTimeUtc *string `json:"expirationTimeUtc,omitempty"`
@@ -41,7 +41,7 @@ type EventSubscriptionProperties_StatusARM struct {
 	Labels []string `json:"labels,omitempty"`
 
 	//ProvisioningState: Provisioning state of the event subscription.
-	ProvisioningState *EventSubscriptionPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *EventSubscriptionProperties_ProvisioningState_Status `json:"provisioningState,omitempty"`
 
 	//RetryPolicy: The retry policy for events. This can be used to configure maximum
 	//number of delivery attempts and time to live for events.
@@ -53,12 +53,12 @@ type EventSubscriptionProperties_StatusARM struct {
 
 type DeadLetterDestination_StatusARM struct {
 	//EndpointType: Type of the endpoint for the dead letter destination
-	EndpointType DeadLetterDestinationStatusEndpointType `json:"endpointType"`
+	EndpointType DeadLetterDestination_EndpointType_Status `json:"endpointType"`
 }
 
 type EventSubscriptionDestination_StatusARM struct {
 	//EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType EventSubscriptionDestinationStatusEndpointType `json:"endpointType"`
+	EndpointType EventSubscriptionDestination_EndpointType_Status `json:"endpointType"`
 }
 
 type EventSubscriptionFilter_StatusARM struct {
@@ -102,5 +102,5 @@ type AdvancedFilter_StatusARM struct {
 
 	//OperatorType: The operator type used for filtering, e.g., NumberIn,
 	//StringContains, BoolEquals and others.
-	OperatorType AdvancedFilterStatusOperatorType `json:"operatorType"`
+	OperatorType AdvancedFilter_OperatorType_Status `json:"operatorType"`
 }

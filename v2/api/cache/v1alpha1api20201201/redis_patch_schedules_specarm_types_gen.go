@@ -37,7 +37,7 @@ type ScheduleEntries_SpecARM struct {
 
 type ScheduleEntry_SpecARM struct {
 	//DayOfWeek: Day of the week when a cache can be patched.
-	DayOfWeek ScheduleEntrySpecDayOfWeek `json:"dayOfWeek"`
+	DayOfWeek ScheduleEntry_DayOfWeek_Spec `json:"dayOfWeek"`
 
 	//MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can
 	//take.

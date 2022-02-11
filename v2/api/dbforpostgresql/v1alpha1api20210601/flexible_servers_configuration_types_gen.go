@@ -248,17 +248,17 @@ func (configuration *FlexibleServersConfiguration) AssignPropertiesFromFlexibleS
 
 	// Spec
 	var spec FlexibleServersConfigurations_SPEC
-	err := spec.AssignPropertiesFromFlexibleServersConfigurationsSPEC(&source.Spec)
+	err := spec.AssignPropertiesFromFlexibleServersConfigurations_SPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServersConfigurationsSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServersConfigurations_SPEC() to populate field Spec")
 	}
 	configuration.Spec = spec
 
 	// Status
 	var status Configuration_Status
-	err = status.AssignPropertiesFromConfigurationStatus(&source.Status)
+	err = status.AssignPropertiesFromConfiguration_Status(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromConfigurationStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromConfiguration_Status() to populate field Status")
 	}
 	configuration.Status = status
 
@@ -274,17 +274,17 @@ func (configuration *FlexibleServersConfiguration) AssignPropertiesToFlexibleSer
 
 	// Spec
 	var spec v1alpha1api20210601storage.FlexibleServersConfigurations_SPEC
-	err := configuration.Spec.AssignPropertiesToFlexibleServersConfigurationsSPEC(&spec)
+	err := configuration.Spec.AssignPropertiesToFlexibleServersConfigurations_SPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersConfigurationsSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersConfigurations_SPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v1alpha1api20210601storage.Configuration_Status
-	err = configuration.Status.AssignPropertiesToConfigurationStatus(&status)
+	err = configuration.Status.AssignPropertiesToConfiguration_Status(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToConfigurationStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToConfiguration_Status() to populate field Status")
 	}
 	destination.Status = status
 
@@ -319,7 +319,7 @@ type Configuration_Status struct {
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
 	//DataType: Data type of the configuration.
-	DataType *ConfigurationPropertiesStatusDataType `json:"dataType,omitempty"`
+	DataType *ConfigurationProperties_DataType_Status `json:"dataType,omitempty"`
 
 	//DefaultValue: Default value of the configuration.
 	DefaultValue *string `json:"defaultValue,omitempty"`
@@ -355,7 +355,7 @@ func (configuration *Configuration_Status) ConvertStatusFrom(source genruntime.C
 	src, ok := source.(*v1alpha1api20210601storage.Configuration_Status)
 	if ok {
 		// Populate our instance from source
-		return configuration.AssignPropertiesFromConfigurationStatus(src)
+		return configuration.AssignPropertiesFromConfiguration_Status(src)
 	}
 
 	// Convert to an intermediate form
@@ -366,7 +366,7 @@ func (configuration *Configuration_Status) ConvertStatusFrom(source genruntime.C
 	}
 
 	// Update our instance from src
-	err = configuration.AssignPropertiesFromConfigurationStatus(src)
+	err = configuration.AssignPropertiesFromConfiguration_Status(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -379,12 +379,12 @@ func (configuration *Configuration_Status) ConvertStatusTo(destination genruntim
 	dst, ok := destination.(*v1alpha1api20210601storage.Configuration_Status)
 	if ok {
 		// Populate destination from our instance
-		return configuration.AssignPropertiesToConfigurationStatus(dst)
+		return configuration.AssignPropertiesToConfiguration_Status(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210601storage.Configuration_Status{}
-	err := configuration.AssignPropertiesToConfigurationStatus(dst)
+	err := configuration.AssignPropertiesToConfiguration_Status(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -501,8 +501,8 @@ func (configuration *Configuration_Status) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignPropertiesFromConfigurationStatus populates our Configuration_Status from the provided source Configuration_Status
-func (configuration *Configuration_Status) AssignPropertiesFromConfigurationStatus(source *v1alpha1api20210601storage.Configuration_Status) error {
+// AssignPropertiesFromConfiguration_Status populates our Configuration_Status from the provided source Configuration_Status
+func (configuration *Configuration_Status) AssignPropertiesFromConfiguration_Status(source *v1alpha1api20210601storage.Configuration_Status) error {
 
 	// AllowedValues
 	configuration.AllowedValues = genruntime.ClonePointerToString(source.AllowedValues)
@@ -512,7 +512,7 @@ func (configuration *Configuration_Status) AssignPropertiesFromConfigurationStat
 
 	// DataType
 	if source.DataType != nil {
-		dataType := ConfigurationPropertiesStatusDataType(*source.DataType)
+		dataType := ConfigurationProperties_DataType_Status(*source.DataType)
 		configuration.DataType = &dataType
 	} else {
 		configuration.DataType = nil
@@ -536,9 +536,9 @@ func (configuration *Configuration_Status) AssignPropertiesFromConfigurationStat
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_Status
-		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		err := systemDatum.AssignPropertiesFromSystemData_Status(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_Status() to populate field SystemData")
 		}
 		configuration.SystemData = &systemDatum
 	} else {
@@ -555,8 +555,8 @@ func (configuration *Configuration_Status) AssignPropertiesFromConfigurationStat
 	return nil
 }
 
-// AssignPropertiesToConfigurationStatus populates the provided destination Configuration_Status from our Configuration_Status
-func (configuration *Configuration_Status) AssignPropertiesToConfigurationStatus(destination *v1alpha1api20210601storage.Configuration_Status) error {
+// AssignPropertiesToConfiguration_Status populates the provided destination Configuration_Status from our Configuration_Status
+func (configuration *Configuration_Status) AssignPropertiesToConfiguration_Status(destination *v1alpha1api20210601storage.Configuration_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -592,9 +592,9 @@ func (configuration *Configuration_Status) AssignPropertiesToConfigurationStatus
 	// SystemData
 	if configuration.SystemData != nil {
 		var systemDatum v1alpha1api20210601storage.SystemData_Status
-		err := configuration.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		err := configuration.SystemData.AssignPropertiesToSystemData_Status(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData_Status() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -712,7 +712,7 @@ func (spec *FlexibleServersConfigurations_SPEC) ConvertSpecFrom(source genruntim
 	src, ok := source.(*v1alpha1api20210601storage.FlexibleServersConfigurations_SPEC)
 	if ok {
 		// Populate our instance from source
-		return spec.AssignPropertiesFromFlexibleServersConfigurationsSPEC(src)
+		return spec.AssignPropertiesFromFlexibleServersConfigurations_SPEC(src)
 	}
 
 	// Convert to an intermediate form
@@ -723,7 +723,7 @@ func (spec *FlexibleServersConfigurations_SPEC) ConvertSpecFrom(source genruntim
 	}
 
 	// Update our instance from src
-	err = spec.AssignPropertiesFromFlexibleServersConfigurationsSPEC(src)
+	err = spec.AssignPropertiesFromFlexibleServersConfigurations_SPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -736,12 +736,12 @@ func (spec *FlexibleServersConfigurations_SPEC) ConvertSpecTo(destination genrun
 	dst, ok := destination.(*v1alpha1api20210601storage.FlexibleServersConfigurations_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return spec.AssignPropertiesToFlexibleServersConfigurationsSPEC(dst)
+		return spec.AssignPropertiesToFlexibleServersConfigurations_SPEC(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210601storage.FlexibleServersConfigurations_SPEC{}
-	err := spec.AssignPropertiesToFlexibleServersConfigurationsSPEC(dst)
+	err := spec.AssignPropertiesToFlexibleServersConfigurations_SPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -755,8 +755,8 @@ func (spec *FlexibleServersConfigurations_SPEC) ConvertSpecTo(destination genrun
 	return nil
 }
 
-// AssignPropertiesFromFlexibleServersConfigurationsSPEC populates our FlexibleServersConfigurations_SPEC from the provided source FlexibleServersConfigurations_SPEC
-func (spec *FlexibleServersConfigurations_SPEC) AssignPropertiesFromFlexibleServersConfigurationsSPEC(source *v1alpha1api20210601storage.FlexibleServersConfigurations_SPEC) error {
+// AssignPropertiesFromFlexibleServersConfigurations_SPEC populates our FlexibleServersConfigurations_SPEC from the provided source FlexibleServersConfigurations_SPEC
+func (spec *FlexibleServersConfigurations_SPEC) AssignPropertiesFromFlexibleServersConfigurations_SPEC(source *v1alpha1api20210601storage.FlexibleServersConfigurations_SPEC) error {
 
 	// AzureName
 	spec.AzureName = source.AzureName
@@ -774,8 +774,8 @@ func (spec *FlexibleServersConfigurations_SPEC) AssignPropertiesFromFlexibleServ
 	return nil
 }
 
-// AssignPropertiesToFlexibleServersConfigurationsSPEC populates the provided destination FlexibleServersConfigurations_SPEC from our FlexibleServersConfigurations_SPEC
-func (spec *FlexibleServersConfigurations_SPEC) AssignPropertiesToFlexibleServersConfigurationsSPEC(destination *v1alpha1api20210601storage.FlexibleServersConfigurations_SPEC) error {
+// AssignPropertiesToFlexibleServersConfigurations_SPEC populates the provided destination FlexibleServersConfigurations_SPEC from our FlexibleServersConfigurations_SPEC
+func (spec *FlexibleServersConfigurations_SPEC) AssignPropertiesToFlexibleServersConfigurations_SPEC(destination *v1alpha1api20210601storage.FlexibleServersConfigurations_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -1897,7 +1897,7 @@ func (in *SystemData_Status) DeepCopyInto(out *SystemData_Status) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemDataStatusCreatedByType)
+		*out = new(SystemData_CreatedByType_Status)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -1912,7 +1912,7 @@ func (in *SystemData_Status) DeepCopyInto(out *SystemData_Status) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemDataStatusLastModifiedByType)
+		*out = new(SystemData_LastModifiedByType_Status)
 		**out = **in
 	}
 }
@@ -1942,7 +1942,7 @@ func (in *SystemData_StatusARM) DeepCopyInto(out *SystemData_StatusARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemDataStatusCreatedByType)
+		*out = new(SystemData_CreatedByType_Status)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -1957,7 +1957,7 @@ func (in *SystemData_StatusARM) DeepCopyInto(out *SystemData_StatusARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemDataStatusLastModifiedByType)
+		*out = new(SystemData_LastModifiedByType_Status)
 		**out = **in
 	}
 }

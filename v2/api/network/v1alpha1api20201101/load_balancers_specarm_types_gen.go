@@ -90,10 +90,10 @@ type LoadBalancerPropertiesFormat_SpecARM struct {
 
 type LoadBalancerSku_SpecARM struct {
 	//Name: Name of a load balancer SKU.
-	Name *LoadBalancerSkuSpecName `json:"name,omitempty"`
+	Name *LoadBalancerSku_Name_Spec `json:"name,omitempty"`
 
 	//Tier: Tier of a load balancer SKU.
-	Tier *LoadBalancerSkuSpecTier `json:"tier,omitempty"`
+	Tier *LoadBalancerSku_Tier_Spec `json:"tier,omitempty"`
 }
 
 type BackendAddressPool_Spec_LoadBalancer_SubResourceEmbeddedARM struct {
@@ -137,19 +137,19 @@ type InboundNatRule_Spec_LoadBalancer_SubResourceEmbeddedARM struct {
 }
 
 // +kubebuilder:validation:Enum={"Basic","Standard"}
-type LoadBalancerSkuSpecName string
+type LoadBalancerSku_Name_Spec string
 
 const (
-	LoadBalancerSkuSpecNameBasic    = LoadBalancerSkuSpecName("Basic")
-	LoadBalancerSkuSpecNameStandard = LoadBalancerSkuSpecName("Standard")
+	LoadBalancerSku_Name_SpecBasic    = LoadBalancerSku_Name_Spec("Basic")
+	LoadBalancerSku_Name_SpecStandard = LoadBalancerSku_Name_Spec("Standard")
 )
 
 // +kubebuilder:validation:Enum={"Global","Regional"}
-type LoadBalancerSkuSpecTier string
+type LoadBalancerSku_Tier_Spec string
 
 const (
-	LoadBalancerSkuSpecTierGlobal   = LoadBalancerSkuSpecTier("Global")
-	LoadBalancerSkuSpecTierRegional = LoadBalancerSkuSpecTier("Regional")
+	LoadBalancerSku_Tier_SpecGlobal   = LoadBalancerSku_Tier_Spec("Global")
+	LoadBalancerSku_Tier_SpecRegional = LoadBalancerSku_Tier_Spec("Regional")
 )
 
 type LoadBalancingRule_SpecARM struct {
@@ -282,7 +282,7 @@ type LoadBalancingRulePropertiesFormat_SpecARM struct {
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	//LoadDistribution: The load distribution policy for this rule.
-	LoadDistribution *LoadBalancingRulePropertiesFormatSpecLoadDistribution `json:"loadDistribution,omitempty"`
+	LoadDistribution *LoadBalancingRulePropertiesFormat_LoadDistribution_Spec `json:"loadDistribution,omitempty"`
 
 	//Probe: The reference to the load balancer probe used by the load balancing rule.
 	Probe *SubResource_SpecARM `json:"probe,omitempty"`
@@ -312,7 +312,7 @@ type OutboundRulePropertiesFormat_SpecARM struct {
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	//Protocol: The protocol for the outbound rule in load balancer.
-	Protocol OutboundRulePropertiesFormatSpecProtocol `json:"protocol"`
+	Protocol OutboundRulePropertiesFormat_Protocol_Spec `json:"protocol"`
 }
 
 type ProbePropertiesFormat_SpecARM struct {
@@ -337,7 +337,7 @@ type ProbePropertiesFormat_SpecARM struct {
 	//is required for the probe to be successful. If 'Http' or 'Https' is specified, a
 	//200 OK response from the specifies URI is required for the probe to be
 	//successful.
-	Protocol ProbePropertiesFormatSpecProtocol `json:"protocol"`
+	Protocol ProbePropertiesFormat_Protocol_Spec `json:"protocol"`
 
 	//RequestPath: The URI used for requesting health status from the VM. Path is
 	//required if a protocol is set to http. Otherwise, it is not allowed. There is no
@@ -393,7 +393,7 @@ type PublicIPAddressPropertiesFormat_SpecARM struct {
 	LinkedPublicIPAddress *PublicIPAddress_SpecARM `json:"linkedPublicIPAddress,omitempty"`
 
 	//MigrationPhase: Migration phase of Public IP Address.
-	MigrationPhase *PublicIPAddressPropertiesFormatSpecMigrationPhase `json:"migrationPhase,omitempty"`
+	MigrationPhase *PublicIPAddressPropertiesFormat_MigrationPhase_Spec `json:"migrationPhase,omitempty"`
 
 	//NatGateway: The NatGateway for the Public IP address.
 	NatGateway *NatGateway_SpecARM `json:"natGateway,omitempty"`

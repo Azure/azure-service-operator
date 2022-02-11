@@ -45,8 +45,8 @@
 | SignalRTlsSettings_Spec                                      | v1alpha1api20211001 |
 | SignalRTlsSettings_Status                                    | v1alpha1api20211001 |
 | SignalR_SPEC                                                 | v1alpha1api20211001 |
-| SystemDataStatusCreatedByType                                | v1alpha1api20211001 |
-| SystemDataStatusLastModifiedByType                           | v1alpha1api20211001 |
+| SystemData_CreatedByType_Status                              | v1alpha1api20211001 |
+| SystemData_LastModifiedByType_Status                         | v1alpha1api20211001 |
 | SystemData_Status                                            | v1alpha1api20211001 |
 | UpstreamAuthSettings_Spec                                    | v1alpha1api20211001 |
 | UpstreamAuthSettings_Status                                  | v1alpha1api20211001 |

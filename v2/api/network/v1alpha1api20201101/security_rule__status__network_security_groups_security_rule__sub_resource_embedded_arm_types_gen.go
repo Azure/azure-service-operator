@@ -58,7 +58,7 @@ type SecurityRulePropertiesFormat_StatusARM struct {
 	Priority *int `json:"priority,omitempty"`
 
 	//Protocol: Network protocol this rule applies to.
-	Protocol SecurityRulePropertiesFormatStatusProtocol `json:"protocol"`
+	Protocol SecurityRulePropertiesFormat_Protocol_Status `json:"protocol"`
 
 	//ProvisioningState: The provisioning state of the security rule resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`

@@ -248,17 +248,17 @@ func (topic *NamespacesTopic) AssignPropertiesFromNamespacesTopic(source *v1alph
 
 	// Spec
 	var spec NamespacesTopics_SPEC
-	err := spec.AssignPropertiesFromNamespacesTopicsSPEC(&source.Spec)
+	err := spec.AssignPropertiesFromNamespacesTopics_SPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesTopicsSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesTopics_SPEC() to populate field Spec")
 	}
 	topic.Spec = spec
 
 	// Status
 	var status SBTopic_Status
-	err = status.AssignPropertiesFromSBTopicStatus(&source.Status)
+	err = status.AssignPropertiesFromSBTopic_Status(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromSBTopicStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromSBTopic_Status() to populate field Status")
 	}
 	topic.Status = status
 
@@ -274,17 +274,17 @@ func (topic *NamespacesTopic) AssignPropertiesToNamespacesTopic(destination *v1a
 
 	// Spec
 	var spec v1alpha1api20210101previewstorage.NamespacesTopics_SPEC
-	err := topic.Spec.AssignPropertiesToNamespacesTopicsSPEC(&spec)
+	err := topic.Spec.AssignPropertiesToNamespacesTopics_SPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToNamespacesTopicsSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToNamespacesTopics_SPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v1alpha1api20210101previewstorage.SBTopic_Status
-	err = topic.Status.AssignPropertiesToSBTopicStatus(&status)
+	err = topic.Status.AssignPropertiesToSBTopic_Status(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSBTopicStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToSBTopic_Status() to populate field Status")
 	}
 	destination.Status = status
 
@@ -553,7 +553,7 @@ func (spec *NamespacesTopics_SPEC) ConvertSpecFrom(source genruntime.Convertible
 	src, ok := source.(*v1alpha1api20210101previewstorage.NamespacesTopics_SPEC)
 	if ok {
 		// Populate our instance from source
-		return spec.AssignPropertiesFromNamespacesTopicsSPEC(src)
+		return spec.AssignPropertiesFromNamespacesTopics_SPEC(src)
 	}
 
 	// Convert to an intermediate form
@@ -564,7 +564,7 @@ func (spec *NamespacesTopics_SPEC) ConvertSpecFrom(source genruntime.Convertible
 	}
 
 	// Update our instance from src
-	err = spec.AssignPropertiesFromNamespacesTopicsSPEC(src)
+	err = spec.AssignPropertiesFromNamespacesTopics_SPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -577,12 +577,12 @@ func (spec *NamespacesTopics_SPEC) ConvertSpecTo(destination genruntime.Converti
 	dst, ok := destination.(*v1alpha1api20210101previewstorage.NamespacesTopics_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return spec.AssignPropertiesToNamespacesTopicsSPEC(dst)
+		return spec.AssignPropertiesToNamespacesTopics_SPEC(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210101previewstorage.NamespacesTopics_SPEC{}
-	err := spec.AssignPropertiesToNamespacesTopicsSPEC(dst)
+	err := spec.AssignPropertiesToNamespacesTopics_SPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -596,8 +596,8 @@ func (spec *NamespacesTopics_SPEC) ConvertSpecTo(destination genruntime.Converti
 	return nil
 }
 
-// AssignPropertiesFromNamespacesTopicsSPEC populates our NamespacesTopics_SPEC from the provided source NamespacesTopics_SPEC
-func (spec *NamespacesTopics_SPEC) AssignPropertiesFromNamespacesTopicsSPEC(source *v1alpha1api20210101previewstorage.NamespacesTopics_SPEC) error {
+// AssignPropertiesFromNamespacesTopics_SPEC populates our NamespacesTopics_SPEC from the provided source NamespacesTopics_SPEC
+func (spec *NamespacesTopics_SPEC) AssignPropertiesFromNamespacesTopics_SPEC(source *v1alpha1api20210101previewstorage.NamespacesTopics_SPEC) error {
 
 	// AutoDeleteOnIdle
 	if source.AutoDeleteOnIdle != nil {
@@ -684,8 +684,8 @@ func (spec *NamespacesTopics_SPEC) AssignPropertiesFromNamespacesTopicsSPEC(sour
 	return nil
 }
 
-// AssignPropertiesToNamespacesTopicsSPEC populates the provided destination NamespacesTopics_SPEC from our NamespacesTopics_SPEC
-func (spec *NamespacesTopics_SPEC) AssignPropertiesToNamespacesTopicsSPEC(destination *v1alpha1api20210101previewstorage.NamespacesTopics_SPEC) error {
+// AssignPropertiesToNamespacesTopics_SPEC populates the provided destination NamespacesTopics_SPEC from our NamespacesTopics_SPEC
+func (spec *NamespacesTopics_SPEC) AssignPropertiesToNamespacesTopics_SPEC(destination *v1alpha1api20210101previewstorage.NamespacesTopics_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -876,7 +876,7 @@ func (topic *SBTopic_Status) ConvertStatusFrom(source genruntime.ConvertibleStat
 	src, ok := source.(*v1alpha1api20210101previewstorage.SBTopic_Status)
 	if ok {
 		// Populate our instance from source
-		return topic.AssignPropertiesFromSBTopicStatus(src)
+		return topic.AssignPropertiesFromSBTopic_Status(src)
 	}
 
 	// Convert to an intermediate form
@@ -887,7 +887,7 @@ func (topic *SBTopic_Status) ConvertStatusFrom(source genruntime.ConvertibleStat
 	}
 
 	// Update our instance from src
-	err = topic.AssignPropertiesFromSBTopicStatus(src)
+	err = topic.AssignPropertiesFromSBTopic_Status(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -900,12 +900,12 @@ func (topic *SBTopic_Status) ConvertStatusTo(destination genruntime.ConvertibleS
 	dst, ok := destination.(*v1alpha1api20210101previewstorage.SBTopic_Status)
 	if ok {
 		// Populate destination from our instance
-		return topic.AssignPropertiesToSBTopicStatus(dst)
+		return topic.AssignPropertiesToSBTopic_Status(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210101previewstorage.SBTopic_Status{}
-	err := topic.AssignPropertiesToSBTopicStatus(dst)
+	err := topic.AssignPropertiesToSBTopic_Status(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1117,8 +1117,8 @@ func (topic *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	return nil
 }
 
-// AssignPropertiesFromSBTopicStatus populates our SBTopic_Status from the provided source SBTopic_Status
-func (topic *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *v1alpha1api20210101previewstorage.SBTopic_Status) error {
+// AssignPropertiesFromSBTopic_Status populates our SBTopic_Status from the provided source SBTopic_Status
+func (topic *SBTopic_Status) AssignPropertiesFromSBTopic_Status(source *v1alpha1api20210101previewstorage.SBTopic_Status) error {
 
 	// AccessedAt
 	topic.AccessedAt = genruntime.ClonePointerToString(source.AccessedAt)
@@ -1132,9 +1132,9 @@ func (topic *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *v1alpha1a
 	// CountDetails
 	if source.CountDetails != nil {
 		var countDetail MessageCountDetails_Status
-		err := countDetail.AssignPropertiesFromMessageCountDetailsStatus(source.CountDetails)
+		err := countDetail.AssignPropertiesFromMessageCountDetails_Status(source.CountDetails)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromMessageCountDetailsStatus() to populate field CountDetails")
+			return errors.Wrap(err, "calling AssignPropertiesFromMessageCountDetails_Status() to populate field CountDetails")
 		}
 		topic.CountDetails = &countDetail
 	} else {
@@ -1216,9 +1216,9 @@ func (topic *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *v1alpha1a
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_Status
-		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		err := systemDatum.AssignPropertiesFromSystemData_Status(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_Status() to populate field SystemData")
 		}
 		topic.SystemData = &systemDatum
 	} else {
@@ -1235,8 +1235,8 @@ func (topic *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *v1alpha1a
 	return nil
 }
 
-// AssignPropertiesToSBTopicStatus populates the provided destination SBTopic_Status from our SBTopic_Status
-func (topic *SBTopic_Status) AssignPropertiesToSBTopicStatus(destination *v1alpha1api20210101previewstorage.SBTopic_Status) error {
+// AssignPropertiesToSBTopic_Status populates the provided destination SBTopic_Status from our SBTopic_Status
+func (topic *SBTopic_Status) AssignPropertiesToSBTopic_Status(destination *v1alpha1api20210101previewstorage.SBTopic_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1252,9 +1252,9 @@ func (topic *SBTopic_Status) AssignPropertiesToSBTopicStatus(destination *v1alph
 	// CountDetails
 	if topic.CountDetails != nil {
 		var countDetail v1alpha1api20210101previewstorage.MessageCountDetails_Status
-		err := topic.CountDetails.AssignPropertiesToMessageCountDetailsStatus(&countDetail)
+		err := topic.CountDetails.AssignPropertiesToMessageCountDetails_Status(&countDetail)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToMessageCountDetailsStatus() to populate field CountDetails")
+			return errors.Wrap(err, "calling AssignPropertiesToMessageCountDetails_Status() to populate field CountDetails")
 		}
 		destination.CountDetails = &countDetail
 	} else {
@@ -1336,9 +1336,9 @@ func (topic *SBTopic_Status) AssignPropertiesToSBTopicStatus(destination *v1alph
 	// SystemData
 	if topic.SystemData != nil {
 		var systemDatum v1alpha1api20210101previewstorage.SystemData_Status
-		err := topic.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		err := topic.SystemData.AssignPropertiesToSystemData_Status(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData_Status() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {

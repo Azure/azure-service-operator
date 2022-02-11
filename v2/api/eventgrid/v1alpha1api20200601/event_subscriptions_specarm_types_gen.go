@@ -39,7 +39,7 @@ type EventSubscriptionProperties_SpecARM struct {
 	Destination *EventSubscriptionDestination_SpecARM `json:"destination,omitempty"`
 
 	//EventDeliverySchema: The event delivery schema for the event subscription.
-	EventDeliverySchema *EventSubscriptionPropertiesSpecEventDeliverySchema `json:"eventDeliverySchema,omitempty"`
+	EventDeliverySchema *EventSubscriptionProperties_EventDeliverySchema_Spec `json:"eventDeliverySchema,omitempty"`
 
 	//ExpirationTimeUtc: Expiration time of the event subscription.
 	ExpirationTimeUtc *string `json:"expirationTimeUtc,omitempty"`
@@ -57,12 +57,12 @@ type EventSubscriptionProperties_SpecARM struct {
 
 type DeadLetterDestination_SpecARM struct {
 	//EndpointType: Type of the endpoint for the dead letter destination
-	EndpointType DeadLetterDestinationSpecEndpointType `json:"endpointType"`
+	EndpointType DeadLetterDestination_EndpointType_Spec `json:"endpointType"`
 }
 
 type EventSubscriptionDestination_SpecARM struct {
 	//EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType EventSubscriptionDestinationSpecEndpointType `json:"endpointType"`
+	EndpointType EventSubscriptionDestination_EndpointType_Spec `json:"endpointType"`
 }
 
 type EventSubscriptionFilter_SpecARM struct {
@@ -106,5 +106,5 @@ type AdvancedFilter_SpecARM struct {
 
 	//OperatorType: The operator type used for filtering, e.g., NumberIn,
 	//StringContains, BoolEquals and others.
-	OperatorType AdvancedFilterSpecOperatorType `json:"operatorType"`
+	OperatorType AdvancedFilter_OperatorType_Spec `json:"operatorType"`
 }

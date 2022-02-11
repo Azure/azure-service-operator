@@ -73,8 +73,8 @@ func NamespacesTopicGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForNamespacesTopic is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesTopic(gens map[string]gopter.Gen) {
-	gens["Spec"] = NamespacesTopicsSPECGenerator()
-	gens["Status"] = SBTopicStatusGenerator()
+	gens["Spec"] = NamespacesTopics_SPECGenerator()
+	gens["Status"] = SBTopic_StatusGenerator()
 }
 
 func Test_NamespacesTopics_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -84,12 +84,12 @@ func Test_NamespacesTopics_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *test
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NamespacesTopics_SPEC via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespacesTopicsSPEC, NamespacesTopicsSPECGenerator()))
+		prop.ForAll(RunJSONSerializationTestForNamespacesTopics_SPEC, NamespacesTopics_SPECGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespacesTopicsSPEC runs a test to see if a specific instance of NamespacesTopics_SPEC round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespacesTopicsSPEC(subject NamespacesTopics_SPEC) string {
+// RunJSONSerializationTestForNamespacesTopics_SPEC runs a test to see if a specific instance of NamespacesTopics_SPEC round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespacesTopics_SPEC(subject NamespacesTopics_SPEC) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -116,24 +116,24 @@ func RunJSONSerializationTestForNamespacesTopicsSPEC(subject NamespacesTopics_SP
 }
 
 // Generator of NamespacesTopics_SPEC instances for property testing - lazily instantiated by
-//NamespacesTopicsSPECGenerator()
-var namespacesTopicsSPECGenerator gopter.Gen
+//NamespacesTopics_SPECGenerator()
+var namespacesTopics_specGenerator gopter.Gen
 
-// NamespacesTopicsSPECGenerator returns a generator of NamespacesTopics_SPEC instances for property testing.
-func NamespacesTopicsSPECGenerator() gopter.Gen {
-	if namespacesTopicsSPECGenerator != nil {
-		return namespacesTopicsSPECGenerator
+// NamespacesTopics_SPECGenerator returns a generator of NamespacesTopics_SPEC instances for property testing.
+func NamespacesTopics_SPECGenerator() gopter.Gen {
+	if namespacesTopics_specGenerator != nil {
+		return namespacesTopics_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesTopicsSPEC(generators)
-	namespacesTopicsSPECGenerator = gen.Struct(reflect.TypeOf(NamespacesTopics_SPEC{}), generators)
+	AddIndependentPropertyGeneratorsForNamespacesTopics_SPEC(generators)
+	namespacesTopics_specGenerator = gen.Struct(reflect.TypeOf(NamespacesTopics_SPEC{}), generators)
 
-	return namespacesTopicsSPECGenerator
+	return namespacesTopics_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespacesTopicsSPEC is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespacesTopicsSPEC(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespacesTopics_SPEC is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespacesTopics_SPEC(gens map[string]gopter.Gen) {
 	gens["AutoDeleteOnIdle"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
 	gens["DefaultMessageTimeToLive"] = gen.PtrOf(gen.AlphaString())
@@ -155,12 +155,12 @@ func Test_SBTopic_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SBTopic_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSBTopicStatus, SBTopicStatusGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSBTopic_Status, SBTopic_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSBTopicStatus runs a test to see if a specific instance of SBTopic_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForSBTopicStatus(subject SBTopic_Status) string {
+// RunJSONSerializationTestForSBTopic_Status runs a test to see if a specific instance of SBTopic_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForSBTopic_Status(subject SBTopic_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -186,33 +186,33 @@ func RunJSONSerializationTestForSBTopicStatus(subject SBTopic_Status) string {
 	return ""
 }
 
-// Generator of SBTopic_Status instances for property testing - lazily instantiated by SBTopicStatusGenerator()
-var sbTopicStatusGenerator gopter.Gen
+// Generator of SBTopic_Status instances for property testing - lazily instantiated by SBTopic_StatusGenerator()
+var sbTopic_statusGenerator gopter.Gen
 
-// SBTopicStatusGenerator returns a generator of SBTopic_Status instances for property testing.
-// We first initialize sbTopicStatusGenerator with a simplified generator based on the
+// SBTopic_StatusGenerator returns a generator of SBTopic_Status instances for property testing.
+// We first initialize sbTopic_statusGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SBTopicStatusGenerator() gopter.Gen {
-	if sbTopicStatusGenerator != nil {
-		return sbTopicStatusGenerator
+func SBTopic_StatusGenerator() gopter.Gen {
+	if sbTopic_statusGenerator != nil {
+		return sbTopic_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSBTopicStatus(generators)
-	sbTopicStatusGenerator = gen.Struct(reflect.TypeOf(SBTopic_Status{}), generators)
+	AddIndependentPropertyGeneratorsForSBTopic_Status(generators)
+	sbTopic_statusGenerator = gen.Struct(reflect.TypeOf(SBTopic_Status{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSBTopicStatus(generators)
-	AddRelatedPropertyGeneratorsForSBTopicStatus(generators)
-	sbTopicStatusGenerator = gen.Struct(reflect.TypeOf(SBTopic_Status{}), generators)
+	AddIndependentPropertyGeneratorsForSBTopic_Status(generators)
+	AddRelatedPropertyGeneratorsForSBTopic_Status(generators)
+	sbTopic_statusGenerator = gen.Struct(reflect.TypeOf(SBTopic_Status{}), generators)
 
-	return sbTopicStatusGenerator
+	return sbTopic_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSBTopicStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSBTopicStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSBTopic_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSBTopic_Status(gens map[string]gopter.Gen) {
 	gens["AccessedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["AutoDeleteOnIdle"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
@@ -233,8 +233,8 @@ func AddIndependentPropertyGeneratorsForSBTopicStatus(gens map[string]gopter.Gen
 	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSBTopicStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSBTopicStatus(gens map[string]gopter.Gen) {
-	gens["CountDetails"] = gen.PtrOf(MessageCountDetailsStatusGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataStatusGenerator())
+// AddRelatedPropertyGeneratorsForSBTopic_Status is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSBTopic_Status(gens map[string]gopter.Gen) {
+	gens["CountDetails"] = gen.PtrOf(MessageCountDetails_StatusGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_StatusGenerator())
 }

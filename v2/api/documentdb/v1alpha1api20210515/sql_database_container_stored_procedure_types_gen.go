@@ -249,17 +249,17 @@ func (procedure *SqlDatabaseContainerStoredProcedure) AssignPropertiesFromSqlDat
 
 	// Spec
 	var spec DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC
-	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProceduresSPEC(&source.Spec)
+	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProceduresSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC() to populate field Spec")
 	}
 	procedure.Spec = spec
 
 	// Status
 	var status SqlStoredProcedureCreateUpdateParameters_Status
-	err = status.AssignPropertiesFromSqlStoredProcedureCreateUpdateParametersStatus(&source.Status)
+	err = status.AssignPropertiesFromSqlStoredProcedureCreateUpdateParameters_Status(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureCreateUpdateParametersStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureCreateUpdateParameters_Status() to populate field Status")
 	}
 	procedure.Status = status
 
@@ -275,17 +275,17 @@ func (procedure *SqlDatabaseContainerStoredProcedure) AssignPropertiesToSqlDatab
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC
-	err := procedure.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSPEC(&spec)
+	err := procedure.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v1alpha1api20210515storage.SqlStoredProcedureCreateUpdateParameters_Status
-	err = procedure.Status.AssignPropertiesToSqlStoredProcedureCreateUpdateParametersStatus(&status)
+	err = procedure.Status.AssignPropertiesToSqlStoredProcedureCreateUpdateParameters_Status(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureCreateUpdateParametersStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureCreateUpdateParameters_Status() to populate field Status")
 	}
 	destination.Status = status
 
@@ -446,7 +446,7 @@ func (spec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC) Convert
 	src, ok := source.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC)
 	if ok {
 		// Populate our instance from source
-		return spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProceduresSPEC(src)
+		return spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC(src)
 	}
 
 	// Convert to an intermediate form
@@ -457,7 +457,7 @@ func (spec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC) Convert
 	}
 
 	// Update our instance from src
-	err = spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProceduresSPEC(src)
+	err = spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -470,12 +470,12 @@ func (spec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC) Convert
 	dst, ok := destination.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSPEC(dst)
+		return spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC{}
-	err := spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSPEC(dst)
+	err := spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -489,8 +489,8 @@ func (spec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC) Convert
 	return nil
 }
 
-// AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProceduresSPEC populates our DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC from the provided source DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC
-func (spec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProceduresSPEC(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC) error {
+// AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC populates our DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC from the provided source DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC
+func (spec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC) error {
 
 	// AzureName
 	spec.AzureName = source.AzureName
@@ -501,9 +501,9 @@ func (spec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC) AssignP
 	// Options
 	if source.Options != nil {
 		var option CreateUpdateOptions_Spec
-		err := option.AssignPropertiesFromCreateUpdateOptionsSpec(source.Options)
+		err := option.AssignPropertiesFromCreateUpdateOptions_Spec(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptionsSpec() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_Spec() to populate field Options")
 		}
 		spec.Options = &option
 	} else {
@@ -516,9 +516,9 @@ func (spec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC) AssignP
 	// Resource
 	if source.Resource != nil {
 		var resource SqlStoredProcedureResource_Spec
-		err := resource.AssignPropertiesFromSqlStoredProcedureResourceSpec(source.Resource)
+		err := resource.AssignPropertiesFromSqlStoredProcedureResource_Spec(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureResourceSpec() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureResource_Spec() to populate field Resource")
 		}
 		spec.Resource = resource
 	} else {
@@ -532,8 +532,8 @@ func (spec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC) AssignP
 	return nil
 }
 
-// AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSPEC populates the provided destination DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC from our DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC
-func (spec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC) AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSPEC(destination *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC) error {
+// AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC populates the provided destination DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC from our DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC
+func (spec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC) AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC(destination *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -546,9 +546,9 @@ func (spec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC) AssignP
 	// Options
 	if spec.Options != nil {
 		var option v1alpha1api20210515storage.CreateUpdateOptions_Spec
-		err := spec.Options.AssignPropertiesToCreateUpdateOptionsSpec(&option)
+		err := spec.Options.AssignPropertiesToCreateUpdateOptions_Spec(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptionsSpec() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_Spec() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -563,9 +563,9 @@ func (spec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC) AssignP
 
 	// Resource
 	var resource v1alpha1api20210515storage.SqlStoredProcedureResource_Spec
-	err := spec.Resource.AssignPropertiesToSqlStoredProcedureResourceSpec(&resource)
+	err := spec.Resource.AssignPropertiesToSqlStoredProcedureResource_Spec(&resource)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureResourceSpec() to populate field Resource")
+		return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureResource_Spec() to populate field Resource")
 	}
 	destination.Resource = &resource
 
@@ -625,7 +625,7 @@ func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) ConvertStatus
 	src, ok := source.(*v1alpha1api20210515storage.SqlStoredProcedureCreateUpdateParameters_Status)
 	if ok {
 		// Populate our instance from source
-		return parameters.AssignPropertiesFromSqlStoredProcedureCreateUpdateParametersStatus(src)
+		return parameters.AssignPropertiesFromSqlStoredProcedureCreateUpdateParameters_Status(src)
 	}
 
 	// Convert to an intermediate form
@@ -636,7 +636,7 @@ func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) ConvertStatus
 	}
 
 	// Update our instance from src
-	err = parameters.AssignPropertiesFromSqlStoredProcedureCreateUpdateParametersStatus(src)
+	err = parameters.AssignPropertiesFromSqlStoredProcedureCreateUpdateParameters_Status(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -649,12 +649,12 @@ func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) ConvertStatus
 	dst, ok := destination.(*v1alpha1api20210515storage.SqlStoredProcedureCreateUpdateParameters_Status)
 	if ok {
 		// Populate destination from our instance
-		return parameters.AssignPropertiesToSqlStoredProcedureCreateUpdateParametersStatus(dst)
+		return parameters.AssignPropertiesToSqlStoredProcedureCreateUpdateParameters_Status(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210515storage.SqlStoredProcedureCreateUpdateParameters_Status{}
-	err := parameters.AssignPropertiesToSqlStoredProcedureCreateUpdateParametersStatus(dst)
+	err := parameters.AssignPropertiesToSqlStoredProcedureCreateUpdateParameters_Status(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -747,8 +747,8 @@ func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) PopulateFromA
 	return nil
 }
 
-// AssignPropertiesFromSqlStoredProcedureCreateUpdateParametersStatus populates our SqlStoredProcedureCreateUpdateParameters_Status from the provided source SqlStoredProcedureCreateUpdateParameters_Status
-func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) AssignPropertiesFromSqlStoredProcedureCreateUpdateParametersStatus(source *v1alpha1api20210515storage.SqlStoredProcedureCreateUpdateParameters_Status) error {
+// AssignPropertiesFromSqlStoredProcedureCreateUpdateParameters_Status populates our SqlStoredProcedureCreateUpdateParameters_Status from the provided source SqlStoredProcedureCreateUpdateParameters_Status
+func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) AssignPropertiesFromSqlStoredProcedureCreateUpdateParameters_Status(source *v1alpha1api20210515storage.SqlStoredProcedureCreateUpdateParameters_Status) error {
 
 	// Conditions
 	parameters.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -765,9 +765,9 @@ func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) AssignPropert
 	// Options
 	if source.Options != nil {
 		var option CreateUpdateOptions_Status
-		err := option.AssignPropertiesFromCreateUpdateOptionsStatus(source.Options)
+		err := option.AssignPropertiesFromCreateUpdateOptions_Status(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptionsStatus() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_Status() to populate field Options")
 		}
 		parameters.Options = &option
 	} else {
@@ -777,9 +777,9 @@ func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) AssignPropert
 	// Resource
 	if source.Resource != nil {
 		var resource SqlStoredProcedureResource_Status
-		err := resource.AssignPropertiesFromSqlStoredProcedureResourceStatus(source.Resource)
+		err := resource.AssignPropertiesFromSqlStoredProcedureResource_Status(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureResourceStatus() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureResource_Status() to populate field Resource")
 		}
 		parameters.Resource = &resource
 	} else {
@@ -796,8 +796,8 @@ func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) AssignPropert
 	return nil
 }
 
-// AssignPropertiesToSqlStoredProcedureCreateUpdateParametersStatus populates the provided destination SqlStoredProcedureCreateUpdateParameters_Status from our SqlStoredProcedureCreateUpdateParameters_Status
-func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) AssignPropertiesToSqlStoredProcedureCreateUpdateParametersStatus(destination *v1alpha1api20210515storage.SqlStoredProcedureCreateUpdateParameters_Status) error {
+// AssignPropertiesToSqlStoredProcedureCreateUpdateParameters_Status populates the provided destination SqlStoredProcedureCreateUpdateParameters_Status from our SqlStoredProcedureCreateUpdateParameters_Status
+func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) AssignPropertiesToSqlStoredProcedureCreateUpdateParameters_Status(destination *v1alpha1api20210515storage.SqlStoredProcedureCreateUpdateParameters_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -816,9 +816,9 @@ func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) AssignPropert
 	// Options
 	if parameters.Options != nil {
 		var option v1alpha1api20210515storage.CreateUpdateOptions_Status
-		err := parameters.Options.AssignPropertiesToCreateUpdateOptionsStatus(&option)
+		err := parameters.Options.AssignPropertiesToCreateUpdateOptions_Status(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptionsStatus() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_Status() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -828,9 +828,9 @@ func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) AssignPropert
 	// Resource
 	if parameters.Resource != nil {
 		var resource v1alpha1api20210515storage.SqlStoredProcedureResource_Status
-		err := parameters.Resource.AssignPropertiesToSqlStoredProcedureResourceStatus(&resource)
+		err := parameters.Resource.AssignPropertiesToSqlStoredProcedureResource_Status(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureResourceStatus() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureResource_Status() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -908,8 +908,8 @@ func (resource *SqlStoredProcedureResource_Spec) PopulateFromARM(owner genruntim
 	return nil
 }
 
-// AssignPropertiesFromSqlStoredProcedureResourceSpec populates our SqlStoredProcedureResource_Spec from the provided source SqlStoredProcedureResource_Spec
-func (resource *SqlStoredProcedureResource_Spec) AssignPropertiesFromSqlStoredProcedureResourceSpec(source *v1alpha1api20210515storage.SqlStoredProcedureResource_Spec) error {
+// AssignPropertiesFromSqlStoredProcedureResource_Spec populates our SqlStoredProcedureResource_Spec from the provided source SqlStoredProcedureResource_Spec
+func (resource *SqlStoredProcedureResource_Spec) AssignPropertiesFromSqlStoredProcedureResource_Spec(source *v1alpha1api20210515storage.SqlStoredProcedureResource_Spec) error {
 
 	// Body
 	resource.Body = genruntime.ClonePointerToString(source.Body)
@@ -921,8 +921,8 @@ func (resource *SqlStoredProcedureResource_Spec) AssignPropertiesFromSqlStoredPr
 	return nil
 }
 
-// AssignPropertiesToSqlStoredProcedureResourceSpec populates the provided destination SqlStoredProcedureResource_Spec from our SqlStoredProcedureResource_Spec
-func (resource *SqlStoredProcedureResource_Spec) AssignPropertiesToSqlStoredProcedureResourceSpec(destination *v1alpha1api20210515storage.SqlStoredProcedureResource_Spec) error {
+// AssignPropertiesToSqlStoredProcedureResource_Spec populates the provided destination SqlStoredProcedureResource_Spec from our SqlStoredProcedureResource_Spec
+func (resource *SqlStoredProcedureResource_Spec) AssignPropertiesToSqlStoredProcedureResource_Spec(destination *v1alpha1api20210515storage.SqlStoredProcedureResource_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -980,8 +980,8 @@ func (resource *SqlStoredProcedureResource_Status) PopulateFromARM(owner genrunt
 	return nil
 }
 
-// AssignPropertiesFromSqlStoredProcedureResourceStatus populates our SqlStoredProcedureResource_Status from the provided source SqlStoredProcedureResource_Status
-func (resource *SqlStoredProcedureResource_Status) AssignPropertiesFromSqlStoredProcedureResourceStatus(source *v1alpha1api20210515storage.SqlStoredProcedureResource_Status) error {
+// AssignPropertiesFromSqlStoredProcedureResource_Status populates our SqlStoredProcedureResource_Status from the provided source SqlStoredProcedureResource_Status
+func (resource *SqlStoredProcedureResource_Status) AssignPropertiesFromSqlStoredProcedureResource_Status(source *v1alpha1api20210515storage.SqlStoredProcedureResource_Status) error {
 
 	// Body
 	resource.Body = genruntime.ClonePointerToString(source.Body)
@@ -993,8 +993,8 @@ func (resource *SqlStoredProcedureResource_Status) AssignPropertiesFromSqlStored
 	return nil
 }
 
-// AssignPropertiesToSqlStoredProcedureResourceStatus populates the provided destination SqlStoredProcedureResource_Status from our SqlStoredProcedureResource_Status
-func (resource *SqlStoredProcedureResource_Status) AssignPropertiesToSqlStoredProcedureResourceStatus(destination *v1alpha1api20210515storage.SqlStoredProcedureResource_Status) error {
+// AssignPropertiesToSqlStoredProcedureResource_Status populates the provided destination SqlStoredProcedureResource_Status from our SqlStoredProcedureResource_Status
+func (resource *SqlStoredProcedureResource_Status) AssignPropertiesToSqlStoredProcedureResource_Status(destination *v1alpha1api20210515storage.SqlStoredProcedureResource_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -43,7 +43,7 @@ type ServerProperties_StatusARM struct {
 	Backup *Backup_StatusARM `json:"backup,omitempty"`
 
 	//CreateMode: The mode to create a new MySQL server.
-	CreateMode *ServerPropertiesStatusCreateMode `json:"createMode,omitempty"`
+	CreateMode *ServerProperties_CreateMode_Status `json:"createMode,omitempty"`
 
 	//FullyQualifiedDomainName: The fully qualified domain name of a server.
 	FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
@@ -71,7 +71,7 @@ type ServerProperties_StatusARM struct {
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
 	//State: The state of a server.
-	State *ServerPropertiesStatusState `json:"state,omitempty"`
+	State *ServerProperties_State_Status `json:"state,omitempty"`
 
 	//Storage: Storage related properties of a server.
 	Storage *Storage_StatusARM `json:"storage,omitempty"`
@@ -85,7 +85,7 @@ type Sku_StatusARM struct {
 	Name string `json:"name"`
 
 	//Tier: The tier of the particular SKU, e.g. GeneralPurpose.
-	Tier SkuStatusTier `json:"tier"`
+	Tier Sku_Tier_Status `json:"tier"`
 }
 
 type Backup_StatusARM struct {
@@ -101,13 +101,13 @@ type Backup_StatusARM struct {
 
 type HighAvailability_StatusARM struct {
 	//Mode: High availability mode for a server.
-	Mode *HighAvailabilityStatusMode `json:"mode,omitempty"`
+	Mode *HighAvailability_Mode_Status `json:"mode,omitempty"`
 
 	//StandbyAvailabilityZone: Availability zone of the standby server.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
 
 	//State: The state of server high availability.
-	State *HighAvailabilityStatusState `json:"state,omitempty"`
+	State *HighAvailability_State_Status `json:"state,omitempty"`
 }
 
 type MaintenanceWindow_StatusARM struct {
@@ -137,12 +137,12 @@ type Network_StatusARM struct {
 	PublicNetworkAccess *EnableStatusEnum_Status `json:"publicNetworkAccess,omitempty"`
 }
 
-type SkuStatusTier string
+type Sku_Tier_Status string
 
 const (
-	SkuStatusTierBurstable       = SkuStatusTier("Burstable")
-	SkuStatusTierGeneralPurpose  = SkuStatusTier("GeneralPurpose")
-	SkuStatusTierMemoryOptimized = SkuStatusTier("MemoryOptimized")
+	Sku_Tier_StatusBurstable       = Sku_Tier_Status("Burstable")
+	Sku_Tier_StatusGeneralPurpose  = Sku_Tier_Status("GeneralPurpose")
+	Sku_Tier_StatusMemoryOptimized = Sku_Tier_Status("MemoryOptimized")
 )
 
 type Storage_StatusARM struct {

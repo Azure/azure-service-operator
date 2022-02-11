@@ -249,17 +249,17 @@ func (component *Component) AssignPropertiesFromComponent(source *v1alpha1api202
 
 	// Spec
 	var spec Components_SPEC
-	err := spec.AssignPropertiesFromComponentsSPEC(&source.Spec)
+	err := spec.AssignPropertiesFromComponents_SPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromComponentsSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromComponents_SPEC() to populate field Spec")
 	}
 	component.Spec = spec
 
 	// Status
 	var status ApplicationInsightsComponent_Status
-	err = status.AssignPropertiesFromApplicationInsightsComponentStatus(&source.Status)
+	err = status.AssignPropertiesFromApplicationInsightsComponent_Status(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromApplicationInsightsComponentStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromApplicationInsightsComponent_Status() to populate field Status")
 	}
 	component.Status = status
 
@@ -275,17 +275,17 @@ func (component *Component) AssignPropertiesToComponent(destination *v1alpha1api
 
 	// Spec
 	var spec v1alpha1api20200202storage.Components_SPEC
-	err := component.Spec.AssignPropertiesToComponentsSPEC(&spec)
+	err := component.Spec.AssignPropertiesToComponents_SPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToComponentsSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToComponents_SPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v1alpha1api20200202storage.ApplicationInsightsComponent_Status
-	err = component.Status.AssignPropertiesToApplicationInsightsComponentStatus(&status)
+	err = component.Status.AssignPropertiesToApplicationInsightsComponent_Status(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToApplicationInsightsComponentStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToApplicationInsightsComponent_Status() to populate field Status")
 	}
 	destination.Status = status
 
@@ -325,8 +325,8 @@ type ApplicationInsightsComponent_Status struct {
 	//field and cannot be changed.
 	ApplicationId *string `json:"ApplicationId,omitempty"`
 
-	//ApplicationType: Type of application being monitored.
-	ApplicationType *ApplicationInsightsComponentPropertiesStatusApplicationType `json:"Application_Type,omitempty"`
+	//Application_Type: Type of application being monitored.
+	Application_Type *ApplicationInsightsComponentProperties_Application_Type_Status `json:"Application_Type,omitempty"`
 
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -347,10 +347,10 @@ type ApplicationInsightsComponent_Status struct {
 	//Etag: Resource etag
 	Etag *string `json:"etag,omitempty"`
 
-	//FlowType: Used by the Application Insights system to determine what kind of flow
-	//this component was created by. This is to be set to 'Bluefield' when
+	//Flow_Type: Used by the Application Insights system to determine what kind of
+	//flow this component was created by. This is to be set to 'Bluefield' when
 	//creating/updating a component via the REST API.
-	FlowType *ApplicationInsightsComponentPropertiesStatusFlowType `json:"Flow_Type,omitempty"`
+	Flow_Type *ApplicationInsightsComponentProperties_Flow_Type_Status `json:"Flow_Type,omitempty"`
 
 	//ForceCustomerStorageForProfiler: Force users to create their own storage account
 	//for profiler and debugger.
@@ -371,7 +371,7 @@ type ApplicationInsightsComponent_Status struct {
 	ImmediatePurgeDataOn30Days *bool `json:"ImmediatePurgeDataOn30Days,omitempty"`
 
 	//IngestionMode: Indicates the flow of the ingestion.
-	IngestionMode *ApplicationInsightsComponentPropertiesStatusIngestionMode `json:"IngestionMode,omitempty"`
+	IngestionMode *ApplicationInsightsComponentProperties_IngestionMode_Status `json:"IngestionMode,omitempty"`
 
 	//InstrumentationKey: Application Insights Instrumentation key. A read-only value
 	//that applications can use to identify the destination for all telemetry sent to
@@ -414,9 +414,9 @@ type ApplicationInsightsComponent_Status struct {
 	//Insights query.
 	PublicNetworkAccessForQuery *PublicNetworkAccessType_Status `json:"publicNetworkAccessForQuery,omitempty"`
 
-	//RequestSource: Describes what tool created this Application Insights component.
+	//Request_Source: Describes what tool created this Application Insights component.
 	//Customers using this API should set this to the default 'rest'.
-	RequestSource *ApplicationInsightsComponentPropertiesStatusRequestSource `json:"Request_Source,omitempty"`
+	Request_Source *ApplicationInsightsComponentProperties_Request_Source_Status `json:"Request_Source,omitempty"`
 
 	//RetentionInDays: Retention period in days.
 	RetentionInDays *int `json:"RetentionInDays,omitempty"`
@@ -447,7 +447,7 @@ func (component *ApplicationInsightsComponent_Status) ConvertStatusFrom(source g
 	src, ok := source.(*v1alpha1api20200202storage.ApplicationInsightsComponent_Status)
 	if ok {
 		// Populate our instance from source
-		return component.AssignPropertiesFromApplicationInsightsComponentStatus(src)
+		return component.AssignPropertiesFromApplicationInsightsComponent_Status(src)
 	}
 
 	// Convert to an intermediate form
@@ -458,7 +458,7 @@ func (component *ApplicationInsightsComponent_Status) ConvertStatusFrom(source g
 	}
 
 	// Update our instance from src
-	err = component.AssignPropertiesFromApplicationInsightsComponentStatus(src)
+	err = component.AssignPropertiesFromApplicationInsightsComponent_Status(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -471,12 +471,12 @@ func (component *ApplicationInsightsComponent_Status) ConvertStatusTo(destinatio
 	dst, ok := destination.(*v1alpha1api20200202storage.ApplicationInsightsComponent_Status)
 	if ok {
 		// Populate destination from our instance
-		return component.AssignPropertiesToApplicationInsightsComponentStatus(dst)
+		return component.AssignPropertiesToApplicationInsightsComponent_Status(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20200202storage.ApplicationInsightsComponent_Status{}
-	err := component.AssignPropertiesToApplicationInsightsComponentStatus(dst)
+	err := component.AssignPropertiesToApplicationInsightsComponent_Status(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -522,10 +522,10 @@ func (component *ApplicationInsightsComponent_Status) PopulateFromARM(owner genr
 		}
 	}
 
-	// Set property ‘ApplicationType’:
+	// Set property ‘Application_Type’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		component.ApplicationType = &typedInput.Properties.ApplicationType
+		component.Application_Type = &typedInput.Properties.Application_Type
 	}
 
 	// no assignment for property ‘Conditions’
@@ -572,12 +572,12 @@ func (component *ApplicationInsightsComponent_Status) PopulateFromARM(owner genr
 		component.Etag = &etag
 	}
 
-	// Set property ‘FlowType’:
+	// Set property ‘Flow_Type’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		if typedInput.Properties.FlowType != nil {
-			flowType := *typedInput.Properties.FlowType
-			component.FlowType = &flowType
+		if typedInput.Properties.Flow_Type != nil {
+			flow_type := *typedInput.Properties.Flow_Type
+			component.Flow_Type = &flow_type
 		}
 	}
 
@@ -717,12 +717,12 @@ func (component *ApplicationInsightsComponent_Status) PopulateFromARM(owner genr
 		}
 	}
 
-	// Set property ‘RequestSource’:
+	// Set property ‘Request_Source’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		if typedInput.Properties.RequestSource != nil {
-			requestSource := *typedInput.Properties.RequestSource
-			component.RequestSource = &requestSource
+		if typedInput.Properties.Request_Source != nil {
+			request_source := *typedInput.Properties.Request_Source
+			component.Request_Source = &request_source
 		}
 	}
 
@@ -778,8 +778,8 @@ func (component *ApplicationInsightsComponent_Status) PopulateFromARM(owner genr
 	return nil
 }
 
-// AssignPropertiesFromApplicationInsightsComponentStatus populates our ApplicationInsightsComponent_Status from the provided source ApplicationInsightsComponent_Status
-func (component *ApplicationInsightsComponent_Status) AssignPropertiesFromApplicationInsightsComponentStatus(source *v1alpha1api20200202storage.ApplicationInsightsComponent_Status) error {
+// AssignPropertiesFromApplicationInsightsComponent_Status populates our ApplicationInsightsComponent_Status from the provided source ApplicationInsightsComponent_Status
+func (component *ApplicationInsightsComponent_Status) AssignPropertiesFromApplicationInsightsComponent_Status(source *v1alpha1api20200202storage.ApplicationInsightsComponent_Status) error {
 
 	// AppId
 	component.AppId = genruntime.ClonePointerToString(source.AppId)
@@ -787,12 +787,12 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesFromApplic
 	// ApplicationId
 	component.ApplicationId = genruntime.ClonePointerToString(source.ApplicationId)
 
-	// ApplicationType
-	if source.ApplicationType != nil {
-		applicationType := ApplicationInsightsComponentPropertiesStatusApplicationType(*source.ApplicationType)
-		component.ApplicationType = &applicationType
+	// Application_Type
+	if source.Application_Type != nil {
+		application_type := ApplicationInsightsComponentProperties_Application_Type_Status(*source.Application_Type)
+		component.Application_Type = &application_type
 	} else {
-		component.ApplicationType = nil
+		component.Application_Type = nil
 	}
 
 	// Conditions
@@ -823,12 +823,12 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesFromApplic
 	// Etag
 	component.Etag = genruntime.ClonePointerToString(source.Etag)
 
-	// FlowType
-	if source.FlowType != nil {
-		flowType := ApplicationInsightsComponentPropertiesStatusFlowType(*source.FlowType)
-		component.FlowType = &flowType
+	// Flow_Type
+	if source.Flow_Type != nil {
+		flow_type := ApplicationInsightsComponentProperties_Flow_Type_Status(*source.Flow_Type)
+		component.Flow_Type = &flow_type
 	} else {
-		component.FlowType = nil
+		component.Flow_Type = nil
 	}
 
 	// ForceCustomerStorageForProfiler
@@ -858,7 +858,7 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesFromApplic
 
 	// IngestionMode
 	if source.IngestionMode != nil {
-		ingestionMode := ApplicationInsightsComponentPropertiesStatusIngestionMode(*source.IngestionMode)
+		ingestionMode := ApplicationInsightsComponentProperties_IngestionMode_Status(*source.IngestionMode)
 		component.IngestionMode = &ingestionMode
 	} else {
 		component.IngestionMode = nil
@@ -886,9 +886,9 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesFromApplic
 			// Shadow the loop variable to avoid aliasing
 			privateLinkScopedResourceItem := privateLinkScopedResourceItem
 			var privateLinkScopedResource PrivateLinkScopedResource_Status
-			err := privateLinkScopedResource.AssignPropertiesFromPrivateLinkScopedResourceStatus(&privateLinkScopedResourceItem)
+			err := privateLinkScopedResource.AssignPropertiesFromPrivateLinkScopedResource_Status(&privateLinkScopedResourceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateLinkScopedResourceStatus() to populate field PrivateLinkScopedResources")
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateLinkScopedResource_Status() to populate field PrivateLinkScopedResources")
 			}
 			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
 		}
@@ -919,12 +919,12 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesFromApplic
 		component.PublicNetworkAccessForQuery = nil
 	}
 
-	// RequestSource
-	if source.RequestSource != nil {
-		requestSource := ApplicationInsightsComponentPropertiesStatusRequestSource(*source.RequestSource)
-		component.RequestSource = &requestSource
+	// Request_Source
+	if source.Request_Source != nil {
+		request_source := ApplicationInsightsComponentProperties_Request_Source_Status(*source.Request_Source)
+		component.Request_Source = &request_source
 	} else {
-		component.RequestSource = nil
+		component.Request_Source = nil
 	}
 
 	// RetentionInDays
@@ -959,8 +959,8 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesFromApplic
 	return nil
 }
 
-// AssignPropertiesToApplicationInsightsComponentStatus populates the provided destination ApplicationInsightsComponent_Status from our ApplicationInsightsComponent_Status
-func (component *ApplicationInsightsComponent_Status) AssignPropertiesToApplicationInsightsComponentStatus(destination *v1alpha1api20200202storage.ApplicationInsightsComponent_Status) error {
+// AssignPropertiesToApplicationInsightsComponent_Status populates the provided destination ApplicationInsightsComponent_Status from our ApplicationInsightsComponent_Status
+func (component *ApplicationInsightsComponent_Status) AssignPropertiesToApplicationInsightsComponent_Status(destination *v1alpha1api20200202storage.ApplicationInsightsComponent_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -970,12 +970,12 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesToApplicat
 	// ApplicationId
 	destination.ApplicationId = genruntime.ClonePointerToString(component.ApplicationId)
 
-	// ApplicationType
-	if component.ApplicationType != nil {
-		applicationType := string(*component.ApplicationType)
-		destination.ApplicationType = &applicationType
+	// Application_Type
+	if component.Application_Type != nil {
+		application_type := string(*component.Application_Type)
+		destination.Application_Type = &application_type
 	} else {
-		destination.ApplicationType = nil
+		destination.Application_Type = nil
 	}
 
 	// Conditions
@@ -1006,12 +1006,12 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesToApplicat
 	// Etag
 	destination.Etag = genruntime.ClonePointerToString(component.Etag)
 
-	// FlowType
-	if component.FlowType != nil {
-		flowType := string(*component.FlowType)
-		destination.FlowType = &flowType
+	// Flow_Type
+	if component.Flow_Type != nil {
+		flow_type := string(*component.Flow_Type)
+		destination.Flow_Type = &flow_type
 	} else {
-		destination.FlowType = nil
+		destination.Flow_Type = nil
 	}
 
 	// ForceCustomerStorageForProfiler
@@ -1069,9 +1069,9 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesToApplicat
 			// Shadow the loop variable to avoid aliasing
 			privateLinkScopedResourceItem := privateLinkScopedResourceItem
 			var privateLinkScopedResource v1alpha1api20200202storage.PrivateLinkScopedResource_Status
-			err := privateLinkScopedResourceItem.AssignPropertiesToPrivateLinkScopedResourceStatus(&privateLinkScopedResource)
+			err := privateLinkScopedResourceItem.AssignPropertiesToPrivateLinkScopedResource_Status(&privateLinkScopedResource)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkScopedResourceStatus() to populate field PrivateLinkScopedResources")
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkScopedResource_Status() to populate field PrivateLinkScopedResources")
 			}
 			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
 		}
@@ -1102,12 +1102,12 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesToApplicat
 		destination.PublicNetworkAccessForQuery = nil
 	}
 
-	// RequestSource
-	if component.RequestSource != nil {
-		requestSource := string(*component.RequestSource)
-		destination.RequestSource = &requestSource
+	// Request_Source
+	if component.Request_Source != nil {
+		request_source := string(*component.Request_Source)
+		destination.Request_Source = &request_source
 	} else {
-		destination.RequestSource = nil
+		destination.Request_Source = nil
 	}
 
 	// RetentionInDays
@@ -1150,8 +1150,8 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesToApplicat
 }
 
 type Components_SPEC struct {
-	//ApplicationType: Type of application being monitored.
-	ApplicationType *ApplicationInsightsComponentPropertiesSpecApplicationType `json:"Application_Type,omitempty"`
+	//Application_Type: Type of application being monitored.
+	Application_Type *ApplicationInsightsComponentProperties_Application_Type_Spec `json:"Application_Type,omitempty"`
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -1166,10 +1166,10 @@ type Components_SPEC struct {
 	//Etag: Resource etag
 	Etag *string `json:"etag,omitempty"`
 
-	//FlowType: Used by the Application Insights system to determine what kind of flow
-	//this component was created by. This is to be set to 'Bluefield' when
+	//Flow_Type: Used by the Application Insights system to determine what kind of
+	//flow this component was created by. This is to be set to 'Bluefield' when
 	//creating/updating a component via the REST API.
-	FlowType *ApplicationInsightsComponentPropertiesSpecFlowType `json:"Flow_Type,omitempty"`
+	Flow_Type *ApplicationInsightsComponentProperties_Flow_Type_Spec `json:"Flow_Type,omitempty"`
 
 	//ForceCustomerStorageForProfiler: Force users to create their own storage account
 	//for profiler and debugger.
@@ -1183,7 +1183,7 @@ type Components_SPEC struct {
 	ImmediatePurgeDataOn30Days *bool `json:"ImmediatePurgeDataOn30Days,omitempty"`
 
 	//IngestionMode: Indicates the flow of the ingestion.
-	IngestionMode *ApplicationInsightsComponentPropertiesSpecIngestionMode `json:"IngestionMode,omitempty"`
+	IngestionMode *ApplicationInsightsComponentProperties_IngestionMode_Spec `json:"IngestionMode,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Kind: The kind of application that this component refers to, used to customize
@@ -1206,9 +1206,9 @@ type Components_SPEC struct {
 	//Insights query.
 	PublicNetworkAccessForQuery *PublicNetworkAccessType_Spec `json:"publicNetworkAccessForQuery,omitempty"`
 
-	//RequestSource: Describes what tool created this Application Insights component.
+	//Request_Source: Describes what tool created this Application Insights component.
 	//Customers using this API should set this to the default 'rest'.
-	RequestSource *ApplicationInsightsComponentPropertiesSpecRequestSource `json:"Request_Source,omitempty"`
+	Request_Source *ApplicationInsightsComponentProperties_Request_Source_Spec `json:"Request_Source,omitempty"`
 
 	//RetentionInDays: Retention period in days.
 	RetentionInDays *int `json:"RetentionInDays,omitempty"`
@@ -1255,24 +1255,24 @@ func (spec *Components_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if spec.ApplicationType != nil ||
+	if spec.Application_Type != nil ||
 		spec.DisableIpMasking != nil ||
 		spec.DisableLocalAuth != nil ||
-		spec.FlowType != nil ||
+		spec.Flow_Type != nil ||
 		spec.ForceCustomerStorageForProfiler != nil ||
 		spec.HockeyAppId != nil ||
 		spec.ImmediatePurgeDataOn30Days != nil ||
 		spec.IngestionMode != nil ||
 		spec.PublicNetworkAccessForIngestion != nil ||
 		spec.PublicNetworkAccessForQuery != nil ||
-		spec.RequestSource != nil ||
+		spec.Request_Source != nil ||
 		spec.RetentionInDays != nil ||
 		spec.SamplingPercentage != nil ||
 		spec.WorkspaceResourceReference != nil {
 		result.Properties = &ApplicationInsightsComponentProperties_SpecARM{}
 	}
-	if spec.ApplicationType != nil {
-		result.Properties.ApplicationType = *spec.ApplicationType
+	if spec.Application_Type != nil {
+		result.Properties.Application_Type = *spec.Application_Type
 	}
 	if spec.DisableIpMasking != nil {
 		disableIpMasking := *spec.DisableIpMasking
@@ -1282,9 +1282,9 @@ func (spec *Components_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		disableLocalAuth := *spec.DisableLocalAuth
 		result.Properties.DisableLocalAuth = &disableLocalAuth
 	}
-	if spec.FlowType != nil {
-		flowType := *spec.FlowType
-		result.Properties.FlowType = &flowType
+	if spec.Flow_Type != nil {
+		flow_type := *spec.Flow_Type
+		result.Properties.Flow_Type = &flow_type
 	}
 	if spec.ForceCustomerStorageForProfiler != nil {
 		forceCustomerStorageForProfiler := *spec.ForceCustomerStorageForProfiler
@@ -1310,9 +1310,9 @@ func (spec *Components_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		publicNetworkAccessForQuery := *spec.PublicNetworkAccessForQuery
 		result.Properties.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 	}
-	if spec.RequestSource != nil {
-		requestSource := *spec.RequestSource
-		result.Properties.RequestSource = &requestSource
+	if spec.Request_Source != nil {
+		request_source := *spec.Request_Source
+		result.Properties.Request_Source = &request_source
 	}
 	if spec.RetentionInDays != nil {
 		retentionInDays := *spec.RetentionInDays
@@ -1351,10 +1351,10 @@ func (spec *Components_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Components_SPECARM, got %T", armInput)
 	}
 
-	// Set property ‘ApplicationType’:
+	// Set property ‘Application_Type’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		spec.ApplicationType = &typedInput.Properties.ApplicationType
+		spec.Application_Type = &typedInput.Properties.Application_Type
 	}
 
 	// Set property ‘AzureName’:
@@ -1384,12 +1384,12 @@ func (spec *Components_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		spec.Etag = &etag
 	}
 
-	// Set property ‘FlowType’:
+	// Set property ‘Flow_Type’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		if typedInput.Properties.FlowType != nil {
-			flowType := *typedInput.Properties.FlowType
-			spec.FlowType = &flowType
+		if typedInput.Properties.Flow_Type != nil {
+			flow_type := *typedInput.Properties.Flow_Type
+			spec.Flow_Type = &flow_type
 		}
 	}
 
@@ -1458,12 +1458,12 @@ func (spec *Components_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘RequestSource’:
+	// Set property ‘Request_Source’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		if typedInput.Properties.RequestSource != nil {
-			requestSource := *typedInput.Properties.RequestSource
-			spec.RequestSource = &requestSource
+		if typedInput.Properties.Request_Source != nil {
+			request_source := *typedInput.Properties.Request_Source
+			spec.Request_Source = &request_source
 		}
 	}
 
@@ -1504,7 +1504,7 @@ func (spec *Components_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 	src, ok := source.(*v1alpha1api20200202storage.Components_SPEC)
 	if ok {
 		// Populate our instance from source
-		return spec.AssignPropertiesFromComponentsSPEC(src)
+		return spec.AssignPropertiesFromComponents_SPEC(src)
 	}
 
 	// Convert to an intermediate form
@@ -1515,7 +1515,7 @@ func (spec *Components_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 	}
 
 	// Update our instance from src
-	err = spec.AssignPropertiesFromComponentsSPEC(src)
+	err = spec.AssignPropertiesFromComponents_SPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -1528,12 +1528,12 @@ func (spec *Components_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpe
 	dst, ok := destination.(*v1alpha1api20200202storage.Components_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return spec.AssignPropertiesToComponentsSPEC(dst)
+		return spec.AssignPropertiesToComponents_SPEC(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20200202storage.Components_SPEC{}
-	err := spec.AssignPropertiesToComponentsSPEC(dst)
+	err := spec.AssignPropertiesToComponents_SPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -1547,15 +1547,15 @@ func (spec *Components_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpe
 	return nil
 }
 
-// AssignPropertiesFromComponentsSPEC populates our Components_SPEC from the provided source Components_SPEC
-func (spec *Components_SPEC) AssignPropertiesFromComponentsSPEC(source *v1alpha1api20200202storage.Components_SPEC) error {
+// AssignPropertiesFromComponents_SPEC populates our Components_SPEC from the provided source Components_SPEC
+func (spec *Components_SPEC) AssignPropertiesFromComponents_SPEC(source *v1alpha1api20200202storage.Components_SPEC) error {
 
-	// ApplicationType
-	if source.ApplicationType != nil {
-		applicationType := ApplicationInsightsComponentPropertiesSpecApplicationType(*source.ApplicationType)
-		spec.ApplicationType = &applicationType
+	// Application_Type
+	if source.Application_Type != nil {
+		application_type := ApplicationInsightsComponentProperties_Application_Type_Spec(*source.Application_Type)
+		spec.Application_Type = &application_type
 	} else {
-		spec.ApplicationType = nil
+		spec.Application_Type = nil
 	}
 
 	// AzureName
@@ -1580,12 +1580,12 @@ func (spec *Components_SPEC) AssignPropertiesFromComponentsSPEC(source *v1alpha1
 	// Etag
 	spec.Etag = genruntime.ClonePointerToString(source.Etag)
 
-	// FlowType
-	if source.FlowType != nil {
-		flowType := ApplicationInsightsComponentPropertiesSpecFlowType(*source.FlowType)
-		spec.FlowType = &flowType
+	// Flow_Type
+	if source.Flow_Type != nil {
+		flow_type := ApplicationInsightsComponentProperties_Flow_Type_Spec(*source.Flow_Type)
+		spec.Flow_Type = &flow_type
 	} else {
-		spec.FlowType = nil
+		spec.Flow_Type = nil
 	}
 
 	// ForceCustomerStorageForProfiler
@@ -1609,7 +1609,7 @@ func (spec *Components_SPEC) AssignPropertiesFromComponentsSPEC(source *v1alpha1
 
 	// IngestionMode
 	if source.IngestionMode != nil {
-		ingestionMode := ApplicationInsightsComponentPropertiesSpecIngestionMode(*source.IngestionMode)
+		ingestionMode := ApplicationInsightsComponentProperties_IngestionMode_Spec(*source.IngestionMode)
 		spec.IngestionMode = &ingestionMode
 	} else {
 		spec.IngestionMode = nil
@@ -1640,12 +1640,12 @@ func (spec *Components_SPEC) AssignPropertiesFromComponentsSPEC(source *v1alpha1
 		spec.PublicNetworkAccessForQuery = nil
 	}
 
-	// RequestSource
-	if source.RequestSource != nil {
-		requestSource := ApplicationInsightsComponentPropertiesSpecRequestSource(*source.RequestSource)
-		spec.RequestSource = &requestSource
+	// Request_Source
+	if source.Request_Source != nil {
+		request_source := ApplicationInsightsComponentProperties_Request_Source_Spec(*source.Request_Source)
+		spec.Request_Source = &request_source
 	} else {
-		spec.RequestSource = nil
+		spec.Request_Source = nil
 	}
 
 	// RetentionInDays
@@ -1679,17 +1679,17 @@ func (spec *Components_SPEC) AssignPropertiesFromComponentsSPEC(source *v1alpha1
 	return nil
 }
 
-// AssignPropertiesToComponentsSPEC populates the provided destination Components_SPEC from our Components_SPEC
-func (spec *Components_SPEC) AssignPropertiesToComponentsSPEC(destination *v1alpha1api20200202storage.Components_SPEC) error {
+// AssignPropertiesToComponents_SPEC populates the provided destination Components_SPEC from our Components_SPEC
+func (spec *Components_SPEC) AssignPropertiesToComponents_SPEC(destination *v1alpha1api20200202storage.Components_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// ApplicationType
-	if spec.ApplicationType != nil {
-		applicationType := string(*spec.ApplicationType)
-		destination.ApplicationType = &applicationType
+	// Application_Type
+	if spec.Application_Type != nil {
+		application_type := string(*spec.Application_Type)
+		destination.Application_Type = &application_type
 	} else {
-		destination.ApplicationType = nil
+		destination.Application_Type = nil
 	}
 
 	// AzureName
@@ -1714,12 +1714,12 @@ func (spec *Components_SPEC) AssignPropertiesToComponentsSPEC(destination *v1alp
 	// Etag
 	destination.Etag = genruntime.ClonePointerToString(spec.Etag)
 
-	// FlowType
-	if spec.FlowType != nil {
-		flowType := string(*spec.FlowType)
-		destination.FlowType = &flowType
+	// Flow_Type
+	if spec.Flow_Type != nil {
+		flow_type := string(*spec.Flow_Type)
+		destination.Flow_Type = &flow_type
 	} else {
-		destination.FlowType = nil
+		destination.Flow_Type = nil
 	}
 
 	// ForceCustomerStorageForProfiler
@@ -1779,12 +1779,12 @@ func (spec *Components_SPEC) AssignPropertiesToComponentsSPEC(destination *v1alp
 		destination.PublicNetworkAccessForQuery = nil
 	}
 
-	// RequestSource
-	if spec.RequestSource != nil {
-		requestSource := string(*spec.RequestSource)
-		destination.RequestSource = &requestSource
+	// Request_Source
+	if spec.Request_Source != nil {
+		request_source := string(*spec.Request_Source)
+		destination.Request_Source = &request_source
 	} else {
-		destination.RequestSource = nil
+		destination.Request_Source = nil
 	}
 
 	// RetentionInDays
@@ -1834,31 +1834,31 @@ func (spec *Components_SPEC) OriginalVersion() string {
 func (spec *Components_SPEC) SetAzureName(azureName string) { spec.AzureName = azureName }
 
 // +kubebuilder:validation:Enum={"other","web"}
-type ApplicationInsightsComponentPropertiesSpecApplicationType string
+type ApplicationInsightsComponentProperties_Application_Type_Spec string
 
 const (
-	ApplicationInsightsComponentPropertiesSpecApplicationTypeOther = ApplicationInsightsComponentPropertiesSpecApplicationType("other")
-	ApplicationInsightsComponentPropertiesSpecApplicationTypeWeb   = ApplicationInsightsComponentPropertiesSpecApplicationType("web")
+	ApplicationInsightsComponentProperties_Application_Type_SpecOther = ApplicationInsightsComponentProperties_Application_Type_Spec("other")
+	ApplicationInsightsComponentProperties_Application_Type_SpecWeb   = ApplicationInsightsComponentProperties_Application_Type_Spec("web")
 )
 
 // +kubebuilder:validation:Enum={"Bluefield"}
-type ApplicationInsightsComponentPropertiesSpecFlowType string
+type ApplicationInsightsComponentProperties_Flow_Type_Spec string
 
-const ApplicationInsightsComponentPropertiesSpecFlowTypeBluefield = ApplicationInsightsComponentPropertiesSpecFlowType("Bluefield")
+const ApplicationInsightsComponentProperties_Flow_Type_SpecBluefield = ApplicationInsightsComponentProperties_Flow_Type_Spec("Bluefield")
 
 // +kubebuilder:validation:Enum={"ApplicationInsights","ApplicationInsightsWithDiagnosticSettings","LogAnalytics"}
-type ApplicationInsightsComponentPropertiesSpecIngestionMode string
+type ApplicationInsightsComponentProperties_IngestionMode_Spec string
 
 const (
-	ApplicationInsightsComponentPropertiesSpecIngestionModeApplicationInsights                       = ApplicationInsightsComponentPropertiesSpecIngestionMode("ApplicationInsights")
-	ApplicationInsightsComponentPropertiesSpecIngestionModeApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentPropertiesSpecIngestionMode("ApplicationInsightsWithDiagnosticSettings")
-	ApplicationInsightsComponentPropertiesSpecIngestionModeLogAnalytics                              = ApplicationInsightsComponentPropertiesSpecIngestionMode("LogAnalytics")
+	ApplicationInsightsComponentProperties_IngestionMode_SpecApplicationInsights                       = ApplicationInsightsComponentProperties_IngestionMode_Spec("ApplicationInsights")
+	ApplicationInsightsComponentProperties_IngestionMode_SpecApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentProperties_IngestionMode_Spec("ApplicationInsightsWithDiagnosticSettings")
+	ApplicationInsightsComponentProperties_IngestionMode_SpecLogAnalytics                              = ApplicationInsightsComponentProperties_IngestionMode_Spec("LogAnalytics")
 )
 
 // +kubebuilder:validation:Enum={"rest"}
-type ApplicationInsightsComponentPropertiesSpecRequestSource string
+type ApplicationInsightsComponentProperties_Request_Source_Spec string
 
-const ApplicationInsightsComponentPropertiesSpecRequestSourceRest = ApplicationInsightsComponentPropertiesSpecRequestSource("rest")
+const ApplicationInsightsComponentProperties_Request_Source_SpecRest = ApplicationInsightsComponentProperties_Request_Source_Spec("rest")
 
 type PrivateLinkScopedResource_Status struct {
 	//ResourceId: The full resource Id of the private link scope resource.
@@ -1898,8 +1898,8 @@ func (resource *PrivateLinkScopedResource_Status) PopulateFromARM(owner genrunti
 	return nil
 }
 
-// AssignPropertiesFromPrivateLinkScopedResourceStatus populates our PrivateLinkScopedResource_Status from the provided source PrivateLinkScopedResource_Status
-func (resource *PrivateLinkScopedResource_Status) AssignPropertiesFromPrivateLinkScopedResourceStatus(source *v1alpha1api20200202storage.PrivateLinkScopedResource_Status) error {
+// AssignPropertiesFromPrivateLinkScopedResource_Status populates our PrivateLinkScopedResource_Status from the provided source PrivateLinkScopedResource_Status
+func (resource *PrivateLinkScopedResource_Status) AssignPropertiesFromPrivateLinkScopedResource_Status(source *v1alpha1api20200202storage.PrivateLinkScopedResource_Status) error {
 
 	// ResourceId
 	resource.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
@@ -1911,8 +1911,8 @@ func (resource *PrivateLinkScopedResource_Status) AssignPropertiesFromPrivateLin
 	return nil
 }
 
-// AssignPropertiesToPrivateLinkScopedResourceStatus populates the provided destination PrivateLinkScopedResource_Status from our PrivateLinkScopedResource_Status
-func (resource *PrivateLinkScopedResource_Status) AssignPropertiesToPrivateLinkScopedResourceStatus(destination *v1alpha1api20200202storage.PrivateLinkScopedResource_Status) error {
+// AssignPropertiesToPrivateLinkScopedResource_Status populates the provided destination PrivateLinkScopedResource_Status from our PrivateLinkScopedResource_Status
+func (resource *PrivateLinkScopedResource_Status) AssignPropertiesToPrivateLinkScopedResource_Status(destination *v1alpha1api20200202storage.PrivateLinkScopedResource_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

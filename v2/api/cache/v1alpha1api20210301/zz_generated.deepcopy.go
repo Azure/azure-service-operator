@@ -20,7 +20,7 @@ func (in *ClusterProperties_SpecARM) DeepCopyInto(out *ClusterProperties_SpecARM
 	*out = *in
 	if in.MinimumTlsVersion != nil {
 		in, out := &in.MinimumTlsVersion, &out.MinimumTlsVersion
-		*out = new(ClusterPropertiesSpecMinimumTlsVersion)
+		*out = new(ClusterProperties_MinimumTlsVersion_Spec)
 		**out = **in
 	}
 }
@@ -45,7 +45,7 @@ func (in *ClusterProperties_StatusARM) DeepCopyInto(out *ClusterProperties_Statu
 	}
 	if in.MinimumTlsVersion != nil {
 		in, out := &in.MinimumTlsVersion, &out.MinimumTlsVersion
-		*out = new(ClusterPropertiesStatusMinimumTlsVersion)
+		*out = new(ClusterProperties_MinimumTlsVersion_Status)
 		**out = **in
 	}
 	if in.PrivateEndpointConnections != nil {
@@ -109,7 +109,7 @@ func (in *Cluster_Status) DeepCopyInto(out *Cluster_Status) {
 	}
 	if in.MinimumTlsVersion != nil {
 		in, out := &in.MinimumTlsVersion, &out.MinimumTlsVersion
-		*out = new(ClusterPropertiesStatusMinimumTlsVersion)
+		*out = new(ClusterProperties_MinimumTlsVersion_Status)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -235,17 +235,17 @@ func (in *DatabaseProperties_SpecARM) DeepCopyInto(out *DatabaseProperties_SpecA
 	*out = *in
 	if in.ClientProtocol != nil {
 		in, out := &in.ClientProtocol, &out.ClientProtocol
-		*out = new(DatabasePropertiesSpecClientProtocol)
+		*out = new(DatabaseProperties_ClientProtocol_Spec)
 		**out = **in
 	}
 	if in.ClusteringPolicy != nil {
 		in, out := &in.ClusteringPolicy, &out.ClusteringPolicy
-		*out = new(DatabasePropertiesSpecClusteringPolicy)
+		*out = new(DatabaseProperties_ClusteringPolicy_Spec)
 		**out = **in
 	}
 	if in.EvictionPolicy != nil {
 		in, out := &in.EvictionPolicy, &out.EvictionPolicy
-		*out = new(DatabasePropertiesSpecEvictionPolicy)
+		*out = new(DatabaseProperties_EvictionPolicy_Spec)
 		**out = **in
 	}
 	if in.Modules != nil {
@@ -282,17 +282,17 @@ func (in *DatabaseProperties_StatusARM) DeepCopyInto(out *DatabaseProperties_Sta
 	*out = *in
 	if in.ClientProtocol != nil {
 		in, out := &in.ClientProtocol, &out.ClientProtocol
-		*out = new(DatabasePropertiesStatusClientProtocol)
+		*out = new(DatabaseProperties_ClientProtocol_Status)
 		**out = **in
 	}
 	if in.ClusteringPolicy != nil {
 		in, out := &in.ClusteringPolicy, &out.ClusteringPolicy
-		*out = new(DatabasePropertiesStatusClusteringPolicy)
+		*out = new(DatabaseProperties_ClusteringPolicy_Status)
 		**out = **in
 	}
 	if in.EvictionPolicy != nil {
 		in, out := &in.EvictionPolicy, &out.EvictionPolicy
-		*out = new(DatabasePropertiesStatusEvictionPolicy)
+		*out = new(DatabaseProperties_EvictionPolicy_Status)
 		**out = **in
 	}
 	if in.Modules != nil {
@@ -339,12 +339,12 @@ func (in *Database_Status) DeepCopyInto(out *Database_Status) {
 	*out = *in
 	if in.ClientProtocol != nil {
 		in, out := &in.ClientProtocol, &out.ClientProtocol
-		*out = new(DatabasePropertiesStatusClientProtocol)
+		*out = new(DatabaseProperties_ClientProtocol_Status)
 		**out = **in
 	}
 	if in.ClusteringPolicy != nil {
 		in, out := &in.ClusteringPolicy, &out.ClusteringPolicy
-		*out = new(DatabasePropertiesStatusClusteringPolicy)
+		*out = new(DatabaseProperties_ClusteringPolicy_Status)
 		**out = **in
 	}
 	if in.Conditions != nil {
@@ -356,7 +356,7 @@ func (in *Database_Status) DeepCopyInto(out *Database_Status) {
 	}
 	if in.EvictionPolicy != nil {
 		in, out := &in.EvictionPolicy, &out.EvictionPolicy
-		*out = new(DatabasePropertiesStatusEvictionPolicy)
+		*out = new(DatabaseProperties_EvictionPolicy_Status)
 		**out = **in
 	}
 	if in.Id != nil {
@@ -548,7 +548,7 @@ func (in *Persistence_Spec) DeepCopyInto(out *Persistence_Spec) {
 	}
 	if in.AofFrequency != nil {
 		in, out := &in.AofFrequency, &out.AofFrequency
-		*out = new(PersistenceSpecAofFrequency)
+		*out = new(Persistence_AofFrequency_Spec)
 		**out = **in
 	}
 	if in.RdbEnabled != nil {
@@ -558,7 +558,7 @@ func (in *Persistence_Spec) DeepCopyInto(out *Persistence_Spec) {
 	}
 	if in.RdbFrequency != nil {
 		in, out := &in.RdbFrequency, &out.RdbFrequency
-		*out = new(PersistenceSpecRdbFrequency)
+		*out = new(Persistence_RdbFrequency_Spec)
 		**out = **in
 	}
 }
@@ -583,7 +583,7 @@ func (in *Persistence_SpecARM) DeepCopyInto(out *Persistence_SpecARM) {
 	}
 	if in.AofFrequency != nil {
 		in, out := &in.AofFrequency, &out.AofFrequency
-		*out = new(PersistenceSpecAofFrequency)
+		*out = new(Persistence_AofFrequency_Spec)
 		**out = **in
 	}
 	if in.RdbEnabled != nil {
@@ -593,7 +593,7 @@ func (in *Persistence_SpecARM) DeepCopyInto(out *Persistence_SpecARM) {
 	}
 	if in.RdbFrequency != nil {
 		in, out := &in.RdbFrequency, &out.RdbFrequency
-		*out = new(PersistenceSpecRdbFrequency)
+		*out = new(Persistence_RdbFrequency_Spec)
 		**out = **in
 	}
 }
@@ -618,7 +618,7 @@ func (in *Persistence_Status) DeepCopyInto(out *Persistence_Status) {
 	}
 	if in.AofFrequency != nil {
 		in, out := &in.AofFrequency, &out.AofFrequency
-		*out = new(PersistenceStatusAofFrequency)
+		*out = new(Persistence_AofFrequency_Status)
 		**out = **in
 	}
 	if in.RdbEnabled != nil {
@@ -628,7 +628,7 @@ func (in *Persistence_Status) DeepCopyInto(out *Persistence_Status) {
 	}
 	if in.RdbFrequency != nil {
 		in, out := &in.RdbFrequency, &out.RdbFrequency
-		*out = new(PersistenceStatusRdbFrequency)
+		*out = new(Persistence_RdbFrequency_Status)
 		**out = **in
 	}
 }
@@ -653,7 +653,7 @@ func (in *Persistence_StatusARM) DeepCopyInto(out *Persistence_StatusARM) {
 	}
 	if in.AofFrequency != nil {
 		in, out := &in.AofFrequency, &out.AofFrequency
-		*out = new(PersistenceStatusAofFrequency)
+		*out = new(Persistence_AofFrequency_Status)
 		**out = **in
 	}
 	if in.RdbEnabled != nil {
@@ -663,7 +663,7 @@ func (in *Persistence_StatusARM) DeepCopyInto(out *Persistence_StatusARM) {
 	}
 	if in.RdbFrequency != nil {
 		in, out := &in.RdbFrequency, &out.RdbFrequency
-		*out = new(PersistenceStatusRdbFrequency)
+		*out = new(Persistence_RdbFrequency_Status)
 		**out = **in
 	}
 }
@@ -809,17 +809,17 @@ func (in *RedisEnterpriseDatabases_SPEC) DeepCopyInto(out *RedisEnterpriseDataba
 	*out = *in
 	if in.ClientProtocol != nil {
 		in, out := &in.ClientProtocol, &out.ClientProtocol
-		*out = new(DatabasePropertiesSpecClientProtocol)
+		*out = new(DatabaseProperties_ClientProtocol_Spec)
 		**out = **in
 	}
 	if in.ClusteringPolicy != nil {
 		in, out := &in.ClusteringPolicy, &out.ClusteringPolicy
-		*out = new(DatabasePropertiesSpecClusteringPolicy)
+		*out = new(DatabaseProperties_ClusteringPolicy_Spec)
 		**out = **in
 	}
 	if in.EvictionPolicy != nil {
 		in, out := &in.EvictionPolicy, &out.EvictionPolicy
-		*out = new(DatabasePropertiesSpecEvictionPolicy)
+		*out = new(DatabaseProperties_EvictionPolicy_Spec)
 		**out = **in
 	}
 	if in.Modules != nil {
@@ -909,7 +909,7 @@ func (in *RedisEnterprise_SPEC) DeepCopyInto(out *RedisEnterprise_SPEC) {
 	*out = *in
 	if in.MinimumTlsVersion != nil {
 		in, out := &in.MinimumTlsVersion, &out.MinimumTlsVersion
-		*out = new(ClusterPropertiesSpecMinimumTlsVersion)
+		*out = new(ClusterProperties_MinimumTlsVersion_Spec)
 		**out = **in
 	}
 	out.Owner = in.Owner

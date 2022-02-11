@@ -68,7 +68,7 @@ type VirtualNetworkGatewayPropertiesFormat_SpecARM struct {
 	GatewayDefaultSite *SubResource_SpecARM `json:"gatewayDefaultSite,omitempty"`
 
 	//GatewayType: The type of this virtual network gateway.
-	GatewayType *VirtualNetworkGatewayPropertiesFormatSpecGatewayType `json:"gatewayType,omitempty"`
+	GatewayType *VirtualNetworkGatewayPropertiesFormat_GatewayType_Spec `json:"gatewayType,omitempty"`
 
 	//IpConfigurations: IP configurations for virtual network gateway.
 	IpConfigurations []VirtualNetworkGatewayIPConfiguration_SpecARM `json:"ipConfigurations,omitempty"`
@@ -84,10 +84,10 @@ type VirtualNetworkGatewayPropertiesFormat_SpecARM struct {
 
 	//VpnGatewayGeneration: The generation for this VirtualNetworkGateway. Must be
 	//None if gatewayType is not VPN.
-	VpnGatewayGeneration *VirtualNetworkGatewayPropertiesFormatSpecVpnGatewayGeneration `json:"vpnGatewayGeneration,omitempty"`
+	VpnGatewayGeneration *VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Spec `json:"vpnGatewayGeneration,omitempty"`
 
 	//VpnType: The type of this virtual network gateway.
-	VpnType *VirtualNetworkGatewayPropertiesFormatSpecVpnType `json:"vpnType,omitempty"`
+	VpnType *VirtualNetworkGatewayPropertiesFormat_VpnType_Spec `json:"vpnType,omitempty"`
 }
 
 type AddressSpace_SpecARM struct {
@@ -125,10 +125,10 @@ type VirtualNetworkGatewayIPConfiguration_SpecARM struct {
 
 type VirtualNetworkGatewaySku_SpecARM struct {
 	//Name: Gateway SKU name.
-	Name *VirtualNetworkGatewaySkuSpecName `json:"name,omitempty"`
+	Name *VirtualNetworkGatewaySku_Name_Spec `json:"name,omitempty"`
 
 	//Tier: Gateway SKU tier.
-	Tier *VirtualNetworkGatewaySkuSpecTier `json:"tier,omitempty"`
+	Tier *VirtualNetworkGatewaySku_Tier_Spec `json:"tier,omitempty"`
 }
 
 type VpnClientConfiguration_SpecARM struct {
@@ -158,7 +158,7 @@ type VpnClientConfiguration_SpecARM struct {
 
 	//VpnAuthenticationTypes: VPN authentication types for the virtual network
 	//gateway..
-	VpnAuthenticationTypes []VpnClientConfigurationSpecVpnAuthenticationTypes `json:"vpnAuthenticationTypes,omitempty"`
+	VpnAuthenticationTypes []VpnClientConfiguration_VpnAuthenticationTypes_Spec `json:"vpnAuthenticationTypes,omitempty"`
 
 	//VpnClientAddressPool: The reference to the address space resource which
 	//represents Address space for P2S VpnClient.
@@ -169,7 +169,7 @@ type VpnClientConfiguration_SpecARM struct {
 	VpnClientIpsecPolicies []IpsecPolicy_SpecARM `json:"vpnClientIpsecPolicies,omitempty"`
 
 	//VpnClientProtocols: VpnClientProtocols for Virtual network gateway.
-	VpnClientProtocols []VpnClientConfigurationSpecVpnClientProtocols `json:"vpnClientProtocols,omitempty"`
+	VpnClientProtocols []VpnClientConfiguration_VpnClientProtocols_Spec `json:"vpnClientProtocols,omitempty"`
 
 	//VpnClientRevokedCertificates: VpnClientRevokedCertificate for Virtual network
 	//gateway.

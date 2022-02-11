@@ -48,7 +48,7 @@ type WorkspaceProperties_SpecARM struct {
 	ForceCmkForQuery *bool `json:"forceCmkForQuery,omitempty"`
 
 	//ProvisioningState: The provisioning state of the workspace.
-	ProvisioningState *WorkspacePropertiesSpecProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *WorkspaceProperties_ProvisioningState_Spec `json:"provisioningState,omitempty"`
 
 	//PublicNetworkAccessForIngestion: The network access type for accessing Log
 	//Analytics ingestion.
@@ -95,8 +95,8 @@ type WorkspaceFeatures_SpecARM struct {
 type WorkspaceSku_SpecARM struct {
 	//CapacityReservationLevel: The capacity reservation level in GB for this
 	//workspace, when CapacityReservation sku is selected.
-	CapacityReservationLevel *WorkspaceSkuSpecCapacityReservationLevel `json:"capacityReservationLevel,omitempty"`
+	CapacityReservationLevel *WorkspaceSku_CapacityReservationLevel_Spec `json:"capacityReservationLevel,omitempty"`
 
 	//Name: The name of the SKU.
-	Name WorkspaceSkuSpecName `json:"name"`
+	Name WorkspaceSku_Name_Spec `json:"name"`
 }

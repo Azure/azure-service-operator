@@ -74,7 +74,7 @@ type SecurityRulePropertiesFormat_SpecARM struct {
 	Priority *int `json:"priority,omitempty"`
 
 	//Protocol: Network protocol this rule applies to.
-	Protocol SecurityRulePropertiesFormatSpecProtocol `json:"protocol"`
+	Protocol SecurityRulePropertiesFormat_Protocol_Spec `json:"protocol"`
 
 	//SourceAddressPrefix: The CIDR or source IP range. Asterisk '*' can also be used
 	//to match all source IPs. Default tags such as 'VirtualNetwork',

@@ -59,7 +59,7 @@ type ExtendedLocation_SpecARM struct {
 type ManagedClusterIdentity_SpecARM struct {
 	//Type: For more information see [use managed identities in
 	//AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
-	Type *ManagedClusterIdentitySpecType `json:"type,omitempty"`
+	Type *ManagedClusterIdentity_Type_Spec `json:"type,omitempty"`
 }
 
 type ManagedClusterProperties_SpecARM struct {
@@ -77,7 +77,7 @@ type ManagedClusterProperties_SpecARM struct {
 
 	//AutoScalerProfile: Parameters to be applied to the cluster-autoscaler when
 	//enabled
-	AutoScalerProfile *ManagedClusterProperties_Spec_AutoScalerProfileARM `json:"autoScalerProfile,omitempty"`
+	AutoScalerProfile *ManagedClusterProperties_AutoScalerProfile_SpecARM `json:"autoScalerProfile,omitempty"`
 
 	//AutoUpgradeProfile: The auto upgrade configuration.
 	AutoUpgradeProfile *ManagedClusterAutoUpgradeProfile_SpecARM `json:"autoUpgradeProfile,omitempty"`
@@ -145,11 +145,11 @@ type ManagedClusterProperties_SpecARM struct {
 
 type ManagedClusterSKU_SpecARM struct {
 	//Name: The name of a managed cluster SKU.
-	Name *ManagedClusterSKUSpecName `json:"name,omitempty"`
+	Name *ManagedClusterSKU_Name_Spec `json:"name,omitempty"`
 
 	//Tier: If not specified, the default is 'Free'. See [uptime
 	//SLA](https://docs.microsoft.com/azure/aks/uptime-sla) for more details.
-	Tier *ManagedClusterSKUSpecTier `json:"tier,omitempty"`
+	Tier *ManagedClusterSKU_Tier_Spec `json:"tier,omitempty"`
 }
 
 type ContainerServiceLinuxProfile_SpecARM struct {
@@ -176,22 +176,22 @@ type ContainerServiceNetworkProfile_SpecARM struct {
 	//LoadBalancerSku: The default is 'standard'. See [Azure Load Balancer
 	//SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information
 	//about the differences between load balancer SKUs.
-	LoadBalancerSku *ContainerServiceNetworkProfileSpecLoadBalancerSku `json:"loadBalancerSku,omitempty"`
+	LoadBalancerSku *ContainerServiceNetworkProfile_LoadBalancerSku_Spec `json:"loadBalancerSku,omitempty"`
 
 	//NetworkMode: This cannot be specified if networkPlugin is anything other than
 	//'azure'.
-	NetworkMode *ContainerServiceNetworkProfileSpecNetworkMode `json:"networkMode,omitempty"`
+	NetworkMode *ContainerServiceNetworkProfile_NetworkMode_Spec `json:"networkMode,omitempty"`
 
 	//NetworkPlugin: Network plugin used for building the Kubernetes network.
-	NetworkPlugin *ContainerServiceNetworkProfileSpecNetworkPlugin `json:"networkPlugin,omitempty"`
+	NetworkPlugin *ContainerServiceNetworkProfile_NetworkPlugin_Spec `json:"networkPlugin,omitempty"`
 
 	//NetworkPolicy: Network policy used for building the Kubernetes network.
-	NetworkPolicy *ContainerServiceNetworkProfileSpecNetworkPolicy `json:"networkPolicy,omitempty"`
+	NetworkPolicy *ContainerServiceNetworkProfile_NetworkPolicy_Spec `json:"networkPolicy,omitempty"`
 
 	//OutboundType: This can only be set at cluster creation time and cannot be
 	//changed later. For more information see [egress outbound
 	//type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
-	OutboundType *ContainerServiceNetworkProfileSpecOutboundType `json:"outboundType,omitempty"`
+	OutboundType *ContainerServiceNetworkProfile_OutboundType_Spec `json:"outboundType,omitempty"`
 
 	//PodCidr: A CIDR notation IP range from which to assign pod IPs when kubenet is
 	//used.
@@ -370,7 +370,7 @@ type ManagedClusterAgentPoolProfile_SpecARM struct {
 type ManagedClusterAutoUpgradeProfile_SpecARM struct {
 	//UpgradeChannel: For more information see [setting the AKS cluster auto-upgrade
 	//channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
-	UpgradeChannel *ManagedClusterAutoUpgradeProfileSpecUpgradeChannel `json:"upgradeChannel,omitempty"`
+	UpgradeChannel *ManagedClusterAutoUpgradeProfile_UpgradeChannel_Spec `json:"upgradeChannel,omitempty"`
 }
 
 type ManagedClusterHTTPProxyConfig_SpecARM struct {
@@ -388,12 +388,12 @@ type ManagedClusterHTTPProxyConfig_SpecARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
-type ManagedClusterIdentitySpecType string
+type ManagedClusterIdentity_Type_Spec string
 
 const (
-	ManagedClusterIdentitySpecTypeNone           = ManagedClusterIdentitySpecType("None")
-	ManagedClusterIdentitySpecTypeSystemAssigned = ManagedClusterIdentitySpecType("SystemAssigned")
-	ManagedClusterIdentitySpecTypeUserAssigned   = ManagedClusterIdentitySpecType("UserAssigned")
+	ManagedClusterIdentity_Type_SpecNone           = ManagedClusterIdentity_Type_Spec("None")
+	ManagedClusterIdentity_Type_SpecSystemAssigned = ManagedClusterIdentity_Type_Spec("SystemAssigned")
+	ManagedClusterIdentity_Type_SpecUserAssigned   = ManagedClusterIdentity_Type_Spec("UserAssigned")
 )
 
 type ManagedClusterPodIdentityProfile_SpecARM struct {
@@ -414,14 +414,14 @@ type ManagedClusterPodIdentityProfile_SpecARM struct {
 	UserAssignedIdentityExceptions []ManagedClusterPodIdentityException_SpecARM `json:"userAssignedIdentityExceptions,omitempty"`
 }
 
-type ManagedClusterProperties_Spec_AutoScalerProfileARM struct {
+type ManagedClusterProperties_AutoScalerProfile_SpecARM struct {
 	//BalanceSimilarNodeGroups: Valid values are 'true' and 'false'
 	BalanceSimilarNodeGroups *string `json:"balance-similar-node-groups,omitempty"`
 
 	//Expander: If not specified, the default is 'random'. See
 	//[expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders)
 	//for more information.
-	Expander *ManagedClusterPropertiesSpecAutoScalerProfileExpander `json:"expander,omitempty"`
+	Expander *ManagedClusterProperties_AutoScalerProfile_Expander_Spec `json:"expander,omitempty"`
 
 	//MaxEmptyBulkDelete: The default is 10.
 	MaxEmptyBulkDelete *string `json:"max-empty-bulk-delete,omitempty"`
@@ -481,16 +481,16 @@ type ManagedClusterProperties_Spec_AutoScalerProfileARM struct {
 }
 
 // +kubebuilder:validation:Enum={"Basic"}
-type ManagedClusterSKUSpecName string
+type ManagedClusterSKU_Name_Spec string
 
-const ManagedClusterSKUSpecNameBasic = ManagedClusterSKUSpecName("Basic")
+const ManagedClusterSKU_Name_SpecBasic = ManagedClusterSKU_Name_Spec("Basic")
 
 // +kubebuilder:validation:Enum={"Free","Paid"}
-type ManagedClusterSKUSpecTier string
+type ManagedClusterSKU_Tier_Spec string
 
 const (
-	ManagedClusterSKUSpecTierFree = ManagedClusterSKUSpecTier("Free")
-	ManagedClusterSKUSpecTierPaid = ManagedClusterSKUSpecTier("Paid")
+	ManagedClusterSKU_Tier_SpecFree = ManagedClusterSKU_Tier_Spec("Free")
+	ManagedClusterSKU_Tier_SpecPaid = ManagedClusterSKU_Tier_Spec("Paid")
 )
 
 type ManagedClusterServicePrincipalProfile_SpecARM struct {
@@ -532,7 +532,7 @@ type ManagedClusterWindowsProfile_SpecARM struct {
 	//LicenseType: The license type to use for Windows VMs. See [Azure Hybrid User
 	//Benefits](https://azure.microsoft.com/pricing/hybrid-benefit/faq/) for more
 	//details.
-	LicenseType *ManagedClusterWindowsProfileSpecLicenseType `json:"licenseType,omitempty"`
+	LicenseType *ManagedClusterWindowsProfile_LicenseType_Spec `json:"licenseType,omitempty"`
 }
 
 type PrivateLinkResource_SpecARM struct {
@@ -571,14 +571,14 @@ type ManagedClusterLoadBalancerProfile_SpecARM struct {
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	//ManagedOutboundIPs: Desired managed outbound IPs for the cluster load balancer.
-	ManagedOutboundIPs *ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPsARM `json:"managedOutboundIPs,omitempty"`
+	ManagedOutboundIPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_SpecARM `json:"managedOutboundIPs,omitempty"`
 
 	//OutboundIPPrefixes: Desired outbound IP Prefix resources for the cluster load
 	//balancer.
-	OutboundIPPrefixes *ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixesARM `json:"outboundIPPrefixes,omitempty"`
+	OutboundIPPrefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_SpecARM `json:"outboundIPPrefixes,omitempty"`
 
 	//OutboundIPs: Desired outbound IP resources for the cluster load balancer.
-	OutboundIPs *ManagedClusterLoadBalancerProfile_Spec_OutboundIPsARM `json:"outboundIPs,omitempty"`
+	OutboundIPs *ManagedClusterLoadBalancerProfile_OutboundIPs_SpecARM `json:"outboundIPs,omitempty"`
 }
 
 type ManagedClusterPodIdentityException_SpecARM struct {
@@ -613,19 +613,19 @@ type ContainerServiceSshPublicKey_SpecARM struct {
 	KeyData string `json:"keyData"`
 }
 
-type ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPsARM struct {
+type ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_SpecARM struct {
 	//Count: The desired number of outbound IPs created/managed by Azure for the
 	//cluster load balancer. Allowed values must be in the range of 1 to 100
 	//(inclusive). The default value is 1.
 	Count *int `json:"count,omitempty"`
 }
 
-type ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixesARM struct {
+type ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_SpecARM struct {
 	//PublicIPPrefixes: A list of public IP prefix resources.
 	PublicIPPrefixes []ResourceReference_SpecARM `json:"publicIPPrefixes,omitempty"`
 }
 
-type ManagedClusterLoadBalancerProfile_Spec_OutboundIPsARM struct {
+type ManagedClusterLoadBalancerProfile_OutboundIPs_SpecARM struct {
 	//PublicIPs: A list of public IP resources.
 	PublicIPs []ResourceReference_SpecARM `json:"publicIPs,omitempty"`
 }

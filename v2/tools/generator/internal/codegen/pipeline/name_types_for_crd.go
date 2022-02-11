@@ -7,6 +7,7 @@ package pipeline
 
 import (
 	"context"
+	"strings"
 
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -117,6 +118,8 @@ func nameInnerTypes(
 		return name, nil
 	}
 
+	expectedSuffixes := []string{"_Spec", "_Status", "_SPEC", "_STATUS"}
+
 	builder.VisitObjectType = func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 		nameHint := ctx.(string)
 
@@ -125,7 +128,7 @@ func nameInnerTypes(
 		// first map the inner types:
 		for _, prop := range it.Properties() {
 			propType := prop.PropertyType()
-			propHint := nameHint + "_" + string(prop.PropertyName())
+			propHint := addSuffixPreservingSuffixes(nameHint, "_"+string(prop.PropertyName()), expectedSuffixes)
 			if validated, ok := propType.(*astmodel.ValidatedType); ok {
 				// handle validated types in properties specially,
 				// they don't need to be named, so skip directly to element type
@@ -189,4 +192,14 @@ func nameInnerTypes(
 	}
 
 	return resultTypes, nil
+}
+
+func addSuffixPreservingSuffixes(s string, suffix string, suffixes []string) string {
+	for _, existingSuffix := range suffixes {
+		if strings.HasSuffix(s, existingSuffix) {
+			return strings.TrimSuffix(s, existingSuffix) + suffix + existingSuffix
+		}
+	}
+
+	return s + suffix
 }

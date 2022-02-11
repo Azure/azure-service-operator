@@ -48,8 +48,8 @@ func (specarm Components_SPECARM) GetType() string {
 }
 
 type ApplicationInsightsComponentProperties_SpecARM struct {
-	//ApplicationType: Type of application being monitored.
-	ApplicationType ApplicationInsightsComponentPropertiesSpecApplicationType `json:"Application_Type"`
+	//Application_Type: Type of application being monitored.
+	Application_Type ApplicationInsightsComponentProperties_Application_Type_Spec `json:"Application_Type"`
 
 	//DisableIpMasking: Disable IP masking.
 	DisableIpMasking *bool `json:"DisableIpMasking,omitempty"`
@@ -57,10 +57,10 @@ type ApplicationInsightsComponentProperties_SpecARM struct {
 	//DisableLocalAuth: Disable Non-AAD based Auth.
 	DisableLocalAuth *bool `json:"DisableLocalAuth,omitempty"`
 
-	//FlowType: Used by the Application Insights system to determine what kind of flow
-	//this component was created by. This is to be set to 'Bluefield' when
+	//Flow_Type: Used by the Application Insights system to determine what kind of
+	//flow this component was created by. This is to be set to 'Bluefield' when
 	//creating/updating a component via the REST API.
-	FlowType *ApplicationInsightsComponentPropertiesSpecFlowType `json:"Flow_Type,omitempty"`
+	Flow_Type *ApplicationInsightsComponentProperties_Flow_Type_Spec `json:"Flow_Type,omitempty"`
 
 	//ForceCustomerStorageForProfiler: Force users to create their own storage account
 	//for profiler and debugger.
@@ -74,7 +74,7 @@ type ApplicationInsightsComponentProperties_SpecARM struct {
 	ImmediatePurgeDataOn30Days *bool `json:"ImmediatePurgeDataOn30Days,omitempty"`
 
 	//IngestionMode: Indicates the flow of the ingestion.
-	IngestionMode *ApplicationInsightsComponentPropertiesSpecIngestionMode `json:"IngestionMode,omitempty"`
+	IngestionMode *ApplicationInsightsComponentProperties_IngestionMode_Spec `json:"IngestionMode,omitempty"`
 
 	//PublicNetworkAccessForIngestion: The network access type for accessing
 	//Application Insights ingestion.
@@ -84,9 +84,9 @@ type ApplicationInsightsComponentProperties_SpecARM struct {
 	//Insights query.
 	PublicNetworkAccessForQuery *PublicNetworkAccessType_Spec `json:"publicNetworkAccessForQuery,omitempty"`
 
-	//RequestSource: Describes what tool created this Application Insights component.
+	//Request_Source: Describes what tool created this Application Insights component.
 	//Customers using this API should set this to the default 'rest'.
-	RequestSource *ApplicationInsightsComponentPropertiesSpecRequestSource `json:"Request_Source,omitempty"`
+	Request_Source *ApplicationInsightsComponentProperties_Request_Source_Spec `json:"Request_Source,omitempty"`
 
 	//RetentionInDays: Retention period in days.
 	RetentionInDays *int `json:"RetentionInDays,omitempty"`

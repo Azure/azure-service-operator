@@ -54,14 +54,14 @@ type SubnetPropertiesFormat_StatusARM struct {
 
 	//PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on
 	//private end point in the subnet.
-	PrivateEndpointNetworkPolicies *SubnetPropertiesFormatStatusPrivateEndpointNetworkPolicies `json:"privateEndpointNetworkPolicies,omitempty"`
+	PrivateEndpointNetworkPolicies *SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Status `json:"privateEndpointNetworkPolicies,omitempty"`
 
 	//PrivateEndpoints: An array of references to private endpoints.
 	PrivateEndpoints []PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"privateEndpoints,omitempty"`
 
 	//PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on
 	//private link service in the subnet.
-	PrivateLinkServiceNetworkPolicies *SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPolicies `json:"privateLinkServiceNetworkPolicies,omitempty"`
+	PrivateLinkServiceNetworkPolicies *SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Status `json:"privateLinkServiceNetworkPolicies,omitempty"`
 
 	//ProvisioningState: The provisioning state of the subnet resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
@@ -229,18 +229,18 @@ type ServiceEndpointPropertiesFormat_StatusARM struct {
 	Service *string `json:"service,omitempty"`
 }
 
-type SubnetPropertiesFormatStatusPrivateEndpointNetworkPolicies string
+type SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Status string
 
 const (
-	SubnetPropertiesFormatStatusPrivateEndpointNetworkPoliciesDisabled = SubnetPropertiesFormatStatusPrivateEndpointNetworkPolicies("Disabled")
-	SubnetPropertiesFormatStatusPrivateEndpointNetworkPoliciesEnabled  = SubnetPropertiesFormatStatusPrivateEndpointNetworkPolicies("Enabled")
+	SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_StatusDisabled = SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Status("Disabled")
+	SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_StatusEnabled  = SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Status("Enabled")
 )
 
-type SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPolicies string
+type SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Status string
 
 const (
-	SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPoliciesDisabled = SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPolicies("Disabled")
-	SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPoliciesEnabled  = SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPolicies("Enabled")
+	SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_StatusDisabled = SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Status("Disabled")
+	SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_StatusEnabled  = SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Status("Enabled")
 )
 
 type ApplicationGatewayIPConfigurationPropertiesFormat_StatusARM struct {

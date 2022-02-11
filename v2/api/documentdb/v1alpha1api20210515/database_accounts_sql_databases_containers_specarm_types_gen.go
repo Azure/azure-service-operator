@@ -79,13 +79,13 @@ type ConflictResolutionPolicy_SpecARM struct {
 	ConflictResolutionProcedure *string `json:"conflictResolutionProcedure,omitempty"`
 
 	//Mode: Indicates the conflict resolution mode.
-	Mode *ConflictResolutionPolicySpecMode `json:"mode,omitempty"`
+	Mode *ConflictResolutionPolicy_Mode_Spec `json:"mode,omitempty"`
 }
 
 type ContainerPartitionKey_SpecARM struct {
 	//Kind: Indicates the kind of algorithm used for partitioning. For MultiHash,
 	//multiple partition keys (upto three maximum) are supported for container create
-	Kind *ContainerPartitionKeySpecKind `json:"kind,omitempty"`
+	Kind *ContainerPartitionKey_Kind_Spec `json:"kind,omitempty"`
 
 	//Paths: List of paths using which data within the container can be partitioned
 	Paths []string `json:"paths,omitempty"`
@@ -108,7 +108,7 @@ type IndexingPolicy_SpecARM struct {
 	IncludedPaths []IncludedPath_SpecARM `json:"includedPaths,omitempty"`
 
 	//IndexingMode: Indicates the indexing mode.
-	IndexingMode *IndexingPolicySpecIndexingMode `json:"indexingMode,omitempty"`
+	IndexingMode *IndexingPolicy_IndexingMode_Spec `json:"indexingMode,omitempty"`
 
 	//SpatialIndexes: List of spatial specifics
 	SpatialIndexes []SpatialSpec_SpecARM `json:"spatialIndexes,omitempty"`
@@ -122,7 +122,7 @@ type UniqueKeyPolicy_SpecARM struct {
 
 type CompositePath_SpecARM struct {
 	//Order: Sort order for composite paths.
-	Order *CompositePathSpecOrder `json:"order,omitempty"`
+	Order *CompositePath_Order_Spec `json:"order,omitempty"`
 
 	//Path: The path for which the indexing behavior applies to. Index paths typically
 	//start with root and end with wildcard (/path/*)
@@ -130,20 +130,20 @@ type CompositePath_SpecARM struct {
 }
 
 // +kubebuilder:validation:Enum={"Custom","LastWriterWins"}
-type ConflictResolutionPolicySpecMode string
+type ConflictResolutionPolicy_Mode_Spec string
 
 const (
-	ConflictResolutionPolicySpecModeCustom         = ConflictResolutionPolicySpecMode("Custom")
-	ConflictResolutionPolicySpecModeLastWriterWins = ConflictResolutionPolicySpecMode("LastWriterWins")
+	ConflictResolutionPolicy_Mode_SpecCustom         = ConflictResolutionPolicy_Mode_Spec("Custom")
+	ConflictResolutionPolicy_Mode_SpecLastWriterWins = ConflictResolutionPolicy_Mode_Spec("LastWriterWins")
 )
 
 // +kubebuilder:validation:Enum={"Hash","MultiHash","Range"}
-type ContainerPartitionKeySpecKind string
+type ContainerPartitionKey_Kind_Spec string
 
 const (
-	ContainerPartitionKeySpecKindHash      = ContainerPartitionKeySpecKind("Hash")
-	ContainerPartitionKeySpecKindMultiHash = ContainerPartitionKeySpecKind("MultiHash")
-	ContainerPartitionKeySpecKindRange     = ContainerPartitionKeySpecKind("Range")
+	ContainerPartitionKey_Kind_SpecHash      = ContainerPartitionKey_Kind_Spec("Hash")
+	ContainerPartitionKey_Kind_SpecMultiHash = ContainerPartitionKey_Kind_Spec("MultiHash")
+	ContainerPartitionKey_Kind_SpecRange     = ContainerPartitionKey_Kind_Spec("Range")
 )
 
 type ExcludedPath_SpecARM struct {
@@ -162,12 +162,12 @@ type IncludedPath_SpecARM struct {
 }
 
 // +kubebuilder:validation:Enum={"consistent","lazy","none"}
-type IndexingPolicySpecIndexingMode string
+type IndexingPolicy_IndexingMode_Spec string
 
 const (
-	IndexingPolicySpecIndexingModeConsistent = IndexingPolicySpecIndexingMode("consistent")
-	IndexingPolicySpecIndexingModeLazy       = IndexingPolicySpecIndexingMode("lazy")
-	IndexingPolicySpecIndexingModeNone       = IndexingPolicySpecIndexingMode("none")
+	IndexingPolicy_IndexingMode_SpecConsistent = IndexingPolicy_IndexingMode_Spec("consistent")
+	IndexingPolicy_IndexingMode_SpecLazy       = IndexingPolicy_IndexingMode_Spec("lazy")
+	IndexingPolicy_IndexingMode_SpecNone       = IndexingPolicy_IndexingMode_Spec("none")
 )
 
 type SpatialSpec_SpecARM struct {
@@ -186,19 +186,19 @@ type UniqueKey_SpecARM struct {
 }
 
 // +kubebuilder:validation:Enum={"ascending","descending"}
-type CompositePathSpecOrder string
+type CompositePath_Order_Spec string
 
 const (
-	CompositePathSpecOrderAscending  = CompositePathSpecOrder("ascending")
-	CompositePathSpecOrderDescending = CompositePathSpecOrder("descending")
+	CompositePath_Order_SpecAscending  = CompositePath_Order_Spec("ascending")
+	CompositePath_Order_SpecDescending = CompositePath_Order_Spec("descending")
 )
 
 type Indexes_SpecARM struct {
 	//DataType: The datatype for which the indexing behavior is applied to.
-	DataType *IndexesSpecDataType `json:"dataType,omitempty"`
+	DataType *Indexes_DataType_Spec `json:"dataType,omitempty"`
 
 	//Kind: Indicates the type of index.
-	Kind *IndexesSpecKind `json:"kind,omitempty"`
+	Kind *Indexes_Kind_Spec `json:"kind,omitempty"`
 
 	//Precision: The precision of the index. -1 is maximum precision.
 	Precision *int `json:"precision,omitempty"`
@@ -215,22 +215,22 @@ const (
 )
 
 // +kubebuilder:validation:Enum={"LineString","MultiPolygon","Number","Point","Polygon","String"}
-type IndexesSpecDataType string
+type Indexes_DataType_Spec string
 
 const (
-	IndexesSpecDataTypeLineString   = IndexesSpecDataType("LineString")
-	IndexesSpecDataTypeMultiPolygon = IndexesSpecDataType("MultiPolygon")
-	IndexesSpecDataTypeNumber       = IndexesSpecDataType("Number")
-	IndexesSpecDataTypePoint        = IndexesSpecDataType("Point")
-	IndexesSpecDataTypePolygon      = IndexesSpecDataType("Polygon")
-	IndexesSpecDataTypeString       = IndexesSpecDataType("String")
+	Indexes_DataType_SpecLineString   = Indexes_DataType_Spec("LineString")
+	Indexes_DataType_SpecMultiPolygon = Indexes_DataType_Spec("MultiPolygon")
+	Indexes_DataType_SpecNumber       = Indexes_DataType_Spec("Number")
+	Indexes_DataType_SpecPoint        = Indexes_DataType_Spec("Point")
+	Indexes_DataType_SpecPolygon      = Indexes_DataType_Spec("Polygon")
+	Indexes_DataType_SpecString       = Indexes_DataType_Spec("String")
 )
 
 // +kubebuilder:validation:Enum={"Hash","Range","Spatial"}
-type IndexesSpecKind string
+type Indexes_Kind_Spec string
 
 const (
-	IndexesSpecKindHash    = IndexesSpecKind("Hash")
-	IndexesSpecKindRange   = IndexesSpecKind("Range")
-	IndexesSpecKindSpatial = IndexesSpecKind("Spatial")
+	Indexes_Kind_SpecHash    = Indexes_Kind_Spec("Hash")
+	Indexes_Kind_SpecRange   = Indexes_Kind_Spec("Range")
+	Indexes_Kind_SpecSpatial = Indexes_Kind_Spec("Spatial")
 )

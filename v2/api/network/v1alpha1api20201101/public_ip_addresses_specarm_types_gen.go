@@ -69,7 +69,7 @@ type PublicIPAddressPropertiesFormat_Spec_SubResourceEmbeddedARM struct {
 	LinkedPublicIPAddress *PublicIPAddress_Spec_SubResourceEmbeddedARM `json:"linkedPublicIPAddress,omitempty"`
 
 	//MigrationPhase: Migration phase of Public IP Address.
-	MigrationPhase *PublicIPAddressPropertiesFormatSpecMigrationPhase `json:"migrationPhase,omitempty"`
+	MigrationPhase *PublicIPAddressPropertiesFormat_MigrationPhase_Spec `json:"migrationPhase,omitempty"`
 
 	//NatGateway: The NatGateway for the Public IP address.
 	NatGateway *NatGateway_SpecARM `json:"natGateway,omitempty"`
@@ -91,10 +91,10 @@ type PublicIPAddressPropertiesFormat_Spec_SubResourceEmbeddedARM struct {
 
 type PublicIPAddressSku_SpecARM struct {
 	//Name: Name of a public IP address SKU.
-	Name *PublicIPAddressSkuSpecName `json:"name,omitempty"`
+	Name *PublicIPAddressSku_Name_Spec `json:"name,omitempty"`
 
 	//Tier: Tier of a public IP address SKU.
-	Tier *PublicIPAddressSkuSpecTier `json:"tier,omitempty"`
+	Tier *PublicIPAddressSku_Tier_Spec `json:"tier,omitempty"`
 }
 
 type DdosSettings_SpecARM struct {
@@ -106,7 +106,7 @@ type DdosSettings_SpecARM struct {
 
 	//ProtectionCoverage: The DDoS protection policy customizability of the public IP.
 	//Only standard coverage will have the ability to be customized.
-	ProtectionCoverage *DdosSettingsSpecProtectionCoverage `json:"protectionCoverage,omitempty"`
+	ProtectionCoverage *DdosSettings_ProtectionCoverage_Spec `json:"protectionCoverage,omitempty"`
 }
 
 type IpTag_SpecARM struct {
@@ -157,19 +157,19 @@ type PublicIPAddressDnsSettings_SpecARM struct {
 }
 
 // +kubebuilder:validation:Enum={"Basic","Standard"}
-type PublicIPAddressSkuSpecName string
+type PublicIPAddressSku_Name_Spec string
 
 const (
-	PublicIPAddressSkuSpecNameBasic    = PublicIPAddressSkuSpecName("Basic")
-	PublicIPAddressSkuSpecNameStandard = PublicIPAddressSkuSpecName("Standard")
+	PublicIPAddressSku_Name_SpecBasic    = PublicIPAddressSku_Name_Spec("Basic")
+	PublicIPAddressSku_Name_SpecStandard = PublicIPAddressSku_Name_Spec("Standard")
 )
 
 // +kubebuilder:validation:Enum={"Global","Regional"}
-type PublicIPAddressSkuSpecTier string
+type PublicIPAddressSku_Tier_Spec string
 
 const (
-	PublicIPAddressSkuSpecTierGlobal   = PublicIPAddressSkuSpecTier("Global")
-	PublicIPAddressSkuSpecTierRegional = PublicIPAddressSkuSpecTier("Regional")
+	PublicIPAddressSku_Tier_SpecGlobal   = PublicIPAddressSku_Tier_Spec("Global")
+	PublicIPAddressSku_Tier_SpecRegional = PublicIPAddressSku_Tier_Spec("Regional")
 )
 
 type PublicIPAddress_Spec_SubResourceEmbeddedARM struct {
@@ -210,5 +210,5 @@ type NatGatewayPropertiesFormat_SpecARM struct {
 
 type NatGatewaySku_SpecARM struct {
 	//Name: Name of Nat Gateway SKU.
-	Name *NatGatewaySkuSpecName `json:"name,omitempty"`
+	Name *NatGatewaySku_Name_Spec `json:"name,omitempty"`
 }

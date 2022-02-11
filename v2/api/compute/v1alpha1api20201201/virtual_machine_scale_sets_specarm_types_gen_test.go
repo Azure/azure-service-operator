@@ -24,12 +24,12 @@ func Test_VirtualMachineScaleSets_SPECARM_WhenSerializedToJson_DeserializesAsEqu
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSets_SPECARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetsSPECARM, VirtualMachineScaleSetsSPECARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSets_SPECARM, VirtualMachineScaleSets_SPECARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetsSPECARM runs a test to see if a specific instance of VirtualMachineScaleSets_SPECARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetsSPECARM(subject VirtualMachineScaleSets_SPECARM) string {
+// RunJSONSerializationTestForVirtualMachineScaleSets_SPECARM runs a test to see if a specific instance of VirtualMachineScaleSets_SPECARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSets_SPECARM(subject VirtualMachineScaleSets_SPECARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,33 +56,33 @@ func RunJSONSerializationTestForVirtualMachineScaleSetsSPECARM(subject VirtualMa
 }
 
 // Generator of VirtualMachineScaleSets_SPECARM instances for property testing - lazily instantiated by
-//VirtualMachineScaleSetsSPECARMGenerator()
-var virtualMachineScaleSetsSPECARMGenerator gopter.Gen
+//VirtualMachineScaleSets_SPECARMGenerator()
+var virtualMachineScaleSets_specarmGenerator gopter.Gen
 
-// VirtualMachineScaleSetsSPECARMGenerator returns a generator of VirtualMachineScaleSets_SPECARM instances for property testing.
-// We first initialize virtualMachineScaleSetsSPECARMGenerator with a simplified generator based on the
+// VirtualMachineScaleSets_SPECARMGenerator returns a generator of VirtualMachineScaleSets_SPECARM instances for property testing.
+// We first initialize virtualMachineScaleSets_specarmGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetsSPECARMGenerator() gopter.Gen {
-	if virtualMachineScaleSetsSPECARMGenerator != nil {
-		return virtualMachineScaleSetsSPECARMGenerator
+func VirtualMachineScaleSets_SPECARMGenerator() gopter.Gen {
+	if virtualMachineScaleSets_specarmGenerator != nil {
+		return virtualMachineScaleSets_specarmGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSPECARM(generators)
-	virtualMachineScaleSetsSPECARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_SPECARM(generators)
+	virtualMachineScaleSets_specarmGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_SPECARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSPECARM(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSPECARM(generators)
-	virtualMachineScaleSetsSPECARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_SPECARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSets_SPECARM(generators)
+	virtualMachineScaleSets_specarmGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_SPECARM{}), generators)
 
-	return virtualMachineScaleSetsSPECARMGenerator
+	return virtualMachineScaleSets_specarmGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSPECARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSPECARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_SPECARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_SPECARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()
@@ -90,13 +90,13 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSPECARM(gens map[
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSPECARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSPECARM(gens map[string]gopter.Gen) {
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationSpecARMGenerator())
-	gens["Identity"] = gen.PtrOf(VirtualMachineScaleSetIdentitySpecARMGenerator())
-	gens["Plan"] = gen.PtrOf(PlanSpecARMGenerator())
-	gens["Properties"] = gen.PtrOf(VirtualMachineScaleSetPropertiesSpecARMGenerator())
-	gens["Sku"] = gen.PtrOf(SkuSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSets_SPECARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSets_SPECARM(gens map[string]gopter.Gen) {
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_SpecARMGenerator())
+	gens["Identity"] = gen.PtrOf(VirtualMachineScaleSetIdentity_SpecARMGenerator())
+	gens["Plan"] = gen.PtrOf(Plan_SpecARMGenerator())
+	gens["Properties"] = gen.PtrOf(VirtualMachineScaleSetProperties_SpecARMGenerator())
+	gens["Sku"] = gen.PtrOf(Sku_SpecARMGenerator())
 }
 
 func Test_ExtendedLocation_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -106,12 +106,12 @@ func Test_ExtendedLocation_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *t
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ExtendedLocation_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForExtendedLocationSpecARM, ExtendedLocationSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForExtendedLocation_SpecARM, ExtendedLocation_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForExtendedLocationSpecARM runs a test to see if a specific instance of ExtendedLocation_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForExtendedLocationSpecARM(subject ExtendedLocation_SpecARM) string {
+// RunJSONSerializationTestForExtendedLocation_SpecARM runs a test to see if a specific instance of ExtendedLocation_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForExtendedLocation_SpecARM(subject ExtendedLocation_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -138,24 +138,24 @@ func RunJSONSerializationTestForExtendedLocationSpecARM(subject ExtendedLocation
 }
 
 // Generator of ExtendedLocation_SpecARM instances for property testing - lazily instantiated by
-//ExtendedLocationSpecARMGenerator()
-var extendedLocationSpecARMGenerator gopter.Gen
+//ExtendedLocation_SpecARMGenerator()
+var extendedLocation_specARMGenerator gopter.Gen
 
-// ExtendedLocationSpecARMGenerator returns a generator of ExtendedLocation_SpecARM instances for property testing.
-func ExtendedLocationSpecARMGenerator() gopter.Gen {
-	if extendedLocationSpecARMGenerator != nil {
-		return extendedLocationSpecARMGenerator
+// ExtendedLocation_SpecARMGenerator returns a generator of ExtendedLocation_SpecARM instances for property testing.
+func ExtendedLocation_SpecARMGenerator() gopter.Gen {
+	if extendedLocation_specARMGenerator != nil {
+		return extendedLocation_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForExtendedLocationSpecARM(generators)
-	extendedLocationSpecARMGenerator = gen.Struct(reflect.TypeOf(ExtendedLocation_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForExtendedLocation_SpecARM(generators)
+	extendedLocation_specARMGenerator = gen.Struct(reflect.TypeOf(ExtendedLocation_SpecARM{}), generators)
 
-	return extendedLocationSpecARMGenerator
+	return extendedLocation_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForExtendedLocationSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForExtendedLocationSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForExtendedLocation_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForExtendedLocation_SpecARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_SpecEdgeZone))
 }
@@ -167,12 +167,12 @@ func Test_Plan_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Plan_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPlanSpecARM, PlanSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForPlan_SpecARM, Plan_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPlanSpecARM runs a test to see if a specific instance of Plan_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPlanSpecARM(subject Plan_SpecARM) string {
+// RunJSONSerializationTestForPlan_SpecARM runs a test to see if a specific instance of Plan_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPlan_SpecARM(subject Plan_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -198,24 +198,24 @@ func RunJSONSerializationTestForPlanSpecARM(subject Plan_SpecARM) string {
 	return ""
 }
 
-// Generator of Plan_SpecARM instances for property testing - lazily instantiated by PlanSpecARMGenerator()
-var planSpecARMGenerator gopter.Gen
+// Generator of Plan_SpecARM instances for property testing - lazily instantiated by Plan_SpecARMGenerator()
+var plan_specARMGenerator gopter.Gen
 
-// PlanSpecARMGenerator returns a generator of Plan_SpecARM instances for property testing.
-func PlanSpecARMGenerator() gopter.Gen {
-	if planSpecARMGenerator != nil {
-		return planSpecARMGenerator
+// Plan_SpecARMGenerator returns a generator of Plan_SpecARM instances for property testing.
+func Plan_SpecARMGenerator() gopter.Gen {
+	if plan_specARMGenerator != nil {
+		return plan_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPlanSpecARM(generators)
-	planSpecARMGenerator = gen.Struct(reflect.TypeOf(Plan_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForPlan_SpecARM(generators)
+	plan_specARMGenerator = gen.Struct(reflect.TypeOf(Plan_SpecARM{}), generators)
 
-	return planSpecARMGenerator
+	return plan_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPlanSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPlanSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPlan_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPlan_SpecARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Product"] = gen.PtrOf(gen.AlphaString())
 	gens["PromotionCode"] = gen.PtrOf(gen.AlphaString())
@@ -229,12 +229,12 @@ func Test_Sku_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Sku_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSkuSpecARM, SkuSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSku_SpecARM, Sku_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSkuSpecARM runs a test to see if a specific instance of Sku_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSkuSpecARM(subject Sku_SpecARM) string {
+// RunJSONSerializationTestForSku_SpecARM runs a test to see if a specific instance of Sku_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSku_SpecARM(subject Sku_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -260,24 +260,24 @@ func RunJSONSerializationTestForSkuSpecARM(subject Sku_SpecARM) string {
 	return ""
 }
 
-// Generator of Sku_SpecARM instances for property testing - lazily instantiated by SkuSpecARMGenerator()
-var skuSpecARMGenerator gopter.Gen
+// Generator of Sku_SpecARM instances for property testing - lazily instantiated by Sku_SpecARMGenerator()
+var sku_specARMGenerator gopter.Gen
 
-// SkuSpecARMGenerator returns a generator of Sku_SpecARM instances for property testing.
-func SkuSpecARMGenerator() gopter.Gen {
-	if skuSpecARMGenerator != nil {
-		return skuSpecARMGenerator
+// Sku_SpecARMGenerator returns a generator of Sku_SpecARM instances for property testing.
+func Sku_SpecARMGenerator() gopter.Gen {
+	if sku_specARMGenerator != nil {
+		return sku_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSkuSpecARM(generators)
-	skuSpecARMGenerator = gen.Struct(reflect.TypeOf(Sku_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForSku_SpecARM(generators)
+	sku_specARMGenerator = gen.Struct(reflect.TypeOf(Sku_SpecARM{}), generators)
 
-	return skuSpecARMGenerator
+	return sku_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSkuSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSkuSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSku_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSku_SpecARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
@@ -290,12 +290,12 @@ func Test_VirtualMachineScaleSetIdentity_SpecARM_WhenSerializedToJson_Deserializ
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetIdentity_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetIdentitySpecARM, VirtualMachineScaleSetIdentitySpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetIdentity_SpecARM, VirtualMachineScaleSetIdentity_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetIdentitySpecARM runs a test to see if a specific instance of VirtualMachineScaleSetIdentity_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetIdentitySpecARM(subject VirtualMachineScaleSetIdentity_SpecARM) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetIdentity_SpecARM runs a test to see if a specific instance of VirtualMachineScaleSetIdentity_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetIdentity_SpecARM(subject VirtualMachineScaleSetIdentity_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -322,29 +322,29 @@ func RunJSONSerializationTestForVirtualMachineScaleSetIdentitySpecARM(subject Vi
 }
 
 // Generator of VirtualMachineScaleSetIdentity_SpecARM instances for property testing - lazily instantiated by
-//VirtualMachineScaleSetIdentitySpecARMGenerator()
-var virtualMachineScaleSetIdentitySpecARMGenerator gopter.Gen
+//VirtualMachineScaleSetIdentity_SpecARMGenerator()
+var virtualMachineScaleSetIdentity_specARMGenerator gopter.Gen
 
-// VirtualMachineScaleSetIdentitySpecARMGenerator returns a generator of VirtualMachineScaleSetIdentity_SpecARM instances for property testing.
-func VirtualMachineScaleSetIdentitySpecARMGenerator() gopter.Gen {
-	if virtualMachineScaleSetIdentitySpecARMGenerator != nil {
-		return virtualMachineScaleSetIdentitySpecARMGenerator
+// VirtualMachineScaleSetIdentity_SpecARMGenerator returns a generator of VirtualMachineScaleSetIdentity_SpecARM instances for property testing.
+func VirtualMachineScaleSetIdentity_SpecARMGenerator() gopter.Gen {
+	if virtualMachineScaleSetIdentity_specARMGenerator != nil {
+		return virtualMachineScaleSetIdentity_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentitySpecARM(generators)
-	virtualMachineScaleSetIdentitySpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIdentity_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity_SpecARM(generators)
+	virtualMachineScaleSetIdentity_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIdentity_SpecARM{}), generators)
 
-	return virtualMachineScaleSetIdentitySpecARMGenerator
+	return virtualMachineScaleSetIdentity_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentitySpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentitySpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity_SpecARM(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		VirtualMachineScaleSetIdentitySpecTypeNone,
-		VirtualMachineScaleSetIdentitySpecTypeSystemAssigned,
-		VirtualMachineScaleSetIdentitySpecTypeSystemAssignedUserAssigned,
-		VirtualMachineScaleSetIdentitySpecTypeUserAssigned))
+		VirtualMachineScaleSetIdentity_Type_SpecNone,
+		VirtualMachineScaleSetIdentity_Type_SpecSystemAssigned,
+		VirtualMachineScaleSetIdentity_Type_SpecSystemAssignedUserAssigned,
+		VirtualMachineScaleSetIdentity_Type_SpecUserAssigned))
 }
 
 func Test_VirtualMachineScaleSetProperties_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -354,12 +354,12 @@ func Test_VirtualMachineScaleSetProperties_SpecARM_WhenSerializedToJson_Deserial
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetProperties_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetPropertiesSpecARM, VirtualMachineScaleSetPropertiesSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetProperties_SpecARM, VirtualMachineScaleSetProperties_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetPropertiesSpecARM runs a test to see if a specific instance of VirtualMachineScaleSetProperties_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetPropertiesSpecARM(subject VirtualMachineScaleSetProperties_SpecARM) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetProperties_SpecARM runs a test to see if a specific instance of VirtualMachineScaleSetProperties_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetProperties_SpecARM(subject VirtualMachineScaleSetProperties_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -386,33 +386,33 @@ func RunJSONSerializationTestForVirtualMachineScaleSetPropertiesSpecARM(subject 
 }
 
 // Generator of VirtualMachineScaleSetProperties_SpecARM instances for property testing - lazily instantiated by
-//VirtualMachineScaleSetPropertiesSpecARMGenerator()
-var virtualMachineScaleSetPropertiesSpecARMGenerator gopter.Gen
+//VirtualMachineScaleSetProperties_SpecARMGenerator()
+var virtualMachineScaleSetProperties_specARMGenerator gopter.Gen
 
-// VirtualMachineScaleSetPropertiesSpecARMGenerator returns a generator of VirtualMachineScaleSetProperties_SpecARM instances for property testing.
-// We first initialize virtualMachineScaleSetPropertiesSpecARMGenerator with a simplified generator based on the
+// VirtualMachineScaleSetProperties_SpecARMGenerator returns a generator of VirtualMachineScaleSetProperties_SpecARM instances for property testing.
+// We first initialize virtualMachineScaleSetProperties_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetPropertiesSpecARMGenerator() gopter.Gen {
-	if virtualMachineScaleSetPropertiesSpecARMGenerator != nil {
-		return virtualMachineScaleSetPropertiesSpecARMGenerator
+func VirtualMachineScaleSetProperties_SpecARMGenerator() gopter.Gen {
+	if virtualMachineScaleSetProperties_specARMGenerator != nil {
+		return virtualMachineScaleSetProperties_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPropertiesSpecARM(generators)
-	virtualMachineScaleSetPropertiesSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetProperties_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetProperties_SpecARM(generators)
+	virtualMachineScaleSetProperties_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetProperties_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPropertiesSpecARM(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPropertiesSpecARM(generators)
-	virtualMachineScaleSetPropertiesSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetProperties_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetProperties_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetProperties_SpecARM(generators)
+	virtualMachineScaleSetProperties_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetProperties_SpecARM{}), generators)
 
-	return virtualMachineScaleSetPropertiesSpecARMGenerator
+	return virtualMachineScaleSetProperties_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPropertiesSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPropertiesSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetProperties_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetProperties_SpecARM(gens map[string]gopter.Gen) {
 	gens["DoNotRunExtensionsOnOverprovisionedVMs"] = gen.PtrOf(gen.Bool())
 	gens["OrchestrationMode"] = gen.PtrOf(gen.OneConstOf(OrchestrationMode_SpecFlexible, OrchestrationMode_SpecUniform))
 	gens["Overprovision"] = gen.PtrOf(gen.Bool())
@@ -421,15 +421,15 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPropertiesSpecARM(
 	gens["ZoneBalance"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPropertiesSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPropertiesSpecARM(gens map[string]gopter.Gen) {
-	gens["AdditionalCapabilities"] = gen.PtrOf(AdditionalCapabilitiesSpecARMGenerator())
-	gens["AutomaticRepairsPolicy"] = gen.PtrOf(AutomaticRepairsPolicySpecARMGenerator())
-	gens["HostGroup"] = gen.PtrOf(SubResourceSpecARMGenerator())
-	gens["ProximityPlacementGroup"] = gen.PtrOf(SubResourceSpecARMGenerator())
-	gens["ScaleInPolicy"] = gen.PtrOf(ScaleInPolicySpecARMGenerator())
-	gens["UpgradePolicy"] = gen.PtrOf(UpgradePolicySpecARMGenerator())
-	gens["VirtualMachineProfile"] = gen.PtrOf(VirtualMachineScaleSetVMProfileSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetProperties_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetProperties_SpecARM(gens map[string]gopter.Gen) {
+	gens["AdditionalCapabilities"] = gen.PtrOf(AdditionalCapabilities_SpecARMGenerator())
+	gens["AutomaticRepairsPolicy"] = gen.PtrOf(AutomaticRepairsPolicy_SpecARMGenerator())
+	gens["HostGroup"] = gen.PtrOf(SubResource_SpecARMGenerator())
+	gens["ProximityPlacementGroup"] = gen.PtrOf(SubResource_SpecARMGenerator())
+	gens["ScaleInPolicy"] = gen.PtrOf(ScaleInPolicy_SpecARMGenerator())
+	gens["UpgradePolicy"] = gen.PtrOf(UpgradePolicy_SpecARMGenerator())
+	gens["VirtualMachineProfile"] = gen.PtrOf(VirtualMachineScaleSetVMProfile_SpecARMGenerator())
 }
 
 func Test_AdditionalCapabilities_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -439,12 +439,12 @@ func Test_AdditionalCapabilities_SpecARM_WhenSerializedToJson_DeserializesAsEqua
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdditionalCapabilities_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdditionalCapabilitiesSpecARM, AdditionalCapabilitiesSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForAdditionalCapabilities_SpecARM, AdditionalCapabilities_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAdditionalCapabilitiesSpecARM runs a test to see if a specific instance of AdditionalCapabilities_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdditionalCapabilitiesSpecARM(subject AdditionalCapabilities_SpecARM) string {
+// RunJSONSerializationTestForAdditionalCapabilities_SpecARM runs a test to see if a specific instance of AdditionalCapabilities_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAdditionalCapabilities_SpecARM(subject AdditionalCapabilities_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -471,24 +471,24 @@ func RunJSONSerializationTestForAdditionalCapabilitiesSpecARM(subject Additional
 }
 
 // Generator of AdditionalCapabilities_SpecARM instances for property testing - lazily instantiated by
-//AdditionalCapabilitiesSpecARMGenerator()
-var additionalCapabilitiesSpecARMGenerator gopter.Gen
+//AdditionalCapabilities_SpecARMGenerator()
+var additionalCapabilities_specARMGenerator gopter.Gen
 
-// AdditionalCapabilitiesSpecARMGenerator returns a generator of AdditionalCapabilities_SpecARM instances for property testing.
-func AdditionalCapabilitiesSpecARMGenerator() gopter.Gen {
-	if additionalCapabilitiesSpecARMGenerator != nil {
-		return additionalCapabilitiesSpecARMGenerator
+// AdditionalCapabilities_SpecARMGenerator returns a generator of AdditionalCapabilities_SpecARM instances for property testing.
+func AdditionalCapabilities_SpecARMGenerator() gopter.Gen {
+	if additionalCapabilities_specARMGenerator != nil {
+		return additionalCapabilities_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdditionalCapabilitiesSpecARM(generators)
-	additionalCapabilitiesSpecARMGenerator = gen.Struct(reflect.TypeOf(AdditionalCapabilities_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForAdditionalCapabilities_SpecARM(generators)
+	additionalCapabilities_specARMGenerator = gen.Struct(reflect.TypeOf(AdditionalCapabilities_SpecARM{}), generators)
 
-	return additionalCapabilitiesSpecARMGenerator
+	return additionalCapabilities_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAdditionalCapabilitiesSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdditionalCapabilitiesSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAdditionalCapabilities_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAdditionalCapabilities_SpecARM(gens map[string]gopter.Gen) {
 	gens["UltraSSDEnabled"] = gen.PtrOf(gen.Bool())
 }
 
@@ -499,12 +499,12 @@ func Test_AutomaticRepairsPolicy_SpecARM_WhenSerializedToJson_DeserializesAsEqua
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AutomaticRepairsPolicy_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutomaticRepairsPolicySpecARM, AutomaticRepairsPolicySpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForAutomaticRepairsPolicy_SpecARM, AutomaticRepairsPolicy_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAutomaticRepairsPolicySpecARM runs a test to see if a specific instance of AutomaticRepairsPolicy_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutomaticRepairsPolicySpecARM(subject AutomaticRepairsPolicy_SpecARM) string {
+// RunJSONSerializationTestForAutomaticRepairsPolicy_SpecARM runs a test to see if a specific instance of AutomaticRepairsPolicy_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAutomaticRepairsPolicy_SpecARM(subject AutomaticRepairsPolicy_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -531,24 +531,24 @@ func RunJSONSerializationTestForAutomaticRepairsPolicySpecARM(subject AutomaticR
 }
 
 // Generator of AutomaticRepairsPolicy_SpecARM instances for property testing - lazily instantiated by
-//AutomaticRepairsPolicySpecARMGenerator()
-var automaticRepairsPolicySpecARMGenerator gopter.Gen
+//AutomaticRepairsPolicy_SpecARMGenerator()
+var automaticRepairsPolicy_specARMGenerator gopter.Gen
 
-// AutomaticRepairsPolicySpecARMGenerator returns a generator of AutomaticRepairsPolicy_SpecARM instances for property testing.
-func AutomaticRepairsPolicySpecARMGenerator() gopter.Gen {
-	if automaticRepairsPolicySpecARMGenerator != nil {
-		return automaticRepairsPolicySpecARMGenerator
+// AutomaticRepairsPolicy_SpecARMGenerator returns a generator of AutomaticRepairsPolicy_SpecARM instances for property testing.
+func AutomaticRepairsPolicy_SpecARMGenerator() gopter.Gen {
+	if automaticRepairsPolicy_specARMGenerator != nil {
+		return automaticRepairsPolicy_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutomaticRepairsPolicySpecARM(generators)
-	automaticRepairsPolicySpecARMGenerator = gen.Struct(reflect.TypeOf(AutomaticRepairsPolicy_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForAutomaticRepairsPolicy_SpecARM(generators)
+	automaticRepairsPolicy_specARMGenerator = gen.Struct(reflect.TypeOf(AutomaticRepairsPolicy_SpecARM{}), generators)
 
-	return automaticRepairsPolicySpecARMGenerator
+	return automaticRepairsPolicy_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAutomaticRepairsPolicySpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutomaticRepairsPolicySpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAutomaticRepairsPolicy_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAutomaticRepairsPolicy_SpecARM(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["GracePeriod"] = gen.PtrOf(gen.AlphaString())
 }
@@ -560,12 +560,12 @@ func Test_ScaleInPolicy_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *test
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ScaleInPolicy_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForScaleInPolicySpecARM, ScaleInPolicySpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForScaleInPolicy_SpecARM, ScaleInPolicy_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForScaleInPolicySpecARM runs a test to see if a specific instance of ScaleInPolicy_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForScaleInPolicySpecARM(subject ScaleInPolicy_SpecARM) string {
+// RunJSONSerializationTestForScaleInPolicy_SpecARM runs a test to see if a specific instance of ScaleInPolicy_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForScaleInPolicy_SpecARM(subject ScaleInPolicy_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -592,25 +592,25 @@ func RunJSONSerializationTestForScaleInPolicySpecARM(subject ScaleInPolicy_SpecA
 }
 
 // Generator of ScaleInPolicy_SpecARM instances for property testing - lazily instantiated by
-//ScaleInPolicySpecARMGenerator()
-var scaleInPolicySpecARMGenerator gopter.Gen
+//ScaleInPolicy_SpecARMGenerator()
+var scaleInPolicy_specARMGenerator gopter.Gen
 
-// ScaleInPolicySpecARMGenerator returns a generator of ScaleInPolicy_SpecARM instances for property testing.
-func ScaleInPolicySpecARMGenerator() gopter.Gen {
-	if scaleInPolicySpecARMGenerator != nil {
-		return scaleInPolicySpecARMGenerator
+// ScaleInPolicy_SpecARMGenerator returns a generator of ScaleInPolicy_SpecARM instances for property testing.
+func ScaleInPolicy_SpecARMGenerator() gopter.Gen {
+	if scaleInPolicy_specARMGenerator != nil {
+		return scaleInPolicy_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForScaleInPolicySpecARM(generators)
-	scaleInPolicySpecARMGenerator = gen.Struct(reflect.TypeOf(ScaleInPolicy_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForScaleInPolicy_SpecARM(generators)
+	scaleInPolicy_specARMGenerator = gen.Struct(reflect.TypeOf(ScaleInPolicy_SpecARM{}), generators)
 
-	return scaleInPolicySpecARMGenerator
+	return scaleInPolicy_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForScaleInPolicySpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForScaleInPolicySpecARM(gens map[string]gopter.Gen) {
-	gens["Rules"] = gen.SliceOf(gen.OneConstOf(ScaleInPolicySpecRulesDefault, ScaleInPolicySpecRulesNewestVM, ScaleInPolicySpecRulesOldestVM))
+// AddIndependentPropertyGeneratorsForScaleInPolicy_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForScaleInPolicy_SpecARM(gens map[string]gopter.Gen) {
+	gens["Rules"] = gen.SliceOf(gen.OneConstOf(ScaleInPolicy_Rules_SpecDefault, ScaleInPolicy_Rules_SpecNewestVM, ScaleInPolicy_Rules_SpecOldestVM))
 }
 
 func Test_SubResource_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -620,12 +620,12 @@ func Test_SubResource_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testin
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SubResource_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubResourceSpecARM, SubResourceSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSubResource_SpecARM, SubResource_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSubResourceSpecARM runs a test to see if a specific instance of SubResource_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubResourceSpecARM(subject SubResource_SpecARM) string {
+// RunJSONSerializationTestForSubResource_SpecARM runs a test to see if a specific instance of SubResource_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSubResource_SpecARM(subject SubResource_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -651,24 +651,25 @@ func RunJSONSerializationTestForSubResourceSpecARM(subject SubResource_SpecARM) 
 	return ""
 }
 
-// Generator of SubResource_SpecARM instances for property testing - lazily instantiated by SubResourceSpecARMGenerator()
-var subResourceSpecARMGenerator gopter.Gen
+// Generator of SubResource_SpecARM instances for property testing - lazily instantiated by
+//SubResource_SpecARMGenerator()
+var subResource_specARMGenerator gopter.Gen
 
-// SubResourceSpecARMGenerator returns a generator of SubResource_SpecARM instances for property testing.
-func SubResourceSpecARMGenerator() gopter.Gen {
-	if subResourceSpecARMGenerator != nil {
-		return subResourceSpecARMGenerator
+// SubResource_SpecARMGenerator returns a generator of SubResource_SpecARM instances for property testing.
+func SubResource_SpecARMGenerator() gopter.Gen {
+	if subResource_specARMGenerator != nil {
+		return subResource_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubResourceSpecARM(generators)
-	subResourceSpecARMGenerator = gen.Struct(reflect.TypeOf(SubResource_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForSubResource_SpecARM(generators)
+	subResource_specARMGenerator = gen.Struct(reflect.TypeOf(SubResource_SpecARM{}), generators)
 
-	return subResourceSpecARMGenerator
+	return subResource_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSubResourceSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubResourceSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSubResource_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSubResource_SpecARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -679,12 +680,12 @@ func Test_UpgradePolicy_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *test
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UpgradePolicy_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUpgradePolicySpecARM, UpgradePolicySpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForUpgradePolicy_SpecARM, UpgradePolicy_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForUpgradePolicySpecARM runs a test to see if a specific instance of UpgradePolicy_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForUpgradePolicySpecARM(subject UpgradePolicy_SpecARM) string {
+// RunJSONSerializationTestForUpgradePolicy_SpecARM runs a test to see if a specific instance of UpgradePolicy_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForUpgradePolicy_SpecARM(subject UpgradePolicy_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -711,40 +712,40 @@ func RunJSONSerializationTestForUpgradePolicySpecARM(subject UpgradePolicy_SpecA
 }
 
 // Generator of UpgradePolicy_SpecARM instances for property testing - lazily instantiated by
-//UpgradePolicySpecARMGenerator()
-var upgradePolicySpecARMGenerator gopter.Gen
+//UpgradePolicy_SpecARMGenerator()
+var upgradePolicy_specARMGenerator gopter.Gen
 
-// UpgradePolicySpecARMGenerator returns a generator of UpgradePolicy_SpecARM instances for property testing.
-// We first initialize upgradePolicySpecARMGenerator with a simplified generator based on the
+// UpgradePolicy_SpecARMGenerator returns a generator of UpgradePolicy_SpecARM instances for property testing.
+// We first initialize upgradePolicy_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func UpgradePolicySpecARMGenerator() gopter.Gen {
-	if upgradePolicySpecARMGenerator != nil {
-		return upgradePolicySpecARMGenerator
+func UpgradePolicy_SpecARMGenerator() gopter.Gen {
+	if upgradePolicy_specARMGenerator != nil {
+		return upgradePolicy_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUpgradePolicySpecARM(generators)
-	upgradePolicySpecARMGenerator = gen.Struct(reflect.TypeOf(UpgradePolicy_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForUpgradePolicy_SpecARM(generators)
+	upgradePolicy_specARMGenerator = gen.Struct(reflect.TypeOf(UpgradePolicy_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUpgradePolicySpecARM(generators)
-	AddRelatedPropertyGeneratorsForUpgradePolicySpecARM(generators)
-	upgradePolicySpecARMGenerator = gen.Struct(reflect.TypeOf(UpgradePolicy_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForUpgradePolicy_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForUpgradePolicy_SpecARM(generators)
+	upgradePolicy_specARMGenerator = gen.Struct(reflect.TypeOf(UpgradePolicy_SpecARM{}), generators)
 
-	return upgradePolicySpecARMGenerator
+	return upgradePolicy_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUpgradePolicySpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUpgradePolicySpecARM(gens map[string]gopter.Gen) {
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(UpgradePolicySpecModeAutomatic, UpgradePolicySpecModeManual, UpgradePolicySpecModeRolling))
+// AddIndependentPropertyGeneratorsForUpgradePolicy_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUpgradePolicy_SpecARM(gens map[string]gopter.Gen) {
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(UpgradePolicy_Mode_SpecAutomatic, UpgradePolicy_Mode_SpecManual, UpgradePolicy_Mode_SpecRolling))
 }
 
-// AddRelatedPropertyGeneratorsForUpgradePolicySpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUpgradePolicySpecARM(gens map[string]gopter.Gen) {
-	gens["AutomaticOSUpgradePolicy"] = gen.PtrOf(AutomaticOSUpgradePolicySpecARMGenerator())
-	gens["RollingUpgradePolicy"] = gen.PtrOf(RollingUpgradePolicySpecARMGenerator())
+// AddRelatedPropertyGeneratorsForUpgradePolicy_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForUpgradePolicy_SpecARM(gens map[string]gopter.Gen) {
+	gens["AutomaticOSUpgradePolicy"] = gen.PtrOf(AutomaticOSUpgradePolicy_SpecARMGenerator())
+	gens["RollingUpgradePolicy"] = gen.PtrOf(RollingUpgradePolicy_SpecARMGenerator())
 }
 
 func Test_VirtualMachineScaleSetVMProfile_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -754,12 +755,12 @@ func Test_VirtualMachineScaleSetVMProfile_SpecARM_WhenSerializedToJson_Deseriali
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetVMProfile_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetVMProfileSpecARM, VirtualMachineScaleSetVMProfileSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetVMProfile_SpecARM, VirtualMachineScaleSetVMProfile_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetVMProfileSpecARM runs a test to see if a specific instance of VirtualMachineScaleSetVMProfile_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetVMProfileSpecARM(subject VirtualMachineScaleSetVMProfile_SpecARM) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetVMProfile_SpecARM runs a test to see if a specific instance of VirtualMachineScaleSetVMProfile_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetVMProfile_SpecARM(subject VirtualMachineScaleSetVMProfile_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -786,48 +787,48 @@ func RunJSONSerializationTestForVirtualMachineScaleSetVMProfileSpecARM(subject V
 }
 
 // Generator of VirtualMachineScaleSetVMProfile_SpecARM instances for property testing - lazily instantiated by
-//VirtualMachineScaleSetVMProfileSpecARMGenerator()
-var virtualMachineScaleSetVMProfileSpecARMGenerator gopter.Gen
+//VirtualMachineScaleSetVMProfile_SpecARMGenerator()
+var virtualMachineScaleSetVMProfile_specARMGenerator gopter.Gen
 
-// VirtualMachineScaleSetVMProfileSpecARMGenerator returns a generator of VirtualMachineScaleSetVMProfile_SpecARM instances for property testing.
-// We first initialize virtualMachineScaleSetVMProfileSpecARMGenerator with a simplified generator based on the
+// VirtualMachineScaleSetVMProfile_SpecARMGenerator returns a generator of VirtualMachineScaleSetVMProfile_SpecARM instances for property testing.
+// We first initialize virtualMachineScaleSetVMProfile_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetVMProfileSpecARMGenerator() gopter.Gen {
-	if virtualMachineScaleSetVMProfileSpecARMGenerator != nil {
-		return virtualMachineScaleSetVMProfileSpecARMGenerator
+func VirtualMachineScaleSetVMProfile_SpecARMGenerator() gopter.Gen {
+	if virtualMachineScaleSetVMProfile_specARMGenerator != nil {
+		return virtualMachineScaleSetVMProfile_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetVMProfileSpecARM(generators)
-	virtualMachineScaleSetVMProfileSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetVMProfile_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetVMProfile_SpecARM(generators)
+	virtualMachineScaleSetVMProfile_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetVMProfile_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetVMProfileSpecARM(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetVMProfileSpecARM(generators)
-	virtualMachineScaleSetVMProfileSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetVMProfile_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetVMProfile_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetVMProfile_SpecARM(generators)
+	virtualMachineScaleSetVMProfile_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetVMProfile_SpecARM{}), generators)
 
-	return virtualMachineScaleSetVMProfileSpecARMGenerator
+	return virtualMachineScaleSetVMProfile_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetVMProfileSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetVMProfileSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetVMProfile_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetVMProfile_SpecARM(gens map[string]gopter.Gen) {
 	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(EvictionPolicy_SpecDeallocate, EvictionPolicy_SpecDelete))
 	gens["LicenseType"] = gen.PtrOf(gen.AlphaString())
 	gens["Priority"] = gen.PtrOf(gen.OneConstOf(Priority_SpecLow, Priority_SpecRegular, Priority_SpecSpot))
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetVMProfileSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetVMProfileSpecARM(gens map[string]gopter.Gen) {
-	gens["BillingProfile"] = gen.PtrOf(BillingProfileSpecARMGenerator())
-	gens["DiagnosticsProfile"] = gen.PtrOf(DiagnosticsProfileSpecARMGenerator())
-	gens["ExtensionProfile"] = gen.PtrOf(VirtualMachineScaleSetExtensionProfileSpecARMGenerator())
-	gens["NetworkProfile"] = gen.PtrOf(VirtualMachineScaleSetNetworkProfileSpecARMGenerator())
-	gens["OsProfile"] = gen.PtrOf(VirtualMachineScaleSetOSProfileSpecARMGenerator())
-	gens["ScheduledEventsProfile"] = gen.PtrOf(ScheduledEventsProfileSpecARMGenerator())
-	gens["SecurityProfile"] = gen.PtrOf(SecurityProfileSpecARMGenerator())
-	gens["StorageProfile"] = gen.PtrOf(VirtualMachineScaleSetStorageProfileSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetVMProfile_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetVMProfile_SpecARM(gens map[string]gopter.Gen) {
+	gens["BillingProfile"] = gen.PtrOf(BillingProfile_SpecARMGenerator())
+	gens["DiagnosticsProfile"] = gen.PtrOf(DiagnosticsProfile_SpecARMGenerator())
+	gens["ExtensionProfile"] = gen.PtrOf(VirtualMachineScaleSetExtensionProfile_SpecARMGenerator())
+	gens["NetworkProfile"] = gen.PtrOf(VirtualMachineScaleSetNetworkProfile_SpecARMGenerator())
+	gens["OsProfile"] = gen.PtrOf(VirtualMachineScaleSetOSProfile_SpecARMGenerator())
+	gens["ScheduledEventsProfile"] = gen.PtrOf(ScheduledEventsProfile_SpecARMGenerator())
+	gens["SecurityProfile"] = gen.PtrOf(SecurityProfile_SpecARMGenerator())
+	gens["StorageProfile"] = gen.PtrOf(VirtualMachineScaleSetStorageProfile_SpecARMGenerator())
 }
 
 func Test_AutomaticOSUpgradePolicy_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -837,12 +838,12 @@ func Test_AutomaticOSUpgradePolicy_SpecARM_WhenSerializedToJson_DeserializesAsEq
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AutomaticOSUpgradePolicy_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutomaticOSUpgradePolicySpecARM, AutomaticOSUpgradePolicySpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForAutomaticOSUpgradePolicy_SpecARM, AutomaticOSUpgradePolicy_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAutomaticOSUpgradePolicySpecARM runs a test to see if a specific instance of AutomaticOSUpgradePolicy_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutomaticOSUpgradePolicySpecARM(subject AutomaticOSUpgradePolicy_SpecARM) string {
+// RunJSONSerializationTestForAutomaticOSUpgradePolicy_SpecARM runs a test to see if a specific instance of AutomaticOSUpgradePolicy_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAutomaticOSUpgradePolicy_SpecARM(subject AutomaticOSUpgradePolicy_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -869,24 +870,24 @@ func RunJSONSerializationTestForAutomaticOSUpgradePolicySpecARM(subject Automati
 }
 
 // Generator of AutomaticOSUpgradePolicy_SpecARM instances for property testing - lazily instantiated by
-//AutomaticOSUpgradePolicySpecARMGenerator()
-var automaticOSUpgradePolicySpecARMGenerator gopter.Gen
+//AutomaticOSUpgradePolicy_SpecARMGenerator()
+var automaticOSUpgradePolicy_specARMGenerator gopter.Gen
 
-// AutomaticOSUpgradePolicySpecARMGenerator returns a generator of AutomaticOSUpgradePolicy_SpecARM instances for property testing.
-func AutomaticOSUpgradePolicySpecARMGenerator() gopter.Gen {
-	if automaticOSUpgradePolicySpecARMGenerator != nil {
-		return automaticOSUpgradePolicySpecARMGenerator
+// AutomaticOSUpgradePolicy_SpecARMGenerator returns a generator of AutomaticOSUpgradePolicy_SpecARM instances for property testing.
+func AutomaticOSUpgradePolicy_SpecARMGenerator() gopter.Gen {
+	if automaticOSUpgradePolicy_specARMGenerator != nil {
+		return automaticOSUpgradePolicy_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutomaticOSUpgradePolicySpecARM(generators)
-	automaticOSUpgradePolicySpecARMGenerator = gen.Struct(reflect.TypeOf(AutomaticOSUpgradePolicy_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForAutomaticOSUpgradePolicy_SpecARM(generators)
+	automaticOSUpgradePolicy_specARMGenerator = gen.Struct(reflect.TypeOf(AutomaticOSUpgradePolicy_SpecARM{}), generators)
 
-	return automaticOSUpgradePolicySpecARMGenerator
+	return automaticOSUpgradePolicy_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAutomaticOSUpgradePolicySpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutomaticOSUpgradePolicySpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAutomaticOSUpgradePolicy_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAutomaticOSUpgradePolicy_SpecARM(gens map[string]gopter.Gen) {
 	gens["DisableAutomaticRollback"] = gen.PtrOf(gen.Bool())
 	gens["EnableAutomaticOSUpgrade"] = gen.PtrOf(gen.Bool())
 }
@@ -898,12 +899,12 @@ func Test_RollingUpgradePolicy_SpecARM_WhenSerializedToJson_DeserializesAsEqual(
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RollingUpgradePolicy_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRollingUpgradePolicySpecARM, RollingUpgradePolicySpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForRollingUpgradePolicy_SpecARM, RollingUpgradePolicy_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRollingUpgradePolicySpecARM runs a test to see if a specific instance of RollingUpgradePolicy_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRollingUpgradePolicySpecARM(subject RollingUpgradePolicy_SpecARM) string {
+// RunJSONSerializationTestForRollingUpgradePolicy_SpecARM runs a test to see if a specific instance of RollingUpgradePolicy_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRollingUpgradePolicy_SpecARM(subject RollingUpgradePolicy_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -930,24 +931,24 @@ func RunJSONSerializationTestForRollingUpgradePolicySpecARM(subject RollingUpgra
 }
 
 // Generator of RollingUpgradePolicy_SpecARM instances for property testing - lazily instantiated by
-//RollingUpgradePolicySpecARMGenerator()
-var rollingUpgradePolicySpecARMGenerator gopter.Gen
+//RollingUpgradePolicy_SpecARMGenerator()
+var rollingUpgradePolicy_specARMGenerator gopter.Gen
 
-// RollingUpgradePolicySpecARMGenerator returns a generator of RollingUpgradePolicy_SpecARM instances for property testing.
-func RollingUpgradePolicySpecARMGenerator() gopter.Gen {
-	if rollingUpgradePolicySpecARMGenerator != nil {
-		return rollingUpgradePolicySpecARMGenerator
+// RollingUpgradePolicy_SpecARMGenerator returns a generator of RollingUpgradePolicy_SpecARM instances for property testing.
+func RollingUpgradePolicy_SpecARMGenerator() gopter.Gen {
+	if rollingUpgradePolicy_specARMGenerator != nil {
+		return rollingUpgradePolicy_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRollingUpgradePolicySpecARM(generators)
-	rollingUpgradePolicySpecARMGenerator = gen.Struct(reflect.TypeOf(RollingUpgradePolicy_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForRollingUpgradePolicy_SpecARM(generators)
+	rollingUpgradePolicy_specARMGenerator = gen.Struct(reflect.TypeOf(RollingUpgradePolicy_SpecARM{}), generators)
 
-	return rollingUpgradePolicySpecARMGenerator
+	return rollingUpgradePolicy_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRollingUpgradePolicySpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRollingUpgradePolicySpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRollingUpgradePolicy_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRollingUpgradePolicy_SpecARM(gens map[string]gopter.Gen) {
 	gens["EnableCrossZoneUpgrade"] = gen.PtrOf(gen.Bool())
 	gens["MaxBatchInstancePercent"] = gen.PtrOf(gen.Int())
 	gens["MaxUnhealthyInstancePercent"] = gen.PtrOf(gen.Int())
@@ -963,12 +964,12 @@ func Test_ScheduledEventsProfile_SpecARM_WhenSerializedToJson_DeserializesAsEqua
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ScheduledEventsProfile_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForScheduledEventsProfileSpecARM, ScheduledEventsProfileSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForScheduledEventsProfile_SpecARM, ScheduledEventsProfile_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForScheduledEventsProfileSpecARM runs a test to see if a specific instance of ScheduledEventsProfile_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForScheduledEventsProfileSpecARM(subject ScheduledEventsProfile_SpecARM) string {
+// RunJSONSerializationTestForScheduledEventsProfile_SpecARM runs a test to see if a specific instance of ScheduledEventsProfile_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForScheduledEventsProfile_SpecARM(subject ScheduledEventsProfile_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -995,25 +996,25 @@ func RunJSONSerializationTestForScheduledEventsProfileSpecARM(subject ScheduledE
 }
 
 // Generator of ScheduledEventsProfile_SpecARM instances for property testing - lazily instantiated by
-//ScheduledEventsProfileSpecARMGenerator()
-var scheduledEventsProfileSpecARMGenerator gopter.Gen
+//ScheduledEventsProfile_SpecARMGenerator()
+var scheduledEventsProfile_specARMGenerator gopter.Gen
 
-// ScheduledEventsProfileSpecARMGenerator returns a generator of ScheduledEventsProfile_SpecARM instances for property testing.
-func ScheduledEventsProfileSpecARMGenerator() gopter.Gen {
-	if scheduledEventsProfileSpecARMGenerator != nil {
-		return scheduledEventsProfileSpecARMGenerator
+// ScheduledEventsProfile_SpecARMGenerator returns a generator of ScheduledEventsProfile_SpecARM instances for property testing.
+func ScheduledEventsProfile_SpecARMGenerator() gopter.Gen {
+	if scheduledEventsProfile_specARMGenerator != nil {
+		return scheduledEventsProfile_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForScheduledEventsProfileSpecARM(generators)
-	scheduledEventsProfileSpecARMGenerator = gen.Struct(reflect.TypeOf(ScheduledEventsProfile_SpecARM{}), generators)
+	AddRelatedPropertyGeneratorsForScheduledEventsProfile_SpecARM(generators)
+	scheduledEventsProfile_specARMGenerator = gen.Struct(reflect.TypeOf(ScheduledEventsProfile_SpecARM{}), generators)
 
-	return scheduledEventsProfileSpecARMGenerator
+	return scheduledEventsProfile_specARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForScheduledEventsProfileSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForScheduledEventsProfileSpecARM(gens map[string]gopter.Gen) {
-	gens["TerminateNotificationProfile"] = gen.PtrOf(TerminateNotificationProfileSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForScheduledEventsProfile_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForScheduledEventsProfile_SpecARM(gens map[string]gopter.Gen) {
+	gens["TerminateNotificationProfile"] = gen.PtrOf(TerminateNotificationProfile_SpecARMGenerator())
 }
 
 func Test_VirtualMachineScaleSetExtensionProfile_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1023,12 +1024,12 @@ func Test_VirtualMachineScaleSetExtensionProfile_SpecARM_WhenSerializedToJson_De
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetExtensionProfile_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetExtensionProfileSpecARM, VirtualMachineScaleSetExtensionProfileSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetExtensionProfile_SpecARM, VirtualMachineScaleSetExtensionProfile_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetExtensionProfileSpecARM runs a test to see if a specific instance of VirtualMachineScaleSetExtensionProfile_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetExtensionProfileSpecARM(subject VirtualMachineScaleSetExtensionProfile_SpecARM) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetExtensionProfile_SpecARM runs a test to see if a specific instance of VirtualMachineScaleSetExtensionProfile_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetExtensionProfile_SpecARM(subject VirtualMachineScaleSetExtensionProfile_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1055,24 +1056,24 @@ func RunJSONSerializationTestForVirtualMachineScaleSetExtensionProfileSpecARM(su
 }
 
 // Generator of VirtualMachineScaleSetExtensionProfile_SpecARM instances for property testing - lazily instantiated by
-//VirtualMachineScaleSetExtensionProfileSpecARMGenerator()
-var virtualMachineScaleSetExtensionProfileSpecARMGenerator gopter.Gen
+//VirtualMachineScaleSetExtensionProfile_SpecARMGenerator()
+var virtualMachineScaleSetExtensionProfile_specARMGenerator gopter.Gen
 
-// VirtualMachineScaleSetExtensionProfileSpecARMGenerator returns a generator of VirtualMachineScaleSetExtensionProfile_SpecARM instances for property testing.
-func VirtualMachineScaleSetExtensionProfileSpecARMGenerator() gopter.Gen {
-	if virtualMachineScaleSetExtensionProfileSpecARMGenerator != nil {
-		return virtualMachineScaleSetExtensionProfileSpecARMGenerator
+// VirtualMachineScaleSetExtensionProfile_SpecARMGenerator returns a generator of VirtualMachineScaleSetExtensionProfile_SpecARM instances for property testing.
+func VirtualMachineScaleSetExtensionProfile_SpecARMGenerator() gopter.Gen {
+	if virtualMachineScaleSetExtensionProfile_specARMGenerator != nil {
+		return virtualMachineScaleSetExtensionProfile_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProfileSpecARM(generators)
-	virtualMachineScaleSetExtensionProfileSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetExtensionProfile_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProfile_SpecARM(generators)
+	virtualMachineScaleSetExtensionProfile_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetExtensionProfile_SpecARM{}), generators)
 
-	return virtualMachineScaleSetExtensionProfileSpecARMGenerator
+	return virtualMachineScaleSetExtensionProfile_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProfileSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProfileSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProfile_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProfile_SpecARM(gens map[string]gopter.Gen) {
 	gens["ExtensionsTimeBudget"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1083,12 +1084,12 @@ func Test_VirtualMachineScaleSetNetworkProfile_SpecARM_WhenSerializedToJson_Dese
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetNetworkProfile_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetNetworkProfileSpecARM, VirtualMachineScaleSetNetworkProfileSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetNetworkProfile_SpecARM, VirtualMachineScaleSetNetworkProfile_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetNetworkProfileSpecARM runs a test to see if a specific instance of VirtualMachineScaleSetNetworkProfile_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetNetworkProfileSpecARM(subject VirtualMachineScaleSetNetworkProfile_SpecARM) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetNetworkProfile_SpecARM runs a test to see if a specific instance of VirtualMachineScaleSetNetworkProfile_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetNetworkProfile_SpecARM(subject VirtualMachineScaleSetNetworkProfile_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1115,26 +1116,26 @@ func RunJSONSerializationTestForVirtualMachineScaleSetNetworkProfileSpecARM(subj
 }
 
 // Generator of VirtualMachineScaleSetNetworkProfile_SpecARM instances for property testing - lazily instantiated by
-//VirtualMachineScaleSetNetworkProfileSpecARMGenerator()
-var virtualMachineScaleSetNetworkProfileSpecARMGenerator gopter.Gen
+//VirtualMachineScaleSetNetworkProfile_SpecARMGenerator()
+var virtualMachineScaleSetNetworkProfile_specARMGenerator gopter.Gen
 
-// VirtualMachineScaleSetNetworkProfileSpecARMGenerator returns a generator of VirtualMachineScaleSetNetworkProfile_SpecARM instances for property testing.
-func VirtualMachineScaleSetNetworkProfileSpecARMGenerator() gopter.Gen {
-	if virtualMachineScaleSetNetworkProfileSpecARMGenerator != nil {
-		return virtualMachineScaleSetNetworkProfileSpecARMGenerator
+// VirtualMachineScaleSetNetworkProfile_SpecARMGenerator returns a generator of VirtualMachineScaleSetNetworkProfile_SpecARM instances for property testing.
+func VirtualMachineScaleSetNetworkProfile_SpecARMGenerator() gopter.Gen {
+	if virtualMachineScaleSetNetworkProfile_specARMGenerator != nil {
+		return virtualMachineScaleSetNetworkProfile_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkProfileSpecARM(generators)
-	virtualMachineScaleSetNetworkProfileSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetNetworkProfile_SpecARM{}), generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkProfile_SpecARM(generators)
+	virtualMachineScaleSetNetworkProfile_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetNetworkProfile_SpecARM{}), generators)
 
-	return virtualMachineScaleSetNetworkProfileSpecARMGenerator
+	return virtualMachineScaleSetNetworkProfile_specARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkProfileSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkProfileSpecARM(gens map[string]gopter.Gen) {
-	gens["HealthProbe"] = gen.PtrOf(ApiEntityReferenceSpecARMGenerator())
-	gens["NetworkInterfaceConfigurations"] = gen.SliceOf(VirtualMachineScaleSetNetworkConfigurationSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkProfile_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkProfile_SpecARM(gens map[string]gopter.Gen) {
+	gens["HealthProbe"] = gen.PtrOf(ApiEntityReference_SpecARMGenerator())
+	gens["NetworkInterfaceConfigurations"] = gen.SliceOf(VirtualMachineScaleSetNetworkConfiguration_SpecARMGenerator())
 }
 
 func Test_VirtualMachineScaleSetOSProfile_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1144,12 +1145,12 @@ func Test_VirtualMachineScaleSetOSProfile_SpecARM_WhenSerializedToJson_Deseriali
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetOSProfile_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetOSProfileSpecARM, VirtualMachineScaleSetOSProfileSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetOSProfile_SpecARM, VirtualMachineScaleSetOSProfile_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetOSProfileSpecARM runs a test to see if a specific instance of VirtualMachineScaleSetOSProfile_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetOSProfileSpecARM(subject VirtualMachineScaleSetOSProfile_SpecARM) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetOSProfile_SpecARM runs a test to see if a specific instance of VirtualMachineScaleSetOSProfile_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetOSProfile_SpecARM(subject VirtualMachineScaleSetOSProfile_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1176,44 +1177,44 @@ func RunJSONSerializationTestForVirtualMachineScaleSetOSProfileSpecARM(subject V
 }
 
 // Generator of VirtualMachineScaleSetOSProfile_SpecARM instances for property testing - lazily instantiated by
-//VirtualMachineScaleSetOSProfileSpecARMGenerator()
-var virtualMachineScaleSetOSProfileSpecARMGenerator gopter.Gen
+//VirtualMachineScaleSetOSProfile_SpecARMGenerator()
+var virtualMachineScaleSetOSProfile_specARMGenerator gopter.Gen
 
-// VirtualMachineScaleSetOSProfileSpecARMGenerator returns a generator of VirtualMachineScaleSetOSProfile_SpecARM instances for property testing.
-// We first initialize virtualMachineScaleSetOSProfileSpecARMGenerator with a simplified generator based on the
+// VirtualMachineScaleSetOSProfile_SpecARMGenerator returns a generator of VirtualMachineScaleSetOSProfile_SpecARM instances for property testing.
+// We first initialize virtualMachineScaleSetOSProfile_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetOSProfileSpecARMGenerator() gopter.Gen {
-	if virtualMachineScaleSetOSProfileSpecARMGenerator != nil {
-		return virtualMachineScaleSetOSProfileSpecARMGenerator
+func VirtualMachineScaleSetOSProfile_SpecARMGenerator() gopter.Gen {
+	if virtualMachineScaleSetOSProfile_specARMGenerator != nil {
+		return virtualMachineScaleSetOSProfile_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSProfileSpecARM(generators)
-	virtualMachineScaleSetOSProfileSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetOSProfile_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSProfile_SpecARM(generators)
+	virtualMachineScaleSetOSProfile_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetOSProfile_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSProfileSpecARM(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSProfileSpecARM(generators)
-	virtualMachineScaleSetOSProfileSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetOSProfile_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSProfile_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSProfile_SpecARM(generators)
+	virtualMachineScaleSetOSProfile_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetOSProfile_SpecARM{}), generators)
 
-	return virtualMachineScaleSetOSProfileSpecARMGenerator
+	return virtualMachineScaleSetOSProfile_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSProfileSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSProfileSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSProfile_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSProfile_SpecARM(gens map[string]gopter.Gen) {
 	gens["AdminPassword"] = gen.PtrOf(gen.AlphaString())
 	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
 	gens["ComputerNamePrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["CustomData"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSProfileSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSProfileSpecARM(gens map[string]gopter.Gen) {
-	gens["LinuxConfiguration"] = gen.PtrOf(LinuxConfigurationSpecARMGenerator())
-	gens["Secrets"] = gen.SliceOf(VaultSecretGroupSpecARMGenerator())
-	gens["WindowsConfiguration"] = gen.PtrOf(WindowsConfigurationSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSProfile_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSProfile_SpecARM(gens map[string]gopter.Gen) {
+	gens["LinuxConfiguration"] = gen.PtrOf(LinuxConfiguration_SpecARMGenerator())
+	gens["Secrets"] = gen.SliceOf(VaultSecretGroup_SpecARMGenerator())
+	gens["WindowsConfiguration"] = gen.PtrOf(WindowsConfiguration_SpecARMGenerator())
 }
 
 func Test_VirtualMachineScaleSetStorageProfile_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1223,12 +1224,12 @@ func Test_VirtualMachineScaleSetStorageProfile_SpecARM_WhenSerializedToJson_Dese
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetStorageProfile_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetStorageProfileSpecARM, VirtualMachineScaleSetStorageProfileSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetStorageProfile_SpecARM, VirtualMachineScaleSetStorageProfile_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetStorageProfileSpecARM runs a test to see if a specific instance of VirtualMachineScaleSetStorageProfile_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetStorageProfileSpecARM(subject VirtualMachineScaleSetStorageProfile_SpecARM) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetStorageProfile_SpecARM runs a test to see if a specific instance of VirtualMachineScaleSetStorageProfile_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetStorageProfile_SpecARM(subject VirtualMachineScaleSetStorageProfile_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1255,27 +1256,27 @@ func RunJSONSerializationTestForVirtualMachineScaleSetStorageProfileSpecARM(subj
 }
 
 // Generator of VirtualMachineScaleSetStorageProfile_SpecARM instances for property testing - lazily instantiated by
-//VirtualMachineScaleSetStorageProfileSpecARMGenerator()
-var virtualMachineScaleSetStorageProfileSpecARMGenerator gopter.Gen
+//VirtualMachineScaleSetStorageProfile_SpecARMGenerator()
+var virtualMachineScaleSetStorageProfile_specARMGenerator gopter.Gen
 
-// VirtualMachineScaleSetStorageProfileSpecARMGenerator returns a generator of VirtualMachineScaleSetStorageProfile_SpecARM instances for property testing.
-func VirtualMachineScaleSetStorageProfileSpecARMGenerator() gopter.Gen {
-	if virtualMachineScaleSetStorageProfileSpecARMGenerator != nil {
-		return virtualMachineScaleSetStorageProfileSpecARMGenerator
+// VirtualMachineScaleSetStorageProfile_SpecARMGenerator returns a generator of VirtualMachineScaleSetStorageProfile_SpecARM instances for property testing.
+func VirtualMachineScaleSetStorageProfile_SpecARMGenerator() gopter.Gen {
+	if virtualMachineScaleSetStorageProfile_specARMGenerator != nil {
+		return virtualMachineScaleSetStorageProfile_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStorageProfileSpecARM(generators)
-	virtualMachineScaleSetStorageProfileSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetStorageProfile_SpecARM{}), generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStorageProfile_SpecARM(generators)
+	virtualMachineScaleSetStorageProfile_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetStorageProfile_SpecARM{}), generators)
 
-	return virtualMachineScaleSetStorageProfileSpecARMGenerator
+	return virtualMachineScaleSetStorageProfile_specARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStorageProfileSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStorageProfileSpecARM(gens map[string]gopter.Gen) {
-	gens["DataDisks"] = gen.SliceOf(VirtualMachineScaleSetDataDiskSpecARMGenerator())
-	gens["ImageReference"] = gen.PtrOf(ImageReferenceSpecARMGenerator())
-	gens["OsDisk"] = gen.PtrOf(VirtualMachineScaleSetOSDiskSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStorageProfile_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStorageProfile_SpecARM(gens map[string]gopter.Gen) {
+	gens["DataDisks"] = gen.SliceOf(VirtualMachineScaleSetDataDisk_SpecARMGenerator())
+	gens["ImageReference"] = gen.PtrOf(ImageReference_SpecARMGenerator())
+	gens["OsDisk"] = gen.PtrOf(VirtualMachineScaleSetOSDisk_SpecARMGenerator())
 }
 
 func Test_ApiEntityReference_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1285,12 +1286,12 @@ func Test_ApiEntityReference_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t 
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ApiEntityReference_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiEntityReferenceSpecARM, ApiEntityReferenceSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForApiEntityReference_SpecARM, ApiEntityReference_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForApiEntityReferenceSpecARM runs a test to see if a specific instance of ApiEntityReference_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiEntityReferenceSpecARM(subject ApiEntityReference_SpecARM) string {
+// RunJSONSerializationTestForApiEntityReference_SpecARM runs a test to see if a specific instance of ApiEntityReference_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForApiEntityReference_SpecARM(subject ApiEntityReference_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1317,24 +1318,24 @@ func RunJSONSerializationTestForApiEntityReferenceSpecARM(subject ApiEntityRefer
 }
 
 // Generator of ApiEntityReference_SpecARM instances for property testing - lazily instantiated by
-//ApiEntityReferenceSpecARMGenerator()
-var apiEntityReferenceSpecARMGenerator gopter.Gen
+//ApiEntityReference_SpecARMGenerator()
+var apiEntityReference_specARMGenerator gopter.Gen
 
-// ApiEntityReferenceSpecARMGenerator returns a generator of ApiEntityReference_SpecARM instances for property testing.
-func ApiEntityReferenceSpecARMGenerator() gopter.Gen {
-	if apiEntityReferenceSpecARMGenerator != nil {
-		return apiEntityReferenceSpecARMGenerator
+// ApiEntityReference_SpecARMGenerator returns a generator of ApiEntityReference_SpecARM instances for property testing.
+func ApiEntityReference_SpecARMGenerator() gopter.Gen {
+	if apiEntityReference_specARMGenerator != nil {
+		return apiEntityReference_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiEntityReferenceSpecARM(generators)
-	apiEntityReferenceSpecARMGenerator = gen.Struct(reflect.TypeOf(ApiEntityReference_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForApiEntityReference_SpecARM(generators)
+	apiEntityReference_specARMGenerator = gen.Struct(reflect.TypeOf(ApiEntityReference_SpecARM{}), generators)
 
-	return apiEntityReferenceSpecARMGenerator
+	return apiEntityReference_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForApiEntityReferenceSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApiEntityReferenceSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForApiEntityReference_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApiEntityReference_SpecARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1345,12 +1346,12 @@ func Test_TerminateNotificationProfile_SpecARM_WhenSerializedToJson_Deserializes
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of TerminateNotificationProfile_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTerminateNotificationProfileSpecARM, TerminateNotificationProfileSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForTerminateNotificationProfile_SpecARM, TerminateNotificationProfile_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForTerminateNotificationProfileSpecARM runs a test to see if a specific instance of TerminateNotificationProfile_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForTerminateNotificationProfileSpecARM(subject TerminateNotificationProfile_SpecARM) string {
+// RunJSONSerializationTestForTerminateNotificationProfile_SpecARM runs a test to see if a specific instance of TerminateNotificationProfile_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForTerminateNotificationProfile_SpecARM(subject TerminateNotificationProfile_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1377,24 +1378,24 @@ func RunJSONSerializationTestForTerminateNotificationProfileSpecARM(subject Term
 }
 
 // Generator of TerminateNotificationProfile_SpecARM instances for property testing - lazily instantiated by
-//TerminateNotificationProfileSpecARMGenerator()
-var terminateNotificationProfileSpecARMGenerator gopter.Gen
+//TerminateNotificationProfile_SpecARMGenerator()
+var terminateNotificationProfile_specARMGenerator gopter.Gen
 
-// TerminateNotificationProfileSpecARMGenerator returns a generator of TerminateNotificationProfile_SpecARM instances for property testing.
-func TerminateNotificationProfileSpecARMGenerator() gopter.Gen {
-	if terminateNotificationProfileSpecARMGenerator != nil {
-		return terminateNotificationProfileSpecARMGenerator
+// TerminateNotificationProfile_SpecARMGenerator returns a generator of TerminateNotificationProfile_SpecARM instances for property testing.
+func TerminateNotificationProfile_SpecARMGenerator() gopter.Gen {
+	if terminateNotificationProfile_specARMGenerator != nil {
+		return terminateNotificationProfile_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTerminateNotificationProfileSpecARM(generators)
-	terminateNotificationProfileSpecARMGenerator = gen.Struct(reflect.TypeOf(TerminateNotificationProfile_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForTerminateNotificationProfile_SpecARM(generators)
+	terminateNotificationProfile_specARMGenerator = gen.Struct(reflect.TypeOf(TerminateNotificationProfile_SpecARM{}), generators)
 
-	return terminateNotificationProfileSpecARMGenerator
+	return terminateNotificationProfile_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForTerminateNotificationProfileSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTerminateNotificationProfileSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForTerminateNotificationProfile_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForTerminateNotificationProfile_SpecARM(gens map[string]gopter.Gen) {
 	gens["Enable"] = gen.PtrOf(gen.Bool())
 	gens["NotBeforeTimeout"] = gen.PtrOf(gen.AlphaString())
 }
@@ -1406,12 +1407,12 @@ func Test_VirtualMachineScaleSetDataDisk_SpecARM_WhenSerializedToJson_Deserializ
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetDataDisk_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetDataDiskSpecARM, VirtualMachineScaleSetDataDiskSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetDataDisk_SpecARM, VirtualMachineScaleSetDataDisk_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetDataDiskSpecARM runs a test to see if a specific instance of VirtualMachineScaleSetDataDisk_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetDataDiskSpecARM(subject VirtualMachineScaleSetDataDisk_SpecARM) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetDataDisk_SpecARM runs a test to see if a specific instance of VirtualMachineScaleSetDataDisk_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetDataDisk_SpecARM(subject VirtualMachineScaleSetDataDisk_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1438,33 +1439,33 @@ func RunJSONSerializationTestForVirtualMachineScaleSetDataDiskSpecARM(subject Vi
 }
 
 // Generator of VirtualMachineScaleSetDataDisk_SpecARM instances for property testing - lazily instantiated by
-//VirtualMachineScaleSetDataDiskSpecARMGenerator()
-var virtualMachineScaleSetDataDiskSpecARMGenerator gopter.Gen
+//VirtualMachineScaleSetDataDisk_SpecARMGenerator()
+var virtualMachineScaleSetDataDisk_specARMGenerator gopter.Gen
 
-// VirtualMachineScaleSetDataDiskSpecARMGenerator returns a generator of VirtualMachineScaleSetDataDisk_SpecARM instances for property testing.
-// We first initialize virtualMachineScaleSetDataDiskSpecARMGenerator with a simplified generator based on the
+// VirtualMachineScaleSetDataDisk_SpecARMGenerator returns a generator of VirtualMachineScaleSetDataDisk_SpecARM instances for property testing.
+// We first initialize virtualMachineScaleSetDataDisk_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetDataDiskSpecARMGenerator() gopter.Gen {
-	if virtualMachineScaleSetDataDiskSpecARMGenerator != nil {
-		return virtualMachineScaleSetDataDiskSpecARMGenerator
+func VirtualMachineScaleSetDataDisk_SpecARMGenerator() gopter.Gen {
+	if virtualMachineScaleSetDataDisk_specARMGenerator != nil {
+		return virtualMachineScaleSetDataDisk_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDiskSpecARM(generators)
-	virtualMachineScaleSetDataDiskSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetDataDisk_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDisk_SpecARM(generators)
+	virtualMachineScaleSetDataDisk_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetDataDisk_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDiskSpecARM(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetDataDiskSpecARM(generators)
-	virtualMachineScaleSetDataDiskSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetDataDisk_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDisk_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetDataDisk_SpecARM(generators)
+	virtualMachineScaleSetDataDisk_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetDataDisk_SpecARM{}), generators)
 
-	return virtualMachineScaleSetDataDiskSpecARMGenerator
+	return virtualMachineScaleSetDataDisk_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDiskSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDiskSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDisk_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDisk_SpecARM(gens map[string]gopter.Gen) {
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(Caching_SpecNone, Caching_SpecReadOnly, Caching_SpecReadWrite))
 	gens["CreateOption"] = gen.OneConstOf(CreateOption_SpecAttach, CreateOption_SpecEmpty, CreateOption_SpecFromImage)
 	gens["DiskIOPSReadWrite"] = gen.PtrOf(gen.Int())
@@ -1475,9 +1476,9 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDiskSpecARM(ge
 	gens["WriteAcceleratorEnabled"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetDataDiskSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetDataDiskSpecARM(gens map[string]gopter.Gen) {
-	gens["ManagedDisk"] = gen.PtrOf(VirtualMachineScaleSetManagedDiskParametersSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetDataDisk_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetDataDisk_SpecARM(gens map[string]gopter.Gen) {
+	gens["ManagedDisk"] = gen.PtrOf(VirtualMachineScaleSetManagedDiskParameters_SpecARMGenerator())
 }
 
 func Test_VirtualMachineScaleSetNetworkConfiguration_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1487,12 +1488,12 @@ func Test_VirtualMachineScaleSetNetworkConfiguration_SpecARM_WhenSerializedToJso
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetNetworkConfiguration_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationSpecARM, VirtualMachineScaleSetNetworkConfigurationSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfiguration_SpecARM, VirtualMachineScaleSetNetworkConfiguration_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationSpecARM runs a test to see if a specific instance of VirtualMachineScaleSetNetworkConfiguration_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationSpecARM(subject VirtualMachineScaleSetNetworkConfiguration_SpecARM) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfiguration_SpecARM runs a test to see if a specific instance of VirtualMachineScaleSetNetworkConfiguration_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfiguration_SpecARM(subject VirtualMachineScaleSetNetworkConfiguration_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1519,40 +1520,40 @@ func RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationSpecAR
 }
 
 // Generator of VirtualMachineScaleSetNetworkConfiguration_SpecARM instances for property testing - lazily instantiated
-//by VirtualMachineScaleSetNetworkConfigurationSpecARMGenerator()
-var virtualMachineScaleSetNetworkConfigurationSpecARMGenerator gopter.Gen
+//by VirtualMachineScaleSetNetworkConfiguration_SpecARMGenerator()
+var virtualMachineScaleSetNetworkConfiguration_specARMGenerator gopter.Gen
 
-// VirtualMachineScaleSetNetworkConfigurationSpecARMGenerator returns a generator of VirtualMachineScaleSetNetworkConfiguration_SpecARM instances for property testing.
-// We first initialize virtualMachineScaleSetNetworkConfigurationSpecARMGenerator with a simplified generator based on the
+// VirtualMachineScaleSetNetworkConfiguration_SpecARMGenerator returns a generator of VirtualMachineScaleSetNetworkConfiguration_SpecARM instances for property testing.
+// We first initialize virtualMachineScaleSetNetworkConfiguration_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetNetworkConfigurationSpecARMGenerator() gopter.Gen {
-	if virtualMachineScaleSetNetworkConfigurationSpecARMGenerator != nil {
-		return virtualMachineScaleSetNetworkConfigurationSpecARMGenerator
+func VirtualMachineScaleSetNetworkConfiguration_SpecARMGenerator() gopter.Gen {
+	if virtualMachineScaleSetNetworkConfiguration_specARMGenerator != nil {
+		return virtualMachineScaleSetNetworkConfiguration_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationSpecARM(generators)
-	virtualMachineScaleSetNetworkConfigurationSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetNetworkConfiguration_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfiguration_SpecARM(generators)
+	virtualMachineScaleSetNetworkConfiguration_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetNetworkConfiguration_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationSpecARM(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationSpecARM(generators)
-	virtualMachineScaleSetNetworkConfigurationSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetNetworkConfiguration_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfiguration_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkConfiguration_SpecARM(generators)
+	virtualMachineScaleSetNetworkConfiguration_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetNetworkConfiguration_SpecARM{}), generators)
 
-	return virtualMachineScaleSetNetworkConfigurationSpecARMGenerator
+	return virtualMachineScaleSetNetworkConfiguration_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfiguration_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfiguration_SpecARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(VirtualMachineScaleSetNetworkConfigurationPropertiesSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkConfiguration_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkConfiguration_SpecARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(VirtualMachineScaleSetNetworkConfigurationProperties_SpecARMGenerator())
 }
 
 func Test_VirtualMachineScaleSetOSDisk_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1562,12 +1563,12 @@ func Test_VirtualMachineScaleSetOSDisk_SpecARM_WhenSerializedToJson_Deserializes
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetOSDisk_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetOSDiskSpecARM, VirtualMachineScaleSetOSDiskSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetOSDisk_SpecARM, VirtualMachineScaleSetOSDisk_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetOSDiskSpecARM runs a test to see if a specific instance of VirtualMachineScaleSetOSDisk_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetOSDiskSpecARM(subject VirtualMachineScaleSetOSDisk_SpecARM) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetOSDisk_SpecARM runs a test to see if a specific instance of VirtualMachineScaleSetOSDisk_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetOSDisk_SpecARM(subject VirtualMachineScaleSetOSDisk_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1594,47 +1595,47 @@ func RunJSONSerializationTestForVirtualMachineScaleSetOSDiskSpecARM(subject Virt
 }
 
 // Generator of VirtualMachineScaleSetOSDisk_SpecARM instances for property testing - lazily instantiated by
-//VirtualMachineScaleSetOSDiskSpecARMGenerator()
-var virtualMachineScaleSetOSDiskSpecARMGenerator gopter.Gen
+//VirtualMachineScaleSetOSDisk_SpecARMGenerator()
+var virtualMachineScaleSetOSDisk_specARMGenerator gopter.Gen
 
-// VirtualMachineScaleSetOSDiskSpecARMGenerator returns a generator of VirtualMachineScaleSetOSDisk_SpecARM instances for property testing.
-// We first initialize virtualMachineScaleSetOSDiskSpecARMGenerator with a simplified generator based on the
+// VirtualMachineScaleSetOSDisk_SpecARMGenerator returns a generator of VirtualMachineScaleSetOSDisk_SpecARM instances for property testing.
+// We first initialize virtualMachineScaleSetOSDisk_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetOSDiskSpecARMGenerator() gopter.Gen {
-	if virtualMachineScaleSetOSDiskSpecARMGenerator != nil {
-		return virtualMachineScaleSetOSDiskSpecARMGenerator
+func VirtualMachineScaleSetOSDisk_SpecARMGenerator() gopter.Gen {
+	if virtualMachineScaleSetOSDisk_specARMGenerator != nil {
+		return virtualMachineScaleSetOSDisk_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDiskSpecARM(generators)
-	virtualMachineScaleSetOSDiskSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetOSDisk_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDisk_SpecARM(generators)
+	virtualMachineScaleSetOSDisk_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetOSDisk_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDiskSpecARM(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSDiskSpecARM(generators)
-	virtualMachineScaleSetOSDiskSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetOSDisk_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDisk_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSDisk_SpecARM(generators)
+	virtualMachineScaleSetOSDisk_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetOSDisk_SpecARM{}), generators)
 
-	return virtualMachineScaleSetOSDiskSpecARMGenerator
+	return virtualMachineScaleSetOSDisk_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDiskSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDiskSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDisk_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDisk_SpecARM(gens map[string]gopter.Gen) {
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(Caching_SpecNone, Caching_SpecReadOnly, Caching_SpecReadWrite))
 	gens["CreateOption"] = gen.OneConstOf(CreateOption_SpecAttach, CreateOption_SpecEmpty, CreateOption_SpecFromImage)
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetOSDiskSpecOsTypeLinux, VirtualMachineScaleSetOSDiskSpecOsTypeWindows))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetOSDisk_OsType_SpecLinux, VirtualMachineScaleSetOSDisk_OsType_SpecWindows))
 	gens["VhdContainers"] = gen.SliceOf(gen.AlphaString())
 	gens["WriteAcceleratorEnabled"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSDiskSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSDiskSpecARM(gens map[string]gopter.Gen) {
-	gens["DiffDiskSettings"] = gen.PtrOf(DiffDiskSettingsSpecARMGenerator())
-	gens["Image"] = gen.PtrOf(VirtualHardDiskSpecARMGenerator())
-	gens["ManagedDisk"] = gen.PtrOf(VirtualMachineScaleSetManagedDiskParametersSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSDisk_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSDisk_SpecARM(gens map[string]gopter.Gen) {
+	gens["DiffDiskSettings"] = gen.PtrOf(DiffDiskSettings_SpecARMGenerator())
+	gens["Image"] = gen.PtrOf(VirtualHardDisk_SpecARMGenerator())
+	gens["ManagedDisk"] = gen.PtrOf(VirtualMachineScaleSetManagedDiskParameters_SpecARMGenerator())
 }
 
 func Test_VirtualMachineScaleSetManagedDiskParameters_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1644,12 +1645,12 @@ func Test_VirtualMachineScaleSetManagedDiskParameters_SpecARM_WhenSerializedToJs
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetManagedDiskParameters_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetManagedDiskParametersSpecARM, VirtualMachineScaleSetManagedDiskParametersSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetManagedDiskParameters_SpecARM, VirtualMachineScaleSetManagedDiskParameters_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetManagedDiskParametersSpecARM runs a test to see if a specific instance of VirtualMachineScaleSetManagedDiskParameters_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetManagedDiskParametersSpecARM(subject VirtualMachineScaleSetManagedDiskParameters_SpecARM) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetManagedDiskParameters_SpecARM runs a test to see if a specific instance of VirtualMachineScaleSetManagedDiskParameters_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetManagedDiskParameters_SpecARM(subject VirtualMachineScaleSetManagedDiskParameters_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1676,45 +1677,45 @@ func RunJSONSerializationTestForVirtualMachineScaleSetManagedDiskParametersSpecA
 }
 
 // Generator of VirtualMachineScaleSetManagedDiskParameters_SpecARM instances for property testing - lazily instantiated
-//by VirtualMachineScaleSetManagedDiskParametersSpecARMGenerator()
-var virtualMachineScaleSetManagedDiskParametersSpecARMGenerator gopter.Gen
+//by VirtualMachineScaleSetManagedDiskParameters_SpecARMGenerator()
+var virtualMachineScaleSetManagedDiskParameters_specARMGenerator gopter.Gen
 
-// VirtualMachineScaleSetManagedDiskParametersSpecARMGenerator returns a generator of VirtualMachineScaleSetManagedDiskParameters_SpecARM instances for property testing.
-// We first initialize virtualMachineScaleSetManagedDiskParametersSpecARMGenerator with a simplified generator based on the
+// VirtualMachineScaleSetManagedDiskParameters_SpecARMGenerator returns a generator of VirtualMachineScaleSetManagedDiskParameters_SpecARM instances for property testing.
+// We first initialize virtualMachineScaleSetManagedDiskParameters_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetManagedDiskParametersSpecARMGenerator() gopter.Gen {
-	if virtualMachineScaleSetManagedDiskParametersSpecARMGenerator != nil {
-		return virtualMachineScaleSetManagedDiskParametersSpecARMGenerator
+func VirtualMachineScaleSetManagedDiskParameters_SpecARMGenerator() gopter.Gen {
+	if virtualMachineScaleSetManagedDiskParameters_specARMGenerator != nil {
+		return virtualMachineScaleSetManagedDiskParameters_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersSpecARM(generators)
-	virtualMachineScaleSetManagedDiskParametersSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetManagedDiskParameters_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters_SpecARM(generators)
+	virtualMachineScaleSetManagedDiskParameters_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetManagedDiskParameters_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersSpecARM(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersSpecARM(generators)
-	virtualMachineScaleSetManagedDiskParametersSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetManagedDiskParameters_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters_SpecARM(generators)
+	virtualMachineScaleSetManagedDiskParameters_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetManagedDiskParameters_SpecARM{}), generators)
 
-	return virtualMachineScaleSetManagedDiskParametersSpecARMGenerator
+	return virtualMachineScaleSetManagedDiskParameters_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters_SpecARM(gens map[string]gopter.Gen) {
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
-		StorageAccountType_SpecPremiumLRS,
-		StorageAccountType_SpecPremiumZRS,
-		StorageAccountType_SpecStandardLRS,
-		StorageAccountType_SpecStandardSSDLRS,
-		StorageAccountType_SpecStandardSSDZRS,
-		StorageAccountType_SpecUltraSSDLRS))
+		StorageAccountType_SpecPremium_LRS,
+		StorageAccountType_SpecPremium_ZRS,
+		StorageAccountType_SpecStandardSSD_LRS,
+		StorageAccountType_SpecStandardSSD_ZRS,
+		StorageAccountType_SpecStandard_LRS,
+		StorageAccountType_SpecUltraSSD_LRS))
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersSpecARM(gens map[string]gopter.Gen) {
-	gens["DiskEncryptionSet"] = gen.PtrOf(SubResourceSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters_SpecARM(gens map[string]gopter.Gen) {
+	gens["DiskEncryptionSet"] = gen.PtrOf(SubResource_SpecARMGenerator())
 }
 
 func Test_VirtualMachineScaleSetNetworkConfigurationProperties_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1724,12 +1725,12 @@ func Test_VirtualMachineScaleSetNetworkConfigurationProperties_SpecARM_WhenSeria
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetNetworkConfigurationProperties_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationPropertiesSpecARM, VirtualMachineScaleSetNetworkConfigurationPropertiesSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationProperties_SpecARM, VirtualMachineScaleSetNetworkConfigurationProperties_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationPropertiesSpecARM runs a test to see if a specific instance of VirtualMachineScaleSetNetworkConfigurationProperties_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationPropertiesSpecARM(subject VirtualMachineScaleSetNetworkConfigurationProperties_SpecARM) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationProperties_SpecARM runs a test to see if a specific instance of VirtualMachineScaleSetNetworkConfigurationProperties_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationProperties_SpecARM(subject VirtualMachineScaleSetNetworkConfigurationProperties_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1756,44 +1757,44 @@ func RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationProper
 }
 
 // Generator of VirtualMachineScaleSetNetworkConfigurationProperties_SpecARM instances for property testing - lazily
-//instantiated by VirtualMachineScaleSetNetworkConfigurationPropertiesSpecARMGenerator()
-var virtualMachineScaleSetNetworkConfigurationPropertiesSpecARMGenerator gopter.Gen
+//instantiated by VirtualMachineScaleSetNetworkConfigurationProperties_SpecARMGenerator()
+var virtualMachineScaleSetNetworkConfigurationProperties_specARMGenerator gopter.Gen
 
-// VirtualMachineScaleSetNetworkConfigurationPropertiesSpecARMGenerator returns a generator of VirtualMachineScaleSetNetworkConfigurationProperties_SpecARM instances for property testing.
-// We first initialize virtualMachineScaleSetNetworkConfigurationPropertiesSpecARMGenerator with a simplified generator based on the
+// VirtualMachineScaleSetNetworkConfigurationProperties_SpecARMGenerator returns a generator of VirtualMachineScaleSetNetworkConfigurationProperties_SpecARM instances for property testing.
+// We first initialize virtualMachineScaleSetNetworkConfigurationProperties_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetNetworkConfigurationPropertiesSpecARMGenerator() gopter.Gen {
-	if virtualMachineScaleSetNetworkConfigurationPropertiesSpecARMGenerator != nil {
-		return virtualMachineScaleSetNetworkConfigurationPropertiesSpecARMGenerator
+func VirtualMachineScaleSetNetworkConfigurationProperties_SpecARMGenerator() gopter.Gen {
+	if virtualMachineScaleSetNetworkConfigurationProperties_specARMGenerator != nil {
+		return virtualMachineScaleSetNetworkConfigurationProperties_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationPropertiesSpecARM(generators)
-	virtualMachineScaleSetNetworkConfigurationPropertiesSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetNetworkConfigurationProperties_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationProperties_SpecARM(generators)
+	virtualMachineScaleSetNetworkConfigurationProperties_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetNetworkConfigurationProperties_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationPropertiesSpecARM(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationPropertiesSpecARM(generators)
-	virtualMachineScaleSetNetworkConfigurationPropertiesSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetNetworkConfigurationProperties_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationProperties_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationProperties_SpecARM(generators)
+	virtualMachineScaleSetNetworkConfigurationProperties_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetNetworkConfigurationProperties_SpecARM{}), generators)
 
-	return virtualMachineScaleSetNetworkConfigurationPropertiesSpecARMGenerator
+	return virtualMachineScaleSetNetworkConfigurationProperties_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationPropertiesSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationPropertiesSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationProperties_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationProperties_SpecARM(gens map[string]gopter.Gen) {
 	gens["EnableAcceleratedNetworking"] = gen.PtrOf(gen.Bool())
 	gens["EnableFpga"] = gen.PtrOf(gen.Bool())
 	gens["EnableIPForwarding"] = gen.PtrOf(gen.Bool())
 	gens["Primary"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationPropertiesSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationPropertiesSpecARM(gens map[string]gopter.Gen) {
-	gens["DnsSettings"] = gen.PtrOf(VirtualMachineScaleSetNetworkConfigurationDnsSettingsSpecARMGenerator())
-	gens["IpConfigurations"] = gen.SliceOf(VirtualMachineScaleSetIPConfigurationSpecARMGenerator())
-	gens["NetworkSecurityGroup"] = gen.PtrOf(SubResourceSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationProperties_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationProperties_SpecARM(gens map[string]gopter.Gen) {
+	gens["DnsSettings"] = gen.PtrOf(VirtualMachineScaleSetNetworkConfigurationDnsSettings_SpecARMGenerator())
+	gens["IpConfigurations"] = gen.SliceOf(VirtualMachineScaleSetIPConfiguration_SpecARMGenerator())
+	gens["NetworkSecurityGroup"] = gen.PtrOf(SubResource_SpecARMGenerator())
 }
 
 func Test_VirtualMachineScaleSetIPConfiguration_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1803,12 +1804,12 @@ func Test_VirtualMachineScaleSetIPConfiguration_SpecARM_WhenSerializedToJson_Des
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetIPConfiguration_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetIPConfigurationSpecARM, VirtualMachineScaleSetIPConfigurationSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetIPConfiguration_SpecARM, VirtualMachineScaleSetIPConfiguration_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetIPConfigurationSpecARM runs a test to see if a specific instance of VirtualMachineScaleSetIPConfiguration_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetIPConfigurationSpecARM(subject VirtualMachineScaleSetIPConfiguration_SpecARM) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetIPConfiguration_SpecARM runs a test to see if a specific instance of VirtualMachineScaleSetIPConfiguration_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetIPConfiguration_SpecARM(subject VirtualMachineScaleSetIPConfiguration_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1835,40 +1836,40 @@ func RunJSONSerializationTestForVirtualMachineScaleSetIPConfigurationSpecARM(sub
 }
 
 // Generator of VirtualMachineScaleSetIPConfiguration_SpecARM instances for property testing - lazily instantiated by
-//VirtualMachineScaleSetIPConfigurationSpecARMGenerator()
-var virtualMachineScaleSetIPConfigurationSpecARMGenerator gopter.Gen
+//VirtualMachineScaleSetIPConfiguration_SpecARMGenerator()
+var virtualMachineScaleSetIPConfiguration_specARMGenerator gopter.Gen
 
-// VirtualMachineScaleSetIPConfigurationSpecARMGenerator returns a generator of VirtualMachineScaleSetIPConfiguration_SpecARM instances for property testing.
-// We first initialize virtualMachineScaleSetIPConfigurationSpecARMGenerator with a simplified generator based on the
+// VirtualMachineScaleSetIPConfiguration_SpecARMGenerator returns a generator of VirtualMachineScaleSetIPConfiguration_SpecARM instances for property testing.
+// We first initialize virtualMachineScaleSetIPConfiguration_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetIPConfigurationSpecARMGenerator() gopter.Gen {
-	if virtualMachineScaleSetIPConfigurationSpecARMGenerator != nil {
-		return virtualMachineScaleSetIPConfigurationSpecARMGenerator
+func VirtualMachineScaleSetIPConfiguration_SpecARMGenerator() gopter.Gen {
+	if virtualMachineScaleSetIPConfiguration_specARMGenerator != nil {
+		return virtualMachineScaleSetIPConfiguration_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationSpecARM(generators)
-	virtualMachineScaleSetIPConfigurationSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIPConfiguration_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfiguration_SpecARM(generators)
+	virtualMachineScaleSetIPConfiguration_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIPConfiguration_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationSpecARM(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationSpecARM(generators)
-	virtualMachineScaleSetIPConfigurationSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIPConfiguration_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfiguration_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIPConfiguration_SpecARM(generators)
+	virtualMachineScaleSetIPConfiguration_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIPConfiguration_SpecARM{}), generators)
 
-	return virtualMachineScaleSetIPConfigurationSpecARMGenerator
+	return virtualMachineScaleSetIPConfiguration_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfiguration_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfiguration_SpecARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(VirtualMachineScaleSetIPConfigurationPropertiesSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIPConfiguration_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIPConfiguration_SpecARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(VirtualMachineScaleSetIPConfigurationProperties_SpecARMGenerator())
 }
 
 func Test_VirtualMachineScaleSetNetworkConfigurationDnsSettings_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1878,12 +1879,12 @@ func Test_VirtualMachineScaleSetNetworkConfigurationDnsSettings_SpecARM_WhenSeri
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetNetworkConfigurationDnsSettings_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationDnsSettingsSpecARM, VirtualMachineScaleSetNetworkConfigurationDnsSettingsSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationDnsSettings_SpecARM, VirtualMachineScaleSetNetworkConfigurationDnsSettings_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationDnsSettingsSpecARM runs a test to see if a specific instance of VirtualMachineScaleSetNetworkConfigurationDnsSettings_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationDnsSettingsSpecARM(subject VirtualMachineScaleSetNetworkConfigurationDnsSettings_SpecARM) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationDnsSettings_SpecARM runs a test to see if a specific instance of VirtualMachineScaleSetNetworkConfigurationDnsSettings_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationDnsSettings_SpecARM(subject VirtualMachineScaleSetNetworkConfigurationDnsSettings_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1910,24 +1911,24 @@ func RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationDnsSet
 }
 
 // Generator of VirtualMachineScaleSetNetworkConfigurationDnsSettings_SpecARM instances for property testing - lazily
-//instantiated by VirtualMachineScaleSetNetworkConfigurationDnsSettingsSpecARMGenerator()
-var virtualMachineScaleSetNetworkConfigurationDnsSettingsSpecARMGenerator gopter.Gen
+//instantiated by VirtualMachineScaleSetNetworkConfigurationDnsSettings_SpecARMGenerator()
+var virtualMachineScaleSetNetworkConfigurationDnsSettings_specARMGenerator gopter.Gen
 
-// VirtualMachineScaleSetNetworkConfigurationDnsSettingsSpecARMGenerator returns a generator of VirtualMachineScaleSetNetworkConfigurationDnsSettings_SpecARM instances for property testing.
-func VirtualMachineScaleSetNetworkConfigurationDnsSettingsSpecARMGenerator() gopter.Gen {
-	if virtualMachineScaleSetNetworkConfigurationDnsSettingsSpecARMGenerator != nil {
-		return virtualMachineScaleSetNetworkConfigurationDnsSettingsSpecARMGenerator
+// VirtualMachineScaleSetNetworkConfigurationDnsSettings_SpecARMGenerator returns a generator of VirtualMachineScaleSetNetworkConfigurationDnsSettings_SpecARM instances for property testing.
+func VirtualMachineScaleSetNetworkConfigurationDnsSettings_SpecARMGenerator() gopter.Gen {
+	if virtualMachineScaleSetNetworkConfigurationDnsSettings_specARMGenerator != nil {
+		return virtualMachineScaleSetNetworkConfigurationDnsSettings_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationDnsSettingsSpecARM(generators)
-	virtualMachineScaleSetNetworkConfigurationDnsSettingsSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetNetworkConfigurationDnsSettings_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationDnsSettings_SpecARM(generators)
+	virtualMachineScaleSetNetworkConfigurationDnsSettings_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetNetworkConfigurationDnsSettings_SpecARM{}), generators)
 
-	return virtualMachineScaleSetNetworkConfigurationDnsSettingsSpecARMGenerator
+	return virtualMachineScaleSetNetworkConfigurationDnsSettings_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationDnsSettingsSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationDnsSettingsSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationDnsSettings_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationDnsSettings_SpecARM(gens map[string]gopter.Gen) {
 	gens["DnsServers"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -1938,12 +1939,12 @@ func Test_VirtualMachineScaleSetIPConfigurationProperties_SpecARM_WhenSerialized
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetIPConfigurationProperties_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetIPConfigurationPropertiesSpecARM, VirtualMachineScaleSetIPConfigurationPropertiesSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetIPConfigurationProperties_SpecARM, VirtualMachineScaleSetIPConfigurationProperties_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetIPConfigurationPropertiesSpecARM runs a test to see if a specific instance of VirtualMachineScaleSetIPConfigurationProperties_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetIPConfigurationPropertiesSpecARM(subject VirtualMachineScaleSetIPConfigurationProperties_SpecARM) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetIPConfigurationProperties_SpecARM runs a test to see if a specific instance of VirtualMachineScaleSetIPConfigurationProperties_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetIPConfigurationProperties_SpecARM(subject VirtualMachineScaleSetIPConfigurationProperties_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1970,45 +1971,45 @@ func RunJSONSerializationTestForVirtualMachineScaleSetIPConfigurationPropertiesS
 }
 
 // Generator of VirtualMachineScaleSetIPConfigurationProperties_SpecARM instances for property testing - lazily
-//instantiated by VirtualMachineScaleSetIPConfigurationPropertiesSpecARMGenerator()
-var virtualMachineScaleSetIPConfigurationPropertiesSpecARMGenerator gopter.Gen
+//instantiated by VirtualMachineScaleSetIPConfigurationProperties_SpecARMGenerator()
+var virtualMachineScaleSetIPConfigurationProperties_specARMGenerator gopter.Gen
 
-// VirtualMachineScaleSetIPConfigurationPropertiesSpecARMGenerator returns a generator of VirtualMachineScaleSetIPConfigurationProperties_SpecARM instances for property testing.
-// We first initialize virtualMachineScaleSetIPConfigurationPropertiesSpecARMGenerator with a simplified generator based on the
+// VirtualMachineScaleSetIPConfigurationProperties_SpecARMGenerator returns a generator of VirtualMachineScaleSetIPConfigurationProperties_SpecARM instances for property testing.
+// We first initialize virtualMachineScaleSetIPConfigurationProperties_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetIPConfigurationPropertiesSpecARMGenerator() gopter.Gen {
-	if virtualMachineScaleSetIPConfigurationPropertiesSpecARMGenerator != nil {
-		return virtualMachineScaleSetIPConfigurationPropertiesSpecARMGenerator
+func VirtualMachineScaleSetIPConfigurationProperties_SpecARMGenerator() gopter.Gen {
+	if virtualMachineScaleSetIPConfigurationProperties_specARMGenerator != nil {
+		return virtualMachineScaleSetIPConfigurationProperties_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationPropertiesSpecARM(generators)
-	virtualMachineScaleSetIPConfigurationPropertiesSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIPConfigurationProperties_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationProperties_SpecARM(generators)
+	virtualMachineScaleSetIPConfigurationProperties_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIPConfigurationProperties_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationPropertiesSpecARM(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationPropertiesSpecARM(generators)
-	virtualMachineScaleSetIPConfigurationPropertiesSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIPConfigurationProperties_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationProperties_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationProperties_SpecARM(generators)
+	virtualMachineScaleSetIPConfigurationProperties_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIPConfigurationProperties_SpecARM{}), generators)
 
-	return virtualMachineScaleSetIPConfigurationPropertiesSpecARMGenerator
+	return virtualMachineScaleSetIPConfigurationProperties_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationPropertiesSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationPropertiesSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationProperties_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationProperties_SpecARM(gens map[string]gopter.Gen) {
 	gens["Primary"] = gen.PtrOf(gen.Bool())
-	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetIPConfigurationPropertiesSpecPrivateIPAddressVersionIPv4, VirtualMachineScaleSetIPConfigurationPropertiesSpecPrivateIPAddressVersionIPv6))
+	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_SpecIPv4, VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_SpecIPv6))
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationPropertiesSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationPropertiesSpecARM(gens map[string]gopter.Gen) {
-	gens["ApplicationGatewayBackendAddressPools"] = gen.SliceOf(SubResourceSpecARMGenerator())
-	gens["ApplicationSecurityGroups"] = gen.SliceOf(SubResourceSpecARMGenerator())
-	gens["LoadBalancerBackendAddressPools"] = gen.SliceOf(SubResourceSpecARMGenerator())
-	gens["LoadBalancerInboundNatPools"] = gen.SliceOf(SubResourceSpecARMGenerator())
-	gens["PublicIPAddressConfiguration"] = gen.PtrOf(VirtualMachineScaleSetPublicIPAddressConfigurationSpecARMGenerator())
-	gens["Subnet"] = gen.PtrOf(ApiEntityReferenceSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationProperties_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationProperties_SpecARM(gens map[string]gopter.Gen) {
+	gens["ApplicationGatewayBackendAddressPools"] = gen.SliceOf(SubResource_SpecARMGenerator())
+	gens["ApplicationSecurityGroups"] = gen.SliceOf(SubResource_SpecARMGenerator())
+	gens["LoadBalancerBackendAddressPools"] = gen.SliceOf(SubResource_SpecARMGenerator())
+	gens["LoadBalancerInboundNatPools"] = gen.SliceOf(SubResource_SpecARMGenerator())
+	gens["PublicIPAddressConfiguration"] = gen.PtrOf(VirtualMachineScaleSetPublicIPAddressConfiguration_SpecARMGenerator())
+	gens["Subnet"] = gen.PtrOf(ApiEntityReference_SpecARMGenerator())
 }
 
 func Test_VirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2018,12 +2019,12 @@ func Test_VirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM_WhenSeriali
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationSpecARM, VirtualMachineScaleSetPublicIPAddressConfigurationSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM, VirtualMachineScaleSetPublicIPAddressConfiguration_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationSpecARM runs a test to see if a specific instance of VirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationSpecARM(subject VirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM runs a test to see if a specific instance of VirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM(subject VirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2050,39 +2051,39 @@ func RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurati
 }
 
 // Generator of VirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM instances for property testing - lazily
-//instantiated by VirtualMachineScaleSetPublicIPAddressConfigurationSpecARMGenerator()
-var virtualMachineScaleSetPublicIPAddressConfigurationSpecARMGenerator gopter.Gen
+//instantiated by VirtualMachineScaleSetPublicIPAddressConfiguration_SpecARMGenerator()
+var virtualMachineScaleSetPublicIPAddressConfiguration_specARMGenerator gopter.Gen
 
-// VirtualMachineScaleSetPublicIPAddressConfigurationSpecARMGenerator returns a generator of VirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM instances for property testing.
-// We first initialize virtualMachineScaleSetPublicIPAddressConfigurationSpecARMGenerator with a simplified generator based on the
+// VirtualMachineScaleSetPublicIPAddressConfiguration_SpecARMGenerator returns a generator of VirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM instances for property testing.
+// We first initialize virtualMachineScaleSetPublicIPAddressConfiguration_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetPublicIPAddressConfigurationSpecARMGenerator() gopter.Gen {
-	if virtualMachineScaleSetPublicIPAddressConfigurationSpecARMGenerator != nil {
-		return virtualMachineScaleSetPublicIPAddressConfigurationSpecARMGenerator
+func VirtualMachineScaleSetPublicIPAddressConfiguration_SpecARMGenerator() gopter.Gen {
+	if virtualMachineScaleSetPublicIPAddressConfiguration_specARMGenerator != nil {
+		return virtualMachineScaleSetPublicIPAddressConfiguration_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationSpecARM(generators)
-	virtualMachineScaleSetPublicIPAddressConfigurationSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM(generators)
+	virtualMachineScaleSetPublicIPAddressConfiguration_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationSpecARM(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationSpecARM(generators)
-	virtualMachineScaleSetPublicIPAddressConfigurationSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM(generators)
+	virtualMachineScaleSetPublicIPAddressConfiguration_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM{}), generators)
 
-	return virtualMachineScaleSetPublicIPAddressConfigurationSpecARMGenerator
+	return virtualMachineScaleSetPublicIPAddressConfiguration_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfiguration_SpecARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(VirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARMGenerator())
 }
 
 func Test_VirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2092,12 +2093,12 @@ func Test_VirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM_W
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecARM, VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM, VirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecARM runs a test to see if a specific instance of VirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecARM(subject VirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM runs a test to see if a specific instance of VirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM(subject VirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2124,42 +2125,42 @@ func RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurati
 }
 
 // Generator of VirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM instances for property testing -
-//lazily instantiated by VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecARMGenerator()
-var virtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecARMGenerator gopter.Gen
+//lazily instantiated by VirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARMGenerator()
+var virtualMachineScaleSetPublicIPAddressConfigurationProperties_specARMGenerator gopter.Gen
 
-// VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecARMGenerator returns a generator of VirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM instances for property testing.
-// We first initialize virtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecARMGenerator with a simplified generator based on the
+// VirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARMGenerator returns a generator of VirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM instances for property testing.
+// We first initialize virtualMachineScaleSetPublicIPAddressConfigurationProperties_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecARMGenerator() gopter.Gen {
-	if virtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecARMGenerator != nil {
-		return virtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecARMGenerator
+func VirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARMGenerator() gopter.Gen {
+	if virtualMachineScaleSetPublicIPAddressConfigurationProperties_specARMGenerator != nil {
+		return virtualMachineScaleSetPublicIPAddressConfigurationProperties_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecARM(generators)
-	virtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM(generators)
+	virtualMachineScaleSetPublicIPAddressConfigurationProperties_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecARM(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecARM(generators)
-	virtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM(generators)
+	virtualMachineScaleSetPublicIPAddressConfigurationProperties_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM{}), generators)
 
-	return virtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecARMGenerator
+	return virtualMachineScaleSetPublicIPAddressConfigurationProperties_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM(gens map[string]gopter.Gen) {
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecPublicIPAddressVersionIPv4, VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecPublicIPAddressVersionIPv6))
+	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_SpecIPv4, VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_SpecIPv6))
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationPropertiesSpecARM(gens map[string]gopter.Gen) {
-	gens["DnsSettings"] = gen.PtrOf(VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSpecARMGenerator())
-	gens["IpTags"] = gen.SliceOf(VirtualMachineScaleSetIpTagSpecARMGenerator())
-	gens["PublicIPPrefix"] = gen.PtrOf(SubResourceSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationProperties_SpecARM(gens map[string]gopter.Gen) {
+	gens["DnsSettings"] = gen.PtrOf(VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_SpecARMGenerator())
+	gens["IpTags"] = gen.SliceOf(VirtualMachineScaleSetIpTag_SpecARMGenerator())
+	gens["PublicIPPrefix"] = gen.PtrOf(SubResource_SpecARMGenerator())
 }
 
 func Test_VirtualMachineScaleSetIpTag_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2169,12 +2170,12 @@ func Test_VirtualMachineScaleSetIpTag_SpecARM_WhenSerializedToJson_DeserializesA
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetIpTag_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetIpTagSpecARM, VirtualMachineScaleSetIpTagSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetIpTag_SpecARM, VirtualMachineScaleSetIpTag_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetIpTagSpecARM runs a test to see if a specific instance of VirtualMachineScaleSetIpTag_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetIpTagSpecARM(subject VirtualMachineScaleSetIpTag_SpecARM) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetIpTag_SpecARM runs a test to see if a specific instance of VirtualMachineScaleSetIpTag_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetIpTag_SpecARM(subject VirtualMachineScaleSetIpTag_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2201,24 +2202,24 @@ func RunJSONSerializationTestForVirtualMachineScaleSetIpTagSpecARM(subject Virtu
 }
 
 // Generator of VirtualMachineScaleSetIpTag_SpecARM instances for property testing - lazily instantiated by
-//VirtualMachineScaleSetIpTagSpecARMGenerator()
-var virtualMachineScaleSetIpTagSpecARMGenerator gopter.Gen
+//VirtualMachineScaleSetIpTag_SpecARMGenerator()
+var virtualMachineScaleSetIpTag_specARMGenerator gopter.Gen
 
-// VirtualMachineScaleSetIpTagSpecARMGenerator returns a generator of VirtualMachineScaleSetIpTag_SpecARM instances for property testing.
-func VirtualMachineScaleSetIpTagSpecARMGenerator() gopter.Gen {
-	if virtualMachineScaleSetIpTagSpecARMGenerator != nil {
-		return virtualMachineScaleSetIpTagSpecARMGenerator
+// VirtualMachineScaleSetIpTag_SpecARMGenerator returns a generator of VirtualMachineScaleSetIpTag_SpecARM instances for property testing.
+func VirtualMachineScaleSetIpTag_SpecARMGenerator() gopter.Gen {
+	if virtualMachineScaleSetIpTag_specARMGenerator != nil {
+		return virtualMachineScaleSetIpTag_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIpTagSpecARM(generators)
-	virtualMachineScaleSetIpTagSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIpTag_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIpTag_SpecARM(generators)
+	virtualMachineScaleSetIpTag_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIpTag_SpecARM{}), generators)
 
-	return virtualMachineScaleSetIpTagSpecARMGenerator
+	return virtualMachineScaleSetIpTag_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIpTagSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIpTagSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIpTag_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIpTag_SpecARM(gens map[string]gopter.Gen) {
 	gens["IpTagType"] = gen.PtrOf(gen.AlphaString())
 	gens["Tag"] = gen.PtrOf(gen.AlphaString())
 }
@@ -2230,12 +2231,12 @@ func Test_VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_SpecARM_
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSpecARM, VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_SpecARM, VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSpecARM runs a test to see if a specific instance of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSpecARM(subject VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_SpecARM) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_SpecARM runs a test to see if a specific instance of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_SpecARM(subject VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2262,23 +2263,23 @@ func RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurati
 }
 
 // Generator of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_SpecARM instances for property testing -
-//lazily instantiated by VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSpecARMGenerator()
-var virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSpecARMGenerator gopter.Gen
+//lazily instantiated by VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_SpecARMGenerator()
+var virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_specARMGenerator gopter.Gen
 
-// VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSpecARMGenerator returns a generator of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_SpecARM instances for property testing.
-func VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSpecARMGenerator() gopter.Gen {
-	if virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSpecARMGenerator != nil {
-		return virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSpecARMGenerator
+// VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_SpecARMGenerator returns a generator of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_SpecARM instances for property testing.
+func VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_SpecARMGenerator() gopter.Gen {
+	if virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_specARMGenerator != nil {
+		return virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSpecARM(generators)
-	virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSpecARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_SpecARM(generators)
+	virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_specARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_SpecARM{}), generators)
 
-	return virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSpecARMGenerator
+	return virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_SpecARM(gens map[string]gopter.Gen) {
 	gens["DomainNameLabel"] = gen.AlphaString()
 }

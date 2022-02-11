@@ -137,7 +137,7 @@ type WebtestList struct {
 //Storage version of v1alpha1api20180501preview.WebTest_Status
 type WebTest_Status struct {
 	Conditions         []conditions.Condition                    `json:"conditions,omitempty"`
-	Configuration      *WebTestProperties_Status_Configuration   `json:"Configuration,omitempty"`
+	Configuration      *WebTestProperties_Configuration_Status   `json:"Configuration,omitempty"`
 	Description        *string                                   `json:"Description,omitempty"`
 	Enabled            *bool                                     `json:"Enabled,omitempty"`
 	Frequency          *int                                      `json:"Frequency,omitempty"`
@@ -149,13 +149,13 @@ type WebTest_Status struct {
 	PropertiesName     *string                                   `json:"properties_name,omitempty"`
 	PropertyBag        genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
 	ProvisioningState  *string                                   `json:"provisioningState,omitempty"`
-	Request            *WebTestProperties_Status_Request         `json:"Request,omitempty"`
+	Request            *WebTestProperties_Request_Status         `json:"Request,omitempty"`
 	RetryEnabled       *bool                                     `json:"RetryEnabled,omitempty"`
 	SyntheticMonitorId *string                                   `json:"SyntheticMonitorId,omitempty"`
 	Tags               *v1.JSON                                  `json:"tags,omitempty"`
 	Timeout            *int                                      `json:"Timeout,omitempty"`
 	Type               *string                                   `json:"type,omitempty"`
-	ValidationRules    *WebTestProperties_Status_ValidationRules `json:"ValidationRules,omitempty"`
+	ValidationRules    *WebTestProperties_ValidationRules_Status `json:"ValidationRules,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &WebTest_Status{}
@@ -183,7 +183,7 @@ type Webtests_SPEC struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName       string                                `json:"azureName"`
-	Configuration   *WebTestProperties_Spec_Configuration `json:"Configuration,omitempty"`
+	Configuration   *WebTestProperties_Configuration_Spec `json:"Configuration,omitempty"`
 	Description     *string                               `json:"Description,omitempty"`
 	Enabled         *bool                                 `json:"Enabled,omitempty"`
 	Frequency       *int                                  `json:"Frequency,omitempty"`
@@ -196,12 +196,12 @@ type Webtests_SPEC struct {
 	// +kubebuilder:validation:Required
 	Owner              genruntime.KnownResourceReference       `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	PropertyBag        genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
-	Request            *WebTestProperties_Spec_Request         `json:"Request,omitempty"`
+	Request            *WebTestProperties_Request_Spec         `json:"Request,omitempty"`
 	RetryEnabled       *bool                                   `json:"RetryEnabled,omitempty"`
 	SyntheticMonitorId *string                                 `json:"SyntheticMonitorId,omitempty"`
 	Tags               *v1.JSON                                `json:"tags,omitempty"`
 	Timeout            *int                                    `json:"Timeout,omitempty"`
-	ValidationRules    *WebTestProperties_Spec_ValidationRules `json:"ValidationRules,omitempty"`
+	ValidationRules    *WebTestProperties_ValidationRules_Spec `json:"ValidationRules,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Webtests_SPEC{}
@@ -236,14 +236,20 @@ type WebTestGeolocation_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20180501preview.WebTestProperties_Spec_Configuration
-type WebTestProperties_Spec_Configuration struct {
+//Storage version of v1alpha1api20180501preview.WebTestProperties_Configuration_Spec
+type WebTestProperties_Configuration_Spec struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	WebTest     *string                `json:"WebTest,omitempty"`
 }
 
-//Storage version of v1alpha1api20180501preview.WebTestProperties_Spec_Request
-type WebTestProperties_Spec_Request struct {
+//Storage version of v1alpha1api20180501preview.WebTestProperties_Configuration_Status
+type WebTestProperties_Configuration_Status struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	WebTest     *string                `json:"WebTest,omitempty"`
+}
+
+//Storage version of v1alpha1api20180501preview.WebTestProperties_Request_Spec
+type WebTestProperties_Request_Spec struct {
 	FollowRedirects        *bool                  `json:"FollowRedirects,omitempty"`
 	Headers                []HeaderField_Spec     `json:"Headers,omitempty"`
 	HttpVerb               *string                `json:"HttpVerb,omitempty"`
@@ -253,24 +259,8 @@ type WebTestProperties_Spec_Request struct {
 	RequestUrl             *string                `json:"RequestUrl,omitempty"`
 }
 
-//Storage version of v1alpha1api20180501preview.WebTestProperties_Spec_ValidationRules
-type WebTestProperties_Spec_ValidationRules struct {
-	ContentValidation             *WebTestProperties_Spec_ValidationRules_ContentValidation `json:"ContentValidation,omitempty"`
-	ExpectedHttpStatusCode        *int                                                      `json:"ExpectedHttpStatusCode,omitempty"`
-	IgnoreHttpsStatusCode         *bool                                                     `json:"IgnoreHttpsStatusCode,omitempty"`
-	PropertyBag                   genruntime.PropertyBag                                    `json:"$propertyBag,omitempty"`
-	SSLCertRemainingLifetimeCheck *int                                                      `json:"SSLCertRemainingLifetimeCheck,omitempty"`
-	SSLCheck                      *bool                                                     `json:"SSLCheck,omitempty"`
-}
-
-//Storage version of v1alpha1api20180501preview.WebTestProperties_Status_Configuration
-type WebTestProperties_Status_Configuration struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	WebTest     *string                `json:"WebTest,omitempty"`
-}
-
-//Storage version of v1alpha1api20180501preview.WebTestProperties_Status_Request
-type WebTestProperties_Status_Request struct {
+//Storage version of v1alpha1api20180501preview.WebTestProperties_Request_Status
+type WebTestProperties_Request_Status struct {
 	FollowRedirects        *bool                  `json:"FollowRedirects,omitempty"`
 	Headers                []HeaderField_Status   `json:"Headers,omitempty"`
 	HttpVerb               *string                `json:"HttpVerb,omitempty"`
@@ -280,9 +270,19 @@ type WebTestProperties_Status_Request struct {
 	RequestUrl             *string                `json:"RequestUrl,omitempty"`
 }
 
-//Storage version of v1alpha1api20180501preview.WebTestProperties_Status_ValidationRules
-type WebTestProperties_Status_ValidationRules struct {
-	ContentValidation             *WebTestProperties_Status_ValidationRules_ContentValidation `json:"ContentValidation,omitempty"`
+//Storage version of v1alpha1api20180501preview.WebTestProperties_ValidationRules_Spec
+type WebTestProperties_ValidationRules_Spec struct {
+	ContentValidation             *WebTestProperties_ValidationRules_ContentValidation_Spec `json:"ContentValidation,omitempty"`
+	ExpectedHttpStatusCode        *int                                                      `json:"ExpectedHttpStatusCode,omitempty"`
+	IgnoreHttpsStatusCode         *bool                                                     `json:"IgnoreHttpsStatusCode,omitempty"`
+	PropertyBag                   genruntime.PropertyBag                                    `json:"$propertyBag,omitempty"`
+	SSLCertRemainingLifetimeCheck *int                                                      `json:"SSLCertRemainingLifetimeCheck,omitempty"`
+	SSLCheck                      *bool                                                     `json:"SSLCheck,omitempty"`
+}
+
+//Storage version of v1alpha1api20180501preview.WebTestProperties_ValidationRules_Status
+type WebTestProperties_ValidationRules_Status struct {
+	ContentValidation             *WebTestProperties_ValidationRules_ContentValidation_Status `json:"ContentValidation,omitempty"`
 	ExpectedHttpStatusCode        *int                                                        `json:"ExpectedHttpStatusCode,omitempty"`
 	IgnoreHttpsStatusCode         *bool                                                       `json:"IgnoreHttpsStatusCode,omitempty"`
 	PropertyBag                   genruntime.PropertyBag                                      `json:"$propertyBag,omitempty"`
@@ -304,16 +304,16 @@ type HeaderField_Status struct {
 	Value       *string                `json:"value,omitempty"`
 }
 
-//Storage version of v1alpha1api20180501preview.WebTestProperties_Spec_ValidationRules_ContentValidation
-type WebTestProperties_Spec_ValidationRules_ContentValidation struct {
+//Storage version of v1alpha1api20180501preview.WebTestProperties_ValidationRules_ContentValidation_Spec
+type WebTestProperties_ValidationRules_ContentValidation_Spec struct {
 	ContentMatch    *string                `json:"ContentMatch,omitempty"`
 	IgnoreCase      *bool                  `json:"IgnoreCase,omitempty"`
 	PassIfTextFound *bool                  `json:"PassIfTextFound,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20180501preview.WebTestProperties_Status_ValidationRules_ContentValidation
-type WebTestProperties_Status_ValidationRules_ContentValidation struct {
+//Storage version of v1alpha1api20180501preview.WebTestProperties_ValidationRules_ContentValidation_Status
+type WebTestProperties_ValidationRules_ContentValidation_Status struct {
 	ContentMatch    *string                `json:"ContentMatch,omitempty"`
 	IgnoreCase      *bool                  `json:"IgnoreCase,omitempty"`
 	PassIfTextFound *bool                  `json:"PassIfTextFound,omitempty"`

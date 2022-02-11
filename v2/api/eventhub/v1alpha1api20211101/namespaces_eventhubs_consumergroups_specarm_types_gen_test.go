@@ -24,12 +24,12 @@ func Test_NamespacesEventhubsConsumergroups_SPECARM_WhenSerializedToJson_Deseria
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NamespacesEventhubsConsumergroups_SPECARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespacesEventhubsConsumergroupsSPECARM, NamespacesEventhubsConsumergroupsSPECARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForNamespacesEventhubsConsumergroups_SPECARM, NamespacesEventhubsConsumergroups_SPECARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespacesEventhubsConsumergroupsSPECARM runs a test to see if a specific instance of NamespacesEventhubsConsumergroups_SPECARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespacesEventhubsConsumergroupsSPECARM(subject NamespacesEventhubsConsumergroups_SPECARM) string {
+// RunJSONSerializationTestForNamespacesEventhubsConsumergroups_SPECARM runs a test to see if a specific instance of NamespacesEventhubsConsumergroups_SPECARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespacesEventhubsConsumergroups_SPECARM(subject NamespacesEventhubsConsumergroups_SPECARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,55 +56,55 @@ func RunJSONSerializationTestForNamespacesEventhubsConsumergroupsSPECARM(subject
 }
 
 // Generator of NamespacesEventhubsConsumergroups_SPECARM instances for property testing - lazily instantiated by
-//NamespacesEventhubsConsumergroupsSPECARMGenerator()
-var namespacesEventhubsConsumergroupsSPECARMGenerator gopter.Gen
+//NamespacesEventhubsConsumergroups_SPECARMGenerator()
+var namespacesEventhubsConsumergroups_specarmGenerator gopter.Gen
 
-// NamespacesEventhubsConsumergroupsSPECARMGenerator returns a generator of NamespacesEventhubsConsumergroups_SPECARM instances for property testing.
-// We first initialize namespacesEventhubsConsumergroupsSPECARMGenerator with a simplified generator based on the
+// NamespacesEventhubsConsumergroups_SPECARMGenerator returns a generator of NamespacesEventhubsConsumergroups_SPECARM instances for property testing.
+// We first initialize namespacesEventhubsConsumergroups_specarmGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func NamespacesEventhubsConsumergroupsSPECARMGenerator() gopter.Gen {
-	if namespacesEventhubsConsumergroupsSPECARMGenerator != nil {
-		return namespacesEventhubsConsumergroupsSPECARMGenerator
+func NamespacesEventhubsConsumergroups_SPECARMGenerator() gopter.Gen {
+	if namespacesEventhubsConsumergroups_specarmGenerator != nil {
+		return namespacesEventhubsConsumergroups_specarmGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroupsSPECARM(generators)
-	namespacesEventhubsConsumergroupsSPECARMGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhubsConsumergroups_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroups_SPECARM(generators)
+	namespacesEventhubsConsumergroups_specarmGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhubsConsumergroups_SPECARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroupsSPECARM(generators)
-	AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumergroupsSPECARM(generators)
-	namespacesEventhubsConsumergroupsSPECARMGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhubsConsumergroups_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroups_SPECARM(generators)
+	AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumergroups_SPECARM(generators)
+	namespacesEventhubsConsumergroups_specarmGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhubsConsumergroups_SPECARM{}), generators)
 
-	return namespacesEventhubsConsumergroupsSPECARMGenerator
+	return namespacesEventhubsConsumergroups_specarmGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroupsSPECARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroupsSPECARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroups_SPECARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroups_SPECARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumergroupsSPECARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumergroupsSPECARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(NamespacesEventhubsConsumergroupsSPECPropertiesARMGenerator())
+// AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumergroups_SPECARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumergroups_SPECARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(NamespacesEventhubsConsumergroups_Properties_SPECARMGenerator())
 }
 
-func Test_NamespacesEventhubsConsumergroups_SPEC_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_NamespacesEventhubsConsumergroups_Properties_SPECARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of NamespacesEventhubsConsumergroups_SPEC_PropertiesARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespacesEventhubsConsumergroupsSPECPropertiesARM, NamespacesEventhubsConsumergroupsSPECPropertiesARMGenerator()))
+		"Round trip of NamespacesEventhubsConsumergroups_Properties_SPECARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespacesEventhubsConsumergroups_Properties_SPECARM, NamespacesEventhubsConsumergroups_Properties_SPECARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespacesEventhubsConsumergroupsSPECPropertiesARM runs a test to see if a specific instance of NamespacesEventhubsConsumergroups_SPEC_PropertiesARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespacesEventhubsConsumergroupsSPECPropertiesARM(subject NamespacesEventhubsConsumergroups_SPEC_PropertiesARM) string {
+// RunJSONSerializationTestForNamespacesEventhubsConsumergroups_Properties_SPECARM runs a test to see if a specific instance of NamespacesEventhubsConsumergroups_Properties_SPECARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespacesEventhubsConsumergroups_Properties_SPECARM(subject NamespacesEventhubsConsumergroups_Properties_SPECARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -112,7 +112,7 @@ func RunJSONSerializationTestForNamespacesEventhubsConsumergroupsSPECPropertiesA
 	}
 
 	// Deserialize back into memory
-	var actual NamespacesEventhubsConsumergroups_SPEC_PropertiesARM
+	var actual NamespacesEventhubsConsumergroups_Properties_SPECARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -130,24 +130,24 @@ func RunJSONSerializationTestForNamespacesEventhubsConsumergroupsSPECPropertiesA
 	return ""
 }
 
-// Generator of NamespacesEventhubsConsumergroups_SPEC_PropertiesARM instances for property testing - lazily
-//instantiated by NamespacesEventhubsConsumergroupsSPECPropertiesARMGenerator()
-var namespacesEventhubsConsumergroupsSPECPropertiesARMGenerator gopter.Gen
+// Generator of NamespacesEventhubsConsumergroups_Properties_SPECARM instances for property testing - lazily
+//instantiated by NamespacesEventhubsConsumergroups_Properties_SPECARMGenerator()
+var namespacesEventhubsConsumergroups_properties_specarmGenerator gopter.Gen
 
-// NamespacesEventhubsConsumergroupsSPECPropertiesARMGenerator returns a generator of NamespacesEventhubsConsumergroups_SPEC_PropertiesARM instances for property testing.
-func NamespacesEventhubsConsumergroupsSPECPropertiesARMGenerator() gopter.Gen {
-	if namespacesEventhubsConsumergroupsSPECPropertiesARMGenerator != nil {
-		return namespacesEventhubsConsumergroupsSPECPropertiesARMGenerator
+// NamespacesEventhubsConsumergroups_Properties_SPECARMGenerator returns a generator of NamespacesEventhubsConsumergroups_Properties_SPECARM instances for property testing.
+func NamespacesEventhubsConsumergroups_Properties_SPECARMGenerator() gopter.Gen {
+	if namespacesEventhubsConsumergroups_properties_specarmGenerator != nil {
+		return namespacesEventhubsConsumergroups_properties_specarmGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroupsSPECPropertiesARM(generators)
-	namespacesEventhubsConsumergroupsSPECPropertiesARMGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhubsConsumergroups_SPEC_PropertiesARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroups_Properties_SPECARM(generators)
+	namespacesEventhubsConsumergroups_properties_specarmGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhubsConsumergroups_Properties_SPECARM{}), generators)
 
-	return namespacesEventhubsConsumergroupsSPECPropertiesARMGenerator
+	return namespacesEventhubsConsumergroups_properties_specarmGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroupsSPECPropertiesARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroupsSPECPropertiesARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroups_Properties_SPECARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroups_Properties_SPECARM(gens map[string]gopter.Gen) {
 	gens["UserMetadata"] = gen.PtrOf(gen.AlphaString())
 }

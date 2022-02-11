@@ -47,18 +47,18 @@ type RedisCreateProperties_SpecARM struct {
 
 	//MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or
 	//higher) to connect (e,g, '1.0', '1.1', '1.2')
-	MinimumTlsVersion *RedisCreatePropertiesSpecMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *RedisCreateProperties_MinimumTlsVersion_Spec `json:"minimumTlsVersion,omitempty"`
 
 	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this
 	//cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If
 	//'Disabled', private endpoints are the exclusive access method. Default value is
 	//'Enabled'
-	PublicNetworkAccess *RedisCreatePropertiesSpecPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess_Spec `json:"publicNetworkAccess,omitempty"`
 
 	//RedisConfiguration: All Redis Settings. Few possible keys:
 	//rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
 	//etc.
-	RedisConfiguration *RedisCreateProperties_Spec_RedisConfigurationARM `json:"redisConfiguration,omitempty"`
+	RedisConfiguration *RedisCreateProperties_RedisConfiguration_SpecARM `json:"redisConfiguration,omitempty"`
 
 	//RedisVersion: Redis version. Only major version will be used in PUT/PATCH
 	//request with current valid values: (4, 6)
@@ -89,7 +89,7 @@ type RedisCreateProperties_SpecARM struct {
 	TenantSettings map[string]string `json:"tenantSettings,omitempty"`
 }
 
-type RedisCreateProperties_Spec_RedisConfigurationARM struct {
+type RedisCreateProperties_RedisConfiguration_SpecARM struct {
 	//AofStorageConnectionString0: First storage account connection string
 	AofStorageConnectionString0 *string `json:"aof-storage-connection-string-0,omitempty"`
 
@@ -136,8 +136,8 @@ type Sku_SpecARM struct {
 
 	//Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P =
 	//Premium).
-	Family SkuSpecFamily `json:"family"`
+	Family Sku_Family_Spec `json:"family"`
 
 	//Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
-	Name SkuSpecName `json:"name"`
+	Name Sku_Name_Spec `json:"name"`
 }

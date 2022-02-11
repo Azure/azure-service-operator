@@ -50,7 +50,7 @@ type WorkspaceProperties_StatusARM struct {
 	PrivateLinkScopedResources []PrivateLinkScopedResource_StatusARM `json:"privateLinkScopedResources,omitempty"`
 
 	//ProvisioningState: The provisioning state of the workspace.
-	ProvisioningState *WorkspacePropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *WorkspaceProperties_ProvisioningState_Status `json:"provisioningState,omitempty"`
 
 	//PublicNetworkAccessForIngestion: The network access type for accessing Log
 	//Analytics ingestion.
@@ -84,7 +84,7 @@ type WorkspaceCapping_StatusARM struct {
 	DailyQuotaGb *float64 `json:"dailyQuotaGb,omitempty"`
 
 	//DataIngestionStatus: The status of data ingestion for this workspace.
-	DataIngestionStatus *WorkspaceCappingStatusDataIngestionStatus `json:"dataIngestionStatus,omitempty"`
+	DataIngestionStatus *WorkspaceCapping_DataIngestionStatus_Status `json:"dataIngestionStatus,omitempty"`
 
 	//QuotaNextResetTime: The time when the quota will be rest.
 	QuotaNextResetTime *string `json:"quotaNextResetTime,omitempty"`
@@ -113,11 +113,11 @@ type WorkspaceFeatures_StatusARM struct {
 type WorkspaceSku_StatusARM struct {
 	//CapacityReservationLevel: The capacity reservation level in GB for this
 	//workspace, when CapacityReservation sku is selected.
-	CapacityReservationLevel *WorkspaceSkuStatusCapacityReservationLevel `json:"capacityReservationLevel,omitempty"`
+	CapacityReservationLevel *WorkspaceSku_CapacityReservationLevel_Status `json:"capacityReservationLevel,omitempty"`
 
 	//LastSkuUpdate: The last time when the sku was updated.
 	LastSkuUpdate *string `json:"lastSkuUpdate,omitempty"`
 
 	//Name: The name of the SKU.
-	Name WorkspaceSkuStatusName `json:"name"`
+	Name WorkspaceSku_Name_Status `json:"name"`
 }

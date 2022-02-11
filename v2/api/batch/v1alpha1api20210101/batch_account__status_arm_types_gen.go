@@ -51,13 +51,13 @@ type BatchAccountIdentity_StatusARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	//Type: The type of identity used for the Batch account.
-	Type BatchAccountIdentityStatusType `json:"type"`
+	Type BatchAccountIdentity_Type_Status `json:"type"`
 
 	//UserAssignedIdentities: The list of user identities associated with the Batch
 	//account. The user identity dictionary key references will be ARM resource ids in
 	//the form:
 	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]BatchAccountIdentity_Status_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]BatchAccountIdentity_UserAssignedIdentities_StatusARM `json:"userAssignedIdentities,omitempty"`
 }
 
 type AutoStorageBaseProperties_StatusARM struct {
@@ -66,15 +66,15 @@ type AutoStorageBaseProperties_StatusARM struct {
 	StorageAccountId string `json:"storageAccountId"`
 }
 
-type BatchAccountIdentityStatusType string
+type BatchAccountIdentity_Type_Status string
 
 const (
-	BatchAccountIdentityStatusTypeNone           = BatchAccountIdentityStatusType("None")
-	BatchAccountIdentityStatusTypeSystemAssigned = BatchAccountIdentityStatusType("SystemAssigned")
-	BatchAccountIdentityStatusTypeUserAssigned   = BatchAccountIdentityStatusType("UserAssigned")
+	BatchAccountIdentity_Type_StatusNone           = BatchAccountIdentity_Type_Status("None")
+	BatchAccountIdentity_Type_StatusSystemAssigned = BatchAccountIdentity_Type_Status("SystemAssigned")
+	BatchAccountIdentity_Type_StatusUserAssigned   = BatchAccountIdentity_Type_Status("UserAssigned")
 )
 
-type BatchAccountIdentity_Status_UserAssignedIdentitiesARM struct {
+type BatchAccountIdentity_UserAssignedIdentities_StatusARM struct {
 	//ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -84,7 +84,7 @@ type BatchAccountIdentity_Status_UserAssignedIdentitiesARM struct {
 
 type EncryptionProperties_StatusARM struct {
 	//KeySource: Type of the key source.
-	KeySource *EncryptionPropertiesStatusKeySource `json:"keySource,omitempty"`
+	KeySource *EncryptionProperties_KeySource_Status `json:"keySource,omitempty"`
 
 	//KeyVaultProperties: Additional details when using Microsoft.KeyVault
 	KeyVaultProperties *KeyVaultProperties_StatusARM `json:"keyVaultProperties,omitempty"`

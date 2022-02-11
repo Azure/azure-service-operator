@@ -62,11 +62,11 @@ type SubnetPropertiesFormat_SpecARM struct {
 
 	//PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on
 	//private end point in the subnet.
-	PrivateEndpointNetworkPolicies *SubnetPropertiesFormatSpecPrivateEndpointNetworkPolicies `json:"privateEndpointNetworkPolicies,omitempty"`
+	PrivateEndpointNetworkPolicies *SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Spec `json:"privateEndpointNetworkPolicies,omitempty"`
 
 	//PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on
 	//private link service in the subnet.
-	PrivateLinkServiceNetworkPolicies *SubnetPropertiesFormatSpecPrivateLinkServiceNetworkPolicies `json:"privateLinkServiceNetworkPolicies,omitempty"`
+	PrivateLinkServiceNetworkPolicies *SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Spec `json:"privateLinkServiceNetworkPolicies,omitempty"`
 
 	//RouteTable: The reference to the RouteTable resource.
 	RouteTable *RouteTable_SpecARM `json:"routeTable,omitempty"`

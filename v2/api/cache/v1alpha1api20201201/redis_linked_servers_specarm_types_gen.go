@@ -37,5 +37,5 @@ type RedisLinkedServerCreateProperties_SpecARM struct {
 	LinkedRedisCacheLocation string `json:"linkedRedisCacheLocation"`
 
 	//ServerRole: Role of the linked server.
-	ServerRole RedisLinkedServerCreatePropertiesSpecServerRole `json:"serverRole"`
+	ServerRole RedisLinkedServerCreateProperties_ServerRole_Spec `json:"serverRole"`
 }

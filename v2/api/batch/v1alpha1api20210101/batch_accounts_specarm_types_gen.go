@@ -65,7 +65,7 @@ type BatchAccountCreateProperties_SpecARM struct {
 
 type BatchAccountIdentity_SpecARM struct {
 	//Type: The type of identity used for the Batch account.
-	Type BatchAccountIdentitySpecType `json:"type"`
+	Type BatchAccountIdentity_Type_Spec `json:"type"`
 }
 
 type AutoStorageBaseProperties_SpecARM struct {
@@ -73,17 +73,17 @@ type AutoStorageBaseProperties_SpecARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
-type BatchAccountIdentitySpecType string
+type BatchAccountIdentity_Type_Spec string
 
 const (
-	BatchAccountIdentitySpecTypeNone           = BatchAccountIdentitySpecType("None")
-	BatchAccountIdentitySpecTypeSystemAssigned = BatchAccountIdentitySpecType("SystemAssigned")
-	BatchAccountIdentitySpecTypeUserAssigned   = BatchAccountIdentitySpecType("UserAssigned")
+	BatchAccountIdentity_Type_SpecNone           = BatchAccountIdentity_Type_Spec("None")
+	BatchAccountIdentity_Type_SpecSystemAssigned = BatchAccountIdentity_Type_Spec("SystemAssigned")
+	BatchAccountIdentity_Type_SpecUserAssigned   = BatchAccountIdentity_Type_Spec("UserAssigned")
 )
 
 type EncryptionProperties_SpecARM struct {
 	//KeySource: Type of the key source.
-	KeySource *EncryptionPropertiesSpecKeySource `json:"keySource,omitempty"`
+	KeySource *EncryptionProperties_KeySource_Spec `json:"keySource,omitempty"`
 
 	//KeyVaultProperties: Additional details when using Microsoft.KeyVault
 	KeyVaultProperties *KeyVaultProperties_SpecARM `json:"keyVaultProperties,omitempty"`

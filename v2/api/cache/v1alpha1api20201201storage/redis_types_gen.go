@@ -148,7 +148,7 @@ type Redis_SPEC struct {
 	Owner               genruntime.KnownResourceReference              `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	PropertyBag         genruntime.PropertyBag                         `json:"$propertyBag,omitempty"`
 	PublicNetworkAccess *string                                        `json:"publicNetworkAccess,omitempty"`
-	RedisConfiguration  *RedisCreateProperties_Spec_RedisConfiguration `json:"redisConfiguration,omitempty"`
+	RedisConfiguration  *RedisCreateProperties_RedisConfiguration_Spec `json:"redisConfiguration,omitempty"`
 	RedisVersion        *string                                        `json:"redisVersion,omitempty"`
 	ReplicasPerMaster   *int                                           `json:"replicasPerMaster,omitempty"`
 	ReplicasPerPrimary  *int                                           `json:"replicasPerPrimary,omitempty"`
@@ -189,7 +189,7 @@ type Redis_Status struct {
 	MinimumTlsVersion   *string                                          `json:"minimumTlsVersion,omitempty"`
 	PropertyBag         genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
 	PublicNetworkAccess *string                                          `json:"publicNetworkAccess,omitempty"`
-	RedisConfiguration  *RedisCreateProperties_Status_RedisConfiguration `json:"redisConfiguration,omitempty"`
+	RedisConfiguration  *RedisCreateProperties_RedisConfiguration_Status `json:"redisConfiguration,omitempty"`
 	RedisVersion        *string                                          `json:"redisVersion,omitempty"`
 	ReplicasPerMaster   *int                                             `json:"replicasPerMaster,omitempty"`
 	ReplicasPerPrimary  *int                                             `json:"replicasPerPrimary,omitempty"`
@@ -222,8 +222,8 @@ func (redis *Redis_Status) ConvertStatusTo(destination genruntime.ConvertibleSta
 	return destination.ConvertStatusFrom(redis)
 }
 
-//Storage version of v1alpha1api20201201.RedisCreateProperties_Spec_RedisConfiguration
-type RedisCreateProperties_Spec_RedisConfiguration struct {
+//Storage version of v1alpha1api20201201.RedisCreateProperties_RedisConfiguration_Spec
+type RedisCreateProperties_RedisConfiguration_Spec struct {
 	AofStorageConnectionString0    *string                `json:"aof-storage-connection-string-0,omitempty"`
 	AofStorageConnectionString1    *string                `json:"aof-storage-connection-string-1,omitempty"`
 	MaxfragmentationmemoryReserved *string                `json:"maxfragmentationmemory-reserved,omitempty"`
@@ -238,8 +238,8 @@ type RedisCreateProperties_Spec_RedisConfiguration struct {
 	additionalProperties           map[string]string      `json:"additionalProperties,omitempty"`
 }
 
-//Storage version of v1alpha1api20201201.RedisCreateProperties_Status_RedisConfiguration
-type RedisCreateProperties_Status_RedisConfiguration struct {
+//Storage version of v1alpha1api20201201.RedisCreateProperties_RedisConfiguration_Status
+type RedisCreateProperties_RedisConfiguration_Status struct {
 	AofStorageConnectionString0    *string                `json:"aof-storage-connection-string-0,omitempty"`
 	AofStorageConnectionString1    *string                `json:"aof-storage-connection-string-1,omitempty"`
 	Maxclients                     *string                `json:"maxclients,omitempty"`
@@ -263,8 +263,8 @@ type Sku_Spec struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromSkuSpec populates our Sku_Spec from the provided source Sku_Spec
-func (sku *Sku_Spec) AssignPropertiesFromSkuSpec(source *v1alpha1api20210301storage.Sku_Spec) error {
+// AssignPropertiesFromSku_Spec populates our Sku_Spec from the provided source Sku_Spec
+func (sku *Sku_Spec) AssignPropertiesFromSku_Spec(source *v1alpha1api20210301storage.Sku_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -298,8 +298,8 @@ func (sku *Sku_Spec) AssignPropertiesFromSkuSpec(source *v1alpha1api20210301stor
 	return nil
 }
 
-// AssignPropertiesToSkuSpec populates the provided destination Sku_Spec from our Sku_Spec
-func (sku *Sku_Spec) AssignPropertiesToSkuSpec(destination *v1alpha1api20210301storage.Sku_Spec) error {
+// AssignPropertiesToSku_Spec populates the provided destination Sku_Spec from our Sku_Spec
+func (sku *Sku_Spec) AssignPropertiesToSku_Spec(destination *v1alpha1api20210301storage.Sku_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(sku.PropertyBag)
 
@@ -333,8 +333,8 @@ type Sku_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromSkuStatus populates our Sku_Status from the provided source Sku_Status
-func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v1alpha1api20210301storage.Sku_Status) error {
+// AssignPropertiesFromSku_Status populates our Sku_Status from the provided source Sku_Status
+func (sku *Sku_Status) AssignPropertiesFromSku_Status(source *v1alpha1api20210301storage.Sku_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -368,8 +368,8 @@ func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v1alpha1api20210301
 	return nil
 }
 
-// AssignPropertiesToSkuStatus populates the provided destination Sku_Status from our Sku_Status
-func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1api20210301storage.Sku_Status) error {
+// AssignPropertiesToSku_Status populates the provided destination Sku_Status from our Sku_Status
+func (sku *Sku_Status) AssignPropertiesToSku_Status(destination *v1alpha1api20210301storage.Sku_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(sku.PropertyBag)
 

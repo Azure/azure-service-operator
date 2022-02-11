@@ -56,7 +56,7 @@ type VirtualMachineIdentity_SpecARM struct {
 	//'SystemAssigned, UserAssigned' includes both an implicitly created identity and
 	//a set of user assigned identities. The type 'None' will remove any identities
 	//from the virtual machine.
-	Type *VirtualMachineIdentitySpecType `json:"type,omitempty"`
+	Type *VirtualMachineIdentity_Type_Spec `json:"type,omitempty"`
 }
 
 type VirtualMachineProperties_SpecARM struct {
@@ -222,7 +222,7 @@ type HardwareProfile_SpecARM struct {
 	//For more information about virtual machine sizes, see [Sizes for virtual
 	//machines](https://docs.microsoft.com/en-us/azure/virtual-machines/sizes).
 	//The available VM sizes depend on region and availability set.
-	VmSize *HardwareProfileSpecVmSize `json:"vmSize,omitempty"`
+	VmSize *HardwareProfile_VmSize_Spec `json:"vmSize,omitempty"`
 }
 
 type NetworkProfile_SpecARM struct {
@@ -335,7 +335,7 @@ type SecurityProfile_SpecARM struct {
 	//TrustedLaunch to enable UefiSettings.
 	//Default: UefiSettings will not be enabled unless this property is set as
 	//TrustedLaunch.
-	SecurityType *SecurityProfileSpecSecurityType `json:"securityType,omitempty"`
+	SecurityType *SecurityProfile_SecurityType_Spec `json:"securityType,omitempty"`
 
 	//UefiSettings: Specifies the security settings like secure boot and vTPM used
 	//while creating the virtual machine.
@@ -365,13 +365,13 @@ type StorageProfile_SpecARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type VirtualMachineIdentitySpecType string
+type VirtualMachineIdentity_Type_Spec string
 
 const (
-	VirtualMachineIdentitySpecTypeNone                       = VirtualMachineIdentitySpecType("None")
-	VirtualMachineIdentitySpecTypeSystemAssigned             = VirtualMachineIdentitySpecType("SystemAssigned")
-	VirtualMachineIdentitySpecTypeSystemAssignedUserAssigned = VirtualMachineIdentitySpecType("SystemAssigned, UserAssigned")
-	VirtualMachineIdentitySpecTypeUserAssigned               = VirtualMachineIdentitySpecType("UserAssigned")
+	VirtualMachineIdentity_Type_SpecNone                       = VirtualMachineIdentity_Type_Spec("None")
+	VirtualMachineIdentity_Type_SpecSystemAssigned             = VirtualMachineIdentity_Type_Spec("SystemAssigned")
+	VirtualMachineIdentity_Type_SpecSystemAssignedUserAssigned = VirtualMachineIdentity_Type_Spec("SystemAssigned, UserAssigned")
+	VirtualMachineIdentity_Type_SpecUserAssigned               = VirtualMachineIdentity_Type_Spec("UserAssigned")
 )
 
 type BootDiagnostics_SpecARM struct {
@@ -545,7 +545,7 @@ type OSDisk_SpecARM struct {
 	//Possible values are:
 	//Windows
 	//Linux
-	OsType *OSDiskSpecOsType `json:"osType,omitempty"`
+	OsType *OSDisk_OsType_Spec `json:"osType,omitempty"`
 
 	//Vhd: The virtual hard disk.
 	Vhd *VirtualHardDisk_SpecARM `json:"vhd,omitempty"`
@@ -615,7 +615,7 @@ type WindowsConfiguration_SpecARM struct {
 type AdditionalUnattendContent_SpecARM struct {
 	//ComponentName: The component name. Currently, the only allowable value is
 	//Microsoft-Windows-Shell-Setup.
-	ComponentName *AdditionalUnattendContentSpecComponentName `json:"componentName,omitempty"`
+	ComponentName *AdditionalUnattendContent_ComponentName_Spec `json:"componentName,omitempty"`
 
 	//Content: Specifies the XML formatted content that is added to the unattend.xml
 	//file for the specified path and component. The XML must be less than 4KB and
@@ -623,11 +623,11 @@ type AdditionalUnattendContent_SpecARM struct {
 	Content *string `json:"content,omitempty"`
 
 	//PassName: The pass name. Currently, the only allowable value is OobeSystem.
-	PassName *AdditionalUnattendContentSpecPassName `json:"passName,omitempty"`
+	PassName *AdditionalUnattendContent_PassName_Spec `json:"passName,omitempty"`
 
 	//SettingName: Specifies the name of the setting to which the content applies.
 	//Possible values are: FirstLogonCommands and AutoLogon.
-	SettingName *AdditionalUnattendContentSpecSettingName `json:"settingName,omitempty"`
+	SettingName *AdditionalUnattendContent_SettingName_Spec `json:"settingName,omitempty"`
 }
 
 type DiffDiskSettings_SpecARM struct {
@@ -666,7 +666,7 @@ type LinuxPatchSettings_SpecARM struct {
 	//ImageDefault - The virtual machine's default patching configuration is used.
 	//AutomaticByPlatform - The virtual machine will be automatically updated by the
 	//platform. The property provisionVMAgent must be true
-	PatchMode *LinuxPatchSettingsSpecPatchMode `json:"patchMode,omitempty"`
+	PatchMode *LinuxPatchSettings_PatchMode_Spec `json:"patchMode,omitempty"`
 }
 
 type ManagedDiskParameters_SpecARM struct {
@@ -705,7 +705,7 @@ type PatchSettings_SpecARM struct {
 	//AutomaticByPlatform - the virtual machine will automatically updated by the
 	//platform. The properties provisionVMAgent and
 	//WindowsConfiguration.enableAutomaticUpdates must be true
-	PatchMode *PatchSettingsSpecPatchMode `json:"patchMode,omitempty"`
+	PatchMode *PatchSettings_PatchMode_Spec `json:"patchMode,omitempty"`
 }
 
 type SshConfiguration_SpecARM struct {
@@ -795,5 +795,5 @@ type WinRMListener_SpecARM struct {
 	//Possible values are:
 	//http
 	//https
-	Protocol *WinRMListenerSpecProtocol `json:"protocol,omitempty"`
+	Protocol *WinRMListener_Protocol_Spec `json:"protocol,omitempty"`
 }

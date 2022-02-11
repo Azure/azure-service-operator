@@ -24,12 +24,12 @@ func Test_SqlContainerCreateUpdateParameters_StatusARM_WhenSerializedToJson_Dese
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlContainerCreateUpdateParameters_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlContainerCreateUpdateParametersStatusARM, SqlContainerCreateUpdateParametersStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSqlContainerCreateUpdateParameters_StatusARM, SqlContainerCreateUpdateParameters_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlContainerCreateUpdateParametersStatusARM runs a test to see if a specific instance of SqlContainerCreateUpdateParameters_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlContainerCreateUpdateParametersStatusARM(subject SqlContainerCreateUpdateParameters_StatusARM) string {
+// RunJSONSerializationTestForSqlContainerCreateUpdateParameters_StatusARM runs a test to see if a specific instance of SqlContainerCreateUpdateParameters_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlContainerCreateUpdateParameters_StatusARM(subject SqlContainerCreateUpdateParameters_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,33 +56,33 @@ func RunJSONSerializationTestForSqlContainerCreateUpdateParametersStatusARM(subj
 }
 
 // Generator of SqlContainerCreateUpdateParameters_StatusARM instances for property testing - lazily instantiated by
-//SqlContainerCreateUpdateParametersStatusARMGenerator()
-var sqlContainerCreateUpdateParametersStatusARMGenerator gopter.Gen
+//SqlContainerCreateUpdateParameters_StatusARMGenerator()
+var sqlContainerCreateUpdateParameters_statusARMGenerator gopter.Gen
 
-// SqlContainerCreateUpdateParametersStatusARMGenerator returns a generator of SqlContainerCreateUpdateParameters_StatusARM instances for property testing.
-// We first initialize sqlContainerCreateUpdateParametersStatusARMGenerator with a simplified generator based on the
+// SqlContainerCreateUpdateParameters_StatusARMGenerator returns a generator of SqlContainerCreateUpdateParameters_StatusARM instances for property testing.
+// We first initialize sqlContainerCreateUpdateParameters_statusARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SqlContainerCreateUpdateParametersStatusARMGenerator() gopter.Gen {
-	if sqlContainerCreateUpdateParametersStatusARMGenerator != nil {
-		return sqlContainerCreateUpdateParametersStatusARMGenerator
+func SqlContainerCreateUpdateParameters_StatusARMGenerator() gopter.Gen {
+	if sqlContainerCreateUpdateParameters_statusARMGenerator != nil {
+		return sqlContainerCreateUpdateParameters_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlContainerCreateUpdateParametersStatusARM(generators)
-	sqlContainerCreateUpdateParametersStatusARMGenerator = gen.Struct(reflect.TypeOf(SqlContainerCreateUpdateParameters_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForSqlContainerCreateUpdateParameters_StatusARM(generators)
+	sqlContainerCreateUpdateParameters_statusARMGenerator = gen.Struct(reflect.TypeOf(SqlContainerCreateUpdateParameters_StatusARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlContainerCreateUpdateParametersStatusARM(generators)
-	AddRelatedPropertyGeneratorsForSqlContainerCreateUpdateParametersStatusARM(generators)
-	sqlContainerCreateUpdateParametersStatusARMGenerator = gen.Struct(reflect.TypeOf(SqlContainerCreateUpdateParameters_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForSqlContainerCreateUpdateParameters_StatusARM(generators)
+	AddRelatedPropertyGeneratorsForSqlContainerCreateUpdateParameters_StatusARM(generators)
+	sqlContainerCreateUpdateParameters_statusARMGenerator = gen.Struct(reflect.TypeOf(SqlContainerCreateUpdateParameters_StatusARM{}), generators)
 
-	return sqlContainerCreateUpdateParametersStatusARMGenerator
+	return sqlContainerCreateUpdateParameters_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSqlContainerCreateUpdateParametersStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSqlContainerCreateUpdateParametersStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSqlContainerCreateUpdateParameters_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSqlContainerCreateUpdateParameters_StatusARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -90,9 +90,9 @@ func AddIndependentPropertyGeneratorsForSqlContainerCreateUpdateParametersStatus
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSqlContainerCreateUpdateParametersStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSqlContainerCreateUpdateParametersStatusARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(SqlContainerCreateUpdatePropertiesStatusARMGenerator())
+// AddRelatedPropertyGeneratorsForSqlContainerCreateUpdateParameters_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSqlContainerCreateUpdateParameters_StatusARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(SqlContainerCreateUpdateProperties_StatusARMGenerator())
 }
 
 func Test_SqlContainerCreateUpdateProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -102,12 +102,12 @@ func Test_SqlContainerCreateUpdateProperties_StatusARM_WhenSerializedToJson_Dese
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlContainerCreateUpdateProperties_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlContainerCreateUpdatePropertiesStatusARM, SqlContainerCreateUpdatePropertiesStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSqlContainerCreateUpdateProperties_StatusARM, SqlContainerCreateUpdateProperties_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlContainerCreateUpdatePropertiesStatusARM runs a test to see if a specific instance of SqlContainerCreateUpdateProperties_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlContainerCreateUpdatePropertiesStatusARM(subject SqlContainerCreateUpdateProperties_StatusARM) string {
+// RunJSONSerializationTestForSqlContainerCreateUpdateProperties_StatusARM runs a test to see if a specific instance of SqlContainerCreateUpdateProperties_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlContainerCreateUpdateProperties_StatusARM(subject SqlContainerCreateUpdateProperties_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -134,26 +134,26 @@ func RunJSONSerializationTestForSqlContainerCreateUpdatePropertiesStatusARM(subj
 }
 
 // Generator of SqlContainerCreateUpdateProperties_StatusARM instances for property testing - lazily instantiated by
-//SqlContainerCreateUpdatePropertiesStatusARMGenerator()
-var sqlContainerCreateUpdatePropertiesStatusARMGenerator gopter.Gen
+//SqlContainerCreateUpdateProperties_StatusARMGenerator()
+var sqlContainerCreateUpdateProperties_statusARMGenerator gopter.Gen
 
-// SqlContainerCreateUpdatePropertiesStatusARMGenerator returns a generator of SqlContainerCreateUpdateProperties_StatusARM instances for property testing.
-func SqlContainerCreateUpdatePropertiesStatusARMGenerator() gopter.Gen {
-	if sqlContainerCreateUpdatePropertiesStatusARMGenerator != nil {
-		return sqlContainerCreateUpdatePropertiesStatusARMGenerator
+// SqlContainerCreateUpdateProperties_StatusARMGenerator returns a generator of SqlContainerCreateUpdateProperties_StatusARM instances for property testing.
+func SqlContainerCreateUpdateProperties_StatusARMGenerator() gopter.Gen {
+	if sqlContainerCreateUpdateProperties_statusARMGenerator != nil {
+		return sqlContainerCreateUpdateProperties_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForSqlContainerCreateUpdatePropertiesStatusARM(generators)
-	sqlContainerCreateUpdatePropertiesStatusARMGenerator = gen.Struct(reflect.TypeOf(SqlContainerCreateUpdateProperties_StatusARM{}), generators)
+	AddRelatedPropertyGeneratorsForSqlContainerCreateUpdateProperties_StatusARM(generators)
+	sqlContainerCreateUpdateProperties_statusARMGenerator = gen.Struct(reflect.TypeOf(SqlContainerCreateUpdateProperties_StatusARM{}), generators)
 
-	return sqlContainerCreateUpdatePropertiesStatusARMGenerator
+	return sqlContainerCreateUpdateProperties_statusARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForSqlContainerCreateUpdatePropertiesStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSqlContainerCreateUpdatePropertiesStatusARM(gens map[string]gopter.Gen) {
-	gens["Options"] = gen.PtrOf(CreateUpdateOptionsStatusARMGenerator())
-	gens["Resource"] = SqlContainerResourceStatusARMGenerator()
+// AddRelatedPropertyGeneratorsForSqlContainerCreateUpdateProperties_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSqlContainerCreateUpdateProperties_StatusARM(gens map[string]gopter.Gen) {
+	gens["Options"] = gen.PtrOf(CreateUpdateOptions_StatusARMGenerator())
+	gens["Resource"] = SqlContainerResource_StatusARMGenerator()
 }
 
 func Test_SqlContainerResource_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -163,12 +163,12 @@ func Test_SqlContainerResource_StatusARM_WhenSerializedToJson_DeserializesAsEqua
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlContainerResource_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlContainerResourceStatusARM, SqlContainerResourceStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSqlContainerResource_StatusARM, SqlContainerResource_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlContainerResourceStatusARM runs a test to see if a specific instance of SqlContainerResource_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlContainerResourceStatusARM(subject SqlContainerResource_StatusARM) string {
+// RunJSONSerializationTestForSqlContainerResource_StatusARM runs a test to see if a specific instance of SqlContainerResource_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlContainerResource_StatusARM(subject SqlContainerResource_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -195,44 +195,44 @@ func RunJSONSerializationTestForSqlContainerResourceStatusARM(subject SqlContain
 }
 
 // Generator of SqlContainerResource_StatusARM instances for property testing - lazily instantiated by
-//SqlContainerResourceStatusARMGenerator()
-var sqlContainerResourceStatusARMGenerator gopter.Gen
+//SqlContainerResource_StatusARMGenerator()
+var sqlContainerResource_statusARMGenerator gopter.Gen
 
-// SqlContainerResourceStatusARMGenerator returns a generator of SqlContainerResource_StatusARM instances for property testing.
-// We first initialize sqlContainerResourceStatusARMGenerator with a simplified generator based on the
+// SqlContainerResource_StatusARMGenerator returns a generator of SqlContainerResource_StatusARM instances for property testing.
+// We first initialize sqlContainerResource_statusARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SqlContainerResourceStatusARMGenerator() gopter.Gen {
-	if sqlContainerResourceStatusARMGenerator != nil {
-		return sqlContainerResourceStatusARMGenerator
+func SqlContainerResource_StatusARMGenerator() gopter.Gen {
+	if sqlContainerResource_statusARMGenerator != nil {
+		return sqlContainerResource_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlContainerResourceStatusARM(generators)
-	sqlContainerResourceStatusARMGenerator = gen.Struct(reflect.TypeOf(SqlContainerResource_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForSqlContainerResource_StatusARM(generators)
+	sqlContainerResource_statusARMGenerator = gen.Struct(reflect.TypeOf(SqlContainerResource_StatusARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlContainerResourceStatusARM(generators)
-	AddRelatedPropertyGeneratorsForSqlContainerResourceStatusARM(generators)
-	sqlContainerResourceStatusARMGenerator = gen.Struct(reflect.TypeOf(SqlContainerResource_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForSqlContainerResource_StatusARM(generators)
+	AddRelatedPropertyGeneratorsForSqlContainerResource_StatusARM(generators)
+	sqlContainerResource_statusARMGenerator = gen.Struct(reflect.TypeOf(SqlContainerResource_StatusARM{}), generators)
 
-	return sqlContainerResourceStatusARMGenerator
+	return sqlContainerResource_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSqlContainerResourceStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSqlContainerResourceStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSqlContainerResource_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSqlContainerResource_StatusARM(gens map[string]gopter.Gen) {
 	gens["AnalyticalStorageTtl"] = gen.PtrOf(gen.Int())
 	gens["DefaultTtl"] = gen.PtrOf(gen.Int())
 	gens["Id"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForSqlContainerResourceStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSqlContainerResourceStatusARM(gens map[string]gopter.Gen) {
-	gens["ConflictResolutionPolicy"] = gen.PtrOf(ConflictResolutionPolicyStatusARMGenerator())
-	gens["IndexingPolicy"] = gen.PtrOf(IndexingPolicyStatusARMGenerator())
-	gens["PartitionKey"] = gen.PtrOf(ContainerPartitionKeyStatusARMGenerator())
-	gens["UniqueKeyPolicy"] = gen.PtrOf(UniqueKeyPolicyStatusARMGenerator())
+// AddRelatedPropertyGeneratorsForSqlContainerResource_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSqlContainerResource_StatusARM(gens map[string]gopter.Gen) {
+	gens["ConflictResolutionPolicy"] = gen.PtrOf(ConflictResolutionPolicy_StatusARMGenerator())
+	gens["IndexingPolicy"] = gen.PtrOf(IndexingPolicy_StatusARMGenerator())
+	gens["PartitionKey"] = gen.PtrOf(ContainerPartitionKey_StatusARMGenerator())
+	gens["UniqueKeyPolicy"] = gen.PtrOf(UniqueKeyPolicy_StatusARMGenerator())
 }
 
 func Test_ConflictResolutionPolicy_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -242,12 +242,12 @@ func Test_ConflictResolutionPolicy_StatusARM_WhenSerializedToJson_DeserializesAs
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ConflictResolutionPolicy_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForConflictResolutionPolicyStatusARM, ConflictResolutionPolicyStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForConflictResolutionPolicy_StatusARM, ConflictResolutionPolicy_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForConflictResolutionPolicyStatusARM runs a test to see if a specific instance of ConflictResolutionPolicy_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForConflictResolutionPolicyStatusARM(subject ConflictResolutionPolicy_StatusARM) string {
+// RunJSONSerializationTestForConflictResolutionPolicy_StatusARM runs a test to see if a specific instance of ConflictResolutionPolicy_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForConflictResolutionPolicy_StatusARM(subject ConflictResolutionPolicy_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -274,27 +274,27 @@ func RunJSONSerializationTestForConflictResolutionPolicyStatusARM(subject Confli
 }
 
 // Generator of ConflictResolutionPolicy_StatusARM instances for property testing - lazily instantiated by
-//ConflictResolutionPolicyStatusARMGenerator()
-var conflictResolutionPolicyStatusARMGenerator gopter.Gen
+//ConflictResolutionPolicy_StatusARMGenerator()
+var conflictResolutionPolicy_statusARMGenerator gopter.Gen
 
-// ConflictResolutionPolicyStatusARMGenerator returns a generator of ConflictResolutionPolicy_StatusARM instances for property testing.
-func ConflictResolutionPolicyStatusARMGenerator() gopter.Gen {
-	if conflictResolutionPolicyStatusARMGenerator != nil {
-		return conflictResolutionPolicyStatusARMGenerator
+// ConflictResolutionPolicy_StatusARMGenerator returns a generator of ConflictResolutionPolicy_StatusARM instances for property testing.
+func ConflictResolutionPolicy_StatusARMGenerator() gopter.Gen {
+	if conflictResolutionPolicy_statusARMGenerator != nil {
+		return conflictResolutionPolicy_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConflictResolutionPolicyStatusARM(generators)
-	conflictResolutionPolicyStatusARMGenerator = gen.Struct(reflect.TypeOf(ConflictResolutionPolicy_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForConflictResolutionPolicy_StatusARM(generators)
+	conflictResolutionPolicy_statusARMGenerator = gen.Struct(reflect.TypeOf(ConflictResolutionPolicy_StatusARM{}), generators)
 
-	return conflictResolutionPolicyStatusARMGenerator
+	return conflictResolutionPolicy_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForConflictResolutionPolicyStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForConflictResolutionPolicyStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForConflictResolutionPolicy_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForConflictResolutionPolicy_StatusARM(gens map[string]gopter.Gen) {
 	gens["ConflictResolutionPath"] = gen.PtrOf(gen.AlphaString())
 	gens["ConflictResolutionProcedure"] = gen.PtrOf(gen.AlphaString())
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(ConflictResolutionPolicyStatusModeCustom, ConflictResolutionPolicyStatusModeLastWriterWins))
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(ConflictResolutionPolicy_Mode_StatusCustom, ConflictResolutionPolicy_Mode_StatusLastWriterWins))
 }
 
 func Test_ContainerPartitionKey_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -304,12 +304,12 @@ func Test_ContainerPartitionKey_StatusARM_WhenSerializedToJson_DeserializesAsEqu
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ContainerPartitionKey_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerPartitionKeyStatusARM, ContainerPartitionKeyStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForContainerPartitionKey_StatusARM, ContainerPartitionKey_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForContainerPartitionKeyStatusARM runs a test to see if a specific instance of ContainerPartitionKey_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerPartitionKeyStatusARM(subject ContainerPartitionKey_StatusARM) string {
+// RunJSONSerializationTestForContainerPartitionKey_StatusARM runs a test to see if a specific instance of ContainerPartitionKey_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerPartitionKey_StatusARM(subject ContainerPartitionKey_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -336,25 +336,25 @@ func RunJSONSerializationTestForContainerPartitionKeyStatusARM(subject Container
 }
 
 // Generator of ContainerPartitionKey_StatusARM instances for property testing - lazily instantiated by
-//ContainerPartitionKeyStatusARMGenerator()
-var containerPartitionKeyStatusARMGenerator gopter.Gen
+//ContainerPartitionKey_StatusARMGenerator()
+var containerPartitionKey_statusARMGenerator gopter.Gen
 
-// ContainerPartitionKeyStatusARMGenerator returns a generator of ContainerPartitionKey_StatusARM instances for property testing.
-func ContainerPartitionKeyStatusARMGenerator() gopter.Gen {
-	if containerPartitionKeyStatusARMGenerator != nil {
-		return containerPartitionKeyStatusARMGenerator
+// ContainerPartitionKey_StatusARMGenerator returns a generator of ContainerPartitionKey_StatusARM instances for property testing.
+func ContainerPartitionKey_StatusARMGenerator() gopter.Gen {
+	if containerPartitionKey_statusARMGenerator != nil {
+		return containerPartitionKey_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerPartitionKeyStatusARM(generators)
-	containerPartitionKeyStatusARMGenerator = gen.Struct(reflect.TypeOf(ContainerPartitionKey_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerPartitionKey_StatusARM(generators)
+	containerPartitionKey_statusARMGenerator = gen.Struct(reflect.TypeOf(ContainerPartitionKey_StatusARM{}), generators)
 
-	return containerPartitionKeyStatusARMGenerator
+	return containerPartitionKey_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForContainerPartitionKeyStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerPartitionKeyStatusARM(gens map[string]gopter.Gen) {
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ContainerPartitionKeyStatusKindHash, ContainerPartitionKeyStatusKindMultiHash, ContainerPartitionKeyStatusKindRange))
+// AddIndependentPropertyGeneratorsForContainerPartitionKey_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForContainerPartitionKey_StatusARM(gens map[string]gopter.Gen) {
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ContainerPartitionKey_Kind_StatusHash, ContainerPartitionKey_Kind_StatusMultiHash, ContainerPartitionKey_Kind_StatusRange))
 	gens["Paths"] = gen.SliceOf(gen.AlphaString())
 	gens["SystemKey"] = gen.PtrOf(gen.Bool())
 	gens["Version"] = gen.PtrOf(gen.Int())
@@ -367,12 +367,12 @@ func Test_IndexingPolicy_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *t
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IndexingPolicy_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIndexingPolicyStatusARM, IndexingPolicyStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForIndexingPolicy_StatusARM, IndexingPolicy_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForIndexingPolicyStatusARM runs a test to see if a specific instance of IndexingPolicy_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForIndexingPolicyStatusARM(subject IndexingPolicy_StatusARM) string {
+// RunJSONSerializationTestForIndexingPolicy_StatusARM runs a test to see if a specific instance of IndexingPolicy_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForIndexingPolicy_StatusARM(subject IndexingPolicy_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -399,43 +399,43 @@ func RunJSONSerializationTestForIndexingPolicyStatusARM(subject IndexingPolicy_S
 }
 
 // Generator of IndexingPolicy_StatusARM instances for property testing - lazily instantiated by
-//IndexingPolicyStatusARMGenerator()
-var indexingPolicyStatusARMGenerator gopter.Gen
+//IndexingPolicy_StatusARMGenerator()
+var indexingPolicy_statusARMGenerator gopter.Gen
 
-// IndexingPolicyStatusARMGenerator returns a generator of IndexingPolicy_StatusARM instances for property testing.
-// We first initialize indexingPolicyStatusARMGenerator with a simplified generator based on the
+// IndexingPolicy_StatusARMGenerator returns a generator of IndexingPolicy_StatusARM instances for property testing.
+// We first initialize indexingPolicy_statusARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func IndexingPolicyStatusARMGenerator() gopter.Gen {
-	if indexingPolicyStatusARMGenerator != nil {
-		return indexingPolicyStatusARMGenerator
+func IndexingPolicy_StatusARMGenerator() gopter.Gen {
+	if indexingPolicy_statusARMGenerator != nil {
+		return indexingPolicy_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIndexingPolicyStatusARM(generators)
-	indexingPolicyStatusARMGenerator = gen.Struct(reflect.TypeOf(IndexingPolicy_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForIndexingPolicy_StatusARM(generators)
+	indexingPolicy_statusARMGenerator = gen.Struct(reflect.TypeOf(IndexingPolicy_StatusARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIndexingPolicyStatusARM(generators)
-	AddRelatedPropertyGeneratorsForIndexingPolicyStatusARM(generators)
-	indexingPolicyStatusARMGenerator = gen.Struct(reflect.TypeOf(IndexingPolicy_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForIndexingPolicy_StatusARM(generators)
+	AddRelatedPropertyGeneratorsForIndexingPolicy_StatusARM(generators)
+	indexingPolicy_statusARMGenerator = gen.Struct(reflect.TypeOf(IndexingPolicy_StatusARM{}), generators)
 
-	return indexingPolicyStatusARMGenerator
+	return indexingPolicy_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForIndexingPolicyStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIndexingPolicyStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForIndexingPolicy_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIndexingPolicy_StatusARM(gens map[string]gopter.Gen) {
 	gens["Automatic"] = gen.PtrOf(gen.Bool())
-	gens["IndexingMode"] = gen.PtrOf(gen.OneConstOf(IndexingPolicyStatusIndexingModeConsistent, IndexingPolicyStatusIndexingModeLazy, IndexingPolicyStatusIndexingModeNone))
+	gens["IndexingMode"] = gen.PtrOf(gen.OneConstOf(IndexingPolicy_IndexingMode_StatusConsistent, IndexingPolicy_IndexingMode_StatusLazy, IndexingPolicy_IndexingMode_StatusNone))
 }
 
-// AddRelatedPropertyGeneratorsForIndexingPolicyStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForIndexingPolicyStatusARM(gens map[string]gopter.Gen) {
-	gens["CompositeIndexes"] = gen.SliceOf(gen.SliceOf(CompositePathStatusARMGenerator()))
-	gens["ExcludedPaths"] = gen.SliceOf(ExcludedPathStatusARMGenerator())
-	gens["IncludedPaths"] = gen.SliceOf(IncludedPathStatusARMGenerator())
-	gens["SpatialIndexes"] = gen.SliceOf(SpatialSpecStatusARMGenerator())
+// AddRelatedPropertyGeneratorsForIndexingPolicy_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForIndexingPolicy_StatusARM(gens map[string]gopter.Gen) {
+	gens["CompositeIndexes"] = gen.SliceOf(gen.SliceOf(CompositePath_StatusARMGenerator()))
+	gens["ExcludedPaths"] = gen.SliceOf(ExcludedPath_StatusARMGenerator())
+	gens["IncludedPaths"] = gen.SliceOf(IncludedPath_StatusARMGenerator())
+	gens["SpatialIndexes"] = gen.SliceOf(SpatialSpec_StatusARMGenerator())
 }
 
 func Test_UniqueKeyPolicy_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -445,12 +445,12 @@ func Test_UniqueKeyPolicy_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UniqueKeyPolicy_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUniqueKeyPolicyStatusARM, UniqueKeyPolicyStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForUniqueKeyPolicy_StatusARM, UniqueKeyPolicy_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForUniqueKeyPolicyStatusARM runs a test to see if a specific instance of UniqueKeyPolicy_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForUniqueKeyPolicyStatusARM(subject UniqueKeyPolicy_StatusARM) string {
+// RunJSONSerializationTestForUniqueKeyPolicy_StatusARM runs a test to see if a specific instance of UniqueKeyPolicy_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForUniqueKeyPolicy_StatusARM(subject UniqueKeyPolicy_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -477,25 +477,25 @@ func RunJSONSerializationTestForUniqueKeyPolicyStatusARM(subject UniqueKeyPolicy
 }
 
 // Generator of UniqueKeyPolicy_StatusARM instances for property testing - lazily instantiated by
-//UniqueKeyPolicyStatusARMGenerator()
-var uniqueKeyPolicyStatusARMGenerator gopter.Gen
+//UniqueKeyPolicy_StatusARMGenerator()
+var uniqueKeyPolicy_statusARMGenerator gopter.Gen
 
-// UniqueKeyPolicyStatusARMGenerator returns a generator of UniqueKeyPolicy_StatusARM instances for property testing.
-func UniqueKeyPolicyStatusARMGenerator() gopter.Gen {
-	if uniqueKeyPolicyStatusARMGenerator != nil {
-		return uniqueKeyPolicyStatusARMGenerator
+// UniqueKeyPolicy_StatusARMGenerator returns a generator of UniqueKeyPolicy_StatusARM instances for property testing.
+func UniqueKeyPolicy_StatusARMGenerator() gopter.Gen {
+	if uniqueKeyPolicy_statusARMGenerator != nil {
+		return uniqueKeyPolicy_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForUniqueKeyPolicyStatusARM(generators)
-	uniqueKeyPolicyStatusARMGenerator = gen.Struct(reflect.TypeOf(UniqueKeyPolicy_StatusARM{}), generators)
+	AddRelatedPropertyGeneratorsForUniqueKeyPolicy_StatusARM(generators)
+	uniqueKeyPolicy_statusARMGenerator = gen.Struct(reflect.TypeOf(UniqueKeyPolicy_StatusARM{}), generators)
 
-	return uniqueKeyPolicyStatusARMGenerator
+	return uniqueKeyPolicy_statusARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForUniqueKeyPolicyStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUniqueKeyPolicyStatusARM(gens map[string]gopter.Gen) {
-	gens["UniqueKeys"] = gen.SliceOf(UniqueKeyStatusARMGenerator())
+// AddRelatedPropertyGeneratorsForUniqueKeyPolicy_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForUniqueKeyPolicy_StatusARM(gens map[string]gopter.Gen) {
+	gens["UniqueKeys"] = gen.SliceOf(UniqueKey_StatusARMGenerator())
 }
 
 func Test_CompositePath_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -505,12 +505,12 @@ func Test_CompositePath_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *te
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of CompositePath_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCompositePathStatusARM, CompositePathStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForCompositePath_StatusARM, CompositePath_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForCompositePathStatusARM runs a test to see if a specific instance of CompositePath_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCompositePathStatusARM(subject CompositePath_StatusARM) string {
+// RunJSONSerializationTestForCompositePath_StatusARM runs a test to see if a specific instance of CompositePath_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForCompositePath_StatusARM(subject CompositePath_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -537,25 +537,25 @@ func RunJSONSerializationTestForCompositePathStatusARM(subject CompositePath_Sta
 }
 
 // Generator of CompositePath_StatusARM instances for property testing - lazily instantiated by
-//CompositePathStatusARMGenerator()
-var compositePathStatusARMGenerator gopter.Gen
+//CompositePath_StatusARMGenerator()
+var compositePath_statusARMGenerator gopter.Gen
 
-// CompositePathStatusARMGenerator returns a generator of CompositePath_StatusARM instances for property testing.
-func CompositePathStatusARMGenerator() gopter.Gen {
-	if compositePathStatusARMGenerator != nil {
-		return compositePathStatusARMGenerator
+// CompositePath_StatusARMGenerator returns a generator of CompositePath_StatusARM instances for property testing.
+func CompositePath_StatusARMGenerator() gopter.Gen {
+	if compositePath_statusARMGenerator != nil {
+		return compositePath_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCompositePathStatusARM(generators)
-	compositePathStatusARMGenerator = gen.Struct(reflect.TypeOf(CompositePath_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForCompositePath_StatusARM(generators)
+	compositePath_statusARMGenerator = gen.Struct(reflect.TypeOf(CompositePath_StatusARM{}), generators)
 
-	return compositePathStatusARMGenerator
+	return compositePath_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCompositePathStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCompositePathStatusARM(gens map[string]gopter.Gen) {
-	gens["Order"] = gen.PtrOf(gen.OneConstOf(CompositePathStatusOrderAscending, CompositePathStatusOrderDescending))
+// AddIndependentPropertyGeneratorsForCompositePath_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForCompositePath_StatusARM(gens map[string]gopter.Gen) {
+	gens["Order"] = gen.PtrOf(gen.OneConstOf(CompositePath_Order_StatusAscending, CompositePath_Order_StatusDescending))
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -566,12 +566,12 @@ func Test_ExcludedPath_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *tes
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ExcludedPath_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForExcludedPathStatusARM, ExcludedPathStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForExcludedPath_StatusARM, ExcludedPath_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForExcludedPathStatusARM runs a test to see if a specific instance of ExcludedPath_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForExcludedPathStatusARM(subject ExcludedPath_StatusARM) string {
+// RunJSONSerializationTestForExcludedPath_StatusARM runs a test to see if a specific instance of ExcludedPath_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForExcludedPath_StatusARM(subject ExcludedPath_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -598,24 +598,24 @@ func RunJSONSerializationTestForExcludedPathStatusARM(subject ExcludedPath_Statu
 }
 
 // Generator of ExcludedPath_StatusARM instances for property testing - lazily instantiated by
-//ExcludedPathStatusARMGenerator()
-var excludedPathStatusARMGenerator gopter.Gen
+//ExcludedPath_StatusARMGenerator()
+var excludedPath_statusARMGenerator gopter.Gen
 
-// ExcludedPathStatusARMGenerator returns a generator of ExcludedPath_StatusARM instances for property testing.
-func ExcludedPathStatusARMGenerator() gopter.Gen {
-	if excludedPathStatusARMGenerator != nil {
-		return excludedPathStatusARMGenerator
+// ExcludedPath_StatusARMGenerator returns a generator of ExcludedPath_StatusARM instances for property testing.
+func ExcludedPath_StatusARMGenerator() gopter.Gen {
+	if excludedPath_statusARMGenerator != nil {
+		return excludedPath_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForExcludedPathStatusARM(generators)
-	excludedPathStatusARMGenerator = gen.Struct(reflect.TypeOf(ExcludedPath_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForExcludedPath_StatusARM(generators)
+	excludedPath_statusARMGenerator = gen.Struct(reflect.TypeOf(ExcludedPath_StatusARM{}), generators)
 
-	return excludedPathStatusARMGenerator
+	return excludedPath_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForExcludedPathStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForExcludedPathStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForExcludedPath_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForExcludedPath_StatusARM(gens map[string]gopter.Gen) {
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -626,12 +626,12 @@ func Test_IncludedPath_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *tes
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IncludedPath_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIncludedPathStatusARM, IncludedPathStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForIncludedPath_StatusARM, IncludedPath_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForIncludedPathStatusARM runs a test to see if a specific instance of IncludedPath_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForIncludedPathStatusARM(subject IncludedPath_StatusARM) string {
+// RunJSONSerializationTestForIncludedPath_StatusARM runs a test to see if a specific instance of IncludedPath_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForIncludedPath_StatusARM(subject IncludedPath_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -658,39 +658,39 @@ func RunJSONSerializationTestForIncludedPathStatusARM(subject IncludedPath_Statu
 }
 
 // Generator of IncludedPath_StatusARM instances for property testing - lazily instantiated by
-//IncludedPathStatusARMGenerator()
-var includedPathStatusARMGenerator gopter.Gen
+//IncludedPath_StatusARMGenerator()
+var includedPath_statusARMGenerator gopter.Gen
 
-// IncludedPathStatusARMGenerator returns a generator of IncludedPath_StatusARM instances for property testing.
-// We first initialize includedPathStatusARMGenerator with a simplified generator based on the
+// IncludedPath_StatusARMGenerator returns a generator of IncludedPath_StatusARM instances for property testing.
+// We first initialize includedPath_statusARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func IncludedPathStatusARMGenerator() gopter.Gen {
-	if includedPathStatusARMGenerator != nil {
-		return includedPathStatusARMGenerator
+func IncludedPath_StatusARMGenerator() gopter.Gen {
+	if includedPath_statusARMGenerator != nil {
+		return includedPath_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIncludedPathStatusARM(generators)
-	includedPathStatusARMGenerator = gen.Struct(reflect.TypeOf(IncludedPath_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForIncludedPath_StatusARM(generators)
+	includedPath_statusARMGenerator = gen.Struct(reflect.TypeOf(IncludedPath_StatusARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIncludedPathStatusARM(generators)
-	AddRelatedPropertyGeneratorsForIncludedPathStatusARM(generators)
-	includedPathStatusARMGenerator = gen.Struct(reflect.TypeOf(IncludedPath_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForIncludedPath_StatusARM(generators)
+	AddRelatedPropertyGeneratorsForIncludedPath_StatusARM(generators)
+	includedPath_statusARMGenerator = gen.Struct(reflect.TypeOf(IncludedPath_StatusARM{}), generators)
 
-	return includedPathStatusARMGenerator
+	return includedPath_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForIncludedPathStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIncludedPathStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForIncludedPath_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIncludedPath_StatusARM(gens map[string]gopter.Gen) {
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForIncludedPathStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForIncludedPathStatusARM(gens map[string]gopter.Gen) {
-	gens["Indexes"] = gen.SliceOf(IndexesStatusARMGenerator())
+// AddRelatedPropertyGeneratorsForIncludedPath_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForIncludedPath_StatusARM(gens map[string]gopter.Gen) {
+	gens["Indexes"] = gen.SliceOf(Indexes_StatusARMGenerator())
 }
 
 func Test_SpatialSpec_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -700,12 +700,12 @@ func Test_SpatialSpec_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *test
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SpatialSpec_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSpatialSpecStatusARM, SpatialSpecStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSpatialSpec_StatusARM, SpatialSpec_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSpatialSpecStatusARM runs a test to see if a specific instance of SpatialSpec_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSpatialSpecStatusARM(subject SpatialSpec_StatusARM) string {
+// RunJSONSerializationTestForSpatialSpec_StatusARM runs a test to see if a specific instance of SpatialSpec_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSpatialSpec_StatusARM(subject SpatialSpec_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -732,24 +732,24 @@ func RunJSONSerializationTestForSpatialSpecStatusARM(subject SpatialSpec_StatusA
 }
 
 // Generator of SpatialSpec_StatusARM instances for property testing - lazily instantiated by
-//SpatialSpecStatusARMGenerator()
-var spatialSpecStatusARMGenerator gopter.Gen
+//SpatialSpec_StatusARMGenerator()
+var spatialSpec_statusARMGenerator gopter.Gen
 
-// SpatialSpecStatusARMGenerator returns a generator of SpatialSpec_StatusARM instances for property testing.
-func SpatialSpecStatusARMGenerator() gopter.Gen {
-	if spatialSpecStatusARMGenerator != nil {
-		return spatialSpecStatusARMGenerator
+// SpatialSpec_StatusARMGenerator returns a generator of SpatialSpec_StatusARM instances for property testing.
+func SpatialSpec_StatusARMGenerator() gopter.Gen {
+	if spatialSpec_statusARMGenerator != nil {
+		return spatialSpec_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSpatialSpecStatusARM(generators)
-	spatialSpecStatusARMGenerator = gen.Struct(reflect.TypeOf(SpatialSpec_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForSpatialSpec_StatusARM(generators)
+	spatialSpec_statusARMGenerator = gen.Struct(reflect.TypeOf(SpatialSpec_StatusARM{}), generators)
 
-	return spatialSpecStatusARMGenerator
+	return spatialSpec_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSpatialSpecStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSpatialSpecStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSpatialSpec_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSpatialSpec_StatusARM(gens map[string]gopter.Gen) {
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 	gens["Types"] = gen.SliceOf(gen.OneConstOf(
 		SpatialType_StatusLineString,
@@ -765,12 +765,12 @@ func Test_UniqueKey_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testin
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UniqueKey_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUniqueKeyStatusARM, UniqueKeyStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForUniqueKey_StatusARM, UniqueKey_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForUniqueKeyStatusARM runs a test to see if a specific instance of UniqueKey_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForUniqueKeyStatusARM(subject UniqueKey_StatusARM) string {
+// RunJSONSerializationTestForUniqueKey_StatusARM runs a test to see if a specific instance of UniqueKey_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForUniqueKey_StatusARM(subject UniqueKey_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -796,24 +796,25 @@ func RunJSONSerializationTestForUniqueKeyStatusARM(subject UniqueKey_StatusARM) 
 	return ""
 }
 
-// Generator of UniqueKey_StatusARM instances for property testing - lazily instantiated by UniqueKeyStatusARMGenerator()
-var uniqueKeyStatusARMGenerator gopter.Gen
+// Generator of UniqueKey_StatusARM instances for property testing - lazily instantiated by
+//UniqueKey_StatusARMGenerator()
+var uniqueKey_statusARMGenerator gopter.Gen
 
-// UniqueKeyStatusARMGenerator returns a generator of UniqueKey_StatusARM instances for property testing.
-func UniqueKeyStatusARMGenerator() gopter.Gen {
-	if uniqueKeyStatusARMGenerator != nil {
-		return uniqueKeyStatusARMGenerator
+// UniqueKey_StatusARMGenerator returns a generator of UniqueKey_StatusARM instances for property testing.
+func UniqueKey_StatusARMGenerator() gopter.Gen {
+	if uniqueKey_statusARMGenerator != nil {
+		return uniqueKey_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUniqueKeyStatusARM(generators)
-	uniqueKeyStatusARMGenerator = gen.Struct(reflect.TypeOf(UniqueKey_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForUniqueKey_StatusARM(generators)
+	uniqueKey_statusARMGenerator = gen.Struct(reflect.TypeOf(UniqueKey_StatusARM{}), generators)
 
-	return uniqueKeyStatusARMGenerator
+	return uniqueKey_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUniqueKeyStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUniqueKeyStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForUniqueKey_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUniqueKey_StatusARM(gens map[string]gopter.Gen) {
 	gens["Paths"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -824,12 +825,12 @@ func Test_Indexes_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Indexes_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIndexesStatusARM, IndexesStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForIndexes_StatusARM, Indexes_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForIndexesStatusARM runs a test to see if a specific instance of Indexes_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForIndexesStatusARM(subject Indexes_StatusARM) string {
+// RunJSONSerializationTestForIndexes_StatusARM runs a test to see if a specific instance of Indexes_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForIndexes_StatusARM(subject Indexes_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -855,31 +856,31 @@ func RunJSONSerializationTestForIndexesStatusARM(subject Indexes_StatusARM) stri
 	return ""
 }
 
-// Generator of Indexes_StatusARM instances for property testing - lazily instantiated by IndexesStatusARMGenerator()
-var indexesStatusARMGenerator gopter.Gen
+// Generator of Indexes_StatusARM instances for property testing - lazily instantiated by Indexes_StatusARMGenerator()
+var indexes_statusARMGenerator gopter.Gen
 
-// IndexesStatusARMGenerator returns a generator of Indexes_StatusARM instances for property testing.
-func IndexesStatusARMGenerator() gopter.Gen {
-	if indexesStatusARMGenerator != nil {
-		return indexesStatusARMGenerator
+// Indexes_StatusARMGenerator returns a generator of Indexes_StatusARM instances for property testing.
+func Indexes_StatusARMGenerator() gopter.Gen {
+	if indexes_statusARMGenerator != nil {
+		return indexes_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIndexesStatusARM(generators)
-	indexesStatusARMGenerator = gen.Struct(reflect.TypeOf(Indexes_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForIndexes_StatusARM(generators)
+	indexes_statusARMGenerator = gen.Struct(reflect.TypeOf(Indexes_StatusARM{}), generators)
 
-	return indexesStatusARMGenerator
+	return indexes_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForIndexesStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIndexesStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForIndexes_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIndexes_StatusARM(gens map[string]gopter.Gen) {
 	gens["DataType"] = gen.PtrOf(gen.OneConstOf(
-		IndexesStatusDataTypeLineString,
-		IndexesStatusDataTypeMultiPolygon,
-		IndexesStatusDataTypeNumber,
-		IndexesStatusDataTypePoint,
-		IndexesStatusDataTypePolygon,
-		IndexesStatusDataTypeString))
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(IndexesStatusKindHash, IndexesStatusKindRange, IndexesStatusKindSpatial))
+		Indexes_DataType_StatusLineString,
+		Indexes_DataType_StatusMultiPolygon,
+		Indexes_DataType_StatusNumber,
+		Indexes_DataType_StatusPoint,
+		Indexes_DataType_StatusPolygon,
+		Indexes_DataType_StatusString))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Indexes_Kind_StatusHash, Indexes_Kind_StatusRange, Indexes_Kind_StatusSpatial))
 	gens["Precision"] = gen.PtrOf(gen.Int())
 }

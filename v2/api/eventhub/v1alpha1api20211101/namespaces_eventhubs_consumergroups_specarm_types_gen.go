@@ -10,7 +10,7 @@ type NamespacesEventhubsConsumergroups_SPECARM struct {
 	Name      string `json:"name"`
 
 	//Properties: Single item in List or Get Consumer group operation
-	Properties *NamespacesEventhubsConsumergroups_SPEC_PropertiesARM `json:"properties,omitempty"`
+	Properties *NamespacesEventhubsConsumergroups_Properties_SPECARM `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NamespacesEventhubsConsumergroups_SPECARM{}
@@ -30,7 +30,7 @@ func (specarm NamespacesEventhubsConsumergroups_SPECARM) GetType() string {
 	return ""
 }
 
-type NamespacesEventhubsConsumergroups_SPEC_PropertiesARM struct {
+type NamespacesEventhubsConsumergroups_Properties_SPECARM struct {
 	//UserMetadata: User Metadata is a placeholder to store user-defined string data
 	//with maximum length 1024. e.g. it can be used to store descriptive data, such as
 	//list of teams and their contact information also user-defined configuration

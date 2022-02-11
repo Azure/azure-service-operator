@@ -24,12 +24,12 @@ func Test_DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM_
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSPECARM, DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSPECARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM, DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSPECARM runs a test to see if a specific instance of DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSPECARM(subject DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM) string {
+// RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM runs a test to see if a specific instance of DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM(subject DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,42 +56,42 @@ func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollectionsThrou
 }
 
 // Generator of DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM instances for property testing -
-//lazily instantiated by DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSPECARMGenerator()
-var databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSPECARMGenerator gopter.Gen
+//lazily instantiated by DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARMGenerator()
+var databaseAccountsMongodbDatabasesCollectionsThroughputSettings_specarmGenerator gopter.Gen
 
-// DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSPECARMGenerator returns a generator of DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM instances for property testing.
-// We first initialize databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSPECARMGenerator with a simplified generator based on the
+// DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARMGenerator returns a generator of DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM instances for property testing.
+// We first initialize databaseAccountsMongodbDatabasesCollectionsThroughputSettings_specarmGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSPECARMGenerator() gopter.Gen {
-	if databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSPECARMGenerator != nil {
-		return databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSPECARMGenerator
+func DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARMGenerator() gopter.Gen {
+	if databaseAccountsMongodbDatabasesCollectionsThroughputSettings_specarmGenerator != nil {
+		return databaseAccountsMongodbDatabasesCollectionsThroughputSettings_specarmGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSPECARM(generators)
-	databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSPECARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM(generators)
+	databaseAccountsMongodbDatabasesCollectionsThroughputSettings_specarmGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSPECARM(generators)
-	AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSPECARM(generators)
-	databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSPECARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM(generators)
+	AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM(generators)
+	databaseAccountsMongodbDatabasesCollectionsThroughputSettings_specarmGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM{}), generators)
 
-	return databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSPECARMGenerator
+	return databaseAccountsMongodbDatabasesCollectionsThroughputSettings_specarmGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSPECARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSPECARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSPECARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSPECARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = ThroughputSettingsUpdatePropertiesSpecARMGenerator()
+// AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = ThroughputSettingsUpdateProperties_SpecARMGenerator()
 }
 
 func Test_ThroughputSettingsUpdateProperties_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -101,12 +101,12 @@ func Test_ThroughputSettingsUpdateProperties_SpecARM_WhenSerializedToJson_Deseri
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ThroughputSettingsUpdateProperties_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForThroughputSettingsUpdatePropertiesSpecARM, ThroughputSettingsUpdatePropertiesSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForThroughputSettingsUpdateProperties_SpecARM, ThroughputSettingsUpdateProperties_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForThroughputSettingsUpdatePropertiesSpecARM runs a test to see if a specific instance of ThroughputSettingsUpdateProperties_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForThroughputSettingsUpdatePropertiesSpecARM(subject ThroughputSettingsUpdateProperties_SpecARM) string {
+// RunJSONSerializationTestForThroughputSettingsUpdateProperties_SpecARM runs a test to see if a specific instance of ThroughputSettingsUpdateProperties_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForThroughputSettingsUpdateProperties_SpecARM(subject ThroughputSettingsUpdateProperties_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -133,25 +133,25 @@ func RunJSONSerializationTestForThroughputSettingsUpdatePropertiesSpecARM(subjec
 }
 
 // Generator of ThroughputSettingsUpdateProperties_SpecARM instances for property testing - lazily instantiated by
-//ThroughputSettingsUpdatePropertiesSpecARMGenerator()
-var throughputSettingsUpdatePropertiesSpecARMGenerator gopter.Gen
+//ThroughputSettingsUpdateProperties_SpecARMGenerator()
+var throughputSettingsUpdateProperties_specARMGenerator gopter.Gen
 
-// ThroughputSettingsUpdatePropertiesSpecARMGenerator returns a generator of ThroughputSettingsUpdateProperties_SpecARM instances for property testing.
-func ThroughputSettingsUpdatePropertiesSpecARMGenerator() gopter.Gen {
-	if throughputSettingsUpdatePropertiesSpecARMGenerator != nil {
-		return throughputSettingsUpdatePropertiesSpecARMGenerator
+// ThroughputSettingsUpdateProperties_SpecARMGenerator returns a generator of ThroughputSettingsUpdateProperties_SpecARM instances for property testing.
+func ThroughputSettingsUpdateProperties_SpecARMGenerator() gopter.Gen {
+	if throughputSettingsUpdateProperties_specARMGenerator != nil {
+		return throughputSettingsUpdateProperties_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForThroughputSettingsUpdatePropertiesSpecARM(generators)
-	throughputSettingsUpdatePropertiesSpecARMGenerator = gen.Struct(reflect.TypeOf(ThroughputSettingsUpdateProperties_SpecARM{}), generators)
+	AddRelatedPropertyGeneratorsForThroughputSettingsUpdateProperties_SpecARM(generators)
+	throughputSettingsUpdateProperties_specARMGenerator = gen.Struct(reflect.TypeOf(ThroughputSettingsUpdateProperties_SpecARM{}), generators)
 
-	return throughputSettingsUpdatePropertiesSpecARMGenerator
+	return throughputSettingsUpdateProperties_specARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForThroughputSettingsUpdatePropertiesSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForThroughputSettingsUpdatePropertiesSpecARM(gens map[string]gopter.Gen) {
-	gens["Resource"] = ThroughputSettingsResourceSpecARMGenerator()
+// AddRelatedPropertyGeneratorsForThroughputSettingsUpdateProperties_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForThroughputSettingsUpdateProperties_SpecARM(gens map[string]gopter.Gen) {
+	gens["Resource"] = ThroughputSettingsResource_SpecARMGenerator()
 }
 
 func Test_ThroughputSettingsResource_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -161,12 +161,12 @@ func Test_ThroughputSettingsResource_SpecARM_WhenSerializedToJson_DeserializesAs
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ThroughputSettingsResource_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForThroughputSettingsResourceSpecARM, ThroughputSettingsResourceSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForThroughputSettingsResource_SpecARM, ThroughputSettingsResource_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForThroughputSettingsResourceSpecARM runs a test to see if a specific instance of ThroughputSettingsResource_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForThroughputSettingsResourceSpecARM(subject ThroughputSettingsResource_SpecARM) string {
+// RunJSONSerializationTestForThroughputSettingsResource_SpecARM runs a test to see if a specific instance of ThroughputSettingsResource_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForThroughputSettingsResource_SpecARM(subject ThroughputSettingsResource_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -193,39 +193,39 @@ func RunJSONSerializationTestForThroughputSettingsResourceSpecARM(subject Throug
 }
 
 // Generator of ThroughputSettingsResource_SpecARM instances for property testing - lazily instantiated by
-//ThroughputSettingsResourceSpecARMGenerator()
-var throughputSettingsResourceSpecARMGenerator gopter.Gen
+//ThroughputSettingsResource_SpecARMGenerator()
+var throughputSettingsResource_specARMGenerator gopter.Gen
 
-// ThroughputSettingsResourceSpecARMGenerator returns a generator of ThroughputSettingsResource_SpecARM instances for property testing.
-// We first initialize throughputSettingsResourceSpecARMGenerator with a simplified generator based on the
+// ThroughputSettingsResource_SpecARMGenerator returns a generator of ThroughputSettingsResource_SpecARM instances for property testing.
+// We first initialize throughputSettingsResource_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ThroughputSettingsResourceSpecARMGenerator() gopter.Gen {
-	if throughputSettingsResourceSpecARMGenerator != nil {
-		return throughputSettingsResourceSpecARMGenerator
+func ThroughputSettingsResource_SpecARMGenerator() gopter.Gen {
+	if throughputSettingsResource_specARMGenerator != nil {
+		return throughputSettingsResource_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForThroughputSettingsResourceSpecARM(generators)
-	throughputSettingsResourceSpecARMGenerator = gen.Struct(reflect.TypeOf(ThroughputSettingsResource_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForThroughputSettingsResource_SpecARM(generators)
+	throughputSettingsResource_specARMGenerator = gen.Struct(reflect.TypeOf(ThroughputSettingsResource_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForThroughputSettingsResourceSpecARM(generators)
-	AddRelatedPropertyGeneratorsForThroughputSettingsResourceSpecARM(generators)
-	throughputSettingsResourceSpecARMGenerator = gen.Struct(reflect.TypeOf(ThroughputSettingsResource_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForThroughputSettingsResource_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForThroughputSettingsResource_SpecARM(generators)
+	throughputSettingsResource_specARMGenerator = gen.Struct(reflect.TypeOf(ThroughputSettingsResource_SpecARM{}), generators)
 
-	return throughputSettingsResourceSpecARMGenerator
+	return throughputSettingsResource_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForThroughputSettingsResourceSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForThroughputSettingsResourceSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForThroughputSettingsResource_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForThroughputSettingsResource_SpecARM(gens map[string]gopter.Gen) {
 	gens["Throughput"] = gen.PtrOf(gen.Int())
 }
 
-// AddRelatedPropertyGeneratorsForThroughputSettingsResourceSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForThroughputSettingsResourceSpecARM(gens map[string]gopter.Gen) {
-	gens["AutoscaleSettings"] = gen.PtrOf(AutoscaleSettingsResourceSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForThroughputSettingsResource_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForThroughputSettingsResource_SpecARM(gens map[string]gopter.Gen) {
+	gens["AutoscaleSettings"] = gen.PtrOf(AutoscaleSettingsResource_SpecARMGenerator())
 }
 
 func Test_AutoscaleSettingsResource_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -235,12 +235,12 @@ func Test_AutoscaleSettingsResource_SpecARM_WhenSerializedToJson_DeserializesAsE
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AutoscaleSettingsResource_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoscaleSettingsResourceSpecARM, AutoscaleSettingsResourceSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForAutoscaleSettingsResource_SpecARM, AutoscaleSettingsResource_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAutoscaleSettingsResourceSpecARM runs a test to see if a specific instance of AutoscaleSettingsResource_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoscaleSettingsResourceSpecARM(subject AutoscaleSettingsResource_SpecARM) string {
+// RunJSONSerializationTestForAutoscaleSettingsResource_SpecARM runs a test to see if a specific instance of AutoscaleSettingsResource_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAutoscaleSettingsResource_SpecARM(subject AutoscaleSettingsResource_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -267,39 +267,39 @@ func RunJSONSerializationTestForAutoscaleSettingsResourceSpecARM(subject Autosca
 }
 
 // Generator of AutoscaleSettingsResource_SpecARM instances for property testing - lazily instantiated by
-//AutoscaleSettingsResourceSpecARMGenerator()
-var autoscaleSettingsResourceSpecARMGenerator gopter.Gen
+//AutoscaleSettingsResource_SpecARMGenerator()
+var autoscaleSettingsResource_specARMGenerator gopter.Gen
 
-// AutoscaleSettingsResourceSpecARMGenerator returns a generator of AutoscaleSettingsResource_SpecARM instances for property testing.
-// We first initialize autoscaleSettingsResourceSpecARMGenerator with a simplified generator based on the
+// AutoscaleSettingsResource_SpecARMGenerator returns a generator of AutoscaleSettingsResource_SpecARM instances for property testing.
+// We first initialize autoscaleSettingsResource_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func AutoscaleSettingsResourceSpecARMGenerator() gopter.Gen {
-	if autoscaleSettingsResourceSpecARMGenerator != nil {
-		return autoscaleSettingsResourceSpecARMGenerator
+func AutoscaleSettingsResource_SpecARMGenerator() gopter.Gen {
+	if autoscaleSettingsResource_specARMGenerator != nil {
+		return autoscaleSettingsResource_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoscaleSettingsResourceSpecARM(generators)
-	autoscaleSettingsResourceSpecARMGenerator = gen.Struct(reflect.TypeOf(AutoscaleSettingsResource_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForAutoscaleSettingsResource_SpecARM(generators)
+	autoscaleSettingsResource_specARMGenerator = gen.Struct(reflect.TypeOf(AutoscaleSettingsResource_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoscaleSettingsResourceSpecARM(generators)
-	AddRelatedPropertyGeneratorsForAutoscaleSettingsResourceSpecARM(generators)
-	autoscaleSettingsResourceSpecARMGenerator = gen.Struct(reflect.TypeOf(AutoscaleSettingsResource_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForAutoscaleSettingsResource_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForAutoscaleSettingsResource_SpecARM(generators)
+	autoscaleSettingsResource_specARMGenerator = gen.Struct(reflect.TypeOf(AutoscaleSettingsResource_SpecARM{}), generators)
 
-	return autoscaleSettingsResourceSpecARMGenerator
+	return autoscaleSettingsResource_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAutoscaleSettingsResourceSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutoscaleSettingsResourceSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAutoscaleSettingsResource_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAutoscaleSettingsResource_SpecARM(gens map[string]gopter.Gen) {
 	gens["MaxThroughput"] = gen.Int()
 }
 
-// AddRelatedPropertyGeneratorsForAutoscaleSettingsResourceSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAutoscaleSettingsResourceSpecARM(gens map[string]gopter.Gen) {
-	gens["AutoUpgradePolicy"] = gen.PtrOf(AutoUpgradePolicyResourceSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForAutoscaleSettingsResource_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAutoscaleSettingsResource_SpecARM(gens map[string]gopter.Gen) {
+	gens["AutoUpgradePolicy"] = gen.PtrOf(AutoUpgradePolicyResource_SpecARMGenerator())
 }
 
 func Test_AutoUpgradePolicyResource_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -309,12 +309,12 @@ func Test_AutoUpgradePolicyResource_SpecARM_WhenSerializedToJson_DeserializesAsE
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AutoUpgradePolicyResource_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoUpgradePolicyResourceSpecARM, AutoUpgradePolicyResourceSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForAutoUpgradePolicyResource_SpecARM, AutoUpgradePolicyResource_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAutoUpgradePolicyResourceSpecARM runs a test to see if a specific instance of AutoUpgradePolicyResource_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoUpgradePolicyResourceSpecARM(subject AutoUpgradePolicyResource_SpecARM) string {
+// RunJSONSerializationTestForAutoUpgradePolicyResource_SpecARM runs a test to see if a specific instance of AutoUpgradePolicyResource_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAutoUpgradePolicyResource_SpecARM(subject AutoUpgradePolicyResource_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -341,25 +341,25 @@ func RunJSONSerializationTestForAutoUpgradePolicyResourceSpecARM(subject AutoUpg
 }
 
 // Generator of AutoUpgradePolicyResource_SpecARM instances for property testing - lazily instantiated by
-//AutoUpgradePolicyResourceSpecARMGenerator()
-var autoUpgradePolicyResourceSpecARMGenerator gopter.Gen
+//AutoUpgradePolicyResource_SpecARMGenerator()
+var autoUpgradePolicyResource_specARMGenerator gopter.Gen
 
-// AutoUpgradePolicyResourceSpecARMGenerator returns a generator of AutoUpgradePolicyResource_SpecARM instances for property testing.
-func AutoUpgradePolicyResourceSpecARMGenerator() gopter.Gen {
-	if autoUpgradePolicyResourceSpecARMGenerator != nil {
-		return autoUpgradePolicyResourceSpecARMGenerator
+// AutoUpgradePolicyResource_SpecARMGenerator returns a generator of AutoUpgradePolicyResource_SpecARM instances for property testing.
+func AutoUpgradePolicyResource_SpecARMGenerator() gopter.Gen {
+	if autoUpgradePolicyResource_specARMGenerator != nil {
+		return autoUpgradePolicyResource_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForAutoUpgradePolicyResourceSpecARM(generators)
-	autoUpgradePolicyResourceSpecARMGenerator = gen.Struct(reflect.TypeOf(AutoUpgradePolicyResource_SpecARM{}), generators)
+	AddRelatedPropertyGeneratorsForAutoUpgradePolicyResource_SpecARM(generators)
+	autoUpgradePolicyResource_specARMGenerator = gen.Struct(reflect.TypeOf(AutoUpgradePolicyResource_SpecARM{}), generators)
 
-	return autoUpgradePolicyResourceSpecARMGenerator
+	return autoUpgradePolicyResource_specARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForAutoUpgradePolicyResourceSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAutoUpgradePolicyResourceSpecARM(gens map[string]gopter.Gen) {
-	gens["ThroughputPolicy"] = gen.PtrOf(ThroughputPolicyResourceSpecARMGenerator())
+// AddRelatedPropertyGeneratorsForAutoUpgradePolicyResource_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAutoUpgradePolicyResource_SpecARM(gens map[string]gopter.Gen) {
+	gens["ThroughputPolicy"] = gen.PtrOf(ThroughputPolicyResource_SpecARMGenerator())
 }
 
 func Test_ThroughputPolicyResource_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -369,12 +369,12 @@ func Test_ThroughputPolicyResource_SpecARM_WhenSerializedToJson_DeserializesAsEq
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ThroughputPolicyResource_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForThroughputPolicyResourceSpecARM, ThroughputPolicyResourceSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForThroughputPolicyResource_SpecARM, ThroughputPolicyResource_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForThroughputPolicyResourceSpecARM runs a test to see if a specific instance of ThroughputPolicyResource_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForThroughputPolicyResourceSpecARM(subject ThroughputPolicyResource_SpecARM) string {
+// RunJSONSerializationTestForThroughputPolicyResource_SpecARM runs a test to see if a specific instance of ThroughputPolicyResource_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForThroughputPolicyResource_SpecARM(subject ThroughputPolicyResource_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -401,24 +401,24 @@ func RunJSONSerializationTestForThroughputPolicyResourceSpecARM(subject Throughp
 }
 
 // Generator of ThroughputPolicyResource_SpecARM instances for property testing - lazily instantiated by
-//ThroughputPolicyResourceSpecARMGenerator()
-var throughputPolicyResourceSpecARMGenerator gopter.Gen
+//ThroughputPolicyResource_SpecARMGenerator()
+var throughputPolicyResource_specARMGenerator gopter.Gen
 
-// ThroughputPolicyResourceSpecARMGenerator returns a generator of ThroughputPolicyResource_SpecARM instances for property testing.
-func ThroughputPolicyResourceSpecARMGenerator() gopter.Gen {
-	if throughputPolicyResourceSpecARMGenerator != nil {
-		return throughputPolicyResourceSpecARMGenerator
+// ThroughputPolicyResource_SpecARMGenerator returns a generator of ThroughputPolicyResource_SpecARM instances for property testing.
+func ThroughputPolicyResource_SpecARMGenerator() gopter.Gen {
+	if throughputPolicyResource_specARMGenerator != nil {
+		return throughputPolicyResource_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForThroughputPolicyResourceSpecARM(generators)
-	throughputPolicyResourceSpecARMGenerator = gen.Struct(reflect.TypeOf(ThroughputPolicyResource_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForThroughputPolicyResource_SpecARM(generators)
+	throughputPolicyResource_specARMGenerator = gen.Struct(reflect.TypeOf(ThroughputPolicyResource_SpecARM{}), generators)
 
-	return throughputPolicyResourceSpecARMGenerator
+	return throughputPolicyResource_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForThroughputPolicyResourceSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForThroughputPolicyResourceSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForThroughputPolicyResource_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForThroughputPolicyResource_SpecARM(gens map[string]gopter.Gen) {
 	gens["IncrementPercent"] = gen.PtrOf(gen.Int())
 	gens["IsEnabled"] = gen.PtrOf(gen.Bool())
 }

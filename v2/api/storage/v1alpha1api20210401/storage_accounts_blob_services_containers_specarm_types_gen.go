@@ -49,7 +49,7 @@ type ContainerProperties_SpecARM struct {
 
 	//PublicAccess: Specifies whether data in the container may be accessed publicly
 	//and the level of access.
-	PublicAccess *ContainerPropertiesSpecPublicAccess `json:"publicAccess,omitempty"`
+	PublicAccess *ContainerProperties_PublicAccess_Spec `json:"publicAccess,omitempty"`
 }
 
 type ImmutableStorageWithVersioning_SpecARM struct {

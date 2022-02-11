@@ -437,27 +437,27 @@ func (in *ContainerServiceNetworkProfile_Spec) DeepCopyInto(out *ContainerServic
 	}
 	if in.LoadBalancerSku != nil {
 		in, out := &in.LoadBalancerSku, &out.LoadBalancerSku
-		*out = new(ContainerServiceNetworkProfileSpecLoadBalancerSku)
+		*out = new(ContainerServiceNetworkProfile_LoadBalancerSku_Spec)
 		**out = **in
 	}
 	if in.NetworkMode != nil {
 		in, out := &in.NetworkMode, &out.NetworkMode
-		*out = new(ContainerServiceNetworkProfileSpecNetworkMode)
+		*out = new(ContainerServiceNetworkProfile_NetworkMode_Spec)
 		**out = **in
 	}
 	if in.NetworkPlugin != nil {
 		in, out := &in.NetworkPlugin, &out.NetworkPlugin
-		*out = new(ContainerServiceNetworkProfileSpecNetworkPlugin)
+		*out = new(ContainerServiceNetworkProfile_NetworkPlugin_Spec)
 		**out = **in
 	}
 	if in.NetworkPolicy != nil {
 		in, out := &in.NetworkPolicy, &out.NetworkPolicy
-		*out = new(ContainerServiceNetworkProfileSpecNetworkPolicy)
+		*out = new(ContainerServiceNetworkProfile_NetworkPolicy_Spec)
 		**out = **in
 	}
 	if in.OutboundType != nil {
 		in, out := &in.OutboundType, &out.OutboundType
-		*out = new(ContainerServiceNetworkProfileSpecOutboundType)
+		*out = new(ContainerServiceNetworkProfile_OutboundType_Spec)
 		**out = **in
 	}
 	if in.PodCidr != nil {
@@ -502,27 +502,27 @@ func (in *ContainerServiceNetworkProfile_SpecARM) DeepCopyInto(out *ContainerSer
 	}
 	if in.LoadBalancerSku != nil {
 		in, out := &in.LoadBalancerSku, &out.LoadBalancerSku
-		*out = new(ContainerServiceNetworkProfileSpecLoadBalancerSku)
+		*out = new(ContainerServiceNetworkProfile_LoadBalancerSku_Spec)
 		**out = **in
 	}
 	if in.NetworkMode != nil {
 		in, out := &in.NetworkMode, &out.NetworkMode
-		*out = new(ContainerServiceNetworkProfileSpecNetworkMode)
+		*out = new(ContainerServiceNetworkProfile_NetworkMode_Spec)
 		**out = **in
 	}
 	if in.NetworkPlugin != nil {
 		in, out := &in.NetworkPlugin, &out.NetworkPlugin
-		*out = new(ContainerServiceNetworkProfileSpecNetworkPlugin)
+		*out = new(ContainerServiceNetworkProfile_NetworkPlugin_Spec)
 		**out = **in
 	}
 	if in.NetworkPolicy != nil {
 		in, out := &in.NetworkPolicy, &out.NetworkPolicy
-		*out = new(ContainerServiceNetworkProfileSpecNetworkPolicy)
+		*out = new(ContainerServiceNetworkProfile_NetworkPolicy_Spec)
 		**out = **in
 	}
 	if in.OutboundType != nil {
 		in, out := &in.OutboundType, &out.OutboundType
-		*out = new(ContainerServiceNetworkProfileSpecOutboundType)
+		*out = new(ContainerServiceNetworkProfile_OutboundType_Spec)
 		**out = **in
 	}
 	if in.PodCidr != nil {
@@ -567,27 +567,27 @@ func (in *ContainerServiceNetworkProfile_Status) DeepCopyInto(out *ContainerServ
 	}
 	if in.LoadBalancerSku != nil {
 		in, out := &in.LoadBalancerSku, &out.LoadBalancerSku
-		*out = new(ContainerServiceNetworkProfileStatusLoadBalancerSku)
+		*out = new(ContainerServiceNetworkProfile_LoadBalancerSku_Status)
 		**out = **in
 	}
 	if in.NetworkMode != nil {
 		in, out := &in.NetworkMode, &out.NetworkMode
-		*out = new(ContainerServiceNetworkProfileStatusNetworkMode)
+		*out = new(ContainerServiceNetworkProfile_NetworkMode_Status)
 		**out = **in
 	}
 	if in.NetworkPlugin != nil {
 		in, out := &in.NetworkPlugin, &out.NetworkPlugin
-		*out = new(ContainerServiceNetworkProfileStatusNetworkPlugin)
+		*out = new(ContainerServiceNetworkProfile_NetworkPlugin_Status)
 		**out = **in
 	}
 	if in.NetworkPolicy != nil {
 		in, out := &in.NetworkPolicy, &out.NetworkPolicy
-		*out = new(ContainerServiceNetworkProfileStatusNetworkPolicy)
+		*out = new(ContainerServiceNetworkProfile_NetworkPolicy_Status)
 		**out = **in
 	}
 	if in.OutboundType != nil {
 		in, out := &in.OutboundType, &out.OutboundType
-		*out = new(ContainerServiceNetworkProfileStatusOutboundType)
+		*out = new(ContainerServiceNetworkProfile_OutboundType_Status)
 		**out = **in
 	}
 	if in.PodCidr != nil {
@@ -632,27 +632,27 @@ func (in *ContainerServiceNetworkProfile_StatusARM) DeepCopyInto(out *ContainerS
 	}
 	if in.LoadBalancerSku != nil {
 		in, out := &in.LoadBalancerSku, &out.LoadBalancerSku
-		*out = new(ContainerServiceNetworkProfileStatusLoadBalancerSku)
+		*out = new(ContainerServiceNetworkProfile_LoadBalancerSku_Status)
 		**out = **in
 	}
 	if in.NetworkMode != nil {
 		in, out := &in.NetworkMode, &out.NetworkMode
-		*out = new(ContainerServiceNetworkProfileStatusNetworkMode)
+		*out = new(ContainerServiceNetworkProfile_NetworkMode_Status)
 		**out = **in
 	}
 	if in.NetworkPlugin != nil {
 		in, out := &in.NetworkPlugin, &out.NetworkPlugin
-		*out = new(ContainerServiceNetworkProfileStatusNetworkPlugin)
+		*out = new(ContainerServiceNetworkProfile_NetworkPlugin_Status)
 		**out = **in
 	}
 	if in.NetworkPolicy != nil {
 		in, out := &in.NetworkPolicy, &out.NetworkPolicy
-		*out = new(ContainerServiceNetworkProfileStatusNetworkPolicy)
+		*out = new(ContainerServiceNetworkProfile_NetworkPolicy_Status)
 		**out = **in
 	}
 	if in.OutboundType != nil {
 		in, out := &in.OutboundType, &out.OutboundType
-		*out = new(ContainerServiceNetworkProfileStatusOutboundType)
+		*out = new(ContainerServiceNetworkProfile_OutboundType_Status)
 		**out = **in
 	}
 	if in.PodCidr != nil {
@@ -2878,7 +2878,7 @@ func (in *ManagedClusterAutoUpgradeProfile_Spec) DeepCopyInto(out *ManagedCluste
 	*out = *in
 	if in.UpgradeChannel != nil {
 		in, out := &in.UpgradeChannel, &out.UpgradeChannel
-		*out = new(ManagedClusterAutoUpgradeProfileSpecUpgradeChannel)
+		*out = new(ManagedClusterAutoUpgradeProfile_UpgradeChannel_Spec)
 		**out = **in
 	}
 }
@@ -2898,7 +2898,7 @@ func (in *ManagedClusterAutoUpgradeProfile_SpecARM) DeepCopyInto(out *ManagedClu
 	*out = *in
 	if in.UpgradeChannel != nil {
 		in, out := &in.UpgradeChannel, &out.UpgradeChannel
-		*out = new(ManagedClusterAutoUpgradeProfileSpecUpgradeChannel)
+		*out = new(ManagedClusterAutoUpgradeProfile_UpgradeChannel_Spec)
 		**out = **in
 	}
 }
@@ -2918,7 +2918,7 @@ func (in *ManagedClusterAutoUpgradeProfile_Status) DeepCopyInto(out *ManagedClus
 	*out = *in
 	if in.UpgradeChannel != nil {
 		in, out := &in.UpgradeChannel, &out.UpgradeChannel
-		*out = new(ManagedClusterAutoUpgradeProfileStatusUpgradeChannel)
+		*out = new(ManagedClusterAutoUpgradeProfile_UpgradeChannel_Status)
 		**out = **in
 	}
 }
@@ -2938,7 +2938,7 @@ func (in *ManagedClusterAutoUpgradeProfile_StatusARM) DeepCopyInto(out *ManagedC
 	*out = *in
 	if in.UpgradeChannel != nil {
 		in, out := &in.UpgradeChannel, &out.UpgradeChannel
-		*out = new(ManagedClusterAutoUpgradeProfileStatusUpgradeChannel)
+		*out = new(ManagedClusterAutoUpgradeProfile_UpgradeChannel_Status)
 		**out = **in
 	}
 }
@@ -3098,7 +3098,7 @@ func (in *ManagedClusterIdentity_Spec) DeepCopyInto(out *ManagedClusterIdentity_
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedClusterIdentitySpecType)
+		*out = new(ManagedClusterIdentity_Type_Spec)
 		**out = **in
 	}
 }
@@ -3118,7 +3118,7 @@ func (in *ManagedClusterIdentity_SpecARM) DeepCopyInto(out *ManagedClusterIdenti
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedClusterIdentitySpecType)
+		*out = new(ManagedClusterIdentity_Type_Spec)
 		**out = **in
 	}
 }
@@ -3148,12 +3148,12 @@ func (in *ManagedClusterIdentity_Status) DeepCopyInto(out *ManagedClusterIdentit
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedClusterIdentityStatusType)
+		*out = new(ManagedClusterIdentity_Type_Status)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
 		in, out := &in.UserAssignedIdentities, &out.UserAssignedIdentities
-		*out = make(map[string]ManagedClusterIdentity_Status_UserAssignedIdentities, len(*in))
+		*out = make(map[string]ManagedClusterIdentity_UserAssignedIdentities_Status, len(*in))
 		for key, val := range *in {
 			(*out)[key] = *val.DeepCopy()
 		}
@@ -3185,12 +3185,12 @@ func (in *ManagedClusterIdentity_StatusARM) DeepCopyInto(out *ManagedClusterIden
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedClusterIdentityStatusType)
+		*out = new(ManagedClusterIdentity_Type_Status)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
 		in, out := &in.UserAssignedIdentities, &out.UserAssignedIdentities
-		*out = make(map[string]ManagedClusterIdentity_Status_UserAssignedIdentitiesARM, len(*in))
+		*out = make(map[string]ManagedClusterIdentity_UserAssignedIdentities_StatusARM, len(*in))
 		for key, val := range *in {
 			(*out)[key] = *val.DeepCopy()
 		}
@@ -3208,7 +3208,7 @@ func (in *ManagedClusterIdentity_StatusARM) DeepCopy() *ManagedClusterIdentity_S
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ManagedClusterIdentity_Status_UserAssignedIdentities) DeepCopyInto(out *ManagedClusterIdentity_Status_UserAssignedIdentities) {
+func (in *ManagedClusterIdentity_UserAssignedIdentities_Status) DeepCopyInto(out *ManagedClusterIdentity_UserAssignedIdentities_Status) {
 	*out = *in
 	if in.ClientId != nil {
 		in, out := &in.ClientId, &out.ClientId
@@ -3222,18 +3222,18 @@ func (in *ManagedClusterIdentity_Status_UserAssignedIdentities) DeepCopyInto(out
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterIdentity_Status_UserAssignedIdentities.
-func (in *ManagedClusterIdentity_Status_UserAssignedIdentities) DeepCopy() *ManagedClusterIdentity_Status_UserAssignedIdentities {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterIdentity_UserAssignedIdentities_Status.
+func (in *ManagedClusterIdentity_UserAssignedIdentities_Status) DeepCopy() *ManagedClusterIdentity_UserAssignedIdentities_Status {
 	if in == nil {
 		return nil
 	}
-	out := new(ManagedClusterIdentity_Status_UserAssignedIdentities)
+	out := new(ManagedClusterIdentity_UserAssignedIdentities_Status)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ManagedClusterIdentity_Status_UserAssignedIdentitiesARM) DeepCopyInto(out *ManagedClusterIdentity_Status_UserAssignedIdentitiesARM) {
+func (in *ManagedClusterIdentity_UserAssignedIdentities_StatusARM) DeepCopyInto(out *ManagedClusterIdentity_UserAssignedIdentities_StatusARM) {
 	*out = *in
 	if in.ClientId != nil {
 		in, out := &in.ClientId, &out.ClientId
@@ -3247,12 +3247,12 @@ func (in *ManagedClusterIdentity_Status_UserAssignedIdentitiesARM) DeepCopyInto(
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterIdentity_Status_UserAssignedIdentitiesARM.
-func (in *ManagedClusterIdentity_Status_UserAssignedIdentitiesARM) DeepCopy() *ManagedClusterIdentity_Status_UserAssignedIdentitiesARM {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterIdentity_UserAssignedIdentities_StatusARM.
+func (in *ManagedClusterIdentity_UserAssignedIdentities_StatusARM) DeepCopy() *ManagedClusterIdentity_UserAssignedIdentities_StatusARM {
 	if in == nil {
 		return nil
 	}
-	out := new(ManagedClusterIdentity_Status_UserAssignedIdentitiesARM)
+	out := new(ManagedClusterIdentity_UserAssignedIdentities_StatusARM)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -3290,6 +3290,262 @@ func (in *ManagedClusterList) DeepCopyObject() runtime.Object {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_Spec) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_Spec) {
+	*out = *in
+	if in.Count != nil {
+		in, out := &in.Count, &out.Count
+		*out = new(int)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_Spec.
+func (in *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_Spec) DeepCopy() *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_Spec {
+	if in == nil {
+		return nil
+	}
+	out := new(ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_Spec)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_SpecARM) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_SpecARM) {
+	*out = *in
+	if in.Count != nil {
+		in, out := &in.Count, &out.Count
+		*out = new(int)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_SpecARM.
+func (in *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_SpecARM) DeepCopy() *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_SpecARM {
+	if in == nil {
+		return nil
+	}
+	out := new(ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_SpecARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_Status) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_Status) {
+	*out = *in
+	if in.Count != nil {
+		in, out := &in.Count, &out.Count
+		*out = new(int)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_Status.
+func (in *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_Status) DeepCopy() *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_Status {
+	if in == nil {
+		return nil
+	}
+	out := new(ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_Status)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_StatusARM) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_StatusARM) {
+	*out = *in
+	if in.Count != nil {
+		in, out := &in.Count, &out.Count
+		*out = new(int)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_StatusARM.
+func (in *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_StatusARM) DeepCopy() *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_StatusARM {
+	if in == nil {
+		return nil
+	}
+	out := new(ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_StatusARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_Spec) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_Spec) {
+	*out = *in
+	if in.PublicIPPrefixes != nil {
+		in, out := &in.PublicIPPrefixes, &out.PublicIPPrefixes
+		*out = make([]ResourceReference_Spec, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_Spec.
+func (in *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_Spec) DeepCopy() *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_Spec {
+	if in == nil {
+		return nil
+	}
+	out := new(ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_Spec)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_SpecARM) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_SpecARM) {
+	*out = *in
+	if in.PublicIPPrefixes != nil {
+		in, out := &in.PublicIPPrefixes, &out.PublicIPPrefixes
+		*out = make([]ResourceReference_SpecARM, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_SpecARM.
+func (in *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_SpecARM) DeepCopy() *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_SpecARM {
+	if in == nil {
+		return nil
+	}
+	out := new(ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_SpecARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_Status) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_Status) {
+	*out = *in
+	if in.PublicIPPrefixes != nil {
+		in, out := &in.PublicIPPrefixes, &out.PublicIPPrefixes
+		*out = make([]ResourceReference_Status, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_Status.
+func (in *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_Status) DeepCopy() *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_Status {
+	if in == nil {
+		return nil
+	}
+	out := new(ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_Status)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_StatusARM) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_StatusARM) {
+	*out = *in
+	if in.PublicIPPrefixes != nil {
+		in, out := &in.PublicIPPrefixes, &out.PublicIPPrefixes
+		*out = make([]ResourceReference_StatusARM, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_StatusARM.
+func (in *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_StatusARM) DeepCopy() *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_StatusARM {
+	if in == nil {
+		return nil
+	}
+	out := new(ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_StatusARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ManagedClusterLoadBalancerProfile_OutboundIPs_Spec) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_OutboundIPs_Spec) {
+	*out = *in
+	if in.PublicIPs != nil {
+		in, out := &in.PublicIPs, &out.PublicIPs
+		*out = make([]ResourceReference_Spec, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_OutboundIPs_Spec.
+func (in *ManagedClusterLoadBalancerProfile_OutboundIPs_Spec) DeepCopy() *ManagedClusterLoadBalancerProfile_OutboundIPs_Spec {
+	if in == nil {
+		return nil
+	}
+	out := new(ManagedClusterLoadBalancerProfile_OutboundIPs_Spec)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ManagedClusterLoadBalancerProfile_OutboundIPs_SpecARM) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_OutboundIPs_SpecARM) {
+	*out = *in
+	if in.PublicIPs != nil {
+		in, out := &in.PublicIPs, &out.PublicIPs
+		*out = make([]ResourceReference_SpecARM, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_OutboundIPs_SpecARM.
+func (in *ManagedClusterLoadBalancerProfile_OutboundIPs_SpecARM) DeepCopy() *ManagedClusterLoadBalancerProfile_OutboundIPs_SpecARM {
+	if in == nil {
+		return nil
+	}
+	out := new(ManagedClusterLoadBalancerProfile_OutboundIPs_SpecARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ManagedClusterLoadBalancerProfile_OutboundIPs_Status) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_OutboundIPs_Status) {
+	*out = *in
+	if in.PublicIPs != nil {
+		in, out := &in.PublicIPs, &out.PublicIPs
+		*out = make([]ResourceReference_Status, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_OutboundIPs_Status.
+func (in *ManagedClusterLoadBalancerProfile_OutboundIPs_Status) DeepCopy() *ManagedClusterLoadBalancerProfile_OutboundIPs_Status {
+	if in == nil {
+		return nil
+	}
+	out := new(ManagedClusterLoadBalancerProfile_OutboundIPs_Status)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ManagedClusterLoadBalancerProfile_OutboundIPs_StatusARM) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_OutboundIPs_StatusARM) {
+	*out = *in
+	if in.PublicIPs != nil {
+		in, out := &in.PublicIPs, &out.PublicIPs
+		*out = make([]ResourceReference_StatusARM, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_OutboundIPs_StatusARM.
+func (in *ManagedClusterLoadBalancerProfile_OutboundIPs_StatusARM) DeepCopy() *ManagedClusterLoadBalancerProfile_OutboundIPs_StatusARM {
+	if in == nil {
+		return nil
+	}
+	out := new(ManagedClusterLoadBalancerProfile_OutboundIPs_StatusARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ManagedClusterLoadBalancerProfile_Spec) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_Spec) {
 	*out = *in
 	if in.AllocatedOutboundPorts != nil {
@@ -3311,17 +3567,17 @@ func (in *ManagedClusterLoadBalancerProfile_Spec) DeepCopyInto(out *ManagedClust
 	}
 	if in.ManagedOutboundIPs != nil {
 		in, out := &in.ManagedOutboundIPs, &out.ManagedOutboundIPs
-		*out = new(ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPs)
+		*out = new(ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_Spec)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OutboundIPPrefixes != nil {
 		in, out := &in.OutboundIPPrefixes, &out.OutboundIPPrefixes
-		*out = new(ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixes)
+		*out = new(ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_Spec)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OutboundIPs != nil {
 		in, out := &in.OutboundIPs, &out.OutboundIPs
-		*out = new(ManagedClusterLoadBalancerProfile_Spec_OutboundIPs)
+		*out = new(ManagedClusterLoadBalancerProfile_OutboundIPs_Spec)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -3358,17 +3614,17 @@ func (in *ManagedClusterLoadBalancerProfile_SpecARM) DeepCopyInto(out *ManagedCl
 	}
 	if in.ManagedOutboundIPs != nil {
 		in, out := &in.ManagedOutboundIPs, &out.ManagedOutboundIPs
-		*out = new(ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPsARM)
+		*out = new(ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_SpecARM)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OutboundIPPrefixes != nil {
 		in, out := &in.OutboundIPPrefixes, &out.OutboundIPPrefixes
-		*out = new(ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixesARM)
+		*out = new(ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_SpecARM)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OutboundIPs != nil {
 		in, out := &in.OutboundIPs, &out.OutboundIPs
-		*out = new(ManagedClusterLoadBalancerProfile_Spec_OutboundIPsARM)
+		*out = new(ManagedClusterLoadBalancerProfile_OutboundIPs_SpecARM)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -3379,134 +3635,6 @@ func (in *ManagedClusterLoadBalancerProfile_SpecARM) DeepCopy() *ManagedClusterL
 		return nil
 	}
 	out := new(ManagedClusterLoadBalancerProfile_SpecARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPs) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPs) {
-	*out = *in
-	if in.Count != nil {
-		in, out := &in.Count, &out.Count
-		*out = new(int)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPs.
-func (in *ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPs) DeepCopy() *ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPs {
-	if in == nil {
-		return nil
-	}
-	out := new(ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPs)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPsARM) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPsARM) {
-	*out = *in
-	if in.Count != nil {
-		in, out := &in.Count, &out.Count
-		*out = new(int)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPsARM.
-func (in *ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPsARM) DeepCopy() *ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPsARM {
-	if in == nil {
-		return nil
-	}
-	out := new(ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPsARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixes) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixes) {
-	*out = *in
-	if in.PublicIPPrefixes != nil {
-		in, out := &in.PublicIPPrefixes, &out.PublicIPPrefixes
-		*out = make([]ResourceReference_Spec, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixes.
-func (in *ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixes) DeepCopy() *ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixes {
-	if in == nil {
-		return nil
-	}
-	out := new(ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixes)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixesARM) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixesARM) {
-	*out = *in
-	if in.PublicIPPrefixes != nil {
-		in, out := &in.PublicIPPrefixes, &out.PublicIPPrefixes
-		*out = make([]ResourceReference_SpecARM, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixesARM.
-func (in *ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixesARM) DeepCopy() *ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixesARM {
-	if in == nil {
-		return nil
-	}
-	out := new(ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixesARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ManagedClusterLoadBalancerProfile_Spec_OutboundIPs) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_Spec_OutboundIPs) {
-	*out = *in
-	if in.PublicIPs != nil {
-		in, out := &in.PublicIPs, &out.PublicIPs
-		*out = make([]ResourceReference_Spec, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_Spec_OutboundIPs.
-func (in *ManagedClusterLoadBalancerProfile_Spec_OutboundIPs) DeepCopy() *ManagedClusterLoadBalancerProfile_Spec_OutboundIPs {
-	if in == nil {
-		return nil
-	}
-	out := new(ManagedClusterLoadBalancerProfile_Spec_OutboundIPs)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ManagedClusterLoadBalancerProfile_Spec_OutboundIPsARM) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_Spec_OutboundIPsARM) {
-	*out = *in
-	if in.PublicIPs != nil {
-		in, out := &in.PublicIPs, &out.PublicIPs
-		*out = make([]ResourceReference_SpecARM, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_Spec_OutboundIPsARM.
-func (in *ManagedClusterLoadBalancerProfile_Spec_OutboundIPsARM) DeepCopy() *ManagedClusterLoadBalancerProfile_Spec_OutboundIPsARM {
-	if in == nil {
-		return nil
-	}
-	out := new(ManagedClusterLoadBalancerProfile_Spec_OutboundIPsARM)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -3533,17 +3661,17 @@ func (in *ManagedClusterLoadBalancerProfile_Status) DeepCopyInto(out *ManagedClu
 	}
 	if in.ManagedOutboundIPs != nil {
 		in, out := &in.ManagedOutboundIPs, &out.ManagedOutboundIPs
-		*out = new(ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs)
+		*out = new(ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_Status)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OutboundIPPrefixes != nil {
 		in, out := &in.OutboundIPPrefixes, &out.OutboundIPPrefixes
-		*out = new(ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes)
+		*out = new(ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_Status)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OutboundIPs != nil {
 		in, out := &in.OutboundIPs, &out.OutboundIPs
-		*out = new(ManagedClusterLoadBalancerProfile_Status_OutboundIPs)
+		*out = new(ManagedClusterLoadBalancerProfile_OutboundIPs_Status)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -3580,17 +3708,17 @@ func (in *ManagedClusterLoadBalancerProfile_StatusARM) DeepCopyInto(out *Managed
 	}
 	if in.ManagedOutboundIPs != nil {
 		in, out := &in.ManagedOutboundIPs, &out.ManagedOutboundIPs
-		*out = new(ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPsARM)
+		*out = new(ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_StatusARM)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OutboundIPPrefixes != nil {
 		in, out := &in.OutboundIPPrefixes, &out.OutboundIPPrefixes
-		*out = new(ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixesARM)
+		*out = new(ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_StatusARM)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OutboundIPs != nil {
 		in, out := &in.OutboundIPs, &out.OutboundIPs
-		*out = new(ManagedClusterLoadBalancerProfile_Status_OutboundIPsARM)
+		*out = new(ManagedClusterLoadBalancerProfile_OutboundIPs_StatusARM)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -3601,134 +3729,6 @@ func (in *ManagedClusterLoadBalancerProfile_StatusARM) DeepCopy() *ManagedCluste
 		return nil
 	}
 	out := new(ManagedClusterLoadBalancerProfile_StatusARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs) {
-	*out = *in
-	if in.Count != nil {
-		in, out := &in.Count, &out.Count
-		*out = new(int)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs.
-func (in *ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs) DeepCopy() *ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs {
-	if in == nil {
-		return nil
-	}
-	out := new(ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPsARM) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPsARM) {
-	*out = *in
-	if in.Count != nil {
-		in, out := &in.Count, &out.Count
-		*out = new(int)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPsARM.
-func (in *ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPsARM) DeepCopy() *ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPsARM {
-	if in == nil {
-		return nil
-	}
-	out := new(ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPsARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes) {
-	*out = *in
-	if in.PublicIPPrefixes != nil {
-		in, out := &in.PublicIPPrefixes, &out.PublicIPPrefixes
-		*out = make([]ResourceReference_Status, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes.
-func (in *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes) DeepCopy() *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes {
-	if in == nil {
-		return nil
-	}
-	out := new(ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixesARM) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixesARM) {
-	*out = *in
-	if in.PublicIPPrefixes != nil {
-		in, out := &in.PublicIPPrefixes, &out.PublicIPPrefixes
-		*out = make([]ResourceReference_StatusARM, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixesARM.
-func (in *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixesARM) DeepCopy() *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixesARM {
-	if in == nil {
-		return nil
-	}
-	out := new(ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixesARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ManagedClusterLoadBalancerProfile_Status_OutboundIPs) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_Status_OutboundIPs) {
-	*out = *in
-	if in.PublicIPs != nil {
-		in, out := &in.PublicIPs, &out.PublicIPs
-		*out = make([]ResourceReference_Status, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_Status_OutboundIPs.
-func (in *ManagedClusterLoadBalancerProfile_Status_OutboundIPs) DeepCopy() *ManagedClusterLoadBalancerProfile_Status_OutboundIPs {
-	if in == nil {
-		return nil
-	}
-	out := new(ManagedClusterLoadBalancerProfile_Status_OutboundIPs)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ManagedClusterLoadBalancerProfile_Status_OutboundIPsARM) DeepCopyInto(out *ManagedClusterLoadBalancerProfile_Status_OutboundIPsARM) {
-	*out = *in
-	if in.PublicIPs != nil {
-		in, out := &in.PublicIPs, &out.PublicIPs
-		*out = make([]ResourceReference_StatusARM, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterLoadBalancerProfile_Status_OutboundIPsARM.
-func (in *ManagedClusterLoadBalancerProfile_Status_OutboundIPsARM) DeepCopy() *ManagedClusterLoadBalancerProfile_Status_OutboundIPsARM {
-	if in == nil {
-		return nil
-	}
-	out := new(ManagedClusterLoadBalancerProfile_Status_OutboundIPsARM)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -4152,6 +4152,46 @@ func (in *ManagedClusterPodIdentityProvisioningError_StatusARM) DeepCopy() *Mana
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ManagedClusterPodIdentity_ProvisioningInfo_Status) DeepCopyInto(out *ManagedClusterPodIdentity_ProvisioningInfo_Status) {
+	*out = *in
+	if in.Error != nil {
+		in, out := &in.Error, &out.Error
+		*out = new(ManagedClusterPodIdentityProvisioningError_Status)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterPodIdentity_ProvisioningInfo_Status.
+func (in *ManagedClusterPodIdentity_ProvisioningInfo_Status) DeepCopy() *ManagedClusterPodIdentity_ProvisioningInfo_Status {
+	if in == nil {
+		return nil
+	}
+	out := new(ManagedClusterPodIdentity_ProvisioningInfo_Status)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ManagedClusterPodIdentity_ProvisioningInfo_StatusARM) DeepCopyInto(out *ManagedClusterPodIdentity_ProvisioningInfo_StatusARM) {
+	*out = *in
+	if in.Error != nil {
+		in, out := &in.Error, &out.Error
+		*out = new(ManagedClusterPodIdentityProvisioningError_StatusARM)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterPodIdentity_ProvisioningInfo_StatusARM.
+func (in *ManagedClusterPodIdentity_ProvisioningInfo_StatusARM) DeepCopy() *ManagedClusterPodIdentity_ProvisioningInfo_StatusARM {
+	if in == nil {
+		return nil
+	}
+	out := new(ManagedClusterPodIdentity_ProvisioningInfo_StatusARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ManagedClusterPodIdentity_Spec) DeepCopyInto(out *ManagedClusterPodIdentity_Spec) {
 	*out = *in
 	if in.BindingSelector != nil {
@@ -4204,12 +4244,12 @@ func (in *ManagedClusterPodIdentity_Status) DeepCopyInto(out *ManagedClusterPodI
 	in.Identity.DeepCopyInto(&out.Identity)
 	if in.ProvisioningInfo != nil {
 		in, out := &in.ProvisioningInfo, &out.ProvisioningInfo
-		*out = new(ManagedClusterPodIdentity_Status_ProvisioningInfo)
+		*out = new(ManagedClusterPodIdentity_ProvisioningInfo_Status)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ManagedClusterPodIdentityStatusProvisioningState)
+		*out = new(ManagedClusterPodIdentity_ProvisioningState_Status)
 		**out = **in
 	}
 }
@@ -4235,12 +4275,12 @@ func (in *ManagedClusterPodIdentity_StatusARM) DeepCopyInto(out *ManagedClusterP
 	in.Identity.DeepCopyInto(&out.Identity)
 	if in.ProvisioningInfo != nil {
 		in, out := &in.ProvisioningInfo, &out.ProvisioningInfo
-		*out = new(ManagedClusterPodIdentity_Status_ProvisioningInfoARM)
+		*out = new(ManagedClusterPodIdentity_ProvisioningInfo_StatusARM)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ManagedClusterPodIdentityStatusProvisioningState)
+		*out = new(ManagedClusterPodIdentity_ProvisioningState_Status)
 		**out = **in
 	}
 }
@@ -4256,41 +4296,401 @@ func (in *ManagedClusterPodIdentity_StatusARM) DeepCopy() *ManagedClusterPodIden
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ManagedClusterPodIdentity_Status_ProvisioningInfo) DeepCopyInto(out *ManagedClusterPodIdentity_Status_ProvisioningInfo) {
+func (in *ManagedClusterProperties_AutoScalerProfile_Spec) DeepCopyInto(out *ManagedClusterProperties_AutoScalerProfile_Spec) {
 	*out = *in
-	if in.Error != nil {
-		in, out := &in.Error, &out.Error
-		*out = new(ManagedClusterPodIdentityProvisioningError_Status)
-		(*in).DeepCopyInto(*out)
+	if in.BalanceSimilarNodeGroups != nil {
+		in, out := &in.BalanceSimilarNodeGroups, &out.BalanceSimilarNodeGroups
+		*out = new(string)
+		**out = **in
+	}
+	if in.Expander != nil {
+		in, out := &in.Expander, &out.Expander
+		*out = new(ManagedClusterProperties_AutoScalerProfile_Expander_Spec)
+		**out = **in
+	}
+	if in.MaxEmptyBulkDelete != nil {
+		in, out := &in.MaxEmptyBulkDelete, &out.MaxEmptyBulkDelete
+		*out = new(string)
+		**out = **in
+	}
+	if in.MaxGracefulTerminationSec != nil {
+		in, out := &in.MaxGracefulTerminationSec, &out.MaxGracefulTerminationSec
+		*out = new(string)
+		**out = **in
+	}
+	if in.MaxNodeProvisionTime != nil {
+		in, out := &in.MaxNodeProvisionTime, &out.MaxNodeProvisionTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.MaxTotalUnreadyPercentage != nil {
+		in, out := &in.MaxTotalUnreadyPercentage, &out.MaxTotalUnreadyPercentage
+		*out = new(string)
+		**out = **in
+	}
+	if in.NewPodScaleUpDelay != nil {
+		in, out := &in.NewPodScaleUpDelay, &out.NewPodScaleUpDelay
+		*out = new(string)
+		**out = **in
+	}
+	if in.OkTotalUnreadyCount != nil {
+		in, out := &in.OkTotalUnreadyCount, &out.OkTotalUnreadyCount
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownDelayAfterAdd != nil {
+		in, out := &in.ScaleDownDelayAfterAdd, &out.ScaleDownDelayAfterAdd
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownDelayAfterDelete != nil {
+		in, out := &in.ScaleDownDelayAfterDelete, &out.ScaleDownDelayAfterDelete
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownDelayAfterFailure != nil {
+		in, out := &in.ScaleDownDelayAfterFailure, &out.ScaleDownDelayAfterFailure
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownUnneededTime != nil {
+		in, out := &in.ScaleDownUnneededTime, &out.ScaleDownUnneededTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownUnreadyTime != nil {
+		in, out := &in.ScaleDownUnreadyTime, &out.ScaleDownUnreadyTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownUtilizationThreshold != nil {
+		in, out := &in.ScaleDownUtilizationThreshold, &out.ScaleDownUtilizationThreshold
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScanInterval != nil {
+		in, out := &in.ScanInterval, &out.ScanInterval
+		*out = new(string)
+		**out = **in
+	}
+	if in.SkipNodesWithLocalStorage != nil {
+		in, out := &in.SkipNodesWithLocalStorage, &out.SkipNodesWithLocalStorage
+		*out = new(string)
+		**out = **in
+	}
+	if in.SkipNodesWithSystemPods != nil {
+		in, out := &in.SkipNodesWithSystemPods, &out.SkipNodesWithSystemPods
+		*out = new(string)
+		**out = **in
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterPodIdentity_Status_ProvisioningInfo.
-func (in *ManagedClusterPodIdentity_Status_ProvisioningInfo) DeepCopy() *ManagedClusterPodIdentity_Status_ProvisioningInfo {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterProperties_AutoScalerProfile_Spec.
+func (in *ManagedClusterProperties_AutoScalerProfile_Spec) DeepCopy() *ManagedClusterProperties_AutoScalerProfile_Spec {
 	if in == nil {
 		return nil
 	}
-	out := new(ManagedClusterPodIdentity_Status_ProvisioningInfo)
+	out := new(ManagedClusterProperties_AutoScalerProfile_Spec)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ManagedClusterPodIdentity_Status_ProvisioningInfoARM) DeepCopyInto(out *ManagedClusterPodIdentity_Status_ProvisioningInfoARM) {
+func (in *ManagedClusterProperties_AutoScalerProfile_SpecARM) DeepCopyInto(out *ManagedClusterProperties_AutoScalerProfile_SpecARM) {
 	*out = *in
-	if in.Error != nil {
-		in, out := &in.Error, &out.Error
-		*out = new(ManagedClusterPodIdentityProvisioningError_StatusARM)
-		(*in).DeepCopyInto(*out)
+	if in.BalanceSimilarNodeGroups != nil {
+		in, out := &in.BalanceSimilarNodeGroups, &out.BalanceSimilarNodeGroups
+		*out = new(string)
+		**out = **in
+	}
+	if in.Expander != nil {
+		in, out := &in.Expander, &out.Expander
+		*out = new(ManagedClusterProperties_AutoScalerProfile_Expander_Spec)
+		**out = **in
+	}
+	if in.MaxEmptyBulkDelete != nil {
+		in, out := &in.MaxEmptyBulkDelete, &out.MaxEmptyBulkDelete
+		*out = new(string)
+		**out = **in
+	}
+	if in.MaxGracefulTerminationSec != nil {
+		in, out := &in.MaxGracefulTerminationSec, &out.MaxGracefulTerminationSec
+		*out = new(string)
+		**out = **in
+	}
+	if in.MaxNodeProvisionTime != nil {
+		in, out := &in.MaxNodeProvisionTime, &out.MaxNodeProvisionTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.MaxTotalUnreadyPercentage != nil {
+		in, out := &in.MaxTotalUnreadyPercentage, &out.MaxTotalUnreadyPercentage
+		*out = new(string)
+		**out = **in
+	}
+	if in.NewPodScaleUpDelay != nil {
+		in, out := &in.NewPodScaleUpDelay, &out.NewPodScaleUpDelay
+		*out = new(string)
+		**out = **in
+	}
+	if in.OkTotalUnreadyCount != nil {
+		in, out := &in.OkTotalUnreadyCount, &out.OkTotalUnreadyCount
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownDelayAfterAdd != nil {
+		in, out := &in.ScaleDownDelayAfterAdd, &out.ScaleDownDelayAfterAdd
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownDelayAfterDelete != nil {
+		in, out := &in.ScaleDownDelayAfterDelete, &out.ScaleDownDelayAfterDelete
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownDelayAfterFailure != nil {
+		in, out := &in.ScaleDownDelayAfterFailure, &out.ScaleDownDelayAfterFailure
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownUnneededTime != nil {
+		in, out := &in.ScaleDownUnneededTime, &out.ScaleDownUnneededTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownUnreadyTime != nil {
+		in, out := &in.ScaleDownUnreadyTime, &out.ScaleDownUnreadyTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownUtilizationThreshold != nil {
+		in, out := &in.ScaleDownUtilizationThreshold, &out.ScaleDownUtilizationThreshold
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScanInterval != nil {
+		in, out := &in.ScanInterval, &out.ScanInterval
+		*out = new(string)
+		**out = **in
+	}
+	if in.SkipNodesWithLocalStorage != nil {
+		in, out := &in.SkipNodesWithLocalStorage, &out.SkipNodesWithLocalStorage
+		*out = new(string)
+		**out = **in
+	}
+	if in.SkipNodesWithSystemPods != nil {
+		in, out := &in.SkipNodesWithSystemPods, &out.SkipNodesWithSystemPods
+		*out = new(string)
+		**out = **in
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterPodIdentity_Status_ProvisioningInfoARM.
-func (in *ManagedClusterPodIdentity_Status_ProvisioningInfoARM) DeepCopy() *ManagedClusterPodIdentity_Status_ProvisioningInfoARM {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterProperties_AutoScalerProfile_SpecARM.
+func (in *ManagedClusterProperties_AutoScalerProfile_SpecARM) DeepCopy() *ManagedClusterProperties_AutoScalerProfile_SpecARM {
 	if in == nil {
 		return nil
 	}
-	out := new(ManagedClusterPodIdentity_Status_ProvisioningInfoARM)
+	out := new(ManagedClusterProperties_AutoScalerProfile_SpecARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ManagedClusterProperties_AutoScalerProfile_Status) DeepCopyInto(out *ManagedClusterProperties_AutoScalerProfile_Status) {
+	*out = *in
+	if in.BalanceSimilarNodeGroups != nil {
+		in, out := &in.BalanceSimilarNodeGroups, &out.BalanceSimilarNodeGroups
+		*out = new(string)
+		**out = **in
+	}
+	if in.Expander != nil {
+		in, out := &in.Expander, &out.Expander
+		*out = new(ManagedClusterProperties_AutoScalerProfile_Expander_Status)
+		**out = **in
+	}
+	if in.MaxEmptyBulkDelete != nil {
+		in, out := &in.MaxEmptyBulkDelete, &out.MaxEmptyBulkDelete
+		*out = new(string)
+		**out = **in
+	}
+	if in.MaxGracefulTerminationSec != nil {
+		in, out := &in.MaxGracefulTerminationSec, &out.MaxGracefulTerminationSec
+		*out = new(string)
+		**out = **in
+	}
+	if in.MaxNodeProvisionTime != nil {
+		in, out := &in.MaxNodeProvisionTime, &out.MaxNodeProvisionTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.MaxTotalUnreadyPercentage != nil {
+		in, out := &in.MaxTotalUnreadyPercentage, &out.MaxTotalUnreadyPercentage
+		*out = new(string)
+		**out = **in
+	}
+	if in.NewPodScaleUpDelay != nil {
+		in, out := &in.NewPodScaleUpDelay, &out.NewPodScaleUpDelay
+		*out = new(string)
+		**out = **in
+	}
+	if in.OkTotalUnreadyCount != nil {
+		in, out := &in.OkTotalUnreadyCount, &out.OkTotalUnreadyCount
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownDelayAfterAdd != nil {
+		in, out := &in.ScaleDownDelayAfterAdd, &out.ScaleDownDelayAfterAdd
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownDelayAfterDelete != nil {
+		in, out := &in.ScaleDownDelayAfterDelete, &out.ScaleDownDelayAfterDelete
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownDelayAfterFailure != nil {
+		in, out := &in.ScaleDownDelayAfterFailure, &out.ScaleDownDelayAfterFailure
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownUnneededTime != nil {
+		in, out := &in.ScaleDownUnneededTime, &out.ScaleDownUnneededTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownUnreadyTime != nil {
+		in, out := &in.ScaleDownUnreadyTime, &out.ScaleDownUnreadyTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownUtilizationThreshold != nil {
+		in, out := &in.ScaleDownUtilizationThreshold, &out.ScaleDownUtilizationThreshold
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScanInterval != nil {
+		in, out := &in.ScanInterval, &out.ScanInterval
+		*out = new(string)
+		**out = **in
+	}
+	if in.SkipNodesWithLocalStorage != nil {
+		in, out := &in.SkipNodesWithLocalStorage, &out.SkipNodesWithLocalStorage
+		*out = new(string)
+		**out = **in
+	}
+	if in.SkipNodesWithSystemPods != nil {
+		in, out := &in.SkipNodesWithSystemPods, &out.SkipNodesWithSystemPods
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterProperties_AutoScalerProfile_Status.
+func (in *ManagedClusterProperties_AutoScalerProfile_Status) DeepCopy() *ManagedClusterProperties_AutoScalerProfile_Status {
+	if in == nil {
+		return nil
+	}
+	out := new(ManagedClusterProperties_AutoScalerProfile_Status)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ManagedClusterProperties_AutoScalerProfile_StatusARM) DeepCopyInto(out *ManagedClusterProperties_AutoScalerProfile_StatusARM) {
+	*out = *in
+	if in.BalanceSimilarNodeGroups != nil {
+		in, out := &in.BalanceSimilarNodeGroups, &out.BalanceSimilarNodeGroups
+		*out = new(string)
+		**out = **in
+	}
+	if in.Expander != nil {
+		in, out := &in.Expander, &out.Expander
+		*out = new(ManagedClusterProperties_AutoScalerProfile_Expander_Status)
+		**out = **in
+	}
+	if in.MaxEmptyBulkDelete != nil {
+		in, out := &in.MaxEmptyBulkDelete, &out.MaxEmptyBulkDelete
+		*out = new(string)
+		**out = **in
+	}
+	if in.MaxGracefulTerminationSec != nil {
+		in, out := &in.MaxGracefulTerminationSec, &out.MaxGracefulTerminationSec
+		*out = new(string)
+		**out = **in
+	}
+	if in.MaxNodeProvisionTime != nil {
+		in, out := &in.MaxNodeProvisionTime, &out.MaxNodeProvisionTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.MaxTotalUnreadyPercentage != nil {
+		in, out := &in.MaxTotalUnreadyPercentage, &out.MaxTotalUnreadyPercentage
+		*out = new(string)
+		**out = **in
+	}
+	if in.NewPodScaleUpDelay != nil {
+		in, out := &in.NewPodScaleUpDelay, &out.NewPodScaleUpDelay
+		*out = new(string)
+		**out = **in
+	}
+	if in.OkTotalUnreadyCount != nil {
+		in, out := &in.OkTotalUnreadyCount, &out.OkTotalUnreadyCount
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownDelayAfterAdd != nil {
+		in, out := &in.ScaleDownDelayAfterAdd, &out.ScaleDownDelayAfterAdd
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownDelayAfterDelete != nil {
+		in, out := &in.ScaleDownDelayAfterDelete, &out.ScaleDownDelayAfterDelete
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownDelayAfterFailure != nil {
+		in, out := &in.ScaleDownDelayAfterFailure, &out.ScaleDownDelayAfterFailure
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownUnneededTime != nil {
+		in, out := &in.ScaleDownUnneededTime, &out.ScaleDownUnneededTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownUnreadyTime != nil {
+		in, out := &in.ScaleDownUnreadyTime, &out.ScaleDownUnreadyTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScaleDownUtilizationThreshold != nil {
+		in, out := &in.ScaleDownUtilizationThreshold, &out.ScaleDownUtilizationThreshold
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScanInterval != nil {
+		in, out := &in.ScanInterval, &out.ScanInterval
+		*out = new(string)
+		**out = **in
+	}
+	if in.SkipNodesWithLocalStorage != nil {
+		in, out := &in.SkipNodesWithLocalStorage, &out.SkipNodesWithLocalStorage
+		*out = new(string)
+		**out = **in
+	}
+	if in.SkipNodesWithSystemPods != nil {
+		in, out := &in.SkipNodesWithSystemPods, &out.SkipNodesWithSystemPods
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterProperties_AutoScalerProfile_StatusARM.
+func (in *ManagedClusterProperties_AutoScalerProfile_StatusARM) DeepCopy() *ManagedClusterProperties_AutoScalerProfile_StatusARM {
+	if in == nil {
+		return nil
+	}
+	out := new(ManagedClusterProperties_AutoScalerProfile_StatusARM)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -4322,7 +4722,7 @@ func (in *ManagedClusterProperties_SpecARM) DeepCopyInto(out *ManagedClusterProp
 	}
 	if in.AutoScalerProfile != nil {
 		in, out := &in.AutoScalerProfile, &out.AutoScalerProfile
-		*out = new(ManagedClusterProperties_Spec_AutoScalerProfileARM)
+		*out = new(ManagedClusterProperties_AutoScalerProfile_SpecARM)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.AutoUpgradeProfile != nil {
@@ -4425,206 +4825,6 @@ func (in *ManagedClusterProperties_SpecARM) DeepCopy() *ManagedClusterProperties
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ManagedClusterProperties_Spec_AutoScalerProfile) DeepCopyInto(out *ManagedClusterProperties_Spec_AutoScalerProfile) {
-	*out = *in
-	if in.BalanceSimilarNodeGroups != nil {
-		in, out := &in.BalanceSimilarNodeGroups, &out.BalanceSimilarNodeGroups
-		*out = new(string)
-		**out = **in
-	}
-	if in.Expander != nil {
-		in, out := &in.Expander, &out.Expander
-		*out = new(ManagedClusterPropertiesSpecAutoScalerProfileExpander)
-		**out = **in
-	}
-	if in.MaxEmptyBulkDelete != nil {
-		in, out := &in.MaxEmptyBulkDelete, &out.MaxEmptyBulkDelete
-		*out = new(string)
-		**out = **in
-	}
-	if in.MaxGracefulTerminationSec != nil {
-		in, out := &in.MaxGracefulTerminationSec, &out.MaxGracefulTerminationSec
-		*out = new(string)
-		**out = **in
-	}
-	if in.MaxNodeProvisionTime != nil {
-		in, out := &in.MaxNodeProvisionTime, &out.MaxNodeProvisionTime
-		*out = new(string)
-		**out = **in
-	}
-	if in.MaxTotalUnreadyPercentage != nil {
-		in, out := &in.MaxTotalUnreadyPercentage, &out.MaxTotalUnreadyPercentage
-		*out = new(string)
-		**out = **in
-	}
-	if in.NewPodScaleUpDelay != nil {
-		in, out := &in.NewPodScaleUpDelay, &out.NewPodScaleUpDelay
-		*out = new(string)
-		**out = **in
-	}
-	if in.OkTotalUnreadyCount != nil {
-		in, out := &in.OkTotalUnreadyCount, &out.OkTotalUnreadyCount
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownDelayAfterAdd != nil {
-		in, out := &in.ScaleDownDelayAfterAdd, &out.ScaleDownDelayAfterAdd
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownDelayAfterDelete != nil {
-		in, out := &in.ScaleDownDelayAfterDelete, &out.ScaleDownDelayAfterDelete
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownDelayAfterFailure != nil {
-		in, out := &in.ScaleDownDelayAfterFailure, &out.ScaleDownDelayAfterFailure
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownUnneededTime != nil {
-		in, out := &in.ScaleDownUnneededTime, &out.ScaleDownUnneededTime
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownUnreadyTime != nil {
-		in, out := &in.ScaleDownUnreadyTime, &out.ScaleDownUnreadyTime
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownUtilizationThreshold != nil {
-		in, out := &in.ScaleDownUtilizationThreshold, &out.ScaleDownUtilizationThreshold
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScanInterval != nil {
-		in, out := &in.ScanInterval, &out.ScanInterval
-		*out = new(string)
-		**out = **in
-	}
-	if in.SkipNodesWithLocalStorage != nil {
-		in, out := &in.SkipNodesWithLocalStorage, &out.SkipNodesWithLocalStorage
-		*out = new(string)
-		**out = **in
-	}
-	if in.SkipNodesWithSystemPods != nil {
-		in, out := &in.SkipNodesWithSystemPods, &out.SkipNodesWithSystemPods
-		*out = new(string)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterProperties_Spec_AutoScalerProfile.
-func (in *ManagedClusterProperties_Spec_AutoScalerProfile) DeepCopy() *ManagedClusterProperties_Spec_AutoScalerProfile {
-	if in == nil {
-		return nil
-	}
-	out := new(ManagedClusterProperties_Spec_AutoScalerProfile)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ManagedClusterProperties_Spec_AutoScalerProfileARM) DeepCopyInto(out *ManagedClusterProperties_Spec_AutoScalerProfileARM) {
-	*out = *in
-	if in.BalanceSimilarNodeGroups != nil {
-		in, out := &in.BalanceSimilarNodeGroups, &out.BalanceSimilarNodeGroups
-		*out = new(string)
-		**out = **in
-	}
-	if in.Expander != nil {
-		in, out := &in.Expander, &out.Expander
-		*out = new(ManagedClusterPropertiesSpecAutoScalerProfileExpander)
-		**out = **in
-	}
-	if in.MaxEmptyBulkDelete != nil {
-		in, out := &in.MaxEmptyBulkDelete, &out.MaxEmptyBulkDelete
-		*out = new(string)
-		**out = **in
-	}
-	if in.MaxGracefulTerminationSec != nil {
-		in, out := &in.MaxGracefulTerminationSec, &out.MaxGracefulTerminationSec
-		*out = new(string)
-		**out = **in
-	}
-	if in.MaxNodeProvisionTime != nil {
-		in, out := &in.MaxNodeProvisionTime, &out.MaxNodeProvisionTime
-		*out = new(string)
-		**out = **in
-	}
-	if in.MaxTotalUnreadyPercentage != nil {
-		in, out := &in.MaxTotalUnreadyPercentage, &out.MaxTotalUnreadyPercentage
-		*out = new(string)
-		**out = **in
-	}
-	if in.NewPodScaleUpDelay != nil {
-		in, out := &in.NewPodScaleUpDelay, &out.NewPodScaleUpDelay
-		*out = new(string)
-		**out = **in
-	}
-	if in.OkTotalUnreadyCount != nil {
-		in, out := &in.OkTotalUnreadyCount, &out.OkTotalUnreadyCount
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownDelayAfterAdd != nil {
-		in, out := &in.ScaleDownDelayAfterAdd, &out.ScaleDownDelayAfterAdd
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownDelayAfterDelete != nil {
-		in, out := &in.ScaleDownDelayAfterDelete, &out.ScaleDownDelayAfterDelete
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownDelayAfterFailure != nil {
-		in, out := &in.ScaleDownDelayAfterFailure, &out.ScaleDownDelayAfterFailure
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownUnneededTime != nil {
-		in, out := &in.ScaleDownUnneededTime, &out.ScaleDownUnneededTime
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownUnreadyTime != nil {
-		in, out := &in.ScaleDownUnreadyTime, &out.ScaleDownUnreadyTime
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownUtilizationThreshold != nil {
-		in, out := &in.ScaleDownUtilizationThreshold, &out.ScaleDownUtilizationThreshold
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScanInterval != nil {
-		in, out := &in.ScanInterval, &out.ScanInterval
-		*out = new(string)
-		**out = **in
-	}
-	if in.SkipNodesWithLocalStorage != nil {
-		in, out := &in.SkipNodesWithLocalStorage, &out.SkipNodesWithLocalStorage
-		*out = new(string)
-		**out = **in
-	}
-	if in.SkipNodesWithSystemPods != nil {
-		in, out := &in.SkipNodesWithSystemPods, &out.SkipNodesWithSystemPods
-		*out = new(string)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterProperties_Spec_AutoScalerProfileARM.
-func (in *ManagedClusterProperties_Spec_AutoScalerProfileARM) DeepCopy() *ManagedClusterProperties_Spec_AutoScalerProfileARM {
-	if in == nil {
-		return nil
-	}
-	out := new(ManagedClusterProperties_Spec_AutoScalerProfileARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ManagedClusterProperties_StatusARM) DeepCopyInto(out *ManagedClusterProperties_StatusARM) {
 	*out = *in
 	if in.AadProfile != nil {
@@ -4651,7 +4851,7 @@ func (in *ManagedClusterProperties_StatusARM) DeepCopyInto(out *ManagedClusterPr
 	}
 	if in.AutoScalerProfile != nil {
 		in, out := &in.AutoScalerProfile, &out.AutoScalerProfile
-		*out = new(ManagedClusterProperties_Status_AutoScalerProfileARM)
+		*out = new(ManagedClusterProperties_AutoScalerProfile_StatusARM)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.AutoUpgradeProfile != nil {
@@ -4784,216 +4984,16 @@ func (in *ManagedClusterProperties_StatusARM) DeepCopy() *ManagedClusterProperti
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ManagedClusterProperties_Status_AutoScalerProfile) DeepCopyInto(out *ManagedClusterProperties_Status_AutoScalerProfile) {
-	*out = *in
-	if in.BalanceSimilarNodeGroups != nil {
-		in, out := &in.BalanceSimilarNodeGroups, &out.BalanceSimilarNodeGroups
-		*out = new(string)
-		**out = **in
-	}
-	if in.Expander != nil {
-		in, out := &in.Expander, &out.Expander
-		*out = new(ManagedClusterPropertiesStatusAutoScalerProfileExpander)
-		**out = **in
-	}
-	if in.MaxEmptyBulkDelete != nil {
-		in, out := &in.MaxEmptyBulkDelete, &out.MaxEmptyBulkDelete
-		*out = new(string)
-		**out = **in
-	}
-	if in.MaxGracefulTerminationSec != nil {
-		in, out := &in.MaxGracefulTerminationSec, &out.MaxGracefulTerminationSec
-		*out = new(string)
-		**out = **in
-	}
-	if in.MaxNodeProvisionTime != nil {
-		in, out := &in.MaxNodeProvisionTime, &out.MaxNodeProvisionTime
-		*out = new(string)
-		**out = **in
-	}
-	if in.MaxTotalUnreadyPercentage != nil {
-		in, out := &in.MaxTotalUnreadyPercentage, &out.MaxTotalUnreadyPercentage
-		*out = new(string)
-		**out = **in
-	}
-	if in.NewPodScaleUpDelay != nil {
-		in, out := &in.NewPodScaleUpDelay, &out.NewPodScaleUpDelay
-		*out = new(string)
-		**out = **in
-	}
-	if in.OkTotalUnreadyCount != nil {
-		in, out := &in.OkTotalUnreadyCount, &out.OkTotalUnreadyCount
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownDelayAfterAdd != nil {
-		in, out := &in.ScaleDownDelayAfterAdd, &out.ScaleDownDelayAfterAdd
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownDelayAfterDelete != nil {
-		in, out := &in.ScaleDownDelayAfterDelete, &out.ScaleDownDelayAfterDelete
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownDelayAfterFailure != nil {
-		in, out := &in.ScaleDownDelayAfterFailure, &out.ScaleDownDelayAfterFailure
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownUnneededTime != nil {
-		in, out := &in.ScaleDownUnneededTime, &out.ScaleDownUnneededTime
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownUnreadyTime != nil {
-		in, out := &in.ScaleDownUnreadyTime, &out.ScaleDownUnreadyTime
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownUtilizationThreshold != nil {
-		in, out := &in.ScaleDownUtilizationThreshold, &out.ScaleDownUtilizationThreshold
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScanInterval != nil {
-		in, out := &in.ScanInterval, &out.ScanInterval
-		*out = new(string)
-		**out = **in
-	}
-	if in.SkipNodesWithLocalStorage != nil {
-		in, out := &in.SkipNodesWithLocalStorage, &out.SkipNodesWithLocalStorage
-		*out = new(string)
-		**out = **in
-	}
-	if in.SkipNodesWithSystemPods != nil {
-		in, out := &in.SkipNodesWithSystemPods, &out.SkipNodesWithSystemPods
-		*out = new(string)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterProperties_Status_AutoScalerProfile.
-func (in *ManagedClusterProperties_Status_AutoScalerProfile) DeepCopy() *ManagedClusterProperties_Status_AutoScalerProfile {
-	if in == nil {
-		return nil
-	}
-	out := new(ManagedClusterProperties_Status_AutoScalerProfile)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ManagedClusterProperties_Status_AutoScalerProfileARM) DeepCopyInto(out *ManagedClusterProperties_Status_AutoScalerProfileARM) {
-	*out = *in
-	if in.BalanceSimilarNodeGroups != nil {
-		in, out := &in.BalanceSimilarNodeGroups, &out.BalanceSimilarNodeGroups
-		*out = new(string)
-		**out = **in
-	}
-	if in.Expander != nil {
-		in, out := &in.Expander, &out.Expander
-		*out = new(ManagedClusterPropertiesStatusAutoScalerProfileExpander)
-		**out = **in
-	}
-	if in.MaxEmptyBulkDelete != nil {
-		in, out := &in.MaxEmptyBulkDelete, &out.MaxEmptyBulkDelete
-		*out = new(string)
-		**out = **in
-	}
-	if in.MaxGracefulTerminationSec != nil {
-		in, out := &in.MaxGracefulTerminationSec, &out.MaxGracefulTerminationSec
-		*out = new(string)
-		**out = **in
-	}
-	if in.MaxNodeProvisionTime != nil {
-		in, out := &in.MaxNodeProvisionTime, &out.MaxNodeProvisionTime
-		*out = new(string)
-		**out = **in
-	}
-	if in.MaxTotalUnreadyPercentage != nil {
-		in, out := &in.MaxTotalUnreadyPercentage, &out.MaxTotalUnreadyPercentage
-		*out = new(string)
-		**out = **in
-	}
-	if in.NewPodScaleUpDelay != nil {
-		in, out := &in.NewPodScaleUpDelay, &out.NewPodScaleUpDelay
-		*out = new(string)
-		**out = **in
-	}
-	if in.OkTotalUnreadyCount != nil {
-		in, out := &in.OkTotalUnreadyCount, &out.OkTotalUnreadyCount
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownDelayAfterAdd != nil {
-		in, out := &in.ScaleDownDelayAfterAdd, &out.ScaleDownDelayAfterAdd
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownDelayAfterDelete != nil {
-		in, out := &in.ScaleDownDelayAfterDelete, &out.ScaleDownDelayAfterDelete
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownDelayAfterFailure != nil {
-		in, out := &in.ScaleDownDelayAfterFailure, &out.ScaleDownDelayAfterFailure
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownUnneededTime != nil {
-		in, out := &in.ScaleDownUnneededTime, &out.ScaleDownUnneededTime
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownUnreadyTime != nil {
-		in, out := &in.ScaleDownUnreadyTime, &out.ScaleDownUnreadyTime
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScaleDownUtilizationThreshold != nil {
-		in, out := &in.ScaleDownUtilizationThreshold, &out.ScaleDownUtilizationThreshold
-		*out = new(string)
-		**out = **in
-	}
-	if in.ScanInterval != nil {
-		in, out := &in.ScanInterval, &out.ScanInterval
-		*out = new(string)
-		**out = **in
-	}
-	if in.SkipNodesWithLocalStorage != nil {
-		in, out := &in.SkipNodesWithLocalStorage, &out.SkipNodesWithLocalStorage
-		*out = new(string)
-		**out = **in
-	}
-	if in.SkipNodesWithSystemPods != nil {
-		in, out := &in.SkipNodesWithSystemPods, &out.SkipNodesWithSystemPods
-		*out = new(string)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedClusterProperties_Status_AutoScalerProfileARM.
-func (in *ManagedClusterProperties_Status_AutoScalerProfileARM) DeepCopy() *ManagedClusterProperties_Status_AutoScalerProfileARM {
-	if in == nil {
-		return nil
-	}
-	out := new(ManagedClusterProperties_Status_AutoScalerProfileARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ManagedClusterSKU_Spec) DeepCopyInto(out *ManagedClusterSKU_Spec) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(ManagedClusterSKUSpecName)
+		*out = new(ManagedClusterSKU_Name_Spec)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(ManagedClusterSKUSpecTier)
+		*out = new(ManagedClusterSKU_Tier_Spec)
 		**out = **in
 	}
 }
@@ -5013,12 +5013,12 @@ func (in *ManagedClusterSKU_SpecARM) DeepCopyInto(out *ManagedClusterSKU_SpecARM
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(ManagedClusterSKUSpecName)
+		*out = new(ManagedClusterSKU_Name_Spec)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(ManagedClusterSKUSpecTier)
+		*out = new(ManagedClusterSKU_Tier_Spec)
 		**out = **in
 	}
 }
@@ -5038,12 +5038,12 @@ func (in *ManagedClusterSKU_Status) DeepCopyInto(out *ManagedClusterSKU_Status) 
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(ManagedClusterSKUStatusName)
+		*out = new(ManagedClusterSKU_Name_Status)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(ManagedClusterSKUStatusTier)
+		*out = new(ManagedClusterSKU_Tier_Status)
 		**out = **in
 	}
 }
@@ -5063,12 +5063,12 @@ func (in *ManagedClusterSKU_StatusARM) DeepCopyInto(out *ManagedClusterSKU_Statu
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(ManagedClusterSKUStatusName)
+		*out = new(ManagedClusterSKU_Name_Status)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(ManagedClusterSKUStatusTier)
+		*out = new(ManagedClusterSKU_Tier_Status)
 		**out = **in
 	}
 }
@@ -5178,7 +5178,7 @@ func (in *ManagedClusterWindowsProfile_Spec) DeepCopyInto(out *ManagedClusterWin
 	}
 	if in.LicenseType != nil {
 		in, out := &in.LicenseType, &out.LicenseType
-		*out = new(ManagedClusterWindowsProfileSpecLicenseType)
+		*out = new(ManagedClusterWindowsProfile_LicenseType_Spec)
 		**out = **in
 	}
 }
@@ -5208,7 +5208,7 @@ func (in *ManagedClusterWindowsProfile_SpecARM) DeepCopyInto(out *ManagedCluster
 	}
 	if in.LicenseType != nil {
 		in, out := &in.LicenseType, &out.LicenseType
-		*out = new(ManagedClusterWindowsProfileSpecLicenseType)
+		*out = new(ManagedClusterWindowsProfile_LicenseType_Spec)
 		**out = **in
 	}
 }
@@ -5238,7 +5238,7 @@ func (in *ManagedClusterWindowsProfile_Status) DeepCopyInto(out *ManagedClusterW
 	}
 	if in.LicenseType != nil {
 		in, out := &in.LicenseType, &out.LicenseType
-		*out = new(ManagedClusterWindowsProfileStatusLicenseType)
+		*out = new(ManagedClusterWindowsProfile_LicenseType_Status)
 		**out = **in
 	}
 }
@@ -5268,7 +5268,7 @@ func (in *ManagedClusterWindowsProfile_StatusARM) DeepCopyInto(out *ManagedClust
 	}
 	if in.LicenseType != nil {
 		in, out := &in.LicenseType, &out.LicenseType
-		*out = new(ManagedClusterWindowsProfileStatusLicenseType)
+		*out = new(ManagedClusterWindowsProfile_LicenseType_Status)
 		**out = **in
 	}
 }
@@ -5310,7 +5310,7 @@ func (in *ManagedCluster_Status) DeepCopyInto(out *ManagedCluster_Status) {
 	}
 	if in.AutoScalerProfile != nil {
 		in, out := &in.AutoScalerProfile, &out.AutoScalerProfile
-		*out = new(ManagedClusterProperties_Status_AutoScalerProfile)
+		*out = new(ManagedClusterProperties_AutoScalerProfile_Status)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.AutoUpgradeProfile != nil {
@@ -5844,7 +5844,7 @@ func (in *ManagedClusters_SPEC) DeepCopyInto(out *ManagedClusters_SPEC) {
 	}
 	if in.AutoScalerProfile != nil {
 		in, out := &in.AutoScalerProfile, &out.AutoScalerProfile
-		*out = new(ManagedClusterProperties_Spec_AutoScalerProfile)
+		*out = new(ManagedClusterProperties_AutoScalerProfile_Spec)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.AutoUpgradeProfile != nil {
@@ -6016,7 +6016,7 @@ func (in *PowerState_Status) DeepCopyInto(out *PowerState_Status) {
 	*out = *in
 	if in.Code != nil {
 		in, out := &in.Code, &out.Code
-		*out = new(PowerStateStatusCode)
+		*out = new(PowerState_Code_Status)
 		**out = **in
 	}
 }
@@ -6036,7 +6036,7 @@ func (in *PowerState_StatusARM) DeepCopyInto(out *PowerState_StatusARM) {
 	*out = *in
 	if in.Code != nil {
 		in, out := &in.Code, &out.Code
-		*out = new(PowerStateStatusCode)
+		*out = new(PowerState_Code_Status)
 		**out = **in
 	}
 }

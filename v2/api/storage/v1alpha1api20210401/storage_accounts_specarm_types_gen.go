@@ -17,7 +17,7 @@ type StorageAccounts_SPECARM struct {
 	Identity *Identity_SpecARM `json:"identity,omitempty"`
 
 	//Kind: Required. Indicates the type of storage account.
-	Kind StorageAccountsSPECKind `json:"kind"`
+	Kind StorageAccounts_Kind_SPEC `json:"kind"`
 
 	//Location: Required. Gets or sets the location of the resource. This will be one
 	//of the supported and registered Azure Geo Regions (e.g. West US, East US,
@@ -68,7 +68,7 @@ type ExtendedLocation_SpecARM struct {
 
 type Identity_SpecARM struct {
 	//Type: The identity type.
-	Type IdentitySpecType `json:"type"`
+	Type Identity_Type_Spec `json:"type"`
 }
 
 type Sku_SpecARM struct {
@@ -79,7 +79,7 @@ type Sku_SpecARM struct {
 type StorageAccountProperties_SpecARM struct {
 	//AccessTier: Required for storage accounts where kind = BlobStorage. The access
 	//tier used for billing.
-	AccessTier *StorageAccountPropertiesSpecAccessTier `json:"accessTier,omitempty"`
+	AccessTier *StorageAccountProperties_AccessTier_Spec `json:"accessTier,omitempty"`
 
 	//AllowBlobPublicAccess: Allow or disallow public access to all blobs or
 	//containers in the storage account. The default interpretation is true for this
@@ -122,11 +122,11 @@ type StorageAccountProperties_SpecARM struct {
 
 	//LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be
 	//disabled once it is enabled.
-	LargeFileSharesState *StorageAccountPropertiesSpecLargeFileSharesState `json:"largeFileSharesState,omitempty"`
+	LargeFileSharesState *StorageAccountProperties_LargeFileSharesState_Spec `json:"largeFileSharesState,omitempty"`
 
 	//MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to
 	//storage. The default interpretation is TLS 1.0 for this property.
-	MinimumTlsVersion *StorageAccountPropertiesSpecMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *StorageAccountProperties_MinimumTlsVersion_Spec `json:"minimumTlsVersion,omitempty"`
 
 	//NetworkAcls: Network rule set
 	NetworkAcls *NetworkRuleSet_SpecARM `json:"networkAcls,omitempty"`
@@ -144,14 +144,14 @@ type StorageAccountProperties_SpecARM struct {
 }
 
 // +kubebuilder:validation:Enum={"BlobStorage","BlockBlobStorage","FileStorage","Storage","StorageV2"}
-type StorageAccountsSPECKind string
+type StorageAccounts_Kind_SPEC string
 
 const (
-	StorageAccountsSPECKindBlobStorage      = StorageAccountsSPECKind("BlobStorage")
-	StorageAccountsSPECKindBlockBlobStorage = StorageAccountsSPECKind("BlockBlobStorage")
-	StorageAccountsSPECKindFileStorage      = StorageAccountsSPECKind("FileStorage")
-	StorageAccountsSPECKindStorage          = StorageAccountsSPECKind("Storage")
-	StorageAccountsSPECKindStorageV2        = StorageAccountsSPECKind("StorageV2")
+	StorageAccounts_Kind_SPECBlobStorage      = StorageAccounts_Kind_SPEC("BlobStorage")
+	StorageAccounts_Kind_SPECBlockBlobStorage = StorageAccounts_Kind_SPEC("BlockBlobStorage")
+	StorageAccounts_Kind_SPECFileStorage      = StorageAccounts_Kind_SPEC("FileStorage")
+	StorageAccounts_Kind_SPECStorage          = StorageAccounts_Kind_SPEC("Storage")
+	StorageAccounts_Kind_SPECStorageV2        = StorageAccounts_Kind_SPEC("StorageV2")
 )
 
 type AzureFilesIdentityBasedAuthentication_SpecARM struct {
@@ -160,10 +160,10 @@ type AzureFilesIdentityBasedAuthentication_SpecARM struct {
 
 	//DefaultSharePermission: Default share permission for users using Kerberos
 	//authentication if RBAC role is not assigned.
-	DefaultSharePermission *AzureFilesIdentityBasedAuthenticationSpecDefaultSharePermission `json:"defaultSharePermission,omitempty"`
+	DefaultSharePermission *AzureFilesIdentityBasedAuthentication_DefaultSharePermission_Spec `json:"defaultSharePermission,omitempty"`
 
 	//DirectoryServiceOptions: Indicates the directory service used.
-	DirectoryServiceOptions AzureFilesIdentityBasedAuthenticationSpecDirectoryServiceOptions `json:"directoryServiceOptions"`
+	DirectoryServiceOptions AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_Spec `json:"directoryServiceOptions"`
 }
 
 type CustomDomain_SpecARM struct {
@@ -182,7 +182,7 @@ type Encryption_SpecARM struct {
 
 	//KeySource: The encryption keySource (provider). Possible values
 	//(case-insensitive):  Microsoft.Storage, Microsoft.Keyvault
-	KeySource EncryptionSpecKeySource `json:"keySource"`
+	KeySource Encryption_KeySource_Spec `json:"keySource"`
 
 	//Keyvaultproperties: Properties provided by key vault.
 	Keyvaultproperties *KeyVaultProperties_SpecARM `json:"keyvaultproperties,omitempty"`
@@ -202,13 +202,13 @@ type ExtendedLocationType_Spec string
 const ExtendedLocationType_SpecEdgeZone = ExtendedLocationType_Spec("EdgeZone")
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
-type IdentitySpecType string
+type Identity_Type_Spec string
 
 const (
-	IdentitySpecTypeNone                       = IdentitySpecType("None")
-	IdentitySpecTypeSystemAssigned             = IdentitySpecType("SystemAssigned")
-	IdentitySpecTypeSystemAssignedUserAssigned = IdentitySpecType("SystemAssigned,UserAssigned")
-	IdentitySpecTypeUserAssigned               = IdentitySpecType("UserAssigned")
+	Identity_Type_SpecNone                       = Identity_Type_Spec("None")
+	Identity_Type_SpecSystemAssigned             = Identity_Type_Spec("SystemAssigned")
+	Identity_Type_SpecSystemAssignedUserAssigned = Identity_Type_Spec("SystemAssigned,UserAssigned")
+	Identity_Type_SpecUserAssigned               = Identity_Type_Spec("UserAssigned")
 )
 
 type KeyPolicy_SpecARM struct {
@@ -220,11 +220,11 @@ type NetworkRuleSet_SpecARM struct {
 	//Bypass: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices.
 	//Possible values are any combination of Logging|Metrics|AzureServices (For
 	//example, "Logging, Metrics"), or None to bypass none of those traffics.
-	Bypass *NetworkRuleSetSpecBypass `json:"bypass,omitempty"`
+	Bypass *NetworkRuleSet_Bypass_Spec `json:"bypass,omitempty"`
 
 	//DefaultAction: Specifies the default action of allow or deny when no other rules
 	//match.
-	DefaultAction NetworkRuleSetSpecDefaultAction `json:"defaultAction"`
+	DefaultAction NetworkRuleSet_DefaultAction_Spec `json:"defaultAction"`
 
 	//IpRules: Sets the IP ACL rules
 	IpRules []IPRule_SpecARM `json:"ipRules,omitempty"`
@@ -247,12 +247,12 @@ type RoutingPreference_SpecARM struct {
 
 	//RoutingChoice: Routing Choice defines the kind of network routing opted by the
 	//user.
-	RoutingChoice *RoutingPreferenceSpecRoutingChoice `json:"routingChoice,omitempty"`
+	RoutingChoice *RoutingPreference_RoutingChoice_Spec `json:"routingChoice,omitempty"`
 }
 
 type SasPolicy_SpecARM struct {
 	//ExpirationAction: The SAS expiration action. Can only be Log.
-	ExpirationAction SasPolicySpecExpirationAction `json:"expirationAction"`
+	ExpirationAction SasPolicy_ExpirationAction_Spec `json:"expirationAction"`
 
 	//SasExpirationPeriod: The SAS expiration period, DD.HH:MM:SS.
 	SasExpirationPeriod string `json:"sasExpirationPeriod"`
@@ -262,14 +262,14 @@ type SasPolicy_SpecARM struct {
 type SkuName_Spec string
 
 const (
-	SkuName_SpecPremiumLRS     = SkuName_Spec("Premium_LRS")
-	SkuName_SpecPremiumZRS     = SkuName_Spec("Premium_ZRS")
-	SkuName_SpecStandardGRS    = SkuName_Spec("Standard_GRS")
-	SkuName_SpecStandardGZRS   = SkuName_Spec("Standard_GZRS")
-	SkuName_SpecStandardLRS    = SkuName_Spec("Standard_LRS")
-	SkuName_SpecStandardRAGRS  = SkuName_Spec("Standard_RAGRS")
-	SkuName_SpecStandardRAGZRS = SkuName_Spec("Standard_RAGZRS")
-	SkuName_SpecStandardZRS    = SkuName_Spec("Standard_ZRS")
+	SkuName_SpecPremium_LRS     = SkuName_Spec("Premium_LRS")
+	SkuName_SpecPremium_ZRS     = SkuName_Spec("Premium_ZRS")
+	SkuName_SpecStandard_GRS    = SkuName_Spec("Standard_GRS")
+	SkuName_SpecStandard_GZRS   = SkuName_Spec("Standard_GZRS")
+	SkuName_SpecStandard_LRS    = SkuName_Spec("Standard_LRS")
+	SkuName_SpecStandard_RAGRS  = SkuName_Spec("Standard_RAGRS")
+	SkuName_SpecStandard_RAGZRS = SkuName_Spec("Standard_RAGZRS")
+	SkuName_SpecStandard_ZRS    = SkuName_Spec("Standard_ZRS")
 )
 
 // +kubebuilder:validation:Enum={"Premium","Standard"}
@@ -321,7 +321,7 @@ type EncryptionServices_SpecARM struct {
 
 type IPRule_SpecARM struct {
 	//Action: The action of IP ACL rule.
-	Action *IPRuleSpecAction `json:"action,omitempty"`
+	Action *IPRule_Action_Spec `json:"action,omitempty"`
 
 	//Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
 	Value string `json:"value"`
@@ -347,11 +347,11 @@ type ResourceAccessRule_SpecARM struct {
 
 type VirtualNetworkRule_SpecARM struct {
 	//Action: The action of virtual network rule.
-	Action *VirtualNetworkRuleSpecAction `json:"action,omitempty"`
-	Id     string                        `json:"id"`
+	Action *VirtualNetworkRule_Action_Spec `json:"action,omitempty"`
+	Id     string                          `json:"id"`
 
 	//State: Gets the state of virtual network rule.
-	State *VirtualNetworkRuleSpecState `json:"state,omitempty"`
+	State *VirtualNetworkRule_State_Spec `json:"state,omitempty"`
 }
 
 type EncryptionService_SpecARM struct {
@@ -362,5 +362,5 @@ type EncryptionService_SpecARM struct {
 	//KeyType: Encryption key type to be used for the encryption service. 'Account'
 	//key type implies that an account-scoped encryption key will be used. 'Service'
 	//key type implies that a default service key is used.
-	KeyType *EncryptionServiceSpecKeyType `json:"keyType,omitempty"`
+	KeyType *EncryptionService_KeyType_Spec `json:"keyType,omitempty"`
 }

@@ -24,12 +24,12 @@ func Test_RedisPatchSchedules_SPECARM_WhenSerializedToJson_DeserializesAsEqual(t
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RedisPatchSchedules_SPECARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisPatchSchedulesSPECARM, RedisPatchSchedulesSPECARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForRedisPatchSchedules_SPECARM, RedisPatchSchedules_SPECARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRedisPatchSchedulesSPECARM runs a test to see if a specific instance of RedisPatchSchedules_SPECARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisPatchSchedulesSPECARM(subject RedisPatchSchedules_SPECARM) string {
+// RunJSONSerializationTestForRedisPatchSchedules_SPECARM runs a test to see if a specific instance of RedisPatchSchedules_SPECARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisPatchSchedules_SPECARM(subject RedisPatchSchedules_SPECARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,40 +56,40 @@ func RunJSONSerializationTestForRedisPatchSchedulesSPECARM(subject RedisPatchSch
 }
 
 // Generator of RedisPatchSchedules_SPECARM instances for property testing - lazily instantiated by
-//RedisPatchSchedulesSPECARMGenerator()
-var redisPatchSchedulesSPECARMGenerator gopter.Gen
+//RedisPatchSchedules_SPECARMGenerator()
+var redisPatchSchedules_specarmGenerator gopter.Gen
 
-// RedisPatchSchedulesSPECARMGenerator returns a generator of RedisPatchSchedules_SPECARM instances for property testing.
-// We first initialize redisPatchSchedulesSPECARMGenerator with a simplified generator based on the
+// RedisPatchSchedules_SPECARMGenerator returns a generator of RedisPatchSchedules_SPECARM instances for property testing.
+// We first initialize redisPatchSchedules_specarmGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func RedisPatchSchedulesSPECARMGenerator() gopter.Gen {
-	if redisPatchSchedulesSPECARMGenerator != nil {
-		return redisPatchSchedulesSPECARMGenerator
+func RedisPatchSchedules_SPECARMGenerator() gopter.Gen {
+	if redisPatchSchedules_specarmGenerator != nil {
+		return redisPatchSchedules_specarmGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisPatchSchedulesSPECARM(generators)
-	redisPatchSchedulesSPECARMGenerator = gen.Struct(reflect.TypeOf(RedisPatchSchedules_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForRedisPatchSchedules_SPECARM(generators)
+	redisPatchSchedules_specarmGenerator = gen.Struct(reflect.TypeOf(RedisPatchSchedules_SPECARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisPatchSchedulesSPECARM(generators)
-	AddRelatedPropertyGeneratorsForRedisPatchSchedulesSPECARM(generators)
-	redisPatchSchedulesSPECARMGenerator = gen.Struct(reflect.TypeOf(RedisPatchSchedules_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForRedisPatchSchedules_SPECARM(generators)
+	AddRelatedPropertyGeneratorsForRedisPatchSchedules_SPECARM(generators)
+	redisPatchSchedules_specarmGenerator = gen.Struct(reflect.TypeOf(RedisPatchSchedules_SPECARM{}), generators)
 
-	return redisPatchSchedulesSPECARMGenerator
+	return redisPatchSchedules_specarmGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRedisPatchSchedulesSPECARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisPatchSchedulesSPECARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRedisPatchSchedules_SPECARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedisPatchSchedules_SPECARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForRedisPatchSchedulesSPECARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisPatchSchedulesSPECARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = ScheduleEntriesSpecARMGenerator()
+// AddRelatedPropertyGeneratorsForRedisPatchSchedules_SPECARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedisPatchSchedules_SPECARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = ScheduleEntries_SpecARMGenerator()
 }
 
 func Test_ScheduleEntries_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -99,12 +99,12 @@ func Test_ScheduleEntries_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *te
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ScheduleEntries_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForScheduleEntriesSpecARM, ScheduleEntriesSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForScheduleEntries_SpecARM, ScheduleEntries_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForScheduleEntriesSpecARM runs a test to see if a specific instance of ScheduleEntries_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForScheduleEntriesSpecARM(subject ScheduleEntries_SpecARM) string {
+// RunJSONSerializationTestForScheduleEntries_SpecARM runs a test to see if a specific instance of ScheduleEntries_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForScheduleEntries_SpecARM(subject ScheduleEntries_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -131,25 +131,25 @@ func RunJSONSerializationTestForScheduleEntriesSpecARM(subject ScheduleEntries_S
 }
 
 // Generator of ScheduleEntries_SpecARM instances for property testing - lazily instantiated by
-//ScheduleEntriesSpecARMGenerator()
-var scheduleEntriesSpecARMGenerator gopter.Gen
+//ScheduleEntries_SpecARMGenerator()
+var scheduleEntries_specARMGenerator gopter.Gen
 
-// ScheduleEntriesSpecARMGenerator returns a generator of ScheduleEntries_SpecARM instances for property testing.
-func ScheduleEntriesSpecARMGenerator() gopter.Gen {
-	if scheduleEntriesSpecARMGenerator != nil {
-		return scheduleEntriesSpecARMGenerator
+// ScheduleEntries_SpecARMGenerator returns a generator of ScheduleEntries_SpecARM instances for property testing.
+func ScheduleEntries_SpecARMGenerator() gopter.Gen {
+	if scheduleEntries_specARMGenerator != nil {
+		return scheduleEntries_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForScheduleEntriesSpecARM(generators)
-	scheduleEntriesSpecARMGenerator = gen.Struct(reflect.TypeOf(ScheduleEntries_SpecARM{}), generators)
+	AddRelatedPropertyGeneratorsForScheduleEntries_SpecARM(generators)
+	scheduleEntries_specARMGenerator = gen.Struct(reflect.TypeOf(ScheduleEntries_SpecARM{}), generators)
 
-	return scheduleEntriesSpecARMGenerator
+	return scheduleEntries_specARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForScheduleEntriesSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForScheduleEntriesSpecARM(gens map[string]gopter.Gen) {
-	gens["ScheduleEntries"] = gen.SliceOf(ScheduleEntrySpecARMGenerator())
+// AddRelatedPropertyGeneratorsForScheduleEntries_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForScheduleEntries_SpecARM(gens map[string]gopter.Gen) {
+	gens["ScheduleEntries"] = gen.SliceOf(ScheduleEntry_SpecARMGenerator())
 }
 
 func Test_ScheduleEntry_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -159,12 +159,12 @@ func Test_ScheduleEntry_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *test
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ScheduleEntry_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForScheduleEntrySpecARM, ScheduleEntrySpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForScheduleEntry_SpecARM, ScheduleEntry_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForScheduleEntrySpecARM runs a test to see if a specific instance of ScheduleEntry_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForScheduleEntrySpecARM(subject ScheduleEntry_SpecARM) string {
+// RunJSONSerializationTestForScheduleEntry_SpecARM runs a test to see if a specific instance of ScheduleEntry_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForScheduleEntry_SpecARM(subject ScheduleEntry_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -191,34 +191,34 @@ func RunJSONSerializationTestForScheduleEntrySpecARM(subject ScheduleEntry_SpecA
 }
 
 // Generator of ScheduleEntry_SpecARM instances for property testing - lazily instantiated by
-//ScheduleEntrySpecARMGenerator()
-var scheduleEntrySpecARMGenerator gopter.Gen
+//ScheduleEntry_SpecARMGenerator()
+var scheduleEntry_specARMGenerator gopter.Gen
 
-// ScheduleEntrySpecARMGenerator returns a generator of ScheduleEntry_SpecARM instances for property testing.
-func ScheduleEntrySpecARMGenerator() gopter.Gen {
-	if scheduleEntrySpecARMGenerator != nil {
-		return scheduleEntrySpecARMGenerator
+// ScheduleEntry_SpecARMGenerator returns a generator of ScheduleEntry_SpecARM instances for property testing.
+func ScheduleEntry_SpecARMGenerator() gopter.Gen {
+	if scheduleEntry_specARMGenerator != nil {
+		return scheduleEntry_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForScheduleEntrySpecARM(generators)
-	scheduleEntrySpecARMGenerator = gen.Struct(reflect.TypeOf(ScheduleEntry_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForScheduleEntry_SpecARM(generators)
+	scheduleEntry_specARMGenerator = gen.Struct(reflect.TypeOf(ScheduleEntry_SpecARM{}), generators)
 
-	return scheduleEntrySpecARMGenerator
+	return scheduleEntry_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForScheduleEntrySpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForScheduleEntrySpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForScheduleEntry_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForScheduleEntry_SpecARM(gens map[string]gopter.Gen) {
 	gens["DayOfWeek"] = gen.OneConstOf(
-		ScheduleEntrySpecDayOfWeekEveryday,
-		ScheduleEntrySpecDayOfWeekFriday,
-		ScheduleEntrySpecDayOfWeekMonday,
-		ScheduleEntrySpecDayOfWeekSaturday,
-		ScheduleEntrySpecDayOfWeekSunday,
-		ScheduleEntrySpecDayOfWeekThursday,
-		ScheduleEntrySpecDayOfWeekTuesday,
-		ScheduleEntrySpecDayOfWeekWednesday,
-		ScheduleEntrySpecDayOfWeekWeekend)
+		ScheduleEntry_DayOfWeek_SpecEveryday,
+		ScheduleEntry_DayOfWeek_SpecFriday,
+		ScheduleEntry_DayOfWeek_SpecMonday,
+		ScheduleEntry_DayOfWeek_SpecSaturday,
+		ScheduleEntry_DayOfWeek_SpecSunday,
+		ScheduleEntry_DayOfWeek_SpecThursday,
+		ScheduleEntry_DayOfWeek_SpecTuesday,
+		ScheduleEntry_DayOfWeek_SpecWednesday,
+		ScheduleEntry_DayOfWeek_SpecWeekend)
 	gens["MaintenanceWindow"] = gen.PtrOf(gen.AlphaString())
 	gens["StartHourUtc"] = gen.Int()
 }

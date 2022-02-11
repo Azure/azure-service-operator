@@ -248,17 +248,17 @@ func (queue *StorageAccountsQueueServicesQueue) AssignPropertiesFromStorageAccou
 
 	// Spec
 	var spec StorageAccountsQueueServicesQueues_SPEC
-	err := spec.AssignPropertiesFromStorageAccountsQueueServicesQueuesSPEC(&source.Spec)
+	err := spec.AssignPropertiesFromStorageAccountsQueueServicesQueues_SPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountsQueueServicesQueuesSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountsQueueServicesQueues_SPEC() to populate field Spec")
 	}
 	queue.Spec = spec
 
 	// Status
 	var status StorageQueue_Status
-	err = status.AssignPropertiesFromStorageQueueStatus(&source.Status)
+	err = status.AssignPropertiesFromStorageQueue_Status(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromStorageQueueStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromStorageQueue_Status() to populate field Status")
 	}
 	queue.Status = status
 
@@ -274,17 +274,17 @@ func (queue *StorageAccountsQueueServicesQueue) AssignPropertiesToStorageAccount
 
 	// Spec
 	var spec v1alpha1api20210401storage.StorageAccountsQueueServicesQueues_SPEC
-	err := queue.Spec.AssignPropertiesToStorageAccountsQueueServicesQueuesSPEC(&spec)
+	err := queue.Spec.AssignPropertiesToStorageAccountsQueueServicesQueues_SPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsQueueServicesQueuesSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsQueueServicesQueues_SPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v1alpha1api20210401storage.StorageQueue_Status
-	err = queue.Status.AssignPropertiesToStorageQueueStatus(&status)
+	err = queue.Status.AssignPropertiesToStorageQueue_Status(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToStorageQueueStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToStorageQueue_Status() to populate field Status")
 	}
 	destination.Status = status
 
@@ -393,7 +393,7 @@ func (spec *StorageAccountsQueueServicesQueues_SPEC) ConvertSpecFrom(source genr
 	src, ok := source.(*v1alpha1api20210401storage.StorageAccountsQueueServicesQueues_SPEC)
 	if ok {
 		// Populate our instance from source
-		return spec.AssignPropertiesFromStorageAccountsQueueServicesQueuesSPEC(src)
+		return spec.AssignPropertiesFromStorageAccountsQueueServicesQueues_SPEC(src)
 	}
 
 	// Convert to an intermediate form
@@ -404,7 +404,7 @@ func (spec *StorageAccountsQueueServicesQueues_SPEC) ConvertSpecFrom(source genr
 	}
 
 	// Update our instance from src
-	err = spec.AssignPropertiesFromStorageAccountsQueueServicesQueuesSPEC(src)
+	err = spec.AssignPropertiesFromStorageAccountsQueueServicesQueues_SPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -417,12 +417,12 @@ func (spec *StorageAccountsQueueServicesQueues_SPEC) ConvertSpecTo(destination g
 	dst, ok := destination.(*v1alpha1api20210401storage.StorageAccountsQueueServicesQueues_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return spec.AssignPropertiesToStorageAccountsQueueServicesQueuesSPEC(dst)
+		return spec.AssignPropertiesToStorageAccountsQueueServicesQueues_SPEC(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210401storage.StorageAccountsQueueServicesQueues_SPEC{}
-	err := spec.AssignPropertiesToStorageAccountsQueueServicesQueuesSPEC(dst)
+	err := spec.AssignPropertiesToStorageAccountsQueueServicesQueues_SPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -436,8 +436,8 @@ func (spec *StorageAccountsQueueServicesQueues_SPEC) ConvertSpecTo(destination g
 	return nil
 }
 
-// AssignPropertiesFromStorageAccountsQueueServicesQueuesSPEC populates our StorageAccountsQueueServicesQueues_SPEC from the provided source StorageAccountsQueueServicesQueues_SPEC
-func (spec *StorageAccountsQueueServicesQueues_SPEC) AssignPropertiesFromStorageAccountsQueueServicesQueuesSPEC(source *v1alpha1api20210401storage.StorageAccountsQueueServicesQueues_SPEC) error {
+// AssignPropertiesFromStorageAccountsQueueServicesQueues_SPEC populates our StorageAccountsQueueServicesQueues_SPEC from the provided source StorageAccountsQueueServicesQueues_SPEC
+func (spec *StorageAccountsQueueServicesQueues_SPEC) AssignPropertiesFromStorageAccountsQueueServicesQueues_SPEC(source *v1alpha1api20210401storage.StorageAccountsQueueServicesQueues_SPEC) error {
 
 	// AzureName
 	spec.AzureName = source.AzureName
@@ -452,8 +452,8 @@ func (spec *StorageAccountsQueueServicesQueues_SPEC) AssignPropertiesFromStorage
 	return nil
 }
 
-// AssignPropertiesToStorageAccountsQueueServicesQueuesSPEC populates the provided destination StorageAccountsQueueServicesQueues_SPEC from our StorageAccountsQueueServicesQueues_SPEC
-func (spec *StorageAccountsQueueServicesQueues_SPEC) AssignPropertiesToStorageAccountsQueueServicesQueuesSPEC(destination *v1alpha1api20210401storage.StorageAccountsQueueServicesQueues_SPEC) error {
+// AssignPropertiesToStorageAccountsQueueServicesQueues_SPEC populates the provided destination StorageAccountsQueueServicesQueues_SPEC from our StorageAccountsQueueServicesQueues_SPEC
+func (spec *StorageAccountsQueueServicesQueues_SPEC) AssignPropertiesToStorageAccountsQueueServicesQueues_SPEC(destination *v1alpha1api20210401storage.StorageAccountsQueueServicesQueues_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -521,7 +521,7 @@ func (queue *StorageQueue_Status) ConvertStatusFrom(source genruntime.Convertibl
 	src, ok := source.(*v1alpha1api20210401storage.StorageQueue_Status)
 	if ok {
 		// Populate our instance from source
-		return queue.AssignPropertiesFromStorageQueueStatus(src)
+		return queue.AssignPropertiesFromStorageQueue_Status(src)
 	}
 
 	// Convert to an intermediate form
@@ -532,7 +532,7 @@ func (queue *StorageQueue_Status) ConvertStatusFrom(source genruntime.Convertibl
 	}
 
 	// Update our instance from src
-	err = queue.AssignPropertiesFromStorageQueueStatus(src)
+	err = queue.AssignPropertiesFromStorageQueue_Status(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -545,12 +545,12 @@ func (queue *StorageQueue_Status) ConvertStatusTo(destination genruntime.Convert
 	dst, ok := destination.(*v1alpha1api20210401storage.StorageQueue_Status)
 	if ok {
 		// Populate destination from our instance
-		return queue.AssignPropertiesToStorageQueueStatus(dst)
+		return queue.AssignPropertiesToStorageQueue_Status(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210401storage.StorageQueue_Status{}
-	err := queue.AssignPropertiesToStorageQueueStatus(dst)
+	err := queue.AssignPropertiesToStorageQueue_Status(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -622,8 +622,8 @@ func (queue *StorageQueue_Status) PopulateFromARM(owner genruntime.ArbitraryOwne
 	return nil
 }
 
-// AssignPropertiesFromStorageQueueStatus populates our StorageQueue_Status from the provided source StorageQueue_Status
-func (queue *StorageQueue_Status) AssignPropertiesFromStorageQueueStatus(source *v1alpha1api20210401storage.StorageQueue_Status) error {
+// AssignPropertiesFromStorageQueue_Status populates our StorageQueue_Status from the provided source StorageQueue_Status
+func (queue *StorageQueue_Status) AssignPropertiesFromStorageQueue_Status(source *v1alpha1api20210401storage.StorageQueue_Status) error {
 
 	// ApproximateMessageCount
 	queue.ApproximateMessageCount = genruntime.ClonePointerToInt(source.ApproximateMessageCount)
@@ -647,8 +647,8 @@ func (queue *StorageQueue_Status) AssignPropertiesFromStorageQueueStatus(source 
 	return nil
 }
 
-// AssignPropertiesToStorageQueueStatus populates the provided destination StorageQueue_Status from our StorageQueue_Status
-func (queue *StorageQueue_Status) AssignPropertiesToStorageQueueStatus(destination *v1alpha1api20210401storage.StorageQueue_Status) error {
+// AssignPropertiesToStorageQueue_Status populates the provided destination StorageQueue_Status from our StorageQueue_Status
+func (queue *StorageQueue_Status) AssignPropertiesToStorageQueue_Status(destination *v1alpha1api20210401storage.StorageQueue_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

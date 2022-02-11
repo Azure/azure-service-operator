@@ -138,14 +138,14 @@ type ComponentList struct {
 type ApplicationInsightsComponent_Status struct {
 	AppId                           *string                            `json:"AppId,omitempty"`
 	ApplicationId                   *string                            `json:"ApplicationId,omitempty"`
-	ApplicationType                 *string                            `json:"Application_Type,omitempty"`
+	Application_Type                *string                            `json:"Application_Type,omitempty"`
 	Conditions                      []conditions.Condition             `json:"conditions,omitempty"`
 	ConnectionString                *string                            `json:"ConnectionString,omitempty"`
 	CreationDate                    *string                            `json:"CreationDate,omitempty"`
 	DisableIpMasking                *bool                              `json:"DisableIpMasking,omitempty"`
 	DisableLocalAuth                *bool                              `json:"DisableLocalAuth,omitempty"`
 	Etag                            *string                            `json:"etag,omitempty"`
-	FlowType                        *string                            `json:"Flow_Type,omitempty"`
+	Flow_Type                       *string                            `json:"Flow_Type,omitempty"`
 	ForceCustomerStorageForProfiler *bool                              `json:"ForceCustomerStorageForProfiler,omitempty"`
 	HockeyAppId                     *string                            `json:"HockeyAppId,omitempty"`
 	HockeyAppToken                  *string                            `json:"HockeyAppToken,omitempty"`
@@ -163,7 +163,7 @@ type ApplicationInsightsComponent_Status struct {
 	ProvisioningState               *string                            `json:"provisioningState,omitempty"`
 	PublicNetworkAccessForIngestion *string                            `json:"publicNetworkAccessForIngestion,omitempty"`
 	PublicNetworkAccessForQuery     *string                            `json:"publicNetworkAccessForQuery,omitempty"`
-	RequestSource                   *string                            `json:"Request_Source,omitempty"`
+	Request_Source                  *string                            `json:"Request_Source,omitempty"`
 	RetentionInDays                 *int                               `json:"RetentionInDays,omitempty"`
 	SamplingPercentage              *float64                           `json:"SamplingPercentage,omitempty"`
 	Tags                            *v1.JSON                           `json:"tags,omitempty"`
@@ -194,7 +194,7 @@ func (component *ApplicationInsightsComponent_Status) ConvertStatusTo(destinatio
 
 //Storage version of v1alpha1api20200202.Components_SPEC
 type Components_SPEC struct {
-	ApplicationType *string `json:"Application_Type,omitempty"`
+	Application_Type *string `json:"Application_Type,omitempty"`
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -202,7 +202,7 @@ type Components_SPEC struct {
 	DisableIpMasking                *bool   `json:"DisableIpMasking,omitempty"`
 	DisableLocalAuth                *bool   `json:"DisableLocalAuth,omitempty"`
 	Etag                            *string `json:"etag,omitempty"`
-	FlowType                        *string `json:"Flow_Type,omitempty"`
+	Flow_Type                       *string `json:"Flow_Type,omitempty"`
 	ForceCustomerStorageForProfiler *bool   `json:"ForceCustomerStorageForProfiler,omitempty"`
 	HockeyAppId                     *string `json:"HockeyAppId,omitempty"`
 	ImmediatePurgeDataOn30Days      *bool   `json:"ImmediatePurgeDataOn30Days,omitempty"`
@@ -216,7 +216,7 @@ type Components_SPEC struct {
 	PropertyBag                     genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 	PublicNetworkAccessForIngestion *string                           `json:"publicNetworkAccessForIngestion,omitempty"`
 	PublicNetworkAccessForQuery     *string                           `json:"publicNetworkAccessForQuery,omitempty"`
-	RequestSource                   *string                           `json:"Request_Source,omitempty"`
+	Request_Source                  *string                           `json:"Request_Source,omitempty"`
 	RetentionInDays                 *int                              `json:"RetentionInDays,omitempty"`
 	SamplingPercentage              *float64                          `json:"SamplingPercentage,omitempty"`
 	Tags                            *v1.JSON                          `json:"tags,omitempty"`

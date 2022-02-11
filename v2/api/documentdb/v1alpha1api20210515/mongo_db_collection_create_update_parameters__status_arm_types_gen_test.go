@@ -24,12 +24,12 @@ func Test_MongoDBCollectionCreateUpdateParameters_StatusARM_WhenSerializedToJson
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongoDBCollectionCreateUpdateParameters_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMongoDBCollectionCreateUpdateParametersStatusARM, MongoDBCollectionCreateUpdateParametersStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForMongoDBCollectionCreateUpdateParameters_StatusARM, MongoDBCollectionCreateUpdateParameters_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMongoDBCollectionCreateUpdateParametersStatusARM runs a test to see if a specific instance of MongoDBCollectionCreateUpdateParameters_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForMongoDBCollectionCreateUpdateParametersStatusARM(subject MongoDBCollectionCreateUpdateParameters_StatusARM) string {
+// RunJSONSerializationTestForMongoDBCollectionCreateUpdateParameters_StatusARM runs a test to see if a specific instance of MongoDBCollectionCreateUpdateParameters_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongoDBCollectionCreateUpdateParameters_StatusARM(subject MongoDBCollectionCreateUpdateParameters_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,33 +56,33 @@ func RunJSONSerializationTestForMongoDBCollectionCreateUpdateParametersStatusARM
 }
 
 // Generator of MongoDBCollectionCreateUpdateParameters_StatusARM instances for property testing - lazily instantiated
-//by MongoDBCollectionCreateUpdateParametersStatusARMGenerator()
-var mongoDBCollectionCreateUpdateParametersStatusARMGenerator gopter.Gen
+//by MongoDBCollectionCreateUpdateParameters_StatusARMGenerator()
+var mongoDBCollectionCreateUpdateParameters_statusARMGenerator gopter.Gen
 
-// MongoDBCollectionCreateUpdateParametersStatusARMGenerator returns a generator of MongoDBCollectionCreateUpdateParameters_StatusARM instances for property testing.
-// We first initialize mongoDBCollectionCreateUpdateParametersStatusARMGenerator with a simplified generator based on the
+// MongoDBCollectionCreateUpdateParameters_StatusARMGenerator returns a generator of MongoDBCollectionCreateUpdateParameters_StatusARM instances for property testing.
+// We first initialize mongoDBCollectionCreateUpdateParameters_statusARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func MongoDBCollectionCreateUpdateParametersStatusARMGenerator() gopter.Gen {
-	if mongoDBCollectionCreateUpdateParametersStatusARMGenerator != nil {
-		return mongoDBCollectionCreateUpdateParametersStatusARMGenerator
+func MongoDBCollectionCreateUpdateParameters_StatusARMGenerator() gopter.Gen {
+	if mongoDBCollectionCreateUpdateParameters_statusARMGenerator != nil {
+		return mongoDBCollectionCreateUpdateParameters_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMongoDBCollectionCreateUpdateParametersStatusARM(generators)
-	mongoDBCollectionCreateUpdateParametersStatusARMGenerator = gen.Struct(reflect.TypeOf(MongoDBCollectionCreateUpdateParameters_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForMongoDBCollectionCreateUpdateParameters_StatusARM(generators)
+	mongoDBCollectionCreateUpdateParameters_statusARMGenerator = gen.Struct(reflect.TypeOf(MongoDBCollectionCreateUpdateParameters_StatusARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMongoDBCollectionCreateUpdateParametersStatusARM(generators)
-	AddRelatedPropertyGeneratorsForMongoDBCollectionCreateUpdateParametersStatusARM(generators)
-	mongoDBCollectionCreateUpdateParametersStatusARMGenerator = gen.Struct(reflect.TypeOf(MongoDBCollectionCreateUpdateParameters_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForMongoDBCollectionCreateUpdateParameters_StatusARM(generators)
+	AddRelatedPropertyGeneratorsForMongoDBCollectionCreateUpdateParameters_StatusARM(generators)
+	mongoDBCollectionCreateUpdateParameters_statusARMGenerator = gen.Struct(reflect.TypeOf(MongoDBCollectionCreateUpdateParameters_StatusARM{}), generators)
 
-	return mongoDBCollectionCreateUpdateParametersStatusARMGenerator
+	return mongoDBCollectionCreateUpdateParameters_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForMongoDBCollectionCreateUpdateParametersStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMongoDBCollectionCreateUpdateParametersStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForMongoDBCollectionCreateUpdateParameters_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMongoDBCollectionCreateUpdateParameters_StatusARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -90,9 +90,9 @@ func AddIndependentPropertyGeneratorsForMongoDBCollectionCreateUpdateParametersS
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForMongoDBCollectionCreateUpdateParametersStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMongoDBCollectionCreateUpdateParametersStatusARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(MongoDBCollectionCreateUpdatePropertiesStatusARMGenerator())
+// AddRelatedPropertyGeneratorsForMongoDBCollectionCreateUpdateParameters_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMongoDBCollectionCreateUpdateParameters_StatusARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(MongoDBCollectionCreateUpdateProperties_StatusARMGenerator())
 }
 
 func Test_MongoDBCollectionCreateUpdateProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -102,12 +102,12 @@ func Test_MongoDBCollectionCreateUpdateProperties_StatusARM_WhenSerializedToJson
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongoDBCollectionCreateUpdateProperties_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMongoDBCollectionCreateUpdatePropertiesStatusARM, MongoDBCollectionCreateUpdatePropertiesStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForMongoDBCollectionCreateUpdateProperties_StatusARM, MongoDBCollectionCreateUpdateProperties_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMongoDBCollectionCreateUpdatePropertiesStatusARM runs a test to see if a specific instance of MongoDBCollectionCreateUpdateProperties_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForMongoDBCollectionCreateUpdatePropertiesStatusARM(subject MongoDBCollectionCreateUpdateProperties_StatusARM) string {
+// RunJSONSerializationTestForMongoDBCollectionCreateUpdateProperties_StatusARM runs a test to see if a specific instance of MongoDBCollectionCreateUpdateProperties_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongoDBCollectionCreateUpdateProperties_StatusARM(subject MongoDBCollectionCreateUpdateProperties_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -134,26 +134,26 @@ func RunJSONSerializationTestForMongoDBCollectionCreateUpdatePropertiesStatusARM
 }
 
 // Generator of MongoDBCollectionCreateUpdateProperties_StatusARM instances for property testing - lazily instantiated
-//by MongoDBCollectionCreateUpdatePropertiesStatusARMGenerator()
-var mongoDBCollectionCreateUpdatePropertiesStatusARMGenerator gopter.Gen
+//by MongoDBCollectionCreateUpdateProperties_StatusARMGenerator()
+var mongoDBCollectionCreateUpdateProperties_statusARMGenerator gopter.Gen
 
-// MongoDBCollectionCreateUpdatePropertiesStatusARMGenerator returns a generator of MongoDBCollectionCreateUpdateProperties_StatusARM instances for property testing.
-func MongoDBCollectionCreateUpdatePropertiesStatusARMGenerator() gopter.Gen {
-	if mongoDBCollectionCreateUpdatePropertiesStatusARMGenerator != nil {
-		return mongoDBCollectionCreateUpdatePropertiesStatusARMGenerator
+// MongoDBCollectionCreateUpdateProperties_StatusARMGenerator returns a generator of MongoDBCollectionCreateUpdateProperties_StatusARM instances for property testing.
+func MongoDBCollectionCreateUpdateProperties_StatusARMGenerator() gopter.Gen {
+	if mongoDBCollectionCreateUpdateProperties_statusARMGenerator != nil {
+		return mongoDBCollectionCreateUpdateProperties_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForMongoDBCollectionCreateUpdatePropertiesStatusARM(generators)
-	mongoDBCollectionCreateUpdatePropertiesStatusARMGenerator = gen.Struct(reflect.TypeOf(MongoDBCollectionCreateUpdateProperties_StatusARM{}), generators)
+	AddRelatedPropertyGeneratorsForMongoDBCollectionCreateUpdateProperties_StatusARM(generators)
+	mongoDBCollectionCreateUpdateProperties_statusARMGenerator = gen.Struct(reflect.TypeOf(MongoDBCollectionCreateUpdateProperties_StatusARM{}), generators)
 
-	return mongoDBCollectionCreateUpdatePropertiesStatusARMGenerator
+	return mongoDBCollectionCreateUpdateProperties_statusARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForMongoDBCollectionCreateUpdatePropertiesStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMongoDBCollectionCreateUpdatePropertiesStatusARM(gens map[string]gopter.Gen) {
-	gens["Options"] = gen.PtrOf(CreateUpdateOptionsStatusARMGenerator())
-	gens["Resource"] = MongoDBCollectionResourceStatusARMGenerator()
+// AddRelatedPropertyGeneratorsForMongoDBCollectionCreateUpdateProperties_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMongoDBCollectionCreateUpdateProperties_StatusARM(gens map[string]gopter.Gen) {
+	gens["Options"] = gen.PtrOf(CreateUpdateOptions_StatusARMGenerator())
+	gens["Resource"] = MongoDBCollectionResource_StatusARMGenerator()
 }
 
 func Test_CreateUpdateOptions_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -163,12 +163,12 @@ func Test_CreateUpdateOptions_StatusARM_WhenSerializedToJson_DeserializesAsEqual
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of CreateUpdateOptions_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCreateUpdateOptionsStatusARM, CreateUpdateOptionsStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForCreateUpdateOptions_StatusARM, CreateUpdateOptions_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForCreateUpdateOptionsStatusARM runs a test to see if a specific instance of CreateUpdateOptions_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCreateUpdateOptionsStatusARM(subject CreateUpdateOptions_StatusARM) string {
+// RunJSONSerializationTestForCreateUpdateOptions_StatusARM runs a test to see if a specific instance of CreateUpdateOptions_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForCreateUpdateOptions_StatusARM(subject CreateUpdateOptions_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -195,39 +195,39 @@ func RunJSONSerializationTestForCreateUpdateOptionsStatusARM(subject CreateUpdat
 }
 
 // Generator of CreateUpdateOptions_StatusARM instances for property testing - lazily instantiated by
-//CreateUpdateOptionsStatusARMGenerator()
-var createUpdateOptionsStatusARMGenerator gopter.Gen
+//CreateUpdateOptions_StatusARMGenerator()
+var createUpdateOptions_statusARMGenerator gopter.Gen
 
-// CreateUpdateOptionsStatusARMGenerator returns a generator of CreateUpdateOptions_StatusARM instances for property testing.
-// We first initialize createUpdateOptionsStatusARMGenerator with a simplified generator based on the
+// CreateUpdateOptions_StatusARMGenerator returns a generator of CreateUpdateOptions_StatusARM instances for property testing.
+// We first initialize createUpdateOptions_statusARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func CreateUpdateOptionsStatusARMGenerator() gopter.Gen {
-	if createUpdateOptionsStatusARMGenerator != nil {
-		return createUpdateOptionsStatusARMGenerator
+func CreateUpdateOptions_StatusARMGenerator() gopter.Gen {
+	if createUpdateOptions_statusARMGenerator != nil {
+		return createUpdateOptions_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCreateUpdateOptionsStatusARM(generators)
-	createUpdateOptionsStatusARMGenerator = gen.Struct(reflect.TypeOf(CreateUpdateOptions_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForCreateUpdateOptions_StatusARM(generators)
+	createUpdateOptions_statusARMGenerator = gen.Struct(reflect.TypeOf(CreateUpdateOptions_StatusARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCreateUpdateOptionsStatusARM(generators)
-	AddRelatedPropertyGeneratorsForCreateUpdateOptionsStatusARM(generators)
-	createUpdateOptionsStatusARMGenerator = gen.Struct(reflect.TypeOf(CreateUpdateOptions_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForCreateUpdateOptions_StatusARM(generators)
+	AddRelatedPropertyGeneratorsForCreateUpdateOptions_StatusARM(generators)
+	createUpdateOptions_statusARMGenerator = gen.Struct(reflect.TypeOf(CreateUpdateOptions_StatusARM{}), generators)
 
-	return createUpdateOptionsStatusARMGenerator
+	return createUpdateOptions_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCreateUpdateOptionsStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCreateUpdateOptionsStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForCreateUpdateOptions_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForCreateUpdateOptions_StatusARM(gens map[string]gopter.Gen) {
 	gens["Throughput"] = gen.PtrOf(gen.Int())
 }
 
-// AddRelatedPropertyGeneratorsForCreateUpdateOptionsStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCreateUpdateOptionsStatusARM(gens map[string]gopter.Gen) {
-	gens["AutoscaleSettings"] = gen.PtrOf(AutoscaleSettingsStatusARMGenerator())
+// AddRelatedPropertyGeneratorsForCreateUpdateOptions_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForCreateUpdateOptions_StatusARM(gens map[string]gopter.Gen) {
+	gens["AutoscaleSettings"] = gen.PtrOf(AutoscaleSettings_StatusARMGenerator())
 }
 
 func Test_MongoDBCollectionResource_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -237,12 +237,12 @@ func Test_MongoDBCollectionResource_StatusARM_WhenSerializedToJson_DeserializesA
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongoDBCollectionResource_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMongoDBCollectionResourceStatusARM, MongoDBCollectionResourceStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForMongoDBCollectionResource_StatusARM, MongoDBCollectionResource_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMongoDBCollectionResourceStatusARM runs a test to see if a specific instance of MongoDBCollectionResource_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForMongoDBCollectionResourceStatusARM(subject MongoDBCollectionResource_StatusARM) string {
+// RunJSONSerializationTestForMongoDBCollectionResource_StatusARM runs a test to see if a specific instance of MongoDBCollectionResource_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongoDBCollectionResource_StatusARM(subject MongoDBCollectionResource_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -269,41 +269,41 @@ func RunJSONSerializationTestForMongoDBCollectionResourceStatusARM(subject Mongo
 }
 
 // Generator of MongoDBCollectionResource_StatusARM instances for property testing - lazily instantiated by
-//MongoDBCollectionResourceStatusARMGenerator()
-var mongoDBCollectionResourceStatusARMGenerator gopter.Gen
+//MongoDBCollectionResource_StatusARMGenerator()
+var mongoDBCollectionResource_statusARMGenerator gopter.Gen
 
-// MongoDBCollectionResourceStatusARMGenerator returns a generator of MongoDBCollectionResource_StatusARM instances for property testing.
-// We first initialize mongoDBCollectionResourceStatusARMGenerator with a simplified generator based on the
+// MongoDBCollectionResource_StatusARMGenerator returns a generator of MongoDBCollectionResource_StatusARM instances for property testing.
+// We first initialize mongoDBCollectionResource_statusARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func MongoDBCollectionResourceStatusARMGenerator() gopter.Gen {
-	if mongoDBCollectionResourceStatusARMGenerator != nil {
-		return mongoDBCollectionResourceStatusARMGenerator
+func MongoDBCollectionResource_StatusARMGenerator() gopter.Gen {
+	if mongoDBCollectionResource_statusARMGenerator != nil {
+		return mongoDBCollectionResource_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMongoDBCollectionResourceStatusARM(generators)
-	mongoDBCollectionResourceStatusARMGenerator = gen.Struct(reflect.TypeOf(MongoDBCollectionResource_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForMongoDBCollectionResource_StatusARM(generators)
+	mongoDBCollectionResource_statusARMGenerator = gen.Struct(reflect.TypeOf(MongoDBCollectionResource_StatusARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMongoDBCollectionResourceStatusARM(generators)
-	AddRelatedPropertyGeneratorsForMongoDBCollectionResourceStatusARM(generators)
-	mongoDBCollectionResourceStatusARMGenerator = gen.Struct(reflect.TypeOf(MongoDBCollectionResource_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForMongoDBCollectionResource_StatusARM(generators)
+	AddRelatedPropertyGeneratorsForMongoDBCollectionResource_StatusARM(generators)
+	mongoDBCollectionResource_statusARMGenerator = gen.Struct(reflect.TypeOf(MongoDBCollectionResource_StatusARM{}), generators)
 
-	return mongoDBCollectionResourceStatusARMGenerator
+	return mongoDBCollectionResource_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForMongoDBCollectionResourceStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMongoDBCollectionResourceStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForMongoDBCollectionResource_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMongoDBCollectionResource_StatusARM(gens map[string]gopter.Gen) {
 	gens["AnalyticalStorageTtl"] = gen.PtrOf(gen.Int())
 	gens["Id"] = gen.AlphaString()
 	gens["ShardKey"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForMongoDBCollectionResourceStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMongoDBCollectionResourceStatusARM(gens map[string]gopter.Gen) {
-	gens["Indexes"] = gen.SliceOf(MongoIndexStatusARMGenerator())
+// AddRelatedPropertyGeneratorsForMongoDBCollectionResource_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMongoDBCollectionResource_StatusARM(gens map[string]gopter.Gen) {
+	gens["Indexes"] = gen.SliceOf(MongoIndex_StatusARMGenerator())
 }
 
 func Test_AutoscaleSettings_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -313,12 +313,12 @@ func Test_AutoscaleSettings_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AutoscaleSettings_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoscaleSettingsStatusARM, AutoscaleSettingsStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForAutoscaleSettings_StatusARM, AutoscaleSettings_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAutoscaleSettingsStatusARM runs a test to see if a specific instance of AutoscaleSettings_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoscaleSettingsStatusARM(subject AutoscaleSettings_StatusARM) string {
+// RunJSONSerializationTestForAutoscaleSettings_StatusARM runs a test to see if a specific instance of AutoscaleSettings_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAutoscaleSettings_StatusARM(subject AutoscaleSettings_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -345,24 +345,24 @@ func RunJSONSerializationTestForAutoscaleSettingsStatusARM(subject AutoscaleSett
 }
 
 // Generator of AutoscaleSettings_StatusARM instances for property testing - lazily instantiated by
-//AutoscaleSettingsStatusARMGenerator()
-var autoscaleSettingsStatusARMGenerator gopter.Gen
+//AutoscaleSettings_StatusARMGenerator()
+var autoscaleSettings_statusARMGenerator gopter.Gen
 
-// AutoscaleSettingsStatusARMGenerator returns a generator of AutoscaleSettings_StatusARM instances for property testing.
-func AutoscaleSettingsStatusARMGenerator() gopter.Gen {
-	if autoscaleSettingsStatusARMGenerator != nil {
-		return autoscaleSettingsStatusARMGenerator
+// AutoscaleSettings_StatusARMGenerator returns a generator of AutoscaleSettings_StatusARM instances for property testing.
+func AutoscaleSettings_StatusARMGenerator() gopter.Gen {
+	if autoscaleSettings_statusARMGenerator != nil {
+		return autoscaleSettings_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoscaleSettingsStatusARM(generators)
-	autoscaleSettingsStatusARMGenerator = gen.Struct(reflect.TypeOf(AutoscaleSettings_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForAutoscaleSettings_StatusARM(generators)
+	autoscaleSettings_statusARMGenerator = gen.Struct(reflect.TypeOf(AutoscaleSettings_StatusARM{}), generators)
 
-	return autoscaleSettingsStatusARMGenerator
+	return autoscaleSettings_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAutoscaleSettingsStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutoscaleSettingsStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAutoscaleSettings_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAutoscaleSettings_StatusARM(gens map[string]gopter.Gen) {
 	gens["MaxThroughput"] = gen.PtrOf(gen.Int())
 }
 
@@ -373,12 +373,12 @@ func Test_MongoIndex_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testi
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongoIndex_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMongoIndexStatusARM, MongoIndexStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForMongoIndex_StatusARM, MongoIndex_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMongoIndexStatusARM runs a test to see if a specific instance of MongoIndex_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForMongoIndexStatusARM(subject MongoIndex_StatusARM) string {
+// RunJSONSerializationTestForMongoIndex_StatusARM runs a test to see if a specific instance of MongoIndex_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongoIndex_StatusARM(subject MongoIndex_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -405,26 +405,26 @@ func RunJSONSerializationTestForMongoIndexStatusARM(subject MongoIndex_StatusARM
 }
 
 // Generator of MongoIndex_StatusARM instances for property testing - lazily instantiated by
-//MongoIndexStatusARMGenerator()
-var mongoIndexStatusARMGenerator gopter.Gen
+//MongoIndex_StatusARMGenerator()
+var mongoIndex_statusARMGenerator gopter.Gen
 
-// MongoIndexStatusARMGenerator returns a generator of MongoIndex_StatusARM instances for property testing.
-func MongoIndexStatusARMGenerator() gopter.Gen {
-	if mongoIndexStatusARMGenerator != nil {
-		return mongoIndexStatusARMGenerator
+// MongoIndex_StatusARMGenerator returns a generator of MongoIndex_StatusARM instances for property testing.
+func MongoIndex_StatusARMGenerator() gopter.Gen {
+	if mongoIndex_statusARMGenerator != nil {
+		return mongoIndex_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForMongoIndexStatusARM(generators)
-	mongoIndexStatusARMGenerator = gen.Struct(reflect.TypeOf(MongoIndex_StatusARM{}), generators)
+	AddRelatedPropertyGeneratorsForMongoIndex_StatusARM(generators)
+	mongoIndex_statusARMGenerator = gen.Struct(reflect.TypeOf(MongoIndex_StatusARM{}), generators)
 
-	return mongoIndexStatusARMGenerator
+	return mongoIndex_statusARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForMongoIndexStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMongoIndexStatusARM(gens map[string]gopter.Gen) {
-	gens["Key"] = gen.PtrOf(MongoIndexKeysStatusARMGenerator())
-	gens["Options"] = gen.PtrOf(MongoIndexOptionsStatusARMGenerator())
+// AddRelatedPropertyGeneratorsForMongoIndex_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMongoIndex_StatusARM(gens map[string]gopter.Gen) {
+	gens["Key"] = gen.PtrOf(MongoIndexKeys_StatusARMGenerator())
+	gens["Options"] = gen.PtrOf(MongoIndexOptions_StatusARMGenerator())
 }
 
 func Test_MongoIndexKeys_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -434,12 +434,12 @@ func Test_MongoIndexKeys_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *t
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongoIndexKeys_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMongoIndexKeysStatusARM, MongoIndexKeysStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForMongoIndexKeys_StatusARM, MongoIndexKeys_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMongoIndexKeysStatusARM runs a test to see if a specific instance of MongoIndexKeys_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForMongoIndexKeysStatusARM(subject MongoIndexKeys_StatusARM) string {
+// RunJSONSerializationTestForMongoIndexKeys_StatusARM runs a test to see if a specific instance of MongoIndexKeys_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongoIndexKeys_StatusARM(subject MongoIndexKeys_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -466,24 +466,24 @@ func RunJSONSerializationTestForMongoIndexKeysStatusARM(subject MongoIndexKeys_S
 }
 
 // Generator of MongoIndexKeys_StatusARM instances for property testing - lazily instantiated by
-//MongoIndexKeysStatusARMGenerator()
-var mongoIndexKeysStatusARMGenerator gopter.Gen
+//MongoIndexKeys_StatusARMGenerator()
+var mongoIndexKeys_statusARMGenerator gopter.Gen
 
-// MongoIndexKeysStatusARMGenerator returns a generator of MongoIndexKeys_StatusARM instances for property testing.
-func MongoIndexKeysStatusARMGenerator() gopter.Gen {
-	if mongoIndexKeysStatusARMGenerator != nil {
-		return mongoIndexKeysStatusARMGenerator
+// MongoIndexKeys_StatusARMGenerator returns a generator of MongoIndexKeys_StatusARM instances for property testing.
+func MongoIndexKeys_StatusARMGenerator() gopter.Gen {
+	if mongoIndexKeys_statusARMGenerator != nil {
+		return mongoIndexKeys_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMongoIndexKeysStatusARM(generators)
-	mongoIndexKeysStatusARMGenerator = gen.Struct(reflect.TypeOf(MongoIndexKeys_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForMongoIndexKeys_StatusARM(generators)
+	mongoIndexKeys_statusARMGenerator = gen.Struct(reflect.TypeOf(MongoIndexKeys_StatusARM{}), generators)
 
-	return mongoIndexKeysStatusARMGenerator
+	return mongoIndexKeys_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForMongoIndexKeysStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMongoIndexKeysStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForMongoIndexKeys_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMongoIndexKeys_StatusARM(gens map[string]gopter.Gen) {
 	gens["Keys"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -494,12 +494,12 @@ func Test_MongoIndexOptions_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongoIndexOptions_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMongoIndexOptionsStatusARM, MongoIndexOptionsStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForMongoIndexOptions_StatusARM, MongoIndexOptions_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMongoIndexOptionsStatusARM runs a test to see if a specific instance of MongoIndexOptions_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForMongoIndexOptionsStatusARM(subject MongoIndexOptions_StatusARM) string {
+// RunJSONSerializationTestForMongoIndexOptions_StatusARM runs a test to see if a specific instance of MongoIndexOptions_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongoIndexOptions_StatusARM(subject MongoIndexOptions_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -526,24 +526,24 @@ func RunJSONSerializationTestForMongoIndexOptionsStatusARM(subject MongoIndexOpt
 }
 
 // Generator of MongoIndexOptions_StatusARM instances for property testing - lazily instantiated by
-//MongoIndexOptionsStatusARMGenerator()
-var mongoIndexOptionsStatusARMGenerator gopter.Gen
+//MongoIndexOptions_StatusARMGenerator()
+var mongoIndexOptions_statusARMGenerator gopter.Gen
 
-// MongoIndexOptionsStatusARMGenerator returns a generator of MongoIndexOptions_StatusARM instances for property testing.
-func MongoIndexOptionsStatusARMGenerator() gopter.Gen {
-	if mongoIndexOptionsStatusARMGenerator != nil {
-		return mongoIndexOptionsStatusARMGenerator
+// MongoIndexOptions_StatusARMGenerator returns a generator of MongoIndexOptions_StatusARM instances for property testing.
+func MongoIndexOptions_StatusARMGenerator() gopter.Gen {
+	if mongoIndexOptions_statusARMGenerator != nil {
+		return mongoIndexOptions_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMongoIndexOptionsStatusARM(generators)
-	mongoIndexOptionsStatusARMGenerator = gen.Struct(reflect.TypeOf(MongoIndexOptions_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForMongoIndexOptions_StatusARM(generators)
+	mongoIndexOptions_statusARMGenerator = gen.Struct(reflect.TypeOf(MongoIndexOptions_StatusARM{}), generators)
 
-	return mongoIndexOptionsStatusARMGenerator
+	return mongoIndexOptions_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForMongoIndexOptionsStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMongoIndexOptionsStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForMongoIndexOptions_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMongoIndexOptions_StatusARM(gens map[string]gopter.Gen) {
 	gens["ExpireAfterSeconds"] = gen.PtrOf(gen.Int())
 	gens["Unique"] = gen.PtrOf(gen.Bool())
 }

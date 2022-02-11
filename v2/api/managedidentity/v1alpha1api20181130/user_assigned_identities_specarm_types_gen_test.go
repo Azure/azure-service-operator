@@ -24,12 +24,12 @@ func Test_UserAssignedIdentities_SPECARM_WhenSerializedToJson_DeserializesAsEqua
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UserAssignedIdentities_SPECARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentitiesSPECARM, UserAssignedIdentitiesSPECARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentities_SPECARM, UserAssignedIdentities_SPECARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForUserAssignedIdentitiesSPECARM runs a test to see if a specific instance of UserAssignedIdentities_SPECARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForUserAssignedIdentitiesSPECARM(subject UserAssignedIdentities_SPECARM) string {
+// RunJSONSerializationTestForUserAssignedIdentities_SPECARM runs a test to see if a specific instance of UserAssignedIdentities_SPECARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForUserAssignedIdentities_SPECARM(subject UserAssignedIdentities_SPECARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,24 +56,24 @@ func RunJSONSerializationTestForUserAssignedIdentitiesSPECARM(subject UserAssign
 }
 
 // Generator of UserAssignedIdentities_SPECARM instances for property testing - lazily instantiated by
-//UserAssignedIdentitiesSPECARMGenerator()
-var userAssignedIdentitiesSPECARMGenerator gopter.Gen
+//UserAssignedIdentities_SPECARMGenerator()
+var userAssignedIdentities_specarmGenerator gopter.Gen
 
-// UserAssignedIdentitiesSPECARMGenerator returns a generator of UserAssignedIdentities_SPECARM instances for property testing.
-func UserAssignedIdentitiesSPECARMGenerator() gopter.Gen {
-	if userAssignedIdentitiesSPECARMGenerator != nil {
-		return userAssignedIdentitiesSPECARMGenerator
+// UserAssignedIdentities_SPECARMGenerator returns a generator of UserAssignedIdentities_SPECARM instances for property testing.
+func UserAssignedIdentities_SPECARMGenerator() gopter.Gen {
+	if userAssignedIdentities_specarmGenerator != nil {
+		return userAssignedIdentities_specarmGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUserAssignedIdentitiesSPECARM(generators)
-	userAssignedIdentitiesSPECARMGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentities_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForUserAssignedIdentities_SPECARM(generators)
+	userAssignedIdentities_specarmGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentities_SPECARM{}), generators)
 
-	return userAssignedIdentitiesSPECARMGenerator
+	return userAssignedIdentities_specarmGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUserAssignedIdentitiesSPECARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUserAssignedIdentitiesSPECARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForUserAssignedIdentities_SPECARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUserAssignedIdentities_SPECARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()

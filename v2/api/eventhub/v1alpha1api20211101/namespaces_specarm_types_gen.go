@@ -16,7 +16,7 @@ type Namespaces_SPECARM struct {
 	Name     string  `json:"name"`
 
 	//Properties: Namespace properties supplied for create namespace operation.
-	Properties *Namespaces_SPEC_PropertiesARM `json:"properties,omitempty"`
+	Properties *Namespaces_Properties_SPECARM `json:"properties,omitempty"`
 
 	//Sku: Properties of sku resource
 	Sku *Sku_SpecARM `json:"sku,omitempty"`
@@ -44,10 +44,10 @@ func (specarm Namespaces_SPECARM) GetType() string {
 
 type Identity_SpecARM struct {
 	//Type: Type of managed service identity.
-	Type *IdentitySpecType `json:"type,omitempty"`
+	Type *Identity_Type_Spec `json:"type,omitempty"`
 }
 
-type Namespaces_SPEC_PropertiesARM struct {
+type Namespaces_Properties_SPECARM struct {
 	//AlternateName: Alternate name specified when alias and namespace names are same.
 	AlternateName *string `json:"alternateName,omitempty"`
 	ClusterArmId  *string `json:"clusterArmId,omitempty"`
@@ -87,15 +87,15 @@ type Sku_SpecARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	//Name: Name of this SKU.
-	Name SkuSpecName `json:"name"`
+	Name Sku_Name_Spec `json:"name"`
 
 	//Tier: The billing tier of this particular SKU.
-	Tier *SkuSpecTier `json:"tier,omitempty"`
+	Tier *Sku_Tier_Spec `json:"tier,omitempty"`
 }
 
 type Encryption_SpecARM struct {
 	//KeySource: Enumerates the possible value of keySource for Encryption
-	KeySource *EncryptionSpecKeySource `json:"keySource,omitempty"`
+	KeySource *Encryption_KeySource_Spec `json:"keySource,omitempty"`
 
 	//KeyVaultProperties: Properties of KeyVault
 	KeyVaultProperties []KeyVaultProperties_SpecARM `json:"keyVaultProperties,omitempty"`
@@ -106,13 +106,13 @@ type Encryption_SpecARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type IdentitySpecType string
+type Identity_Type_Spec string
 
 const (
-	IdentitySpecTypeNone                       = IdentitySpecType("None")
-	IdentitySpecTypeSystemAssigned             = IdentitySpecType("SystemAssigned")
-	IdentitySpecTypeSystemAssignedUserAssigned = IdentitySpecType("SystemAssigned, UserAssigned")
-	IdentitySpecTypeUserAssigned               = IdentitySpecType("UserAssigned")
+	Identity_Type_SpecNone                       = Identity_Type_Spec("None")
+	Identity_Type_SpecSystemAssigned             = Identity_Type_Spec("SystemAssigned")
+	Identity_Type_SpecSystemAssignedUserAssigned = Identity_Type_Spec("SystemAssigned, UserAssigned")
+	Identity_Type_SpecUserAssigned               = Identity_Type_Spec("UserAssigned")
 )
 
 type PrivateEndpointConnection_SpecARM struct {
@@ -121,21 +121,21 @@ type PrivateEndpointConnection_SpecARM struct {
 }
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
-type SkuSpecName string
+type Sku_Name_Spec string
 
 const (
-	SkuSpecNameBasic    = SkuSpecName("Basic")
-	SkuSpecNamePremium  = SkuSpecName("Premium")
-	SkuSpecNameStandard = SkuSpecName("Standard")
+	Sku_Name_SpecBasic    = Sku_Name_Spec("Basic")
+	Sku_Name_SpecPremium  = Sku_Name_Spec("Premium")
+	Sku_Name_SpecStandard = Sku_Name_Spec("Standard")
 )
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
-type SkuSpecTier string
+type Sku_Tier_Spec string
 
 const (
-	SkuSpecTierBasic    = SkuSpecTier("Basic")
-	SkuSpecTierPremium  = SkuSpecTier("Premium")
-	SkuSpecTierStandard = SkuSpecTier("Standard")
+	Sku_Tier_SpecBasic    = Sku_Tier_Spec("Basic")
+	Sku_Tier_SpecPremium  = Sku_Tier_Spec("Premium")
+	Sku_Tier_SpecStandard = Sku_Tier_Spec("Standard")
 )
 
 type KeyVaultProperties_SpecARM struct {
@@ -159,7 +159,7 @@ type PrivateEndpointConnectionProperties_SpecARM struct {
 	PrivateLinkServiceConnectionState *ConnectionState_SpecARM `json:"privateLinkServiceConnectionState,omitempty"`
 
 	//ProvisioningState: Provisioning state of the Private Endpoint Connection.
-	ProvisioningState *PrivateEndpointConnectionPropertiesSpecProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *PrivateEndpointConnectionProperties_ProvisioningState_Spec `json:"provisioningState,omitempty"`
 }
 
 type ConnectionState_SpecARM struct {
@@ -167,7 +167,7 @@ type ConnectionState_SpecARM struct {
 	Description *string `json:"description,omitempty"`
 
 	//Status: Status of the connection.
-	Status *ConnectionStateSpecStatus `json:"status,omitempty"`
+	Status *ConnectionState_Status_Spec `json:"status,omitempty"`
 }
 
 type PrivateEndpoint_SpecARM struct {

@@ -248,17 +248,17 @@ func (rule *NamespacesEventhubsAuthorizationRule) AssignPropertiesFromNamespaces
 
 	// Spec
 	var spec NamespacesEventhubsAuthorizationRules_SPEC
-	err := spec.AssignPropertiesFromNamespacesEventhubsAuthorizationRulesSPEC(&source.Spec)
+	err := spec.AssignPropertiesFromNamespacesEventhubsAuthorizationRules_SPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesEventhubsAuthorizationRulesSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesEventhubsAuthorizationRules_SPEC() to populate field Spec")
 	}
 	rule.Spec = spec
 
 	// Status
 	var status AuthorizationRule_Status
-	err = status.AssignPropertiesFromAuthorizationRuleStatus(&source.Status)
+	err = status.AssignPropertiesFromAuthorizationRule_Status(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromAuthorizationRuleStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromAuthorizationRule_Status() to populate field Status")
 	}
 	rule.Status = status
 
@@ -274,17 +274,17 @@ func (rule *NamespacesEventhubsAuthorizationRule) AssignPropertiesToNamespacesEv
 
 	// Spec
 	var spec v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_SPEC
-	err := rule.Spec.AssignPropertiesToNamespacesEventhubsAuthorizationRulesSPEC(&spec)
+	err := rule.Spec.AssignPropertiesToNamespacesEventhubsAuthorizationRules_SPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToNamespacesEventhubsAuthorizationRulesSPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToNamespacesEventhubsAuthorizationRules_SPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v1alpha1api20211101storage.AuthorizationRule_Status
-	err = rule.Status.AssignPropertiesToAuthorizationRuleStatus(&status)
+	err = rule.Status.AssignPropertiesToAuthorizationRule_Status(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToAuthorizationRuleStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToAuthorizationRule_Status() to populate field Status")
 	}
 	destination.Status = status
 
@@ -320,7 +320,7 @@ type NamespacesEventhubsAuthorizationRules_SPEC struct {
 	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
 	//Rights: The rights associated with the rule.
-	Rights []NamespacesEventhubsAuthorizationRulesSPECPropertiesRights `json:"rights,omitempty"`
+	Rights []NamespacesEventhubsAuthorizationRules_Properties_Rights_SPEC `json:"rights,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NamespacesEventhubsAuthorizationRules_SPEC{}
@@ -340,7 +340,7 @@ func (spec *NamespacesEventhubsAuthorizationRules_SPEC) ConvertToARM(resolved ge
 
 	// Set property ‘Properties’:
 	if spec.Rights != nil {
-		result.Properties = &NamespacesEventhubsAuthorizationRules_SPEC_PropertiesARM{}
+		result.Properties = &NamespacesEventhubsAuthorizationRules_Properties_SPECARM{}
 	}
 	for _, item := range spec.Rights {
 		result.Properties.Rights = append(result.Properties.Rights, item)
@@ -387,7 +387,7 @@ func (spec *NamespacesEventhubsAuthorizationRules_SPEC) ConvertSpecFrom(source g
 	src, ok := source.(*v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_SPEC)
 	if ok {
 		// Populate our instance from source
-		return spec.AssignPropertiesFromNamespacesEventhubsAuthorizationRulesSPEC(src)
+		return spec.AssignPropertiesFromNamespacesEventhubsAuthorizationRules_SPEC(src)
 	}
 
 	// Convert to an intermediate form
@@ -398,7 +398,7 @@ func (spec *NamespacesEventhubsAuthorizationRules_SPEC) ConvertSpecFrom(source g
 	}
 
 	// Update our instance from src
-	err = spec.AssignPropertiesFromNamespacesEventhubsAuthorizationRulesSPEC(src)
+	err = spec.AssignPropertiesFromNamespacesEventhubsAuthorizationRules_SPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -411,12 +411,12 @@ func (spec *NamespacesEventhubsAuthorizationRules_SPEC) ConvertSpecTo(destinatio
 	dst, ok := destination.(*v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return spec.AssignPropertiesToNamespacesEventhubsAuthorizationRulesSPEC(dst)
+		return spec.AssignPropertiesToNamespacesEventhubsAuthorizationRules_SPEC(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_SPEC{}
-	err := spec.AssignPropertiesToNamespacesEventhubsAuthorizationRulesSPEC(dst)
+	err := spec.AssignPropertiesToNamespacesEventhubsAuthorizationRules_SPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -430,8 +430,8 @@ func (spec *NamespacesEventhubsAuthorizationRules_SPEC) ConvertSpecTo(destinatio
 	return nil
 }
 
-// AssignPropertiesFromNamespacesEventhubsAuthorizationRulesSPEC populates our NamespacesEventhubsAuthorizationRules_SPEC from the provided source NamespacesEventhubsAuthorizationRules_SPEC
-func (spec *NamespacesEventhubsAuthorizationRules_SPEC) AssignPropertiesFromNamespacesEventhubsAuthorizationRulesSPEC(source *v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_SPEC) error {
+// AssignPropertiesFromNamespacesEventhubsAuthorizationRules_SPEC populates our NamespacesEventhubsAuthorizationRules_SPEC from the provided source NamespacesEventhubsAuthorizationRules_SPEC
+func (spec *NamespacesEventhubsAuthorizationRules_SPEC) AssignPropertiesFromNamespacesEventhubsAuthorizationRules_SPEC(source *v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_SPEC) error {
 
 	// AzureName
 	spec.AzureName = source.AzureName
@@ -441,11 +441,11 @@ func (spec *NamespacesEventhubsAuthorizationRules_SPEC) AssignPropertiesFromName
 
 	// Rights
 	if source.Rights != nil {
-		rightList := make([]NamespacesEventhubsAuthorizationRulesSPECPropertiesRights, len(source.Rights))
+		rightList := make([]NamespacesEventhubsAuthorizationRules_Properties_Rights_SPEC, len(source.Rights))
 		for rightIndex, rightItem := range source.Rights {
 			// Shadow the loop variable to avoid aliasing
 			rightItem := rightItem
-			rightList[rightIndex] = NamespacesEventhubsAuthorizationRulesSPECPropertiesRights(rightItem)
+			rightList[rightIndex] = NamespacesEventhubsAuthorizationRules_Properties_Rights_SPEC(rightItem)
 		}
 		spec.Rights = rightList
 	} else {
@@ -456,8 +456,8 @@ func (spec *NamespacesEventhubsAuthorizationRules_SPEC) AssignPropertiesFromName
 	return nil
 }
 
-// AssignPropertiesToNamespacesEventhubsAuthorizationRulesSPEC populates the provided destination NamespacesEventhubsAuthorizationRules_SPEC from our NamespacesEventhubsAuthorizationRules_SPEC
-func (spec *NamespacesEventhubsAuthorizationRules_SPEC) AssignPropertiesToNamespacesEventhubsAuthorizationRulesSPEC(destination *v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_SPEC) error {
+// AssignPropertiesToNamespacesEventhubsAuthorizationRules_SPEC populates the provided destination NamespacesEventhubsAuthorizationRules_SPEC from our NamespacesEventhubsAuthorizationRules_SPEC
+func (spec *NamespacesEventhubsAuthorizationRules_SPEC) AssignPropertiesToNamespacesEventhubsAuthorizationRules_SPEC(destination *v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -505,12 +505,12 @@ func (spec *NamespacesEventhubsAuthorizationRules_SPEC) SetAzureName(azureName s
 }
 
 // +kubebuilder:validation:Enum={"Listen","Manage","Send"}
-type NamespacesEventhubsAuthorizationRulesSPECPropertiesRights string
+type NamespacesEventhubsAuthorizationRules_Properties_Rights_SPEC string
 
 const (
-	NamespacesEventhubsAuthorizationRulesSPECPropertiesRightsListen = NamespacesEventhubsAuthorizationRulesSPECPropertiesRights("Listen")
-	NamespacesEventhubsAuthorizationRulesSPECPropertiesRightsManage = NamespacesEventhubsAuthorizationRulesSPECPropertiesRights("Manage")
-	NamespacesEventhubsAuthorizationRulesSPECPropertiesRightsSend   = NamespacesEventhubsAuthorizationRulesSPECPropertiesRights("Send")
+	NamespacesEventhubsAuthorizationRules_Properties_Rights_SPECListen = NamespacesEventhubsAuthorizationRules_Properties_Rights_SPEC("Listen")
+	NamespacesEventhubsAuthorizationRules_Properties_Rights_SPECManage = NamespacesEventhubsAuthorizationRules_Properties_Rights_SPEC("Manage")
+	NamespacesEventhubsAuthorizationRules_Properties_Rights_SPECSend   = NamespacesEventhubsAuthorizationRules_Properties_Rights_SPEC("Send")
 )
 
 func init() {

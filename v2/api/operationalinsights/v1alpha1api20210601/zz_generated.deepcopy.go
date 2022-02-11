@@ -143,7 +143,7 @@ func (in *WorkspaceCapping_Status) DeepCopyInto(out *WorkspaceCapping_Status) {
 	}
 	if in.DataIngestionStatus != nil {
 		in, out := &in.DataIngestionStatus, &out.DataIngestionStatus
-		*out = new(WorkspaceCappingStatusDataIngestionStatus)
+		*out = new(WorkspaceCapping_DataIngestionStatus_Status)
 		**out = **in
 	}
 	if in.QuotaNextResetTime != nil {
@@ -173,7 +173,7 @@ func (in *WorkspaceCapping_StatusARM) DeepCopyInto(out *WorkspaceCapping_StatusA
 	}
 	if in.DataIngestionStatus != nil {
 		in, out := &in.DataIngestionStatus, &out.DataIngestionStatus
-		*out = new(WorkspaceCappingStatusDataIngestionStatus)
+		*out = new(WorkspaceCapping_DataIngestionStatus_Status)
 		**out = **in
 	}
 	if in.QuotaNextResetTime != nil {
@@ -400,7 +400,7 @@ func (in *WorkspaceProperties_SpecARM) DeepCopyInto(out *WorkspaceProperties_Spe
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(WorkspacePropertiesSpecProvisioningState)
+		*out = new(WorkspaceProperties_ProvisioningState_Spec)
 		**out = **in
 	}
 	if in.PublicNetworkAccessForIngestion != nil {
@@ -477,7 +477,7 @@ func (in *WorkspaceProperties_StatusARM) DeepCopyInto(out *WorkspaceProperties_S
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(WorkspacePropertiesStatusProvisioningState)
+		*out = new(WorkspaceProperties_ProvisioningState_Status)
 		**out = **in
 	}
 	if in.PublicNetworkAccessForIngestion != nil {
@@ -522,7 +522,7 @@ func (in *WorkspaceSku_Spec) DeepCopyInto(out *WorkspaceSku_Spec) {
 	*out = *in
 	if in.CapacityReservationLevel != nil {
 		in, out := &in.CapacityReservationLevel, &out.CapacityReservationLevel
-		*out = new(WorkspaceSkuSpecCapacityReservationLevel)
+		*out = new(WorkspaceSku_CapacityReservationLevel_Spec)
 		**out = **in
 	}
 }
@@ -542,7 +542,7 @@ func (in *WorkspaceSku_SpecARM) DeepCopyInto(out *WorkspaceSku_SpecARM) {
 	*out = *in
 	if in.CapacityReservationLevel != nil {
 		in, out := &in.CapacityReservationLevel, &out.CapacityReservationLevel
-		*out = new(WorkspaceSkuSpecCapacityReservationLevel)
+		*out = new(WorkspaceSku_CapacityReservationLevel_Spec)
 		**out = **in
 	}
 }
@@ -562,7 +562,7 @@ func (in *WorkspaceSku_Status) DeepCopyInto(out *WorkspaceSku_Status) {
 	*out = *in
 	if in.CapacityReservationLevel != nil {
 		in, out := &in.CapacityReservationLevel, &out.CapacityReservationLevel
-		*out = new(WorkspaceSkuStatusCapacityReservationLevel)
+		*out = new(WorkspaceSku_CapacityReservationLevel_Status)
 		**out = **in
 	}
 	if in.LastSkuUpdate != nil {
@@ -587,7 +587,7 @@ func (in *WorkspaceSku_StatusARM) DeepCopyInto(out *WorkspaceSku_StatusARM) {
 	*out = *in
 	if in.CapacityReservationLevel != nil {
 		in, out := &in.CapacityReservationLevel, &out.CapacityReservationLevel
-		*out = new(WorkspaceSkuStatusCapacityReservationLevel)
+		*out = new(WorkspaceSku_CapacityReservationLevel_Status)
 		**out = **in
 	}
 	if in.LastSkuUpdate != nil {
@@ -671,7 +671,7 @@ func (in *Workspace_Status) DeepCopyInto(out *Workspace_Status) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(WorkspacePropertiesStatusProvisioningState)
+		*out = new(WorkspaceProperties_ProvisioningState_Status)
 		**out = **in
 	}
 	if in.PublicNetworkAccessForIngestion != nil {
@@ -796,7 +796,7 @@ func (in *Workspaces_SPEC) DeepCopyInto(out *Workspaces_SPEC) {
 	out.Owner = in.Owner
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(WorkspacePropertiesSpecProvisioningState)
+		*out = new(WorkspaceProperties_ProvisioningState_Spec)
 		**out = **in
 	}
 	if in.PublicNetworkAccessForIngestion != nil {

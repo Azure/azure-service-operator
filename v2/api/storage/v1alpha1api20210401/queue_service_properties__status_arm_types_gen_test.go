@@ -24,12 +24,12 @@ func Test_QueueServiceProperties_StatusARM_WhenSerializedToJson_DeserializesAsEq
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of QueueServiceProperties_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForQueueServicePropertiesStatusARM, QueueServicePropertiesStatusARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForQueueServiceProperties_StatusARM, QueueServiceProperties_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForQueueServicePropertiesStatusARM runs a test to see if a specific instance of QueueServiceProperties_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForQueueServicePropertiesStatusARM(subject QueueServiceProperties_StatusARM) string {
+// RunJSONSerializationTestForQueueServiceProperties_StatusARM runs a test to see if a specific instance of QueueServiceProperties_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForQueueServiceProperties_StatusARM(subject QueueServiceProperties_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,56 +56,56 @@ func RunJSONSerializationTestForQueueServicePropertiesStatusARM(subject QueueSer
 }
 
 // Generator of QueueServiceProperties_StatusARM instances for property testing - lazily instantiated by
-//QueueServicePropertiesStatusARMGenerator()
-var queueServicePropertiesStatusARMGenerator gopter.Gen
+//QueueServiceProperties_StatusARMGenerator()
+var queueServiceProperties_statusARMGenerator gopter.Gen
 
-// QueueServicePropertiesStatusARMGenerator returns a generator of QueueServiceProperties_StatusARM instances for property testing.
-// We first initialize queueServicePropertiesStatusARMGenerator with a simplified generator based on the
+// QueueServiceProperties_StatusARMGenerator returns a generator of QueueServiceProperties_StatusARM instances for property testing.
+// We first initialize queueServiceProperties_statusARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func QueueServicePropertiesStatusARMGenerator() gopter.Gen {
-	if queueServicePropertiesStatusARMGenerator != nil {
-		return queueServicePropertiesStatusARMGenerator
+func QueueServiceProperties_StatusARMGenerator() gopter.Gen {
+	if queueServiceProperties_statusARMGenerator != nil {
+		return queueServiceProperties_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForQueueServicePropertiesStatusARM(generators)
-	queueServicePropertiesStatusARMGenerator = gen.Struct(reflect.TypeOf(QueueServiceProperties_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForQueueServiceProperties_StatusARM(generators)
+	queueServiceProperties_statusARMGenerator = gen.Struct(reflect.TypeOf(QueueServiceProperties_StatusARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForQueueServicePropertiesStatusARM(generators)
-	AddRelatedPropertyGeneratorsForQueueServicePropertiesStatusARM(generators)
-	queueServicePropertiesStatusARMGenerator = gen.Struct(reflect.TypeOf(QueueServiceProperties_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForQueueServiceProperties_StatusARM(generators)
+	AddRelatedPropertyGeneratorsForQueueServiceProperties_StatusARM(generators)
+	queueServiceProperties_statusARMGenerator = gen.Struct(reflect.TypeOf(QueueServiceProperties_StatusARM{}), generators)
 
-	return queueServicePropertiesStatusARMGenerator
+	return queueServiceProperties_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForQueueServicePropertiesStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForQueueServicePropertiesStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForQueueServiceProperties_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForQueueServiceProperties_StatusARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForQueueServicePropertiesStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForQueueServicePropertiesStatusARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(QueueServicePropertiesStatusPropertiesARMGenerator())
+// AddRelatedPropertyGeneratorsForQueueServiceProperties_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForQueueServiceProperties_StatusARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(QueueServiceProperties_Properties_StatusARMGenerator())
 }
 
-func Test_QueueServiceProperties_Status_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_QueueServiceProperties_Properties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of QueueServiceProperties_Status_PropertiesARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForQueueServicePropertiesStatusPropertiesARM, QueueServicePropertiesStatusPropertiesARMGenerator()))
+		"Round trip of QueueServiceProperties_Properties_StatusARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForQueueServiceProperties_Properties_StatusARM, QueueServiceProperties_Properties_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForQueueServicePropertiesStatusPropertiesARM runs a test to see if a specific instance of QueueServiceProperties_Status_PropertiesARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForQueueServicePropertiesStatusPropertiesARM(subject QueueServiceProperties_Status_PropertiesARM) string {
+// RunJSONSerializationTestForQueueServiceProperties_Properties_StatusARM runs a test to see if a specific instance of QueueServiceProperties_Properties_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForQueueServiceProperties_Properties_StatusARM(subject QueueServiceProperties_Properties_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -113,7 +113,7 @@ func RunJSONSerializationTestForQueueServicePropertiesStatusPropertiesARM(subjec
 	}
 
 	// Deserialize back into memory
-	var actual QueueServiceProperties_Status_PropertiesARM
+	var actual QueueServiceProperties_Properties_StatusARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -131,24 +131,24 @@ func RunJSONSerializationTestForQueueServicePropertiesStatusPropertiesARM(subjec
 	return ""
 }
 
-// Generator of QueueServiceProperties_Status_PropertiesARM instances for property testing - lazily instantiated by
-//QueueServicePropertiesStatusPropertiesARMGenerator()
-var queueServicePropertiesStatusPropertiesARMGenerator gopter.Gen
+// Generator of QueueServiceProperties_Properties_StatusARM instances for property testing - lazily instantiated by
+//QueueServiceProperties_Properties_StatusARMGenerator()
+var queueServiceProperties_properties_statusARMGenerator gopter.Gen
 
-// QueueServicePropertiesStatusPropertiesARMGenerator returns a generator of QueueServiceProperties_Status_PropertiesARM instances for property testing.
-func QueueServicePropertiesStatusPropertiesARMGenerator() gopter.Gen {
-	if queueServicePropertiesStatusPropertiesARMGenerator != nil {
-		return queueServicePropertiesStatusPropertiesARMGenerator
+// QueueServiceProperties_Properties_StatusARMGenerator returns a generator of QueueServiceProperties_Properties_StatusARM instances for property testing.
+func QueueServiceProperties_Properties_StatusARMGenerator() gopter.Gen {
+	if queueServiceProperties_properties_statusARMGenerator != nil {
+		return queueServiceProperties_properties_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForQueueServicePropertiesStatusPropertiesARM(generators)
-	queueServicePropertiesStatusPropertiesARMGenerator = gen.Struct(reflect.TypeOf(QueueServiceProperties_Status_PropertiesARM{}), generators)
+	AddRelatedPropertyGeneratorsForQueueServiceProperties_Properties_StatusARM(generators)
+	queueServiceProperties_properties_statusARMGenerator = gen.Struct(reflect.TypeOf(QueueServiceProperties_Properties_StatusARM{}), generators)
 
-	return queueServicePropertiesStatusPropertiesARMGenerator
+	return queueServiceProperties_properties_statusARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForQueueServicePropertiesStatusPropertiesARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForQueueServicePropertiesStatusPropertiesARM(gens map[string]gopter.Gen) {
-	gens["Cors"] = gen.PtrOf(CorsRulesStatusARMGenerator())
+// AddRelatedPropertyGeneratorsForQueueServiceProperties_Properties_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForQueueServiceProperties_Properties_StatusARM(gens map[string]gopter.Gen) {
+	gens["Cors"] = gen.PtrOf(CorsRules_StatusARMGenerator())
 }

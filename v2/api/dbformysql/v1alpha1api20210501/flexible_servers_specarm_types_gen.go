@@ -55,7 +55,7 @@ type ServerProperties_SpecARM struct {
 	Backup *Backup_SpecARM `json:"backup,omitempty"`
 
 	//CreateMode: The mode to create a new MySQL server.
-	CreateMode *ServerPropertiesSpecCreateMode `json:"createMode,omitempty"`
+	CreateMode *ServerProperties_CreateMode_Spec `json:"createMode,omitempty"`
 
 	//HighAvailability: High availability related properties of a server.
 	HighAvailability *HighAvailability_SpecARM `json:"highAvailability,omitempty"`
@@ -88,7 +88,7 @@ type Sku_SpecARM struct {
 	Name string `json:"name"`
 
 	//Tier: The tier of the particular SKU, e.g. GeneralPurpose.
-	Tier SkuSpecTier `json:"tier"`
+	Tier Sku_Tier_Spec `json:"tier"`
 }
 
 type Backup_SpecARM struct {
@@ -101,7 +101,7 @@ type Backup_SpecARM struct {
 
 type HighAvailability_SpecARM struct {
 	//Mode: High availability mode for a server.
-	Mode *HighAvailabilitySpecMode `json:"mode,omitempty"`
+	Mode *HighAvailability_Mode_Spec `json:"mode,omitempty"`
 
 	//StandbyAvailabilityZone: Availability zone of the standby server.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
@@ -127,12 +127,12 @@ type Network_SpecARM struct {
 }
 
 // +kubebuilder:validation:Enum={"Burstable","GeneralPurpose","MemoryOptimized"}
-type SkuSpecTier string
+type Sku_Tier_Spec string
 
 const (
-	SkuSpecTierBurstable       = SkuSpecTier("Burstable")
-	SkuSpecTierGeneralPurpose  = SkuSpecTier("GeneralPurpose")
-	SkuSpecTierMemoryOptimized = SkuSpecTier("MemoryOptimized")
+	Sku_Tier_SpecBurstable       = Sku_Tier_Spec("Burstable")
+	Sku_Tier_SpecGeneralPurpose  = Sku_Tier_Spec("GeneralPurpose")
+	Sku_Tier_SpecMemoryOptimized = Sku_Tier_Spec("MemoryOptimized")
 )
 
 type Storage_SpecARM struct {

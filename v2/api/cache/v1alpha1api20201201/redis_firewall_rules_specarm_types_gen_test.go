@@ -24,12 +24,12 @@ func Test_RedisFirewallRules_SPECARM_WhenSerializedToJson_DeserializesAsEqual(t 
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RedisFirewallRules_SPECARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisFirewallRulesSPECARM, RedisFirewallRulesSPECARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForRedisFirewallRules_SPECARM, RedisFirewallRules_SPECARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRedisFirewallRulesSPECARM runs a test to see if a specific instance of RedisFirewallRules_SPECARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisFirewallRulesSPECARM(subject RedisFirewallRules_SPECARM) string {
+// RunJSONSerializationTestForRedisFirewallRules_SPECARM runs a test to see if a specific instance of RedisFirewallRules_SPECARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisFirewallRules_SPECARM(subject RedisFirewallRules_SPECARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,40 +56,40 @@ func RunJSONSerializationTestForRedisFirewallRulesSPECARM(subject RedisFirewallR
 }
 
 // Generator of RedisFirewallRules_SPECARM instances for property testing - lazily instantiated by
-//RedisFirewallRulesSPECARMGenerator()
-var redisFirewallRulesSPECARMGenerator gopter.Gen
+//RedisFirewallRules_SPECARMGenerator()
+var redisFirewallRules_specarmGenerator gopter.Gen
 
-// RedisFirewallRulesSPECARMGenerator returns a generator of RedisFirewallRules_SPECARM instances for property testing.
-// We first initialize redisFirewallRulesSPECARMGenerator with a simplified generator based on the
+// RedisFirewallRules_SPECARMGenerator returns a generator of RedisFirewallRules_SPECARM instances for property testing.
+// We first initialize redisFirewallRules_specarmGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func RedisFirewallRulesSPECARMGenerator() gopter.Gen {
-	if redisFirewallRulesSPECARMGenerator != nil {
-		return redisFirewallRulesSPECARMGenerator
+func RedisFirewallRules_SPECARMGenerator() gopter.Gen {
+	if redisFirewallRules_specarmGenerator != nil {
+		return redisFirewallRules_specarmGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisFirewallRulesSPECARM(generators)
-	redisFirewallRulesSPECARMGenerator = gen.Struct(reflect.TypeOf(RedisFirewallRules_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForRedisFirewallRules_SPECARM(generators)
+	redisFirewallRules_specarmGenerator = gen.Struct(reflect.TypeOf(RedisFirewallRules_SPECARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisFirewallRulesSPECARM(generators)
-	AddRelatedPropertyGeneratorsForRedisFirewallRulesSPECARM(generators)
-	redisFirewallRulesSPECARMGenerator = gen.Struct(reflect.TypeOf(RedisFirewallRules_SPECARM{}), generators)
+	AddIndependentPropertyGeneratorsForRedisFirewallRules_SPECARM(generators)
+	AddRelatedPropertyGeneratorsForRedisFirewallRules_SPECARM(generators)
+	redisFirewallRules_specarmGenerator = gen.Struct(reflect.TypeOf(RedisFirewallRules_SPECARM{}), generators)
 
-	return redisFirewallRulesSPECARMGenerator
+	return redisFirewallRules_specarmGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRedisFirewallRulesSPECARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisFirewallRulesSPECARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRedisFirewallRules_SPECARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedisFirewallRules_SPECARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForRedisFirewallRulesSPECARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisFirewallRulesSPECARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = RedisFirewallRulePropertiesSpecARMGenerator()
+// AddRelatedPropertyGeneratorsForRedisFirewallRules_SPECARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedisFirewallRules_SPECARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = RedisFirewallRuleProperties_SpecARMGenerator()
 }
 
 func Test_RedisFirewallRuleProperties_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -99,12 +99,12 @@ func Test_RedisFirewallRuleProperties_SpecARM_WhenSerializedToJson_DeserializesA
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RedisFirewallRuleProperties_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisFirewallRulePropertiesSpecARM, RedisFirewallRulePropertiesSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForRedisFirewallRuleProperties_SpecARM, RedisFirewallRuleProperties_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRedisFirewallRulePropertiesSpecARM runs a test to see if a specific instance of RedisFirewallRuleProperties_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisFirewallRulePropertiesSpecARM(subject RedisFirewallRuleProperties_SpecARM) string {
+// RunJSONSerializationTestForRedisFirewallRuleProperties_SpecARM runs a test to see if a specific instance of RedisFirewallRuleProperties_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisFirewallRuleProperties_SpecARM(subject RedisFirewallRuleProperties_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -131,24 +131,24 @@ func RunJSONSerializationTestForRedisFirewallRulePropertiesSpecARM(subject Redis
 }
 
 // Generator of RedisFirewallRuleProperties_SpecARM instances for property testing - lazily instantiated by
-//RedisFirewallRulePropertiesSpecARMGenerator()
-var redisFirewallRulePropertiesSpecARMGenerator gopter.Gen
+//RedisFirewallRuleProperties_SpecARMGenerator()
+var redisFirewallRuleProperties_specARMGenerator gopter.Gen
 
-// RedisFirewallRulePropertiesSpecARMGenerator returns a generator of RedisFirewallRuleProperties_SpecARM instances for property testing.
-func RedisFirewallRulePropertiesSpecARMGenerator() gopter.Gen {
-	if redisFirewallRulePropertiesSpecARMGenerator != nil {
-		return redisFirewallRulePropertiesSpecARMGenerator
+// RedisFirewallRuleProperties_SpecARMGenerator returns a generator of RedisFirewallRuleProperties_SpecARM instances for property testing.
+func RedisFirewallRuleProperties_SpecARMGenerator() gopter.Gen {
+	if redisFirewallRuleProperties_specARMGenerator != nil {
+		return redisFirewallRuleProperties_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisFirewallRulePropertiesSpecARM(generators)
-	redisFirewallRulePropertiesSpecARMGenerator = gen.Struct(reflect.TypeOf(RedisFirewallRuleProperties_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForRedisFirewallRuleProperties_SpecARM(generators)
+	redisFirewallRuleProperties_specARMGenerator = gen.Struct(reflect.TypeOf(RedisFirewallRuleProperties_SpecARM{}), generators)
 
-	return redisFirewallRulePropertiesSpecARMGenerator
+	return redisFirewallRuleProperties_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRedisFirewallRulePropertiesSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisFirewallRulePropertiesSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRedisFirewallRuleProperties_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedisFirewallRuleProperties_SpecARM(gens map[string]gopter.Gen) {
 	gens["EndIP"] = gen.AlphaString()
 	gens["StartIP"] = gen.AlphaString()
 }

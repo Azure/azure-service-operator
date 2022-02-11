@@ -236,7 +236,7 @@ type BatchAccountIdentity_Status struct {
 	PropertyBag            genruntime.PropertyBag                                        `json:"$propertyBag,omitempty"`
 	TenantId               *string                                                       `json:"tenantId,omitempty"`
 	Type                   *string                                                       `json:"type,omitempty"`
-	UserAssignedIdentities map[string]BatchAccountIdentity_Status_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]BatchAccountIdentity_UserAssignedIdentities_Status `json:"userAssignedIdentities,omitempty"`
 }
 
 //Storage version of v1alpha1api20210101.EncryptionProperties_Spec
@@ -271,8 +271,8 @@ type KeyVaultReference_Status struct {
 	Url         *string                `json:"url,omitempty"`
 }
 
-//Storage version of v1alpha1api20210101.BatchAccountIdentity_Status_UserAssignedIdentities
-type BatchAccountIdentity_Status_UserAssignedIdentities struct {
+//Storage version of v1alpha1api20210101.BatchAccountIdentity_UserAssignedIdentities_Status
+type BatchAccountIdentity_UserAssignedIdentities_Status struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
