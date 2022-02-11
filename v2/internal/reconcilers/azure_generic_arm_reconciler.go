@@ -80,6 +80,7 @@ type AzureDeploymentReconciler struct {
 	PositiveConditions *conditions.PositiveConditionBuilder
 	config             config.Values
 	rand               *rand.Rand
+	extension          genruntime.ResourceExtension
 }
 
 // TODO: It's a bit weird that this is a "reconciler" that operates only on a specific genruntime.MetaObject.
@@ -93,7 +94,8 @@ func NewAzureDeploymentReconciler(
 	resourceResolver *genruntime.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
 	cfg config.Values,
-	rand *rand.Rand) *AzureDeploymentReconciler {
+	rand *rand.Rand,
+	extension genruntime.ResourceExtension) *AzureDeploymentReconciler {
 
 	return &AzureDeploymentReconciler{
 		obj:                metaObj,
@@ -105,6 +107,7 @@ func NewAzureDeploymentReconciler(
 		PositiveConditions: positiveConditions,
 		config:             cfg,
 		rand:               rand,
+		extension:          extension,
 	}
 }
 

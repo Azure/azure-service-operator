@@ -58,7 +58,8 @@ type GenericReconciler struct {
 	GVK                  schema.GroupVersionKind
 	RequeueDelayOverride time.Duration
 	PositiveConditions   *conditions.PositiveConditionBuilder
-	rand                 *rand.Rand
+	Rand                 *rand.Rand
+	Extension            genruntime.ResourceExtension
 }
 
 var _ reconcile.Reconciler = &GenericReconciler{} // GenericReconciler is a reconcile.Reconciler
@@ -100,7 +101,13 @@ func registerWebhook(mgr ctrl.Manager, obj client.Object) error {
 	return ctrl.NewWebhookManagedBy(mgr).For(obj).Complete()
 }
 
-func RegisterAll(mgr ctrl.Manager, clientFactory ARMClientFactory, objs []registration.StorageType, options Options) error {
+func RegisterAll(
+	mgr ctrl.Manager,
+	clientFactory ARMClientFactory,
+	objs []registration.StorageType,
+	extensions map[schema.GroupVersionKind]genruntime.ResourceExtension,
+	options Options) error {
+
 	options.setDefaults()
 
 	reconciledResourceLookup, err := MakeResourceGVKLookup(mgr, objs)
@@ -121,7 +128,9 @@ func RegisterAll(mgr ctrl.Manager, clientFactory ARMClientFactory, objs []regist
 
 	var errs []error
 	for _, obj := range objs {
-		if err := register(mgr, reconciledResourceLookup, clientFactory, obj, options); err != nil {
+		// TODO: Consider pulling some of the construction of things out of register (gvk, etc), so that we can pass in just
+		// TODO: the applicable extensions rather than a map of all of them
+		if err := register(mgr, reconciledResourceLookup, clientFactory, obj, extensions, options); err != nil {
 			errs = append(errs, err)
 		}
 	}
@@ -134,6 +143,7 @@ func register(
 	reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind,
 	clientFactory ARMClientFactory,
 	info registration.StorageType,
+	extensions map[schema.GroupVersionKind]genruntime.ResourceExtension,
 	options Options) error {
 
 	v, err := conversion.EnforcePtr(info.Obj)
@@ -152,6 +162,7 @@ func register(
 
 	options.Log.V(Status).Info("Registering", "GVK", gvk)
 	kubeClient := kubeclient.NewClient(mgr.GetClient(), mgr.GetScheme())
+	extension := extensions[gvk]
 
 	loggerFactory := func(mo genruntime.MetaObject) logr.Logger {
 		result := options.Log
@@ -176,7 +187,8 @@ func register(
 		RequeueDelayOverride: options.RequeueDelay,
 		PositiveConditions:   conditions.NewPositiveConditionBuilder(clock.New()),
 		//nolint:gosec // do not want cryptographic randomness here
-		rand: rand.New(lockedrand.NewSource(time.Now().UnixNano())),
+		Rand:      rand.New(lockedrand.NewSource(time.Now().UnixNano())),
+		Extension: extension,
 	}
 
 	// Note: These predicates prevent status updates from triggering a reconcile.
@@ -289,7 +301,8 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		gr.ResourceResolver,
 		gr.PositiveConditions,
 		gr.Config,
-		gr.rand)
+		gr.Rand,
+		gr.Extension)
 
 	result, err := reconciler.Reconcile(ctx)
 	if err != nil {

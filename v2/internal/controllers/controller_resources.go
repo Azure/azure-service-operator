@@ -8,12 +8,14 @@ package controllers
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"reflect"
+	"time"
+
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"reflect"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
-	"time"
+
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 	"github.com/go-logr/logr"
 	corev1 "k8s.io/api/core/v1"
@@ -65,7 +67,7 @@ func GetResourceExtensions(scheme *runtime.Scheme) (map[schema.GroupVersionKind]
 			// Make sure the type casting goes well, and we can extract the GVK successfully.
 			resourceObj, ok := resource.(runtime.Object)
 			if !ok {
-				err := errors.Errorf("Unexpected resource type for resource '%s', found '%T'", resource.AzureName(), resource)
+				err := errors.Errorf("unexpected resource type for resource '%s', found '%T'", resource.AzureName(), resource)
 				return nil, err
 			}
 
