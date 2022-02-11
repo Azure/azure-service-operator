@@ -613,6 +613,13 @@ objectModelConfiguration:
       VirtualMachineScaleSetOSProfile:
         AdminPassword:
           $isSecret: true
+  containerregistry:
+    2021-09-01:
+      Registry:
+        $export: true
+      IdentityProperties:
+        PrincipalId:
+          $armReference: false
   containerservice:
     2021-05-01:
       Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties:

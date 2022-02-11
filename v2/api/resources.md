@@ -57,6 +57,15 @@ Use CRD version `v1alpha1api20200930`
 
 Use CRD version `v1alpha1api20201201`
 
+## containerregistry
+
+
+### ARM version 2021-09-01
+
+- Registry ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/containerregistry/v1alpha1api20210901_registry.yaml))
+
+Use CRD version `v1alpha1api20210901`
+
 ## containerservice
 
 
