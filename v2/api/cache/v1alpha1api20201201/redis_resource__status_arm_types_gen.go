@@ -28,9 +28,6 @@ type RedisResource_StatusARM struct {
 }
 
 type RedisProperties_StatusARM struct {
-	//AccessKeys: The keys of the Redis cache - not set if this object is not the response to Create or Update redis cache
-	AccessKeys *RedisAccessKeys_StatusARM `json:"accessKeys,omitempty"`
-
 	//EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.
 	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
 
@@ -100,14 +97,6 @@ type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 	//Id: Fully qualified resource ID for the resource. Ex -
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
-}
-
-type RedisAccessKeys_StatusARM struct {
-	//PrimaryKey: The current primary key that clients can use to authenticate with Redis cache.
-	PrimaryKey *string `json:"primaryKey,omitempty"`
-
-	//SecondaryKey: The current secondary key that clients can use to authenticate with Redis cache.
-	SecondaryKey *string `json:"secondaryKey,omitempty"`
 }
 
 type RedisInstanceDetails_StatusARM struct {
