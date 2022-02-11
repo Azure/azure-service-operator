@@ -1691,6 +1691,10 @@ type StorageAccounts_Spec struct {
 	//NetworkAcls: Network rule set
 	NetworkAcls *NetworkRuleSet `json:"networkAcls,omitempty"`
 
+	//OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	//passed directly to Azure
+	OperatorSpec *StorageAccountOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
@@ -2067,6 +2071,8 @@ func (accounts *StorageAccounts_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
+	// no assignment for property ‘OperatorSpec’
+
 	// Set property ‘Owner’:
 	accounts.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
@@ -2343,6 +2349,18 @@ func (accounts *StorageAccounts_Spec) AssignPropertiesFromStorageAccountsSpec(so
 		accounts.NetworkAcls = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec StorageAccountOperatorSpec
+		err := operatorSpec.AssignPropertiesFromStorageAccountOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountOperatorSpec() to populate field OperatorSpec")
+		}
+		accounts.OperatorSpec = &operatorSpec
+	} else {
+		accounts.OperatorSpec = nil
+	}
+
 	// Owner
 	accounts.Owner = source.Owner.Copy()
 
@@ -2559,6 +2577,18 @@ func (accounts *StorageAccounts_Spec) AssignPropertiesToStorageAccountsSpec(dest
 		destination.NetworkAcls = &networkAcl
 	} else {
 		destination.NetworkAcls = nil
+	}
+
+	// OperatorSpec
+	if accounts.OperatorSpec != nil {
+		var operatorSpec v1alpha1api20210401storage.StorageAccountOperatorSpec
+		err := accounts.OperatorSpec.AssignPropertiesToStorageAccountOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToStorageAccountOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -5795,6 +5825,59 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1api20210
 	return nil
 }
 
+//Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type StorageAccountOperatorSpec struct {
+	//Secrets: configures where to place Azure generated secrets.
+	Secrets *StorageAccountOperatorSecrets `json:"secrets,omitempty"`
+}
+
+// AssignPropertiesFromStorageAccountOperatorSpec populates our StorageAccountOperatorSpec from the provided source StorageAccountOperatorSpec
+func (operator *StorageAccountOperatorSpec) AssignPropertiesFromStorageAccountOperatorSpec(source *v1alpha1api20210401storage.StorageAccountOperatorSpec) error {
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret StorageAccountOperatorSecrets
+		err := secret.AssignPropertiesFromStorageAccountOperatorSecrets(source.Secrets)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToStorageAccountOperatorSpec populates the provided destination StorageAccountOperatorSpec from our StorageAccountOperatorSpec
+func (operator *StorageAccountOperatorSpec) AssignPropertiesToStorageAccountOperatorSpec(destination *v1alpha1api20210401storage.StorageAccountOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret v1alpha1api20210401storage.StorageAccountOperatorSecrets
+		err := operator.Secrets.AssignPropertiesToStorageAccountOperatorSecrets(&secret)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToStorageAccountOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // +kubebuilder:validation:Enum={"Cool","Hot"}
 type StorageAccountPropertiesCreateParametersAccessTier string
 
@@ -7783,6 +7866,189 @@ func (endpoints *StorageAccountMicrosoftEndpoints_Status) AssignPropertiesToStor
 
 	// Web
 	destination.Web = genruntime.ClonePointerToString(endpoints.Web)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type StorageAccountOperatorSecrets struct {
+	//BlobEndpoint: indicates where the BlobEndpoint secret should be placed. If omitted, the secret will not be retrieved
+	//from Azure.
+	BlobEndpoint *genruntime.SecretDestination `json:"blobEndpoint,omitempty"`
+
+	//DfsEndpoint: indicates where the DfsEndpoint secret should be placed. If omitted, the secret will not be retrieved from
+	//Azure.
+	DfsEndpoint *genruntime.SecretDestination `json:"dfsEndpoint,omitempty"`
+
+	//FileEndpoint: indicates where the FileEndpoint secret should be placed. If omitted, the secret will not be retrieved
+	//from Azure.
+	FileEndpoint *genruntime.SecretDestination `json:"fileEndpoint,omitempty"`
+
+	//Key1: indicates where the Key1 secret should be placed. If omitted, the secret will not be retrieved from Azure.
+	Key1 *genruntime.SecretDestination `json:"key1,omitempty"`
+
+	//Key2: indicates where the Key2 secret should be placed. If omitted, the secret will not be retrieved from Azure.
+	Key2 *genruntime.SecretDestination `json:"key2,omitempty"`
+
+	//QueueEndpoint: indicates where the QueueEndpoint secret should be placed. If omitted, the secret will not be retrieved
+	//from Azure.
+	QueueEndpoint *genruntime.SecretDestination `json:"queueEndpoint,omitempty"`
+
+	//TableEndpoint: indicates where the TableEndpoint secret should be placed. If omitted, the secret will not be retrieved
+	//from Azure.
+	TableEndpoint *genruntime.SecretDestination `json:"tableEndpoint,omitempty"`
+
+	//WebEndpoint: indicates where the WebEndpoint secret should be placed. If omitted, the secret will not be retrieved from
+	//Azure.
+	WebEndpoint *genruntime.SecretDestination `json:"webEndpoint,omitempty"`
+}
+
+// AssignPropertiesFromStorageAccountOperatorSecrets populates our StorageAccountOperatorSecrets from the provided source StorageAccountOperatorSecrets
+func (secrets *StorageAccountOperatorSecrets) AssignPropertiesFromStorageAccountOperatorSecrets(source *v1alpha1api20210401storage.StorageAccountOperatorSecrets) error {
+
+	// BlobEndpoint
+	if source.BlobEndpoint != nil {
+		blobEndpoint := source.BlobEndpoint.Copy()
+		secrets.BlobEndpoint = &blobEndpoint
+	} else {
+		secrets.BlobEndpoint = nil
+	}
+
+	// DfsEndpoint
+	if source.DfsEndpoint != nil {
+		dfsEndpoint := source.DfsEndpoint.Copy()
+		secrets.DfsEndpoint = &dfsEndpoint
+	} else {
+		secrets.DfsEndpoint = nil
+	}
+
+	// FileEndpoint
+	if source.FileEndpoint != nil {
+		fileEndpoint := source.FileEndpoint.Copy()
+		secrets.FileEndpoint = &fileEndpoint
+	} else {
+		secrets.FileEndpoint = nil
+	}
+
+	// Key1
+	if source.Key1 != nil {
+		key1 := source.Key1.Copy()
+		secrets.Key1 = &key1
+	} else {
+		secrets.Key1 = nil
+	}
+
+	// Key2
+	if source.Key2 != nil {
+		key2 := source.Key2.Copy()
+		secrets.Key2 = &key2
+	} else {
+		secrets.Key2 = nil
+	}
+
+	// QueueEndpoint
+	if source.QueueEndpoint != nil {
+		queueEndpoint := source.QueueEndpoint.Copy()
+		secrets.QueueEndpoint = &queueEndpoint
+	} else {
+		secrets.QueueEndpoint = nil
+	}
+
+	// TableEndpoint
+	if source.TableEndpoint != nil {
+		tableEndpoint := source.TableEndpoint.Copy()
+		secrets.TableEndpoint = &tableEndpoint
+	} else {
+		secrets.TableEndpoint = nil
+	}
+
+	// WebEndpoint
+	if source.WebEndpoint != nil {
+		webEndpoint := source.WebEndpoint.Copy()
+		secrets.WebEndpoint = &webEndpoint
+	} else {
+		secrets.WebEndpoint = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToStorageAccountOperatorSecrets populates the provided destination StorageAccountOperatorSecrets from our StorageAccountOperatorSecrets
+func (secrets *StorageAccountOperatorSecrets) AssignPropertiesToStorageAccountOperatorSecrets(destination *v1alpha1api20210401storage.StorageAccountOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// BlobEndpoint
+	if secrets.BlobEndpoint != nil {
+		blobEndpoint := secrets.BlobEndpoint.Copy()
+		destination.BlobEndpoint = &blobEndpoint
+	} else {
+		destination.BlobEndpoint = nil
+	}
+
+	// DfsEndpoint
+	if secrets.DfsEndpoint != nil {
+		dfsEndpoint := secrets.DfsEndpoint.Copy()
+		destination.DfsEndpoint = &dfsEndpoint
+	} else {
+		destination.DfsEndpoint = nil
+	}
+
+	// FileEndpoint
+	if secrets.FileEndpoint != nil {
+		fileEndpoint := secrets.FileEndpoint.Copy()
+		destination.FileEndpoint = &fileEndpoint
+	} else {
+		destination.FileEndpoint = nil
+	}
+
+	// Key1
+	if secrets.Key1 != nil {
+		key1 := secrets.Key1.Copy()
+		destination.Key1 = &key1
+	} else {
+		destination.Key1 = nil
+	}
+
+	// Key2
+	if secrets.Key2 != nil {
+		key2 := secrets.Key2.Copy()
+		destination.Key2 = &key2
+	} else {
+		destination.Key2 = nil
+	}
+
+	// QueueEndpoint
+	if secrets.QueueEndpoint != nil {
+		queueEndpoint := secrets.QueueEndpoint.Copy()
+		destination.QueueEndpoint = &queueEndpoint
+	} else {
+		destination.QueueEndpoint = nil
+	}
+
+	// TableEndpoint
+	if secrets.TableEndpoint != nil {
+		tableEndpoint := secrets.TableEndpoint.Copy()
+		destination.TableEndpoint = &tableEndpoint
+	} else {
+		destination.TableEndpoint = nil
+	}
+
+	// WebEndpoint
+	if secrets.WebEndpoint != nil {
+		webEndpoint := secrets.WebEndpoint.Copy()
+		destination.WebEndpoint = &webEndpoint
+	} else {
+		destination.WebEndpoint = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

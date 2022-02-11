@@ -894,6 +894,15 @@ objectModelConfiguration:
           $armReference: true
       StorageAccount:
         $export: true
+        $azureGeneratedSecrets:
+          - Key1
+          - Key2
+          - WebEndpoint
+          - BlobEndpoint
+          - FileEndpoint
+          - QueueEndpoint
+          - TableEndpoint
+          - DfsEndpoint
       StorageAccountsBlobService:
         $export: true
       StorageAccountsBlobServicesContainer:

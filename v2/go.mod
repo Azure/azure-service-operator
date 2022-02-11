@@ -5,6 +5,7 @@ go 1.17
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v0.21.0
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v0.13.0
+	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v0.3.0
 	github.com/Azure/go-autorest/autorest/to v0.4.0
 	github.com/benbjohnson/clock v1.1.0
 	github.com/dnaeon/go-vcr v1.2.0
@@ -29,6 +30,7 @@ require (
 
 require (
 	cloud.google.com/go v0.54.0 // indirect
+	github.com/Azure/azure-sdk-for-go v61.3.0+incompatible // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/internal v0.9.0 // indirect
 	github.com/Azure/go-autorest v14.2.0+incompatible // indirect
 	github.com/AzureAD/microsoft-authentication-library-for-go v0.4.0 // indirect
