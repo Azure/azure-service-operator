@@ -10,7 +10,6 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	signalrservice "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1alpha1api20211001"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -90,19 +89,9 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 	signalR.Spec.Cors.AllowedOrigins = append(
 		signalR.Spec.Cors.AllowedOrigins, "https://definitelymydomain.horse",
 	)
-	tc.Patch(old, &signalR)
-
-	objectKey := client.ObjectKeyFromObject(&signalR)
-
-	// Ensure state eventually gets updated in k8s from change in Azure.
-	tc.Eventually(func() []string {
-		var updated signalrservice.SignalR
-		tc.GetResource(objectKey, &updated)
-		if updated.Status.Cors == nil {
-			return nil
-		}
-		return updated.Status.Cors.AllowedOrigins
-	}).Should(ContainElement("https://definitelymydomain.horse"))
+	tc.PatchResourceAndWait(old, &signalR)
+	tc.Expect(signalR.Status.Cors).ToNot(BeNil())
+	tc.Expect(signalR.Status.Cors.AllowedOrigins).To(ContainElement("https://definitelymydomain.horse"))
 
 	tc.DeleteResourcesAndWait(&signalR, rg)
 

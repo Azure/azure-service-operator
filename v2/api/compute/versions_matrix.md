@@ -1,6 +1,5 @@
 | Types defined in package "compute"                                                         | v1alpha1api20200930 | v1alpha1api20201201 |
 |--------------------------------------------------------------------------------------------|---------------------|---------------------|
-| APIVersion                                                                                 | v1alpha1api20200930 | v1alpha1api20201201 |
 | AdditionalCapabilities_Spec                                                                |                     | v1alpha1api20201201 |
 | AdditionalCapabilities_Status                                                              |                     | v1alpha1api20201201 |
 | AdditionalUnattendContent_ComponentName_Spec                                               |                     | v1alpha1api20201201 |

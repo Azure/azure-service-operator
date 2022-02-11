@@ -42,13 +42,16 @@ func NewGroupConfiguration(name string) *GroupConfiguration {
 // In addition to indexing by the name of the version, we also index by the local-package-name and storage-package-name
 // of the version, so we can do lookups via TypeName. All indexing is lower-case to allow case-insensitive lookups (this
 // makes our configuration more forgiving).
-func (gc *GroupConfiguration) Add(version *VersionConfiguration) *GroupConfiguration {
+func (gc *GroupConfiguration) add(version *VersionConfiguration) {
 	pkg := astmodel.CreateLocalPackageNameFromVersion(version.name)
-	str := pkg + astmodel.StoragePackageSuffix
+
 	gc.versions[strings.ToLower(version.name)] = version
 	gc.versions[strings.ToLower(pkg)] = version
-	gc.versions[strings.ToLower(str)] = version
-	return gc
+
+	if !strings.HasSuffix(version.name, astmodel.StoragePackageSuffix) {
+		str := pkg + astmodel.StoragePackageSuffix
+		gc.versions[strings.ToLower(str)] = version
+	}
 }
 
 // visitVersion invokes the provided visitor on the specified version if present.
@@ -133,7 +136,7 @@ func (gc *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			gc.Add(v)
+			gc.add(v)
 			continue
 		}
 

@@ -27,31 +27,23 @@ func NewKubeMatcher(verify *Verify, ctx context.Context) *KubeMatcher {
 	}
 }
 
-func (m *KubeMatcher) BeProvisioned() types.GomegaMatcher {
+func (m *KubeMatcher) BeProvisioned(originalGeneration int64) types.GomegaMatcher {
 	return &DesiredStateMatcher{
-		verify:            m.verify,
-		ctx:               m.ctx,
-		readyGoalStatus:   metav1.ConditionTrue,
-		readyGoalSeverity: conditions.ConditionSeverityNone,
+		verify:             m.verify,
+		ctx:                m.ctx,
+		readyGoalStatus:    metav1.ConditionTrue,
+		readyGoalSeverity:  conditions.ConditionSeverityNone,
+		originalGeneration: originalGeneration,
 	}
 }
 
-func (m *KubeMatcher) BeProvisionedAfter(previousReadyCondition conditions.Condition) types.GomegaMatcher {
+func (m *KubeMatcher) BeFailed(originalGeneration int64) types.GomegaMatcher {
 	return &DesiredStateMatcher{
-		verify:              m.verify,
-		ctx:                 m.ctx,
-		readyGoalStatus:     metav1.ConditionTrue,
-		readyGoalSeverity:   conditions.ConditionSeverityNone,
-		readyPreviousStatus: &previousReadyCondition.Status,
-	}
-}
-
-func (m *KubeMatcher) BeFailed() types.GomegaMatcher {
-	return &DesiredStateMatcher{
-		verify:            m.verify,
-		ctx:               m.ctx,
-		readyGoalStatus:   metav1.ConditionFalse,
-		readyGoalSeverity: conditions.ConditionSeverityError,
+		verify:             m.verify,
+		ctx:                m.ctx,
+		readyGoalStatus:    metav1.ConditionFalse,
+		readyGoalSeverity:  conditions.ConditionSeverityError,
+		originalGeneration: originalGeneration,
 	}
 }
 
@@ -59,5 +51,14 @@ func (m *KubeMatcher) BeDeleted() types.GomegaMatcher {
 	return &BeDeletedMatcher{
 		verify: m.verify,
 		ctx:    m.ctx,
+	}
+}
+
+func (m *KubeMatcher) BeInState(status metav1.ConditionStatus, severity conditions.ConditionSeverity) types.GomegaMatcher {
+	return &DesiredStateMatcher{
+		verify:            m.verify,
+		ctx:               m.ctx,
+		readyGoalStatus:   status,
+		readyGoalSeverity: severity,
 	}
 }

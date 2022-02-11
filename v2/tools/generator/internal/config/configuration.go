@@ -6,7 +6,6 @@
 package config
 
 import (
-	"fmt"
 	"net/url"
 	"os"
 	"path"
@@ -45,8 +44,6 @@ type Configuration struct {
 	// AnyTypePackages lists packages which we expect to generate
 	// interface{} fields.
 	AnyTypePackages []string `yaml:"anyTypePackages"`
-	// Filters used to control which types are exported
-	ExportFilters []*ExportFilter `yaml:"exportFilters"`
 	// Filters used to control which types are created from the JSON schema
 	TypeFilters []*TypeFilter `yaml:"typeFilters"`
 	// Transformers used to remap types
@@ -123,18 +120,6 @@ func (config *Configuration) GetPropertyTransformersError() error {
 	return nil
 }
 
-func (config *Configuration) GetExportFiltersError() error {
-	var errs []error
-	for _, filter := range config.ExportFilters {
-		err := filter.Error()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-
-	return kerrors.NewAggregate(errs)
-}
-
 // NewConfiguration returns a new empty Configuration
 func NewConfiguration() *Configuration {
 	return &Configuration{
@@ -164,16 +149,6 @@ func LoadConfiguration(configurationFile string) (*Configuration, error) {
 	return result, nil
 }
 
-// ShouldExportResult is returned by ShouldExport to indicate whether the supplied type should be exported
-type ShouldExportResult string
-
-const (
-	// Export indicates the specified type should be exported to disk
-	Export ShouldExportResult = "export"
-	// Skip indicates the specified type should be skipped and not exported
-	Skip ShouldExportResult = "skip"
-)
-
 // ShouldPruneResult is returned by ShouldPrune to indicate whether the supplied type should be exported
 type ShouldPruneResult string
 
@@ -184,14 +159,6 @@ const (
 	Prune ShouldPruneResult = "prune"
 )
 
-// WithExportFilters adds the provided ExportFilters to the configurations collection of ExportFilters
-func (config *Configuration) WithExportFilters(filters ...*ExportFilter) *Configuration {
-	result := *config
-	result.ExportFilters = append(result.ExportFilters, filters...)
-
-	return &result
-}
-
 // TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
 // and false if not.
 func (config *Configuration) TypeRename(name astmodel.TypeName) (string, error) {
@@ -199,7 +166,7 @@ func (config *Configuration) TypeRename(name astmodel.TypeName) (string, error) 
 		return "", errors.Errorf("no configuration: no rename available for %s", name)
 	}
 
-	return config.ObjectModelConfiguration.TypeRename(name)
+	return config.ObjectModelConfiguration.LookupNameInNextVersion(name)
 }
 
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
@@ -269,13 +236,6 @@ func (config *Configuration) initialize(configPath string) error {
 		config.GoModulePath = modPath
 	}
 
-	for _, filter := range config.ExportFilters {
-		err = filter.Initialize()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-
 	for _, filter := range config.TypeFilters {
 		err := filter.Initialize()
 		if err != nil {
@@ -319,97 +279,6 @@ func absDirectoryPathToURL(path string) *url.URL {
 	}
 
 	return result
-}
-
-type ExportFilterFunc func(astmodel.TypeName) (result ShouldExportResult, newName *astmodel.TypeName, because string)
-
-func buildExportFilterFunc(f *ExportFilter, allTypes astmodel.Types) ExportFilterFunc {
-	switch f.Action {
-	case ExportFilterExclude:
-		return func(typeName astmodel.TypeName) (ShouldExportResult, *astmodel.TypeName, string) {
-			if f.AppliesToType(typeName) {
-				return Skip, nil, f.Because
-			}
-
-			return "", nil, ""
-		}
-
-	case ExportFilterInclude:
-		return func(typeName astmodel.TypeName) (ShouldExportResult, *astmodel.TypeName, string) {
-			if f.AppliesToType(typeName) {
-				return Export, nil, f.Because
-			}
-
-			return "", nil, ""
-		}
-
-	case ExportFilterIncludeTransitive:
-		applicableTypes := astmodel.NewTypeNameSet()
-		renames := make(map[astmodel.TypeName]astmodel.TypeName)
-
-		for tn := range allTypes {
-			if f.AppliesToType(tn) {
-				if f.RenameTo != "" {
-					renames[tn] = tn.WithName(f.RenameTo)
-				}
-				collectAllReferencedTypes(allTypes, tn, applicableTypes)
-			}
-		}
-
-		return func(typeName astmodel.TypeName) (ShouldExportResult, *astmodel.TypeName, string) {
-			if applicableTypes.Contains(typeName) {
-				var renamePtr *astmodel.TypeName
-				rename, ok := renames[typeName]
-				if ok {
-					renamePtr = &rename
-				}
-
-				return Export, renamePtr, f.Because
-			}
-
-			return "", nil, ""
-		}
-
-	default:
-		panic(errors.Errorf("unknown exportfilter directive: %s", f.Action))
-	}
-}
-
-func collectAllReferencedTypes(allTypes astmodel.Types, root astmodel.TypeName, output astmodel.TypeNameSet) {
-	output.Add(root)
-	rootTypeDefinition := allTypes[root]
-
-	if rootTypeDefinition.Type() == nil {
-		panic(fmt.Sprintf("Couldn't find root %s in allTypes", root))
-	}
-
-	for referenced := range rootTypeDefinition.Type().References() {
-		if !output.Contains(referenced) {
-			collectAllReferencedTypes(allTypes, referenced, output)
-		}
-	}
-}
-
-// BuildExportFilterer tests for whether a given type should be exported as Go code
-// Returns a result indicating whether export should occur as well as a reason for logging
-func (config *Configuration) BuildExportFilterer(allTypes astmodel.Types) ExportFilterFunc {
-	var filters []ExportFilterFunc
-	for _, f := range config.ExportFilters {
-		filter := buildExportFilterFunc(f, allTypes)
-		filters = append(filters, filter)
-	}
-
-	return func(typeName astmodel.TypeName) (result ShouldExportResult, newName *astmodel.TypeName, because string) {
-		for _, filter := range filters {
-			result, newName, because := filter(typeName)
-			if result != "" {
-				return result, newName, because
-			}
-		}
-
-		// By default, we export all types
-		return Export, nil, ""
-	}
 }
 
 // ShouldPrune tests for whether a given type should be extracted from the JSON schema or pruned

@@ -1,6 +1,5 @@
 | Types defined in package "servicebus"                      | v1alpha1api20210101preview |
 |------------------------------------------------------------|----------------------------|
-| APIVersion                                                 | v1alpha1api20210101preview |
 | ConnectionState_Spec                                       | v1alpha1api20210101preview |
 | ConnectionState_Status_Spec                                | v1alpha1api20210101preview |
 | DictionaryValue_Status                                     | v1alpha1api20210101preview |

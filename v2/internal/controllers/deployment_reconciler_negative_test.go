@@ -121,16 +121,14 @@ func Test_OperationAccepted_LongRunningOperationFails_SucceedsAfterUpdate(t *tes
 	// Remove the bad property and ensure we can successfully provision
 	old := acct.DeepCopy()
 	acct.Spec.KeyPolicy = nil
-	ready, ok := conditions.GetCondition(acct, conditions.ConditionTypeReady)
-	tc.Expect(ok).To(BeTrue())
-	tc.PatchResourceAndWaitAfter(old, acct, ready)
+	tc.PatchResourceAndWait(old, acct)
 
 	// Ensure that the old failure information was cleared away
 	objectKey := client.ObjectKeyFromObject(acct)
 	updated := &storage.StorageAccount{}
 	tc.GetResource(objectKey, updated)
 
-	ready, ok = conditions.GetCondition(acct, conditions.ConditionTypeReady)
+	ready, ok := conditions.GetCondition(acct, conditions.ConditionTypeReady)
 	tc.Expect(ok).To(BeTrue())
 
 	tc.Expect(ready.Status).To(Equal(metav1.ConditionTrue))
@@ -186,20 +184,17 @@ func Test_OperationRejected_SucceedsAfterUpdate(t *testing.T) {
 
 	tc.CreateResourceAndWaitForFailure(vmss)
 
-	ready, ok := conditions.GetCondition(vmss, conditions.ConditionTypeReady)
-	tc.Expect(ok).To(BeTrue())
-
 	// Now fix the image reference and the VMSS should successfully deploy
 	old := vmss.DeepCopy()
 	vmss.Spec.VirtualMachineProfile.StorageProfile.ImageReference = originalImgRef
-	tc.PatchResourceAndWaitAfter(old, vmss, ready)
+	tc.PatchResourceAndWait(old, vmss)
 
 	// Ensure that the old failure information was cleared away
 	objectKey := client.ObjectKeyFromObject(vmss)
 	updated := &compute.VirtualMachineScaleSet{}
 	tc.GetResource(objectKey, updated)
 
-	ready, ok = conditions.GetCondition(updated, conditions.ConditionTypeReady)
+	ready, ok := conditions.GetCondition(updated, conditions.ConditionTypeReady)
 	tc.Expect(ok).To(BeTrue())
 
 	tc.Expect(ready.Status).To(Equal(metav1.ConditionTrue))

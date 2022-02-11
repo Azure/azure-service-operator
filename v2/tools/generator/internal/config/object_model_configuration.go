@@ -36,15 +36,15 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 	}
 }
 
-// TypeRename checks whether we have an alternative name for the specified type, returning the name if found.
-// Returns a NotConfiguredError if no rename is available.
-func (omc *ObjectModelConfiguration) TypeRename(name astmodel.TypeName) (string, error) {
-	var result string
+// LookupNameInNextVersion checks whether we have an alternative name for the specified type, returning the name if
+// found. Returns a NotConfiguredError if no rename is available.
+func (omc *ObjectModelConfiguration) LookupNameInNextVersion(name astmodel.TypeName) (string, error) {
+	var newName string
 	visitor := NewSingleTypeConfigurationVisitor(
 		name,
 		func(configuration *TypeConfiguration) error {
-			rename, err := configuration.TypeRename()
-			result = rename
+			n, err := configuration.LookupNameInNextVersion()
+			newName = n
 			return err
 		})
 	err := visitor.Visit(omc)
@@ -52,14 +52,70 @@ func (omc *ObjectModelConfiguration) TypeRename(name astmodel.TypeName) (string,
 		return "", err
 	}
 
-	return result, nil
+	return newName, nil
 }
 
-// VerifyTypeRenamesConsumed returns an error if any configured type renames were not consumed
-func (omc *ObjectModelConfiguration) VerifyTypeRenamesConsumed() error {
+// VerifyNameInNextVersionConsumed returns an error if any configured type renames were not consumed
+func (omc *ObjectModelConfiguration) VerifyNameInNextVersionConsumed() error {
 	visitor := NewEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
-			return configuration.VerifyTypeRenameConsumed()
+			return configuration.VerifyNameInNextVersionConsumed()
+		})
+	return visitor.Visit(omc)
+}
+
+// LookupExport checks to see whether a specified type is configured for export, returning the value if found. Returns a
+// NotConfiguredError if no export is configured.
+func (omc *ObjectModelConfiguration) LookupExport(name astmodel.TypeName) (bool, error) {
+	var export bool
+	visitor := NewSingleTypeConfigurationVisitor(
+		name,
+		func(configuration *TypeConfiguration) error {
+			ex, err := configuration.LookupExport()
+			export = ex
+			return err
+		})
+	err := visitor.Visit(omc)
+	if err != nil {
+		return false, err
+	}
+
+	return export, nil
+}
+
+// VerifyExportConsumed returns an error if our configured export flag was not used, nil otherwise.
+func (omc *ObjectModelConfiguration) VerifyExportConsumed() error {
+	visitor := NewEveryTypeConfigurationVisitor(
+		func(configuration *TypeConfiguration) error {
+			return configuration.VerifyExportConsumed()
+		})
+	return visitor.Visit(omc)
+}
+
+// LookupExportAs checks to see whether a specified type is configured for export with an alternative name, returning the
+// name if found. Returns a NotConfiguredError if no export is configured.
+func (omc *ObjectModelConfiguration) LookupExportAs(name astmodel.TypeName) (string, error) {
+	var exportAs string
+	visitor := NewSingleTypeConfigurationVisitor(
+		name,
+		func(configuration *TypeConfiguration) error {
+			ea, err := configuration.LookupExportAs()
+			exportAs = ea
+			return err
+		})
+	err := visitor.Visit(omc)
+	if err != nil {
+		return "", err
+	}
+
+	return exportAs, nil
+}
+
+// VerifyExportAsConsumed returns an error if our configured export name was not used, nil otherwise.
+func (omc *ObjectModelConfiguration) VerifyExportAsConsumed() error {
+	visitor := NewEveryTypeConfigurationVisitor(
+		func(configuration *TypeConfiguration) error {
+			return configuration.VerifyExportAsConsumed()
 		})
 	return visitor.Visit(omc)
 }
@@ -123,7 +179,7 @@ func (omc *ObjectModelConfiguration) VerifyIsSecretConsumed() error {
 }
 
 // Add includes the provided GroupConfiguration in this model configuration
-func (omc *ObjectModelConfiguration) Add(group *GroupConfiguration) *ObjectModelConfiguration {
+func (omc *ObjectModelConfiguration) add(group *GroupConfiguration) {
 	if omc.groups == nil {
 		// Initialize the map just-in-time
 		omc.groups = make(map[string]*GroupConfiguration)
@@ -132,7 +188,6 @@ func (omc *ObjectModelConfiguration) Add(group *GroupConfiguration) *ObjectModel
 	// store the group name using lowercase,
 	// so we can do case-insensitive lookups later
 	omc.groups[strings.ToLower(group.name)] = group
-	return omc
 }
 
 // visitGroup invokes the provided visitor on the specified group if present.
@@ -140,6 +195,7 @@ func (omc *ObjectModelConfiguration) Add(group *GroupConfiguration) *ObjectModel
 func (omc *ObjectModelConfiguration) visitGroup(
 	name astmodel.TypeName,
 	visitor *configurationVisitor) error {
+
 	group, err := omc.findGroup(name)
 	if err != nil {
 		return err
@@ -166,6 +222,11 @@ func (omc *ObjectModelConfiguration) findGroup(name astmodel.TypeName) (*GroupCo
 		return nil, errors.Errorf(
 			"external package reference %s not supported",
 			name.PackageReference)
+	}
+
+	if omc == nil || omc.groups == nil {
+		msg := fmt.Sprintf("no configuration for group %s", group)
+		return nil, NewNotConfiguredError(msg)
 	}
 
 	if g, ok := omc.groups[group]; ok {
@@ -199,7 +260,7 @@ func (omc *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			omc.Add(g)
+			omc.add(g)
 			continue
 		}
 
@@ -221,4 +282,35 @@ func (omc *ObjectModelConfiguration) configuredGroups() []string {
 	}
 
 	return result
+}
+
+// CreateTestObjectModelConfiguration builds up a new configuration for a particular type, returning both the top level
+// configuration and the type configuration.
+// While intended only for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
+func CreateTestObjectModelConfiguration(name astmodel.TypeName) (*ObjectModelConfiguration, *TypeConfiguration) {
+	group, version, ok := name.PackageReference.GroupVersion()
+	if !ok {
+		panic(fmt.Sprintf("unexpected external package reference for resource name %s", name))
+	}
+
+	typeConfig := NewTypeConfiguration(name.Name())
+
+	versionConfig := NewVersionConfiguration(version)
+	versionConfig.add(typeConfig)
+
+	groupConfig := NewGroupConfiguration(group)
+	groupConfig.add(versionConfig)
+
+	objectModelConfig := NewObjectModelConfiguration()
+	objectModelConfig.add(groupConfig)
+
+	return objectModelConfig, typeConfig
+}
+
+// CreateTestObjectModelConfigurationForRename builds up a new configuring for testing rename of a particular type.
+// While intended only for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
+func CreateTestObjectModelConfigurationForRename(name astmodel.TypeName, newName string) *ObjectModelConfiguration {
+	omc, tc := CreateTestObjectModelConfiguration(name)
+	tc.nameInNextVersion.write(newName)
+	return omc
 }

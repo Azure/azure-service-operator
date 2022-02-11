@@ -312,11 +312,6 @@ type ManagedClusterList struct {
 	Items           []ManagedCluster `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-05-01"}
-type APIVersion string
-
-const APIVersionValue = APIVersion("2021-05-01")
-
 type ManagedCluster_Status struct {
 	//AadProfile: The Azure Active Directory configuration.
 	AadProfile *ManagedClusterAADProfile_Status `json:"aadProfile,omitempty"`

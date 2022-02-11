@@ -312,11 +312,6 @@ type ComponentList struct {
 	Items           []Component `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2020-02-02"}
-type APIVersion string
-
-const APIVersionValue = APIVersion("2020-02-02")
-
 type ApplicationInsightsComponent_Status struct {
 	//AppId: Application Insights Unique ID for your Application.
 	AppId *string `json:"AppId,omitempty"`

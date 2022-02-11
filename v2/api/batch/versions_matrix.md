@@ -1,6 +1,5 @@
 | Types defined in package "batch"                   | v1alpha1api20210101 |
 |----------------------------------------------------|---------------------|
-| APIVersion                                         | v1alpha1api20210101 |
 | AutoStorageBaseProperties_Spec                     | v1alpha1api20210101 |
 | AutoStorageBaseProperties_Status                   | v1alpha1api20210101 |
 | BatchAccount                                       | v1alpha1api20210101 |

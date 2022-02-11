@@ -148,6 +148,7 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 			pipeline.DeleteGeneratedCodeStageID,
 			pipeline.CheckForAnyTypeStageID,
 			pipeline.CreateStorageTypesStageID,
+			pipeline.CreateResourceExtensionsStageID,
 			// TODO: Once the stage is enabled in the pipeline, we may need to remove it here for testing
 			// pipeline.InjectHubFunctionStageID,
 			// pipeline.ImplementConvertibleInterfaceStageId,
@@ -188,7 +189,9 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 		codegen.InjectStageAfter(pipeline.RemoveTypeAliasesStageID, injectEmbeddedStructType())
 	}
 
-	codegen.RemoveStages()
+	codegen.RemoveStages(
+		pipeline.ApplyExportFiltersStageID, // Don't want any filtering of resources during tests
+	)
 
 	return codegen, nil
 }

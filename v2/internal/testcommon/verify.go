@@ -28,8 +28,14 @@ func NewVerify(c client.Client) *Verify {
 	}
 }
 
-// HasState verifies that the provisioning state of the resource the target state.
-func (e *Verify) HasState(ctx context.Context, obj client.Object, desiredState metav1.ConditionStatus, desiredSeverity conditions.ConditionSeverity) (bool, error) {
+// HasState verifies that the provisioning state of the resource is in the target state.
+func (e *Verify) HasState(
+	ctx context.Context,
+	obj client.Object,
+	desiredState metav1.ConditionStatus,
+	desiredSeverity conditions.ConditionSeverity,
+	oldGeneration int64) (bool, error) {
+
 	key := client.ObjectKeyFromObject(obj)
 
 	// In order to ensure that "old state" is cleared out from obj, we need to:
@@ -63,17 +69,9 @@ func (e *Verify) HasState(ctx context.Context, obj client.Object, desiredState m
 		return false, nil
 	}
 
-	return ready.Status == desiredState && ready.Severity == desiredSeverity, nil
-}
-
-// Provisioned verifies that the provisioning state of the resource is successful.
-func (e *Verify) Provisioned(ctx context.Context, obj client.Object) (bool, error) {
-	return e.HasState(ctx, obj, metav1.ConditionTrue, conditions.ConditionSeverityNone)
-}
-
-// Failed verifies that the provisioning state of the resource is failed.
-func (e *Verify) Failed(ctx context.Context, obj client.Object) (bool, error) {
-	return e.HasState(ctx, obj, metav1.ConditionFalse, conditions.ConditionSeverityError)
+	inGoalState := ready.Status == desiredState && ready.Severity == desiredSeverity
+	hasObservedGenerationChanged := oldGeneration != ready.ObservedGeneration
+	return inGoalState && hasObservedGenerationChanged, nil
 }
 
 // Deleted verifies that the object specified has been deleted

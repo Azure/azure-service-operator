@@ -1,6 +1,5 @@
 | Types defined in package "eventhub"                          | v1alpha1api20211101 |
 |--------------------------------------------------------------|---------------------|
-| APIVersion                                                   | v1alpha1api20211101 |
 | AuthorizationRule_Properties_Rights_Status                   | v1alpha1api20211101 |
 | AuthorizationRule_Properties_Status                          | v1alpha1api20211101 |
 | AuthorizationRule_Status                                     | v1alpha1api20211101 |

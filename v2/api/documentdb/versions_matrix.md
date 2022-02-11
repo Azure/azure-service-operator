@@ -1,6 +1,5 @@
 | Types defined in package "documentdb"                              | v1alpha1api20210515 |
 |--------------------------------------------------------------------|---------------------|
-| APIVersion                                                         | v1alpha1api20210515 |
 | AnalyticalStorageConfiguration_Spec                                | v1alpha1api20210515 |
 | AnalyticalStorageConfiguration_Status                              | v1alpha1api20210515 |
 | AnalyticalStorageSchemaType_Spec                                   | v1alpha1api20210515 |

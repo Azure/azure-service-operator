@@ -22,9 +22,11 @@ const (
 	ResourceKindExtension = ResourceKind("extension")
 )
 
-// TODO: These should become Status properties at some point.
+// TODO: It's weird that this is isn't with the other annotations
+// TODO: Should we move them all here (so they're exported?) Or shold we move them
+// TODO: to serviceoperator-internal.azure.com to signify they are internal?
 const (
-	ResourceIDAnnotation = "resource-id.azure.com"
+	ResourceIDAnnotation = "serviceoperator.azure.com/resource-id"
 )
 
 // MetaObject represents an arbitrary ASO custom resource
@@ -52,6 +54,9 @@ func SetResourceID(obj MetaObject, id string) {
 	AddAnnotation(obj, ResourceIDAnnotation, id)
 }
 
+// AddAnnotation adds the specified annotation to the object.
+// Empty string annotations are not allowed. Attempting to add an annotation with a value
+// of empty string will result in the removal of that annotation.
 func AddAnnotation(obj MetaObject, k string, v string) {
 	annotations := obj.GetAnnotations()
 	if annotations == nil {
@@ -64,6 +69,11 @@ func AddAnnotation(obj MetaObject, k string, v string) {
 		annotations[k] = v
 	}
 	obj.SetAnnotations(annotations)
+}
+
+// RemoveAnnotation removes the specified annotation from the object
+func RemoveAnnotation(obj MetaObject, k string) {
+	AddAnnotation(obj, k, "")
 }
 
 // ARMResourceSpec is an ARM resource specification. This interface contains

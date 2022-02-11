@@ -194,6 +194,9 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		pipeline.SimplifyDefinitions(),
 
+		// Create Resource Extensions
+		pipeline.CreateResourceExtensions(configuration.LocalPathPrefix(), idFactory).UsedFor(pipeline.ARMTarget),
+
 		// Safety checks at the end:
 		pipeline.EnsureDefinitionsDoNotUseAnyTypes(),
 		pipeline.EnsureARMTypeExistsForEveryResource().UsedFor(pipeline.ARMTarget),

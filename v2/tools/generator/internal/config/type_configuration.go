@@ -27,9 +27,10 @@ import (
 //
 type TypeConfiguration struct {
 	name              string
-	renamedTo         *string
-	renamedToConsumed bool
 	properties        map[string]*PropertyConfiguration
+	nameInNextVersion configurableString
+	export            configurableBool
+	exportAs          configurableString
 }
 
 func NewTypeConfiguration(name string) *TypeConfiguration {
@@ -39,37 +40,76 @@ func NewTypeConfiguration(name string) *TypeConfiguration {
 	}
 }
 
-// TypeRename returns a new name (and true) if one is configured for this type, or empty string and false if not.
-func (tc *TypeConfiguration) TypeRename() (string, error) {
-	if tc.renamedTo == nil {
-		msg := fmt.Sprintf(renamedToTag+" not specified for type %s", tc.name)
+// LookupNameInNextVersion checks to see whether the name of this type in the next version is configured, returning
+// either that name or a NotConfiguredError.
+func (tc *TypeConfiguration) LookupNameInNextVersion() (string, error) {
+	name, ok := tc.nameInNextVersion.read()
+	if !ok {
+		msg := fmt.Sprintf(nameInNextVersionTag+" not specified for type %s", tc.name)
 		return "", NewNotConfiguredError(msg)
 	}
 
-	tc.renamedToConsumed = true
-	return *tc.renamedTo, nil
+	return name, nil
 }
 
-// SetTypeRename sets the name this type is renamed to
-func (tc *TypeConfiguration) SetTypeRename(renameTo string) *TypeConfiguration {
-	tc.renamedTo = &renameTo
-	return tc
+// VerifyNameInNextVersionConsumed returns an error if our configured rename was not used, nil otherwise.
+func (tc *TypeConfiguration) VerifyNameInNextVersionConsumed() error {
+	if tc.nameInNextVersion.isUnconsumed() {
+		v, _ := tc.nameInNextVersion.read()
+		return errors.Errorf("type %s: "+nameInNextVersionTag+": %s not consumed", tc.name, v)
+	}
+
+	return nil
 }
 
-// VerifyTypeRenameConsumed returns an error if our configured rename was not used, nil otherwise.
-func (tc *TypeConfiguration) VerifyTypeRenameConsumed() error {
-	if tc.renamedTo != nil && !tc.renamedToConsumed {
-		return errors.Errorf("type %s: "+renamedToTag+": %s not consumed", tc.name, *tc.renamedTo)
+// LookupExport checks to see whether this type is configured for export, returning either that value or a
+// NotConfiguredError.
+func (tc *TypeConfiguration) LookupExport() (bool, error) {
+	v, ok := tc.export.read()
+	if !ok {
+		msg := fmt.Sprintf(exportTag+" not specified for type %s", tc.name)
+		return false, NewNotConfiguredError(msg)
+	}
+
+	return v, nil
+}
+
+// VerifyExportConsumed returns an error if our configured export flag was not used, nil otherwise.
+func (tc *TypeConfiguration) VerifyExportConsumed() error {
+	if tc.export.isUnconsumed() {
+		// v, _ := tc.export.read()
+		// return errors.Errorf("type %s: "+exportTag+": %t not consumed", tc.name, v)
+	}
+
+	return nil
+}
+
+// LookupExportAs checks to see whether this type has a custom name configured for export, returning either that name
+// or a NotConfiguredError.
+func (tc *TypeConfiguration) LookupExportAs() (string, error) {
+	v, ok := tc.exportAs.read()
+	if !ok {
+		msg := fmt.Sprintf(exportAsTag+" not specified for type %s", tc.name)
+		return "", NewNotConfiguredError(msg)
+	}
+
+	return v, nil
+}
+
+// VerifyExportAsConsumed returns an error if our configured export name was not used, nil otherwise.
+func (tc *TypeConfiguration) VerifyExportAsConsumed() error {
+	if tc.exportAs.isUnconsumed() {
+		v, _ := tc.exportAs.read()
+		return errors.Errorf("type %s: "+exportAsTag+": %s not consumed", tc.name, v)
 	}
 
 	return nil
 }
 
 // Add includes configuration for the specified property as a part of this type configuration
-func (tc *TypeConfiguration) Add(property *PropertyConfiguration) *TypeConfiguration {
+func (tc *TypeConfiguration) add(property *PropertyConfiguration) {
 	// Indexed by lowercase name of the property to allow case-insensitive lookups
 	tc.properties[strings.ToLower(property.name)] = property
-	return tc
 }
 
 // visitProperty invokes the provided visitor on the specified property if present.
@@ -142,12 +182,31 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			tc.Add(p)
+			tc.add(p)
 			continue
 		}
 
-		if strings.EqualFold(lastId, renamedToTag) && c.Kind == yaml.ScalarNode {
-			tc.SetTypeRename(c.Value)
+		// $nameInNextVersion: <string>
+		if strings.EqualFold(lastId, nameInNextVersionTag) && c.Kind == yaml.ScalarNode {
+			tc.nameInNextVersion.write(c.Value)
+			continue
+		}
+
+		// $export: <bool>
+		if strings.EqualFold(lastId, exportTag) && c.Kind == yaml.ScalarNode {
+			var export bool
+			err := c.Decode(&export)
+			if err != nil {
+				return errors.Wrapf(err, "decoding %s", exportTag)
+			}
+
+			tc.export.write(export)
+			continue
+		}
+
+		// $exportAs: <string>
+		if strings.EqualFold(lastId, exportAsTag) && c.Kind == yaml.ScalarNode {
+			tc.exportAs.write(c.Value)
 			continue
 		}
 

@@ -2,7 +2,6 @@
 |--------------------------------------------------------------|---------------------|
 | ACLAction_Spec                                               | v1alpha1api20211001 |
 | ACLAction_Status                                             | v1alpha1api20211001 |
-| APIVersion                                                   | v1alpha1api20211001 |
 | FeatureFlags_Spec                                            | v1alpha1api20211001 |
 | FeatureFlags_Status                                          | v1alpha1api20211001 |
 | ManagedIdentitySettings_Spec                                 | v1alpha1api20211001 |

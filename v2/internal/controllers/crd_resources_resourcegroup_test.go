@@ -8,11 +8,7 @@ package controllers_test
 import (
 	"testing"
 
-	"sigs.k8s.io/controller-runtime/pkg/client"
-
 	. "github.com/onsi/gomega"
-
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
 )
 
 func Test_Resources_ResourceGroup_CRUD(t *testing.T) {
@@ -33,16 +29,8 @@ func Test_Resources_ResourceGroup_CRUD(t *testing.T) {
 	// Update the tags
 	old := rg.DeepCopy()
 	rg.Spec.Tags["tag1"] = "value1"
-	tc.Patch(old, rg)
-
-	objectKey := client.ObjectKeyFromObject(rg)
-
-	// ensure they get updated
-	tc.Eventually(func() map[string]string {
-		newRG := &resources.ResourceGroup{}
-		tc.GetResource(objectKey, newRG)
-		return newRG.Status.Tags
-	}).Should(HaveKeyWithValue("tag1", "value1"))
+	tc.PatchResourceAndWait(old, rg)
+	tc.Expect(rg.Status.Tags).To(HaveKeyWithValue("tag1", "value1"))
 
 	tc.DeleteResourceAndWait(rg)
 

@@ -311,11 +311,6 @@ type FlexibleServerList struct {
 	Items           []FlexibleServer `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-05-01"}
-type APIVersion string
-
-const APIVersionValue = APIVersion("2021-05-01")
-
 type FlexibleServers_SPEC struct {
 	//AdministratorLogin: The administrator's login name of a server. Can only be
 	//specified when the server is being created (and is required for creation).

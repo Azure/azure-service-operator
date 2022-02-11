@@ -30,15 +30,14 @@ type DesiredStateMatcher struct {
 	verify *Verify
 	ctx    context.Context
 
-	readyGoalStatus     metav1.ConditionStatus
-	readyGoalSeverity   conditions.ConditionSeverity
-	readyPreviousStatus *metav1.ConditionStatus
+	readyGoalStatus    metav1.ConditionStatus
+	readyGoalSeverity  conditions.ConditionSeverity
+	originalGeneration int64
 }
 
 var _ types.GomegaMatcher = &DesiredStateMatcher{}
 
 func (m *DesiredStateMatcher) Match(actual interface{}) (bool, error) {
-
 	if actual == nil {
 		return false, nil
 	}
@@ -48,7 +47,7 @@ func (m *DesiredStateMatcher) Match(actual interface{}) (bool, error) {
 		return false, err
 	}
 
-	return m.verify.HasState(m.ctx, obj, m.readyGoalStatus, m.readyGoalSeverity)
+	return m.verify.HasState(m.ctx, obj, m.readyGoalStatus, m.readyGoalSeverity, m.originalGeneration)
 }
 
 func (m *DesiredStateMatcher) FailureMessage(actual interface{}) string {
@@ -112,6 +111,6 @@ func (m *DesiredStateMatcher) MatchMayChangeInTheFuture(actual interface{}) bool
 		return true
 	}
 	isTerminalState := ready.Status == metav1.ConditionTrue || ready.Severity == conditions.ConditionSeverityError
-	isChangingFromOldState := m.readyPreviousStatus != nil && *m.readyPreviousStatus == ready.Status
-	return !isTerminalState || isChangingFromOldState
+	hasChanged := m.originalGeneration != ready.ObservedGeneration
+	return !isTerminalState || !hasChanged
 }

@@ -311,11 +311,6 @@ type NamespaceList struct {
 	Items           []Namespace `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-11-01"}
-type APIVersion string
-
-const APIVersionValue = APIVersion("2021-11-01")
-
 type EHNamespace_Status struct {
 	//AlternateName: Alternate name specified when alias and namespace names are same.
 	AlternateName *string `json:"alternateName,omitempty"`

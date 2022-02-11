@@ -1,6 +1,5 @@
 | Types defined in package "authorization"      | v1alpha1api20200801preview |
 |-----------------------------------------------|----------------------------|
-| APIVersion                                    | v1alpha1api20200801preview |
 | RoleAssignment                                | v1alpha1api20200801preview |
 | RoleAssignmentProperties_PrincipalType_Spec   | v1alpha1api20200801preview |
 | RoleAssignmentProperties_PrincipalType_Status | v1alpha1api20200801preview |

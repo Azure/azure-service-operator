@@ -312,11 +312,6 @@ type VirtualMachineList struct {
 	Items           []VirtualMachine `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2020-12-01"}
-type APIVersion string
-
-const APIVersionValue = APIVersion("2020-12-01")
-
 type VirtualMachine_Status struct {
 	//AdditionalCapabilities: Specifies additional capabilities enabled or disabled on
 	//the virtual machine.

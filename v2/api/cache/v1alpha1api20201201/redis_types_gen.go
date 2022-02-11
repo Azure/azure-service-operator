@@ -311,11 +311,6 @@ type RedisList struct {
 	Items           []Redis `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2020-12-01"}
-type APIVersion string
-
-const APIVersionValue = APIVersion("2020-12-01")
-
 type Redis_SPEC struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.

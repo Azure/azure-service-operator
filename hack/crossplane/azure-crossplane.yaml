@@ -84,39 +84,6 @@ typeFilters:
     group: resources
     name: '*Deployment'
     because: This is terrifying.
-exportFilters:
-  - action: exclude
-    group: definitions
-    name: '*ResourceBase*'
-    because: Not actually a resource, used for inheritance only.
-  - action: exclude
-    group: deploymenttemplate
-    name: '*ResourceBase*'
-    because: Not actually a resource, used for inheritance only.
-#  - action: include
-#    version: v*api20200501
-#    group: network
-#    because: Including network for Crossplane
-  - action: include-transitive
-    version: v*api20200601
-    group: cache
-    name: Redis
-    because: Including Redis
-  - action: include-transitive
-    version: v*api20201101preview
-    group: sql
-    name: Server
-    because: Including sql Server
-  - action: include-transitive
-    version: v*api20201101preview
-    group: sql
-    name: ServersDatabase
-    because: Including sql ServersDatabase
-  - action: include-transitive
-    group: deploymenttemplate
-    because: We need this too
-  - action: exclude
-    because: Excluding everything else
 
 # Exclusions for packages that currently produce types including AnyType.
 # TODO: get rid of these, either by chasing the teams generating
@@ -359,3 +326,14 @@ status:
       ]
     },
   ]
+objectModelConfiguration: 
+  sql:
+    2020-11-01-preview:
+      Server:
+        $export: true
+      ServersDatabase:
+        $export: true
+  cache:
+    2020-06-01:
+      Redis: 
+        $export: true

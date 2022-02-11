@@ -1,6 +1,5 @@
 | Types defined in package "dbformysql" | v1alpha1api20210501 |
 |---------------------------------------|---------------------|
-| APIVersion                            | v1alpha1api20210501 |
 | Backup_Spec                           | v1alpha1api20210501 |
 | Backup_Status                         | v1alpha1api20210501 |
 | DatabaseProperties_Spec               | v1alpha1api20210501 |

@@ -311,11 +311,6 @@ type WorkspaceList struct {
 	Items           []Workspace `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-06-01"}
-type APIVersion string
-
-const APIVersionValue = APIVersion("2021-06-01")
-
 type Workspace_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`

@@ -1,6 +1,5 @@
 | Types defined in package "network"                                                               | v1alpha1api20201101 |
 |--------------------------------------------------------------------------------------------------|---------------------|
-| APIVersion                                                                                       | v1alpha1api20201101 |
 | AddressSpace_Spec                                                                                | v1alpha1api20201101 |
 | AddressSpace_Status                                                                              | v1alpha1api20201101 |
 | ApplicationGatewayBackendAddressPoolPropertiesFormat_Spec                                        | v1alpha1api20201101 |

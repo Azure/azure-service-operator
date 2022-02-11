@@ -9,7 +9,6 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -47,16 +46,8 @@ func Test_Networking_PublicIP_CRUD(t *testing.T) {
 	old := publicIPAddress.DeepCopy()
 	idleTimeoutInMinutes := 7
 	publicIPAddress.Spec.IdleTimeoutInMinutes = &idleTimeoutInMinutes
-	tc.Patch(old, publicIPAddress)
-
-	objectKey := client.ObjectKeyFromObject(publicIPAddress)
-
-	// ensure state got updated in Azure
-	tc.Eventually(func() *int {
-		updatedIP := &network.PublicIPAddress{}
-		tc.GetResource(objectKey, updatedIP)
-		return updatedIP.Status.IdleTimeoutInMinutes
-	}).Should(Equal(&idleTimeoutInMinutes))
+	tc.PatchResourceAndWait(old, publicIPAddress)
+	tc.Expect(publicIPAddress.Status.IdleTimeoutInMinutes).To(Equal(&idleTimeoutInMinutes))
 
 	tc.DeleteResourceAndWait(publicIPAddress)
 

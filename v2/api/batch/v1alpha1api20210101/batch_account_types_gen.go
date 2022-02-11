@@ -311,11 +311,6 @@ type BatchAccountList struct {
 	Items           []BatchAccount `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-01-01"}
-type APIVersion string
-
-const APIVersionValue = APIVersion("2021-01-01")
-
 type BatchAccount_Status struct {
 	//AutoStorage: The properties related to the auto-storage account.
 	AutoStorage *AutoStorageBaseProperties_Status `json:"autoStorage,omitempty"`

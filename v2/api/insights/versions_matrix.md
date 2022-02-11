@@ -1,6 +1,5 @@
 | Types defined in package "insights"                            | v1alpha1api20180501preview | v1alpha1api20200202 |
 |----------------------------------------------------------------|----------------------------|---------------------|
-| APIVersion                                                     | v1alpha1api20180501preview | v1alpha1api20200202 |
 | ApplicationInsightsComponentProperties_Application_Type_Spec   |                            | v1alpha1api20200202 |
 | ApplicationInsightsComponentProperties_Application_Type_Status |                            | v1alpha1api20200202 |
 | ApplicationInsightsComponentProperties_Flow_Type_Spec          |                            | v1alpha1api20200202 |

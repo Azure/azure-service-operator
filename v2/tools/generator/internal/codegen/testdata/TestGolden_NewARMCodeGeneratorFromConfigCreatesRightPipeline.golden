@@ -49,6 +49,7 @@ injectResourceConversionTestCases         azure      Add test cases to verify Re
 injectJSONTestCases                       azure      Add test cases to verify JSON serialization
 injectPropertyAssignmentTestCases         azure      Add test cases to verify PropertyAssignment functions
 simplifyDefinitions                                  Flatten definitions by removing wrapper types
+createResourceExtensions                  azure      Create Resource Extensions for each resource type
 rogueCheck                                           Check for rogue definitions using AnyTypes
 ensureArmTypeExistsForEveryType           azure      Check that an ARM type exists for both Spec and Status of each resource
 detectSkippingProperties                  azure      Detect properties that skip resource or object versions

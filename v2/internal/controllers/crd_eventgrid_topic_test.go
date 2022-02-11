@@ -9,7 +9,6 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	eventgrid "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401"
@@ -35,20 +34,13 @@ func Test_EventGrid_Topic(t *testing.T) {
 
 	tc.CreateResourceAndWait(topic)
 
+	armId := *topic.Status.Id
+
 	// Perform a simple patch.
 	old := topic.DeepCopy()
 	topic.Spec.Tags["cheese"] = "époisses"
-	tc.Patch(old, topic)
-
-	armId := *topic.Status.Id
-	objectKey := client.ObjectKeyFromObject(topic)
-
-	// Ensure state eventually gets updated in k8s from change in Azure.
-	tc.Eventually(func() map[string]string {
-		var updatedTopic eventgrid.Topic
-		tc.GetResource(objectKey, &updatedTopic)
-		return updatedTopic.Status.Tags
-	}).Should(Equal(map[string]string{"cheese": "époisses"}))
+	tc.PatchResourceAndWait(old, topic)
+	tc.Expect(topic.Status.Tags).To(Equal(map[string]string{"cheese": "époisses"}))
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{

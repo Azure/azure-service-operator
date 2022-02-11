@@ -311,11 +311,6 @@ type StorageAccountList struct {
 	Items           []StorageAccount `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-04-01"}
-type APIVersion string
-
-const APIVersionValue = APIVersion("2021-04-01")
-
 type StorageAccount_Status struct {
 	//AccessTier: Required for storage accounts where kind = BlobStorage. The access
 	//tier used for billing.

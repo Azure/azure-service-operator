@@ -22,7 +22,18 @@ func TestTypeConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.T
 	err := yaml.Unmarshal(yamlBytes, &typeConfig)
 	g.Expect(err).To(Succeed())
 	g.Expect(typeConfig.properties).To(HaveLen(4))
-	g.Expect(*typeConfig.renamedTo).To(Equal("Demo"))
+
+	name, ok := typeConfig.nameInNextVersion.read()
+	g.Expect(name).To(Equal("Demo"))
+	g.Expect(ok).To(BeTrue())
+
+	export, ok := typeConfig.export.read()
+	g.Expect(export).To(BeTrue())
+	g.Expect(ok).To(BeTrue())
+
+	exportAs, ok := typeConfig.exportAs.read()
+	g.Expect(exportAs).To(Equal("Demo"))
+	g.Expect(ok).To(BeTrue())
 }
 
 func TestTypeConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
@@ -39,13 +50,13 @@ func TestTypeConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
 func TestTypeConfiguration_TypeRename_WhenRenameConfigured_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
-	typeConfig := NewTypeConfiguration("Person").SetTypeRename("Address")
+	typeConfig := NewTypeConfiguration("Person")
+	typeConfig.nameInNextVersion.write("Address")
 
-	name, err := typeConfig.TypeRename()
+	name, err := typeConfig.LookupNameInNextVersion()
 
 	g.Expect(name).To(Equal("Address"))
 	g.Expect(err).To(Succeed())
-	g.Expect(typeConfig.renamedToConsumed).To(BeTrue())
 }
 
 func TestTypeConfiguration_TypeRename_WhenRenameNotConfigured_ReturnsExpectedResult(t *testing.T) {
@@ -53,7 +64,7 @@ func TestTypeConfiguration_TypeRename_WhenRenameNotConfigured_ReturnsExpectedRes
 	g := NewGomegaWithT(t)
 	typeConfig := NewTypeConfiguration("Person")
 
-	name, err := typeConfig.TypeRename()
+	name, err := typeConfig.LookupNameInNextVersion()
 	g.Expect(name).To(Equal(""))
 	g.Expect(err).NotTo(Succeed())
 	g.Expect(err.Error()).To(ContainSubstring(typeConfig.name))
@@ -63,19 +74,22 @@ func TestTypeConfiguration_VerifyTypeRenameConsumed_WhenRenameUsed_ReturnsNoErro
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	typeConfig := NewTypeConfiguration("Person").SetTypeRename("Party")
-	_, err := typeConfig.TypeRename()
+	typeConfig := NewTypeConfiguration("Person")
+	typeConfig.nameInNextVersion.write("Party")
+
+	_, err := typeConfig.LookupNameInNextVersion()
 	g.Expect(err).To(Succeed())
-	g.Expect(typeConfig.VerifyTypeRenameConsumed()).To(Succeed())
+	g.Expect(typeConfig.VerifyNameInNextVersionConsumed()).To(Succeed())
 }
 
 func TestTypeConfiguration_VerifyTypeRenameConsumed_WhenRenameUnused_ReturnsExpectedError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	typeConfig := NewTypeConfiguration("Person").SetTypeRename("Party")
+	typeConfig := NewTypeConfiguration("Person")
+	typeConfig.nameInNextVersion.write("Party")
 
-	err := typeConfig.VerifyTypeRenameConsumed()
+	err := typeConfig.VerifyNameInNextVersionConsumed()
 	g.Expect(err).NotTo(BeNil())
 	g.Expect(err.Error()).To(ContainSubstring(typeConfig.name))
 }
