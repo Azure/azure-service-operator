@@ -252,7 +252,11 @@ tasks:
     deps: [controller:run-kustomize-for-envtest]
     cmds:
     # -race fails at the moment in controller-runtime
-    - go test -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers
+    
+    - go test -timeout 15m -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers
+    vars:
+      VERBOSE:
+        sh: if [ $TEST_FILTER ];  then echo "-v"; fi
 
   controller:test-integration-envtest-cover:
     desc: Run integration tests with envtest using record/replay and output coverage.
