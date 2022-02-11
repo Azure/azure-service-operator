@@ -32,30 +32,30 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 
 	cluster := &aks.ManagedCluster{
 		ObjectMeta: tc.MakeObjectMeta("mc"),
-		Spec: aks.ManagedClusters_Spec{
+		Spec: aks.ManagedClusters_SPEC{
 			Location:  tc.AzureRegion,
 			Owner:     testcommon.AsOwner(rg),
 			DnsPrefix: to.StringPtr("aso"),
-			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile{
+			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile_Spec{
 				{
-					Name:   "ap1",
+					Name:   to.StringPtr("ap1"),
 					Count:  to.IntPtr(1),
 					VmSize: to.StringPtr("Standard_DS2_v2"),
 					OsType: &osType,
 					Mode:   &agentPoolMode,
 				},
 			},
-			LinuxProfile: &aks.ContainerServiceLinuxProfile{
+			LinuxProfile: &aks.ContainerServiceLinuxProfile_Spec{
 				AdminUsername: adminUsername,
-				Ssh: aks.ContainerServiceSshConfiguration{
-					PublicKeys: []aks.ContainerServiceSshPublicKey{
+				Ssh: aks.ContainerServiceSshConfiguration_Spec{
+					PublicKeys: []aks.ContainerServiceSshPublicKey_Spec{
 						{
 							KeyData: *sshPublicKey,
 						},
 					},
 				},
 			},
-			Identity: &aks.ManagedClusterIdentity{
+			Identity: &aks.ManagedClusterIdentity_Spec{
 				Type: &identityKind,
 			},
 		},
@@ -70,7 +70,7 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	skuName := aks.ManagedClusterSKUNameBasic
 	skuTier := aks.ManagedClusterSKUTierPaid
 	old := cluster.DeepCopy()
-	cluster.Spec.Sku = &aks.ManagedClusterSKU{
+	cluster.Spec.Sku = &aks.ManagedClusterSKU_Spec{
 		Name: &skuName,
 		Tier: &skuTier,
 	}

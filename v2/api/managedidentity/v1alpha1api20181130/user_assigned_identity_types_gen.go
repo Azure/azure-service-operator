@@ -311,6 +311,11 @@ type UserAssignedIdentityList struct {
 	Items           []UserAssignedIdentity `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2018-11-30"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2018-11-30")
+
 type Identity_Status struct {
 	//ClientId: The id of the app associated with the identity. This is a random
 	//generated UUID by MSI.

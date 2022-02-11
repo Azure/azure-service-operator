@@ -312,6 +312,11 @@ type WebtestList struct {
 	Items           []Webtest `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2018-05-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2018-05-01")
+
 type WebTest_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`

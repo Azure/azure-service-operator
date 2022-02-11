@@ -311,6 +311,11 @@ type LoadBalancerList struct {
 	Items           []LoadBalancer `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2020-11-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-11-01")
+
 type LoadBalancer_Status struct {
 	//BackendAddressPools: Collection of backend address pools used by a load balancer.
 	BackendAddressPools []BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded `json:"backendAddressPools,omitempty"`

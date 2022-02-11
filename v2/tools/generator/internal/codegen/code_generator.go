@@ -103,6 +103,8 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// Name all anonymous object, enum, and validated types (required by controller-gen):
 		pipeline.NameTypesForCRD(idFactory),
 
+		pipeline.RemoveTypeAliases(),
+
 		// Apply property type rewrites from the config file
 		// Must come after NameTypesForCRD ('nameTypes)' and ConvertAllOfAndOneOfToObjects ('allof-anyof-objects') so
 		// that objects are all expanded
@@ -233,6 +235,20 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 			klog.V(1).Infof("Added %d type definitions", len(defsAdded))
 		} else if len(defsRemoved) > 0 {
 			klog.V(1).Infof("Removed %d type definitions", len(defsRemoved))
+		}
+
+		found := false
+		for tn := range stateOut.Types() {
+			if tn.Name() == "APIVersion" {
+				found = true
+				break
+			}
+		}
+
+		if found {
+			klog.Infof("FOUND")
+		} else {
+			klog.Infof("NOT FOUND")
 		}
 
 		state = stateOut

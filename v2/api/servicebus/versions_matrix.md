@@ -1,5 +1,6 @@
 | Types defined in package "servicebus"                      | v1alpha1api20210101preview |
 |------------------------------------------------------------|----------------------------|
+| APIVersion                                                 | v1alpha1api20210101preview |
 | ConnectionState_Spec                                       | v1alpha1api20210101preview |
 | ConnectionState_Status_Spec                                | v1alpha1api20210101preview |
 | DictionaryValue_Status                                     | v1alpha1api20210101preview |
@@ -18,10 +19,7 @@
 | MessageCountDetails_Status                                 | v1alpha1api20210101preview |
 | Namespace                                                  | v1alpha1api20210101preview |
 | NamespacesQueue                                            | v1alpha1api20210101preview |
-| NamespacesQueues_SPEC                                      | v1alpha1api20210101preview |
 | NamespacesTopic                                            | v1alpha1api20210101preview |
-| NamespacesTopics_SPEC                                      | v1alpha1api20210101preview |
-| Namespaces_SPEC                                            | v1alpha1api20210101preview |
 | PrivateEndpointConnectionProperties_ProvisioningState_Spec | v1alpha1api20210101preview |
 | PrivateEndpointConnectionProperties_Spec                   | v1alpha1api20210101preview |
 | PrivateEndpointConnection_Spec                             | v1alpha1api20210101preview |
@@ -29,9 +27,11 @@
 | PrivateEndpoint_Spec                                       | v1alpha1api20210101preview |
 | SBNamespaceProperties_Spec                                 | v1alpha1api20210101preview |
 | SBNamespaceProperties_Status                               | v1alpha1api20210101preview |
+| SBNamespace_Spec                                           | v1alpha1api20210101preview |
 | SBNamespace_Status                                         | v1alpha1api20210101preview |
 | SBQueueProperties_Spec                                     | v1alpha1api20210101preview |
 | SBQueueProperties_Status                                   | v1alpha1api20210101preview |
+| SBQueue_Spec                                               | v1alpha1api20210101preview |
 | SBQueue_Status                                             | v1alpha1api20210101preview |
 | SBSku_Name_Spec                                            | v1alpha1api20210101preview |
 | SBSku_Name_Status                                          | v1alpha1api20210101preview |
@@ -41,6 +41,7 @@
 | SBSku_Tier_Status                                          | v1alpha1api20210101preview |
 | SBTopicProperties_Spec                                     | v1alpha1api20210101preview |
 | SBTopicProperties_Status                                   | v1alpha1api20210101preview |
+| SBTopic_Spec                                               | v1alpha1api20210101preview |
 | SBTopic_Status                                             | v1alpha1api20210101preview |
 | SystemData_CreatedByType_Status                            | v1alpha1api20210101preview |
 | SystemData_LastModifiedByType_Status                       | v1alpha1api20210101preview |

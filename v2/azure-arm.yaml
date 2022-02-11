@@ -799,6 +799,9 @@ objectModelConfiguration:
       Destination_Properties_Spec:
         StorageAccountResourceId:
           $armReference: true
+      EHNamespace_Properties_Spec:
+        ClusterArmId:
+          $armReference: true
       Namespace:
         $export: true
       NamespacesAuthorizationRule:
@@ -872,7 +875,7 @@ objectModelConfiguration:
           $armReference: true
       LoadBalancer:
         $export: true
-      LoadBalancers_SPEC:
+      LoadBalancer_Spec:
         Id:
           $armReference: true
       LoadBalancingRule_Spec:
@@ -883,13 +886,16 @@ objectModelConfiguration:
           $armReference: true
       NetworkInterface:
         $export: true
-      NetworkInterfaces_SPEC:
+      NetworkInterface_Spec:
         Id:
           $armReference: true
       NetworkInterfaceIPConfiguration_Spec_NetworkInterface_SubResourceEmbedded:
         Id:
           $armReference: true
       NetworkSecurityGroup_Spec_NetworkInterface_SubResourceEmbedded:
+        Id:
+          $armReference: true
+      NetworkSecurityGroup_Spec_NetworkSecurityGroup_SubResourceEmbedded:
         Id:
           $armReference: true
       NetworkSecurityGroup:
@@ -899,7 +905,7 @@ objectModelConfiguration:
           $armReference: true
       NetworkSecurityGroupsSecurityRule:
         $export: true
-      NetworkSecurityGroupsSecurityRules_SPEC:
+      NetworkSecurityGroupsSecurityRule_Spec:
         Id:
           $armReference: true
       NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded:
@@ -910,6 +916,9 @@ objectModelConfiguration:
           $armReference: true
       PrivateLinkService_Spec:
         Id:
+          $armReference: true
+      PrivateLinkService_Spec_NetworkInterface_SubResourceEmbedded:
+        Id: 
           $armReference: true
       PrivateLinkServiceIpConfiguration_Spec_NetworkInterface_SubResourceEmbedded:
         Id: 
@@ -931,7 +940,13 @@ objectModelConfiguration:
       RouteTable_Spec:
         Id:
           $armReference: true
+      RouteTable_Spec_VirtualNetworksSubnet_SubResourceEmbedded:
+        Id:
+          $armReference: true
       Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded:
+        Id:
+          $armReference: true
+      SecurityRule_Spec:
         Id:
           $armReference: true
       SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded:
@@ -944,6 +959,9 @@ objectModelConfiguration:
         Id:
           $armReference: true
       ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded:
+        Id:
+          $armReference: true
+      ServiceEndpointPolicy_Spec_VirtualNetworksSubnet_SubResourceEmbedded:
         Id:
           $armReference: true
       ServiceEndpointPolicy_Spec:
@@ -961,10 +979,19 @@ objectModelConfiguration:
       Subnet_Spec_VirtualNetwork_SubResourceEmbedded:
         Id:
           $armReference: true
+      Subnet_Spec_VirtualNetworksSubnet_SubResourceEmbedded:
+        Id:
+          $armReference: true
       VirtualNetwork:
         $export: true
+      VirtualNetwork_Spec:
+        Id:
+          $armReference: true
       VirtualNetworkGateway:
         $export: true
+      VirtualNetworkGateway_Spec:
+        Id:
+          $armReference: true
       VirtualNetworksSubnet:
         $export: true
       VirtualNetworksVirtualNetworkPeering:
@@ -981,10 +1008,7 @@ objectModelConfiguration:
       VirtualNetworkPeering_Spec:
         Id:
           $armReference: true
-      VirtualNetworkGateways_SPEC:
-        Id:
-          $armReference: true
-      VirtualNetworks_SPEC:
+      VirtualNetworkPeering_Spec_SubResourceEmbedded:
         Id:
           $armReference: true
       VirtualNetworksSubnets_SPEC:

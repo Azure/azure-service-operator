@@ -1,5 +1,6 @@
 | Types defined in package "compute"                                                         | v1alpha1api20200930 | v1alpha1api20201201 |
 |--------------------------------------------------------------------------------------------|---------------------|---------------------|
+| APIVersion                                                                                 | v1alpha1api20200930 | v1alpha1api20201201 |
 | AdditionalCapabilities_Spec                                                                |                     | v1alpha1api20201201 |
 | AdditionalCapabilities_Status                                                              |                     | v1alpha1api20201201 |
 | AdditionalUnattendContent_ComponentName_Spec                                               |                     | v1alpha1api20201201 |
@@ -61,8 +62,8 @@
 | DiskSku_Status                                                                             | v1alpha1api20200930 |                     |
 | DiskState_Spec                                                                             | v1alpha1api20200930 |                     |
 | DiskState_Status                                                                           | v1alpha1api20200930 |                     |
+| Disk_Spec                                                                                  | v1alpha1api20200930 |                     |
 | Disk_Status                                                                                | v1alpha1api20200930 |                     |
-| Disks_SPEC                                                                                 | v1alpha1api20200930 |                     |
 | EncryptionSettingsCollection_Spec                                                          | v1alpha1api20200930 |                     |
 | EncryptionSettingsCollection_Status                                                        | v1alpha1api20200930 |                     |
 | EncryptionSettingsElement_Spec                                                             | v1alpha1api20200930 |                     |
@@ -241,10 +242,10 @@
 | VirtualMachineScaleSetStorageProfile_Status                                                |                     | v1alpha1api20201201 |
 | VirtualMachineScaleSetVMProfile_Spec                                                       |                     | v1alpha1api20201201 |
 | VirtualMachineScaleSetVMProfile_Status                                                     |                     | v1alpha1api20201201 |
+| VirtualMachineScaleSet_Spec                                                                |                     | v1alpha1api20201201 |
 | VirtualMachineScaleSet_Status                                                              |                     | v1alpha1api20201201 |
-| VirtualMachineScaleSets_SPEC                                                               |                     | v1alpha1api20201201 |
+| VirtualMachine_Spec                                                                        |                     | v1alpha1api20201201 |
 | VirtualMachine_Status                                                                      |                     | v1alpha1api20201201 |
-| VirtualMachines_SPEC                                                                       |                     | v1alpha1api20201201 |
 | WinRMConfiguration_Spec                                                                    |                     | v1alpha1api20201201 |
 | WinRMConfiguration_Status                                                                  |                     | v1alpha1api20201201 |
 | WinRMListener_Protocol_Spec                                                                |                     | v1alpha1api20201201 |

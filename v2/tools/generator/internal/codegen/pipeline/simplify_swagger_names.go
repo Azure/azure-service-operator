@@ -17,12 +17,17 @@ func SimplifySwaggerNames(idFactory astmodel.IdentifierFactory, config *config.C
 		"simplifySwaggerNames",
 		"Remove redundant components from Swagger names",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+			targetCounts := make(map[astmodel.TypeName]int)
+			for tn := range types {
+				newName := simplifySwaggerName(tn)
+				targetCounts[newName]++
+			}
+
 			renames := make(map[astmodel.TypeName]astmodel.TypeName)
 			for tn := range types {
 				newName := simplifySwaggerName(tn)
-				if _, ok := types[newName]; ok {
-					// already in use, don’t simplify
-				} else {
+				// if >1 that means multiple names mapped to the same name, so don’t rename those
+				if targetCounts[newName] == 1 {
 					renames[tn] = newName
 				}
 			}
@@ -32,7 +37,7 @@ func SimplifySwaggerNames(idFactory astmodel.IdentifierFactory, config *config.C
 		})
 }
 
-var redundantComponents = regexp.MustCompile("CreateParameters")
+var redundantComponents = regexp.MustCompile("CreateParameters|UpdateParameters")
 
 func simplifySwaggerName(tn astmodel.TypeName) astmodel.TypeName {
 	return tn.WithName(redundantComponents.ReplaceAllLiteralString(tn.Name(), ""))

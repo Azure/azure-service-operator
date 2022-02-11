@@ -41,25 +41,25 @@ func newVM(
 		Key:  passwordKey,
 	}
 	adminUsername := "bloom"
-	size := compute.HardwareProfileVmSizeStandardA1V2
+	size := compute.HardwareProfile_VmSize_SpecStandard_A1_V2
 
 	return &compute.VirtualMachine{
 		ObjectMeta: tc.MakeObjectMeta("vm"),
-		Spec: compute.VirtualMachines_Spec{
+		Spec: compute.VirtualMachines_SPEC{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			HardwareProfile: &compute.HardwareProfile{
+			HardwareProfile: &compute.HardwareProfile_Spec{
 				VmSize: &size,
 			},
-			OsProfile: &compute.OSProfile{
+			OsProfile: &compute.OSProfile_Spec{
 				AdminUsername: &adminUsername,
 				// Specifying AdminPassword here rather than SSH Key to ensure that handling and injection
 				// of secrets works.
 				AdminPassword: &secretRef,
 				ComputerName:  to.StringPtr("poppy"),
 			},
-			StorageProfile: &compute.StorageProfile{
-				ImageReference: &compute.ImageReference{
+			StorageProfile: &compute.StorageProfile_Spec{
+				ImageReference: &compute.ImageReference_Spec{
 					Offer:     to.StringPtr("UbuntuServer"),
 					Publisher: to.StringPtr("Canonical"),
 					Sku:       to.StringPtr("18.04-LTS"),

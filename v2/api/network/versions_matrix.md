@@ -1,5 +1,6 @@
 | Types defined in package "network"                                                               | v1alpha1api20201101 |
 |--------------------------------------------------------------------------------------------------|---------------------|
+| APIVersion                                                                                       | v1alpha1api20201101 |
 | AddressSpace_Spec                                                                                | v1alpha1api20201101 |
 | AddressSpace_Status                                                                              | v1alpha1api20201101 |
 | ApplicationGatewayBackendAddressPoolPropertiesFormat_Spec                                        | v1alpha1api20201101 |
@@ -83,8 +84,8 @@
 | LoadBalancerSku_Status                                                                           | v1alpha1api20201101 |
 | LoadBalancerSku_Tier_Spec                                                                        | v1alpha1api20201101 |
 | LoadBalancerSku_Tier_Status                                                                      | v1alpha1api20201101 |
+| LoadBalancer_Spec                                                                                | v1alpha1api20201101 |
 | LoadBalancer_Status                                                                              | v1alpha1api20201101 |
-| LoadBalancers_SPEC                                                                               | v1alpha1api20201101 |
 | LoadBalancingRulePropertiesFormat_LoadDistribution_Spec                                          | v1alpha1api20201101 |
 | LoadBalancingRulePropertiesFormat_LoadDistribution_Status                                        | v1alpha1api20201101 |
 | LoadBalancingRulePropertiesFormat_Spec                                                           | v1alpha1api20201101 |
@@ -113,22 +114,21 @@
 | NetworkInterfacePropertiesFormat_Spec                                                            | v1alpha1api20201101 |
 | NetworkInterfacePropertiesFormat_Status                                                          | v1alpha1api20201101 |
 | NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded                     | v1alpha1api20201101 |
+| NetworkInterface_Spec                                                                            | v1alpha1api20201101 |
 | NetworkInterface_Status_NetworkInterface_SubResourceEmbedded                                     | v1alpha1api20201101 |
 | NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded                                 | v1alpha1api20201101 |
-| NetworkInterfaces_SPEC                                                                           | v1alpha1api20201101 |
 | NetworkSecurityGroup                                                                             | v1alpha1api20201101 |
 | NetworkSecurityGroupPropertiesFormat_Spec_NetworkInterface_SubResourceEmbedded                   | v1alpha1api20201101 |
 | NetworkSecurityGroupPropertiesFormat_Spec_NetworkSecurityGroup_SubResourceEmbedded               | v1alpha1api20201101 |
 | NetworkSecurityGroupPropertiesFormat_Spec_VirtualNetworksSubnet_SubResourceEmbedded              | v1alpha1api20201101 |
 | NetworkSecurityGroupPropertiesFormat_Status                                                      | v1alpha1api20201101 |
 | NetworkSecurityGroup_Spec_NetworkInterface_SubResourceEmbedded                                   | v1alpha1api20201101 |
+| NetworkSecurityGroup_Spec_NetworkSecurityGroup_SubResourceEmbedded                               | v1alpha1api20201101 |
 | NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded                              | v1alpha1api20201101 |
 | NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded                                 | v1alpha1api20201101 |
 | NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded                             | v1alpha1api20201101 |
 | NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded                            | v1alpha1api20201101 |
 | NetworkSecurityGroupsSecurityRule                                                                | v1alpha1api20201101 |
-| NetworkSecurityGroupsSecurityRules_SPEC                                                          | v1alpha1api20201101 |
-| NetworkSecurityGroups_SPEC                                                                       | v1alpha1api20201101 |
 | OutboundRulePropertiesFormat_Protocol_Spec                                                       | v1alpha1api20201101 |
 | OutboundRulePropertiesFormat_Protocol_Status                                                     | v1alpha1api20201101 |
 | OutboundRulePropertiesFormat_Spec                                                                | v1alpha1api20201101 |
@@ -142,7 +142,7 @@
 | PrivateLinkServiceIpConfigurationProperties_Spec_NetworkInterface_SubResourceEmbedded            | v1alpha1api20201101 |
 | PrivateLinkServiceIpConfiguration_Spec_NetworkInterface_SubResourceEmbedded                      | v1alpha1api20201101 |
 | PrivateLinkServiceProperties_Spec_NetworkInterface_SubResourceEmbedded                           | v1alpha1api20201101 |
-| PrivateLinkService_Spec                                                                          | v1alpha1api20201101 |
+| PrivateLinkService_Spec_NetworkInterface_SubResourceEmbedded                                     | v1alpha1api20201101 |
 | PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded                                   | v1alpha1api20201101 |
 | ProbePropertiesFormat_Protocol_Spec                                                              | v1alpha1api20201101 |
 | ProbePropertiesFormat_Protocol_Status                                                            | v1alpha1api20201101 |
@@ -157,7 +157,6 @@
 | PublicIPAddressPropertiesFormat_MigrationPhase_Spec                                              | v1alpha1api20201101 |
 | PublicIPAddressPropertiesFormat_MigrationPhase_Status                                            | v1alpha1api20201101 |
 | PublicIPAddressPropertiesFormat_Spec                                                             | v1alpha1api20201101 |
-| PublicIPAddressPropertiesFormat_Spec_SubResourceEmbedded                                         | v1alpha1api20201101 |
 | PublicIPAddressPropertiesFormat_Status                                                           | v1alpha1api20201101 |
 | PublicIPAddressSku_Name_Spec                                                                     | v1alpha1api20201101 |
 | PublicIPAddressSku_Name_Status                                                                   | v1alpha1api20201101 |
@@ -166,19 +165,17 @@
 | PublicIPAddressSku_Tier_Spec                                                                     | v1alpha1api20201101 |
 | PublicIPAddressSku_Tier_Status                                                                   | v1alpha1api20201101 |
 | PublicIPAddress_Spec                                                                             | v1alpha1api20201101 |
-| PublicIPAddress_Spec_SubResourceEmbedded                                                         | v1alpha1api20201101 |
 | PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded                                          | v1alpha1api20201101 |
 | PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded                                      | v1alpha1api20201101 |
 | PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded                                       | v1alpha1api20201101 |
 | PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded                                 | v1alpha1api20201101 |
-| PublicIPAddresses_SPEC                                                                           | v1alpha1api20201101 |
 | RadiusServer_Spec                                                                                | v1alpha1api20201101 |
 | RadiusServer_Status                                                                              | v1alpha1api20201101 |
 | ResourceNavigationLinkFormat_Status                                                              | v1alpha1api20201101 |
 | ResourceNavigationLink_Status                                                                    | v1alpha1api20201101 |
 | ResourceSet_Spec                                                                                 | v1alpha1api20201101 |
 | RouteTablePropertiesFormat_Spec_VirtualNetworksSubnet_SubResourceEmbedded                        | v1alpha1api20201101 |
-| RouteTable_Spec                                                                                  | v1alpha1api20201101 |
+| RouteTable_Spec_VirtualNetworksSubnet_SubResourceEmbedded                                        | v1alpha1api20201101 |
 | RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded                                      | v1alpha1api20201101 |
 | Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded                                             | v1alpha1api20201101 |
 | SecurityRuleAccess_Spec                                                                          | v1alpha1api20201101 |
@@ -189,6 +186,7 @@
 | SecurityRulePropertiesFormat_Protocol_Status                                                     | v1alpha1api20201101 |
 | SecurityRulePropertiesFormat_Spec                                                                | v1alpha1api20201101 |
 | SecurityRulePropertiesFormat_Status                                                              | v1alpha1api20201101 |
+| SecurityRule_Spec                                                                                | v1alpha1api20201101 |
 | SecurityRule_Spec_NetworkInterface_SubResourceEmbedded                                           | v1alpha1api20201101 |
 | SecurityRule_Spec_NetworkSecurityGroup_SubResourceEmbedded                                       | v1alpha1api20201101 |
 | SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded                                      | v1alpha1api20201101 |
@@ -200,7 +198,7 @@
 | ServiceDelegationPropertiesFormat_Status                                                         | v1alpha1api20201101 |
 | ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded                   | v1alpha1api20201101 |
 | ServiceEndpointPolicyPropertiesFormat_Spec_VirtualNetworksSubnet_SubResourceEmbedded             | v1alpha1api20201101 |
-| ServiceEndpointPolicy_Spec                                                                       | v1alpha1api20201101 |
+| ServiceEndpointPolicy_Spec_VirtualNetworksSubnet_SubResourceEmbedded                             | v1alpha1api20201101 |
 | ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded                           | v1alpha1api20201101 |
 | ServiceEndpointPropertiesFormat_Spec                                                             | v1alpha1api20201101 |
 | ServiceEndpointPropertiesFormat_Status                                                           | v1alpha1api20201101 |
@@ -215,6 +213,7 @@
 | Subnet_Spec_LoadBalancer_SubResourceEmbedded                                                     | v1alpha1api20201101 |
 | Subnet_Spec_NetworkInterface_SubResourceEmbedded                                                 | v1alpha1api20201101 |
 | Subnet_Spec_VirtualNetwork_SubResourceEmbedded                                                   | v1alpha1api20201101 |
+| Subnet_Spec_VirtualNetworksSubnet_SubResourceEmbedded                                            | v1alpha1api20201101 |
 | Subnet_Status_LoadBalancer_SubResourceEmbedded                                                   | v1alpha1api20201101 |
 | Subnet_Status_NetworkInterface_SubResourceEmbedded                                               | v1alpha1api20201101 |
 | Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded                                           | v1alpha1api20201101 |
@@ -245,13 +244,14 @@
 | VirtualNetworkGatewaySku_Status                                                                  | v1alpha1api20201101 |
 | VirtualNetworkGatewaySku_Tier_Spec                                                               | v1alpha1api20201101 |
 | VirtualNetworkGatewaySku_Tier_Status                                                             | v1alpha1api20201101 |
+| VirtualNetworkGateway_Spec                                                                       | v1alpha1api20201101 |
 | VirtualNetworkGateway_Status                                                                     | v1alpha1api20201101 |
-| VirtualNetworkGateways_SPEC                                                                      | v1alpha1api20201101 |
 | VirtualNetworkPeeringPropertiesFormat_PeeringState_Spec                                          | v1alpha1api20201101 |
 | VirtualNetworkPeeringPropertiesFormat_PeeringState_Status                                        | v1alpha1api20201101 |
 | VirtualNetworkPeeringPropertiesFormat_Spec                                                       | v1alpha1api20201101 |
 | VirtualNetworkPeeringPropertiesFormat_Status                                                     | v1alpha1api20201101 |
 | VirtualNetworkPeering_Spec                                                                       | v1alpha1api20201101 |
+| VirtualNetworkPeering_Spec_SubResourceEmbedded                                                   | v1alpha1api20201101 |
 | VirtualNetworkPeering_Status                                                                     | v1alpha1api20201101 |
 | VirtualNetworkPeering_Status_SubResourceEmbedded                                                 | v1alpha1api20201101 |
 | VirtualNetworkPropertiesFormat_Spec                                                              | v1alpha1api20201101 |
@@ -259,12 +259,10 @@
 | VirtualNetworkTapPropertiesFormat_Spec_NetworkInterface_SubResourceEmbedded                      | v1alpha1api20201101 |
 | VirtualNetworkTap_Spec_NetworkInterface_SubResourceEmbedded                                      | v1alpha1api20201101 |
 | VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded                                    | v1alpha1api20201101 |
+| VirtualNetwork_Spec                                                                              | v1alpha1api20201101 |
 | VirtualNetwork_Status                                                                            | v1alpha1api20201101 |
 | VirtualNetworksSubnet                                                                            | v1alpha1api20201101 |
-| VirtualNetworksSubnets_SPEC                                                                      | v1alpha1api20201101 |
 | VirtualNetworksVirtualNetworkPeering                                                             | v1alpha1api20201101 |
-| VirtualNetworksVirtualNetworkPeerings_SPEC                                                       | v1alpha1api20201101 |
-| VirtualNetworks_SPEC                                                                             | v1alpha1api20201101 |
 | VpnClientConfiguration_Spec                                                                      | v1alpha1api20201101 |
 | VpnClientConfiguration_Status                                                                    | v1alpha1api20201101 |
 | VpnClientConfiguration_VpnAuthenticationTypes_Spec                                               | v1alpha1api20201101 |

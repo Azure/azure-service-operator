@@ -311,6 +311,11 @@ type DiskList struct {
 	Items           []Disk `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2020-09-30"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-09-30")
+
 type Disk_Status struct {
 	//BurstingEnabled: Set to true to enable bursting beyond the provisioned
 	//performance target of the disk. Bursting is disabled by default. Does not apply

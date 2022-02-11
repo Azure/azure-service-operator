@@ -311,6 +311,11 @@ type DatabaseAccountList struct {
 	Items           []DatabaseAccount `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-05-15"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-05-15")
+
 type DatabaseAccountCreateUpdateParameters_Status struct {
 	//AnalyticalStorageConfiguration: Analytical storage specific properties.
 	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration_Status `json:"analyticalStorageConfiguration,omitempty"`

@@ -473,6 +473,16 @@ func FindConnectedTypes(allTypes Types, roots Types) (Types, error) {
 			return nil, errors.Wrapf(err, "failed walking types")
 		}
 
+		// TODO: magic APIVersion handling
+		for _, t := range types {
+			if rt, ok := AsResourceType(t.Type()); ok {
+				err = result.AddAllowDuplicates(allTypes[rt.APIVersionTypeName()])
+				if err != nil {
+					panic(err)
+				}
+			}
+		}
+
 		err = result.AddTypesAllowDuplicates(types)
 		if err != nil {
 			return nil, err

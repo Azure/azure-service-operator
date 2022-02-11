@@ -2,6 +2,7 @@
 |--------------------------------------------------------------|---------------------|
 | ACLAction_Spec                                               | v1alpha1api20211001 |
 | ACLAction_Status                                             | v1alpha1api20211001 |
+| APIVersion                                                   | v1alpha1api20211001 |
 | FeatureFlags_Spec                                            | v1alpha1api20211001 |
 | FeatureFlags_Status                                          | v1alpha1api20211001 |
 | ManagedIdentitySettings_Spec                                 | v1alpha1api20211001 |
@@ -38,12 +39,12 @@
 | SignalRProperties_Status                                     | v1alpha1api20211001 |
 | SignalRRequestType_Spec                                      | v1alpha1api20211001 |
 | SignalRRequestType_Status                                    | v1alpha1api20211001 |
+| SignalRResource_Spec                                         | v1alpha1api20211001 |
 | SignalRResource_Status                                       | v1alpha1api20211001 |
 | SignalRSkuTier_Spec                                          | v1alpha1api20211001 |
 | SignalRSkuTier_Status                                        | v1alpha1api20211001 |
 | SignalRTlsSettings_Spec                                      | v1alpha1api20211001 |
 | SignalRTlsSettings_Status                                    | v1alpha1api20211001 |
-| SignalR_SPEC                                                 | v1alpha1api20211001 |
 | SystemData_CreatedByType_Status                              | v1alpha1api20211001 |
 | SystemData_LastModifiedByType_Status                         | v1alpha1api20211001 |
 | SystemData_Status                                            | v1alpha1api20211001 |

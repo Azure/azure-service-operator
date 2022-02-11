@@ -311,6 +311,11 @@ type RoleAssignmentList struct {
 	Items           []RoleAssignment `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2020-08-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-08-01")
+
 type RoleAssignment_Status struct {
 	//Condition: The conditions on the role assignment. This limits the resources it
 	//can be assigned to. e.g.:

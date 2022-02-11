@@ -1,9 +1,11 @@
 | Types defined in package "cache"                     | v1alpha1api20201201 | v1alpha1api20210301 |
 |------------------------------------------------------|---------------------|---------------------|
+| APIVersion                                           | v1alpha1api20201201 | v1alpha1api20210301 |
 | ClusterProperties_MinimumTlsVersion_Spec             |                     | v1alpha1api20210301 |
 | ClusterProperties_MinimumTlsVersion_Status           |                     | v1alpha1api20210301 |
 | ClusterProperties_Spec                               |                     | v1alpha1api20210301 |
 | ClusterProperties_Status                             |                     | v1alpha1api20210301 |
+| Cluster_Spec                                         |                     | v1alpha1api20210301 |
 | Cluster_Status                                       |                     | v1alpha1api20210301 |
 | DatabaseProperties_ClientProtocol_Spec               |                     | v1alpha1api20210301 |
 | DatabaseProperties_ClientProtocol_Status             |                     | v1alpha1api20210301 |
@@ -13,6 +15,7 @@
 | DatabaseProperties_EvictionPolicy_Status             |                     | v1alpha1api20210301 |
 | DatabaseProperties_Spec                              |                     | v1alpha1api20210301 |
 | DatabaseProperties_Status                            |                     | v1alpha1api20210301 |
+| Database_Spec                                        |                     | v1alpha1api20210301 |
 | Database_Status                                      |                     | v1alpha1api20210301 |
 | Module_Spec                                          |                     | v1alpha1api20210301 |
 | Module_Status                                        |                     | v1alpha1api20210301 |
@@ -35,24 +38,22 @@
 | RedisCreateProperties_Status                         | v1alpha1api20201201 |                     |
 | RedisEnterprise                                      |                     | v1alpha1api20210301 |
 | RedisEnterpriseDatabase                              |                     | v1alpha1api20210301 |
-| RedisEnterpriseDatabases_SPEC                        |                     | v1alpha1api20210301 |
-| RedisEnterprise_SPEC                                 |                     | v1alpha1api20210301 |
 | RedisFirewallRule                                    | v1alpha1api20201201 |                     |
 | RedisFirewallRuleProperties_Spec                     | v1alpha1api20201201 |                     |
 | RedisFirewallRuleProperties_Status                   | v1alpha1api20201201 |                     |
+| RedisFirewallRule_Spec                               | v1alpha1api20201201 |                     |
 | RedisFirewallRule_Status                             | v1alpha1api20201201 |                     |
-| RedisFirewallRules_SPEC                              | v1alpha1api20201201 |                     |
 | RedisLinkedServer                                    | v1alpha1api20201201 |                     |
 | RedisLinkedServerCreateProperties_ServerRole_Spec    | v1alpha1api20201201 |                     |
 | RedisLinkedServerCreateProperties_ServerRole_Status  | v1alpha1api20201201 |                     |
 | RedisLinkedServerCreateProperties_Spec               | v1alpha1api20201201 |                     |
 | RedisLinkedServerCreateProperties_Status             | v1alpha1api20201201 |                     |
+| RedisLinkedServer_Spec                               | v1alpha1api20201201 |                     |
 | RedisLinkedServer_Status                             | v1alpha1api20201201 |                     |
-| RedisLinkedServers_SPEC                              | v1alpha1api20201201 |                     |
 | RedisPatchSchedule                                   | v1alpha1api20201201 |                     |
+| RedisPatchSchedule_Spec                              | v1alpha1api20201201 |                     |
 | RedisPatchSchedule_Status                            | v1alpha1api20201201 |                     |
-| RedisPatchSchedules_SPEC                             | v1alpha1api20201201 |                     |
-| Redis_SPEC                                           | v1alpha1api20201201 |                     |
+| Redis_Spec                                           | v1alpha1api20201201 |                     |
 | Redis_Status                                         | v1alpha1api20201201 |                     |
 | ResourceState_Status                                 |                     | v1alpha1api20210301 |
 | ScheduleEntries_Spec                                 | v1alpha1api20201201 |                     |

@@ -1,5 +1,6 @@
 | Types defined in package "storage"                                   | v1alpha1api20210401 |
 |----------------------------------------------------------------------|---------------------|
+| APIVersion                                                           | v1alpha1api20210401 |
 | ActiveDirectoryProperties_Spec                                       | v1alpha1api20210401 |
 | ActiveDirectoryProperties_Status                                     | v1alpha1api20210401 |
 | AzureFilesIdentityBasedAuthentication_DefaultSharePermission_Spec    | v1alpha1api20210401 |
@@ -8,8 +9,11 @@
 | AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_Status | v1alpha1api20210401 |
 | AzureFilesIdentityBasedAuthentication_Spec                           | v1alpha1api20210401 |
 | AzureFilesIdentityBasedAuthentication_Status                         | v1alpha1api20210401 |
+| BlobContainer_Spec                                                   | v1alpha1api20210401 |
 | BlobContainer_Status                                                 | v1alpha1api20210401 |
+| BlobServiceProperties_Properties_Spec                                | v1alpha1api20210401 |
 | BlobServiceProperties_Properties_Status                              | v1alpha1api20210401 |
+| BlobServiceProperties_Spec                                           | v1alpha1api20210401 |
 | BlobServiceProperties_Status                                         | v1alpha1api20210401 |
 | ChangeFeed_Spec                                                      | v1alpha1api20210401 |
 | ChangeFeed_Status                                                    | v1alpha1api20210401 |
@@ -77,7 +81,9 @@
 | NetworkRuleSet_Status                                                | v1alpha1api20210401 |
 | QueueProperties_Spec                                                 | v1alpha1api20210401 |
 | QueueProperties_Status                                               | v1alpha1api20210401 |
+| QueueServiceProperties_Properties_Spec                               | v1alpha1api20210401 |
 | QueueServiceProperties_Properties_Status                             | v1alpha1api20210401 |
+| QueueServiceProperties_Spec                                          | v1alpha1api20210401 |
 | QueueServiceProperties_Status                                        | v1alpha1api20210401 |
 | ResourceAccessRule_Spec                                              | v1alpha1api20210401 |
 | ResourceAccessRule_Status                                            | v1alpha1api20210401 |
@@ -104,20 +110,15 @@
 | StorageAccountProperties_MinimumTlsVersion_Status                    | v1alpha1api20210401 |
 | StorageAccountProperties_Spec                                        | v1alpha1api20210401 |
 | StorageAccountProperties_Status                                      | v1alpha1api20210401 |
+| StorageAccount_Kind_Spec                                             | v1alpha1api20210401 |
 | StorageAccount_Kind_Status                                           | v1alpha1api20210401 |
+| StorageAccount_Spec                                                  | v1alpha1api20210401 |
 | StorageAccount_Status                                                | v1alpha1api20210401 |
 | StorageAccountsBlobService                                           | v1alpha1api20210401 |
 | StorageAccountsBlobServicesContainer                                 | v1alpha1api20210401 |
-| StorageAccountsBlobServicesContainers_SPEC                           | v1alpha1api20210401 |
-| StorageAccountsBlobServices_Properties_SPEC                          | v1alpha1api20210401 |
-| StorageAccountsBlobServices_SPEC                                     | v1alpha1api20210401 |
 | StorageAccountsQueueService                                          | v1alpha1api20210401 |
 | StorageAccountsQueueServicesQueue                                    | v1alpha1api20210401 |
-| StorageAccountsQueueServicesQueues_SPEC                              | v1alpha1api20210401 |
-| StorageAccountsQueueServices_Properties_SPEC                         | v1alpha1api20210401 |
-| StorageAccountsQueueServices_SPEC                                    | v1alpha1api20210401 |
-| StorageAccounts_Kind_SPEC                                            | v1alpha1api20210401 |
-| StorageAccounts_SPEC                                                 | v1alpha1api20210401 |
+| StorageQueue_Spec                                                    | v1alpha1api20210401 |
 | StorageQueue_Status                                                  | v1alpha1api20210401 |
 | TagProperty_Status                                                   | v1alpha1api20210401 |
 | Tier_Spec                                                            | v1alpha1api20210401 |
