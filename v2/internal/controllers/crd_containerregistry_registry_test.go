@@ -21,7 +21,7 @@ func Test_ContainerRegistry_Registry_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Custom namer because cosmos DB accounts have strict names
+	// Custom namer because ContainerRegistry accounts have strict names
 	namer := tc.Namer.WithSeparator("")
 
 	publicNetworkAccess := containerregistry.RegistryPropertiesPublicNetworkAccessEnabled
