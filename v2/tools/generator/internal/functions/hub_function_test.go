@@ -13,6 +13,7 @@ import (
 )
 
 func TestGolden_HubFunction_GeneratesExpectedCode(t *testing.T) {
+	t.Parallel()
 	idFactory := astmodel.NewIdentifierFactory()
 
 	testGroup := "person"

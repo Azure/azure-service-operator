@@ -149,7 +149,6 @@ type FlexibleServers_Spec struct {
 	// +kubebuilder:validation:Required
 	Owner          genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	PointInTimeUTC *string                           `json:"pointInTimeUTC,omitempty"`
-	PropertiesTags map[string]string                 `json:"properties_tags,omitempty"`
 	PropertyBag    genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 	Sku            *Sku                              `json:"sku,omitempty"`
 
@@ -197,7 +196,6 @@ type Server_Status struct {
 	Name                     *string                   `json:"name,omitempty"`
 	Network                  *Network_Status           `json:"network,omitempty"`
 	PointInTimeUTC           *string                   `json:"pointInTimeUTC,omitempty"`
-	PropertiesTags           map[string]string         `json:"properties_tags,omitempty"`
 	PropertyBag              genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
 	Sku                      *Sku_Status               `json:"sku,omitempty"`
 	SourceServerResourceId   *string                   `json:"sourceServerResourceId,omitempty"`

@@ -34,6 +34,7 @@ var (
  */
 
 func TestEmptyPackageImportSet_ReturnsEmptySet(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageImportSet()
 	g.Expect(set.imports).To(HaveLen(0))
@@ -44,6 +45,7 @@ func TestEmptyPackageImportSet_ReturnsEmptySet(t *testing.T) {
  */
 
 func TestAddImport_WhenImportMissing_IncreasesSizeOfSet(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageImportSet()
 	set.AddImport(simpleTestImport)
@@ -51,6 +53,7 @@ func TestAddImport_WhenImportMissing_IncreasesSizeOfSet(t *testing.T) {
 }
 
 func TestAddImport_WhenImportPresent_LeavesSetSameSize(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageImportSet()
 	set.AddImport(simpleTestImport)
@@ -59,6 +62,7 @@ func TestAddImport_WhenImportPresent_LeavesSetSameSize(t *testing.T) {
 }
 
 func TestAddImport_WhenAddingNamedImportAndUnnamedExists_PrefersNamedImport(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageImportSet()
 	set.AddImport(simpleTestImport)
@@ -69,6 +73,7 @@ func TestAddImport_WhenAddingNamedImportAndUnnamedExists_PrefersNamedImport(t *t
 }
 
 func TestAddImport_WhenAddingUnnamedImportAndNamedExists_PrefersNamedImport(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageImportSet()
 	set.AddImport(simpleTestImportWithName)
@@ -83,6 +88,7 @@ func TestAddImport_WhenAddingUnnamedImportAndNamedExists_PrefersNamedImport(t *t
  */
 
 func TestAddImportOfReference_WhenReferenceMissing_IncreasesSizeOfSet(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageImportSet()
 	set.AddImportOfReference(simpleTestRef)
@@ -90,6 +96,7 @@ func TestAddImportOfReference_WhenReferenceMissing_IncreasesSizeOfSet(t *testing
 }
 
 func TestAddImportOfReference_WhenReferencePresent_LeavesSetSameSize(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageImportSet()
 	set.AddImportOfReference(simpleTestRef)
@@ -102,6 +109,7 @@ func TestAddImportOfReference_WhenReferencePresent_LeavesSetSameSize(t *testing.
  */
 
 func TestAddImportsOfReferences_WhenAddingMultipleReferences_AddsExpectedReferences(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageImportSet()
 	set.AddImportsOfReferences(simpleTestRef, pathTestRef)
@@ -109,6 +117,7 @@ func TestAddImportsOfReferences_WhenAddingMultipleReferences_AddsExpectedReferen
 }
 
 func TestAddImportsOfReferences_WhenAddingReferencesAlreadyPresent_LeavesSetSameSize(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageImportSet()
 	set.AddImportOfReference(simpleTestRef)
@@ -123,6 +132,7 @@ func TestAddImportsOfReferences_WhenAddingReferencesAlreadyPresent_LeavesSetSame
  */
 
 func TestMerge_GivenEmptySet_LeavesSetUnchanged(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	setA := NewPackageImportSet()
 	setA.AddImportOfReference(simpleTestRef)
@@ -133,6 +143,7 @@ func TestMerge_GivenEmptySet_LeavesSetUnchanged(t *testing.T) {
 }
 
 func TestMerge_GivenIdenticalSet_LeavesSetUnchanged(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	setA := NewPackageImportSet()
 	setA.AddImportOfReference(simpleTestRef)
@@ -145,6 +156,7 @@ func TestMerge_GivenIdenticalSet_LeavesSetUnchanged(t *testing.T) {
 }
 
 func TestMerge_GivenDisjointSets_MergesSets(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	setA := NewPackageImportSet()
 	setA.AddImportOfReference(simpleTestRef)
@@ -159,6 +171,7 @@ func TestMerge_GivenDisjointSets_MergesSets(t *testing.T) {
  */
 
 func TestContains_GivenMemberOfSet_ReturnsTrue(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageImportSet()
 	set.AddImport(simpleTestImport)
@@ -166,6 +179,7 @@ func TestContains_GivenMemberOfSet_ReturnsTrue(t *testing.T) {
 }
 
 func TestContains_GivenNonMemberOfSet_ReturnsFalse(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageImportSet()
 	set.AddImport(simpleTestImport)
@@ -177,6 +191,7 @@ func TestContains_GivenNonMemberOfSet_ReturnsFalse(t *testing.T) {
  */
 
 func TestRemove_WhenItemInSet_RemovesIt(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageImportSet()
 	set.AddImport(simpleTestImport)
@@ -185,6 +200,7 @@ func TestRemove_WhenItemInSet_RemovesIt(t *testing.T) {
 }
 
 func TestRemove_WhenItemNotInSet_LeavesSetWithoutIt(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageImportSet()
 	set.AddImport(simpleTestImport)
@@ -253,6 +269,7 @@ func TestByNameInGroups_AppliesExpectedOrdering(t *testing.T) {
  */
 
 func TestPackageImportSet_ResolveConflicts_GivenExplicitlyNamedConflicts_ReturnsErrors(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	importA := NewPackageImport(emailTestRef).WithName("collide")
 	importB := NewPackageImport(networkTestRef).WithName("collide")

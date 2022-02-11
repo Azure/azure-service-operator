@@ -7,6 +7,7 @@ linters:
     - gofmt
     - megacheck
     - tparallel
+    - paralleltest
   presets:
     - bugs
     - unused

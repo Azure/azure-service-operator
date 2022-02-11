@@ -7,8 +7,8 @@ package pipeline
 
 import (
 	"context"
-	"fmt"
 
+	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -32,47 +32,79 @@ func filterTypes(
 	configuration *config.Configuration,
 	state *State) (*State, error) {
 
-	newDefinitions := make(astmodel.Types)
-
-	filterer := configuration.BuildExportFilterer(state.types)
 	renames := make(map[astmodel.TypeName]astmodel.TypeName)
-
-	for _, def := range state.types {
+	resourcesToExport := make(astmodel.Types)
+	for _, def := range astmodel.FindResourceTypes(state.Types()) {
 		defName := def.Name()
-		shouldExport, newName, reason := filterer(defName)
 
-		switch shouldExport {
-		case config.Skip:
-			klog.V(3).Infof("Skipping %s because %s", defName, reason)
-
-		case config.Export:
-			if reason == "" {
-				klog.V(3).Infof("Exporting %s", defName)
-			} else {
-				klog.V(2).Infof("Exporting %s because %s", defName, reason)
-			}
-
-			newDefinitions[def.Name()] = def
-			if newName != nil {
-				renames[defName] = *newName
-			}
-		default:
-			panic(fmt.Sprintf("unhandled shouldExport case %q", shouldExport))
+		export, err := shouldExport(defName, configuration)
+		if err != nil {
+			return nil, err
 		}
+
+		if !export {
+			klog.V(3).Infof("Skipping resource %s", defName)
+			continue
+		}
+
+		klog.V(3).Infof("Exporting resource %s and related types", defName)
+		resourcesToExport.Add(def)
+	}
+
+	typesToExport, err := astmodel.FindConnectedTypes(state.Types(), resourcesToExport)
+	if err != nil {
+		return nil, errors.Wrap(err, "finding types connected to resources marked for export")
+	}
+
+	// Find and apply renames
+	for n := range typesToExport {
+		if as, asErr := configuration.ObjectModelConfiguration.LookupExportAs(n); asErr == nil {
+			renames[n] = n.WithName(as)
+		}
+	}
+
+	if err = configuration.ObjectModelConfiguration.VerifyExportConsumed(); err != nil {
+		return nil, err
+	}
+
+	if err = configuration.ObjectModelConfiguration.VerifyExportAsConsumed(); err != nil {
+		return nil, err
 	}
 
 	// Now apply all the renames
 	renamingVisitor := astmodel.NewRenamingVisitor(renames)
-	result, err := renamingVisitor.RenameAll(newDefinitions)
-	if err != nil {
-		return nil, err
-	}
-
-	// Ensure that the export filters had no issues
-	err = configuration.GetExportFiltersError()
+	result, err := renamingVisitor.RenameAll(typesToExport)
 	if err != nil {
 		return nil, err
 	}
 
 	return state.WithTypes(result), nil
+}
+
+// shouldExport works out whether the specified Resource should be exported or not
+func shouldExport(defName astmodel.TypeName, configuration *config.Configuration) (bool, error) {
+	export, err := configuration.ObjectModelConfiguration.LookupExport(defName)
+	if err == nil {
+		// $export is configured, return that value
+		return export, nil
+	}
+
+	if !config.IsNotConfiguredError(err) {
+		// Problem isn't lack of configuration, it's something else
+		return false, errors.Wrapf(err, "looking up export config for %s", defName)
+	}
+
+	_, err = configuration.ObjectModelConfiguration.LookupExportAs(defName)
+	if err == nil {
+		// $exportAs is configured, we DO want to export
+		return true, nil
+	}
+
+	if !config.IsNotConfiguredError(err) {
+		// Problem isn't lack of configuration, it's something else
+		return false, errors.Wrapf(err, "looking up exportAs config for %s", defName)
+	}
+
+	// Default is to not export
+	return false, nil
 }

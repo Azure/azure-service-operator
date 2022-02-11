@@ -25,6 +25,7 @@ var (
  */
 
 func Test_TypesAdd_GivenType_ModifiesSet(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	types := make(Types)
@@ -34,6 +35,7 @@ func Test_TypesAdd_GivenType_ModifiesSet(t *testing.T) {
 }
 
 func Test_TypesAdd_GivenTypeAlreadyPresent_Panics(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	types := make(Types)
@@ -47,6 +49,7 @@ func Test_TypesAdd_GivenTypeAlreadyPresent_Panics(t *testing.T) {
  */
 
 func Test_TypesAddAll_GivenTypes_ModifiesSet(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	types := createTestTypes(alphaDefinition, betaDefinition)
@@ -56,6 +59,7 @@ func Test_TypesAddAll_GivenTypes_ModifiesSet(t *testing.T) {
 }
 
 func Test_TypesAddAll_GivenOverlappingTypes_Panics(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	types := createTestTypes(alphaDefinition, betaDefinition)
@@ -67,6 +71,7 @@ func Test_TypesAddAll_GivenOverlappingTypes_Panics(t *testing.T) {
  */
 
 func Test_TypesAddTypes_GivenTypes_ModifiesSet(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	types := createTestTypes(alphaDefinition, betaDefinition)
@@ -78,6 +83,7 @@ func Test_TypesAddTypes_GivenTypes_ModifiesSet(t *testing.T) {
 }
 
 func Test_TypesAddTypes_GivenOverlappingTypes_Panics(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	types := createTestTypes(alphaDefinition, betaDefinition)
@@ -91,6 +97,7 @@ func Test_TypesAddTypes_GivenOverlappingTypes_Panics(t *testing.T) {
  */
 
 func Test_TypesWhere_GivenPredicate_ReturnsExpectedSet(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	types := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition).
@@ -107,6 +114,7 @@ func Test_TypesWhere_GivenPredicate_ReturnsExpectedSet(t *testing.T) {
  */
 
 func Test_TypesExcept_GivenEmptySet_ReturnsExpectedSet(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	types := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition)
@@ -121,6 +129,7 @@ func Test_TypesExcept_GivenEmptySet_ReturnsExpectedSet(t *testing.T) {
 }
 
 func Test_TypesExcept_GivenSelf_ReturnsEmptySet(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	types := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition)
@@ -130,6 +139,7 @@ func Test_TypesExcept_GivenSelf_ReturnsEmptySet(t *testing.T) {
 }
 
 func Test_TypesExcept_GivenSubset_ReturnsExpectedSet(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	types := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition)
@@ -148,6 +158,7 @@ func Test_TypesExcept_GivenSubset_ReturnsExpectedSet(t *testing.T) {
  */
 
 func Test_TypesIntersect_GivenEmptySet_ReturnsExpectedSet(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	types := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition)
@@ -158,6 +169,7 @@ func Test_TypesIntersect_GivenEmptySet_ReturnsExpectedSet(t *testing.T) {
 }
 
 func Test_TypesIntersect_GivenSelf_ReturnsSelf(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	types := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition)
@@ -171,6 +183,7 @@ func Test_TypesIntersect_GivenSelf_ReturnsSelf(t *testing.T) {
 }
 
 func Test_TypesIntersect_GivenSubset_ReturnsExpectedSet(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	types := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition)
@@ -189,6 +202,7 @@ func Test_TypesIntersect_GivenSubset_ReturnsExpectedSet(t *testing.T) {
  */
 
 func Test_TypesOverlayWith_GivenDisjointSets_ReturnsUnionSet(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	left := createTestTypes(alphaDefinition, betaDefinition)
 	right := createTestTypes(gammaDefinition, deltaDefinition)
@@ -203,6 +217,7 @@ func Test_TypesOverlayWith_GivenDisjointSets_ReturnsUnionSet(t *testing.T) {
 }
 
 func Test_TypesOverlayWith_GivenOverlappingSets_PrefersTypeInOverlay(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	left := createTestTypes(alphaDefinition, deltaDefinition)
 	right := createTestTypes(gammaDefinition, deltaIntDefinition)
@@ -221,6 +236,7 @@ func Test_TypesOverlayWith_GivenOverlappingSets_PrefersTypeInOverlay(t *testing.
  */
 
 func TestFindSpecTypes(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	// Define a test resource
@@ -242,6 +258,7 @@ func TestFindSpecTypes(t *testing.T) {
  */
 
 func TestFindStatusTypes(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	// Define a test resource
@@ -263,6 +280,7 @@ func TestFindStatusTypes(t *testing.T) {
  */
 
 func TestFindSpecConnectedTypes(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	// Define a test resource
@@ -292,6 +310,7 @@ func TestFindSpecConnectedTypes(t *testing.T) {
  */
 
 func TestFindStatusConnectedTypes(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	// Define a test resource
@@ -321,6 +340,7 @@ func TestFindStatusConnectedTypes(t *testing.T) {
  */
 
 func TestResolveResourceSpecAndStatus(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	// Define a test resource

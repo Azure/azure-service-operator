@@ -13,6 +13,7 @@ import (
 )
 
 func Test_String_HasAllKeys(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	// This makes sure that if config.Values or testConfig changes

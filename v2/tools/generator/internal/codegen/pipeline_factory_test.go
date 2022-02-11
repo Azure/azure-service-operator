@@ -21,6 +21,7 @@ import (
 )
 
 func TestGolden_NewARMCodeGeneratorFromConfigCreatesRightPipeline(t *testing.T) {
+	t.Parallel()
 	gold := goldie.New(t)
 	g := NewGomegaWithT(t)
 
@@ -38,6 +39,7 @@ func TestGolden_NewARMCodeGeneratorFromConfigCreatesRightPipeline(t *testing.T) 
 }
 
 func TestGolden_NewCrossplaneCodeGeneratorFromConfigCreatesRightPipeline(t *testing.T) {
+	t.Parallel()
 	gold := goldie.New(t)
 	g := NewGomegaWithT(t)
 
@@ -55,6 +57,7 @@ func TestGolden_NewCrossplaneCodeGeneratorFromConfigCreatesRightPipeline(t *test
 }
 
 func TestGolden_NewTestCodeGeneratorCreatesRightPipeline(t *testing.T) {
+	t.Parallel()
 	gold := goldie.New(t)
 	g := NewGomegaWithT(t)
 

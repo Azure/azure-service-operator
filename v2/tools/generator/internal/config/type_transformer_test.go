@@ -16,6 +16,7 @@ import (
 )
 
 func Test_TransformByGroup_CorrectlySelectsTypes(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
@@ -37,6 +38,7 @@ func Test_TransformByGroup_CorrectlySelectsTypes(t *testing.T) {
 }
 
 func Test_TransformByVersion_CorrectlySelectsTypes(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
@@ -58,6 +60,7 @@ func Test_TransformByVersion_CorrectlySelectsTypes(t *testing.T) {
 }
 
 func Test_TransformByName_CorrectlySelectsTypes(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
@@ -79,6 +82,7 @@ func Test_TransformByName_CorrectlySelectsTypes(t *testing.T) {
 }
 
 func Test_TransformCanTransform_ToComplexType(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
@@ -97,6 +101,7 @@ func Test_TransformCanTransform_ToComplexType(t *testing.T) {
 }
 
 func Test_TransformCanTransform_ToNestedMapType(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
@@ -132,6 +137,7 @@ func Test_TransformCanTransform_ToNestedMapType(t *testing.T) {
 }
 
 func Test_TransformWithMissingMapValue_ReportsError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
@@ -157,6 +163,7 @@ func Test_TransformWithMissingMapValue_ReportsError(t *testing.T) {
 }
 
 func Test_TransformWithMissingTargetType_ReportsError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
@@ -169,6 +176,7 @@ func Test_TransformWithMissingTargetType_ReportsError(t *testing.T) {
 }
 
 func Test_TransformWithRemoveButNoProperty_ReportsError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
@@ -181,6 +189,7 @@ func Test_TransformWithRemoveButNoProperty_ReportsError(t *testing.T) {
 }
 
 func Test_TransformWithRemoveAndTarget_ReportsError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
@@ -197,6 +206,7 @@ func Test_TransformWithRemoveAndTarget_ReportsError(t *testing.T) {
 }
 
 func Test_TransformWithMultipleTargets_ReportsError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
@@ -220,6 +230,7 @@ func Test_TransformWithMultipleTargets_ReportsError(t *testing.T) {
 }
 
 func Test_TransformWithNonExistentPrimitive_ReportsError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
@@ -235,6 +246,7 @@ func Test_TransformWithNonExistentPrimitive_ReportsError(t *testing.T) {
 }
 
 func Test_TransformWithIfTypeAndNoProperty_ReportsError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
@@ -253,6 +265,7 @@ func Test_TransformWithIfTypeAndNoProperty_ReportsError(t *testing.T) {
 }
 
 func Test_TransformCanTransformProperty(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
@@ -279,6 +292,7 @@ func Test_TransformCanTransformProperty(t *testing.T) {
 }
 
 func Test_TransformCanTransformProperty_Wildcard(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
@@ -317,6 +331,7 @@ func Test_TransformCanTransformProperty_Wildcard(t *testing.T) {
 }
 
 func Test_TransformDoesNotTransformPropertyIfTypeDoesNotMatch(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
@@ -342,6 +357,7 @@ func Test_TransformDoesNotTransformPropertyIfTypeDoesNotMatch(t *testing.T) {
 }
 
 func Test_TransformDoesTransformPropertyIfTypeDoesMatch(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
@@ -371,6 +387,7 @@ func Test_TransformDoesTransformPropertyIfTypeDoesMatch(t *testing.T) {
 }
 
 func Test_TransformCanRemoveProperty(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
@@ -397,6 +414,7 @@ func Test_TransformCanRemoveProperty(t *testing.T) {
 }
 
 func Test_TransformResult_String(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	result := config.PropertyTransformResult{
 		TypeName:        student2019,
@@ -408,6 +426,7 @@ func Test_TransformResult_String(t *testing.T) {
 }
 
 func Test_TransformResult_StringRemove(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	result := config.PropertyTransformResult{
 		TypeName: student2019,

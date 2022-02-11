@@ -190,9 +190,10 @@ const (
 // CreateResourceGroupAndWait creates the specified resource group, registers it to be deleted when the
 // context is cleaned up, and waits for it to finish being created.
 func (tc *KubePerTestContext) CreateResourceGroupAndWait(rg *resources.ResourceGroup) *resources.ResourceGroup {
+	gen := rg.GetGeneration()
 	createdResourceGroup, err := tc.CreateResourceGroup(rg)
 	tc.Expect(err).ToNot(gomega.HaveOccurred())
-	tc.Eventually(createdResourceGroup).Should(tc.Match.BeProvisioned())
+	tc.Eventually(createdResourceGroup).Should(tc.Match.BeProvisioned(gen))
 	return createdResourceGroup
 }
 
@@ -348,8 +349,9 @@ func (tc *KubePerTestContext) CreateResourceUntracked(obj client.Object) {
 // change into the Provisioned state.
 func (tc *KubePerTestContext) CreateResourceAndWait(obj client.Object) {
 	tc.T.Helper()
+	gen := obj.GetGeneration()
 	tc.CreateResource(obj)
-	tc.Eventually(obj).Should(tc.Match.BeProvisioned())
+	tc.Eventually(obj).Should(tc.Match.BeProvisioned(gen))
 }
 
 // CreateResourcesAndWait creates the resources in K8s and waits for them to
@@ -361,22 +363,38 @@ func (tc *KubePerTestContext) CreateResourcesAndWait(objs ...client.Object) {
 	}
 
 	for _, obj := range objs {
-		tc.Eventually(obj).Should(tc.Match.BeProvisioned())
+		// We can pass 0 for originalGeneration here because we're creating the resource so by definition it doesn't
+		// exist prior to this.
+		tc.Eventually(obj).Should(tc.Match.BeProvisioned(0))
 	}
+}
+
+// CreateResourceAndWaitForState creates the resource in K8s and waits for the Ready condition to change into the specified
+// state
+func (tc *KubePerTestContext) CreateResourceAndWaitForState(
+	obj client.Object,
+	status metav1.ConditionStatus,
+	severity conditions.ConditionSeverity) {
+
+	tc.T.Helper()
+	tc.CreateResource(obj)
+	tc.Eventually(obj).Should(tc.Match.BeInState(status, severity))
 }
 
 // CreateResourceAndWaitForFailure creates the resource in K8s and waits for it to
 // change into the Failed state.
 func (tc *KubePerTestContext) CreateResourceAndWaitForFailure(obj client.Object) {
+	gen := obj.GetGeneration()
 	tc.CreateResource(obj)
-	tc.Eventually(obj).Should(tc.Match.BeFailed())
+	tc.Eventually(obj).Should(tc.Match.BeFailed(gen))
 }
 
-// PatchResourceAndWaitAfter patches the resource in K8s and waits for it to change into
+// PatchResourceAndWait patches the resource in K8s and waits for it to change into
 // the Provisioned state from the provided previousState.
-func (tc *KubePerTestContext) PatchResourceAndWaitAfter(old client.Object, new client.Object, previousReadyCondition conditions.Condition) {
+func (tc *KubePerTestContext) PatchResourceAndWait(old client.Object, new client.Object) {
+	gen := old.GetGeneration()
 	tc.Patch(old, new)
-	tc.Eventually(new).Should(tc.Match.BeProvisionedAfter(previousReadyCondition))
+	tc.Eventually(new).Should(tc.Match.BeProvisioned(gen))
 }
 
 // GetResource retrieves the current state of the resource from K8s (not from Azure).

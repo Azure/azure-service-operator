@@ -18,12 +18,14 @@ func asplode(l, r dst.Expr) dst.Expr {
 }
 
 func TestReduceZero(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	g.Expect(func() { Reduce(asplode, dst.NewLine) }).To(PanicWith("must provide at least one expression to reduce"))
 }
 
 func TestReduceOne(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	expr := &dst.BadExpr{}
@@ -31,6 +33,7 @@ func TestReduceOne(t *testing.T) {
 }
 
 func TestJoinOr(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	expr1 := &dst.CallExpr{}
@@ -42,6 +45,7 @@ func TestJoinOr(t *testing.T) {
 }
 
 func TestJoinAnd(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	expr1 := &dst.CallExpr{}
@@ -53,6 +57,7 @@ func TestJoinAnd(t *testing.T) {
 }
 
 func TestSelectorWithMoreNames(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	selector := Selector(

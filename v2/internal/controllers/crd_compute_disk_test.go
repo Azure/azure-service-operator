@@ -9,7 +9,6 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20200930"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -51,16 +50,8 @@ func Test_Compute_Disk_CRUD(t *testing.T) {
 	old := disk.DeepCopy()
 	networkAccessPolicy := compute.DiskPropertiesNetworkAccessPolicyDenyAll
 	disk.Spec.NetworkAccessPolicy = &networkAccessPolicy
-	tc.Patch(old, disk)
-
-	objectKey := client.ObjectKeyFromObject(disk)
-
-	// Ensure state eventually gets updated in k8s from change in Azure.
-	tc.Eventually(func() *compute.NetworkAccessPolicy_Status {
-		var updatedDisk compute.Disk
-		tc.GetResource(objectKey, &updatedDisk)
-		return updatedDisk.Status.NetworkAccessPolicy
-	}).Should(BeEquivalentTo(&networkAccessPolicy))
+	tc.PatchResourceAndWait(old, disk)
+	tc.Expect(disk.Status.NetworkAccessPolicy).To(BeEquivalentTo(&networkAccessPolicy))
 
 	tc.DeleteResourceAndWait(disk)
 

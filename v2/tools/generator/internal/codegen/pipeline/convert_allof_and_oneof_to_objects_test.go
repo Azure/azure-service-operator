@@ -13,9 +13,11 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var synth synthesizer = synthesizer{
-	defs:      make(astmodel.Types),
-	idFactory: astmodel.NewIdentifierFactory(),
+func makeSynth() synthesizer {
+	return synthesizer{
+		defs:      make(astmodel.Types),
+		idFactory: astmodel.NewIdentifierFactory(),
+	}
 }
 
 var (
@@ -42,16 +44,20 @@ func defineEnum(strings ...string) astmodel.Type {
 
 // any type merged with AnyType is just the type
 func TestMergeWithAny(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	synth := makeSynth()
 	g.Expect(synth.intersectTypes(astmodel.StringType, astmodel.AnyType)).To(Equal(astmodel.StringType))
 	g.Expect(synth.intersectTypes(astmodel.AnyType, astmodel.StringType)).To(Equal(astmodel.StringType))
 }
 
 // merging maps is merging their keys and values
 func TestMergeMaps(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	synth := makeSynth()
 	g.Expect(synth.intersectTypes(mapStringInterface, mapStringString)).To(Equal(mapStringString))
 	g.Expect(synth.intersectTypes(mapStringString, mapStringInterface)).To(Equal(mapStringString))
 	g.Expect(synth.intersectTypes(mapInterfaceString, mapStringInterface)).To(Equal(mapStringString))
@@ -60,14 +66,17 @@ func TestMergeMaps(t *testing.T) {
 
 // merging a map with string keys with an empty object results in the map
 func TestMergeMapEmptyObject(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	synth := makeSynth()
 	g.Expect(synth.intersectTypes(mapStringString, emptyObject)).To(Equal(mapStringString))
 	g.Expect(synth.intersectTypes(emptyObject, mapStringString)).To(Equal(mapStringString))
 }
 
 // merging a map with an object puts the map into 'additionalProperties'
 func TestMergeMapObject(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	newMap := astmodel.NewMapType(astmodel.StringType, astmodel.FloatType)
@@ -79,12 +88,14 @@ func TestMergeMapObject(t *testing.T) {
 		astmodel.NewPropertyDefinition("additionalProperties", "additionalProperties", newMap),
 	)
 
+	synth := makeSynth()
 	g.Expect(synth.intersectTypes(newMap, oneProp)).To(Equal(expected))
 	g.Expect(synth.intersectTypes(oneProp, newMap)).To(Equal(expected))
 }
 
 // merging two objects results in the union of their properties
 func TestMergeObjectObject(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	propX := astmodel.NewPropertyDefinition("x", "x", astmodel.IntType)
@@ -95,12 +106,14 @@ func TestMergeObjectObject(t *testing.T) {
 
 	expected := astmodel.NewObjectType().WithProperties(propX, propY)
 
+	synth := makeSynth()
 	g.Expect(synth.intersectTypes(obj1, obj2)).To(Equal(expected))
 	g.Expect(synth.intersectTypes(obj2, obj1)).To(Equal(expected))
 }
 
 // merging two enums results in the intersection of their values
 func TestMergeEnumEnum(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	enum1 := defineEnum("x", "y", "z", "g")
@@ -108,12 +121,14 @@ func TestMergeEnumEnum(t *testing.T) {
 
 	expected := defineEnum("g")
 
+	synth := makeSynth()
 	g.Expect(synth.intersectTypes(enum1, enum2)).To(Equal(expected))
 	g.Expect(synth.intersectTypes(enum2, enum1)).To(Equal(expected))
 }
 
 // cannot merge enums with different base types
 func TestMergeBadEnums(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	enum := defineEnum("a", "b")
@@ -121,6 +136,7 @@ func TestMergeBadEnums(t *testing.T) {
 
 	var err error
 
+	synth := makeSynth()
 	_, err = synth.intersectTypes(enum, enumInt)
 	g.Expect(err.Error()).To(ContainSubstring("differing base types"))
 
@@ -130,22 +146,26 @@ func TestMergeBadEnums(t *testing.T) {
 
 // merging an enum with its base type results in the enum
 func TestMergeEnumBaseType(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	enum := defineEnum("a", "b")
 
+	synth := makeSynth()
 	g.Expect(synth.intersectTypes(enum, astmodel.StringType)).To(Equal(enum))
 	g.Expect(synth.intersectTypes(astmodel.StringType, enum)).To(Equal(enum))
 }
 
 // cannot merge an enum with another non-base type
 func TestMergeEnumWrongBaseType(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	enum := defineEnum("a", "b")
 
 	var err error
 
+	synth := makeSynth()
 	_, err = synth.intersectTypes(enum, astmodel.IntType)
 	g.Expect(err.Error()).To(ContainSubstring("don't know how to merge enum type"))
 
@@ -155,6 +175,7 @@ func TestMergeEnumWrongBaseType(t *testing.T) {
 
 // merging two optionals merges their contents
 func TestMergeOptionalOptional(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	enum1 := astmodel.NewOptionalType(defineEnum("a", "b"))
@@ -162,6 +183,7 @@ func TestMergeOptionalOptional(t *testing.T) {
 
 	expected := astmodel.NewOptionalType(defineEnum("b"))
 
+	synth := makeSynth()
 	g.Expect(synth.intersectTypes(enum1, enum2)).To(Equal(expected))
 	g.Expect(synth.intersectTypes(enum2, enum1)).To(Equal(expected))
 }
@@ -170,7 +192,7 @@ func TestMergeOptionalOptional(t *testing.T) {
 // TODO: dubious?
 func TestMergeOptionalEnum(t *testing.T) {
 	// this feels a bit wrong but it seems to be expected in real life specs
-
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	enum1 := defineEnum("a", "b")
@@ -178,12 +200,14 @@ func TestMergeOptionalEnum(t *testing.T) {
 
 	expected := defineEnum("b")
 
+	synth := makeSynth()
 	g.Expect(synth.intersectTypes(enum1, enum2)).To(Equal(expected))
 	g.Expect(synth.intersectTypes(enum2, enum1)).To(Equal(expected))
 }
 
 // merging objects with common properties merges the types of those properties
 func TestMergeObjectObjectCommonProperties(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	obj1 := astmodel.NewObjectType().WithProperties(
@@ -195,12 +219,14 @@ func TestMergeObjectObjectCommonProperties(t *testing.T) {
 	expected := astmodel.NewObjectType().WithProperties(
 		astmodel.NewPropertyDefinition("x", "x", defineEnum("b")))
 
+	synth := makeSynth()
 	g.Expect(synth.intersectTypes(obj1, obj2)).To(Equal(expected))
 	g.Expect(synth.intersectTypes(obj2, obj1)).To(Equal(expected))
 }
 
 // merging resources merges their spec & status
 func TestMergeResourceResource(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	r1 := astmodel.NewResourceType(defineEnum("a", "b"), defineEnum("x", "y"))
@@ -208,11 +234,13 @@ func TestMergeResourceResource(t *testing.T) {
 
 	expected := astmodel.NewResourceType(defineEnum("b"), defineEnum("y"))
 
+	synth := makeSynth()
 	g.Expect(synth.intersectTypes(r1, r2)).To(Equal(expected))
 	g.Expect(synth.intersectTypes(r2, r1)).To(Equal(expected))
 }
 
 func TestMergeResourceMissingStatus(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	r1 := astmodel.NewResourceType(defineEnum("a", "b"), defineEnum("x", "y"))
@@ -220,11 +248,13 @@ func TestMergeResourceMissingStatus(t *testing.T) {
 
 	expected := astmodel.NewResourceType(defineEnum("b"), defineEnum("x", "y"))
 
+	synth := makeSynth()
 	g.Expect(synth.intersectTypes(r1, r2)).To(Equal(expected))
 	g.Expect(synth.intersectTypes(r2, r1)).To(Equal(expected))
 }
 
 func TestMergeValidated(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	maxLen := int64(32)
@@ -234,11 +264,13 @@ func TestMergeValidated(t *testing.T) {
 			MaxLength: &maxLen,
 		})
 
+	synth := makeSynth()
 	g.Expect(synth.intersectTypes(validatedString, astmodel.StringType)).To(Equal(validatedString))
 	g.Expect(synth.intersectTypes(astmodel.StringType, validatedString)).To(Equal(validatedString))
 }
 
 func TestMergeValidatedOfOptional(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	maxLen := int64(32)
@@ -254,16 +286,19 @@ func TestMergeValidatedOfOptional(t *testing.T) {
 			MaxLength: &maxLen,
 		})
 
+	synth := makeSynth()
 	g.Expect(synth.intersectTypes(validatedOptionalString, astmodel.StringType)).To(Equal(validatedString))
 	g.Expect(synth.intersectTypes(astmodel.StringType, validatedOptionalString)).To(Equal(validatedString))
 }
 
 func TestMergeResourceWithOtherDependsOnSpecVsStatus(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	r := astmodel.NewResourceType(defineEnum("a", "b"), defineEnum("c", "d"))
 	e := defineEnum("b", "c")
 
+	synth := makeSynth()
 	synth.specOrStatus = chooseSpec
 	{
 		expected := astmodel.NewResourceType(defineEnum("b"), defineEnum("c", "d"))
@@ -283,10 +318,12 @@ func TestMergeResourceWithOtherDependsOnSpecVsStatus(t *testing.T) {
 
 // merging a oneOf with a type that is in the oneOf results in that type
 func TestMergeOneOf(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	oneOf := astmodel.BuildOneOfType(astmodel.IntType, astmodel.StringType, astmodel.BoolType)
 
+	synth := makeSynth()
 	g.Expect(synth.intersectTypes(oneOf, astmodel.BoolType)).To(Equal(astmodel.BoolType))
 	g.Expect(synth.intersectTypes(astmodel.BoolType, oneOf)).To(Equal(astmodel.BoolType))
 }
@@ -309,7 +346,7 @@ func TestMergeOneOfEnum(t *testing.T) {
 	// the Location type should be reduced to:
 	//
 	// 	Derived: { Location: enum('Global') }
-
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	oneOf := astmodel.BuildOneOfType(
@@ -321,16 +358,19 @@ func TestMergeOneOfEnum(t *testing.T) {
 
 	expected := defineEnum("b")
 
+	synth := makeSynth()
 	g.Expect(synth.intersectTypes(oneOf, enum)).To(Equal(expected))
 	g.Expect(synth.intersectTypes(enum, oneOf)).To(Equal(expected))
 }
 
 func TestOneOfResourceSpec(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	r := astmodel.NewResourceType(astmodel.StringType, astmodel.IntType)
 	oneOf := astmodel.BuildOneOfType(astmodel.BoolType, r).(*astmodel.OneOfType)
 
+	synth := makeSynth()
 	synth.specOrStatus = chooseSpec
 
 	expected := astmodel.NewObjectType().WithProperties(
@@ -351,6 +391,7 @@ func TestOneOfResourceSpec(t *testing.T) {
 }
 
 func TestCommonUppercasedSuffix(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	g.Expect(commonUppercasedSuffix("GoodDog", "HappyDog")).To(Equal("Dog"))
@@ -372,6 +413,7 @@ func TestCommonUppercasedSuffix(t *testing.T) {
 }
 
 func TestSimplifyPropNamesDoesNotCreateEmptyNames(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	names := []propertyNames{

@@ -106,6 +106,7 @@ func runGoldenTest(t *testing.T, path string, testConfig GoldenTestConfig) {
 	ctx := context.Background()
 
 	for _, p := range testConfig.Pipelines {
+		p := p
 		testName := strings.TrimPrefix(t.Name(), "TestGolden/")
 
 		// Append pipeline name at the end of file name if there is more than one pipeline under test
@@ -114,6 +115,7 @@ func runGoldenTest(t *testing.T, path string, testConfig GoldenTestConfig) {
 		}
 
 		t.Run(string(p), func(t *testing.T) {
+			t.Parallel()
 			codegen, err := NewTestCodeGenerator(testName, path, t, testConfig, p)
 			if err != nil {
 				t.Fatalf("failed to create code generator: %s", err)
@@ -190,7 +192,9 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 		codegen.InjectStageAfter(pipeline.RemoveTypeAliasesStageID, injectEmbeddedStructType())
 	}
 
-	codegen.RemoveStages()
+	codegen.RemoveStages(
+		pipeline.ApplyExportFiltersStageID, // Don't want any filtering of resources during tests
+	)
 
 	return codegen, nil
 }
@@ -337,6 +341,8 @@ func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) pip
 }
 
 func TestGolden(t *testing.T) {
+	t.Parallel()
+
 	type Test struct {
 		name string
 		path string
@@ -366,7 +372,12 @@ func TestGolden(t *testing.T) {
 		t.Fatalf("Expected at least %d test groups, found: %d", minExpectedTestGroups, len(testGroups))
 	}
 
+	// Skip linting next line, see https://github.com/kunwardeep/paralleltest/issues/14. Linter doesn't support maps
+	// nolint:paralleltest
 	for groupName, fs := range testGroups {
+		fs := fs
+		groupName := groupName
+
 		configPath := fmt.Sprintf("%s/%s/config.yaml", testDataRoot, groupName)
 
 		testConfig, err := loadTestConfig(configPath)
@@ -375,13 +386,17 @@ func TestGolden(t *testing.T) {
 		}
 
 		t.Run(groupName, func(t *testing.T) {
+			t.Parallel()
 			// safety check that there is at least one test in each group
 			if len(fs) == 0 {
 				t.Fatalf("Test group %s was empty", groupName)
 			}
 
 			for _, f := range fs {
+				f := f
+				testConfig := testConfig
 				t.Run(f.name, func(t *testing.T) {
+					t.Parallel()
 					runGoldenTest(t, f.path, testConfig)
 				})
 			}

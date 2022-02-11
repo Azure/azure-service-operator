@@ -23,6 +23,7 @@ import (
 )
 
 func Test_NewResourceGroup(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
 
@@ -60,6 +61,7 @@ func Test_NewResourceGroup(t *testing.T) {
 }
 
 func Test_NewResourceGroup_Error(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
 

@@ -250,16 +250,17 @@ func createGetKnownTypesFunc(codeGenerationContext *astmodel.CodeGenerationConte
 //			var result []registration.StorageType
 //			result = append(result, registration.StorageType{
 //				Obj: new(<package>.<resource>),
-//				Indexes: []registration.IndexRegistration{
-//					registration.IndexRegistration{
+//				Indexes: []registration.Index{
+//					{
 //						Key: <key>,
 //						Func: <func>,
-//				},
-//				Watches: []registration.WatchRegistration{
-//					registration.WatchRegistration{
-//						Src: <source> (usually corev1.Secret{}),
-//
 //					},
+//				},
+//				Watches: []registration.Watch{
+//					{
+//						Src: <source> (usually corev1.Secret{}),
+//					},
+//				},
 //			})
 //			result = append(result, registration.StorageType{Obj: new(<package>.<resource>)})
 //			result = append(result, registration.StorageType{Obj: new(<package>.<resource>)})
@@ -291,8 +292,8 @@ func createGetKnownStorageTypesFunc(
 		newStorageTypeBuilder.AddField("Obj", astbuilder.CallFunc("new", typeName.AsType(codeGenerationContext)))
 
 		// Register index functions (if needed):
-		// Indexes: []registration.IndexRegistration{
-		//		registration.IndexRegistration{
+		// Indexes: []registration.Index{
+		//		{
 		//			Key: <key>,
 		//			Func: <func>,
 		//		}
@@ -311,8 +312,8 @@ func createGetKnownStorageTypesFunc(
 		}
 
 		// Register additional watches (if needed):
-		// Watches: []registration.WatchRegistration{
-		//		registration.WatchRegistration{
+		// Watches: []registration.Watch{
+		//		registration.Watch{
 		//			Src: <event source>,
 		//			MakeEventHandler: <func>,
 		//		}
@@ -350,7 +351,9 @@ func createGetKnownStorageTypesFunc(
 			newWatchBuilder.AddField("MakeEventHandler", eventHandler)
 
 			sliceBuilder := astbuilder.NewSliceLiteralBuilder(astmodel.WatchRegistrationType.AsType(codeGenerationContext), true)
-			sliceBuilder.AddElement(newWatchBuilder.Build())
+			if len(secretKeys) > 0 {
+				sliceBuilder.AddElement(newWatchBuilder.Build())
+			}
 
 			newStorageTypeBuilder.AddField("Watches", sliceBuilder.Build())
 		}

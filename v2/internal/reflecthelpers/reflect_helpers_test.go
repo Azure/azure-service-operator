@@ -101,6 +101,7 @@ type ResourceReference struct {
 }
 
 func Test_FindReferences(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	ref := genruntime.ResourceReference{ARMID: "test"}
@@ -129,6 +130,7 @@ func Test_FindReferences(t *testing.T) {
 }
 
 func Test_FindSecrets(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	ref := genruntime.SecretReference{Name: "foo", Key: "key"}
@@ -155,6 +157,7 @@ func Test_FindSecrets(t *testing.T) {
 }
 
 func Test_GetObjectListItems(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	res := ResourceWithReferences{

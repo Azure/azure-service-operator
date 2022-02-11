@@ -131,18 +131,23 @@ type FlexibleServersConfigurationList struct {
 
 //Storage version of v1alpha1api20210601.Configuration_Status
 type Configuration_Status struct {
-	AllowedValues *string                `json:"allowedValues,omitempty"`
-	Conditions    []conditions.Condition `json:"conditions,omitempty"`
-	DataType      *string                `json:"dataType,omitempty"`
-	DefaultValue  *string                `json:"defaultValue,omitempty"`
-	Description   *string                `json:"description,omitempty"`
-	Id            *string                `json:"id,omitempty"`
-	Name          *string                `json:"name,omitempty"`
-	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Source        *string                `json:"source,omitempty"`
-	SystemData    *SystemData_Status     `json:"systemData,omitempty"`
-	Type          *string                `json:"type,omitempty"`
-	Value         *string                `json:"value,omitempty"`
+	AllowedValues          *string                `json:"allowedValues,omitempty"`
+	Conditions             []conditions.Condition `json:"conditions,omitempty"`
+	DataType               *string                `json:"dataType,omitempty"`
+	DefaultValue           *string                `json:"defaultValue,omitempty"`
+	Description            *string                `json:"description,omitempty"`
+	DocumentationLink      *string                `json:"documentationLink,omitempty"`
+	Id                     *string                `json:"id,omitempty"`
+	IsConfigPendingRestart *bool                  `json:"isConfigPendingRestart,omitempty"`
+	IsDynamicConfig        *bool                  `json:"isDynamicConfig,omitempty"`
+	IsReadOnly             *bool                  `json:"isReadOnly,omitempty"`
+	Name                   *string                `json:"name,omitempty"`
+	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Source                 *string                `json:"source,omitempty"`
+	SystemData             *SystemData_Status     `json:"systemData,omitempty"`
+	Type                   *string                `json:"type,omitempty"`
+	Unit                   *string                `json:"unit,omitempty"`
+	Value                  *string                `json:"value,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Configuration_Status{}

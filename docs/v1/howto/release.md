@@ -6,9 +6,9 @@ The release process for Azure Service Operator has two steps:
 
 ## Releasing an updated container image for the manager
 
-1. Ensure you have a successful pipeline run off `master` that has all the changes you want to be in the release. If not, [schedule a run on Azure DevOps](http://dev.azure.com/azure/azure-service-operator). Note that you need to be signed in on DevOps to schedule a build.
+1. Ensure you have a successful pipeline run off `main` that has all the changes you want to be in the release. If not, [schedule a run on Azure DevOps](http://dev.azure.com/azure/azure-service-operator). Note that you need to be signed in on DevOps to schedule a build.
    - The output of this step is a _candidate_ container image.
-2. Create a new [DevOps release](https://dev.azure.com/azure/azure-service-operator/_release?_a=releases&view=mine&definitionId=2). **Note**: The release must be created from a build of `master`. The release creation will fail if it is created targetting artifacts from any other branch.
+2. Create a new [DevOps release](https://dev.azure.com/azure/azure-service-operator/_release?_a=releases&view=mine&definitionId=2). **Note**: The release must be created from a build of `main`. The release creation will fail if it is created targetting artifacts from any other branch.
    - Click "create release" and choose the build from step 1 for "Artifacts".
    - Click "Create".
 3. Wait for the DevOps release created in step #2 to finish. The result of a successful run of the DevOps release is:

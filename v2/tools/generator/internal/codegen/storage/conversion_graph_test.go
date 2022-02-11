@@ -20,6 +20,7 @@ func TestConversionGraph_WithTwoUnrelatedReferences_HasExpectedTransitions(t *te
 	 *  Test that a conversion graph that contains two API package references from different groups ends up with just
 	 *  one transition for each group, each linking from the provided API version to the matching storage variant.
 	 */
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	omc := config.NewObjectModelConfiguration()
@@ -46,6 +47,7 @@ func TestConversionGraph_WithTwoUnrelatedReferences_HasExpectedTransitions(t *te
 }
 
 func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	// Create some resources to use for testing.
@@ -100,7 +102,6 @@ func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) 
 		{"Indirectly linked api resolves when resource does not exist in latest package", address2020.Name(), addressHub},
 	}
 
-	t.Parallel()
 	for _, c := range cases {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
@@ -115,6 +116,7 @@ func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) 
 }
 
 func Test_ConversionGraph_WhenRenameConfigured_FindsRenamedType(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	// Create some resources to use for testing.
@@ -131,10 +133,7 @@ func Test_ConversionGraph_WhenRenameConfigured_FindsRenamedType(t *testing.T) {
 	types.AddAll(person2020s, party2021s)
 
 	// Create configuration for our rename
-	tc := config.NewTypeConfiguration(person2020.Name().Name()).SetTypeRename(party2021.Name().Name())
-	vc := config.NewVersionConfiguration("v20200101").Add(tc)
-	gc := config.NewGroupConfiguration(test.Pkg2020.Group()).Add(vc)
-	omc := config.NewObjectModelConfiguration().Add(gc)
+	omc := config.CreateTestObjectModelConfigurationForRename(person2020.Name(), party2021.Name().Name())
 
 	// Create a builder use it to configure a graph to test
 	builder := NewConversionGraphBuilder(omc)
@@ -144,12 +143,13 @@ func Test_ConversionGraph_WhenRenameConfigured_FindsRenamedType(t *testing.T) {
 	graph, err := builder.Build()
 	g.Expect(err).To(Succeed())
 
-	name, err := graph.FindNext(person2020s.Name(), types)
+	name, err := graph.FindNextType(person2020s.Name(), types)
 	g.Expect(err).To(Succeed())
 	g.Expect(name).To(Equal(party2021s.Name()))
 }
 
 func Test_ConversionGraph_WhenRenameSpecifiesMissingType_ReturnsError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	// Create some resources to use for testing.
@@ -166,10 +166,7 @@ func Test_ConversionGraph_WhenRenameSpecifiesMissingType_ReturnsError(t *testing
 	types.AddAll(person2020s, party2021s)
 
 	// Create mis-configuration for our rename specifying a type that doesn't exist
-	tc := config.NewTypeConfiguration(person2020.Name().Name()).SetTypeRename("Phantom")
-	vc := config.NewVersionConfiguration("v20200101").Add(tc)
-	gc := config.NewGroupConfiguration(test.Pkg2020.Group()).Add(vc)
-	omc := config.NewObjectModelConfiguration().Add(gc)
+	omc := config.CreateTestObjectModelConfigurationForRename(person2020.Name(), "Phantom")
 
 	// Create a builder use it to configure a graph to test
 	builder := NewConversionGraphBuilder(omc)
@@ -179,12 +176,13 @@ func Test_ConversionGraph_WhenRenameSpecifiesMissingType_ReturnsError(t *testing
 	graph, err := builder.Build()
 	g.Expect(err).To(Succeed())
 
-	_, err = graph.FindNext(person2020s.Name(), types)
+	_, err = graph.FindNextType(person2020s.Name(), types)
 	g.Expect(err).NotTo(Succeed())
 	g.Expect(err.Error()).To(ContainSubstring("Phantom"))
 }
 
 func Test_ConversionGraph_WhenRenameSpecifiesConflictingType_ReturnsError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	// Create some resources to use for testing.
@@ -204,10 +202,7 @@ func Test_ConversionGraph_WhenRenameSpecifiesConflictingType_ReturnsError(t *tes
 	types.AddAll(person2020s, person2021s, party2021s)
 
 	// Create mis-configuration for our rename that conflicts with the second type
-	tc := config.NewTypeConfiguration(person2020.Name().Name()).SetTypeRename(party2021.Name().Name())
-	vc := config.NewVersionConfiguration("v20200101").Add(tc)
-	gc := config.NewGroupConfiguration(test.Pkg2020.Group()).Add(vc)
-	omc := config.NewObjectModelConfiguration().Add(gc)
+	omc := config.CreateTestObjectModelConfigurationForRename(person2020.Name(), party2021.Name().Name())
 
 	// Create a builder use it to configure a graph to test
 	builder := NewConversionGraphBuilder(omc)
@@ -217,7 +212,7 @@ func Test_ConversionGraph_WhenRenameSpecifiesConflictingType_ReturnsError(t *tes
 	graph, err := builder.Build()
 	g.Expect(err).To(Succeed())
 
-	_, err = graph.FindNext(person2020s.Name(), types)
+	_, err = graph.FindNextType(person2020s.Name(), types)
 	g.Expect(err).NotTo(Succeed())
 	g.Expect(err.Error()).To(ContainSubstring(person2020.Name().Name()))
 	g.Expect(err.Error()).To(ContainSubstring(party2021.Name().Name()))

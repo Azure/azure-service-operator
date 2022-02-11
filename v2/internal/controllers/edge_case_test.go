@@ -36,8 +36,6 @@ func waitForOwnerMissingError(tc *testcommon.KubePerTestContext, obj client.Obje
 }
 
 func storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t *testing.T, waitHelper func(tc *testcommon.KubePerTestContext, obj client.Object)) {
-	t.Parallel()
-
 	tc := globalTestContext.ForTest(t)
 
 	// Create the resource group in-memory but don't submit it yet
@@ -71,12 +69,10 @@ func storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t *testing.T, wai
 	tc.Expect(err).ToNot(HaveOccurred())
 
 	// The storage account should also be created successfully
-	tc.Eventually(acct).Should(tc.Match.BeProvisioned())
+	tc.Eventually(acct).Should(tc.Match.BeProvisioned(0))
 }
 
 func subnetAndVNETCreatedProvisionedOutOfOrder(t *testing.T, waitHelper func(tc *testcommon.KubePerTestContext, obj client.Object)) {
-	t.Parallel()
-
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
 
@@ -107,25 +103,29 @@ func subnetAndVNETCreatedProvisionedOutOfOrder(t *testing.T, waitHelper func(tc 
 	// Now created the vnet
 	tc.CreateResourceAndWait(vnet)
 	// The subnet account should also be created successfully eventually
-	tc.Eventually(subnet).Should(tc.Match.BeProvisioned())
+	tc.Eventually(subnet).Should(tc.Match.BeProvisioned(0))
 }
 
 func Test_StorageAccount_CreatedBeforeResourceGroup(t *testing.T) {
+	t.Parallel()
 	storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t, waitForOwnerMissingError)
 }
 
 func Test_StorageAccount_CreatedInParallelWithResourceGroup(t *testing.T) {
 	t.Skip("needs some work to pass consistently in recording mode")
+	t.Parallel()
 	doNotWait := func(_ *testcommon.KubePerTestContext, _ client.Object) { /* do not wait */ }
 	storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t, doNotWait)
 }
 
 func Test_Subnet_CreatedBeforeVNET(t *testing.T) {
+	t.Parallel()
 	subnetAndVNETCreatedProvisionedOutOfOrder(t, waitForOwnerMissingError)
 }
 
 func Test_Subnet_CreatedInParallelWithVNET(t *testing.T) {
 	t.Skip("needs some work to pass consistently in recording mode")
+	t.Parallel()
 	doNotWait := func(_ *testcommon.KubePerTestContext, _ client.Object) { /* do not wait */ }
 	subnetAndVNETCreatedProvisionedOutOfOrder(t, doNotWait)
 }

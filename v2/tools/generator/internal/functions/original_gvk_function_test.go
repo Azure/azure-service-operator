@@ -13,6 +13,7 @@ import (
 )
 
 func TestGolden_OriginalGVKFunction_ReadingOriginalVersionFromProperty_GeneratesExpectedCode(t *testing.T) {
+	t.Parallel()
 	idFactory := astmodel.NewIdentifierFactory()
 
 	testGroup := "microsoft.person"
@@ -32,6 +33,7 @@ func TestGolden_OriginalGVKFunction_ReadingOriginalVersionFromProperty_Generates
 }
 
 func TestGolden_OriginalGVKFunction_ReadingOriginalVersionFromFunction_GeneratesExpectedCode(t *testing.T) {
+	t.Parallel()
 	idFactory := astmodel.NewIdentifierFactory()
 
 	testGroup := "microsoft.person"

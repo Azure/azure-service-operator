@@ -12,6 +12,8 @@ import (
 )
 
 func TestDocumentationCommentFormatting(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		comment string
 		results []string
@@ -48,6 +50,7 @@ func TestDocumentationCommentFormatting(t *testing.T) {
 	for _, c := range cases {
 		c := c
 		t.Run(c.comment, func(t *testing.T) {
+			t.Parallel()
 			g := NewGomegaWithT(t)
 			lines := formatComment(c.comment, 64)
 			g.Expect(lines).To(Equal(c.results))
@@ -56,6 +59,8 @@ func TestDocumentationCommentFormatting(t *testing.T) {
 }
 
 func TestWordWrap(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		text    string
 		width   int
@@ -70,6 +75,7 @@ func TestWordWrap(t *testing.T) {
 	for _, c := range cases {
 		c := c
 		t.Run(c.text, func(t *testing.T) {
+			t.Parallel()
 			g := NewGomegaWithT(t)
 			lines := wordWrap(c.text, c.width)
 			g.Expect(lines).To(Equal(c.results))

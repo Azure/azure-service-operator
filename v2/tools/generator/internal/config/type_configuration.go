@@ -11,6 +11,7 @@ import (
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -25,10 +26,11 @@ import (
 // └──────────────────────────┘       └────────────────────┘       └──────────────────────┘       ╚═══════════════════╝       └───────────────────────┘
 //
 type TypeConfiguration struct {
-	name          string
-	renamedTo     *string
-	usedRenamedTo bool
-	properties    map[string]*PropertyConfiguration
+	name              string
+	properties        map[string]*PropertyConfiguration
+	nameInNextVersion configurableString
+	export            configurableBool
+	exportAs          configurableString
 }
 
 func NewTypeConfiguration(name string) *TypeConfiguration {
@@ -38,91 +40,104 @@ func NewTypeConfiguration(name string) *TypeConfiguration {
 	}
 }
 
-// TypeRename returns a new name (and true) if one is configured for this type, or empty string and false if not.
-func (tc *TypeConfiguration) TypeRename() (string, error) {
-	if tc.renamedTo == nil {
-		msg := fmt.Sprintf(renamedToTag+" not specified for type %s", tc.name)
+// LookupNameInNextVersion checks to see whether the name of this type in the next version is configured, returning
+// either that name or a NotConfiguredError.
+func (tc *TypeConfiguration) LookupNameInNextVersion() (string, error) {
+	name, ok := tc.nameInNextVersion.read()
+	if !ok {
+		msg := fmt.Sprintf(nameInNextVersionTag+" not specified for type %s", tc.name)
 		return "", NewNotConfiguredError(msg)
 	}
 
-	tc.usedRenamedTo = true
-	return *tc.renamedTo, nil
+	return name, nil
 }
 
-// SetTypeRename sets the name this type is renamed to
-func (tc *TypeConfiguration) SetTypeRename(renameTo string) *TypeConfiguration {
-	tc.renamedTo = &renameTo
-	return tc
+// VerifyNameInNextVersionConsumed returns an error if our configured rename was not used, nil otherwise.
+func (tc *TypeConfiguration) VerifyNameInNextVersionConsumed() error {
+	if tc.nameInNextVersion.isUnconsumed() {
+		v, _ := tc.nameInNextVersion.read()
+		return errors.Errorf("type %s: "+nameInNextVersionTag+": %s not consumed", tc.name, v)
+	}
+
+	return nil
 }
 
-// FindUnusedTypeRenames returns a slice listing any unused type rename configuration
-func (tc *TypeConfiguration) FindUnusedTypeRenames() []string {
-	var result []string
-	if !tc.usedRenamedTo {
-		msg := fmt.Sprintf("type %s:%s", tc.name, *tc.renamedTo)
-		result = append(result, msg)
+// LookupExport checks to see whether this type is configured for export, returning either that value or a
+// NotConfiguredError.
+func (tc *TypeConfiguration) LookupExport() (bool, error) {
+	v, ok := tc.export.read()
+	if !ok {
+		msg := fmt.Sprintf(exportTag+" not specified for type %s", tc.name)
+		return false, NewNotConfiguredError(msg)
 	}
 
-	return result
+	return v, nil
 }
 
-// ARMReference looks up a property to determine whether it may be an ARM reference or not.
-func (tc *TypeConfiguration) ARMReference(property astmodel.PropertyName) (bool, error) {
-	pc, err := tc.findProperty(property)
-	if err != nil {
-		return false, err
+// VerifyExportConsumed returns an error if our configured export flag was not used, nil otherwise.
+func (tc *TypeConfiguration) VerifyExportConsumed() error {
+	if tc.export.isUnconsumed() {
+		v, _ := tc.export.read()
+		return errors.Errorf("type %s: "+exportTag+": %t not consumed", tc.name, v)
 	}
 
-	armReference, err := pc.ARMReference()
-	if err != nil {
-		return false, errors.Wrapf(
-			err,
-			"configuration of type %s",
-			tc.name)
-	}
-
-	return armReference, nil
+	return nil
 }
 
-// FindUnusedARMReferences returns a slice listing any unused ARMReference configuration
-func (tc *TypeConfiguration) FindUnusedARMReferences() []string {
-	return tc.collectErrors((*PropertyConfiguration).FindUnusedARMReferences)
+// LookupExportAs checks to see whether this type has a custom name configured for export, returning either that name
+// or a NotConfiguredError.
+func (tc *TypeConfiguration) LookupExportAs() (string, error) {
+	v, ok := tc.exportAs.read()
+	if !ok {
+		msg := fmt.Sprintf(exportAsTag+" not specified for type %s", tc.name)
+		return "", NewNotConfiguredError(msg)
+	}
+
+	return v, nil
 }
 
-// IsSecret looks up a property to determine whether it is a secret.
-func (tc *TypeConfiguration) IsSecret(property astmodel.PropertyName) (bool, error) {
-	pc, err := tc.findProperty(property)
-	if err != nil {
-		return false, err
+// VerifyExportAsConsumed returns an error if our configured export name was not used, nil otherwise.
+func (tc *TypeConfiguration) VerifyExportAsConsumed() error {
+	if tc.exportAs.isUnconsumed() {
+		v, _ := tc.exportAs.read()
+		return errors.Errorf("type %s: "+exportAsTag+": %s not consumed", tc.name, v)
 	}
 
-	isSecret, err := pc.IsSecret()
-	if err != nil {
-		return false, errors.Wrapf(
-			err,
-			"configuration of type %s",
-			tc.name)
-	}
-
-	return isSecret, nil
+	return nil
 }
 
 // Add includes configuration for the specified property as a part of this type configuration
-func (tc *TypeConfiguration) Add(property *PropertyConfiguration) *TypeConfiguration {
+func (tc *TypeConfiguration) add(property *PropertyConfiguration) {
 	// Indexed by lowercase name of the property to allow case-insensitive lookups
 	tc.properties[strings.ToLower(property.name)] = property
-	return tc
 }
 
-// collectErrors iterates over all our properties, collecting any errors provided by the source func, and annotating
-// each one with the source type.
-func (tc *TypeConfiguration) collectErrors(source func(configuration *PropertyConfiguration) []string) []string {
-	var result []string
-	for _, pc := range tc.properties {
-		result = appendWithPrefix(result, fmt.Sprintf("type %s ", tc.name), source(pc)...)
+// visitProperty invokes the provided visitor on the specified property if present.
+// Returns a NotConfiguredError if the property is not found; otherwise whatever error is returned by the visitor.
+func (tc *TypeConfiguration) visitProperty(
+	property astmodel.PropertyName,
+	visitor *configurationVisitor) error {
+
+	pc, err := tc.findProperty(property)
+	if err != nil {
+		return err
 	}
 
-	return result
+	return visitor.visitProperty(pc)
+}
+
+// visitProperties invokes the provided visitor on all properties.
+func (tc *TypeConfiguration) visitProperties(visitor *configurationVisitor) error {
+	var errs []error
+	for _, pc := range tc.properties {
+		errs = append(errs, visitor.visitProperty(pc))
+	}
+
+	// Both errors.Wrapf() and kerrors.NewAggregate() return nil if nothing went wrong
+	return errors.Wrapf(
+		kerrors.NewAggregate(errs),
+		"type %s",
+		tc.name)
 }
 
 // findProperty uses the provided property name to work out which nested PropertyConfiguration should be used
@@ -167,12 +182,31 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			tc.Add(p)
+			tc.add(p)
 			continue
 		}
 
-		if strings.EqualFold(lastId, renamedToTag) && c.Kind == yaml.ScalarNode {
-			tc.SetTypeRename(c.Value)
+		// $nameInNextVersion: <string>
+		if strings.EqualFold(lastId, nameInNextVersionTag) && c.Kind == yaml.ScalarNode {
+			tc.nameInNextVersion.write(c.Value)
+			continue
+		}
+
+		// $export: <bool>
+		if strings.EqualFold(lastId, exportTag) && c.Kind == yaml.ScalarNode {
+			var export bool
+			err := c.Decode(&export)
+			if err != nil {
+				return errors.Wrapf(err, "decoding %s", exportTag)
+			}
+
+			tc.export.write(export)
+			continue
+		}
+
+		// $exportAs: <string>
+		if strings.EqualFold(lastId, exportAsTag) && c.Kind == yaml.ScalarNode {
+			tc.exportAs.write(c.Value)
 			continue
 		}
 

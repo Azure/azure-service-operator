@@ -13,6 +13,7 @@ import (
 )
 
 func TestIncludesWebhooks(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	g.Expect(config.OperatorModeWebhooks.IncludesWebhooks()).To(BeTrue())
 	g.Expect(config.OperatorModeBoth.IncludesWebhooks()).To(BeTrue())
@@ -20,6 +21,7 @@ func TestIncludesWebhooks(t *testing.T) {
 }
 
 func TestIncludesWatchers(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	g.Expect(config.OperatorModeWebhooks.IncludesWatchers()).To(BeFalse())
 	g.Expect(config.OperatorModeBoth.IncludesWatchers()).To(BeTrue())
@@ -27,6 +29,7 @@ func TestIncludesWatchers(t *testing.T) {
 }
 
 func TestRoundtripString(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	values := []string{
 		"watchers-and-webhooks", "webhooks", "watchers",
@@ -41,6 +44,7 @@ func TestRoundtripString(t *testing.T) {
 }
 
 func TestRoundtripValue(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	modes := []config.OperatorMode{
 		config.OperatorModeWatchers,
@@ -55,12 +59,14 @@ func TestRoundtripValue(t *testing.T) {
 }
 
 func TestParseInvalid(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	_, err := config.ParseOperatorMode("dimmer")
 	g.Expect(err.Error()).To(ContainSubstring(`operator mode value must be one of "watchers-and-webhooks", "webhooks" or "watchers" but was "dimmer"`))
 }
 
 func TestStringInvalid(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	g.Expect(func() { _ = config.OperatorMode(0).String() }).To(Panic())
 }

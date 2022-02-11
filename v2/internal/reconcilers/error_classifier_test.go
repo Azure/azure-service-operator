@@ -51,6 +51,7 @@ var unknownError = &genericarmclient.CloudError{
 }
 
 func Test_NilError_IsRetryable(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	expected := reconcilers.CloudErrorDetails{
 		Classification: reconcilers.CloudErrorRetryable,
@@ -61,6 +62,7 @@ func Test_NilError_IsRetryable(t *testing.T) {
 }
 
 func Test_Conflict_IsNotRetryable(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	expected := reconcilers.CloudErrorDetails{
@@ -72,6 +74,7 @@ func Test_Conflict_IsNotRetryable(t *testing.T) {
 }
 
 func Test_RetryableConflict_IsRetryable(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	expected := reconcilers.CloudErrorDetails{
@@ -83,6 +86,7 @@ func Test_RetryableConflict_IsRetryable(t *testing.T) {
 }
 
 func Test_BadRequest_IsRetryable(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	expected := reconcilers.CloudErrorDetails{
@@ -94,6 +98,7 @@ func Test_BadRequest_IsRetryable(t *testing.T) {
 }
 
 func Test_ResourceGroupNotFound_IsRetryable(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	expected := reconcilers.CloudErrorDetails{
@@ -105,6 +110,7 @@ func Test_ResourceGroupNotFound_IsRetryable(t *testing.T) {
 }
 
 func Test_UnknownError_IsRetryable(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	expected := reconcilers.CloudErrorDetails{

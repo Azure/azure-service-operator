@@ -13,6 +13,7 @@ import (
 )
 
 func TestTypeConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	yamlBytes := loadTestData(t)
@@ -21,10 +22,22 @@ func TestTypeConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.T
 	err := yaml.Unmarshal(yamlBytes, &typeConfig)
 	g.Expect(err).To(Succeed())
 	g.Expect(typeConfig.properties).To(HaveLen(4))
-	g.Expect(*typeConfig.renamedTo).To(Equal("Demo"))
+
+	name, ok := typeConfig.nameInNextVersion.read()
+	g.Expect(name).To(Equal("Demo"))
+	g.Expect(ok).To(BeTrue())
+
+	export, ok := typeConfig.export.read()
+	g.Expect(export).To(BeTrue())
+	g.Expect(ok).To(BeTrue())
+
+	exportAs, ok := typeConfig.exportAs.read()
+	g.Expect(exportAs).To(Equal("Demo"))
+	g.Expect(ok).To(BeTrue())
 }
 
 func TestTypeConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	yamlBytes := loadTestData(t)
@@ -35,93 +48,48 @@ func TestTypeConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
 }
 
 func TestTypeConfiguration_TypeRename_WhenRenameConfigured_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
-	typeConfig := NewTypeConfiguration("Person").SetTypeRename("Address")
+	typeConfig := NewTypeConfiguration("Person")
+	typeConfig.nameInNextVersion.write("Address")
 
-	name, err := typeConfig.TypeRename()
+	name, err := typeConfig.LookupNameInNextVersion()
 
 	g.Expect(name).To(Equal("Address"))
 	g.Expect(err).To(Succeed())
-	g.Expect(typeConfig.usedRenamedTo).To(BeTrue())
 }
 
 func TestTypeConfiguration_TypeRename_WhenRenameNotConfigured_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	typeConfig := NewTypeConfiguration("Person")
 
-	name, err := typeConfig.TypeRename()
+	name, err := typeConfig.LookupNameInNextVersion()
 	g.Expect(name).To(Equal(""))
 	g.Expect(err).NotTo(Succeed())
 	g.Expect(err.Error()).To(ContainSubstring(typeConfig.name))
 }
 
-func TestTypeConfiguration_FindUnusedTypeRenames_WhenRenameUsed_ReturnsEmptySlice(t *testing.T) {
+func TestTypeConfiguration_VerifyTypeRenameConsumed_WhenRenameUsed_ReturnsNoError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	typeConfig := NewTypeConfiguration("Person").SetTypeRename("Party")
-	_, err := typeConfig.TypeRename()
-	g.Expect(err).To(Succeed())
-	g.Expect(typeConfig.FindUnusedTypeRenames()).To(BeEmpty())
-}
-
-func TestTypeConfiguration_FindUnusedTypeRenames_WhenRenameUnused_ReturnsExpectedMessage(t *testing.T) {
-	g := NewGomegaWithT(t)
-
-	typeConfig := NewTypeConfiguration("Person").SetTypeRename("Party")
-
-	unused := typeConfig.FindUnusedTypeRenames()
-	g.Expect(unused).To(HaveLen(1))
-	g.Expect(unused[0]).To(ContainSubstring(typeConfig.name))
-}
-
-func TestTypeConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedResult(t *testing.T) {
-	g := NewGomegaWithT(t)
-	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
-	typeConfig := NewTypeConfiguration("Person").Add(spouse)
-
-	isReference, err := typeConfig.ARMReference("Spouse")
-	g.Expect(err).To(Succeed())
-	g.Expect(isReference).To(BeTrue())
-}
-
-func TestTypeConfiguration_ARMReference_WhenFullNamePropertyFound_ReturnsExpectedResult(t *testing.T) {
-	g := NewGomegaWithT(t)
-	fullName := NewPropertyConfiguration("FullName").SetARMReference(false)
-	typeConfig := NewTypeConfiguration("Person").Add(fullName)
-
-	isReference, err := typeConfig.ARMReference("FullName")
-	g.Expect(err).To(Succeed())
-	g.Expect(isReference).To(BeFalse())
-}
-
-func TestTypeConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpectedResult(t *testing.T) {
-	g := NewGomegaWithT(t)
 	typeConfig := NewTypeConfiguration("Person")
+	typeConfig.nameInNextVersion.write("Party")
 
-	_, err := typeConfig.ARMReference("KnownAs")
-	g.Expect(err).NotTo(Succeed())
-	g.Expect(err.Error()).To(ContainSubstring("KnownAs"))
-}
-
-func TestTypeConfiguration_FindUnusedARMReferences_WhenReferenceUsed_ReturnsEmptySlice(t *testing.T) {
-	g := NewGomegaWithT(t)
-
-	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
-	typeConfig := NewTypeConfiguration("Person").Add(spouse)
-
-	ref, err := spouse.ARMReference()
-	g.Expect(ref).To(BeTrue())
+	_, err := typeConfig.LookupNameInNextVersion()
 	g.Expect(err).To(Succeed())
-	g.Expect(typeConfig.FindUnusedARMReferences()).To(BeEmpty())
+	g.Expect(typeConfig.VerifyNameInNextVersionConsumed()).To(Succeed())
 }
 
-func TestTypeConfiguration_FindUnusedARMReferences_WhenReferenceNotUsed_ReturnsExpectedMessage(t *testing.T) {
+func TestTypeConfiguration_VerifyTypeRenameConsumed_WhenRenameUnused_ReturnsExpectedError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
-	typeConfig := NewTypeConfiguration("Person").Add(spouse)
+	typeConfig := NewTypeConfiguration("Person")
+	typeConfig.nameInNextVersion.write("Party")
 
-	unused := typeConfig.FindUnusedARMReferences()
-	g.Expect(unused).To(HaveLen(1))
-	g.Expect(unused[0]).To(ContainSubstring(typeConfig.name))
+	err := typeConfig.VerifyNameInNextVersionConsumed()
+	g.Expect(err).NotTo(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring(typeConfig.name))
 }

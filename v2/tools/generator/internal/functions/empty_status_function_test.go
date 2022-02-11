@@ -13,6 +13,7 @@ import (
 )
 
 func TestGolden_EmptyStatusFunction_GeneratesExpectedCode(t *testing.T) {
+	t.Parallel()
 	idFactory := astmodel.NewIdentifierFactory()
 
 	// Define a test resource

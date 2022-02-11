@@ -11,7 +11,6 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	insightswebtest "github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501preview"
 	insights "github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20200202"
@@ -48,16 +47,8 @@ func Test_Insights_Component_CRUD(t *testing.T) {
 	// Perform a simple patch.
 	old := component.DeepCopy()
 	component.Spec.RetentionInDays = to.IntPtr(60)
-	tc.Patch(old, component)
-
-	objectKey := client.ObjectKeyFromObject(component)
-
-	// Ensure state eventually gets updated in k8s from change in Azure.
-	tc.Eventually(func() *int {
-		var updated insights.Component
-		tc.GetResource(objectKey, &updated)
-		return updated.Status.RetentionInDays
-	}).Should(BeEquivalentTo(to.IntPtr(60)))
+	tc.PatchResourceAndWait(old, component)
+	tc.Expect(component.Status.RetentionInDays).To(Equal(to.IntPtr(60)))
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
@@ -122,16 +113,8 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 	// Perform a simple patch.
 	old := webtest.DeepCopy()
 	webtest.Spec.Enabled = to.BoolPtr(false)
-	tc.Patch(old, webtest)
-
-	objectKey := client.ObjectKeyFromObject(webtest)
-
-	// Ensure state eventually gets updated in k8s from change in Azure.
-	tc.Eventually(func() *bool {
-		var updated insightswebtest.Webtest
-		tc.GetResource(objectKey, &updated)
-		return updated.Status.Enabled
-	}).Should(BeEquivalentTo(to.BoolPtr(false)))
+	tc.PatchResourceAndWait(old, webtest)
+	tc.Expect(webtest.Status.Enabled).To(Equal(to.BoolPtr(false)))
 
 	tc.DeleteResourceAndWait(webtest)
 

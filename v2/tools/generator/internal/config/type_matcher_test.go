@@ -24,6 +24,7 @@ var (
 )
 
 func Test_FilterByGroup_CorrectlySelectsStructs(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	filter := config.TypeMatcher{Group: "role"}
@@ -40,6 +41,7 @@ func Test_FilterByGroup_CorrectlySelectsStructs(t *testing.T) {
 }
 
 func Test_FilterByVersion_CorrectlySelectsStructs(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	filter := config.TypeMatcher{Version: "2019-*"}
@@ -55,6 +57,7 @@ func Test_FilterByVersion_CorrectlySelectsStructs(t *testing.T) {
 }
 
 func Test_FilterByName_CorrectlySelectsStructs(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	filter := config.TypeMatcher{Name: "p*"}
@@ -70,6 +73,7 @@ func Test_FilterByName_CorrectlySelectsStructs(t *testing.T) {
 }
 
 func Test_FilterByMultipleConditions_CorrectlySelectsStructs(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	filter := config.TypeMatcher{Name: "p*", Version: "2019-*"}
@@ -87,6 +91,7 @@ func Test_FilterByMultipleConditions_CorrectlySelectsStructs(t *testing.T) {
 }
 
 func Test_FiltersAreCaseInsensitive(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	filter := config.TypeMatcher{Group: "ROLE", Name: "TuToR"}
@@ -103,6 +108,7 @@ func Test_FiltersAreCaseInsensitive(t *testing.T) {
 }
 
 func Test_FilterByMultipleWildcards_CorrectlySelectsStructs(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	filter := config.TypeMatcher{Name: "p*;*t"}

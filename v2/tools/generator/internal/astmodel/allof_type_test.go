@@ -12,6 +12,7 @@ import (
 )
 
 func TestAllOfOneTypeReturnsThatType(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	oneType := StringType
@@ -21,6 +22,7 @@ func TestAllOfOneTypeReturnsThatType(t *testing.T) {
 }
 
 func TestAllOfIdenticalTypesReturnsThatType(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	oneType := StringType
@@ -30,6 +32,7 @@ func TestAllOfIdenticalTypesReturnsThatType(t *testing.T) {
 }
 
 func TestAllOfFlattensNestedAllOfs(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	result := BuildAllOfType(BoolType, BuildAllOfType(StringType, IntType))
@@ -40,6 +43,7 @@ func TestAllOfFlattensNestedAllOfs(t *testing.T) {
 }
 
 func TestAllOfOneOfBecomesOneOfAllOf(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	oneOf := BuildOneOfType(StringType, FloatType)
@@ -54,6 +58,7 @@ func TestAllOfOneOfBecomesOneOfAllOf(t *testing.T) {
 }
 
 func TestAllOfEqualityDoesNotCareAboutOrder(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	x := BuildAllOfType(StringType, BoolType)
@@ -64,6 +69,7 @@ func TestAllOfEqualityDoesNotCareAboutOrder(t *testing.T) {
 }
 
 func TestAllOfMustHaveAllTypesToBeEqual(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	x := BuildAllOfType(StringType, BoolType, FloatType)
@@ -74,6 +80,7 @@ func TestAllOfMustHaveAllTypesToBeEqual(t *testing.T) {
 }
 
 func TestAllOfsWithDifferentTypesAreNotEqual(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	x := BuildAllOfType(StringType, FloatType)
@@ -86,6 +93,7 @@ func TestAllOfsWithDifferentTypesAreNotEqual(t *testing.T) {
 var expectedAllOfPanic = "AllOfType should have been replaced by generation time by 'convertAllOfAndOneOf' phase"
 
 func TestAllOfAsTypePanics(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	x := AllOfType{}
@@ -95,6 +103,7 @@ func TestAllOfAsTypePanics(t *testing.T) {
 }
 
 func TestAllOfAsDeclarationsPanics(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	x := AllOfType{}
@@ -104,6 +113,7 @@ func TestAllOfAsDeclarationsPanics(t *testing.T) {
 }
 
 func TestAllOfRequiredImportsPanics(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	x := AllOfType{}

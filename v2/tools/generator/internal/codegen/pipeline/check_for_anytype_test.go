@@ -18,6 +18,7 @@ import (
 )
 
 func TestFindsAnyTypes(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	p1 := test.MakeLocalPackageReference("horo.logy", "v20200730")
 	p2 := test.MakeLocalPackageReference("road.train", "v20200730")
@@ -48,6 +49,7 @@ func TestFindsAnyTypes(t *testing.T) {
 }
 
 func TestIgnoresExpectedAnyTypePackages(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	p1 := test.MakeLocalPackageReference("horo.logy", "v20200730")
 	p2 := test.MakeLocalPackageReference("road.train", "v20200730")
@@ -82,6 +84,7 @@ func TestIgnoresExpectedAnyTypePackages(t *testing.T) {
 }
 
 func TestComplainsAboutUnneededExclusions(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	p1 := test.MakeLocalPackageReference("horo.logy", "v20200730")
 	p2 := test.MakeLocalPackageReference("road.train", "v20200730")

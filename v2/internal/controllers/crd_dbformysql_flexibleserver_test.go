@@ -12,7 +12,6 @@ import (
 	"github.com/kr/pretty"
 	. "github.com/onsi/gomega"
 	"k8s.io/api/core/v1"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -71,21 +70,10 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 		BackupRetentionDays: to.IntPtr(5),
 		GeoRedundantBackup:  &disabled,
 	}
-	tc.Patch(old, flexibleServer)
-
-	objectKey := client.ObjectKeyFromObject(flexibleServer)
-
-	// ensure state got updated in Azure
-	tc.Eventually(func() *int {
-		var updatedServer mysql.FlexibleServer
-		tc.GetResource(objectKey, &updatedServer)
-		if updatedServer.Status.Backup == nil {
-			return nil
-		}
-
-		tc.T.Log(pretty.Sprint(updatedServer.Status.Backup))
-		return updatedServer.Status.Backup.BackupRetentionDays
-	}).Should(Equal(to.IntPtr(5)))
+	tc.PatchResourceAndWait(old, flexibleServer)
+	tc.Expect(flexibleServer.Status.Backup).ToNot(BeNil())
+	tc.T.Log(pretty.Sprint(flexibleServer.Status.Backup))
+	tc.Expect(flexibleServer.Status.Backup.BackupRetentionDays).To(Equal(to.IntPtr(5)))
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
@@ -143,14 +131,8 @@ func MySQLFlexibleServer_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, fl
 
 	old := rule.DeepCopy()
 	rule.Spec.EndIpAddress = "1.2.3.5"
-	tc.Patch(old, rule)
-
-	objectKey := client.ObjectKeyFromObject(rule)
-	tc.Eventually(func() *string {
-		var updatedRule mysql.FlexibleServersFirewallRule
-		tc.GetResource(objectKey, &updatedRule)
-		return updatedRule.Status.EndIpAddress
-	}).Should(Equal(to.StringPtr("1.2.3.5")))
+	tc.PatchResourceAndWait(old, rule)
+	tc.Expect(rule.Status.EndIpAddress).To(Equal(to.StringPtr("1.2.3.5")))
 
 	// The GET responses are coming back from the RP with no ARM ID -
 	// this seems invalid per the ARM spec.

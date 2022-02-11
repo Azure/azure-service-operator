@@ -288,6 +288,7 @@ func runTestPropertyAssignmentFunction_AsFunc(c *StorageConversionPropertyTestCa
 }
 
 func TestGolden_PropertyAssignmentFunction_WhenPropertyBagPresent(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 	injector := astmodel.NewFunctionInjector()
@@ -320,6 +321,7 @@ func TestGolden_PropertyAssignmentFunction_WhenPropertyBagPresent(t *testing.T) 
 }
 
 func TestGolden_PropertyAssignmentFunction_WhenTypeRenamed(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 	injector := astmodel.NewFunctionInjector()
@@ -352,7 +354,7 @@ func TestGolden_PropertyAssignmentFunction_WhenTypeRenamed(t *testing.T) {
 		"Event",
 		whereVenueProperty)
 
-	modelConfig := createConfigurationForRename(location.Name(), venue.Name())
+	modelConfig := config.CreateTestObjectModelConfigurationForRename(location.Name(), venue.Name().Name())
 
 	types := make(astmodel.Types)
 	types.AddAll(location, venue)
@@ -372,14 +374,4 @@ func TestGolden_PropertyAssignmentFunction_WhenTypeRenamed(t *testing.T) {
 	// "Where" and "Venue" for the later version. The types are visible in declarations of temporary variables,
 	// and in the name of the Assign*() functions.
 	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "PropertyTypeRenamed", receiverDefinition)
-}
-
-// createConfigurationForRename builds up a new configuration for a particular desired rename
-func createConfigurationForRename(originalName astmodel.TypeName, newName astmodel.TypeName) *config.ObjectModelConfiguration {
-	group, version, _ := originalName.PackageReference.GroupVersion()
-
-	typeConfig := config.NewTypeConfiguration(originalName.Name()).SetTypeRename(newName.Name())
-	versionConfig := config.NewVersionConfiguration(version).Add(typeConfig)
-	groupConfig := config.NewGroupConfiguration(group).Add(versionConfig)
-	return config.NewObjectModelConfiguration().Add(groupConfig)
 }

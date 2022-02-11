@@ -103,6 +103,10 @@ func NewSliceLiteralBuilder(sliceType dst.Expr, linePerElement bool) *SliceLiter
 func (b *SliceLiteralBuilder) AddElement(element dst.Expr) *SliceLiteralBuilder {
 	expr := dst.Clone(element).(dst.Expr)
 
+	if compositeLit, ok := expr.(*dst.CompositeLit); ok {
+		compositeLit.Type = nil // Remove the Type, as we don't actually need it in an array context
+	}
+
 	if b.linePerElement {
 		expr.Decorations().Before = dst.NewLine
 		expr.Decorations().After = dst.NewLine

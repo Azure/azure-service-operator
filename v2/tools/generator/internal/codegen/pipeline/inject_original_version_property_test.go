@@ -17,6 +17,7 @@ import (
 )
 
 func TestInjectOriginalVersionProperty_InjectsIntoSpec(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	// Define a test resource
@@ -39,6 +40,7 @@ func TestInjectOriginalVersionProperty_InjectsIntoSpec(t *testing.T) {
 }
 
 func TestInjectOriginalVersionProperty_WhenOriginalVersionFunctionFound_DoesNotInjectIntoSpec(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
