@@ -153,6 +153,65 @@ func AddRelatedPropertyGeneratorsForPerson_Spec(gens map[string]gopter.Gen) {
 	gens["ResidentialAddress"] = AddressGenerator()
 }
 
+func Test_Person_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Person_Status via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPerson_Status, Person_StatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPerson_Status runs a test to see if a specific instance of Person_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForPerson_Status(subject Person_Status) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Person_Status
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Person_Status instances for property testing - lazily instantiated by Person_StatusGenerator()
+var person_statusGenerator gopter.Gen
+
+// Person_StatusGenerator returns a generator of Person_Status instances for property testing.
+func Person_StatusGenerator() gopter.Gen {
+	if person_statusGenerator != nil {
+		return person_statusGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPerson_Status(generators)
+	person_statusGenerator = gen.Struct(reflect.TypeOf(Person_Status{}), generators)
+
+	return person_statusGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPerson_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPerson_Status(gens map[string]gopter.Gen) {
+	gens["Status"] = gen.AlphaString()
+}
+
 func Test_Address_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -211,63 +270,4 @@ func AddressGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAddress(gens map[string]gopter.Gen) {
 	gens["City"] = gen.AlphaString()
 	gens["FullAddress"] = gen.AlphaString()
-}
-
-func Test_Person_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Person_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPerson_Status, Person_StatusGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPerson_Status runs a test to see if a specific instance of Person_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForPerson_Status(subject Person_Status) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Person_Status
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Person_Status instances for property testing - lazily instantiated by Person_StatusGenerator()
-var person_statusGenerator gopter.Gen
-
-// Person_StatusGenerator returns a generator of Person_Status instances for property testing.
-func Person_StatusGenerator() gopter.Gen {
-	if person_statusGenerator != nil {
-		return person_statusGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPerson_Status(generators)
-	person_statusGenerator = gen.Struct(reflect.TypeOf(Person_Status{}), generators)
-
-	return person_statusGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPerson_Status is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPerson_Status(gens map[string]gopter.Gen) {
-	gens["Status"] = gen.AlphaString()
 }

@@ -451,7 +451,7 @@ func (resource *ResourceType) References() TypeNameSet {
 	result := resource.spec.References()
 
 	if resource.status != nil { // check only needed for golden files tests
-		result = resource.status.References()
+		result = SetUnion(result, resource.status.References())
 	}
 
 	if resource.HasAPIVersion() { // check only needed for golden files tests

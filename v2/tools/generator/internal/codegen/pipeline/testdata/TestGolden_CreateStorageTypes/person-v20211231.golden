@@ -34,16 +34,16 @@ type Person_Spec struct {
 	ResidentialAddress Address `json:"residentialAddress"`
 }
 
+type Person_Status struct {
+	Status string `json:"status"`
+}
+
 type Address struct {
 	//City: City or town (or nearest)
 	City string `json:"city"`
 
 	//FullAddress: Full written address for map or postal use
 	FullAddress string `json:"fullAddress"`
-}
-
-type Person_Status struct {
-	Status string `json:"status"`
 }
 
 func init() {
