@@ -77,8 +77,8 @@ func (tc *TypeConfiguration) LookupExport() (bool, error) {
 // VerifyExportConsumed returns an error if our configured export flag was not used, nil otherwise.
 func (tc *TypeConfiguration) VerifyExportConsumed() error {
 	if tc.export.isUnconsumed() {
-		// v, _ := tc.export.read()
-		// return errors.Errorf("type %s: "+exportTag+": %t not consumed", tc.name, v)
+		v, _ := tc.export.read()
+		return errors.Errorf("type %s: "+exportTag+": %t not consumed", tc.name, v)
 	}
 
 	return nil

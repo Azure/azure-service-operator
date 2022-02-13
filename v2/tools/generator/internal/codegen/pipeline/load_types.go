@@ -700,28 +700,3 @@ func versionFromPath(filePath string, rootPath string) string {
 	fp := filepath.ToSlash(filePath)
 	return strings.Trim(swaggerVersionRegex.FindString(fp), "/")
 }
-
-// extractPropertySingleEnumValue returns the enum id and value for a property that is an enum with a single value.
-// Any other type of property results in an error. An enum with more than a single value results in an error.
-func extractPropertySingleEnumValue(types astmodel.Types, prop *astmodel.PropertyDefinition) (astmodel.EnumValue, error) {
-	propertyTypeName, ok := astmodel.AsTypeName(prop.PropertyType())
-	if !ok {
-		return astmodel.EnumValue{}, errors.Errorf("property %s was not of type astmodel.TypeName", prop.PropertyName())
-	}
-
-	t, ok := types[propertyTypeName]
-	if !ok {
-		return astmodel.EnumValue{}, errors.Errorf("couldn't find type %q", propertyTypeName)
-	}
-
-	enumType, ok := astmodel.AsEnumType(t.Type())
-	if !ok {
-		return astmodel.EnumValue{}, errors.Errorf("%s field with type %s definition was not of type EnumType", prop.PropertyName(), propertyTypeName)
-	}
-
-	if len(enumType.Options()) != 1 {
-		return astmodel.EnumValue{}, errors.Errorf("enum %s used on property %s has more than one possible value", propertyTypeName, prop.PropertyName())
-	}
-
-	return enumType.Options()[0], nil
-}
