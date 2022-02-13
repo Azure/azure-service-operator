@@ -5,18 +5,10 @@ weight: 1 # want this first
 
 # Contributing to Azure Service Operator v2
 
-## Code Structure 
+## Related pages
 
-### Azure Service Operator v2
-
-![Overview](aso-v2-structure.svg)
-
-### Code Generator
-
-![Overview](aso-codegen-structure.svg)
-
-## Adding a new code-generated resource
-See [adding a new code-generator resource](../add-a-new-code-generated-resource/).
+* [Adding a new code-generator resource](../add-a-new-code-generated-resource/).
+* [Generator code overview](../generator-overview.md)
 
 ## Developer setup (with VS Code)
 This is the recommended setup, especially if you are using Windows as your development platform.
@@ -59,6 +51,10 @@ It is not recommended to mount the source like this on Windows (WSL2) as the cro
 ### Option 2: ./dev.sh
 
 If you are using Linux, instead of using VS Code you can run the `dev.sh` script in the root of the repository. This will install all required tooling into the `hack/tools` directory and then start a new shell with the `PATH` updated to use it.
+
+## Directory structure of the operator
+
+![Overview](aso-v2-structure.svg)
 
 ## Running integration tests
 
