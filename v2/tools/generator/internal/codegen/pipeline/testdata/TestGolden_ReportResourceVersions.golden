@@ -5,7 +5,7 @@ These are the resources with Azure Service Operator support committed to our **m
 ## person
 
 
-### ARM version v20200101
+### ARM version placeholder
 
 - Address ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/person/v20200101_address.yaml))
 - Person ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/person/v20200101_person.yaml))
@@ -13,7 +13,7 @@ These are the resources with Azure Service Operator support committed to our **m
 Use CRD version `v20200101`
 
 
-### ARM version v20211231
+### ARM version placeholder
 
 - Address ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/person/v20211231_address.yaml))
 - Person ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/person/v20211231_person.yaml))

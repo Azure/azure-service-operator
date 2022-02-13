@@ -403,10 +403,14 @@ func (resource *ResourceType) ARMType() string {
 	return resource.armType
 }
 
+func (resource *ResourceType) HasAPIVersion() bool {
+	return resource.apiVersionTypeName != (TypeName{})
+}
+
 // TODO: It's possible we could do this at the package level?
 // APIVersionTypeName returns the type name of the API version
 func (resource *ResourceType) APIVersionTypeName() TypeName {
-	if resource.apiVersionTypeName == (TypeName{}) {
+	if !resource.HasAPIVersion() {
 		panic("no API Version TypeName to return")
 	}
 
@@ -445,8 +449,15 @@ func (resource *ResourceType) HasFunctionWithName(name string) bool {
 
 // References returns the types referenced by Status or Spec parts of the resource
 func (resource *ResourceType) References() TypeNameSet {
-	result := SetUnion(resource.spec.References(), resource.status.References())
-	result.Add(resource.APIVersionTypeName())
+	result := resource.spec.References()
+
+	if resource.status != nil { // check only needed for golden files tests
+		result = resource.status.References()
+	}
+
+	if resource.HasAPIVersion() { // check only needed for golden files tests
+		result.Add(resource.APIVersionTypeName())
+	}
 
 	return result
 }
@@ -481,7 +492,9 @@ func (resource *ResourceType) WithAnnotation(annotation string) *ResourceType {
 func (resource *ResourceType) RequiredPackageReferences() *PackageReferenceSet {
 	references := NewPackageReferenceSet(MetaV1Reference)
 	references.Merge(resource.spec.RequiredPackageReferences())
-	references.Merge(resource.status.RequiredPackageReferences())
+	if resource.status != nil { // check only required for golden files (JSON AST) tests
+		references.Merge(resource.status.RequiredPackageReferences())
+	}
 
 	for _, fn := range resource.functions {
 		references.Merge(fn.RequiredPackageReferences())

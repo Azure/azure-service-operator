@@ -697,7 +697,22 @@ func generateDefinitionsFor(
 
 	resourceType := categorizeResourceType(url)
 	if resourceType != nil {
-		result = astmodel.NewAzureResourceType(result, nil, typeName, *resourceType)
+		resource := astmodel.NewAzureResourceType(result, nil, typeName, *resourceType)
+
+		// NB: this code is only for golden tests now, will soon be obsoleted and removed
+		apiVersionTypeName := astmodel.MakeTypeName(typeName.PackageReference, "APIVersion")
+		apiVersionValue := astmodel.EnumValue{
+			Identifier: "APIVersionValue",
+			Value:      "placeholder for golden tests",
+		}
+
+		if _, ok := scanner.findTypeDefinition(apiVersionTypeName); !ok {
+			apiVersionType := astmodel.NewEnumType(astmodel.StringType, apiVersionValue)
+			scanner.addTypeDefinition(astmodel.MakeTypeDefinition(apiVersionTypeName, apiVersionType))
+		}
+
+		resource = resource.WithAPIVersion(apiVersionTypeName, apiVersionValue)
+		result = resource
 	}
 
 	definition := astmodel.MakeTypeDefinition(typeName, result)

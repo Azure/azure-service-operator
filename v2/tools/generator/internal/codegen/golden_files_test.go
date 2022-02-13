@@ -17,11 +17,14 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/sebdah/goldie/v2"
+	"github.com/xeipuuv/gojsonschema"
 	"gopkg.in/yaml.v3"
+	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/pipeline"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/jsonast"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
@@ -182,7 +185,7 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 		return nil, errors.Errorf("unknown pipeline kind %q", string(genPipeline))
 	}
 
-	// codegen.InjectStageAfter(pipeline.LoadSchemaIntoTypesStageID, loadTestSchemaIntoTypes(idFactory, cfg, path))
+	codegen.ReplaceStage(pipeline.LoadTypesFromSwaggerStageID, loadTestSchemaIntoTypes(idFactory, cfg, path))
 	codegen.ReplaceStage(pipeline.ExportPackagesStageID, exportPackagesTestPipelineStage(t, testName))
 
 	if testConfig.InjectEmbeddedStruct {
@@ -196,19 +199,15 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 	return codegen, nil
 }
 
-/*
 func loadTestSchemaIntoTypes(
 	idFactory astmodel.IdentifierFactory,
 	configuration *config.Configuration,
 	path string) pipeline.Stage {
-	source := configuration.SchemaURL
 
 	return pipeline.MakeLegacyStage(
 		"loadTestSchema",
 		"Load and walk schema (test)",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			klog.V(0).Infof("Loading JSON schema %q", source)
-
 			inputFile, err := ioutil.ReadFile(path)
 			if err != nil {
 				return nil, errors.Wrapf(err, "cannot read golden test input file")
@@ -233,7 +232,6 @@ func loadTestSchemaIntoTypes(
 			return scanner.Definitions(), nil
 		})
 }
-*/
 
 func exportPackagesTestPipelineStage(t *testing.T, testName string) pipeline.Stage {
 	g := goldie.New(t)

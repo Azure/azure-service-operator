@@ -105,7 +105,7 @@ func (e EmbeddedResourceRemover) RemoveEmbeddedResources() (astmodel.Types, erro
 
 			for _, newDef := range updatedTypes {
 				// ensure resource api version is included...
-				if rt, ok := astmodel.AsResourceType(newDef.Type()); ok {
+				if rt, ok := astmodel.AsResourceType(newDef.Type()); ok && rt.HasAPIVersion() {
 					err := result.AddAllowDuplicates(e.types[rt.APIVersionTypeName()])
 					if err != nil {
 						panic(err)
@@ -314,14 +314,17 @@ func tryResolveSpecStatusTypes(types astmodel.Types, resource *astmodel.Resource
 		return nil, nil, errors.Wrap(err, "couldn't extract spec properties")
 	}
 
-	statusName, ok := astmodel.AsTypeName(resource.StatusType())
-	if !ok {
-		return nil, nil, errors.Errorf("resource status was not a TypeName")
-	}
+	var statusPropertiesTypeName *astmodel.TypeName = nil // can only be nil in golden files tests
+	if resource.StatusType() != nil {
+		statusName, ok := astmodel.AsTypeName(resource.StatusType())
+		if !ok {
+			return nil, nil, errors.Errorf("resource status was not a TypeName")
+		}
 
-	statusPropertiesTypeName, err := extractPropertiesType(types, statusName)
-	if err != nil {
-		return nil, nil, errors.Wrap(err, "couldn't extract status properties")
+		statusPropertiesTypeName, err = extractPropertiesType(types, statusName)
+		if err != nil {
+			return nil, nil, errors.Wrap(err, "couldn't extract status properties")
+		}
 	}
 
 	return specPropertiesTypeName, statusPropertiesTypeName, nil

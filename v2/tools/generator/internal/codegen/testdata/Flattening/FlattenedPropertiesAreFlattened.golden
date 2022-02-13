@@ -5,8 +5,8 @@ package v1alpha1api20200101
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-	InnerFlat    *Inner `json:"inner_flat,omitempty"`
-	InnerNotFlat *Inner `json:"inner_not_flat,omitempty"`
+	Inner_Flat     *Inner `json:"inner_flat,omitempty"`
+	Inner_Not_Flat *Inner `json:"inner_not_flat,omitempty"`
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Inner

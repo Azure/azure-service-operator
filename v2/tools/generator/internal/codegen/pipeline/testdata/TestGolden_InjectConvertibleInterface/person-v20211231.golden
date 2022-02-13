@@ -51,17 +51,17 @@
  
  	// Spec
  	var spec Person_Spec
- 	err := spec.AssignPropertiesFromPersonSpec(&source.Spec)
+ 	err := spec.AssignPropertiesFromPerson_Spec(&source.Spec)
  	if err != nil {
- 		return errors.Wrap(err, "calling AssignPropertiesFromPersonSpec() to populate field Spec")
+ 		return errors.Wrap(err, "calling AssignPropertiesFromPerson_Spec() to populate field Spec")
  	}
  	person.Spec = spec
  
  	// Status
  	var status Person_Status
- 	err = status.AssignPropertiesFromPersonStatus(&source.Status)
+ 	err = status.AssignPropertiesFromPerson_Status(&source.Status)
  	if err != nil {
- 		return errors.Wrap(err, "calling AssignPropertiesFromPersonStatus() to populate field Status")
+ 		return errors.Wrap(err, "calling AssignPropertiesFromPerson_Status() to populate field Status")
  	}
  	person.Status = status
  
@@ -77,17 +77,17 @@
  
  	// Spec
  	var spec v20211231storage.Person_Spec
- 	err := person.Spec.AssignPropertiesToPersonSpec(&spec)
+ 	err := person.Spec.AssignPropertiesToPerson_Spec(&spec)
  	if err != nil {
- 		return errors.Wrap(err, "calling AssignPropertiesToPersonSpec() to populate field Spec")
+ 		return errors.Wrap(err, "calling AssignPropertiesToPerson_Spec() to populate field Spec")
  	}
  	destination.Spec = spec
  
  	// Status
  	var status v20211231storage.Person_Status
- 	err = person.Status.AssignPropertiesToPersonStatus(&status)
+ 	err = person.Status.AssignPropertiesToPerson_Status(&status)
  	if err != nil {
- 		return errors.Wrap(err, "calling AssignPropertiesToPersonStatus() to populate field Status")
+ 		return errors.Wrap(err, "calling AssignPropertiesToPerson_Status() to populate field Status")
  	}
  	destination.Status = status
  
@@ -107,8 +107,8 @@
  	FullName string `json:"fullName"`
  }
  
- // AssignPropertiesFromPersonSpec populates our Person_Spec from the provided source Person_Spec
- func (person *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231storage.Person_Spec) error {
+ // AssignPropertiesFromPerson_Spec populates our Person_Spec from the provided source Person_Spec
+ func (person *Person_Spec) AssignPropertiesFromPerson_Spec(source *v20211231storage.Person_Spec) error {
  
  	// FullName
  	person.FullName = genruntime.GetOptionalStringValue(source.FullName)
@@ -117,8 +117,8 @@
  	return nil
  }
  
- // AssignPropertiesToPersonSpec populates the provided destination Person_Spec from our Person_Spec
- func (person *Person_Spec) AssignPropertiesToPersonSpec(destination *v20211231storage.Person_Spec) error {
+ // AssignPropertiesToPerson_Spec populates the provided destination Person_Spec from our Person_Spec
+ func (person *Person_Spec) AssignPropertiesToPerson_Spec(destination *v20211231storage.Person_Spec) error {
  	// Create a new property bag
  	propertyBag := genruntime.NewPropertyBag()
  
@@ -141,8 +141,8 @@
  	Status string `json:"status"`
  }
  
- // AssignPropertiesFromPersonStatus populates our Person_Status from the provided source Person_Status
- func (person *Person_Status) AssignPropertiesFromPersonStatus(source *v20211231storage.Person_Status) error {
+ // AssignPropertiesFromPerson_Status populates our Person_Status from the provided source Person_Status
+ func (person *Person_Status) AssignPropertiesFromPerson_Status(source *v20211231storage.Person_Status) error {
  
  	// Status
  	person.Status = genruntime.GetOptionalStringValue(source.Status)
@@ -151,8 +151,8 @@
  	return nil
  }
  
- // AssignPropertiesToPersonStatus populates the provided destination Person_Status from our Person_Status
- func (person *Person_Status) AssignPropertiesToPersonStatus(destination *v20211231storage.Person_Status) error {
+ // AssignPropertiesToPerson_Status populates the provided destination Person_Status from our Person_Status
+ func (person *Person_Status) AssignPropertiesToPerson_Status(destination *v20211231storage.Person_Status) error {
  	// Create a new property bag
  	propertyBag := genruntime.NewPropertyBag()
  

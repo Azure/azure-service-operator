@@ -475,7 +475,7 @@ func FindConnectedTypes(allTypes Types, roots Types) (Types, error) {
 
 		// TODO: magic APIVersion handling
 		for _, t := range types {
-			if rt, ok := AsResourceType(t.Type()); ok {
+			if rt, ok := AsResourceType(t.Type()); ok && rt.HasAPIVersion() {
 				err = result.AddAllowDuplicates(allTypes[rt.APIVersionTypeName()])
 				if err != nil {
 					panic(err)

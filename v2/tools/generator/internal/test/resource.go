@@ -17,7 +17,15 @@ func CreateResource(
 	status astmodel.TypeDefinition,
 	functions ...astmodel.Function) astmodel.TypeDefinition {
 
+	apiVersionType := astmodel.MakeTypeName(pkg, "APIVersion")
+	apiVersionValue := astmodel.EnumValue{
+		Identifier: "Value",
+		Value:      "placeholder",
+	}
+
 	resourceType := astmodel.NewResourceType(spec.Name(), status.Name())
+	resourceType = resourceType.WithAPIVersion(apiVersionType, apiVersionValue)
+
 	for _, fn := range functions {
 		resourceType = resourceType.WithFunction(fn)
 	}
