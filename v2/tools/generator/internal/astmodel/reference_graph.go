@@ -36,11 +36,11 @@ func CollectARMSpecAndStatusDefinitions(definitions TypeDefinitionSet) TypeNameS
 	}
 
 	armSpecAndStatus := NewTypeNameSet()
-	resources := FindResourceTypes(definitions)
+	resources := FindResourceDefinitions(definitions)
 	for _, def := range resources {
 		resourceType, ok := AsResourceType(def.Type())
 		if !ok {
-			panic(fmt.Sprintf("FindResourceTypes() returned non-resource type %T", def.Type()))
+			panic(fmt.Sprintf("FindResourceDefinitions() returned non-resource type %T", def.Type()))
 		}
 
 		armSpecName, err := findARMType(resourceType.spec)
@@ -83,7 +83,7 @@ func MakeReferenceGraphWithRoots(roots TypeNameSet, definitions TypeDefinitionSe
 // MakeReferenceGraphWithResourcesAsRoots produces a ReferenceGraph for the given set of
 // types, where the Resource types (and their ARM spec/status) are the roots.
 func MakeReferenceGraphWithResourcesAsRoots(definitions TypeDefinitionSet) ReferenceGraph {
-	resources := FindResourceTypes(definitions)
+	resources := FindResourceDefinitions(definitions)
 	armSpecAndStatus := CollectARMSpecAndStatusDefinitions(definitions)
 	roots := SetUnion(resources.Names(), armSpecAndStatus)
 

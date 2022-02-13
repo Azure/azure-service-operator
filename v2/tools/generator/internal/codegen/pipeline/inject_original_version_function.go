@@ -29,7 +29,7 @@ func InjectOriginalVersionFunction(idFactory astmodel.IdentifierFactory) Stage {
 			injector := astmodel.NewFunctionInjector()
 			result := definitions.Copy()
 
-			specs := astmodel.FindSpecTypes(definitions)
+			specs := astmodel.FindSpecDefinitions(definitions)
 			for name, def := range specs {
 				fn := functions.NewOriginalVersionFunction(idFactory)
 				defWithFn, err := injector.Inject(def, fn)

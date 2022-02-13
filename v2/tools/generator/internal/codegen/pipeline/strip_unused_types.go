@@ -19,7 +19,7 @@ func StripUnreferencedTypeDefinitions() Stage {
 		StripUnreferencedTypeDefinitionsStageID,
 		"Strip unreferenced types",
 		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			resources := astmodel.FindResourceTypes(defs)
+			resources := astmodel.FindResourceDefinitions(defs)
 			armSpecAndStatus := astmodel.CollectARMSpecAndStatusDefinitions(defs)
 			roots := astmodel.SetUnion(resources.Names(), armSpecAndStatus)
 

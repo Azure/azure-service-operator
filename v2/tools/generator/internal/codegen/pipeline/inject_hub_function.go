@@ -27,7 +27,7 @@ func InjectHubFunction(idFactory astmodel.IdentifierFactory) Stage {
 			injector := astmodel.NewFunctionInjector()
 			result := definitions.Copy()
 
-			resources := astmodel.FindResourceTypes(definitions)
+			resources := astmodel.FindResourceDefinitions(definitions)
 			for name, def := range resources {
 				rt, ok := astmodel.AsResourceType(def.Type())
 				if !ok {

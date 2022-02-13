@@ -24,7 +24,7 @@ func AddStatusConditions(idFactory astmodel.IdentifierFactory) Stage {
 			result := make(astmodel.TypeDefinitionSet)
 
 			propInjector := astmodel.NewPropertyInjector()
-			statusDefs := astmodel.FindStatusTypes(defs)
+			statusDefs := astmodel.FindStatusDefinitions(defs)
 			for _, def := range statusDefs {
 				conditionsProp := astmodel.NewPropertyDefinition(
 					astmodel.ConditionsProperty,
@@ -38,7 +38,7 @@ func AddStatusConditions(idFactory astmodel.IdentifierFactory) Stage {
 				result.Add(updatedDef)
 			}
 
-			resourceDefs := astmodel.FindResourceTypes(defs)
+			resourceDefs := astmodel.FindResourceDefinitions(defs)
 			for _, def := range resourceDefs {
 				resourceType := def.Type().(*astmodel.ResourceType)
 

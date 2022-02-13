@@ -25,7 +25,7 @@ func RemoveAPIVersionProperty() Stage {
 			newDefs := make(astmodel.TypeDefinitionSet)
 
 			defs := state.Types()
-			resources := astmodel.FindResourceTypes(defs)
+			resources := astmodel.FindResourceDefinitions(defs)
 
 			for _, resource := range resources {
 				resolved, err := defs.ResolveResourceSpecAndStatus(resource)

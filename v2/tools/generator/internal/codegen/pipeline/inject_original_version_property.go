@@ -39,7 +39,7 @@ func InjectOriginalVersionProperty() Stage {
 				return !ot.HasFunctionWithName("OriginalVersion")
 			}
 
-			storageSpecs := astmodel.FindSpecTypes(definitions).Where(doesNotHaveOriginalVersionFunction)
+			storageSpecs := astmodel.FindSpecDefinitions(definitions).Where(doesNotHaveOriginalVersionFunction)
 
 			for name, def := range storageSpecs {
 				prop := astmodel.NewPropertyDefinition("OriginalVersion", "originalVersion", astmodel.StringType)

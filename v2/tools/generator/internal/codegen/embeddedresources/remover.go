@@ -251,7 +251,7 @@ func findSubResourcePropertiesTypeNames(definitions astmodel.TypeDefinitionSet) 
 
 	// Identify sub-resources and their "properties", associate them with parent resource
 	// Look through parent resource for subresource properties
-	for _, def := range astmodel.FindResourceTypes(definitions) {
+	for _, def := range astmodel.FindResourceDefinitions(definitions) {
 		resource, ok := astmodel.AsResourceType(def.Type())
 		if !ok {
 			// Shouldn't be possible to get here
@@ -326,7 +326,7 @@ func findAllResourcePropertiesTypes(definitions astmodel.TypeDefinitionSet) (ast
 
 	// Identify sub-resources and their "properties", associate them with parent resource
 	// Look through parent resource for subresource properties
-	for _, def := range astmodel.FindResourceTypes(definitions) {
+	for _, def := range astmodel.FindResourceDefinitions(definitions) {
 		resource, ok := astmodel.AsResourceType(def.Type())
 		if !ok {
 			// Shouldn't be possible to get here

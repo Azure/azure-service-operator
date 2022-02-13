@@ -26,7 +26,7 @@ func ImplementConvertibleStatusInterface(idFactory astmodel.IdentifierFactory) S
 			injector := astmodel.NewInterfaceInjector()
 
 			modifiedTypes := make(astmodel.TypeDefinitionSet)
-			statuses := astmodel.FindStatusTypes(state.Types())
+			statuses := astmodel.FindStatusDefinitions(state.Types())
 			for name, def := range statuses {
 				convertible := createConvertibleStatusInterfaceImplementation(def, idFactory)
 				modified, err := injector.Inject(def, convertible)

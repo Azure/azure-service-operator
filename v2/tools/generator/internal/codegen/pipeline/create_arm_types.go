@@ -50,7 +50,7 @@ func (c *armTypeCreator) createARMTypes() (astmodel.TypeDefinitionSet, error) {
 	result := make(astmodel.TypeDefinitionSet)
 	resourceSpecDefs := make(astmodel.TypeDefinitionSet)
 
-	resourceDefs := astmodel.FindResourceTypes(c.definitions)
+	resourceDefs := astmodel.FindResourceDefinitions(c.definitions)
 
 	for _, def := range resourceDefs {
 		resolved, err := c.definitions.ResolveResourceSpecAndStatus(def)

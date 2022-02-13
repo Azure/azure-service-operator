@@ -29,7 +29,7 @@ func DetermineResourceOwnership(configuration *config.Configuration) Stage {
 func determineOwnership(definitions astmodel.TypeDefinitionSet, configuration *config.Configuration) (astmodel.TypeDefinitionSet, error) {
 	updatedDefs := make(astmodel.TypeDefinitionSet)
 
-	resources := astmodel.FindResourceTypes(definitions)
+	resources := astmodel.FindResourceDefinitions(definitions)
 	for _, def := range resources {
 		resolved, err := definitions.ResolveResourceSpecAndStatus(def)
 		if err != nil {

@@ -380,8 +380,8 @@ func (set TypeDefinitionSet) Process(transformation func(definition TypeDefiniti
 	return result, nil
 }
 
-// FindResourceTypes walks the provided set of TypeDefinitions and returns all the resource types
-func FindResourceTypes(definitions TypeDefinitionSet) TypeDefinitionSet {
+// FindResourceDefinitions walks the provided set of TypeDefinitions and returns all the resource definitions
+func FindResourceDefinitions(definitions TypeDefinitionSet) TypeDefinitionSet {
 	result := make(TypeDefinitionSet)
 
 	// Find all our resources and extract all their Specs
@@ -398,8 +398,8 @@ func FindResourceTypes(definitions TypeDefinitionSet) TypeDefinitionSet {
 	return result
 }
 
-// FindSpecTypes walks the provided set of TypeDefinitions and returns all the spec types
-func FindSpecTypes(definitions TypeDefinitionSet) TypeDefinitionSet {
+// FindSpecDefinitions walks the provided set of TypeDefinitions and returns all the spec definitions
+func FindSpecDefinitions(definitions TypeDefinitionSet) TypeDefinitionSet {
 	result := make(TypeDefinitionSet)
 
 	// Find all our resources and extract all their Specs
@@ -429,8 +429,8 @@ func FindSpecTypes(definitions TypeDefinitionSet) TypeDefinitionSet {
 	return result
 }
 
-// FindStatusTypes walks the provided set of TypeDefinitions and returns all the status types
-func FindStatusTypes(definitions TypeDefinitionSet) TypeDefinitionSet {
+// FindStatusDefinitions walks the provided set of TypeDefinitions and returns all the status definitions
+func FindStatusDefinitions(definitions TypeDefinitionSet) TypeDefinitionSet {
 	result := make(TypeDefinitionSet)
 
 	// Find all our resources and extract all their Statuses
@@ -460,9 +460,9 @@ func FindStatusTypes(definitions TypeDefinitionSet) TypeDefinitionSet {
 	return result
 }
 
-// FindConnectedTypes finds all types reachable from the provided types
+// FindConnectedDefinitions finds all types reachable from the provided definitions
 // TODO: This is very similar to ReferenceGraph.Connected.
-func FindConnectedTypes(definitions TypeDefinitionSet, roots TypeDefinitionSet) (TypeDefinitionSet, error) {
+func FindConnectedDefinitions(definitions TypeDefinitionSet, roots TypeDefinitionSet) (TypeDefinitionSet, error) {
 	walker := NewTypeWalker(
 		definitions,
 		TypeVisitorBuilder{}.Build())
@@ -483,18 +483,18 @@ func FindConnectedTypes(definitions TypeDefinitionSet, roots TypeDefinitionSet) 
 	return result, nil
 }
 
-// FindSpecConnectedTypes finds all spec types and all types referenced by those spec types.
-// This differs from FindSpecTypes in that it finds not only the top level spec types but
+// FindSpecConnectedDefinitions finds all spec definitions and all types referenced by those spec definitions.
+// This differs from FindSpecDefinitions in that it finds not only the top level spec definitions but
 // also the types which the top level types are built out of.
-func FindSpecConnectedTypes(definitions TypeDefinitionSet) (TypeDefinitionSet, error) {
-	specTypes := FindSpecTypes(definitions)
-	return FindConnectedTypes(definitions, specTypes)
+func FindSpecConnectedDefinitions(definitions TypeDefinitionSet) (TypeDefinitionSet, error) {
+	specTypes := FindSpecDefinitions(definitions)
+	return FindConnectedDefinitions(definitions, specTypes)
 }
 
-// FindStatusConnectedTypes finds all status types and all types referenced by those spec types.
-// This differs from FindStatusTypes in that it finds not only the top level spec types but
+// FindStatusConnectedDefinitions finds all status definitions and all types referenced by those spec definitions.
+// This differs from FindStatusDefinitions in that it finds not only the top level status definitions but
 // also the types which the top level types are built out of.
-func FindStatusConnectedTypes(definitions TypeDefinitionSet) (TypeDefinitionSet, error) {
-	statusTypes := FindStatusTypes(definitions)
-	return FindConnectedTypes(definitions, statusTypes)
+func FindStatusConnectedDefinitions(definitions TypeDefinitionSet) (TypeDefinitionSet, error) {
+	statusTypes := FindStatusDefinitions(definitions)
+	return FindConnectedDefinitions(definitions, statusTypes)
 }

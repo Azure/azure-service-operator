@@ -23,7 +23,7 @@ func CollapseCrossGroupReferences() Stage {
 		CollapseCrossGroupReferencesStageID,
 		"Find and remove cross group references",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			resources := astmodel.FindResourceTypes(definitions)
+			resources := astmodel.FindResourceDefinitions(definitions)
 			result := make(astmodel.TypeDefinitionSet)
 
 			for name, def := range resources {

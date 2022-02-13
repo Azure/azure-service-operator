@@ -25,7 +25,7 @@ func RemoveTypeProperty() Stage {
 			newDefs := make(astmodel.TypeDefinitionSet)
 
 			defs := state.Types()
-			resources := astmodel.FindResourceTypes(defs)
+			resources := astmodel.FindResourceDefinitions(defs)
 
 			for _, resource := range resources {
 				resolved, err := state.Types().ResolveResourceSpecAndStatus(resource)

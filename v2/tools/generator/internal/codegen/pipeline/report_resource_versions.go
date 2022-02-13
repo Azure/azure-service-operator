@@ -51,7 +51,7 @@ func NewResourceVersionsReport(definitions astmodel.TypeDefinitionSet) *Resource
 
 // summarize collates a list of all resources, grouped by package
 func (r *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinitionSet) {
-	resources := astmodel.FindResourceTypes(definitions)
+	resources := astmodel.FindResourceDefinitions(definitions)
 	for _, rsrc := range resources {
 		name := rsrc.Name()
 		pkg := name.PackageReference

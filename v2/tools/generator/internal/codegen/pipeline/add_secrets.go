@@ -84,7 +84,7 @@ func transformSpecSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.Type
 		VisitObjectType: transformSecretProperties,
 	}.Build()
 
-	specTypes, err := astmodel.FindSpecConnectedTypes(definitions)
+	specTypes, err := astmodel.FindSpecConnectedDefinitions(definitions)
 	if err != nil {
 		return nil, errors.Wrap(err, "couldn't find all spec definitions")
 	}
@@ -108,7 +108,7 @@ func removeStatusSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.TypeD
 		VisitObjectType: removeSecretProperties,
 	}.Build()
 
-	statusTypes, err := astmodel.FindStatusConnectedTypes(definitions)
+	statusTypes, err := astmodel.FindStatusConnectedDefinitions(definitions)
 	if err != nil {
 		return nil, errors.Wrap(err, "couldn't find all status definitions")
 	}

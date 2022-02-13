@@ -54,7 +54,7 @@ func RemoveStatusValidations() Stage {
 }
 
 func removeStatusTypeValidations(definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-	statusTypes := astmodel.FindStatusTypes(definitions)
+	statusTypes := astmodel.FindStatusDefinitions(definitions)
 
 	walker := astmodel.NewTypeWalker(
 		definitions,
@@ -87,7 +87,7 @@ func removeStatusTypeValidations(definitions astmodel.TypeDefinitionSet) (astmod
 }
 
 func errorIfSpecStatusOverlap(statusDefinitions astmodel.TypeDefinitionSet, definitions astmodel.TypeDefinitionSet) error {
-	allSpecTypes, err := astmodel.FindSpecConnectedTypes(definitions)
+	allSpecTypes, err := astmodel.FindSpecConnectedDefinitions(definitions)
 	if err != nil {
 		return errors.Wrap(err, "couldn't find all spec definitions")
 	}

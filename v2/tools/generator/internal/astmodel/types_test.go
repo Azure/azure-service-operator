@@ -232,10 +232,10 @@ func Test_TypesOverlayWith_GivenOverlappingSets_PrefersTypeInOverlay(t *testing.
 }
 
 /*
- * FindSpecTypes() tests
+ * FindSpecDefinitions() tests
  */
 
-func TestFindSpecTypes(t *testing.T) {
+func TestFindSpecDefinitions(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -247,17 +247,17 @@ func TestFindSpecTypes(t *testing.T) {
 	types := make(TypeDefinitionSet)
 	types.AddAll(resource, status, spec)
 
-	specs := FindSpecTypes(types)
+	specs := FindSpecDefinitions(types)
 
 	g.Expect(specs).To(HaveLen(1))
 	g.Expect(specs.Contains(spec.Name())).To(BeTrue())
 }
 
 /*
- * FindStatusTypes() tests
+ * FindStatusDefinitions() tests
  */
 
-func TestFindStatusTypes(t *testing.T) {
+func TestFindStatusDefinitions(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -269,17 +269,17 @@ func TestFindStatusTypes(t *testing.T) {
 	types := make(TypeDefinitionSet)
 	types.AddAll(resource, status, spec)
 
-	statuses := FindStatusTypes(types)
+	statuses := FindStatusDefinitions(types)
 
 	g.Expect(statuses).To(HaveLen(1))
 	g.Expect(statuses.Contains(status.Name())).To(BeTrue())
 }
 
 /*
- * FindSpecConnectedTypes() tests
+ * FindSpecConnectedDefinitions() tests
  */
 
-func TestFindSpecConnectedTypes(t *testing.T) {
+func TestFindSpecConnectedDefinitions(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -297,7 +297,7 @@ func TestFindSpecConnectedTypes(t *testing.T) {
 	types := make(TypeDefinitionSet)
 	types.AddAll(resource, status, spec, nameInfo, nameInfoStatus)
 
-	specs, err := FindSpecConnectedTypes(types)
+	specs, err := FindSpecConnectedDefinitions(types)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(specs).To(HaveLen(2))
@@ -306,10 +306,10 @@ func TestFindSpecConnectedTypes(t *testing.T) {
 }
 
 /*
- * FindStatusConnectedTypes() tests
+ * FindStatusConnectedDefinitions() tests
  */
 
-func TestFindStatusConnectedTypes(t *testing.T) {
+func TestFindStatusConnectedDefinitions(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -327,7 +327,7 @@ func TestFindStatusConnectedTypes(t *testing.T) {
 	types := make(TypeDefinitionSet)
 	types.AddAll(resource, status, spec, nameInfo, nameInfoStatus)
 
-	statuses, err := FindStatusConnectedTypes(types)
+	statuses, err := FindStatusConnectedDefinitions(types)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(statuses).To(HaveLen(2))
