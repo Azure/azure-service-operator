@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Code Generator Overview #  Core to Azure Service Operator (ASO) v2 is our code generator. This consumes ARM JSON Schema and Swagger specifications and generates code for each desired resource that works with our generic operator reconciler.
-Code Structure #  The key packages used to structure the code of the generator are as follows:
+Code Structure #  Key packages used to structure the code of the generator are as follows:
    Package Content     astmodel Short for Abstract Syntax Tree Model, this package contains the core data types for defining the Go functions, data types, and methods we generate.">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
 <meta property="og:description" content="Code Generator Overview #  Core to Azure Service Operator (ASO) v2 is our code generator. This consumes ARM JSON Schema and Swagger specifications and generates code for each desired resource that works with our generic operator reconciler.
-Code Structure #  The key packages used to structure the code of the generator are as follows:
+Code Structure #  Key packages used to structure the code of the generator are as follows:
    Package Content     astmodel Short for Abstract Syntax Tree Model, this package contains the core data types for defining the Go functions, data types, and methods we generate." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/contributing/generator-overview/" /><meta property="article:section" content="contributing" />
@@ -21,7 +21,7 @@ Code Structure #  The key packages used to structure the code of the generator a
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.0da40a63cca90c2f65dd7356ba530062b799ea8d219579eb6569fa8d2d362fec.js" integrity="sha256-DaQKY8ypDC9l3XNWulMAYreZ6o0hlXnrZWn6jS02L&#43;w=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.9c86a3e4372c51b0ed9e964bc5d2e58bda3eff32a8d29c67d7e40f4117cbdc0c.js" integrity="sha256-nIaj5DcsUbDtnpZLxdLli9o&#43;/zKo0pxn1&#43;QPQRfL3Aw=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -553,7 +553,11 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#code-structure">Code Structure</a></li>
+    <li><a href="#code-structure">Code Structure</a>
+      <ul>
+        <li><a href="#directory-structure-overview">Directory structure overview</a></li>
+      </ul>
+    </li>
     <li><a href="#object-model">Object Model</a></li>
     <li><a href="#resources-objects-and-other-types">Resources, Objects and other types</a></li>
     <li><a href="#generator-pipeline">Generator Pipeline</a></li>
@@ -579,7 +583,7 @@ https://github.com/alex-shpak/hugo-book
   Code Structure
   <a class="anchor" href="#code-structure">#</a>
 </h2>
-<p>The key packages used to structure the code of the generator are as follows:</p>
+<p>Key packages used to structure the code of the generator are as follows:</p>
 <table>
 <thead>
 <tr>
@@ -622,6 +626,13 @@ https://github.com/alex-shpak/hugo-book
 </tr>
 </tbody>
 </table>
+<h3 id="directory-structure-overview">
+  Directory structure overview
+  <a class="anchor" href="#directory-structure-overview">#</a>
+</h3>
+<p>In this diagram is shown the full directory structure of the ASO code generator, including all the packages named above.</p>
+<p><img src="contributing/aso-codegen-structure.svg" alt="Overview" /></p>
+<p>The size of each dot reflects the size of the file; the legend in the corner shows the meaning of colour.</p>
 <h2 id="object-model">
   Object Model
   <a class="anchor" href="#object-model">#</a>
@@ -701,7 +712,11 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#code-structure">Code Structure</a></li>
+    <li><a href="#code-structure">Code Structure</a>
+      <ul>
+        <li><a href="#directory-structure-overview">Directory structure overview</a></li>
+      </ul>
+    </li>
     <li><a href="#object-model">Object Model</a></li>
     <li><a href="#resources-objects-and-other-types">Resources, Objects and other types</a></li>
     <li><a href="#generator-pipeline">Generator Pipeline</a></li>
