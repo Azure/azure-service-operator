@@ -142,7 +142,7 @@ func versionFromGroup(pr astmodel.PackageReference) string {
 		panic(fmt.Sprintf("Resource had package version that didn't match expected format: %s", v))
 	}
 
-	if len(matches) > 3 && matches[3] == "preview" {
+	if len(matches) > 4 && matches[4] == "preview" {
 		return fmt.Sprintf("%s-%s-%s-preview", matches[1], matches[2], matches[3])
 	}
 
