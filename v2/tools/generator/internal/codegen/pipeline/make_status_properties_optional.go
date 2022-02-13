@@ -30,7 +30,7 @@ func MakeStatusPropertiesOptional() Stage {
 			statusTypes := astmodel.FindStatusTypes(state.Types())
 			var errs []error
 
-			result := make(astmodel.Types)
+			result := make(astmodel.TypeDefinitionSet)
 			for _, def := range statusTypes {
 				modifiedType, err := makeStatusPropertiesOptional(def)
 				if err != nil {

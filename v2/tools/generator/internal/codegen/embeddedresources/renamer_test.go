@@ -33,8 +33,8 @@ func newTestObject(name astmodel.TypeName, fields ...*astmodel.PropertyDefinitio
 	return astmodel.MakeTypeDefinition(name, astmodel.NewObjectType().WithProperties(fields...))
 }
 
-func typesWithSubresourceTypeNoOriginalNameUsage() astmodel.Types {
-	result := make(astmodel.Types)
+func typesWithSubresourceTypeNoOriginalNameUsage() astmodel.TypeDefinitionSet {
+	result := make(astmodel.TypeDefinitionSet)
 
 	suffix := "TestSuffix"
 
@@ -53,8 +53,8 @@ func typesWithSubresourceTypeNoOriginalNameUsage() astmodel.Types {
 	return result
 }
 
-func typesWithSubresourceTypeOriginalNameUsage() astmodel.Types {
-	result := make(astmodel.Types)
+func typesWithSubresourceTypeOriginalNameUsage() astmodel.TypeDefinitionSet {
+	result := make(astmodel.TypeDefinitionSet)
 
 	suffix := "TestSuffix"
 
@@ -79,8 +79,8 @@ func typesWithSubresourceTypeOriginalNameUsage() astmodel.Types {
 	return result
 }
 
-func typesWithSubresourceTypeMultipleUsageContextsOneResource() astmodel.Types {
-	result := make(astmodel.Types)
+func typesWithSubresourceTypeMultipleUsageContextsOneResource() astmodel.TypeDefinitionSet {
+	result := make(astmodel.TypeDefinitionSet)
 
 	suffix := "TestSuffix"
 
@@ -110,8 +110,8 @@ func typesWithSubresourceTypeMultipleUsageContextsOneResource() astmodel.Types {
 	return result
 }
 
-func typesWithSubresourceTypeMultipleResourcesOneUsageContextEach() astmodel.Types {
-	result := make(astmodel.Types)
+func typesWithSubresourceTypeMultipleResourcesOneUsageContextEach() astmodel.TypeDefinitionSet {
+	result := make(astmodel.TypeDefinitionSet)
 
 	suffix := "TestSuffix"
 

@@ -19,7 +19,7 @@ type TypeConverter struct {
 	// visitor used to apply the modification
 	visitor astmodel.TypeVisitor
 	// types contains all the types for this group
-	types astmodel.Types
+	types astmodel.TypeDefinitionSet
 	// conversionGraph is the map of package conversions we use
 	conversionGraph *ConversionGraph
 	// propertyConverter is used to modify properties
@@ -28,7 +28,7 @@ type TypeConverter struct {
 
 // NewTypeConverter creates a new converter for the creating of storage variants
 func NewTypeConverter(
-	types astmodel.Types,
+	types astmodel.TypeDefinitionSet,
 	conversionGraph *ConversionGraph) *TypeConverter {
 	result := &TypeConverter{
 		types:             types,

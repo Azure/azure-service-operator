@@ -76,7 +76,7 @@ func (m *MapType) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr 
 }
 
 // AsZero renders an expression for the "zero" value of a map by calling make()
-func (m *MapType) AsZero(_ Types, ctx *CodeGenerationContext) dst.Expr {
+func (m *MapType) AsZero(_ TypeDefinitionSet, ctx *CodeGenerationContext) dst.Expr {
 	return astbuilder.Nil()
 }
 
@@ -115,7 +115,7 @@ func (m *MapType) String() string {
 // WriteDebugDescription adds a description of the current type to the passed builder
 // builder receives the full description, including nested types
 // types is a dictionary for resolving named types
-func (m *MapType) WriteDebugDescription(builder *strings.Builder, types Types) {
+func (m *MapType) WriteDebugDescription(builder *strings.Builder, types TypeDefinitionSet) {
 	if m == nil {
 		builder.WriteString("<nilMap>")
 		return

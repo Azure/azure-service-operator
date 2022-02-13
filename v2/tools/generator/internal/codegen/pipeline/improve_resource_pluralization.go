@@ -16,8 +16,8 @@ func ImproveResourcePluralization() Stage {
 	stage := MakeLegacyStage(
 		"pluralizeNames",
 		"Improve resource pluralization",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			result := make(astmodel.Types)
+		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+			result := make(astmodel.TypeDefinitionSet)
 
 			renames := make(map[astmodel.TypeName]astmodel.TypeName)
 

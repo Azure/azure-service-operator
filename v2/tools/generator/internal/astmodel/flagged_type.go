@@ -122,7 +122,7 @@ func (ft *FlaggedType) AsDeclarations(ctx *CodeGenerationContext, declContext De
 
 // AsZero renders an expression for the "zero" value of the type
 // by delegating to the wrapped type
-func (ft *FlaggedType) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
+func (ft *FlaggedType) AsZero(types TypeDefinitionSet, ctx *CodeGenerationContext) dst.Expr {
 	return ft.element.AsZero(types, ctx)
 }
 
@@ -187,7 +187,7 @@ func (ft *FlaggedType) Unwrap() Type {
 // WriteDebugDescription adds a description of the current type to the passed builder
 // builder receives the full description, including nested types
 // types is a dictionary for resolving named types
-func (ft *FlaggedType) WriteDebugDescription(builder *strings.Builder, types Types) {
+func (ft *FlaggedType) WriteDebugDescription(builder *strings.Builder, types TypeDefinitionSet) {
 	if ft == nil {
 		builder.WriteString("<nilFlagged>")
 		return

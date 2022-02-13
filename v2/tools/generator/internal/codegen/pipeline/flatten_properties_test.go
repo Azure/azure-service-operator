@@ -27,7 +27,7 @@ func TestDuplicateNamesAreCaughtAndRenamed(t *testing.T) {
 
 	objType := astmodel.NewObjectType().WithProperties(prop, innerObjProp)
 
-	types := make(astmodel.Types)
+	types := make(astmodel.TypeDefinitionSet)
 	types.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "ObjType"), objType))
 
 	result, err := applyPropertyFlattening(context.Background(), types)
@@ -42,7 +42,7 @@ func TestDuplicateNamesAreCaughtAndRenamed(t *testing.T) {
 		WithProperties(
 			prop,
 			prop.WithName(newName).WithJsonName(newJsonName).AddFlattenedFrom(astmodel.PropertyName("Inner")))
-	expectedTypes := make(astmodel.Types)
+	expectedTypes := make(astmodel.TypeDefinitionSet)
 	expectedTypes.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "ObjType"), newObjType))
 
 	g.Expect(result).To(Equal(expectedTypes))
@@ -63,7 +63,7 @@ func TestFlatteningWorks(t *testing.T) {
 		astmodel.NewPropertyDefinition("inner", "inner", innerObj).SetFlatten(true),
 		astmodel.NewPropertyDefinition("z", "z", astmodel.IntType))
 
-	types := make(astmodel.Types)
+	types := make(astmodel.TypeDefinitionSet)
 	types.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "objType"), objType))
 
 	result, err := applyPropertyFlattening(context.Background(), types)

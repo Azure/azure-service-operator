@@ -19,8 +19,8 @@ func NameTypesForCRD(idFactory astmodel.IdentifierFactory) Stage {
 	return MakeLegacyStage(
 		"nameTypes",
 		"Name inner types for CRD",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			result := make(astmodel.Types)
+		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+			result := make(astmodel.TypeDefinitionSet)
 
 			// this is a little bit of a hack, better way to do it?
 			getDescription := func(typeName astmodel.TypeName) []string {

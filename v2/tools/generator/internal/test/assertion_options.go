@@ -21,7 +21,7 @@ type AssertionOption interface {
 
 // DiffWith specifies the type definitions being tested should be diff'd with the provided type definitions to highlight
 // differences.
-// Types are matched by fully qualified name.
+// TypeDefinitionSet are matched by fully qualified name.
 func DiffWith(defs ...astmodel.TypeDefinition) AssertionOption {
 	return &diffOption{
 		references: defs,
@@ -30,8 +30,8 @@ func DiffWith(defs ...astmodel.TypeDefinition) AssertionOption {
 
 // DiffWithTypes specifies the type definitions being tested should be diff'd with the provided type definitions to
 // highlight differences.
-// Types are matched by fully qualified name.
-func DiffWithTypes(types astmodel.Types) AssertionOption {
+// TypeDefinitionSet are matched by fully qualified name.
+func DiffWithTypes(types astmodel.TypeDefinitionSet) AssertionOption {
 	var defs []astmodel.TypeDefinition
 	for _, d := range types {
 		defs = append(defs, d)

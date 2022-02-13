@@ -36,7 +36,7 @@ func TestWriteDebugDescription(t *testing.T) {
 
 	erroredAge := NewErroredType(age, []string{"boom"}, []string{"oh oh"})
 
-	types := make(Types)
+	types := make(TypeDefinitionSet)
 	types.Add(ageDefinition)
 	types.Add(personIdDefinition)
 	types.Add(suitDefinition)

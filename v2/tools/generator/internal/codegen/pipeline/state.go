@@ -12,8 +12,8 @@ import (
 
 // State is an immutable instance that captures the information being passed along the pipeline
 type State struct {
-	types           astmodel.Types           // set of types generated so far
-	conversionGraph *storage.ConversionGraph // graph of transitions between packages in our conversion graph
+	types           astmodel.TypeDefinitionSet // set of types generated so far
+	conversionGraph *storage.ConversionGraph   // graph of transitions between packages in our conversion graph
 }
 
 /*
@@ -25,8 +25,8 @@ type State struct {
 
 // NewState returns a new empty state
 // typeses is a (possibly empty) sequence of types to combine for the intitial state
-func NewState(typeses ...astmodel.Types) *State {
-	types := make(astmodel.Types)
+func NewState(typeses ...astmodel.TypeDefinitionSet) *State {
+	types := make(astmodel.TypeDefinitionSet)
 	for _, ts := range typeses {
 		types = types.OverlayWith(ts)
 	}
@@ -38,7 +38,7 @@ func NewState(typeses ...astmodel.Types) *State {
 }
 
 // WithTypes returns a new independentState with the given types instead
-func (s *State) WithTypes(types astmodel.Types) *State {
+func (s *State) WithTypes(types astmodel.TypeDefinitionSet) *State {
 	return &State{
 		types:           types,
 		conversionGraph: s.conversionGraph,
@@ -58,7 +58,7 @@ func (s *State) WithConversionGraph(graph *storage.ConversionGraph) *State {
 }
 
 // Types returns the set of types contained by the state
-func (s *State) Types() astmodel.Types {
+func (s *State) Types() astmodel.TypeDefinitionSet {
 	return s.types
 }
 

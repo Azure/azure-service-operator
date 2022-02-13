@@ -49,7 +49,7 @@ func NewSwaggerTypeExtractor(
 }
 
 type SwaggerTypes struct {
-	ResourceTypes, OtherTypes astmodel.Types
+	ResourceTypes, OtherTypes astmodel.TypeDefinitionSet
 }
 
 // ExtractTypes finds all operations in the Swagger spec that
@@ -58,8 +58,8 @@ type SwaggerTypes struct {
 // Any additional types required by the resource types are placed into the 'otherTypes' result.
 func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (SwaggerTypes, error) {
 	result := SwaggerTypes{
-		ResourceTypes: make(astmodel.Types),
-		OtherTypes:    make(astmodel.Types),
+		ResourceTypes: make(astmodel.TypeDefinitionSet),
+		OtherTypes:    make(astmodel.TypeDefinitionSet),
 	}
 
 	scanner := NewSchemaScanner(extractor.idFactory, extractor.config)

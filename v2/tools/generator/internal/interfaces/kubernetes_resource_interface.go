@@ -24,7 +24,7 @@ func AddKubernetesResourceInterfaceImpls(
 	resourceName astmodel.TypeName,
 	r *astmodel.ResourceType,
 	idFactory astmodel.IdentifierFactory,
-	types astmodel.Types) (*astmodel.ResourceType, error) {
+	types astmodel.TypeDefinitionSet) (*astmodel.ResourceType, error) {
 
 	resolvedSpec, err := types.FullyResolve(r.SpecType())
 	if err != nil {
@@ -136,7 +136,7 @@ func AddKubernetesResourceInterfaceImpls(
 
 // note that this can, as a side-effect, update the resource type
 // it is a bit ugly!
-func getAzureNameFunctionsForType(r **astmodel.ResourceType, spec *astmodel.ObjectType, t astmodel.Type, types astmodel.Types) (functions.ObjectFunctionHandler, functions.ObjectFunctionHandler, error) {
+func getAzureNameFunctionsForType(r **astmodel.ResourceType, spec *astmodel.ObjectType, t astmodel.Type, types astmodel.TypeDefinitionSet) (functions.ObjectFunctionHandler, functions.ObjectFunctionHandler, error) {
 	// handle different types of AzureName property
 	switch azureNamePropType := t.(type) {
 	case *astmodel.ValidatedType:

@@ -17,7 +17,7 @@ import (
 // SimpleRecursiveTypeFixer removes circular references from types that refer to themselves directly.
 type SimpleRecursiveTypeFixer struct {
 	visitor  *astmodel.TypeVisitor
-	newTypes astmodel.Types
+	newTypes astmodel.TypeDefinitionSet
 }
 
 type simpleRecursiveTypeFixerContext struct {
@@ -34,7 +34,7 @@ func (c simpleRecursiveTypeFixerContext) WithUnrolledName(name astmodel.TypeName
 
 func NewSimpleRecursiveTypeFixer() *SimpleRecursiveTypeFixer {
 	result := &SimpleRecursiveTypeFixer{
-		newTypes: make(astmodel.Types),
+		newTypes: make(astmodel.TypeDefinitionSet),
 	}
 
 	visitor := astmodel.TypeVisitorBuilder{
@@ -52,7 +52,7 @@ func (s *SimpleRecursiveTypeFixer) Fix(def astmodel.TypeDefinition) (astmodel.Ty
 }
 
 // Types returns any new types created by this type fixer
-func (s *SimpleRecursiveTypeFixer) Types() astmodel.Types {
+func (s *SimpleRecursiveTypeFixer) Types() astmodel.TypeDefinitionSet {
 	return s.newTypes
 }
 

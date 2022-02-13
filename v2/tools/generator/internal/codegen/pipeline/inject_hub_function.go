@@ -23,7 +23,7 @@ func InjectHubFunction(idFactory astmodel.IdentifierFactory) Stage {
 	stage := MakeLegacyStage(
 		InjectHubFunctionStageID,
 		"Inject the function Hub() into each hub resource",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			injector := astmodel.NewFunctionInjector()
 			result := types.Copy()
 

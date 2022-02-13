@@ -21,13 +21,13 @@ func DetermineResourceOwnership(configuration *config.Configuration) Stage {
 	return MakeLegacyStage(
 		"determineResourceOwnership",
 		"Determine ARM resource relationships",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			return determineOwnership(types, configuration)
 		})
 }
 
-func determineOwnership(definitions astmodel.Types, configuration *config.Configuration) (astmodel.Types, error) {
-	updatedDefs := make(astmodel.Types)
+func determineOwnership(definitions astmodel.TypeDefinitionSet, configuration *config.Configuration) (astmodel.TypeDefinitionSet, error) {
+	updatedDefs := make(astmodel.TypeDefinitionSet)
 
 	resources := astmodel.FindResourceTypes(definitions)
 	for _, def := range resources {
@@ -69,7 +69,7 @@ func determineOwnership(definitions astmodel.Types, configuration *config.Config
 }
 
 func extractChildResourcePropertyTypeDef(
-	definitions astmodel.Types,
+	definitions astmodel.TypeDefinitionSet,
 	resourceName astmodel.TypeName,
 	resourceSpecName astmodel.TypeName,
 	specType *astmodel.ObjectType) (*astmodel.TypeDefinition, error) {
@@ -161,10 +161,10 @@ func extractChildResourceTypeNames(resourcesPropertyTypeDef astmodel.TypeDefinit
 const ChildResourceNameSuffix = "ChildResource"
 
 func updateChildResourceDefinitionsWithOwner(
-	definitions astmodel.Types,
+	definitions astmodel.TypeDefinitionSet,
 	childResourceTypeNames []astmodel.TypeName,
 	owningResourceName astmodel.TypeName,
-	updatedDefs astmodel.Types) error {
+	updatedDefs astmodel.TypeDefinitionSet) error {
 
 	for _, typeName := range childResourceTypeNames {
 		// If the typename ends in ChildResource, remove that
@@ -208,8 +208,8 @@ func updateChildResourceDefinitionsWithOwner(
 // Extension resources have no owner set, as they are a special case.
 func setDefaultOwner(
 	configuration *config.Configuration,
-	definitions astmodel.Types,
-	updatedDefs astmodel.Types) {
+	definitions astmodel.TypeDefinitionSet,
+	updatedDefs astmodel.TypeDefinitionSet) {
 
 	// Go over all of the resource types and flag any that don't have an owner as having resource group as their owner
 	for _, def := range definitions {

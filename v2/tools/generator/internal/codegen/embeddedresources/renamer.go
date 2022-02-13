@@ -17,7 +17,7 @@ import (
 )
 
 type renamer struct {
-	types astmodel.Types
+	types astmodel.TypeDefinitionSet
 }
 
 type renameAction func(original astmodel.TypeName, associatedNames astmodel.TypeNameSet) (astmodel.TypeAssociation, error)
@@ -104,9 +104,9 @@ func (r renamer) simplifyEmbeddedName(_ astmodel.TypeName, associatedNames astmo
 
 func (r renamer) performRenames(
 	renames astmodel.TypeAssociation,
-	flag astmodel.TypeFlag) (astmodel.Types, error) {
+	flag astmodel.TypeFlag) (astmodel.TypeDefinitionSet, error) {
 
-	result := make(astmodel.Types)
+	result := make(astmodel.TypeDefinitionSet)
 
 	renamingVisitor := astmodel.TypeVisitorBuilder{
 		VisitTypeName: func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
@@ -135,7 +135,7 @@ func (r renamer) performRenames(
 }
 
 // simplifyTypeNames simplifies contextual type names if possible.
-func simplifyTypeNames(types astmodel.Types, flag astmodel.TypeFlag) (astmodel.Types, error) {
+func simplifyTypeNames(types astmodel.TypeDefinitionSet, flag astmodel.TypeFlag) (astmodel.TypeDefinitionSet, error) {
 	// Find all of the type names that have the flag we're interested in
 	updatedNames := make(map[astmodel.TypeName]astmodel.TypeNameSet)
 	for _, def := range types {

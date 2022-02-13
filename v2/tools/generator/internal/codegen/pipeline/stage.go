@@ -51,7 +51,7 @@ func MakeStage(
 func MakeLegacyStage(
 	id string,
 	description string,
-	action func(context.Context, astmodel.Types) (astmodel.Types, error)) Stage {
+	action func(context.Context, astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error)) Stage {
 	return MakeStage(
 		id,
 		description,

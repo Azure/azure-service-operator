@@ -17,7 +17,7 @@ import (
 // t is the current test
 // types is the set of type definitions to be asserted
 // options is an optional set of configuration options to control the assertion
-func AssertPackagesGenerateExpectedCode(t *testing.T, types astmodel.Types, options ...AssertionOption) {
+func AssertPackagesGenerateExpectedCode(t *testing.T, types astmodel.TypeDefinitionSet, options ...AssertionOption) {
 	// Group type definitions by package
 	groups := make(map[astmodel.PackageReference][]astmodel.TypeDefinition)
 	for _, def := range types {

@@ -168,7 +168,7 @@ func (e *ErroredType) AsType(cgc *CodeGenerationContext) dst.Expr {
 
 // AsZero renders an expression for the "zero" value of the type
 // by delegating to the inner type
-func (e *ErroredType) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
+func (e *ErroredType) AsZero(types TypeDefinitionSet, ctx *CodeGenerationContext) dst.Expr {
 	return e.inner.AsZero(types, ctx)
 }
 
@@ -193,7 +193,7 @@ func (e *ErroredType) Unwrap() Type {
 // WriteDebugDescription adds a description of the current errored type to the passed builder,
 // builder receives the full description, including the nested type, errors and warnings
 // types is a dictionary for resolving named types
-func (e *ErroredType) WriteDebugDescription(builder *strings.Builder, types Types) {
+func (e *ErroredType) WriteDebugDescription(builder *strings.Builder, types TypeDefinitionSet) {
 	builder.WriteString("Error[")
 	if e.inner != nil {
 		e.inner.WriteDebugDescription(builder, types)

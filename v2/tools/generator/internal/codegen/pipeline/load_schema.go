@@ -146,7 +146,7 @@ func LoadSchemaIntoTypes(
 	return MakeLegacyStage(
 		LoadSchemaIntoTypesStageID,
 		"Load and walk schema",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			klog.V(0).Infof("Loading JSON schema %q", source)
 
 			schema, err := schemaLoader(ctx, configuration.SchemaURLRewrite, source)

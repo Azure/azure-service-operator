@@ -44,7 +44,7 @@ func (graph *ConversionGraph) LookupTransition(ref astmodel.PackageReference) (a
 // If the name passed in is for the hub type for the given resource, no next type will be found.
 // This is used to identify the next type needed for property assignment functions, and is a building block for
 // identification of hub types.
-func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, types astmodel.Types) (astmodel.TypeName, error) {
+func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, types astmodel.TypeDefinitionSet) (astmodel.TypeName, error) {
 
 	// Find the next package to consider
 	nextPackage, ok := graph.LookupTransition(name.PackageReference)
@@ -116,7 +116,7 @@ func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, types astmode
 // persisted using that hub type. This is done by following links in the conversion graph until we either reach the end
 // or we find that a newer version of the type does not exist.
 // Returns the hub type and true if found; an empty name and false if not.
-func (graph *ConversionGraph) FindHub(name astmodel.TypeName, types astmodel.Types) (astmodel.TypeName, error) {
+func (graph *ConversionGraph) FindHub(name astmodel.TypeName, types astmodel.TypeDefinitionSet) (astmodel.TypeName, error) {
 	// Look for the hub step
 	result := name
 	for {
@@ -157,7 +157,7 @@ func (graph *ConversionGraph) TransitionCount() int {
 //
 func (graph *ConversionGraph) FindNextProperty(
 	ref astmodel.PropertyReference,
-	types astmodel.Types) (astmodel.PropertyReference, error) {
+	types astmodel.TypeDefinitionSet) (astmodel.PropertyReference, error) {
 	nextType, err := graph.FindNextType(ref.DeclaringType(), types)
 	if err != nil {
 		// Something went wrong

@@ -20,8 +20,8 @@ func AddCrossplaneForProvider(idFactory astmodel.IdentifierFactory) Stage {
 	return MakeLegacyStage(
 		"addCrossplaneForProviderProperty",
 		"Add a 'ForProvider' property on every spec",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			result := make(astmodel.Types)
+		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+			result := make(astmodel.TypeDefinitionSet)
 			for _, typeDef := range types {
 				if _, ok := astmodel.AsResourceType(typeDef.Type()); ok {
 					forProviderTypes, err := nestSpecIntoForProvider(
@@ -45,7 +45,7 @@ func AddCrossplaneForProvider(idFactory astmodel.IdentifierFactory) Stage {
 // into a property named "ForProvider" whose type is "<name>Parameters"
 func nestSpecIntoForProvider(
 	idFactory astmodel.IdentifierFactory,
-	types astmodel.Types,
+	types astmodel.TypeDefinitionSet,
 	typeDef astmodel.TypeDefinition) ([]astmodel.TypeDefinition, error) {
 
 	resource, ok := astmodel.AsResourceType(typeDef.Type())
@@ -75,7 +75,7 @@ func nestSpecIntoForProvider(
 // }
 func nestType(
 	idFactory astmodel.IdentifierFactory,
-	types astmodel.Types,
+	types astmodel.TypeDefinitionSet,
 	outerTypeName astmodel.TypeName,
 	nestedTypeName string,
 	nestedPropertyName string) ([]astmodel.TypeDefinition, error) {

@@ -24,7 +24,7 @@ func InjectOriginalVersionProperty() Stage {
 	stage := MakeLegacyStage(
 		InjectOriginalVersionPropertyStageID,
 		"Inject the property OriginalVersion into each Storage Spec type",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			injector := astmodel.NewPropertyInjector()
 			result := types.Copy()
 

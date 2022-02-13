@@ -65,8 +65,8 @@ func (r *RenamingVisitor) Rename(t Type) (Type, error) {
 }
 
 // RenameAll applies the renames to the Types
-func (r *RenamingVisitor) RenameAll(types Types) (Types, error) {
-	result := make(Types)
+func (r *RenamingVisitor) RenameAll(types TypeDefinitionSet) (TypeDefinitionSet, error) {
+	result := make(TypeDefinitionSet)
 	var errs []error
 
 	for _, def := range types {

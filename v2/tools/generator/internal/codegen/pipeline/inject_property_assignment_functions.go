@@ -83,7 +83,7 @@ type propertyAssignmentFunctionsFactory struct {
 	graph            *storage.ConversionGraph
 	idFactory        astmodel.IdentifierFactory
 	configuration    *config.Configuration
-	types            astmodel.Types
+	types            astmodel.TypeDefinitionSet
 	functionInjector *astmodel.FunctionInjector
 }
 
@@ -91,7 +91,7 @@ func NewPropertyAssignmentFunctionsFactory(
 	graph *storage.ConversionGraph,
 	idFactory astmodel.IdentifierFactory,
 	configuration *config.Configuration,
-	types astmodel.Types) *propertyAssignmentFunctionsFactory {
+	types astmodel.TypeDefinitionSet) *propertyAssignmentFunctionsFactory {
 	return &propertyAssignmentFunctionsFactory{
 		graph:            graph,
 		idFactory:        idFactory,

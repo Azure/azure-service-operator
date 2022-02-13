@@ -33,7 +33,7 @@ func TestGolden_ResourceConversionFunction_DirectConversion_GeneratesExpectedCod
 	person2021 := test.CreateResource(test.Pkg2021, "Person", personSpec2021, personStatus2021)
 
 	// Create Property Assignment functions
-	types := make(astmodel.Types)
+	types := make(astmodel.TypeDefinitionSet)
 	types.AddAll(person2020, personSpec2020, personStatus2020)
 	types.AddAll(person2021, personSpec2021, personStatus2021)
 
@@ -81,7 +81,7 @@ func TestGolden_ResourceConversionFunction_IndirectConversion_GeneratesExpectedC
 	person2022 := test.CreateResource(test.Pkg2022, "Person", personSpec2021, personStatus2021)
 
 	// Create Property Assignment functions
-	types := make(astmodel.Types)
+	types := make(astmodel.TypeDefinitionSet)
 	types.AddAll(person2020, personSpec2020, personStatus2020)
 	types.AddAll(person2021, personSpec2021, personStatus2021)
 	types.AddAll(person2022, personSpec2022, personStatus2022)

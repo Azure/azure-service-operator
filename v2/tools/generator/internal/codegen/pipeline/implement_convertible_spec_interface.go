@@ -25,7 +25,7 @@ func ImplementConvertibleSpecInterface(idFactory astmodel.IdentifierFactory) Sta
 		func(ctx context.Context, state *State) (*State, error) {
 			injector := astmodel.NewInterfaceInjector()
 
-			modifiedTypes := make(astmodel.Types)
+			modifiedTypes := make(astmodel.TypeDefinitionSet)
 			specs := astmodel.FindSpecTypes(state.Types())
 			for name, def := range specs {
 				convertible := createConvertibleSpecInterfaceImplementation(def, idFactory)

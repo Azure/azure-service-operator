@@ -19,7 +19,7 @@ func AddCrossplaneOwnerProperties(idFactory astmodel.IdentifierFactory) Stage {
 	return MakeLegacyStage(
 		"addCrossplaneOwnerProperties",
 		"Add the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			referenceTypeName := astmodel.MakeTypeName(
 				CrossplaneRuntimeV1Alpha1Package,
 				idFactory.CreateIdentifier("Reference", astmodel.Exported))
@@ -27,7 +27,7 @@ func AddCrossplaneOwnerProperties(idFactory astmodel.IdentifierFactory) Stage {
 				CrossplaneRuntimeV1Alpha1Package,
 				idFactory.CreateIdentifier("Selector", astmodel.Exported))
 
-			result := make(astmodel.Types)
+			result := make(astmodel.TypeDefinitionSet)
 			for _, typeDef := range types {
 				// TODO: Do we need to rewrite this to deal with wrapping?
 				if resource, ok := typeDef.Type().(*astmodel.ResourceType); ok {
@@ -95,7 +95,7 @@ func AddCrossplaneOwnerProperties(idFactory astmodel.IdentifierFactory) Stage {
 		})
 }
 
-func lookupOwners(defs astmodel.Types, resourceDef astmodel.TypeDefinition) ([]astmodel.TypeName, error) {
+func lookupOwners(defs astmodel.TypeDefinitionSet, resourceDef astmodel.TypeDefinition) ([]astmodel.TypeName, error) {
 	resourceType, ok := resourceDef.Type().(*astmodel.ResourceType)
 	if !ok {
 		return nil, errors.Errorf("type %s is not a resource", resourceDef.Name())

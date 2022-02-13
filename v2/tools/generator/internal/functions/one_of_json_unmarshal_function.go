@@ -52,7 +52,7 @@ func (f *OneOfJSONUnmarshalFunction) References() astmodel.TypeNameSet {
 	return nil
 }
 
-func (f *OneOfJSONUnmarshalFunction) resolveOneOfMemberToObjectType(t astmodel.Type, types astmodel.Types) (astmodel.TypeName, *astmodel.ObjectType) {
+func (f *OneOfJSONUnmarshalFunction) resolveOneOfMemberToObjectType(t astmodel.Type, types astmodel.TypeDefinitionSet) (astmodel.TypeName, *astmodel.ObjectType) {
 	// OneOfs are expected to contain properties that are:
 	// pointer to typename to objectType
 
@@ -91,7 +91,7 @@ type propNameAndType struct {
 
 func (f *OneOfJSONUnmarshalFunction) getDiscriminatorMapping(
 	propName astmodel.PropertyName,
-	types astmodel.Types) map[string]propNameAndType {
+	types astmodel.TypeDefinitionSet) map[string]propNameAndType {
 
 	result := make(map[string]propNameAndType)
 	for _, prop := range f.oneOfObject.Properties() {
@@ -130,7 +130,7 @@ func (f *OneOfJSONUnmarshalFunction) getDiscriminatorMapping(
 	return result
 }
 
-func (f *OneOfJSONUnmarshalFunction) determineDiscriminant(allTypes astmodel.Types) (string, map[string]propNameAndType) {
+func (f *OneOfJSONUnmarshalFunction) determineDiscriminant(allTypes astmodel.TypeDefinitionSet) (string, map[string]propNameAndType) {
 	// grab out the first member of the OneOf
 	var firstMember *astmodel.ObjectType
 	for _, prop := range f.oneOfObject.Properties() {

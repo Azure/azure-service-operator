@@ -75,7 +75,7 @@ func (typeName TypeName) AsType(codeGenerationContext *CodeGenerationContext) ds
 
 // AsZero renders an expression for the "zero" value of the type.
 // The exact thing we need to generate depends on the actual type we reference
-func (typeName TypeName) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
+func (typeName TypeName) AsZero(types TypeDefinitionSet, ctx *CodeGenerationContext) dst.Expr {
 	if IsExternalPackageReference(typeName.PackageReference) {
 		// TypeName is external, zero value is a qualified empty struct
 		// (we might not actually use this, if the property is optional, but we still need to generate the right thing)
@@ -193,7 +193,7 @@ func (typeName TypeName) Plural() TypeName {
 // WriteDebugDescription adds a description of the current type to the passed builder
 // builder receives the full description, including nested types
 // types is a dictionary for resolving named types
-func (typeName TypeName) WriteDebugDescription(builder *strings.Builder, types Types) {
+func (typeName TypeName) WriteDebugDescription(builder *strings.Builder, types TypeDefinitionSet) {
 	if typeName.PackageReference == nil {
 		builder.WriteString("<nilRef>")
 	} else {

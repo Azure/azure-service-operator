@@ -30,7 +30,7 @@ func ReportOnTypesAndVersions(configuration *config.Configuration) Stage {
 	return MakeLegacyStage(
 		ReportOnTypesAndVersionsStageID,
 		"Generate reports on types and versions in each package",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			report := NewPackagesMatrixReport()
 			report.Summarize(types)
 			err := report.WriteTo(configuration.FullTypesOutputPath())
@@ -49,14 +49,14 @@ func NewPackagesMatrixReport() *PackagesMatrixReport {
 	}
 }
 
-func (report *PackagesMatrixReport) Summarize(types astmodel.Types) {
+func (report *PackagesMatrixReport) Summarize(types astmodel.TypeDefinitionSet) {
 	for _, t := range types {
 		typeName := t.Name().Name()
 		packageName := report.ServiceName(t.Name().PackageReference)
 		packageVersion := t.Name().PackageReference.PackageName()
 		table, ok := report.tables[packageName]
 		if !ok {
-			table = reporting.NewTable(fmt.Sprintf("Types defined in package %q", packageName))
+			table = reporting.NewTable(fmt.Sprintf("TypeDefinitionSet defined in package %q", packageName))
 			report.tables[packageName] = table
 		}
 

@@ -19,10 +19,10 @@ func ApplyKubernetesResourceInterface(idFactory astmodel.IdentifierFactory) Stag
 	return MakeLegacyStage(
 		"applyKubernetesResourceInterface",
 		"Add the KubernetesResource interface to every resource",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			skip := make(map[astmodel.TypeName]struct{})
 
-			result := make(astmodel.Types)
+			result := make(astmodel.TypeDefinitionSet)
 			for typeName, typeDef := range types {
 				if _, ok := skip[typeName]; ok {
 					continue

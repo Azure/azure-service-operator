@@ -22,7 +22,7 @@ func MarkLatestAPIVersionAsStorageVersion() Stage {
 	return MakeLegacyStage(
 		MarkLatestAPIVersionAsStorageVersionId,
 		"Mark the latest API version of each resource as the storage version",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			updatedDefs, err := MarkLatestResourceVersionsForStorage(types)
 			if err != nil {
 				return nil, errors.Wrapf(err, "unable to mark latest resource version as storage version")
@@ -33,8 +33,8 @@ func MarkLatestAPIVersionAsStorageVersion() Stage {
 }
 
 // MarkLatestResourceVersionsForStorage marks the latest version of each resource as the storage version
-func MarkLatestResourceVersionsForStorage(types astmodel.Types) (astmodel.Types, error) {
-	result := make(astmodel.Types)
+func MarkLatestResourceVersionsForStorage(types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+	result := make(astmodel.TypeDefinitionSet)
 	resourceLookup, err := groupResourcesByVersion(types)
 	if err != nil {
 		return nil, err
@@ -69,7 +69,7 @@ func MarkLatestResourceVersionsForStorage(types astmodel.Types) (astmodel.Types,
 	return result, nil
 }
 
-func groupResourcesByVersion(types astmodel.Types) (map[unversionedName][]astmodel.TypeDefinition, error) {
+func groupResourcesByVersion(types astmodel.TypeDefinitionSet) (map[unversionedName][]astmodel.TypeDefinition, error) {
 	result := make(map[unversionedName][]astmodel.TypeDefinition)
 
 	for _, def := range types {

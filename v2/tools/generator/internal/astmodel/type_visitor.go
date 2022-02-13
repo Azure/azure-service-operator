@@ -91,8 +91,8 @@ func (tv *TypeVisitor) VisitDefinition(td TypeDefinition, ctx interface{}) (Type
 	return def, nil
 }
 
-func (tv *TypeVisitor) VisitDefinitions(definitions Types, ctx interface{}) (Types, error) {
-	result := make(Types)
+func (tv *TypeVisitor) VisitDefinitions(definitions TypeDefinitionSet, ctx interface{}) (TypeDefinitionSet, error) {
+	result := make(TypeDefinitionSet)
 	var errs []error
 	for _, d := range definitions {
 		def, err := tv.VisitDefinition(d, ctx)

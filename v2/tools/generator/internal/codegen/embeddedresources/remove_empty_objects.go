@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-func RemoveEmptyObjects(types astmodel.Types) (astmodel.Types, error) {
+func RemoveEmptyObjects(types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 	result := types
 	for {
 		toRemove := findEmptyObjectTypes(result)
@@ -31,7 +31,7 @@ func RemoveEmptyObjects(types astmodel.Types) (astmodel.Types, error) {
 	return result, nil
 }
 
-func findEmptyObjectTypes(types astmodel.Types) astmodel.TypeNameSet {
+func findEmptyObjectTypes(types astmodel.TypeDefinitionSet) astmodel.TypeNameSet {
 	result := astmodel.NewTypeNameSet()
 
 	for _, def := range types {
@@ -52,8 +52,8 @@ func findEmptyObjectTypes(types astmodel.Types) astmodel.TypeNameSet {
 	return result
 }
 
-func removeReferencesToTypes(types astmodel.Types, toRemove astmodel.TypeNameSet) (astmodel.Types, error) {
-	result := make(astmodel.Types)
+func removeReferencesToTypes(types astmodel.TypeDefinitionSet, toRemove astmodel.TypeNameSet) (astmodel.TypeDefinitionSet, error) {
+	result := make(astmodel.TypeDefinitionSet)
 	visitor := makeRemovedTypeVisitor(toRemove)
 
 	for _, def := range types {

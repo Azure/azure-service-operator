@@ -20,13 +20,13 @@ func AddCrossplaneEmbeddedResourceSpec(idFactory astmodel.IdentifierFactory) Sta
 	return MakeLegacyStage(
 		"addCrossplaneEmbeddedResourceSpec",
 		"Add an embedded runtimev1alpha1.ResourceSpec to every spec type",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			specTypeName := astmodel.MakeTypeName(
 				CrossplaneRuntimeV1Alpha1Package,
 				idFactory.CreateIdentifier("ResourceSpec", astmodel.Exported))
 			embeddedSpec := astmodel.NewPropertyDefinition("", ",inline", specTypeName)
 
-			result := make(astmodel.Types)
+			result := make(astmodel.TypeDefinitionSet)
 			for _, typeDef := range types {
 				if resource, ok := typeDef.Type().(*astmodel.ResourceType); ok {
 

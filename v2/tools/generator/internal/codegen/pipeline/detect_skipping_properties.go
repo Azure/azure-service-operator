@@ -73,7 +73,7 @@ func DetectSkippingProperties() Stage {
 type skippingPropertyDetector struct {
 	links              map[astmodel.PropertyReference]astmodel.PropertyReference // Individual links in chains of related properties
 	observedProperties *astmodel.PropertyReferenceSet                            // Set of properties we've observed
-	types              astmodel.Types                                            // Set of all known types
+	types              astmodel.TypeDefinitionSet                                // Set of all known types
 	conversionGraph    *storage.ConversionGraph                                  // Graph of conversions between types
 }
 
@@ -81,7 +81,7 @@ type skippingPropertyDetector struct {
 // versions of a resource or object.
 // types is a set of all known types.
 // conversionGraph contains every conversion/transition between versions.
-func newSkippingPropertyDetector(types astmodel.Types, conversionGraph *storage.ConversionGraph) *skippingPropertyDetector {
+func newSkippingPropertyDetector(types astmodel.TypeDefinitionSet, conversionGraph *storage.ConversionGraph) *skippingPropertyDetector {
 	return &skippingPropertyDetector{
 		links:              make(map[astmodel.PropertyReference]astmodel.PropertyReference),
 		observedProperties: astmodel.NewPropertyReferenceSet(),

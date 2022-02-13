@@ -19,8 +19,8 @@ func AddCrossplaneAtProvider(idFactory astmodel.IdentifierFactory) Stage {
 	return MakeLegacyStage(
 		"addCrossplaneAtProviderProperty",
 		"Add an 'AtProvider' property on every status",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			result := make(astmodel.Types)
+		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+			result := make(astmodel.TypeDefinitionSet)
 			for _, typeDef := range types {
 				if _, ok := astmodel.AsResourceType(typeDef.Type()); ok {
 					atProviderTypes, err := nestStatusIntoAtProvider(
@@ -50,7 +50,7 @@ func AddCrossplaneAtProvider(idFactory astmodel.IdentifierFactory) Stage {
 // into a property named "AtProvider" whose type is "<name>Observation"
 func nestStatusIntoAtProvider(
 	idFactory astmodel.IdentifierFactory,
-	types astmodel.Types,
+	types astmodel.TypeDefinitionSet,
 	typeDef astmodel.TypeDefinition) ([]astmodel.TypeDefinition, error) {
 
 	resource, ok := astmodel.AsResourceType(typeDef.Type())

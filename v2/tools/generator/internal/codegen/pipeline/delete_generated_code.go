@@ -31,7 +31,7 @@ func DeleteGeneratedCode(outputFolder string) Stage {
 	return MakeLegacyStage(
 		DeleteGeneratedCodeStageID,
 		"Delete generated code from "+outputFolder,
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			err := deleteGeneratedCodeFromFolder(ctx, outputFolder)
 			if err != nil {
 				return nil, err

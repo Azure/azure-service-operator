@@ -25,7 +25,7 @@ func InjectOriginalVersionFunction(idFactory astmodel.IdentifierFactory) Stage {
 	stage := MakeLegacyStage(
 		InjectOriginalVersionFunctionStageID,
 		"Inject the function OriginalVersion() into each Spec type",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			injector := astmodel.NewFunctionInjector()
 			result := types.Copy()
 

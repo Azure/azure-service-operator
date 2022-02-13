@@ -45,7 +45,7 @@ func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 	return MakeLegacyStage(
 		"addStatusFromSwagger",
 		"Add information from Swagger specs for 'status' fields",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			if config.Status.SchemaRoot == "" {
 				klog.Warningf("No status schema root specified, will not generate status types")
 				return types, nil
@@ -70,7 +70,7 @@ func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 			}
 
 			// put all types into a new set
-			newTypes := make(astmodel.Types)
+			newTypes := make(astmodel.TypeDefinitionSet)
 			// all non-resources from Swagger are added regardless of whether they are used
 			// if they are not used they will be pruned off by a later pipeline stage
 			// (there will be no name clashes here due to suffixing with "_Status")
@@ -105,7 +105,7 @@ type statusTypes struct {
 	resourceTypes resourceLookup
 
 	// otherTypes has all other Status types renamed to avoid clashes with Spec Types
-	otherTypes astmodel.Types
+	otherTypes astmodel.TypeDefinitionSet
 }
 
 func (st statusTypes) findResourceType(typeName astmodel.TypeName) (astmodel.Type, bool) {
@@ -211,8 +211,8 @@ func mergeSwaggerTypesByGroup(idFactory astmodel.IdentifierFactory, m map[astmod
 	klog.V(3).Infof("Merging types for %d groups/versions", len(m))
 
 	result := jsonast.SwaggerTypes{
-		ResourceTypes: make(astmodel.Types),
-		OtherTypes:    make(astmodel.Types),
+		ResourceTypes: make(astmodel.TypeDefinitionSet),
+		OtherTypes:    make(astmodel.TypeDefinitionSet),
 	}
 
 	for pkg, group := range m {
@@ -281,7 +281,7 @@ func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles [
 		}
 	}
 
-	mergedResult := jsonast.SwaggerTypes{ResourceTypes: make(astmodel.Types), OtherTypes: make(astmodel.Types)}
+	mergedResult := jsonast.SwaggerTypes{ResourceTypes: make(astmodel.TypeDefinitionSet), OtherTypes: make(astmodel.TypeDefinitionSet)}
 	for _, typesFromFile := range typesFromFiles {
 		for _, t := range typesFromFile.OtherTypes {
 			// for consistent results we always sort typesFromFiles first (at top of this function)
@@ -404,9 +404,9 @@ func applyRenames(renames map[astmodel.TypeName]astmodel.TypeName, typesFromFile
 // all the way to their leaf nodes (recursing into TypeNames)
 func structurallyIdentical(
 	leftType astmodel.Type,
-	leftTypes astmodel.Types,
+	leftTypes astmodel.TypeDefinitionSet,
 	rightType astmodel.Type,
-	rightTypes astmodel.Types) bool {
+	rightTypes astmodel.TypeDefinitionSet) bool {
 
 	// we cannot simply recurse when we hit TypeNames as there can be cycles in types.
 	// instead we store all TypeNames that need to be checked in here, and

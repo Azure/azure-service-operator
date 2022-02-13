@@ -32,19 +32,19 @@ type Type interface {
 	// AsZero renders an expression for the "zero" value of the type
 	// types allows TypeName to resolve to the underlying type
 	// ctx allows current imports to be correctly identified where needed
-	AsZero(types Types, ctx *CodeGenerationContext) dst.Expr
+	AsZero(types TypeDefinitionSet, ctx *CodeGenerationContext) dst.Expr
 
 	// Equals returns true if the passed type is the same as this one, false otherwise
 	Equals(t Type, overrides EqualityOverrides) bool
 
-	// Make sure all Types have a printable version for debugging/user info.
+	// Make sure all TypeDefinitionSet have a printable version for debugging/user info.
 	// This doesn't need to be a full representation of the type.
 	fmt.Stringer
 
 	// WriteDebugDescription adds a description of the current type to the passed builder
 	// builder receives the full description, including nested types
 	// types is a dictionary for resolving named types
-	WriteDebugDescription(builder *strings.Builder, types Types)
+	WriteDebugDescription(builder *strings.Builder, types TypeDefinitionSet)
 }
 
 type EqualityOverrides struct {
@@ -86,7 +86,7 @@ func TypeEquals(left, right Type, overrides ...EqualityOverrides) bool {
 	return left.Equals(right, override)
 }
 
-func DebugDescription(t Type, types Types) string {
+func DebugDescription(t Type, types TypeDefinitionSet) string {
 	var builder strings.Builder
 	t.WriteDebugDescription(&builder, types)
 	return builder.String()

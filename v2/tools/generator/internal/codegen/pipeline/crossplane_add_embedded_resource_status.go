@@ -18,13 +18,13 @@ func AddCrossplaneEmbeddedResourceStatus(idFactory astmodel.IdentifierFactory) S
 	return MakeLegacyStage(
 		"addCrossplaneEmbeddedResourceStatus",
 		"Add an embedded runtimev1alpha1.ResourceStatus to every status type",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			statusTypeName := astmodel.MakeTypeName(
 				CrossplaneRuntimeV1Alpha1Package,
 				idFactory.CreateIdentifier("ResourceStatus", astmodel.Exported))
 			embeddedStatus := astmodel.NewPropertyDefinition("", ",inline", statusTypeName)
 
-			result := make(astmodel.Types)
+			result := make(astmodel.TypeDefinitionSet)
 			for _, typeDef := range types {
 				if resource, ok := typeDef.Type().(*astmodel.ResourceType); ok {
 

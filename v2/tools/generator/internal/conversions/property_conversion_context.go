@@ -14,7 +14,7 @@ import (
 // storage conversion factory creates a conversion
 type PropertyConversionContext struct {
 	// types is a map of all known type definitions, used to resolve TypeNames to actual types
-	types astmodel.Types
+	types astmodel.TypeDefinitionSet
 	// functionName is the name of the function we're currently generating
 	functionName string
 	// direction is the direction of the conversion we're generating
@@ -29,7 +29,7 @@ type PropertyConversionContext struct {
 
 // NewPropertyConversionContext creates a new instance of a PropertyConversionContext
 func NewPropertyConversionContext(
-	types astmodel.Types,
+	types astmodel.TypeDefinitionSet,
 	idFactory astmodel.IdentifierFactory,
 	configuration *config.ObjectModelConfiguration) *PropertyConversionContext {
 	return &PropertyConversionContext{
@@ -46,7 +46,7 @@ func (c *PropertyConversionContext) FunctionName() string {
 }
 
 // Types returns the set of types available in this context
-func (c *PropertyConversionContext) Types() astmodel.Types {
+func (c *PropertyConversionContext) Types() astmodel.TypeDefinitionSet {
 	return c.types
 }
 

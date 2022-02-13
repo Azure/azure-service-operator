@@ -22,15 +22,15 @@ import (
 type PackageDefinition struct {
 	GroupName   string
 	PackageName string
-	definitions Types
+	definitions TypeDefinitionSet
 }
 
 // NewPackageDefinition constructs a new package definition
 func NewPackageDefinition(groupName string, packageName string) *PackageDefinition {
-	return &PackageDefinition{groupName, packageName, make(Types)}
+	return &PackageDefinition{groupName, packageName, make(TypeDefinitionSet)}
 }
 
-func (p *PackageDefinition) Definitions() Types {
+func (p *PackageDefinition) Definitions() TypeDefinitionSet {
 	return p.definitions
 }
 
@@ -154,7 +154,7 @@ func (p *PackageDefinition) writeTestFile(
 	return nil
 }
 
-func allocateTypesToFiles(types Types) map[string][]TypeDefinition {
+func allocateTypesToFiles(types TypeDefinitionSet) map[string][]TypeDefinition {
 	graph := MakeReferenceGraphWithResourcesAsRoots(types)
 
 	type Root struct {

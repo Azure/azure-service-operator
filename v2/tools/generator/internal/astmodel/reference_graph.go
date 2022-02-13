@@ -19,7 +19,7 @@ type ReferenceGraph struct {
 
 // CollectARMSpecAndStatusDefinitions returns a TypeNameSet of all of the ARM spec definitions
 // passed in.
-func CollectARMSpecAndStatusDefinitions(definitions Types) TypeNameSet {
+func CollectARMSpecAndStatusDefinitions(definitions TypeDefinitionSet) TypeNameSet {
 	findARMType := func(t Type) (TypeName, error) {
 		name, ok := t.(TypeName)
 		if !ok {
@@ -71,7 +71,7 @@ func MakeReferenceGraph(roots TypeNameSet, references map[TypeName]TypeNameSet) 
 
 // MakeReferenceGraphWithRoots produces a ReferenceGraph with the given roots, and references
 // derived from the provided types collection.
-func MakeReferenceGraphWithRoots(roots TypeNameSet, types Types) ReferenceGraph {
+func MakeReferenceGraphWithRoots(roots TypeNameSet, types TypeDefinitionSet) ReferenceGraph {
 	references := make(map[TypeName]TypeNameSet)
 	for _, def := range types {
 		references[def.Name()] = def.References()
@@ -82,7 +82,7 @@ func MakeReferenceGraphWithRoots(roots TypeNameSet, types Types) ReferenceGraph 
 
 // MakeReferenceGraphWithResourcesAsRoots produces a ReferenceGraph for the given set of
 // types, where the Resource types (and their ARM spec/status) are the roots.
-func MakeReferenceGraphWithResourcesAsRoots(types Types) ReferenceGraph {
+func MakeReferenceGraphWithResourcesAsRoots(types TypeDefinitionSet) ReferenceGraph {
 	resources := FindResourceTypes(types)
 	armSpecAndStatus := CollectARMSpecAndStatusDefinitions(types)
 	roots := SetUnion(resources.Names(), armSpecAndStatus)

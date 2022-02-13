@@ -61,7 +61,7 @@ func TestCreateTypeConversion_GivenIncompatibleEndpoints_ReturnsExpectedError(t 
 		},
 	}
 
-	types := make(astmodel.Types)
+	types := make(astmodel.TypeDefinitionSet)
 	types.AddAll(stringEnum, intEnum)
 	types.AddAll(addressObject, locationObject)
 

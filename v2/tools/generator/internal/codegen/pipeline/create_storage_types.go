@@ -39,7 +39,7 @@ func CreateStorageTypes() Stage {
 			// Filter to the types we want to process
 			typesToConvert := state.Types().Where(isResourceOrObject).Where(isNotARMType)
 
-			storageTypes := make(astmodel.Types)
+			storageTypes := make(astmodel.TypeDefinitionSet)
 			typeConverter := storage.NewTypeConverter(state.Types(), state.ConversionGraph())
 
 			// Create storage variants

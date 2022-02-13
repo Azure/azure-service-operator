@@ -188,7 +188,7 @@ func (v *ValidatedType) AsType(_ *CodeGenerationContext) dst.Expr {
 }
 
 // AsZero returns the zero for our underlying type
-func (v *ValidatedType) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
+func (v *ValidatedType) AsZero(types TypeDefinitionSet, ctx *CodeGenerationContext) dst.Expr {
 	return v.element.AsZero(types, ctx)
 }
 
@@ -257,7 +257,7 @@ func (v ValidatedType) Unwrap() Type {
 // WriteDebugDescription adds a description of the current type to the passed builder
 // builder receives the full description, including nested types
 // types is a dictionary for resolving named types
-func (v ValidatedType) WriteDebugDescription(builder *strings.Builder, types Types) {
+func (v ValidatedType) WriteDebugDescription(builder *strings.Builder, types TypeDefinitionSet) {
 	builder.WriteString("Validated[")
 	if v.element != nil {
 		v.element.WriteDebugDescription(builder, types)

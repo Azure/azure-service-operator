@@ -18,7 +18,7 @@ func AssertTypesCollectionValid() Stage {
 	return MakeLegacyStage(
 		"assertTypesStructureValid",
 		"Verify that all local TypeNames refer to a type",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			visitor := astmodel.TypeVisitorBuilder{}.Build()
 			typeWalker := astmodel.NewTypeWalker(types, visitor)
 

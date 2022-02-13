@@ -25,7 +25,7 @@ func TestInjectOriginalVersionProperty_InjectsIntoSpec(t *testing.T) {
 	status := test.CreateStatus(test.Pkg2020, "Person")
 	resource := test.CreateResource(test.Pkg2020, "Person", spec, status)
 
-	types := make(astmodel.Types)
+	types := make(astmodel.TypeDefinitionSet)
 	types.AddAll(resource, status, spec)
 
 	injectOriginalProperty := InjectOriginalVersionProperty()
@@ -54,7 +54,7 @@ func TestInjectOriginalVersionProperty_WhenOriginalVersionFunctionFound_DoesNotI
 	spec, err := fnInjector.Inject(spec, functions.NewOriginalVersionFunction(idFactory))
 	g.Expect(err).To(Succeed())
 
-	types := make(astmodel.Types)
+	types := make(astmodel.TypeDefinitionSet)
 	types.AddAll(resource, status, spec)
 
 	injectOriginalProperty := InjectOriginalVersionProperty()

@@ -33,7 +33,7 @@ func filterTypes(
 	state *State) (*State, error) {
 
 	renames := make(map[astmodel.TypeName]astmodel.TypeName)
-	resourcesToExport := make(astmodel.Types)
+	resourcesToExport := make(astmodel.TypeDefinitionSet)
 	for _, def := range astmodel.FindResourceTypes(state.Types()) {
 		defName := def.Name()
 

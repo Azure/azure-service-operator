@@ -22,7 +22,7 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 	return MakeLegacyStage(
 		"exportControllerResourceRegistrations",
 		fmt.Sprintf("Export resource registrations to %q", outputPath),
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			// If the configuration doesn't specify an output destination for us, just do nothing
 			if outputPath == "" {
 				return types, nil
@@ -95,7 +95,7 @@ func handleSecretPropertyChains(
 	return indexFunctions, secretPropertyKeys
 }
 
-func catalogSecretPropertyChains(def astmodel.TypeDefinition, allTypes astmodel.Types) ([][]*astmodel.PropertyDefinition, error) {
+func catalogSecretPropertyChains(def astmodel.TypeDefinition, allTypes astmodel.TypeDefinitionSet) ([][]*astmodel.PropertyDefinition, error) {
 	indexBuilder := &indexFunctionBuilder{}
 
 	visitor := astmodel.TypeVisitorBuilder{

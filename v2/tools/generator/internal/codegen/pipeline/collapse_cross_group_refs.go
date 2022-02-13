@@ -22,9 +22,9 @@ func CollapseCrossGroupReferences() Stage {
 	return MakeLegacyStage(
 		CollapseCrossGroupReferencesStageID,
 		"Find and remove cross group references",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			resources := astmodel.FindResourceTypes(types)
-			result := make(astmodel.Types)
+			result := make(astmodel.TypeDefinitionSet)
 
 			for name, def := range resources {
 				walker := newTypeWalker(types, name)
@@ -45,7 +45,7 @@ func CollapseCrossGroupReferences() Stage {
 		})
 }
 
-func newTypeWalker(types astmodel.Types, resourceName astmodel.TypeName) *astmodel.TypeWalker {
+func newTypeWalker(types astmodel.TypeDefinitionSet, resourceName astmodel.TypeName) *astmodel.TypeWalker {
 	visitor := astmodel.TypeVisitorBuilder{}.Build()
 	walker := astmodel.NewTypeWalker(types, visitor)
 	walker.AfterVisit = func(original astmodel.TypeDefinition, updated astmodel.TypeDefinition, ctx interface{}) (astmodel.TypeDefinition, error) {

@@ -21,7 +21,7 @@ func AddStatusConditions(idFactory astmodel.IdentifierFactory) Stage {
 		"Add the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources",
 		func(ctx context.Context, state *State) (*State, error) {
 			defs := state.Types()
-			result := make(astmodel.Types)
+			result := make(astmodel.TypeDefinitionSet)
 
 			propInjector := astmodel.NewPropertyInjector()
 			statusDefs := astmodel.FindStatusTypes(defs)

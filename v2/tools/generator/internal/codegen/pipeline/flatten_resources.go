@@ -18,7 +18,7 @@ func FlattenResources() Stage {
 	return MakeLegacyStage(
 		"flattenResources",
 		"Flatten nested resource types",
-		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			flattenEachResource := func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
 				// visit inner types:
 				visited, err := astmodel.IdentityVisitOfResourceType(this, it, ctx)
@@ -38,7 +38,7 @@ func FlattenResources() Stage {
 				VisitResourceType: flattenEachResource,
 			}.Build()
 
-			results := make(astmodel.Types)
+			results := make(astmodel.TypeDefinitionSet)
 
 			for _, def := range defs {
 
@@ -54,7 +54,7 @@ func FlattenResources() Stage {
 		})
 }
 
-func flattenResource(defs astmodel.Types, t astmodel.Type) (astmodel.Type, error) {
+func flattenResource(defs astmodel.TypeDefinitionSet, t astmodel.Type) (astmodel.Type, error) {
 	if resource, ok := t.(*astmodel.ResourceType); ok {
 
 		changed := false

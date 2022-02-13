@@ -48,8 +48,8 @@ func AddSecrets(config *config.Configuration) Stage {
 		RequiresPostrequisiteStages(CreateARMTypesStageID)
 }
 
-func applyConfigSecretOverrides(config *config.Configuration, types astmodel.Types) (astmodel.Types, error) {
-	result := make(astmodel.Types)
+func applyConfigSecretOverrides(config *config.Configuration, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+	result := make(astmodel.TypeDefinitionSet)
 
 	applyConfigSecrets := func(_ *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 		typeName := ctx.(astmodel.TypeName)
@@ -79,7 +79,7 @@ func applyConfigSecretOverrides(config *config.Configuration, types astmodel.Typ
 	return result, nil
 }
 
-func transformSpecSecrets(types astmodel.Types) (astmodel.Types, error) {
+func transformSpecSecrets(types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 	specVisitor := astmodel.TypeVisitorBuilder{
 		VisitObjectType: transformSecretProperties,
 	}.Build()
@@ -89,7 +89,7 @@ func transformSpecSecrets(types astmodel.Types) (astmodel.Types, error) {
 		return nil, errors.Wrap(err, "couldn't find all spec types")
 	}
 
-	result := make(astmodel.Types)
+	result := make(astmodel.TypeDefinitionSet)
 
 	for _, def := range specTypes {
 		updatedDef, err := specVisitor.VisitDefinition(def, nil)
@@ -103,7 +103,7 @@ func transformSpecSecrets(types astmodel.Types) (astmodel.Types, error) {
 	return result, nil
 }
 
-func removeStatusSecrets(types astmodel.Types) (astmodel.Types, error) {
+func removeStatusSecrets(types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 	specVisitor := astmodel.TypeVisitorBuilder{
 		VisitObjectType: removeSecretProperties,
 	}.Build()
@@ -113,7 +113,7 @@ func removeStatusSecrets(types astmodel.Types) (astmodel.Types, error) {
 		return nil, errors.Wrap(err, "couldn't find all status types")
 	}
 
-	result := make(astmodel.Types)
+	result := make(astmodel.TypeDefinitionSet)
 
 	for _, def := range statusTypes {
 		updatedDef, err := specVisitor.VisitDefinition(def, nil)

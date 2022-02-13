@@ -25,7 +25,7 @@ func RemoveTypeAliases() Stage {
 	return MakeLegacyStage(
 		RemoveTypeAliasesStageID,
 		"Remove type aliases",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			simplifyAliases := func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
 				return resolveTypeName(this, it, types)
 			}
@@ -34,7 +34,7 @@ func RemoveTypeAliases() Stage {
 				VisitTypeName: simplifyAliases,
 			}.Build()
 
-			result := make(astmodel.Types)
+			result := make(astmodel.TypeDefinitionSet)
 
 			var errs []error
 			for _, typeDef := range types {
@@ -54,7 +54,7 @@ func RemoveTypeAliases() Stage {
 		})
 }
 
-func resolveTypeName(visitor *astmodel.TypeVisitor, name astmodel.TypeName, types astmodel.Types) (astmodel.Type, error) {
+func resolveTypeName(visitor *astmodel.TypeVisitor, name astmodel.TypeName, types astmodel.TypeDefinitionSet) (astmodel.Type, error) {
 	def, ok := types[name]
 	if !ok {
 		return nil, errors.Errorf("couldn't find definition for type name %s", name)

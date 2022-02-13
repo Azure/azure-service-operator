@@ -19,13 +19,13 @@ type PropertyConverter struct {
 	// visitor is used to apply the modification
 	visitor astmodel.TypeVisitor
 	// types contains all the types for this group
-	types astmodel.Types
+	types astmodel.TypeDefinitionSet
 	// propertyConversions is an ordered list of all our conversion rules for creating storage variants
 	propertyConversions []propertyConversion
 }
 
 // NewPropertyConverter creates a new property converter for modifying object properties
-func NewPropertyConverter(types astmodel.Types) *PropertyConverter {
+func NewPropertyConverter(types astmodel.TypeDefinitionSet) *PropertyConverter {
 	result := &PropertyConverter{
 		types: types,
 	}
