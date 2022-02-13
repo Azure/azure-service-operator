@@ -16,8 +16,8 @@ import (
 // TODO: is simpler and seems to cover all the cases we need.
 // SimpleRecursiveTypeFixer removes circular references from types that refer to themselves directly.
 type SimpleRecursiveTypeFixer struct {
-	visitor  *astmodel.TypeVisitor
-	newTypes astmodel.TypeDefinitionSet
+	visitor        *astmodel.TypeVisitor
+	newDefinitions astmodel.TypeDefinitionSet
 }
 
 type simpleRecursiveTypeFixerContext struct {
@@ -34,7 +34,7 @@ func (c simpleRecursiveTypeFixerContext) WithUnrolledName(name astmodel.TypeName
 
 func NewSimpleRecursiveTypeFixer() *SimpleRecursiveTypeFixer {
 	result := &SimpleRecursiveTypeFixer{
-		newTypes: make(astmodel.TypeDefinitionSet),
+		newDefinitions: make(astmodel.TypeDefinitionSet),
 	}
 
 	visitor := astmodel.TypeVisitorBuilder{
@@ -53,7 +53,7 @@ func (s *SimpleRecursiveTypeFixer) Fix(def astmodel.TypeDefinition) (astmodel.Ty
 
 // Types returns any new types created by this type fixer
 func (s *SimpleRecursiveTypeFixer) Types() astmodel.TypeDefinitionSet {
-	return s.newTypes
+	return s.newDefinitions
 }
 
 func (s *SimpleRecursiveTypeFixer) unrollObjectTypeProperty(ot *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx interface{}) (interface{}, error) {
@@ -88,7 +88,7 @@ func (s *SimpleRecursiveTypeFixer) unrollObjectTypeProperty(ot *astmodel.ObjectT
 	unrolledName := astmodel.MakeTypeName(name.PackageReference, name.Name()+"_Unrolled")
 	unrolledDef := astmodel.MakeTypeDefinition(unrolledName, unrolledType)
 
-	err := s.newTypes.AddAllowDuplicates(unrolledDef)
+	err := s.newDefinitions.AddAllowDuplicates(unrolledDef)
 	if err != nil {
 		return nil, errors.Wrapf(err, "error adding unrolled type %q", name)
 	}

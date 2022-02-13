@@ -65,7 +65,7 @@ func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) 
 	address2021 := test.CreateSimpleResource(test.Pkg2021, "Address")
 	address2021s := test.CreateSimpleResource(test.Pkg2021s, "Address")
 
-	// Create our set of types
+	// Create our set of definitions
 	types := make(astmodel.TypeDefinitionSet)
 	types.AddAll(person2020, person2021, person2022, address2020, address2021)
 	types.AddAll(person2020s, person2021s, person2022s, address2020s, address2021s)
@@ -120,14 +120,14 @@ func Test_ConversionGraph_WhenRenameConfigured_FindsRenamedType(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	// Create some resources to use for testing.
-	// Need both types and the storage variations
+	// Need both definitions and the storage variations
 	person2020 := test.CreateSimpleResource(test.Pkg2020, "Person")
 	person2020s := test.CreateSimpleResource(test.Pkg2020s, "Person")
 
 	party2021 := test.CreateSimpleResource(test.Pkg2021, "Party")
 	party2021s := test.CreateSimpleResource(test.Pkg2021s, "Party")
 
-	// Create our set of types
+	// Create our set of definitions
 	types := make(astmodel.TypeDefinitionSet)
 	types.AddAll(person2020, party2021)
 	types.AddAll(person2020s, party2021s)
@@ -153,14 +153,14 @@ func Test_ConversionGraph_WhenRenameSpecifiesMissingType_ReturnsError(t *testing
 	g := NewGomegaWithT(t)
 
 	// Create some resources to use for testing.
-	// Need both types and the storage variations
+	// Need both definitions and the storage variations
 	person2020 := test.CreateSimpleResource(test.Pkg2020, "Person")
 	person2020s := test.CreateSimpleResource(test.Pkg2020s, "Person")
 
 	party2021 := test.CreateSimpleResource(test.Pkg2021, "Party")
 	party2021s := test.CreateSimpleResource(test.Pkg2021s, "Party")
 
-	// Create our set of types
+	// Create our set of definitions
 	types := make(astmodel.TypeDefinitionSet)
 	types.AddAll(person2020, party2021)
 	types.AddAll(person2020s, party2021s)
@@ -186,7 +186,7 @@ func Test_ConversionGraph_WhenRenameSpecifiesConflictingType_ReturnsError(t *tes
 	g := NewGomegaWithT(t)
 
 	// Create some resources to use for testing.
-	// Need both types and the storage variations
+	// Need both definitions and the storage variations
 	person2020 := test.CreateSimpleResource(test.Pkg2020, "Person")
 	person2020s := test.CreateSimpleResource(test.Pkg2020s, "Person")
 
@@ -196,7 +196,7 @@ func Test_ConversionGraph_WhenRenameSpecifiesConflictingType_ReturnsError(t *tes
 	party2021 := test.CreateSimpleResource(test.Pkg2021, "Party")
 	party2021s := test.CreateSimpleResource(test.Pkg2021s, "Party")
 
-	// Create our set of types
+	// Create our set of definitions
 	types := make(astmodel.TypeDefinitionSet)
 	types.AddAll(person2020, person2021, party2021)
 	types.AddAll(person2020s, person2021s, party2021s)

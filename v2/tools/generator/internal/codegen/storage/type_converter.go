@@ -18,8 +18,8 @@ import (
 type TypeConverter struct {
 	// visitor used to apply the modification
 	visitor astmodel.TypeVisitor
-	// types contains all the types for this group
-	types astmodel.TypeDefinitionSet
+	// definitions contains all the definitions for this group
+	definitions astmodel.TypeDefinitionSet
 	// conversionGraph is the map of package conversions we use
 	conversionGraph *ConversionGraph
 	// propertyConverter is used to modify properties
@@ -31,7 +31,7 @@ func NewTypeConverter(
 	definitions astmodel.TypeDefinitionSet,
 	conversionGraph *ConversionGraph) *TypeConverter {
 	result := &TypeConverter{
-		types:             definitions,
+		definitions:       definitions,
 		conversionGraph:   conversionGraph,
 		propertyConverter: NewPropertyConverter(definitions),
 	}
@@ -71,7 +71,7 @@ func (t *TypeConverter) convertResourceType(
 	resource *astmodel.ResourceType,
 	ctx interface{}) (astmodel.Type, error) {
 
-	// storage resource types do not need defaulter/validator interfaces, they have no webhooks
+	// storage resource definitions do not need defaulter/validator interfaces, they have no webhooks
 	result := resource.WithoutInterface(astmodel.DefaulterInterfaceName).
 		WithoutInterface(astmodel.ValidatorInterfaceName)
 
@@ -128,7 +128,7 @@ func (t *TypeConverter) redirectTypeNamesToStoragePackage(
 // stripAllValidations removes all validations
 func (t *TypeConverter) stripAllValidations(
 	this *astmodel.TypeVisitor, v *astmodel.ValidatedType, ctx interface{}) (astmodel.Type, error) {
-	// strip all type validations from storage types,
+	// strip all type validations from storage definitions,
 	// act as if they do not exist
 	return this.Visit(v.ElementType(), ctx)
 }
@@ -139,7 +139,7 @@ func (t *TypeConverter) stripAllFlags(
 	flaggedType *astmodel.FlaggedType,
 	ctx interface{}) (astmodel.Type, error) {
 	if flaggedType.HasFlag(astmodel.ARMFlag) {
-		// We don't want to do anything with ARM types
+		// We don't want to do anything with ARM definitions
 		return flaggedType, nil
 	}
 

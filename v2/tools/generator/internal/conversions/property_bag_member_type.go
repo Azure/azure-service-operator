@@ -17,7 +17,7 @@ import (
 // PropertyBagMemberType is a wrapper type for properties that are stored-in/recalled-from a PropertyBag
 // Using this custom type allows us to cleanly define endpoints that read-from/write-to the property bag without needing
 // to introduce special cases through the conversions package. Instead, code generation of the conversion steps now
-// naturally falls out of the usual flow - the endpoints contain types, and handlers for those types pick up the context
+// naturally falls out of the usual flow - the endpoints contain definitions, and handlers for those definitions pick up the context
 // and generate the required code.
 type PropertyBagMemberType struct {
 	// element is the wrapped type of the property
@@ -54,7 +54,7 @@ func (b *PropertyBagMemberType) RequiredPackageReferences() *astmodel.PackageRef
 	return b.element.RequiredPackageReferences()
 }
 
-// References returns the names of all types that the element type we wrap references.
+// References returns the names of all definitions that the element type we wrap references.
 func (b *PropertyBagMemberType) References() astmodel.TypeNameSet {
 	return b.element.References()
 }
@@ -86,8 +86,8 @@ func (b *PropertyBagMemberType) String() string {
 }
 
 // WriteDebugDescription adds a description of the current type to the passed builder
-// builder receives the full description, including nested types
-// types is a dictionary for resolving named types
+// builder receives the full description, including nested definitions
+// definitions is a dictionary for resolving named definitions
 func (b *PropertyBagMemberType) WriteDebugDescription(builder *strings.Builder, definitions astmodel.TypeDefinitionSet) {
 	builder.WriteString("Bag[")
 	b.element.WriteDebugDescription(builder, definitions)

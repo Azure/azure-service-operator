@@ -43,7 +43,7 @@ func (graph *ConversionGraph) LookupTransition(ref astmodel.PackageReference) (a
 // goes wrong.
 // If the name passed in is for the hub type for the given resource, no next type will be found.
 // This is used to identify the next type needed for property assignment functions, and is a building block for
-// identification of hub types.
+// identification of hub definitions.
 func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, definitions astmodel.TypeDefinitionSet) (astmodel.TypeName, error) {
 
 	// Find the next package to consider
@@ -153,7 +153,7 @@ func (graph *ConversionGraph) TransitionCount() int {
 // When implemented, property renames need to be respected as well (this is why the method has been implemented here).
 // declaringType is the type containing the property.
 // property is the name of the property.
-// types is a set of known types.
+// definitions is a set of known definitions.
 //
 func (graph *ConversionGraph) FindNextProperty(
 	ref astmodel.PropertyReference,

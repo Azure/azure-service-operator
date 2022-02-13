@@ -58,9 +58,9 @@ func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 				return nil, errors.Wrapf(err, "unable to load Swagger data")
 			}
 
-			klog.V(1).Infof("Loaded Swagger data (%d resources, %d other definitions)", len(swaggerTypes.ResourceTypes), len(swaggerTypes.OtherTypes))
+			klog.V(1).Infof("Loaded Swagger data (%d resources, %d other definitions)", len(swaggerTypes.ResourceDefinitions), len(swaggerTypes.OtherDefinitions))
 
-			if len(swaggerTypes.ResourceTypes) == 0 || len(swaggerTypes.OtherTypes) == 0 {
+			if len(swaggerTypes.ResourceDefinitions) == 0 || len(swaggerTypes.OtherDefinitions) == 0 {
 				return nil, errors.Errorf("Failed to load swagger information")
 			}
 
@@ -74,7 +74,7 @@ func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 			// all non-resources from Swagger are added regardless of whether they are used
 			// if they are not used they will be pruned off by a later pipeline stage
 			// (there will be no name clashes here due to suffixing with "_Status")
-			newTypes.AddTypes(statusTypes.otherTypes)
+			newTypes.AddTypes(statusTypes.otherDefinitions)
 
 			matchedResources := 0
 			// find any resources and update them with status info
@@ -104,8 +104,8 @@ type statusTypes struct {
 	// the typeName is lowercased to be case-insensitive
 	resourceTypes resourceLookup
 
-	// otherTypes has all other Status types renamed to avoid clashes with Spec types
-	otherTypes astmodel.TypeDefinitionSet
+	// otherDefinitions has all other Status types renamed to avoid clashes with Spec types
+	otherDefinitions astmodel.TypeDefinitionSet
 }
 
 func (st statusTypes) findResourceType(typeName astmodel.TypeName) (astmodel.Type, bool) {
@@ -151,14 +151,14 @@ func appendStatusSuffix(typeName astmodel.TypeName) astmodel.TypeName {
 // all types (apart from Resources) are renamed to have "_Status" as a
 // suffix, to avoid name clashes.
 func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (statusTypes, error) {
-	otherTypes, err := statusTypeRenamer.RenameAll(swaggerTypes.OtherTypes)
+	otherTypes, err := statusTypeRenamer.RenameAll(swaggerTypes.OtherDefinitions)
 	if err != nil {
 		return statusTypes{}, err
 	}
 
 	resources := make(resourceLookup)
 	var errs []error
-	for resourceName, resourceDef := range swaggerTypes.ResourceTypes {
+	for resourceName, resourceDef := range swaggerTypes.ResourceDefinitions {
 		// resourceName is not renamed as this is a lookup for the Spec type
 		var renamedType astmodel.Type
 		renamedType, err = statusTypeRenamer.Rename(resourceDef.Type())
@@ -211,15 +211,15 @@ func mergeSwaggerTypesByGroup(idFactory astmodel.IdentifierFactory, m map[astmod
 	klog.V(3).Infof("Merging types for %d groups/versions", len(m))
 
 	result := jsonast.SwaggerTypes{
-		ResourceTypes: make(astmodel.TypeDefinitionSet),
-		OtherTypes:    make(astmodel.TypeDefinitionSet),
+		ResourceDefinitions: make(astmodel.TypeDefinitionSet),
+		OtherDefinitions:    make(astmodel.TypeDefinitionSet),
 	}
 
 	for pkg, group := range m {
 		klog.V(3).Infof("Merging types for %s", pkg)
 		merged := mergeTypesForPackage(idFactory, group)
-		result.ResourceTypes.AddTypes(merged.ResourceTypes)
-		err := result.OtherTypes.AddTypesAllowDuplicates(merged.OtherTypes)
+		result.ResourceDefinitions.AddTypes(merged.ResourceDefinitions)
+		err := result.OtherDefinitions.AddTypesAllowDuplicates(merged.OtherDefinitions)
 		if err != nil {
 			return result, errors.Wrapf(err, "when combining swagger types for %s", pkg)
 		}
@@ -247,7 +247,7 @@ func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles [
 
 	typeNameCounts := make(map[astmodel.TypeName]int)
 	for _, typesFromFile := range typesFromFiles {
-		for name := range typesFromFile.OtherTypes {
+		for name := range typesFromFile.OtherDefinitions {
 			typeNameCounts[name] += 1
 		}
 	}
@@ -281,18 +281,18 @@ func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles [
 		}
 	}
 
-	mergedResult := jsonast.SwaggerTypes{ResourceTypes: make(astmodel.TypeDefinitionSet), OtherTypes: make(astmodel.TypeDefinitionSet)}
+	mergedResult := jsonast.SwaggerTypes{ResourceDefinitions: make(astmodel.TypeDefinitionSet), OtherDefinitions: make(astmodel.TypeDefinitionSet)}
 	for _, typesFromFile := range typesFromFiles {
-		for _, t := range typesFromFile.OtherTypes {
+		for _, t := range typesFromFile.OtherDefinitions {
 			// for consistent results we always sort typesFromFiles first (at top of this function)
 			// so that we always pick the same one when there are multiple
-			_ = mergedResult.OtherTypes.AddAllowDuplicates(t)
+			_ = mergedResult.OtherDefinitions.AddAllowDuplicates(t)
 			// errors ignored since we already checked for structural equality
 			// it’s possible for types to refer to different typenames in which case they are not TypeEquals Equal
 			// but they might be structurally equal
 		}
 
-		err := mergedResult.ResourceTypes.AddTypesAllowDuplicates(typesFromFile.ResourceTypes)
+		err := mergedResult.ResourceDefinitions.AddTypesAllowDuplicates(typesFromFile.ResourceDefinitions)
 		if err != nil {
 			panic(fmt.Sprintf("merging file %s: %s", typesFromFile.filePath, err.Error()))
 		}
@@ -316,7 +316,7 @@ func findCollidingTypeNames(typesFromFiles []typesFromFile, name astmodel.TypeNa
 
 	typesToCheck := make([]typeAndSource, 0, duplicateCount)
 	for typesIx, types := range typesFromFiles {
-		if def, ok := types.OtherTypes[name]; ok {
+		if def, ok := types.OtherDefinitions[name]; ok {
 			typesToCheck = append(typesToCheck, typeAndSource{def: def, typesFromFileIx: typesIx})
 			// short-circuit
 			if len(typesToCheck) == duplicateCount {
@@ -329,9 +329,9 @@ func findCollidingTypeNames(typesFromFiles []typesFromFile, name astmodel.TypeNa
 	for _, other := range typesToCheck[1:] {
 		if !structurallyIdentical(
 			first.def.Type(),
-			typesFromFiles[first.typesFromFileIx].OtherTypes,
+			typesFromFiles[first.typesFromFileIx].OtherDefinitions,
 			other.def.Type(),
-			typesFromFiles[other.typesFromFileIx].OtherTypes,
+			typesFromFiles[other.typesFromFileIx].OtherDefinitions,
 		) {
 			if name != first.def.Name() || name != other.def.Name() {
 				panic("assert")
@@ -384,19 +384,19 @@ func applyRenames(renames map[astmodel.TypeName]astmodel.TypeName, typesFromFile
 	visitor := astmodel.NewRenamingVisitor(renames)
 
 	// visit all other types
-	newOtherTypes, err := visitor.RenameAll(typesFromFile.OtherTypes)
+	newOtherTypes, err := visitor.RenameAll(typesFromFile.OtherDefinitions)
 	if err != nil {
 		panic(err)
 	}
 
 	// visit all resource types
-	newResourceTypes, err := visitor.RenameAll(typesFromFile.ResourceTypes)
+	newResourceTypes, err := visitor.RenameAll(typesFromFile.ResourceDefinitions)
 	if err != nil {
 		panic(err)
 	}
 
-	typesFromFile.OtherTypes = newOtherTypes
-	typesFromFile.ResourceTypes = newResourceTypes
+	typesFromFile.OtherDefinitions = newOtherTypes
+	typesFromFile.ResourceDefinitions = newResourceTypes
 	return typesFromFile
 }
 
@@ -404,9 +404,9 @@ func applyRenames(renames map[astmodel.TypeName]astmodel.TypeName, typesFromFile
 // all the way to their leaf nodes (recursing into TypeNames)
 func structurallyIdentical(
 	leftType astmodel.Type,
-	leftTypes astmodel.TypeDefinitionSet,
+	leftDefinitions astmodel.TypeDefinitionSet,
 	rightType astmodel.Type,
-	rightTypes astmodel.TypeDefinitionSet) bool {
+	rightDefinitions astmodel.TypeDefinitionSet) bool {
 
 	// we cannot simply recurse when we hit TypeNames as there can be cycles in types.
 	// instead we store all TypeNames that need to be checked in here, and
@@ -438,8 +438,8 @@ func structurallyIdentical(
 		next := toCheck[0]
 		toCheck = toCheck[1:]
 		if !astmodel.TypeEquals(
-			leftTypes[next.left].Type(),
-			rightTypes[next.right].Type(),
+			leftDefinitions[next.left].Type(),
+			rightDefinitions[next.right].Type(),
 			override) {
 			return false
 		}

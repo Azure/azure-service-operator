@@ -13,8 +13,8 @@ import (
 // PropertyConversionContext captures additional supporting information that may be needed when a
 // storage conversion factory creates a conversion
 type PropertyConversionContext struct {
-	// types is a map of all known type definitions, used to resolve TypeNames to actual types
-	types astmodel.TypeDefinitionSet
+	// definitions is a map of all known type definitions, used to resolve TypeNames to actual definitions
+	definitions astmodel.TypeDefinitionSet
 	// functionName is the name of the function we're currently generating
 	functionName string
 	// direction is the direction of the conversion we're generating
@@ -33,7 +33,7 @@ func NewPropertyConversionContext(
 	idFactory astmodel.IdentifierFactory,
 	configuration *config.ObjectModelConfiguration) *PropertyConversionContext {
 	return &PropertyConversionContext{
-		types:           definitions,
+		definitions:     definitions,
 		idFactory:       idFactory,
 		configuration:   configuration,
 		propertyBagName: "",
@@ -45,9 +45,9 @@ func (c *PropertyConversionContext) FunctionName() string {
 	return c.functionName
 }
 
-// Types returns the set of types available in this context
+// Types returns the set of definitions available in this context
 func (c *PropertyConversionContext) Types() astmodel.TypeDefinitionSet {
-	return c.types
+	return c.definitions
 }
 
 // IDFactory returns a reference to our identifier factory
@@ -84,7 +84,7 @@ func (c *PropertyConversionContext) ResolveType(t astmodel.Type) (astmodel.TypeN
 		return astmodel.EmptyTypeName, nil, false
 	}
 
-	actualType, err := c.types.FullyResolve(name)
+	actualType, err := c.definitions.FullyResolve(name)
 	if err != nil {
 		return astmodel.EmptyTypeName, nil, false
 	}
@@ -106,7 +106,7 @@ func (c *PropertyConversionContext) TypeRename(name astmodel.TypeName) (string, 
 // clone returns a new independent copy of this context
 func (c *PropertyConversionContext) clone() *PropertyConversionContext {
 	return &PropertyConversionContext{
-		types:           c.types,
+		definitions:     c.definitions,
 		functionName:    c.functionName,
 		direction:       c.direction,
 		propertyBagName: c.propertyBagName,

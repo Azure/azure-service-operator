@@ -14,12 +14,12 @@ import (
 	"github.com/pkg/errors"
 )
 
-// PropertyConverter is used to convert the properties of object types as required for storage variants
+// PropertyConverter is used to convert the properties of object definitions as required for storage variants
 type PropertyConverter struct {
 	// visitor is used to apply the modification
 	visitor astmodel.TypeVisitor
-	// types contains all the types for this group
-	types astmodel.TypeDefinitionSet
+	// definitions contains all the definitions for this group
+	definitions astmodel.TypeDefinitionSet
 	// propertyConversions is an ordered list of all our conversion rules for creating storage variants
 	propertyConversions []propertyConversion
 }
@@ -27,7 +27,7 @@ type PropertyConverter struct {
 // NewPropertyConverter creates a new property converter for modifying object properties
 func NewPropertyConverter(definitions astmodel.TypeDefinitionSet) *PropertyConverter {
 	result := &PropertyConverter{
-		types: definitions,
+		definitions: definitions,
 	}
 
 	result.propertyConversions = []propertyConversion{
@@ -63,7 +63,7 @@ func (p *PropertyConverter) ConvertProperty(property *astmodel.PropertyDefinitio
 	return nil, fmt.Errorf(
 		"failed to find a conversion for property %s (%s)",
 		property.PropertyName(),
-		astmodel.DebugDescription(property.PropertyType(), p.types))
+		astmodel.DebugDescription(property.PropertyType(), p.definitions))
 }
 
 // stripAllValidations removes all validations
@@ -83,7 +83,7 @@ func (p *PropertyConverter) useBaseTypeForEnumerations(
 // shortCircuitNamesOfSimpleTypes redirects or replaces TypeNames
 //   o  If a TypeName points into an API package, it is redirected into the appropriate storage package
 //   o  If a TypeName references an enumeration, it is replaced with the underlying type of the enumeration as our
-//      storage types don't use enumerations, they use primitive types
+//      storage definitions don't use enumerations, they use primitive definitions
 //   o  If a TypeName references an alias for a primitive type (these are used to specify validations), it is replace
 //      with the primitive type
 func (p *PropertyConverter) shortCircuitNamesOfSimpleTypes(
@@ -94,7 +94,7 @@ func (p *PropertyConverter) shortCircuitNamesOfSimpleTypes(
 		return tn, nil
 	}
 
-	actualType, err := p.types.FullyResolve(tn)
+	actualType, err := p.definitions.FullyResolve(tn)
 	if err != nil {
 		// Can't resolve to underlying type, give up
 		return nil, err

@@ -17,13 +17,13 @@ import (
 )
 
 type renamer struct {
-	types astmodel.TypeDefinitionSet
+	definitions astmodel.TypeDefinitionSet
 }
 
 type renameAction func(original astmodel.TypeName, associatedNames astmodel.TypeNameSet) (astmodel.TypeAssociation, error)
 
 func (r renamer) simplifyEmbeddedNameToOriginalName(original astmodel.TypeName, associatedNames astmodel.TypeNameSet) (astmodel.TypeAssociation, error) {
-	_, originalExists := r.types[original]
+	_, originalExists := r.definitions[original]
 	if originalExists || len(associatedNames) != 1 {
 		return nil, nil
 	}
@@ -55,7 +55,7 @@ func (r renamer) simplifyEmbeddedNameRemoveContextAndCount(_ astmodel.TypeName, 
 }
 
 func (r renamer) simplifyEmbeddedNameRemoveContext(_ astmodel.TypeName, associatedNames astmodel.TypeNameSet) (astmodel.TypeAssociation, error) {
-	// Gather information about the associated types
+	// Gather information about the associated definitions
 	associatedCountPerContext := make(map[string]int)
 	for associated := range associatedNames {
 		embeddedName, err := parseContextualTypeName(associated)
@@ -117,12 +117,12 @@ func (r renamer) performRenames(
 		},
 	}.Build()
 
-	for _, def := range r.types {
+	for _, def := range r.definitions {
 		updatedDef, err := renamingVisitor.VisitDefinition(def, nil)
 		if err != nil {
 			return nil, err
 		}
-		// TODO: If we don't remove this, something is causing these types to not be emitted.
+		// TODO: If we don't remove this, something is causing these definitions to not be emitted.
 		// TODO: Unsure what that is... should track it down
 		updatedType, err := flag.RemoveFrom(updatedDef.Type())
 		if err != nil {
@@ -153,7 +153,7 @@ func simplifyTypeNames(definitions astmodel.TypeDefinitionSet, flag astmodel.Typ
 		}
 	}
 
-	r := renamer{types: definitions}
+	r := renamer{definitions: definitions}
 	renameActions := []renameAction{
 		r.simplifyEmbeddedNameToOriginalName,
 		r.simplifyEmbeddedNameRemoveContextAndCount,

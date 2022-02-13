@@ -16,16 +16,16 @@ import (
 )
 
 type resourceRemovalVisitorContext struct {
-	resource      astmodel.TypeName
-	depth         int
-	modifiedTypes astmodel.TypeDefinitionSet
+	resource            astmodel.TypeName
+	depth               int
+	modifiedDefinitions astmodel.TypeDefinitionSet
 }
 
 func (e resourceRemovalVisitorContext) WithMoreDepth() resourceRemovalVisitorContext {
 	e.depth += 1
 
-	// Note that e.modifiedTypes is a pointer and so is shared between all instances
-	// in order to allow tracking what types have been modified.
+	// Note that e.modifiedDefinitions is a pointer and so is shared between all instances
+	// in order to allow tracking what definitions have been modified.
 	return e
 }
 
@@ -51,8 +51,8 @@ func (e resourceRemovalVisitorContext) WithMoreDepth() resourceRemovalVisitorCon
 //    given parent via a label. An example of this type of embedding is
 //    v20180601 Microsoft.Networking RouteTable.Spec.Properties.Routes. The Routes property is of type RouteTableRoutes
 //    which is a child resource of RouteTable.
-// Note that even though the above examples do not include Status types, the same rules apply to Status types, with
-// the only difference being that for Status types the resource reference in Swagger (the source of the Status types)
+// Note that even though the above examples do not include Status definitions, the same rules apply to Status definitions, with
+// the only difference being that for Status definitions the resource reference in Swagger (the source of the Status definitions)
 // is to the Status type (as opposed to the "Properties" type for Spec).
 type EmbeddedResourceRemover struct {
 	types                    astmodel.TypeDefinitionSet
@@ -186,7 +186,7 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.T
 		exists := false
 		for count := 0; ; count++ {
 			newName = embeddedResourceTypeName{original: original.Name(), context: typedCtx.resource.Name(), suffix: e.typeSuffix, count: count}.ToTypeName()
-			existing, ok := typedCtx.modifiedTypes[newName]
+			existing, ok := typedCtx.modifiedDefinitions[newName]
 			if !ok {
 				break
 			}
@@ -199,7 +199,7 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.T
 		updated = updated.WithName(newName)
 		updated = updated.WithType(flaggedType)
 		if !exists {
-			typedCtx.modifiedTypes.Add(updated)
+			typedCtx.modifiedDefinitions.Add(updated)
 		}
 
 		klog.V(5).Infof("Updating %q to %q", original.Name(), updated.Name())
@@ -234,7 +234,7 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.T
 
 	typeWalker.MakeContext = func(it astmodel.TypeName, ctx interface{}) (interface{}, error) {
 		if ctx == nil {
-			return resourceRemovalVisitorContext{resource: def.Name(), depth: 0, modifiedTypes: make(astmodel.TypeDefinitionSet)}, nil
+			return resourceRemovalVisitorContext{resource: def.Name(), depth: 0, modifiedDefinitions: make(astmodel.TypeDefinitionSet)}, nil
 		}
 		typedCtx := ctx.(resourceRemovalVisitorContext)
 		return typedCtx.WithMoreDepth(), nil
@@ -415,7 +415,7 @@ func requiredResourceProperties() []string {
 }
 
 // optionalResourceProperties are properties which may or may not be on a resource. Technically all resources
-// should have all of these properties, but because we drop the top-level AllOf that joins resource types with
+// should have all of these properties, but because we drop the top-level AllOf that joins resource definitions with
 // ResourceBase when parsing schemas sometimes they aren't defined.
 func optionalResourceProperties() []string {
 	return []string{
