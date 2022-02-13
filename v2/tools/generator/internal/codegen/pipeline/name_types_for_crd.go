@@ -19,23 +19,23 @@ func NameTypesForCRD(idFactory astmodel.IdentifierFactory) Stage {
 	return MakeLegacyStage(
 		"nameTypes",
 		"Name inner types for CRD",
-		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			result := make(astmodel.TypeDefinitionSet)
 
 			// this is a little bit of a hack, better way to do it?
 			getDescription := func(typeName astmodel.TypeName) []string {
-				if typeDef, ok := types[typeName]; ok {
+				if typeDef, ok := definitions[typeName]; ok {
 					return typeDef.Description()
 				}
 
 				return []string{}
 			}
 
-			for typeName, typeDef := range types {
+			for typeName, typeDef := range definitions {
 
 				newDefs, err := nameInnerTypes(typeDef, idFactory, getDescription)
 				if err != nil {
-					return nil, errors.Wrapf(err, "failed to name inner types")
+					return nil, errors.Wrapf(err, "failed to name inner definitions")
 				}
 
 				for _, newDef := range newDefs {

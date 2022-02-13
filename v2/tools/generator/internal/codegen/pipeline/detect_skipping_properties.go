@@ -81,11 +81,11 @@ type skippingPropertyDetector struct {
 // versions of a resource or object.
 // types is a set of all known types.
 // conversionGraph contains every conversion/transition between versions.
-func newSkippingPropertyDetector(types astmodel.TypeDefinitionSet, conversionGraph *storage.ConversionGraph) *skippingPropertyDetector {
+func newSkippingPropertyDetector(definitions astmodel.TypeDefinitionSet, conversionGraph *storage.ConversionGraph) *skippingPropertyDetector {
 	return &skippingPropertyDetector{
 		links:              make(map[astmodel.PropertyReference]astmodel.PropertyReference),
 		observedProperties: astmodel.NewPropertyReferenceSet(),
-		types:              types,
+		types:              definitions,
 		conversionGraph:    conversionGraph,
 	}
 }

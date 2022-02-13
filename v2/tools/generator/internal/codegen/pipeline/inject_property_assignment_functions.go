@@ -91,12 +91,12 @@ func NewPropertyAssignmentFunctionsFactory(
 	graph *storage.ConversionGraph,
 	idFactory astmodel.IdentifierFactory,
 	configuration *config.Configuration,
-	types astmodel.TypeDefinitionSet) *propertyAssignmentFunctionsFactory {
+	definitions astmodel.TypeDefinitionSet) *propertyAssignmentFunctionsFactory {
 	return &propertyAssignmentFunctionsFactory{
 		graph:            graph,
 		idFactory:        idFactory,
 		configuration:    configuration,
-		types:            types,
+		types:            definitions,
 		functionInjector: astmodel.NewFunctionInjector(),
 	}
 }

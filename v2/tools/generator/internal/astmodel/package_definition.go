@@ -154,8 +154,8 @@ func (p *PackageDefinition) writeTestFile(
 	return nil
 }
 
-func allocateTypesToFiles(types TypeDefinitionSet) map[string][]TypeDefinition {
-	graph := MakeReferenceGraphWithResourcesAsRoots(types)
+func allocateTypesToFiles(definitions TypeDefinitionSet) map[string][]TypeDefinition {
+	graph := MakeReferenceGraphWithResourcesAsRoots(definitions)
 
 	type Root struct {
 		depth int
@@ -183,7 +183,7 @@ func allocateTypesToFiles(types TypeDefinitionSet) map[string][]TypeDefinition {
 
 	filesToGenerate := make(map[string][]TypeDefinition)
 
-	for _, def := range types {
+	for _, def := range definitions {
 		var fileName string
 		if root, ok := rootFor[def.name]; ok {
 			fileName = FileNameHint(root.name)

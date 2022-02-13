@@ -19,17 +19,17 @@ func ApplyKubernetesResourceInterface(idFactory astmodel.IdentifierFactory) Stag
 	return MakeLegacyStage(
 		"applyKubernetesResourceInterface",
 		"Add the KubernetesResource interface to every resource",
-		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			skip := make(map[astmodel.TypeName]struct{})
 
 			result := make(astmodel.TypeDefinitionSet)
-			for typeName, typeDef := range types {
+			for typeName, typeDef := range definitions {
 				if _, ok := skip[typeName]; ok {
 					continue
 				}
 
 				if resource, ok := typeDef.Type().(*astmodel.ResourceType); ok {
-					newResource, err := interfaces.AddKubernetesResourceInterfaceImpls(typeName, resource, idFactory, types)
+					newResource, err := interfaces.AddKubernetesResourceInterfaceImpls(typeName, resource, idFactory, definitions)
 					if err != nil {
 						return nil, errors.Wrapf(err, "couldn't implement Kubernetes resource interface for %q", typeName)
 					}

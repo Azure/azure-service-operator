@@ -208,7 +208,7 @@ func loadTestSchemaIntoTypes(
 	return pipeline.MakeLegacyStage(
 		"loadTestSchema",
 		"Load and walk schema (test)",
-		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			klog.V(0).Infof("Loading JSON schema %q", source)
 
 			inputFile, err := ioutil.ReadFile(path)

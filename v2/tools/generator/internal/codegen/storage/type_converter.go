@@ -28,12 +28,12 @@ type TypeConverter struct {
 
 // NewTypeConverter creates a new converter for the creating of storage variants
 func NewTypeConverter(
-	types astmodel.TypeDefinitionSet,
+	definitions astmodel.TypeDefinitionSet,
 	conversionGraph *ConversionGraph) *TypeConverter {
 	result := &TypeConverter{
-		types:             types,
+		types:             definitions,
 		conversionGraph:   conversionGraph,
-		propertyConverter: NewPropertyConverter(types),
+		propertyConverter: NewPropertyConverter(definitions),
 	}
 
 	result.visitor = astmodel.TypeVisitorBuilder{

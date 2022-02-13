@@ -52,11 +52,11 @@ func (f *OneOfJSONUnmarshalFunction) References() astmodel.TypeNameSet {
 	return nil
 }
 
-func (f *OneOfJSONUnmarshalFunction) resolveOneOfMemberToObjectType(t astmodel.Type, types astmodel.TypeDefinitionSet) (astmodel.TypeName, *astmodel.ObjectType) {
+func (f *OneOfJSONUnmarshalFunction) resolveOneOfMemberToObjectType(t astmodel.Type, definitions astmodel.TypeDefinitionSet) (astmodel.TypeName, *astmodel.ObjectType) {
 	// OneOfs are expected to contain properties that are:
 	// pointer to typename to objectType
 
-	propType, err := types.FullyResolve(t)
+	propType, err := definitions.FullyResolve(t)
 	if err != nil {
 		panic(err) // type should not contain unresolvable references at this point
 	}
@@ -71,9 +71,9 @@ func (f *OneOfJSONUnmarshalFunction) resolveOneOfMemberToObjectType(t astmodel.T
 		panic("Expected OneOf to have pointer to TypeName")
 	}
 
-	resolvedInnerOptional, err := types.FullyResolve(typeName)
+	resolvedInnerOptional, err := definitions.FullyResolve(typeName)
 	if err != nil {
-		panic(err) // types should not contain unresolvable references at this point
+		panic(err) // definitions should not contain unresolvable references at this point
 	}
 
 	propObjType, ok := resolvedInnerOptional.(*astmodel.ObjectType)
@@ -91,18 +91,18 @@ type propNameAndType struct {
 
 func (f *OneOfJSONUnmarshalFunction) getDiscriminatorMapping(
 	propName astmodel.PropertyName,
-	types astmodel.TypeDefinitionSet) map[string]propNameAndType {
+	definitions astmodel.TypeDefinitionSet) map[string]propNameAndType {
 
 	result := make(map[string]propNameAndType)
 	for _, prop := range f.oneOfObject.Properties() {
-		propObjTypeName, propObjType := f.resolveOneOfMemberToObjectType(prop.PropertyType(), types)
+		propObjTypeName, propObjType := f.resolveOneOfMemberToObjectType(prop.PropertyType(), definitions)
 
 		potentialDiscriminatorProp, ok := propObjType.Property(propName)
 		if !ok {
 			return nil
 		}
 
-		potentialDiscriminatorType, err := types.FullyResolve(potentialDiscriminatorProp.PropertyType())
+		potentialDiscriminatorType, err := definitions.FullyResolve(potentialDiscriminatorProp.PropertyType())
 		if err != nil {
 			panic(err) // should not be unresolvable
 		}
@@ -130,17 +130,17 @@ func (f *OneOfJSONUnmarshalFunction) getDiscriminatorMapping(
 	return result
 }
 
-func (f *OneOfJSONUnmarshalFunction) determineDiscriminant(allTypes astmodel.TypeDefinitionSet) (string, map[string]propNameAndType) {
+func (f *OneOfJSONUnmarshalFunction) determineDiscriminant(definitions astmodel.TypeDefinitionSet) (string, map[string]propNameAndType) {
 	// grab out the first member of the OneOf
 	var firstMember *astmodel.ObjectType
 	for _, prop := range f.oneOfObject.Properties() {
-		_, firstMember = f.resolveOneOfMemberToObjectType(prop.PropertyType(), allTypes)
+		_, firstMember = f.resolveOneOfMemberToObjectType(prop.PropertyType(), definitions)
 		break
 	}
 
 	// try to find a discriminator property out of the properties on the first member
 	for _, prop := range firstMember.Properties() {
-		mapping := f.getDiscriminatorMapping(prop.PropertyName(), allTypes)
+		mapping := f.getDiscriminatorMapping(prop.PropertyName(), definitions)
 		if mapping != nil {
 			jsonTag, ok := prop.Tag("json")
 			if !ok {

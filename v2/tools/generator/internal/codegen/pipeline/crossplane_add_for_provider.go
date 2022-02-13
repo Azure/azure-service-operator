@@ -20,21 +20,21 @@ func AddCrossplaneForProvider(idFactory astmodel.IdentifierFactory) Stage {
 	return MakeLegacyStage(
 		"addCrossplaneForProviderProperty",
 		"Add a 'ForProvider' property on every spec",
-		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			result := make(astmodel.TypeDefinitionSet)
-			for _, typeDef := range types {
+			for _, typeDef := range definitions {
 				if _, ok := astmodel.AsResourceType(typeDef.Type()); ok {
 					forProviderTypes, err := nestSpecIntoForProvider(
-						idFactory, types, typeDef)
+						idFactory, definitions, typeDef)
 					if err != nil {
-						return nil, errors.Wrapf(err, "creating 'ForProvider' types")
+						return nil, errors.Wrapf(err, "creating 'ForProvider' definitions")
 					}
 
 					result.AddAll(forProviderTypes...)
 				}
 			}
 
-			unmodified := types.Except(result)
+			unmodified := definitions.Except(result)
 			result.AddTypes(unmodified)
 
 			return result, nil
@@ -45,7 +45,7 @@ func AddCrossplaneForProvider(idFactory astmodel.IdentifierFactory) Stage {
 // into a property named "ForProvider" whose type is "<name>Parameters"
 func nestSpecIntoForProvider(
 	idFactory astmodel.IdentifierFactory,
-	types astmodel.TypeDefinitionSet,
+	definitions astmodel.TypeDefinitionSet,
 	typeDef astmodel.TypeDefinition) ([]astmodel.TypeDefinition, error) {
 
 	resource, ok := astmodel.AsResourceType(typeDef.Type())
@@ -59,12 +59,12 @@ func nestSpecIntoForProvider(
 		return nil, errors.Errorf("resource %q spec was not of type TypeName, instead: %T", resourceName, resource.SpecType())
 	}
 
-	// In the case where a spec type is reused across multiple resource types, we need to make sure
+	// In the case where a spec type is reused across multiple resource definitions, we need to make sure
 	// to generate the same names for all of their nested properties, so base the nested type name off the
 	// spec type name
 	nestedTypeName := strings.Split(specName.Name(), "_")[0] + "Parameters"
 	nestedPropertyName := "ForProvider"
-	return nestType(idFactory, types, specName, nestedTypeName, nestedPropertyName)
+	return nestType(idFactory, definitions, specName, nestedTypeName, nestedPropertyName)
 }
 
 // nestType nests the contents of the provided outerType into a property with the given nestedPropertyName whose
@@ -75,12 +75,12 @@ func nestSpecIntoForProvider(
 // }
 func nestType(
 	idFactory astmodel.IdentifierFactory,
-	types astmodel.TypeDefinitionSet,
+	definitions astmodel.TypeDefinitionSet,
 	outerTypeName astmodel.TypeName,
 	nestedTypeName string,
 	nestedPropertyName string) ([]astmodel.TypeDefinition, error) {
 
-	outerType, ok := types[outerTypeName]
+	outerType, ok := definitions[outerTypeName]
 	if !ok {
 		return nil, errors.Errorf("couldn't find type %q", outerTypeName)
 	}

@@ -45,10 +45,10 @@ func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 	return MakeLegacyStage(
 		"addStatusFromSwagger",
 		"Add information from Swagger specs for 'status' fields",
-		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			if config.Status.SchemaRoot == "" {
 				klog.Warningf("No status schema root specified, will not generate status types")
-				return types, nil
+				return definitions, nil
 			}
 
 			klog.V(1).Infof("Loading Swagger data from %q", config.Status.SchemaRoot)
@@ -58,7 +58,7 @@ func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 				return nil, errors.Wrapf(err, "unable to load Swagger data")
 			}
 
-			klog.V(1).Infof("Loaded Swagger data (%d resources, %d other types)", len(swaggerTypes.ResourceTypes), len(swaggerTypes.OtherTypes))
+			klog.V(1).Infof("Loaded Swagger data (%d resources, %d other definitions)", len(swaggerTypes.ResourceTypes), len(swaggerTypes.OtherTypes))
 
 			if len(swaggerTypes.ResourceTypes) == 0 || len(swaggerTypes.OtherTypes) == 0 {
 				return nil, errors.Errorf("Failed to load swagger information")
@@ -69,7 +69,7 @@ func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 				return nil, err
 			}
 
-			// put all types into a new set
+			// put all definitions into a new set
 			newTypes := make(astmodel.TypeDefinitionSet)
 			// all non-resources from Swagger are added regardless of whether they are used
 			// if they are not used they will be pruned off by a later pipeline stage
@@ -78,7 +78,7 @@ func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 
 			matchedResources := 0
 			// find any resources and update them with status info
-			for typeName, typeDef := range types {
+			for typeName, typeDef := range definitions {
 				if resource, ok := typeDef.Type().(*astmodel.ResourceType); ok {
 					// find the status type (= Swagger resource type)
 					newStatus, located := statusTypes.findResourceType(typeName)
@@ -93,7 +93,7 @@ func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 			}
 
 			klog.V(1).Infof("Found status information for %d resources", matchedResources)
-			klog.V(1).Infof("Input %d types, output %d types", len(types), len(newTypes))
+			klog.V(1).Infof("Input %d definitions, output %d definitions", len(definitions), len(newTypes))
 
 			return newTypes, nil
 		})

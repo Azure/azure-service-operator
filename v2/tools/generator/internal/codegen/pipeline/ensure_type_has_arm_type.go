@@ -20,8 +20,8 @@ func EnsureARMTypeExistsForEveryResource() Stage {
 	return MakeLegacyStage(
 		"ensureArmTypeExistsForEveryType",
 		"Check that an ARM type exists for both Spec and Status of each resource",
-		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			return types, validateExpectedTypesHaveARMType(types)
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+			return definitions, validateExpectedTypesHaveARMType(definitions)
 		})
 }
 

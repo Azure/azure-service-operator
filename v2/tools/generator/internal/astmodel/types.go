@@ -78,8 +78,8 @@ func (set TypeDefinitionSet) AddAll(otherDefinitions ...TypeDefinition) {
 }
 
 // AddTypes adds multiple types to the set, with the same safety check as Add() to panic if a duplicate is included
-func (set TypeDefinitionSet) AddTypes(otherTypes TypeDefinitionSet) {
-	for _, t := range otherTypes {
+func (set TypeDefinitionSet) AddTypes(definitions TypeDefinitionSet) {
+	for _, t := range definitions {
 		set.Add(t)
 	}
 }
@@ -87,8 +87,8 @@ func (set TypeDefinitionSet) AddTypes(otherTypes TypeDefinitionSet) {
 // AddTypesAllowDuplicates adds multiple types to the set.
 // Multiple adds of a type with the same shape are allowed, but attempting to add two
 // types with the same name but different shape will trigger an error.
-func (set TypeDefinitionSet) AddTypesAllowDuplicates(otherTypes TypeDefinitionSet) error {
-	for _, t := range otherTypes {
+func (set TypeDefinitionSet) AddTypesAllowDuplicates(definitions TypeDefinitionSet) error {
+	for _, t := range definitions {
 		err := set.AddAllowDuplicates(t)
 		if err != nil {
 			return err
@@ -162,16 +162,16 @@ func (set TypeDefinitionSet) Where(predicate func(definition TypeDefinition) boo
 }
 
 // Intersect returns a new set of types including only those defined in both types and otherTypes.
-func (set TypeDefinitionSet) Intersect(otherTypes TypeDefinitionSet) TypeDefinitionSet {
+func (set TypeDefinitionSet) Intersect(definitions TypeDefinitionSet) TypeDefinitionSet {
 	return set.Where(func(def TypeDefinition) bool {
-		return otherTypes.Contains(def.Name())
+		return definitions.Contains(def.Name())
 	})
 }
 
 // Except returns a new set of types including only those not defined in otherTypes
-func (set TypeDefinitionSet) Except(otherTypes TypeDefinitionSet) TypeDefinitionSet {
+func (set TypeDefinitionSet) Except(definitions TypeDefinitionSet) TypeDefinitionSet {
 	return set.Where(func(def TypeDefinition) bool {
-		return !otherTypes.Contains(def.Name())
+		return !definitions.Contains(def.Name())
 	})
 }
 
@@ -381,11 +381,11 @@ func (set TypeDefinitionSet) Process(transformation func(definition TypeDefiniti
 }
 
 // FindResourceTypes walks the provided set of TypeDefinitions and returns all the resource types
-func FindResourceTypes(types TypeDefinitionSet) TypeDefinitionSet {
+func FindResourceTypes(definitions TypeDefinitionSet) TypeDefinitionSet {
 	result := make(TypeDefinitionSet)
 
 	// Find all our resources and extract all their Specs
-	for _, def := range types {
+	for _, def := range definitions {
 		_, ok := AsResourceType(def.Type())
 		if !ok {
 			continue
@@ -399,11 +399,11 @@ func FindResourceTypes(types TypeDefinitionSet) TypeDefinitionSet {
 }
 
 // FindSpecTypes walks the provided set of TypeDefinitions and returns all the spec types
-func FindSpecTypes(types TypeDefinitionSet) TypeDefinitionSet {
+func FindSpecTypes(definitions TypeDefinitionSet) TypeDefinitionSet {
 	result := make(TypeDefinitionSet)
 
 	// Find all our resources and extract all their Specs
-	for _, def := range types {
+	for _, def := range definitions {
 		rt, ok := AsResourceType(def.Type())
 		if !ok {
 			continue
@@ -416,7 +416,7 @@ func FindSpecTypes(types TypeDefinitionSet) TypeDefinitionSet {
 		}
 
 		// Add the named spec type to our results
-		if spec, ok := types.TryGet(tn); ok {
+		if spec, ok := definitions.TryGet(tn); ok {
 			// Use AddAllowDuplicates here because some resources share the same spec
 			// across multiple resources, which can trigger multiple adds of the same type
 			err := result.AddAllowDuplicates(spec)
@@ -430,11 +430,11 @@ func FindSpecTypes(types TypeDefinitionSet) TypeDefinitionSet {
 }
 
 // FindStatusTypes walks the provided set of TypeDefinitions and returns all the status types
-func FindStatusTypes(types TypeDefinitionSet) TypeDefinitionSet {
+func FindStatusTypes(definitions TypeDefinitionSet) TypeDefinitionSet {
 	result := make(TypeDefinitionSet)
 
 	// Find all our resources and extract all their Statuses
-	for _, def := range types {
+	for _, def := range definitions {
 		rt, ok := AsResourceType(def.Type())
 		if !ok {
 			continue
@@ -447,7 +447,7 @@ func FindStatusTypes(types TypeDefinitionSet) TypeDefinitionSet {
 		}
 
 		// Add the named status type to our results
-		if status, ok := types.TryGet(tn); ok {
+		if status, ok := definitions.TryGet(tn); ok {
 			// Use AddAllowDuplicates here because some resources share the same status
 			// across multiple resources, which can trigger multiple adds of the same type
 			err := result.AddAllowDuplicates(status)
@@ -462,9 +462,9 @@ func FindStatusTypes(types TypeDefinitionSet) TypeDefinitionSet {
 
 // FindConnectedTypes finds all types reachable from the provided types
 // TODO: This is very similar to ReferenceGraph.Connected.
-func FindConnectedTypes(allTypes TypeDefinitionSet, roots TypeDefinitionSet) (TypeDefinitionSet, error) {
+func FindConnectedTypes(definitions TypeDefinitionSet, roots TypeDefinitionSet) (TypeDefinitionSet, error) {
 	walker := NewTypeWalker(
-		allTypes,
+		definitions,
 		TypeVisitorBuilder{}.Build())
 
 	result := make(TypeDefinitionSet)
@@ -486,15 +486,15 @@ func FindConnectedTypes(allTypes TypeDefinitionSet, roots TypeDefinitionSet) (Ty
 // FindSpecConnectedTypes finds all spec types and all types referenced by those spec types.
 // This differs from FindSpecTypes in that it finds not only the top level spec types but
 // also the types which the top level types are built out of.
-func FindSpecConnectedTypes(types TypeDefinitionSet) (TypeDefinitionSet, error) {
-	specTypes := FindSpecTypes(types)
-	return FindConnectedTypes(types, specTypes)
+func FindSpecConnectedTypes(definitions TypeDefinitionSet) (TypeDefinitionSet, error) {
+	specTypes := FindSpecTypes(definitions)
+	return FindConnectedTypes(definitions, specTypes)
 }
 
 // FindStatusConnectedTypes finds all status types and all types referenced by those spec types.
 // This differs from FindStatusTypes in that it finds not only the top level spec types but
 // also the types which the top level types are built out of.
-func FindStatusConnectedTypes(types TypeDefinitionSet) (TypeDefinitionSet, error) {
-	statusTypes := FindStatusTypes(types)
-	return FindConnectedTypes(types, statusTypes)
+func FindStatusConnectedTypes(definitions TypeDefinitionSet) (TypeDefinitionSet, error) {
+	statusTypes := FindStatusTypes(definitions)
+	return FindConnectedTypes(definitions, statusTypes)
 }

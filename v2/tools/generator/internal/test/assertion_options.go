@@ -31,9 +31,9 @@ func DiffWith(defs ...astmodel.TypeDefinition) AssertionOption {
 // DiffWithTypes specifies the type definitions being tested should be diff'd with the provided type definitions to
 // highlight differences.
 // TypeDefinitionSet are matched by fully qualified name.
-func DiffWithTypes(types astmodel.TypeDefinitionSet) AssertionOption {
+func DiffWithTypes(definitions astmodel.TypeDefinitionSet) AssertionOption {
 	var defs []astmodel.TypeDefinition
-	for _, d := range types {
+	for _, d := range definitions {
 		defs = append(defs, d)
 	}
 

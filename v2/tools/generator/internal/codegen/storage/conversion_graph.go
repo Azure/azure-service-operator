@@ -44,7 +44,7 @@ func (graph *ConversionGraph) LookupTransition(ref astmodel.PackageReference) (a
 // If the name passed in is for the hub type for the given resource, no next type will be found.
 // This is used to identify the next type needed for property assignment functions, and is a building block for
 // identification of hub types.
-func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, types astmodel.TypeDefinitionSet) (astmodel.TypeName, error) {
+func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, definitions astmodel.TypeDefinitionSet) (astmodel.TypeName, error) {
 
 	// Find the next package to consider
 	nextPackage, ok := graph.LookupTransition(name.PackageReference)
@@ -81,7 +81,7 @@ func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, types astmode
 
 	// With no configured rename, we can return nextTypeName, as long as it exists
 	if !haveRename {
-		if _, found := types.TryGet(nextTypeName); found {
+		if _, found := definitions.TryGet(nextTypeName); found {
 			return nextTypeName, nil
 		}
 
@@ -91,7 +91,7 @@ func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, types astmode
 	// Validity check on the type-rename we found - ensure it specifies a type that's known
 	// If we don't find the type, the configured rename is invalid
 	renamedTypeName := astmodel.MakeTypeName(nextPackage, rename)
-	if _, found := types.TryGet(renamedTypeName); !found {
+	if _, found := definitions.TryGet(renamedTypeName); !found {
 		return astmodel.EmptyTypeName, errors.Errorf(
 			"rename of %s invalid because specified type %s does not exist",
 			name,
@@ -100,7 +100,7 @@ func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, types astmode
 
 	// Validity check that the type-rename doesn't conflict
 	// if v1.Foo and v2.Foo both exist, it's illegal to specify a type-rename on v1.Foo
-	if _, found := types.TryGet(nextTypeName); found {
+	if _, found := definitions.TryGet(nextTypeName); found {
 		return astmodel.EmptyTypeName, errors.Errorf(
 			"configured rename of %s to %s conflicts with existing type %s",
 			name,
@@ -116,11 +116,11 @@ func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, types astmode
 // persisted using that hub type. This is done by following links in the conversion graph until we either reach the end
 // or we find that a newer version of the type does not exist.
 // Returns the hub type and true if found; an empty name and false if not.
-func (graph *ConversionGraph) FindHub(name astmodel.TypeName, types astmodel.TypeDefinitionSet) (astmodel.TypeName, error) {
+func (graph *ConversionGraph) FindHub(name astmodel.TypeName, definitions astmodel.TypeDefinitionSet) (astmodel.TypeName, error) {
 	// Look for the hub step
 	result := name
 	for {
-		hub, err := graph.FindNextType(result, types)
+		hub, err := graph.FindNextType(result, definitions)
 		if err != nil {
 			return astmodel.EmptyTypeName, errors.Wrapf(
 				err,
@@ -157,8 +157,8 @@ func (graph *ConversionGraph) TransitionCount() int {
 //
 func (graph *ConversionGraph) FindNextProperty(
 	ref astmodel.PropertyReference,
-	types astmodel.TypeDefinitionSet) (astmodel.PropertyReference, error) {
-	nextType, err := graph.FindNextType(ref.DeclaringType(), types)
+	definitions astmodel.TypeDefinitionSet) (astmodel.PropertyReference, error) {
+	nextType, err := graph.FindNextType(ref.DeclaringType(), definitions)
 	if err != nil {
 		// Something went wrong
 		return astmodel.EmptyPropertyReference,

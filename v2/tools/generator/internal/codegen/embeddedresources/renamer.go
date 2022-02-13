@@ -135,10 +135,10 @@ func (r renamer) performRenames(
 }
 
 // simplifyTypeNames simplifies contextual type names if possible.
-func simplifyTypeNames(types astmodel.TypeDefinitionSet, flag astmodel.TypeFlag) (astmodel.TypeDefinitionSet, error) {
+func simplifyTypeNames(definitions astmodel.TypeDefinitionSet, flag astmodel.TypeFlag) (astmodel.TypeDefinitionSet, error) {
 	// Find all of the type names that have the flag we're interested in
 	updatedNames := make(map[astmodel.TypeName]astmodel.TypeNameSet)
-	for _, def := range types {
+	for _, def := range definitions {
 		if flag.IsOn(def.Type()) {
 			embeddedName, err := parseContextualTypeName(def.Name())
 			if err != nil {
@@ -153,7 +153,7 @@ func simplifyTypeNames(types astmodel.TypeDefinitionSet, flag astmodel.TypeFlag)
 		}
 	}
 
-	r := renamer{types: types}
+	r := renamer{types: definitions}
 	renameActions := []renameAction{
 		r.simplifyEmbeddedNameToOriginalName,
 		r.simplifyEmbeddedNameRemoveContextAndCount,

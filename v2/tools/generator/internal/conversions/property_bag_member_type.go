@@ -70,8 +70,8 @@ func (b *PropertyBagMemberType) AsDeclarations(_ *astmodel.CodeGenerationContext
 }
 
 // AsZero renders an expression for the "zero" value of the type
-func (b *PropertyBagMemberType) AsZero(types astmodel.TypeDefinitionSet, ctx *astmodel.CodeGenerationContext) dst.Expr {
-	return b.element.AsZero(types, ctx)
+func (b *PropertyBagMemberType) AsZero(definitions astmodel.TypeDefinitionSet, ctx *astmodel.CodeGenerationContext) dst.Expr {
+	return b.element.AsZero(definitions, ctx)
 }
 
 // Equals returns true if the passed type is a PropertyBagMemberType with the same element this one, false otherwise
@@ -88,9 +88,9 @@ func (b *PropertyBagMemberType) String() string {
 // WriteDebugDescription adds a description of the current type to the passed builder
 // builder receives the full description, including nested types
 // types is a dictionary for resolving named types
-func (b *PropertyBagMemberType) WriteDebugDescription(builder *strings.Builder, types astmodel.TypeDefinitionSet) {
+func (b *PropertyBagMemberType) WriteDebugDescription(builder *strings.Builder, definitions astmodel.TypeDefinitionSet) {
 	builder.WriteString("Bag[")
-	b.element.WriteDebugDescription(builder, types)
+	b.element.WriteDebugDescription(builder, definitions)
 	builder.WriteString("]")
 }
 

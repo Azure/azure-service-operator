@@ -21,8 +21,8 @@ func DetermineResourceOwnership(configuration *config.Configuration) Stage {
 	return MakeLegacyStage(
 		"determineResourceOwnership",
 		"Determine ARM resource relationships",
-		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			return determineOwnership(types, configuration)
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+			return determineOwnership(definitions, configuration)
 		})
 }
 

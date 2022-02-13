@@ -19,8 +19,8 @@ func RemoveEmbeddedResources() Stage {
 	return MakeLegacyStage(
 		RemoveEmbeddedResourcesStageID,
 		"Remove properties that point to embedded resources. Only removes structural aspects of embedded resources, Id/ARMId references are retained.",
-		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			remover, err := embeddedresources.MakeEmbeddedResourceRemover(types)
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+			remover, err := embeddedresources.MakeEmbeddedResourceRemover(definitions)
 			if err != nil {
 				return nil, err
 			}

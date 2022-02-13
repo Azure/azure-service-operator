@@ -25,9 +25,9 @@ type PropertyConverter struct {
 }
 
 // NewPropertyConverter creates a new property converter for modifying object properties
-func NewPropertyConverter(types astmodel.TypeDefinitionSet) *PropertyConverter {
+func NewPropertyConverter(definitions astmodel.TypeDefinitionSet) *PropertyConverter {
 	result := &PropertyConverter{
-		types: types,
+		types: definitions,
 	}
 
 	result.propertyConversions = []propertyConversion{

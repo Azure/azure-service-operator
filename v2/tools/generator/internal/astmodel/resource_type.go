@@ -705,15 +705,15 @@ func (resource *ResourceType) HasTestCases() bool {
 // WriteDebugDescription adds a description of the current type to the passed builder
 // builder receives the full description, including nested types
 // types is a dictionary for resolving named types
-func (resource *ResourceType) WriteDebugDescription(builder *strings.Builder, types TypeDefinitionSet) {
+func (resource *ResourceType) WriteDebugDescription(builder *strings.Builder, definitions TypeDefinitionSet) {
 	if resource == nil {
 		builder.WriteString("<nilResource>")
 		return
 	}
 
 	builder.WriteString("Resource[spec:")
-	resource.spec.WriteDebugDescription(builder, types)
+	resource.spec.WriteDebugDescription(builder, definitions)
 	builder.WriteString("|status:")
-	resource.status.WriteDebugDescription(builder, types)
+	resource.status.WriteDebugDescription(builder, definitions)
 	builder.WriteString("]")
 }

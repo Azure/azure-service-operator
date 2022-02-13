@@ -18,11 +18,11 @@ func AssertTypesCollectionValid() Stage {
 	return MakeLegacyStage(
 		"assertTypesStructureValid",
 		"Verify that all local TypeNames refer to a type",
-		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			visitor := astmodel.TypeVisitorBuilder{}.Build()
-			typeWalker := astmodel.NewTypeWalker(types, visitor)
+			typeWalker := astmodel.NewTypeWalker(definitions, visitor)
 
-			for _, def := range types {
+			for _, def := range definitions {
 				if astmodel.IsResourceDefinition(def) {
 					_, err := typeWalker.Walk(def)
 					if err != nil {
@@ -31,6 +31,6 @@ func AssertTypesCollectionValid() Stage {
 				}
 			}
 
-			return types, nil
+			return definitions, nil
 		})
 }

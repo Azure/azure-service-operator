@@ -61,7 +61,7 @@ func (prim *PrimitiveType) RequiredPackageReferences() *PackageReferenceSet {
 // AsZero renders an expression for the "zero" value of the type
 // types allows TypeName to resolve to the underlying type
 // ctx allows current imports to be correctly identified where needed
-func (prim *PrimitiveType) AsZero(types TypeDefinitionSet, ctx *CodeGenerationContext) dst.Expr {
+func (prim *PrimitiveType) AsZero(definitions TypeDefinitionSet, ctx *CodeGenerationContext) dst.Expr {
 	return &dst.BasicLit{
 		Value: prim.zero,
 	}

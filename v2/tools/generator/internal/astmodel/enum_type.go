@@ -135,8 +135,8 @@ func (enum *EnumType) AsType(codeGenerationContext *CodeGenerationContext) dst.E
 
 // AsZero renders an expression for the "zero" value of the type,
 // based on the underlying type of the enumeration
-func (enum *EnumType) AsZero(types TypeDefinitionSet, ctx *CodeGenerationContext) dst.Expr {
-	return enum.baseType.AsZero(types, ctx)
+func (enum *EnumType) AsZero(definitions TypeDefinitionSet, ctx *CodeGenerationContext) dst.Expr {
+	return enum.baseType.AsZero(definitions, ctx)
 }
 
 // References returns any types the underlying type refers to.
@@ -225,14 +225,14 @@ func (enum *EnumType) String() string {
 // passed builder
 // builder receives the full description
 // types is a dictionary for resolving named types
-func (enum *EnumType) WriteDebugDescription(builder *strings.Builder, types TypeDefinitionSet) {
+func (enum *EnumType) WriteDebugDescription(builder *strings.Builder, definitions TypeDefinitionSet) {
 	if enum == nil {
 		builder.WriteString("<nilEnum>")
 		return
 	}
 
 	builder.WriteString("Enum[")
-	enum.baseType.WriteDebugDescription(builder, types)
+	enum.baseType.WriteDebugDescription(builder, definitions)
 	if len(enum.options) > 0 {
 		builder.WriteString(":")
 		for i, v := range enum.options {

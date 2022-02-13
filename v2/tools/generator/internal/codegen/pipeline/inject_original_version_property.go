@@ -24,9 +24,9 @@ func InjectOriginalVersionProperty() Stage {
 	stage := MakeLegacyStage(
 		InjectOriginalVersionPropertyStageID,
 		"Inject the property OriginalVersion into each Storage Spec type",
-		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			injector := astmodel.NewPropertyInjector()
-			result := types.Copy()
+			result := definitions.Copy()
 
 			doesNotHaveOriginalVersionFunction := func(definition astmodel.TypeDefinition) bool {
 				ot, ok := astmodel.AsObjectType(definition.Type())
@@ -39,7 +39,7 @@ func InjectOriginalVersionProperty() Stage {
 				return !ot.HasFunctionWithName("OriginalVersion")
 			}
 
-			storageSpecs := astmodel.FindSpecTypes(types).Where(doesNotHaveOriginalVersionFunction)
+			storageSpecs := astmodel.FindSpecTypes(definitions).Where(doesNotHaveOriginalVersionFunction)
 
 			for name, def := range storageSpecs {
 				prop := astmodel.NewPropertyDefinition("OriginalVersion", "originalVersion", astmodel.StringType)

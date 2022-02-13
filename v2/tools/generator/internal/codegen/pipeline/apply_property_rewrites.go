@@ -21,9 +21,9 @@ func ApplyPropertyRewrites(config *config.Configuration) Stage {
 	return MakeLegacyStage(
 		"propertyRewrites",
 		"Modify property types using configured transforms",
-		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			newTypes := make(astmodel.TypeDefinitionSet, len(types))
-			for name, t := range types {
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+			newTypes := make(astmodel.TypeDefinitionSet, len(definitions))
+			for name, t := range definitions {
 				objectType, ok := t.Type().(*astmodel.ObjectType)
 				if !ok {
 					newTypes.Add(t)

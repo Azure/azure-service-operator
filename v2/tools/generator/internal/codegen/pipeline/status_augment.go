@@ -18,16 +18,16 @@ func AugmentSpecWithStatus() Stage {
 	return MakeLegacyStage(
 		AugmentSpecWithStatusStageID,
 		"Merge information from Status into Spec",
-		func(ctx context.Context, types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			// build the augmenter we will use:
 			augmenter := fuseAugmenters(
-				flattenAugmenter(types),
-				secretAugmenter(types),
+				flattenAugmenter(definitions),
+				secretAugmenter(definitions),
 			)
 
 			newTypes := make(astmodel.TypeDefinitionSet)
 
-			for _, typeDef := range types {
+			for _, typeDef := range definitions {
 				if resource, ok := typeDef.Type().(*astmodel.ResourceType); ok {
 					// augment spec with any bits needed from status
 					newSpec, err := augmenter(resource.SpecType(), resource.StatusType())

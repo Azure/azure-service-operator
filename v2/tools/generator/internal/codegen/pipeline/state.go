@@ -38,9 +38,9 @@ func NewState(typeses ...astmodel.TypeDefinitionSet) *State {
 }
 
 // WithTypes returns a new independentState with the given types instead
-func (s *State) WithTypes(types astmodel.TypeDefinitionSet) *State {
+func (s *State) WithTypes(definitions astmodel.TypeDefinitionSet) *State {
 	return &State{
-		types:           types,
+		types:           definitions,
 		conversionGraph: s.conversionGraph,
 	}
 }

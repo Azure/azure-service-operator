@@ -40,18 +40,18 @@ type ResourceVersionsReport struct {
 	lists map[astmodel.PackageReference][]astmodel.TypeDefinition
 }
 
-func NewResourceVersionsReport(types astmodel.TypeDefinitionSet) *ResourceVersionsReport {
+func NewResourceVersionsReport(definitions astmodel.TypeDefinitionSet) *ResourceVersionsReport {
 	result := &ResourceVersionsReport{
 		lists: make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
 	}
 
-	result.summarize(types)
+	result.summarize(definitions)
 	return result
 }
 
 // summarize collates a list of all resources, grouped by package
-func (r *ResourceVersionsReport) summarize(types astmodel.TypeDefinitionSet) {
-	resources := astmodel.FindResourceTypes(types)
+func (r *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinitionSet) {
+	resources := astmodel.FindResourceTypes(definitions)
 	for _, rsrc := range resources {
 		name := rsrc.Name()
 		pkg := name.PackageReference

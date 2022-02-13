@@ -29,11 +29,11 @@ type PropertyConversionContext struct {
 
 // NewPropertyConversionContext creates a new instance of a PropertyConversionContext
 func NewPropertyConversionContext(
-	types astmodel.TypeDefinitionSet,
+	definitions astmodel.TypeDefinitionSet,
 	idFactory astmodel.IdentifierFactory,
 	configuration *config.ObjectModelConfiguration) *PropertyConversionContext {
 	return &PropertyConversionContext{
-		types:           types,
+		types:           definitions,
 		idFactory:       idFactory,
 		configuration:   configuration,
 		propertyBagName: "",
