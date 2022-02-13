@@ -133,6 +133,11 @@ type DomainList struct {
 	Items           []Domain `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-06-01")
+
 //Storage version of v1alpha1api20200601.Domain_Status
 type Domain_Status struct {
 	Conditions                 []conditions.Condition                                        `json:"conditions,omitempty"`

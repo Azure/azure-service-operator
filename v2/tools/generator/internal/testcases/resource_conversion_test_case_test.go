@@ -50,9 +50,12 @@ func TestGolden_ResourceConversionTestCase_AsFunc(t *testing.T) {
 
 	person2021 := test.CreateResource(test.Pkg2021, "Person", personSpec2021, personStatus2021)
 
+	apiVersion2020 := test.CreateAPIVersionForResource(person2020)
+	apiVersion2021 := test.CreateAPIVersionForResource(person2021)
+
 	types := make(astmodel.Types)
-	types.AddAll(person2020, personSpec2020, personStatus2020)
-	types.AddAll(person2021, personSpec2021, personStatus2021)
+	types.AddAll(person2020, personSpec2020, personStatus2020, apiVersion2020)
+	types.AddAll(person2021, personSpec2021, personStatus2021, apiVersion2021)
 
 	cfg := config.NewObjectModelConfiguration()
 	conversionContext := conversions.NewPropertyConversionContext(types, idFactory, cfg)

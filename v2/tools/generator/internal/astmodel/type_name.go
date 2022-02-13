@@ -40,6 +40,11 @@ func (typeName TypeName) Name() string {
 	return typeName.name
 }
 
+// WithPackage returns a new TypeName with the same name but in a different package
+func (typeName TypeName) WithPackage(pr PackageReference) TypeName {
+	return MakeTypeName(pr, typeName.name)
+}
+
 // WithName returns a new TypeName in the same package but with a different name
 func (typeName TypeName) WithName(name string) TypeName {
 	return MakeTypeName(typeName.PackageReference, name)

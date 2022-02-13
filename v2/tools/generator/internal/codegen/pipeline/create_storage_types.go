@@ -7,6 +7,7 @@ package pipeline
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/pkg/errors"
 
@@ -47,6 +48,23 @@ func CreateStorageTypes() Stage {
 				storageDef, err := typeConverter.ConvertDefinition(def)
 				if err != nil {
 					return nil, errors.Wrapf(err, "creating storage variant of %q", name)
+				}
+
+				// make APIVersion type for storage resource
+				if rt, ok := astmodel.AsResourceType(storageDef.Type()); ok && rt.HasAPIVersion() {
+					apiVersionTypeName := rt.APIVersionTypeName()
+					newApiVersionTypeName := apiVersionTypeName.WithPackage(storageDef.Name().PackageReference)
+					if !storageTypes.Contains(newApiVersionTypeName) {
+						// copy type into destination
+						enumDef, ok := state.Types()[apiVersionTypeName]
+						if !ok {
+							panic(fmt.Sprintf("couldn't find existing API Version type %s", apiVersionTypeName))
+						}
+
+						storageTypes.Add(astmodel.MakeTypeDefinition(newApiVersionTypeName, enumDef.Type()))
+					}
+
+					storageDef = storageDef.WithType(rt.WithAPIVersion(newApiVersionTypeName, rt.APIVersionEnumValue()))
 				}
 
 				storageTypes.Add(storageDef)

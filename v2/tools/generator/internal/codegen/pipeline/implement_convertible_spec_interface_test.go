@@ -32,8 +32,11 @@ func TestGolden_InjectConvertibleSpecInterface(t *testing.T) {
 	statusV2 := test.CreateStatus(test.Pkg2021, "Person")
 	resourceV2 := test.CreateResource(test.Pkg2021, "Person", specV2, statusV2)
 
+	apiVersionV1 := test.CreateAPIVersionForResource(resourceV1)
+	apiVersionV2 := test.CreateAPIVersionForResource(resourceV2)
+
 	types := make(astmodel.Types)
-	types.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2)
+	types.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2, apiVersionV1, apiVersionV2)
 
 	initialState := NewState().WithTypes(types)
 

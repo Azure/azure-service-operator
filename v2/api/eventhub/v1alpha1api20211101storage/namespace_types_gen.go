@@ -133,6 +133,11 @@ type NamespaceList struct {
 	Items           []Namespace `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-11-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-11-01")
+
 //Storage version of v1alpha1api20211101.EHNamespace_Status
 type EHNamespace_Status struct {
 	AlternateName              *string                                                `json:"alternateName,omitempty"`

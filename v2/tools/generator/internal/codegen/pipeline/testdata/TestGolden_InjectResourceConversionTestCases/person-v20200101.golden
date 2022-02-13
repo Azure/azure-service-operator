@@ -115,6 +115,11 @@ type PersonList struct {
 	Items           []Person `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"placeholder"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("placeholder")
+
 type Person_Spec struct {
 	//FamilyName: Shared name of the family
 	FamilyName string `json:"familyName"`

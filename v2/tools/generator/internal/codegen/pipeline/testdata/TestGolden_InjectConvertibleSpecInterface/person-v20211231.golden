@@ -78,6 +78,11 @@ type PersonList struct {
 	Items           []Person `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"placeholder"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("placeholder")
+
 type Person_Spec struct {
 	//FullName: As would be used to address mail
 	FullName string `json:"fullName"`

@@ -134,6 +134,11 @@ type ManagedClusterList struct {
 	Items           []ManagedCluster `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-05-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-05-01")
+
 //Storage version of v1alpha1api20210501.ManagedCluster_Status
 type ManagedCluster_Status struct {
 	AadProfile              *ManagedClusterAADProfile_Status                   `json:"aadProfile,omitempty"`

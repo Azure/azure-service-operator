@@ -20,7 +20,7 @@ func CreateResource(
 	apiVersionType := astmodel.MakeTypeName(pkg, "APIVersion")
 	apiVersionValue := astmodel.EnumValue{
 		Identifier: "Value",
-		Value:      "placeholder",
+		Value:      "\"placeholder\"",
 	}
 
 	resourceType := astmodel.NewResourceType(spec.Name(), status.Name())
@@ -31,6 +31,20 @@ func CreateResource(
 	}
 
 	return astmodel.MakeTypeDefinition(astmodel.MakeTypeName(pkg, name), resourceType)
+}
+
+func CreateAPIVersionForResource(td astmodel.TypeDefinition) astmodel.TypeDefinition {
+	rt, ok := astmodel.AsResourceType(td.Type())
+	if !ok {
+		panic("must be invoked on Resource TypeDefinition")
+	}
+
+	if !rt.HasAPIVersion() {
+		panic("given Resource has no API Version")
+	}
+
+	enumType := astmodel.NewEnumType(astmodel.StringType, rt.APIVersionEnumValue())
+	return astmodel.MakeTypeDefinition(rt.APIVersionTypeName(), enumType)
 }
 
 // CreateSpec makes a spec for testing
