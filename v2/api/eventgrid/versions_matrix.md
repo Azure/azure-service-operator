@@ -17,8 +17,8 @@
 | DomainProperties_PublicNetworkAccess_Status                 | v1alpha1api20200601 |
 | DomainProperties_Spec                                       | v1alpha1api20200601 |
 | DomainProperties_Status                                     | v1alpha1api20200601 |
-| Domain_Spec                                                 | v1alpha1api20200601 |
 | Domain_Status                                               | v1alpha1api20200601 |
+| Domains_SPEC                                                | v1alpha1api20200601 |
 | EventSubscription                                           | v1alpha1api20200601 |
 | EventSubscriptionDestination_EndpointType_Spec              | v1alpha1api20200601 |
 | EventSubscriptionDestination_EndpointType_Status            | v1alpha1api20200601 |
@@ -31,8 +31,8 @@
 | EventSubscriptionProperties_ProvisioningState_Status        | v1alpha1api20200601 |
 | EventSubscriptionProperties_Spec                            | v1alpha1api20200601 |
 | EventSubscriptionProperties_Status                          | v1alpha1api20200601 |
-| EventSubscription_Spec                                      | v1alpha1api20200601 |
 | EventSubscription_Status                                    | v1alpha1api20200601 |
+| EventSubscriptions_SPEC                                     | v1alpha1api20200601 |
 | InboundIpRule_Action_Spec                                   | v1alpha1api20200601 |
 | InboundIpRule_Action_Status                                 | v1alpha1api20200601 |
 | InboundIpRule_Spec                                          | v1alpha1api20200601 |
@@ -49,12 +49,9 @@
 | SystemData_LastModifiedByType_Status                        | v1alpha1api20200601 |
 | SystemData_Status                                           | v1alpha1api20200601 |
 | Topic                                                       | v1alpha1api20200601 |
-| TopicProperties_InputSchema_Spec                            | v1alpha1api20200601 |
 | TopicProperties_InputSchema_Status                          | v1alpha1api20200601 |
 | TopicProperties_ProvisioningState_Status                    | v1alpha1api20200601 |
-| TopicProperties_PublicNetworkAccess_Spec                    | v1alpha1api20200601 |
 | TopicProperties_PublicNetworkAccess_Status                  | v1alpha1api20200601 |
-| TopicProperties_Spec                                        | v1alpha1api20200601 |
 | TopicProperties_Status                                      | v1alpha1api20200601 |
-| Topic_Spec                                                  | v1alpha1api20200601 |
 | Topic_Status                                                | v1alpha1api20200601 |
+| Topics_SPEC                                                 | v1alpha1api20200601 |

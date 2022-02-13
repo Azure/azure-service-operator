@@ -13,8 +13,8 @@ type DatabaseAccountsMongodbDatabasesCollections_SPECARM struct {
 	Name     string  `json:"name"`
 
 	//Properties: Properties to create and update Azure Cosmos DB MongoDB collection.
-	Properties MongoDBCollectionCreateUpdateProperties_SpecARM `json:"properties"`
-	Tags       map[string]string                               `json:"tags,omitempty"`
+	Properties MongoDBCollectionProperties_SpecARM `json:"properties"`
+	Tags       map[string]string                   `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsMongodbDatabasesCollections_SPECARM{}
@@ -34,7 +34,7 @@ func (specarm DatabaseAccountsMongodbDatabasesCollections_SPECARM) GetType() str
 	return ""
 }
 
-type MongoDBCollectionCreateUpdateProperties_SpecARM struct {
+type MongoDBCollectionProperties_SpecARM struct {
 	//Options: A key-value pair of options to be applied for the request. This
 	//corresponds to the headers sent with the request.
 	Options *CreateUpdateOptions_SpecARM `json:"options,omitempty"`

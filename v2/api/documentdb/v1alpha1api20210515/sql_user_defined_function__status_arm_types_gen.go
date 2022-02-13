@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-type SqlStoredProcedureCreateUpdateParameters_StatusARM struct {
+type SqlUserDefinedFunction_StatusARM struct {
 	//Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
 
@@ -13,27 +13,27 @@ type SqlStoredProcedureCreateUpdateParameters_StatusARM struct {
 	//Name: The name of the ARM resource.
 	Name *string `json:"name,omitempty"`
 
-	//Properties: Properties to create and update Azure Cosmos DB storedProcedure.
-	Properties *SqlStoredProcedureCreateUpdateProperties_StatusARM `json:"properties,omitempty"`
-	Tags       map[string]string                                   `json:"tags,omitempty"`
+	//Properties: Properties to create and update Azure Cosmos DB userDefinedFunction.
+	Properties *SqlUserDefinedFunctionProperties_StatusARM `json:"properties,omitempty"`
+	Tags       map[string]string                           `json:"tags,omitempty"`
 
 	//Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type SqlStoredProcedureCreateUpdateProperties_StatusARM struct {
+type SqlUserDefinedFunctionProperties_StatusARM struct {
 	//Options: A key-value pair of options to be applied for the request. This
 	//corresponds to the headers sent with the request.
 	Options *CreateUpdateOptions_StatusARM `json:"options,omitempty"`
 
-	//Resource: The standard JSON format of a storedProcedure
-	Resource SqlStoredProcedureResource_StatusARM `json:"resource"`
+	//Resource: The standard JSON format of a userDefinedFunction
+	Resource SqlUserDefinedFunctionResource_StatusARM `json:"resource"`
 }
 
-type SqlStoredProcedureResource_StatusARM struct {
-	//Body: Body of the Stored Procedure
+type SqlUserDefinedFunctionResource_StatusARM struct {
+	//Body: Body of the User Defined Function
 	Body *string `json:"body,omitempty"`
 
-	//Id: Name of the Cosmos DB SQL storedProcedure
+	//Id: Name of the Cosmos DB SQL userDefinedFunction
 	Id string `json:"id"`
 }

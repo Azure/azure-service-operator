@@ -13,8 +13,8 @@ type DatabaseAccountsSqlDatabasesThroughputSettings_SPECARM struct {
 	Name     string  `json:"name"`
 
 	//Properties: Properties to update Azure Cosmos DB resource throughput.
-	Properties ThroughputSettingsUpdateProperties_SpecARM `json:"properties"`
-	Tags       map[string]string                          `json:"tags,omitempty"`
+	Properties ThroughputSettingsProperties_SpecARM `json:"properties"`
+	Tags       map[string]string                    `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabasesThroughputSettings_SPECARM{}

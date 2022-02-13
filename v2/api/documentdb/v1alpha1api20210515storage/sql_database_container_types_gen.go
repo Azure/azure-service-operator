@@ -29,7 +29,7 @@ type SqlDatabaseContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsSqlDatabasesContainers_SPEC `json:"spec,omitempty"`
-	Status            SqlContainerCreateUpdateParameters_Status   `json:"status,omitempty"`
+	Status            SqlContainer_Status                         `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainer{}
@@ -78,7 +78,7 @@ func (container *SqlDatabaseContainer) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (container *SqlDatabaseContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlContainerCreateUpdateParameters_Status{}
+	return &SqlContainer_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -94,13 +94,13 @@ func (container *SqlDatabaseContainer) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (container *SqlDatabaseContainer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlContainerCreateUpdateParameters_Status); ok {
+	if st, ok := status.(*SqlContainer_Status); ok {
 		container.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlContainerCreateUpdateParameters_Status
+	var st SqlContainer_Status
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -169,8 +169,8 @@ func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) ConvertSpecTo(destinati
 	return destination.ConvertSpecFrom(spec)
 }
 
-//Storage version of v1alpha1api20210515.SqlContainerCreateUpdateParameters_Status
-type SqlContainerCreateUpdateParameters_Status struct {
+//Storage version of v1alpha1api20210515.SqlContainer_Status
+type SqlContainer_Status struct {
 	Conditions  []conditions.Condition       `json:"conditions,omitempty"`
 	Id          *string                      `json:"id,omitempty"`
 	Location    *string                      `json:"location,omitempty"`
@@ -182,24 +182,24 @@ type SqlContainerCreateUpdateParameters_Status struct {
 	Type        *string                      `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SqlContainerCreateUpdateParameters_Status{}
+var _ genruntime.ConvertibleStatus = &SqlContainer_Status{}
 
-// ConvertStatusFrom populates our SqlContainerCreateUpdateParameters_Status from the provided source
-func (parameters *SqlContainerCreateUpdateParameters_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == parameters {
+// ConvertStatusFrom populates our SqlContainer_Status from the provided source
+func (container *SqlContainer_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == container {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(parameters)
+	return source.ConvertStatusTo(container)
 }
 
-// ConvertStatusTo populates the provided destination from our SqlContainerCreateUpdateParameters_Status
-func (parameters *SqlContainerCreateUpdateParameters_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == parameters {
+// ConvertStatusTo populates the provided destination from our SqlContainer_Status
+func (container *SqlContainer_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == container {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(parameters)
+	return destination.ConvertStatusFrom(container)
 }
 
 //Storage version of v1alpha1api20210515.SqlContainerResource_Spec

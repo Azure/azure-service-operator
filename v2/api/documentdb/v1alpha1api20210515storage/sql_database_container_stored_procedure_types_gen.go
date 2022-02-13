@@ -30,7 +30,7 @@ type SqlDatabaseContainerStoredProcedure struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC `json:"spec,omitempty"`
-	Status            SqlStoredProcedureCreateUpdateParameters_Status             `json:"status,omitempty"`
+	Status            SqlStoredProcedure_Status                                   `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerStoredProcedure{}
@@ -79,7 +79,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (procedure *SqlDatabaseContainerStoredProcedure) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlStoredProcedureCreateUpdateParameters_Status{}
+	return &SqlStoredProcedure_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -95,13 +95,13 @@ func (procedure *SqlDatabaseContainerStoredProcedure) Owner() *genruntime.Resour
 // SetStatus sets the status of this resource
 func (procedure *SqlDatabaseContainerStoredProcedure) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlStoredProcedureCreateUpdateParameters_Status); ok {
+	if st, ok := status.(*SqlStoredProcedure_Status); ok {
 		procedure.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlStoredProcedureCreateUpdateParameters_Status
+	var st SqlStoredProcedure_Status
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -171,8 +171,8 @@ func (spec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC) Convert
 	return destination.ConvertSpecFrom(spec)
 }
 
-//Storage version of v1alpha1api20210515.SqlStoredProcedureCreateUpdateParameters_Status
-type SqlStoredProcedureCreateUpdateParameters_Status struct {
+//Storage version of v1alpha1api20210515.SqlStoredProcedure_Status
+type SqlStoredProcedure_Status struct {
 	Conditions  []conditions.Condition             `json:"conditions,omitempty"`
 	Id          *string                            `json:"id,omitempty"`
 	Location    *string                            `json:"location,omitempty"`
@@ -184,24 +184,24 @@ type SqlStoredProcedureCreateUpdateParameters_Status struct {
 	Type        *string                            `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SqlStoredProcedureCreateUpdateParameters_Status{}
+var _ genruntime.ConvertibleStatus = &SqlStoredProcedure_Status{}
 
-// ConvertStatusFrom populates our SqlStoredProcedureCreateUpdateParameters_Status from the provided source
-func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == parameters {
+// ConvertStatusFrom populates our SqlStoredProcedure_Status from the provided source
+func (procedure *SqlStoredProcedure_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == procedure {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(parameters)
+	return source.ConvertStatusTo(procedure)
 }
 
-// ConvertStatusTo populates the provided destination from our SqlStoredProcedureCreateUpdateParameters_Status
-func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == parameters {
+// ConvertStatusTo populates the provided destination from our SqlStoredProcedure_Status
+func (procedure *SqlStoredProcedure_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == procedure {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(parameters)
+	return destination.ConvertStatusFrom(procedure)
 }
 
 //Storage version of v1alpha1api20210515.SqlStoredProcedureResource_Spec

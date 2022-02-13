@@ -13,8 +13,8 @@ type DatabaseAccountsSqlDatabases_SPECARM struct {
 	Name     string  `json:"name"`
 
 	//Properties: Properties to create and update Azure Cosmos DB SQL database.
-	Properties SqlDatabaseCreateUpdateProperties_SpecARM `json:"properties"`
-	Tags       map[string]string                         `json:"tags,omitempty"`
+	Properties SqlDatabaseProperties_SpecARM `json:"properties"`
+	Tags       map[string]string             `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabases_SPECARM{}
@@ -34,7 +34,7 @@ func (specarm DatabaseAccountsSqlDatabases_SPECARM) GetType() string {
 	return ""
 }
 
-type SqlDatabaseCreateUpdateProperties_SpecARM struct {
+type SqlDatabaseProperties_SpecARM struct {
 	//Options: A key-value pair of options to be applied for the request. This
 	//corresponds to the headers sent with the request.
 	Options *CreateUpdateOptions_SpecARM `json:"options,omitempty"`

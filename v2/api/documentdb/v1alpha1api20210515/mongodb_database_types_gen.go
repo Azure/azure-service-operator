@@ -30,8 +30,8 @@ import (
 type MongodbDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsMongodbDatabases_SPEC        `json:"spec,omitempty"`
-	Status            MongoDBDatabaseCreateUpdateParameters_Status `json:"status,omitempty"`
+	Spec              DatabaseAccountsMongodbDatabases_SPEC `json:"spec,omitempty"`
+	Status            MongoDBDatabase_Status                `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabase{}
@@ -125,7 +125,7 @@ func (database *MongodbDatabase) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *MongodbDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &MongoDBDatabaseCreateUpdateParameters_Status{}
+	return &MongoDBDatabase_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -141,13 +141,13 @@ func (database *MongodbDatabase) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *MongodbDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*MongoDBDatabaseCreateUpdateParameters_Status); ok {
+	if st, ok := status.(*MongoDBDatabase_Status); ok {
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st MongoDBDatabaseCreateUpdateParameters_Status
+	var st MongoDBDatabase_Status
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -255,10 +255,10 @@ func (database *MongodbDatabase) AssignPropertiesFromMongodbDatabase(source *v1a
 	database.Spec = spec
 
 	// Status
-	var status MongoDBDatabaseCreateUpdateParameters_Status
-	err = status.AssignPropertiesFromMongoDBDatabaseCreateUpdateParameters_Status(&source.Status)
+	var status MongoDBDatabase_Status
+	err = status.AssignPropertiesFromMongoDBDatabase_Status(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromMongoDBDatabaseCreateUpdateParameters_Status() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromMongoDBDatabase_Status() to populate field Status")
 	}
 	database.Status = status
 
@@ -281,10 +281,10 @@ func (database *MongodbDatabase) AssignPropertiesToMongodbDatabase(destination *
 	destination.Spec = spec
 
 	// Status
-	var status v1alpha1api20210515storage.MongoDBDatabaseCreateUpdateParameters_Status
-	err = database.Status.AssignPropertiesToMongoDBDatabaseCreateUpdateParameters_Status(&status)
+	var status v1alpha1api20210515storage.MongoDBDatabase_Status
+	err = database.Status.AssignPropertiesToMongoDBDatabase_Status(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToMongoDBDatabaseCreateUpdateParameters_Status() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToMongoDBDatabase_Status() to populate field Status")
 	}
 	destination.Status = status
 
@@ -591,7 +591,7 @@ func (spec *DatabaseAccountsMongodbDatabases_SPEC) SetAzureName(azureName string
 	spec.AzureName = azureName
 }
 
-type MongoDBDatabaseCreateUpdateParameters_Status struct {
+type MongoDBDatabase_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -616,25 +616,25 @@ type MongoDBDatabaseCreateUpdateParameters_Status struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &MongoDBDatabaseCreateUpdateParameters_Status{}
+var _ genruntime.ConvertibleStatus = &MongoDBDatabase_Status{}
 
-// ConvertStatusFrom populates our MongoDBDatabaseCreateUpdateParameters_Status from the provided source
-func (parameters *MongoDBDatabaseCreateUpdateParameters_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1alpha1api20210515storage.MongoDBDatabaseCreateUpdateParameters_Status)
+// ConvertStatusFrom populates our MongoDBDatabase_Status from the provided source
+func (database *MongoDBDatabase_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v1alpha1api20210515storage.MongoDBDatabase_Status)
 	if ok {
 		// Populate our instance from source
-		return parameters.AssignPropertiesFromMongoDBDatabaseCreateUpdateParameters_Status(src)
+		return database.AssignPropertiesFromMongoDBDatabase_Status(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210515storage.MongoDBDatabaseCreateUpdateParameters_Status{}
+	src = &v1alpha1api20210515storage.MongoDBDatabase_Status{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = parameters.AssignPropertiesFromMongoDBDatabaseCreateUpdateParameters_Status(src)
+	err = database.AssignPropertiesFromMongoDBDatabase_Status(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -642,17 +642,17 @@ func (parameters *MongoDBDatabaseCreateUpdateParameters_Status) ConvertStatusFro
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our MongoDBDatabaseCreateUpdateParameters_Status
-func (parameters *MongoDBDatabaseCreateUpdateParameters_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1alpha1api20210515storage.MongoDBDatabaseCreateUpdateParameters_Status)
+// ConvertStatusTo populates the provided destination from our MongoDBDatabase_Status
+func (database *MongoDBDatabase_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v1alpha1api20210515storage.MongoDBDatabase_Status)
 	if ok {
 		// Populate destination from our instance
-		return parameters.AssignPropertiesToMongoDBDatabaseCreateUpdateParameters_Status(dst)
+		return database.AssignPropertiesToMongoDBDatabase_Status(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210515storage.MongoDBDatabaseCreateUpdateParameters_Status{}
-	err := parameters.AssignPropertiesToMongoDBDatabaseCreateUpdateParameters_Status(dst)
+	dst = &v1alpha1api20210515storage.MongoDBDatabase_Status{}
+	err := database.AssignPropertiesToMongoDBDatabase_Status(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -666,18 +666,18 @@ func (parameters *MongoDBDatabaseCreateUpdateParameters_Status) ConvertStatusTo(
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &MongoDBDatabaseCreateUpdateParameters_Status{}
+var _ genruntime.FromARMConverter = &MongoDBDatabase_Status{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *MongoDBDatabaseCreateUpdateParameters_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MongoDBDatabaseCreateUpdateParameters_StatusARM{}
+func (database *MongoDBDatabase_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &MongoDBDatabase_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *MongoDBDatabaseCreateUpdateParameters_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MongoDBDatabaseCreateUpdateParameters_StatusARM)
+func (database *MongoDBDatabase_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(MongoDBDatabase_StatusARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoDBDatabaseCreateUpdateParameters_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoDBDatabase_StatusARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -685,19 +685,19 @@ func (parameters *MongoDBDatabaseCreateUpdateParameters_Status) PopulateFromARM(
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		parameters.Id = &id
+		database.Id = &id
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		parameters.Location = &location
+		database.Location = &location
 	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		parameters.Name = &name
+		database.Name = &name
 	}
 
 	// Set property ‘Options’:
@@ -710,7 +710,7 @@ func (parameters *MongoDBDatabaseCreateUpdateParameters_Status) PopulateFromARM(
 				return err
 			}
 			options := options1
-			parameters.Options = &options
+			database.Options = &options
 		}
 	}
 
@@ -724,41 +724,41 @@ func (parameters *MongoDBDatabaseCreateUpdateParameters_Status) PopulateFromARM(
 			return err
 		}
 		temp = temp1
-		parameters.Resource = &temp
+		database.Resource = &temp
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		parameters.Tags = make(map[string]string)
+		database.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			parameters.Tags[key] = value
+			database.Tags[key] = value
 		}
 	}
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		parameters.Type = &typeVar
+		database.Type = &typeVar
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesFromMongoDBDatabaseCreateUpdateParameters_Status populates our MongoDBDatabaseCreateUpdateParameters_Status from the provided source MongoDBDatabaseCreateUpdateParameters_Status
-func (parameters *MongoDBDatabaseCreateUpdateParameters_Status) AssignPropertiesFromMongoDBDatabaseCreateUpdateParameters_Status(source *v1alpha1api20210515storage.MongoDBDatabaseCreateUpdateParameters_Status) error {
+// AssignPropertiesFromMongoDBDatabase_Status populates our MongoDBDatabase_Status from the provided source MongoDBDatabase_Status
+func (database *MongoDBDatabase_Status) AssignPropertiesFromMongoDBDatabase_Status(source *v1alpha1api20210515storage.MongoDBDatabase_Status) error {
 
 	// Conditions
-	parameters.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	database.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	parameters.Id = genruntime.ClonePointerToString(source.Id)
+	database.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	parameters.Location = genruntime.ClonePointerToString(source.Location)
+	database.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	parameters.Name = genruntime.ClonePointerToString(source.Name)
+	database.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Options
 	if source.Options != nil {
@@ -767,9 +767,9 @@ func (parameters *MongoDBDatabaseCreateUpdateParameters_Status) AssignProperties
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_Status() to populate field Options")
 		}
-		parameters.Options = &option
+		database.Options = &option
 	} else {
-		parameters.Options = nil
+		database.Options = nil
 	}
 
 	// Resource
@@ -779,42 +779,42 @@ func (parameters *MongoDBDatabaseCreateUpdateParameters_Status) AssignProperties
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromMongoDBDatabaseResource_Status() to populate field Resource")
 		}
-		parameters.Resource = &resource
+		database.Resource = &resource
 	} else {
-		parameters.Resource = nil
+		database.Resource = nil
 	}
 
 	// Tags
-	parameters.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	database.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	parameters.Type = genruntime.ClonePointerToString(source.Type)
+	database.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToMongoDBDatabaseCreateUpdateParameters_Status populates the provided destination MongoDBDatabaseCreateUpdateParameters_Status from our MongoDBDatabaseCreateUpdateParameters_Status
-func (parameters *MongoDBDatabaseCreateUpdateParameters_Status) AssignPropertiesToMongoDBDatabaseCreateUpdateParameters_Status(destination *v1alpha1api20210515storage.MongoDBDatabaseCreateUpdateParameters_Status) error {
+// AssignPropertiesToMongoDBDatabase_Status populates the provided destination MongoDBDatabase_Status from our MongoDBDatabase_Status
+func (database *MongoDBDatabase_Status) AssignPropertiesToMongoDBDatabase_Status(destination *v1alpha1api20210515storage.MongoDBDatabase_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(parameters.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(database.Conditions)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(parameters.Id)
+	destination.Id = genruntime.ClonePointerToString(database.Id)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(parameters.Location)
+	destination.Location = genruntime.ClonePointerToString(database.Location)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(parameters.Name)
+	destination.Name = genruntime.ClonePointerToString(database.Name)
 
 	// Options
-	if parameters.Options != nil {
+	if database.Options != nil {
 		var option v1alpha1api20210515storage.CreateUpdateOptions_Status
-		err := parameters.Options.AssignPropertiesToCreateUpdateOptions_Status(&option)
+		err := database.Options.AssignPropertiesToCreateUpdateOptions_Status(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_Status() to populate field Options")
 		}
@@ -824,9 +824,9 @@ func (parameters *MongoDBDatabaseCreateUpdateParameters_Status) AssignProperties
 	}
 
 	// Resource
-	if parameters.Resource != nil {
+	if database.Resource != nil {
 		var resource v1alpha1api20210515storage.MongoDBDatabaseResource_Status
-		err := parameters.Resource.AssignPropertiesToMongoDBDatabaseResource_Status(&resource)
+		err := database.Resource.AssignPropertiesToMongoDBDatabaseResource_Status(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToMongoDBDatabaseResource_Status() to populate field Resource")
 		}
@@ -836,10 +836,10 @@ func (parameters *MongoDBDatabaseCreateUpdateParameters_Status) AssignProperties
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(parameters.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(database.Tags)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(parameters.Type)
+	destination.Type = genruntime.ClonePointerToString(database.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

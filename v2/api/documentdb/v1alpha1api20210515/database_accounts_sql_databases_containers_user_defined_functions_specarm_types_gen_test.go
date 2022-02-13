@@ -91,22 +91,22 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersUs
 
 // AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPECARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPECARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = SqlUserDefinedFunctionCreateUpdateProperties_SpecARMGenerator()
+	gens["Properties"] = SqlUserDefinedFunctionProperties_SpecARMGenerator()
 }
 
-func Test_SqlUserDefinedFunctionCreateUpdateProperties_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SqlUserDefinedFunctionProperties_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SqlUserDefinedFunctionCreateUpdateProperties_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlUserDefinedFunctionCreateUpdateProperties_SpecARM, SqlUserDefinedFunctionCreateUpdateProperties_SpecARMGenerator()))
+		"Round trip of SqlUserDefinedFunctionProperties_SpecARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSqlUserDefinedFunctionProperties_SpecARM, SqlUserDefinedFunctionProperties_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlUserDefinedFunctionCreateUpdateProperties_SpecARM runs a test to see if a specific instance of SqlUserDefinedFunctionCreateUpdateProperties_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlUserDefinedFunctionCreateUpdateProperties_SpecARM(subject SqlUserDefinedFunctionCreateUpdateProperties_SpecARM) string {
+// RunJSONSerializationTestForSqlUserDefinedFunctionProperties_SpecARM runs a test to see if a specific instance of SqlUserDefinedFunctionProperties_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlUserDefinedFunctionProperties_SpecARM(subject SqlUserDefinedFunctionProperties_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -114,7 +114,7 @@ func RunJSONSerializationTestForSqlUserDefinedFunctionCreateUpdateProperties_Spe
 	}
 
 	// Deserialize back into memory
-	var actual SqlUserDefinedFunctionCreateUpdateProperties_SpecARM
+	var actual SqlUserDefinedFunctionProperties_SpecARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -132,25 +132,25 @@ func RunJSONSerializationTestForSqlUserDefinedFunctionCreateUpdateProperties_Spe
 	return ""
 }
 
-// Generator of SqlUserDefinedFunctionCreateUpdateProperties_SpecARM instances for property testing - lazily
-//instantiated by SqlUserDefinedFunctionCreateUpdateProperties_SpecARMGenerator()
-var sqlUserDefinedFunctionCreateUpdateProperties_specARMGenerator gopter.Gen
+// Generator of SqlUserDefinedFunctionProperties_SpecARM instances for property testing - lazily instantiated by
+//SqlUserDefinedFunctionProperties_SpecARMGenerator()
+var sqlUserDefinedFunctionProperties_specARMGenerator gopter.Gen
 
-// SqlUserDefinedFunctionCreateUpdateProperties_SpecARMGenerator returns a generator of SqlUserDefinedFunctionCreateUpdateProperties_SpecARM instances for property testing.
-func SqlUserDefinedFunctionCreateUpdateProperties_SpecARMGenerator() gopter.Gen {
-	if sqlUserDefinedFunctionCreateUpdateProperties_specARMGenerator != nil {
-		return sqlUserDefinedFunctionCreateUpdateProperties_specARMGenerator
+// SqlUserDefinedFunctionProperties_SpecARMGenerator returns a generator of SqlUserDefinedFunctionProperties_SpecARM instances for property testing.
+func SqlUserDefinedFunctionProperties_SpecARMGenerator() gopter.Gen {
+	if sqlUserDefinedFunctionProperties_specARMGenerator != nil {
+		return sqlUserDefinedFunctionProperties_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdateProperties_SpecARM(generators)
-	sqlUserDefinedFunctionCreateUpdateProperties_specARMGenerator = gen.Struct(reflect.TypeOf(SqlUserDefinedFunctionCreateUpdateProperties_SpecARM{}), generators)
+	AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionProperties_SpecARM(generators)
+	sqlUserDefinedFunctionProperties_specARMGenerator = gen.Struct(reflect.TypeOf(SqlUserDefinedFunctionProperties_SpecARM{}), generators)
 
-	return sqlUserDefinedFunctionCreateUpdateProperties_specARMGenerator
+	return sqlUserDefinedFunctionProperties_specARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdateProperties_SpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdateProperties_SpecARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionProperties_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionProperties_SpecARM(gens map[string]gopter.Gen) {
 	gens["Options"] = gen.PtrOf(CreateUpdateOptions_SpecARMGenerator())
 	gens["Resource"] = SqlUserDefinedFunctionResource_SpecARMGenerator()
 }

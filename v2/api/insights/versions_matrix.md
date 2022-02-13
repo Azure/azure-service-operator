@@ -11,9 +11,9 @@
 | ApplicationInsightsComponentProperties_Request_Source_Status   |                            | v1alpha1api20200202 |
 | ApplicationInsightsComponentProperties_Spec                    |                            | v1alpha1api20200202 |
 | ApplicationInsightsComponentProperties_Status                  |                            | v1alpha1api20200202 |
-| ApplicationInsightsComponent_Spec                              |                            | v1alpha1api20200202 |
 | ApplicationInsightsComponent_Status                            |                            | v1alpha1api20200202 |
 | Component                                                      |                            | v1alpha1api20200202 |
+| Components_SPEC                                                |                            | v1alpha1api20200202 |
 | HeaderField_Spec                                               | v1alpha1api20180501preview |                     |
 | HeaderField_Status                                             | v1alpha1api20180501preview |                     |
 | PrivateLinkScopedResource_Status                               |                            | v1alpha1api20200202 |
@@ -33,7 +33,6 @@
 | WebTestProperties_ValidationRules_ContentValidation_Status     | v1alpha1api20180501preview |                     |
 | WebTestProperties_ValidationRules_Spec                         | v1alpha1api20180501preview |                     |
 | WebTestProperties_ValidationRules_Status                       | v1alpha1api20180501preview |                     |
-| WebTest_Kind_Spec                                              | v1alpha1api20180501preview |                     |
-| WebTest_Spec                                                   | v1alpha1api20180501preview |                     |
 | WebTest_Status                                                 | v1alpha1api20180501preview |                     |
 | Webtest                                                        | v1alpha1api20180501preview |                     |
+| Webtests_SPEC                                                  | v1alpha1api20180501preview |                     |

@@ -8,7 +8,7 @@ type Redis_StatusARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Properties: Redis cache properties.
-	Properties *RedisCreateProperties_StatusARM `json:"properties,omitempty"`
+	Properties *RedisProperties_StatusARM `json:"properties,omitempty"`
 
 	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -18,25 +18,25 @@ type Redis_StatusARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-type RedisCreateProperties_StatusARM struct {
+type RedisProperties_StatusARM struct {
 	//EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is
 	//enabled.
 	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
 
 	//MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or
 	//higher) to connect (e,g, '1.0', '1.1', '1.2')
-	MinimumTlsVersion *RedisCreateProperties_MinimumTlsVersion_Status `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *RedisProperties_MinimumTlsVersion_Status `json:"minimumTlsVersion,omitempty"`
 
 	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this
 	//cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If
 	//'Disabled', private endpoints are the exclusive access method. Default value is
 	//'Enabled'
-	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess_Status `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *RedisProperties_PublicNetworkAccess_Status `json:"publicNetworkAccess,omitempty"`
 
 	//RedisConfiguration: All Redis Settings. Few possible keys:
 	//rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
 	//etc.
-	RedisConfiguration *RedisCreateProperties_RedisConfiguration_StatusARM `json:"redisConfiguration,omitempty"`
+	RedisConfiguration map[string]string `json:"redisConfiguration,omitempty"`
 
 	//RedisVersion: Redis version. Only major version will be used in PUT/PATCH
 	//request with current valid values: (4, 6)
@@ -65,48 +65,6 @@ type RedisCreateProperties_StatusARM struct {
 
 	//TenantSettings: A dictionary of tenant settings
 	TenantSettings map[string]string `json:"tenantSettings,omitempty"`
-}
-
-type RedisCreateProperties_RedisConfiguration_StatusARM struct {
-	//AofStorageConnectionString0: First storage account connection string
-	AofStorageConnectionString0 *string `json:"aof-storage-connection-string-0,omitempty"`
-
-	//AofStorageConnectionString1: Second storage account connection string
-	AofStorageConnectionString1 *string `json:"aof-storage-connection-string-1,omitempty"`
-
-	//Maxclients: The max clients config
-	Maxclients *string `json:"maxclients,omitempty"`
-
-	//MaxfragmentationmemoryReserved: Value in megabytes reserved for fragmentation
-	//per shard
-	MaxfragmentationmemoryReserved *string `json:"maxfragmentationmemory-reserved,omitempty"`
-
-	//MaxmemoryDelta: Value in megabytes reserved for non-cache usage per shard e.g.
-	//failover.
-	MaxmemoryDelta *string `json:"maxmemory-delta,omitempty"`
-
-	//MaxmemoryPolicy: The eviction strategy used when your data won't fit within its
-	//memory limit.
-	MaxmemoryPolicy *string `json:"maxmemory-policy,omitempty"`
-
-	//MaxmemoryReserved: Value in megabytes reserved for non-cache usage per shard
-	//e.g. failover.
-	MaxmemoryReserved *string `json:"maxmemory-reserved,omitempty"`
-
-	//RdbBackupEnabled: Specifies whether the rdb backup is enabled
-	RdbBackupEnabled *string `json:"rdb-backup-enabled,omitempty"`
-
-	//RdbBackupFrequency: Specifies the frequency for creating rdb backup
-	RdbBackupFrequency *string `json:"rdb-backup-frequency,omitempty"`
-
-	//RdbBackupMaxSnapshotCount: Specifies the maximum number of snapshots for rdb
-	//backup
-	RdbBackupMaxSnapshotCount *string `json:"rdb-backup-max-snapshot-count,omitempty"`
-
-	//RdbStorageConnectionString: The storage account connection string for storing
-	//rdb file
-	RdbStorageConnectionString *string           `json:"rdb-storage-connection-string,omitempty"`
-	additionalProperties       map[string]string `json:"additionalProperties"`
 }
 
 type Sku_StatusARM struct {

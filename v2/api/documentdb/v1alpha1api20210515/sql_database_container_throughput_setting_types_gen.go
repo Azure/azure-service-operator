@@ -32,7 +32,7 @@ type SqlDatabaseContainerThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC `json:"spec,omitempty"`
-	Status            ThroughputSettingsUpdateParameters_Status                     `json:"status,omitempty"`
+	Status            ThroughputSettings_Status                                     `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerThroughputSetting{}
@@ -126,7 +126,7 @@ func (setting *SqlDatabaseContainerThroughputSetting) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *SqlDatabaseContainerThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ThroughputSettingsUpdateParameters_Status{}
+	return &ThroughputSettings_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -142,13 +142,13 @@ func (setting *SqlDatabaseContainerThroughputSetting) Owner() *genruntime.Resour
 // SetStatus sets the status of this resource
 func (setting *SqlDatabaseContainerThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ThroughputSettingsUpdateParameters_Status); ok {
+	if st, ok := status.(*ThroughputSettings_Status); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ThroughputSettingsUpdateParameters_Status
+	var st ThroughputSettings_Status
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -256,10 +256,10 @@ func (setting *SqlDatabaseContainerThroughputSetting) AssignPropertiesFromSqlDat
 	setting.Spec = spec
 
 	// Status
-	var status ThroughputSettingsUpdateParameters_Status
-	err = status.AssignPropertiesFromThroughputSettingsUpdateParameters_Status(&source.Status)
+	var status ThroughputSettings_Status
+	err = status.AssignPropertiesFromThroughputSettings_Status(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsUpdateParameters_Status() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettings_Status() to populate field Status")
 	}
 	setting.Status = status
 
@@ -282,10 +282,10 @@ func (setting *SqlDatabaseContainerThroughputSetting) AssignPropertiesToSqlDatab
 	destination.Spec = spec
 
 	// Status
-	var status v1alpha1api20210515storage.ThroughputSettingsUpdateParameters_Status
-	err = setting.Status.AssignPropertiesToThroughputSettingsUpdateParameters_Status(&status)
+	var status v1alpha1api20210515storage.ThroughputSettings_Status
+	err = setting.Status.AssignPropertiesToThroughputSettings_Status(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsUpdateParameters_Status() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettings_Status() to populate field Status")
 	}
 	destination.Status = status
 

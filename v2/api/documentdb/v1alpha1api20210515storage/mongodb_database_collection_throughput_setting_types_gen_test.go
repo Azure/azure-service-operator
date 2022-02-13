@@ -75,7 +75,7 @@ func MongodbDatabaseCollectionThroughputSettingGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForMongodbDatabaseCollectionThroughputSetting is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForMongodbDatabaseCollectionThroughputSetting(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECGenerator()
-	gens["Status"] = ThroughputSettingsUpdateParameters_StatusGenerator()
+	gens["Status"] = ThroughputSettings_StatusGenerator()
 }
 
 func Test_DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -155,19 +155,19 @@ func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsT
 	gens["Resource"] = gen.PtrOf(ThroughputSettingsResource_SpecGenerator())
 }
 
-func Test_ThroughputSettingsUpdateParameters_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ThroughputSettings_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ThroughputSettingsUpdateParameters_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForThroughputSettingsUpdateParameters_Status, ThroughputSettingsUpdateParameters_StatusGenerator()))
+		"Round trip of ThroughputSettings_Status via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForThroughputSettings_Status, ThroughputSettings_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForThroughputSettingsUpdateParameters_Status runs a test to see if a specific instance of ThroughputSettingsUpdateParameters_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForThroughputSettingsUpdateParameters_Status(subject ThroughputSettingsUpdateParameters_Status) string {
+// RunJSONSerializationTestForThroughputSettings_Status runs a test to see if a specific instance of ThroughputSettings_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForThroughputSettings_Status(subject ThroughputSettings_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -175,7 +175,7 @@ func RunJSONSerializationTestForThroughputSettingsUpdateParameters_Status(subjec
 	}
 
 	// Deserialize back into memory
-	var actual ThroughputSettingsUpdateParameters_Status
+	var actual ThroughputSettings_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -193,34 +193,34 @@ func RunJSONSerializationTestForThroughputSettingsUpdateParameters_Status(subjec
 	return ""
 }
 
-// Generator of ThroughputSettingsUpdateParameters_Status instances for property testing - lazily instantiated by
-//ThroughputSettingsUpdateParameters_StatusGenerator()
-var throughputSettingsUpdateParameters_statusGenerator gopter.Gen
+// Generator of ThroughputSettings_Status instances for property testing - lazily instantiated by
+//ThroughputSettings_StatusGenerator()
+var throughputSettings_statusGenerator gopter.Gen
 
-// ThroughputSettingsUpdateParameters_StatusGenerator returns a generator of ThroughputSettingsUpdateParameters_Status instances for property testing.
-// We first initialize throughputSettingsUpdateParameters_statusGenerator with a simplified generator based on the
+// ThroughputSettings_StatusGenerator returns a generator of ThroughputSettings_Status instances for property testing.
+// We first initialize throughputSettings_statusGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ThroughputSettingsUpdateParameters_StatusGenerator() gopter.Gen {
-	if throughputSettingsUpdateParameters_statusGenerator != nil {
-		return throughputSettingsUpdateParameters_statusGenerator
+func ThroughputSettings_StatusGenerator() gopter.Gen {
+	if throughputSettings_statusGenerator != nil {
+		return throughputSettings_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForThroughputSettingsUpdateParameters_Status(generators)
-	throughputSettingsUpdateParameters_statusGenerator = gen.Struct(reflect.TypeOf(ThroughputSettingsUpdateParameters_Status{}), generators)
+	AddIndependentPropertyGeneratorsForThroughputSettings_Status(generators)
+	throughputSettings_statusGenerator = gen.Struct(reflect.TypeOf(ThroughputSettings_Status{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForThroughputSettingsUpdateParameters_Status(generators)
-	AddRelatedPropertyGeneratorsForThroughputSettingsUpdateParameters_Status(generators)
-	throughputSettingsUpdateParameters_statusGenerator = gen.Struct(reflect.TypeOf(ThroughputSettingsUpdateParameters_Status{}), generators)
+	AddIndependentPropertyGeneratorsForThroughputSettings_Status(generators)
+	AddRelatedPropertyGeneratorsForThroughputSettings_Status(generators)
+	throughputSettings_statusGenerator = gen.Struct(reflect.TypeOf(ThroughputSettings_Status{}), generators)
 
-	return throughputSettingsUpdateParameters_statusGenerator
+	return throughputSettings_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForThroughputSettingsUpdateParameters_Status is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForThroughputSettingsUpdateParameters_Status(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForThroughputSettings_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForThroughputSettings_Status(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -228,8 +228,8 @@ func AddIndependentPropertyGeneratorsForThroughputSettingsUpdateParameters_Statu
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForThroughputSettingsUpdateParameters_Status is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForThroughputSettingsUpdateParameters_Status(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForThroughputSettings_Status is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForThroughputSettings_Status(gens map[string]gopter.Gen) {
 	gens["Resource"] = gen.PtrOf(ThroughputSettingsResource_StatusGenerator())
 }
 

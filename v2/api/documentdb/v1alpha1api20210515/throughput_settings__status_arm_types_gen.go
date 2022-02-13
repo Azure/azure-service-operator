@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-type ThroughputSettingsUpdateParameters_StatusARM struct {
+type ThroughputSettings_StatusARM struct {
 	//Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
 
@@ -14,14 +14,14 @@ type ThroughputSettingsUpdateParameters_StatusARM struct {
 	Name *string `json:"name,omitempty"`
 
 	//Properties: Properties to update Azure Cosmos DB resource throughput.
-	Properties *ThroughputSettingsUpdateProperties_StatusARM `json:"properties,omitempty"`
-	Tags       map[string]string                             `json:"tags,omitempty"`
+	Properties *ThroughputSettingsProperties_StatusARM `json:"properties,omitempty"`
+	Tags       map[string]string                       `json:"tags,omitempty"`
 
 	//Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type ThroughputSettingsUpdateProperties_StatusARM struct {
+type ThroughputSettingsProperties_StatusARM struct {
 	//Resource: The standard JSON format of a resource throughput
 	Resource ThroughputSettingsResource_StatusARM `json:"resource"`
 }

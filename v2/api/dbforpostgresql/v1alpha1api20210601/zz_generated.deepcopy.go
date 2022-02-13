@@ -174,33 +174,8 @@ func (in *ConfigurationProperties_StatusARM) DeepCopyInto(out *ConfigurationProp
 		*out = new(string)
 		**out = **in
 	}
-	if in.DocumentationLink != nil {
-		in, out := &in.DocumentationLink, &out.DocumentationLink
-		*out = new(string)
-		**out = **in
-	}
-	if in.IsConfigPendingRestart != nil {
-		in, out := &in.IsConfigPendingRestart, &out.IsConfigPendingRestart
-		*out = new(bool)
-		**out = **in
-	}
-	if in.IsDynamicConfig != nil {
-		in, out := &in.IsDynamicConfig, &out.IsDynamicConfig
-		*out = new(bool)
-		**out = **in
-	}
-	if in.IsReadOnly != nil {
-		in, out := &in.IsReadOnly, &out.IsReadOnly
-		*out = new(bool)
-		**out = **in
-	}
 	if in.Source != nil {
 		in, out := &in.Source, &out.Source
-		*out = new(string)
-		**out = **in
-	}
-	if in.Unit != nil {
-		in, out := &in.Unit, &out.Unit
 		*out = new(string)
 		**out = **in
 	}
@@ -251,29 +226,9 @@ func (in *Configuration_Status) DeepCopyInto(out *Configuration_Status) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.DocumentationLink != nil {
-		in, out := &in.DocumentationLink, &out.DocumentationLink
-		*out = new(string)
-		**out = **in
-	}
 	if in.Id != nil {
 		in, out := &in.Id, &out.Id
 		*out = new(string)
-		**out = **in
-	}
-	if in.IsConfigPendingRestart != nil {
-		in, out := &in.IsConfigPendingRestart, &out.IsConfigPendingRestart
-		*out = new(bool)
-		**out = **in
-	}
-	if in.IsDynamicConfig != nil {
-		in, out := &in.IsDynamicConfig, &out.IsDynamicConfig
-		*out = new(bool)
-		**out = **in
-	}
-	if in.IsReadOnly != nil {
-		in, out := &in.IsReadOnly, &out.IsReadOnly
-		*out = new(bool)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -293,11 +248,6 @@ func (in *Configuration_Status) DeepCopyInto(out *Configuration_Status) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(string)
-		**out = **in
-	}
-	if in.Unit != nil {
-		in, out := &in.Unit, &out.Unit
 		*out = new(string)
 		**out = **in
 	}
@@ -1619,6 +1569,13 @@ func (in *ServerProperties_StatusARM) DeepCopyInto(out *ServerProperties_StatusA
 		*out = new(Storage_StatusARM)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
 	if in.Version != nil {
 		in, out := &in.Version, &out.Version
 		*out = new(ServerVersion_Status)
@@ -1710,6 +1667,13 @@ func (in *Server_Status) DeepCopyInto(out *Server_Status) {
 		in, out := &in.PointInTimeUTC, &out.PointInTimeUTC
 		*out = new(string)
 		**out = **in
+	}
+	if in.PropertiesTags != nil {
+		in, out := &in.PropertiesTags, &out.PropertiesTags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
 	}
 	if in.Sku != nil {
 		in, out := &in.Sku, &out.Sku

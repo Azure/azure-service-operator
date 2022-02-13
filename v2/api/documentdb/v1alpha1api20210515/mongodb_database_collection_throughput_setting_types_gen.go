@@ -32,7 +32,7 @@ type MongodbDatabaseCollectionThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPEC `json:"spec,omitempty"`
-	Status            ThroughputSettingsUpdateParameters_Status                          `json:"status,omitempty"`
+	Status            ThroughputSettings_Status                                          `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseCollectionThroughputSetting{}
@@ -126,7 +126,7 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *MongodbDatabaseCollectionThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ThroughputSettingsUpdateParameters_Status{}
+	return &ThroughputSettings_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -142,13 +142,13 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) Owner() *genruntime.R
 // SetStatus sets the status of this resource
 func (setting *MongodbDatabaseCollectionThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ThroughputSettingsUpdateParameters_Status); ok {
+	if st, ok := status.(*ThroughputSettings_Status); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ThroughputSettingsUpdateParameters_Status
+	var st ThroughputSettings_Status
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -256,10 +256,10 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) AssignPropertiesFromM
 	setting.Spec = spec
 
 	// Status
-	var status ThroughputSettingsUpdateParameters_Status
-	err = status.AssignPropertiesFromThroughputSettingsUpdateParameters_Status(&source.Status)
+	var status ThroughputSettings_Status
+	err = status.AssignPropertiesFromThroughputSettings_Status(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsUpdateParameters_Status() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettings_Status() to populate field Status")
 	}
 	setting.Status = status
 
@@ -282,10 +282,10 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) AssignPropertiesToMon
 	destination.Spec = spec
 
 	// Status
-	var status v1alpha1api20210515storage.ThroughputSettingsUpdateParameters_Status
-	err = setting.Status.AssignPropertiesToThroughputSettingsUpdateParameters_Status(&status)
+	var status v1alpha1api20210515storage.ThroughputSettings_Status
+	err = setting.Status.AssignPropertiesToThroughputSettings_Status(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsUpdateParameters_Status() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettings_Status() to populate field Status")
 	}
 	destination.Status = status
 
@@ -545,7 +545,7 @@ func (spec *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPEC) 
 	spec.AzureName = azureName
 }
 
-type ThroughputSettingsUpdateParameters_Status struct {
+type ThroughputSettings_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -566,25 +566,25 @@ type ThroughputSettingsUpdateParameters_Status struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &ThroughputSettingsUpdateParameters_Status{}
+var _ genruntime.ConvertibleStatus = &ThroughputSettings_Status{}
 
-// ConvertStatusFrom populates our ThroughputSettingsUpdateParameters_Status from the provided source
-func (parameters *ThroughputSettingsUpdateParameters_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1alpha1api20210515storage.ThroughputSettingsUpdateParameters_Status)
+// ConvertStatusFrom populates our ThroughputSettings_Status from the provided source
+func (settings *ThroughputSettings_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v1alpha1api20210515storage.ThroughputSettings_Status)
 	if ok {
 		// Populate our instance from source
-		return parameters.AssignPropertiesFromThroughputSettingsUpdateParameters_Status(src)
+		return settings.AssignPropertiesFromThroughputSettings_Status(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210515storage.ThroughputSettingsUpdateParameters_Status{}
+	src = &v1alpha1api20210515storage.ThroughputSettings_Status{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = parameters.AssignPropertiesFromThroughputSettingsUpdateParameters_Status(src)
+	err = settings.AssignPropertiesFromThroughputSettings_Status(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -592,17 +592,17 @@ func (parameters *ThroughputSettingsUpdateParameters_Status) ConvertStatusFrom(s
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our ThroughputSettingsUpdateParameters_Status
-func (parameters *ThroughputSettingsUpdateParameters_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1alpha1api20210515storage.ThroughputSettingsUpdateParameters_Status)
+// ConvertStatusTo populates the provided destination from our ThroughputSettings_Status
+func (settings *ThroughputSettings_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v1alpha1api20210515storage.ThroughputSettings_Status)
 	if ok {
 		// Populate destination from our instance
-		return parameters.AssignPropertiesToThroughputSettingsUpdateParameters_Status(dst)
+		return settings.AssignPropertiesToThroughputSettings_Status(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210515storage.ThroughputSettingsUpdateParameters_Status{}
-	err := parameters.AssignPropertiesToThroughputSettingsUpdateParameters_Status(dst)
+	dst = &v1alpha1api20210515storage.ThroughputSettings_Status{}
+	err := settings.AssignPropertiesToThroughputSettings_Status(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -616,18 +616,18 @@ func (parameters *ThroughputSettingsUpdateParameters_Status) ConvertStatusTo(des
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &ThroughputSettingsUpdateParameters_Status{}
+var _ genruntime.FromARMConverter = &ThroughputSettings_Status{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *ThroughputSettingsUpdateParameters_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ThroughputSettingsUpdateParameters_StatusARM{}
+func (settings *ThroughputSettings_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ThroughputSettings_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *ThroughputSettingsUpdateParameters_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ThroughputSettingsUpdateParameters_StatusARM)
+func (settings *ThroughputSettings_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ThroughputSettings_StatusARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ThroughputSettingsUpdateParameters_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ThroughputSettings_StatusARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -635,19 +635,19 @@ func (parameters *ThroughputSettingsUpdateParameters_Status) PopulateFromARM(own
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		parameters.Id = &id
+		settings.Id = &id
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		parameters.Location = &location
+		settings.Location = &location
 	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		parameters.Name = &name
+		settings.Name = &name
 	}
 
 	// Set property ‘Resource’:
@@ -660,41 +660,41 @@ func (parameters *ThroughputSettingsUpdateParameters_Status) PopulateFromARM(own
 			return err
 		}
 		temp = temp1
-		parameters.Resource = &temp
+		settings.Resource = &temp
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		parameters.Tags = make(map[string]string)
+		settings.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			parameters.Tags[key] = value
+			settings.Tags[key] = value
 		}
 	}
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		parameters.Type = &typeVar
+		settings.Type = &typeVar
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesFromThroughputSettingsUpdateParameters_Status populates our ThroughputSettingsUpdateParameters_Status from the provided source ThroughputSettingsUpdateParameters_Status
-func (parameters *ThroughputSettingsUpdateParameters_Status) AssignPropertiesFromThroughputSettingsUpdateParameters_Status(source *v1alpha1api20210515storage.ThroughputSettingsUpdateParameters_Status) error {
+// AssignPropertiesFromThroughputSettings_Status populates our ThroughputSettings_Status from the provided source ThroughputSettings_Status
+func (settings *ThroughputSettings_Status) AssignPropertiesFromThroughputSettings_Status(source *v1alpha1api20210515storage.ThroughputSettings_Status) error {
 
 	// Conditions
-	parameters.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	settings.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	parameters.Id = genruntime.ClonePointerToString(source.Id)
+	settings.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	parameters.Location = genruntime.ClonePointerToString(source.Location)
+	settings.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	parameters.Name = genruntime.ClonePointerToString(source.Name)
+	settings.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Resource
 	if source.Resource != nil {
@@ -703,42 +703,42 @@ func (parameters *ThroughputSettingsUpdateParameters_Status) AssignPropertiesFro
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsResource_Status() to populate field Resource")
 		}
-		parameters.Resource = &resource
+		settings.Resource = &resource
 	} else {
-		parameters.Resource = nil
+		settings.Resource = nil
 	}
 
 	// Tags
-	parameters.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	settings.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	parameters.Type = genruntime.ClonePointerToString(source.Type)
+	settings.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToThroughputSettingsUpdateParameters_Status populates the provided destination ThroughputSettingsUpdateParameters_Status from our ThroughputSettingsUpdateParameters_Status
-func (parameters *ThroughputSettingsUpdateParameters_Status) AssignPropertiesToThroughputSettingsUpdateParameters_Status(destination *v1alpha1api20210515storage.ThroughputSettingsUpdateParameters_Status) error {
+// AssignPropertiesToThroughputSettings_Status populates the provided destination ThroughputSettings_Status from our ThroughputSettings_Status
+func (settings *ThroughputSettings_Status) AssignPropertiesToThroughputSettings_Status(destination *v1alpha1api20210515storage.ThroughputSettings_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(parameters.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(settings.Conditions)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(parameters.Id)
+	destination.Id = genruntime.ClonePointerToString(settings.Id)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(parameters.Location)
+	destination.Location = genruntime.ClonePointerToString(settings.Location)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(parameters.Name)
+	destination.Name = genruntime.ClonePointerToString(settings.Name)
 
 	// Resource
-	if parameters.Resource != nil {
+	if settings.Resource != nil {
 		var resource v1alpha1api20210515storage.ThroughputSettingsResource_Status
-		err := parameters.Resource.AssignPropertiesToThroughputSettingsResource_Status(&resource)
+		err := settings.Resource.AssignPropertiesToThroughputSettingsResource_Status(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsResource_Status() to populate field Resource")
 		}
@@ -748,10 +748,10 @@ func (parameters *ThroughputSettingsUpdateParameters_Status) AssignPropertiesToT
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(parameters.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(settings.Tags)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(parameters.Type)
+	destination.Type = genruntime.ClonePointerToString(settings.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

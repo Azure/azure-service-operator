@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-type MongoDBDatabaseCreateUpdateParameters_StatusARM struct {
+type SqlStoredProcedure_StatusARM struct {
 	//Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
 
@@ -13,24 +13,27 @@ type MongoDBDatabaseCreateUpdateParameters_StatusARM struct {
 	//Name: The name of the ARM resource.
 	Name *string `json:"name,omitempty"`
 
-	//Properties: Properties to create and update Azure Cosmos DB MongoDB database.
-	Properties *MongoDBDatabaseCreateUpdateProperties_StatusARM `json:"properties,omitempty"`
-	Tags       map[string]string                                `json:"tags,omitempty"`
+	//Properties: Properties to create and update Azure Cosmos DB storedProcedure.
+	Properties *SqlStoredProcedureProperties_StatusARM `json:"properties,omitempty"`
+	Tags       map[string]string                       `json:"tags,omitempty"`
 
 	//Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type MongoDBDatabaseCreateUpdateProperties_StatusARM struct {
+type SqlStoredProcedureProperties_StatusARM struct {
 	//Options: A key-value pair of options to be applied for the request. This
 	//corresponds to the headers sent with the request.
 	Options *CreateUpdateOptions_StatusARM `json:"options,omitempty"`
 
-	//Resource: The standard JSON format of a MongoDB database
-	Resource MongoDBDatabaseResource_StatusARM `json:"resource"`
+	//Resource: The standard JSON format of a storedProcedure
+	Resource SqlStoredProcedureResource_StatusARM `json:"resource"`
 }
 
-type MongoDBDatabaseResource_StatusARM struct {
-	//Id: Name of the Cosmos DB MongoDB database
+type SqlStoredProcedureResource_StatusARM struct {
+	//Body: Body of the Stored Procedure
+	Body *string `json:"body,omitempty"`
+
+	//Id: Name of the Cosmos DB SQL storedProcedure
 	Id string `json:"id"`
 }

@@ -14,10 +14,10 @@ type DatabaseAccounts_SPECARM struct {
 	Kind *DatabaseAccounts_Kind_SPEC `json:"kind,omitempty"`
 
 	//Location: The location of the resource group to which the resource belongs.
-	Location   *string                                       `json:"location,omitempty"`
-	Name       string                                        `json:"name"`
-	Properties DatabaseAccountCreateUpdateProperties_SpecARM `json:"properties"`
-	Tags       map[string]string                             `json:"tags,omitempty"`
+	Location   *string                           `json:"location,omitempty"`
+	Name       string                            `json:"name"`
+	Properties DatabaseAccountProperties_SpecARM `json:"properties"`
+	Tags       map[string]string                 `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccounts_SPECARM{}
@@ -37,7 +37,7 @@ func (specarm DatabaseAccounts_SPECARM) GetType() string {
 	return ""
 }
 
-type DatabaseAccountCreateUpdateProperties_SpecARM struct {
+type DatabaseAccountProperties_SpecARM struct {
 	//AnalyticalStorageConfiguration: Analytical storage specific properties.
 	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration_SpecARM `json:"analyticalStorageConfiguration,omitempty"`
 

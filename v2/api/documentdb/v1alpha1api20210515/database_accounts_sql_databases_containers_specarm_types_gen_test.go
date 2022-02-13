@@ -91,22 +91,22 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainers_S
 
 // AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainers_SPECARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainers_SPECARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = SqlContainerCreateUpdateProperties_SpecARMGenerator()
+	gens["Properties"] = SqlContainerProperties_SpecARMGenerator()
 }
 
-func Test_SqlContainerCreateUpdateProperties_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SqlContainerProperties_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SqlContainerCreateUpdateProperties_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlContainerCreateUpdateProperties_SpecARM, SqlContainerCreateUpdateProperties_SpecARMGenerator()))
+		"Round trip of SqlContainerProperties_SpecARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSqlContainerProperties_SpecARM, SqlContainerProperties_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlContainerCreateUpdateProperties_SpecARM runs a test to see if a specific instance of SqlContainerCreateUpdateProperties_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlContainerCreateUpdateProperties_SpecARM(subject SqlContainerCreateUpdateProperties_SpecARM) string {
+// RunJSONSerializationTestForSqlContainerProperties_SpecARM runs a test to see if a specific instance of SqlContainerProperties_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlContainerProperties_SpecARM(subject SqlContainerProperties_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -114,7 +114,7 @@ func RunJSONSerializationTestForSqlContainerCreateUpdateProperties_SpecARM(subje
 	}
 
 	// Deserialize back into memory
-	var actual SqlContainerCreateUpdateProperties_SpecARM
+	var actual SqlContainerProperties_SpecARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -132,25 +132,25 @@ func RunJSONSerializationTestForSqlContainerCreateUpdateProperties_SpecARM(subje
 	return ""
 }
 
-// Generator of SqlContainerCreateUpdateProperties_SpecARM instances for property testing - lazily instantiated by
-//SqlContainerCreateUpdateProperties_SpecARMGenerator()
-var sqlContainerCreateUpdateProperties_specARMGenerator gopter.Gen
+// Generator of SqlContainerProperties_SpecARM instances for property testing - lazily instantiated by
+//SqlContainerProperties_SpecARMGenerator()
+var sqlContainerProperties_specARMGenerator gopter.Gen
 
-// SqlContainerCreateUpdateProperties_SpecARMGenerator returns a generator of SqlContainerCreateUpdateProperties_SpecARM instances for property testing.
-func SqlContainerCreateUpdateProperties_SpecARMGenerator() gopter.Gen {
-	if sqlContainerCreateUpdateProperties_specARMGenerator != nil {
-		return sqlContainerCreateUpdateProperties_specARMGenerator
+// SqlContainerProperties_SpecARMGenerator returns a generator of SqlContainerProperties_SpecARM instances for property testing.
+func SqlContainerProperties_SpecARMGenerator() gopter.Gen {
+	if sqlContainerProperties_specARMGenerator != nil {
+		return sqlContainerProperties_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForSqlContainerCreateUpdateProperties_SpecARM(generators)
-	sqlContainerCreateUpdateProperties_specARMGenerator = gen.Struct(reflect.TypeOf(SqlContainerCreateUpdateProperties_SpecARM{}), generators)
+	AddRelatedPropertyGeneratorsForSqlContainerProperties_SpecARM(generators)
+	sqlContainerProperties_specARMGenerator = gen.Struct(reflect.TypeOf(SqlContainerProperties_SpecARM{}), generators)
 
-	return sqlContainerCreateUpdateProperties_specARMGenerator
+	return sqlContainerProperties_specARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForSqlContainerCreateUpdateProperties_SpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSqlContainerCreateUpdateProperties_SpecARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForSqlContainerProperties_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSqlContainerProperties_SpecARM(gens map[string]gopter.Gen) {
 	gens["Options"] = gen.PtrOf(CreateUpdateOptions_SpecARMGenerator())
 	gens["Resource"] = SqlContainerResource_SpecARMGenerator()
 }

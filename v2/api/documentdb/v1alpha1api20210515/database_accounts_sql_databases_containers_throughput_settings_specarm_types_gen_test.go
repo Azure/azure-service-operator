@@ -91,5 +91,5 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTh
 
 // AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSettings_SPECARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSettings_SPECARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = ThroughputSettingsUpdateProperties_SpecARMGenerator()
+	gens["Properties"] = ThroughputSettingsProperties_SpecARMGenerator()
 }

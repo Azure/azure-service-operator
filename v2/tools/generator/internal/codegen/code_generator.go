@@ -237,20 +237,6 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 			klog.V(1).Infof("Removed %d type definitions", len(defsRemoved))
 		}
 
-		found := false
-		for tn := range stateOut.Types() {
-			if tn.Name() == "APIVersion" {
-				found = true
-				break
-			}
-		}
-
-		if found {
-			klog.Infof("FOUND")
-		} else {
-			klog.Infof("NOT FOUND")
-		}
-
 		state = stateOut
 	}
 

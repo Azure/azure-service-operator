@@ -3,36 +3,28 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-type DatabaseAccountCreateUpdateParameters_StatusARM struct {
+type DatabaseAccount_StatusARM struct {
 	//Id: The unique resource identifier of the ARM resource.
 	Id       *string                           `json:"id,omitempty"`
 	Identity *ManagedServiceIdentity_StatusARM `json:"identity,omitempty"`
 
 	//Kind: Indicates the type of database account. This can only be set at database
 	//account creation.
-	Kind *DatabaseAccountCreateUpdateParameters_Kind_Status `json:"kind,omitempty"`
+	Kind *DatabaseAccount_Kind_Status `json:"kind,omitempty"`
 
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the ARM resource.
-	Name       *string                                          `json:"name,omitempty"`
-	Properties *DatabaseAccountCreateUpdateProperties_StatusARM `json:"properties,omitempty"`
-	Tags       map[string]string                                `json:"tags,omitempty"`
+	Name       *string                              `json:"name,omitempty"`
+	Properties *DatabaseAccountProperties_StatusARM `json:"properties,omitempty"`
+	Tags       map[string]string                    `json:"tags,omitempty"`
 
 	//Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type DatabaseAccountCreateUpdateParameters_Kind_Status string
-
-const (
-	DatabaseAccountCreateUpdateParameters_Kind_StatusGlobalDocumentDB = DatabaseAccountCreateUpdateParameters_Kind_Status("GlobalDocumentDB")
-	DatabaseAccountCreateUpdateParameters_Kind_StatusMongoDB          = DatabaseAccountCreateUpdateParameters_Kind_Status("MongoDB")
-	DatabaseAccountCreateUpdateParameters_Kind_StatusParse            = DatabaseAccountCreateUpdateParameters_Kind_Status("Parse")
-)
-
-type DatabaseAccountCreateUpdateProperties_StatusARM struct {
+type DatabaseAccountProperties_StatusARM struct {
 	//AnalyticalStorageConfiguration: Analytical storage specific properties.
 	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration_StatusARM `json:"analyticalStorageConfiguration,omitempty"`
 
@@ -116,6 +108,14 @@ type DatabaseAccountCreateUpdateProperties_StatusARM struct {
 	//DB account.
 	VirtualNetworkRules []VirtualNetworkRule_StatusARM `json:"virtualNetworkRules,omitempty"`
 }
+
+type DatabaseAccount_Kind_Status string
+
+const (
+	DatabaseAccount_Kind_StatusGlobalDocumentDB = DatabaseAccount_Kind_Status("GlobalDocumentDB")
+	DatabaseAccount_Kind_StatusMongoDB          = DatabaseAccount_Kind_Status("MongoDB")
+	DatabaseAccount_Kind_StatusParse            = DatabaseAccount_Kind_Status("Parse")
+)
 
 type ManagedServiceIdentity_StatusARM struct {
 	//PrincipalId: The principal id of the system assigned identity. This property

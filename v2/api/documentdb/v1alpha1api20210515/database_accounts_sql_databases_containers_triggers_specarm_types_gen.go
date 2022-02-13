@@ -13,8 +13,8 @@ type DatabaseAccountsSqlDatabasesContainersTriggers_SPECARM struct {
 	Name     string  `json:"name"`
 
 	//Properties: Properties to create and update Azure Cosmos DB trigger.
-	Properties SqlTriggerCreateUpdateProperties_SpecARM `json:"properties"`
-	Tags       map[string]string                        `json:"tags,omitempty"`
+	Properties SqlTriggerProperties_SpecARM `json:"properties"`
+	Tags       map[string]string            `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabasesContainersTriggers_SPECARM{}
@@ -34,7 +34,7 @@ func (specarm DatabaseAccountsSqlDatabasesContainersTriggers_SPECARM) GetType() 
 	return ""
 }
 
-type SqlTriggerCreateUpdateProperties_SpecARM struct {
+type SqlTriggerProperties_SpecARM struct {
 	//Options: A key-value pair of options to be applied for the request. This
 	//corresponds to the headers sent with the request.
 	Options *CreateUpdateOptions_SpecARM `json:"options,omitempty"`

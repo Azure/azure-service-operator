@@ -32,7 +32,7 @@ type SqlDatabaseContainerUserDefinedFunction struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC `json:"spec,omitempty"`
-	Status            SqlUserDefinedFunctionCreateUpdateParameters_Status             `json:"status,omitempty"`
+	Status            SqlUserDefinedFunction_Status                                   `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerUserDefinedFunction{}
@@ -126,7 +126,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (function *SqlDatabaseContainerUserDefinedFunction) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlUserDefinedFunctionCreateUpdateParameters_Status{}
+	return &SqlUserDefinedFunction_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -142,13 +142,13 @@ func (function *SqlDatabaseContainerUserDefinedFunction) Owner() *genruntime.Res
 // SetStatus sets the status of this resource
 func (function *SqlDatabaseContainerUserDefinedFunction) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlUserDefinedFunctionCreateUpdateParameters_Status); ok {
+	if st, ok := status.(*SqlUserDefinedFunction_Status); ok {
 		function.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlUserDefinedFunctionCreateUpdateParameters_Status
+	var st SqlUserDefinedFunction_Status
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -256,10 +256,10 @@ func (function *SqlDatabaseContainerUserDefinedFunction) AssignPropertiesFromSql
 	function.Spec = spec
 
 	// Status
-	var status SqlUserDefinedFunctionCreateUpdateParameters_Status
-	err = status.AssignPropertiesFromSqlUserDefinedFunctionCreateUpdateParameters_Status(&source.Status)
+	var status SqlUserDefinedFunction_Status
+	err = status.AssignPropertiesFromSqlUserDefinedFunction_Status(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromSqlUserDefinedFunctionCreateUpdateParameters_Status() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromSqlUserDefinedFunction_Status() to populate field Status")
 	}
 	function.Status = status
 
@@ -282,10 +282,10 @@ func (function *SqlDatabaseContainerUserDefinedFunction) AssignPropertiesToSqlDa
 	destination.Spec = spec
 
 	// Status
-	var status v1alpha1api20210515storage.SqlUserDefinedFunctionCreateUpdateParameters_Status
-	err = function.Status.AssignPropertiesToSqlUserDefinedFunctionCreateUpdateParameters_Status(&status)
+	var status v1alpha1api20210515storage.SqlUserDefinedFunction_Status
+	err = function.Status.AssignPropertiesToSqlUserDefinedFunction_Status(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSqlUserDefinedFunctionCreateUpdateParameters_Status() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToSqlUserDefinedFunction_Status() to populate field Status")
 	}
 	destination.Status = status
 
@@ -593,7 +593,7 @@ func (spec *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC) Set
 	spec.AzureName = azureName
 }
 
-type SqlUserDefinedFunctionCreateUpdateParameters_Status struct {
+type SqlUserDefinedFunction_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -618,25 +618,25 @@ type SqlUserDefinedFunctionCreateUpdateParameters_Status struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SqlUserDefinedFunctionCreateUpdateParameters_Status{}
+var _ genruntime.ConvertibleStatus = &SqlUserDefinedFunction_Status{}
 
-// ConvertStatusFrom populates our SqlUserDefinedFunctionCreateUpdateParameters_Status from the provided source
-func (parameters *SqlUserDefinedFunctionCreateUpdateParameters_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1alpha1api20210515storage.SqlUserDefinedFunctionCreateUpdateParameters_Status)
+// ConvertStatusFrom populates our SqlUserDefinedFunction_Status from the provided source
+func (function *SqlUserDefinedFunction_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v1alpha1api20210515storage.SqlUserDefinedFunction_Status)
 	if ok {
 		// Populate our instance from source
-		return parameters.AssignPropertiesFromSqlUserDefinedFunctionCreateUpdateParameters_Status(src)
+		return function.AssignPropertiesFromSqlUserDefinedFunction_Status(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210515storage.SqlUserDefinedFunctionCreateUpdateParameters_Status{}
+	src = &v1alpha1api20210515storage.SqlUserDefinedFunction_Status{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = parameters.AssignPropertiesFromSqlUserDefinedFunctionCreateUpdateParameters_Status(src)
+	err = function.AssignPropertiesFromSqlUserDefinedFunction_Status(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -644,17 +644,17 @@ func (parameters *SqlUserDefinedFunctionCreateUpdateParameters_Status) ConvertSt
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our SqlUserDefinedFunctionCreateUpdateParameters_Status
-func (parameters *SqlUserDefinedFunctionCreateUpdateParameters_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1alpha1api20210515storage.SqlUserDefinedFunctionCreateUpdateParameters_Status)
+// ConvertStatusTo populates the provided destination from our SqlUserDefinedFunction_Status
+func (function *SqlUserDefinedFunction_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v1alpha1api20210515storage.SqlUserDefinedFunction_Status)
 	if ok {
 		// Populate destination from our instance
-		return parameters.AssignPropertiesToSqlUserDefinedFunctionCreateUpdateParameters_Status(dst)
+		return function.AssignPropertiesToSqlUserDefinedFunction_Status(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210515storage.SqlUserDefinedFunctionCreateUpdateParameters_Status{}
-	err := parameters.AssignPropertiesToSqlUserDefinedFunctionCreateUpdateParameters_Status(dst)
+	dst = &v1alpha1api20210515storage.SqlUserDefinedFunction_Status{}
+	err := function.AssignPropertiesToSqlUserDefinedFunction_Status(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -668,18 +668,18 @@ func (parameters *SqlUserDefinedFunctionCreateUpdateParameters_Status) ConvertSt
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &SqlUserDefinedFunctionCreateUpdateParameters_Status{}
+var _ genruntime.FromARMConverter = &SqlUserDefinedFunction_Status{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *SqlUserDefinedFunctionCreateUpdateParameters_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlUserDefinedFunctionCreateUpdateParameters_StatusARM{}
+func (function *SqlUserDefinedFunction_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SqlUserDefinedFunction_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *SqlUserDefinedFunctionCreateUpdateParameters_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlUserDefinedFunctionCreateUpdateParameters_StatusARM)
+func (function *SqlUserDefinedFunction_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SqlUserDefinedFunction_StatusARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlUserDefinedFunctionCreateUpdateParameters_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlUserDefinedFunction_StatusARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -687,19 +687,19 @@ func (parameters *SqlUserDefinedFunctionCreateUpdateParameters_Status) PopulateF
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		parameters.Id = &id
+		function.Id = &id
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		parameters.Location = &location
+		function.Location = &location
 	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		parameters.Name = &name
+		function.Name = &name
 	}
 
 	// Set property ‘Options’:
@@ -712,7 +712,7 @@ func (parameters *SqlUserDefinedFunctionCreateUpdateParameters_Status) PopulateF
 				return err
 			}
 			options := options1
-			parameters.Options = &options
+			function.Options = &options
 		}
 	}
 
@@ -726,41 +726,41 @@ func (parameters *SqlUserDefinedFunctionCreateUpdateParameters_Status) PopulateF
 			return err
 		}
 		temp = temp1
-		parameters.Resource = &temp
+		function.Resource = &temp
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		parameters.Tags = make(map[string]string)
+		function.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			parameters.Tags[key] = value
+			function.Tags[key] = value
 		}
 	}
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		parameters.Type = &typeVar
+		function.Type = &typeVar
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesFromSqlUserDefinedFunctionCreateUpdateParameters_Status populates our SqlUserDefinedFunctionCreateUpdateParameters_Status from the provided source SqlUserDefinedFunctionCreateUpdateParameters_Status
-func (parameters *SqlUserDefinedFunctionCreateUpdateParameters_Status) AssignPropertiesFromSqlUserDefinedFunctionCreateUpdateParameters_Status(source *v1alpha1api20210515storage.SqlUserDefinedFunctionCreateUpdateParameters_Status) error {
+// AssignPropertiesFromSqlUserDefinedFunction_Status populates our SqlUserDefinedFunction_Status from the provided source SqlUserDefinedFunction_Status
+func (function *SqlUserDefinedFunction_Status) AssignPropertiesFromSqlUserDefinedFunction_Status(source *v1alpha1api20210515storage.SqlUserDefinedFunction_Status) error {
 
 	// Conditions
-	parameters.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	function.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	parameters.Id = genruntime.ClonePointerToString(source.Id)
+	function.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	parameters.Location = genruntime.ClonePointerToString(source.Location)
+	function.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	parameters.Name = genruntime.ClonePointerToString(source.Name)
+	function.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Options
 	if source.Options != nil {
@@ -769,9 +769,9 @@ func (parameters *SqlUserDefinedFunctionCreateUpdateParameters_Status) AssignPro
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_Status() to populate field Options")
 		}
-		parameters.Options = &option
+		function.Options = &option
 	} else {
-		parameters.Options = nil
+		function.Options = nil
 	}
 
 	// Resource
@@ -781,42 +781,42 @@ func (parameters *SqlUserDefinedFunctionCreateUpdateParameters_Status) AssignPro
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSqlUserDefinedFunctionResource_Status() to populate field Resource")
 		}
-		parameters.Resource = &resource
+		function.Resource = &resource
 	} else {
-		parameters.Resource = nil
+		function.Resource = nil
 	}
 
 	// Tags
-	parameters.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	function.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	parameters.Type = genruntime.ClonePointerToString(source.Type)
+	function.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToSqlUserDefinedFunctionCreateUpdateParameters_Status populates the provided destination SqlUserDefinedFunctionCreateUpdateParameters_Status from our SqlUserDefinedFunctionCreateUpdateParameters_Status
-func (parameters *SqlUserDefinedFunctionCreateUpdateParameters_Status) AssignPropertiesToSqlUserDefinedFunctionCreateUpdateParameters_Status(destination *v1alpha1api20210515storage.SqlUserDefinedFunctionCreateUpdateParameters_Status) error {
+// AssignPropertiesToSqlUserDefinedFunction_Status populates the provided destination SqlUserDefinedFunction_Status from our SqlUserDefinedFunction_Status
+func (function *SqlUserDefinedFunction_Status) AssignPropertiesToSqlUserDefinedFunction_Status(destination *v1alpha1api20210515storage.SqlUserDefinedFunction_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(parameters.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(function.Conditions)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(parameters.Id)
+	destination.Id = genruntime.ClonePointerToString(function.Id)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(parameters.Location)
+	destination.Location = genruntime.ClonePointerToString(function.Location)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(parameters.Name)
+	destination.Name = genruntime.ClonePointerToString(function.Name)
 
 	// Options
-	if parameters.Options != nil {
+	if function.Options != nil {
 		var option v1alpha1api20210515storage.CreateUpdateOptions_Status
-		err := parameters.Options.AssignPropertiesToCreateUpdateOptions_Status(&option)
+		err := function.Options.AssignPropertiesToCreateUpdateOptions_Status(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_Status() to populate field Options")
 		}
@@ -826,9 +826,9 @@ func (parameters *SqlUserDefinedFunctionCreateUpdateParameters_Status) AssignPro
 	}
 
 	// Resource
-	if parameters.Resource != nil {
+	if function.Resource != nil {
 		var resource v1alpha1api20210515storage.SqlUserDefinedFunctionResource_Status
-		err := parameters.Resource.AssignPropertiesToSqlUserDefinedFunctionResource_Status(&resource)
+		err := function.Resource.AssignPropertiesToSqlUserDefinedFunctionResource_Status(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSqlUserDefinedFunctionResource_Status() to populate field Resource")
 		}
@@ -838,10 +838,10 @@ func (parameters *SqlUserDefinedFunctionCreateUpdateParameters_Status) AssignPro
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(parameters.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(function.Tags)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(parameters.Type)
+	destination.Type = genruntime.ClonePointerToString(function.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

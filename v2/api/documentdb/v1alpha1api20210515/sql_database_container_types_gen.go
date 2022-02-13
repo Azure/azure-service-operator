@@ -31,7 +31,7 @@ type SqlDatabaseContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsSqlDatabasesContainers_SPEC `json:"spec,omitempty"`
-	Status            SqlContainerCreateUpdateParameters_Status   `json:"status,omitempty"`
+	Status            SqlContainer_Status                         `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainer{}
@@ -125,7 +125,7 @@ func (container *SqlDatabaseContainer) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (container *SqlDatabaseContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlContainerCreateUpdateParameters_Status{}
+	return &SqlContainer_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -141,13 +141,13 @@ func (container *SqlDatabaseContainer) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (container *SqlDatabaseContainer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlContainerCreateUpdateParameters_Status); ok {
+	if st, ok := status.(*SqlContainer_Status); ok {
 		container.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlContainerCreateUpdateParameters_Status
+	var st SqlContainer_Status
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -255,10 +255,10 @@ func (container *SqlDatabaseContainer) AssignPropertiesFromSqlDatabaseContainer(
 	container.Spec = spec
 
 	// Status
-	var status SqlContainerCreateUpdateParameters_Status
-	err = status.AssignPropertiesFromSqlContainerCreateUpdateParameters_Status(&source.Status)
+	var status SqlContainer_Status
+	err = status.AssignPropertiesFromSqlContainer_Status(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerCreateUpdateParameters_Status() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromSqlContainer_Status() to populate field Status")
 	}
 	container.Status = status
 
@@ -281,10 +281,10 @@ func (container *SqlDatabaseContainer) AssignPropertiesToSqlDatabaseContainer(de
 	destination.Spec = spec
 
 	// Status
-	var status v1alpha1api20210515storage.SqlContainerCreateUpdateParameters_Status
-	err = container.Status.AssignPropertiesToSqlContainerCreateUpdateParameters_Status(&status)
+	var status v1alpha1api20210515storage.SqlContainer_Status
+	err = container.Status.AssignPropertiesToSqlContainer_Status(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSqlContainerCreateUpdateParameters_Status() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToSqlContainer_Status() to populate field Status")
 	}
 	destination.Status = status
 
@@ -591,7 +591,7 @@ func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) SetAzureName(azureName 
 	spec.AzureName = azureName
 }
 
-type SqlContainerCreateUpdateParameters_Status struct {
+type SqlContainer_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -616,25 +616,25 @@ type SqlContainerCreateUpdateParameters_Status struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SqlContainerCreateUpdateParameters_Status{}
+var _ genruntime.ConvertibleStatus = &SqlContainer_Status{}
 
-// ConvertStatusFrom populates our SqlContainerCreateUpdateParameters_Status from the provided source
-func (parameters *SqlContainerCreateUpdateParameters_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1alpha1api20210515storage.SqlContainerCreateUpdateParameters_Status)
+// ConvertStatusFrom populates our SqlContainer_Status from the provided source
+func (container *SqlContainer_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v1alpha1api20210515storage.SqlContainer_Status)
 	if ok {
 		// Populate our instance from source
-		return parameters.AssignPropertiesFromSqlContainerCreateUpdateParameters_Status(src)
+		return container.AssignPropertiesFromSqlContainer_Status(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210515storage.SqlContainerCreateUpdateParameters_Status{}
+	src = &v1alpha1api20210515storage.SqlContainer_Status{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = parameters.AssignPropertiesFromSqlContainerCreateUpdateParameters_Status(src)
+	err = container.AssignPropertiesFromSqlContainer_Status(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -642,17 +642,17 @@ func (parameters *SqlContainerCreateUpdateParameters_Status) ConvertStatusFrom(s
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our SqlContainerCreateUpdateParameters_Status
-func (parameters *SqlContainerCreateUpdateParameters_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1alpha1api20210515storage.SqlContainerCreateUpdateParameters_Status)
+// ConvertStatusTo populates the provided destination from our SqlContainer_Status
+func (container *SqlContainer_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v1alpha1api20210515storage.SqlContainer_Status)
 	if ok {
 		// Populate destination from our instance
-		return parameters.AssignPropertiesToSqlContainerCreateUpdateParameters_Status(dst)
+		return container.AssignPropertiesToSqlContainer_Status(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210515storage.SqlContainerCreateUpdateParameters_Status{}
-	err := parameters.AssignPropertiesToSqlContainerCreateUpdateParameters_Status(dst)
+	dst = &v1alpha1api20210515storage.SqlContainer_Status{}
+	err := container.AssignPropertiesToSqlContainer_Status(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -666,18 +666,18 @@ func (parameters *SqlContainerCreateUpdateParameters_Status) ConvertStatusTo(des
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &SqlContainerCreateUpdateParameters_Status{}
+var _ genruntime.FromARMConverter = &SqlContainer_Status{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *SqlContainerCreateUpdateParameters_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlContainerCreateUpdateParameters_StatusARM{}
+func (container *SqlContainer_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SqlContainer_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *SqlContainerCreateUpdateParameters_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlContainerCreateUpdateParameters_StatusARM)
+func (container *SqlContainer_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SqlContainer_StatusARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlContainerCreateUpdateParameters_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlContainer_StatusARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -685,19 +685,19 @@ func (parameters *SqlContainerCreateUpdateParameters_Status) PopulateFromARM(own
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		parameters.Id = &id
+		container.Id = &id
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		parameters.Location = &location
+		container.Location = &location
 	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		parameters.Name = &name
+		container.Name = &name
 	}
 
 	// Set property ‘Options’:
@@ -710,7 +710,7 @@ func (parameters *SqlContainerCreateUpdateParameters_Status) PopulateFromARM(own
 				return err
 			}
 			options := options1
-			parameters.Options = &options
+			container.Options = &options
 		}
 	}
 
@@ -724,41 +724,41 @@ func (parameters *SqlContainerCreateUpdateParameters_Status) PopulateFromARM(own
 			return err
 		}
 		temp = temp1
-		parameters.Resource = &temp
+		container.Resource = &temp
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		parameters.Tags = make(map[string]string)
+		container.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			parameters.Tags[key] = value
+			container.Tags[key] = value
 		}
 	}
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		parameters.Type = &typeVar
+		container.Type = &typeVar
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesFromSqlContainerCreateUpdateParameters_Status populates our SqlContainerCreateUpdateParameters_Status from the provided source SqlContainerCreateUpdateParameters_Status
-func (parameters *SqlContainerCreateUpdateParameters_Status) AssignPropertiesFromSqlContainerCreateUpdateParameters_Status(source *v1alpha1api20210515storage.SqlContainerCreateUpdateParameters_Status) error {
+// AssignPropertiesFromSqlContainer_Status populates our SqlContainer_Status from the provided source SqlContainer_Status
+func (container *SqlContainer_Status) AssignPropertiesFromSqlContainer_Status(source *v1alpha1api20210515storage.SqlContainer_Status) error {
 
 	// Conditions
-	parameters.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	container.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	parameters.Id = genruntime.ClonePointerToString(source.Id)
+	container.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	parameters.Location = genruntime.ClonePointerToString(source.Location)
+	container.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	parameters.Name = genruntime.ClonePointerToString(source.Name)
+	container.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Options
 	if source.Options != nil {
@@ -767,9 +767,9 @@ func (parameters *SqlContainerCreateUpdateParameters_Status) AssignPropertiesFro
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_Status() to populate field Options")
 		}
-		parameters.Options = &option
+		container.Options = &option
 	} else {
-		parameters.Options = nil
+		container.Options = nil
 	}
 
 	// Resource
@@ -779,42 +779,42 @@ func (parameters *SqlContainerCreateUpdateParameters_Status) AssignPropertiesFro
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerResource_Status() to populate field Resource")
 		}
-		parameters.Resource = &resource
+		container.Resource = &resource
 	} else {
-		parameters.Resource = nil
+		container.Resource = nil
 	}
 
 	// Tags
-	parameters.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	container.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	parameters.Type = genruntime.ClonePointerToString(source.Type)
+	container.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToSqlContainerCreateUpdateParameters_Status populates the provided destination SqlContainerCreateUpdateParameters_Status from our SqlContainerCreateUpdateParameters_Status
-func (parameters *SqlContainerCreateUpdateParameters_Status) AssignPropertiesToSqlContainerCreateUpdateParameters_Status(destination *v1alpha1api20210515storage.SqlContainerCreateUpdateParameters_Status) error {
+// AssignPropertiesToSqlContainer_Status populates the provided destination SqlContainer_Status from our SqlContainer_Status
+func (container *SqlContainer_Status) AssignPropertiesToSqlContainer_Status(destination *v1alpha1api20210515storage.SqlContainer_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(parameters.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(container.Conditions)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(parameters.Id)
+	destination.Id = genruntime.ClonePointerToString(container.Id)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(parameters.Location)
+	destination.Location = genruntime.ClonePointerToString(container.Location)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(parameters.Name)
+	destination.Name = genruntime.ClonePointerToString(container.Name)
 
 	// Options
-	if parameters.Options != nil {
+	if container.Options != nil {
 		var option v1alpha1api20210515storage.CreateUpdateOptions_Status
-		err := parameters.Options.AssignPropertiesToCreateUpdateOptions_Status(&option)
+		err := container.Options.AssignPropertiesToCreateUpdateOptions_Status(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_Status() to populate field Options")
 		}
@@ -824,9 +824,9 @@ func (parameters *SqlContainerCreateUpdateParameters_Status) AssignPropertiesToS
 	}
 
 	// Resource
-	if parameters.Resource != nil {
+	if container.Resource != nil {
 		var resource v1alpha1api20210515storage.SqlContainerResource_Status
-		err := parameters.Resource.AssignPropertiesToSqlContainerResource_Status(&resource)
+		err := container.Resource.AssignPropertiesToSqlContainerResource_Status(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSqlContainerResource_Status() to populate field Resource")
 		}
@@ -836,10 +836,10 @@ func (parameters *SqlContainerCreateUpdateParameters_Status) AssignPropertiesToS
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(parameters.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(container.Tags)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(parameters.Type)
+	destination.Type = genruntime.ClonePointerToString(container.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

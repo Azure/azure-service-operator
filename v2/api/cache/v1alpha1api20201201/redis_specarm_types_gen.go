@@ -13,7 +13,7 @@ type Redis_SPECARM struct {
 	Name     string `json:"name"`
 
 	//Properties: Redis cache properties.
-	Properties RedisCreateProperties_SpecARM `json:"properties"`
+	Properties RedisProperties_SpecARM `json:"properties"`
 
 	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -40,25 +40,25 @@ func (specarm Redis_SPECARM) GetType() string {
 	return ""
 }
 
-type RedisCreateProperties_SpecARM struct {
+type RedisProperties_SpecARM struct {
 	//EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is
 	//enabled.
 	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
 
 	//MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or
 	//higher) to connect (e,g, '1.0', '1.1', '1.2')
-	MinimumTlsVersion *RedisCreateProperties_MinimumTlsVersion_Spec `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *RedisProperties_MinimumTlsVersion_Spec `json:"minimumTlsVersion,omitempty"`
 
 	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this
 	//cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If
 	//'Disabled', private endpoints are the exclusive access method. Default value is
 	//'Enabled'
-	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess_Spec `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *RedisProperties_PublicNetworkAccess_Spec `json:"publicNetworkAccess,omitempty"`
 
 	//RedisConfiguration: All Redis Settings. Few possible keys:
 	//rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
 	//etc.
-	RedisConfiguration *RedisCreateProperties_RedisConfiguration_SpecARM `json:"redisConfiguration,omitempty"`
+	RedisConfiguration *RedisProperties_RedisConfiguration_SpecARM `json:"redisConfiguration,omitempty"`
 
 	//RedisVersion: Redis version. Only major version will be used in PUT/PATCH
 	//request with current valid values: (4, 6)
@@ -89,7 +89,7 @@ type RedisCreateProperties_SpecARM struct {
 	TenantSettings map[string]string `json:"tenantSettings,omitempty"`
 }
 
-type RedisCreateProperties_RedisConfiguration_SpecARM struct {
+type RedisProperties_RedisConfiguration_SpecARM struct {
 	//AofStorageConnectionString0: First storage account connection string
 	AofStorageConnectionString0 *string `json:"aof-storage-connection-string-0,omitempty"`
 

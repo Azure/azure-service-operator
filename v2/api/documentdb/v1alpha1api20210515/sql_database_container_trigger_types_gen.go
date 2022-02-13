@@ -32,7 +32,7 @@ type SqlDatabaseContainerTrigger struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsSqlDatabasesContainersTriggers_SPEC `json:"spec,omitempty"`
-	Status            SqlTriggerCreateUpdateParameters_Status             `json:"status,omitempty"`
+	Status            SqlTrigger_Status                                   `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerTrigger{}
@@ -126,7 +126,7 @@ func (trigger *SqlDatabaseContainerTrigger) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (trigger *SqlDatabaseContainerTrigger) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlTriggerCreateUpdateParameters_Status{}
+	return &SqlTrigger_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -142,13 +142,13 @@ func (trigger *SqlDatabaseContainerTrigger) Owner() *genruntime.ResourceReferenc
 // SetStatus sets the status of this resource
 func (trigger *SqlDatabaseContainerTrigger) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlTriggerCreateUpdateParameters_Status); ok {
+	if st, ok := status.(*SqlTrigger_Status); ok {
 		trigger.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlTriggerCreateUpdateParameters_Status
+	var st SqlTrigger_Status
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -256,10 +256,10 @@ func (trigger *SqlDatabaseContainerTrigger) AssignPropertiesFromSqlDatabaseConta
 	trigger.Spec = spec
 
 	// Status
-	var status SqlTriggerCreateUpdateParameters_Status
-	err = status.AssignPropertiesFromSqlTriggerCreateUpdateParameters_Status(&source.Status)
+	var status SqlTrigger_Status
+	err = status.AssignPropertiesFromSqlTrigger_Status(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromSqlTriggerCreateUpdateParameters_Status() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromSqlTrigger_Status() to populate field Status")
 	}
 	trigger.Status = status
 
@@ -282,10 +282,10 @@ func (trigger *SqlDatabaseContainerTrigger) AssignPropertiesToSqlDatabaseContain
 	destination.Spec = spec
 
 	// Status
-	var status v1alpha1api20210515storage.SqlTriggerCreateUpdateParameters_Status
-	err = trigger.Status.AssignPropertiesToSqlTriggerCreateUpdateParameters_Status(&status)
+	var status v1alpha1api20210515storage.SqlTrigger_Status
+	err = trigger.Status.AssignPropertiesToSqlTrigger_Status(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSqlTriggerCreateUpdateParameters_Status() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToSqlTrigger_Status() to populate field Status")
 	}
 	destination.Status = status
 
@@ -593,7 +593,7 @@ func (spec *DatabaseAccountsSqlDatabasesContainersTriggers_SPEC) SetAzureName(az
 	spec.AzureName = azureName
 }
 
-type SqlTriggerCreateUpdateParameters_Status struct {
+type SqlTrigger_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -618,25 +618,25 @@ type SqlTriggerCreateUpdateParameters_Status struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SqlTriggerCreateUpdateParameters_Status{}
+var _ genruntime.ConvertibleStatus = &SqlTrigger_Status{}
 
-// ConvertStatusFrom populates our SqlTriggerCreateUpdateParameters_Status from the provided source
-func (parameters *SqlTriggerCreateUpdateParameters_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1alpha1api20210515storage.SqlTriggerCreateUpdateParameters_Status)
+// ConvertStatusFrom populates our SqlTrigger_Status from the provided source
+func (trigger *SqlTrigger_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v1alpha1api20210515storage.SqlTrigger_Status)
 	if ok {
 		// Populate our instance from source
-		return parameters.AssignPropertiesFromSqlTriggerCreateUpdateParameters_Status(src)
+		return trigger.AssignPropertiesFromSqlTrigger_Status(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210515storage.SqlTriggerCreateUpdateParameters_Status{}
+	src = &v1alpha1api20210515storage.SqlTrigger_Status{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = parameters.AssignPropertiesFromSqlTriggerCreateUpdateParameters_Status(src)
+	err = trigger.AssignPropertiesFromSqlTrigger_Status(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -644,17 +644,17 @@ func (parameters *SqlTriggerCreateUpdateParameters_Status) ConvertStatusFrom(sou
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our SqlTriggerCreateUpdateParameters_Status
-func (parameters *SqlTriggerCreateUpdateParameters_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1alpha1api20210515storage.SqlTriggerCreateUpdateParameters_Status)
+// ConvertStatusTo populates the provided destination from our SqlTrigger_Status
+func (trigger *SqlTrigger_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v1alpha1api20210515storage.SqlTrigger_Status)
 	if ok {
 		// Populate destination from our instance
-		return parameters.AssignPropertiesToSqlTriggerCreateUpdateParameters_Status(dst)
+		return trigger.AssignPropertiesToSqlTrigger_Status(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210515storage.SqlTriggerCreateUpdateParameters_Status{}
-	err := parameters.AssignPropertiesToSqlTriggerCreateUpdateParameters_Status(dst)
+	dst = &v1alpha1api20210515storage.SqlTrigger_Status{}
+	err := trigger.AssignPropertiesToSqlTrigger_Status(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -668,18 +668,18 @@ func (parameters *SqlTriggerCreateUpdateParameters_Status) ConvertStatusTo(desti
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &SqlTriggerCreateUpdateParameters_Status{}
+var _ genruntime.FromARMConverter = &SqlTrigger_Status{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *SqlTriggerCreateUpdateParameters_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlTriggerCreateUpdateParameters_StatusARM{}
+func (trigger *SqlTrigger_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SqlTrigger_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *SqlTriggerCreateUpdateParameters_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlTriggerCreateUpdateParameters_StatusARM)
+func (trigger *SqlTrigger_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SqlTrigger_StatusARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlTriggerCreateUpdateParameters_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlTrigger_StatusARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -687,19 +687,19 @@ func (parameters *SqlTriggerCreateUpdateParameters_Status) PopulateFromARM(owner
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		parameters.Id = &id
+		trigger.Id = &id
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		parameters.Location = &location
+		trigger.Location = &location
 	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		parameters.Name = &name
+		trigger.Name = &name
 	}
 
 	// Set property ‘Options’:
@@ -712,7 +712,7 @@ func (parameters *SqlTriggerCreateUpdateParameters_Status) PopulateFromARM(owner
 				return err
 			}
 			options := options1
-			parameters.Options = &options
+			trigger.Options = &options
 		}
 	}
 
@@ -726,41 +726,41 @@ func (parameters *SqlTriggerCreateUpdateParameters_Status) PopulateFromARM(owner
 			return err
 		}
 		temp = temp1
-		parameters.Resource = &temp
+		trigger.Resource = &temp
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		parameters.Tags = make(map[string]string)
+		trigger.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			parameters.Tags[key] = value
+			trigger.Tags[key] = value
 		}
 	}
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		parameters.Type = &typeVar
+		trigger.Type = &typeVar
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesFromSqlTriggerCreateUpdateParameters_Status populates our SqlTriggerCreateUpdateParameters_Status from the provided source SqlTriggerCreateUpdateParameters_Status
-func (parameters *SqlTriggerCreateUpdateParameters_Status) AssignPropertiesFromSqlTriggerCreateUpdateParameters_Status(source *v1alpha1api20210515storage.SqlTriggerCreateUpdateParameters_Status) error {
+// AssignPropertiesFromSqlTrigger_Status populates our SqlTrigger_Status from the provided source SqlTrigger_Status
+func (trigger *SqlTrigger_Status) AssignPropertiesFromSqlTrigger_Status(source *v1alpha1api20210515storage.SqlTrigger_Status) error {
 
 	// Conditions
-	parameters.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	trigger.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	parameters.Id = genruntime.ClonePointerToString(source.Id)
+	trigger.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	parameters.Location = genruntime.ClonePointerToString(source.Location)
+	trigger.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	parameters.Name = genruntime.ClonePointerToString(source.Name)
+	trigger.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Options
 	if source.Options != nil {
@@ -769,9 +769,9 @@ func (parameters *SqlTriggerCreateUpdateParameters_Status) AssignPropertiesFromS
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_Status() to populate field Options")
 		}
-		parameters.Options = &option
+		trigger.Options = &option
 	} else {
-		parameters.Options = nil
+		trigger.Options = nil
 	}
 
 	// Resource
@@ -781,42 +781,42 @@ func (parameters *SqlTriggerCreateUpdateParameters_Status) AssignPropertiesFromS
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSqlTriggerResource_Status() to populate field Resource")
 		}
-		parameters.Resource = &resource
+		trigger.Resource = &resource
 	} else {
-		parameters.Resource = nil
+		trigger.Resource = nil
 	}
 
 	// Tags
-	parameters.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	trigger.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	parameters.Type = genruntime.ClonePointerToString(source.Type)
+	trigger.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToSqlTriggerCreateUpdateParameters_Status populates the provided destination SqlTriggerCreateUpdateParameters_Status from our SqlTriggerCreateUpdateParameters_Status
-func (parameters *SqlTriggerCreateUpdateParameters_Status) AssignPropertiesToSqlTriggerCreateUpdateParameters_Status(destination *v1alpha1api20210515storage.SqlTriggerCreateUpdateParameters_Status) error {
+// AssignPropertiesToSqlTrigger_Status populates the provided destination SqlTrigger_Status from our SqlTrigger_Status
+func (trigger *SqlTrigger_Status) AssignPropertiesToSqlTrigger_Status(destination *v1alpha1api20210515storage.SqlTrigger_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(parameters.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(trigger.Conditions)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(parameters.Id)
+	destination.Id = genruntime.ClonePointerToString(trigger.Id)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(parameters.Location)
+	destination.Location = genruntime.ClonePointerToString(trigger.Location)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(parameters.Name)
+	destination.Name = genruntime.ClonePointerToString(trigger.Name)
 
 	// Options
-	if parameters.Options != nil {
+	if trigger.Options != nil {
 		var option v1alpha1api20210515storage.CreateUpdateOptions_Status
-		err := parameters.Options.AssignPropertiesToCreateUpdateOptions_Status(&option)
+		err := trigger.Options.AssignPropertiesToCreateUpdateOptions_Status(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_Status() to populate field Options")
 		}
@@ -826,9 +826,9 @@ func (parameters *SqlTriggerCreateUpdateParameters_Status) AssignPropertiesToSql
 	}
 
 	// Resource
-	if parameters.Resource != nil {
+	if trigger.Resource != nil {
 		var resource v1alpha1api20210515storage.SqlTriggerResource_Status
-		err := parameters.Resource.AssignPropertiesToSqlTriggerResource_Status(&resource)
+		err := trigger.Resource.AssignPropertiesToSqlTriggerResource_Status(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSqlTriggerResource_Status() to populate field Resource")
 		}
@@ -838,10 +838,10 @@ func (parameters *SqlTriggerCreateUpdateParameters_Status) AssignPropertiesToSql
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(parameters.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(trigger.Tags)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(parameters.Type)
+	destination.Type = genruntime.ClonePointerToString(trigger.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

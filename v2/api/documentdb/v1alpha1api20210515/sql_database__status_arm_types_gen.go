@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-type SqlDatabaseCreateUpdateParameters_StatusARM struct {
+type SqlDatabase_StatusARM struct {
 	//Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
 
@@ -14,14 +14,14 @@ type SqlDatabaseCreateUpdateParameters_StatusARM struct {
 	Name *string `json:"name,omitempty"`
 
 	//Properties: Properties to create and update Azure Cosmos DB SQL database.
-	Properties *SqlDatabaseCreateUpdateProperties_StatusARM `json:"properties,omitempty"`
-	Tags       map[string]string                            `json:"tags,omitempty"`
+	Properties *SqlDatabaseProperties_StatusARM `json:"properties,omitempty"`
+	Tags       map[string]string                `json:"tags,omitempty"`
 
 	//Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type SqlDatabaseCreateUpdateProperties_StatusARM struct {
+type SqlDatabaseProperties_StatusARM struct {
 	//Options: A key-value pair of options to be applied for the request. This
 	//corresponds to the headers sent with the request.
 	Options *CreateUpdateOptions_StatusARM `json:"options,omitempty"`

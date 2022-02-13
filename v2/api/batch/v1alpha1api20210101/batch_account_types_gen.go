@@ -751,7 +751,7 @@ func (spec *BatchAccounts_SPEC) ConvertToARM(resolved genruntime.ConvertToARMRes
 		spec.KeyVaultReference != nil ||
 		spec.PoolAllocationMode != nil ||
 		spec.PublicNetworkAccess != nil {
-		result.Properties = &BatchAccountCreateProperties_SpecARM{}
+		result.Properties = &BatchAccountProperties_SpecARM{}
 	}
 	if spec.AutoStorage != nil {
 		autoStorageARM, err := (*spec.AutoStorage).ConvertToARM(resolved)

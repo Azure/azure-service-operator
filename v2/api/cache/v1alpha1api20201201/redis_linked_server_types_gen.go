@@ -322,7 +322,7 @@ type RedisLinkedServer_Status struct {
 	LinkedRedisCacheLocation *string `json:"linkedRedisCacheLocation,omitempty"`
 
 	//ServerRole: Role of the linked server.
-	ServerRole *RedisLinkedServerCreateProperties_ServerRole_Status `json:"serverRole,omitempty"`
+	ServerRole *RedisLinkedServerProperties_ServerRole_Status `json:"serverRole,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &RedisLinkedServer_Status{}
@@ -427,7 +427,7 @@ func (server *RedisLinkedServer_Status) AssignPropertiesFromRedisLinkedServer_St
 
 	// ServerRole
 	if source.ServerRole != nil {
-		serverRole := RedisLinkedServerCreateProperties_ServerRole_Status(*source.ServerRole)
+		serverRole := RedisLinkedServerProperties_ServerRole_Status(*source.ServerRole)
 		server.ServerRole = &serverRole
 	} else {
 		server.ServerRole = nil
@@ -488,7 +488,7 @@ type RedisLinkedServers_SPEC struct {
 
 	// +kubebuilder:validation:Required
 	//ServerRole: Role of the linked server.
-	ServerRole RedisLinkedServerCreateProperties_ServerRole_Spec `json:"serverRole"`
+	ServerRole RedisLinkedServerProperties_ServerRole_Spec `json:"serverRole"`
 }
 
 var _ genruntime.ARMTransformer = &RedisLinkedServers_SPEC{}
@@ -618,7 +618,7 @@ func (spec *RedisLinkedServers_SPEC) AssignPropertiesFromRedisLinkedServers_SPEC
 
 	// ServerRole
 	if source.ServerRole != nil {
-		spec.ServerRole = RedisLinkedServerCreateProperties_ServerRole_Spec(*source.ServerRole)
+		spec.ServerRole = RedisLinkedServerProperties_ServerRole_Spec(*source.ServerRole)
 	} else {
 		spec.ServerRole = ""
 	}
@@ -672,18 +672,18 @@ func (spec *RedisLinkedServers_SPEC) OriginalVersion() string {
 func (spec *RedisLinkedServers_SPEC) SetAzureName(azureName string) { spec.AzureName = azureName }
 
 // +kubebuilder:validation:Enum={"Primary","Secondary"}
-type RedisLinkedServerCreateProperties_ServerRole_Spec string
+type RedisLinkedServerProperties_ServerRole_Spec string
 
 const (
-	RedisLinkedServerCreateProperties_ServerRole_SpecPrimary   = RedisLinkedServerCreateProperties_ServerRole_Spec("Primary")
-	RedisLinkedServerCreateProperties_ServerRole_SpecSecondary = RedisLinkedServerCreateProperties_ServerRole_Spec("Secondary")
+	RedisLinkedServerProperties_ServerRole_SpecPrimary   = RedisLinkedServerProperties_ServerRole_Spec("Primary")
+	RedisLinkedServerProperties_ServerRole_SpecSecondary = RedisLinkedServerProperties_ServerRole_Spec("Secondary")
 )
 
-type RedisLinkedServerCreateProperties_ServerRole_Status string
+type RedisLinkedServerProperties_ServerRole_Status string
 
 const (
-	RedisLinkedServerCreateProperties_ServerRole_StatusPrimary   = RedisLinkedServerCreateProperties_ServerRole_Status("Primary")
-	RedisLinkedServerCreateProperties_ServerRole_StatusSecondary = RedisLinkedServerCreateProperties_ServerRole_Status("Secondary")
+	RedisLinkedServerProperties_ServerRole_StatusPrimary   = RedisLinkedServerProperties_ServerRole_Status("Primary")
+	RedisLinkedServerProperties_ServerRole_StatusSecondary = RedisLinkedServerProperties_ServerRole_Status("Secondary")
 )
 
 func init() {

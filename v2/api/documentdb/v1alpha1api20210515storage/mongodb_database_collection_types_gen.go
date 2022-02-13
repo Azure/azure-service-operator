@@ -29,7 +29,7 @@ type MongodbDatabaseCollection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsMongodbDatabasesCollections_SPEC `json:"spec,omitempty"`
-	Status            MongoDBCollectionCreateUpdateParameters_Status   `json:"status,omitempty"`
+	Status            MongoDBCollection_Status                         `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseCollection{}
@@ -78,7 +78,7 @@ func (collection *MongodbDatabaseCollection) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (collection *MongodbDatabaseCollection) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &MongoDBCollectionCreateUpdateParameters_Status{}
+	return &MongoDBCollection_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -94,13 +94,13 @@ func (collection *MongodbDatabaseCollection) Owner() *genruntime.ResourceReferen
 // SetStatus sets the status of this resource
 func (collection *MongodbDatabaseCollection) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*MongoDBCollectionCreateUpdateParameters_Status); ok {
+	if st, ok := status.(*MongoDBCollection_Status); ok {
 		collection.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st MongoDBCollectionCreateUpdateParameters_Status
+	var st MongoDBCollection_Status
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -169,8 +169,8 @@ func (spec *DatabaseAccountsMongodbDatabasesCollections_SPEC) ConvertSpecTo(dest
 	return destination.ConvertSpecFrom(spec)
 }
 
-//Storage version of v1alpha1api20210515.MongoDBCollectionCreateUpdateParameters_Status
-type MongoDBCollectionCreateUpdateParameters_Status struct {
+//Storage version of v1alpha1api20210515.MongoDBCollection_Status
+type MongoDBCollection_Status struct {
 	Conditions  []conditions.Condition            `json:"conditions,omitempty"`
 	Id          *string                           `json:"id,omitempty"`
 	Location    *string                           `json:"location,omitempty"`
@@ -182,24 +182,24 @@ type MongoDBCollectionCreateUpdateParameters_Status struct {
 	Type        *string                           `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &MongoDBCollectionCreateUpdateParameters_Status{}
+var _ genruntime.ConvertibleStatus = &MongoDBCollection_Status{}
 
-// ConvertStatusFrom populates our MongoDBCollectionCreateUpdateParameters_Status from the provided source
-func (parameters *MongoDBCollectionCreateUpdateParameters_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == parameters {
+// ConvertStatusFrom populates our MongoDBCollection_Status from the provided source
+func (collection *MongoDBCollection_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == collection {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(parameters)
+	return source.ConvertStatusTo(collection)
 }
 
-// ConvertStatusTo populates the provided destination from our MongoDBCollectionCreateUpdateParameters_Status
-func (parameters *MongoDBCollectionCreateUpdateParameters_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == parameters {
+// ConvertStatusTo populates the provided destination from our MongoDBCollection_Status
+func (collection *MongoDBCollection_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == collection {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(parameters)
+	return destination.ConvertStatusFrom(collection)
 }
 
 //Storage version of v1alpha1api20210515.MongoDBCollectionResource_Spec

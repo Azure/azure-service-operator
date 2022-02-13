@@ -17,19 +17,19 @@ import (
 	"testing"
 )
 
-func Test_SqlStoredProcedureCreateUpdateParameters_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SqlStoredProcedure_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SqlStoredProcedureCreateUpdateParameters_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlStoredProcedureCreateUpdateParameters_StatusARM, SqlStoredProcedureCreateUpdateParameters_StatusARMGenerator()))
+		"Round trip of SqlStoredProcedure_StatusARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSqlStoredProcedure_StatusARM, SqlStoredProcedure_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlStoredProcedureCreateUpdateParameters_StatusARM runs a test to see if a specific instance of SqlStoredProcedureCreateUpdateParameters_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlStoredProcedureCreateUpdateParameters_StatusARM(subject SqlStoredProcedureCreateUpdateParameters_StatusARM) string {
+// RunJSONSerializationTestForSqlStoredProcedure_StatusARM runs a test to see if a specific instance of SqlStoredProcedure_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlStoredProcedure_StatusARM(subject SqlStoredProcedure_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -37,7 +37,7 @@ func RunJSONSerializationTestForSqlStoredProcedureCreateUpdateParameters_StatusA
 	}
 
 	// Deserialize back into memory
-	var actual SqlStoredProcedureCreateUpdateParameters_StatusARM
+	var actual SqlStoredProcedure_StatusARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -55,34 +55,34 @@ func RunJSONSerializationTestForSqlStoredProcedureCreateUpdateParameters_StatusA
 	return ""
 }
 
-// Generator of SqlStoredProcedureCreateUpdateParameters_StatusARM instances for property testing - lazily instantiated
-//by SqlStoredProcedureCreateUpdateParameters_StatusARMGenerator()
-var sqlStoredProcedureCreateUpdateParameters_statusARMGenerator gopter.Gen
+// Generator of SqlStoredProcedure_StatusARM instances for property testing - lazily instantiated by
+//SqlStoredProcedure_StatusARMGenerator()
+var sqlStoredProcedure_statusARMGenerator gopter.Gen
 
-// SqlStoredProcedureCreateUpdateParameters_StatusARMGenerator returns a generator of SqlStoredProcedureCreateUpdateParameters_StatusARM instances for property testing.
-// We first initialize sqlStoredProcedureCreateUpdateParameters_statusARMGenerator with a simplified generator based on the
+// SqlStoredProcedure_StatusARMGenerator returns a generator of SqlStoredProcedure_StatusARM instances for property testing.
+// We first initialize sqlStoredProcedure_statusARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SqlStoredProcedureCreateUpdateParameters_StatusARMGenerator() gopter.Gen {
-	if sqlStoredProcedureCreateUpdateParameters_statusARMGenerator != nil {
-		return sqlStoredProcedureCreateUpdateParameters_statusARMGenerator
+func SqlStoredProcedure_StatusARMGenerator() gopter.Gen {
+	if sqlStoredProcedure_statusARMGenerator != nil {
+		return sqlStoredProcedure_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlStoredProcedureCreateUpdateParameters_StatusARM(generators)
-	sqlStoredProcedureCreateUpdateParameters_statusARMGenerator = gen.Struct(reflect.TypeOf(SqlStoredProcedureCreateUpdateParameters_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForSqlStoredProcedure_StatusARM(generators)
+	sqlStoredProcedure_statusARMGenerator = gen.Struct(reflect.TypeOf(SqlStoredProcedure_StatusARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlStoredProcedureCreateUpdateParameters_StatusARM(generators)
-	AddRelatedPropertyGeneratorsForSqlStoredProcedureCreateUpdateParameters_StatusARM(generators)
-	sqlStoredProcedureCreateUpdateParameters_statusARMGenerator = gen.Struct(reflect.TypeOf(SqlStoredProcedureCreateUpdateParameters_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForSqlStoredProcedure_StatusARM(generators)
+	AddRelatedPropertyGeneratorsForSqlStoredProcedure_StatusARM(generators)
+	sqlStoredProcedure_statusARMGenerator = gen.Struct(reflect.TypeOf(SqlStoredProcedure_StatusARM{}), generators)
 
-	return sqlStoredProcedureCreateUpdateParameters_statusARMGenerator
+	return sqlStoredProcedure_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSqlStoredProcedureCreateUpdateParameters_StatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSqlStoredProcedureCreateUpdateParameters_StatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSqlStoredProcedure_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSqlStoredProcedure_StatusARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -90,24 +90,24 @@ func AddIndependentPropertyGeneratorsForSqlStoredProcedureCreateUpdateParameters
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSqlStoredProcedureCreateUpdateParameters_StatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSqlStoredProcedureCreateUpdateParameters_StatusARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(SqlStoredProcedureCreateUpdateProperties_StatusARMGenerator())
+// AddRelatedPropertyGeneratorsForSqlStoredProcedure_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSqlStoredProcedure_StatusARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(SqlStoredProcedureProperties_StatusARMGenerator())
 }
 
-func Test_SqlStoredProcedureCreateUpdateProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SqlStoredProcedureProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SqlStoredProcedureCreateUpdateProperties_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlStoredProcedureCreateUpdateProperties_StatusARM, SqlStoredProcedureCreateUpdateProperties_StatusARMGenerator()))
+		"Round trip of SqlStoredProcedureProperties_StatusARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSqlStoredProcedureProperties_StatusARM, SqlStoredProcedureProperties_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlStoredProcedureCreateUpdateProperties_StatusARM runs a test to see if a specific instance of SqlStoredProcedureCreateUpdateProperties_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlStoredProcedureCreateUpdateProperties_StatusARM(subject SqlStoredProcedureCreateUpdateProperties_StatusARM) string {
+// RunJSONSerializationTestForSqlStoredProcedureProperties_StatusARM runs a test to see if a specific instance of SqlStoredProcedureProperties_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlStoredProcedureProperties_StatusARM(subject SqlStoredProcedureProperties_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -115,7 +115,7 @@ func RunJSONSerializationTestForSqlStoredProcedureCreateUpdateProperties_StatusA
 	}
 
 	// Deserialize back into memory
-	var actual SqlStoredProcedureCreateUpdateProperties_StatusARM
+	var actual SqlStoredProcedureProperties_StatusARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -133,25 +133,25 @@ func RunJSONSerializationTestForSqlStoredProcedureCreateUpdateProperties_StatusA
 	return ""
 }
 
-// Generator of SqlStoredProcedureCreateUpdateProperties_StatusARM instances for property testing - lazily instantiated
-//by SqlStoredProcedureCreateUpdateProperties_StatusARMGenerator()
-var sqlStoredProcedureCreateUpdateProperties_statusARMGenerator gopter.Gen
+// Generator of SqlStoredProcedureProperties_StatusARM instances for property testing - lazily instantiated by
+//SqlStoredProcedureProperties_StatusARMGenerator()
+var sqlStoredProcedureProperties_statusARMGenerator gopter.Gen
 
-// SqlStoredProcedureCreateUpdateProperties_StatusARMGenerator returns a generator of SqlStoredProcedureCreateUpdateProperties_StatusARM instances for property testing.
-func SqlStoredProcedureCreateUpdateProperties_StatusARMGenerator() gopter.Gen {
-	if sqlStoredProcedureCreateUpdateProperties_statusARMGenerator != nil {
-		return sqlStoredProcedureCreateUpdateProperties_statusARMGenerator
+// SqlStoredProcedureProperties_StatusARMGenerator returns a generator of SqlStoredProcedureProperties_StatusARM instances for property testing.
+func SqlStoredProcedureProperties_StatusARMGenerator() gopter.Gen {
+	if sqlStoredProcedureProperties_statusARMGenerator != nil {
+		return sqlStoredProcedureProperties_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForSqlStoredProcedureCreateUpdateProperties_StatusARM(generators)
-	sqlStoredProcedureCreateUpdateProperties_statusARMGenerator = gen.Struct(reflect.TypeOf(SqlStoredProcedureCreateUpdateProperties_StatusARM{}), generators)
+	AddRelatedPropertyGeneratorsForSqlStoredProcedureProperties_StatusARM(generators)
+	sqlStoredProcedureProperties_statusARMGenerator = gen.Struct(reflect.TypeOf(SqlStoredProcedureProperties_StatusARM{}), generators)
 
-	return sqlStoredProcedureCreateUpdateProperties_statusARMGenerator
+	return sqlStoredProcedureProperties_statusARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForSqlStoredProcedureCreateUpdateProperties_StatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSqlStoredProcedureCreateUpdateProperties_StatusARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForSqlStoredProcedureProperties_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSqlStoredProcedureProperties_StatusARM(gens map[string]gopter.Gen) {
 	gens["Options"] = gen.PtrOf(CreateUpdateOptions_StatusARMGenerator())
 	gens["Resource"] = SqlStoredProcedureResource_StatusARMGenerator()
 }

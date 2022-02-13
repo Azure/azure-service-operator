@@ -16,7 +16,7 @@ type BatchAccounts_SPECARM struct {
 	Name     string `json:"name"`
 
 	//Properties: The properties of the Batch account.
-	Properties *BatchAccountCreateProperties_SpecARM `json:"properties,omitempty"`
+	Properties *BatchAccountProperties_SpecARM `json:"properties,omitempty"`
 
 	//Tags: The user-specified tags associated with the account.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -39,7 +39,12 @@ func (specarm BatchAccounts_SPECARM) GetType() string {
 	return ""
 }
 
-type BatchAccountCreateProperties_SpecARM struct {
+type BatchAccountIdentity_SpecARM struct {
+	//Type: The type of identity used for the Batch account.
+	Type BatchAccountIdentity_Type_Spec `json:"type"`
+}
+
+type BatchAccountProperties_SpecARM struct {
 	//AutoStorage: The properties related to the auto-storage account.
 	AutoStorage *AutoStorageBaseProperties_SpecARM `json:"autoStorage,omitempty"`
 
@@ -61,11 +66,6 @@ type BatchAccountCreateProperties_SpecARM struct {
 
 	//PublicNetworkAccess: If not specified, the default value is 'enabled'.
 	PublicNetworkAccess *PublicNetworkAccessType_Spec `json:"publicNetworkAccess,omitempty"`
-}
-
-type BatchAccountIdentity_SpecARM struct {
-	//Type: The type of identity used for the Batch account.
-	Type BatchAccountIdentity_Type_Spec `json:"type"`
 }
 
 type AutoStorageBaseProperties_SpecARM struct {

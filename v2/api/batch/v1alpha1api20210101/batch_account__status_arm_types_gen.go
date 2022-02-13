@@ -11,13 +11,32 @@ type BatchAccount_StatusARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Properties: The properties of the Batch account.
-	Properties *BatchAccountCreateProperties_StatusARM `json:"properties,omitempty"`
+	Properties *BatchAccountProperties_StatusARM `json:"properties,omitempty"`
 
 	//Tags: The user-specified tags associated with the account.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-type BatchAccountCreateProperties_StatusARM struct {
+type BatchAccountIdentity_StatusARM struct {
+	//PrincipalId: The principal id of the Batch account. This property will only be
+	//provided for a system assigned identity.
+	PrincipalId *string `json:"principalId,omitempty"`
+
+	//TenantId: The tenant id associated with the Batch account. This property will
+	//only be provided for a system assigned identity.
+	TenantId *string `json:"tenantId,omitempty"`
+
+	//Type: The type of identity used for the Batch account.
+	Type BatchAccountIdentity_Type_Status `json:"type"`
+
+	//UserAssignedIdentities: The list of user identities associated with the Batch
+	//account. The user identity dictionary key references will be ARM resource ids in
+	//the form:
+	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+	UserAssignedIdentities map[string]BatchAccountIdentity_UserAssignedIdentities_StatusARM `json:"userAssignedIdentities,omitempty"`
+}
+
+type BatchAccountProperties_StatusARM struct {
 	//AutoStorage: The properties related to the auto-storage account.
 	AutoStorage *AutoStorageBaseProperties_StatusARM `json:"autoStorage,omitempty"`
 
@@ -39,25 +58,6 @@ type BatchAccountCreateProperties_StatusARM struct {
 
 	//PublicNetworkAccess: If not specified, the default value is 'enabled'.
 	PublicNetworkAccess *PublicNetworkAccessType_Status `json:"publicNetworkAccess,omitempty"`
-}
-
-type BatchAccountIdentity_StatusARM struct {
-	//PrincipalId: The principal id of the Batch account. This property will only be
-	//provided for a system assigned identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	//TenantId: The tenant id associated with the Batch account. This property will
-	//only be provided for a system assigned identity.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	//Type: The type of identity used for the Batch account.
-	Type BatchAccountIdentity_Type_Status `json:"type"`
-
-	//UserAssignedIdentities: The list of user identities associated with the Batch
-	//account. The user identity dictionary key references will be ARM resource ids in
-	//the form:
-	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]BatchAccountIdentity_UserAssignedIdentities_StatusARM `json:"userAssignedIdentities,omitempty"`
 }
 
 type AutoStorageBaseProperties_StatusARM struct {

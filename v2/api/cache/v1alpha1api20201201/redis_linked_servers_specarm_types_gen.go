@@ -10,7 +10,7 @@ type RedisLinkedServers_SPECARM struct {
 	Name      string `json:"name"`
 
 	//Properties: Properties required to create a linked server.
-	Properties RedisLinkedServerCreateProperties_SpecARM `json:"properties"`
+	Properties RedisLinkedServerProperties_SpecARM `json:"properties"`
 }
 
 var _ genruntime.ARMResourceSpec = &RedisLinkedServers_SPECARM{}
@@ -30,12 +30,12 @@ func (specarm RedisLinkedServers_SPECARM) GetType() string {
 	return ""
 }
 
-type RedisLinkedServerCreateProperties_SpecARM struct {
+type RedisLinkedServerProperties_SpecARM struct {
 	LinkedRedisCacheId string `json:"linkedRedisCacheId"`
 
 	//LinkedRedisCacheLocation: Location of the linked redis cache.
 	LinkedRedisCacheLocation string `json:"linkedRedisCacheLocation"`
 
 	//ServerRole: Role of the linked server.
-	ServerRole RedisLinkedServerCreateProperties_ServerRole_Spec `json:"serverRole"`
+	ServerRole RedisLinkedServerProperties_ServerRole_Spec `json:"serverRole"`
 }

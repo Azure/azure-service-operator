@@ -75,7 +75,7 @@ func SqlDatabaseContainerGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForSqlDatabaseContainer is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSqlDatabaseContainer(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccountsSqlDatabasesContainers_SPECGenerator()
-	gens["Status"] = SqlContainerCreateUpdateParameters_StatusGenerator()
+	gens["Status"] = SqlContainer_StatusGenerator()
 }
 
 func Test_DatabaseAccountsSqlDatabasesContainers_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -156,19 +156,19 @@ func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainers_SPEC(
 	gens["Resource"] = gen.PtrOf(SqlContainerResource_SpecGenerator())
 }
 
-func Test_SqlContainerCreateUpdateParameters_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SqlContainer_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SqlContainerCreateUpdateParameters_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlContainerCreateUpdateParameters_Status, SqlContainerCreateUpdateParameters_StatusGenerator()))
+		"Round trip of SqlContainer_Status via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSqlContainer_Status, SqlContainer_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlContainerCreateUpdateParameters_Status runs a test to see if a specific instance of SqlContainerCreateUpdateParameters_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlContainerCreateUpdateParameters_Status(subject SqlContainerCreateUpdateParameters_Status) string {
+// RunJSONSerializationTestForSqlContainer_Status runs a test to see if a specific instance of SqlContainer_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlContainer_Status(subject SqlContainer_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -176,7 +176,7 @@ func RunJSONSerializationTestForSqlContainerCreateUpdateParameters_Status(subjec
 	}
 
 	// Deserialize back into memory
-	var actual SqlContainerCreateUpdateParameters_Status
+	var actual SqlContainer_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -194,34 +194,34 @@ func RunJSONSerializationTestForSqlContainerCreateUpdateParameters_Status(subjec
 	return ""
 }
 
-// Generator of SqlContainerCreateUpdateParameters_Status instances for property testing - lazily instantiated by
-//SqlContainerCreateUpdateParameters_StatusGenerator()
-var sqlContainerCreateUpdateParameters_statusGenerator gopter.Gen
+// Generator of SqlContainer_Status instances for property testing - lazily instantiated by
+//SqlContainer_StatusGenerator()
+var sqlContainer_statusGenerator gopter.Gen
 
-// SqlContainerCreateUpdateParameters_StatusGenerator returns a generator of SqlContainerCreateUpdateParameters_Status instances for property testing.
-// We first initialize sqlContainerCreateUpdateParameters_statusGenerator with a simplified generator based on the
+// SqlContainer_StatusGenerator returns a generator of SqlContainer_Status instances for property testing.
+// We first initialize sqlContainer_statusGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SqlContainerCreateUpdateParameters_StatusGenerator() gopter.Gen {
-	if sqlContainerCreateUpdateParameters_statusGenerator != nil {
-		return sqlContainerCreateUpdateParameters_statusGenerator
+func SqlContainer_StatusGenerator() gopter.Gen {
+	if sqlContainer_statusGenerator != nil {
+		return sqlContainer_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlContainerCreateUpdateParameters_Status(generators)
-	sqlContainerCreateUpdateParameters_statusGenerator = gen.Struct(reflect.TypeOf(SqlContainerCreateUpdateParameters_Status{}), generators)
+	AddIndependentPropertyGeneratorsForSqlContainer_Status(generators)
+	sqlContainer_statusGenerator = gen.Struct(reflect.TypeOf(SqlContainer_Status{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlContainerCreateUpdateParameters_Status(generators)
-	AddRelatedPropertyGeneratorsForSqlContainerCreateUpdateParameters_Status(generators)
-	sqlContainerCreateUpdateParameters_statusGenerator = gen.Struct(reflect.TypeOf(SqlContainerCreateUpdateParameters_Status{}), generators)
+	AddIndependentPropertyGeneratorsForSqlContainer_Status(generators)
+	AddRelatedPropertyGeneratorsForSqlContainer_Status(generators)
+	sqlContainer_statusGenerator = gen.Struct(reflect.TypeOf(SqlContainer_Status{}), generators)
 
-	return sqlContainerCreateUpdateParameters_statusGenerator
+	return sqlContainer_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSqlContainerCreateUpdateParameters_Status is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSqlContainerCreateUpdateParameters_Status(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSqlContainer_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSqlContainer_Status(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -229,8 +229,8 @@ func AddIndependentPropertyGeneratorsForSqlContainerCreateUpdateParameters_Statu
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSqlContainerCreateUpdateParameters_Status is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSqlContainerCreateUpdateParameters_Status(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForSqlContainer_Status is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSqlContainer_Status(gens map[string]gopter.Gen) {
 	gens["Options"] = gen.PtrOf(CreateUpdateOptions_StatusGenerator())
 	gens["Resource"] = gen.PtrOf(SqlContainerResource_StatusGenerator())
 }

@@ -17,19 +17,19 @@ import (
 	"testing"
 )
 
-func Test_DatabaseAccountCreateUpdateParameters_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DatabaseAccount_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DatabaseAccountCreateUpdateParameters_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccountCreateUpdateParameters_StatusARM, DatabaseAccountCreateUpdateParameters_StatusARMGenerator()))
+		"Round trip of DatabaseAccount_StatusARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccount_StatusARM, DatabaseAccount_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabaseAccountCreateUpdateParameters_StatusARM runs a test to see if a specific instance of DatabaseAccountCreateUpdateParameters_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccountCreateUpdateParameters_StatusARM(subject DatabaseAccountCreateUpdateParameters_StatusARM) string {
+// RunJSONSerializationTestForDatabaseAccount_StatusARM runs a test to see if a specific instance of DatabaseAccount_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccount_StatusARM(subject DatabaseAccount_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -37,7 +37,7 @@ func RunJSONSerializationTestForDatabaseAccountCreateUpdateParameters_StatusARM(
 	}
 
 	// Deserialize back into memory
-	var actual DatabaseAccountCreateUpdateParameters_StatusARM
+	var actual DatabaseAccount_StatusARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -55,61 +55,61 @@ func RunJSONSerializationTestForDatabaseAccountCreateUpdateParameters_StatusARM(
 	return ""
 }
 
-// Generator of DatabaseAccountCreateUpdateParameters_StatusARM instances for property testing - lazily instantiated by
-//DatabaseAccountCreateUpdateParameters_StatusARMGenerator()
-var databaseAccountCreateUpdateParameters_statusARMGenerator gopter.Gen
+// Generator of DatabaseAccount_StatusARM instances for property testing - lazily instantiated by
+//DatabaseAccount_StatusARMGenerator()
+var databaseAccount_statusARMGenerator gopter.Gen
 
-// DatabaseAccountCreateUpdateParameters_StatusARMGenerator returns a generator of DatabaseAccountCreateUpdateParameters_StatusARM instances for property testing.
-// We first initialize databaseAccountCreateUpdateParameters_statusARMGenerator with a simplified generator based on the
+// DatabaseAccount_StatusARMGenerator returns a generator of DatabaseAccount_StatusARM instances for property testing.
+// We first initialize databaseAccount_statusARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DatabaseAccountCreateUpdateParameters_StatusARMGenerator() gopter.Gen {
-	if databaseAccountCreateUpdateParameters_statusARMGenerator != nil {
-		return databaseAccountCreateUpdateParameters_statusARMGenerator
+func DatabaseAccount_StatusARMGenerator() gopter.Gen {
+	if databaseAccount_statusARMGenerator != nil {
+		return databaseAccount_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdateParameters_StatusARM(generators)
-	databaseAccountCreateUpdateParameters_statusARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountCreateUpdateParameters_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccount_StatusARM(generators)
+	databaseAccount_statusARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccount_StatusARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdateParameters_StatusARM(generators)
-	AddRelatedPropertyGeneratorsForDatabaseAccountCreateUpdateParameters_StatusARM(generators)
-	databaseAccountCreateUpdateParameters_statusARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountCreateUpdateParameters_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccount_StatusARM(generators)
+	AddRelatedPropertyGeneratorsForDatabaseAccount_StatusARM(generators)
+	databaseAccount_statusARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccount_StatusARM{}), generators)
 
-	return databaseAccountCreateUpdateParameters_statusARMGenerator
+	return databaseAccount_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdateParameters_StatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdateParameters_StatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabaseAccount_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccount_StatusARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountCreateUpdateParameters_Kind_StatusGlobalDocumentDB, DatabaseAccountCreateUpdateParameters_Kind_StatusMongoDB, DatabaseAccountCreateUpdateParameters_Kind_StatusParse))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(DatabaseAccount_Kind_StatusGlobalDocumentDB, DatabaseAccount_Kind_StatusMongoDB, DatabaseAccount_Kind_StatusParse))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDatabaseAccountCreateUpdateParameters_StatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccountCreateUpdateParameters_StatusARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForDatabaseAccount_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccount_StatusARM(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(ManagedServiceIdentity_StatusARMGenerator())
-	gens["Properties"] = gen.PtrOf(DatabaseAccountCreateUpdateProperties_StatusARMGenerator())
+	gens["Properties"] = gen.PtrOf(DatabaseAccountProperties_StatusARMGenerator())
 }
 
-func Test_DatabaseAccountCreateUpdateProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DatabaseAccountProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DatabaseAccountCreateUpdateProperties_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccountCreateUpdateProperties_StatusARM, DatabaseAccountCreateUpdateProperties_StatusARMGenerator()))
+		"Round trip of DatabaseAccountProperties_StatusARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccountProperties_StatusARM, DatabaseAccountProperties_StatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabaseAccountCreateUpdateProperties_StatusARM runs a test to see if a specific instance of DatabaseAccountCreateUpdateProperties_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccountCreateUpdateProperties_StatusARM(subject DatabaseAccountCreateUpdateProperties_StatusARM) string {
+// RunJSONSerializationTestForDatabaseAccountProperties_StatusARM runs a test to see if a specific instance of DatabaseAccountProperties_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccountProperties_StatusARM(subject DatabaseAccountProperties_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -117,7 +117,7 @@ func RunJSONSerializationTestForDatabaseAccountCreateUpdateProperties_StatusARM(
 	}
 
 	// Deserialize back into memory
-	var actual DatabaseAccountCreateUpdateProperties_StatusARM
+	var actual DatabaseAccountProperties_StatusARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -135,34 +135,34 @@ func RunJSONSerializationTestForDatabaseAccountCreateUpdateProperties_StatusARM(
 	return ""
 }
 
-// Generator of DatabaseAccountCreateUpdateProperties_StatusARM instances for property testing - lazily instantiated by
-//DatabaseAccountCreateUpdateProperties_StatusARMGenerator()
-var databaseAccountCreateUpdateProperties_statusARMGenerator gopter.Gen
+// Generator of DatabaseAccountProperties_StatusARM instances for property testing - lazily instantiated by
+//DatabaseAccountProperties_StatusARMGenerator()
+var databaseAccountProperties_statusARMGenerator gopter.Gen
 
-// DatabaseAccountCreateUpdateProperties_StatusARMGenerator returns a generator of DatabaseAccountCreateUpdateProperties_StatusARM instances for property testing.
-// We first initialize databaseAccountCreateUpdateProperties_statusARMGenerator with a simplified generator based on the
+// DatabaseAccountProperties_StatusARMGenerator returns a generator of DatabaseAccountProperties_StatusARM instances for property testing.
+// We first initialize databaseAccountProperties_statusARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DatabaseAccountCreateUpdateProperties_StatusARMGenerator() gopter.Gen {
-	if databaseAccountCreateUpdateProperties_statusARMGenerator != nil {
-		return databaseAccountCreateUpdateProperties_statusARMGenerator
+func DatabaseAccountProperties_StatusARMGenerator() gopter.Gen {
+	if databaseAccountProperties_statusARMGenerator != nil {
+		return databaseAccountProperties_statusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_StatusARM(generators)
-	databaseAccountCreateUpdateProperties_statusARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountCreateUpdateProperties_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccountProperties_StatusARM(generators)
+	databaseAccountProperties_statusARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountProperties_StatusARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_StatusARM(generators)
-	AddRelatedPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_StatusARM(generators)
-	databaseAccountCreateUpdateProperties_statusARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountCreateUpdateProperties_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccountProperties_StatusARM(generators)
+	AddRelatedPropertyGeneratorsForDatabaseAccountProperties_StatusARM(generators)
+	databaseAccountProperties_statusARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountProperties_StatusARM{}), generators)
 
-	return databaseAccountCreateUpdateProperties_statusARMGenerator
+	return databaseAccountProperties_statusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_StatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_StatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabaseAccountProperties_StatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccountProperties_StatusARM(gens map[string]gopter.Gen) {
 	gens["ConnectorOffer"] = gen.PtrOf(gen.OneConstOf(ConnectorOffer_StatusSmall))
 	gens["DatabaseAccountOfferType"] = gen.OneConstOf(DatabaseAccountOfferType_StatusStandard)
 	gens["DefaultIdentity"] = gen.PtrOf(gen.AlphaString())
@@ -179,8 +179,8 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_St
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_StatusDisabled, PublicNetworkAccess_StatusEnabled))
 }
 
-// AddRelatedPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_StatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_StatusARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForDatabaseAccountProperties_StatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccountProperties_StatusARM(gens map[string]gopter.Gen) {
 	gens["AnalyticalStorageConfiguration"] = gen.PtrOf(AnalyticalStorageConfiguration_StatusARMGenerator())
 	gens["ApiProperties"] = gen.PtrOf(ApiProperties_StatusARMGenerator())
 	gens["BackupPolicy"] = gen.PtrOf(BackupPolicy_StatusARMGenerator())

@@ -32,7 +32,7 @@ type SqlDatabaseContainerStoredProcedure struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC `json:"spec,omitempty"`
-	Status            SqlStoredProcedureCreateUpdateParameters_Status             `json:"status,omitempty"`
+	Status            SqlStoredProcedure_Status                                   `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerStoredProcedure{}
@@ -126,7 +126,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (procedure *SqlDatabaseContainerStoredProcedure) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlStoredProcedureCreateUpdateParameters_Status{}
+	return &SqlStoredProcedure_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -142,13 +142,13 @@ func (procedure *SqlDatabaseContainerStoredProcedure) Owner() *genruntime.Resour
 // SetStatus sets the status of this resource
 func (procedure *SqlDatabaseContainerStoredProcedure) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlStoredProcedureCreateUpdateParameters_Status); ok {
+	if st, ok := status.(*SqlStoredProcedure_Status); ok {
 		procedure.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlStoredProcedureCreateUpdateParameters_Status
+	var st SqlStoredProcedure_Status
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -256,10 +256,10 @@ func (procedure *SqlDatabaseContainerStoredProcedure) AssignPropertiesFromSqlDat
 	procedure.Spec = spec
 
 	// Status
-	var status SqlStoredProcedureCreateUpdateParameters_Status
-	err = status.AssignPropertiesFromSqlStoredProcedureCreateUpdateParameters_Status(&source.Status)
+	var status SqlStoredProcedure_Status
+	err = status.AssignPropertiesFromSqlStoredProcedure_Status(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureCreateUpdateParameters_Status() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedure_Status() to populate field Status")
 	}
 	procedure.Status = status
 
@@ -282,10 +282,10 @@ func (procedure *SqlDatabaseContainerStoredProcedure) AssignPropertiesToSqlDatab
 	destination.Spec = spec
 
 	// Status
-	var status v1alpha1api20210515storage.SqlStoredProcedureCreateUpdateParameters_Status
-	err = procedure.Status.AssignPropertiesToSqlStoredProcedureCreateUpdateParameters_Status(&status)
+	var status v1alpha1api20210515storage.SqlStoredProcedure_Status
+	err = procedure.Status.AssignPropertiesToSqlStoredProcedure_Status(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureCreateUpdateParameters_Status() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedure_Status() to populate field Status")
 	}
 	destination.Status = status
 
@@ -593,7 +593,7 @@ func (spec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC) SetAzur
 	spec.AzureName = azureName
 }
 
-type SqlStoredProcedureCreateUpdateParameters_Status struct {
+type SqlStoredProcedure_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -618,25 +618,25 @@ type SqlStoredProcedureCreateUpdateParameters_Status struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SqlStoredProcedureCreateUpdateParameters_Status{}
+var _ genruntime.ConvertibleStatus = &SqlStoredProcedure_Status{}
 
-// ConvertStatusFrom populates our SqlStoredProcedureCreateUpdateParameters_Status from the provided source
-func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1alpha1api20210515storage.SqlStoredProcedureCreateUpdateParameters_Status)
+// ConvertStatusFrom populates our SqlStoredProcedure_Status from the provided source
+func (procedure *SqlStoredProcedure_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v1alpha1api20210515storage.SqlStoredProcedure_Status)
 	if ok {
 		// Populate our instance from source
-		return parameters.AssignPropertiesFromSqlStoredProcedureCreateUpdateParameters_Status(src)
+		return procedure.AssignPropertiesFromSqlStoredProcedure_Status(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210515storage.SqlStoredProcedureCreateUpdateParameters_Status{}
+	src = &v1alpha1api20210515storage.SqlStoredProcedure_Status{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = parameters.AssignPropertiesFromSqlStoredProcedureCreateUpdateParameters_Status(src)
+	err = procedure.AssignPropertiesFromSqlStoredProcedure_Status(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -644,17 +644,17 @@ func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) ConvertStatus
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our SqlStoredProcedureCreateUpdateParameters_Status
-func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1alpha1api20210515storage.SqlStoredProcedureCreateUpdateParameters_Status)
+// ConvertStatusTo populates the provided destination from our SqlStoredProcedure_Status
+func (procedure *SqlStoredProcedure_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v1alpha1api20210515storage.SqlStoredProcedure_Status)
 	if ok {
 		// Populate destination from our instance
-		return parameters.AssignPropertiesToSqlStoredProcedureCreateUpdateParameters_Status(dst)
+		return procedure.AssignPropertiesToSqlStoredProcedure_Status(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210515storage.SqlStoredProcedureCreateUpdateParameters_Status{}
-	err := parameters.AssignPropertiesToSqlStoredProcedureCreateUpdateParameters_Status(dst)
+	dst = &v1alpha1api20210515storage.SqlStoredProcedure_Status{}
+	err := procedure.AssignPropertiesToSqlStoredProcedure_Status(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -668,18 +668,18 @@ func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) ConvertStatus
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &SqlStoredProcedureCreateUpdateParameters_Status{}
+var _ genruntime.FromARMConverter = &SqlStoredProcedure_Status{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlStoredProcedureCreateUpdateParameters_StatusARM{}
+func (procedure *SqlStoredProcedure_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SqlStoredProcedure_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlStoredProcedureCreateUpdateParameters_StatusARM)
+func (procedure *SqlStoredProcedure_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SqlStoredProcedure_StatusARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlStoredProcedureCreateUpdateParameters_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlStoredProcedure_StatusARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -687,19 +687,19 @@ func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) PopulateFromA
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		parameters.Id = &id
+		procedure.Id = &id
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		parameters.Location = &location
+		procedure.Location = &location
 	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		parameters.Name = &name
+		procedure.Name = &name
 	}
 
 	// Set property ‘Options’:
@@ -712,7 +712,7 @@ func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) PopulateFromA
 				return err
 			}
 			options := options1
-			parameters.Options = &options
+			procedure.Options = &options
 		}
 	}
 
@@ -726,41 +726,41 @@ func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) PopulateFromA
 			return err
 		}
 		temp = temp1
-		parameters.Resource = &temp
+		procedure.Resource = &temp
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		parameters.Tags = make(map[string]string)
+		procedure.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			parameters.Tags[key] = value
+			procedure.Tags[key] = value
 		}
 	}
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		parameters.Type = &typeVar
+		procedure.Type = &typeVar
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesFromSqlStoredProcedureCreateUpdateParameters_Status populates our SqlStoredProcedureCreateUpdateParameters_Status from the provided source SqlStoredProcedureCreateUpdateParameters_Status
-func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) AssignPropertiesFromSqlStoredProcedureCreateUpdateParameters_Status(source *v1alpha1api20210515storage.SqlStoredProcedureCreateUpdateParameters_Status) error {
+// AssignPropertiesFromSqlStoredProcedure_Status populates our SqlStoredProcedure_Status from the provided source SqlStoredProcedure_Status
+func (procedure *SqlStoredProcedure_Status) AssignPropertiesFromSqlStoredProcedure_Status(source *v1alpha1api20210515storage.SqlStoredProcedure_Status) error {
 
 	// Conditions
-	parameters.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	procedure.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	parameters.Id = genruntime.ClonePointerToString(source.Id)
+	procedure.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	parameters.Location = genruntime.ClonePointerToString(source.Location)
+	procedure.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	parameters.Name = genruntime.ClonePointerToString(source.Name)
+	procedure.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Options
 	if source.Options != nil {
@@ -769,9 +769,9 @@ func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) AssignPropert
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_Status() to populate field Options")
 		}
-		parameters.Options = &option
+		procedure.Options = &option
 	} else {
-		parameters.Options = nil
+		procedure.Options = nil
 	}
 
 	// Resource
@@ -781,42 +781,42 @@ func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) AssignPropert
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureResource_Status() to populate field Resource")
 		}
-		parameters.Resource = &resource
+		procedure.Resource = &resource
 	} else {
-		parameters.Resource = nil
+		procedure.Resource = nil
 	}
 
 	// Tags
-	parameters.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	procedure.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	parameters.Type = genruntime.ClonePointerToString(source.Type)
+	procedure.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToSqlStoredProcedureCreateUpdateParameters_Status populates the provided destination SqlStoredProcedureCreateUpdateParameters_Status from our SqlStoredProcedureCreateUpdateParameters_Status
-func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) AssignPropertiesToSqlStoredProcedureCreateUpdateParameters_Status(destination *v1alpha1api20210515storage.SqlStoredProcedureCreateUpdateParameters_Status) error {
+// AssignPropertiesToSqlStoredProcedure_Status populates the provided destination SqlStoredProcedure_Status from our SqlStoredProcedure_Status
+func (procedure *SqlStoredProcedure_Status) AssignPropertiesToSqlStoredProcedure_Status(destination *v1alpha1api20210515storage.SqlStoredProcedure_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(parameters.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(procedure.Conditions)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(parameters.Id)
+	destination.Id = genruntime.ClonePointerToString(procedure.Id)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(parameters.Location)
+	destination.Location = genruntime.ClonePointerToString(procedure.Location)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(parameters.Name)
+	destination.Name = genruntime.ClonePointerToString(procedure.Name)
 
 	// Options
-	if parameters.Options != nil {
+	if procedure.Options != nil {
 		var option v1alpha1api20210515storage.CreateUpdateOptions_Status
-		err := parameters.Options.AssignPropertiesToCreateUpdateOptions_Status(&option)
+		err := procedure.Options.AssignPropertiesToCreateUpdateOptions_Status(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_Status() to populate field Options")
 		}
@@ -826,9 +826,9 @@ func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) AssignPropert
 	}
 
 	// Resource
-	if parameters.Resource != nil {
+	if procedure.Resource != nil {
 		var resource v1alpha1api20210515storage.SqlStoredProcedureResource_Status
-		err := parameters.Resource.AssignPropertiesToSqlStoredProcedureResource_Status(&resource)
+		err := procedure.Resource.AssignPropertiesToSqlStoredProcedureResource_Status(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureResource_Status() to populate field Resource")
 		}
@@ -838,10 +838,10 @@ func (parameters *SqlStoredProcedureCreateUpdateParameters_Status) AssignPropert
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(parameters.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(procedure.Tags)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(parameters.Type)
+	destination.Type = genruntime.ClonePointerToString(procedure.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

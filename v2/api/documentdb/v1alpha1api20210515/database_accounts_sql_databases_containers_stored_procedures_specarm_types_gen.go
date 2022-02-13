@@ -13,8 +13,8 @@ type DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM struct {
 	Name     string  `json:"name"`
 
 	//Properties: Properties to create and update Azure Cosmos DB storedProcedure.
-	Properties SqlStoredProcedureCreateUpdateProperties_SpecARM `json:"properties"`
-	Tags       map[string]string                                `json:"tags,omitempty"`
+	Properties SqlStoredProcedureProperties_SpecARM `json:"properties"`
+	Tags       map[string]string                    `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM{}
@@ -34,7 +34,7 @@ func (specarm DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM) Ge
 	return ""
 }
 
-type SqlStoredProcedureCreateUpdateProperties_SpecARM struct {
+type SqlStoredProcedureProperties_SpecARM struct {
 	//Options: A key-value pair of options to be applied for the request. This
 	//corresponds to the headers sent with the request.
 	Options *CreateUpdateOptions_SpecARM `json:"options,omitempty"`

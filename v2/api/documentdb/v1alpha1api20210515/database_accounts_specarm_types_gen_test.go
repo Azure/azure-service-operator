@@ -93,22 +93,22 @@ func AddIndependentPropertyGeneratorsForDatabaseAccounts_SPECARM(gens map[string
 // AddRelatedPropertyGeneratorsForDatabaseAccounts_SPECARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccounts_SPECARM(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(ManagedServiceIdentity_SpecARMGenerator())
-	gens["Properties"] = DatabaseAccountCreateUpdateProperties_SpecARMGenerator()
+	gens["Properties"] = DatabaseAccountProperties_SpecARMGenerator()
 }
 
-func Test_DatabaseAccountCreateUpdateProperties_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DatabaseAccountProperties_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DatabaseAccountCreateUpdateProperties_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccountCreateUpdateProperties_SpecARM, DatabaseAccountCreateUpdateProperties_SpecARMGenerator()))
+		"Round trip of DatabaseAccountProperties_SpecARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccountProperties_SpecARM, DatabaseAccountProperties_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabaseAccountCreateUpdateProperties_SpecARM runs a test to see if a specific instance of DatabaseAccountCreateUpdateProperties_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccountCreateUpdateProperties_SpecARM(subject DatabaseAccountCreateUpdateProperties_SpecARM) string {
+// RunJSONSerializationTestForDatabaseAccountProperties_SpecARM runs a test to see if a specific instance of DatabaseAccountProperties_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccountProperties_SpecARM(subject DatabaseAccountProperties_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -116,7 +116,7 @@ func RunJSONSerializationTestForDatabaseAccountCreateUpdateProperties_SpecARM(su
 	}
 
 	// Deserialize back into memory
-	var actual DatabaseAccountCreateUpdateProperties_SpecARM
+	var actual DatabaseAccountProperties_SpecARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -134,34 +134,34 @@ func RunJSONSerializationTestForDatabaseAccountCreateUpdateProperties_SpecARM(su
 	return ""
 }
 
-// Generator of DatabaseAccountCreateUpdateProperties_SpecARM instances for property testing - lazily instantiated by
-//DatabaseAccountCreateUpdateProperties_SpecARMGenerator()
-var databaseAccountCreateUpdateProperties_specARMGenerator gopter.Gen
+// Generator of DatabaseAccountProperties_SpecARM instances for property testing - lazily instantiated by
+//DatabaseAccountProperties_SpecARMGenerator()
+var databaseAccountProperties_specARMGenerator gopter.Gen
 
-// DatabaseAccountCreateUpdateProperties_SpecARMGenerator returns a generator of DatabaseAccountCreateUpdateProperties_SpecARM instances for property testing.
-// We first initialize databaseAccountCreateUpdateProperties_specARMGenerator with a simplified generator based on the
+// DatabaseAccountProperties_SpecARMGenerator returns a generator of DatabaseAccountProperties_SpecARM instances for property testing.
+// We first initialize databaseAccountProperties_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DatabaseAccountCreateUpdateProperties_SpecARMGenerator() gopter.Gen {
-	if databaseAccountCreateUpdateProperties_specARMGenerator != nil {
-		return databaseAccountCreateUpdateProperties_specARMGenerator
+func DatabaseAccountProperties_SpecARMGenerator() gopter.Gen {
+	if databaseAccountProperties_specARMGenerator != nil {
+		return databaseAccountProperties_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_SpecARM(generators)
-	databaseAccountCreateUpdateProperties_specARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountCreateUpdateProperties_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccountProperties_SpecARM(generators)
+	databaseAccountProperties_specARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountProperties_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_SpecARM(generators)
-	AddRelatedPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_SpecARM(generators)
-	databaseAccountCreateUpdateProperties_specARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountCreateUpdateProperties_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccountProperties_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForDatabaseAccountProperties_SpecARM(generators)
+	databaseAccountProperties_specARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountProperties_SpecARM{}), generators)
 
-	return databaseAccountCreateUpdateProperties_specARMGenerator
+	return databaseAccountProperties_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_SpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_SpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabaseAccountProperties_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccountProperties_SpecARM(gens map[string]gopter.Gen) {
 	gens["ConnectorOffer"] = gen.PtrOf(gen.OneConstOf(ConnectorOffer_SpecSmall))
 	gens["DatabaseAccountOfferType"] = gen.OneConstOf(DatabaseAccountOfferType_SpecStandard)
 	gens["DefaultIdentity"] = gen.PtrOf(gen.AlphaString())
@@ -178,8 +178,8 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_Sp
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_SpecDisabled, PublicNetworkAccess_SpecEnabled))
 }
 
-// AddRelatedPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_SpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_SpecARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForDatabaseAccountProperties_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccountProperties_SpecARM(gens map[string]gopter.Gen) {
 	gens["AnalyticalStorageConfiguration"] = gen.PtrOf(AnalyticalStorageConfiguration_SpecARMGenerator())
 	gens["ApiProperties"] = gen.PtrOf(ApiProperties_SpecARMGenerator())
 	gens["BackupPolicy"] = gen.PtrOf(BackupPolicy_SpecARMGenerator())

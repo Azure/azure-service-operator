@@ -91,22 +91,22 @@ func AddIndependentPropertyGeneratorsForRedis_SPECARM(gens map[string]gopter.Gen
 
 // AddRelatedPropertyGeneratorsForRedis_SPECARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedis_SPECARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = RedisCreateProperties_SpecARMGenerator()
+	gens["Properties"] = RedisProperties_SpecARMGenerator()
 }
 
-func Test_RedisCreateProperties_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_RedisProperties_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RedisCreateProperties_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisCreateProperties_SpecARM, RedisCreateProperties_SpecARMGenerator()))
+		"Round trip of RedisProperties_SpecARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedisProperties_SpecARM, RedisProperties_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRedisCreateProperties_SpecARM runs a test to see if a specific instance of RedisCreateProperties_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisCreateProperties_SpecARM(subject RedisCreateProperties_SpecARM) string {
+// RunJSONSerializationTestForRedisProperties_SpecARM runs a test to see if a specific instance of RedisProperties_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisProperties_SpecARM(subject RedisProperties_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -114,7 +114,7 @@ func RunJSONSerializationTestForRedisCreateProperties_SpecARM(subject RedisCreat
 	}
 
 	// Deserialize back into memory
-	var actual RedisCreateProperties_SpecARM
+	var actual RedisProperties_SpecARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -132,37 +132,37 @@ func RunJSONSerializationTestForRedisCreateProperties_SpecARM(subject RedisCreat
 	return ""
 }
 
-// Generator of RedisCreateProperties_SpecARM instances for property testing - lazily instantiated by
-//RedisCreateProperties_SpecARMGenerator()
-var redisCreateProperties_specARMGenerator gopter.Gen
+// Generator of RedisProperties_SpecARM instances for property testing - lazily instantiated by
+//RedisProperties_SpecARMGenerator()
+var redisProperties_specARMGenerator gopter.Gen
 
-// RedisCreateProperties_SpecARMGenerator returns a generator of RedisCreateProperties_SpecARM instances for property testing.
-// We first initialize redisCreateProperties_specARMGenerator with a simplified generator based on the
+// RedisProperties_SpecARMGenerator returns a generator of RedisProperties_SpecARM instances for property testing.
+// We first initialize redisProperties_specARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func RedisCreateProperties_SpecARMGenerator() gopter.Gen {
-	if redisCreateProperties_specARMGenerator != nil {
-		return redisCreateProperties_specARMGenerator
+func RedisProperties_SpecARMGenerator() gopter.Gen {
+	if redisProperties_specARMGenerator != nil {
+		return redisProperties_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisCreateProperties_SpecARM(generators)
-	redisCreateProperties_specARMGenerator = gen.Struct(reflect.TypeOf(RedisCreateProperties_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForRedisProperties_SpecARM(generators)
+	redisProperties_specARMGenerator = gen.Struct(reflect.TypeOf(RedisProperties_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisCreateProperties_SpecARM(generators)
-	AddRelatedPropertyGeneratorsForRedisCreateProperties_SpecARM(generators)
-	redisCreateProperties_specARMGenerator = gen.Struct(reflect.TypeOf(RedisCreateProperties_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForRedisProperties_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForRedisProperties_SpecARM(generators)
+	redisProperties_specARMGenerator = gen.Struct(reflect.TypeOf(RedisProperties_SpecARM{}), generators)
 
-	return redisCreateProperties_specARMGenerator
+	return redisProperties_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRedisCreateProperties_SpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisCreateProperties_SpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRedisProperties_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedisProperties_SpecARM(gens map[string]gopter.Gen) {
 	gens["EnableNonSslPort"] = gen.PtrOf(gen.Bool())
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(RedisCreateProperties_MinimumTlsVersion_Spec10, RedisCreateProperties_MinimumTlsVersion_Spec11, RedisCreateProperties_MinimumTlsVersion_Spec12))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RedisCreateProperties_PublicNetworkAccess_SpecDisabled, RedisCreateProperties_PublicNetworkAccess_SpecEnabled))
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(RedisProperties_MinimumTlsVersion_Spec10, RedisProperties_MinimumTlsVersion_Spec11, RedisProperties_MinimumTlsVersion_Spec12))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RedisProperties_PublicNetworkAccess_SpecDisabled, RedisProperties_PublicNetworkAccess_SpecEnabled))
 	gens["RedisVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplicasPerMaster"] = gen.PtrOf(gen.Int())
 	gens["ReplicasPerPrimary"] = gen.PtrOf(gen.Int())
@@ -172,25 +172,25 @@ func AddIndependentPropertyGeneratorsForRedisCreateProperties_SpecARM(gens map[s
 	gens["TenantSettings"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForRedisCreateProperties_SpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisCreateProperties_SpecARM(gens map[string]gopter.Gen) {
-	gens["RedisConfiguration"] = gen.PtrOf(RedisCreateProperties_RedisConfiguration_SpecARMGenerator())
+// AddRelatedPropertyGeneratorsForRedisProperties_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedisProperties_SpecARM(gens map[string]gopter.Gen) {
+	gens["RedisConfiguration"] = gen.PtrOf(RedisProperties_RedisConfiguration_SpecARMGenerator())
 	gens["Sku"] = Sku_SpecARMGenerator()
 }
 
-func Test_RedisCreateProperties_RedisConfiguration_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_RedisProperties_RedisConfiguration_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RedisCreateProperties_RedisConfiguration_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisCreateProperties_RedisConfiguration_SpecARM, RedisCreateProperties_RedisConfiguration_SpecARMGenerator()))
+		"Round trip of RedisProperties_RedisConfiguration_SpecARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedisProperties_RedisConfiguration_SpecARM, RedisProperties_RedisConfiguration_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRedisCreateProperties_RedisConfiguration_SpecARM runs a test to see if a specific instance of RedisCreateProperties_RedisConfiguration_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisCreateProperties_RedisConfiguration_SpecARM(subject RedisCreateProperties_RedisConfiguration_SpecARM) string {
+// RunJSONSerializationTestForRedisProperties_RedisConfiguration_SpecARM runs a test to see if a specific instance of RedisProperties_RedisConfiguration_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisProperties_RedisConfiguration_SpecARM(subject RedisProperties_RedisConfiguration_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -198,7 +198,7 @@ func RunJSONSerializationTestForRedisCreateProperties_RedisConfiguration_SpecARM
 	}
 
 	// Deserialize back into memory
-	var actual RedisCreateProperties_RedisConfiguration_SpecARM
+	var actual RedisProperties_RedisConfiguration_SpecARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -216,25 +216,25 @@ func RunJSONSerializationTestForRedisCreateProperties_RedisConfiguration_SpecARM
 	return ""
 }
 
-// Generator of RedisCreateProperties_RedisConfiguration_SpecARM instances for property testing - lazily instantiated by
-//RedisCreateProperties_RedisConfiguration_SpecARMGenerator()
-var redisCreateProperties_redisConfiguration_specARMGenerator gopter.Gen
+// Generator of RedisProperties_RedisConfiguration_SpecARM instances for property testing - lazily instantiated by
+//RedisProperties_RedisConfiguration_SpecARMGenerator()
+var redisProperties_redisConfiguration_specARMGenerator gopter.Gen
 
-// RedisCreateProperties_RedisConfiguration_SpecARMGenerator returns a generator of RedisCreateProperties_RedisConfiguration_SpecARM instances for property testing.
-func RedisCreateProperties_RedisConfiguration_SpecARMGenerator() gopter.Gen {
-	if redisCreateProperties_redisConfiguration_specARMGenerator != nil {
-		return redisCreateProperties_redisConfiguration_specARMGenerator
+// RedisProperties_RedisConfiguration_SpecARMGenerator returns a generator of RedisProperties_RedisConfiguration_SpecARM instances for property testing.
+func RedisProperties_RedisConfiguration_SpecARMGenerator() gopter.Gen {
+	if redisProperties_redisConfiguration_specARMGenerator != nil {
+		return redisProperties_redisConfiguration_specARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisCreateProperties_RedisConfiguration_SpecARM(generators)
-	redisCreateProperties_redisConfiguration_specARMGenerator = gen.Struct(reflect.TypeOf(RedisCreateProperties_RedisConfiguration_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForRedisProperties_RedisConfiguration_SpecARM(generators)
+	redisProperties_redisConfiguration_specARMGenerator = gen.Struct(reflect.TypeOf(RedisProperties_RedisConfiguration_SpecARM{}), generators)
 
-	return redisCreateProperties_redisConfiguration_specARMGenerator
+	return redisProperties_redisConfiguration_specARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRedisCreateProperties_RedisConfiguration_SpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisCreateProperties_RedisConfiguration_SpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRedisProperties_RedisConfiguration_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedisProperties_RedisConfiguration_SpecARM(gens map[string]gopter.Gen) {
 	gens["AofStorageConnectionString0"] = gen.PtrOf(gen.AlphaString())
 	gens["AofStorageConnectionString1"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxfragmentationmemoryReserved"] = gen.PtrOf(gen.AlphaString())

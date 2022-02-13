@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-type SqlTriggerCreateUpdateParameters_StatusARM struct {
+type SqlTrigger_StatusARM struct {
 	//Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
 
@@ -14,14 +14,14 @@ type SqlTriggerCreateUpdateParameters_StatusARM struct {
 	Name *string `json:"name,omitempty"`
 
 	//Properties: Properties to create and update Azure Cosmos DB trigger.
-	Properties *SqlTriggerCreateUpdateProperties_StatusARM `json:"properties,omitempty"`
-	Tags       map[string]string                           `json:"tags,omitempty"`
+	Properties *SqlTriggerProperties_StatusARM `json:"properties,omitempty"`
+	Tags       map[string]string               `json:"tags,omitempty"`
 
 	//Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type SqlTriggerCreateUpdateProperties_StatusARM struct {
+type SqlTriggerProperties_StatusARM struct {
 	//Options: A key-value pair of options to be applied for the request. This
 	//corresponds to the headers sent with the request.
 	Options *CreateUpdateOptions_StatusARM `json:"options,omitempty"`

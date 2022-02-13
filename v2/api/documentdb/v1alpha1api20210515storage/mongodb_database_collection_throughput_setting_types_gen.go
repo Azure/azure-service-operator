@@ -30,7 +30,7 @@ type MongodbDatabaseCollectionThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPEC `json:"spec,omitempty"`
-	Status            ThroughputSettingsUpdateParameters_Status                          `json:"status,omitempty"`
+	Status            ThroughputSettings_Status                                          `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseCollectionThroughputSetting{}
@@ -79,7 +79,7 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *MongodbDatabaseCollectionThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ThroughputSettingsUpdateParameters_Status{}
+	return &ThroughputSettings_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -95,13 +95,13 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) Owner() *genruntime.R
 // SetStatus sets the status of this resource
 func (setting *MongodbDatabaseCollectionThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ThroughputSettingsUpdateParameters_Status); ok {
+	if st, ok := status.(*ThroughputSettings_Status); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ThroughputSettingsUpdateParameters_Status
+	var st ThroughputSettings_Status
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -170,8 +170,8 @@ func (spec *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPEC) 
 	return destination.ConvertSpecFrom(spec)
 }
 
-//Storage version of v1alpha1api20210515.ThroughputSettingsUpdateParameters_Status
-type ThroughputSettingsUpdateParameters_Status struct {
+//Storage version of v1alpha1api20210515.ThroughputSettings_Status
+type ThroughputSettings_Status struct {
 	Conditions  []conditions.Condition             `json:"conditions,omitempty"`
 	Id          *string                            `json:"id,omitempty"`
 	Location    *string                            `json:"location,omitempty"`
@@ -182,24 +182,24 @@ type ThroughputSettingsUpdateParameters_Status struct {
 	Type        *string                            `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &ThroughputSettingsUpdateParameters_Status{}
+var _ genruntime.ConvertibleStatus = &ThroughputSettings_Status{}
 
-// ConvertStatusFrom populates our ThroughputSettingsUpdateParameters_Status from the provided source
-func (parameters *ThroughputSettingsUpdateParameters_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == parameters {
+// ConvertStatusFrom populates our ThroughputSettings_Status from the provided source
+func (settings *ThroughputSettings_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == settings {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(parameters)
+	return source.ConvertStatusTo(settings)
 }
 
-// ConvertStatusTo populates the provided destination from our ThroughputSettingsUpdateParameters_Status
-func (parameters *ThroughputSettingsUpdateParameters_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == parameters {
+// ConvertStatusTo populates the provided destination from our ThroughputSettings_Status
+func (settings *ThroughputSettings_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == settings {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(parameters)
+	return destination.ConvertStatusFrom(settings)
 }
 
 //Storage version of v1alpha1api20210515.ThroughputSettingsResource_Spec

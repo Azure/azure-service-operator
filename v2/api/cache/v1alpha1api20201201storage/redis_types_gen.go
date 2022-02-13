@@ -145,20 +145,20 @@ type Redis_SPEC struct {
 	OriginalVersion   string  `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
-	Owner               genruntime.KnownResourceReference              `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PropertyBag         genruntime.PropertyBag                         `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                                        `json:"publicNetworkAccess,omitempty"`
-	RedisConfiguration  *RedisCreateProperties_RedisConfiguration_Spec `json:"redisConfiguration,omitempty"`
-	RedisVersion        *string                                        `json:"redisVersion,omitempty"`
-	ReplicasPerMaster   *int                                           `json:"replicasPerMaster,omitempty"`
-	ReplicasPerPrimary  *int                                           `json:"replicasPerPrimary,omitempty"`
-	ShardCount          *int                                           `json:"shardCount,omitempty"`
-	Sku                 *Sku_Spec                                      `json:"sku,omitempty"`
-	StaticIP            *string                                        `json:"staticIP,omitempty"`
-	SubnetId            *string                                        `json:"subnetId,omitempty"`
-	Tags                map[string]string                              `json:"tags,omitempty"`
-	TenantSettings      map[string]string                              `json:"tenantSettings,omitempty"`
-	Zones               []string                                       `json:"zones,omitempty"`
+	Owner               genruntime.KnownResourceReference        `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	PropertyBag         genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                                  `json:"publicNetworkAccess,omitempty"`
+	RedisConfiguration  *RedisProperties_RedisConfiguration_Spec `json:"redisConfiguration,omitempty"`
+	RedisVersion        *string                                  `json:"redisVersion,omitempty"`
+	ReplicasPerMaster   *int                                     `json:"replicasPerMaster,omitempty"`
+	ReplicasPerPrimary  *int                                     `json:"replicasPerPrimary,omitempty"`
+	ShardCount          *int                                     `json:"shardCount,omitempty"`
+	Sku                 *Sku_Spec                                `json:"sku,omitempty"`
+	StaticIP            *string                                  `json:"staticIP,omitempty"`
+	SubnetId            *string                                  `json:"subnetId,omitempty"`
+	Tags                map[string]string                        `json:"tags,omitempty"`
+	TenantSettings      map[string]string                        `json:"tenantSettings,omitempty"`
+	Zones               []string                                 `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Redis_SPEC{}
@@ -183,23 +183,23 @@ func (spec *Redis_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) er
 
 //Storage version of v1alpha1api20201201.Redis_Status
 type Redis_Status struct {
-	Conditions          []conditions.Condition                           `json:"conditions,omitempty"`
-	EnableNonSslPort    *bool                                            `json:"enableNonSslPort,omitempty"`
-	Location            *string                                          `json:"location,omitempty"`
-	MinimumTlsVersion   *string                                          `json:"minimumTlsVersion,omitempty"`
-	PropertyBag         genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                                          `json:"publicNetworkAccess,omitempty"`
-	RedisConfiguration  *RedisCreateProperties_RedisConfiguration_Status `json:"redisConfiguration,omitempty"`
-	RedisVersion        *string                                          `json:"redisVersion,omitempty"`
-	ReplicasPerMaster   *int                                             `json:"replicasPerMaster,omitempty"`
-	ReplicasPerPrimary  *int                                             `json:"replicasPerPrimary,omitempty"`
-	ShardCount          *int                                             `json:"shardCount,omitempty"`
-	Sku                 *Sku_Status                                      `json:"sku,omitempty"`
-	StaticIP            *string                                          `json:"staticIP,omitempty"`
-	SubnetId            *string                                          `json:"subnetId,omitempty"`
-	Tags                map[string]string                                `json:"tags,omitempty"`
-	TenantSettings      map[string]string                                `json:"tenantSettings,omitempty"`
-	Zones               []string                                         `json:"zones,omitempty"`
+	Conditions          []conditions.Condition `json:"conditions,omitempty"`
+	EnableNonSslPort    *bool                  `json:"enableNonSslPort,omitempty"`
+	Location            *string                `json:"location,omitempty"`
+	MinimumTlsVersion   *string                `json:"minimumTlsVersion,omitempty"`
+	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                `json:"publicNetworkAccess,omitempty"`
+	RedisConfiguration  map[string]string      `json:"redisConfiguration,omitempty"`
+	RedisVersion        *string                `json:"redisVersion,omitempty"`
+	ReplicasPerMaster   *int                   `json:"replicasPerMaster,omitempty"`
+	ReplicasPerPrimary  *int                   `json:"replicasPerPrimary,omitempty"`
+	ShardCount          *int                   `json:"shardCount,omitempty"`
+	Sku                 *Sku_Status            `json:"sku,omitempty"`
+	StaticIP            *string                `json:"staticIP,omitempty"`
+	SubnetId            *string                `json:"subnetId,omitempty"`
+	Tags                map[string]string      `json:"tags,omitempty"`
+	TenantSettings      map[string]string      `json:"tenantSettings,omitempty"`
+	Zones               []string               `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Redis_Status{}
@@ -222,27 +222,10 @@ func (redis *Redis_Status) ConvertStatusTo(destination genruntime.ConvertibleSta
 	return destination.ConvertStatusFrom(redis)
 }
 
-//Storage version of v1alpha1api20201201.RedisCreateProperties_RedisConfiguration_Spec
-type RedisCreateProperties_RedisConfiguration_Spec struct {
+//Storage version of v1alpha1api20201201.RedisProperties_RedisConfiguration_Spec
+type RedisProperties_RedisConfiguration_Spec struct {
 	AofStorageConnectionString0    *string                `json:"aof-storage-connection-string-0,omitempty"`
 	AofStorageConnectionString1    *string                `json:"aof-storage-connection-string-1,omitempty"`
-	MaxfragmentationmemoryReserved *string                `json:"maxfragmentationmemory-reserved,omitempty"`
-	MaxmemoryDelta                 *string                `json:"maxmemory-delta,omitempty"`
-	MaxmemoryPolicy                *string                `json:"maxmemory-policy,omitempty"`
-	MaxmemoryReserved              *string                `json:"maxmemory-reserved,omitempty"`
-	PropertyBag                    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	RdbBackupEnabled               *string                `json:"rdb-backup-enabled,omitempty"`
-	RdbBackupFrequency             *string                `json:"rdb-backup-frequency,omitempty"`
-	RdbBackupMaxSnapshotCount      *string                `json:"rdb-backup-max-snapshot-count,omitempty"`
-	RdbStorageConnectionString     *string                `json:"rdb-storage-connection-string,omitempty"`
-	additionalProperties           map[string]string      `json:"additionalProperties,omitempty"`
-}
-
-//Storage version of v1alpha1api20201201.RedisCreateProperties_RedisConfiguration_Status
-type RedisCreateProperties_RedisConfiguration_Status struct {
-	AofStorageConnectionString0    *string                `json:"aof-storage-connection-string-0,omitempty"`
-	AofStorageConnectionString1    *string                `json:"aof-storage-connection-string-1,omitempty"`
-	Maxclients                     *string                `json:"maxclients,omitempty"`
 	MaxfragmentationmemoryReserved *string                `json:"maxfragmentationmemory-reserved,omitempty"`
 	MaxmemoryDelta                 *string                `json:"maxmemory-delta,omitempty"`
 	MaxmemoryPolicy                *string                `json:"maxmemory-policy,omitempty"`

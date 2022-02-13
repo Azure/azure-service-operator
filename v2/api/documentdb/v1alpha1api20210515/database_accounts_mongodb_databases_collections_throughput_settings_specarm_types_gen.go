@@ -13,8 +13,8 @@ type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM struc
 	Name     string  `json:"name"`
 
 	//Properties: Properties to update Azure Cosmos DB resource throughput.
-	Properties ThroughputSettingsUpdateProperties_SpecARM `json:"properties"`
-	Tags       map[string]string                          `json:"tags,omitempty"`
+	Properties ThroughputSettingsProperties_SpecARM `json:"properties"`
+	Tags       map[string]string                    `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPECARM{}
@@ -34,7 +34,7 @@ func (specarm DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPEC
 	return ""
 }
 
-type ThroughputSettingsUpdateProperties_SpecARM struct {
+type ThroughputSettingsProperties_SpecARM struct {
 	//Resource: The standard JSON format of a resource throughput
 	Resource ThroughputSettingsResource_SpecARM `json:"resource"`
 }

@@ -28,8 +28,8 @@ import (
 type MongodbDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsMongodbDatabases_SPEC        `json:"spec,omitempty"`
-	Status            MongoDBDatabaseCreateUpdateParameters_Status `json:"status,omitempty"`
+	Spec              DatabaseAccountsMongodbDatabases_SPEC `json:"spec,omitempty"`
+	Status            MongoDBDatabase_Status                `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabase{}
@@ -78,7 +78,7 @@ func (database *MongodbDatabase) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *MongodbDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &MongoDBDatabaseCreateUpdateParameters_Status{}
+	return &MongoDBDatabase_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -94,13 +94,13 @@ func (database *MongodbDatabase) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *MongodbDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*MongoDBDatabaseCreateUpdateParameters_Status); ok {
+	if st, ok := status.(*MongoDBDatabase_Status); ok {
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st MongoDBDatabaseCreateUpdateParameters_Status
+	var st MongoDBDatabase_Status
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -169,8 +169,8 @@ func (spec *DatabaseAccountsMongodbDatabases_SPEC) ConvertSpecTo(destination gen
 	return destination.ConvertSpecFrom(spec)
 }
 
-//Storage version of v1alpha1api20210515.MongoDBDatabaseCreateUpdateParameters_Status
-type MongoDBDatabaseCreateUpdateParameters_Status struct {
+//Storage version of v1alpha1api20210515.MongoDBDatabase_Status
+type MongoDBDatabase_Status struct {
 	Conditions  []conditions.Condition          `json:"conditions,omitempty"`
 	Id          *string                         `json:"id,omitempty"`
 	Location    *string                         `json:"location,omitempty"`
@@ -182,24 +182,24 @@ type MongoDBDatabaseCreateUpdateParameters_Status struct {
 	Type        *string                         `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &MongoDBDatabaseCreateUpdateParameters_Status{}
+var _ genruntime.ConvertibleStatus = &MongoDBDatabase_Status{}
 
-// ConvertStatusFrom populates our MongoDBDatabaseCreateUpdateParameters_Status from the provided source
-func (parameters *MongoDBDatabaseCreateUpdateParameters_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == parameters {
+// ConvertStatusFrom populates our MongoDBDatabase_Status from the provided source
+func (database *MongoDBDatabase_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(parameters)
+	return source.ConvertStatusTo(database)
 }
 
-// ConvertStatusTo populates the provided destination from our MongoDBDatabaseCreateUpdateParameters_Status
-func (parameters *MongoDBDatabaseCreateUpdateParameters_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == parameters {
+// ConvertStatusTo populates the provided destination from our MongoDBDatabase_Status
+func (database *MongoDBDatabase_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(parameters)
+	return destination.ConvertStatusFrom(database)
 }
 
 //Storage version of v1alpha1api20210515.CreateUpdateOptions_Spec

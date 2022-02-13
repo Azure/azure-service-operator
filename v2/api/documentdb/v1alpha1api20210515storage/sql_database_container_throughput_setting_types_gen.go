@@ -30,7 +30,7 @@ type SqlDatabaseContainerThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC `json:"spec,omitempty"`
-	Status            ThroughputSettingsUpdateParameters_Status                     `json:"status,omitempty"`
+	Status            ThroughputSettings_Status                                     `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerThroughputSetting{}
@@ -79,7 +79,7 @@ func (setting *SqlDatabaseContainerThroughputSetting) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *SqlDatabaseContainerThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ThroughputSettingsUpdateParameters_Status{}
+	return &ThroughputSettings_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -95,13 +95,13 @@ func (setting *SqlDatabaseContainerThroughputSetting) Owner() *genruntime.Resour
 // SetStatus sets the status of this resource
 func (setting *SqlDatabaseContainerThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ThroughputSettingsUpdateParameters_Status); ok {
+	if st, ok := status.(*ThroughputSettings_Status); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ThroughputSettingsUpdateParameters_Status
+	var st ThroughputSettings_Status
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")

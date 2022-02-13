@@ -29,7 +29,7 @@ type MongodbDatabaseThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC `json:"spec,omitempty"`
-	Status            ThroughputSettingsUpdateParameters_Status               `json:"status,omitempty"`
+	Status            ThroughputSettings_Status                               `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseThroughputSetting{}
@@ -78,7 +78,7 @@ func (setting *MongodbDatabaseThroughputSetting) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *MongodbDatabaseThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ThroughputSettingsUpdateParameters_Status{}
+	return &ThroughputSettings_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -94,13 +94,13 @@ func (setting *MongodbDatabaseThroughputSetting) Owner() *genruntime.ResourceRef
 // SetStatus sets the status of this resource
 func (setting *MongodbDatabaseThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ThroughputSettingsUpdateParameters_Status); ok {
+	if st, ok := status.(*ThroughputSettings_Status); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ThroughputSettingsUpdateParameters_Status
+	var st ThroughputSettings_Status
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")

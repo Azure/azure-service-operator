@@ -75,7 +75,7 @@ func MongodbDatabaseCollectionGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForMongodbDatabaseCollection is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForMongodbDatabaseCollection(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccountsMongodbDatabasesCollections_SPECGenerator()
-	gens["Status"] = MongoDBCollectionCreateUpdateParameters_StatusGenerator()
+	gens["Status"] = MongoDBCollection_StatusGenerator()
 }
 
 func Test_DatabaseAccountsMongodbDatabasesCollections_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -156,19 +156,19 @@ func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollections_
 	gens["Resource"] = gen.PtrOf(MongoDBCollectionResource_SpecGenerator())
 }
 
-func Test_MongoDBCollectionCreateUpdateParameters_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_MongoDBCollection_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of MongoDBCollectionCreateUpdateParameters_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMongoDBCollectionCreateUpdateParameters_Status, MongoDBCollectionCreateUpdateParameters_StatusGenerator()))
+		"Round trip of MongoDBCollection_Status via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMongoDBCollection_Status, MongoDBCollection_StatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMongoDBCollectionCreateUpdateParameters_Status runs a test to see if a specific instance of MongoDBCollectionCreateUpdateParameters_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForMongoDBCollectionCreateUpdateParameters_Status(subject MongoDBCollectionCreateUpdateParameters_Status) string {
+// RunJSONSerializationTestForMongoDBCollection_Status runs a test to see if a specific instance of MongoDBCollection_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongoDBCollection_Status(subject MongoDBCollection_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -176,7 +176,7 @@ func RunJSONSerializationTestForMongoDBCollectionCreateUpdateParameters_Status(s
 	}
 
 	// Deserialize back into memory
-	var actual MongoDBCollectionCreateUpdateParameters_Status
+	var actual MongoDBCollection_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -194,34 +194,34 @@ func RunJSONSerializationTestForMongoDBCollectionCreateUpdateParameters_Status(s
 	return ""
 }
 
-// Generator of MongoDBCollectionCreateUpdateParameters_Status instances for property testing - lazily instantiated by
-//MongoDBCollectionCreateUpdateParameters_StatusGenerator()
-var mongoDBCollectionCreateUpdateParameters_statusGenerator gopter.Gen
+// Generator of MongoDBCollection_Status instances for property testing - lazily instantiated by
+//MongoDBCollection_StatusGenerator()
+var mongoDBCollection_statusGenerator gopter.Gen
 
-// MongoDBCollectionCreateUpdateParameters_StatusGenerator returns a generator of MongoDBCollectionCreateUpdateParameters_Status instances for property testing.
-// We first initialize mongoDBCollectionCreateUpdateParameters_statusGenerator with a simplified generator based on the
+// MongoDBCollection_StatusGenerator returns a generator of MongoDBCollection_Status instances for property testing.
+// We first initialize mongoDBCollection_statusGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func MongoDBCollectionCreateUpdateParameters_StatusGenerator() gopter.Gen {
-	if mongoDBCollectionCreateUpdateParameters_statusGenerator != nil {
-		return mongoDBCollectionCreateUpdateParameters_statusGenerator
+func MongoDBCollection_StatusGenerator() gopter.Gen {
+	if mongoDBCollection_statusGenerator != nil {
+		return mongoDBCollection_statusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMongoDBCollectionCreateUpdateParameters_Status(generators)
-	mongoDBCollectionCreateUpdateParameters_statusGenerator = gen.Struct(reflect.TypeOf(MongoDBCollectionCreateUpdateParameters_Status{}), generators)
+	AddIndependentPropertyGeneratorsForMongoDBCollection_Status(generators)
+	mongoDBCollection_statusGenerator = gen.Struct(reflect.TypeOf(MongoDBCollection_Status{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMongoDBCollectionCreateUpdateParameters_Status(generators)
-	AddRelatedPropertyGeneratorsForMongoDBCollectionCreateUpdateParameters_Status(generators)
-	mongoDBCollectionCreateUpdateParameters_statusGenerator = gen.Struct(reflect.TypeOf(MongoDBCollectionCreateUpdateParameters_Status{}), generators)
+	AddIndependentPropertyGeneratorsForMongoDBCollection_Status(generators)
+	AddRelatedPropertyGeneratorsForMongoDBCollection_Status(generators)
+	mongoDBCollection_statusGenerator = gen.Struct(reflect.TypeOf(MongoDBCollection_Status{}), generators)
 
-	return mongoDBCollectionCreateUpdateParameters_statusGenerator
+	return mongoDBCollection_statusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForMongoDBCollectionCreateUpdateParameters_Status is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMongoDBCollectionCreateUpdateParameters_Status(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForMongoDBCollection_Status is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMongoDBCollection_Status(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -229,8 +229,8 @@ func AddIndependentPropertyGeneratorsForMongoDBCollectionCreateUpdateParameters_
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForMongoDBCollectionCreateUpdateParameters_Status is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMongoDBCollectionCreateUpdateParameters_Status(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForMongoDBCollection_Status is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMongoDBCollection_Status(gens map[string]gopter.Gen) {
 	gens["Options"] = gen.PtrOf(CreateUpdateOptions_StatusGenerator())
 	gens["Resource"] = gen.PtrOf(MongoDBCollectionResource_StatusGenerator())
 }
