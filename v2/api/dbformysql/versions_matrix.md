@@ -1,4 +1,4 @@
-| Types defined in package "dbformysql"      | v1alpha1api20210501 |
+| Type Definitions in package "dbformysql"   | v1alpha1api20210501 |
 |--------------------------------------------|---------------------|
 | Backup                                     | v1alpha1api20210501 |
 | BackupGeoRedundantBackup                   | v1alpha1api20210501 |

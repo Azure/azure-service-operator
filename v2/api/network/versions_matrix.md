@@ -1,4 +1,4 @@
-| Types defined in package "network"                                                               | v1alpha1api20201101 |
+| Type Definitions in package "network"                                                            | v1alpha1api20201101 |
 |--------------------------------------------------------------------------------------------------|---------------------|
 | AddressSpace                                                                                     | v1alpha1api20201101 |
 | AddressSpace_Status                                                                              | v1alpha1api20201101 |

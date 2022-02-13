@@ -1,4 +1,4 @@
-| Types defined in package "signalrservice"                    | v1alpha1api20211001 |
+| Type Definitions in package "signalrservice"                 | v1alpha1api20211001 |
 |--------------------------------------------------------------|---------------------|
 | ACLAction_Status                                             | v1alpha1api20211001 |
 | FeatureFlags_Status                                          | v1alpha1api20211001 |

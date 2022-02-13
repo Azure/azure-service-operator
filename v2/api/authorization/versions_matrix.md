@@ -1,4 +1,4 @@
-| Types defined in package "authorization"    | v1alpha1api20200801preview |
+| Type Definitions in package "authorization" | v1alpha1api20200801preview |
 |---------------------------------------------|----------------------------|
 | RoleAssignment                              | v1alpha1api20200801preview |
 | RoleAssignmentProperties                    | v1alpha1api20200801preview |

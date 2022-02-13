@@ -1,4 +1,4 @@
-| Types defined in package "servicebus"                | v1alpha1api20210101preview |
+| Type Definitions in package "servicebus"             | v1alpha1api20210101preview |
 |------------------------------------------------------|----------------------------|
 | DictionaryValue_Status                               | v1alpha1api20210101preview |
 | Encryption                                           | v1alpha1api20210101preview |

@@ -1,4 +1,4 @@
-| Types defined in package "containerregistry"         | v1alpha1api20210901 |
+| Type Definitions in package "containerregistry"      | v1alpha1api20210901 |
 |------------------------------------------------------|---------------------|
 | EncryptionProperty                                   | v1alpha1api20210901 |
 | EncryptionPropertyStatus                             | v1alpha1api20210901 |

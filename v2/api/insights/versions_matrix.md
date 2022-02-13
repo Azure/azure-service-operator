@@ -1,4 +1,4 @@
-| Types defined in package "insights"                                   | v1alpha1api20180501preview | v1alpha1api20200202 |
+| Type Definitions in package "insights"                                | v1alpha1api20180501preview | v1alpha1api20200202 |
 |-----------------------------------------------------------------------|----------------------------|---------------------|
 | ApplicationInsightsComponentProperties                                |                            | v1alpha1api20200202 |
 | ApplicationInsightsComponentPropertiesApplicationType                 |                            | v1alpha1api20200202 |
