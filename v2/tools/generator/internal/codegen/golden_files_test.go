@@ -151,6 +151,7 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 			pipeline.DeleteGeneratedCodeStageID,
 			pipeline.CheckForAnyTypeStageID,
 			pipeline.CreateStorageTypesStageID,
+			pipeline.CreateResourceExtensionsStageID,
 			// TODO: Once the stage is enabled in the pipeline, we may need to remove it here for testing
 			// pipeline.InjectHubFunctionStageID,
 			// pipeline.ImplementConvertibleInterfaceStageId,

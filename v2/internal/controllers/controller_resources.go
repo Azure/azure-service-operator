@@ -8,7 +8,11 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/pkg/errors"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	"reflect"
+	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"time"
 
 	"github.com/go-logr/logr"
@@ -48,6 +52,32 @@ func CreateScheme() *runtime.Scheme {
 	_ = resources.AddToScheme(scheme)
 
 	return scheme
+}
+
+// GetResourceExtensions returns a map between resource and resource extension
+func GetResourceExtensions(scheme *runtime.Scheme) (map[schema.GroupVersionKind]genruntime.ResourceExtension, error) {
+
+	extensionMapping := make(map[schema.GroupVersionKind]genruntime.ResourceExtension)
+
+	for _, extension := range getResourceExtensions() {
+		for _, resource := range extension.GetExtendedResources() {
+
+			// Make sure the type casting goes well, and we can extract the GVK successfully.
+			resourceObj, ok := resource.(runtime.Object)
+			if !ok {
+				err := errors.Errorf("Unexpected resource type for resource '%s', found '%T'", resource.AzureName(), resource)
+				return nil, err
+			}
+
+			gvk, err := apiutil.GVKForObject(resourceObj, scheme)
+			if err != nil {
+				return nil, err
+			}
+			extensionMapping[gvk] = extension
+		}
+	}
+
+	return extensionMapping, nil
 }
 
 // watchSecretsFactory is used to register an EventHandlerFactory for watching secret mutations.

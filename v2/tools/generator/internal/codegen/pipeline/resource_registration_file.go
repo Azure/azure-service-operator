@@ -21,6 +21,7 @@ import (
 type ResourceRegistrationFile struct {
 	resources               []astmodel.TypeName
 	storageVersionResources []astmodel.TypeName
+	resourceExtensions      []astmodel.TypeName
 	indexFunctions          map[astmodel.TypeName][]*functions.IndexRegistrationFunction
 	secretPropertyKeys      map[astmodel.TypeName][]string
 }
@@ -33,13 +34,15 @@ func NewResourceRegistrationFile(
 	resources []astmodel.TypeName,
 	storageVersionResources []astmodel.TypeName,
 	indexFunctions map[astmodel.TypeName][]*functions.IndexRegistrationFunction,
-	secretPropertyKeys map[astmodel.TypeName][]string) *ResourceRegistrationFile {
+	secretPropertyKeys map[astmodel.TypeName][]string,
+	resourceExtensions []astmodel.TypeName) *ResourceRegistrationFile {
 
 	return &ResourceRegistrationFile{
 		resources:               resources,
 		storageVersionResources: storageVersionResources,
 		indexFunctions:          indexFunctions,
 		secretPropertyKeys:      secretPropertyKeys,
+		resourceExtensions:      resourceExtensions,
 	}
 }
 
@@ -91,6 +94,13 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 	}
 	decls = append(decls, createSchemeFunc)
 
+	// Create Resource Extensions
+	resourceExtensionTypes := r.createGetResourceExtensions(codeGenContext)
+	if err != nil {
+		return nil, err
+	}
+	decls = append(decls, resourceExtensionTypes)
+
 	// All the index functions
 	indexFunctionDecls := r.defineIndexFunctions(codeGenContext)
 	decls = append(decls, indexFunctionDecls...)
@@ -120,8 +130,9 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 // in the ResourceRegistrationFile.
 func (r *ResourceRegistrationFile) generateImports() *astmodel.PackageImportSet {
 	requiredImports := astmodel.NewPackageImportSet()
-
-	for _, typeName := range append(r.resources, r.storageVersionResources...) {
+	typeSet := append(r.resources, r.storageVersionResources...)
+	typeSet = append(typeSet, r.resourceExtensions...)
+	for _, typeName := range typeSet {
 		// Because versions always end in a date specifier such as "v20180801"
 		// they are not unique. We must build a unique name for each package so that
 		// there are no import conflicts.
@@ -131,8 +142,8 @@ func (r *ResourceRegistrationFile) generateImports() *astmodel.PackageImportSet 
 	}
 
 	// We require these imports
-	clientGoSchemeImport := astmodel.NewPackageImport(astmodel.ClientGoSchemeReference).WithName("clientgoscheme")
-	requiredImports.AddImport(clientGoSchemeImport)
+	requiredImports.AddImport(astmodel.NewPackageImport(astmodel.GenRuntimeReference))
+	requiredImports.AddImport(astmodel.NewPackageImport(astmodel.ClientGoSchemeReference).WithName("clientgoscheme"))
 	requiredImports.AddImport(astmodel.NewPackageImport(astmodel.APIMachineryRuntimeReference))
 	requiredImports.AddImport(astmodel.NewPackageImport(astmodel.ControllerRuntimeClient))
 	requiredImports.AddImport(astmodel.NewPackageImport(astmodel.ControllerRuntimeSource))
@@ -376,6 +387,45 @@ func createGetKnownStorageTypesFunc(
 			},
 		},
 	}
+	f.AddComments(funcComment)
+
+	return f.DefineFunc()
+}
+
+func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel.CodeGenerationContext) dst.Decl {
+
+	funcName := "getResourceExtensions"
+	funcComment := "returns a list of resource extensions"
+
+	sort.Slice(r.resourceExtensions, orderByImportedTypeName(context, r.resourceExtensions))
+	resultIdent := dst.NewIdent("result")
+	resultVar := astbuilder.LocalVariableDeclaration(
+		resultIdent.String(),
+		astmodel.NewArrayType(astmodel.ResourceExtensionType).AsType(context),
+		"")
+
+	var resourceAppendStatements []dst.Stmt
+	for _, typeName := range r.resourceExtensions {
+		appendStmt := astbuilder.AppendSlice(
+			resultIdent,
+			astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(typeName.AsType(context)).Build()),
+		)
+		resourceAppendStatements = append(resourceAppendStatements, appendStmt)
+	}
+
+	returnStmt := astbuilder.Returns(resultIdent)
+
+	var body []dst.Stmt
+	body = append(body, resultVar)
+	body = append(body, resourceAppendStatements...)
+	body = append(body, returnStmt)
+
+	f := &astbuilder.FuncDetails{
+		Name: funcName,
+		Body: body,
+	}
+
+	f.AddReturn(astmodel.NewArrayType(astmodel.ResourceExtensionType).AsType(context))
 	f.AddComments(funcComment)
 
 	return f.DefineFunc()
