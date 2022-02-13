@@ -99,7 +99,7 @@ func (webtest *Webtest) AzureName() string {
 	return webtest.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2018-05-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2018-05-01-preview"
 func (webtest Webtest) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -312,10 +312,10 @@ type WebtestList struct {
 	Items           []Webtest `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2018-05-01"}
+// +kubebuilder:validation:Enum={"2018-05-01-preview"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2018-05-01")
+const APIVersionValue = APIVersion("2018-05-01-preview")
 
 type WebTest_Status struct {
 	//Conditions: The observed state of the resource

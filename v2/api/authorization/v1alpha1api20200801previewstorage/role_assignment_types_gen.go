@@ -51,7 +51,7 @@ func (assignment *RoleAssignment) AzureName() string {
 	return assignment.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-08-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-08-01-preview"
 func (assignment RoleAssignment) GetAPIVersion() string {
 	return string(APIVersionValue)
 }

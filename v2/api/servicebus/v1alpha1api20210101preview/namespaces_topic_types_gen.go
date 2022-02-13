@@ -98,7 +98,7 @@ func (topic *NamespacesTopic) AzureName() string {
 	return topic.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
 func (topic NamespacesTopic) GetAPIVersion() string {
 	return string(APIVersionValue)
 }

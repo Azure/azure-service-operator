@@ -15,7 +15,7 @@ type RoleAssignments_SPECARM struct {
 
 var _ genruntime.ARMResourceSpec = &RoleAssignments_SPECARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-08-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-08-01-preview"
 func (specarm RoleAssignments_SPECARM) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
