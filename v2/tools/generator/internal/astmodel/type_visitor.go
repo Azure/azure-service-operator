@@ -287,7 +287,7 @@ func IdentityVisitOfAllOfType(this *TypeVisitor, it *AllOfType, ctx interface{})
 	return BuildAllOfType(newTypes...), nil
 }
 
-// just checks reference equality of Types
+// just checks reference equality of types
 // this is used to short-circuit when we don't need to make new types,
 // in a fast manner than invoking Equals and walking the whole tree
 func typeSlicesFastEqual(t1 []Type, t2 []Type) bool {

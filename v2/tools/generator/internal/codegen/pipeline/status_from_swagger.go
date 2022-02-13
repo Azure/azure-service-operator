@@ -104,7 +104,7 @@ type statusTypes struct {
 	// the typeName is lowercased to be case-insensitive
 	resourceTypes resourceLookup
 
-	// otherTypes has all other Status types renamed to avoid clashes with Spec Types
+	// otherTypes has all other Status types renamed to avoid clashes with Spec types
 	otherTypes astmodel.TypeDefinitionSet
 }
 

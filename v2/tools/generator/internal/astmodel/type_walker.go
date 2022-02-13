@@ -145,9 +145,9 @@ func (t *TypeWalker) visitObjectType(this *TypeVisitor, it *ObjectType, ctx inte
 	return ot, nil
 }
 
-// Walk returns a Types collection constructed by applying the Visitor to each type in the graph of types reachable
-// from the provided TypeDefinition 'def'. Types are visited in a depth-first order. Cycles are not followed
-// (so each type in a cycle will be visited only once).
+// Walk returns a type definition collection constructed by applying the Visitor to each type in the graph of types
+// reachable from the provided TypeDefinition 'def'. TypeDefinitionSet are visited in a depth-first order. Cycles are
+// not followed (so each type in a cycle will be visited only once).
 func (t *TypeWalker) Walk(def TypeDefinition) (TypeDefinitionSet, error) {
 	t.state = typeWalkerState{
 		result:     make(TypeDefinitionSet),
