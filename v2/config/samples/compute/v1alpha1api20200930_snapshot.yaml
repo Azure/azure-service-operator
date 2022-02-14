@@ -1,7 +1,7 @@
 apiVersion: compute.azure.com/v1alpha1api20201201
 kind: Snapshot
 metadata:
-  name: samplesnapshot
+  name: aso-sample-snapshot
   namespace: default
 spec:
   location: westcentralus
