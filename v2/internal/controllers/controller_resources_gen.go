@@ -126,12 +126,7 @@ func getKnownStorageTypes() []registration.StorageType {
 	result = append(result, registration.StorageType{
 		Obj:     new(computev1alpha1api20200930storage.Snapshot),
 		Indexes: []registration.Index{},
-		Watches: []registration.Watch{
-			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
-				MakeEventHandler: watchSecretsFactory([]string{}, &computev1alpha1api20200930storage.SnapshotList{}),
-			},
-		},
+		Watches: []registration.Watch{},
 	})
 	result = append(result, registration.StorageType{
 		Obj: new(computev1alpha1api20201201storage.VirtualMachine),
@@ -166,12 +161,7 @@ func getKnownStorageTypes() []registration.StorageType {
 	result = append(result, registration.StorageType{
 		Obj:     new(computev1alpha1api20210701storage.Image),
 		Indexes: []registration.Index{},
-		Watches: []registration.Watch{
-			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
-				MakeEventHandler: watchSecretsFactory([]string{}, &computev1alpha1api20210701storage.ImageList{}),
-			},
-		},
+		Watches: []registration.Watch{},
 	})
 	result = append(result, registration.StorageType{
 		Obj:     new(containerregistryv1alpha1api20210901storage.Registry),
@@ -662,6 +652,8 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &cachecustomizations.RedisLinkedServerExtension{})
 	result = append(result, &cachecustomizations.RedisPatchScheduleExtension{})
 	result = append(result, &computecustomizations.DiskExtension{})
+	result = append(result, &computecustomizations.ImageExtension{})
+	result = append(result, &computecustomizations.SnapshotExtension{})
 	result = append(result, &computecustomizations.VirtualMachineExtension{})
 	result = append(result, &computecustomizations.VirtualMachineScaleSetExtension{})
 	result = append(result, &containerregistrycustomizations.RegistryExtension{})
