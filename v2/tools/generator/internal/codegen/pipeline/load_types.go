@@ -170,14 +170,14 @@ func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.Types, ast
 }
 
 func generateSpecTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.Types, astmodel.Types, error) {
-	resources, otherTypes, err := renamed(swaggerTypes, "") // TODO: I think this should be renamed to "_Spec" for consistency, but will do in a separate PR for cleanliness
+	resources, otherTypes, err := renamed(swaggerTypes, "") // TODO: I think this should be renamed to "_Spec" for consistency, but will do in a separate PR for cleanliness #Naming
 	if err != nil {
 		return nil, nil, err
 	}
 
 	// Fix-up: rename top-level resource types so that a Resource
 	// always points to a _Spec type.
-	// TODO: remove once preceding TODO is resolved and everything is consistently named _Spec
+	// TODO: remove once preceding TODO is resolved and everything is consistently named _Spec #Naming
 	{
 		renames := make(map[astmodel.TypeName]astmodel.TypeName)
 		for typeName := range otherTypes {
