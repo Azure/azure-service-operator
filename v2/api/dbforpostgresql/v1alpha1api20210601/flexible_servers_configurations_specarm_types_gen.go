@@ -25,9 +25,9 @@ func (specarm FlexibleServersConfigurations_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DBforPostgreSQL/flexibleServers/configurations"
 func (specarm FlexibleServersConfigurations_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.DBforPostgreSQL/flexibleServers/configurations"
 }
 
 type ConfigurationProperties_SpecARM struct {

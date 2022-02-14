@@ -29,9 +29,9 @@ func (specarm DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM) Ge
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
 func (specarm DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
 }
 
 type SqlStoredProcedureProperties_SpecARM struct {

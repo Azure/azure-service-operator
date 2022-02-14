@@ -110,7 +110,8 @@ func LoadTypesFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 
 				resourceType := astmodel.
 					NewResourceType(spec, status).
-					WithAPIVersion(apiVersion.Type, apiVersion.Value)
+					WithAPIVersion(apiVersion.Type, apiVersion.Value).
+					WithARMType(resourceInfo.ARMURI.GetARMType())
 
 				sourceFile := strings.TrimPrefix(resourceInfo.SourceFile, config.SchemaRoot)
 
@@ -664,7 +665,7 @@ func loadAllSchemas(
 
 func groupFromPath(filePath string, rootPath string, overrides []config.SchemaOverride) string {
 	filePath = filepath.ToSlash(filePath)
-	group := jsonast.SwaggerGroupRegex.FindString(filePath)
+	group := astmodel.SwaggerGroupRegex.FindString(filePath)
 
 	// see if there is a config override for this file
 	for _, schemaOverride := range overrides {

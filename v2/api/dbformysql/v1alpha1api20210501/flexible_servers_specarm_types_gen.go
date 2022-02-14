@@ -34,9 +34,9 @@ func (specarm FlexibleServers_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DBforMySQL/flexibleServers"
 func (specarm FlexibleServers_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.DBforMySQL/flexibleServers"
 }
 
 type ServerProperties_SpecARM struct {

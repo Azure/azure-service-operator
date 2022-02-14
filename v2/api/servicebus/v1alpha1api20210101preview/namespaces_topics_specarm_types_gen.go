@@ -25,9 +25,9 @@ func (specarm NamespacesTopics_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/topics"
 func (specarm NamespacesTopics_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.ServiceBus/namespaces/topics"
 }
 
 type SBTopicProperties_SpecARM struct {

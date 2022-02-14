@@ -29,9 +29,9 @@ func (specarm DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPECARM
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions"
 func (specarm DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions"
 }
 
 type SqlUserDefinedFunctionProperties_SpecARM struct {

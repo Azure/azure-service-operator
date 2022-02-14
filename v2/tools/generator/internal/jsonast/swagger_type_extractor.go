@@ -8,7 +8,6 @@ package jsonast
 import (
 	"context"
 	"fmt"
-	"regexp"
 	"strings"
 
 	"github.com/go-openapi/spec"
@@ -481,7 +480,7 @@ func inferNameFromURLPath(operationPath string) (string, string, error) {
 				name += strings.ToUpper(urlPart[0:1]) + urlPart[1:]
 				skippedLast = false
 			}
-		} else if SwaggerGroupRegex.MatchString(urlPart) {
+		} else if astmodel.SwaggerGroupRegex.MatchString(urlPart) {
 			group = urlPart
 			reading = true
 		}
@@ -497,7 +496,3 @@ func inferNameFromURLPath(operationPath string) (string, string, error) {
 
 	return group, name, nil
 }
-
-// SwaggerGroupRegex matches a “group” (Swagger ‘namespace’)
-// based on: https://github.com/Azure/autorest/blob/85de19623bdce3ccc5000bae5afbf22a49bc4665/core/lib/pipeline/metadata-generation.ts#L25
-var SwaggerGroupRegex = regexp.MustCompile(`[Mm]icrosoft\.[^/\\]+`)

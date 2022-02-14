@@ -25,9 +25,9 @@ func (specarm RedisPatchSchedules_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis/patchSchedules"
 func (specarm RedisPatchSchedules_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.Cache/redis/patchSchedules"
 }
 
 type ScheduleEntries_SpecARM struct {

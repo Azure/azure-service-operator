@@ -34,9 +34,9 @@ func (specarm Workspaces_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.OperationalInsights/workspaces"
 func (specarm Workspaces_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.OperationalInsights/workspaces"
 }
 
 type WorkspaceProperties_SpecARM struct {

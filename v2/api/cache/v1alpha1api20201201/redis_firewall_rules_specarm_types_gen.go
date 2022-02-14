@@ -25,9 +25,9 @@ func (specarm RedisFirewallRules_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis/firewallRules"
 func (specarm RedisFirewallRules_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.Cache/redis/firewallRules"
 }
 
 type RedisFirewallRuleProperties_SpecARM struct {

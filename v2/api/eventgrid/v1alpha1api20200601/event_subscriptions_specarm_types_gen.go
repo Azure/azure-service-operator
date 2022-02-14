@@ -25,9 +25,9 @@ func (specarm EventSubscriptions_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/eventSubscriptions"
 func (specarm EventSubscriptions_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.EventGrid/eventSubscriptions"
 }
 
 type EventSubscriptionProperties_SpecARM struct {

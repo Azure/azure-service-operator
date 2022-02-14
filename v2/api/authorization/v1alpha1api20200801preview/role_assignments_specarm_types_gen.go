@@ -25,9 +25,9 @@ func (specarm RoleAssignments_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Authorization/roleAssignments"
 func (specarm RoleAssignments_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.Authorization/roleAssignments"
 }
 
 type RoleAssignmentProperties_SpecARM struct {

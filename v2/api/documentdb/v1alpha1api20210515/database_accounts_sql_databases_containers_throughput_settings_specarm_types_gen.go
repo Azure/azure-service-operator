@@ -29,7 +29,7 @@ func (specarm DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPECARM) 
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings"
 func (specarm DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings"
 }

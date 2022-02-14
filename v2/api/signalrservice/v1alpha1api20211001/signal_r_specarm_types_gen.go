@@ -43,9 +43,9 @@ func (specarm SignalR_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.SignalRService/signalR"
 func (specarm SignalR_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.SignalRService/signalR"
 }
 
 type ManagedIdentity_SpecARM struct {

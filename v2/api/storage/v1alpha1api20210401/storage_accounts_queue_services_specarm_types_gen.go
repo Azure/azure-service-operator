@@ -25,9 +25,9 @@ func (specarm StorageAccountsQueueServices_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/queueServices"
 func (specarm StorageAccountsQueueServices_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.Storage/storageAccounts/queueServices"
 }
 
 type StorageAccountsQueueServices_Properties_SPECARM struct {

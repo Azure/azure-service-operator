@@ -35,9 +35,9 @@ func (specarm Redis_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis"
 func (specarm Redis_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.Cache/redis"
 }
 
 type RedisProperties_SpecARM struct {

@@ -29,9 +29,9 @@ func (specarm DatabaseAccountsMongodbDatabasesCollections_SPECARM) GetName() str
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections"
 func (specarm DatabaseAccountsMongodbDatabasesCollections_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections"
 }
 
 type MongoDBCollectionProperties_SpecARM struct {

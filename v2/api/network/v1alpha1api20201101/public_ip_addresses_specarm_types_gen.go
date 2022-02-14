@@ -42,9 +42,9 @@ func (specarm PublicIPAddresses_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/publicIPAddresses"
 func (specarm PublicIPAddresses_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.Network/publicIPAddresses"
 }
 
 type PublicIPAddressPropertiesFormat_Spec_SubResourceEmbeddedARM struct {

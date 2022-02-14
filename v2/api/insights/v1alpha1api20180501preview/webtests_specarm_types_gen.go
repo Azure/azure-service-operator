@@ -34,9 +34,9 @@ func (specarm Webtests_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Insights/webtests"
 func (specarm Webtests_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.Insights/webtests"
 }
 
 type WebTestProperties_SpecARM struct {

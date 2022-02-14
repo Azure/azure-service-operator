@@ -35,9 +35,9 @@ func (specarm VirtualNetworks_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks"
 func (specarm VirtualNetworks_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.Network/virtualNetworks"
 }
 
 type VirtualNetworkPropertiesFormat_SpecARM struct {

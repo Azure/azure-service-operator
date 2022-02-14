@@ -25,9 +25,9 @@ func (specarm NamespacesEventhubsAuthorizationRules_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs/authorizationRules"
 func (specarm NamespacesEventhubsAuthorizationRules_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.EventHub/namespaces/eventhubs/authorizationRules"
 }
 
 type NamespacesEventhubsAuthorizationRules_Properties_SPECARM struct {

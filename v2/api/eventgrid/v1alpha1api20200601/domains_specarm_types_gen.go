@@ -31,9 +31,9 @@ func (specarm Domains_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/domains"
 func (specarm Domains_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.EventGrid/domains"
 }
 
 type DomainProperties_SpecARM struct {

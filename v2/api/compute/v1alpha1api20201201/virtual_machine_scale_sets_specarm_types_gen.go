@@ -50,9 +50,9 @@ func (specarm VirtualMachineScaleSets_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachineScaleSets"
 func (specarm VirtualMachineScaleSets_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.Compute/virtualMachineScaleSets"
 }
 
 type ExtendedLocation_SpecARM struct {

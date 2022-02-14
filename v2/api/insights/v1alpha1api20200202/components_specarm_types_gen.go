@@ -42,9 +42,9 @@ func (specarm Components_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Insights/components"
 func (specarm Components_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.Insights/components"
 }
 
 type ApplicationInsightsComponentProperties_SpecARM struct {

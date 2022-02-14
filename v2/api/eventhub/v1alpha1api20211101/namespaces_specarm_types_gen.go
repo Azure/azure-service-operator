@@ -37,9 +37,9 @@ func (specarm Namespaces_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces"
 func (specarm Namespaces_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.EventHub/namespaces"
 }
 
 type Identity_SpecARM struct {

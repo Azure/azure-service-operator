@@ -25,9 +25,9 @@ func (specarm NamespacesQueues_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/queues"
 func (specarm NamespacesQueues_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.ServiceBus/namespaces/queues"
 }
 
 type SBQueueProperties_SpecARM struct {

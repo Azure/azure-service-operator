@@ -32,9 +32,9 @@ func (specarm DatabaseAccounts_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts"
 func (specarm DatabaseAccounts_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.DocumentDB/databaseAccounts"
 }
 
 type DatabaseAccountProperties_SpecARM struct {

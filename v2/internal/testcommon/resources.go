@@ -6,7 +6,7 @@ Licensed under the MIT license.
 package testcommon
 
 import (
-	"k8s.io/apimachinery/pkg/apis/meta/v1"
+	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	"github.com/Azure/azure-service-operator/v2/api/batch/v1alpha1api20210101"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -14,7 +14,7 @@ import (
 
 func CreateDummyResource() *v1alpha1api20210101.BatchAccount {
 	return &v1alpha1api20210101.BatchAccount{
-		Spec: v1alpha1api20210101.BatchAccounts_Spec{
+		Spec: v1alpha1api20210101.BatchAccounts_SPEC{
 			AzureName: "azureName",
 			Location:  "westus",
 			Owner: genruntime.KnownResourceReference{

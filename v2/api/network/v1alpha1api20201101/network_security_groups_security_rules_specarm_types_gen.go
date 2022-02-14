@@ -32,9 +32,9 @@ func (specarm NetworkSecurityGroupsSecurityRules_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkSecurityGroups/securityRules"
 func (specarm NetworkSecurityGroupsSecurityRules_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.Network/networkSecurityGroups/securityRules"
 }
 
 type SecurityRulePropertiesFormat_SpecARM struct {

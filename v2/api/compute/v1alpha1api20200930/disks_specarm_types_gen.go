@@ -37,9 +37,9 @@ func (specarm Disks_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/disks"
 func (specarm Disks_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.Compute/disks"
 }
 
 type DiskProperties_SpecARM struct {

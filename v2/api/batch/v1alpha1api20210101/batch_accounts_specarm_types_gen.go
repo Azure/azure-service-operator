@@ -34,9 +34,9 @@ func (specarm BatchAccounts_SPECARM) GetName() string {
 	return specarm.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Batch/batchAccounts"
 func (specarm BatchAccounts_SPECARM) GetType() string {
-	return ""
+	return "Microsoft.Batch/batchAccounts"
 }
 
 type BatchAccountIdentity_SpecARM struct {
