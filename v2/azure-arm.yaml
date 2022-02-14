@@ -572,10 +572,16 @@ objectModelConfiguration:
       Encryption:
         DiskEncryptionSetId:
           $armReference: true
+      ImageDiskReference:
+        Id:
+          $armReference: true
       Snapshot:
         $export: true
       SnapshotProperties:
         DiskAccessId: 
+          $armReference: true
+      SourceVault:
+        Id:
           $armReference: true
     2020-12-01:
       DiskEncryptionSetParameters:
