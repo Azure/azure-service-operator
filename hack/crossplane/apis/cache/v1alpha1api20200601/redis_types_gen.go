@@ -196,6 +196,8 @@ const (
 )
 
 type RedisProperties_RedisConfiguration_Spec struct {
+	AdditionalProperties map[string]string `json:"additionalProperties"`
+
 	//AofStorageConnectionString0: First storage account connection string
 	AofStorageConnectionString0 *string `json:"aof-storage-connection-string-0,omitempty"`
 
@@ -230,11 +232,12 @@ type RedisProperties_RedisConfiguration_Spec struct {
 
 	//RdbStorageConnectionString: The storage account connection string for storing
 	//rdb file
-	RdbStorageConnectionString *string           `json:"rdb-storage-connection-string,omitempty"`
-	additionalProperties       map[string]string `json:"additionalProperties"`
+	RdbStorageConnectionString *string `json:"rdb-storage-connection-string,omitempty"`
 }
 
 type RedisProperties_RedisConfiguration_Status struct {
+	AdditionalProperties map[string]string `json:"additionalProperties"`
+
 	//AofStorageConnectionString0: First storage account connection string
 	AofStorageConnectionString0 *string `json:"aof-storage-connection-string-0,omitempty"`
 
@@ -272,8 +275,7 @@ type RedisProperties_RedisConfiguration_Status struct {
 
 	//RdbStorageConnectionString: The storage account connection string for storing
 	//rdb file
-	RdbStorageConnectionString *string           `json:"rdb-storage-connection-string,omitempty"`
-	additionalProperties       map[string]string `json:"additionalProperties"`
+	RdbStorageConnectionString *string `json:"rdb-storage-connection-string,omitempty"`
 }
 
 type Sku_Spec struct {

@@ -480,7 +480,7 @@ func objectHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (
 	// if we _only_ have an 'additionalProperties' property, then we are making
 	// a dictionary-like type, and we won't generate an object type; instead, we
 	// will just use the 'additionalProperties' type directly
-	if len(properties) == 1 && properties[0].PropertyName() == "additionalProperties" {
+	if len(properties) == 1 && properties[0].PropertyName() == "AdditionalProperties" {
 		return properties[0].PropertyType(), nil
 	}
 
@@ -599,7 +599,7 @@ func getProperties(
 			if len(properties) == 0 {
 				// TODO: for JSON serialization this needs to be unpacked into "parent"
 				additionalProperties := astmodel.NewPropertyDefinition(
-					"additionalProperties",
+					"AdditionalProperties",
 					"additionalProperties",
 					astmodel.NewStringMapType(astmodel.AnyType))
 
@@ -623,7 +623,7 @@ func getProperties(
 			}
 
 			additionalProperties := astmodel.NewPropertyDefinition(
-				astmodel.PropertyName("additionalProperties"),
+				astmodel.PropertyName("AdditionalProperties"),
 				"additionalProperties",
 				astmodel.NewStringMapType(additionalPropsType))
 

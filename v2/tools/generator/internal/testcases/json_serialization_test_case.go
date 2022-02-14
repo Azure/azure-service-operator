@@ -646,7 +646,36 @@ func (o *JSONSerializationTestCase) createIndependentGenerator(
 		types := genContext.GetTypesInCurrentPackage()
 		def, ok := types[t]
 		if ok {
-			return o.createIndependentGenerator(def.Name().Name(), def.Type(), genContext)
+			innerGenerator := o.createIndependentGenerator(def.Name().Name(), def.Type(), genContext)
+			if innerGenerator == nil {
+				return nil
+			}
+
+			vt, ok := def.Type().(*astmodel.ValidatedType)
+			if !ok {
+				return innerGenerator
+			}
+
+			// if we have a typename → validated primitive then we need to cast the result
+
+			// <inner>.Map(func (result ElementType) OuterType { return OuterType(result) })
+			return astbuilder.CallExpr(
+				innerGenerator,
+				"Map",
+				&dst.FuncLit{
+					Type: &dst.FuncType{
+						Params: &dst.FieldList{List: []*dst.Field{
+							{
+								Names: []*dst.Ident{dst.NewIdent("result")},
+								Type:  dst.NewIdent(vt.ElementType().String()),
+							},
+						}},
+						Results: &dst.FieldList{List: []*dst.Field{
+							{Type: dst.NewIdent(def.Name().Name())},
+						}},
+					},
+					Body: astbuilder.StatementBlock(astbuilder.Returns(astbuilder.CallFunc(def.Name().Name(), dst.NewIdent("result")))),
+				})
 		}
 		return nil
 
@@ -702,7 +731,9 @@ func (o *JSONSerializationTestCase) createRelatedGenerator(
 			}
 
 			importName := genContext.MustGetImportedPackageName(t.PackageReference)
-			return astbuilder.CallQualifiedFunc(importName, idOfGeneratorMethod(t, o.idFactory))
+			result := astbuilder.CallQualifiedFunc(importName, idOfGeneratorMethod(t, o.idFactory))
+
+			return result
 		}
 
 		// TODO: Should we invoke a generator for stuff from our runtime package?

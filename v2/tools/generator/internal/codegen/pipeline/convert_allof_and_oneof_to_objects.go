@@ -661,7 +661,7 @@ func (synthesizer) handleMapObject(leftMap *astmodel.MapType, rightObj *astmodel
 			return leftMap, nil
 		}
 
-		additionalProps := astmodel.NewPropertyDefinition("additionalProperties", "additionalProperties", leftMap)
+		additionalProps := astmodel.NewPropertyDefinition("AdditionalProperties", "additionalProperties", leftMap)
 		return rightObj.WithProperties(additionalProps), nil
 	}
 

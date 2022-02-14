@@ -229,6 +229,7 @@ func (redis *Redis_Status) ConvertStatusTo(destination genruntime.ConvertibleSta
 
 //Storage version of v1alpha1api20201201.RedisProperties_RedisConfiguration_Spec
 type RedisProperties_RedisConfiguration_Spec struct {
+	AdditionalProperties           map[string]string      `json:"additionalProperties,omitempty"`
 	AofStorageConnectionString0    *string                `json:"aof-storage-connection-string-0,omitempty"`
 	AofStorageConnectionString1    *string                `json:"aof-storage-connection-string-1,omitempty"`
 	MaxfragmentationmemoryReserved *string                `json:"maxfragmentationmemory-reserved,omitempty"`
@@ -240,7 +241,6 @@ type RedisProperties_RedisConfiguration_Spec struct {
 	RdbBackupFrequency             *string                `json:"rdb-backup-frequency,omitempty"`
 	RdbBackupMaxSnapshotCount      *string                `json:"rdb-backup-max-snapshot-count,omitempty"`
 	RdbStorageConnectionString     *string                `json:"rdb-storage-connection-string,omitempty"`
-	additionalProperties           map[string]string      `json:"additionalProperties,omitempty"`
 }
 
 //Storage version of v1alpha1api20201201.Sku_Spec

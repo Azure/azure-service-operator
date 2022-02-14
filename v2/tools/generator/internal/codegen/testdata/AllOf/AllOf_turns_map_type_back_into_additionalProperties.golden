@@ -5,7 +5,8 @@ package v1alpha1api20200101
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
+	AdditionalProperties map[string]bool `json:"additionalProperties"`
+
 	// +kubebuilder:validation:Required
-	Size                 int             `json:"size"`
-	additionalProperties map[string]bool `json:"additionalProperties"`
+	Size int `json:"size"`
 }

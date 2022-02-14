@@ -90,6 +90,8 @@ type RedisProperties_SpecARM struct {
 }
 
 type RedisProperties_RedisConfiguration_SpecARM struct {
+	AdditionalProperties map[string]string `json:"additionalProperties"`
+
 	//AofStorageConnectionString0: First storage account connection string
 	AofStorageConnectionString0 *string `json:"aof-storage-connection-string-0,omitempty"`
 
@@ -124,8 +126,7 @@ type RedisProperties_RedisConfiguration_SpecARM struct {
 
 	//RdbStorageConnectionString: The storage account connection string for storing
 	//rdb file
-	RdbStorageConnectionString *string           `json:"rdb-storage-connection-string,omitempty"`
-	additionalProperties       map[string]string `json:"additionalProperties"`
+	RdbStorageConnectionString *string `json:"rdb-storage-connection-string,omitempty"`
 }
 
 type Sku_SpecARM struct {

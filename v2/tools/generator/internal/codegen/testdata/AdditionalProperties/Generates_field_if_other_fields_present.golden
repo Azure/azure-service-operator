@@ -9,6 +9,6 @@ type Test struct {
 }
 
 type Test_Tags struct {
+	AdditionalProperties map[string]float64 `json:"additionalProperties"`
 	OtherField           *string            `json:"otherField,omitempty"`
-	additionalProperties map[string]float64 `json:"additionalProperties"`
 }

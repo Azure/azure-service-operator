@@ -85,7 +85,7 @@ func TestMergeMapObject(t *testing.T) {
 	)
 
 	expected := oneProp.WithProperties(
-		astmodel.NewPropertyDefinition("additionalProperties", "additionalProperties", newMap),
+		astmodel.NewPropertyDefinition("AdditionalProperties", "additionalProperties", newMap),
 	)
 
 	synth := makeSynth()

@@ -235,6 +235,7 @@ func RedisProperties_RedisConfiguration_SpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRedisProperties_RedisConfiguration_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedisProperties_RedisConfiguration_SpecARM(gens map[string]gopter.Gen) {
+	gens["AdditionalProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["AofStorageConnectionString0"] = gen.PtrOf(gen.AlphaString())
 	gens["AofStorageConnectionString1"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxfragmentationmemoryReserved"] = gen.PtrOf(gen.AlphaString())
@@ -245,7 +246,6 @@ func AddIndependentPropertyGeneratorsForRedisProperties_RedisConfiguration_SpecA
 	gens["RdbBackupFrequency"] = gen.PtrOf(gen.AlphaString())
 	gens["RdbBackupMaxSnapshotCount"] = gen.PtrOf(gen.AlphaString())
 	gens["RdbStorageConnectionString"] = gen.PtrOf(gen.AlphaString())
-	gens["additionalProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
 func Test_Sku_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -95,7 +95,7 @@ func createResourceGroupRootedResource(rgName string, name string) (genruntime.M
 			Name:      name,
 			Namespace: testNamespace,
 		},
-		Spec: batch.BatchAccounts_Spec{
+		Spec: batch.BatchAccounts_SPEC{
 			Owner: genruntime.KnownResourceReference{
 				Name: rgName,
 			},
@@ -118,7 +118,7 @@ func createDeeplyNestedResource(rgName string, parentName string, name string) g
 			Name:      parentName,
 			Namespace: testNamespace,
 		},
-		Spec: storage.StorageAccounts_Spec{
+		Spec: storage.StorageAccounts_SPEC{
 			Owner: genruntime.KnownResourceReference{
 				Name: rgName,
 			},
@@ -135,7 +135,7 @@ func createDeeplyNestedResource(rgName string, parentName string, name string) g
 			Name:      name,
 			Namespace: testNamespace,
 		},
-		Spec: storage.StorageAccountsBlobServices_Spec{
+		Spec: storage.StorageAccountsBlobServices_SPEC{
 			Owner: genruntime.KnownResourceReference{
 				Name: parentName,
 			},

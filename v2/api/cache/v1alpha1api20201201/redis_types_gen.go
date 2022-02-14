@@ -1345,6 +1345,8 @@ const (
 )
 
 type RedisProperties_RedisConfiguration_Spec struct {
+	AdditionalProperties map[string]string `json:"additionalProperties"`
+
 	//AofStorageConnectionString0: First storage account connection string
 	AofStorageConnectionString0 *string `json:"aof-storage-connection-string-0,omitempty"`
 
@@ -1379,8 +1381,7 @@ type RedisProperties_RedisConfiguration_Spec struct {
 
 	//RdbStorageConnectionString: The storage account connection string for storing
 	//rdb file
-	RdbStorageConnectionString *string           `json:"rdb-storage-connection-string,omitempty"`
-	additionalProperties       map[string]string `json:"additionalProperties"`
+	RdbStorageConnectionString *string `json:"rdb-storage-connection-string,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RedisProperties_RedisConfiguration_Spec{}
@@ -1391,6 +1392,14 @@ func (configuration *RedisProperties_RedisConfiguration_Spec) ConvertToARM(resol
 		return nil, nil
 	}
 	var result RedisProperties_RedisConfiguration_SpecARM
+
+	// Set property ‘AdditionalProperties’:
+	if configuration.AdditionalProperties != nil {
+		result.AdditionalProperties = make(map[string]string)
+		for key, value := range configuration.AdditionalProperties {
+			result.AdditionalProperties[key] = value
+		}
+	}
 
 	// Set property ‘AofStorageConnectionString0’:
 	if configuration.AofStorageConnectionString0 != nil {
@@ -1451,14 +1460,6 @@ func (configuration *RedisProperties_RedisConfiguration_Spec) ConvertToARM(resol
 		rdbStorageConnectionString := *configuration.RdbStorageConnectionString
 		result.RdbStorageConnectionString = &rdbStorageConnectionString
 	}
-
-	// Set property ‘additionalProperties’:
-	if configuration.additionalProperties != nil {
-		result.additionalProperties = make(map[string]string)
-		for key, value := range configuration.additionalProperties {
-			result.additionalProperties[key] = value
-		}
-	}
 	return result, nil
 }
 
@@ -1472,6 +1473,14 @@ func (configuration *RedisProperties_RedisConfiguration_Spec) PopulateFromARM(ow
 	typedInput, ok := armInput.(RedisProperties_RedisConfiguration_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisProperties_RedisConfiguration_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AdditionalProperties’:
+	if typedInput.AdditionalProperties != nil {
+		configuration.AdditionalProperties = make(map[string]string)
+		for key, value := range typedInput.AdditionalProperties {
+			configuration.AdditionalProperties[key] = value
+		}
 	}
 
 	// Set property ‘AofStorageConnectionString0’:
@@ -1534,20 +1543,15 @@ func (configuration *RedisProperties_RedisConfiguration_Spec) PopulateFromARM(ow
 		configuration.RdbStorageConnectionString = &rdbStorageConnectionString
 	}
 
-	// Set property ‘additionalProperties’:
-	if typedInput.additionalProperties != nil {
-		configuration.additionalProperties = make(map[string]string)
-		for key, value := range typedInput.additionalProperties {
-			configuration.additionalProperties[key] = value
-		}
-	}
-
 	// No error
 	return nil
 }
 
 // AssignPropertiesFromRedisProperties_RedisConfiguration_Spec populates our RedisProperties_RedisConfiguration_Spec from the provided source RedisProperties_RedisConfiguration_Spec
 func (configuration *RedisProperties_RedisConfiguration_Spec) AssignPropertiesFromRedisProperties_RedisConfiguration_Spec(source *v1alpha1api20201201storage.RedisProperties_RedisConfiguration_Spec) error {
+
+	// AdditionalProperties
+	configuration.AdditionalProperties = genruntime.CloneMapOfStringToString(source.AdditionalProperties)
 
 	// AofStorageConnectionString0
 	configuration.AofStorageConnectionString0 = genruntime.ClonePointerToString(source.AofStorageConnectionString0)
@@ -1579,9 +1583,6 @@ func (configuration *RedisProperties_RedisConfiguration_Spec) AssignPropertiesFr
 	// RdbStorageConnectionString
 	configuration.RdbStorageConnectionString = genruntime.ClonePointerToString(source.RdbStorageConnectionString)
 
-	// additionalProperties
-	configuration.additionalProperties = genruntime.CloneMapOfStringToString(source.additionalProperties)
-
 	// No error
 	return nil
 }
@@ -1590,6 +1591,9 @@ func (configuration *RedisProperties_RedisConfiguration_Spec) AssignPropertiesFr
 func (configuration *RedisProperties_RedisConfiguration_Spec) AssignPropertiesToRedisProperties_RedisConfiguration_Spec(destination *v1alpha1api20201201storage.RedisProperties_RedisConfiguration_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// AdditionalProperties
+	destination.AdditionalProperties = genruntime.CloneMapOfStringToString(configuration.AdditionalProperties)
 
 	// AofStorageConnectionString0
 	destination.AofStorageConnectionString0 = genruntime.ClonePointerToString(configuration.AofStorageConnectionString0)
@@ -1620,9 +1624,6 @@ func (configuration *RedisProperties_RedisConfiguration_Spec) AssignPropertiesTo
 
 	// RdbStorageConnectionString
 	destination.RdbStorageConnectionString = genruntime.ClonePointerToString(configuration.RdbStorageConnectionString)
-
-	// additionalProperties
-	destination.additionalProperties = genruntime.CloneMapOfStringToString(configuration.additionalProperties)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
