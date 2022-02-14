@@ -160,26 +160,16 @@ func SecurityRulePropertiesFormat_StatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSecurityRulePropertiesFormat_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSecurityRulePropertiesFormat_StatusARM(gens map[string]gopter.Gen) {
-	gens["Access"] = gen.OneConstOf(SecurityRuleAccess_StatusAllow, SecurityRuleAccess_StatusDeny)
+	gens["Access"] = gen.AlphaString()
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationAddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["DestinationPortRange"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationPortRanges"] = gen.SliceOf(gen.AlphaString())
-	gens["Direction"] = gen.OneConstOf(SecurityRuleDirection_StatusInbound, SecurityRuleDirection_StatusOutbound)
+	gens["Direction"] = gen.AlphaString()
 	gens["Priority"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.OneConstOf(
-		SecurityRulePropertiesFormat_Protocol_StatusAh,
-		SecurityRulePropertiesFormat_Protocol_StatusEsp,
-		SecurityRulePropertiesFormat_Protocol_StatusIcmp,
-		SecurityRulePropertiesFormat_Protocol_StatusStar,
-		SecurityRulePropertiesFormat_Protocol_StatusTcp,
-		SecurityRulePropertiesFormat_Protocol_StatusUdp)
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_StatusDeleting,
-		ProvisioningState_StatusFailed,
-		ProvisioningState_StatusSucceeded,
-		ProvisioningState_StatusUpdating))
+	gens["Protocol"] = gen.AlphaString()
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceAddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["SourcePortRange"] = gen.PtrOf(gen.AlphaString())

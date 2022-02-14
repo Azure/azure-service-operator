@@ -30,8 +30,8 @@ import (
 type StorageAccountsBlobServicesContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccountsBlobServicesContainers_SPEC `json:"spec,omitempty"`
-	Status            BlobContainer_Status                       `json:"status,omitempty"`
+	Spec              StorageAccountsBlobServicesContainer_Spec `json:"spec,omitempty"`
+	Status            BlobContainer_Status                      `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsBlobServicesContainer{}
@@ -247,10 +247,10 @@ func (container *StorageAccountsBlobServicesContainer) AssignPropertiesFromStora
 	container.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec StorageAccountsBlobServicesContainers_SPEC
-	err := spec.AssignPropertiesFromStorageAccountsBlobServicesContainers_SPEC(&source.Spec)
+	var spec StorageAccountsBlobServicesContainer_Spec
+	err := spec.AssignPropertiesFromStorageAccountsBlobServicesContainer_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountsBlobServicesContainers_SPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountsBlobServicesContainer_Spec() to populate field Spec")
 	}
 	container.Spec = spec
 
@@ -273,10 +273,10 @@ func (container *StorageAccountsBlobServicesContainer) AssignPropertiesToStorage
 	destination.ObjectMeta = *container.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1alpha1api20210401storage.StorageAccountsBlobServicesContainers_SPEC
-	err := container.Spec.AssignPropertiesToStorageAccountsBlobServicesContainers_SPEC(&spec)
+	var spec v1alpha1api20210401storage.StorageAccountsBlobServicesContainer_Spec
+	err := container.Spec.AssignPropertiesToStorageAccountsBlobServicesContainer_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsBlobServicesContainers_SPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsBlobServicesContainer_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -361,13 +361,13 @@ type BlobContainer_Status struct {
 
 	//LeaseDuration: Specifies whether the lease on a container is of infinite or
 	//fixed duration, only when the container is leased.
-	LeaseDuration *ContainerProperties_LeaseDuration_Status `json:"leaseDuration,omitempty"`
+	LeaseDuration *string `json:"leaseDuration,omitempty"`
 
 	//LeaseState: Lease state of the container.
-	LeaseState *ContainerProperties_LeaseState_Status `json:"leaseState,omitempty"`
+	LeaseState *string `json:"leaseState,omitempty"`
 
 	//LeaseStatus: The lease status of the container.
-	LeaseStatus *ContainerProperties_LeaseStatus_Status `json:"leaseStatus,omitempty"`
+	LeaseStatus *string `json:"leaseStatus,omitempty"`
 
 	//LegalHold: The LegalHold property of the container.
 	LegalHold *LegalHoldProperties_Status `json:"legalHold,omitempty"`
@@ -380,7 +380,7 @@ type BlobContainer_Status struct {
 
 	//PublicAccess: Specifies whether data in the container may be accessed publicly
 	//and the level of access.
-	PublicAccess *ContainerProperties_PublicAccess_Status `json:"publicAccess,omitempty"`
+	PublicAccess *string `json:"publicAccess,omitempty"`
 
 	//RemainingRetentionDays: Remaining retention days for soft deleted blob container.
 	RemainingRetentionDays *int `json:"remainingRetentionDays,omitempty"`
@@ -735,28 +735,13 @@ func (container *BlobContainer_Status) AssignPropertiesFromBlobContainer_Status(
 	container.LastModifiedTime = genruntime.ClonePointerToString(source.LastModifiedTime)
 
 	// LeaseDuration
-	if source.LeaseDuration != nil {
-		leaseDuration := ContainerProperties_LeaseDuration_Status(*source.LeaseDuration)
-		container.LeaseDuration = &leaseDuration
-	} else {
-		container.LeaseDuration = nil
-	}
+	container.LeaseDuration = genruntime.ClonePointerToString(source.LeaseDuration)
 
 	// LeaseState
-	if source.LeaseState != nil {
-		leaseState := ContainerProperties_LeaseState_Status(*source.LeaseState)
-		container.LeaseState = &leaseState
-	} else {
-		container.LeaseState = nil
-	}
+	container.LeaseState = genruntime.ClonePointerToString(source.LeaseState)
 
 	// LeaseStatus
-	if source.LeaseStatus != nil {
-		leaseStatus := ContainerProperties_LeaseStatus_Status(*source.LeaseStatus)
-		container.LeaseStatus = &leaseStatus
-	} else {
-		container.LeaseStatus = nil
-	}
+	container.LeaseStatus = genruntime.ClonePointerToString(source.LeaseStatus)
 
 	// LegalHold
 	if source.LegalHold != nil {
@@ -777,12 +762,7 @@ func (container *BlobContainer_Status) AssignPropertiesFromBlobContainer_Status(
 	container.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PublicAccess
-	if source.PublicAccess != nil {
-		publicAccess := ContainerProperties_PublicAccess_Status(*source.PublicAccess)
-		container.PublicAccess = &publicAccess
-	} else {
-		container.PublicAccess = nil
-	}
+	container.PublicAccess = genruntime.ClonePointerToString(source.PublicAccess)
 
 	// RemainingRetentionDays
 	container.RemainingRetentionDays = genruntime.ClonePointerToInt(source.RemainingRetentionDays)
@@ -877,28 +857,13 @@ func (container *BlobContainer_Status) AssignPropertiesToBlobContainer_Status(de
 	destination.LastModifiedTime = genruntime.ClonePointerToString(container.LastModifiedTime)
 
 	// LeaseDuration
-	if container.LeaseDuration != nil {
-		leaseDuration := string(*container.LeaseDuration)
-		destination.LeaseDuration = &leaseDuration
-	} else {
-		destination.LeaseDuration = nil
-	}
+	destination.LeaseDuration = genruntime.ClonePointerToString(container.LeaseDuration)
 
 	// LeaseState
-	if container.LeaseState != nil {
-		leaseState := string(*container.LeaseState)
-		destination.LeaseState = &leaseState
-	} else {
-		destination.LeaseState = nil
-	}
+	destination.LeaseState = genruntime.ClonePointerToString(container.LeaseState)
 
 	// LeaseStatus
-	if container.LeaseStatus != nil {
-		leaseStatus := string(*container.LeaseStatus)
-		destination.LeaseStatus = &leaseStatus
-	} else {
-		destination.LeaseStatus = nil
-	}
+	destination.LeaseStatus = genruntime.ClonePointerToString(container.LeaseStatus)
 
 	// LegalHold
 	if container.LegalHold != nil {
@@ -919,12 +884,7 @@ func (container *BlobContainer_Status) AssignPropertiesToBlobContainer_Status(de
 	destination.Name = genruntime.ClonePointerToString(container.Name)
 
 	// PublicAccess
-	if container.PublicAccess != nil {
-		publicAccess := string(*container.PublicAccess)
-		destination.PublicAccess = &publicAccess
-	} else {
-		destination.PublicAccess = nil
-	}
+	destination.PublicAccess = genruntime.ClonePointerToString(container.PublicAccess)
 
 	// RemainingRetentionDays
 	destination.RemainingRetentionDays = genruntime.ClonePointerToInt(container.RemainingRetentionDays)
@@ -946,7 +906,7 @@ func (container *BlobContainer_Status) AssignPropertiesToBlobContainer_Status(de
 	return nil
 }
 
-type StorageAccountsBlobServicesContainers_SPEC struct {
+type StorageAccountsBlobServicesContainer_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
@@ -962,7 +922,7 @@ type StorageAccountsBlobServicesContainers_SPEC struct {
 	//ImmutableStorageWithVersioning: The object level immutability property of the
 	//container. The property is immutable and can only be set to true at the
 	//container creation time. Existing containers must undergo a migration process.
-	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_Spec `json:"immutableStorageWithVersioning,omitempty"`
+	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning `json:"immutableStorageWithVersioning,omitempty"`
 
 	//Metadata: A name-value pair to associate with the container as metadata.
 	Metadata map[string]string `json:"metadata,omitempty"`
@@ -972,82 +932,82 @@ type StorageAccountsBlobServicesContainers_SPEC struct {
 
 	//PublicAccess: Specifies whether data in the container may be accessed publicly
 	//and the level of access.
-	PublicAccess *ContainerProperties_PublicAccess_Spec `json:"publicAccess,omitempty"`
+	PublicAccess *ContainerPropertiesPublicAccess `json:"publicAccess,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &StorageAccountsBlobServicesContainers_SPEC{}
+var _ genruntime.ARMTransformer = &StorageAccountsBlobServicesContainer_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (spec *StorageAccountsBlobServicesContainers_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if spec == nil {
+func (container *StorageAccountsBlobServicesContainer_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if container == nil {
 		return nil, nil
 	}
-	var result StorageAccountsBlobServicesContainers_SPECARM
+	var result StorageAccountsBlobServicesContainer_SpecARM
 
 	// Set property ‘AzureName’:
-	result.AzureName = spec.AzureName
+	result.AzureName = container.AzureName
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if spec.DefaultEncryptionScope != nil ||
-		spec.DenyEncryptionScopeOverride != nil ||
-		spec.ImmutableStorageWithVersioning != nil ||
-		spec.Metadata != nil ||
-		spec.PublicAccess != nil {
-		result.Properties = &ContainerProperties_SpecARM{}
+	if container.DefaultEncryptionScope != nil ||
+		container.DenyEncryptionScopeOverride != nil ||
+		container.ImmutableStorageWithVersioning != nil ||
+		container.Metadata != nil ||
+		container.PublicAccess != nil {
+		result.Properties = &ContainerPropertiesARM{}
 	}
-	if spec.DefaultEncryptionScope != nil {
-		defaultEncryptionScope := *spec.DefaultEncryptionScope
+	if container.DefaultEncryptionScope != nil {
+		defaultEncryptionScope := *container.DefaultEncryptionScope
 		result.Properties.DefaultEncryptionScope = &defaultEncryptionScope
 	}
-	if spec.DenyEncryptionScopeOverride != nil {
-		denyEncryptionScopeOverride := *spec.DenyEncryptionScopeOverride
+	if container.DenyEncryptionScopeOverride != nil {
+		denyEncryptionScopeOverride := *container.DenyEncryptionScopeOverride
 		result.Properties.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
 	}
-	if spec.ImmutableStorageWithVersioning != nil {
-		immutableStorageWithVersioningARM, err := (*spec.ImmutableStorageWithVersioning).ConvertToARM(resolved)
+	if container.ImmutableStorageWithVersioning != nil {
+		immutableStorageWithVersioningARM, err := (*container.ImmutableStorageWithVersioning).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		immutableStorageWithVersioning := immutableStorageWithVersioningARM.(ImmutableStorageWithVersioning_SpecARM)
+		immutableStorageWithVersioning := immutableStorageWithVersioningARM.(ImmutableStorageWithVersioningARM)
 		result.Properties.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
 	}
-	if spec.Metadata != nil {
+	if container.Metadata != nil {
 		result.Properties.Metadata = make(map[string]string)
-		for key, value := range spec.Metadata {
+		for key, value := range container.Metadata {
 			result.Properties.Metadata[key] = value
 		}
 	}
-	if spec.PublicAccess != nil {
-		publicAccess := *spec.PublicAccess
+	if container.PublicAccess != nil {
+		publicAccess := *container.PublicAccess
 		result.Properties.PublicAccess = &publicAccess
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (spec *StorageAccountsBlobServicesContainers_SPEC) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageAccountsBlobServicesContainers_SPECARM{}
+func (container *StorageAccountsBlobServicesContainer_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &StorageAccountsBlobServicesContainer_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (spec *StorageAccountsBlobServicesContainers_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageAccountsBlobServicesContainers_SPECARM)
+func (container *StorageAccountsBlobServicesContainer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(StorageAccountsBlobServicesContainer_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsBlobServicesContainers_SPECARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsBlobServicesContainer_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	spec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	container.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘DefaultEncryptionScope’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultEncryptionScope != nil {
 			defaultEncryptionScope := *typedInput.Properties.DefaultEncryptionScope
-			spec.DefaultEncryptionScope = &defaultEncryptionScope
+			container.DefaultEncryptionScope = &defaultEncryptionScope
 		}
 	}
 
@@ -1056,7 +1016,7 @@ func (spec *StorageAccountsBlobServicesContainers_SPEC) PopulateFromARM(owner ge
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DenyEncryptionScopeOverride != nil {
 			denyEncryptionScopeOverride := *typedInput.Properties.DenyEncryptionScopeOverride
-			spec.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
+			container.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
 		}
 	}
 
@@ -1064,13 +1024,13 @@ func (spec *StorageAccountsBlobServicesContainers_SPEC) PopulateFromARM(owner ge
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ImmutableStorageWithVersioning != nil {
-			var immutableStorageWithVersioning1 ImmutableStorageWithVersioning_Spec
+			var immutableStorageWithVersioning1 ImmutableStorageWithVersioning
 			err := immutableStorageWithVersioning1.PopulateFromARM(owner, *typedInput.Properties.ImmutableStorageWithVersioning)
 			if err != nil {
 				return err
 			}
 			immutableStorageWithVersioning := immutableStorageWithVersioning1
-			spec.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
+			container.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
 		}
 	}
 
@@ -1078,15 +1038,15 @@ func (spec *StorageAccountsBlobServicesContainers_SPEC) PopulateFromARM(owner ge
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
-			spec.Metadata = make(map[string]string)
+			container.Metadata = make(map[string]string)
 			for key, value := range typedInput.Properties.Metadata {
-				spec.Metadata[key] = value
+				container.Metadata[key] = value
 			}
 		}
 	}
 
 	// Set property ‘Owner’:
-	spec.Owner = genruntime.KnownResourceReference{
+	container.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -1095,7 +1055,7 @@ func (spec *StorageAccountsBlobServicesContainers_SPEC) PopulateFromARM(owner ge
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicAccess != nil {
 			publicAccess := *typedInput.Properties.PublicAccess
-			spec.PublicAccess = &publicAccess
+			container.PublicAccess = &publicAccess
 		}
 	}
 
@@ -1103,25 +1063,25 @@ func (spec *StorageAccountsBlobServicesContainers_SPEC) PopulateFromARM(owner ge
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &StorageAccountsBlobServicesContainers_SPEC{}
+var _ genruntime.ConvertibleSpec = &StorageAccountsBlobServicesContainer_Spec{}
 
-// ConvertSpecFrom populates our StorageAccountsBlobServicesContainers_SPEC from the provided source
-func (spec *StorageAccountsBlobServicesContainers_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1alpha1api20210401storage.StorageAccountsBlobServicesContainers_SPEC)
+// ConvertSpecFrom populates our StorageAccountsBlobServicesContainer_Spec from the provided source
+func (container *StorageAccountsBlobServicesContainer_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v1alpha1api20210401storage.StorageAccountsBlobServicesContainer_Spec)
 	if ok {
 		// Populate our instance from source
-		return spec.AssignPropertiesFromStorageAccountsBlobServicesContainers_SPEC(src)
+		return container.AssignPropertiesFromStorageAccountsBlobServicesContainer_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210401storage.StorageAccountsBlobServicesContainers_SPEC{}
+	src = &v1alpha1api20210401storage.StorageAccountsBlobServicesContainer_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = spec.AssignPropertiesFromStorageAccountsBlobServicesContainers_SPEC(src)
+	err = container.AssignPropertiesFromStorageAccountsBlobServicesContainer_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -1129,17 +1089,17 @@ func (spec *StorageAccountsBlobServicesContainers_SPEC) ConvertSpecFrom(source g
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our StorageAccountsBlobServicesContainers_SPEC
-func (spec *StorageAccountsBlobServicesContainers_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1alpha1api20210401storage.StorageAccountsBlobServicesContainers_SPEC)
+// ConvertSpecTo populates the provided destination from our StorageAccountsBlobServicesContainer_Spec
+func (container *StorageAccountsBlobServicesContainer_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v1alpha1api20210401storage.StorageAccountsBlobServicesContainer_Spec)
 	if ok {
 		// Populate destination from our instance
-		return spec.AssignPropertiesToStorageAccountsBlobServicesContainers_SPEC(dst)
+		return container.AssignPropertiesToStorageAccountsBlobServicesContainer_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210401storage.StorageAccountsBlobServicesContainers_SPEC{}
-	err := spec.AssignPropertiesToStorageAccountsBlobServicesContainers_SPEC(dst)
+	dst = &v1alpha1api20210401storage.StorageAccountsBlobServicesContainer_Spec{}
+	err := container.AssignPropertiesToStorageAccountsBlobServicesContainer_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -1153,78 +1113,78 @@ func (spec *StorageAccountsBlobServicesContainers_SPEC) ConvertSpecTo(destinatio
 	return nil
 }
 
-// AssignPropertiesFromStorageAccountsBlobServicesContainers_SPEC populates our StorageAccountsBlobServicesContainers_SPEC from the provided source StorageAccountsBlobServicesContainers_SPEC
-func (spec *StorageAccountsBlobServicesContainers_SPEC) AssignPropertiesFromStorageAccountsBlobServicesContainers_SPEC(source *v1alpha1api20210401storage.StorageAccountsBlobServicesContainers_SPEC) error {
+// AssignPropertiesFromStorageAccountsBlobServicesContainer_Spec populates our StorageAccountsBlobServicesContainer_Spec from the provided source StorageAccountsBlobServicesContainer_Spec
+func (container *StorageAccountsBlobServicesContainer_Spec) AssignPropertiesFromStorageAccountsBlobServicesContainer_Spec(source *v1alpha1api20210401storage.StorageAccountsBlobServicesContainer_Spec) error {
 
 	// AzureName
-	spec.AzureName = source.AzureName
+	container.AzureName = source.AzureName
 
 	// DefaultEncryptionScope
-	spec.DefaultEncryptionScope = genruntime.ClonePointerToString(source.DefaultEncryptionScope)
+	container.DefaultEncryptionScope = genruntime.ClonePointerToString(source.DefaultEncryptionScope)
 
 	// DenyEncryptionScopeOverride
 	if source.DenyEncryptionScopeOverride != nil {
 		denyEncryptionScopeOverride := *source.DenyEncryptionScopeOverride
-		spec.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
+		container.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
 	} else {
-		spec.DenyEncryptionScopeOverride = nil
+		container.DenyEncryptionScopeOverride = nil
 	}
 
 	// ImmutableStorageWithVersioning
 	if source.ImmutableStorageWithVersioning != nil {
-		var immutableStorageWithVersioning ImmutableStorageWithVersioning_Spec
-		err := immutableStorageWithVersioning.AssignPropertiesFromImmutableStorageWithVersioning_Spec(source.ImmutableStorageWithVersioning)
+		var immutableStorageWithVersioning ImmutableStorageWithVersioning
+		err := immutableStorageWithVersioning.AssignPropertiesFromImmutableStorageWithVersioning(source.ImmutableStorageWithVersioning)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromImmutableStorageWithVersioning_Spec() to populate field ImmutableStorageWithVersioning")
+			return errors.Wrap(err, "calling AssignPropertiesFromImmutableStorageWithVersioning() to populate field ImmutableStorageWithVersioning")
 		}
-		spec.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
+		container.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
 	} else {
-		spec.ImmutableStorageWithVersioning = nil
+		container.ImmutableStorageWithVersioning = nil
 	}
 
 	// Metadata
-	spec.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
+	container.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
 	// Owner
-	spec.Owner = source.Owner.Copy()
+	container.Owner = source.Owner.Copy()
 
 	// PublicAccess
 	if source.PublicAccess != nil {
-		publicAccess := ContainerProperties_PublicAccess_Spec(*source.PublicAccess)
-		spec.PublicAccess = &publicAccess
+		publicAccess := ContainerPropertiesPublicAccess(*source.PublicAccess)
+		container.PublicAccess = &publicAccess
 	} else {
-		spec.PublicAccess = nil
+		container.PublicAccess = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToStorageAccountsBlobServicesContainers_SPEC populates the provided destination StorageAccountsBlobServicesContainers_SPEC from our StorageAccountsBlobServicesContainers_SPEC
-func (spec *StorageAccountsBlobServicesContainers_SPEC) AssignPropertiesToStorageAccountsBlobServicesContainers_SPEC(destination *v1alpha1api20210401storage.StorageAccountsBlobServicesContainers_SPEC) error {
+// AssignPropertiesToStorageAccountsBlobServicesContainer_Spec populates the provided destination StorageAccountsBlobServicesContainer_Spec from our StorageAccountsBlobServicesContainer_Spec
+func (container *StorageAccountsBlobServicesContainer_Spec) AssignPropertiesToStorageAccountsBlobServicesContainer_Spec(destination *v1alpha1api20210401storage.StorageAccountsBlobServicesContainer_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = spec.AzureName
+	destination.AzureName = container.AzureName
 
 	// DefaultEncryptionScope
-	destination.DefaultEncryptionScope = genruntime.ClonePointerToString(spec.DefaultEncryptionScope)
+	destination.DefaultEncryptionScope = genruntime.ClonePointerToString(container.DefaultEncryptionScope)
 
 	// DenyEncryptionScopeOverride
-	if spec.DenyEncryptionScopeOverride != nil {
-		denyEncryptionScopeOverride := *spec.DenyEncryptionScopeOverride
+	if container.DenyEncryptionScopeOverride != nil {
+		denyEncryptionScopeOverride := *container.DenyEncryptionScopeOverride
 		destination.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
 	} else {
 		destination.DenyEncryptionScopeOverride = nil
 	}
 
 	// ImmutableStorageWithVersioning
-	if spec.ImmutableStorageWithVersioning != nil {
-		var immutableStorageWithVersioning v1alpha1api20210401storage.ImmutableStorageWithVersioning_Spec
-		err := spec.ImmutableStorageWithVersioning.AssignPropertiesToImmutableStorageWithVersioning_Spec(&immutableStorageWithVersioning)
+	if container.ImmutableStorageWithVersioning != nil {
+		var immutableStorageWithVersioning v1alpha1api20210401storage.ImmutableStorageWithVersioning
+		err := container.ImmutableStorageWithVersioning.AssignPropertiesToImmutableStorageWithVersioning(&immutableStorageWithVersioning)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToImmutableStorageWithVersioning_Spec() to populate field ImmutableStorageWithVersioning")
+			return errors.Wrap(err, "calling AssignPropertiesToImmutableStorageWithVersioning() to populate field ImmutableStorageWithVersioning")
 		}
 		destination.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
 	} else {
@@ -1232,17 +1192,17 @@ func (spec *StorageAccountsBlobServicesContainers_SPEC) AssignPropertiesToStorag
 	}
 
 	// Metadata
-	destination.Metadata = genruntime.CloneMapOfStringToString(spec.Metadata)
+	destination.Metadata = genruntime.CloneMapOfStringToString(container.Metadata)
 
 	// OriginalVersion
-	destination.OriginalVersion = spec.OriginalVersion()
+	destination.OriginalVersion = container.OriginalVersion()
 
 	// Owner
-	destination.Owner = spec.Owner.Copy()
+	destination.Owner = container.Owner.Copy()
 
 	// PublicAccess
-	if spec.PublicAccess != nil {
-		publicAccess := string(*spec.PublicAccess)
+	if container.PublicAccess != nil {
+		publicAccess := string(*container.PublicAccess)
 		destination.PublicAccess = &publicAccess
 	} else {
 		destination.PublicAccess = nil
@@ -1260,22 +1220,22 @@ func (spec *StorageAccountsBlobServicesContainers_SPEC) AssignPropertiesToStorag
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (spec *StorageAccountsBlobServicesContainers_SPEC) OriginalVersion() string {
+func (container *StorageAccountsBlobServicesContainer_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (spec *StorageAccountsBlobServicesContainers_SPEC) SetAzureName(azureName string) {
-	spec.AzureName = azureName
+func (container *StorageAccountsBlobServicesContainer_Spec) SetAzureName(azureName string) {
+	container.AzureName = azureName
 }
 
 // +kubebuilder:validation:Enum={"Blob","Container","None"}
-type ContainerProperties_PublicAccess_Spec string
+type ContainerPropertiesPublicAccess string
 
 const (
-	ContainerProperties_PublicAccess_SpecBlob      = ContainerProperties_PublicAccess_Spec("Blob")
-	ContainerProperties_PublicAccess_SpecContainer = ContainerProperties_PublicAccess_Spec("Container")
-	ContainerProperties_PublicAccess_SpecNone      = ContainerProperties_PublicAccess_Spec("None")
+	ContainerPropertiesPublicAccessBlob      = ContainerPropertiesPublicAccess("Blob")
+	ContainerPropertiesPublicAccessContainer = ContainerPropertiesPublicAccess("Container")
+	ContainerPropertiesPublicAccessNone      = ContainerPropertiesPublicAccess("None")
 )
 
 type ImmutabilityPolicyProperties_Status struct {
@@ -1295,7 +1255,7 @@ type ImmutabilityPolicyProperties_Status struct {
 
 	//State: The ImmutabilityPolicy state of a blob container, possible values
 	//include: Locked and Unlocked.
-	State *ImmutabilityPolicyProperty_State_Status `json:"state,omitempty"`
+	State *string `json:"state,omitempty"`
 
 	//UpdateHistory: The ImmutabilityPolicy update history of the blob container.
 	UpdateHistory []UpdateHistoryProperty_Status `json:"updateHistory,omitempty"`
@@ -1380,12 +1340,7 @@ func (properties *ImmutabilityPolicyProperties_Status) AssignPropertiesFromImmut
 	properties.ImmutabilityPeriodSinceCreationInDays = genruntime.ClonePointerToInt(source.ImmutabilityPeriodSinceCreationInDays)
 
 	// State
-	if source.State != nil {
-		state := ImmutabilityPolicyProperty_State_Status(*source.State)
-		properties.State = &state
-	} else {
-		properties.State = nil
-	}
+	properties.State = genruntime.ClonePointerToString(source.State)
 
 	// UpdateHistory
 	if source.UpdateHistory != nil {
@@ -1429,12 +1384,7 @@ func (properties *ImmutabilityPolicyProperties_Status) AssignPropertiesToImmutab
 	destination.ImmutabilityPeriodSinceCreationInDays = genruntime.ClonePointerToInt(properties.ImmutabilityPeriodSinceCreationInDays)
 
 	// State
-	if properties.State != nil {
-		state := string(*properties.State)
-		destination.State = &state
-	} else {
-		destination.State = nil
-	}
+	destination.State = genruntime.ClonePointerToString(properties.State)
 
 	// UpdateHistory
 	if properties.UpdateHistory != nil {
@@ -1465,20 +1415,20 @@ func (properties *ImmutabilityPolicyProperties_Status) AssignPropertiesToImmutab
 	return nil
 }
 
-type ImmutableStorageWithVersioning_Spec struct {
+type ImmutableStorageWithVersioning struct {
 	//Enabled: This is an immutable property, when set to true it enables object level
 	//immutability at the container level.
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &ImmutableStorageWithVersioning_Spec{}
+var _ genruntime.ARMTransformer = &ImmutableStorageWithVersioning{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (versioning *ImmutableStorageWithVersioning_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (versioning *ImmutableStorageWithVersioning) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if versioning == nil {
 		return nil, nil
 	}
-	var result ImmutableStorageWithVersioning_SpecARM
+	var result ImmutableStorageWithVersioningARM
 
 	// Set property ‘Enabled’:
 	if versioning.Enabled != nil {
@@ -1489,15 +1439,15 @@ func (versioning *ImmutableStorageWithVersioning_Spec) ConvertToARM(resolved gen
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (versioning *ImmutableStorageWithVersioning_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ImmutableStorageWithVersioning_SpecARM{}
+func (versioning *ImmutableStorageWithVersioning) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ImmutableStorageWithVersioningARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (versioning *ImmutableStorageWithVersioning_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ImmutableStorageWithVersioning_SpecARM)
+func (versioning *ImmutableStorageWithVersioning) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ImmutableStorageWithVersioningARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmutableStorageWithVersioning_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmutableStorageWithVersioningARM, got %T", armInput)
 	}
 
 	// Set property ‘Enabled’:
@@ -1510,8 +1460,8 @@ func (versioning *ImmutableStorageWithVersioning_Spec) PopulateFromARM(owner gen
 	return nil
 }
 
-// AssignPropertiesFromImmutableStorageWithVersioning_Spec populates our ImmutableStorageWithVersioning_Spec from the provided source ImmutableStorageWithVersioning_Spec
-func (versioning *ImmutableStorageWithVersioning_Spec) AssignPropertiesFromImmutableStorageWithVersioning_Spec(source *v1alpha1api20210401storage.ImmutableStorageWithVersioning_Spec) error {
+// AssignPropertiesFromImmutableStorageWithVersioning populates our ImmutableStorageWithVersioning from the provided source ImmutableStorageWithVersioning
+func (versioning *ImmutableStorageWithVersioning) AssignPropertiesFromImmutableStorageWithVersioning(source *v1alpha1api20210401storage.ImmutableStorageWithVersioning) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -1525,8 +1475,8 @@ func (versioning *ImmutableStorageWithVersioning_Spec) AssignPropertiesFromImmut
 	return nil
 }
 
-// AssignPropertiesToImmutableStorageWithVersioning_Spec populates the provided destination ImmutableStorageWithVersioning_Spec from our ImmutableStorageWithVersioning_Spec
-func (versioning *ImmutableStorageWithVersioning_Spec) AssignPropertiesToImmutableStorageWithVersioning_Spec(destination *v1alpha1api20210401storage.ImmutableStorageWithVersioning_Spec) error {
+// AssignPropertiesToImmutableStorageWithVersioning populates the provided destination ImmutableStorageWithVersioning from our ImmutableStorageWithVersioning
+func (versioning *ImmutableStorageWithVersioning) AssignPropertiesToImmutableStorageWithVersioning(destination *v1alpha1api20210401storage.ImmutableStorageWithVersioning) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1556,7 +1506,7 @@ type ImmutableStorageWithVersioning_Status struct {
 
 	//MigrationState: This property denotes the container level immutability to object
 	//level immutability migration state.
-	MigrationState *ImmutableStorageWithVersioning_MigrationState_Status `json:"migrationState,omitempty"`
+	MigrationState *string `json:"migrationState,omitempty"`
 
 	//TimeStamp: Returns the date and time the object level immutability was enabled.
 	TimeStamp *string `json:"timeStamp,omitempty"`
@@ -1610,12 +1560,7 @@ func (versioning *ImmutableStorageWithVersioning_Status) AssignPropertiesFromImm
 	}
 
 	// MigrationState
-	if source.MigrationState != nil {
-		migrationState := ImmutableStorageWithVersioning_MigrationState_Status(*source.MigrationState)
-		versioning.MigrationState = &migrationState
-	} else {
-		versioning.MigrationState = nil
-	}
+	versioning.MigrationState = genruntime.ClonePointerToString(source.MigrationState)
 
 	// TimeStamp
 	versioning.TimeStamp = genruntime.ClonePointerToString(source.TimeStamp)
@@ -1638,12 +1583,7 @@ func (versioning *ImmutableStorageWithVersioning_Status) AssignPropertiesToImmut
 	}
 
 	// MigrationState
-	if versioning.MigrationState != nil {
-		migrationState := string(*versioning.MigrationState)
-		destination.MigrationState = &migrationState
-	} else {
-		destination.MigrationState = nil
-	}
+	destination.MigrationState = genruntime.ClonePointerToString(versioning.MigrationState)
 
 	// TimeStamp
 	destination.TimeStamp = genruntime.ClonePointerToString(versioning.TimeStamp)
@@ -1778,13 +1718,6 @@ func (properties *LegalHoldProperties_Status) AssignPropertiesToLegalHoldPropert
 	// No error
 	return nil
 }
-
-type ImmutabilityPolicyProperty_State_Status string
-
-const (
-	ImmutabilityPolicyProperty_State_StatusLocked   = ImmutabilityPolicyProperty_State_Status("Locked")
-	ImmutabilityPolicyProperty_State_StatusUnlocked = ImmutabilityPolicyProperty_State_Status("Unlocked")
-)
 
 type TagProperty_Status struct {
 	//ObjectIdentifier: Returns the Object ID of the user who added the tag.
@@ -1923,7 +1856,7 @@ type UpdateHistoryProperty_Status struct {
 
 	//Update: The ImmutabilityPolicy update type of a blob container, possible values
 	//include: put, lock and extend.
-	Update *UpdateHistoryProperty_Update_Status `json:"update,omitempty"`
+	Update *string `json:"update,omitempty"`
 
 	//Upn: Returns the User Principal Name of the user who updated the
 	//ImmutabilityPolicy.
@@ -2000,12 +1933,7 @@ func (property *UpdateHistoryProperty_Status) AssignPropertiesFromUpdateHistoryP
 	property.Timestamp = genruntime.ClonePointerToString(source.Timestamp)
 
 	// Update
-	if source.Update != nil {
-		update := UpdateHistoryProperty_Update_Status(*source.Update)
-		property.Update = &update
-	} else {
-		property.Update = nil
-	}
+	property.Update = genruntime.ClonePointerToString(source.Update)
 
 	// Upn
 	property.Upn = genruntime.ClonePointerToString(source.Upn)
@@ -2032,12 +1960,7 @@ func (property *UpdateHistoryProperty_Status) AssignPropertiesToUpdateHistoryPro
 	destination.Timestamp = genruntime.ClonePointerToString(property.Timestamp)
 
 	// Update
-	if property.Update != nil {
-		update := string(*property.Update)
-		destination.Update = &update
-	} else {
-		destination.Update = nil
-	}
+	destination.Update = genruntime.ClonePointerToString(property.Update)
 
 	// Upn
 	destination.Upn = genruntime.ClonePointerToString(property.Upn)

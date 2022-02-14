@@ -74,8 +74,98 @@ func VirtualNetworkGatewayGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForVirtualNetworkGateway is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualNetworkGateway(gens map[string]gopter.Gen) {
-	gens["Spec"] = VirtualNetworkGateways_SPECGenerator()
+	gens["Spec"] = VirtualNetworkGateway_SpecGenerator()
 	gens["Status"] = VirtualNetworkGateway_StatusGenerator()
+}
+
+func Test_VirtualNetworkGateway_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualNetworkGateway_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGateway_Spec, VirtualNetworkGateway_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualNetworkGateway_Spec runs a test to see if a specific instance of VirtualNetworkGateway_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworkGateway_Spec(subject VirtualNetworkGateway_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualNetworkGateway_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualNetworkGateway_Spec instances for property testing - lazily instantiated by
+//VirtualNetworkGateway_SpecGenerator()
+var virtualNetworkGateway_specGenerator gopter.Gen
+
+// VirtualNetworkGateway_SpecGenerator returns a generator of VirtualNetworkGateway_Spec instances for property testing.
+// We first initialize virtualNetworkGateway_specGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualNetworkGateway_SpecGenerator() gopter.Gen {
+	if virtualNetworkGateway_specGenerator != nil {
+		return virtualNetworkGateway_specGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualNetworkGateway_Spec(generators)
+	virtualNetworkGateway_specGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateway_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualNetworkGateway_Spec(generators)
+	AddRelatedPropertyGeneratorsForVirtualNetworkGateway_Spec(generators)
+	virtualNetworkGateway_specGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateway_Spec{}), generators)
+
+	return virtualNetworkGateway_specGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualNetworkGateway_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworkGateway_Spec(gens map[string]gopter.Gen) {
+	gens["ActiveActive"] = gen.PtrOf(gen.Bool())
+	gens["AzureName"] = gen.AlphaString()
+	gens["EnableBgp"] = gen.PtrOf(gen.Bool())
+	gens["EnableDnsForwarding"] = gen.PtrOf(gen.Bool())
+	gens["EnablePrivateIpAddress"] = gen.PtrOf(gen.Bool())
+	gens["GatewayType"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["VpnGatewayGeneration"] = gen.PtrOf(gen.AlphaString())
+	gens["VpnType"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualNetworkGateway_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualNetworkGateway_Spec(gens map[string]gopter.Gen) {
+	gens["BgpSettings"] = gen.PtrOf(BgpSettingsGenerator())
+	gens["CustomRoutes"] = gen.PtrOf(AddressSpaceGenerator())
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
+	gens["GatewayDefaultSite"] = gen.PtrOf(SubResourceGenerator())
+	gens["IpConfigurations"] = gen.SliceOf(VirtualNetworkGatewayIPConfigurationGenerator())
+	gens["Sku"] = gen.PtrOf(VirtualNetworkGatewaySkuGenerator())
+	gens["VpnClientConfiguration"] = gen.PtrOf(VpnClientConfigurationGenerator())
 }
 
 func Test_VirtualNetworkGateway_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -174,19 +264,19 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGateway_Status(gens map[string
 	gens["VpnClientConfiguration"] = gen.PtrOf(VpnClientConfiguration_StatusGenerator())
 }
 
-func Test_VirtualNetworkGateways_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_BgpSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualNetworkGateways_SPEC via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGateways_SPEC, VirtualNetworkGateways_SPECGenerator()))
+		"Round trip of BgpSettings via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBgpSettings, BgpSettingsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualNetworkGateways_SPEC runs a test to see if a specific instance of VirtualNetworkGateways_SPEC round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkGateways_SPEC(subject VirtualNetworkGateways_SPEC) string {
+// RunJSONSerializationTestForBgpSettings runs a test to see if a specific instance of BgpSettings round trips to JSON and back losslessly
+func RunJSONSerializationTestForBgpSettings(subject BgpSettings) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -194,7 +284,7 @@ func RunJSONSerializationTestForVirtualNetworkGateways_SPEC(subject VirtualNetwo
 	}
 
 	// Deserialize back into memory
-	var actual VirtualNetworkGateways_SPEC
+	var actual BgpSettings
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -212,131 +302,41 @@ func RunJSONSerializationTestForVirtualNetworkGateways_SPEC(subject VirtualNetwo
 	return ""
 }
 
-// Generator of VirtualNetworkGateways_SPEC instances for property testing - lazily instantiated by
-//VirtualNetworkGateways_SPECGenerator()
-var virtualNetworkGateways_specGenerator gopter.Gen
+// Generator of BgpSettings instances for property testing - lazily instantiated by BgpSettingsGenerator()
+var bgpSettingsGenerator gopter.Gen
 
-// VirtualNetworkGateways_SPECGenerator returns a generator of VirtualNetworkGateways_SPEC instances for property testing.
-// We first initialize virtualNetworkGateways_specGenerator with a simplified generator based on the
+// BgpSettingsGenerator returns a generator of BgpSettings instances for property testing.
+// We first initialize bgpSettingsGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualNetworkGateways_SPECGenerator() gopter.Gen {
-	if virtualNetworkGateways_specGenerator != nil {
-		return virtualNetworkGateways_specGenerator
+func BgpSettingsGenerator() gopter.Gen {
+	if bgpSettingsGenerator != nil {
+		return bgpSettingsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkGateways_SPEC(generators)
-	virtualNetworkGateways_specGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_SPEC{}), generators)
+	AddIndependentPropertyGeneratorsForBgpSettings(generators)
+	bgpSettingsGenerator = gen.Struct(reflect.TypeOf(BgpSettings{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkGateways_SPEC(generators)
-	AddRelatedPropertyGeneratorsForVirtualNetworkGateways_SPEC(generators)
-	virtualNetworkGateways_specGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_SPEC{}), generators)
+	AddIndependentPropertyGeneratorsForBgpSettings(generators)
+	AddRelatedPropertyGeneratorsForBgpSettings(generators)
+	bgpSettingsGenerator = gen.Struct(reflect.TypeOf(BgpSettings{}), generators)
 
-	return virtualNetworkGateways_specGenerator
+	return bgpSettingsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualNetworkGateways_SPEC is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkGateways_SPEC(gens map[string]gopter.Gen) {
-	gens["ActiveActive"] = gen.PtrOf(gen.Bool())
-	gens["AzureName"] = gen.AlphaString()
-	gens["EnableBgp"] = gen.PtrOf(gen.Bool())
-	gens["EnableDnsForwarding"] = gen.PtrOf(gen.Bool())
-	gens["EnablePrivateIpAddress"] = gen.PtrOf(gen.Bool())
-	gens["GatewayType"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["VpnGatewayGeneration"] = gen.PtrOf(gen.AlphaString())
-	gens["VpnType"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForVirtualNetworkGateways_SPEC is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualNetworkGateways_SPEC(gens map[string]gopter.Gen) {
-	gens["BgpSettings"] = gen.PtrOf(BgpSettings_SpecGenerator())
-	gens["CustomRoutes"] = gen.PtrOf(AddressSpace_SpecGenerator())
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_SpecGenerator())
-	gens["GatewayDefaultSite"] = gen.PtrOf(SubResource_SpecGenerator())
-	gens["IpConfigurations"] = gen.SliceOf(VirtualNetworkGatewayIPConfiguration_SpecGenerator())
-	gens["Sku"] = gen.PtrOf(VirtualNetworkGatewaySku_SpecGenerator())
-	gens["VpnClientConfiguration"] = gen.PtrOf(VpnClientConfiguration_SpecGenerator())
-}
-
-func Test_BgpSettings_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BgpSettings_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBgpSettings_Spec, BgpSettings_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForBgpSettings_Spec runs a test to see if a specific instance of BgpSettings_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForBgpSettings_Spec(subject BgpSettings_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual BgpSettings_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of BgpSettings_Spec instances for property testing - lazily instantiated by BgpSettings_SpecGenerator()
-var bgpSettings_specGenerator gopter.Gen
-
-// BgpSettings_SpecGenerator returns a generator of BgpSettings_Spec instances for property testing.
-// We first initialize bgpSettings_specGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func BgpSettings_SpecGenerator() gopter.Gen {
-	if bgpSettings_specGenerator != nil {
-		return bgpSettings_specGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBgpSettings_Spec(generators)
-	bgpSettings_specGenerator = gen.Struct(reflect.TypeOf(BgpSettings_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBgpSettings_Spec(generators)
-	AddRelatedPropertyGeneratorsForBgpSettings_Spec(generators)
-	bgpSettings_specGenerator = gen.Struct(reflect.TypeOf(BgpSettings_Spec{}), generators)
-
-	return bgpSettings_specGenerator
-}
-
-// AddIndependentPropertyGeneratorsForBgpSettings_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBgpSettings_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForBgpSettings is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBgpSettings(gens map[string]gopter.Gen) {
 	gens["Asn"] = gen.PtrOf(gen.UInt32())
 	gens["BgpPeeringAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["PeerWeight"] = gen.PtrOf(gen.Int())
 }
 
-// AddRelatedPropertyGeneratorsForBgpSettings_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBgpSettings_Spec(gens map[string]gopter.Gen) {
-	gens["BgpPeeringAddresses"] = gen.SliceOf(IPConfigurationBgpPeeringAddress_SpecGenerator())
+// AddRelatedPropertyGeneratorsForBgpSettings is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBgpSettings(gens map[string]gopter.Gen) {
+	gens["BgpPeeringAddresses"] = gen.SliceOf(IPConfigurationBgpPeeringAddressGenerator())
 }
 
 func Test_BgpSettings_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -414,19 +414,19 @@ func AddRelatedPropertyGeneratorsForBgpSettings_Status(gens map[string]gopter.Ge
 	gens["BgpPeeringAddresses"] = gen.SliceOf(IPConfigurationBgpPeeringAddress_StatusGenerator())
 }
 
-func Test_VirtualNetworkGatewayIPConfiguration_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualNetworkGatewayIPConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualNetworkGatewayIPConfiguration_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGatewayIPConfiguration_Spec, VirtualNetworkGatewayIPConfiguration_SpecGenerator()))
+		"Round trip of VirtualNetworkGatewayIPConfiguration via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGatewayIPConfiguration, VirtualNetworkGatewayIPConfigurationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualNetworkGatewayIPConfiguration_Spec runs a test to see if a specific instance of VirtualNetworkGatewayIPConfiguration_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkGatewayIPConfiguration_Spec(subject VirtualNetworkGatewayIPConfiguration_Spec) string {
+// RunJSONSerializationTestForVirtualNetworkGatewayIPConfiguration runs a test to see if a specific instance of VirtualNetworkGatewayIPConfiguration round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworkGatewayIPConfiguration(subject VirtualNetworkGatewayIPConfiguration) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -434,7 +434,7 @@ func RunJSONSerializationTestForVirtualNetworkGatewayIPConfiguration_Spec(subjec
 	}
 
 	// Deserialize back into memory
-	var actual VirtualNetworkGatewayIPConfiguration_Spec
+	var actual VirtualNetworkGatewayIPConfiguration
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -452,42 +452,42 @@ func RunJSONSerializationTestForVirtualNetworkGatewayIPConfiguration_Spec(subjec
 	return ""
 }
 
-// Generator of VirtualNetworkGatewayIPConfiguration_Spec instances for property testing - lazily instantiated by
-//VirtualNetworkGatewayIPConfiguration_SpecGenerator()
-var virtualNetworkGatewayIPConfiguration_specGenerator gopter.Gen
+// Generator of VirtualNetworkGatewayIPConfiguration instances for property testing - lazily instantiated by
+//VirtualNetworkGatewayIPConfigurationGenerator()
+var virtualNetworkGatewayIPConfigurationGenerator gopter.Gen
 
-// VirtualNetworkGatewayIPConfiguration_SpecGenerator returns a generator of VirtualNetworkGatewayIPConfiguration_Spec instances for property testing.
-// We first initialize virtualNetworkGatewayIPConfiguration_specGenerator with a simplified generator based on the
+// VirtualNetworkGatewayIPConfigurationGenerator returns a generator of VirtualNetworkGatewayIPConfiguration instances for property testing.
+// We first initialize virtualNetworkGatewayIPConfigurationGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualNetworkGatewayIPConfiguration_SpecGenerator() gopter.Gen {
-	if virtualNetworkGatewayIPConfiguration_specGenerator != nil {
-		return virtualNetworkGatewayIPConfiguration_specGenerator
+func VirtualNetworkGatewayIPConfigurationGenerator() gopter.Gen {
+	if virtualNetworkGatewayIPConfigurationGenerator != nil {
+		return virtualNetworkGatewayIPConfigurationGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration_Spec(generators)
-	virtualNetworkGatewayIPConfiguration_specGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGatewayIPConfiguration_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration(generators)
+	virtualNetworkGatewayIPConfigurationGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGatewayIPConfiguration{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration_Spec(generators)
-	AddRelatedPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration_Spec(generators)
-	virtualNetworkGatewayIPConfiguration_specGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGatewayIPConfiguration_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration(generators)
+	AddRelatedPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration(generators)
+	virtualNetworkGatewayIPConfigurationGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGatewayIPConfiguration{}), generators)
 
-	return virtualNetworkGatewayIPConfiguration_specGenerator
+	return virtualNetworkGatewayIPConfigurationGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration_Spec(gens map[string]gopter.Gen) {
-	gens["PublicIPAddress"] = gen.PtrOf(SubResource_SpecGenerator())
-	gens["Subnet"] = gen.PtrOf(SubResource_SpecGenerator())
+// AddRelatedPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration(gens map[string]gopter.Gen) {
+	gens["PublicIPAddress"] = gen.PtrOf(SubResourceGenerator())
+	gens["Subnet"] = gen.PtrOf(SubResourceGenerator())
 }
 
 func Test_VirtualNetworkGatewayIPConfiguration_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -570,19 +570,19 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration_Status(
 	gens["Subnet"] = gen.PtrOf(SubResource_StatusGenerator())
 }
 
-func Test_VirtualNetworkGatewaySku_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualNetworkGatewaySku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualNetworkGatewaySku_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGatewaySku_Spec, VirtualNetworkGatewaySku_SpecGenerator()))
+		"Round trip of VirtualNetworkGatewaySku via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGatewaySku, VirtualNetworkGatewaySkuGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualNetworkGatewaySku_Spec runs a test to see if a specific instance of VirtualNetworkGatewaySku_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkGatewaySku_Spec(subject VirtualNetworkGatewaySku_Spec) string {
+// RunJSONSerializationTestForVirtualNetworkGatewaySku runs a test to see if a specific instance of VirtualNetworkGatewaySku round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworkGatewaySku(subject VirtualNetworkGatewaySku) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -590,7 +590,7 @@ func RunJSONSerializationTestForVirtualNetworkGatewaySku_Spec(subject VirtualNet
 	}
 
 	// Deserialize back into memory
-	var actual VirtualNetworkGatewaySku_Spec
+	var actual VirtualNetworkGatewaySku
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -608,25 +608,25 @@ func RunJSONSerializationTestForVirtualNetworkGatewaySku_Spec(subject VirtualNet
 	return ""
 }
 
-// Generator of VirtualNetworkGatewaySku_Spec instances for property testing - lazily instantiated by
-//VirtualNetworkGatewaySku_SpecGenerator()
-var virtualNetworkGatewaySku_specGenerator gopter.Gen
+// Generator of VirtualNetworkGatewaySku instances for property testing - lazily instantiated by
+//VirtualNetworkGatewaySkuGenerator()
+var virtualNetworkGatewaySkuGenerator gopter.Gen
 
-// VirtualNetworkGatewaySku_SpecGenerator returns a generator of VirtualNetworkGatewaySku_Spec instances for property testing.
-func VirtualNetworkGatewaySku_SpecGenerator() gopter.Gen {
-	if virtualNetworkGatewaySku_specGenerator != nil {
-		return virtualNetworkGatewaySku_specGenerator
+// VirtualNetworkGatewaySkuGenerator returns a generator of VirtualNetworkGatewaySku instances for property testing.
+func VirtualNetworkGatewaySkuGenerator() gopter.Gen {
+	if virtualNetworkGatewaySkuGenerator != nil {
+		return virtualNetworkGatewaySkuGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySku_Spec(generators)
-	virtualNetworkGatewaySku_specGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGatewaySku_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySku(generators)
+	virtualNetworkGatewaySkuGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGatewaySku{}), generators)
 
-	return virtualNetworkGatewaySku_specGenerator
+	return virtualNetworkGatewaySkuGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySku_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySku_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySku is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySku(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
@@ -693,19 +693,19 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySku_Status(gens map
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_VpnClientConfiguration_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VpnClientConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VpnClientConfiguration_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVpnClientConfiguration_Spec, VpnClientConfiguration_SpecGenerator()))
+		"Round trip of VpnClientConfiguration via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVpnClientConfiguration, VpnClientConfigurationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVpnClientConfiguration_Spec runs a test to see if a specific instance of VpnClientConfiguration_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForVpnClientConfiguration_Spec(subject VpnClientConfiguration_Spec) string {
+// RunJSONSerializationTestForVpnClientConfiguration runs a test to see if a specific instance of VpnClientConfiguration round trips to JSON and back losslessly
+func RunJSONSerializationTestForVpnClientConfiguration(subject VpnClientConfiguration) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -713,7 +713,7 @@ func RunJSONSerializationTestForVpnClientConfiguration_Spec(subject VpnClientCon
 	}
 
 	// Deserialize back into memory
-	var actual VpnClientConfiguration_Spec
+	var actual VpnClientConfiguration
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -731,34 +731,34 @@ func RunJSONSerializationTestForVpnClientConfiguration_Spec(subject VpnClientCon
 	return ""
 }
 
-// Generator of VpnClientConfiguration_Spec instances for property testing - lazily instantiated by
-//VpnClientConfiguration_SpecGenerator()
-var vpnClientConfiguration_specGenerator gopter.Gen
+// Generator of VpnClientConfiguration instances for property testing - lazily instantiated by
+//VpnClientConfigurationGenerator()
+var vpnClientConfigurationGenerator gopter.Gen
 
-// VpnClientConfiguration_SpecGenerator returns a generator of VpnClientConfiguration_Spec instances for property testing.
-// We first initialize vpnClientConfiguration_specGenerator with a simplified generator based on the
+// VpnClientConfigurationGenerator returns a generator of VpnClientConfiguration instances for property testing.
+// We first initialize vpnClientConfigurationGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VpnClientConfiguration_SpecGenerator() gopter.Gen {
-	if vpnClientConfiguration_specGenerator != nil {
-		return vpnClientConfiguration_specGenerator
+func VpnClientConfigurationGenerator() gopter.Gen {
+	if vpnClientConfigurationGenerator != nil {
+		return vpnClientConfigurationGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVpnClientConfiguration_Spec(generators)
-	vpnClientConfiguration_specGenerator = gen.Struct(reflect.TypeOf(VpnClientConfiguration_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForVpnClientConfiguration(generators)
+	vpnClientConfigurationGenerator = gen.Struct(reflect.TypeOf(VpnClientConfiguration{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVpnClientConfiguration_Spec(generators)
-	AddRelatedPropertyGeneratorsForVpnClientConfiguration_Spec(generators)
-	vpnClientConfiguration_specGenerator = gen.Struct(reflect.TypeOf(VpnClientConfiguration_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForVpnClientConfiguration(generators)
+	AddRelatedPropertyGeneratorsForVpnClientConfiguration(generators)
+	vpnClientConfigurationGenerator = gen.Struct(reflect.TypeOf(VpnClientConfiguration{}), generators)
 
-	return vpnClientConfiguration_specGenerator
+	return vpnClientConfigurationGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVpnClientConfiguration_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVpnClientConfiguration_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVpnClientConfiguration is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVpnClientConfiguration(gens map[string]gopter.Gen) {
 	gens["AadAudience"] = gen.PtrOf(gen.AlphaString())
 	gens["AadIssuer"] = gen.PtrOf(gen.AlphaString())
 	gens["AadTenant"] = gen.PtrOf(gen.AlphaString())
@@ -768,13 +768,13 @@ func AddIndependentPropertyGeneratorsForVpnClientConfiguration_Spec(gens map[str
 	gens["VpnClientProtocols"] = gen.SliceOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForVpnClientConfiguration_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVpnClientConfiguration_Spec(gens map[string]gopter.Gen) {
-	gens["RadiusServers"] = gen.SliceOf(RadiusServer_SpecGenerator())
-	gens["VpnClientAddressPool"] = gen.PtrOf(AddressSpace_SpecGenerator())
-	gens["VpnClientIpsecPolicies"] = gen.SliceOf(IpsecPolicy_SpecGenerator())
-	gens["VpnClientRevokedCertificates"] = gen.SliceOf(VpnClientRevokedCertificate_SpecGenerator())
-	gens["VpnClientRootCertificates"] = gen.SliceOf(VpnClientRootCertificate_SpecGenerator())
+// AddRelatedPropertyGeneratorsForVpnClientConfiguration is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVpnClientConfiguration(gens map[string]gopter.Gen) {
+	gens["RadiusServers"] = gen.SliceOf(RadiusServerGenerator())
+	gens["VpnClientAddressPool"] = gen.PtrOf(AddressSpaceGenerator())
+	gens["VpnClientIpsecPolicies"] = gen.SliceOf(IpsecPolicyGenerator())
+	gens["VpnClientRevokedCertificates"] = gen.SliceOf(VpnClientRevokedCertificateGenerator())
+	gens["VpnClientRootCertificates"] = gen.SliceOf(VpnClientRootCertificateGenerator())
 }
 
 func Test_VpnClientConfiguration_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -861,19 +861,19 @@ func AddRelatedPropertyGeneratorsForVpnClientConfiguration_Status(gens map[strin
 	gens["VpnClientRootCertificates"] = gen.SliceOf(VpnClientRootCertificate_StatusGenerator())
 }
 
-func Test_IPConfigurationBgpPeeringAddress_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_IPConfigurationBgpPeeringAddress_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of IPConfigurationBgpPeeringAddress_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIPConfigurationBgpPeeringAddress_Spec, IPConfigurationBgpPeeringAddress_SpecGenerator()))
+		"Round trip of IPConfigurationBgpPeeringAddress via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIPConfigurationBgpPeeringAddress, IPConfigurationBgpPeeringAddressGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForIPConfigurationBgpPeeringAddress_Spec runs a test to see if a specific instance of IPConfigurationBgpPeeringAddress_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForIPConfigurationBgpPeeringAddress_Spec(subject IPConfigurationBgpPeeringAddress_Spec) string {
+// RunJSONSerializationTestForIPConfigurationBgpPeeringAddress runs a test to see if a specific instance of IPConfigurationBgpPeeringAddress round trips to JSON and back losslessly
+func RunJSONSerializationTestForIPConfigurationBgpPeeringAddress(subject IPConfigurationBgpPeeringAddress) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -881,7 +881,7 @@ func RunJSONSerializationTestForIPConfigurationBgpPeeringAddress_Spec(subject IP
 	}
 
 	// Deserialize back into memory
-	var actual IPConfigurationBgpPeeringAddress_Spec
+	var actual IPConfigurationBgpPeeringAddress
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -899,25 +899,25 @@ func RunJSONSerializationTestForIPConfigurationBgpPeeringAddress_Spec(subject IP
 	return ""
 }
 
-// Generator of IPConfigurationBgpPeeringAddress_Spec instances for property testing - lazily instantiated by
-//IPConfigurationBgpPeeringAddress_SpecGenerator()
-var ipConfigurationBgpPeeringAddress_specGenerator gopter.Gen
+// Generator of IPConfigurationBgpPeeringAddress instances for property testing - lazily instantiated by
+//IPConfigurationBgpPeeringAddressGenerator()
+var ipConfigurationBgpPeeringAddressGenerator gopter.Gen
 
-// IPConfigurationBgpPeeringAddress_SpecGenerator returns a generator of IPConfigurationBgpPeeringAddress_Spec instances for property testing.
-func IPConfigurationBgpPeeringAddress_SpecGenerator() gopter.Gen {
-	if ipConfigurationBgpPeeringAddress_specGenerator != nil {
-		return ipConfigurationBgpPeeringAddress_specGenerator
+// IPConfigurationBgpPeeringAddressGenerator returns a generator of IPConfigurationBgpPeeringAddress instances for property testing.
+func IPConfigurationBgpPeeringAddressGenerator() gopter.Gen {
+	if ipConfigurationBgpPeeringAddressGenerator != nil {
+		return ipConfigurationBgpPeeringAddressGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIPConfigurationBgpPeeringAddress_Spec(generators)
-	ipConfigurationBgpPeeringAddress_specGenerator = gen.Struct(reflect.TypeOf(IPConfigurationBgpPeeringAddress_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForIPConfigurationBgpPeeringAddress(generators)
+	ipConfigurationBgpPeeringAddressGenerator = gen.Struct(reflect.TypeOf(IPConfigurationBgpPeeringAddress{}), generators)
 
-	return ipConfigurationBgpPeeringAddress_specGenerator
+	return ipConfigurationBgpPeeringAddressGenerator
 }
 
-// AddIndependentPropertyGeneratorsForIPConfigurationBgpPeeringAddress_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIPConfigurationBgpPeeringAddress_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForIPConfigurationBgpPeeringAddress is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIPConfigurationBgpPeeringAddress(gens map[string]gopter.Gen) {
 	gens["CustomBgpIpAddresses"] = gen.SliceOf(gen.AlphaString())
 	gens["IpconfigurationId"] = gen.PtrOf(gen.AlphaString())
 }
@@ -985,19 +985,19 @@ func AddIndependentPropertyGeneratorsForIPConfigurationBgpPeeringAddress_Status(
 	gens["TunnelIpAddresses"] = gen.SliceOf(gen.AlphaString())
 }
 
-func Test_IpsecPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_IpsecPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of IpsecPolicy_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIpsecPolicy_Spec, IpsecPolicy_SpecGenerator()))
+		"Round trip of IpsecPolicy via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIpsecPolicy, IpsecPolicyGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForIpsecPolicy_Spec runs a test to see if a specific instance of IpsecPolicy_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForIpsecPolicy_Spec(subject IpsecPolicy_Spec) string {
+// RunJSONSerializationTestForIpsecPolicy runs a test to see if a specific instance of IpsecPolicy round trips to JSON and back losslessly
+func RunJSONSerializationTestForIpsecPolicy(subject IpsecPolicy) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1005,7 +1005,7 @@ func RunJSONSerializationTestForIpsecPolicy_Spec(subject IpsecPolicy_Spec) strin
 	}
 
 	// Deserialize back into memory
-	var actual IpsecPolicy_Spec
+	var actual IpsecPolicy
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1023,24 +1023,24 @@ func RunJSONSerializationTestForIpsecPolicy_Spec(subject IpsecPolicy_Spec) strin
 	return ""
 }
 
-// Generator of IpsecPolicy_Spec instances for property testing - lazily instantiated by IpsecPolicy_SpecGenerator()
-var ipsecPolicy_specGenerator gopter.Gen
+// Generator of IpsecPolicy instances for property testing - lazily instantiated by IpsecPolicyGenerator()
+var ipsecPolicyGenerator gopter.Gen
 
-// IpsecPolicy_SpecGenerator returns a generator of IpsecPolicy_Spec instances for property testing.
-func IpsecPolicy_SpecGenerator() gopter.Gen {
-	if ipsecPolicy_specGenerator != nil {
-		return ipsecPolicy_specGenerator
+// IpsecPolicyGenerator returns a generator of IpsecPolicy instances for property testing.
+func IpsecPolicyGenerator() gopter.Gen {
+	if ipsecPolicyGenerator != nil {
+		return ipsecPolicyGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIpsecPolicy_Spec(generators)
-	ipsecPolicy_specGenerator = gen.Struct(reflect.TypeOf(IpsecPolicy_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForIpsecPolicy(generators)
+	ipsecPolicyGenerator = gen.Struct(reflect.TypeOf(IpsecPolicy{}), generators)
 
-	return ipsecPolicy_specGenerator
+	return ipsecPolicyGenerator
 }
 
-// AddIndependentPropertyGeneratorsForIpsecPolicy_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIpsecPolicy_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForIpsecPolicy is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIpsecPolicy(gens map[string]gopter.Gen) {
 	gens["DhGroup"] = gen.PtrOf(gen.AlphaString())
 	gens["IkeEncryption"] = gen.PtrOf(gen.AlphaString())
 	gens["IkeIntegrity"] = gen.PtrOf(gen.AlphaString())
@@ -1117,19 +1117,19 @@ func AddIndependentPropertyGeneratorsForIpsecPolicy_Status(gens map[string]gopte
 	gens["SaLifeTimeSeconds"] = gen.PtrOf(gen.Int())
 }
 
-func Test_RadiusServer_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_RadiusServer_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RadiusServer_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRadiusServer_Spec, RadiusServer_SpecGenerator()))
+		"Round trip of RadiusServer via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRadiusServer, RadiusServerGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRadiusServer_Spec runs a test to see if a specific instance of RadiusServer_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRadiusServer_Spec(subject RadiusServer_Spec) string {
+// RunJSONSerializationTestForRadiusServer runs a test to see if a specific instance of RadiusServer round trips to JSON and back losslessly
+func RunJSONSerializationTestForRadiusServer(subject RadiusServer) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1137,7 +1137,7 @@ func RunJSONSerializationTestForRadiusServer_Spec(subject RadiusServer_Spec) str
 	}
 
 	// Deserialize back into memory
-	var actual RadiusServer_Spec
+	var actual RadiusServer
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1155,24 +1155,24 @@ func RunJSONSerializationTestForRadiusServer_Spec(subject RadiusServer_Spec) str
 	return ""
 }
 
-// Generator of RadiusServer_Spec instances for property testing - lazily instantiated by RadiusServer_SpecGenerator()
-var radiusServer_specGenerator gopter.Gen
+// Generator of RadiusServer instances for property testing - lazily instantiated by RadiusServerGenerator()
+var radiusServerGenerator gopter.Gen
 
-// RadiusServer_SpecGenerator returns a generator of RadiusServer_Spec instances for property testing.
-func RadiusServer_SpecGenerator() gopter.Gen {
-	if radiusServer_specGenerator != nil {
-		return radiusServer_specGenerator
+// RadiusServerGenerator returns a generator of RadiusServer instances for property testing.
+func RadiusServerGenerator() gopter.Gen {
+	if radiusServerGenerator != nil {
+		return radiusServerGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRadiusServer_Spec(generators)
-	radiusServer_specGenerator = gen.Struct(reflect.TypeOf(RadiusServer_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForRadiusServer(generators)
+	radiusServerGenerator = gen.Struct(reflect.TypeOf(RadiusServer{}), generators)
 
-	return radiusServer_specGenerator
+	return radiusServerGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRadiusServer_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRadiusServer_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRadiusServer is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRadiusServer(gens map[string]gopter.Gen) {
 	gens["RadiusServerAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["RadiusServerScore"] = gen.PtrOf(gen.Int())
 	gens["RadiusServerSecret"] = gen.PtrOf(gen.AlphaString())
@@ -1240,19 +1240,19 @@ func AddIndependentPropertyGeneratorsForRadiusServer_Status(gens map[string]gopt
 	gens["RadiusServerSecret"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_VpnClientRevokedCertificate_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VpnClientRevokedCertificate_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VpnClientRevokedCertificate_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVpnClientRevokedCertificate_Spec, VpnClientRevokedCertificate_SpecGenerator()))
+		"Round trip of VpnClientRevokedCertificate via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVpnClientRevokedCertificate, VpnClientRevokedCertificateGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVpnClientRevokedCertificate_Spec runs a test to see if a specific instance of VpnClientRevokedCertificate_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForVpnClientRevokedCertificate_Spec(subject VpnClientRevokedCertificate_Spec) string {
+// RunJSONSerializationTestForVpnClientRevokedCertificate runs a test to see if a specific instance of VpnClientRevokedCertificate round trips to JSON and back losslessly
+func RunJSONSerializationTestForVpnClientRevokedCertificate(subject VpnClientRevokedCertificate) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1260,7 +1260,7 @@ func RunJSONSerializationTestForVpnClientRevokedCertificate_Spec(subject VpnClie
 	}
 
 	// Deserialize back into memory
-	var actual VpnClientRevokedCertificate_Spec
+	var actual VpnClientRevokedCertificate
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1278,25 +1278,25 @@ func RunJSONSerializationTestForVpnClientRevokedCertificate_Spec(subject VpnClie
 	return ""
 }
 
-// Generator of VpnClientRevokedCertificate_Spec instances for property testing - lazily instantiated by
-//VpnClientRevokedCertificate_SpecGenerator()
-var vpnClientRevokedCertificate_specGenerator gopter.Gen
+// Generator of VpnClientRevokedCertificate instances for property testing - lazily instantiated by
+//VpnClientRevokedCertificateGenerator()
+var vpnClientRevokedCertificateGenerator gopter.Gen
 
-// VpnClientRevokedCertificate_SpecGenerator returns a generator of VpnClientRevokedCertificate_Spec instances for property testing.
-func VpnClientRevokedCertificate_SpecGenerator() gopter.Gen {
-	if vpnClientRevokedCertificate_specGenerator != nil {
-		return vpnClientRevokedCertificate_specGenerator
+// VpnClientRevokedCertificateGenerator returns a generator of VpnClientRevokedCertificate instances for property testing.
+func VpnClientRevokedCertificateGenerator() gopter.Gen {
+	if vpnClientRevokedCertificateGenerator != nil {
+		return vpnClientRevokedCertificateGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVpnClientRevokedCertificate_Spec(generators)
-	vpnClientRevokedCertificate_specGenerator = gen.Struct(reflect.TypeOf(VpnClientRevokedCertificate_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForVpnClientRevokedCertificate(generators)
+	vpnClientRevokedCertificateGenerator = gen.Struct(reflect.TypeOf(VpnClientRevokedCertificate{}), generators)
 
-	return vpnClientRevokedCertificate_specGenerator
+	return vpnClientRevokedCertificateGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVpnClientRevokedCertificate_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVpnClientRevokedCertificate_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVpnClientRevokedCertificate is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVpnClientRevokedCertificate(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Thumbprint"] = gen.PtrOf(gen.AlphaString())
 }
@@ -1365,19 +1365,19 @@ func AddIndependentPropertyGeneratorsForVpnClientRevokedCertificate_Status(gens 
 	gens["Thumbprint"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_VpnClientRootCertificate_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VpnClientRootCertificate_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VpnClientRootCertificate_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVpnClientRootCertificate_Spec, VpnClientRootCertificate_SpecGenerator()))
+		"Round trip of VpnClientRootCertificate via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVpnClientRootCertificate, VpnClientRootCertificateGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVpnClientRootCertificate_Spec runs a test to see if a specific instance of VpnClientRootCertificate_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForVpnClientRootCertificate_Spec(subject VpnClientRootCertificate_Spec) string {
+// RunJSONSerializationTestForVpnClientRootCertificate runs a test to see if a specific instance of VpnClientRootCertificate round trips to JSON and back losslessly
+func RunJSONSerializationTestForVpnClientRootCertificate(subject VpnClientRootCertificate) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1385,7 +1385,7 @@ func RunJSONSerializationTestForVpnClientRootCertificate_Spec(subject VpnClientR
 	}
 
 	// Deserialize back into memory
-	var actual VpnClientRootCertificate_Spec
+	var actual VpnClientRootCertificate
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1403,25 +1403,25 @@ func RunJSONSerializationTestForVpnClientRootCertificate_Spec(subject VpnClientR
 	return ""
 }
 
-// Generator of VpnClientRootCertificate_Spec instances for property testing - lazily instantiated by
-//VpnClientRootCertificate_SpecGenerator()
-var vpnClientRootCertificate_specGenerator gopter.Gen
+// Generator of VpnClientRootCertificate instances for property testing - lazily instantiated by
+//VpnClientRootCertificateGenerator()
+var vpnClientRootCertificateGenerator gopter.Gen
 
-// VpnClientRootCertificate_SpecGenerator returns a generator of VpnClientRootCertificate_Spec instances for property testing.
-func VpnClientRootCertificate_SpecGenerator() gopter.Gen {
-	if vpnClientRootCertificate_specGenerator != nil {
-		return vpnClientRootCertificate_specGenerator
+// VpnClientRootCertificateGenerator returns a generator of VpnClientRootCertificate instances for property testing.
+func VpnClientRootCertificateGenerator() gopter.Gen {
+	if vpnClientRootCertificateGenerator != nil {
+		return vpnClientRootCertificateGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVpnClientRootCertificate_Spec(generators)
-	vpnClientRootCertificate_specGenerator = gen.Struct(reflect.TypeOf(VpnClientRootCertificate_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForVpnClientRootCertificate(generators)
+	vpnClientRootCertificateGenerator = gen.Struct(reflect.TypeOf(VpnClientRootCertificate{}), generators)
 
-	return vpnClientRootCertificate_specGenerator
+	return vpnClientRootCertificateGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVpnClientRootCertificate_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVpnClientRootCertificate_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVpnClientRootCertificate is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVpnClientRootCertificate(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicCertData"] = gen.PtrOf(gen.AlphaString())
 }

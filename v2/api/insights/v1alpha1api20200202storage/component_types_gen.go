@@ -29,7 +29,7 @@ import (
 type Component struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Components_SPEC                     `json:"spec,omitempty"`
+	Spec              Component_Spec                      `json:"spec,omitempty"`
 	Status            ApplicationInsightsComponent_Status `json:"status,omitempty"`
 }
 
@@ -197,8 +197,8 @@ func (component *ApplicationInsightsComponent_Status) ConvertStatusTo(destinatio
 	return destination.ConvertStatusFrom(component)
 }
 
-//Storage version of v1alpha1api20200202.Components_SPEC
-type Components_SPEC struct {
+//Storage version of v1alpha1api20200202.Component_Spec
+type Component_Spec struct {
 	Application_Type *string `json:"Application_Type,omitempty"`
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name
@@ -233,24 +233,24 @@ type Components_SPEC struct {
 	WorkspaceResourceReference *genruntime.ResourceReference `armReference:"WorkspaceResourceId" json:"workspaceResourceReference,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Components_SPEC{}
+var _ genruntime.ConvertibleSpec = &Component_Spec{}
 
-// ConvertSpecFrom populates our Components_SPEC from the provided source
-func (spec *Components_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our Component_Spec from the provided source
+func (component *Component_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == component {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(component)
 }
 
-// ConvertSpecTo populates the provided destination from our Components_SPEC
-func (spec *Components_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our Component_Spec
+func (component *Component_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == component {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(component)
 }
 
 //Storage version of v1alpha1api20200202.PrivateLinkScopedResource_Status

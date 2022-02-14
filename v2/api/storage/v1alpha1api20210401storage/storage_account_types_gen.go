@@ -28,7 +28,7 @@ import (
 type StorageAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccounts_SPEC  `json:"spec,omitempty"`
+	Spec              StorageAccount_Spec   `json:"spec,omitempty"`
 	Status            StorageAccount_Status `json:"status,omitempty"`
 }
 
@@ -138,6 +138,61 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("2021-04-01")
 
+//Storage version of v1alpha1api20210401.StorageAccount_Spec
+type StorageAccount_Spec struct {
+	AccessTier                            *string                                `json:"accessTier,omitempty"`
+	AllowBlobPublicAccess                 *bool                                  `json:"allowBlobPublicAccess,omitempty"`
+	AllowCrossTenantReplication           *bool                                  `json:"allowCrossTenantReplication,omitempty"`
+	AllowSharedKeyAccess                  *bool                                  `json:"allowSharedKeyAccess,omitempty"`
+	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication `json:"azureFilesIdentityBasedAuthentication,omitempty"`
+
+	//AzureName: The name of the resource in Azure. This is often the same as the name
+	//of the resource in Kubernetes but it doesn't have to be.
+	AzureName            string            `json:"azureName"`
+	CustomDomain         *CustomDomain     `json:"customDomain,omitempty"`
+	Encryption           *Encryption       `json:"encryption,omitempty"`
+	ExtendedLocation     *ExtendedLocation `json:"extendedLocation,omitempty"`
+	Identity             *Identity         `json:"identity,omitempty"`
+	IsHnsEnabled         *bool             `json:"isHnsEnabled,omitempty"`
+	IsNfsV3Enabled       *bool             `json:"isNfsV3Enabled,omitempty"`
+	KeyPolicy            *KeyPolicy        `json:"keyPolicy,omitempty"`
+	Kind                 *string           `json:"kind,omitempty"`
+	LargeFileSharesState *string           `json:"largeFileSharesState,omitempty"`
+	Location             *string           `json:"location,omitempty"`
+	MinimumTlsVersion    *string           `json:"minimumTlsVersion,omitempty"`
+	NetworkAcls          *NetworkRuleSet   `json:"networkAcls,omitempty"`
+	OriginalVersion      string            `json:"originalVersion"`
+
+	// +kubebuilder:validation:Required
+	Owner                    genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	PropertyBag              genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	RoutingPreference        *RoutingPreference                `json:"routingPreference,omitempty"`
+	SasPolicy                *SasPolicy                        `json:"sasPolicy,omitempty"`
+	Sku                      *Sku                              `json:"sku,omitempty"`
+	SupportsHttpsTrafficOnly *bool                             `json:"supportsHttpsTrafficOnly,omitempty"`
+	Tags                     map[string]string                 `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &StorageAccount_Spec{}
+
+// ConvertSpecFrom populates our StorageAccount_Spec from the provided source
+func (account *StorageAccount_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == account {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(account)
+}
+
+// ConvertSpecTo populates the provided destination from our StorageAccount_Spec
+func (account *StorageAccount_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == account {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(account)
+}
+
 //Storage version of v1alpha1api20210401.StorageAccount_Status
 type StorageAccount_Status struct {
 	AccessTier                            *string                                       `json:"accessTier,omitempty"`
@@ -186,67 +241,12 @@ func (account *StorageAccount_Status) ConvertStatusTo(destination genruntime.Con
 	return destination.ConvertStatusFrom(account)
 }
 
-//Storage version of v1alpha1api20210401.StorageAccounts_SPEC
-type StorageAccounts_SPEC struct {
-	AccessTier                            *string                                     `json:"accessTier,omitempty"`
-	AllowBlobPublicAccess                 *bool                                       `json:"allowBlobPublicAccess,omitempty"`
-	AllowCrossTenantReplication           *bool                                       `json:"allowCrossTenantReplication,omitempty"`
-	AllowSharedKeyAccess                  *bool                                       `json:"allowSharedKeyAccess,omitempty"`
-	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication_Spec `json:"azureFilesIdentityBasedAuthentication,omitempty"`
-
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName            string                 `json:"azureName"`
-	CustomDomain         *CustomDomain_Spec     `json:"customDomain,omitempty"`
-	Encryption           *Encryption_Spec       `json:"encryption,omitempty"`
-	ExtendedLocation     *ExtendedLocation_Spec `json:"extendedLocation,omitempty"`
-	Identity             *Identity_Spec         `json:"identity,omitempty"`
-	IsHnsEnabled         *bool                  `json:"isHnsEnabled,omitempty"`
-	IsNfsV3Enabled       *bool                  `json:"isNfsV3Enabled,omitempty"`
-	KeyPolicy            *KeyPolicy_Spec        `json:"keyPolicy,omitempty"`
-	Kind                 *string                `json:"kind,omitempty"`
-	LargeFileSharesState *string                `json:"largeFileSharesState,omitempty"`
-	Location             *string                `json:"location,omitempty"`
-	MinimumTlsVersion    *string                `json:"minimumTlsVersion,omitempty"`
-	NetworkAcls          *NetworkRuleSet_Spec   `json:"networkAcls,omitempty"`
-	OriginalVersion      string                 `json:"originalVersion"`
-
-	// +kubebuilder:validation:Required
-	Owner                    genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PropertyBag              genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	RoutingPreference        *RoutingPreference_Spec           `json:"routingPreference,omitempty"`
-	SasPolicy                *SasPolicy_Spec                   `json:"sasPolicy,omitempty"`
-	Sku                      *Sku_Spec                         `json:"sku,omitempty"`
-	SupportsHttpsTrafficOnly *bool                             `json:"supportsHttpsTrafficOnly,omitempty"`
-	Tags                     map[string]string                 `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &StorageAccounts_SPEC{}
-
-// ConvertSpecFrom populates our StorageAccounts_SPEC from the provided source
-func (spec *StorageAccounts_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(spec)
-}
-
-// ConvertSpecTo populates the provided destination from our StorageAccounts_SPEC
-func (spec *StorageAccounts_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(spec)
-}
-
-//Storage version of v1alpha1api20210401.AzureFilesIdentityBasedAuthentication_Spec
-type AzureFilesIdentityBasedAuthentication_Spec struct {
-	ActiveDirectoryProperties *ActiveDirectoryProperties_Spec `json:"activeDirectoryProperties,omitempty"`
-	DefaultSharePermission    *string                         `json:"defaultSharePermission,omitempty"`
-	DirectoryServiceOptions   *string                         `json:"directoryServiceOptions,omitempty"`
-	PropertyBag               genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
+//Storage version of v1alpha1api20210401.AzureFilesIdentityBasedAuthentication
+type AzureFilesIdentityBasedAuthentication struct {
+	ActiveDirectoryProperties *ActiveDirectoryProperties `json:"activeDirectoryProperties,omitempty"`
+	DefaultSharePermission    *string                    `json:"defaultSharePermission,omitempty"`
+	DirectoryServiceOptions   *string                    `json:"directoryServiceOptions,omitempty"`
+	PropertyBag               genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v1alpha1api20210401.AzureFilesIdentityBasedAuthentication_Status
@@ -257,8 +257,8 @@ type AzureFilesIdentityBasedAuthentication_Status struct {
 	PropertyBag               genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.CustomDomain_Spec
-type CustomDomain_Spec struct {
+//Storage version of v1alpha1api20210401.CustomDomain
+type CustomDomain struct {
 	Name             *string                `json:"name,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UseSubDomainName *bool                  `json:"useSubDomainName,omitempty"`
@@ -271,14 +271,14 @@ type CustomDomain_Status struct {
 	UseSubDomainName *bool                  `json:"useSubDomainName,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.Encryption_Spec
-type Encryption_Spec struct {
-	Identity                        *EncryptionIdentity_Spec `json:"identity,omitempty"`
-	KeySource                       *string                  `json:"keySource,omitempty"`
-	Keyvaultproperties              *KeyVaultProperties_Spec `json:"keyvaultproperties,omitempty"`
-	PropertyBag                     genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
-	RequireInfrastructureEncryption *bool                    `json:"requireInfrastructureEncryption,omitempty"`
-	Services                        *EncryptionServices_Spec `json:"services,omitempty"`
+//Storage version of v1alpha1api20210401.Encryption
+type Encryption struct {
+	Identity                        *EncryptionIdentity    `json:"identity,omitempty"`
+	KeySource                       *string                `json:"keySource,omitempty"`
+	Keyvaultproperties              *KeyVaultProperties    `json:"keyvaultproperties,omitempty"`
+	PropertyBag                     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	RequireInfrastructureEncryption *bool                  `json:"requireInfrastructureEncryption,omitempty"`
+	Services                        *EncryptionServices    `json:"services,omitempty"`
 }
 
 //Storage version of v1alpha1api20210401.Encryption_Status
@@ -291,8 +291,8 @@ type Encryption_Status struct {
 	Services                        *EncryptionServices_Status `json:"services,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.ExtendedLocation_Spec
-type ExtendedLocation_Spec struct {
+//Storage version of v1alpha1api20210401.ExtendedLocation
+type ExtendedLocation struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
@@ -305,8 +305,8 @@ type ExtendedLocation_Status struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.Identity_Spec
-type Identity_Spec struct {
+//Storage version of v1alpha1api20210401.Identity
+type Identity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
@@ -320,8 +320,8 @@ type Identity_Status struct {
 	UserAssignedIdentities map[string]UserAssignedIdentity_Status `json:"userAssignedIdentities,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.KeyPolicy_Spec
-type KeyPolicy_Spec struct {
+//Storage version of v1alpha1api20210401.KeyPolicy
+type KeyPolicy struct {
 	KeyExpirationPeriodInDays *int                   `json:"keyExpirationPeriodInDays,omitempty"`
 	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -332,14 +332,14 @@ type KeyPolicy_Status struct {
 	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.NetworkRuleSet_Spec
-type NetworkRuleSet_Spec struct {
-	Bypass              *string                   `json:"bypass,omitempty"`
-	DefaultAction       *string                   `json:"defaultAction,omitempty"`
-	IpRules             []IPRule_Spec             `json:"ipRules,omitempty"`
-	PropertyBag         genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	ResourceAccessRules []ResourceAccessRule_Spec `json:"resourceAccessRules,omitempty"`
-	VirtualNetworkRules []VirtualNetworkRule_Spec `json:"virtualNetworkRules,omitempty"`
+//Storage version of v1alpha1api20210401.NetworkRuleSet
+type NetworkRuleSet struct {
+	Bypass              *string                `json:"bypass,omitempty"`
+	DefaultAction       *string                `json:"defaultAction,omitempty"`
+	IpRules             []IPRule               `json:"ipRules,omitempty"`
+	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ResourceAccessRules []ResourceAccessRule   `json:"resourceAccessRules,omitempty"`
+	VirtualNetworkRules []VirtualNetworkRule   `json:"virtualNetworkRules,omitempty"`
 }
 
 //Storage version of v1alpha1api20210401.NetworkRuleSet_Status
@@ -352,8 +352,8 @@ type NetworkRuleSet_Status struct {
 	VirtualNetworkRules []VirtualNetworkRule_Status `json:"virtualNetworkRules,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.RoutingPreference_Spec
-type RoutingPreference_Spec struct {
+//Storage version of v1alpha1api20210401.RoutingPreference
+type RoutingPreference struct {
 	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	PublishInternetEndpoints  *bool                  `json:"publishInternetEndpoints,omitempty"`
 	PublishMicrosoftEndpoints *bool                  `json:"publishMicrosoftEndpoints,omitempty"`
@@ -368,8 +368,8 @@ type RoutingPreference_Status struct {
 	RoutingChoice             *string                `json:"routingChoice,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.SasPolicy_Spec
-type SasPolicy_Spec struct {
+//Storage version of v1alpha1api20210401.SasPolicy
+type SasPolicy struct {
 	ExpirationAction    *string                `json:"expirationAction,omitempty"`
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SasExpirationPeriod *string                `json:"sasExpirationPeriod,omitempty"`
@@ -382,8 +382,8 @@ type SasPolicy_Status struct {
 	SasExpirationPeriod *string                `json:"sasExpirationPeriod,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.Sku_Spec
-type Sku_Spec struct {
+//Storage version of v1alpha1api20210401.Sku
+type Sku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`
@@ -396,8 +396,8 @@ type Sku_Status struct {
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.ActiveDirectoryProperties_Spec
-type ActiveDirectoryProperties_Spec struct {
+//Storage version of v1alpha1api20210401.ActiveDirectoryProperties
+type ActiveDirectoryProperties struct {
 	AzureStorageSid   *string                `json:"azureStorageSid,omitempty"`
 	DomainGuid        *string                `json:"domainGuid,omitempty"`
 	DomainName        *string                `json:"domainName,omitempty"`
@@ -418,8 +418,8 @@ type ActiveDirectoryProperties_Status struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.EncryptionIdentity_Spec
-type EncryptionIdentity_Spec struct {
+//Storage version of v1alpha1api20210401.EncryptionIdentity
+type EncryptionIdentity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	//UserAssignedIdentityReference: Resource identifier of the UserAssigned identity
@@ -433,13 +433,13 @@ type EncryptionIdentity_Status struct {
 	UserAssignedIdentity *string                `json:"userAssignedIdentity,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.EncryptionServices_Spec
-type EncryptionServices_Spec struct {
-	Blob        *EncryptionService_Spec `json:"blob,omitempty"`
-	File        *EncryptionService_Spec `json:"file,omitempty"`
-	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
-	Queue       *EncryptionService_Spec `json:"queue,omitempty"`
-	Table       *EncryptionService_Spec `json:"table,omitempty"`
+//Storage version of v1alpha1api20210401.EncryptionServices
+type EncryptionServices struct {
+	Blob        *EncryptionService     `json:"blob,omitempty"`
+	File        *EncryptionService     `json:"file,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Queue       *EncryptionService     `json:"queue,omitempty"`
+	Table       *EncryptionService     `json:"table,omitempty"`
 }
 
 //Storage version of v1alpha1api20210401.EncryptionServices_Status
@@ -451,8 +451,8 @@ type EncryptionServices_Status struct {
 	Table       *EncryptionService_Status `json:"table,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.IPRule_Spec
-type IPRule_Spec struct {
+//Storage version of v1alpha1api20210401.IPRule
+type IPRule struct {
 	Action      *string                `json:"action,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Value       *string                `json:"value,omitempty"`
@@ -465,8 +465,8 @@ type IPRule_Status struct {
 	Value       *string                `json:"value,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.KeyVaultProperties_Spec
-type KeyVaultProperties_Spec struct {
+//Storage version of v1alpha1api20210401.KeyVaultProperties
+type KeyVaultProperties struct {
 	Keyname     *string                `json:"keyname,omitempty"`
 	Keyvaulturi *string                `json:"keyvaulturi,omitempty"`
 	Keyversion  *string                `json:"keyversion,omitempty"`
@@ -483,8 +483,8 @@ type KeyVaultProperties_Status struct {
 	PropertyBag                   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.ResourceAccessRule_Spec
-type ResourceAccessRule_Spec struct {
+//Storage version of v1alpha1api20210401.ResourceAccessRule
+type ResourceAccessRule struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	//ResourceReference: Resource Id
@@ -506,8 +506,8 @@ type UserAssignedIdentity_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.VirtualNetworkRule_Spec
-type VirtualNetworkRule_Spec struct {
+//Storage version of v1alpha1api20210401.VirtualNetworkRule
+type VirtualNetworkRule struct {
 	Action      *string                `json:"action,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -526,8 +526,8 @@ type VirtualNetworkRule_Status struct {
 	State       *string                `json:"state,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.EncryptionService_Spec
-type EncryptionService_Spec struct {
+//Storage version of v1alpha1api20210401.EncryptionService
+type EncryptionService struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	KeyType     *string                `json:"keyType,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

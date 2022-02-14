@@ -31,7 +31,7 @@ import (
 type Component struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Components_SPEC                     `json:"spec,omitempty"`
+	Spec              Component_Spec                      `json:"spec,omitempty"`
 	Status            ApplicationInsightsComponent_Status `json:"status,omitempty"`
 }
 
@@ -248,10 +248,10 @@ func (component *Component) AssignPropertiesFromComponent(source *v1alpha1api202
 	component.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Components_SPEC
-	err := spec.AssignPropertiesFromComponents_SPEC(&source.Spec)
+	var spec Component_Spec
+	err := spec.AssignPropertiesFromComponent_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromComponents_SPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromComponent_Spec() to populate field Spec")
 	}
 	component.Spec = spec
 
@@ -274,10 +274,10 @@ func (component *Component) AssignPropertiesToComponent(destination *v1alpha1api
 	destination.ObjectMeta = *component.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1alpha1api20200202storage.Components_SPEC
-	err := component.Spec.AssignPropertiesToComponents_SPEC(&spec)
+	var spec v1alpha1api20200202storage.Component_Spec
+	err := component.Spec.AssignPropertiesToComponent_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToComponents_SPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToComponent_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -326,7 +326,7 @@ type ApplicationInsightsComponent_Status struct {
 	ApplicationId *string `json:"ApplicationId,omitempty"`
 
 	//Application_Type: Type of application being monitored.
-	Application_Type *ApplicationInsightsComponentProperties_Application_Type_Status `json:"Application_Type,omitempty"`
+	Application_Type *string `json:"Application_Type,omitempty"`
 
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -350,7 +350,7 @@ type ApplicationInsightsComponent_Status struct {
 	//Flow_Type: Used by the Application Insights system to determine what kind of
 	//flow this component was created by. This is to be set to 'Bluefield' when
 	//creating/updating a component via the REST API.
-	Flow_Type *ApplicationInsightsComponentProperties_Flow_Type_Status `json:"Flow_Type,omitempty"`
+	Flow_Type *string `json:"Flow_Type,omitempty"`
 
 	//ForceCustomerStorageForProfiler: Force users to create their own storage account
 	//for profiler and debugger.
@@ -371,7 +371,7 @@ type ApplicationInsightsComponent_Status struct {
 	ImmediatePurgeDataOn30Days *bool `json:"ImmediatePurgeDataOn30Days,omitempty"`
 
 	//IngestionMode: Indicates the flow of the ingestion.
-	IngestionMode *ApplicationInsightsComponentProperties_IngestionMode_Status `json:"IngestionMode,omitempty"`
+	IngestionMode *string `json:"IngestionMode,omitempty"`
 
 	//InstrumentationKey: Application Insights Instrumentation key. A read-only value
 	//that applications can use to identify the destination for all telemetry sent to
@@ -408,15 +408,15 @@ type ApplicationInsightsComponent_Status struct {
 
 	//PublicNetworkAccessForIngestion: The network access type for accessing
 	//Application Insights ingestion.
-	PublicNetworkAccessForIngestion *PublicNetworkAccessType_Status `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForIngestion *string `json:"publicNetworkAccessForIngestion,omitempty"`
 
 	//PublicNetworkAccessForQuery: The network access type for accessing Application
 	//Insights query.
-	PublicNetworkAccessForQuery *PublicNetworkAccessType_Status `json:"publicNetworkAccessForQuery,omitempty"`
+	PublicNetworkAccessForQuery *string `json:"publicNetworkAccessForQuery,omitempty"`
 
 	//Request_Source: Describes what tool created this Application Insights component.
 	//Customers using this API should set this to the default 'rest'.
-	Request_Source *ApplicationInsightsComponentProperties_Request_Source_Status `json:"Request_Source,omitempty"`
+	Request_Source *string `json:"Request_Source,omitempty"`
 
 	//RetentionInDays: Retention period in days.
 	RetentionInDays *int `json:"RetentionInDays,omitempty"`
@@ -788,12 +788,7 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesFromApplic
 	component.ApplicationId = genruntime.ClonePointerToString(source.ApplicationId)
 
 	// Application_Type
-	if source.Application_Type != nil {
-		application_type := ApplicationInsightsComponentProperties_Application_Type_Status(*source.Application_Type)
-		component.Application_Type = &application_type
-	} else {
-		component.Application_Type = nil
-	}
+	component.Application_Type = genruntime.ClonePointerToString(source.Application_Type)
 
 	// Conditions
 	component.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -824,12 +819,7 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesFromApplic
 	component.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Flow_Type
-	if source.Flow_Type != nil {
-		flow_type := ApplicationInsightsComponentProperties_Flow_Type_Status(*source.Flow_Type)
-		component.Flow_Type = &flow_type
-	} else {
-		component.Flow_Type = nil
-	}
+	component.Flow_Type = genruntime.ClonePointerToString(source.Flow_Type)
 
 	// ForceCustomerStorageForProfiler
 	if source.ForceCustomerStorageForProfiler != nil {
@@ -857,12 +847,7 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesFromApplic
 	}
 
 	// IngestionMode
-	if source.IngestionMode != nil {
-		ingestionMode := ApplicationInsightsComponentProperties_IngestionMode_Status(*source.IngestionMode)
-		component.IngestionMode = &ingestionMode
-	} else {
-		component.IngestionMode = nil
-	}
+	component.IngestionMode = genruntime.ClonePointerToString(source.IngestionMode)
 
 	// InstrumentationKey
 	component.InstrumentationKey = genruntime.ClonePointerToString(source.InstrumentationKey)
@@ -904,28 +889,13 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesFromApplic
 	component.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicNetworkAccessForIngestion
-	if source.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := PublicNetworkAccessType_Status(*source.PublicNetworkAccessForIngestion)
-		component.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
-	} else {
-		component.PublicNetworkAccessForIngestion = nil
-	}
+	component.PublicNetworkAccessForIngestion = genruntime.ClonePointerToString(source.PublicNetworkAccessForIngestion)
 
 	// PublicNetworkAccessForQuery
-	if source.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := PublicNetworkAccessType_Status(*source.PublicNetworkAccessForQuery)
-		component.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
-	} else {
-		component.PublicNetworkAccessForQuery = nil
-	}
+	component.PublicNetworkAccessForQuery = genruntime.ClonePointerToString(source.PublicNetworkAccessForQuery)
 
 	// Request_Source
-	if source.Request_Source != nil {
-		request_source := ApplicationInsightsComponentProperties_Request_Source_Status(*source.Request_Source)
-		component.Request_Source = &request_source
-	} else {
-		component.Request_Source = nil
-	}
+	component.Request_Source = genruntime.ClonePointerToString(source.Request_Source)
 
 	// RetentionInDays
 	component.RetentionInDays = genruntime.ClonePointerToInt(source.RetentionInDays)
@@ -971,12 +941,7 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesToApplicat
 	destination.ApplicationId = genruntime.ClonePointerToString(component.ApplicationId)
 
 	// Application_Type
-	if component.Application_Type != nil {
-		application_type := string(*component.Application_Type)
-		destination.Application_Type = &application_type
-	} else {
-		destination.Application_Type = nil
-	}
+	destination.Application_Type = genruntime.ClonePointerToString(component.Application_Type)
 
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(component.Conditions)
@@ -1007,12 +972,7 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesToApplicat
 	destination.Etag = genruntime.ClonePointerToString(component.Etag)
 
 	// Flow_Type
-	if component.Flow_Type != nil {
-		flow_type := string(*component.Flow_Type)
-		destination.Flow_Type = &flow_type
-	} else {
-		destination.Flow_Type = nil
-	}
+	destination.Flow_Type = genruntime.ClonePointerToString(component.Flow_Type)
 
 	// ForceCustomerStorageForProfiler
 	if component.ForceCustomerStorageForProfiler != nil {
@@ -1040,12 +1000,7 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesToApplicat
 	}
 
 	// IngestionMode
-	if component.IngestionMode != nil {
-		ingestionMode := string(*component.IngestionMode)
-		destination.IngestionMode = &ingestionMode
-	} else {
-		destination.IngestionMode = nil
-	}
+	destination.IngestionMode = genruntime.ClonePointerToString(component.IngestionMode)
 
 	// InstrumentationKey
 	destination.InstrumentationKey = genruntime.ClonePointerToString(component.InstrumentationKey)
@@ -1085,6 +1040,668 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesToApplicat
 
 	// ProvisioningState
 	destination.ProvisioningState = genruntime.ClonePointerToString(component.ProvisioningState)
+
+	// PublicNetworkAccessForIngestion
+	destination.PublicNetworkAccessForIngestion = genruntime.ClonePointerToString(component.PublicNetworkAccessForIngestion)
+
+	// PublicNetworkAccessForQuery
+	destination.PublicNetworkAccessForQuery = genruntime.ClonePointerToString(component.PublicNetworkAccessForQuery)
+
+	// Request_Source
+	destination.Request_Source = genruntime.ClonePointerToString(component.Request_Source)
+
+	// RetentionInDays
+	destination.RetentionInDays = genruntime.ClonePointerToInt(component.RetentionInDays)
+
+	// SamplingPercentage
+	if component.SamplingPercentage != nil {
+		samplingPercentage := *component.SamplingPercentage
+		destination.SamplingPercentage = &samplingPercentage
+	} else {
+		destination.SamplingPercentage = nil
+	}
+
+	// Tags
+	if component.Tags != nil {
+		tag := *component.Tags.DeepCopy()
+		destination.Tags = &tag
+	} else {
+		destination.Tags = nil
+	}
+
+	// TenantId
+	destination.TenantId = genruntime.ClonePointerToString(component.TenantId)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(component.Type)
+
+	// WorkspaceResourceId
+	destination.WorkspaceResourceId = genruntime.ClonePointerToString(component.WorkspaceResourceId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type Component_Spec struct {
+	//Application_Type: Type of application being monitored.
+	Application_Type *ApplicationInsightsComponentPropertiesApplication_Type `json:"Application_Type,omitempty"`
+
+	//AzureName: The name of the resource in Azure. This is often the same as the name
+	//of the resource in Kubernetes but it doesn't have to be.
+	AzureName string `json:"azureName"`
+
+	//DisableIpMasking: Disable IP masking.
+	DisableIpMasking *bool `json:"DisableIpMasking,omitempty"`
+
+	//DisableLocalAuth: Disable Non-AAD based Auth.
+	DisableLocalAuth *bool `json:"DisableLocalAuth,omitempty"`
+
+	//Etag: Resource etag
+	Etag *string `json:"etag,omitempty"`
+
+	//Flow_Type: Used by the Application Insights system to determine what kind of
+	//flow this component was created by. This is to be set to 'Bluefield' when
+	//creating/updating a component via the REST API.
+	Flow_Type *ApplicationInsightsComponentPropertiesFlow_Type `json:"Flow_Type,omitempty"`
+
+	//ForceCustomerStorageForProfiler: Force users to create their own storage account
+	//for profiler and debugger.
+	ForceCustomerStorageForProfiler *bool `json:"ForceCustomerStorageForProfiler,omitempty"`
+
+	//HockeyAppId: The unique application ID created when a new application is added
+	//to HockeyApp, used for communications with HockeyApp.
+	HockeyAppId *string `json:"HockeyAppId,omitempty"`
+
+	//ImmediatePurgeDataOn30Days: Purge data immediately after 30 days.
+	ImmediatePurgeDataOn30Days *bool `json:"ImmediatePurgeDataOn30Days,omitempty"`
+
+	//IngestionMode: Indicates the flow of the ingestion.
+	IngestionMode *ApplicationInsightsComponentPropertiesIngestionMode `json:"IngestionMode,omitempty"`
+
+	// +kubebuilder:validation:Required
+	//Kind: The kind of application that this component refers to, used to customize
+	//UI. This value is a freeform string, values should typically be one of the
+	//following: web, ios, other, store, java, phone.
+	Kind string `json:"kind"`
+
+	// +kubebuilder:validation:Required
+	//Location: Resource location
+	Location string `json:"location"`
+
+	// +kubebuilder:validation:Required
+	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+
+	//PublicNetworkAccessForIngestion: The network access type for accessing
+	//Application Insights ingestion.
+	PublicNetworkAccessForIngestion *PublicNetworkAccessType `json:"publicNetworkAccessForIngestion,omitempty"`
+
+	//PublicNetworkAccessForQuery: The network access type for accessing Application
+	//Insights query.
+	PublicNetworkAccessForQuery *PublicNetworkAccessType `json:"publicNetworkAccessForQuery,omitempty"`
+
+	//Request_Source: Describes what tool created this Application Insights component.
+	//Customers using this API should set this to the default 'rest'.
+	Request_Source *ApplicationInsightsComponentPropertiesRequest_Source `json:"Request_Source,omitempty"`
+
+	//RetentionInDays: Retention period in days.
+	RetentionInDays *int `json:"RetentionInDays,omitempty"`
+
+	//SamplingPercentage: Percentage of the data produced by the application being
+	//monitored that is being sampled for Application Insights telemetry.
+	SamplingPercentage *float64 `json:"SamplingPercentage,omitempty"`
+
+	//Tags: Resource tags
+	Tags *v1.JSON `json:"tags,omitempty"`
+
+	//WorkspaceResourceReference: Resource Id of the log analytics workspace which the
+	//data will be ingested to. This property is required to create an application
+	//with this API version. Applications from older versions will not have this
+	//property.
+	WorkspaceResourceReference *genruntime.ResourceReference `armReference:"WorkspaceResourceId" json:"workspaceResourceReference,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &Component_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if component == nil {
+		return nil, nil
+	}
+	var result Component_SpecARM
+
+	// Set property ‘AzureName’:
+	result.AzureName = component.AzureName
+
+	// Set property ‘Etag’:
+	if component.Etag != nil {
+		etag := *component.Etag
+		result.Etag = &etag
+	}
+
+	// Set property ‘Kind’:
+	result.Kind = component.Kind
+
+	// Set property ‘Location’:
+	result.Location = component.Location
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if component.Application_Type != nil ||
+		component.DisableIpMasking != nil ||
+		component.DisableLocalAuth != nil ||
+		component.Flow_Type != nil ||
+		component.ForceCustomerStorageForProfiler != nil ||
+		component.HockeyAppId != nil ||
+		component.ImmediatePurgeDataOn30Days != nil ||
+		component.IngestionMode != nil ||
+		component.PublicNetworkAccessForIngestion != nil ||
+		component.PublicNetworkAccessForQuery != nil ||
+		component.Request_Source != nil ||
+		component.RetentionInDays != nil ||
+		component.SamplingPercentage != nil ||
+		component.WorkspaceResourceReference != nil {
+		result.Properties = &ApplicationInsightsComponentPropertiesARM{}
+	}
+	if component.Application_Type != nil {
+		result.Properties.Application_Type = *component.Application_Type
+	}
+	if component.DisableIpMasking != nil {
+		disableIpMasking := *component.DisableIpMasking
+		result.Properties.DisableIpMasking = &disableIpMasking
+	}
+	if component.DisableLocalAuth != nil {
+		disableLocalAuth := *component.DisableLocalAuth
+		result.Properties.DisableLocalAuth = &disableLocalAuth
+	}
+	if component.Flow_Type != nil {
+		flow_type := *component.Flow_Type
+		result.Properties.Flow_Type = &flow_type
+	}
+	if component.ForceCustomerStorageForProfiler != nil {
+		forceCustomerStorageForProfiler := *component.ForceCustomerStorageForProfiler
+		result.Properties.ForceCustomerStorageForProfiler = &forceCustomerStorageForProfiler
+	}
+	if component.HockeyAppId != nil {
+		hockeyAppId := *component.HockeyAppId
+		result.Properties.HockeyAppId = &hockeyAppId
+	}
+	if component.ImmediatePurgeDataOn30Days != nil {
+		immediatePurgeDataOn30Days := *component.ImmediatePurgeDataOn30Days
+		result.Properties.ImmediatePurgeDataOn30Days = &immediatePurgeDataOn30Days
+	}
+	if component.IngestionMode != nil {
+		ingestionMode := *component.IngestionMode
+		result.Properties.IngestionMode = &ingestionMode
+	}
+	if component.PublicNetworkAccessForIngestion != nil {
+		publicNetworkAccessForIngestion := *component.PublicNetworkAccessForIngestion
+		result.Properties.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
+	}
+	if component.PublicNetworkAccessForQuery != nil {
+		publicNetworkAccessForQuery := *component.PublicNetworkAccessForQuery
+		result.Properties.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
+	}
+	if component.Request_Source != nil {
+		request_source := *component.Request_Source
+		result.Properties.Request_Source = &request_source
+	}
+	if component.RetentionInDays != nil {
+		retentionInDays := *component.RetentionInDays
+		result.Properties.RetentionInDays = &retentionInDays
+	}
+	if component.SamplingPercentage != nil {
+		samplingPercentage := *component.SamplingPercentage
+		result.Properties.SamplingPercentage = &samplingPercentage
+	}
+	if component.WorkspaceResourceReference != nil {
+		workspaceResourceIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*component.WorkspaceResourceReference)
+		if err != nil {
+			return nil, err
+		}
+		workspaceResourceId := workspaceResourceIdARMID
+		result.Properties.WorkspaceResourceId = &workspaceResourceId
+	}
+
+	// Set property ‘Tags’:
+	if component.Tags != nil {
+		tags := *(*component.Tags).DeepCopy()
+		result.Tags = &tags
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (component *Component_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Component_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Component_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Component_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘Application_Type’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		component.Application_Type = &typedInput.Properties.Application_Type
+	}
+
+	// Set property ‘AzureName’:
+	component.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘DisableIpMasking’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DisableIpMasking != nil {
+			disableIpMasking := *typedInput.Properties.DisableIpMasking
+			component.DisableIpMasking = &disableIpMasking
+		}
+	}
+
+	// Set property ‘DisableLocalAuth’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DisableLocalAuth != nil {
+			disableLocalAuth := *typedInput.Properties.DisableLocalAuth
+			component.DisableLocalAuth = &disableLocalAuth
+		}
+	}
+
+	// Set property ‘Etag’:
+	if typedInput.Etag != nil {
+		etag := *typedInput.Etag
+		component.Etag = &etag
+	}
+
+	// Set property ‘Flow_Type’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Flow_Type != nil {
+			flow_type := *typedInput.Properties.Flow_Type
+			component.Flow_Type = &flow_type
+		}
+	}
+
+	// Set property ‘ForceCustomerStorageForProfiler’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ForceCustomerStorageForProfiler != nil {
+			forceCustomerStorageForProfiler := *typedInput.Properties.ForceCustomerStorageForProfiler
+			component.ForceCustomerStorageForProfiler = &forceCustomerStorageForProfiler
+		}
+	}
+
+	// Set property ‘HockeyAppId’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HockeyAppId != nil {
+			hockeyAppId := *typedInput.Properties.HockeyAppId
+			component.HockeyAppId = &hockeyAppId
+		}
+	}
+
+	// Set property ‘ImmediatePurgeDataOn30Days’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ImmediatePurgeDataOn30Days != nil {
+			immediatePurgeDataOn30Days := *typedInput.Properties.ImmediatePurgeDataOn30Days
+			component.ImmediatePurgeDataOn30Days = &immediatePurgeDataOn30Days
+		}
+	}
+
+	// Set property ‘IngestionMode’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.IngestionMode != nil {
+			ingestionMode := *typedInput.Properties.IngestionMode
+			component.IngestionMode = &ingestionMode
+		}
+	}
+
+	// Set property ‘Kind’:
+	component.Kind = typedInput.Kind
+
+	// Set property ‘Location’:
+	component.Location = typedInput.Location
+
+	// Set property ‘Owner’:
+	component.Owner = genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘PublicNetworkAccessForIngestion’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicNetworkAccessForIngestion != nil {
+			publicNetworkAccessForIngestion := *typedInput.Properties.PublicNetworkAccessForIngestion
+			component.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
+		}
+	}
+
+	// Set property ‘PublicNetworkAccessForQuery’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicNetworkAccessForQuery != nil {
+			publicNetworkAccessForQuery := *typedInput.Properties.PublicNetworkAccessForQuery
+			component.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
+		}
+	}
+
+	// Set property ‘Request_Source’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Request_Source != nil {
+			request_source := *typedInput.Properties.Request_Source
+			component.Request_Source = &request_source
+		}
+	}
+
+	// Set property ‘RetentionInDays’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.RetentionInDays != nil {
+			retentionInDays := *typedInput.Properties.RetentionInDays
+			component.RetentionInDays = &retentionInDays
+		}
+	}
+
+	// Set property ‘SamplingPercentage’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.SamplingPercentage != nil {
+			samplingPercentage := *typedInput.Properties.SamplingPercentage
+			component.SamplingPercentage = &samplingPercentage
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		tags := *(*typedInput.Tags).DeepCopy()
+		component.Tags = &tags
+	}
+
+	// no assignment for property ‘WorkspaceResourceReference’
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &Component_Spec{}
+
+// ConvertSpecFrom populates our Component_Spec from the provided source
+func (component *Component_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v1alpha1api20200202storage.Component_Spec)
+	if ok {
+		// Populate our instance from source
+		return component.AssignPropertiesFromComponent_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v1alpha1api20200202storage.Component_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = component.AssignPropertiesFromComponent_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our Component_Spec
+func (component *Component_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v1alpha1api20200202storage.Component_Spec)
+	if ok {
+		// Populate destination from our instance
+		return component.AssignPropertiesToComponent_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v1alpha1api20200202storage.Component_Spec{}
+	err := component.AssignPropertiesToComponent_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromComponent_Spec populates our Component_Spec from the provided source Component_Spec
+func (component *Component_Spec) AssignPropertiesFromComponent_Spec(source *v1alpha1api20200202storage.Component_Spec) error {
+
+	// Application_Type
+	if source.Application_Type != nil {
+		application_type := ApplicationInsightsComponentPropertiesApplication_Type(*source.Application_Type)
+		component.Application_Type = &application_type
+	} else {
+		component.Application_Type = nil
+	}
+
+	// AzureName
+	component.AzureName = source.AzureName
+
+	// DisableIpMasking
+	if source.DisableIpMasking != nil {
+		disableIpMasking := *source.DisableIpMasking
+		component.DisableIpMasking = &disableIpMasking
+	} else {
+		component.DisableIpMasking = nil
+	}
+
+	// DisableLocalAuth
+	if source.DisableLocalAuth != nil {
+		disableLocalAuth := *source.DisableLocalAuth
+		component.DisableLocalAuth = &disableLocalAuth
+	} else {
+		component.DisableLocalAuth = nil
+	}
+
+	// Etag
+	component.Etag = genruntime.ClonePointerToString(source.Etag)
+
+	// Flow_Type
+	if source.Flow_Type != nil {
+		flow_type := ApplicationInsightsComponentPropertiesFlow_Type(*source.Flow_Type)
+		component.Flow_Type = &flow_type
+	} else {
+		component.Flow_Type = nil
+	}
+
+	// ForceCustomerStorageForProfiler
+	if source.ForceCustomerStorageForProfiler != nil {
+		forceCustomerStorageForProfiler := *source.ForceCustomerStorageForProfiler
+		component.ForceCustomerStorageForProfiler = &forceCustomerStorageForProfiler
+	} else {
+		component.ForceCustomerStorageForProfiler = nil
+	}
+
+	// HockeyAppId
+	component.HockeyAppId = genruntime.ClonePointerToString(source.HockeyAppId)
+
+	// ImmediatePurgeDataOn30Days
+	if source.ImmediatePurgeDataOn30Days != nil {
+		immediatePurgeDataOn30Day := *source.ImmediatePurgeDataOn30Days
+		component.ImmediatePurgeDataOn30Days = &immediatePurgeDataOn30Day
+	} else {
+		component.ImmediatePurgeDataOn30Days = nil
+	}
+
+	// IngestionMode
+	if source.IngestionMode != nil {
+		ingestionMode := ApplicationInsightsComponentPropertiesIngestionMode(*source.IngestionMode)
+		component.IngestionMode = &ingestionMode
+	} else {
+		component.IngestionMode = nil
+	}
+
+	// Kind
+	component.Kind = genruntime.GetOptionalStringValue(source.Kind)
+
+	// Location
+	component.Location = genruntime.GetOptionalStringValue(source.Location)
+
+	// Owner
+	component.Owner = source.Owner.Copy()
+
+	// PublicNetworkAccessForIngestion
+	if source.PublicNetworkAccessForIngestion != nil {
+		publicNetworkAccessForIngestion := PublicNetworkAccessType(*source.PublicNetworkAccessForIngestion)
+		component.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
+	} else {
+		component.PublicNetworkAccessForIngestion = nil
+	}
+
+	// PublicNetworkAccessForQuery
+	if source.PublicNetworkAccessForQuery != nil {
+		publicNetworkAccessForQuery := PublicNetworkAccessType(*source.PublicNetworkAccessForQuery)
+		component.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
+	} else {
+		component.PublicNetworkAccessForQuery = nil
+	}
+
+	// Request_Source
+	if source.Request_Source != nil {
+		request_source := ApplicationInsightsComponentPropertiesRequest_Source(*source.Request_Source)
+		component.Request_Source = &request_source
+	} else {
+		component.Request_Source = nil
+	}
+
+	// RetentionInDays
+	component.RetentionInDays = genruntime.ClonePointerToInt(source.RetentionInDays)
+
+	// SamplingPercentage
+	if source.SamplingPercentage != nil {
+		samplingPercentage := *source.SamplingPercentage
+		component.SamplingPercentage = &samplingPercentage
+	} else {
+		component.SamplingPercentage = nil
+	}
+
+	// Tags
+	if source.Tags != nil {
+		tag := *source.Tags.DeepCopy()
+		component.Tags = &tag
+	} else {
+		component.Tags = nil
+	}
+
+	// WorkspaceResourceReference
+	if source.WorkspaceResourceReference != nil {
+		workspaceResourceReference := source.WorkspaceResourceReference.Copy()
+		component.WorkspaceResourceReference = &workspaceResourceReference
+	} else {
+		component.WorkspaceResourceReference = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToComponent_Spec populates the provided destination Component_Spec from our Component_Spec
+func (component *Component_Spec) AssignPropertiesToComponent_Spec(destination *v1alpha1api20200202storage.Component_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Application_Type
+	if component.Application_Type != nil {
+		application_type := string(*component.Application_Type)
+		destination.Application_Type = &application_type
+	} else {
+		destination.Application_Type = nil
+	}
+
+	// AzureName
+	destination.AzureName = component.AzureName
+
+	// DisableIpMasking
+	if component.DisableIpMasking != nil {
+		disableIpMasking := *component.DisableIpMasking
+		destination.DisableIpMasking = &disableIpMasking
+	} else {
+		destination.DisableIpMasking = nil
+	}
+
+	// DisableLocalAuth
+	if component.DisableLocalAuth != nil {
+		disableLocalAuth := *component.DisableLocalAuth
+		destination.DisableLocalAuth = &disableLocalAuth
+	} else {
+		destination.DisableLocalAuth = nil
+	}
+
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(component.Etag)
+
+	// Flow_Type
+	if component.Flow_Type != nil {
+		flow_type := string(*component.Flow_Type)
+		destination.Flow_Type = &flow_type
+	} else {
+		destination.Flow_Type = nil
+	}
+
+	// ForceCustomerStorageForProfiler
+	if component.ForceCustomerStorageForProfiler != nil {
+		forceCustomerStorageForProfiler := *component.ForceCustomerStorageForProfiler
+		destination.ForceCustomerStorageForProfiler = &forceCustomerStorageForProfiler
+	} else {
+		destination.ForceCustomerStorageForProfiler = nil
+	}
+
+	// HockeyAppId
+	destination.HockeyAppId = genruntime.ClonePointerToString(component.HockeyAppId)
+
+	// ImmediatePurgeDataOn30Days
+	if component.ImmediatePurgeDataOn30Days != nil {
+		immediatePurgeDataOn30Day := *component.ImmediatePurgeDataOn30Days
+		destination.ImmediatePurgeDataOn30Days = &immediatePurgeDataOn30Day
+	} else {
+		destination.ImmediatePurgeDataOn30Days = nil
+	}
+
+	// IngestionMode
+	if component.IngestionMode != nil {
+		ingestionMode := string(*component.IngestionMode)
+		destination.IngestionMode = &ingestionMode
+	} else {
+		destination.IngestionMode = nil
+	}
+
+	// Kind
+	kind := component.Kind
+	destination.Kind = &kind
+
+	// Location
+	location := component.Location
+	destination.Location = &location
+
+	// OriginalVersion
+	destination.OriginalVersion = component.OriginalVersion()
+
+	// Owner
+	destination.Owner = component.Owner.Copy()
 
 	// PublicNetworkAccessForIngestion
 	if component.PublicNetworkAccessForIngestion != nil {
@@ -1129,686 +1746,9 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesToApplicat
 		destination.Tags = nil
 	}
 
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(component.TenantId)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(component.Type)
-
-	// WorkspaceResourceId
-	destination.WorkspaceResourceId = genruntime.ClonePointerToString(component.WorkspaceResourceId)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type Components_SPEC struct {
-	//Application_Type: Type of application being monitored.
-	Application_Type *ApplicationInsightsComponentProperties_Application_Type_Spec `json:"Application_Type,omitempty"`
-
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName string `json:"azureName"`
-
-	//DisableIpMasking: Disable IP masking.
-	DisableIpMasking *bool `json:"DisableIpMasking,omitempty"`
-
-	//DisableLocalAuth: Disable Non-AAD based Auth.
-	DisableLocalAuth *bool `json:"DisableLocalAuth,omitempty"`
-
-	//Etag: Resource etag
-	Etag *string `json:"etag,omitempty"`
-
-	//Flow_Type: Used by the Application Insights system to determine what kind of
-	//flow this component was created by. This is to be set to 'Bluefield' when
-	//creating/updating a component via the REST API.
-	Flow_Type *ApplicationInsightsComponentProperties_Flow_Type_Spec `json:"Flow_Type,omitempty"`
-
-	//ForceCustomerStorageForProfiler: Force users to create their own storage account
-	//for profiler and debugger.
-	ForceCustomerStorageForProfiler *bool `json:"ForceCustomerStorageForProfiler,omitempty"`
-
-	//HockeyAppId: The unique application ID created when a new application is added
-	//to HockeyApp, used for communications with HockeyApp.
-	HockeyAppId *string `json:"HockeyAppId,omitempty"`
-
-	//ImmediatePurgeDataOn30Days: Purge data immediately after 30 days.
-	ImmediatePurgeDataOn30Days *bool `json:"ImmediatePurgeDataOn30Days,omitempty"`
-
-	//IngestionMode: Indicates the flow of the ingestion.
-	IngestionMode *ApplicationInsightsComponentProperties_IngestionMode_Spec `json:"IngestionMode,omitempty"`
-
-	// +kubebuilder:validation:Required
-	//Kind: The kind of application that this component refers to, used to customize
-	//UI. This value is a freeform string, values should typically be one of the
-	//following: web, ios, other, store, java, phone.
-	Kind string `json:"kind"`
-
-	// +kubebuilder:validation:Required
-	//Location: Resource location
-	Location string `json:"location"`
-
-	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-
-	//PublicNetworkAccessForIngestion: The network access type for accessing
-	//Application Insights ingestion.
-	PublicNetworkAccessForIngestion *PublicNetworkAccessType_Spec `json:"publicNetworkAccessForIngestion,omitempty"`
-
-	//PublicNetworkAccessForQuery: The network access type for accessing Application
-	//Insights query.
-	PublicNetworkAccessForQuery *PublicNetworkAccessType_Spec `json:"publicNetworkAccessForQuery,omitempty"`
-
-	//Request_Source: Describes what tool created this Application Insights component.
-	//Customers using this API should set this to the default 'rest'.
-	Request_Source *ApplicationInsightsComponentProperties_Request_Source_Spec `json:"Request_Source,omitempty"`
-
-	//RetentionInDays: Retention period in days.
-	RetentionInDays *int `json:"RetentionInDays,omitempty"`
-
-	//SamplingPercentage: Percentage of the data produced by the application being
-	//monitored that is being sampled for Application Insights telemetry.
-	SamplingPercentage *float64 `json:"SamplingPercentage,omitempty"`
-
-	//Tags: Resource tags
-	Tags *v1.JSON `json:"tags,omitempty"`
-
-	//WorkspaceResourceReference: Resource Id of the log analytics workspace which the
-	//data will be ingested to. This property is required to create an application
-	//with this API version. Applications from older versions will not have this
-	//property.
-	WorkspaceResourceReference *genruntime.ResourceReference `armReference:"WorkspaceResourceId" json:"workspaceResourceReference,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Components_SPEC{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (spec *Components_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if spec == nil {
-		return nil, nil
-	}
-	var result Components_SPECARM
-
-	// Set property ‘AzureName’:
-	result.AzureName = spec.AzureName
-
-	// Set property ‘Etag’:
-	if spec.Etag != nil {
-		etag := *spec.Etag
-		result.Etag = &etag
-	}
-
-	// Set property ‘Kind’:
-	result.Kind = spec.Kind
-
-	// Set property ‘Location’:
-	result.Location = spec.Location
-
-	// Set property ‘Name’:
-	result.Name = resolved.Name
-
-	// Set property ‘Properties’:
-	if spec.Application_Type != nil ||
-		spec.DisableIpMasking != nil ||
-		spec.DisableLocalAuth != nil ||
-		spec.Flow_Type != nil ||
-		spec.ForceCustomerStorageForProfiler != nil ||
-		spec.HockeyAppId != nil ||
-		spec.ImmediatePurgeDataOn30Days != nil ||
-		spec.IngestionMode != nil ||
-		spec.PublicNetworkAccessForIngestion != nil ||
-		spec.PublicNetworkAccessForQuery != nil ||
-		spec.Request_Source != nil ||
-		spec.RetentionInDays != nil ||
-		spec.SamplingPercentage != nil ||
-		spec.WorkspaceResourceReference != nil {
-		result.Properties = &ApplicationInsightsComponentProperties_SpecARM{}
-	}
-	if spec.Application_Type != nil {
-		result.Properties.Application_Type = *spec.Application_Type
-	}
-	if spec.DisableIpMasking != nil {
-		disableIpMasking := *spec.DisableIpMasking
-		result.Properties.DisableIpMasking = &disableIpMasking
-	}
-	if spec.DisableLocalAuth != nil {
-		disableLocalAuth := *spec.DisableLocalAuth
-		result.Properties.DisableLocalAuth = &disableLocalAuth
-	}
-	if spec.Flow_Type != nil {
-		flow_type := *spec.Flow_Type
-		result.Properties.Flow_Type = &flow_type
-	}
-	if spec.ForceCustomerStorageForProfiler != nil {
-		forceCustomerStorageForProfiler := *spec.ForceCustomerStorageForProfiler
-		result.Properties.ForceCustomerStorageForProfiler = &forceCustomerStorageForProfiler
-	}
-	if spec.HockeyAppId != nil {
-		hockeyAppId := *spec.HockeyAppId
-		result.Properties.HockeyAppId = &hockeyAppId
-	}
-	if spec.ImmediatePurgeDataOn30Days != nil {
-		immediatePurgeDataOn30Days := *spec.ImmediatePurgeDataOn30Days
-		result.Properties.ImmediatePurgeDataOn30Days = &immediatePurgeDataOn30Days
-	}
-	if spec.IngestionMode != nil {
-		ingestionMode := *spec.IngestionMode
-		result.Properties.IngestionMode = &ingestionMode
-	}
-	if spec.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := *spec.PublicNetworkAccessForIngestion
-		result.Properties.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
-	}
-	if spec.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := *spec.PublicNetworkAccessForQuery
-		result.Properties.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
-	}
-	if spec.Request_Source != nil {
-		request_source := *spec.Request_Source
-		result.Properties.Request_Source = &request_source
-	}
-	if spec.RetentionInDays != nil {
-		retentionInDays := *spec.RetentionInDays
-		result.Properties.RetentionInDays = &retentionInDays
-	}
-	if spec.SamplingPercentage != nil {
-		samplingPercentage := *spec.SamplingPercentage
-		result.Properties.SamplingPercentage = &samplingPercentage
-	}
-	if spec.WorkspaceResourceReference != nil {
-		workspaceResourceIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*spec.WorkspaceResourceReference)
-		if err != nil {
-			return nil, err
-		}
-		workspaceResourceId := workspaceResourceIdARMID
-		result.Properties.WorkspaceResourceId = &workspaceResourceId
-	}
-
-	// Set property ‘Tags’:
-	if spec.Tags != nil {
-		tags := *(*spec.Tags).DeepCopy()
-		result.Tags = &tags
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (spec *Components_SPEC) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Components_SPECARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (spec *Components_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Components_SPECARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Components_SPECARM, got %T", armInput)
-	}
-
-	// Set property ‘Application_Type’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		spec.Application_Type = &typedInput.Properties.Application_Type
-	}
-
-	// Set property ‘AzureName’:
-	spec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘DisableIpMasking’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DisableIpMasking != nil {
-			disableIpMasking := *typedInput.Properties.DisableIpMasking
-			spec.DisableIpMasking = &disableIpMasking
-		}
-	}
-
-	// Set property ‘DisableLocalAuth’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DisableLocalAuth != nil {
-			disableLocalAuth := *typedInput.Properties.DisableLocalAuth
-			spec.DisableLocalAuth = &disableLocalAuth
-		}
-	}
-
-	// Set property ‘Etag’:
-	if typedInput.Etag != nil {
-		etag := *typedInput.Etag
-		spec.Etag = &etag
-	}
-
-	// Set property ‘Flow_Type’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Flow_Type != nil {
-			flow_type := *typedInput.Properties.Flow_Type
-			spec.Flow_Type = &flow_type
-		}
-	}
-
-	// Set property ‘ForceCustomerStorageForProfiler’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ForceCustomerStorageForProfiler != nil {
-			forceCustomerStorageForProfiler := *typedInput.Properties.ForceCustomerStorageForProfiler
-			spec.ForceCustomerStorageForProfiler = &forceCustomerStorageForProfiler
-		}
-	}
-
-	// Set property ‘HockeyAppId’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HockeyAppId != nil {
-			hockeyAppId := *typedInput.Properties.HockeyAppId
-			spec.HockeyAppId = &hockeyAppId
-		}
-	}
-
-	// Set property ‘ImmediatePurgeDataOn30Days’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ImmediatePurgeDataOn30Days != nil {
-			immediatePurgeDataOn30Days := *typedInput.Properties.ImmediatePurgeDataOn30Days
-			spec.ImmediatePurgeDataOn30Days = &immediatePurgeDataOn30Days
-		}
-	}
-
-	// Set property ‘IngestionMode’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.IngestionMode != nil {
-			ingestionMode := *typedInput.Properties.IngestionMode
-			spec.IngestionMode = &ingestionMode
-		}
-	}
-
-	// Set property ‘Kind’:
-	spec.Kind = typedInput.Kind
-
-	// Set property ‘Location’:
-	spec.Location = typedInput.Location
-
-	// Set property ‘Owner’:
-	spec.Owner = genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
-
-	// Set property ‘PublicNetworkAccessForIngestion’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PublicNetworkAccessForIngestion != nil {
-			publicNetworkAccessForIngestion := *typedInput.Properties.PublicNetworkAccessForIngestion
-			spec.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
-		}
-	}
-
-	// Set property ‘PublicNetworkAccessForQuery’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PublicNetworkAccessForQuery != nil {
-			publicNetworkAccessForQuery := *typedInput.Properties.PublicNetworkAccessForQuery
-			spec.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
-		}
-	}
-
-	// Set property ‘Request_Source’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Request_Source != nil {
-			request_source := *typedInput.Properties.Request_Source
-			spec.Request_Source = &request_source
-		}
-	}
-
-	// Set property ‘RetentionInDays’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.RetentionInDays != nil {
-			retentionInDays := *typedInput.Properties.RetentionInDays
-			spec.RetentionInDays = &retentionInDays
-		}
-	}
-
-	// Set property ‘SamplingPercentage’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.SamplingPercentage != nil {
-			samplingPercentage := *typedInput.Properties.SamplingPercentage
-			spec.SamplingPercentage = &samplingPercentage
-		}
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		tags := *(*typedInput.Tags).DeepCopy()
-		spec.Tags = &tags
-	}
-
-	// no assignment for property ‘WorkspaceResourceReference’
-
-	// No error
-	return nil
-}
-
-var _ genruntime.ConvertibleSpec = &Components_SPEC{}
-
-// ConvertSpecFrom populates our Components_SPEC from the provided source
-func (spec *Components_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1alpha1api20200202storage.Components_SPEC)
-	if ok {
-		// Populate our instance from source
-		return spec.AssignPropertiesFromComponents_SPEC(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v1alpha1api20200202storage.Components_SPEC{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = spec.AssignPropertiesFromComponents_SPEC(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our Components_SPEC
-func (spec *Components_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1alpha1api20200202storage.Components_SPEC)
-	if ok {
-		// Populate destination from our instance
-		return spec.AssignPropertiesToComponents_SPEC(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v1alpha1api20200202storage.Components_SPEC{}
-	err := spec.AssignPropertiesToComponents_SPEC(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignPropertiesFromComponents_SPEC populates our Components_SPEC from the provided source Components_SPEC
-func (spec *Components_SPEC) AssignPropertiesFromComponents_SPEC(source *v1alpha1api20200202storage.Components_SPEC) error {
-
-	// Application_Type
-	if source.Application_Type != nil {
-		application_type := ApplicationInsightsComponentProperties_Application_Type_Spec(*source.Application_Type)
-		spec.Application_Type = &application_type
-	} else {
-		spec.Application_Type = nil
-	}
-
-	// AzureName
-	spec.AzureName = source.AzureName
-
-	// DisableIpMasking
-	if source.DisableIpMasking != nil {
-		disableIpMasking := *source.DisableIpMasking
-		spec.DisableIpMasking = &disableIpMasking
-	} else {
-		spec.DisableIpMasking = nil
-	}
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		spec.DisableLocalAuth = &disableLocalAuth
-	} else {
-		spec.DisableLocalAuth = nil
-	}
-
-	// Etag
-	spec.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// Flow_Type
-	if source.Flow_Type != nil {
-		flow_type := ApplicationInsightsComponentProperties_Flow_Type_Spec(*source.Flow_Type)
-		spec.Flow_Type = &flow_type
-	} else {
-		spec.Flow_Type = nil
-	}
-
-	// ForceCustomerStorageForProfiler
-	if source.ForceCustomerStorageForProfiler != nil {
-		forceCustomerStorageForProfiler := *source.ForceCustomerStorageForProfiler
-		spec.ForceCustomerStorageForProfiler = &forceCustomerStorageForProfiler
-	} else {
-		spec.ForceCustomerStorageForProfiler = nil
-	}
-
-	// HockeyAppId
-	spec.HockeyAppId = genruntime.ClonePointerToString(source.HockeyAppId)
-
-	// ImmediatePurgeDataOn30Days
-	if source.ImmediatePurgeDataOn30Days != nil {
-		immediatePurgeDataOn30Day := *source.ImmediatePurgeDataOn30Days
-		spec.ImmediatePurgeDataOn30Days = &immediatePurgeDataOn30Day
-	} else {
-		spec.ImmediatePurgeDataOn30Days = nil
-	}
-
-	// IngestionMode
-	if source.IngestionMode != nil {
-		ingestionMode := ApplicationInsightsComponentProperties_IngestionMode_Spec(*source.IngestionMode)
-		spec.IngestionMode = &ingestionMode
-	} else {
-		spec.IngestionMode = nil
-	}
-
-	// Kind
-	spec.Kind = genruntime.GetOptionalStringValue(source.Kind)
-
-	// Location
-	spec.Location = genruntime.GetOptionalStringValue(source.Location)
-
-	// Owner
-	spec.Owner = source.Owner.Copy()
-
-	// PublicNetworkAccessForIngestion
-	if source.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := PublicNetworkAccessType_Spec(*source.PublicNetworkAccessForIngestion)
-		spec.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
-	} else {
-		spec.PublicNetworkAccessForIngestion = nil
-	}
-
-	// PublicNetworkAccessForQuery
-	if source.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := PublicNetworkAccessType_Spec(*source.PublicNetworkAccessForQuery)
-		spec.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
-	} else {
-		spec.PublicNetworkAccessForQuery = nil
-	}
-
-	// Request_Source
-	if source.Request_Source != nil {
-		request_source := ApplicationInsightsComponentProperties_Request_Source_Spec(*source.Request_Source)
-		spec.Request_Source = &request_source
-	} else {
-		spec.Request_Source = nil
-	}
-
-	// RetentionInDays
-	spec.RetentionInDays = genruntime.ClonePointerToInt(source.RetentionInDays)
-
-	// SamplingPercentage
-	if source.SamplingPercentage != nil {
-		samplingPercentage := *source.SamplingPercentage
-		spec.SamplingPercentage = &samplingPercentage
-	} else {
-		spec.SamplingPercentage = nil
-	}
-
-	// Tags
-	if source.Tags != nil {
-		tag := *source.Tags.DeepCopy()
-		spec.Tags = &tag
-	} else {
-		spec.Tags = nil
-	}
-
 	// WorkspaceResourceReference
-	if source.WorkspaceResourceReference != nil {
-		workspaceResourceReference := source.WorkspaceResourceReference.Copy()
-		spec.WorkspaceResourceReference = &workspaceResourceReference
-	} else {
-		spec.WorkspaceResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToComponents_SPEC populates the provided destination Components_SPEC from our Components_SPEC
-func (spec *Components_SPEC) AssignPropertiesToComponents_SPEC(destination *v1alpha1api20200202storage.Components_SPEC) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Application_Type
-	if spec.Application_Type != nil {
-		application_type := string(*spec.Application_Type)
-		destination.Application_Type = &application_type
-	} else {
-		destination.Application_Type = nil
-	}
-
-	// AzureName
-	destination.AzureName = spec.AzureName
-
-	// DisableIpMasking
-	if spec.DisableIpMasking != nil {
-		disableIpMasking := *spec.DisableIpMasking
-		destination.DisableIpMasking = &disableIpMasking
-	} else {
-		destination.DisableIpMasking = nil
-	}
-
-	// DisableLocalAuth
-	if spec.DisableLocalAuth != nil {
-		disableLocalAuth := *spec.DisableLocalAuth
-		destination.DisableLocalAuth = &disableLocalAuth
-	} else {
-		destination.DisableLocalAuth = nil
-	}
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(spec.Etag)
-
-	// Flow_Type
-	if spec.Flow_Type != nil {
-		flow_type := string(*spec.Flow_Type)
-		destination.Flow_Type = &flow_type
-	} else {
-		destination.Flow_Type = nil
-	}
-
-	// ForceCustomerStorageForProfiler
-	if spec.ForceCustomerStorageForProfiler != nil {
-		forceCustomerStorageForProfiler := *spec.ForceCustomerStorageForProfiler
-		destination.ForceCustomerStorageForProfiler = &forceCustomerStorageForProfiler
-	} else {
-		destination.ForceCustomerStorageForProfiler = nil
-	}
-
-	// HockeyAppId
-	destination.HockeyAppId = genruntime.ClonePointerToString(spec.HockeyAppId)
-
-	// ImmediatePurgeDataOn30Days
-	if spec.ImmediatePurgeDataOn30Days != nil {
-		immediatePurgeDataOn30Day := *spec.ImmediatePurgeDataOn30Days
-		destination.ImmediatePurgeDataOn30Days = &immediatePurgeDataOn30Day
-	} else {
-		destination.ImmediatePurgeDataOn30Days = nil
-	}
-
-	// IngestionMode
-	if spec.IngestionMode != nil {
-		ingestionMode := string(*spec.IngestionMode)
-		destination.IngestionMode = &ingestionMode
-	} else {
-		destination.IngestionMode = nil
-	}
-
-	// Kind
-	kind := spec.Kind
-	destination.Kind = &kind
-
-	// Location
-	location := spec.Location
-	destination.Location = &location
-
-	// OriginalVersion
-	destination.OriginalVersion = spec.OriginalVersion()
-
-	// Owner
-	destination.Owner = spec.Owner.Copy()
-
-	// PublicNetworkAccessForIngestion
-	if spec.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := string(*spec.PublicNetworkAccessForIngestion)
-		destination.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
-	} else {
-		destination.PublicNetworkAccessForIngestion = nil
-	}
-
-	// PublicNetworkAccessForQuery
-	if spec.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := string(*spec.PublicNetworkAccessForQuery)
-		destination.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
-	} else {
-		destination.PublicNetworkAccessForQuery = nil
-	}
-
-	// Request_Source
-	if spec.Request_Source != nil {
-		request_source := string(*spec.Request_Source)
-		destination.Request_Source = &request_source
-	} else {
-		destination.Request_Source = nil
-	}
-
-	// RetentionInDays
-	destination.RetentionInDays = genruntime.ClonePointerToInt(spec.RetentionInDays)
-
-	// SamplingPercentage
-	if spec.SamplingPercentage != nil {
-		samplingPercentage := *spec.SamplingPercentage
-		destination.SamplingPercentage = &samplingPercentage
-	} else {
-		destination.SamplingPercentage = nil
-	}
-
-	// Tags
-	if spec.Tags != nil {
-		tag := *spec.Tags.DeepCopy()
-		destination.Tags = &tag
-	} else {
-		destination.Tags = nil
-	}
-
-	// WorkspaceResourceReference
-	if spec.WorkspaceResourceReference != nil {
-		workspaceResourceReference := spec.WorkspaceResourceReference.Copy()
+	if component.WorkspaceResourceReference != nil {
+		workspaceResourceReference := component.WorkspaceResourceReference.Copy()
 		destination.WorkspaceResourceReference = &workspaceResourceReference
 	} else {
 		destination.WorkspaceResourceReference = nil
@@ -1826,39 +1766,39 @@ func (spec *Components_SPEC) AssignPropertiesToComponents_SPEC(destination *v1al
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (spec *Components_SPEC) OriginalVersion() string {
+func (component *Component_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (spec *Components_SPEC) SetAzureName(azureName string) { spec.AzureName = azureName }
+func (component *Component_Spec) SetAzureName(azureName string) { component.AzureName = azureName }
 
 // +kubebuilder:validation:Enum={"other","web"}
-type ApplicationInsightsComponentProperties_Application_Type_Spec string
+type ApplicationInsightsComponentPropertiesApplication_Type string
 
 const (
-	ApplicationInsightsComponentProperties_Application_Type_SpecOther = ApplicationInsightsComponentProperties_Application_Type_Spec("other")
-	ApplicationInsightsComponentProperties_Application_Type_SpecWeb   = ApplicationInsightsComponentProperties_Application_Type_Spec("web")
+	ApplicationInsightsComponentPropertiesApplication_TypeOther = ApplicationInsightsComponentPropertiesApplication_Type("other")
+	ApplicationInsightsComponentPropertiesApplication_TypeWeb   = ApplicationInsightsComponentPropertiesApplication_Type("web")
 )
 
 // +kubebuilder:validation:Enum={"Bluefield"}
-type ApplicationInsightsComponentProperties_Flow_Type_Spec string
+type ApplicationInsightsComponentPropertiesFlow_Type string
 
-const ApplicationInsightsComponentProperties_Flow_Type_SpecBluefield = ApplicationInsightsComponentProperties_Flow_Type_Spec("Bluefield")
+const ApplicationInsightsComponentPropertiesFlow_TypeBluefield = ApplicationInsightsComponentPropertiesFlow_Type("Bluefield")
 
 // +kubebuilder:validation:Enum={"ApplicationInsights","ApplicationInsightsWithDiagnosticSettings","LogAnalytics"}
-type ApplicationInsightsComponentProperties_IngestionMode_Spec string
+type ApplicationInsightsComponentPropertiesIngestionMode string
 
 const (
-	ApplicationInsightsComponentProperties_IngestionMode_SpecApplicationInsights                       = ApplicationInsightsComponentProperties_IngestionMode_Spec("ApplicationInsights")
-	ApplicationInsightsComponentProperties_IngestionMode_SpecApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentProperties_IngestionMode_Spec("ApplicationInsightsWithDiagnosticSettings")
-	ApplicationInsightsComponentProperties_IngestionMode_SpecLogAnalytics                              = ApplicationInsightsComponentProperties_IngestionMode_Spec("LogAnalytics")
+	ApplicationInsightsComponentPropertiesIngestionModeApplicationInsights                       = ApplicationInsightsComponentPropertiesIngestionMode("ApplicationInsights")
+	ApplicationInsightsComponentPropertiesIngestionModeApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentPropertiesIngestionMode("ApplicationInsightsWithDiagnosticSettings")
+	ApplicationInsightsComponentPropertiesIngestionModeLogAnalytics                              = ApplicationInsightsComponentPropertiesIngestionMode("LogAnalytics")
 )
 
 // +kubebuilder:validation:Enum={"rest"}
-type ApplicationInsightsComponentProperties_Request_Source_Spec string
+type ApplicationInsightsComponentPropertiesRequest_Source string
 
-const ApplicationInsightsComponentProperties_Request_Source_SpecRest = ApplicationInsightsComponentProperties_Request_Source_Spec("rest")
+const ApplicationInsightsComponentPropertiesRequest_SourceRest = ApplicationInsightsComponentPropertiesRequest_Source("rest")
 
 type PrivateLinkScopedResource_Status struct {
 	//ResourceId: The full resource Id of the private link scope resource.
@@ -1934,11 +1874,11 @@ func (resource *PrivateLinkScopedResource_Status) AssignPropertiesToPrivateLinkS
 }
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type PublicNetworkAccessType_Spec string
+type PublicNetworkAccessType string
 
 const (
-	PublicNetworkAccessType_SpecDisabled = PublicNetworkAccessType_Spec("Disabled")
-	PublicNetworkAccessType_SpecEnabled  = PublicNetworkAccessType_Spec("Enabled")
+	PublicNetworkAccessTypeDisabled = PublicNetworkAccessType("Disabled")
+	PublicNetworkAccessTypeEnabled  = PublicNetworkAccessType("Enabled")
 )
 
 func init() {

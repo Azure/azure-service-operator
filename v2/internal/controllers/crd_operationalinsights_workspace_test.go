@@ -25,10 +25,10 @@ func Test_OperationalInsights_Workspace_CRUD(t *testing.T) {
 	// Create a workspace
 	workspace := &operationalinsights.Workspace{
 		ObjectMeta: tc.MakeObjectMeta("workspace"),
-		Spec: operationalinsights.Workspaces_SPEC{
+		Spec: operationalinsights.Workspace_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			Sku: &operationalinsights.WorkspaceSku_Spec{
+			Sku: &operationalinsights.WorkspaceSku{
 				Name: operationalinsights.WorkspaceSkuNameStandalone,
 			},
 		},

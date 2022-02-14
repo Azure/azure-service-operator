@@ -47,7 +47,7 @@ type ExtendedLocation_StatusARM struct {
 	Name *string `json:"name,omitempty"`
 
 	//Type: The type of the extended location.
-	Type *ExtendedLocationType_Status `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 type Plan_StatusARM struct {
@@ -92,13 +92,13 @@ type VirtualMachineScaleSetIdentity_StatusARM struct {
 	//'SystemAssigned, UserAssigned' includes both an implicitly created identity and
 	//a set of user assigned identities. The type 'None' will remove any identities
 	//from the virtual machine scale set.
-	Type *VirtualMachineScaleSetIdentity_Type_Status `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 
 	//UserAssignedIdentities: The list of user identities associated with the virtual
 	//machine scale set. The user identity dictionary key references will be ARM
 	//resource ids in the form:
 	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]VirtualMachineScaleSetIdentity_UserAssignedIdentities_StatusARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]VirtualMachineScaleSetIdentity_StatusUserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
 }
 
 type VirtualMachineScaleSetProperties_StatusARM struct {
@@ -124,7 +124,7 @@ type VirtualMachineScaleSetProperties_StatusARM struct {
 
 	//OrchestrationMode: Specifies the orchestration mode for the virtual machine
 	//scale set.
-	OrchestrationMode *OrchestrationMode_Status `json:"orchestrationMode,omitempty"`
+	OrchestrationMode *string `json:"orchestrationMode,omitempty"`
 
 	//Overprovision: Specifies whether the Virtual Machine Scale Set should be
 	//overprovisioned.
@@ -187,10 +187,6 @@ type AutomaticRepairsPolicy_StatusARM struct {
 	GracePeriod *string `json:"gracePeriod,omitempty"`
 }
 
-type ExtendedLocationType_Status string
-
-const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
-
 type ScaleInPolicy_StatusARM struct {
 	//Rules: The rules to be followed when scaling-in a virtual machine scale set.
 	//Possible values are:
@@ -209,7 +205,7 @@ type ScaleInPolicy_StatusARM struct {
 	//zonal virtual machine scale sets, the scale set will first be balanced across
 	//zones. Within each zone, the newest virtual machines that are not protected will
 	//be chosen for removal.
-	Rules []ScaleInPolicy_Rules_Status `json:"rules,omitempty"`
+	Rules []string `json:"rules,omitempty"`
 }
 
 type SubResource_StatusARM struct {
@@ -228,23 +224,14 @@ type UpgradePolicy_StatusARM struct {
 	//scale set. You do this by using the manualUpgrade action.
 	//Automatic - All virtual machines in the scale set are  automatically updated at
 	//the same time.
-	Mode *UpgradePolicy_Mode_Status `json:"mode,omitempty"`
+	Mode *string `json:"mode,omitempty"`
 
 	//RollingUpgradePolicy: The configuration parameters used while performing a
 	//rolling upgrade.
 	RollingUpgradePolicy *RollingUpgradePolicy_StatusARM `json:"rollingUpgradePolicy,omitempty"`
 }
 
-type VirtualMachineScaleSetIdentity_Type_Status string
-
-const (
-	VirtualMachineScaleSetIdentity_Type_StatusNone                       = VirtualMachineScaleSetIdentity_Type_Status("None")
-	VirtualMachineScaleSetIdentity_Type_StatusSystemAssigned             = VirtualMachineScaleSetIdentity_Type_Status("SystemAssigned")
-	VirtualMachineScaleSetIdentity_Type_StatusSystemAssignedUserAssigned = VirtualMachineScaleSetIdentity_Type_Status("SystemAssigned, UserAssigned")
-	VirtualMachineScaleSetIdentity_Type_StatusUserAssigned               = VirtualMachineScaleSetIdentity_Type_Status("UserAssigned")
-)
-
-type VirtualMachineScaleSetIdentity_UserAssignedIdentities_StatusARM struct {
+type VirtualMachineScaleSetIdentity_StatusUserAssignedIdentitiesARM struct {
 	//ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -267,7 +254,7 @@ type VirtualMachineScaleSetVMProfile_StatusARM struct {
 	//and the minimum api-version is 2019-03-01.
 	//For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the
 	//minimum api-version is 2017-10-30-preview.
-	EvictionPolicy *EvictionPolicy_Status `json:"evictionPolicy,omitempty"`
+	EvictionPolicy *string `json:"evictionPolicy,omitempty"`
 
 	//ExtensionProfile: Specifies a collection of settings for extensions installed on
 	//virtual machines in the scale set.
@@ -298,7 +285,7 @@ type VirtualMachineScaleSetVMProfile_StatusARM struct {
 
 	//Priority: Specifies the priority for the virtual machines in the scale set.
 	//Minimum api-version: 2017-10-30-preview
-	Priority *Priority_Status `json:"priority,omitempty"`
+	Priority *string `json:"priority,omitempty"`
 
 	//ScheduledEventsProfile: Specifies Scheduled Event related configurations.
 	ScheduledEventsProfile *ScheduledEventsProfile_StatusARM `json:"scheduledEventsProfile,omitempty"`
@@ -504,10 +491,10 @@ type VirtualMachineScaleSetDataDisk_StatusARM struct {
 	//ReadOnly
 	//ReadWrite
 	//Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *Caching_Status `json:"caching,omitempty"`
+	Caching *string `json:"caching,omitempty"`
 
 	//CreateOption: The create option.
-	CreateOption CreateOption_Status `json:"createOption"`
+	CreateOption string `json:"createOption"`
 
 	//DiskIOPSReadWrite: Specifies the Read-Write IOPS for the managed disk. Should be
 	//used only when StorageAccountType is UltraSSD_LRS. If not specified, a default
@@ -561,7 +548,7 @@ type VirtualMachineScaleSetOSDisk_StatusARM struct {
 	//ReadOnly
 	//ReadWrite
 	//Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *Caching_Status `json:"caching,omitempty"`
+	Caching *string `json:"caching,omitempty"`
 
 	//CreateOption: Specifies how the virtual machines in the scale set should be
 	//created.
@@ -569,7 +556,7 @@ type VirtualMachineScaleSetOSDisk_StatusARM struct {
 	//using an image to create the virtual machine. If you are using a platform image,
 	//you also use the imageReference element described above. If you are using a
 	//marketplace image, you  also use the plan element previously described.
-	CreateOption CreateOption_Status `json:"createOption"`
+	CreateOption string `json:"createOption"`
 
 	//DiffDiskSettings: Specifies the ephemeral disk Settings for the operating system
 	//disk used by the virtual machine scale set.
@@ -595,7 +582,7 @@ type VirtualMachineScaleSetOSDisk_StatusARM struct {
 	//Possible values are:
 	//Windows
 	//Linux
-	OsType *VirtualMachineScaleSetOSDisk_OsType_Status `json:"osType,omitempty"`
+	OsType *string `json:"osType,omitempty"`
 
 	//VhdContainers: Specifies the container urls that are used to store operating
 	//system disks for the scale set.
@@ -614,7 +601,7 @@ type VirtualMachineScaleSetManagedDiskParameters_StatusARM struct {
 	//StorageAccountType: Specifies the storage account type for the managed disk.
 	//NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS
 	//Disk.
-	StorageAccountType *StorageAccountType_Status `json:"storageAccountType,omitempty"`
+	StorageAccountType *string `json:"storageAccountType,omitempty"`
 }
 
 type VirtualMachineScaleSetNetworkConfigurationProperties_StatusARM struct {
@@ -686,7 +673,7 @@ type VirtualMachineScaleSetIPConfigurationProperties_StatusARM struct {
 	//PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it
 	//represents whether the specific ipconfiguration is IPv4 or IPv6. Default is
 	//taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
-	PrivateIPAddressVersion *VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_Status `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAddressVersion *string `json:"privateIPAddressVersion,omitempty"`
 
 	//PublicIPAddressConfiguration: The publicIPAddressConfiguration.
 	PublicIPAddressConfiguration *VirtualMachineScaleSetPublicIPAddressConfiguration_StatusARM `json:"publicIPAddressConfiguration,omitempty"`
@@ -714,7 +701,7 @@ type VirtualMachineScaleSetPublicIPAddressConfigurationProperties_StatusARM stru
 	//PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it
 	//represents whether the specific ipconfiguration is IPv4 or IPv6. Default is
 	//taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
-	PublicIPAddressVersion *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_Status `json:"publicIPAddressVersion,omitempty"`
+	PublicIPAddressVersion *string `json:"publicIPAddressVersion,omitempty"`
 
 	//PublicIPPrefix: The PublicIPPrefix from which to allocate publicIP addresses.
 	PublicIPPrefix *SubResource_StatusARM `json:"publicIPPrefix,omitempty"`

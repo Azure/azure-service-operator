@@ -28,8 +28,8 @@ import (
 type StorageAccountsQueueService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccountsQueueServices_SPEC `json:"spec,omitempty"`
-	Status            QueueServiceProperties_Status     `json:"status,omitempty"`
+	Spec              StorageAccountsQueueService_Spec `json:"spec,omitempty"`
+	Status            QueueServiceProperties_Status    `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsQueueService{}
@@ -163,37 +163,37 @@ func (properties *QueueServiceProperties_Status) ConvertStatusTo(destination gen
 	return destination.ConvertStatusFrom(properties)
 }
 
-//Storage version of v1alpha1api20210401.StorageAccountsQueueServices_SPEC
-type StorageAccountsQueueServices_SPEC struct {
+//Storage version of v1alpha1api20210401.StorageAccountsQueueService_Spec
+type StorageAccountsQueueService_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName       string          `json:"azureName"`
-	Cors            *CorsRules_Spec `json:"cors,omitempty"`
-	OriginalVersion string          `json:"originalVersion"`
+	AzureName       string     `json:"azureName"`
+	Cors            *CorsRules `json:"cors,omitempty"`
+	OriginalVersion string     `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
 	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &StorageAccountsQueueServices_SPEC{}
+var _ genruntime.ConvertibleSpec = &StorageAccountsQueueService_Spec{}
 
-// ConvertSpecFrom populates our StorageAccountsQueueServices_SPEC from the provided source
-func (spec *StorageAccountsQueueServices_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our StorageAccountsQueueService_Spec from the provided source
+func (service *StorageAccountsQueueService_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == service {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(service)
 }
 
-// ConvertSpecTo populates the provided destination from our StorageAccountsQueueServices_SPEC
-func (spec *StorageAccountsQueueServices_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our StorageAccountsQueueService_Spec
+func (service *StorageAccountsQueueService_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == service {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(service)
 }
 
 func init() {

@@ -26,15 +26,15 @@ func newStorageAccountWithInvalidKeyExpiration(tc *testcommon.KubePerTestContext
 	namer := tc.Namer.WithSeparator("")
 
 	// Create a storage account with an invalid key expiration period
-	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
+	accessTier := storage.StorageAccountPropertiesAccessTierHot
 	return &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("stor")),
-		Spec: storage.StorageAccounts_Spec{
+		Spec: storage.StorageAccount_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			Kind:     storage.StorageAccountsSpecKindBlobStorage,
+			Kind:     storage.StorageAccount_SpecKindBlobStorage,
 			Sku: storage.Sku{
-				Name: storage.SkuNameStandardLRS,
+				Name: storage.SkuNameStandard_LRS,
 			},
 			AccessTier: &accessTier,
 			KeyPolicy: &storage.KeyPolicy{
@@ -49,7 +49,7 @@ func newVMSSWithInvalidPublisher(tc *testcommon.KubePerTestContext, rg *resource
 	adminUsername := "adminUser"
 	return &compute.VirtualMachineScaleSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vmss")),
-		Spec: compute.VirtualMachineScaleSets_Spec{
+		Spec: compute.VirtualMachineScaleSet_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &compute.Sku{
@@ -61,7 +61,7 @@ func newVMSSWithInvalidPublisher(tc *testcommon.KubePerTestContext, rg *resource
 			UpgradePolicy: &compute.UpgradePolicy{
 				Mode: &upgradePolicyMode,
 			},
-			VirtualMachineProfile: &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile{
+			VirtualMachineProfile: &compute.VirtualMachineScaleSetVMProfile{
 				StorageProfile: &compute.VirtualMachineScaleSetStorageProfile{
 					ImageReference: &compute.ImageReference{
 						Publisher: to.StringPtr("this publisher"),
@@ -74,8 +74,8 @@ func newVMSSWithInvalidPublisher(tc *testcommon.KubePerTestContext, rg *resource
 					ComputerNamePrefix: to.StringPtr("computer"),
 					AdminUsername:      &adminUsername,
 				},
-				NetworkProfile: &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile{
-					NetworkInterfaceConfigurations: []compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations{
+				NetworkProfile: &compute.VirtualMachineScaleSetNetworkProfile{
+					NetworkInterfaceConfigurations: []compute.VirtualMachineScaleSetNetworkConfiguration{
 						{
 							Name: "mynicconfig",
 						},

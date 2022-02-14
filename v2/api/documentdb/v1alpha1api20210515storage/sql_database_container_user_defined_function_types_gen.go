@@ -29,8 +29,8 @@ import (
 type SqlDatabaseContainerUserDefinedFunction struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC `json:"spec,omitempty"`
-	Status            SqlUserDefinedFunction_Status                                   `json:"status,omitempty"`
+	Spec              DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec `json:"spec,omitempty"`
+	Status            SqlUserDefinedFunction_Status                                  `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerUserDefinedFunction{}
@@ -135,40 +135,40 @@ type SqlDatabaseContainerUserDefinedFunctionList struct {
 	Items           []SqlDatabaseContainerUserDefinedFunction `json:"items"`
 }
 
-//Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC
-type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC struct {
+//Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec
+type DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName       string                    `json:"azureName"`
-	Location        *string                   `json:"location,omitempty"`
-	Options         *CreateUpdateOptions_Spec `json:"options,omitempty"`
-	OriginalVersion string                    `json:"originalVersion"`
+	AzureName       string               `json:"azureName"`
+	Location        *string              `json:"location,omitempty"`
+	Options         *CreateUpdateOptions `json:"options,omitempty"`
+	OriginalVersion string               `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
-	Owner       genruntime.KnownResourceReference    `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PropertyBag genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
-	Resource    *SqlUserDefinedFunctionResource_Spec `json:"resource,omitempty"`
-	Tags        map[string]string                    `json:"tags,omitempty"`
+	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	Resource    *SqlUserDefinedFunctionResource   `json:"resource,omitempty"`
+	Tags        map[string]string                 `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC from the provided source
-func (spec *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec from the provided source
+func (function *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == function {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(function)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC
-func (spec *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec
+func (function *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == function {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(function)
 }
 
 //Storage version of v1alpha1api20210515.SqlUserDefinedFunction_Status
@@ -204,8 +204,8 @@ func (function *SqlUserDefinedFunction_Status) ConvertStatusTo(destination genru
 	return destination.ConvertStatusFrom(function)
 }
 
-//Storage version of v1alpha1api20210515.SqlUserDefinedFunctionResource_Spec
-type SqlUserDefinedFunctionResource_Spec struct {
+//Storage version of v1alpha1api20210515.SqlUserDefinedFunctionResource
+type SqlUserDefinedFunctionResource struct {
 	Body        *string                `json:"body,omitempty"`
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

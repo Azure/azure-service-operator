@@ -28,8 +28,8 @@ import (
 type StorageAccountsQueueServicesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccountsQueueServicesQueues_SPEC `json:"spec,omitempty"`
-	Status            StorageQueue_Status                     `json:"status,omitempty"`
+	Spec              StorageAccountsQueueServicesQueue_Spec `json:"spec,omitempty"`
+	Status            StorageQueue_Status                    `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsQueueServicesQueue{}
@@ -133,8 +133,8 @@ type StorageAccountsQueueServicesQueueList struct {
 	Items           []StorageAccountsQueueServicesQueue `json:"items"`
 }
 
-//Storage version of v1alpha1api20210401.StorageAccountsQueueServicesQueues_SPEC
-type StorageAccountsQueueServicesQueues_SPEC struct {
+//Storage version of v1alpha1api20210401.StorageAccountsQueueServicesQueue_Spec
+type StorageAccountsQueueServicesQueue_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName       string            `json:"azureName"`
@@ -146,24 +146,24 @@ type StorageAccountsQueueServicesQueues_SPEC struct {
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &StorageAccountsQueueServicesQueues_SPEC{}
+var _ genruntime.ConvertibleSpec = &StorageAccountsQueueServicesQueue_Spec{}
 
-// ConvertSpecFrom populates our StorageAccountsQueueServicesQueues_SPEC from the provided source
-func (spec *StorageAccountsQueueServicesQueues_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our StorageAccountsQueueServicesQueue_Spec from the provided source
+func (queue *StorageAccountsQueueServicesQueue_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == queue {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(queue)
 }
 
-// ConvertSpecTo populates the provided destination from our StorageAccountsQueueServicesQueues_SPEC
-func (spec *StorageAccountsQueueServicesQueues_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our StorageAccountsQueueServicesQueue_Spec
+func (queue *StorageAccountsQueueServicesQueue_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == queue {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(queue)
 }
 
 //Storage version of v1alpha1api20210401.StorageQueue_Status

@@ -28,8 +28,8 @@ import (
 type FlexibleServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FlexibleServers_SPEC `json:"spec,omitempty"`
-	Status            Server_Status        `json:"status,omitempty"`
+	Spec              FlexibleServer_Spec `json:"spec,omitempty"`
+	Status            Server_Status       `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FlexibleServer{}
@@ -138,56 +138,56 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("2021-06-01")
 
-//Storage version of v1alpha1api20210601.FlexibleServers_SPEC
-type FlexibleServers_SPEC struct {
+//Storage version of v1alpha1api20210601.FlexibleServer_Spec
+type FlexibleServer_Spec struct {
 	AdministratorLogin         *string                     `json:"administratorLogin,omitempty"`
 	AdministratorLoginPassword *genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`
 	AvailabilityZone           *string                     `json:"availabilityZone,omitempty"`
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName         string                  `json:"azureName"`
-	Backup            *Backup_Spec            `json:"backup,omitempty"`
-	CreateMode        *string                 `json:"createMode,omitempty"`
-	HighAvailability  *HighAvailability_Spec  `json:"highAvailability,omitempty"`
-	Location          *string                 `json:"location,omitempty"`
-	MaintenanceWindow *MaintenanceWindow_Spec `json:"maintenanceWindow,omitempty"`
-	Network           *Network_Spec           `json:"network,omitempty"`
-	OriginalVersion   string                  `json:"originalVersion"`
+	AzureName         string             `json:"azureName"`
+	Backup            *Backup            `json:"backup,omitempty"`
+	CreateMode        *string            `json:"createMode,omitempty"`
+	HighAvailability  *HighAvailability  `json:"highAvailability,omitempty"`
+	Location          *string            `json:"location,omitempty"`
+	MaintenanceWindow *MaintenanceWindow `json:"maintenanceWindow,omitempty"`
+	Network           *Network           `json:"network,omitempty"`
+	OriginalVersion   string             `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
 	Owner          genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	PointInTimeUTC *string                           `json:"pointInTimeUTC,omitempty"`
 	PropertiesTags map[string]string                 `json:"properties_tags,omitempty"`
 	PropertyBag    genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Sku            *Sku_Spec                         `json:"sku,omitempty"`
+	Sku            *Sku                              `json:"sku,omitempty"`
 
 	//SourceServerResourceReference: The source server resource ID to restore from.
 	//It's required when 'createMode' is 'PointInTimeRestore'.
 	SourceServerResourceReference *genruntime.ResourceReference `armReference:"SourceServerResourceId" json:"sourceServerResourceReference,omitempty"`
-	Storage                       *Storage_Spec                 `json:"storage,omitempty"`
+	Storage                       *Storage                      `json:"storage,omitempty"`
 	Tags                          map[string]string             `json:"tags,omitempty"`
 	Version                       *string                       `json:"version,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &FlexibleServers_SPEC{}
+var _ genruntime.ConvertibleSpec = &FlexibleServer_Spec{}
 
-// ConvertSpecFrom populates our FlexibleServers_SPEC from the provided source
-func (spec *FlexibleServers_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our FlexibleServer_Spec from the provided source
+func (server *FlexibleServer_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == server {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(server)
 }
 
-// ConvertSpecTo populates the provided destination from our FlexibleServers_SPEC
-func (spec *FlexibleServers_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our FlexibleServer_Spec
+func (server *FlexibleServer_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == server {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(server)
 }
 
 //Storage version of v1alpha1api20210601.Server_Status
@@ -238,8 +238,8 @@ func (server *Server_Status) ConvertStatusTo(destination genruntime.ConvertibleS
 	return destination.ConvertStatusFrom(server)
 }
 
-//Storage version of v1alpha1api20210601.Backup_Spec
-type Backup_Spec struct {
+//Storage version of v1alpha1api20210601.Backup
+type Backup struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	GeoRedundantBackup  *string                `json:"geoRedundantBackup,omitempty"`
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -253,8 +253,8 @@ type Backup_Status struct {
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210601.HighAvailability_Spec
-type HighAvailability_Spec struct {
+//Storage version of v1alpha1api20210601.HighAvailability
+type HighAvailability struct {
 	Mode                    *string                `json:"mode,omitempty"`
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StandbyAvailabilityZone *string                `json:"standbyAvailabilityZone,omitempty"`
@@ -268,8 +268,8 @@ type HighAvailability_Status struct {
 	State                   *string                `json:"state,omitempty"`
 }
 
-//Storage version of v1alpha1api20210601.MaintenanceWindow_Spec
-type MaintenanceWindow_Spec struct {
+//Storage version of v1alpha1api20210601.MaintenanceWindow
+type MaintenanceWindow struct {
 	CustomWindow *string                `json:"customWindow,omitempty"`
 	DayOfWeek    *int                   `json:"dayOfWeek,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -286,8 +286,8 @@ type MaintenanceWindow_Status struct {
 	StartMinute  *int                   `json:"startMinute,omitempty"`
 }
 
-//Storage version of v1alpha1api20210601.Network_Spec
-type Network_Spec struct {
+//Storage version of v1alpha1api20210601.Network
+type Network struct {
 	//DelegatedSubnetResourceReference: delegated subnet arm resource id.
 	DelegatedSubnetResourceReference *genruntime.ResourceReference `armReference:"DelegatedSubnetResourceId" json:"delegatedSubnetResourceReference,omitempty"`
 
@@ -304,8 +304,8 @@ type Network_Status struct {
 	PublicNetworkAccess         *string                `json:"publicNetworkAccess,omitempty"`
 }
 
-//Storage version of v1alpha1api20210601.Sku_Spec
-type Sku_Spec struct {
+//Storage version of v1alpha1api20210601.Sku
+type Sku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`
@@ -318,8 +318,8 @@ type Sku_Status struct {
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-//Storage version of v1alpha1api20210601.Storage_Spec
-type Storage_Spec struct {
+//Storage version of v1alpha1api20210601.Storage
+type Storage struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StorageSizeGB *int                   `json:"storageSizeGB,omitempty"`
 }

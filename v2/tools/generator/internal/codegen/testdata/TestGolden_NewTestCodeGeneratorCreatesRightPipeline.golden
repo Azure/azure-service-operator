@@ -3,10 +3,13 @@ Expected Pipeline Stages for Test Code Generation
 loadTestSchema                                       Load and walk schema (test)
 simplifySwaggerNames                                 Remove redundant components from Swagger names
 allof-anyof-objects                                  Convert allOf and oneOf to object types
+stripUnused                                          Strip unused types for test
 flattenResources                                     Flatten nested resource types
 stripUnused                                          Strip unused types for test
 makeStatusPropertiesOptional                         Force all status properties to be optional
 removeStatusPropertyValidation                       Remove validation from all status properties
+removeAliases                                        Remove type aliases
+stripUnused                                          Strip unused types for test
 nameTypes                                            Name inner types for CRD
 removeAliases                                        Remove type aliases
 propertyRewrites                                     Modify property types using configured transforms
@@ -14,7 +17,6 @@ removeResourceScope                                  Remove scope from all resou
 unrollRecursiveTypes                                 Unroll directly recursive types since they are not supported by controller-gen
 removeAliases                                        Remove type aliases
 determineResourceOwnership                           Determine ARM resource relationships
-pluralizeNames                                       Improve resource pluralization
 stripUnused                                          Strip unused types for test
 assertTypesStructureValid                            Verify that all local TypeNames refer to a type
 verifyNoErroredTypes                                 Verify there are no ErroredType's containing errors

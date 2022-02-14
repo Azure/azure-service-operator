@@ -28,8 +28,8 @@ import (
 type MongodbDatabaseThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC `json:"spec,omitempty"`
-	Status            ThroughputSettings_Status                               `json:"status,omitempty"`
+	Spec              DatabaseAccountsMongodbDatabasesThroughputSetting_Spec `json:"spec,omitempty"`
+	Status            ThroughputSettings_Status                              `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseThroughputSetting{}
@@ -133,8 +133,8 @@ type MongodbDatabaseThroughputSettingList struct {
 	Items           []MongodbDatabaseThroughputSetting `json:"items"`
 }
 
-//Storage version of v1alpha1api20210515.DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC
-type DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC struct {
+//Storage version of v1alpha1api20210515.DatabaseAccountsMongodbDatabasesThroughputSetting_Spec
+type DatabaseAccountsMongodbDatabasesThroughputSetting_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName       string  `json:"azureName"`
@@ -144,28 +144,28 @@ type DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC struct {
 	// +kubebuilder:validation:Required
 	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Resource    *ThroughputSettingsResource_Spec  `json:"resource,omitempty"`
+	Resource    *ThroughputSettingsResource       `json:"resource,omitempty"`
 	Tags        map[string]string                 `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesThroughputSetting_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC from the provided source
-func (spec *DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our DatabaseAccountsMongodbDatabasesThroughputSetting_Spec from the provided source
+func (setting *DatabaseAccountsMongodbDatabasesThroughputSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == setting {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(setting)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC
-func (spec *DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabasesThroughputSetting_Spec
+func (setting *DatabaseAccountsMongodbDatabasesThroughputSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == setting {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(setting)
 }
 
 func init() {

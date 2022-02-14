@@ -43,7 +43,7 @@ type ServerProperties_StatusARM struct {
 	Backup *Backup_StatusARM `json:"backup,omitempty"`
 
 	//CreateMode: The mode to create a new PostgreSQL server.
-	CreateMode *ServerProperties_CreateMode_Status `json:"createMode,omitempty"`
+	CreateMode *string `json:"createMode,omitempty"`
 
 	//FullyQualifiedDomainName: The fully qualified domain name of a server.
 	FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
@@ -69,7 +69,7 @@ type ServerProperties_StatusARM struct {
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
 	//State: A state of a server that is visible to user.
-	State *ServerProperties_State_Status `json:"state,omitempty"`
+	State *string `json:"state,omitempty"`
 
 	//Storage: Storage properties of a server.
 	Storage *Storage_StatusARM `json:"storage,omitempty"`
@@ -78,7 +78,7 @@ type ServerProperties_StatusARM struct {
 	Tags map[string]string `json:"tags,omitempty"`
 
 	//Version: PostgreSQL Server version.
-	Version *ServerVersion_Status `json:"version,omitempty"`
+	Version *string `json:"version,omitempty"`
 }
 
 type Sku_StatusARM struct {
@@ -87,7 +87,7 @@ type Sku_StatusARM struct {
 	Name string `json:"name"`
 
 	//Tier: The tier of the particular SKU, e.g. Burstable.
-	Tier Sku_Tier_Status `json:"tier"`
+	Tier string `json:"tier"`
 }
 
 type Backup_StatusARM struct {
@@ -99,18 +99,18 @@ type Backup_StatusARM struct {
 
 	//GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled
 	//on the server.
-	GeoRedundantBackup *Backup_GeoRedundantBackup_Status `json:"geoRedundantBackup,omitempty"`
+	GeoRedundantBackup *string `json:"geoRedundantBackup,omitempty"`
 }
 
 type HighAvailability_StatusARM struct {
 	//Mode: The HA mode for the server.
-	Mode *HighAvailability_Mode_Status `json:"mode,omitempty"`
+	Mode *string `json:"mode,omitempty"`
 
 	//StandbyAvailabilityZone: availability zone information of the standby.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
 
 	//State: A state of a HA server that is visible to user.
-	State *HighAvailability_State_Status `json:"state,omitempty"`
+	State *string `json:"state,omitempty"`
 }
 
 type MaintenanceWindow_StatusARM struct {
@@ -135,16 +135,8 @@ type Network_StatusARM struct {
 	PrivateDnsZoneArmResourceId *string `json:"privateDnsZoneArmResourceId,omitempty"`
 
 	//PublicNetworkAccess: public network access is enabled or not
-	PublicNetworkAccess *Network_PublicNetworkAccess_Status `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 }
-
-type Sku_Tier_Status string
-
-const (
-	Sku_Tier_StatusBurstable       = Sku_Tier_Status("Burstable")
-	Sku_Tier_StatusGeneralPurpose  = Sku_Tier_Status("GeneralPurpose")
-	Sku_Tier_StatusMemoryOptimized = Sku_Tier_Status("MemoryOptimized")
-)
 
 type Storage_StatusARM struct {
 	//StorageSizeGB: Max storage allowed for a server.

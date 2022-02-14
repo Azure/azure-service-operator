@@ -30,8 +30,8 @@ import (
 type MongodbDatabaseThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC `json:"spec,omitempty"`
-	Status            ThroughputSettings_Status                               `json:"status,omitempty"`
+	Spec              DatabaseAccountsMongodbDatabasesThroughputSetting_Spec `json:"spec,omitempty"`
+	Status            ThroughputSettings_Status                              `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseThroughputSetting{}
@@ -247,10 +247,10 @@ func (setting *MongodbDatabaseThroughputSetting) AssignPropertiesFromMongodbData
 	setting.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC
-	err := spec.AssignPropertiesFromDatabaseAccountsMongodbDatabasesThroughputSettings_SPEC(&source.Spec)
+	var spec DatabaseAccountsMongodbDatabasesThroughputSetting_Spec
+	err := spec.AssignPropertiesFromDatabaseAccountsMongodbDatabasesThroughputSetting_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsMongodbDatabasesThroughputSettings_SPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsMongodbDatabasesThroughputSetting_Spec() to populate field Spec")
 	}
 	setting.Spec = spec
 
@@ -273,10 +273,10 @@ func (setting *MongodbDatabaseThroughputSetting) AssignPropertiesToMongodbDataba
 	destination.ObjectMeta = *setting.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC
-	err := setting.Spec.AssignPropertiesToDatabaseAccountsMongodbDatabasesThroughputSettings_SPEC(&spec)
+	var spec v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesThroughputSetting_Spec
+	err := setting.Spec.AssignPropertiesToDatabaseAccountsMongodbDatabasesThroughputSetting_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsMongodbDatabasesThroughputSettings_SPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsMongodbDatabasesThroughputSetting_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -311,7 +311,7 @@ type MongodbDatabaseThroughputSettingList struct {
 	Items           []MongodbDatabaseThroughputSetting `json:"items"`
 }
 
-type DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC struct {
+type DatabaseAccountsMongodbDatabasesThroughputSetting_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
@@ -324,25 +324,25 @@ type DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC struct {
 
 	// +kubebuilder:validation:Required
 	//Resource: The standard JSON format of a resource throughput
-	Resource ThroughputSettingsResource_Spec `json:"resource"`
-	Tags     map[string]string               `json:"tags,omitempty"`
+	Resource ThroughputSettingsResource `json:"resource"`
+	Tags     map[string]string          `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC{}
+var _ genruntime.ARMTransformer = &DatabaseAccountsMongodbDatabasesThroughputSetting_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (spec *DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if spec == nil {
+func (setting *DatabaseAccountsMongodbDatabasesThroughputSetting_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if setting == nil {
 		return nil, nil
 	}
-	var result DatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM
+	var result DatabaseAccountsMongodbDatabasesThroughputSetting_SpecARM
 
 	// Set property ‘AzureName’:
-	result.AzureName = spec.AzureName
+	result.AzureName = setting.AzureName
 
 	// Set property ‘Location’:
-	if spec.Location != nil {
-		location := *spec.Location
+	if setting.Location != nil {
+		location := *setting.Location
 		result.Location = &location
 	}
 
@@ -350,16 +350,16 @@ func (spec *DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC) ConvertToAR
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	resourceARM, err := spec.Resource.ConvertToARM(resolved)
+	resourceARM, err := setting.Resource.ConvertToARM(resolved)
 	if err != nil {
 		return nil, err
 	}
-	result.Properties.Resource = resourceARM.(ThroughputSettingsResource_SpecARM)
+	result.Properties.Resource = resourceARM.(ThroughputSettingsResourceARM)
 
 	// Set property ‘Tags’:
-	if spec.Tags != nil {
+	if setting.Tags != nil {
 		result.Tags = make(map[string]string)
-		for key, value := range spec.Tags {
+		for key, value := range setting.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -367,45 +367,45 @@ func (spec *DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC) ConvertToAR
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (spec *DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM{}
+func (setting *DatabaseAccountsMongodbDatabasesThroughputSetting_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccountsMongodbDatabasesThroughputSetting_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (spec *DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM)
+func (setting *DatabaseAccountsMongodbDatabasesThroughputSetting_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DatabaseAccountsMongodbDatabasesThroughputSetting_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsMongodbDatabasesThroughputSettings_SPECARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsMongodbDatabasesThroughputSetting_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	spec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	setting.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		spec.Location = &location
+		setting.Location = &location
 	}
 
 	// Set property ‘Owner’:
-	spec.Owner = genruntime.KnownResourceReference{
+	setting.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Resource’:
 	// copying flattened property:
-	var resource ThroughputSettingsResource_Spec
+	var resource ThroughputSettingsResource
 	err := resource.PopulateFromARM(owner, typedInput.Properties.Resource)
 	if err != nil {
 		return err
 	}
-	spec.Resource = resource
+	setting.Resource = resource
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		spec.Tags = make(map[string]string)
+		setting.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			spec.Tags[key] = value
+			setting.Tags[key] = value
 		}
 	}
 
@@ -413,25 +413,25 @@ func (spec *DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC) PopulateFro
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesThroughputSetting_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC from the provided source
-func (spec *DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC)
+// ConvertSpecFrom populates our DatabaseAccountsMongodbDatabasesThroughputSetting_Spec from the provided source
+func (setting *DatabaseAccountsMongodbDatabasesThroughputSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesThroughputSetting_Spec)
 	if ok {
 		// Populate our instance from source
-		return spec.AssignPropertiesFromDatabaseAccountsMongodbDatabasesThroughputSettings_SPEC(src)
+		return setting.AssignPropertiesFromDatabaseAccountsMongodbDatabasesThroughputSetting_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC{}
+	src = &v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesThroughputSetting_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = spec.AssignPropertiesFromDatabaseAccountsMongodbDatabasesThroughputSettings_SPEC(src)
+	err = setting.AssignPropertiesFromDatabaseAccountsMongodbDatabasesThroughputSetting_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -439,17 +439,17 @@ func (spec *DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC) ConvertSpec
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC
-func (spec *DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC)
+// ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabasesThroughputSetting_Spec
+func (setting *DatabaseAccountsMongodbDatabasesThroughputSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesThroughputSetting_Spec)
 	if ok {
 		// Populate destination from our instance
-		return spec.AssignPropertiesToDatabaseAccountsMongodbDatabasesThroughputSettings_SPEC(dst)
+		return setting.AssignPropertiesToDatabaseAccountsMongodbDatabasesThroughputSetting_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC{}
-	err := spec.AssignPropertiesToDatabaseAccountsMongodbDatabasesThroughputSettings_SPEC(dst)
+	dst = &v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesThroughputSetting_Spec{}
+	err := setting.AssignPropertiesToDatabaseAccountsMongodbDatabasesThroughputSetting_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -463,64 +463,64 @@ func (spec *DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC) ConvertSpec
 	return nil
 }
 
-// AssignPropertiesFromDatabaseAccountsMongodbDatabasesThroughputSettings_SPEC populates our DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC from the provided source DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC
-func (spec *DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC) AssignPropertiesFromDatabaseAccountsMongodbDatabasesThroughputSettings_SPEC(source *v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC) error {
+// AssignPropertiesFromDatabaseAccountsMongodbDatabasesThroughputSetting_Spec populates our DatabaseAccountsMongodbDatabasesThroughputSetting_Spec from the provided source DatabaseAccountsMongodbDatabasesThroughputSetting_Spec
+func (setting *DatabaseAccountsMongodbDatabasesThroughputSetting_Spec) AssignPropertiesFromDatabaseAccountsMongodbDatabasesThroughputSetting_Spec(source *v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesThroughputSetting_Spec) error {
 
 	// AzureName
-	spec.AzureName = source.AzureName
+	setting.AzureName = source.AzureName
 
 	// Location
-	spec.Location = genruntime.ClonePointerToString(source.Location)
+	setting.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	spec.Owner = source.Owner.Copy()
+	setting.Owner = source.Owner.Copy()
 
 	// Resource
 	if source.Resource != nil {
-		var resource ThroughputSettingsResource_Spec
-		err := resource.AssignPropertiesFromThroughputSettingsResource_Spec(source.Resource)
+		var resource ThroughputSettingsResource
+		err := resource.AssignPropertiesFromThroughputSettingsResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsResource_Spec() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsResource() to populate field Resource")
 		}
-		spec.Resource = resource
+		setting.Resource = resource
 	} else {
-		spec.Resource = ThroughputSettingsResource_Spec{}
+		setting.Resource = ThroughputSettingsResource{}
 	}
 
 	// Tags
-	spec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	setting.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToDatabaseAccountsMongodbDatabasesThroughputSettings_SPEC populates the provided destination DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC from our DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC
-func (spec *DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC) AssignPropertiesToDatabaseAccountsMongodbDatabasesThroughputSettings_SPEC(destination *v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC) error {
+// AssignPropertiesToDatabaseAccountsMongodbDatabasesThroughputSetting_Spec populates the provided destination DatabaseAccountsMongodbDatabasesThroughputSetting_Spec from our DatabaseAccountsMongodbDatabasesThroughputSetting_Spec
+func (setting *DatabaseAccountsMongodbDatabasesThroughputSetting_Spec) AssignPropertiesToDatabaseAccountsMongodbDatabasesThroughputSetting_Spec(destination *v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesThroughputSetting_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = spec.AzureName
+	destination.AzureName = setting.AzureName
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(spec.Location)
+	destination.Location = genruntime.ClonePointerToString(setting.Location)
 
 	// OriginalVersion
-	destination.OriginalVersion = spec.OriginalVersion()
+	destination.OriginalVersion = setting.OriginalVersion()
 
 	// Owner
-	destination.Owner = spec.Owner.Copy()
+	destination.Owner = setting.Owner.Copy()
 
 	// Resource
-	var resource v1alpha1api20210515storage.ThroughputSettingsResource_Spec
-	err := spec.Resource.AssignPropertiesToThroughputSettingsResource_Spec(&resource)
+	var resource v1alpha1api20210515storage.ThroughputSettingsResource
+	err := setting.Resource.AssignPropertiesToThroughputSettingsResource(&resource)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsResource_Spec() to populate field Resource")
+		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsResource() to populate field Resource")
 	}
 	destination.Resource = &resource
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(spec.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(setting.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -534,13 +534,13 @@ func (spec *DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC) AssignPrope
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (spec *DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC) OriginalVersion() string {
+func (setting *DatabaseAccountsMongodbDatabasesThroughputSetting_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (spec *DatabaseAccountsMongodbDatabasesThroughputSettings_SPEC) SetAzureName(azureName string) {
-	spec.AzureName = azureName
+func (setting *DatabaseAccountsMongodbDatabasesThroughputSetting_Spec) SetAzureName(azureName string) {
+	setting.AzureName = azureName
 }
 
 func init() {

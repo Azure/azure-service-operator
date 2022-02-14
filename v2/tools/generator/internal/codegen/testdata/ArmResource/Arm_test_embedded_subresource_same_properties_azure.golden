@@ -29,7 +29,7 @@ import (
 type A struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              A_SPEC `json:"spec,omitempty"`
+	Spec              A_Spec `json:"spec,omitempty"`
 }
 
 var _ conditions.Conditioner = &A{}
@@ -205,27 +205,27 @@ type AList struct {
 	Items           []A `json:"items"`
 }
 
-type A_SPECARM struct {
-	APIVersion A_APIVersion_SPEC    `json:"apiVersion"`
+type A_SpecARM struct {
+	APIVersion A_SpecAPIVersion     `json:"apiVersion"`
 	Name       string               `json:"name"`
 	Properties *CommonPropertiesARM `json:"properties,omitempty"`
-	Type       A_Type_SPEC          `json:"type"`
+	Type       A_SpecType           `json:"type"`
 }
 
-var _ genruntime.ARMResourceSpec = &A_SPECARM{}
+var _ genruntime.ARMResourceSpec = &A_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "placeholder for golden tests"
-func (specarm A_SPECARM) GetAPIVersion() string {
+func (a A_SpecARM) GetAPIVersion() string {
 	return string(APIVersionAPIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (specarm A_SPECARM) GetName() string {
-	return specarm.Name
+func (a A_SpecARM) GetName() string {
+	return a.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always ""
-func (specarm A_SPECARM) GetType() string {
+func (a A_SpecARM) GetType() string {
 	return ""
 }
 
@@ -242,7 +242,7 @@ func (specarm A_SPECARM) GetType() string {
 type B struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              B_SPEC `json:"spec,omitempty"`
+	Spec              B_Spec `json:"spec,omitempty"`
 }
 
 var _ conditions.Conditioner = &B{}
@@ -418,27 +418,27 @@ type BList struct {
 	Items           []B `json:"items"`
 }
 
-type B_SPECARM struct {
-	APIVersion B_APIVersion_SPEC    `json:"apiVersion"`
+type B_SpecARM struct {
+	APIVersion B_SpecAPIVersion     `json:"apiVersion"`
 	Name       string               `json:"name"`
 	Properties *CommonPropertiesARM `json:"properties,omitempty"`
-	Type       B_Type_SPEC          `json:"type"`
+	Type       B_SpecType           `json:"type"`
 }
 
-var _ genruntime.ARMResourceSpec = &B_SPECARM{}
+var _ genruntime.ARMResourceSpec = &B_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "placeholder for golden tests"
-func (specarm B_SPECARM) GetAPIVersion() string {
+func (b B_SpecARM) GetAPIVersion() string {
 	return string(APIVersionAPIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (specarm B_SPECARM) GetName() string {
-	return specarm.Name
+func (b B_SpecARM) GetName() string {
+	return b.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always ""
-func (specarm B_SPECARM) GetType() string {
+func (b B_SpecARM) GetType() string {
 	return ""
 }
 
@@ -447,14 +447,9 @@ type APIVersion string
 
 const APIVersionAPIVersionValue = APIVersion(placeholder for golden tests)
 
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type A_APIVersion_SPEC string
-
-const A_APIVersion_SPEC20200601 = A_APIVersion_SPEC("2020-06-01")
-
-type A_SPEC struct {
+type A_Spec struct {
 	// +kubebuilder:validation:Required
-	APIVersion A_APIVersion_SPEC `json:"apiVersion"`
+	APIVersion A_SpecAPIVersion `json:"apiVersion"`
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -465,27 +460,27 @@ type A_SPEC struct {
 	Properties *CommonProperties                 `json:"properties,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Type A_Type_SPEC `json:"type"`
+	Type A_SpecType `json:"type"`
 }
 
-var _ genruntime.ARMTransformer = &A_SPEC{}
+var _ genruntime.ARMTransformer = &A_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (spec *A_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if spec == nil {
+func (a *A_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if a == nil {
 		return nil, nil
 	}
-	var result A_SPECARM
+	var result A_SpecARM
 
 	// Set property ‘APIVersion’:
-	result.APIVersion = spec.APIVersion
+	result.APIVersion = a.APIVersion
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if spec.Properties != nil {
-		propertiesARM, err := (*spec.Properties).ConvertToARM(resolved)
+	if a.Properties != nil {
+		propertiesARM, err := (*a.Properties).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -494,30 +489,30 @@ func (spec *A_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	}
 
 	// Set property ‘Type’:
-	result.Type = spec.Type
+	result.Type = a.Type
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (spec *A_SPEC) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &A_SPECARM{}
+func (a *A_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &A_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (spec *A_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(A_SPECARM)
+func (a *A_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(A_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected A_SPECARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected A_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘APIVersion’:
-	spec.APIVersion = typedInput.APIVersion
+	a.APIVersion = typedInput.APIVersion
 
 	// Set property ‘AzureName’:
-	spec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	a.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	spec.Owner = genruntime.KnownResourceReference{
+	a.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -529,57 +524,57 @@ func (spec *A_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 			return err
 		}
 		properties := properties1
-		spec.Properties = &properties
+		a.Properties = &properties
 	}
 
 	// Set property ‘Type’:
-	spec.Type = typedInput.Type
+	a.Type = typedInput.Type
 
 	// No error
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &A_SPEC{}
+var _ genruntime.ConvertibleSpec = &A_Spec{}
 
-// ConvertSpecFrom populates our A_SPEC from the provided source
-func (spec *A_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our A_Spec from the provided source
+func (a *A_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == a {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(a)
 }
 
-// ConvertSpecTo populates the provided destination from our A_SPEC
-func (spec *A_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our A_Spec
+func (a *A_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == a {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(a)
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (spec *A_SPEC) OriginalVersion() string {
+func (a *A_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (spec *A_SPEC) SetAzureName(azureName string) { spec.AzureName = azureName }
-
-// +kubebuilder:validation:Enum={"Microsoft.Azure/A"}
-type A_Type_SPEC string
-
-const A_Type_SPECMicrosoftAzureA = A_Type_SPEC("Microsoft.Azure/A")
+func (a *A_Spec) SetAzureName(azureName string) { a.AzureName = azureName }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
-type B_APIVersion_SPEC string
+type A_SpecAPIVersion string
 
-const B_APIVersion_SPEC20200601 = B_APIVersion_SPEC("2020-06-01")
+const A_SpecAPIVersion20200601 = A_SpecAPIVersion("2020-06-01")
 
-type B_SPEC struct {
+// +kubebuilder:validation:Enum={"Microsoft.Azure/A"}
+type A_SpecType string
+
+const A_SpecTypeMicrosoftAzureA = A_SpecType("Microsoft.Azure/A")
+
+type B_Spec struct {
 	// +kubebuilder:validation:Required
-	APIVersion B_APIVersion_SPEC `json:"apiVersion"`
+	APIVersion B_SpecAPIVersion `json:"apiVersion"`
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -590,27 +585,27 @@ type B_SPEC struct {
 	Properties *CommonProperties                 `json:"properties,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Type B_Type_SPEC `json:"type"`
+	Type B_SpecType `json:"type"`
 }
 
-var _ genruntime.ARMTransformer = &B_SPEC{}
+var _ genruntime.ARMTransformer = &B_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (spec *B_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if spec == nil {
+func (b *B_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if b == nil {
 		return nil, nil
 	}
-	var result B_SPECARM
+	var result B_SpecARM
 
 	// Set property ‘APIVersion’:
-	result.APIVersion = spec.APIVersion
+	result.APIVersion = b.APIVersion
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if spec.Properties != nil {
-		propertiesARM, err := (*spec.Properties).ConvertToARM(resolved)
+	if b.Properties != nil {
+		propertiesARM, err := (*b.Properties).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -619,30 +614,30 @@ func (spec *B_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	}
 
 	// Set property ‘Type’:
-	result.Type = spec.Type
+	result.Type = b.Type
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (spec *B_SPEC) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &B_SPECARM{}
+func (b *B_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &B_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (spec *B_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(B_SPECARM)
+func (b *B_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(B_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected B_SPECARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected B_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘APIVersion’:
-	spec.APIVersion = typedInput.APIVersion
+	b.APIVersion = typedInput.APIVersion
 
 	// Set property ‘AzureName’:
-	spec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	b.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	spec.Owner = genruntime.KnownResourceReference{
+	b.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -654,48 +649,53 @@ func (spec *B_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 			return err
 		}
 		properties := properties1
-		spec.Properties = &properties
+		b.Properties = &properties
 	}
 
 	// Set property ‘Type’:
-	spec.Type = typedInput.Type
+	b.Type = typedInput.Type
 
 	// No error
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &B_SPEC{}
+var _ genruntime.ConvertibleSpec = &B_Spec{}
 
-// ConvertSpecFrom populates our B_SPEC from the provided source
-func (spec *B_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our B_Spec from the provided source
+func (b *B_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == b {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(b)
 }
 
-// ConvertSpecTo populates the provided destination from our B_SPEC
-func (spec *B_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our B_Spec
+func (b *B_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == b {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(b)
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (spec *B_SPEC) OriginalVersion() string {
+func (b *B_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (spec *B_SPEC) SetAzureName(azureName string) { spec.AzureName = azureName }
+func (b *B_Spec) SetAzureName(azureName string) { b.AzureName = azureName }
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type B_SpecAPIVersion string
+
+const B_SpecAPIVersion20200601 = B_SpecAPIVersion("2020-06-01")
 
 // +kubebuilder:validation:Enum={"Microsoft.Azure/B"}
-type B_Type_SPEC string
+type B_SpecType string
 
-const B_Type_SPECMicrosoftAzureB = B_Type_SPEC("Microsoft.Azure/B")
+const B_SpecTypeMicrosoftAzureB = B_SpecType("Microsoft.Azure/B")
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/CommonProperties
 type CommonPropertiesARM struct {

@@ -18,7 +18,7 @@ type EHNamespace_StatusARM struct {
 	Name *string `json:"name,omitempty"`
 
 	//Properties: Namespace properties supplied for create namespace operation.
-	Properties *EHNamespace_Properties_StatusARM `json:"properties,omitempty"`
+	Properties *EHNamespace_StatusPropertiesARM `json:"properties,omitempty"`
 
 	//Sku: Properties of sku resource
 	Sku *Sku_StatusARM `json:"sku,omitempty"`
@@ -34,7 +34,7 @@ type EHNamespace_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type EHNamespace_Properties_StatusARM struct {
+type EHNamespace_StatusPropertiesARM struct {
 	//AlternateName: Alternate name specified when alias and namespace names are same.
 	AlternateName *string `json:"alternateName,omitempty"`
 
@@ -95,7 +95,7 @@ type Identity_StatusARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	//Type: Type of managed service identity.
-	Type *Identity_Type_Status `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 
 	//UserAssignedIdentities: Properties for User Assigned Identities
 	UserAssignedIdentities map[string]UserAssignedIdentity_StatusARM `json:"userAssignedIdentities,omitempty"`
@@ -108,15 +108,15 @@ type Sku_StatusARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	//Name: Name of this SKU.
-	Name Sku_Name_Status `json:"name"`
+	Name string `json:"name"`
 
 	//Tier: The billing tier of this particular SKU.
-	Tier *Sku_Tier_Status `json:"tier,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 type Encryption_StatusARM struct {
 	//KeySource: Enumerates the possible value of keySource for Encryption
-	KeySource *Encryption_KeySource_Status `json:"keySource,omitempty"`
+	KeySource *string `json:"keySource,omitempty"`
 
 	//KeyVaultProperties: Properties of KeyVault
 	KeyVaultProperties []KeyVaultProperties_StatusARM `json:"keyVaultProperties,omitempty"`
@@ -125,15 +125,6 @@ type Encryption_StatusARM struct {
 	//Encryption)
 	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
 }
-
-type Identity_Type_Status string
-
-const (
-	Identity_Type_StatusNone                       = Identity_Type_Status("None")
-	Identity_Type_StatusSystemAssigned             = Identity_Type_Status("SystemAssigned")
-	Identity_Type_StatusSystemAssignedUserAssigned = Identity_Type_Status("SystemAssigned, UserAssigned")
-	Identity_Type_StatusUserAssigned               = Identity_Type_Status("UserAssigned")
-)
 
 type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 	//Id: Fully qualified resource ID for the resource. Ex -
@@ -144,22 +135,6 @@ type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
 }
 
-type Sku_Name_Status string
-
-const (
-	Sku_Name_StatusBasic    = Sku_Name_Status("Basic")
-	Sku_Name_StatusPremium  = Sku_Name_Status("Premium")
-	Sku_Name_StatusStandard = Sku_Name_Status("Standard")
-)
-
-type Sku_Tier_Status string
-
-const (
-	Sku_Tier_StatusBasic    = Sku_Tier_Status("Basic")
-	Sku_Tier_StatusPremium  = Sku_Tier_Status("Premium")
-	Sku_Tier_StatusStandard = Sku_Tier_Status("Standard")
-)
-
 type UserAssignedIdentity_StatusARM struct {
 	//ClientId: Client Id of user assigned identity
 	ClientId *string `json:"clientId,omitempty"`
@@ -167,10 +142,6 @@ type UserAssignedIdentity_StatusARM struct {
 	//PrincipalId: Principal Id of user assigned identity
 	PrincipalId *string `json:"principalId,omitempty"`
 }
-
-type Encryption_KeySource_Status string
-
-const Encryption_KeySource_StatusMicrosoftKeyVault = Encryption_KeySource_Status("Microsoft.KeyVault")
 
 type KeyVaultProperties_StatusARM struct {
 	Identity *UserAssignedIdentityProperties_StatusARM `json:"identity,omitempty"`

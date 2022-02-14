@@ -28,7 +28,7 @@ import (
 type SignalR struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              SignalR_SPEC           `json:"spec,omitempty"`
+	Spec              SignalR_Spec           `json:"spec,omitempty"`
 	Status            SignalRResource_Status `json:"status,omitempty"`
 }
 
@@ -191,54 +191,54 @@ func (resource *SignalRResource_Status) ConvertStatusTo(destination genruntime.C
 	return destination.ConvertStatusFrom(resource)
 }
 
-//Storage version of v1alpha1api20211001.SignalR_SPEC
-type SignalR_SPEC struct {
+//Storage version of v1alpha1api20211001.SignalR_Spec
+type SignalR_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName        string                    `json:"azureName"`
-	Cors             *SignalRCorsSettings_Spec `json:"cors,omitempty"`
-	DisableAadAuth   *bool                     `json:"disableAadAuth,omitempty"`
-	DisableLocalAuth *bool                     `json:"disableLocalAuth,omitempty"`
-	Features         []SignalRFeature_Spec     `json:"features,omitempty"`
-	Identity         *ManagedIdentity_Spec     `json:"identity,omitempty"`
-	Kind             *string                   `json:"kind,omitempty"`
-	Location         *string                   `json:"location,omitempty"`
-	NetworkACLs      *SignalRNetworkACLs_Spec  `json:"networkACLs,omitempty"`
-	OriginalVersion  string                    `json:"originalVersion"`
+	AzureName        string               `json:"azureName"`
+	Cors             *SignalRCorsSettings `json:"cors,omitempty"`
+	DisableAadAuth   *bool                `json:"disableAadAuth,omitempty"`
+	DisableLocalAuth *bool                `json:"disableLocalAuth,omitempty"`
+	Features         []SignalRFeature     `json:"features,omitempty"`
+	Identity         *ManagedIdentity     `json:"identity,omitempty"`
+	Kind             *string              `json:"kind,omitempty"`
+	Location         *string              `json:"location,omitempty"`
+	NetworkACLs      *SignalRNetworkACLs  `json:"networkACLs,omitempty"`
+	OriginalVersion  string               `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
 	Owner                    genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	PropertyBag              genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 	PublicNetworkAccess      *string                           `json:"publicNetworkAccess,omitempty"`
-	ResourceLogConfiguration *ResourceLogConfiguration_Spec    `json:"resourceLogConfiguration,omitempty"`
-	Sku                      *ResourceSku_Spec                 `json:"sku,omitempty"`
+	ResourceLogConfiguration *ResourceLogConfiguration         `json:"resourceLogConfiguration,omitempty"`
+	Sku                      *ResourceSku                      `json:"sku,omitempty"`
 	Tags                     map[string]string                 `json:"tags,omitempty"`
-	Tls                      *SignalRTlsSettings_Spec          `json:"tls,omitempty"`
-	Upstream                 *ServerlessUpstreamSettings_Spec  `json:"upstream,omitempty"`
+	Tls                      *SignalRTlsSettings               `json:"tls,omitempty"`
+	Upstream                 *ServerlessUpstreamSettings       `json:"upstream,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &SignalR_SPEC{}
+var _ genruntime.ConvertibleSpec = &SignalR_Spec{}
 
-// ConvertSpecFrom populates our SignalR_SPEC from the provided source
-func (spec *SignalR_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our SignalR_Spec from the provided source
+func (signalR *SignalR_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == signalR {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(signalR)
 }
 
-// ConvertSpecTo populates the provided destination from our SignalR_SPEC
-func (spec *SignalR_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our SignalR_Spec
+func (signalR *SignalR_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == signalR {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(signalR)
 }
 
-//Storage version of v1alpha1api20211001.ManagedIdentity_Spec
-type ManagedIdentity_Spec struct {
+//Storage version of v1alpha1api20211001.ManagedIdentity
+type ManagedIdentity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
@@ -259,10 +259,10 @@ type PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded struct {
 	SystemData  *SystemData_Status     `json:"systemData,omitempty"`
 }
 
-//Storage version of v1alpha1api20211001.ResourceLogConfiguration_Spec
-type ResourceLogConfiguration_Spec struct {
-	Categories  []ResourceLogCategory_Spec `json:"categories,omitempty"`
-	PropertyBag genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
+//Storage version of v1alpha1api20211001.ResourceLogConfiguration
+type ResourceLogConfiguration struct {
+	Categories  []ResourceLogCategory  `json:"categories,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v1alpha1api20211001.ResourceLogConfiguration_Status
@@ -271,8 +271,8 @@ type ResourceLogConfiguration_Status struct {
 	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20211001.ResourceSku_Spec
-type ResourceSku_Spec struct {
+//Storage version of v1alpha1api20211001.ResourceSku
+type ResourceSku struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -289,10 +289,10 @@ type ResourceSku_Status struct {
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-//Storage version of v1alpha1api20211001.ServerlessUpstreamSettings_Spec
-type ServerlessUpstreamSettings_Spec struct {
-	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
-	Templates   []UpstreamTemplate_Spec `json:"templates,omitempty"`
+//Storage version of v1alpha1api20211001.ServerlessUpstreamSettings
+type ServerlessUpstreamSettings struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Templates   []UpstreamTemplate     `json:"templates,omitempty"`
 }
 
 //Storage version of v1alpha1api20211001.ServerlessUpstreamSettings_Status
@@ -308,8 +308,8 @@ type SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded struct {
 	SystemData  *SystemData_Status     `json:"systemData,omitempty"`
 }
 
-//Storage version of v1alpha1api20211001.SignalRCorsSettings_Spec
-type SignalRCorsSettings_Spec struct {
+//Storage version of v1alpha1api20211001.SignalRCorsSettings
+type SignalRCorsSettings struct {
 	AllowedOrigins []string               `json:"allowedOrigins,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -320,8 +320,8 @@ type SignalRCorsSettings_Status struct {
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20211001.SignalRFeature_Spec
-type SignalRFeature_Spec struct {
+//Storage version of v1alpha1api20211001.SignalRFeature
+type SignalRFeature struct {
 	Flag        *string                `json:"flag,omitempty"`
 	Properties  map[string]string      `json:"properties,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -336,12 +336,12 @@ type SignalRFeature_Status struct {
 	Value       *string                `json:"value,omitempty"`
 }
 
-//Storage version of v1alpha1api20211001.SignalRNetworkACLs_Spec
-type SignalRNetworkACLs_Spec struct {
-	DefaultAction    *string                   `json:"defaultAction,omitempty"`
-	PrivateEndpoints []PrivateEndpointACL_Spec `json:"privateEndpoints,omitempty"`
-	PropertyBag      genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	PublicNetwork    *NetworkACL_Spec          `json:"publicNetwork,omitempty"`
+//Storage version of v1alpha1api20211001.SignalRNetworkACLs
+type SignalRNetworkACLs struct {
+	DefaultAction    *string                `json:"defaultAction,omitempty"`
+	PrivateEndpoints []PrivateEndpointACL   `json:"privateEndpoints,omitempty"`
+	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	PublicNetwork    *NetworkACL            `json:"publicNetwork,omitempty"`
 }
 
 //Storage version of v1alpha1api20211001.SignalRNetworkACLs_Status
@@ -352,8 +352,8 @@ type SignalRNetworkACLs_Status struct {
 	PublicNetwork    *NetworkACL_Status          `json:"publicNetwork,omitempty"`
 }
 
-//Storage version of v1alpha1api20211001.SignalRTlsSettings_Spec
-type SignalRTlsSettings_Spec struct {
+//Storage version of v1alpha1api20211001.SignalRTlsSettings
+type SignalRTlsSettings struct {
 	ClientCertEnabled *bool                  `json:"clientCertEnabled,omitempty"`
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -375,8 +375,8 @@ type SystemData_Status struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20211001.NetworkACL_Spec
-type NetworkACL_Spec struct {
+//Storage version of v1alpha1api20211001.NetworkACL
+type NetworkACL struct {
 	Allow       []string               `json:"allow,omitempty"`
 	Deny        []string               `json:"deny,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -389,8 +389,8 @@ type NetworkACL_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20211001.PrivateEndpointACL_Spec
-type PrivateEndpointACL_Spec struct {
+//Storage version of v1alpha1api20211001.PrivateEndpointACL
+type PrivateEndpointACL struct {
 	Allow       []string               `json:"allow,omitempty"`
 	Deny        []string               `json:"deny,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -405,8 +405,8 @@ type PrivateEndpointACL_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20211001.ResourceLogCategory_Spec
-type ResourceLogCategory_Spec struct {
+//Storage version of v1alpha1api20211001.ResourceLogCategory
+type ResourceLogCategory struct {
 	Enabled     *string                `json:"enabled,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -419,14 +419,14 @@ type ResourceLogCategory_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20211001.UpstreamTemplate_Spec
-type UpstreamTemplate_Spec struct {
-	Auth            *UpstreamAuthSettings_Spec `json:"auth,omitempty"`
-	CategoryPattern *string                    `json:"categoryPattern,omitempty"`
-	EventPattern    *string                    `json:"eventPattern,omitempty"`
-	HubPattern      *string                    `json:"hubPattern,omitempty"`
-	PropertyBag     genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
-	UrlTemplate     *string                    `json:"urlTemplate,omitempty"`
+//Storage version of v1alpha1api20211001.UpstreamTemplate
+type UpstreamTemplate struct {
+	Auth            *UpstreamAuthSettings  `json:"auth,omitempty"`
+	CategoryPattern *string                `json:"categoryPattern,omitempty"`
+	EventPattern    *string                `json:"eventPattern,omitempty"`
+	HubPattern      *string                `json:"hubPattern,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	UrlTemplate     *string                `json:"urlTemplate,omitempty"`
 }
 
 //Storage version of v1alpha1api20211001.UpstreamTemplate_Status
@@ -446,11 +446,11 @@ type UserAssignedIdentityProperty_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20211001.UpstreamAuthSettings_Spec
-type UpstreamAuthSettings_Spec struct {
-	ManagedIdentity *ManagedIdentitySettings_Spec `json:"managedIdentity,omitempty"`
-	PropertyBag     genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Type            *string                       `json:"type,omitempty"`
+//Storage version of v1alpha1api20211001.UpstreamAuthSettings
+type UpstreamAuthSettings struct {
+	ManagedIdentity *ManagedIdentitySettings `json:"managedIdentity,omitempty"`
+	PropertyBag     genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
+	Type            *string                  `json:"type,omitempty"`
 }
 
 //Storage version of v1alpha1api20211001.UpstreamAuthSettings_Status
@@ -460,8 +460,8 @@ type UpstreamAuthSettings_Status struct {
 	Type            *string                         `json:"type,omitempty"`
 }
 
-//Storage version of v1alpha1api20211001.ManagedIdentitySettings_Spec
-type ManagedIdentitySettings_Spec struct {
+//Storage version of v1alpha1api20211001.ManagedIdentitySettings
+type ManagedIdentitySettings struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Resource    *string                `json:"resource,omitempty"`
 }

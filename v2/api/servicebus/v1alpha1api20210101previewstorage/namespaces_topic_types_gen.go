@@ -28,8 +28,8 @@ import (
 type NamespacesTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NamespacesTopics_SPEC `json:"spec,omitempty"`
-	Status            SBTopic_Status        `json:"status,omitempty"`
+	Spec              NamespacesTopic_Spec `json:"spec,omitempty"`
+	Status            SBTopic_Status       `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesTopic{}
@@ -133,8 +133,8 @@ type NamespacesTopicList struct {
 	Items           []NamespacesTopic `json:"items"`
 }
 
-//Storage version of v1alpha1api20210101preview.NamespacesTopics_SPEC
-type NamespacesTopics_SPEC struct {
+//Storage version of v1alpha1api20210101preview.NamespacesTopic_Spec
+type NamespacesTopic_Spec struct {
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name
@@ -156,24 +156,24 @@ type NamespacesTopics_SPEC struct {
 	SupportOrdering            *bool                             `json:"supportOrdering,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &NamespacesTopics_SPEC{}
+var _ genruntime.ConvertibleSpec = &NamespacesTopic_Spec{}
 
-// ConvertSpecFrom populates our NamespacesTopics_SPEC from the provided source
-func (spec *NamespacesTopics_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our NamespacesTopic_Spec from the provided source
+func (topic *NamespacesTopic_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == topic {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(topic)
 }
 
-// ConvertSpecTo populates the provided destination from our NamespacesTopics_SPEC
-func (spec *NamespacesTopics_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our NamespacesTopic_Spec
+func (topic *NamespacesTopic_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == topic {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(topic)
 }
 
 //Storage version of v1alpha1api20210101preview.SBTopic_Status

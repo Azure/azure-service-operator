@@ -74,13 +74,13 @@ type VirtualMachineIdentity_StatusARM struct {
 	//'SystemAssigned, UserAssigned' includes both an implicitly created identity and
 	//a set of user assigned identities. The type 'None' will remove any identities
 	//from the virtual machine.
-	Type *VirtualMachineIdentity_Type_Status `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 
 	//UserAssignedIdentities: The list of user identities associated with the Virtual
 	//Machine. The user identity dictionary key references will be ARM resource ids in
 	//the form:
 	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]VirtualMachineIdentity_UserAssignedIdentities_StatusARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]VirtualMachineIdentity_StatusUserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
 }
 
 type VirtualMachineProperties_StatusARM struct {
@@ -120,7 +120,7 @@ type VirtualMachineProperties_StatusARM struct {
 	//and the minimum api-version is 2019-03-01.
 	//For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the
 	//minimum api-version is 2017-10-30-preview.
-	EvictionPolicy *EvictionPolicy_Status `json:"evictionPolicy,omitempty"`
+	EvictionPolicy *string `json:"evictionPolicy,omitempty"`
 
 	//ExtensionsTimeBudget: Specifies the time alloted for all extensions to start.
 	//The time duration should be between 15 minutes and 120 minutes (inclusive) and
@@ -182,7 +182,7 @@ type VirtualMachineProperties_StatusARM struct {
 
 	//Priority: Specifies the priority for the virtual machine.
 	//Minimum api-version: 2019-03-01
-	Priority *Priority_Status `json:"priority,omitempty"`
+	Priority *string `json:"priority,omitempty"`
 
 	//ProvisioningState: The provisioning state, which only appears in the response.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -257,7 +257,7 @@ type HardwareProfile_StatusARM struct {
 	//For more information about virtual machine sizes, see [Sizes for virtual
 	//machines](https://docs.microsoft.com/en-us/azure/virtual-machines/sizes).
 	//The available VM sizes depend on region and availability set.
-	VmSize *HardwareProfile_VmSize_Status `json:"vmSize,omitempty"`
+	VmSize *string `json:"vmSize,omitempty"`
 }
 
 type NetworkProfile_StatusARM struct {
@@ -370,7 +370,7 @@ type SecurityProfile_StatusARM struct {
 	//TrustedLaunch to enable UefiSettings.
 	//Default: UefiSettings will not be enabled unless this property is set as
 	//TrustedLaunch.
-	SecurityType *SecurityProfile_SecurityType_Status `json:"securityType,omitempty"`
+	SecurityType *string `json:"securityType,omitempty"`
 
 	//UefiSettings: Specifies the security settings like secure boot and vTPM used
 	//while creating the virtual machine.
@@ -437,16 +437,7 @@ type VirtualMachineExtensionProperties_StatusARM struct {
 	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
 }
 
-type VirtualMachineIdentity_Type_Status string
-
-const (
-	VirtualMachineIdentity_Type_StatusNone                       = VirtualMachineIdentity_Type_Status("None")
-	VirtualMachineIdentity_Type_StatusSystemAssigned             = VirtualMachineIdentity_Type_Status("SystemAssigned")
-	VirtualMachineIdentity_Type_StatusSystemAssignedUserAssigned = VirtualMachineIdentity_Type_Status("SystemAssigned, UserAssigned")
-	VirtualMachineIdentity_Type_StatusUserAssigned               = VirtualMachineIdentity_Type_Status("UserAssigned")
-)
-
-type VirtualMachineIdentity_UserAssignedIdentities_StatusARM struct {
+type VirtualMachineIdentity_StatusUserAssignedIdentitiesARM struct {
 	//ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -477,7 +468,7 @@ type VirtualMachineInstanceView_StatusARM struct {
 	Extensions []VirtualMachineExtensionInstanceView_StatusARM `json:"extensions,omitempty"`
 
 	//HyperVGeneration: Specifies the HyperVGeneration Type associated with a resource
-	HyperVGeneration *VirtualMachineInstanceView_HyperVGeneration_Status `json:"hyperVGeneration,omitempty"`
+	HyperVGeneration *string `json:"hyperVGeneration,omitempty"`
 
 	//MaintenanceRedeployStatus: The Maintenance Operation status on the virtual
 	//machine.
@@ -546,7 +537,7 @@ type DataDisk_StatusARM struct {
 	//ReadOnly
 	//ReadWrite
 	//Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *Caching_Status `json:"caching,omitempty"`
+	Caching *string `json:"caching,omitempty"`
 
 	//CreateOption: Specifies how the virtual machine should be created.
 	//Possible values are:
@@ -556,7 +547,7 @@ type DataDisk_StatusARM struct {
 	//virtual machine. If you are using a platform image, you also use the
 	//imageReference element described above. If you are using a marketplace image,
 	//you  also use the plan element previously described.
-	CreateOption CreateOption_Status `json:"createOption"`
+	CreateOption string `json:"createOption"`
 
 	//DetachOption: Specifies the detach behavior to be used while detaching a disk or
 	//which is already in the process of detachment from the virtual machine.
@@ -569,7 +560,7 @@ type DataDisk_StatusARM struct {
 	//This feature is still in preview mode and is not supported for
 	//VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to
 	//'true' along with setting detachOption: 'ForceDetach'.
-	DetachOption *DetachOption_Status `json:"detachOption,omitempty"`
+	DetachOption *string `json:"detachOption,omitempty"`
 
 	//DiskIOPSReadWrite: Specifies the Read-Write IOPS for the managed disk when
 	//StorageAccountType is UltraSSD_LRS. Returned only for VirtualMachine ScaleSet VM
@@ -664,7 +655,7 @@ type InstanceViewStatus_StatusARM struct {
 	DisplayStatus *string `json:"displayStatus,omitempty"`
 
 	//Level: The level code.
-	Level *InstanceViewStatus_Level_Status `json:"level,omitempty"`
+	Level *string `json:"level,omitempty"`
 
 	//Message: The detailed status message, including for alerts and error messages.
 	Message *string `json:"message,omitempty"`
@@ -702,7 +693,7 @@ type MaintenanceRedeployStatus_StatusARM struct {
 	LastOperationMessage *string `json:"lastOperationMessage,omitempty"`
 
 	//LastOperationResultCode: The Last Maintenance Operation Result Code.
-	LastOperationResultCode *MaintenanceRedeployStatus_LastOperationResultCode_Status `json:"lastOperationResultCode,omitempty"`
+	LastOperationResultCode *string `json:"lastOperationResultCode,omitempty"`
 
 	//MaintenanceWindowEndTime: End Time for the Maintenance Window.
 	MaintenanceWindowEndTime *string `json:"maintenanceWindowEndTime,omitempty"`
@@ -730,7 +721,7 @@ type OSDisk_StatusARM struct {
 	//ReadOnly
 	//ReadWrite
 	//Default: None for Standard storage. ReadOnly for Premium storage.
-	Caching *Caching_Status `json:"caching,omitempty"`
+	Caching *string `json:"caching,omitempty"`
 
 	//CreateOption: Specifies how the virtual machine should be created.
 	//Possible values are:
@@ -740,7 +731,7 @@ type OSDisk_StatusARM struct {
 	//virtual machine. If you are using a platform image, you also use the
 	//imageReference element described above. If you are using a marketplace image,
 	//you  also use the plan element previously described.
-	CreateOption CreateOption_Status `json:"createOption"`
+	CreateOption string `json:"createOption"`
 
 	//DiffDiskSettings: Specifies the ephemeral Disk Settings for the operating system
 	//disk used by the virtual machine.
@@ -771,7 +762,7 @@ type OSDisk_StatusARM struct {
 	//Possible values are:
 	//Windows
 	//Linux
-	OsType *OSDisk_OsType_Status `json:"osType,omitempty"`
+	OsType *string `json:"osType,omitempty"`
 
 	//Vhd: The virtual hard disk.
 	Vhd *VirtualHardDisk_StatusARM `json:"vhd,omitempty"`
@@ -887,7 +878,7 @@ type WindowsConfiguration_StatusARM struct {
 type AdditionalUnattendContent_StatusARM struct {
 	//ComponentName: The component name. Currently, the only allowable value is
 	//Microsoft-Windows-Shell-Setup.
-	ComponentName *AdditionalUnattendContent_ComponentName_Status `json:"componentName,omitempty"`
+	ComponentName *string `json:"componentName,omitempty"`
 
 	//Content: Specifies the XML formatted content that is added to the unattend.xml
 	//file for the specified path and component. The XML must be less than 4KB and
@@ -895,11 +886,11 @@ type AdditionalUnattendContent_StatusARM struct {
 	Content *string `json:"content,omitempty"`
 
 	//PassName: The pass name. Currently, the only allowable value is OobeSystem.
-	PassName *AdditionalUnattendContent_PassName_Status `json:"passName,omitempty"`
+	PassName *string `json:"passName,omitempty"`
 
 	//SettingName: Specifies the name of the setting to which the content applies.
 	//Possible values are: FirstLogonCommands and AutoLogon.
-	SettingName *AdditionalUnattendContent_SettingName_Status `json:"settingName,omitempty"`
+	SettingName *string `json:"settingName,omitempty"`
 }
 
 type AvailablePatchSummary_StatusARM struct {
@@ -933,12 +924,12 @@ type AvailablePatchSummary_StatusARM struct {
 	//Status: The overall success or failure status of the operation. It remains
 	//"InProgress" until the operation completes. At that point it will become
 	//"Unknown", "Failed", "Succeeded", or "CompletedWithWarnings."
-	Status *AvailablePatchSummary_Status_Status `json:"status,omitempty"`
+	Status *string `json:"status,omitempty"`
 }
 
 type DiffDiskSettings_StatusARM struct {
 	//Option: Specifies the ephemeral disk settings for operating system disk.
-	Option *DiffDiskOption_Status `json:"option,omitempty"`
+	Option *string `json:"option,omitempty"`
 
 	//Placement: Specifies the ephemeral disk placement for operating system disk.
 	//Possible values are:
@@ -950,7 +941,7 @@ type DiffDiskSettings_StatusARM struct {
 	//https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes and Linux
 	//VM at https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes to
 	//check which VM sizes exposes a cache disk.
-	Placement *DiffDiskPlacement_Status `json:"placement,omitempty"`
+	Placement *string `json:"placement,omitempty"`
 }
 
 type DiskEncryptionSettings_StatusARM struct {
@@ -1006,7 +997,7 @@ type LastPatchInstallationSummary_StatusARM struct {
 	//Status: The overall success or failure status of the operation. It remains
 	//"InProgress" until the operation completes. At that point it will become
 	//"Unknown", "Failed", "Succeeded", or "CompletedWithWarnings."
-	Status *LastPatchInstallationSummary_Status_Status `json:"status,omitempty"`
+	Status *string `json:"status,omitempty"`
 }
 
 type LinuxPatchSettings_StatusARM struct {
@@ -1015,7 +1006,7 @@ type LinuxPatchSettings_StatusARM struct {
 	//ImageDefault - The virtual machine's default patching configuration is used.
 	//AutomaticByPlatform - The virtual machine will be automatically updated by the
 	//platform. The property provisionVMAgent must be true
-	PatchMode *LinuxPatchSettings_PatchMode_Status `json:"patchMode,omitempty"`
+	PatchMode *string `json:"patchMode,omitempty"`
 }
 
 type ManagedDiskParameters_StatusARM struct {
@@ -1030,7 +1021,7 @@ type ManagedDiskParameters_StatusARM struct {
 	//Managed OS disk storage account type can only be set when you create the scale
 	//set. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with
 	//OS Disk.
-	StorageAccountType *StorageAccountType_Status `json:"storageAccountType,omitempty"`
+	StorageAccountType *string `json:"storageAccountType,omitempty"`
 }
 
 type NetworkInterfaceReferenceProperties_StatusARM struct {
@@ -1056,7 +1047,7 @@ type PatchSettings_StatusARM struct {
 	//AutomaticByPlatform - the virtual machine will automatically updated by the
 	//platform. The properties provisionVMAgent and
 	//WindowsConfiguration.enableAutomaticUpdates must be true
-	PatchMode *PatchSettings_PatchMode_Status `json:"patchMode,omitempty"`
+	PatchMode *string `json:"patchMode,omitempty"`
 }
 
 type SshConfiguration_StatusARM struct {
@@ -1174,7 +1165,7 @@ type WinRMListener_StatusARM struct {
 	//Possible values are:
 	//http
 	//https
-	Protocol *WinRMListener_Protocol_Status `json:"protocol,omitempty"`
+	Protocol *string `json:"protocol,omitempty"`
 }
 
 type ApiErrorBase_StatusARM struct {

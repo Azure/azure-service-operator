@@ -30,7 +30,7 @@ import (
 type RedisEnterprise struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RedisEnterprise_SPEC `json:"spec,omitempty"`
+	Spec              RedisEnterprise_Spec `json:"spec,omitempty"`
 	Status            Cluster_Status       `json:"status,omitempty"`
 }
 
@@ -247,10 +247,10 @@ func (enterprise *RedisEnterprise) AssignPropertiesFromRedisEnterprise(source *v
 	enterprise.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec RedisEnterprise_SPEC
-	err := spec.AssignPropertiesFromRedisEnterprise_SPEC(&source.Spec)
+	var spec RedisEnterprise_Spec
+	err := spec.AssignPropertiesFromRedisEnterprise_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromRedisEnterprise_SPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromRedisEnterprise_Spec() to populate field Spec")
 	}
 	enterprise.Spec = spec
 
@@ -273,10 +273,10 @@ func (enterprise *RedisEnterprise) AssignPropertiesToRedisEnterprise(destination
 	destination.ObjectMeta = *enterprise.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1alpha1api20210301storage.RedisEnterprise_SPEC
-	err := enterprise.Spec.AssignPropertiesToRedisEnterprise_SPEC(&spec)
+	var spec v1alpha1api20210301storage.RedisEnterprise_Spec
+	err := enterprise.Spec.AssignPropertiesToRedisEnterprise_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToRedisEnterprise_SPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToRedisEnterprise_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -331,7 +331,7 @@ type Cluster_Status struct {
 	Location *string `json:"location,omitempty"`
 
 	//MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'
-	MinimumTlsVersion *ClusterProperties_MinimumTlsVersion_Status `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *string `json:"minimumTlsVersion,omitempty"`
 
 	//Name: The name of the resource
 	Name *string `json:"name,omitempty"`
@@ -341,13 +341,13 @@ type Cluster_Status struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
 
 	//ProvisioningState: Current provisioning status of the cluster
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	//RedisVersion: Version of redis the cluster supports, e.g. '6'
 	RedisVersion *string `json:"redisVersion,omitempty"`
 
 	//ResourceState: Current resource status of the cluster
-	ResourceState *ResourceState_Status `json:"resourceState,omitempty"`
+	ResourceState *string `json:"resourceState,omitempty"`
 
 	//Sku: The SKU to create, which affects price, performance, and features.
 	Sku *Sku_Status `json:"sku,omitempty"`
@@ -555,12 +555,7 @@ func (cluster *Cluster_Status) AssignPropertiesFromCluster_Status(source *v1alph
 	cluster.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MinimumTlsVersion
-	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := ClusterProperties_MinimumTlsVersion_Status(*source.MinimumTlsVersion)
-		cluster.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		cluster.MinimumTlsVersion = nil
-	}
+	cluster.MinimumTlsVersion = genruntime.ClonePointerToString(source.MinimumTlsVersion)
 
 	// Name
 	cluster.Name = genruntime.ClonePointerToString(source.Name)
@@ -584,23 +579,13 @@ func (cluster *Cluster_Status) AssignPropertiesFromCluster_Status(source *v1alph
 	}
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		cluster.ProvisioningState = &provisioningState
-	} else {
-		cluster.ProvisioningState = nil
-	}
+	cluster.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// RedisVersion
 	cluster.RedisVersion = genruntime.ClonePointerToString(source.RedisVersion)
 
 	// ResourceState
-	if source.ResourceState != nil {
-		resourceState := ResourceState_Status(*source.ResourceState)
-		cluster.ResourceState = &resourceState
-	} else {
-		cluster.ResourceState = nil
-	}
+	cluster.ResourceState = genruntime.ClonePointerToString(source.ResourceState)
 
 	// Sku
 	if source.Sku != nil {
@@ -645,12 +630,7 @@ func (cluster *Cluster_Status) AssignPropertiesToCluster_Status(destination *v1a
 	destination.Location = genruntime.ClonePointerToString(cluster.Location)
 
 	// MinimumTlsVersion
-	if cluster.MinimumTlsVersion != nil {
-		minimumTlsVersion := string(*cluster.MinimumTlsVersion)
-		destination.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		destination.MinimumTlsVersion = nil
-	}
+	destination.MinimumTlsVersion = genruntime.ClonePointerToString(cluster.MinimumTlsVersion)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(cluster.Name)
@@ -674,23 +654,13 @@ func (cluster *Cluster_Status) AssignPropertiesToCluster_Status(destination *v1a
 	}
 
 	// ProvisioningState
-	if cluster.ProvisioningState != nil {
-		provisioningState := string(*cluster.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(cluster.ProvisioningState)
 
 	// RedisVersion
 	destination.RedisVersion = genruntime.ClonePointerToString(cluster.RedisVersion)
 
 	// ResourceState
-	if cluster.ResourceState != nil {
-		resourceState := string(*cluster.ResourceState)
-		destination.ResourceState = &resourceState
-	} else {
-		destination.ResourceState = nil
-	}
+	destination.ResourceState = genruntime.ClonePointerToString(cluster.ResourceState)
 
 	// Sku
 	if cluster.Sku != nil {
@@ -724,7 +694,7 @@ func (cluster *Cluster_Status) AssignPropertiesToCluster_Status(destination *v1a
 	return nil
 }
 
-type RedisEnterprise_SPEC struct {
+type RedisEnterprise_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
@@ -734,14 +704,14 @@ type RedisEnterprise_SPEC struct {
 	Location string `json:"location"`
 
 	//MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'
-	MinimumTlsVersion *ClusterProperties_MinimumTlsVersion_Spec `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *ClusterPropertiesMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
 	// +kubebuilder:validation:Required
 	//Sku: The SKU to create, which affects price, performance, and features.
-	Sku Sku_Spec `json:"sku"`
+	Sku Sku `json:"sku"`
 
 	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -750,131 +720,131 @@ type RedisEnterprise_SPEC struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &RedisEnterprise_SPEC{}
+var _ genruntime.ARMTransformer = &RedisEnterprise_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (spec *RedisEnterprise_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if spec == nil {
+func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if enterprise == nil {
 		return nil, nil
 	}
-	var result RedisEnterprise_SPECARM
+	var result RedisEnterprise_SpecARM
 
 	// Set property ‘AzureName’:
-	result.AzureName = spec.AzureName
+	result.AzureName = enterprise.AzureName
 
 	// Set property ‘Location’:
-	result.Location = spec.Location
+	result.Location = enterprise.Location
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if spec.MinimumTlsVersion != nil {
-		result.Properties = &ClusterProperties_SpecARM{}
+	if enterprise.MinimumTlsVersion != nil {
+		result.Properties = &ClusterPropertiesARM{}
 	}
-	if spec.MinimumTlsVersion != nil {
-		minimumTlsVersion := *spec.MinimumTlsVersion
+	if enterprise.MinimumTlsVersion != nil {
+		minimumTlsVersion := *enterprise.MinimumTlsVersion
 		result.Properties.MinimumTlsVersion = &minimumTlsVersion
 	}
 
 	// Set property ‘Sku’:
-	skuARM, err := spec.Sku.ConvertToARM(resolved)
+	skuARM, err := enterprise.Sku.ConvertToARM(resolved)
 	if err != nil {
 		return nil, err
 	}
-	result.Sku = skuARM.(Sku_SpecARM)
+	result.Sku = skuARM.(SkuARM)
 
 	// Set property ‘Tags’:
-	if spec.Tags != nil {
+	if enterprise.Tags != nil {
 		result.Tags = make(map[string]string)
-		for key, value := range spec.Tags {
+		for key, value := range enterprise.Tags {
 			result.Tags[key] = value
 		}
 	}
 
 	// Set property ‘Zones’:
-	for _, item := range spec.Zones {
+	for _, item := range enterprise.Zones {
 		result.Zones = append(result.Zones, item)
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (spec *RedisEnterprise_SPEC) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisEnterprise_SPECARM{}
+func (enterprise *RedisEnterprise_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &RedisEnterprise_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (spec *RedisEnterprise_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisEnterprise_SPECARM)
+func (enterprise *RedisEnterprise_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(RedisEnterprise_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisEnterprise_SPECARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisEnterprise_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	spec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	enterprise.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Location’:
-	spec.Location = typedInput.Location
+	enterprise.Location = typedInput.Location
 
 	// Set property ‘MinimumTlsVersion’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinimumTlsVersion != nil {
 			minimumTlsVersion := *typedInput.Properties.MinimumTlsVersion
-			spec.MinimumTlsVersion = &minimumTlsVersion
+			enterprise.MinimumTlsVersion = &minimumTlsVersion
 		}
 	}
 
 	// Set property ‘Owner’:
-	spec.Owner = genruntime.KnownResourceReference{
+	enterprise.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Sku’:
-	var sku Sku_Spec
+	var sku Sku
 	err := sku.PopulateFromARM(owner, typedInput.Sku)
 	if err != nil {
 		return err
 	}
-	spec.Sku = sku
+	enterprise.Sku = sku
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		spec.Tags = make(map[string]string)
+		enterprise.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			spec.Tags[key] = value
+			enterprise.Tags[key] = value
 		}
 	}
 
 	// Set property ‘Zones’:
 	for _, item := range typedInput.Zones {
-		spec.Zones = append(spec.Zones, item)
+		enterprise.Zones = append(enterprise.Zones, item)
 	}
 
 	// No error
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &RedisEnterprise_SPEC{}
+var _ genruntime.ConvertibleSpec = &RedisEnterprise_Spec{}
 
-// ConvertSpecFrom populates our RedisEnterprise_SPEC from the provided source
-func (spec *RedisEnterprise_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1alpha1api20210301storage.RedisEnterprise_SPEC)
+// ConvertSpecFrom populates our RedisEnterprise_Spec from the provided source
+func (enterprise *RedisEnterprise_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v1alpha1api20210301storage.RedisEnterprise_Spec)
 	if ok {
 		// Populate our instance from source
-		return spec.AssignPropertiesFromRedisEnterprise_SPEC(src)
+		return enterprise.AssignPropertiesFromRedisEnterprise_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210301storage.RedisEnterprise_SPEC{}
+	src = &v1alpha1api20210301storage.RedisEnterprise_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = spec.AssignPropertiesFromRedisEnterprise_SPEC(src)
+	err = enterprise.AssignPropertiesFromRedisEnterprise_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -882,17 +852,17 @@ func (spec *RedisEnterprise_SPEC) ConvertSpecFrom(source genruntime.ConvertibleS
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our RedisEnterprise_SPEC
-func (spec *RedisEnterprise_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1alpha1api20210301storage.RedisEnterprise_SPEC)
+// ConvertSpecTo populates the provided destination from our RedisEnterprise_Spec
+func (enterprise *RedisEnterprise_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v1alpha1api20210301storage.RedisEnterprise_Spec)
 	if ok {
 		// Populate destination from our instance
-		return spec.AssignPropertiesToRedisEnterprise_SPEC(dst)
+		return enterprise.AssignPropertiesToRedisEnterprise_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210301storage.RedisEnterprise_SPEC{}
-	err := spec.AssignPropertiesToRedisEnterprise_SPEC(dst)
+	dst = &v1alpha1api20210301storage.RedisEnterprise_Spec{}
+	err := enterprise.AssignPropertiesToRedisEnterprise_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -906,87 +876,87 @@ func (spec *RedisEnterprise_SPEC) ConvertSpecTo(destination genruntime.Convertib
 	return nil
 }
 
-// AssignPropertiesFromRedisEnterprise_SPEC populates our RedisEnterprise_SPEC from the provided source RedisEnterprise_SPEC
-func (spec *RedisEnterprise_SPEC) AssignPropertiesFromRedisEnterprise_SPEC(source *v1alpha1api20210301storage.RedisEnterprise_SPEC) error {
+// AssignPropertiesFromRedisEnterprise_Spec populates our RedisEnterprise_Spec from the provided source RedisEnterprise_Spec
+func (enterprise *RedisEnterprise_Spec) AssignPropertiesFromRedisEnterprise_Spec(source *v1alpha1api20210301storage.RedisEnterprise_Spec) error {
 
 	// AzureName
-	spec.AzureName = source.AzureName
+	enterprise.AzureName = source.AzureName
 
 	// Location
-	spec.Location = genruntime.GetOptionalStringValue(source.Location)
+	enterprise.Location = genruntime.GetOptionalStringValue(source.Location)
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := ClusterProperties_MinimumTlsVersion_Spec(*source.MinimumTlsVersion)
-		spec.MinimumTlsVersion = &minimumTlsVersion
+		minimumTlsVersion := ClusterPropertiesMinimumTlsVersion(*source.MinimumTlsVersion)
+		enterprise.MinimumTlsVersion = &minimumTlsVersion
 	} else {
-		spec.MinimumTlsVersion = nil
+		enterprise.MinimumTlsVersion = nil
 	}
 
 	// Owner
-	spec.Owner = source.Owner.Copy()
+	enterprise.Owner = source.Owner.Copy()
 
 	// Sku
 	if source.Sku != nil {
-		var sku Sku_Spec
-		err := sku.AssignPropertiesFromSku_Spec(source.Sku)
+		var sku Sku
+		err := sku.AssignPropertiesFromSku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSku_Spec() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesFromSku() to populate field Sku")
 		}
-		spec.Sku = sku
+		enterprise.Sku = sku
 	} else {
-		spec.Sku = Sku_Spec{}
+		enterprise.Sku = Sku{}
 	}
 
 	// Tags
-	spec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	enterprise.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Zones
-	spec.Zones = genruntime.CloneSliceOfString(source.Zones)
+	enterprise.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToRedisEnterprise_SPEC populates the provided destination RedisEnterprise_SPEC from our RedisEnterprise_SPEC
-func (spec *RedisEnterprise_SPEC) AssignPropertiesToRedisEnterprise_SPEC(destination *v1alpha1api20210301storage.RedisEnterprise_SPEC) error {
+// AssignPropertiesToRedisEnterprise_Spec populates the provided destination RedisEnterprise_Spec from our RedisEnterprise_Spec
+func (enterprise *RedisEnterprise_Spec) AssignPropertiesToRedisEnterprise_Spec(destination *v1alpha1api20210301storage.RedisEnterprise_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = spec.AzureName
+	destination.AzureName = enterprise.AzureName
 
 	// Location
-	location := spec.Location
+	location := enterprise.Location
 	destination.Location = &location
 
 	// MinimumTlsVersion
-	if spec.MinimumTlsVersion != nil {
-		minimumTlsVersion := string(*spec.MinimumTlsVersion)
+	if enterprise.MinimumTlsVersion != nil {
+		minimumTlsVersion := string(*enterprise.MinimumTlsVersion)
 		destination.MinimumTlsVersion = &minimumTlsVersion
 	} else {
 		destination.MinimumTlsVersion = nil
 	}
 
 	// OriginalVersion
-	destination.OriginalVersion = spec.OriginalVersion()
+	destination.OriginalVersion = enterprise.OriginalVersion()
 
 	// Owner
-	destination.Owner = spec.Owner.Copy()
+	destination.Owner = enterprise.Owner.Copy()
 
 	// Sku
-	var sku v1alpha1api20210301storage.Sku_Spec
-	err := spec.Sku.AssignPropertiesToSku_Spec(&sku)
+	var sku v1alpha1api20210301storage.Sku
+	err := enterprise.Sku.AssignPropertiesToSku(&sku)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSku_Spec() to populate field Sku")
+		return errors.Wrap(err, "calling AssignPropertiesToSku() to populate field Sku")
 	}
 	destination.Sku = &sku
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(spec.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(enterprise.Tags)
 
 	// Zones
-	destination.Zones = genruntime.CloneSliceOfString(spec.Zones)
+	destination.Zones = genruntime.CloneSliceOfString(enterprise.Zones)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1000,20 +970,22 @@ func (spec *RedisEnterprise_SPEC) AssignPropertiesToRedisEnterprise_SPEC(destina
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (spec *RedisEnterprise_SPEC) OriginalVersion() string {
+func (enterprise *RedisEnterprise_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (spec *RedisEnterprise_SPEC) SetAzureName(azureName string) { spec.AzureName = azureName }
+func (enterprise *RedisEnterprise_Spec) SetAzureName(azureName string) {
+	enterprise.AzureName = azureName
+}
 
 // +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
-type ClusterProperties_MinimumTlsVersion_Spec string
+type ClusterPropertiesMinimumTlsVersion string
 
 const (
-	ClusterProperties_MinimumTlsVersion_Spec10 = ClusterProperties_MinimumTlsVersion_Spec("1.0")
-	ClusterProperties_MinimumTlsVersion_Spec11 = ClusterProperties_MinimumTlsVersion_Spec("1.1")
-	ClusterProperties_MinimumTlsVersion_Spec12 = ClusterProperties_MinimumTlsVersion_Spec("1.2")
+	ClusterPropertiesMinimumTlsVersion10 = ClusterPropertiesMinimumTlsVersion("1.0")
+	ClusterPropertiesMinimumTlsVersion11 = ClusterPropertiesMinimumTlsVersion("1.1")
+	ClusterPropertiesMinimumTlsVersion12 = ClusterPropertiesMinimumTlsVersion("1.2")
 )
 
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
@@ -1075,7 +1047,7 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 	return nil
 }
 
-type Sku_Spec struct {
+type Sku struct {
 	//Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending
 	//on SKU. Valid values are (2, 4, 6, ...) for Enterprise SKUs and (3, 9, 15, ...)
 	//for Flash SKUs.
@@ -1084,17 +1056,17 @@ type Sku_Spec struct {
 	// +kubebuilder:validation:Required
 	//Name: The type of RedisEnterprise cluster to deploy. Possible values:
 	//(Enterprise_E10, EnterpriseFlash_F300 etc.)
-	Name Sku_Name_Spec `json:"name"`
+	Name SkuName `json:"name"`
 }
 
-var _ genruntime.ARMTransformer = &Sku_Spec{}
+var _ genruntime.ARMTransformer = &Sku{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (sku *Sku_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if sku == nil {
 		return nil, nil
 	}
-	var result Sku_SpecARM
+	var result SkuARM
 
 	// Set property ‘Capacity’:
 	if sku.Capacity != nil {
@@ -1108,15 +1080,15 @@ func (sku *Sku_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sku *Sku_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sku_SpecARM{}
+func (sku *Sku) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SkuARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (sku *Sku_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sku_SpecARM)
+func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SkuARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SkuARM, got %T", armInput)
 	}
 
 	// Set property ‘Capacity’:
@@ -1132,15 +1104,15 @@ func (sku *Sku_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, a
 	return nil
 }
 
-// AssignPropertiesFromSku_Spec populates our Sku_Spec from the provided source Sku_Spec
-func (sku *Sku_Spec) AssignPropertiesFromSku_Spec(source *v1alpha1api20210301storage.Sku_Spec) error {
+// AssignPropertiesFromSku populates our Sku from the provided source Sku
+func (sku *Sku) AssignPropertiesFromSku(source *v1alpha1api20210301storage.Sku) error {
 
 	// Capacity
 	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
 
 	// Name
 	if source.Name != nil {
-		sku.Name = Sku_Name_Spec(*source.Name)
+		sku.Name = SkuName(*source.Name)
 	} else {
 		sku.Name = ""
 	}
@@ -1149,8 +1121,8 @@ func (sku *Sku_Spec) AssignPropertiesFromSku_Spec(source *v1alpha1api20210301sto
 	return nil
 }
 
-// AssignPropertiesToSku_Spec populates the provided destination Sku_Spec from our Sku_Spec
-func (sku *Sku_Spec) AssignPropertiesToSku_Spec(destination *v1alpha1api20210301storage.Sku_Spec) error {
+// AssignPropertiesToSku populates the provided destination Sku from our Sku
+func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20210301storage.Sku) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1181,7 +1153,7 @@ type Sku_Status struct {
 	// +kubebuilder:validation:Required
 	//Name: The type of RedisEnterprise cluster to deploy. Possible values:
 	//(Enterprise_E10, EnterpriseFlash_F300 etc.)
-	Name Sku_Name_Status `json:"name"`
+	Name string `json:"name"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_Status{}
@@ -1218,11 +1190,7 @@ func (sku *Sku_Status) AssignPropertiesFromSku_Status(source *v1alpha1api2021030
 	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
 
 	// Name
-	if source.Name != nil {
-		sku.Name = Sku_Name_Status(*source.Name)
-	} else {
-		sku.Name = ""
-	}
+	sku.Name = genruntime.GetOptionalStringValue(source.Name)
 
 	// No error
 	return nil
@@ -1237,7 +1205,7 @@ func (sku *Sku_Status) AssignPropertiesToSku_Status(destination *v1alpha1api2021
 	destination.Capacity = genruntime.ClonePointerToInt(sku.Capacity)
 
 	// Name
-	name := string(sku.Name)
+	name := sku.Name
 	destination.Name = &name
 
 	// Update the property bag

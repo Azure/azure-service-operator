@@ -11,7 +11,7 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
-	"k8s.io/api/core/v1"
+	v1 "k8s.io/api/core/v1"
 
 	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api20210601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -41,10 +41,10 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 		Name: secret.Name,
 		Key:  adminPasswordKey,
 	}
-	version := postgresql.ServerPropertiesVersion13
+	version := postgresql.ServerVersion13
 	flexibleServer := &postgresql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("postgresql"),
-		Spec: postgresql.FlexibleServers_Spec{
+		Spec: postgresql.FlexibleServer_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
@@ -101,7 +101,7 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(flexibleServer)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(ctx, armId, string(postgresql.FlexibleServersDatabasesSpecAPIVersion20210601))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(ctx, armId, string(postgresql.APIVersionValue))
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(retryAfter).To(BeZero())
 	g.Expect(exists).To(BeFalse())
@@ -110,7 +110,7 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 func FlexibleServer_Database_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
 	database := &postgresql.FlexibleServersDatabase{
 		ObjectMeta: tc.MakeObjectMeta("db"),
-		Spec: postgresql.FlexibleServersDatabases_Spec{
+		Spec: postgresql.FlexibleServersDatabase_Spec{
 			Owner:   testcommon.AsOwner(flexibleServer),
 			Charset: to.StringPtr("utf8"),
 		},
@@ -124,7 +124,7 @@ func FlexibleServer_Database_CRUD(tc *testcommon.KubePerTestContext, flexibleSer
 func FlexibleServer_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
 	firewall := &postgresql.FlexibleServersFirewallRule{
 		ObjectMeta: tc.MakeObjectMeta("fwrule"),
-		Spec: postgresql.FlexibleServersFirewallRules_Spec{
+		Spec: postgresql.FlexibleServersFirewallRule_Spec{
 			Owner: testcommon.AsOwner(flexibleServer),
 			// I think that these rules are allow rules - somebody with this IP can access the server.
 			StartIpAddress: "1.2.3.4",
@@ -141,7 +141,7 @@ func FlexibleServer_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, flexibl
 func FlexibleServer_Configuration_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
 	configuration := &postgresql.FlexibleServersConfiguration{
 		ObjectMeta: tc.MakeObjectMeta("pgaudit"),
-		Spec: postgresql.FlexibleServersConfigurations_Spec{
+		Spec: postgresql.FlexibleServersConfiguration_Spec{
 			Owner:     testcommon.AsOwner(flexibleServer),
 			AzureName: "pgaudit.log",
 			Source:    to.StringPtr("user-override"),

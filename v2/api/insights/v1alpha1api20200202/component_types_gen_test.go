@@ -158,7 +158,7 @@ func ComponentGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForComponent is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForComponent(gens map[string]gopter.Gen) {
-	gens["Spec"] = Components_SPECGenerator()
+	gens["Spec"] = Component_SpecGenerator()
 	gens["Status"] = ApplicationInsightsComponent_StatusGenerator()
 }
 
@@ -272,19 +272,19 @@ func ApplicationInsightsComponent_StatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForApplicationInsightsComponent_Status(gens map[string]gopter.Gen) {
 	gens["AppId"] = gen.PtrOf(gen.AlphaString())
 	gens["ApplicationId"] = gen.PtrOf(gen.AlphaString())
-	gens["Application_Type"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_Application_Type_StatusOther, ApplicationInsightsComponentProperties_Application_Type_StatusWeb))
+	gens["Application_Type"] = gen.PtrOf(gen.AlphaString())
 	gens["ConnectionString"] = gen.PtrOf(gen.AlphaString())
 	gens["CreationDate"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableIpMasking"] = gen.PtrOf(gen.Bool())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Flow_Type"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_Flow_Type_StatusBluefield))
+	gens["Flow_Type"] = gen.PtrOf(gen.AlphaString())
 	gens["ForceCustomerStorageForProfiler"] = gen.PtrOf(gen.Bool())
 	gens["HockeyAppId"] = gen.PtrOf(gen.AlphaString())
 	gens["HockeyAppToken"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["ImmediatePurgeDataOn30Days"] = gen.PtrOf(gen.Bool())
-	gens["IngestionMode"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_IngestionMode_StatusApplicationInsights, ApplicationInsightsComponentProperties_IngestionMode_StatusApplicationInsightsWithDiagnosticSettings, ApplicationInsightsComponentProperties_IngestionMode_StatusLogAnalytics))
+	gens["IngestionMode"] = gen.PtrOf(gen.AlphaString())
 	gens["InstrumentationKey"] = gen.PtrOf(gen.AlphaString())
 	gens["Kind"] = gen.PtrOf(gen.AlphaString())
 	gens["LaMigrationDate"] = gen.PtrOf(gen.AlphaString())
@@ -292,9 +292,9 @@ func AddIndependentPropertyGeneratorsForApplicationInsightsComponent_Status(gens
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PropertiesName"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_StatusDisabled, PublicNetworkAccessType_StatusEnabled))
-	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_StatusDisabled, PublicNetworkAccessType_StatusEnabled))
-	gens["Request_Source"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_Request_Source_StatusRest))
+	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.AlphaString())
+	gens["Request_Source"] = gen.PtrOf(gen.AlphaString())
 	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["SamplingPercentage"] = gen.PtrOf(gen.Float64())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
@@ -307,32 +307,32 @@ func AddRelatedPropertyGeneratorsForApplicationInsightsComponent_Status(gens map
 	gens["PrivateLinkScopedResources"] = gen.SliceOf(PrivateLinkScopedResource_StatusGenerator())
 }
 
-func Test_Components_SPEC_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Component_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Components_SPEC to Components_SPEC via AssignPropertiesToComponents_SPEC & AssignPropertiesFromComponents_SPEC returns original",
-		prop.ForAll(RunPropertyAssignmentTestForComponents_SPEC, Components_SPECGenerator()))
+		"Round trip from Component_Spec to Component_Spec via AssignPropertiesToComponent_Spec & AssignPropertiesFromComponent_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForComponent_Spec, Component_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForComponents_SPEC tests if a specific instance of Components_SPEC can be assigned to v1alpha1api20200202storage and back losslessly
-func RunPropertyAssignmentTestForComponents_SPEC(subject Components_SPEC) string {
+// RunPropertyAssignmentTestForComponent_Spec tests if a specific instance of Component_Spec can be assigned to v1alpha1api20200202storage and back losslessly
+func RunPropertyAssignmentTestForComponent_Spec(subject Component_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200202storage.Components_SPEC
-	err := copied.AssignPropertiesToComponents_SPEC(&other)
+	var other v1alpha1api20200202storage.Component_Spec
+	err := copied.AssignPropertiesToComponent_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Components_SPEC
-	err = actual.AssignPropertiesFromComponents_SPEC(&other)
+	var actual Component_Spec
+	err = actual.AssignPropertiesFromComponent_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -349,19 +349,19 @@ func RunPropertyAssignmentTestForComponents_SPEC(subject Components_SPEC) string
 	return ""
 }
 
-func Test_Components_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Component_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Components_SPEC via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForComponents_SPEC, Components_SPECGenerator()))
+		"Round trip of Component_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForComponent_Spec, Component_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForComponents_SPEC runs a test to see if a specific instance of Components_SPEC round trips to JSON and back losslessly
-func RunJSONSerializationTestForComponents_SPEC(subject Components_SPEC) string {
+// RunJSONSerializationTestForComponent_Spec runs a test to see if a specific instance of Component_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForComponent_Spec(subject Component_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -369,7 +369,7 @@ func RunJSONSerializationTestForComponents_SPEC(subject Components_SPEC) string 
 	}
 
 	// Deserialize back into memory
-	var actual Components_SPEC
+	var actual Component_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -387,39 +387,39 @@ func RunJSONSerializationTestForComponents_SPEC(subject Components_SPEC) string 
 	return ""
 }
 
-// Generator of Components_SPEC instances for property testing - lazily instantiated by Components_SPECGenerator()
-var components_specGenerator gopter.Gen
+// Generator of Component_Spec instances for property testing - lazily instantiated by Component_SpecGenerator()
+var component_specGenerator gopter.Gen
 
-// Components_SPECGenerator returns a generator of Components_SPEC instances for property testing.
-func Components_SPECGenerator() gopter.Gen {
-	if components_specGenerator != nil {
-		return components_specGenerator
+// Component_SpecGenerator returns a generator of Component_Spec instances for property testing.
+func Component_SpecGenerator() gopter.Gen {
+	if component_specGenerator != nil {
+		return component_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForComponents_SPEC(generators)
-	components_specGenerator = gen.Struct(reflect.TypeOf(Components_SPEC{}), generators)
+	AddIndependentPropertyGeneratorsForComponent_Spec(generators)
+	component_specGenerator = gen.Struct(reflect.TypeOf(Component_Spec{}), generators)
 
-	return components_specGenerator
+	return component_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForComponents_SPEC is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForComponents_SPEC(gens map[string]gopter.Gen) {
-	gens["Application_Type"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_Application_Type_SpecOther, ApplicationInsightsComponentProperties_Application_Type_SpecWeb))
+// AddIndependentPropertyGeneratorsForComponent_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForComponent_Spec(gens map[string]gopter.Gen) {
+	gens["Application_Type"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesApplication_TypeOther, ApplicationInsightsComponentPropertiesApplication_TypeWeb))
 	gens["AzureName"] = gen.AlphaString()
 	gens["DisableIpMasking"] = gen.PtrOf(gen.Bool())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Flow_Type"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_Flow_Type_SpecBluefield))
+	gens["Flow_Type"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesFlow_TypeBluefield))
 	gens["ForceCustomerStorageForProfiler"] = gen.PtrOf(gen.Bool())
 	gens["HockeyAppId"] = gen.PtrOf(gen.AlphaString())
 	gens["ImmediatePurgeDataOn30Days"] = gen.PtrOf(gen.Bool())
-	gens["IngestionMode"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_IngestionMode_SpecApplicationInsights, ApplicationInsightsComponentProperties_IngestionMode_SpecApplicationInsightsWithDiagnosticSettings, ApplicationInsightsComponentProperties_IngestionMode_SpecLogAnalytics))
+	gens["IngestionMode"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesIngestionModeApplicationInsights, ApplicationInsightsComponentPropertiesIngestionModeApplicationInsightsWithDiagnosticSettings, ApplicationInsightsComponentPropertiesIngestionModeLogAnalytics))
 	gens["Kind"] = gen.AlphaString()
 	gens["Location"] = gen.AlphaString()
-	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_SpecDisabled, PublicNetworkAccessType_SpecEnabled))
-	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_SpecDisabled, PublicNetworkAccessType_SpecEnabled))
-	gens["Request_Source"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_Request_Source_SpecRest))
+	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessTypeDisabled, PublicNetworkAccessTypeEnabled))
+	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessTypeDisabled, PublicNetworkAccessTypeEnabled))
+	gens["Request_Source"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesRequest_SourceRest))
 	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["SamplingPercentage"] = gen.PtrOf(gen.Float64())
 }

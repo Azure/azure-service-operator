@@ -166,16 +166,9 @@ func AddIndependentPropertyGeneratorsForWorkspaceProperties_StatusARM(gens map[s
 	gens["CustomerId"] = gen.PtrOf(gen.AlphaString())
 	gens["ForceCmkForQuery"] = gen.PtrOf(gen.Bool())
 	gens["ModifiedDate"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		WorkspaceProperties_ProvisioningState_StatusCanceled,
-		WorkspaceProperties_ProvisioningState_StatusCreating,
-		WorkspaceProperties_ProvisioningState_StatusDeleting,
-		WorkspaceProperties_ProvisioningState_StatusFailed,
-		WorkspaceProperties_ProvisioningState_StatusProvisioningAccount,
-		WorkspaceProperties_ProvisioningState_StatusSucceeded,
-		WorkspaceProperties_ProvisioningState_StatusUpdating))
-	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_StatusDisabled, PublicNetworkAccessType_StatusEnabled))
-	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_StatusDisabled, PublicNetworkAccessType_StatusEnabled))
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.AlphaString())
 	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
 }
 
@@ -306,13 +299,7 @@ func WorkspaceCapping_StatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWorkspaceCapping_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspaceCapping_StatusARM(gens map[string]gopter.Gen) {
 	gens["DailyQuotaGb"] = gen.PtrOf(gen.Float64())
-	gens["DataIngestionStatus"] = gen.PtrOf(gen.OneConstOf(
-		WorkspaceCapping_DataIngestionStatus_StatusApproachingQuota,
-		WorkspaceCapping_DataIngestionStatus_StatusForceOff,
-		WorkspaceCapping_DataIngestionStatus_StatusForceOn,
-		WorkspaceCapping_DataIngestionStatus_StatusOverQuota,
-		WorkspaceCapping_DataIngestionStatus_StatusRespectQuota,
-		WorkspaceCapping_DataIngestionStatus_StatusSubscriptionSuspended))
+	gens["DataIngestionStatus"] = gen.PtrOf(gen.AlphaString())
 	gens["QuotaNextResetTime"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -437,23 +424,7 @@ func WorkspaceSku_StatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForWorkspaceSku_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspaceSku_StatusARM(gens map[string]gopter.Gen) {
-	gens["CapacityReservationLevel"] = gen.PtrOf(gen.OneConstOf(
-		WorkspaceSku_CapacityReservationLevel_Status100,
-		WorkspaceSku_CapacityReservationLevel_Status1000,
-		WorkspaceSku_CapacityReservationLevel_Status200,
-		WorkspaceSku_CapacityReservationLevel_Status2000,
-		WorkspaceSku_CapacityReservationLevel_Status300,
-		WorkspaceSku_CapacityReservationLevel_Status400,
-		WorkspaceSku_CapacityReservationLevel_Status500,
-		WorkspaceSku_CapacityReservationLevel_Status5000))
+	gens["CapacityReservationLevel"] = gen.PtrOf(gen.Int())
 	gens["LastSkuUpdate"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.OneConstOf(
-		WorkspaceSku_Name_StatusCapacityReservation,
-		WorkspaceSku_Name_StatusFree,
-		WorkspaceSku_Name_StatusLACluster,
-		WorkspaceSku_Name_StatusPerGB2018,
-		WorkspaceSku_Name_StatusPerNode,
-		WorkspaceSku_Name_StatusPremium,
-		WorkspaceSku_Name_StatusStandalone,
-		WorkspaceSku_Name_StatusStandard)
+	gens["Name"] = gen.AlphaString()
 }

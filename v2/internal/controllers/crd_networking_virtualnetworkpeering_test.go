@@ -24,10 +24,10 @@ func Test_Networking_VirtualNetworkPeering_CRUD(t *testing.T) {
 
 	vnet1 := &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
-		Spec: network.VirtualNetworks_Spec{
+		Spec: network.VirtualNetwork_Spec{
 			Owner:    testcommon.AsOwner(rg),
-			Location: tc.AzureRegion,
-			AddressSpace: network.AddressSpace{
+			Location: &tc.AzureRegion,
+			AddressSpace: &network.AddressSpace{
 				AddressPrefixes: []string{"10.0.0.0/16"},
 			},
 		},
@@ -35,10 +35,10 @@ func Test_Networking_VirtualNetworkPeering_CRUD(t *testing.T) {
 
 	vnet2 := &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
-		Spec: network.VirtualNetworks_Spec{
+		Spec: network.VirtualNetwork_Spec{
 			Owner:    testcommon.AsOwner(rg),
-			Location: tc.AzureRegion,
-			AddressSpace: network.AddressSpace{
+			Location: &tc.AzureRegion,
+			AddressSpace: &network.AddressSpace{
 				AddressPrefixes: []string{"10.1.0.0/16"},
 			},
 		},
@@ -48,10 +48,10 @@ func Test_Networking_VirtualNetworkPeering_CRUD(t *testing.T) {
 
 	peering := &network.VirtualNetworksVirtualNetworkPeering{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vgateway")),
-		Spec: network.VirtualNetworksVirtualNetworkPeerings_Spec{
+		Spec: network.VirtualNetworksVirtualNetworkPeering_Spec{
 			Owner: testcommon.AsOwner(vnet1),
-			RemoteVirtualNetwork: network.SubResource{
-				Reference: tc.MakeReferenceFromResource(vnet2),
+			RemoteVirtualNetwork: &network.SubResource{
+				Reference: tc.MakeReferencePtrFromResource(vnet2),
 			},
 		},
 	}
@@ -72,7 +72,7 @@ func Test_Networking_VirtualNetworkPeering_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(peering)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion20201101))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

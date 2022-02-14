@@ -28,8 +28,8 @@ import (
 type FlexibleServersConfiguration struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FlexibleServersConfigurations_SPEC `json:"spec,omitempty"`
-	Status            Configuration_Status               `json:"status,omitempty"`
+	Spec              FlexibleServersConfiguration_Spec `json:"spec,omitempty"`
+	Status            Configuration_Status              `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FlexibleServersConfiguration{}
@@ -169,8 +169,8 @@ func (configuration *Configuration_Status) ConvertStatusTo(destination genruntim
 	return destination.ConvertStatusFrom(configuration)
 }
 
-//Storage version of v1alpha1api20210601.FlexibleServersConfigurations_SPEC
-type FlexibleServersConfigurations_SPEC struct {
+//Storage version of v1alpha1api20210601.FlexibleServersConfiguration_Spec
+type FlexibleServersConfiguration_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName       string `json:"azureName"`
@@ -183,24 +183,24 @@ type FlexibleServersConfigurations_SPEC struct {
 	Value       *string                           `json:"value,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &FlexibleServersConfigurations_SPEC{}
+var _ genruntime.ConvertibleSpec = &FlexibleServersConfiguration_Spec{}
 
-// ConvertSpecFrom populates our FlexibleServersConfigurations_SPEC from the provided source
-func (spec *FlexibleServersConfigurations_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our FlexibleServersConfiguration_Spec from the provided source
+func (configuration *FlexibleServersConfiguration_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == configuration {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(configuration)
 }
 
-// ConvertSpecTo populates the provided destination from our FlexibleServersConfigurations_SPEC
-func (spec *FlexibleServersConfigurations_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our FlexibleServersConfiguration_Spec
+func (configuration *FlexibleServersConfiguration_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == configuration {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(configuration)
 }
 
 func init() {

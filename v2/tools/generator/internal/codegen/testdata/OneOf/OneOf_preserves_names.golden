@@ -6,17 +6,17 @@ package v1alpha1api20200101
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	//Base: Mutually exclusive with all other properties
-	Base *Test_Base `json:"base,omitempty"`
+	Base *TestBase `json:"base,omitempty"`
 
 	//Inherited: Mutually exclusive with all other properties
-	Inherited *Test_Inherited `json:"inherited,omitempty"`
+	Inherited *TestInherited `json:"inherited,omitempty"`
 }
 
-type Test_Base struct {
+type TestBase struct {
 	Width *int `json:"width,omitempty"`
 }
 
-type Test_Inherited struct {
+type TestInherited struct {
 	Height *int `json:"height,omitempty"`
 	Width  *int `json:"width,omitempty"`
 }

@@ -84,7 +84,7 @@ func DatabaseAccount_StatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDatabaseAccount_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseAccount_StatusARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(DatabaseAccount_Kind_StatusGlobalDocumentDB, DatabaseAccount_Kind_StatusMongoDB, DatabaseAccount_Kind_StatusParse))
+	gens["Kind"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
@@ -163,8 +163,8 @@ func DatabaseAccountProperties_StatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDatabaseAccountProperties_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseAccountProperties_StatusARM(gens map[string]gopter.Gen) {
-	gens["ConnectorOffer"] = gen.PtrOf(gen.OneConstOf(ConnectorOffer_StatusSmall))
-	gens["DatabaseAccountOfferType"] = gen.OneConstOf(DatabaseAccountOfferType_StatusStandard)
+	gens["ConnectorOffer"] = gen.PtrOf(gen.AlphaString())
+	gens["DatabaseAccountOfferType"] = gen.AlphaString()
 	gens["DefaultIdentity"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableKeyBasedMetadataWriteAccess"] = gen.PtrOf(gen.Bool())
 	gens["EnableAnalyticalStorage"] = gen.PtrOf(gen.Bool())
@@ -174,9 +174,9 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountProperties_StatusARM(gens
 	gens["EnableMultipleWriteLocations"] = gen.PtrOf(gen.Bool())
 	gens["IsVirtualNetworkFilterEnabled"] = gen.PtrOf(gen.Bool())
 	gens["KeyVaultKeyUri"] = gen.PtrOf(gen.AlphaString())
-	gens["NetworkAclBypass"] = gen.PtrOf(gen.OneConstOf(NetworkAclBypass_StatusAzureServices, NetworkAclBypass_StatusNone))
+	gens["NetworkAclBypass"] = gen.PtrOf(gen.AlphaString())
 	gens["NetworkAclBypassResourceIds"] = gen.SliceOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_StatusDisabled, PublicNetworkAccess_StatusEnabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForDatabaseAccountProperties_StatusARM is a factory method for creating gopter generators
@@ -260,16 +260,12 @@ func ManagedServiceIdentity_StatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagedServiceIdentity_StatusARM(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ManagedServiceIdentity_Type_StatusNone,
-		ManagedServiceIdentity_Type_StatusSystemAssigned,
-		ManagedServiceIdentity_Type_StatusSystemAssignedUserAssigned,
-		ManagedServiceIdentity_Type_StatusUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForManagedServiceIdentity_StatusARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedServiceIdentity_StatusARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), ManagedServiceIdentity_UserAssignedIdentities_StatusARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), ManagedServiceIdentity_StatusUserAssignedIdentitiesARMGenerator())
 }
 
 func Test_AnalyticalStorageConfiguration_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -329,7 +325,7 @@ func AnalyticalStorageConfiguration_StatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAnalyticalStorageConfiguration_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAnalyticalStorageConfiguration_StatusARM(gens map[string]gopter.Gen) {
-	gens["SchemaType"] = gen.PtrOf(gen.OneConstOf(AnalyticalStorageSchemaType_StatusFullFidelity, AnalyticalStorageSchemaType_StatusWellDefined))
+	gens["SchemaType"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ApiProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -389,7 +385,7 @@ func ApiProperties_StatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForApiProperties_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApiProperties_StatusARM(gens map[string]gopter.Gen) {
-	gens["ServerVersion"] = gen.PtrOf(gen.OneConstOf(ApiProperties_ServerVersion_Status32, ApiProperties_ServerVersion_Status36, ApiProperties_ServerVersion_Status40))
+	gens["ServerVersion"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_BackupPolicy_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -449,7 +445,7 @@ func BackupPolicy_StatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBackupPolicy_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBackupPolicy_StatusARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.OneConstOf(BackupPolicyType_StatusContinuous, BackupPolicyType_StatusPeriodic)
+	gens["Type"] = gen.AlphaString()
 }
 
 func Test_Capability_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -569,12 +565,7 @@ func ConsistencyPolicy_StatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForConsistencyPolicy_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForConsistencyPolicy_StatusARM(gens map[string]gopter.Gen) {
-	gens["DefaultConsistencyLevel"] = gen.OneConstOf(
-		ConsistencyPolicy_DefaultConsistencyLevel_StatusBoundedStaleness,
-		ConsistencyPolicy_DefaultConsistencyLevel_StatusConsistentPrefix,
-		ConsistencyPolicy_DefaultConsistencyLevel_StatusEventual,
-		ConsistencyPolicy_DefaultConsistencyLevel_StatusSession,
-		ConsistencyPolicy_DefaultConsistencyLevel_StatusStrong)
+	gens["DefaultConsistencyLevel"] = gen.AlphaString()
 	gens["MaxIntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["MaxStalenessPrefix"] = gen.PtrOf(gen.Int())
 }
@@ -767,19 +758,19 @@ func AddIndependentPropertyGeneratorsForLocation_StatusARM(gens map[string]gopte
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ManagedServiceIdentity_UserAssignedIdentities_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedServiceIdentity_StatusUserAssignedIdentitiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedServiceIdentity_UserAssignedIdentities_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedServiceIdentity_UserAssignedIdentities_StatusARM, ManagedServiceIdentity_UserAssignedIdentities_StatusARMGenerator()))
+		"Round trip of ManagedServiceIdentity_StatusUserAssignedIdentitiesARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedServiceIdentity_StatusUserAssignedIdentitiesARM, ManagedServiceIdentity_StatusUserAssignedIdentitiesARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedServiceIdentity_UserAssignedIdentities_StatusARM runs a test to see if a specific instance of ManagedServiceIdentity_UserAssignedIdentities_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedServiceIdentity_UserAssignedIdentities_StatusARM(subject ManagedServiceIdentity_UserAssignedIdentities_StatusARM) string {
+// RunJSONSerializationTestForManagedServiceIdentity_StatusUserAssignedIdentitiesARM runs a test to see if a specific instance of ManagedServiceIdentity_StatusUserAssignedIdentitiesARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedServiceIdentity_StatusUserAssignedIdentitiesARM(subject ManagedServiceIdentity_StatusUserAssignedIdentitiesARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -787,7 +778,7 @@ func RunJSONSerializationTestForManagedServiceIdentity_UserAssignedIdentities_St
 	}
 
 	// Deserialize back into memory
-	var actual ManagedServiceIdentity_UserAssignedIdentities_StatusARM
+	var actual ManagedServiceIdentity_StatusUserAssignedIdentitiesARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -805,25 +796,25 @@ func RunJSONSerializationTestForManagedServiceIdentity_UserAssignedIdentities_St
 	return ""
 }
 
-// Generator of ManagedServiceIdentity_UserAssignedIdentities_StatusARM instances for property testing - lazily
-//instantiated by ManagedServiceIdentity_UserAssignedIdentities_StatusARMGenerator()
-var managedServiceIdentity_userAssignedIdentities_statusARMGenerator gopter.Gen
+// Generator of ManagedServiceIdentity_StatusUserAssignedIdentitiesARM instances for property testing - lazily
+//instantiated by ManagedServiceIdentity_StatusUserAssignedIdentitiesARMGenerator()
+var managedServiceIdentity_statusUserAssignedIdentitiesARMGenerator gopter.Gen
 
-// ManagedServiceIdentity_UserAssignedIdentities_StatusARMGenerator returns a generator of ManagedServiceIdentity_UserAssignedIdentities_StatusARM instances for property testing.
-func ManagedServiceIdentity_UserAssignedIdentities_StatusARMGenerator() gopter.Gen {
-	if managedServiceIdentity_userAssignedIdentities_statusARMGenerator != nil {
-		return managedServiceIdentity_userAssignedIdentities_statusARMGenerator
+// ManagedServiceIdentity_StatusUserAssignedIdentitiesARMGenerator returns a generator of ManagedServiceIdentity_StatusUserAssignedIdentitiesARM instances for property testing.
+func ManagedServiceIdentity_StatusUserAssignedIdentitiesARMGenerator() gopter.Gen {
+	if managedServiceIdentity_statusUserAssignedIdentitiesARMGenerator != nil {
+		return managedServiceIdentity_statusUserAssignedIdentitiesARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedServiceIdentity_UserAssignedIdentities_StatusARM(generators)
-	managedServiceIdentity_userAssignedIdentities_statusARMGenerator = gen.Struct(reflect.TypeOf(ManagedServiceIdentity_UserAssignedIdentities_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForManagedServiceIdentity_StatusUserAssignedIdentitiesARM(generators)
+	managedServiceIdentity_statusUserAssignedIdentitiesARMGenerator = gen.Struct(reflect.TypeOf(ManagedServiceIdentity_StatusUserAssignedIdentitiesARM{}), generators)
 
-	return managedServiceIdentity_userAssignedIdentities_statusARMGenerator
+	return managedServiceIdentity_statusUserAssignedIdentitiesARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedServiceIdentity_UserAssignedIdentities_StatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedServiceIdentity_UserAssignedIdentities_StatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedServiceIdentity_StatusUserAssignedIdentitiesARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedServiceIdentity_StatusUserAssignedIdentitiesARM(gens map[string]gopter.Gen) {
 	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 }

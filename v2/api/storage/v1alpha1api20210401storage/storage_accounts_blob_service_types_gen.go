@@ -28,8 +28,8 @@ import (
 type StorageAccountsBlobService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccountsBlobServices_SPEC `json:"spec,omitempty"`
-	Status            BlobServiceProperties_Status     `json:"status,omitempty"`
+	Spec              StorageAccountsBlobService_Spec `json:"spec,omitempty"`
+	Status            BlobServiceProperties_Status    `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsBlobService{}
@@ -172,50 +172,50 @@ func (properties *BlobServiceProperties_Status) ConvertStatusTo(destination genr
 	return destination.ConvertStatusFrom(properties)
 }
 
-//Storage version of v1alpha1api20210401.StorageAccountsBlobServices_SPEC
-type StorageAccountsBlobServices_SPEC struct {
+//Storage version of v1alpha1api20210401.StorageAccountsBlobService_Spec
+type StorageAccountsBlobService_Spec struct {
 	AutomaticSnapshotPolicyEnabled *bool `json:"automaticSnapshotPolicyEnabled,omitempty"`
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName                      string                             `json:"azureName"`
-	ChangeFeed                     *ChangeFeed_Spec                   `json:"changeFeed,omitempty"`
-	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy_Spec        `json:"containerDeleteRetentionPolicy,omitempty"`
-	Cors                           *CorsRules_Spec                    `json:"cors,omitempty"`
-	DefaultServiceVersion          *string                            `json:"defaultServiceVersion,omitempty"`
-	DeleteRetentionPolicy          *DeleteRetentionPolicy_Spec        `json:"deleteRetentionPolicy,omitempty"`
-	IsVersioningEnabled            *bool                              `json:"isVersioningEnabled,omitempty"`
-	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicy_Spec `json:"lastAccessTimeTrackingPolicy,omitempty"`
-	OriginalVersion                string                             `json:"originalVersion"`
+	AzureName                      string                        `json:"azureName"`
+	ChangeFeed                     *ChangeFeed                   `json:"changeFeed,omitempty"`
+	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy        `json:"containerDeleteRetentionPolicy,omitempty"`
+	Cors                           *CorsRules                    `json:"cors,omitempty"`
+	DefaultServiceVersion          *string                       `json:"defaultServiceVersion,omitempty"`
+	DeleteRetentionPolicy          *DeleteRetentionPolicy        `json:"deleteRetentionPolicy,omitempty"`
+	IsVersioningEnabled            *bool                         `json:"isVersioningEnabled,omitempty"`
+	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicy `json:"lastAccessTimeTrackingPolicy,omitempty"`
+	OriginalVersion                string                        `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
 	Owner         genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	PropertyBag   genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	RestorePolicy *RestorePolicyProperties_Spec     `json:"restorePolicy,omitempty"`
+	RestorePolicy *RestorePolicyProperties          `json:"restorePolicy,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &StorageAccountsBlobServices_SPEC{}
+var _ genruntime.ConvertibleSpec = &StorageAccountsBlobService_Spec{}
 
-// ConvertSpecFrom populates our StorageAccountsBlobServices_SPEC from the provided source
-func (spec *StorageAccountsBlobServices_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our StorageAccountsBlobService_Spec from the provided source
+func (service *StorageAccountsBlobService_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == service {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(service)
 }
 
-// ConvertSpecTo populates the provided destination from our StorageAccountsBlobServices_SPEC
-func (spec *StorageAccountsBlobServices_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our StorageAccountsBlobService_Spec
+func (service *StorageAccountsBlobService_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == service {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(service)
 }
 
-//Storage version of v1alpha1api20210401.ChangeFeed_Spec
-type ChangeFeed_Spec struct {
+//Storage version of v1alpha1api20210401.ChangeFeed
+type ChangeFeed struct {
 	Enabled         *bool                  `json:"enabled,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RetentionInDays *int                   `json:"retentionInDays,omitempty"`
@@ -228,9 +228,9 @@ type ChangeFeed_Status struct {
 	RetentionInDays *int                   `json:"retentionInDays,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.CorsRules_Spec
-type CorsRules_Spec struct {
-	CorsRules   []CorsRule_Spec        `json:"corsRules,omitempty"`
+//Storage version of v1alpha1api20210401.CorsRules
+type CorsRules struct {
+	CorsRules   []CorsRule             `json:"corsRules,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
@@ -240,8 +240,8 @@ type CorsRules_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.DeleteRetentionPolicy_Spec
-type DeleteRetentionPolicy_Spec struct {
+//Storage version of v1alpha1api20210401.DeleteRetentionPolicy
+type DeleteRetentionPolicy struct {
 	Days        *int                   `json:"days,omitempty"`
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -254,8 +254,8 @@ type DeleteRetentionPolicy_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.LastAccessTimeTrackingPolicy_Spec
-type LastAccessTimeTrackingPolicy_Spec struct {
+//Storage version of v1alpha1api20210401.LastAccessTimeTrackingPolicy
+type LastAccessTimeTrackingPolicy struct {
 	BlobType                  []string               `json:"blobType,omitempty"`
 	Enable                    *bool                  `json:"enable,omitempty"`
 	Name                      *string                `json:"name,omitempty"`
@@ -272,8 +272,8 @@ type LastAccessTimeTrackingPolicy_Status struct {
 	TrackingGranularityInDays *int                   `json:"trackingGranularityInDays,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.RestorePolicyProperties_Spec
-type RestorePolicyProperties_Spec struct {
+//Storage version of v1alpha1api20210401.RestorePolicyProperties
+type RestorePolicyProperties struct {
 	Days        *int                   `json:"days,omitempty"`
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -288,8 +288,8 @@ type RestorePolicyProperties_Status struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.CorsRule_Spec
-type CorsRule_Spec struct {
+//Storage version of v1alpha1api20210401.CorsRule
+type CorsRule struct {
 	AllowedHeaders  []string               `json:"allowedHeaders,omitempty"`
 	AllowedMethods  []string               `json:"allowedMethods,omitempty"`
 	AllowedOrigins  []string               `json:"allowedOrigins,omitempty"`

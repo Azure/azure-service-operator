@@ -20,7 +20,7 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	deny := signalrservice.SignalRNetworkACLsDefaultActionDeny
+	deny := signalrservice.ACLActionDeny
 	systemAssigned := signalrservice.ManagedIdentityTypeSystemAssigned
 	// Adapted from the quickstart example:
 	// https://docs.microsoft.com/en-us/azure/azure-signalr/signalr-quickstart-azure-signalr-service-arm-template
@@ -40,16 +40,16 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 				ClientCertEnabled: to.BoolPtr(false),
 			},
 			Features: []signalrservice.SignalRFeature{{
-				Flag:  signalrservice.SignalRFeatureFlagServiceMode,
+				Flag:  signalrservice.FeatureFlagsServiceMode,
 				Value: "Classic",
 			}, {
-				Flag:  signalrservice.SignalRFeatureFlagEnableConnectivityLogs,
+				Flag:  signalrservice.FeatureFlagsEnableConnectivityLogs,
 				Value: "true",
 			}, {
-				Flag:  signalrservice.SignalRFeatureFlagEnableMessagingLogs,
+				Flag:  signalrservice.FeatureFlagsEnableMessagingLogs,
 				Value: "true",
 			}, {
-				Flag:  signalrservice.SignalRFeatureFlagEnableLiveTrace,
+				Flag:  signalrservice.FeatureFlagsEnableLiveTrace,
 				Value: "true",
 			}},
 			Cors: &signalrservice.SignalRCorsSettings{
@@ -58,14 +58,14 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 			NetworkACLs: &signalrservice.SignalRNetworkACLs{
 				DefaultAction: &deny,
 				PublicNetwork: &signalrservice.NetworkACL{
-					Allow: []signalrservice.NetworkACLAllow{
-						signalrservice.NetworkACLAllowClientConnection,
+					Allow: []signalrservice.SignalRRequestType{
+						signalrservice.SignalRRequestTypeClientConnection,
 					},
 				},
 				PrivateEndpoints: []signalrservice.PrivateEndpointACL{{
 					Name: "privateendpointname",
-					Allow: []signalrservice.PrivateEndpointACLAllow{
-						signalrservice.PrivateEndpointACLAllowServerConnection,
+					Allow: []signalrservice.SignalRRequestType{
+						signalrservice.SignalRRequestTypeServerConnection,
 					},
 				}},
 			},
@@ -87,16 +87,16 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 	// Perform a patch to add another URL to the cors allow list.
 	old := signalR.DeepCopy()
 	signalR.Spec.Cors.AllowedOrigins = append(
-		signalR.Spec.Cors.AllowedOrigins, "https://definitelymydomain.horse",
+		signalR.Spec.Cors.AllowedOrigins, "https://definitelymydomain.example",
 	)
 	tc.PatchResourceAndWait(old, &signalR)
 	tc.Expect(signalR.Status.Cors).ToNot(BeNil())
-	tc.Expect(signalR.Status.Cors.AllowedOrigins).To(ContainElement("https://definitelymydomain.horse"))
+	tc.Expect(signalR.Status.Cors.AllowedOrigins).To(ContainElement("https://definitelymydomain.example"))
 
 	tc.DeleteResourcesAndWait(&signalR, rg)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(signalrservice.SignalRSpecAPIVersion20211001))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(signalrservice.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

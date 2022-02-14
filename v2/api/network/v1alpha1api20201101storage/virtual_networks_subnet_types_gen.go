@@ -28,7 +28,7 @@ import (
 type VirtualNetworksSubnet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VirtualNetworksSubnets_SPEC                             `json:"spec,omitempty"`
+	Spec              VirtualNetworksSubnet_Spec                              `json:"spec,omitempty"`
 	Status            Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded `json:"status,omitempty"`
 }
 
@@ -182,20 +182,20 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) Convert
 	return destination.ConvertStatusFrom(embedded)
 }
 
-//Storage version of v1alpha1api20201101.VirtualNetworksSubnets_SPEC
-type VirtualNetworksSubnets_SPEC struct {
-	AddressPrefix                      *string                                  `json:"addressPrefix,omitempty"`
-	AddressPrefixes                    []string                                 `json:"addressPrefixes,omitempty"`
-	ApplicationGatewayIpConfigurations []ApplicationGatewayIPConfiguration_Spec `json:"applicationGatewayIpConfigurations,omitempty"`
+//Storage version of v1alpha1api20201101.VirtualNetworksSubnet_Spec
+type VirtualNetworksSubnet_Spec struct {
+	AddressPrefix                      *string                             `json:"addressPrefix,omitempty"`
+	AddressPrefixes                    []string                            `json:"addressPrefixes,omitempty"`
+	ApplicationGatewayIpConfigurations []ApplicationGatewayIPConfiguration `json:"applicationGatewayIpConfigurations,omitempty"`
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName            string                                                               `json:"azureName"`
-	Delegations          []Delegation_Spec                                                    `json:"delegations,omitempty"`
-	IpAllocations        []SubResource_Spec                                                   `json:"ipAllocations,omitempty"`
-	NatGateway           *SubResource_Spec                                                    `json:"natGateway,omitempty"`
-	NetworkSecurityGroup *NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded `json:"networkSecurityGroup,omitempty"`
-	OriginalVersion      string                                                               `json:"originalVersion"`
+	AzureName            string                                                              `json:"azureName"`
+	Delegations          []Delegation                                                        `json:"delegations,omitempty"`
+	IpAllocations        []SubResource                                                       `json:"ipAllocations,omitempty"`
+	NatGateway           *SubResource                                                        `json:"natGateway,omitempty"`
+	NetworkSecurityGroup *NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded `json:"networkSecurityGroup,omitempty"`
+	OriginalVersion      string                                                              `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
 	Owner                             genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
@@ -204,41 +204,41 @@ type VirtualNetworksSubnets_SPEC struct {
 	PropertyBag                       genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 
 	//Reference: Resource ID.
-	Reference               *genruntime.ResourceReference          `armReference:"Id" json:"reference,omitempty"`
-	RouteTable              *RouteTable_Spec                       `json:"routeTable,omitempty"`
-	ServiceEndpointPolicies []ServiceEndpointPolicy_Spec           `json:"serviceEndpointPolicies,omitempty"`
-	ServiceEndpoints        []ServiceEndpointPropertiesFormat_Spec `json:"serviceEndpoints,omitempty"`
-	Type                    *string                                `json:"type,omitempty"`
+	Reference               *genruntime.ResourceReference     `armReference:"Id" json:"reference,omitempty"`
+	RouteTable              *RouteTableSpec                   `json:"routeTable,omitempty"`
+	ServiceEndpointPolicies []ServiceEndpointPolicySpec       `json:"serviceEndpointPolicies,omitempty"`
+	ServiceEndpoints        []ServiceEndpointPropertiesFormat `json:"serviceEndpoints,omitempty"`
+	Type                    *string                           `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &VirtualNetworksSubnets_SPEC{}
+var _ genruntime.ConvertibleSpec = &VirtualNetworksSubnet_Spec{}
 
-// ConvertSpecFrom populates our VirtualNetworksSubnets_SPEC from the provided source
-func (spec *VirtualNetworksSubnets_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our VirtualNetworksSubnet_Spec from the provided source
+func (subnet *VirtualNetworksSubnet_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == subnet {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(subnet)
 }
 
-// ConvertSpecTo populates the provided destination from our VirtualNetworksSubnets_SPEC
-func (spec *VirtualNetworksSubnets_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our VirtualNetworksSubnet_Spec
+func (subnet *VirtualNetworksSubnet_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == subnet {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(subnet)
 }
 
-//Storage version of v1alpha1api20201101.ApplicationGatewayIPConfiguration_Spec
-type ApplicationGatewayIPConfiguration_Spec struct {
+//Storage version of v1alpha1api20201101.ApplicationGatewayIPConfiguration
+type ApplicationGatewayIPConfiguration struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	//Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Subnet    *SubResource_Spec             `json:"subnet,omitempty"`
+	Subnet    *SubResource                  `json:"subnet,omitempty"`
 }
 
 //Storage version of v1alpha1api20201101.ApplicationGatewayIPConfiguration_Status
@@ -252,8 +252,8 @@ type ApplicationGatewayIPConfiguration_Status struct {
 	Type              *string                `json:"type,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.Delegation_Spec
-type Delegation_Spec struct {
+//Storage version of v1alpha1api20201101.Delegation
+type Delegation struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -297,15 +297,15 @@ type IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	PublicIPAddress           *PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded `json:"publicIPAddress,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded
-type NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded struct {
+//Storage version of v1alpha1api20201101.NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded
+type NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	Location    *string                `json:"location,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	//Reference: Resource ID.
-	Reference     *genruntime.ResourceReference                                 `armReference:"Id" json:"reference,omitempty"`
-	SecurityRules []SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded `json:"securityRules,omitempty"`
-	Tags          map[string]string                                             `json:"tags,omitempty"`
+	Reference     *genruntime.ResourceReference                            `armReference:"Id" json:"reference,omitempty"`
+	SecurityRules []SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded `json:"securityRules,omitempty"`
+	Tags          map[string]string                                        `json:"tags,omitempty"`
 }
 
 //Storage version of v1alpha1api20201101.NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded
@@ -333,16 +333,16 @@ type ResourceNavigationLink_Status struct {
 	Type               *string                `json:"type,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.RouteTable_Spec
-type RouteTable_Spec struct {
+//Storage version of v1alpha1api20201101.RouteTableSpec
+type RouteTableSpec struct {
 	DisableBgpRoutePropagation *bool                  `json:"disableBgpRoutePropagation,omitempty"`
 	Location                   *string                `json:"location,omitempty"`
 	PropertyBag                genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference                          `armReference:"Id" json:"reference,omitempty"`
-	Routes    []Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded `json:"routes,omitempty"`
-	Tags      map[string]string                                      `json:"tags,omitempty"`
+	Reference *genruntime.ResourceReference                     `armReference:"Id" json:"reference,omitempty"`
+	Routes    []Route_VirtualNetworksSubnet_SubResourceEmbedded `json:"routes,omitempty"`
+	Tags      map[string]string                                 `json:"tags,omitempty"`
 }
 
 //Storage version of v1alpha1api20201101.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
@@ -365,15 +365,15 @@ type ServiceAssociationLink_Status struct {
 	Type               *string                `json:"type,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.ServiceEndpointPolicy_Spec
-type ServiceEndpointPolicy_Spec struct {
+//Storage version of v1alpha1api20201101.ServiceEndpointPolicySpec
+type ServiceEndpointPolicySpec struct {
 	Location    *string                `json:"location,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	//Reference: Resource ID.
-	Reference                        *genruntime.ResourceReference                                                    `armReference:"Id" json:"reference,omitempty"`
-	ServiceEndpointPolicyDefinitions []ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded `json:"serviceEndpointPolicyDefinitions,omitempty"`
-	Tags                             map[string]string                                                                `json:"tags,omitempty"`
+	Reference                        *genruntime.ResourceReference                                               `armReference:"Id" json:"reference,omitempty"`
+	ServiceEndpointPolicyDefinitions []ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbedded `json:"serviceEndpointPolicyDefinitions,omitempty"`
+	Tags                             map[string]string                                                           `json:"tags,omitempty"`
 }
 
 //Storage version of v1alpha1api20201101.ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded
@@ -383,8 +383,8 @@ type ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded stru
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.ServiceEndpointPropertiesFormat_Spec
-type ServiceEndpointPropertiesFormat_Spec struct {
+//Storage version of v1alpha1api20201101.ServiceEndpointPropertiesFormat
+type ServiceEndpointPropertiesFormat struct {
 	Locations   []string               `json:"locations,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Service     *string                `json:"service,omitempty"`
@@ -407,24 +407,24 @@ type PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	Zones            []string                   `json:"zones,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded
-type Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded struct {
+//Storage version of v1alpha1api20201101.Route_VirtualNetworksSubnet_SubResourceEmbedded
+type Route_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	//Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded
-type SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded struct {
+//Storage version of v1alpha1api20201101.SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded
+type SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	//Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded
-type ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded struct {
+//Storage version of v1alpha1api20201101.ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbedded
+type ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	//Reference: Resource ID.

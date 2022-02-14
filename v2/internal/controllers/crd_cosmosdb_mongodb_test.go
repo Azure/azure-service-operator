@@ -27,17 +27,17 @@ func Test_CosmosDB_MongoDatabase_CRUD(t *testing.T) {
 	namer := tc.Namer.WithSeparator("")
 
 	// Create a Cosmos DB account
-	kind := documentdb.DatabaseAccountsSpecKindMongoDB
+	kind := documentdb.DatabaseAccount_SpecKindMongoDB
 	acct := documentdb.DatabaseAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("db")),
-		Spec: documentdb.DatabaseAccounts_Spec{
+		Spec: documentdb.DatabaseAccount_Spec{
 			Location: &tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Kind:     &kind,
 			Capabilities: []documentdb.Capability{{
 				Name: to.StringPtr("EnableMongo"),
 			}},
-			DatabaseAccountOfferType: documentdb.DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferTypeStandard,
+			DatabaseAccountOfferType: documentdb.DatabaseAccountOfferTypeStandard,
 			Locations: []documentdb.Location{
 				{
 					LocationName: &tc.AzureRegion,
@@ -50,7 +50,7 @@ func Test_CosmosDB_MongoDatabase_CRUD(t *testing.T) {
 	name := tc.Namer.GenerateName("mongo")
 	db := documentdb.MongodbDatabase{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: documentdb.DatabaseAccountsMongodbDatabases_Spec{
+		Spec: documentdb.DatabaseAccountsMongodbDatabase_Spec{
 			Location: &tc.AzureRegion,
 			Options: &documentdb.CreateUpdateOptions{
 				AutoscaleSettings: &documentdb.AutoscaleSettings{
@@ -68,7 +68,7 @@ func Test_CosmosDB_MongoDatabase_CRUD(t *testing.T) {
 	defer tc.DeleteResourcesAndWait(&acct, &db)
 
 	// Perform some assertions on the resources we just created
-	expectedKind := documentdb.DatabaseAccountGetResultsStatusKindMongoDB
+	expectedKind := documentdb.DatabaseAccount_SpecKindMongoDB
 	tc.Expect(*acct.Status.Kind).To(Equal(expectedKind))
 	tc.Expect(acct.Status.Id).ToNot(BeNil())
 
@@ -101,7 +101,7 @@ func CosmosDB_MongoDB_Collection_CRUD(tc *testcommon.KubePerTestContext, db clie
 	name := tc.Namer.GenerateName("collection")
 	collection := documentdb.MongodbDatabaseCollection{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: documentdb.DatabaseAccountsMongodbDatabasesCollections_Spec{
+		Spec: documentdb.DatabaseAccountsMongodbDatabasesCollection_Spec{
 			Location: &tc.AzureRegion,
 			Options: &documentdb.CreateUpdateOptions{
 				Throughput: to.IntPtr(400),
@@ -160,7 +160,7 @@ func CosmosDB_MongoDB_Collection_CRUD(tc *testcommon.KubePerTestContext, db clie
 func CosmosDB_MongoDB_Database_ThroughputSettings_CRUD(tc *testcommon.KubePerTestContext, db client.Object) {
 	throughputSettings := documentdb.MongodbDatabaseThroughputSetting{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("throughput")),
-		Spec: documentdb.DatabaseAccountsMongodbDatabasesThroughputSettings_Spec{
+		Spec: documentdb.DatabaseAccountsMongodbDatabasesThroughputSetting_Spec{
 			Owner: testcommon.AsOwner(db),
 			Resource: documentdb.ThroughputSettingsResource{
 				// We cannot change this to be a fixed throughput as we already created the database using
@@ -193,7 +193,7 @@ func CosmosDB_MongoDB_Database_ThroughputSettings_CRUD(tc *testcommon.KubePerTes
 func CosmosDB_MongoDB_Database_Collections_ThroughputSettings_CRUD(tc *testcommon.KubePerTestContext, collection client.Object) {
 	throughputSettings := documentdb.MongodbDatabaseCollectionThroughputSetting{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("throughput")),
-		Spec: documentdb.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec{
+		Spec: documentdb.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec{
 			Owner: testcommon.AsOwner(collection),
 			Resource: documentdb.ThroughputSettingsResource{
 				Throughput: to.IntPtr(500),

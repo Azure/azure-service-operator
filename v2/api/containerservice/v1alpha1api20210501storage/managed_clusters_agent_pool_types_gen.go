@@ -28,8 +28,8 @@ import (
 type ManagedClustersAgentPool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ManagedClustersAgentPools_SPEC `json:"spec,omitempty"`
-	Status            AgentPool_Status               `json:"status,omitempty"`
+	Spec              ManagedClustersAgentPool_Spec `json:"spec,omitempty"`
+	Status            AgentPool_Status              `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ManagedClustersAgentPool{}
@@ -198,28 +198,28 @@ func (pool *AgentPool_Status) ConvertStatusTo(destination genruntime.Convertible
 	return destination.ConvertStatusFrom(pool)
 }
 
-//Storage version of v1alpha1api20210501.ManagedClustersAgentPools_SPEC
-type ManagedClustersAgentPools_SPEC struct {
+//Storage version of v1alpha1api20210501.ManagedClustersAgentPool_Spec
+type ManagedClustersAgentPool_Spec struct {
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName              string              `json:"azureName"`
-	Count                  *int                `json:"count,omitempty"`
-	EnableAutoScaling      *bool               `json:"enableAutoScaling,omitempty"`
-	EnableEncryptionAtHost *bool               `json:"enableEncryptionAtHost,omitempty"`
-	EnableFIPS             *bool               `json:"enableFIPS,omitempty"`
-	EnableNodePublicIP     *bool               `json:"enableNodePublicIP,omitempty"`
-	EnableUltraSSD         *bool               `json:"enableUltraSSD,omitempty"`
-	GpuInstanceProfile     *string             `json:"gpuInstanceProfile,omitempty"`
-	KubeletConfig          *KubeletConfig_Spec `json:"kubeletConfig,omitempty"`
-	KubeletDiskType        *string             `json:"kubeletDiskType,omitempty"`
-	LinuxOSConfig          *LinuxOSConfig_Spec `json:"linuxOSConfig,omitempty"`
-	MaxCount               *int                `json:"maxCount,omitempty"`
-	MaxPods                *int                `json:"maxPods,omitempty"`
-	MinCount               *int                `json:"minCount,omitempty"`
-	Mode                   *string             `json:"mode,omitempty"`
-	NodeLabels             map[string]string   `json:"nodeLabels,omitempty"`
+	AzureName              string            `json:"azureName"`
+	Count                  *int              `json:"count,omitempty"`
+	EnableAutoScaling      *bool             `json:"enableAutoScaling,omitempty"`
+	EnableEncryptionAtHost *bool             `json:"enableEncryptionAtHost,omitempty"`
+	EnableFIPS             *bool             `json:"enableFIPS,omitempty"`
+	EnableNodePublicIP     *bool             `json:"enableNodePublicIP,omitempty"`
+	EnableUltraSSD         *bool             `json:"enableUltraSSD,omitempty"`
+	GpuInstanceProfile     *string           `json:"gpuInstanceProfile,omitempty"`
+	KubeletConfig          *KubeletConfig    `json:"kubeletConfig,omitempty"`
+	KubeletDiskType        *string           `json:"kubeletDiskType,omitempty"`
+	LinuxOSConfig          *LinuxOSConfig    `json:"linuxOSConfig,omitempty"`
+	MaxCount               *int              `json:"maxCount,omitempty"`
+	MaxPods                *int              `json:"maxPods,omitempty"`
+	MinCount               *int              `json:"minCount,omitempty"`
+	Mode                   *string           `json:"mode,omitempty"`
+	NodeLabels             map[string]string `json:"nodeLabels,omitempty"`
 
 	//NodePublicIPPrefixIDReference: This is of the form:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
@@ -238,16 +238,16 @@ type ManagedClustersAgentPools_SPEC struct {
 	//PodSubnetIDReference: If omitted, pod IPs are statically assigned on the node
 	//subnet (see vnetSubnetID for more details). This is of the form:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
-	PodSubnetIDReference      *genruntime.ResourceReference  `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
-	PropertyBag               genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
-	ProximityPlacementGroupID *string                        `json:"proximityPlacementGroupID,omitempty"`
-	ScaleSetEvictionPolicy    *string                        `json:"scaleSetEvictionPolicy,omitempty"`
-	ScaleSetPriority          *string                        `json:"scaleSetPriority,omitempty"`
-	SpotMaxPrice              *float64                       `json:"spotMaxPrice,omitempty"`
-	Tags                      map[string]string              `json:"tags,omitempty"`
-	Type                      *string                        `json:"type,omitempty"`
-	UpgradeSettings           *AgentPoolUpgradeSettings_Spec `json:"upgradeSettings,omitempty"`
-	VmSize                    *string                        `json:"vmSize,omitempty"`
+	PodSubnetIDReference      *genruntime.ResourceReference `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
+	PropertyBag               genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	ProximityPlacementGroupID *string                       `json:"proximityPlacementGroupID,omitempty"`
+	ScaleSetEvictionPolicy    *string                       `json:"scaleSetEvictionPolicy,omitempty"`
+	ScaleSetPriority          *string                       `json:"scaleSetPriority,omitempty"`
+	SpotMaxPrice              *float64                      `json:"spotMaxPrice,omitempty"`
+	Tags                      map[string]string             `json:"tags,omitempty"`
+	Type                      *string                       `json:"type,omitempty"`
+	UpgradeSettings           *AgentPoolUpgradeSettings     `json:"upgradeSettings,omitempty"`
+	VmSize                    *string                       `json:"vmSize,omitempty"`
 
 	//VnetSubnetIDReference: If this is not specified, a VNET and subnet will be
 	//generated and used. If no podSubnetID is specified, this applies to nodes and
@@ -256,28 +256,28 @@ type ManagedClustersAgentPools_SPEC struct {
 	VnetSubnetIDReference *genruntime.ResourceReference `armReference:"VnetSubnetID" json:"vnetSubnetIDReference,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &ManagedClustersAgentPools_SPEC{}
+var _ genruntime.ConvertibleSpec = &ManagedClustersAgentPool_Spec{}
 
-// ConvertSpecFrom populates our ManagedClustersAgentPools_SPEC from the provided source
-func (spec *ManagedClustersAgentPools_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our ManagedClustersAgentPool_Spec from the provided source
+func (pool *ManagedClustersAgentPool_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == pool {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(pool)
 }
 
-// ConvertSpecTo populates the provided destination from our ManagedClustersAgentPools_SPEC
-func (spec *ManagedClustersAgentPools_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our ManagedClustersAgentPool_Spec
+func (pool *ManagedClustersAgentPool_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == pool {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(pool)
 }
 
-//Storage version of v1alpha1api20210501.AgentPoolUpgradeSettings_Spec
-type AgentPoolUpgradeSettings_Spec struct {
+//Storage version of v1alpha1api20210501.AgentPoolUpgradeSettings
+type AgentPoolUpgradeSettings struct {
 	MaxSurge    *string                `json:"maxSurge,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -288,8 +288,8 @@ type AgentPoolUpgradeSettings_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210501.KubeletConfig_Spec
-type KubeletConfig_Spec struct {
+//Storage version of v1alpha1api20210501.KubeletConfig
+type KubeletConfig struct {
 	AllowedUnsafeSysctls  []string               `json:"allowedUnsafeSysctls,omitempty"`
 	ContainerLogMaxFiles  *int                   `json:"containerLogMaxFiles,omitempty"`
 	ContainerLogMaxSizeMB *int                   `json:"containerLogMaxSizeMB,omitempty"`
@@ -320,11 +320,11 @@ type KubeletConfig_Status struct {
 	TopologyManagerPolicy *string                `json:"topologyManagerPolicy,omitempty"`
 }
 
-//Storage version of v1alpha1api20210501.LinuxOSConfig_Spec
-type LinuxOSConfig_Spec struct {
+//Storage version of v1alpha1api20210501.LinuxOSConfig
+type LinuxOSConfig struct {
 	PropertyBag                genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SwapFileSizeMB             *int                   `json:"swapFileSizeMB,omitempty"`
-	Sysctls                    *SysctlConfig_Spec     `json:"sysctls,omitempty"`
+	Sysctls                    *SysctlConfig          `json:"sysctls,omitempty"`
 	TransparentHugePageDefrag  *string                `json:"transparentHugePageDefrag,omitempty"`
 	TransparentHugePageEnabled *string                `json:"transparentHugePageEnabled,omitempty"`
 }
@@ -338,8 +338,8 @@ type LinuxOSConfig_Status struct {
 	TransparentHugePageEnabled *string                `json:"transparentHugePageEnabled,omitempty"`
 }
 
-//Storage version of v1alpha1api20210501.SysctlConfig_Spec
-type SysctlConfig_Spec struct {
+//Storage version of v1alpha1api20210501.SysctlConfig
+type SysctlConfig struct {
 	FsAioMaxNr                     *int                   `json:"fsAioMaxNr,omitempty"`
 	FsFileMax                      *int                   `json:"fsFileMax,omitempty"`
 	FsInotifyMaxUserWatches        *int                   `json:"fsInotifyMaxUserWatches,omitempty"`

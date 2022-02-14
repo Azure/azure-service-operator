@@ -11,7 +11,7 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/kr/pretty"
 	. "github.com/onsi/gomega"
-	"k8s.io/api/core/v1"
+	v1 "k8s.io/api/core/v1"
 
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -34,14 +34,14 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 
 	tc.CreateResource(secret)
 
-	version := mysql.ServerPropertiesVersion8021
+	version := mysql.ServerVersion8021
 	secretRef := genruntime.SecretReference{
 		Name: secret.Name,
 		Key:  adminPasswordKey,
 	}
 	flexibleServer := &mysql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("mysql"),
-		Spec: mysql.FlexibleServers_Spec{
+		Spec: mysql.FlexibleServer_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
@@ -65,7 +65,7 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 
 	// Perform a simple patch
 	old := flexibleServer.DeepCopy()
-	disabled := mysql.BackupGeoRedundantBackupDisabled
+	disabled := mysql.EnableStatusEnumDisabled
 	flexibleServer.Spec.Backup = &mysql.Backup{
 		BackupRetentionDays: to.IntPtr(5),
 		GeoRedundantBackup:  &disabled,
@@ -93,7 +93,7 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(flexibleServer)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(mysql.FlexibleServersDatabasesSpecAPIVersion20210501))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(mysql.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
@@ -105,7 +105,7 @@ func MySQLFlexibleServer_Database_CRUD(tc *testcommon.KubePerTestContext, flexib
 	namer := tc.Namer.WithSeparator("")
 	database := &mysql.FlexibleServersDatabase{
 		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("db")),
-		Spec: mysql.FlexibleServersDatabases_Spec{
+		Spec: mysql.FlexibleServersDatabase_Spec{
 			Owner:   testcommon.AsOwner(flexibleServer),
 			Charset: to.StringPtr("utf8mb4"),
 		},
@@ -119,7 +119,7 @@ func MySQLFlexibleServer_Database_CRUD(tc *testcommon.KubePerTestContext, flexib
 func MySQLFlexibleServer_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *mysql.FlexibleServer) {
 	rule := &mysql.FlexibleServersFirewallRule{
 		ObjectMeta: tc.MakeObjectMeta("fwrule"),
-		Spec: mysql.FlexibleServersFirewallRules_Spec{
+		Spec: mysql.FlexibleServersFirewallRule_Spec{
 			Owner:          testcommon.AsOwner(flexibleServer),
 			StartIpAddress: "1.2.3.4",
 			EndIpAddress:   "1.2.3.4",

@@ -28,8 +28,8 @@ import (
 type VirtualNetworksVirtualNetworkPeering struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VirtualNetworksVirtualNetworkPeerings_SPEC `json:"spec,omitempty"`
-	Status            VirtualNetworkPeering_Status               `json:"status,omitempty"`
+	Spec              VirtualNetworksVirtualNetworkPeering_Spec `json:"spec,omitempty"`
+	Status            VirtualNetworkPeering_Status              `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &VirtualNetworksVirtualNetworkPeering{}
@@ -174,8 +174,8 @@ func (peering *VirtualNetworkPeering_Status) ConvertStatusTo(destination genrunt
 	return destination.ConvertStatusFrom(peering)
 }
 
-//Storage version of v1alpha1api20201101.VirtualNetworksVirtualNetworkPeerings_SPEC
-type VirtualNetworksVirtualNetworkPeerings_SPEC struct {
+//Storage version of v1alpha1api20201101.VirtualNetworksVirtualNetworkPeering_Spec
+type VirtualNetworksVirtualNetworkPeering_Spec struct {
 	AllowForwardedTraffic     *bool `json:"allowForwardedTraffic,omitempty"`
 	AllowGatewayTransit       *bool `json:"allowGatewayTransit,omitempty"`
 	AllowVirtualNetworkAccess *bool `json:"allowVirtualNetworkAccess,omitempty"`
@@ -192,32 +192,32 @@ type VirtualNetworksVirtualNetworkPeerings_SPEC struct {
 	PropertyBag  genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 
 	//Reference: Resource ID.
-	Reference            *genruntime.ResourceReference      `armReference:"Id" json:"reference,omitempty"`
-	RemoteAddressSpace   *AddressSpace_Spec                 `json:"remoteAddressSpace,omitempty"`
-	RemoteBgpCommunities *VirtualNetworkBgpCommunities_Spec `json:"remoteBgpCommunities,omitempty"`
-	RemoteVirtualNetwork *SubResource_Spec                  `json:"remoteVirtualNetwork,omitempty"`
-	Type                 *string                            `json:"type,omitempty"`
-	UseRemoteGateways    *bool                              `json:"useRemoteGateways,omitempty"`
+	Reference            *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	RemoteAddressSpace   *AddressSpace                 `json:"remoteAddressSpace,omitempty"`
+	RemoteBgpCommunities *VirtualNetworkBgpCommunities `json:"remoteBgpCommunities,omitempty"`
+	RemoteVirtualNetwork *SubResource                  `json:"remoteVirtualNetwork,omitempty"`
+	Type                 *string                       `json:"type,omitempty"`
+	UseRemoteGateways    *bool                         `json:"useRemoteGateways,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &VirtualNetworksVirtualNetworkPeerings_SPEC{}
+var _ genruntime.ConvertibleSpec = &VirtualNetworksVirtualNetworkPeering_Spec{}
 
-// ConvertSpecFrom populates our VirtualNetworksVirtualNetworkPeerings_SPEC from the provided source
-func (spec *VirtualNetworksVirtualNetworkPeerings_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our VirtualNetworksVirtualNetworkPeering_Spec from the provided source
+func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == peering {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(peering)
 }
 
-// ConvertSpecTo populates the provided destination from our VirtualNetworksVirtualNetworkPeerings_SPEC
-func (spec *VirtualNetworksVirtualNetworkPeerings_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our VirtualNetworksVirtualNetworkPeering_Spec
+func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == peering {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(peering)
 }
 
 func init() {

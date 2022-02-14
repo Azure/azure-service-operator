@@ -28,7 +28,7 @@ import (
 type RoleAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RoleAssignments_SPEC  `json:"spec,omitempty"`
+	Spec              RoleAssignment_Spec   `json:"spec,omitempty"`
 	Status            RoleAssignment_Status `json:"status,omitempty"`
 }
 
@@ -138,6 +138,48 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("2020-08-01-preview")
 
+//Storage version of v1alpha1api20200801preview.RoleAssignment_Spec
+type RoleAssignment_Spec struct {
+	//AzureName: The name of the resource in Azure. This is often the same as the name
+	//of the resource in Kubernetes but it doesn't have to be.
+	AzureName                          string  `json:"azureName"`
+	Condition                          *string `json:"condition,omitempty"`
+	ConditionVersion                   *string `json:"conditionVersion,omitempty"`
+	DelegatedManagedIdentityResourceId *string `json:"delegatedManagedIdentityResourceId,omitempty"`
+	Description                        *string `json:"description,omitempty"`
+	OriginalVersion                    string  `json:"originalVersion"`
+
+	// +kubebuilder:validation:Required
+	Owner         genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	PrincipalId   *string                           `json:"principalId,omitempty"`
+	PrincipalType *string                           `json:"principalType,omitempty"`
+	PropertyBag   genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+
+	// +kubebuilder:validation:Required
+	//RoleDefinitionReference: The role definition ID.
+	RoleDefinitionReference genruntime.ResourceReference `armReference:"RoleDefinitionId" json:"roleDefinitionReference"`
+}
+
+var _ genruntime.ConvertibleSpec = &RoleAssignment_Spec{}
+
+// ConvertSpecFrom populates our RoleAssignment_Spec from the provided source
+func (assignment *RoleAssignment_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == assignment {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(assignment)
+}
+
+// ConvertSpecTo populates the provided destination from our RoleAssignment_Spec
+func (assignment *RoleAssignment_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == assignment {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(assignment)
+}
+
 //Storage version of v1alpha1api20200801preview.RoleAssignment_Status
 type RoleAssignment_Status struct {
 	Condition                          *string                `json:"condition,omitempty"`
@@ -174,45 +216,6 @@ func (assignment *RoleAssignment_Status) ConvertStatusTo(destination genruntime.
 	}
 
 	return destination.ConvertStatusFrom(assignment)
-}
-
-//Storage version of v1alpha1api20200801preview.RoleAssignments_SPEC
-type RoleAssignments_SPEC struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName                          string  `json:"azureName"`
-	Condition                          *string `json:"condition,omitempty"`
-	ConditionVersion                   *string `json:"conditionVersion,omitempty"`
-	DelegatedManagedIdentityResourceId *string `json:"delegatedManagedIdentityResourceId,omitempty"`
-	Description                        *string `json:"description,omitempty"`
-	OriginalVersion                    string  `json:"originalVersion"`
-
-	// +kubebuilder:validation:Required
-	Owner            genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PrincipalId      *string                           `json:"principalId,omitempty"`
-	PrincipalType    *string                           `json:"principalType,omitempty"`
-	PropertyBag      genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	RoleDefinitionId *string                           `json:"roleDefinitionId,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &RoleAssignments_SPEC{}
-
-// ConvertSpecFrom populates our RoleAssignments_SPEC from the provided source
-func (spec *RoleAssignments_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(spec)
-}
-
-// ConvertSpecTo populates the provided destination from our RoleAssignments_SPEC
-func (spec *RoleAssignments_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(spec)
 }
 
 func init() {

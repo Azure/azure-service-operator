@@ -29,7 +29,7 @@ import (
 type FakeResource struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FakeResource_SPEC `json:"spec,omitempty"`
+	Spec              FakeResource_Spec `json:"spec,omitempty"`
 }
 
 var _ conditions.Conditioner = &FakeResource{}
@@ -207,31 +207,31 @@ type FakeResourceList struct {
 	Items           []FakeResource `json:"items"`
 }
 
-type FakeResource_SPECARM struct {
-	APIVersion            FakeResource_APIVersion_SPEC `json:"apiVersion"`
-	ArrayFoo              []FooARM                     `json:"arrayFoo"`
-	ArrayOfArrays         [][]FooARM                   `json:"arrayOfArrays,omitempty"`
-	ArrayOfArraysOfArrays [][][]FooARM                 `json:"arrayOfArraysOfArrays,omitempty"`
-	ArrayOfEnums          []Color                      `json:"arrayOfEnums,omitempty"`
-	ArrayOfMaps           []map[string]FooARM          `json:"arrayOfMaps,omitempty"`
-	Name                  string                       `json:"name"`
-	Type                  FakeResource_Type_SPEC       `json:"type"`
+type FakeResource_SpecARM struct {
+	APIVersion            FakeResource_SpecAPIVersion `json:"apiVersion"`
+	ArrayFoo              []FooARM                    `json:"arrayFoo"`
+	ArrayOfArrays         [][]FooARM                  `json:"arrayOfArrays,omitempty"`
+	ArrayOfArraysOfArrays [][][]FooARM                `json:"arrayOfArraysOfArrays,omitempty"`
+	ArrayOfEnums          []Color                     `json:"arrayOfEnums,omitempty"`
+	ArrayOfMaps           []map[string]FooARM         `json:"arrayOfMaps,omitempty"`
+	Name                  string                      `json:"name"`
+	Type                  FakeResource_SpecType       `json:"type"`
 }
 
-var _ genruntime.ARMResourceSpec = &FakeResource_SPECARM{}
+var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "placeholder for golden tests"
-func (specarm FakeResource_SPECARM) GetAPIVersion() string {
+func (resource FakeResource_SpecARM) GetAPIVersion() string {
 	return string(APIVersionAPIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (specarm FakeResource_SPECARM) GetName() string {
-	return specarm.Name
+func (resource FakeResource_SpecARM) GetName() string {
+	return resource.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always ""
-func (specarm FakeResource_SPECARM) GetType() string {
+func (resource FakeResource_SpecARM) GetType() string {
 	return ""
 }
 
@@ -250,14 +250,9 @@ const (
 	ColorRed   = Color("red")
 )
 
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type FakeResource_APIVersion_SPEC string
-
-const FakeResource_APIVersion_SPEC20200601 = FakeResource_APIVersion_SPEC("2020-06-01")
-
-type FakeResource_SPEC struct {
+type FakeResource_Spec struct {
 	// +kubebuilder:validation:Required
-	APIVersion FakeResource_APIVersion_SPEC `json:"apiVersion"`
+	APIVersion FakeResource_SpecAPIVersion `json:"apiVersion"`
 
 	// +kubebuilder:validation:Required
 	ArrayFoo              []Foo            `json:"arrayFoo"`
@@ -274,23 +269,23 @@ type FakeResource_SPEC struct {
 	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
 	// +kubebuilder:validation:Required
-	Type FakeResource_Type_SPEC `json:"type"`
+	Type FakeResource_SpecType `json:"type"`
 }
 
-var _ genruntime.ARMTransformer = &FakeResource_SPEC{}
+var _ genruntime.ARMTransformer = &FakeResource_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (spec *FakeResource_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if spec == nil {
+func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if resource == nil {
 		return nil, nil
 	}
-	var result FakeResource_SPECARM
+	var result FakeResource_SpecARM
 
 	// Set property ‘APIVersion’:
-	result.APIVersion = spec.APIVersion
+	result.APIVersion = resource.APIVersion
 
 	// Set property ‘ArrayFoo’:
-	for _, item := range spec.ArrayFoo {
+	for _, item := range resource.ArrayFoo {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
@@ -299,7 +294,7 @@ func (spec *FakeResource_SPEC) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 
 	// Set property ‘ArrayOfArrays’:
-	for _, item := range spec.ArrayOfArrays {
+	for _, item := range resource.ArrayOfArrays {
 		var itemTemp []FooARM
 		for _, item1 := range item {
 			item1ARM, err := item1.ConvertToARM(resolved)
@@ -312,7 +307,7 @@ func (spec *FakeResource_SPEC) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 
 	// Set property ‘ArrayOfArraysOfArrays’:
-	for _, item := range spec.ArrayOfArraysOfArrays {
+	for _, item := range resource.ArrayOfArraysOfArrays {
 		var itemTemp [][]FooARM
 		for _, item1 := range item {
 			var item1Temp []FooARM
@@ -329,12 +324,12 @@ func (spec *FakeResource_SPEC) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 
 	// Set property ‘ArrayOfEnums’:
-	for _, item := range spec.ArrayOfEnums {
+	for _, item := range resource.ArrayOfEnums {
 		result.ArrayOfEnums = append(result.ArrayOfEnums, item)
 	}
 
 	// Set property ‘ArrayOfMaps’:
-	for _, item := range spec.ArrayOfMaps {
+	for _, item := range resource.ArrayOfMaps {
 		if item != nil {
 			itemTemp := make(map[string]FooARM)
 			for key, value := range item {
@@ -352,24 +347,24 @@ func (spec *FakeResource_SPEC) ConvertToARM(resolved genruntime.ConvertToARMReso
 	result.Name = resolved.Name
 
 	// Set property ‘Type’:
-	result.Type = spec.Type
+	result.Type = resource.Type
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (spec *FakeResource_SPEC) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FakeResource_SPECARM{}
+func (resource *FakeResource_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &FakeResource_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (spec *FakeResource_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FakeResource_SPECARM)
+func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(FakeResource_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_SPECARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘APIVersion’:
-	spec.APIVersion = typedInput.APIVersion
+	resource.APIVersion = typedInput.APIVersion
 
 	// Set property ‘ArrayFoo’:
 	for _, item := range typedInput.ArrayFoo {
@@ -378,7 +373,7 @@ func (spec *FakeResource_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		if err != nil {
 			return err
 		}
-		spec.ArrayFoo = append(spec.ArrayFoo, item1)
+		resource.ArrayFoo = append(resource.ArrayFoo, item1)
 	}
 
 	// Set property ‘ArrayOfArrays’:
@@ -392,7 +387,7 @@ func (spec *FakeResource_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 			}
 			itemTemp = append(itemTemp, item2)
 		}
-		spec.ArrayOfArrays = append(spec.ArrayOfArrays, itemTemp)
+		resource.ArrayOfArrays = append(resource.ArrayOfArrays, itemTemp)
 	}
 
 	// Set property ‘ArrayOfArraysOfArrays’:
@@ -410,12 +405,12 @@ func (spec *FakeResource_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 			}
 			itemTemp = append(itemTemp, item1Temp)
 		}
-		spec.ArrayOfArraysOfArrays = append(spec.ArrayOfArraysOfArrays, itemTemp)
+		resource.ArrayOfArraysOfArrays = append(resource.ArrayOfArraysOfArrays, itemTemp)
 	}
 
 	// Set property ‘ArrayOfEnums’:
 	for _, item := range typedInput.ArrayOfEnums {
-		spec.ArrayOfEnums = append(spec.ArrayOfEnums, item)
+		resource.ArrayOfEnums = append(resource.ArrayOfEnums, item)
 	}
 
 	// Set property ‘ArrayOfMaps’:
@@ -430,57 +425,62 @@ func (spec *FakeResource_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 				}
 				itemTemp[key] = value1
 			}
-			spec.ArrayOfMaps = append(spec.ArrayOfMaps, itemTemp)
+			resource.ArrayOfMaps = append(resource.ArrayOfMaps, itemTemp)
 		}
 	}
 
 	// Set property ‘AzureName’:
-	spec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	resource.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	spec.Owner = genruntime.KnownResourceReference{
+	resource.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Type’:
-	spec.Type = typedInput.Type
+	resource.Type = typedInput.Type
 
 	// No error
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &FakeResource_SPEC{}
+var _ genruntime.ConvertibleSpec = &FakeResource_Spec{}
 
-// ConvertSpecFrom populates our FakeResource_SPEC from the provided source
-func (spec *FakeResource_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our FakeResource_Spec from the provided source
+func (resource *FakeResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == resource {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(resource)
 }
 
-// ConvertSpecTo populates the provided destination from our FakeResource_SPEC
-func (spec *FakeResource_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our FakeResource_Spec
+func (resource *FakeResource_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == resource {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(resource)
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (spec *FakeResource_SPEC) OriginalVersion() string {
+func (resource *FakeResource_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (spec *FakeResource_SPEC) SetAzureName(azureName string) { spec.AzureName = azureName }
+func (resource *FakeResource_Spec) SetAzureName(azureName string) { resource.AzureName = azureName }
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type FakeResource_SpecAPIVersion string
+
+const FakeResource_SpecAPIVersion20200601 = FakeResource_SpecAPIVersion("2020-06-01")
 
 // +kubebuilder:validation:Enum={"Microsoft.Azure/FakeResource"}
-type FakeResource_Type_SPEC string
+type FakeResource_SpecType string
 
-const FakeResource_Type_SPECMicrosoftAzureFakeResource = FakeResource_Type_SPEC("Microsoft.Azure/FakeResource")
+const FakeResource_SpecTypeMicrosoftAzureFakeResource = FakeResource_SpecType("Microsoft.Azure/FakeResource")
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type FooARM struct {

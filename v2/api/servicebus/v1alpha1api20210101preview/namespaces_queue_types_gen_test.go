@@ -158,36 +158,36 @@ func NamespacesQueueGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForNamespacesQueue is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesQueue(gens map[string]gopter.Gen) {
-	gens["Spec"] = NamespacesQueues_SPECGenerator()
+	gens["Spec"] = NamespacesQueue_SpecGenerator()
 	gens["Status"] = SBQueue_StatusGenerator()
 }
 
-func Test_NamespacesQueues_SPEC_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_NamespacesQueue_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from NamespacesQueues_SPEC to NamespacesQueues_SPEC via AssignPropertiesToNamespacesQueues_SPEC & AssignPropertiesFromNamespacesQueues_SPEC returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNamespacesQueues_SPEC, NamespacesQueues_SPECGenerator()))
+		"Round trip from NamespacesQueue_Spec to NamespacesQueue_Spec via AssignPropertiesToNamespacesQueue_Spec & AssignPropertiesFromNamespacesQueue_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespacesQueue_Spec, NamespacesQueue_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespacesQueues_SPEC tests if a specific instance of NamespacesQueues_SPEC can be assigned to v1alpha1api20210101previewstorage and back losslessly
-func RunPropertyAssignmentTestForNamespacesQueues_SPEC(subject NamespacesQueues_SPEC) string {
+// RunPropertyAssignmentTestForNamespacesQueue_Spec tests if a specific instance of NamespacesQueue_Spec can be assigned to v1alpha1api20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForNamespacesQueue_Spec(subject NamespacesQueue_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210101previewstorage.NamespacesQueues_SPEC
-	err := copied.AssignPropertiesToNamespacesQueues_SPEC(&other)
+	var other v1alpha1api20210101previewstorage.NamespacesQueue_Spec
+	err := copied.AssignPropertiesToNamespacesQueue_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual NamespacesQueues_SPEC
-	err = actual.AssignPropertiesFromNamespacesQueues_SPEC(&other)
+	var actual NamespacesQueue_Spec
+	err = actual.AssignPropertiesFromNamespacesQueue_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -204,19 +204,19 @@ func RunPropertyAssignmentTestForNamespacesQueues_SPEC(subject NamespacesQueues_
 	return ""
 }
 
-func Test_NamespacesQueues_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_NamespacesQueue_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of NamespacesQueues_SPEC via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespacesQueues_SPEC, NamespacesQueues_SPECGenerator()))
+		"Round trip of NamespacesQueue_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespacesQueue_Spec, NamespacesQueue_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespacesQueues_SPEC runs a test to see if a specific instance of NamespacesQueues_SPEC round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespacesQueues_SPEC(subject NamespacesQueues_SPEC) string {
+// RunJSONSerializationTestForNamespacesQueue_Spec runs a test to see if a specific instance of NamespacesQueue_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespacesQueue_Spec(subject NamespacesQueue_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -224,7 +224,7 @@ func RunJSONSerializationTestForNamespacesQueues_SPEC(subject NamespacesQueues_S
 	}
 
 	// Deserialize back into memory
-	var actual NamespacesQueues_SPEC
+	var actual NamespacesQueue_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -242,25 +242,25 @@ func RunJSONSerializationTestForNamespacesQueues_SPEC(subject NamespacesQueues_S
 	return ""
 }
 
-// Generator of NamespacesQueues_SPEC instances for property testing - lazily instantiated by
-//NamespacesQueues_SPECGenerator()
-var namespacesQueues_specGenerator gopter.Gen
+// Generator of NamespacesQueue_Spec instances for property testing - lazily instantiated by
+//NamespacesQueue_SpecGenerator()
+var namespacesQueue_specGenerator gopter.Gen
 
-// NamespacesQueues_SPECGenerator returns a generator of NamespacesQueues_SPEC instances for property testing.
-func NamespacesQueues_SPECGenerator() gopter.Gen {
-	if namespacesQueues_specGenerator != nil {
-		return namespacesQueues_specGenerator
+// NamespacesQueue_SpecGenerator returns a generator of NamespacesQueue_Spec instances for property testing.
+func NamespacesQueue_SpecGenerator() gopter.Gen {
+	if namespacesQueue_specGenerator != nil {
+		return namespacesQueue_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesQueues_SPEC(generators)
-	namespacesQueues_specGenerator = gen.Struct(reflect.TypeOf(NamespacesQueues_SPEC{}), generators)
+	AddIndependentPropertyGeneratorsForNamespacesQueue_Spec(generators)
+	namespacesQueue_specGenerator = gen.Struct(reflect.TypeOf(NamespacesQueue_Spec{}), generators)
 
-	return namespacesQueues_specGenerator
+	return namespacesQueue_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespacesQueues_SPEC is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespacesQueues_SPEC(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespacesQueue_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespacesQueue_Spec(gens map[string]gopter.Gen) {
 	gens["AutoDeleteOnIdle"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
 	gens["DeadLetteringOnMessageExpiration"] = gen.PtrOf(gen.Bool())
@@ -277,15 +277,15 @@ func AddIndependentPropertyGeneratorsForNamespacesQueues_SPEC(gens map[string]go
 	gens["RequiresDuplicateDetection"] = gen.PtrOf(gen.Bool())
 	gens["RequiresSession"] = gen.PtrOf(gen.Bool())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		EntityStatus_SpecActive,
-		EntityStatus_SpecCreating,
-		EntityStatus_SpecDeleting,
-		EntityStatus_SpecDisabled,
-		EntityStatus_SpecReceiveDisabled,
-		EntityStatus_SpecRenaming,
-		EntityStatus_SpecRestoring,
-		EntityStatus_SpecSendDisabled,
-		EntityStatus_SpecUnknown))
+		EntityStatusActive,
+		EntityStatusCreating,
+		EntityStatusDeleting,
+		EntityStatusDisabled,
+		EntityStatusReceiveDisabled,
+		EntityStatusRenaming,
+		EntityStatusRestoring,
+		EntityStatusSendDisabled,
+		EntityStatusUnknown))
 }
 
 func Test_SBQueue_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -415,16 +415,7 @@ func AddIndependentPropertyGeneratorsForSBQueue_Status(gens map[string]gopter.Ge
 	gens["RequiresDuplicateDetection"] = gen.PtrOf(gen.Bool())
 	gens["RequiresSession"] = gen.PtrOf(gen.Bool())
 	gens["SizeInBytes"] = gen.PtrOf(gen.Int())
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		EntityStatus_StatusActive,
-		EntityStatus_StatusCreating,
-		EntityStatus_StatusDeleting,
-		EntityStatus_StatusDisabled,
-		EntityStatus_StatusReceiveDisabled,
-		EntityStatus_StatusRenaming,
-		EntityStatus_StatusRestoring,
-		EntityStatus_StatusSendDisabled,
-		EntityStatus_StatusUnknown))
+	gens["Status"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
 }

@@ -152,11 +152,7 @@ func ConfigurationProperties_StatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForConfigurationProperties_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForConfigurationProperties_StatusARM(gens map[string]gopter.Gen) {
 	gens["AllowedValues"] = gen.PtrOf(gen.AlphaString())
-	gens["DataType"] = gen.PtrOf(gen.OneConstOf(
-		ConfigurationProperties_DataType_StatusBoolean,
-		ConfigurationProperties_DataType_StatusEnumeration,
-		ConfigurationProperties_DataType_StatusInteger,
-		ConfigurationProperties_DataType_StatusNumeric))
+	gens["DataType"] = gen.PtrOf(gen.AlphaString())
 	gens["DefaultValue"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["Source"] = gen.PtrOf(gen.AlphaString())
@@ -222,16 +218,8 @@ func SystemData_StatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSystemData_StatusARM(gens map[string]gopter.Gen) {
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_StatusApplication,
-		SystemData_CreatedByType_StatusKey,
-		SystemData_CreatedByType_StatusManagedIdentity,
-		SystemData_CreatedByType_StatusUser))
+	gens["CreatedByType"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_StatusApplication,
-		SystemData_LastModifiedByType_StatusKey,
-		SystemData_LastModifiedByType_StatusManagedIdentity,
-		SystemData_LastModifiedByType_StatusUser))
+	gens["LastModifiedByType"] = gen.PtrOf(gen.AlphaString())
 }

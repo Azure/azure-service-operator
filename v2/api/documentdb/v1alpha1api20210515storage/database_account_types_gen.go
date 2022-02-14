@@ -28,7 +28,7 @@ import (
 type DatabaseAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_SPEC  `json:"spec,omitempty"`
+	Spec              DatabaseAccount_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccount_Status `json:"status,omitempty"`
 }
 
@@ -138,6 +138,66 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("2021-05-15")
 
+//Storage version of v1alpha1api20210515.DatabaseAccount_Spec
+type DatabaseAccount_Spec struct {
+	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration `json:"analyticalStorageConfiguration,omitempty"`
+	ApiProperties                  *ApiProperties                  `json:"apiProperties,omitempty"`
+
+	//AzureName: The name of the resource in Azure. This is often the same as the name
+	//of the resource in Kubernetes but it doesn't have to be.
+	AzureName                          string                  `json:"azureName"`
+	BackupPolicy                       *BackupPolicy           `json:"backupPolicy,omitempty"`
+	Capabilities                       []Capability            `json:"capabilities,omitempty"`
+	ConnectorOffer                     *string                 `json:"connectorOffer,omitempty"`
+	ConsistencyPolicy                  *ConsistencyPolicy      `json:"consistencyPolicy,omitempty"`
+	Cors                               []CorsPolicy            `json:"cors,omitempty"`
+	DatabaseAccountOfferType           *string                 `json:"databaseAccountOfferType,omitempty"`
+	DefaultIdentity                    *string                 `json:"defaultIdentity,omitempty"`
+	DisableKeyBasedMetadataWriteAccess *bool                   `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
+	EnableAnalyticalStorage            *bool                   `json:"enableAnalyticalStorage,omitempty"`
+	EnableAutomaticFailover            *bool                   `json:"enableAutomaticFailover,omitempty"`
+	EnableCassandraConnector           *bool                   `json:"enableCassandraConnector,omitempty"`
+	EnableFreeTier                     *bool                   `json:"enableFreeTier,omitempty"`
+	EnableMultipleWriteLocations       *bool                   `json:"enableMultipleWriteLocations,omitempty"`
+	Identity                           *ManagedServiceIdentity `json:"identity,omitempty"`
+	IpRules                            []IpAddressOrRange      `json:"ipRules,omitempty"`
+	IsVirtualNetworkFilterEnabled      *bool                   `json:"isVirtualNetworkFilterEnabled,omitempty"`
+	KeyVaultKeyUri                     *string                 `json:"keyVaultKeyUri,omitempty"`
+	Kind                               *string                 `json:"kind,omitempty"`
+	Location                           *string                 `json:"location,omitempty"`
+	Locations                          []Location              `json:"locations,omitempty"`
+	NetworkAclBypass                   *string                 `json:"networkAclBypass,omitempty"`
+	NetworkAclBypassResourceIds        []string                `json:"networkAclBypassResourceIds,omitempty"`
+	OriginalVersion                    string                  `json:"originalVersion"`
+
+	// +kubebuilder:validation:Required
+	Owner               genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	PropertyBag         genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                           `json:"publicNetworkAccess,omitempty"`
+	Tags                map[string]string                 `json:"tags,omitempty"`
+	VirtualNetworkRules []VirtualNetworkRule              `json:"virtualNetworkRules,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &DatabaseAccount_Spec{}
+
+// ConvertSpecFrom populates our DatabaseAccount_Spec from the provided source
+func (account *DatabaseAccount_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == account {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(account)
+}
+
+// ConvertSpecTo populates the provided destination from our DatabaseAccount_Spec
+func (account *DatabaseAccount_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == account {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(account)
+}
+
 //Storage version of v1alpha1api20210515.DatabaseAccount_Status
 type DatabaseAccount_Status struct {
 	AnalyticalStorageConfiguration     *AnalyticalStorageConfiguration_Status `json:"analyticalStorageConfiguration,omitempty"`
@@ -194,68 +254,8 @@ func (account *DatabaseAccount_Status) ConvertStatusTo(destination genruntime.Co
 	return destination.ConvertStatusFrom(account)
 }
 
-//Storage version of v1alpha1api20210515.DatabaseAccounts_SPEC
-type DatabaseAccounts_SPEC struct {
-	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration_Spec `json:"analyticalStorageConfiguration,omitempty"`
-	ApiProperties                  *ApiProperties_Spec                  `json:"apiProperties,omitempty"`
-
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName                          string                       `json:"azureName"`
-	BackupPolicy                       *BackupPolicy_Spec           `json:"backupPolicy,omitempty"`
-	Capabilities                       []Capability_Spec            `json:"capabilities,omitempty"`
-	ConnectorOffer                     *string                      `json:"connectorOffer,omitempty"`
-	ConsistencyPolicy                  *ConsistencyPolicy_Spec      `json:"consistencyPolicy,omitempty"`
-	Cors                               []CorsPolicy_Spec            `json:"cors,omitempty"`
-	DatabaseAccountOfferType           *string                      `json:"databaseAccountOfferType,omitempty"`
-	DefaultIdentity                    *string                      `json:"defaultIdentity,omitempty"`
-	DisableKeyBasedMetadataWriteAccess *bool                        `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
-	EnableAnalyticalStorage            *bool                        `json:"enableAnalyticalStorage,omitempty"`
-	EnableAutomaticFailover            *bool                        `json:"enableAutomaticFailover,omitempty"`
-	EnableCassandraConnector           *bool                        `json:"enableCassandraConnector,omitempty"`
-	EnableFreeTier                     *bool                        `json:"enableFreeTier,omitempty"`
-	EnableMultipleWriteLocations       *bool                        `json:"enableMultipleWriteLocations,omitempty"`
-	Identity                           *ManagedServiceIdentity_Spec `json:"identity,omitempty"`
-	IpRules                            []IpAddressOrRange_Spec      `json:"ipRules,omitempty"`
-	IsVirtualNetworkFilterEnabled      *bool                        `json:"isVirtualNetworkFilterEnabled,omitempty"`
-	KeyVaultKeyUri                     *string                      `json:"keyVaultKeyUri,omitempty"`
-	Kind                               *string                      `json:"kind,omitempty"`
-	Location                           *string                      `json:"location,omitempty"`
-	Locations                          []Location_Spec              `json:"locations,omitempty"`
-	NetworkAclBypass                   *string                      `json:"networkAclBypass,omitempty"`
-	NetworkAclBypassResourceIds        []string                     `json:"networkAclBypassResourceIds,omitempty"`
-	OriginalVersion                    string                       `json:"originalVersion"`
-
-	// +kubebuilder:validation:Required
-	Owner               genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PropertyBag         genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                           `json:"publicNetworkAccess,omitempty"`
-	Tags                map[string]string                 `json:"tags,omitempty"`
-	VirtualNetworkRules []VirtualNetworkRule_Spec         `json:"virtualNetworkRules,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_SPEC{}
-
-// ConvertSpecFrom populates our DatabaseAccounts_SPEC from the provided source
-func (spec *DatabaseAccounts_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(spec)
-}
-
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_SPEC
-func (spec *DatabaseAccounts_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(spec)
-}
-
-//Storage version of v1alpha1api20210515.AnalyticalStorageConfiguration_Spec
-type AnalyticalStorageConfiguration_Spec struct {
+//Storage version of v1alpha1api20210515.AnalyticalStorageConfiguration
+type AnalyticalStorageConfiguration struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SchemaType  *string                `json:"schemaType,omitempty"`
 }
@@ -266,8 +266,8 @@ type AnalyticalStorageConfiguration_Status struct {
 	SchemaType  *string                `json:"schemaType,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.ApiProperties_Spec
-type ApiProperties_Spec struct {
+//Storage version of v1alpha1api20210515.ApiProperties
+type ApiProperties struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ServerVersion *string                `json:"serverVersion,omitempty"`
 }
@@ -278,8 +278,8 @@ type ApiProperties_Status struct {
 	ServerVersion *string                `json:"serverVersion,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.BackupPolicy_Spec
-type BackupPolicy_Spec struct {
+//Storage version of v1alpha1api20210515.BackupPolicy
+type BackupPolicy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
@@ -290,8 +290,8 @@ type BackupPolicy_Status struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.Capability_Spec
-type Capability_Spec struct {
+//Storage version of v1alpha1api20210515.Capability
+type Capability struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -302,8 +302,8 @@ type Capability_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.ConsistencyPolicy_Spec
-type ConsistencyPolicy_Spec struct {
+//Storage version of v1alpha1api20210515.ConsistencyPolicy
+type ConsistencyPolicy struct {
 	DefaultConsistencyLevel *string                `json:"defaultConsistencyLevel,omitempty"`
 	MaxIntervalInSeconds    *int                   `json:"maxIntervalInSeconds,omitempty"`
 	MaxStalenessPrefix      *int                   `json:"maxStalenessPrefix,omitempty"`
@@ -318,8 +318,8 @@ type ConsistencyPolicy_Status struct {
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.CorsPolicy_Spec
-type CorsPolicy_Spec struct {
+//Storage version of v1alpha1api20210515.CorsPolicy
+type CorsPolicy struct {
 	AllowedHeaders  *string                `json:"allowedHeaders,omitempty"`
 	AllowedMethods  *string                `json:"allowedMethods,omitempty"`
 	AllowedOrigins  *string                `json:"allowedOrigins,omitempty"`
@@ -338,8 +338,8 @@ type CorsPolicy_Status struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.IpAddressOrRange_Spec
-type IpAddressOrRange_Spec struct {
+//Storage version of v1alpha1api20210515.IpAddressOrRange
+type IpAddressOrRange struct {
 	IpAddressOrRange *string                `json:"ipAddressOrRange,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -350,8 +350,8 @@ type IpAddressOrRange_Status struct {
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.Location_Spec
-type Location_Spec struct {
+//Storage version of v1alpha1api20210515.Location
+type Location struct {
 	FailoverPriority  *int                   `json:"failoverPriority,omitempty"`
 	IsZoneRedundant   *bool                  `json:"isZoneRedundant,omitempty"`
 	LocationName      *string                `json:"locationName,omitempty"`
@@ -370,23 +370,23 @@ type Location_Status struct {
 	ProvisioningState *string                `json:"provisioningState,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.ManagedServiceIdentity_Spec
-type ManagedServiceIdentity_Spec struct {
+//Storage version of v1alpha1api20210515.ManagedServiceIdentity
+type ManagedServiceIdentity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
 //Storage version of v1alpha1api20210515.ManagedServiceIdentity_Status
 type ManagedServiceIdentity_Status struct {
-	PrincipalId            *string                                                         `json:"principalId,omitempty"`
-	PropertyBag            genruntime.PropertyBag                                          `json:"$propertyBag,omitempty"`
-	TenantId               *string                                                         `json:"tenantId,omitempty"`
-	Type                   *string                                                         `json:"type,omitempty"`
-	UserAssignedIdentities map[string]ManagedServiceIdentity_UserAssignedIdentities_Status `json:"userAssignedIdentities,omitempty"`
+	PrincipalId            *string                                                        `json:"principalId,omitempty"`
+	PropertyBag            genruntime.PropertyBag                                         `json:"$propertyBag,omitempty"`
+	TenantId               *string                                                        `json:"tenantId,omitempty"`
+	Type                   *string                                                        `json:"type,omitempty"`
+	UserAssignedIdentities map[string]ManagedServiceIdentity_StatusUserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.VirtualNetworkRule_Spec
-type VirtualNetworkRule_Spec struct {
+//Storage version of v1alpha1api20210515.VirtualNetworkRule
+type VirtualNetworkRule struct {
 	IgnoreMissingVNetServiceEndpoint *bool                  `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
 	PropertyBag                      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -402,8 +402,8 @@ type VirtualNetworkRule_Status struct {
 	PropertyBag                      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.ManagedServiceIdentity_UserAssignedIdentities_Status
-type ManagedServiceIdentity_UserAssignedIdentities_Status struct {
+//Storage version of v1alpha1api20210515.ManagedServiceIdentity_StatusUserAssignedIdentities
+type ManagedServiceIdentity_StatusUserAssignedIdentities struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

@@ -28,8 +28,8 @@ import (
 type MongodbDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsMongodbDatabases_SPEC `json:"spec,omitempty"`
-	Status            MongoDBDatabase_Status                `json:"status,omitempty"`
+	Spec              DatabaseAccountsMongodbDatabase_Spec `json:"spec,omitempty"`
+	Status            MongoDBDatabase_Status               `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabase{}
@@ -133,40 +133,40 @@ type MongodbDatabaseList struct {
 	Items           []MongodbDatabase `json:"items"`
 }
 
-//Storage version of v1alpha1api20210515.DatabaseAccountsMongodbDatabases_SPEC
-type DatabaseAccountsMongodbDatabases_SPEC struct {
+//Storage version of v1alpha1api20210515.DatabaseAccountsMongodbDatabase_Spec
+type DatabaseAccountsMongodbDatabase_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName       string                    `json:"azureName"`
-	Location        *string                   `json:"location,omitempty"`
-	Options         *CreateUpdateOptions_Spec `json:"options,omitempty"`
-	OriginalVersion string                    `json:"originalVersion"`
+	AzureName       string               `json:"azureName"`
+	Location        *string              `json:"location,omitempty"`
+	Options         *CreateUpdateOptions `json:"options,omitempty"`
+	OriginalVersion string               `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
 	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Resource    *MongoDBDatabaseResource_Spec     `json:"resource,omitempty"`
+	Resource    *MongoDBDatabaseResource          `json:"resource,omitempty"`
 	Tags        map[string]string                 `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabases_SPEC{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabase_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccountsMongodbDatabases_SPEC from the provided source
-func (spec *DatabaseAccountsMongodbDatabases_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our DatabaseAccountsMongodbDatabase_Spec from the provided source
+func (database *DatabaseAccountsMongodbDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(database)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabases_SPEC
-func (spec *DatabaseAccountsMongodbDatabases_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabase_Spec
+func (database *DatabaseAccountsMongodbDatabase_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(database)
 }
 
 //Storage version of v1alpha1api20210515.MongoDBDatabase_Status
@@ -202,11 +202,11 @@ func (database *MongoDBDatabase_Status) ConvertStatusTo(destination genruntime.C
 	return destination.ConvertStatusFrom(database)
 }
 
-//Storage version of v1alpha1api20210515.CreateUpdateOptions_Spec
-type CreateUpdateOptions_Spec struct {
-	AutoscaleSettings *AutoscaleSettings_Spec `json:"autoscaleSettings,omitempty"`
-	PropertyBag       genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
-	Throughput        *int                    `json:"throughput,omitempty"`
+//Storage version of v1alpha1api20210515.CreateUpdateOptions
+type CreateUpdateOptions struct {
+	AutoscaleSettings *AutoscaleSettings     `json:"autoscaleSettings,omitempty"`
+	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Throughput        *int                   `json:"throughput,omitempty"`
 }
 
 //Storage version of v1alpha1api20210515.CreateUpdateOptions_Status
@@ -216,8 +216,8 @@ type CreateUpdateOptions_Status struct {
 	Throughput        *int                      `json:"throughput,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.MongoDBDatabaseResource_Spec
-type MongoDBDatabaseResource_Spec struct {
+//Storage version of v1alpha1api20210515.MongoDBDatabaseResource
+type MongoDBDatabaseResource struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -228,8 +228,8 @@ type MongoDBDatabaseResource_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.AutoscaleSettings_Spec
-type AutoscaleSettings_Spec struct {
+//Storage version of v1alpha1api20210515.AutoscaleSettings
+type AutoscaleSettings struct {
 	MaxThroughput *int                   `json:"maxThroughput,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }

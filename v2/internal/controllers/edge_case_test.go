@@ -13,6 +13,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
+	"github.com/Azure/go-autorest/autorest/to"
+
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401"
@@ -45,15 +47,15 @@ func storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t *testing.T, wai
 	namer := tc.Namer.WithSeparator("")
 
 	// Create a storage account
-	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
+	accessTier := storage.StorageAccountPropertiesAccessTierHot
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("stor")),
-		Spec: storage.StorageAccounts_Spec{
+		Spec: storage.StorageAccount_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			Kind:     storage.StorageAccountsSpecKindBlobStorage,
+			Kind:     storage.StorageAccount_SpecKindBlobStorage,
 			Sku: storage.Sku{
-				Name: storage.SkuNameStandardLRS,
+				Name: storage.SkuNameStandard_LRS,
 			},
 			AccessTier: &accessTier,
 		},
@@ -78,10 +80,10 @@ func subnetAndVNETCreatedProvisionedOutOfOrder(t *testing.T, waitHelper func(tc 
 
 	vnet := &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
-		Spec: network.VirtualNetworks_Spec{
+		Spec: network.VirtualNetwork_Spec{
 			Owner:    testcommon.AsOwner(rg),
-			Location: testcommon.DefaultTestRegion,
-			AddressSpace: network.AddressSpace{
+			Location: &testcommon.DefaultTestRegion,
+			AddressSpace: &network.AddressSpace{
 				AddressPrefixes: []string{"10.0.0.0/16"},
 			},
 		},
@@ -89,9 +91,9 @@ func subnetAndVNETCreatedProvisionedOutOfOrder(t *testing.T, waitHelper func(tc 
 
 	subnet := &network.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
-		Spec: network.VirtualNetworksSubnets_Spec{
+		Spec: network.VirtualNetworksSubnet_Spec{
 			Owner:         testcommon.AsOwner(vnet),
-			AddressPrefix: "10.0.0.0/24",
+			AddressPrefix: to.StringPtr("10.0.0.0/24"),
 		},
 	}
 
@@ -161,15 +163,15 @@ func Test_CreateStorageAccountThatAlreadyExists_ReconcilesSuccessfully(t *testin
 	namer := tc.Namer.WithSeparator("")
 
 	// Create a storage account
-	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
+	accessTier := storage.StorageAccountPropertiesAccessTierHot
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("stor")),
-		Spec: storage.StorageAccounts_Spec{
+		Spec: storage.StorageAccount_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			Kind:     storage.StorageAccountsSpecKindBlobStorage,
+			Kind:     storage.StorageAccount_SpecKindBlobStorage,
 			Sku: storage.Sku{
-				Name: storage.SkuNameStandardLRS,
+				Name: storage.SkuNameStandard_LRS,
 			},
 			AccessTier: &accessTier,
 		},

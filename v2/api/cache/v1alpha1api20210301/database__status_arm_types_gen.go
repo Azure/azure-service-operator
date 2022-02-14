@@ -22,14 +22,14 @@ type Database_StatusARM struct {
 type DatabaseProperties_StatusARM struct {
 	//ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted
 	//or plaintext redis protocols. Default is TLS-encrypted.
-	ClientProtocol *DatabaseProperties_ClientProtocol_Status `json:"clientProtocol,omitempty"`
+	ClientProtocol *string `json:"clientProtocol,omitempty"`
 
 	//ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create
 	//time.
-	ClusteringPolicy *DatabaseProperties_ClusteringPolicy_Status `json:"clusteringPolicy,omitempty"`
+	ClusteringPolicy *string `json:"clusteringPolicy,omitempty"`
 
 	//EvictionPolicy: Redis eviction policy - default is VolatileLRU
-	EvictionPolicy *DatabaseProperties_EvictionPolicy_Status `json:"evictionPolicy,omitempty"`
+	EvictionPolicy *string `json:"evictionPolicy,omitempty"`
 
 	//Modules: Optional set of redis modules to enable in this database - modules can
 	//only be added at creation time.
@@ -43,38 +43,11 @@ type DatabaseProperties_StatusARM struct {
 	Port *int `json:"port,omitempty"`
 
 	//ProvisioningState: Current provisioning status of the database
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	//ResourceState: Current resource status of the database
-	ResourceState *ResourceState_Status `json:"resourceState,omitempty"`
+	ResourceState *string `json:"resourceState,omitempty"`
 }
-
-type DatabaseProperties_ClientProtocol_Status string
-
-const (
-	DatabaseProperties_ClientProtocol_StatusEncrypted = DatabaseProperties_ClientProtocol_Status("Encrypted")
-	DatabaseProperties_ClientProtocol_StatusPlaintext = DatabaseProperties_ClientProtocol_Status("Plaintext")
-)
-
-type DatabaseProperties_ClusteringPolicy_Status string
-
-const (
-	DatabaseProperties_ClusteringPolicy_StatusEnterpriseCluster = DatabaseProperties_ClusteringPolicy_Status("EnterpriseCluster")
-	DatabaseProperties_ClusteringPolicy_StatusOSSCluster        = DatabaseProperties_ClusteringPolicy_Status("OSSCluster")
-)
-
-type DatabaseProperties_EvictionPolicy_Status string
-
-const (
-	DatabaseProperties_EvictionPolicy_StatusAllKeysLFU     = DatabaseProperties_EvictionPolicy_Status("AllKeysLFU")
-	DatabaseProperties_EvictionPolicy_StatusAllKeysLRU     = DatabaseProperties_EvictionPolicy_Status("AllKeysLRU")
-	DatabaseProperties_EvictionPolicy_StatusAllKeysRandom  = DatabaseProperties_EvictionPolicy_Status("AllKeysRandom")
-	DatabaseProperties_EvictionPolicy_StatusNoEviction     = DatabaseProperties_EvictionPolicy_Status("NoEviction")
-	DatabaseProperties_EvictionPolicy_StatusVolatileLFU    = DatabaseProperties_EvictionPolicy_Status("VolatileLFU")
-	DatabaseProperties_EvictionPolicy_StatusVolatileLRU    = DatabaseProperties_EvictionPolicy_Status("VolatileLRU")
-	DatabaseProperties_EvictionPolicy_StatusVolatileRandom = DatabaseProperties_EvictionPolicy_Status("VolatileRandom")
-	DatabaseProperties_EvictionPolicy_StatusVolatileTTL    = DatabaseProperties_EvictionPolicy_Status("VolatileTTL")
-)
 
 type Module_StatusARM struct {
 	//Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE
@@ -93,26 +66,11 @@ type Persistence_StatusARM struct {
 	AofEnabled *bool `json:"aofEnabled,omitempty"`
 
 	//AofFrequency: Sets the frequency at which data is written to disk.
-	AofFrequency *Persistence_AofFrequency_Status `json:"aofFrequency,omitempty"`
+	AofFrequency *string `json:"aofFrequency,omitempty"`
 
 	//RdbEnabled: Sets whether RDB is enabled.
 	RdbEnabled *bool `json:"rdbEnabled,omitempty"`
 
 	//RdbFrequency: Sets the frequency at which a snapshot of the database is created.
-	RdbFrequency *Persistence_RdbFrequency_Status `json:"rdbFrequency,omitempty"`
+	RdbFrequency *string `json:"rdbFrequency,omitempty"`
 }
-
-type Persistence_AofFrequency_Status string
-
-const (
-	Persistence_AofFrequency_Status1S     = Persistence_AofFrequency_Status("1s")
-	Persistence_AofFrequency_StatusAlways = Persistence_AofFrequency_Status("always")
-)
-
-type Persistence_RdbFrequency_Status string
-
-const (
-	Persistence_RdbFrequency_Status12H = Persistence_RdbFrequency_Status("12h")
-	Persistence_RdbFrequency_Status1H  = Persistence_RdbFrequency_Status("1h")
-	Persistence_RdbFrequency_Status6H  = Persistence_RdbFrequency_Status("6h")
-)

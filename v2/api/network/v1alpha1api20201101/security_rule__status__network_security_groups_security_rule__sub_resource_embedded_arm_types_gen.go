@@ -23,7 +23,7 @@ type SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedAR
 
 type SecurityRulePropertiesFormat_StatusARM struct {
 	//Access: The network traffic is allowed or denied.
-	Access SecurityRuleAccess_Status `json:"access"`
+	Access string `json:"access"`
 
 	//Description: A description for this rule. Restricted to 140 chars.
 	Description *string `json:"description,omitempty"`
@@ -50,7 +50,7 @@ type SecurityRulePropertiesFormat_StatusARM struct {
 
 	//Direction: The direction of the rule. The direction specifies if rule will be
 	//evaluated on incoming or outgoing traffic.
-	Direction SecurityRuleDirection_Status `json:"direction"`
+	Direction string `json:"direction"`
 
 	//Priority: The priority of the rule. The value can be between 100 and 4096. The
 	//priority number must be unique for each rule in the collection. The lower the
@@ -58,10 +58,10 @@ type SecurityRulePropertiesFormat_StatusARM struct {
 	Priority *int `json:"priority,omitempty"`
 
 	//Protocol: Network protocol this rule applies to.
-	Protocol SecurityRulePropertiesFormat_Protocol_Status `json:"protocol"`
+	Protocol string `json:"protocol"`
 
 	//ProvisioningState: The provisioning state of the security rule resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	//SourceAddressPrefix: The CIDR or source IP range. Asterisk '*' can also be used
 	//to match all source IPs. Default tags such as 'VirtualNetwork',

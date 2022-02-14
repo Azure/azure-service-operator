@@ -28,10 +28,10 @@ func Test_ManagedIdentity_ResourceCanBeCreated(t *testing.T) {
 	// versions (and so no conversion webhooks).
 	vnet := network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
-		Spec: network.VirtualNetworks_Spec{
+		Spec: network.VirtualNetwork_Spec{
 			Owner:    testcommon.AsOwner(rg),
-			Location: testcommon.DefaultTestRegion,
-			AddressSpace: network.AddressSpace{
+			Location: &testcommon.DefaultTestRegion,
+			AddressSpace: &network.AddressSpace{
 				AddressPrefixes: []string{"10.0.0.0/8"},
 			},
 		},

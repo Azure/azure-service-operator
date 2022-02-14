@@ -28,7 +28,7 @@ import (
 type VirtualNetwork struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VirtualNetworks_SPEC  `json:"spec,omitempty"`
+	Spec              VirtualNetwork_Spec   `json:"spec,omitempty"`
 	Status            VirtualNetwork_Status `json:"status,omitempty"`
 }
 
@@ -133,6 +133,54 @@ type VirtualNetworkList struct {
 	Items           []VirtualNetwork `json:"items"`
 }
 
+//Storage version of v1alpha1api20201101.VirtualNetwork_Spec
+type VirtualNetwork_Spec struct {
+	AddressSpace *AddressSpace `json:"addressSpace,omitempty"`
+
+	//AzureName: The name of the resource in Azure. This is often the same as the name
+	//of the resource in Kubernetes but it doesn't have to be.
+	AzureName            string                        `json:"azureName"`
+	BgpCommunities       *VirtualNetworkBgpCommunities `json:"bgpCommunities,omitempty"`
+	DdosProtectionPlan   *SubResource                  `json:"ddosProtectionPlan,omitempty"`
+	DhcpOptions          *DhcpOptions                  `json:"dhcpOptions,omitempty"`
+	EnableDdosProtection *bool                         `json:"enableDdosProtection,omitempty"`
+	EnableVmProtection   *bool                         `json:"enableVmProtection,omitempty"`
+	ExtendedLocation     *ExtendedLocation             `json:"extendedLocation,omitempty"`
+	IpAllocations        []SubResource                 `json:"ipAllocations,omitempty"`
+	Location             *string                       `json:"location,omitempty"`
+	OriginalVersion      string                        `json:"originalVersion"`
+
+	// +kubebuilder:validation:Required
+	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+
+	//Reference: Resource ID.
+	Reference              *genruntime.ResourceReference               `armReference:"Id" json:"reference,omitempty"`
+	Subnets                []Subnet_VirtualNetwork_SubResourceEmbedded `json:"subnets,omitempty"`
+	Tags                   map[string]string                           `json:"tags,omitempty"`
+	VirtualNetworkPeerings []VirtualNetworkPeering                     `json:"virtualNetworkPeerings,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &VirtualNetwork_Spec{}
+
+// ConvertSpecFrom populates our VirtualNetwork_Spec from the provided source
+func (network *VirtualNetwork_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == network {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(network)
+}
+
+// ConvertSpecTo populates the provided destination from our VirtualNetwork_Spec
+func (network *VirtualNetwork_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == network {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(network)
+}
+
 //Storage version of v1alpha1api20201101.VirtualNetwork_Status
 type VirtualNetwork_Status struct {
 	AddressSpace           *AddressSpace_Status                               `json:"addressSpace,omitempty"`
@@ -177,56 +225,8 @@ func (network *VirtualNetwork_Status) ConvertStatusTo(destination genruntime.Con
 	return destination.ConvertStatusFrom(network)
 }
 
-//Storage version of v1alpha1api20201101.VirtualNetworks_SPEC
-type VirtualNetworks_SPEC struct {
-	AddressSpace *AddressSpace_Spec `json:"addressSpace,omitempty"`
-
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName            string                             `json:"azureName"`
-	BgpCommunities       *VirtualNetworkBgpCommunities_Spec `json:"bgpCommunities,omitempty"`
-	DdosProtectionPlan   *SubResource_Spec                  `json:"ddosProtectionPlan,omitempty"`
-	DhcpOptions          *DhcpOptions_Spec                  `json:"dhcpOptions,omitempty"`
-	EnableDdosProtection *bool                              `json:"enableDdosProtection,omitempty"`
-	EnableVmProtection   *bool                              `json:"enableVmProtection,omitempty"`
-	ExtendedLocation     *ExtendedLocation_Spec             `json:"extendedLocation,omitempty"`
-	IpAllocations        []SubResource_Spec                 `json:"ipAllocations,omitempty"`
-	Location             *string                            `json:"location,omitempty"`
-	OriginalVersion      string                             `json:"originalVersion"`
-
-	// +kubebuilder:validation:Required
-	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-
-	//Reference: Resource ID.
-	Reference              *genruntime.ResourceReference                    `armReference:"Id" json:"reference,omitempty"`
-	Subnets                []Subnet_Spec_VirtualNetwork_SubResourceEmbedded `json:"subnets,omitempty"`
-	Tags                   map[string]string                                `json:"tags,omitempty"`
-	VirtualNetworkPeerings []VirtualNetworkPeering_Spec                     `json:"virtualNetworkPeerings,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &VirtualNetworks_SPEC{}
-
-// ConvertSpecFrom populates our VirtualNetworks_SPEC from the provided source
-func (spec *VirtualNetworks_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(spec)
-}
-
-// ConvertSpecTo populates the provided destination from our VirtualNetworks_SPEC
-func (spec *VirtualNetworks_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(spec)
-}
-
-//Storage version of v1alpha1api20201101.AddressSpace_Spec
-type AddressSpace_Spec struct {
+//Storage version of v1alpha1api20201101.AddressSpace
+type AddressSpace struct {
 	AddressPrefixes []string               `json:"addressPrefixes,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -237,8 +237,8 @@ type AddressSpace_Status struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.DhcpOptions_Spec
-type DhcpOptions_Spec struct {
+//Storage version of v1alpha1api20201101.DhcpOptions
+type DhcpOptions struct {
 	DnsServers  []string               `json:"dnsServers,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -249,22 +249,22 @@ type DhcpOptions_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.Subnet_Spec_VirtualNetwork_SubResourceEmbedded
-type Subnet_Spec_VirtualNetwork_SubResourceEmbedded struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
 //Storage version of v1alpha1api20201101.Subnet_Status_VirtualNetwork_SubResourceEmbedded
 type Subnet_Status_VirtualNetwork_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.VirtualNetworkBgpCommunities_Spec
-type VirtualNetworkBgpCommunities_Spec struct {
+//Storage version of v1alpha1api20201101.Subnet_VirtualNetwork_SubResourceEmbedded
+type Subnet_VirtualNetwork_SubResourceEmbedded struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	//Reference: Resource ID.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
+//Storage version of v1alpha1api20201101.VirtualNetworkBgpCommunities
+type VirtualNetworkBgpCommunities struct {
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	VirtualNetworkCommunity *string                `json:"virtualNetworkCommunity,omitempty"`
 }
@@ -276,8 +276,8 @@ type VirtualNetworkBgpCommunities_Status struct {
 	VirtualNetworkCommunity *string                `json:"virtualNetworkCommunity,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.VirtualNetworkPeering_Spec
-type VirtualNetworkPeering_Spec struct {
+//Storage version of v1alpha1api20201101.VirtualNetworkPeering
+type VirtualNetworkPeering struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	//Reference: Resource ID.

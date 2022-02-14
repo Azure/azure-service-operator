@@ -28,8 +28,8 @@ import (
 type StorageAccountsBlobServicesContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccountsBlobServicesContainers_SPEC `json:"spec,omitempty"`
-	Status            BlobContainer_Status                       `json:"status,omitempty"`
+	Spec              StorageAccountsBlobServicesContainer_Spec `json:"spec,omitempty"`
+	Status            BlobContainer_Status                      `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsBlobServicesContainer{}
@@ -180,16 +180,16 @@ func (container *BlobContainer_Status) ConvertStatusTo(destination genruntime.Co
 	return destination.ConvertStatusFrom(container)
 }
 
-//Storage version of v1alpha1api20210401.StorageAccountsBlobServicesContainers_SPEC
-type StorageAccountsBlobServicesContainers_SPEC struct {
+//Storage version of v1alpha1api20210401.StorageAccountsBlobServicesContainer_Spec
+type StorageAccountsBlobServicesContainer_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName                      string                               `json:"azureName"`
-	DefaultEncryptionScope         *string                              `json:"defaultEncryptionScope,omitempty"`
-	DenyEncryptionScopeOverride    *bool                                `json:"denyEncryptionScopeOverride,omitempty"`
-	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_Spec `json:"immutableStorageWithVersioning,omitempty"`
-	Metadata                       map[string]string                    `json:"metadata,omitempty"`
-	OriginalVersion                string                               `json:"originalVersion"`
+	AzureName                      string                          `json:"azureName"`
+	DefaultEncryptionScope         *string                         `json:"defaultEncryptionScope,omitempty"`
+	DenyEncryptionScopeOverride    *bool                           `json:"denyEncryptionScopeOverride,omitempty"`
+	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning `json:"immutableStorageWithVersioning,omitempty"`
+	Metadata                       map[string]string               `json:"metadata,omitempty"`
+	OriginalVersion                string                          `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
 	Owner        genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
@@ -197,24 +197,24 @@ type StorageAccountsBlobServicesContainers_SPEC struct {
 	PublicAccess *string                           `json:"publicAccess,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &StorageAccountsBlobServicesContainers_SPEC{}
+var _ genruntime.ConvertibleSpec = &StorageAccountsBlobServicesContainer_Spec{}
 
-// ConvertSpecFrom populates our StorageAccountsBlobServicesContainers_SPEC from the provided source
-func (spec *StorageAccountsBlobServicesContainers_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our StorageAccountsBlobServicesContainer_Spec from the provided source
+func (container *StorageAccountsBlobServicesContainer_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == container {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(container)
 }
 
-// ConvertSpecTo populates the provided destination from our StorageAccountsBlobServicesContainers_SPEC
-func (spec *StorageAccountsBlobServicesContainers_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our StorageAccountsBlobServicesContainer_Spec
+func (container *StorageAccountsBlobServicesContainer_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == container {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(container)
 }
 
 //Storage version of v1alpha1api20210401.ImmutabilityPolicyProperties_Status
@@ -227,8 +227,8 @@ type ImmutabilityPolicyProperties_Status struct {
 	UpdateHistory                         []UpdateHistoryProperty_Status `json:"updateHistory,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.ImmutableStorageWithVersioning_Spec
-type ImmutableStorageWithVersioning_Spec struct {
+//Storage version of v1alpha1api20210401.ImmutableStorageWithVersioning
+type ImmutableStorageWithVersioning struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }

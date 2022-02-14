@@ -161,12 +161,12 @@ func BatchAccountIdentity_StatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForBatchAccountIdentity_StatusARM(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(BatchAccountIdentity_Type_StatusNone, BatchAccountIdentity_Type_StatusSystemAssigned, BatchAccountIdentity_Type_StatusUserAssigned)
+	gens["Type"] = gen.AlphaString()
 }
 
 // AddRelatedPropertyGeneratorsForBatchAccountIdentity_StatusARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForBatchAccountIdentity_StatusARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), BatchAccountIdentity_UserAssignedIdentities_StatusARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), BatchAccountIdentity_StatusUserAssignedIdentitiesARMGenerator())
 }
 
 func Test_BatchAccountProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -235,8 +235,8 @@ func BatchAccountProperties_StatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBatchAccountProperties_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBatchAccountProperties_StatusARM(gens map[string]gopter.Gen) {
-	gens["PoolAllocationMode"] = gen.PtrOf(gen.OneConstOf(PoolAllocationMode_StatusBatchService, PoolAllocationMode_StatusUserSubscription))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_StatusDisabled, PublicNetworkAccessType_StatusEnabled))
+	gens["PoolAllocationMode"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForBatchAccountProperties_StatusARM is a factory method for creating gopter generators
@@ -306,19 +306,19 @@ func AddIndependentPropertyGeneratorsForAutoStorageBaseProperties_StatusARM(gens
 	gens["StorageAccountId"] = gen.AlphaString()
 }
 
-func Test_BatchAccountIdentity_UserAssignedIdentities_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_BatchAccountIdentity_StatusUserAssignedIdentitiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of BatchAccountIdentity_UserAssignedIdentities_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBatchAccountIdentity_UserAssignedIdentities_StatusARM, BatchAccountIdentity_UserAssignedIdentities_StatusARMGenerator()))
+		"Round trip of BatchAccountIdentity_StatusUserAssignedIdentitiesARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBatchAccountIdentity_StatusUserAssignedIdentitiesARM, BatchAccountIdentity_StatusUserAssignedIdentitiesARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForBatchAccountIdentity_UserAssignedIdentities_StatusARM runs a test to see if a specific instance of BatchAccountIdentity_UserAssignedIdentities_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForBatchAccountIdentity_UserAssignedIdentities_StatusARM(subject BatchAccountIdentity_UserAssignedIdentities_StatusARM) string {
+// RunJSONSerializationTestForBatchAccountIdentity_StatusUserAssignedIdentitiesARM runs a test to see if a specific instance of BatchAccountIdentity_StatusUserAssignedIdentitiesARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForBatchAccountIdentity_StatusUserAssignedIdentitiesARM(subject BatchAccountIdentity_StatusUserAssignedIdentitiesARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -326,7 +326,7 @@ func RunJSONSerializationTestForBatchAccountIdentity_UserAssignedIdentities_Stat
 	}
 
 	// Deserialize back into memory
-	var actual BatchAccountIdentity_UserAssignedIdentities_StatusARM
+	var actual BatchAccountIdentity_StatusUserAssignedIdentitiesARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -344,25 +344,25 @@ func RunJSONSerializationTestForBatchAccountIdentity_UserAssignedIdentities_Stat
 	return ""
 }
 
-// Generator of BatchAccountIdentity_UserAssignedIdentities_StatusARM instances for property testing - lazily
-//instantiated by BatchAccountIdentity_UserAssignedIdentities_StatusARMGenerator()
-var batchAccountIdentity_userAssignedIdentities_statusARMGenerator gopter.Gen
+// Generator of BatchAccountIdentity_StatusUserAssignedIdentitiesARM instances for property testing - lazily
+//instantiated by BatchAccountIdentity_StatusUserAssignedIdentitiesARMGenerator()
+var batchAccountIdentity_statusUserAssignedIdentitiesARMGenerator gopter.Gen
 
-// BatchAccountIdentity_UserAssignedIdentities_StatusARMGenerator returns a generator of BatchAccountIdentity_UserAssignedIdentities_StatusARM instances for property testing.
-func BatchAccountIdentity_UserAssignedIdentities_StatusARMGenerator() gopter.Gen {
-	if batchAccountIdentity_userAssignedIdentities_statusARMGenerator != nil {
-		return batchAccountIdentity_userAssignedIdentities_statusARMGenerator
+// BatchAccountIdentity_StatusUserAssignedIdentitiesARMGenerator returns a generator of BatchAccountIdentity_StatusUserAssignedIdentitiesARM instances for property testing.
+func BatchAccountIdentity_StatusUserAssignedIdentitiesARMGenerator() gopter.Gen {
+	if batchAccountIdentity_statusUserAssignedIdentitiesARMGenerator != nil {
+		return batchAccountIdentity_statusUserAssignedIdentitiesARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBatchAccountIdentity_UserAssignedIdentities_StatusARM(generators)
-	batchAccountIdentity_userAssignedIdentities_statusARMGenerator = gen.Struct(reflect.TypeOf(BatchAccountIdentity_UserAssignedIdentities_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForBatchAccountIdentity_StatusUserAssignedIdentitiesARM(generators)
+	batchAccountIdentity_statusUserAssignedIdentitiesARMGenerator = gen.Struct(reflect.TypeOf(BatchAccountIdentity_StatusUserAssignedIdentitiesARM{}), generators)
 
-	return batchAccountIdentity_userAssignedIdentities_statusARMGenerator
+	return batchAccountIdentity_statusUserAssignedIdentitiesARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForBatchAccountIdentity_UserAssignedIdentities_StatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBatchAccountIdentity_UserAssignedIdentities_StatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForBatchAccountIdentity_StatusUserAssignedIdentitiesARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBatchAccountIdentity_StatusUserAssignedIdentitiesARM(gens map[string]gopter.Gen) {
 	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 }
@@ -433,7 +433,7 @@ func EncryptionProperties_StatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionProperties_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionProperties_StatusARM(gens map[string]gopter.Gen) {
-	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(EncryptionProperties_KeySource_StatusMicrosoftBatch, EncryptionProperties_KeySource_StatusMicrosoftKeyVault))
+	gens["KeySource"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForEncryptionProperties_StatusARM is a factory method for creating gopter generators

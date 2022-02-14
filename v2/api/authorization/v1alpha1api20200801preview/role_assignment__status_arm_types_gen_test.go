@@ -141,11 +141,7 @@ func AddIndependentPropertyGeneratorsForRoleAssignmentProperties_StatusARM(gens 
 	gens["DelegatedManagedIdentityResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalId"] = gen.AlphaString()
-	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(
-		RoleAssignmentProperties_PrincipalType_StatusForeignGroup,
-		RoleAssignmentProperties_PrincipalType_StatusGroup,
-		RoleAssignmentProperties_PrincipalType_StatusServicePrincipal,
-		RoleAssignmentProperties_PrincipalType_StatusUser))
+	gens["PrincipalType"] = gen.PtrOf(gen.AlphaString())
 	gens["RoleDefinitionId"] = gen.AlphaString()
 	gens["Scope"] = gen.PtrOf(gen.AlphaString())
 	gens["UpdatedBy"] = gen.PtrOf(gen.AlphaString())

@@ -41,33 +41,33 @@ func newVM(
 		Key:  passwordKey,
 	}
 	adminUsername := "bloom"
-	size := compute.HardwareProfile_VmSize_SpecStandard_A1_V2
+	size := compute.HardwareProfileVmSizeStandard_A1_V2
 
 	return &compute.VirtualMachine{
 		ObjectMeta: tc.MakeObjectMeta("vm"),
-		Spec: compute.VirtualMachines_SPEC{
+		Spec: compute.VirtualMachine_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			HardwareProfile: &compute.HardwareProfile_Spec{
+			HardwareProfile: &compute.HardwareProfile{
 				VmSize: &size,
 			},
-			OsProfile: &compute.OSProfile_Spec{
+			OsProfile: &compute.OSProfile{
 				AdminUsername: &adminUsername,
 				// Specifying AdminPassword here rather than SSH Key to ensure that handling and injection
 				// of secrets works.
 				AdminPassword: &secretRef,
 				ComputerName:  to.StringPtr("poppy"),
 			},
-			StorageProfile: &compute.StorageProfile_Spec{
-				ImageReference: &compute.ImageReference_Spec{
+			StorageProfile: &compute.StorageProfile{
+				ImageReference: &compute.ImageReference{
 					Offer:     to.StringPtr("UbuntuServer"),
 					Publisher: to.StringPtr("Canonical"),
 					Sku:       to.StringPtr("18.04-LTS"),
 					Version:   to.StringPtr("latest"),
 				},
 			},
-			NetworkProfile: &compute.VirtualMachines_Spec_Properties_NetworkProfile{
-				NetworkInterfaces: []compute.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces{{
+			NetworkProfile: &compute.NetworkProfile{
+				NetworkInterfaces: []compute.NetworkInterfaceReference{{
 					Reference: tc.MakeReferencePtrFromResource(networkInterface),
 				}},
 			},
@@ -76,17 +76,18 @@ func newVM(
 }
 
 func newVMNetworkInterface(tc *testcommon.KubePerTestContext, owner genruntime.KnownResourceReference, subnet *network.VirtualNetworksSubnet) *network.NetworkInterface {
-	dynamic := network.NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethodDynamic
+	dynamic := network.IPAllocationMethodDynamic
+	subnetReference := tc.MakeReferenceFromResource(subnet)
 	return &network.NetworkInterface{
 		ObjectMeta: tc.MakeObjectMeta("nic"),
-		Spec: network.NetworkInterfaces_Spec{
+		Spec: network.NetworkInterface_Spec{
 			Owner:    owner,
-			Location: tc.AzureRegion,
-			IpConfigurations: []network.NetworkInterfaces_Spec_Properties_IpConfigurations{{
-				Name:                      "ipconfig1",
+			Location: &tc.AzureRegion,
+			IpConfigurations: []network.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded{{
+				Name:                      to.StringPtr("ipconfig1"),
 				PrivateIPAllocationMethod: &dynamic,
-				Subnet: &network.SubResource{
-					Reference: tc.MakeReferenceFromResource(subnet),
+				Subnet: &network.Subnet_NetworkInterface_SubResourceEmbedded{
+					Reference: &subnetReference,
 				},
 			}},
 		},
@@ -130,7 +131,7 @@ func Test_Compute_VM_CRUD(t *testing.T) {
 	tc.DeleteResourcesAndWait(vm, networkInterface, subnet, vnet, rg)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute.VirtualMachinesSpecAPIVersion20201201))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

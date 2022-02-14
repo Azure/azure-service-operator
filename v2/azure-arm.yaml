@@ -89,7 +89,7 @@ typeFilters:
     because: the idea of this is terrifying
   - action: prune
     group: compute.admin
-    name: LocationsDiskmigrationjobs
+    name: LocationsDiskmigrationjob
     because: has an array as body, not object. unsure how to handle at the moment
   - action: prune
     group: documentdb
@@ -105,7 +105,7 @@ typeFilters:
     because: This type is defined recursively.
   - action: prune
     group: management
-    name: ManagementGroups
+    name: ManagementGroup
     because: directly recursive type
   - action: include
     group: compute.extensions
@@ -187,22 +187,22 @@ typeTransformers:
     because: It exists on ARMResource but doesn't make sense in the context of a CRD
 
   # Deal with readonly properties that were not properly pruned in the JSON schema
-  - group: eventgrid
-    version: v*api20190601
-    name: Domains_Spec
-    property: Properties
-    remove: true
-    because: it has no writable properties in swagger
-  - group: eventgrid
-    version: "*"
-    name: Topics_Spec
-    property: Properties
-    remove: true
-    because: it has no writable properties in swagger
+  #- group: eventgrid
+    #version: v*api20190601
+    #name: Domain_Spec
+    #property: Properties
+    #remove: true
+    #because: it has no writable properties in swagger
+  #- group: eventgrid
+    #version: "*"
+    #name: Topic_Spec
+    #property: Properties
+    #remove: true
+    #because: it has no writable properties in swagger
 
   # Deal with service Swaggers that are just wrong
   - group: insights
-    name: WebTests_Spec
+    name: WebTest_Spec
     property: Kind
     remove: true
     because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
@@ -429,12 +429,12 @@ objectModelConfiguration:
           $armReference: true
   batch:
     2021-01-01:
-      AutoStorageBaseProperties_Spec:
+      AutoStorageBaseProperties:
         StorageAccountId:
           $armReference: true
       BatchAccount:
         $export: true
-      KeyVaultReference_Spec:
+      KeyVaultReference:
         Id:
           $armReference: true
   cache:
@@ -448,7 +448,7 @@ objectModelConfiguration:
         $export: true
       RedisLinkedServer:
         $export: true
-      RedisLinkedServerProperties_Spec:
+      RedisLinkedServerProperties:
         LinkedRedisCacheId:
           $armReference: true
       RedisPatchSchedule: 
@@ -460,37 +460,37 @@ objectModelConfiguration:
         $export: true
   compute:
     2020-09-30:
-      CreationData_Spec:
+      CreationData:
         SourceResourceId:
           $armReference: true
       Disk:
         $export: true
-      DiskProperties_Spec:
+      DiskProperties:
         DiskAccessId:
           $armReference: true
-      Encryption_Spec:
+      Encryption:
         DiskEncryptionSetId:
           $armReference: true
-      ImageDiskReference_Spec:
+      ImageDiskReference:
         Id:
           $armReference: true
-      SourceVault_Spec:
+      SourceVault:
         Id:
           $armReference: true
     2020-12-01:
-      ApiEntityReference_Spec:
+      ApiEntityReference:
         Id:
           $armReference: true
       DiskEncryptionSetParameters:
         Id:
           $armReference: true
-      ImageReference_Spec:
+      ImageReference:
         Id:
           $armReference: true
-      ManagedDiskParameters_Spec:
+      ManagedDiskParameters:
         Id:
           $armReference: true
-      NetworkInterfaceReference_Spec:
+      NetworkInterfaceReference:
         Id:
           $armReference: true
       VirtualMachine:
@@ -503,10 +503,10 @@ objectModelConfiguration:
         # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
         Id:
           $armReference: false
-      VirtualMachineScaleSetIPConfiguration_Spec:
+      VirtualMachineScaleSetIPConfiguration:
         Id:
           $armReference: true
-      VirtualMachineScaleSetNetworkConfiguration_Spec:
+      VirtualMachineScaleSetNetworkConfiguration:
         Id:
           $armReference: true
       VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations:
@@ -515,7 +515,7 @@ objectModelConfiguration:
         # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
         Id:
           $armReference: false
-      SubResource_Spec:
+      SubResource:
         # When SubResource is used directly in a property, it's meant as a reference. When it's inherited from, the Id is for self
         Id:
           $armReference: true
@@ -535,7 +535,7 @@ objectModelConfiguration:
           $armReference: true
       ManagedCluster:
         $export: true
-      ManagedClusterAgentPoolProfile_Spec:
+      ManagedClusterAgentPoolProfile:
         NodePublicIPPrefixID:
           $armReference: true
         VnetSubnetID:
@@ -544,23 +544,23 @@ objectModelConfiguration:
           $armReference: true
       ManagedClustersAgentPool:
         $export: true
-      ManagedClusterAgentPoolProfileProperties_Spec:
+      ManagedClusterAgentPoolProfileProperties:
         NodePublicIPPrefixID:
           $armReference: true
         PodSubnetID:
           $armReference: true
         VnetSubnetID:
           $armReference: true
-      ManagedClusterProperties_Spec:
+      ManagedClusterProperties:
         DiskEncryptionSetID:
           $armReference: true
-      PrivateLinkResource_Spec:
+      PrivateLinkResource:
         Id:
           $armReference: true
-      ResourceReference_Spec:
+      ResourceReference:
         Id:
           $armReference: true
-      UserAssignedIdentity_Spec:
+      UserAssignedIdentity:
         ResourceId:
           $armReference: true
   dbformysql:
@@ -571,7 +571,7 @@ objectModelConfiguration:
         $export: true
       FlexibleServersFirewallRule:
         $export: true
-      Network_Spec:
+      Network:
         PrivateDnsZoneResourceId:
           $armReference: true
         DelegatedSubnetResourceId:
@@ -595,12 +595,12 @@ objectModelConfiguration:
         $export: true
       FlexibleServersFirewallRule:
         $export: true
-      Network_Spec:
+      Network:
         PrivateDnsZoneArmResourceId:
           $armReference: true
         DelegatedSubnetResourceId:
           $armReference: true
-      ServerProperties_Spec:
+      ServerProperties:
         SourceServerResourceId:
           $armReference: true
   documentdb:
@@ -629,28 +629,28 @@ objectModelConfiguration:
         $exportAs: SqlDatabaseContainerUserDefinedFunction
       DatabaseAccountsSqlDatabasesThroughputSetting:
         $exportAs: SqlDatabaseThroughputSetting
-      MongoDBCollectionResource_Spec:
+      MongoDBCollectionResource:
         Id:
           $armReference: false
-      MongoDBDatabaseResource_Spec:
+      MongoDBDatabaseResource:
         Id:
           $armReference: false
-      SqlContainerResource_Spec:
+      SqlContainerResource:
         Id:
           $armReference: false
-      SqlDatabaseResource_Spec:
+      SqlDatabaseResource:
         Id:
           $armReference: false
-      SqlStoredProcedureResource_Spec:
+      SqlStoredProcedureResource:
         Id:
           $armReference: false
-      SqlTriggerResource_Spec:
+      SqlTriggerResource:
         Id:
           $armReference: false
-      SqlUserDefinedFunctionResource_Spec:
+      SqlUserDefinedFunctionResource:
         Id:
           $armReference: false
-      VirtualNetworkRule_Spec:
+      VirtualNetworkRule:
         Id:
           $armReference: true
   eventgrid:
@@ -686,10 +686,10 @@ objectModelConfiguration:
           $armReference: true
   eventhub:
     2021-11-01:
-      Destination_Properties_Spec:
+      DestinationProperties:
         StorageAccountResourceId:
           $armReference: true
-      EHNamespace_Properties_Spec:
+      Namespace_SpecProperties:
         ClusterArmId:
           $armReference: true
       Namespace:
@@ -702,24 +702,24 @@ objectModelConfiguration:
         $export: true
       NamespacesEventhubsConsumergroup:
         $exportAs: NamespacesEventhubsConsumerGroup
-      Namespaces_Properties_SPEC:
+      Namespaces_SpecProperties:
         ClusterArmId:
           $armReference: true
-      PrivateEndpoint_Spec:
+      PrivateEndpoint:
         Id:
           $armReference: true
-      UserAssignedIdentityProperties_Spec:
+      UserAssignedIdentityProperties:
         UserAssignedIdentity:
           $armReference: true
   insights:
     2018-05-01-preview:
       Webtest:
         $export: true
-      WebTestGeolocation_Spec:
+      WebTestGeolocation:
         Id:
           $armReference: false
     2020-02-02:
-      ApplicationInsightsComponentProperties_Spec:
+      ApplicationInsightsComponentProperties:
         WorkspaceResourceId:
           $armReference: true
       Component:
@@ -730,37 +730,37 @@ objectModelConfiguration:
         $export: true
   network:
     2020-11-01:
-      ApplicationGatewayBackendAddressPool_Spec:
+      ApplicationGatewayBackendAddressPool:
         Id:
           $armReference: true
-      ApplicationGatewayIPConfiguration_Spec:
+      ApplicationGatewayIPConfiguration:
         Id:
           $armReference: true
-      ApplicationSecurityGroup_Spec:
+      ApplicationSecurityGroupSpec:
         Id:
           $armReference: true  
-      BackendAddressPool_Spec_LoadBalancer_SubResourceEmbedded:
+      BackendAddressPool_LoadBalancer_SubResourceEmbedded:
         Id:
           $armReference: true
-      BackendAddressPool_Spec_NetworkInterface_SubResourceEmbedded:
+      BackendAddressPool_NetworkInterface_SubResourceEmbedded:
         Id:
           $armReference: true
-      Delegation_Spec:
+      Delegation:
         Id:
           $armReference: true
-      FrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbedded:
+      FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded:
         Id:
           $armReference: true
-      FrontendIPConfiguration_Spec_NetworkInterface_SubResourceEmbedded:
+      FrontendIPConfiguration_NetworkInterface_SubResourceEmbedded:
         Id:
           $armReference: true
-      InboundNatPool_Spec:
+      InboundNatPool:
         Id:
           $armReference: true
-      InboundNatRule_Spec_LoadBalancer_SubResourceEmbedded:
+      InboundNatRule_LoadBalancer_SubResourceEmbedded:
         Id:
           $armReference: true
-      InboundNatRule_Spec_NetworkInterface_SubResourceEmbedded:
+      InboundNatRule_NetworkInterface_SubResourceEmbedded:
         Id:
           $armReference: true
       LoadBalancer:
@@ -768,13 +768,13 @@ objectModelConfiguration:
       LoadBalancer_Spec:
         Id:
           $armReference: true
-      LoadBalancers_SPEC:
+      LoadBalancers:
         Id:
           $armReference: true
-      LoadBalancingRule_Spec:
+      LoadBalancingRule:
         Id:
           $armReference: true
-      NatGateway_Spec:
+      NatGatewaySpec:
         Id:
           $armReference: true
       NetworkInterface:
@@ -785,18 +785,18 @@ objectModelConfiguration:
       NetworkInterfaces_SPEC:
         Id:
           $armReference: true
-      NetworkInterfaceIPConfiguration_Spec_NetworkInterface_SubResourceEmbedded:
+      NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded:
         Id:
           $armReference: true
-      NetworkSecurityGroup_Spec_NetworkInterface_SubResourceEmbedded:
+      NetworkSecurityGroup_NetworkInterface_SubResourceEmbedded:
         Id:
           $armReference: true
-      NetworkSecurityGroup_Spec_NetworkSecurityGroup_SubResourceEmbedded:
+      NetworkSecurityGroup_NetworkSecurityGroup_SubResourceEmbedded:
         Id:
           $armReference: true
       NetworkSecurityGroup:
         $export: true
-      NetworkSecurityGroups_SPEC:
+      NetworkSecurityGroup_Spec:
         Id:
           $armReference: true
       NetworkSecurityGroupsSecurityRules_SPEC:
@@ -807,78 +807,81 @@ objectModelConfiguration:
       NetworkSecurityGroupsSecurityRule_Spec:
         Id:
           $armReference: true
-      NetworkSecurityGroup_Spec_VirtualNetworksSubnet_SubResourceEmbedded:
+      NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded:
         Id:
           $armReference: true
-      OutboundRule_Spec:
+      NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded:
         Id:
           $armReference: true
-      PrivateLinkService_Spec:
+      OutboundRule:
+        Id:
+          $armReference: true
+      PrivateLinkServiceSpec:
         Id:
           $armReference: true
       PrivateLinkService_Spec_NetworkInterface_SubResourceEmbedded:
         Id: 
           $armReference: true
-      PrivateLinkServiceIpConfiguration_Spec_NetworkInterface_SubResourceEmbedded:
+      PrivateLinkServiceIpConfiguration_NetworkInterface_SubResourceEmbedded:
         Id: 
           $armReference: true
-      Probe_Spec:
+      Probe:
         Id:
           $armReference: true
       PublicIPAddress:
         $export: true
+      PublicIPAddressSpec:
+        Id:
+          $armReference: true
+      PublicIPAddressSpec_SubResourceEmbedded:
+        Id:
+          $armReference: true
       PublicIPAddress_Spec:
         Id:
           $armReference: true
-      PublicIPAddress_Spec_SubResourceEmbedded:
+      RouteTableSpec:
         Id:
           $armReference: true
-      PublicIPAddresses_SPEC:
+      RouteTable_VirtualNetworksSubnet_SubResourceEmbedded:
         Id:
           $armReference: true
-      RouteTable_Spec:
-        Id:
-          $armReference: true
-      RouteTable_Spec_VirtualNetworksSubnet_SubResourceEmbedded:
-        Id:
-          $armReference: true
-      Route_Spec_VirtualNetworksSubnet_SubResourceEmbedded:
+      Route_VirtualNetworksSubnet_SubResourceEmbedded:
         Id:
           $armReference: true
       SecurityRule_Spec:
         Id:
           $armReference: true
-      SecurityRule_Spec_VirtualNetworksSubnet_SubResourceEmbedded:
+      SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded:
         Id:
           $armReference: true
-      SecurityRule_Spec_NetworkInterface_SubResourceEmbedded:
+      SecurityRule_NetworkInterface_SubResourceEmbedded:
         Id:
           $armReference: true
-      SecurityRule_Spec_NetworkSecurityGroup_SubResourceEmbedded:
+      SecurityRule_NetworkSecurityGroup_SubResourceEmbedded:
         Id:
           $armReference: true
-      ServiceEndpointPolicyDefinition_Spec_VirtualNetworksSubnet_SubResourceEmbedded:
+      ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbedded:
         Id:
           $armReference: true
-      ServiceEndpointPolicy_Spec_VirtualNetworksSubnet_SubResourceEmbedded:
+      ServiceEndpointPolicy_VirtualNetworksSubnet_SubResourceEmbedded:
         Id:
           $armReference: true
-      ServiceEndpointPolicy_Spec:
+      ServiceEndpointPolicySpec:
         Id:
           $armReference: true
-      SubResource_Spec:
+      SubResource:
         Id:
           $armReference: true
-      Subnet_Spec_LoadBalancer_SubResourceEmbedded:
+      Subnet_LoadBalancer_SubResourceEmbedded:
         Id:
           $armReference: true
-      Subnet_Spec_NetworkInterface_SubResourceEmbedded:
+      Subnet_NetworkInterface_SubResourceEmbedded:
         Id:
           $armReference: true
-      Subnet_Spec_VirtualNetwork_SubResourceEmbedded:
+      Subnet_VirtualNetwork_SubResourceEmbedded:
         Id:
           $armReference: true
-      Subnet_Spec_VirtualNetworksSubnet_SubResourceEmbedded:
+      Subnet_VirtualNetworksSubnet_SubResourceEmbedded:
         Id:
           $armReference: true
       VirtualNetwork:
@@ -895,10 +898,12 @@ objectModelConfiguration:
         $export: true
       VirtualNetworksVirtualNetworkPeering:
         $export: true
-      VirtualNetworkGatewayIPConfiguration_Spec:
         Id:
           $armReference: true
-      VirtualNetworkGatewayPropertiesFormat_Spec:
+      VirtualNetworkGatewayIPConfiguration:
+        Id:
+          $armReference: true
+      VirtualNetworkGatewayPropertiesFormat:
         VNetExtendedLocationResourceId:
           $armReference: true
       VirtualNetworkGateways_Spec_Properties:
@@ -907,35 +912,35 @@ objectModelConfiguration:
       VirtualNetworkGateways_SPEC:
         Id:
           $armReference: true
-      VirtualNetworkPeering_Spec:
+      VirtualNetworkPeering:
         Id:
           $armReference: true
       VirtualNetworkPeering_Spec_SubResourceEmbedded:
         Id:
           $armReference: true
-      VirtualNetworksSubnets_SPEC:
+      VirtualNetworksSubnet_Spec:
         Id:
           $armReference: true
       VirtualNetworks_SPEC:
         Id:
           $armReference: true
-      VirtualNetworksVirtualNetworkPeerings_SPEC:
+      VirtualNetworksVirtualNetworkPeering_Spec:
         Id:
           $armReference: true
-      VirtualNetworkTap_Spec_NetworkInterface_SubResourceEmbedded:
+      VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded:
         Id:
           $armReference: true
-      VpnClientRevokedCertificate_Spec:
+      VpnClientRevokedCertificate:
         Id:
           $armReference: true
-      VpnClientRootCertificate_Spec:
+      VpnClientRootCertificate:
         Id:
           $armReference: true
   operationalinsights:
     2021-06-01:
       Workspace:
         $export: true
-      WorkspaceFeatures_Spec:
+      WorkspaceFeatures:
         ClusterResourceId:
           $armReference: true
   servicebus:
@@ -946,10 +951,10 @@ objectModelConfiguration:
         $export: true
       NamespacesTopic:
         $export: true
-      PrivateEndpoint_Spec:
+      PrivateEndpoint:
         Id:
           $armReference: true
-      UserAssignedIdentityProperties_Spec:
+      UserAssignedIdentityProperties:
         UserAssignedIdentity:
           $armReference: true
   signalrservice:
@@ -958,10 +963,10 @@ objectModelConfiguration:
         $export: true
   storage:
     2021-04-01:
-      EncryptionIdentity_Spec:
+      EncryptionIdentity:
         UserAssignedIdentity:
           $armReference: true
-      ResourceAccessRule_Spec:
+      ResourceAccessRule:
         ResourceId:
           $armReference: true
       StorageAccount:
@@ -974,6 +979,6 @@ objectModelConfiguration:
         $export: true
       StorageAccountsQueueServicesQueue:
         $export: true
-      VirtualNetworkRule_Spec:
+      VirtualNetworkRule:
         Id:
           $armReference: true

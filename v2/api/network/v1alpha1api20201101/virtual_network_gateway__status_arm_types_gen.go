@@ -57,7 +57,7 @@ type VirtualNetworkGatewayPropertiesFormat_StatusARM struct {
 	GatewayDefaultSite *SubResource_StatusARM `json:"gatewayDefaultSite,omitempty"`
 
 	//GatewayType: The type of this virtual network gateway.
-	GatewayType *VirtualNetworkGatewayPropertiesFormat_GatewayType_Status `json:"gatewayType,omitempty"`
+	GatewayType *string `json:"gatewayType,omitempty"`
 
 	//InboundDnsForwardingEndpoint: The IP address allocated by the gateway to which
 	//dns requests can be sent.
@@ -68,7 +68,7 @@ type VirtualNetworkGatewayPropertiesFormat_StatusARM struct {
 
 	//ProvisioningState: The provisioning state of the virtual network gateway
 	//resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	//ResourceGuid: The resource GUID property of the virtual network gateway resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
@@ -87,10 +87,10 @@ type VirtualNetworkGatewayPropertiesFormat_StatusARM struct {
 
 	//VpnGatewayGeneration: The generation for this VirtualNetworkGateway. Must be
 	//None if gatewayType is not VPN.
-	VpnGatewayGeneration *VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Status `json:"vpnGatewayGeneration,omitempty"`
+	VpnGatewayGeneration *string `json:"vpnGatewayGeneration,omitempty"`
 
 	//VpnType: The type of this virtual network gateway.
-	VpnType *VirtualNetworkGatewayPropertiesFormat_VpnType_Status `json:"vpnType,omitempty"`
+	VpnType *string `json:"vpnType,omitempty"`
 }
 
 type AddressSpace_StatusARM struct {
@@ -135,10 +135,10 @@ type VirtualNetworkGatewaySku_StatusARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	//Name: Gateway SKU name.
-	Name *VirtualNetworkGatewaySku_Name_Status `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	//Tier: Gateway SKU tier.
-	Tier *VirtualNetworkGatewaySku_Tier_Status `json:"tier,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 type VpnClientConfiguration_StatusARM struct {
@@ -168,7 +168,7 @@ type VpnClientConfiguration_StatusARM struct {
 
 	//VpnAuthenticationTypes: VPN authentication types for the virtual network
 	//gateway..
-	VpnAuthenticationTypes []VpnClientConfiguration_VpnAuthenticationTypes_Status `json:"vpnAuthenticationTypes,omitempty"`
+	VpnAuthenticationTypes []string `json:"vpnAuthenticationTypes,omitempty"`
 
 	//VpnClientAddressPool: The reference to the address space resource which
 	//represents Address space for P2S VpnClient.
@@ -179,7 +179,7 @@ type VpnClientConfiguration_StatusARM struct {
 	VpnClientIpsecPolicies []IpsecPolicy_StatusARM `json:"vpnClientIpsecPolicies,omitempty"`
 
 	//VpnClientProtocols: VpnClientProtocols for Virtual network gateway.
-	VpnClientProtocols []VpnClientConfiguration_VpnClientProtocols_Status `json:"vpnClientProtocols,omitempty"`
+	VpnClientProtocols []string `json:"vpnClientProtocols,omitempty"`
 
 	//VpnClientRevokedCertificates: VpnClientRevokedCertificate for Virtual network
 	//gateway.
@@ -208,22 +208,22 @@ type IPConfigurationBgpPeeringAddress_StatusARM struct {
 
 type IpsecPolicy_StatusARM struct {
 	//DhGroup: The DH Group used in IKE Phase 1 for initial SA.
-	DhGroup DhGroup_Status `json:"dhGroup"`
+	DhGroup string `json:"dhGroup"`
 
 	//IkeEncryption: The IKE encryption algorithm (IKE phase 2).
-	IkeEncryption IkeEncryption_Status `json:"ikeEncryption"`
+	IkeEncryption string `json:"ikeEncryption"`
 
 	//IkeIntegrity: The IKE integrity algorithm (IKE phase 2).
-	IkeIntegrity IkeIntegrity_Status `json:"ikeIntegrity"`
+	IkeIntegrity string `json:"ikeIntegrity"`
 
 	//IpsecEncryption: The IPSec encryption algorithm (IKE phase 1).
-	IpsecEncryption IpsecEncryption_Status `json:"ipsecEncryption"`
+	IpsecEncryption string `json:"ipsecEncryption"`
 
 	//IpsecIntegrity: The IPSec integrity algorithm (IKE phase 1).
-	IpsecIntegrity IpsecIntegrity_Status `json:"ipsecIntegrity"`
+	IpsecIntegrity string `json:"ipsecIntegrity"`
 
 	//PfsGroup: The Pfs Group used in IKE Phase 2 for new child SA.
-	PfsGroup PfsGroup_Status `json:"pfsGroup"`
+	PfsGroup string `json:"pfsGroup"`
 
 	//SaDataSizeKilobytes: The IPSec Security Association (also called Quick Mode or
 	//Phase 2 SA) payload size in KB for a site to site VPN tunnel.
@@ -250,11 +250,11 @@ type VirtualNetworkGatewayIPConfigurationPropertiesFormat_StatusARM struct {
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
 	//PrivateIPAllocationMethod: The private IP address allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod_Status `json:"privateIPAllocationMethod,omitempty"`
+	PrivateIPAllocationMethod *string `json:"privateIPAllocationMethod,omitempty"`
 
 	//ProvisioningState: The provisioning state of the virtual network gateway IP
 	//configuration resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	//PublicIPAddress: The reference to the public IP resource.
 	PublicIPAddress *SubResource_StatusARM `json:"publicIPAddress,omitempty"`
@@ -296,7 +296,7 @@ type VpnClientRootCertificate_StatusARM struct {
 type VpnClientRevokedCertificatePropertiesFormat_StatusARM struct {
 	//ProvisioningState: The provisioning state of the VPN client revoked certificate
 	//resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	//Thumbprint: The revoked VPN client certificate thumbprint.
 	Thumbprint *string `json:"thumbprint,omitempty"`
@@ -305,7 +305,7 @@ type VpnClientRevokedCertificatePropertiesFormat_StatusARM struct {
 type VpnClientRootCertificatePropertiesFormat_StatusARM struct {
 	//ProvisioningState: The provisioning state of the VPN client root certificate
 	//resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	//PublicCertData: The certificate public data.
 	PublicCertData string `json:"publicCertData"`

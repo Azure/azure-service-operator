@@ -30,8 +30,8 @@ import (
 type StorageAccountsQueueService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccountsQueueServices_SPEC `json:"spec,omitempty"`
-	Status            QueueServiceProperties_Status     `json:"status,omitempty"`
+	Spec              StorageAccountsQueueService_Spec `json:"spec,omitempty"`
+	Status            QueueServiceProperties_Status    `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsQueueService{}
@@ -247,10 +247,10 @@ func (service *StorageAccountsQueueService) AssignPropertiesFromStorageAccountsQ
 	service.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec StorageAccountsQueueServices_SPEC
-	err := spec.AssignPropertiesFromStorageAccountsQueueServices_SPEC(&source.Spec)
+	var spec StorageAccountsQueueService_Spec
+	err := spec.AssignPropertiesFromStorageAccountsQueueService_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountsQueueServices_SPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountsQueueService_Spec() to populate field Spec")
 	}
 	service.Spec = spec
 
@@ -273,10 +273,10 @@ func (service *StorageAccountsQueueService) AssignPropertiesToStorageAccountsQue
 	destination.ObjectMeta = *service.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1alpha1api20210401storage.StorageAccountsQueueServices_SPEC
-	err := service.Spec.AssignPropertiesToStorageAccountsQueueServices_SPEC(&spec)
+	var spec v1alpha1api20210401storage.StorageAccountsQueueService_Spec
+	err := service.Spec.AssignPropertiesToStorageAccountsQueueService_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsQueueServices_SPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsQueueService_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -506,7 +506,7 @@ func (properties *QueueServiceProperties_Status) AssignPropertiesToQueueServiceP
 	return nil
 }
 
-type StorageAccountsQueueServices_SPEC struct {
+type StorageAccountsQueueService_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
@@ -515,73 +515,73 @@ type StorageAccountsQueueServices_SPEC struct {
 	//CorsRule elements in the request. If no CorsRule elements are included in the
 	//request body, all CORS rules will be deleted, and CORS will be disabled for the
 	//Queue service.
-	Cors *CorsRules_Spec `json:"cors,omitempty"`
+	Cors *CorsRules `json:"cors,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 }
 
-var _ genruntime.ARMTransformer = &StorageAccountsQueueServices_SPEC{}
+var _ genruntime.ARMTransformer = &StorageAccountsQueueService_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (spec *StorageAccountsQueueServices_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if spec == nil {
+func (service *StorageAccountsQueueService_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if service == nil {
 		return nil, nil
 	}
-	var result StorageAccountsQueueServices_SPECARM
+	var result StorageAccountsQueueService_SpecARM
 
 	// Set property ‘AzureName’:
-	result.AzureName = spec.AzureName
+	result.AzureName = service.AzureName
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if spec.Cors != nil {
-		result.Properties = &StorageAccountsQueueServices_Properties_SPECARM{}
+	if service.Cors != nil {
+		result.Properties = &StorageAccountsQueueService_SpecPropertiesARM{}
 	}
-	if spec.Cors != nil {
-		corsARM, err := (*spec.Cors).ConvertToARM(resolved)
+	if service.Cors != nil {
+		corsARM, err := (*service.Cors).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		cors := corsARM.(CorsRules_SpecARM)
+		cors := corsARM.(CorsRulesARM)
 		result.Properties.Cors = &cors
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (spec *StorageAccountsQueueServices_SPEC) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageAccountsQueueServices_SPECARM{}
+func (service *StorageAccountsQueueService_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &StorageAccountsQueueService_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (spec *StorageAccountsQueueServices_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageAccountsQueueServices_SPECARM)
+func (service *StorageAccountsQueueService_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(StorageAccountsQueueService_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsQueueServices_SPECARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsQueueService_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	spec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	service.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Cors’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Cors != nil {
-			var cors1 CorsRules_Spec
+			var cors1 CorsRules
 			err := cors1.PopulateFromARM(owner, *typedInput.Properties.Cors)
 			if err != nil {
 				return err
 			}
 			cors := cors1
-			spec.Cors = &cors
+			service.Cors = &cors
 		}
 	}
 
 	// Set property ‘Owner’:
-	spec.Owner = genruntime.KnownResourceReference{
+	service.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -589,25 +589,25 @@ func (spec *StorageAccountsQueueServices_SPEC) PopulateFromARM(owner genruntime.
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &StorageAccountsQueueServices_SPEC{}
+var _ genruntime.ConvertibleSpec = &StorageAccountsQueueService_Spec{}
 
-// ConvertSpecFrom populates our StorageAccountsQueueServices_SPEC from the provided source
-func (spec *StorageAccountsQueueServices_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1alpha1api20210401storage.StorageAccountsQueueServices_SPEC)
+// ConvertSpecFrom populates our StorageAccountsQueueService_Spec from the provided source
+func (service *StorageAccountsQueueService_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v1alpha1api20210401storage.StorageAccountsQueueService_Spec)
 	if ok {
 		// Populate our instance from source
-		return spec.AssignPropertiesFromStorageAccountsQueueServices_SPEC(src)
+		return service.AssignPropertiesFromStorageAccountsQueueService_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210401storage.StorageAccountsQueueServices_SPEC{}
+	src = &v1alpha1api20210401storage.StorageAccountsQueueService_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = spec.AssignPropertiesFromStorageAccountsQueueServices_SPEC(src)
+	err = service.AssignPropertiesFromStorageAccountsQueueService_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -615,17 +615,17 @@ func (spec *StorageAccountsQueueServices_SPEC) ConvertSpecFrom(source genruntime
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our StorageAccountsQueueServices_SPEC
-func (spec *StorageAccountsQueueServices_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1alpha1api20210401storage.StorageAccountsQueueServices_SPEC)
+// ConvertSpecTo populates the provided destination from our StorageAccountsQueueService_Spec
+func (service *StorageAccountsQueueService_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v1alpha1api20210401storage.StorageAccountsQueueService_Spec)
 	if ok {
 		// Populate destination from our instance
-		return spec.AssignPropertiesToStorageAccountsQueueServices_SPEC(dst)
+		return service.AssignPropertiesToStorageAccountsQueueService_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210401storage.StorageAccountsQueueServices_SPEC{}
-	err := spec.AssignPropertiesToStorageAccountsQueueServices_SPEC(dst)
+	dst = &v1alpha1api20210401storage.StorageAccountsQueueService_Spec{}
+	err := service.AssignPropertiesToStorageAccountsQueueService_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -639,45 +639,45 @@ func (spec *StorageAccountsQueueServices_SPEC) ConvertSpecTo(destination genrunt
 	return nil
 }
 
-// AssignPropertiesFromStorageAccountsQueueServices_SPEC populates our StorageAccountsQueueServices_SPEC from the provided source StorageAccountsQueueServices_SPEC
-func (spec *StorageAccountsQueueServices_SPEC) AssignPropertiesFromStorageAccountsQueueServices_SPEC(source *v1alpha1api20210401storage.StorageAccountsQueueServices_SPEC) error {
+// AssignPropertiesFromStorageAccountsQueueService_Spec populates our StorageAccountsQueueService_Spec from the provided source StorageAccountsQueueService_Spec
+func (service *StorageAccountsQueueService_Spec) AssignPropertiesFromStorageAccountsQueueService_Spec(source *v1alpha1api20210401storage.StorageAccountsQueueService_Spec) error {
 
 	// AzureName
-	spec.AzureName = source.AzureName
+	service.AzureName = source.AzureName
 
 	// Cors
 	if source.Cors != nil {
-		var cor CorsRules_Spec
-		err := cor.AssignPropertiesFromCorsRules_Spec(source.Cors)
+		var cor CorsRules
+		err := cor.AssignPropertiesFromCorsRules(source.Cors)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCorsRules_Spec() to populate field Cors")
+			return errors.Wrap(err, "calling AssignPropertiesFromCorsRules() to populate field Cors")
 		}
-		spec.Cors = &cor
+		service.Cors = &cor
 	} else {
-		spec.Cors = nil
+		service.Cors = nil
 	}
 
 	// Owner
-	spec.Owner = source.Owner.Copy()
+	service.Owner = source.Owner.Copy()
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToStorageAccountsQueueServices_SPEC populates the provided destination StorageAccountsQueueServices_SPEC from our StorageAccountsQueueServices_SPEC
-func (spec *StorageAccountsQueueServices_SPEC) AssignPropertiesToStorageAccountsQueueServices_SPEC(destination *v1alpha1api20210401storage.StorageAccountsQueueServices_SPEC) error {
+// AssignPropertiesToStorageAccountsQueueService_Spec populates the provided destination StorageAccountsQueueService_Spec from our StorageAccountsQueueService_Spec
+func (service *StorageAccountsQueueService_Spec) AssignPropertiesToStorageAccountsQueueService_Spec(destination *v1alpha1api20210401storage.StorageAccountsQueueService_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = spec.AzureName
+	destination.AzureName = service.AzureName
 
 	// Cors
-	if spec.Cors != nil {
-		var cor v1alpha1api20210401storage.CorsRules_Spec
-		err := spec.Cors.AssignPropertiesToCorsRules_Spec(&cor)
+	if service.Cors != nil {
+		var cor v1alpha1api20210401storage.CorsRules
+		err := service.Cors.AssignPropertiesToCorsRules(&cor)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCorsRules_Spec() to populate field Cors")
+			return errors.Wrap(err, "calling AssignPropertiesToCorsRules() to populate field Cors")
 		}
 		destination.Cors = &cor
 	} else {
@@ -685,10 +685,10 @@ func (spec *StorageAccountsQueueServices_SPEC) AssignPropertiesToStorageAccounts
 	}
 
 	// OriginalVersion
-	destination.OriginalVersion = spec.OriginalVersion()
+	destination.OriginalVersion = service.OriginalVersion()
 
 	// Owner
-	destination.Owner = spec.Owner.Copy()
+	destination.Owner = service.Owner.Copy()
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -702,13 +702,13 @@ func (spec *StorageAccountsQueueServices_SPEC) AssignPropertiesToStorageAccounts
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (spec *StorageAccountsQueueServices_SPEC) OriginalVersion() string {
+func (service *StorageAccountsQueueService_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (spec *StorageAccountsQueueServices_SPEC) SetAzureName(azureName string) {
-	spec.AzureName = azureName
+func (service *StorageAccountsQueueService_Spec) SetAzureName(azureName string) {
+	service.AzureName = azureName
 }
 
 func init() {

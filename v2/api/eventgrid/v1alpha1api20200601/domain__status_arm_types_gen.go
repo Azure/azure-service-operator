@@ -36,7 +36,7 @@ type DomainProperties_StatusARM struct {
 
 	//InputSchema: This determines the format that Event Grid should expect for
 	//incoming events published to the domain.
-	InputSchema *DomainProperties_InputSchema_Status `json:"inputSchema,omitempty"`
+	InputSchema *string `json:"inputSchema,omitempty"`
 
 	//InputSchemaMapping: Information about the InputSchemaMapping which specified the
 	//info about mapping event payload.
@@ -49,14 +49,14 @@ type DomainProperties_StatusARM struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_Domain_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
 
 	//ProvisioningState: Provisioning state of the domain.
-	ProvisioningState *DomainProperties_ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	//PublicNetworkAccess: This determines if traffic is allowed over public network.
 	//By default it is enabled.
 	//You can further restrict to specific IPs by configuring <seealso
 	//cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules"
 	///>
-	PublicNetworkAccess *DomainProperties_PublicNetworkAccess_Status `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 }
 
 type SystemData_StatusARM struct {
@@ -67,7 +67,7 @@ type SystemData_StatusARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	//CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_Status `json:"createdByType,omitempty"`
+	CreatedByType *string `json:"createdByType,omitempty"`
 
 	//LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -76,12 +76,12 @@ type SystemData_StatusARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	//LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_Status `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *string `json:"lastModifiedByType,omitempty"`
 }
 
 type InboundIpRule_StatusARM struct {
 	//Action: Action to perform based on the match or no match of the IpMask.
-	Action *InboundIpRule_Action_Status `json:"action,omitempty"`
+	Action *string `json:"action,omitempty"`
 
 	//IpMask: IP Address in CIDR notation e.g., 10.0.0.0/8.
 	IpMask *string `json:"ipMask,omitempty"`
@@ -89,28 +89,10 @@ type InboundIpRule_StatusARM struct {
 
 type InputSchemaMapping_StatusARM struct {
 	//InputSchemaMappingType: Type of the custom mapping
-	InputSchemaMappingType InputSchemaMapping_InputSchemaMappingType_Status `json:"inputSchemaMappingType"`
+	InputSchemaMappingType string `json:"inputSchemaMappingType"`
 }
 
 type PrivateEndpointConnection_Status_Domain_SubResourceEmbeddedARM struct {
 	//Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
 }
-
-type SystemData_CreatedByType_Status string
-
-const (
-	SystemData_CreatedByType_StatusApplication     = SystemData_CreatedByType_Status("Application")
-	SystemData_CreatedByType_StatusKey             = SystemData_CreatedByType_Status("Key")
-	SystemData_CreatedByType_StatusManagedIdentity = SystemData_CreatedByType_Status("ManagedIdentity")
-	SystemData_CreatedByType_StatusUser            = SystemData_CreatedByType_Status("User")
-)
-
-type SystemData_LastModifiedByType_Status string
-
-const (
-	SystemData_LastModifiedByType_StatusApplication     = SystemData_LastModifiedByType_Status("Application")
-	SystemData_LastModifiedByType_StatusKey             = SystemData_LastModifiedByType_Status("Key")
-	SystemData_LastModifiedByType_StatusManagedIdentity = SystemData_LastModifiedByType_Status("ManagedIdentity")
-	SystemData_LastModifiedByType_StatusUser            = SystemData_LastModifiedByType_Status("User")
-)

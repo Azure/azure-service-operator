@@ -5,14 +5,14 @@ package v1alpha1api20200101
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-	MyEnum *Test_MyEnum `json:"myEnum,omitempty"`
+	MyEnum *TestMyEnum `json:"myEnum,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"a","b","*"}
-type Test_MyEnum string
+type TestMyEnum string
 
 const (
-	Test_MyEnumA    = Test_MyEnum("a")
-	Test_MyEnumB    = Test_MyEnum("b")
-	Test_MyEnumStar = Test_MyEnum("*")
+	TestMyEnumA    = TestMyEnum("a")
+	TestMyEnumB    = TestMyEnum("b")
+	TestMyEnumStar = TestMyEnum("*")
 )

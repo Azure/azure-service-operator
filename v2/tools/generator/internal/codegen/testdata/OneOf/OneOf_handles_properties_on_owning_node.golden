@@ -6,18 +6,18 @@ package v1alpha1api20200101
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	//Either: Mutually exclusive with all other properties
-	Either *Test_Either `json:"either,omitempty"`
+	Either *TestEither `json:"either,omitempty"`
 
 	//Or: Mutually exclusive with all other properties
-	Or *Test_Or `json:"or,omitempty"`
+	Or *TestOr `json:"or,omitempty"`
 }
 
-type Test_Either struct {
+type TestEither struct {
 	Height *int `json:"height,omitempty"`
 	Width  *int `json:"width,omitempty"`
 }
 
-type Test_Or struct {
+type TestOr struct {
 	Length *int `json:"length,omitempty"`
 	Width  *int `json:"width,omitempty"`
 }

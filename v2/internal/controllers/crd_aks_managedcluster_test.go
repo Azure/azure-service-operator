@@ -27,16 +27,16 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	tc.Expect(err).ToNot(HaveOccurred())
 
 	identityKind := aks.ManagedClusterIdentityTypeSystemAssigned
-	osType := aks.ManagedClusterAgentPoolProfileOsTypeLinux
-	agentPoolMode := aks.ManagedClusterAgentPoolProfileModeSystem
+	osType := aks.OSTypeLinux
+	agentPoolMode := aks.AgentPoolModeSystem
 
 	cluster := &aks.ManagedCluster{
 		ObjectMeta: tc.MakeObjectMeta("mc"),
-		Spec: aks.ManagedClusters_SPEC{
+		Spec: aks.ManagedCluster_Spec{
 			Location:  tc.AzureRegion,
 			Owner:     testcommon.AsOwner(rg),
 			DnsPrefix: to.StringPtr("aso"),
-			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile_Spec{
+			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile{
 				{
 					Name:   to.StringPtr("ap1"),
 					Count:  to.IntPtr(1),
@@ -45,17 +45,17 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 					Mode:   &agentPoolMode,
 				},
 			},
-			LinuxProfile: &aks.ContainerServiceLinuxProfile_Spec{
+			LinuxProfile: &aks.ContainerServiceLinuxProfile{
 				AdminUsername: adminUsername,
-				Ssh: aks.ContainerServiceSshConfiguration_Spec{
-					PublicKeys: []aks.ContainerServiceSshPublicKey_Spec{
+				Ssh: aks.ContainerServiceSshConfiguration{
+					PublicKeys: []aks.ContainerServiceSshPublicKey{
 						{
 							KeyData: *sshPublicKey,
 						},
 					},
 				},
 			},
-			Identity: &aks.ManagedClusterIdentity_Spec{
+			Identity: &aks.ManagedClusterIdentity{
 				Type: &identityKind,
 			},
 		},
@@ -70,16 +70,16 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	skuName := aks.ManagedClusterSKUNameBasic
 	skuTier := aks.ManagedClusterSKUTierPaid
 	old := cluster.DeepCopy()
-	cluster.Spec.Sku = &aks.ManagedClusterSKU_Spec{
+	cluster.Spec.Sku = &aks.ManagedClusterSKU{
 		Name: &skuName,
 		Tier: &skuTier,
 	}
 	tc.PatchResourceAndWait(old, cluster)
 	tc.Expect(cluster.Status.Sku).ToNot(BeNil())
 	tc.Expect(cluster.Status.Sku.Name).ToNot(BeNil())
-	tc.Expect(*cluster.Status.Sku.Name).To(Equal(aks.ManagedClusterSKUStatusNameBasic))
+	tc.Expect(*cluster.Status.Sku.Name).To(Equal(aks.ManagedClusterSKUNameBasic))
 	tc.Expect(cluster.Status.Sku.Tier).ToNot(BeNil())
-	tc.Expect(*cluster.Status.Sku.Tier).To(Equal(aks.ManagedClusterSKUStatusTierPaid))
+	tc.Expect(*cluster.Status.Sku.Tier).To(Equal(aks.ManagedClusterSKUTierPaid))
 
 	// Run sub tests
 	tc.RunParallelSubtests(
@@ -94,19 +94,19 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(cluster)
 
 	// Ensure that the cluster was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(aks.ManagedClustersSpecAPIVersion20210501))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(aks.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
 }
 
 func AKS_ManagedCluster_AgentPool_CRUD(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
-	osType := aks.ManagedClusterAgentPoolProfilePropertiesOsTypeLinux
-	agentPoolMode := aks.ManagedClusterAgentPoolProfilePropertiesModeSystem
+	osType := aks.OSTypeLinux
+	agentPoolMode := aks.AgentPoolModeSystem
 
 	agentPool := &aks.ManagedClustersAgentPool{
 		ObjectMeta: tc.MakeObjectMetaWithName("ap2"),
-		Spec: aks.ManagedClustersAgentPools_Spec{
+		Spec: aks.ManagedClustersAgentPool_Spec{
 			Owner:  testcommon.AsOwner(cluster),
 			Count:  to.IntPtr(1),
 			VmSize: to.StringPtr("Standard_DS2_v2"),

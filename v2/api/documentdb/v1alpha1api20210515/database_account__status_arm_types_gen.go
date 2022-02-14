@@ -10,7 +10,7 @@ type DatabaseAccount_StatusARM struct {
 
 	//Kind: Indicates the type of database account. This can only be set at database
 	//account creation.
-	Kind *DatabaseAccount_Kind_Status `json:"kind,omitempty"`
+	Kind *string `json:"kind,omitempty"`
 
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
@@ -41,7 +41,7 @@ type DatabaseAccountProperties_StatusARM struct {
 
 	//ConnectorOffer: The cassandra connector offer type for the Cosmos DB database C*
 	//account.
-	ConnectorOffer *ConnectorOffer_Status `json:"connectorOffer,omitempty"`
+	ConnectorOffer *string `json:"connectorOffer,omitempty"`
 
 	//ConsistencyPolicy: The consistency policy for the Cosmos DB account.
 	ConsistencyPolicy *ConsistencyPolicy_StatusARM `json:"consistencyPolicy,omitempty"`
@@ -50,7 +50,7 @@ type DatabaseAccountProperties_StatusARM struct {
 	Cors []CorsPolicy_StatusARM `json:"cors,omitempty"`
 
 	//DatabaseAccountOfferType: The offer type for the database
-	DatabaseAccountOfferType DatabaseAccountOfferType_Status `json:"databaseAccountOfferType"`
+	DatabaseAccountOfferType string `json:"databaseAccountOfferType"`
 
 	//DefaultIdentity: The default identity for accessing key vault used in features
 	//like customer managed keys. The default identity needs to be explicitly set by
@@ -95,27 +95,19 @@ type DatabaseAccountProperties_StatusARM struct {
 	Locations []Location_StatusARM `json:"locations"`
 
 	//NetworkAclBypass: Indicates what services are allowed to bypass firewall checks.
-	NetworkAclBypass *NetworkAclBypass_Status `json:"networkAclBypass,omitempty"`
+	NetworkAclBypass *string `json:"networkAclBypass,omitempty"`
 
 	//NetworkAclBypassResourceIds: An array that contains the Resource Ids for Network
 	//Acl Bypass for the Cosmos DB account.
 	NetworkAclBypassResourceIds []string `json:"networkAclBypassResourceIds,omitempty"`
 
 	//PublicNetworkAccess: Whether requests from Public Network are allowed
-	PublicNetworkAccess *PublicNetworkAccess_Status `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 
 	//VirtualNetworkRules: List of Virtual Network ACL rules configured for the Cosmos
 	//DB account.
 	VirtualNetworkRules []VirtualNetworkRule_StatusARM `json:"virtualNetworkRules,omitempty"`
 }
-
-type DatabaseAccount_Kind_Status string
-
-const (
-	DatabaseAccount_Kind_StatusGlobalDocumentDB = DatabaseAccount_Kind_Status("GlobalDocumentDB")
-	DatabaseAccount_Kind_StatusMongoDB          = DatabaseAccount_Kind_Status("MongoDB")
-	DatabaseAccount_Kind_StatusParse            = DatabaseAccount_Kind_Status("Parse")
-)
 
 type ManagedServiceIdentity_StatusARM struct {
 	//PrincipalId: The principal id of the system assigned identity. This property
@@ -130,26 +122,26 @@ type ManagedServiceIdentity_StatusARM struct {
 	//'SystemAssigned,UserAssigned' includes both an implicitly created identity and a
 	//set of user assigned identities. The type 'None' will remove any identities from
 	//the service.
-	Type *ManagedServiceIdentity_Type_Status `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 
 	//UserAssignedIdentities: The list of user identities associated with resource.
 	//The user identity dictionary key references will be ARM resource ids in the
 	//form:
 	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]ManagedServiceIdentity_UserAssignedIdentities_StatusARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]ManagedServiceIdentity_StatusUserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
 }
 
 type AnalyticalStorageConfiguration_StatusARM struct {
-	SchemaType *AnalyticalStorageSchemaType_Status `json:"schemaType,omitempty"`
+	SchemaType *string `json:"schemaType,omitempty"`
 }
 
 type ApiProperties_StatusARM struct {
 	//ServerVersion: Describes the ServerVersion of an a MongoDB account.
-	ServerVersion *ApiProperties_ServerVersion_Status `json:"serverVersion,omitempty"`
+	ServerVersion *string `json:"serverVersion,omitempty"`
 }
 
 type BackupPolicy_StatusARM struct {
-	Type BackupPolicyType_Status `json:"type"`
+	Type string `json:"type"`
 }
 
 type Capability_StatusARM struct {
@@ -161,7 +153,7 @@ type Capability_StatusARM struct {
 type ConsistencyPolicy_StatusARM struct {
 	//DefaultConsistencyLevel: The default consistency level and configuration
 	//settings of the Cosmos DB account.
-	DefaultConsistencyLevel ConsistencyPolicy_DefaultConsistencyLevel_Status `json:"defaultConsistencyLevel"`
+	DefaultConsistencyLevel string `json:"defaultConsistencyLevel"`
 
 	//MaxIntervalInSeconds: When used with the Bounded Staleness consistency level,
 	//this value represents the time amount of staleness (in seconds) tolerated.
@@ -231,16 +223,7 @@ type Location_StatusARM struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
 
-type ManagedServiceIdentity_Type_Status string
-
-const (
-	ManagedServiceIdentity_Type_StatusNone                       = ManagedServiceIdentity_Type_Status("None")
-	ManagedServiceIdentity_Type_StatusSystemAssigned             = ManagedServiceIdentity_Type_Status("SystemAssigned")
-	ManagedServiceIdentity_Type_StatusSystemAssignedUserAssigned = ManagedServiceIdentity_Type_Status("SystemAssigned,UserAssigned")
-	ManagedServiceIdentity_Type_StatusUserAssigned               = ManagedServiceIdentity_Type_Status("UserAssigned")
-)
-
-type ManagedServiceIdentity_UserAssignedIdentities_StatusARM struct {
+type ManagedServiceIdentity_StatusUserAssignedIdentitiesARM struct {
 	//ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 

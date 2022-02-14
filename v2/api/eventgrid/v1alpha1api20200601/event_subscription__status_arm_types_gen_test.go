@@ -160,17 +160,10 @@ func EventSubscriptionProperties_StatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEventSubscriptionProperties_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEventSubscriptionProperties_StatusARM(gens map[string]gopter.Gen) {
-	gens["EventDeliverySchema"] = gen.PtrOf(gen.OneConstOf(EventSubscriptionProperties_EventDeliverySchema_StatusCloudEventSchemaV1_0, EventSubscriptionProperties_EventDeliverySchema_StatusCustomInputSchema, EventSubscriptionProperties_EventDeliverySchema_StatusEventGridSchema))
+	gens["EventDeliverySchema"] = gen.PtrOf(gen.AlphaString())
 	gens["ExpirationTimeUtc"] = gen.PtrOf(gen.AlphaString())
 	gens["Labels"] = gen.SliceOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		EventSubscriptionProperties_ProvisioningState_StatusAwaitingManualAction,
-		EventSubscriptionProperties_ProvisioningState_StatusCanceled,
-		EventSubscriptionProperties_ProvisioningState_StatusCreating,
-		EventSubscriptionProperties_ProvisioningState_StatusDeleting,
-		EventSubscriptionProperties_ProvisioningState_StatusFailed,
-		EventSubscriptionProperties_ProvisioningState_StatusSucceeded,
-		EventSubscriptionProperties_ProvisioningState_StatusUpdating))
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["Topic"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -239,7 +232,7 @@ func DeadLetterDestination_StatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeadLetterDestination_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeadLetterDestination_StatusARM(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.OneConstOf(DeadLetterDestination_EndpointType_StatusStorageBlob)
+	gens["EndpointType"] = gen.AlphaString()
 }
 
 func Test_EventSubscriptionDestination_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -299,14 +292,7 @@ func EventSubscriptionDestination_StatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEventSubscriptionDestination_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEventSubscriptionDestination_StatusARM(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.OneConstOf(
-		EventSubscriptionDestination_EndpointType_StatusAzureFunction,
-		EventSubscriptionDestination_EndpointType_StatusEventHub,
-		EventSubscriptionDestination_EndpointType_StatusHybridConnection,
-		EventSubscriptionDestination_EndpointType_StatusServiceBusQueue,
-		EventSubscriptionDestination_EndpointType_StatusServiceBusTopic,
-		EventSubscriptionDestination_EndpointType_StatusStorageQueue,
-		EventSubscriptionDestination_EndpointType_StatusWebHook)
+	gens["EndpointType"] = gen.AlphaString()
 }
 
 func Test_EventSubscriptionFilter_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -505,17 +491,5 @@ func AdvancedFilter_StatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAdvancedFilter_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdvancedFilter_StatusARM(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(
-		AdvancedFilter_OperatorType_StatusBoolEquals,
-		AdvancedFilter_OperatorType_StatusNumberGreaterThan,
-		AdvancedFilter_OperatorType_StatusNumberGreaterThanOrEquals,
-		AdvancedFilter_OperatorType_StatusNumberIn,
-		AdvancedFilter_OperatorType_StatusNumberLessThan,
-		AdvancedFilter_OperatorType_StatusNumberLessThanOrEquals,
-		AdvancedFilter_OperatorType_StatusNumberNotIn,
-		AdvancedFilter_OperatorType_StatusStringBeginsWith,
-		AdvancedFilter_OperatorType_StatusStringContains,
-		AdvancedFilter_OperatorType_StatusStringEndsWith,
-		AdvancedFilter_OperatorType_StatusStringIn,
-		AdvancedFilter_OperatorType_StatusStringNotIn)
+	gens["OperatorType"] = gen.AlphaString()
 }

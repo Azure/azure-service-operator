@@ -28,8 +28,8 @@ import (
 type NamespacesAuthorizationRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NamespacesAuthorizationRules_SPEC `json:"spec,omitempty"`
-	Status            AuthorizationRule_Status          `json:"status,omitempty"`
+	Spec              NamespacesAuthorizationRule_Spec `json:"spec,omitempty"`
+	Status            AuthorizationRule_Status         `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesAuthorizationRule{}
@@ -165,8 +165,8 @@ func (rule *AuthorizationRule_Status) ConvertStatusTo(destination genruntime.Con
 	return destination.ConvertStatusFrom(rule)
 }
 
-//Storage version of v1alpha1api20211101.NamespacesAuthorizationRules_SPEC
-type NamespacesAuthorizationRules_SPEC struct {
+//Storage version of v1alpha1api20211101.NamespacesAuthorizationRule_Spec
+type NamespacesAuthorizationRule_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName       string `json:"azureName"`
@@ -178,24 +178,24 @@ type NamespacesAuthorizationRules_SPEC struct {
 	Rights      []string                          `json:"rights,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &NamespacesAuthorizationRules_SPEC{}
+var _ genruntime.ConvertibleSpec = &NamespacesAuthorizationRule_Spec{}
 
-// ConvertSpecFrom populates our NamespacesAuthorizationRules_SPEC from the provided source
-func (spec *NamespacesAuthorizationRules_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our NamespacesAuthorizationRule_Spec from the provided source
+func (rule *NamespacesAuthorizationRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(rule)
 }
 
-// ConvertSpecTo populates the provided destination from our NamespacesAuthorizationRules_SPEC
-func (spec *NamespacesAuthorizationRules_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our NamespacesAuthorizationRule_Spec
+func (rule *NamespacesAuthorizationRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(rule)
 }
 
 func init() {

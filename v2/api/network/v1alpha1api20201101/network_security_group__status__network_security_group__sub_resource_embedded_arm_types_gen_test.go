@@ -162,11 +162,7 @@ func NetworkSecurityGroupPropertiesFormat_StatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkSecurityGroupPropertiesFormat_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkSecurityGroupPropertiesFormat_StatusARM(gens map[string]gopter.Gen) {
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_StatusDeleting,
-		ProvisioningState_StatusFailed,
-		ProvisioningState_StatusSucceeded,
-		ProvisioningState_StatusUpdating))
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 }
 

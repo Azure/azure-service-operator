@@ -93,24 +93,24 @@ func AddIndependentPropertyGeneratorsForEHNamespace_StatusARM(gens map[string]go
 // AddRelatedPropertyGeneratorsForEHNamespace_StatusARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForEHNamespace_StatusARM(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(Identity_StatusARMGenerator())
-	gens["Properties"] = gen.PtrOf(EHNamespace_Properties_StatusARMGenerator())
+	gens["Properties"] = gen.PtrOf(EHNamespace_StatusPropertiesARMGenerator())
 	gens["Sku"] = gen.PtrOf(Sku_StatusARMGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_StatusARMGenerator())
 }
 
-func Test_EHNamespace_Properties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_EHNamespace_StatusPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of EHNamespace_Properties_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEHNamespace_Properties_StatusARM, EHNamespace_Properties_StatusARMGenerator()))
+		"Round trip of EHNamespace_StatusPropertiesARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForEHNamespace_StatusPropertiesARM, EHNamespace_StatusPropertiesARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForEHNamespace_Properties_StatusARM runs a test to see if a specific instance of EHNamespace_Properties_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForEHNamespace_Properties_StatusARM(subject EHNamespace_Properties_StatusARM) string {
+// RunJSONSerializationTestForEHNamespace_StatusPropertiesARM runs a test to see if a specific instance of EHNamespace_StatusPropertiesARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForEHNamespace_StatusPropertiesARM(subject EHNamespace_StatusPropertiesARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -118,7 +118,7 @@ func RunJSONSerializationTestForEHNamespace_Properties_StatusARM(subject EHNames
 	}
 
 	// Deserialize back into memory
-	var actual EHNamespace_Properties_StatusARM
+	var actual EHNamespace_StatusPropertiesARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -136,34 +136,34 @@ func RunJSONSerializationTestForEHNamespace_Properties_StatusARM(subject EHNames
 	return ""
 }
 
-// Generator of EHNamespace_Properties_StatusARM instances for property testing - lazily instantiated by
-//EHNamespace_Properties_StatusARMGenerator()
-var ehNamespace_properties_statusARMGenerator gopter.Gen
+// Generator of EHNamespace_StatusPropertiesARM instances for property testing - lazily instantiated by
+//EHNamespace_StatusPropertiesARMGenerator()
+var ehNamespace_statusPropertiesARMGenerator gopter.Gen
 
-// EHNamespace_Properties_StatusARMGenerator returns a generator of EHNamespace_Properties_StatusARM instances for property testing.
-// We first initialize ehNamespace_properties_statusARMGenerator with a simplified generator based on the
+// EHNamespace_StatusPropertiesARMGenerator returns a generator of EHNamespace_StatusPropertiesARM instances for property testing.
+// We first initialize ehNamespace_statusPropertiesARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func EHNamespace_Properties_StatusARMGenerator() gopter.Gen {
-	if ehNamespace_properties_statusARMGenerator != nil {
-		return ehNamespace_properties_statusARMGenerator
+func EHNamespace_StatusPropertiesARMGenerator() gopter.Gen {
+	if ehNamespace_statusPropertiesARMGenerator != nil {
+		return ehNamespace_statusPropertiesARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEHNamespace_Properties_StatusARM(generators)
-	ehNamespace_properties_statusARMGenerator = gen.Struct(reflect.TypeOf(EHNamespace_Properties_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForEHNamespace_StatusPropertiesARM(generators)
+	ehNamespace_statusPropertiesARMGenerator = gen.Struct(reflect.TypeOf(EHNamespace_StatusPropertiesARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEHNamespace_Properties_StatusARM(generators)
-	AddRelatedPropertyGeneratorsForEHNamespace_Properties_StatusARM(generators)
-	ehNamespace_properties_statusARMGenerator = gen.Struct(reflect.TypeOf(EHNamespace_Properties_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForEHNamespace_StatusPropertiesARM(generators)
+	AddRelatedPropertyGeneratorsForEHNamespace_StatusPropertiesARM(generators)
+	ehNamespace_statusPropertiesARMGenerator = gen.Struct(reflect.TypeOf(EHNamespace_StatusPropertiesARM{}), generators)
 
-	return ehNamespace_properties_statusARMGenerator
+	return ehNamespace_statusPropertiesARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForEHNamespace_Properties_StatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEHNamespace_Properties_StatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForEHNamespace_StatusPropertiesARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEHNamespace_StatusPropertiesARM(gens map[string]gopter.Gen) {
 	gens["AlternateName"] = gen.PtrOf(gen.AlphaString())
 	gens["ClusterArmId"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
@@ -179,8 +179,8 @@ func AddIndependentPropertyGeneratorsForEHNamespace_Properties_StatusARM(gens ma
 	gens["ZoneRedundant"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForEHNamespace_Properties_StatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForEHNamespace_Properties_StatusARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForEHNamespace_StatusPropertiesARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForEHNamespace_StatusPropertiesARM(gens map[string]gopter.Gen) {
 	gens["Encryption"] = gen.PtrOf(Encryption_StatusARMGenerator())
 	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_Status_SubResourceEmbeddedARMGenerator())
 }
@@ -252,11 +252,7 @@ func Identity_StatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForIdentity_StatusARM(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		Identity_Type_StatusNone,
-		Identity_Type_StatusSystemAssigned,
-		Identity_Type_StatusSystemAssignedUserAssigned,
-		Identity_Type_StatusUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForIdentity_StatusARM is a factory method for creating gopter generators
@@ -321,8 +317,8 @@ func Sku_StatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku_StatusARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.OneConstOf(Sku_Name_StatusBasic, Sku_Name_StatusPremium, Sku_Name_StatusStandard)
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Sku_Tier_StatusBasic, Sku_Tier_StatusPremium, Sku_Tier_StatusStandard))
+	gens["Name"] = gen.AlphaString()
+	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Encryption_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -391,7 +387,7 @@ func Encryption_StatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryption_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryption_StatusARM(gens map[string]gopter.Gen) {
-	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(Encryption_KeySource_StatusMicrosoftKeyVault))
+	gens["KeySource"] = gen.PtrOf(gen.AlphaString())
 	gens["RequireInfrastructureEncryption"] = gen.PtrOf(gen.Bool())
 }
 

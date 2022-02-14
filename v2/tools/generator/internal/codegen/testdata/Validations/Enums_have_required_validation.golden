@@ -6,14 +6,14 @@ package v1alpha1api20200101
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	// +kubebuilder:validation:Required
-	Color Test_Color `json:"color"`
+	Color TestColor `json:"color"`
 }
 
 // +kubebuilder:validation:Enum={"blue","green","red"}
-type Test_Color string
+type TestColor string
 
 const (
-	Test_ColorBlue  = Test_Color("blue")
-	Test_ColorGreen = Test_Color("green")
-	Test_ColorRed   = Test_Color("red")
+	TestColorBlue  = TestColor("blue")
+	TestColorGreen = TestColor("green")
+	TestColorRed   = TestColor("red")
 )

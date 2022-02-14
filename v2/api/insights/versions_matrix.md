@@ -1,38 +1,32 @@
-| Types defined in package "insights"                            | v1alpha1api20180501preview | v1alpha1api20200202 |
-|----------------------------------------------------------------|----------------------------|---------------------|
-| APIVersion                                                     | v1alpha1api20180501preview | v1alpha1api20200202 |
-| ApplicationInsightsComponentProperties_Application_Type_Spec   |                            | v1alpha1api20200202 |
-| ApplicationInsightsComponentProperties_Application_Type_Status |                            | v1alpha1api20200202 |
-| ApplicationInsightsComponentProperties_Flow_Type_Spec          |                            | v1alpha1api20200202 |
-| ApplicationInsightsComponentProperties_Flow_Type_Status        |                            | v1alpha1api20200202 |
-| ApplicationInsightsComponentProperties_IngestionMode_Spec      |                            | v1alpha1api20200202 |
-| ApplicationInsightsComponentProperties_IngestionMode_Status    |                            | v1alpha1api20200202 |
-| ApplicationInsightsComponentProperties_Request_Source_Spec     |                            | v1alpha1api20200202 |
-| ApplicationInsightsComponentProperties_Request_Source_Status   |                            | v1alpha1api20200202 |
-| ApplicationInsightsComponentProperties_Spec                    |                            | v1alpha1api20200202 |
-| ApplicationInsightsComponentProperties_Status                  |                            | v1alpha1api20200202 |
-| ApplicationInsightsComponent_Status                            |                            | v1alpha1api20200202 |
-| Component                                                      |                            | v1alpha1api20200202 |
-| Components_SPEC                                                |                            | v1alpha1api20200202 |
-| HeaderField_Spec                                               | v1alpha1api20180501preview |                     |
-| HeaderField_Status                                             | v1alpha1api20180501preview |                     |
-| PrivateLinkScopedResource_Status                               |                            | v1alpha1api20200202 |
-| PublicNetworkAccessType_Spec                                   |                            | v1alpha1api20200202 |
-| PublicNetworkAccessType_Status                                 |                            | v1alpha1api20200202 |
-| WebTestGeolocation_Spec                                        | v1alpha1api20180501preview |                     |
-| WebTestGeolocation_Status                                      | v1alpha1api20180501preview |                     |
-| WebTestProperties_Configuration_Spec                           | v1alpha1api20180501preview |                     |
-| WebTestProperties_Configuration_Status                         | v1alpha1api20180501preview |                     |
-| WebTestProperties_Kind_Spec                                    | v1alpha1api20180501preview |                     |
-| WebTestProperties_Kind_Status                                  | v1alpha1api20180501preview |                     |
-| WebTestProperties_Request_Spec                                 | v1alpha1api20180501preview |                     |
-| WebTestProperties_Request_Status                               | v1alpha1api20180501preview |                     |
-| WebTestProperties_Spec                                         | v1alpha1api20180501preview |                     |
-| WebTestProperties_Status                                       | v1alpha1api20180501preview |                     |
-| WebTestProperties_ValidationRules_ContentValidation_Spec       | v1alpha1api20180501preview |                     |
-| WebTestProperties_ValidationRules_ContentValidation_Status     | v1alpha1api20180501preview |                     |
-| WebTestProperties_ValidationRules_Spec                         | v1alpha1api20180501preview |                     |
-| WebTestProperties_ValidationRules_Status                       | v1alpha1api20180501preview |                     |
-| WebTest_Status                                                 | v1alpha1api20180501preview |                     |
-| Webtest                                                        | v1alpha1api20180501preview |                     |
-| Webtests_SPEC                                                  | v1alpha1api20180501preview |                     |
+| Types defined in package "insights"                      | v1alpha1api20180501preview | v1alpha1api20200202 |
+|----------------------------------------------------------|----------------------------|---------------------|
+| APIVersion                                               | v1alpha1api20180501preview | v1alpha1api20200202 |
+| ApplicationInsightsComponentProperties                   |                            | v1alpha1api20200202 |
+| ApplicationInsightsComponentPropertiesApplication_Type   |                            | v1alpha1api20200202 |
+| ApplicationInsightsComponentPropertiesFlow_Type          |                            | v1alpha1api20200202 |
+| ApplicationInsightsComponentPropertiesIngestionMode      |                            | v1alpha1api20200202 |
+| ApplicationInsightsComponentPropertiesRequest_Source     |                            | v1alpha1api20200202 |
+| ApplicationInsightsComponentProperties_Status            |                            | v1alpha1api20200202 |
+| ApplicationInsightsComponent_Status                      |                            | v1alpha1api20200202 |
+| Component                                                |                            | v1alpha1api20200202 |
+| Component_Spec                                           |                            | v1alpha1api20200202 |
+| HeaderField                                              | v1alpha1api20180501preview |                     |
+| HeaderField_Status                                       | v1alpha1api20180501preview |                     |
+| PrivateLinkScopedResource_Status                         |                            | v1alpha1api20200202 |
+| PublicNetworkAccessType                                  |                            | v1alpha1api20200202 |
+| WebTestGeolocation                                       | v1alpha1api20180501preview |                     |
+| WebTestGeolocation_Status                                | v1alpha1api20180501preview |                     |
+| WebTestProperties                                        | v1alpha1api20180501preview |                     |
+| WebTestPropertiesConfiguration                           | v1alpha1api20180501preview |                     |
+| WebTestPropertiesKind                                    | v1alpha1api20180501preview |                     |
+| WebTestPropertiesRequest                                 | v1alpha1api20180501preview |                     |
+| WebTestPropertiesValidationRules                         | v1alpha1api20180501preview |                     |
+| WebTestPropertiesValidationRulesContentValidation        | v1alpha1api20180501preview |                     |
+| WebTestProperties_Status                                 | v1alpha1api20180501preview |                     |
+| WebTestProperties_StatusConfiguration                    | v1alpha1api20180501preview |                     |
+| WebTestProperties_StatusRequest                          | v1alpha1api20180501preview |                     |
+| WebTestProperties_StatusValidationRules                  | v1alpha1api20180501preview |                     |
+| WebTestProperties_StatusValidationRulesContentValidation | v1alpha1api20180501preview |                     |
+| WebTest_Status                                           | v1alpha1api20180501preview |                     |
+| Webtest                                                  | v1alpha1api20180501preview |                     |
+| Webtest_Spec                                             | v1alpha1api20180501preview |                     |

@@ -5,8 +5,8 @@ package v1alpha1api20200101
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-	Tags *Test_Tags `json:"tags,omitempty"`
+	Tags *TestTags `json:"tags,omitempty"`
 }
 
-type Test_Tags struct {
+type TestTags struct {
 }

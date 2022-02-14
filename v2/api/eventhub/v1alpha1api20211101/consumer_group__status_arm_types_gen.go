@@ -15,7 +15,7 @@ type ConsumerGroup_StatusARM struct {
 	Name *string `json:"name,omitempty"`
 
 	//Properties: Single item in List or Get Consumer group operation
-	Properties *ConsumerGroup_Properties_StatusARM `json:"properties,omitempty"`
+	Properties *ConsumerGroup_StatusPropertiesARM `json:"properties,omitempty"`
 
 	//SystemData: The system meta data relating to this resource.
 	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
@@ -25,7 +25,7 @@ type ConsumerGroup_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type ConsumerGroup_Properties_StatusARM struct {
+type ConsumerGroup_StatusPropertiesARM struct {
 	//CreatedAt: Exact time the message was created.
 	CreatedAt *string `json:"createdAt,omitempty"`
 

@@ -85,9 +85,13 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// Import data from Swagger:
 		pipeline.LoadTypesFromSwagger(idFactory, configuration),
 		pipeline.SimplifySwaggerNames(idFactory, configuration),
+		// De-pluralize resource types
+		// (Must come after type aliases are resolved)
+		// pipeline.ImproveResourcePluralization(),
 
 		// Reduces oneOf/allOf types from schemas to object types:
 		pipeline.ConvertAllOfAndOneOfToObjects(idFactory),
+		pipeline.StripUnreferencedTypeDefinitions(),
 
 		// Flatten out any nested resources created by allOf, etc. we want to do this before naming types or things
 		// get named with names like Resource_Spec_Spec_Spec:
@@ -98,7 +102,10 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		pipeline.StripUnreferencedTypeDefinitions(),
 		pipeline.MakeStatusPropertiesOptional(),
+
 		pipeline.RemoveStatusValidations(),
+		pipeline.RemoveTypeAliases(),
+		pipeline.StripUnreferencedTypeDefinitions(),
 
 		// Name all anonymous object, enum, and validated types (required by controller-gen):
 		pipeline.NameTypesForCRD(idFactory),
@@ -122,10 +129,6 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		// Collapse cross group references
 		pipeline.CollapseCrossGroupReferences(),
-
-		// De-pluralize resource types
-		// (Must come after type aliases are resolved)
-		pipeline.ImproveResourcePluralization(),
 
 		pipeline.StripUnreferencedTypeDefinitions(),
 

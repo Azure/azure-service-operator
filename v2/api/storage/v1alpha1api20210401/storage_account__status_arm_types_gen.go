@@ -13,7 +13,7 @@ type StorageAccount_StatusARM struct {
 	Identity *Identity_StatusARM `json:"identity,omitempty"`
 
 	//Kind: Required. Indicates the type of storage account.
-	Kind *StorageAccount_Kind_Status `json:"kind,omitempty"`
+	Kind *string `json:"kind,omitempty"`
 
 	//Location: Required. Gets or sets the location of the resource. This will be one
 	//of the supported and registered Azure Geo Regions (e.g. West US, East US,
@@ -41,7 +41,7 @@ type ExtendedLocation_StatusARM struct {
 	Name *string `json:"name,omitempty"`
 
 	//Type: The type of the extended location.
-	Type *ExtendedLocationType_Status `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 type Identity_StatusARM struct {
@@ -52,7 +52,7 @@ type Identity_StatusARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	//Type: The identity type.
-	Type Identity_Type_Status `json:"type"`
+	Type string `json:"type"`
 
 	//UserAssignedIdentities: Gets or sets a list of key value pairs that describe the
 	//set of User Assigned identities that will be used with this storage account. The
@@ -64,7 +64,7 @@ type Identity_StatusARM struct {
 type StorageAccountProperties_StatusARM struct {
 	//AccessTier: Required for storage accounts where kind = BlobStorage. The access
 	//tier used for billing.
-	AccessTier *StorageAccountProperties_AccessTier_Status `json:"accessTier,omitempty"`
+	AccessTier *string `json:"accessTier,omitempty"`
 
 	//AllowBlobPublicAccess: Allow or disallow public access to all blobs or
 	//containers in the storage account. The default interpretation is true for this
@@ -107,11 +107,11 @@ type StorageAccountProperties_StatusARM struct {
 
 	//LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be
 	//disabled once it is enabled.
-	LargeFileSharesState *StorageAccountProperties_LargeFileSharesState_Status `json:"largeFileSharesState,omitempty"`
+	LargeFileSharesState *string `json:"largeFileSharesState,omitempty"`
 
 	//MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to
 	//storage. The default interpretation is TLS 1.0 for this property.
-	MinimumTlsVersion *StorageAccountProperties_MinimumTlsVersion_Status `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *string `json:"minimumTlsVersion,omitempty"`
 
 	//NetworkAcls: Network rule set
 	NetworkAcls *NetworkRuleSet_StatusARM `json:"networkAcls,omitempty"`
@@ -128,26 +128,16 @@ type StorageAccountProperties_StatusARM struct {
 	SupportsHttpsTrafficOnly *bool `json:"supportsHttpsTrafficOnly,omitempty"`
 }
 
-type StorageAccount_Kind_Status string
-
-const (
-	StorageAccount_Kind_StatusBlobStorage      = StorageAccount_Kind_Status("BlobStorage")
-	StorageAccount_Kind_StatusBlockBlobStorage = StorageAccount_Kind_Status("BlockBlobStorage")
-	StorageAccount_Kind_StatusFileStorage      = StorageAccount_Kind_Status("FileStorage")
-	StorageAccount_Kind_StatusStorage          = StorageAccount_Kind_Status("Storage")
-	StorageAccount_Kind_StatusStorageV2        = StorageAccount_Kind_Status("StorageV2")
-)
-
 type AzureFilesIdentityBasedAuthentication_StatusARM struct {
 	//ActiveDirectoryProperties: Required if choose AD.
 	ActiveDirectoryProperties *ActiveDirectoryProperties_StatusARM `json:"activeDirectoryProperties,omitempty"`
 
 	//DefaultSharePermission: Default share permission for users using Kerberos
 	//authentication if RBAC role is not assigned.
-	DefaultSharePermission *AzureFilesIdentityBasedAuthentication_DefaultSharePermission_Status `json:"defaultSharePermission,omitempty"`
+	DefaultSharePermission *string `json:"defaultSharePermission,omitempty"`
 
 	//DirectoryServiceOptions: Indicates the directory service used.
-	DirectoryServiceOptions AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_Status `json:"directoryServiceOptions"`
+	DirectoryServiceOptions string `json:"directoryServiceOptions"`
 }
 
 type CustomDomain_StatusARM struct {
@@ -166,7 +156,7 @@ type Encryption_StatusARM struct {
 
 	//KeySource: The encryption keySource (provider). Possible values
 	//(case-insensitive):  Microsoft.Storage, Microsoft.Keyvault
-	KeySource Encryption_KeySource_Status `json:"keySource"`
+	KeySource string `json:"keySource"`
 
 	//Keyvaultproperties: Properties provided by key vault.
 	Keyvaultproperties *KeyVaultProperties_StatusARM `json:"keyvaultproperties,omitempty"`
@@ -180,19 +170,6 @@ type Encryption_StatusARM struct {
 	Services *EncryptionServices_StatusARM `json:"services,omitempty"`
 }
 
-type ExtendedLocationType_Status string
-
-const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
-
-type Identity_Type_Status string
-
-const (
-	Identity_Type_StatusNone                       = Identity_Type_Status("None")
-	Identity_Type_StatusSystemAssigned             = Identity_Type_Status("SystemAssigned")
-	Identity_Type_StatusSystemAssignedUserAssigned = Identity_Type_Status("SystemAssigned,UserAssigned")
-	Identity_Type_StatusUserAssigned               = Identity_Type_Status("UserAssigned")
-)
-
 type KeyPolicy_StatusARM struct {
 	//KeyExpirationPeriodInDays: The key expiration period in days.
 	KeyExpirationPeriodInDays int `json:"keyExpirationPeriodInDays"`
@@ -202,11 +179,11 @@ type NetworkRuleSet_StatusARM struct {
 	//Bypass: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices.
 	//Possible values are any combination of Logging|Metrics|AzureServices (For
 	//example, "Logging, Metrics"), or None to bypass none of those traffics.
-	Bypass *NetworkRuleSet_Bypass_Status `json:"bypass,omitempty"`
+	Bypass *string `json:"bypass,omitempty"`
 
 	//DefaultAction: Specifies the default action of allow or deny when no other rules
 	//match.
-	DefaultAction NetworkRuleSet_DefaultAction_Status `json:"defaultAction"`
+	DefaultAction string `json:"defaultAction"`
 
 	//IpRules: Sets the IP ACL rules
 	IpRules []IPRule_StatusARM `json:"ipRules,omitempty"`
@@ -229,12 +206,12 @@ type RoutingPreference_StatusARM struct {
 
 	//RoutingChoice: Routing Choice defines the kind of network routing opted by the
 	//user.
-	RoutingChoice *RoutingPreference_RoutingChoice_Status `json:"routingChoice,omitempty"`
+	RoutingChoice *string `json:"routingChoice,omitempty"`
 }
 
 type SasPolicy_StatusARM struct {
 	//ExpirationAction: The SAS expiration action. Can only be Log.
-	ExpirationAction SasPolicy_ExpirationAction_Status `json:"expirationAction"`
+	ExpirationAction string `json:"expirationAction"`
 
 	//SasExpirationPeriod: The SAS expiration period, DD.HH:MM:SS.
 	SasExpirationPeriod string `json:"sasExpirationPeriod"`
@@ -291,7 +268,7 @@ type EncryptionServices_StatusARM struct {
 
 type IPRule_StatusARM struct {
 	//Action: The action of IP ACL rule.
-	Action *IPRule_Action_Status `json:"action,omitempty"`
+	Action *string `json:"action,omitempty"`
 
 	//Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
 	Value string `json:"value"`
@@ -325,14 +302,14 @@ type ResourceAccessRule_StatusARM struct {
 
 type VirtualNetworkRule_StatusARM struct {
 	//Action: The action of virtual network rule.
-	Action *VirtualNetworkRule_Action_Status `json:"action,omitempty"`
+	Action *string `json:"action,omitempty"`
 
 	//Id: Resource ID of a subnet, for example:
 	///subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
 	Id string `json:"id"`
 
 	//State: Gets the state of virtual network rule.
-	State *VirtualNetworkRule_State_Status `json:"state,omitempty"`
+	State *string `json:"state,omitempty"`
 }
 
 type EncryptionService_StatusARM struct {
@@ -343,7 +320,7 @@ type EncryptionService_StatusARM struct {
 	//KeyType: Encryption key type to be used for the encryption service. 'Account'
 	//key type implies that an account-scoped encryption key will be used. 'Service'
 	//key type implies that a default service key is used.
-	KeyType *EncryptionService_KeyType_Status `json:"keyType,omitempty"`
+	KeyType *string `json:"keyType,omitempty"`
 
 	//LastEnabledTime: Gets a rough estimate of the date/time when the encryption was
 	//last enabled by the user. Only returned when encryption is enabled. There might

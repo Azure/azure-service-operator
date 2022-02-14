@@ -163,28 +163,10 @@ func ClusterProperties_StatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForClusterProperties_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForClusterProperties_StatusARM(gens map[string]gopter.Gen) {
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_MinimumTlsVersion_Status10, ClusterProperties_MinimumTlsVersion_Status11, ClusterProperties_MinimumTlsVersion_Status12))
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_StatusCanceled,
-		ProvisioningState_StatusCreating,
-		ProvisioningState_StatusDeleting,
-		ProvisioningState_StatusFailed,
-		ProvisioningState_StatusSucceeded,
-		ProvisioningState_StatusUpdating))
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["RedisVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ResourceState_StatusCreateFailed,
-		ResourceState_StatusCreating,
-		ResourceState_StatusDeleteFailed,
-		ResourceState_StatusDeleting,
-		ResourceState_StatusDisableFailed,
-		ResourceState_StatusDisabled,
-		ResourceState_StatusDisabling,
-		ResourceState_StatusEnableFailed,
-		ResourceState_StatusEnabling,
-		ResourceState_StatusRunning,
-		ResourceState_StatusUpdateFailed,
-		ResourceState_StatusUpdating))
+	gens["ResourceState"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForClusterProperties_StatusARM is a factory method for creating gopter generators
@@ -249,14 +231,7 @@ func Sku_StatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku_StatusARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.OneConstOf(
-		Sku_Name_StatusEnterpriseFlash_F1500,
-		Sku_Name_StatusEnterpriseFlash_F300,
-		Sku_Name_StatusEnterpriseFlash_F700,
-		Sku_Name_StatusEnterprise_E10,
-		Sku_Name_StatusEnterprise_E100,
-		Sku_Name_StatusEnterprise_E20,
-		Sku_Name_StatusEnterprise_E50)
+	gens["Name"] = gen.AlphaString()
 }
 
 func Test_PrivateEndpointConnection_Status_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

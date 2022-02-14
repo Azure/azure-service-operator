@@ -91,23 +91,23 @@ func AddIndependentPropertyGeneratorsForConsumerGroup_StatusARM(gens map[string]
 
 // AddRelatedPropertyGeneratorsForConsumerGroup_StatusARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForConsumerGroup_StatusARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ConsumerGroup_Properties_StatusARMGenerator())
+	gens["Properties"] = gen.PtrOf(ConsumerGroup_StatusPropertiesARMGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_StatusARMGenerator())
 }
 
-func Test_ConsumerGroup_Properties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ConsumerGroup_StatusPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ConsumerGroup_Properties_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForConsumerGroup_Properties_StatusARM, ConsumerGroup_Properties_StatusARMGenerator()))
+		"Round trip of ConsumerGroup_StatusPropertiesARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForConsumerGroup_StatusPropertiesARM, ConsumerGroup_StatusPropertiesARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForConsumerGroup_Properties_StatusARM runs a test to see if a specific instance of ConsumerGroup_Properties_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForConsumerGroup_Properties_StatusARM(subject ConsumerGroup_Properties_StatusARM) string {
+// RunJSONSerializationTestForConsumerGroup_StatusPropertiesARM runs a test to see if a specific instance of ConsumerGroup_StatusPropertiesARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForConsumerGroup_StatusPropertiesARM(subject ConsumerGroup_StatusPropertiesARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -115,7 +115,7 @@ func RunJSONSerializationTestForConsumerGroup_Properties_StatusARM(subject Consu
 	}
 
 	// Deserialize back into memory
-	var actual ConsumerGroup_Properties_StatusARM
+	var actual ConsumerGroup_StatusPropertiesARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -133,25 +133,25 @@ func RunJSONSerializationTestForConsumerGroup_Properties_StatusARM(subject Consu
 	return ""
 }
 
-// Generator of ConsumerGroup_Properties_StatusARM instances for property testing - lazily instantiated by
-//ConsumerGroup_Properties_StatusARMGenerator()
-var consumerGroup_properties_statusARMGenerator gopter.Gen
+// Generator of ConsumerGroup_StatusPropertiesARM instances for property testing - lazily instantiated by
+//ConsumerGroup_StatusPropertiesARMGenerator()
+var consumerGroup_statusPropertiesARMGenerator gopter.Gen
 
-// ConsumerGroup_Properties_StatusARMGenerator returns a generator of ConsumerGroup_Properties_StatusARM instances for property testing.
-func ConsumerGroup_Properties_StatusARMGenerator() gopter.Gen {
-	if consumerGroup_properties_statusARMGenerator != nil {
-		return consumerGroup_properties_statusARMGenerator
+// ConsumerGroup_StatusPropertiesARMGenerator returns a generator of ConsumerGroup_StatusPropertiesARM instances for property testing.
+func ConsumerGroup_StatusPropertiesARMGenerator() gopter.Gen {
+	if consumerGroup_statusPropertiesARMGenerator != nil {
+		return consumerGroup_statusPropertiesARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConsumerGroup_Properties_StatusARM(generators)
-	consumerGroup_properties_statusARMGenerator = gen.Struct(reflect.TypeOf(ConsumerGroup_Properties_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForConsumerGroup_StatusPropertiesARM(generators)
+	consumerGroup_statusPropertiesARMGenerator = gen.Struct(reflect.TypeOf(ConsumerGroup_StatusPropertiesARM{}), generators)
 
-	return consumerGroup_properties_statusARMGenerator
+	return consumerGroup_statusPropertiesARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForConsumerGroup_Properties_StatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForConsumerGroup_Properties_StatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForConsumerGroup_StatusPropertiesARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForConsumerGroup_StatusPropertiesARM(gens map[string]gopter.Gen) {
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["UserMetadata"] = gen.PtrOf(gen.AlphaString())

@@ -40,7 +40,10 @@ func NameTypesForCRD(idFactory astmodel.IdentifierFactory) Stage {
 				}
 
 				for _, newDef := range newDefs {
-					result.Add(newDef)
+					err := result.AddAllowDuplicates(newDef)
+					if err != nil {
+						return nil, errors.Wrapf(err, "while generating types for %s", typeName)
+					}
 				}
 
 				if _, ok := result[typeName]; !ok {
@@ -118,7 +121,9 @@ func nameInnerTypes(
 		return name, nil
 	}
 
-	expectedSuffixes := []string{"_Spec", "_Status", "_SPEC", "_STATUS"}
+	// TODO: reenable this #NAMING
+	// expectedSuffixes := []string{"_Spec", "_Status", "_SPEC", "_STATUS"}
+	expectedSuffixes := []string{}
 
 	builder.VisitObjectType = func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 		nameHint := ctx.(string)
@@ -128,7 +133,7 @@ func nameInnerTypes(
 		// first map the inner types:
 		for _, prop := range it.Properties() {
 			propType := prop.PropertyType()
-			propHint := addSuffixPreservingSuffixes(nameHint, "_"+string(prop.PropertyName()), expectedSuffixes)
+			propHint := addSuffixPreservingSuffixes(nameHint, string(prop.PropertyName()), expectedSuffixes)
 			if validated, ok := propType.(*astmodel.ValidatedType); ok {
 				// handle validated types in properties specially,
 				// they don't need to be named, so skip directly to element type
@@ -165,12 +170,12 @@ func nameInnerTypes(
 	builder.VisitResourceType = func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
 		nameHint := ctx.(string)
 
-		spec, err := this.Visit(it.SpecType(), nameHint+"_SPEC")
+		spec, err := this.Visit(it.SpecType(), nameHint+"_Spec")
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed to name spec type %s", it.SpecType())
 		}
 
-		status, err := this.Visit(it.StatusType(), nameHint+"_STATUS")
+		status, err := this.Visit(it.StatusType(), nameHint+"_Status")
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed to name status type %s", it.StatusType())
 		}

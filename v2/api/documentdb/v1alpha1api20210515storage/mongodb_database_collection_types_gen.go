@@ -28,8 +28,8 @@ import (
 type MongodbDatabaseCollection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsMongodbDatabasesCollections_SPEC `json:"spec,omitempty"`
-	Status            MongoDBCollection_Status                         `json:"status,omitempty"`
+	Spec              DatabaseAccountsMongodbDatabasesCollection_Spec `json:"spec,omitempty"`
+	Status            MongoDBCollection_Status                        `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseCollection{}
@@ -133,40 +133,40 @@ type MongodbDatabaseCollectionList struct {
 	Items           []MongodbDatabaseCollection `json:"items"`
 }
 
-//Storage version of v1alpha1api20210515.DatabaseAccountsMongodbDatabasesCollections_SPEC
-type DatabaseAccountsMongodbDatabasesCollections_SPEC struct {
+//Storage version of v1alpha1api20210515.DatabaseAccountsMongodbDatabasesCollection_Spec
+type DatabaseAccountsMongodbDatabasesCollection_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName       string                    `json:"azureName"`
-	Location        *string                   `json:"location,omitempty"`
-	Options         *CreateUpdateOptions_Spec `json:"options,omitempty"`
-	OriginalVersion string                    `json:"originalVersion"`
+	AzureName       string               `json:"azureName"`
+	Location        *string              `json:"location,omitempty"`
+	Options         *CreateUpdateOptions `json:"options,omitempty"`
+	OriginalVersion string               `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
 	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Resource    *MongoDBCollectionResource_Spec   `json:"resource,omitempty"`
+	Resource    *MongoDBCollectionResource        `json:"resource,omitempty"`
 	Tags        map[string]string                 `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesCollections_SPEC{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesCollection_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccountsMongodbDatabasesCollections_SPEC from the provided source
-func (spec *DatabaseAccountsMongodbDatabasesCollections_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our DatabaseAccountsMongodbDatabasesCollection_Spec from the provided source
+func (collection *DatabaseAccountsMongodbDatabasesCollection_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == collection {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(collection)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabasesCollections_SPEC
-func (spec *DatabaseAccountsMongodbDatabasesCollections_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabasesCollection_Spec
+func (collection *DatabaseAccountsMongodbDatabasesCollection_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == collection {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(collection)
 }
 
 //Storage version of v1alpha1api20210515.MongoDBCollection_Status
@@ -202,11 +202,11 @@ func (collection *MongoDBCollection_Status) ConvertStatusTo(destination genrunti
 	return destination.ConvertStatusFrom(collection)
 }
 
-//Storage version of v1alpha1api20210515.MongoDBCollectionResource_Spec
-type MongoDBCollectionResource_Spec struct {
+//Storage version of v1alpha1api20210515.MongoDBCollectionResource
+type MongoDBCollectionResource struct {
 	AnalyticalStorageTtl *int                   `json:"analyticalStorageTtl,omitempty"`
 	Id                   *string                `json:"id,omitempty"`
-	Indexes              []MongoIndex_Spec      `json:"indexes,omitempty"`
+	Indexes              []MongoIndex           `json:"indexes,omitempty"`
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ShardKey             map[string]string      `json:"shardKey,omitempty"`
 }
@@ -220,11 +220,11 @@ type MongoDBCollectionResource_Status struct {
 	ShardKey             map[string]string      `json:"shardKey,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.MongoIndex_Spec
-type MongoIndex_Spec struct {
-	Key         *MongoIndexKeys_Spec    `json:"key,omitempty"`
-	Options     *MongoIndexOptions_Spec `json:"options,omitempty"`
-	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
+//Storage version of v1alpha1api20210515.MongoIndex
+type MongoIndex struct {
+	Key         *MongoIndexKeys        `json:"key,omitempty"`
+	Options     *MongoIndexOptions     `json:"options,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v1alpha1api20210515.MongoIndex_Status
@@ -234,8 +234,8 @@ type MongoIndex_Status struct {
 	PropertyBag genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.MongoIndexKeys_Spec
-type MongoIndexKeys_Spec struct {
+//Storage version of v1alpha1api20210515.MongoIndexKeys
+type MongoIndexKeys struct {
 	Keys        []string               `json:"keys,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -246,8 +246,8 @@ type MongoIndexKeys_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.MongoIndexOptions_Spec
-type MongoIndexOptions_Spec struct {
+//Storage version of v1alpha1api20210515.MongoIndexOptions
+type MongoIndexOptions struct {
 	ExpireAfterSeconds *int                   `json:"expireAfterSeconds,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Unique             *bool                  `json:"unique,omitempty"`

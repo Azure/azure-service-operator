@@ -74,8 +74,102 @@ func DiskGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForDisk is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDisk(gens map[string]gopter.Gen) {
-	gens["Spec"] = Disks_SPECGenerator()
+	gens["Spec"] = Disk_SpecGenerator()
 	gens["Status"] = Disk_StatusGenerator()
+}
+
+func Test_Disk_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Disk_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDisk_Spec, Disk_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDisk_Spec runs a test to see if a specific instance of Disk_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDisk_Spec(subject Disk_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Disk_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Disk_Spec instances for property testing - lazily instantiated by Disk_SpecGenerator()
+var disk_specGenerator gopter.Gen
+
+// Disk_SpecGenerator returns a generator of Disk_Spec instances for property testing.
+// We first initialize disk_specGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Disk_SpecGenerator() gopter.Gen {
+	if disk_specGenerator != nil {
+		return disk_specGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDisk_Spec(generators)
+	disk_specGenerator = gen.Struct(reflect.TypeOf(Disk_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDisk_Spec(generators)
+	AddRelatedPropertyGeneratorsForDisk_Spec(generators)
+	disk_specGenerator = gen.Struct(reflect.TypeOf(Disk_Spec{}), generators)
+
+	return disk_specGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDisk_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDisk_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["BurstingEnabled"] = gen.PtrOf(gen.Bool())
+	gens["DiskIOPSReadOnly"] = gen.PtrOf(gen.Int())
+	gens["DiskIOPSReadWrite"] = gen.PtrOf(gen.Int())
+	gens["DiskMBpsReadOnly"] = gen.PtrOf(gen.Int())
+	gens["DiskMBpsReadWrite"] = gen.PtrOf(gen.Int())
+	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
+	gens["DiskState"] = gen.PtrOf(gen.AlphaString())
+	gens["HyperVGeneration"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["MaxShares"] = gen.PtrOf(gen.Int())
+	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["OsType"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tier"] = gen.PtrOf(gen.AlphaString())
+	gens["Zones"] = gen.SliceOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForDisk_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDisk_Spec(gens map[string]gopter.Gen) {
+	gens["CreationData"] = gen.PtrOf(CreationDataGenerator())
+	gens["Encryption"] = gen.PtrOf(EncryptionGenerator())
+	gens["EncryptionSettingsCollection"] = gen.PtrOf(EncryptionSettingsCollectionGenerator())
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
+	gens["PurchasePlan"] = gen.PtrOf(PurchasePlanGenerator())
+	gens["Sku"] = gen.PtrOf(DiskSkuGenerator())
 }
 
 func Test_Disk_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -181,19 +275,19 @@ func AddRelatedPropertyGeneratorsForDisk_Status(gens map[string]gopter.Gen) {
 	gens["Sku"] = gen.PtrOf(DiskSku_StatusGenerator())
 }
 
-func Test_Disks_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_CreationData_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Disks_SPEC via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDisks_SPEC, Disks_SPECGenerator()))
+		"Round trip of CreationData via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForCreationData, CreationDataGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDisks_SPEC runs a test to see if a specific instance of Disks_SPEC round trips to JSON and back losslessly
-func RunJSONSerializationTestForDisks_SPEC(subject Disks_SPEC) string {
+// RunJSONSerializationTestForCreationData runs a test to see if a specific instance of CreationData round trips to JSON and back losslessly
+func RunJSONSerializationTestForCreationData(subject CreationData) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -201,7 +295,7 @@ func RunJSONSerializationTestForDisks_SPEC(subject Disks_SPEC) string {
 	}
 
 	// Deserialize back into memory
-	var actual Disks_SPEC
+	var actual CreationData
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -219,127 +313,33 @@ func RunJSONSerializationTestForDisks_SPEC(subject Disks_SPEC) string {
 	return ""
 }
 
-// Generator of Disks_SPEC instances for property testing - lazily instantiated by Disks_SPECGenerator()
-var disks_specGenerator gopter.Gen
+// Generator of CreationData instances for property testing - lazily instantiated by CreationDataGenerator()
+var creationDataGenerator gopter.Gen
 
-// Disks_SPECGenerator returns a generator of Disks_SPEC instances for property testing.
-// We first initialize disks_specGenerator with a simplified generator based on the
+// CreationDataGenerator returns a generator of CreationData instances for property testing.
+// We first initialize creationDataGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Disks_SPECGenerator() gopter.Gen {
-	if disks_specGenerator != nil {
-		return disks_specGenerator
+func CreationDataGenerator() gopter.Gen {
+	if creationDataGenerator != nil {
+		return creationDataGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDisks_SPEC(generators)
-	disks_specGenerator = gen.Struct(reflect.TypeOf(Disks_SPEC{}), generators)
+	AddIndependentPropertyGeneratorsForCreationData(generators)
+	creationDataGenerator = gen.Struct(reflect.TypeOf(CreationData{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDisks_SPEC(generators)
-	AddRelatedPropertyGeneratorsForDisks_SPEC(generators)
-	disks_specGenerator = gen.Struct(reflect.TypeOf(Disks_SPEC{}), generators)
+	AddIndependentPropertyGeneratorsForCreationData(generators)
+	AddRelatedPropertyGeneratorsForCreationData(generators)
+	creationDataGenerator = gen.Struct(reflect.TypeOf(CreationData{}), generators)
 
-	return disks_specGenerator
+	return creationDataGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDisks_SPEC is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDisks_SPEC(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["BurstingEnabled"] = gen.PtrOf(gen.Bool())
-	gens["DiskIOPSReadOnly"] = gen.PtrOf(gen.Int())
-	gens["DiskIOPSReadWrite"] = gen.PtrOf(gen.Int())
-	gens["DiskMBpsReadOnly"] = gen.PtrOf(gen.Int())
-	gens["DiskMBpsReadWrite"] = gen.PtrOf(gen.Int())
-	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["DiskState"] = gen.PtrOf(gen.AlphaString())
-	gens["HyperVGeneration"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["MaxShares"] = gen.PtrOf(gen.Int())
-	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["OsType"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Tier"] = gen.PtrOf(gen.AlphaString())
-	gens["Zones"] = gen.SliceOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDisks_SPEC is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDisks_SPEC(gens map[string]gopter.Gen) {
-	gens["CreationData"] = gen.PtrOf(CreationData_SpecGenerator())
-	gens["Encryption"] = gen.PtrOf(Encryption_SpecGenerator())
-	gens["EncryptionSettingsCollection"] = gen.PtrOf(EncryptionSettingsCollection_SpecGenerator())
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_SpecGenerator())
-	gens["PurchasePlan"] = gen.PtrOf(PurchasePlan_SpecGenerator())
-	gens["Sku"] = gen.PtrOf(DiskSku_SpecGenerator())
-}
-
-func Test_CreationData_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CreationData_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCreationData_Spec, CreationData_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForCreationData_Spec runs a test to see if a specific instance of CreationData_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForCreationData_Spec(subject CreationData_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual CreationData_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of CreationData_Spec instances for property testing - lazily instantiated by CreationData_SpecGenerator()
-var creationData_specGenerator gopter.Gen
-
-// CreationData_SpecGenerator returns a generator of CreationData_Spec instances for property testing.
-// We first initialize creationData_specGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func CreationData_SpecGenerator() gopter.Gen {
-	if creationData_specGenerator != nil {
-		return creationData_specGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCreationData_Spec(generators)
-	creationData_specGenerator = gen.Struct(reflect.TypeOf(CreationData_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCreationData_Spec(generators)
-	AddRelatedPropertyGeneratorsForCreationData_Spec(generators)
-	creationData_specGenerator = gen.Struct(reflect.TypeOf(CreationData_Spec{}), generators)
-
-	return creationData_specGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCreationData_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCreationData_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForCreationData is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForCreationData(gens map[string]gopter.Gen) {
 	gens["CreateOption"] = gen.PtrOf(gen.AlphaString())
 	gens["LogicalSectorSize"] = gen.PtrOf(gen.Int())
 	gens["SourceUri"] = gen.PtrOf(gen.AlphaString())
@@ -347,10 +347,10 @@ func AddIndependentPropertyGeneratorsForCreationData_Spec(gens map[string]gopter
 	gens["UploadSizeBytes"] = gen.PtrOf(gen.Int())
 }
 
-// AddRelatedPropertyGeneratorsForCreationData_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCreationData_Spec(gens map[string]gopter.Gen) {
-	gens["GalleryImageReference"] = gen.PtrOf(ImageDiskReference_SpecGenerator())
-	gens["ImageReference"] = gen.PtrOf(ImageDiskReference_SpecGenerator())
+// AddRelatedPropertyGeneratorsForCreationData is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForCreationData(gens map[string]gopter.Gen) {
+	gens["GalleryImageReference"] = gen.PtrOf(ImageDiskReferenceGenerator())
+	gens["ImageReference"] = gen.PtrOf(ImageDiskReferenceGenerator())
 }
 
 func Test_CreationData_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -434,19 +434,19 @@ func AddRelatedPropertyGeneratorsForCreationData_Status(gens map[string]gopter.G
 	gens["ImageReference"] = gen.PtrOf(ImageDiskReference_StatusGenerator())
 }
 
-func Test_DiskSku_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DiskSku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DiskSku_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDiskSku_Spec, DiskSku_SpecGenerator()))
+		"Round trip of DiskSku via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDiskSku, DiskSkuGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDiskSku_Spec runs a test to see if a specific instance of DiskSku_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDiskSku_Spec(subject DiskSku_Spec) string {
+// RunJSONSerializationTestForDiskSku runs a test to see if a specific instance of DiskSku round trips to JSON and back losslessly
+func RunJSONSerializationTestForDiskSku(subject DiskSku) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -454,7 +454,7 @@ func RunJSONSerializationTestForDiskSku_Spec(subject DiskSku_Spec) string {
 	}
 
 	// Deserialize back into memory
-	var actual DiskSku_Spec
+	var actual DiskSku
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -472,24 +472,24 @@ func RunJSONSerializationTestForDiskSku_Spec(subject DiskSku_Spec) string {
 	return ""
 }
 
-// Generator of DiskSku_Spec instances for property testing - lazily instantiated by DiskSku_SpecGenerator()
-var diskSku_specGenerator gopter.Gen
+// Generator of DiskSku instances for property testing - lazily instantiated by DiskSkuGenerator()
+var diskSkuGenerator gopter.Gen
 
-// DiskSku_SpecGenerator returns a generator of DiskSku_Spec instances for property testing.
-func DiskSku_SpecGenerator() gopter.Gen {
-	if diskSku_specGenerator != nil {
-		return diskSku_specGenerator
+// DiskSkuGenerator returns a generator of DiskSku instances for property testing.
+func DiskSkuGenerator() gopter.Gen {
+	if diskSkuGenerator != nil {
+		return diskSkuGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDiskSku_Spec(generators)
-	diskSku_specGenerator = gen.Struct(reflect.TypeOf(DiskSku_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForDiskSku(generators)
+	diskSkuGenerator = gen.Struct(reflect.TypeOf(DiskSku{}), generators)
 
-	return diskSku_specGenerator
+	return diskSkuGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDiskSku_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDiskSku_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDiskSku is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDiskSku(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -553,19 +553,19 @@ func AddIndependentPropertyGeneratorsForDiskSku_Status(gens map[string]gopter.Ge
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_EncryptionSettingsCollection_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Encryption_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of EncryptionSettingsCollection_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEncryptionSettingsCollection_Spec, EncryptionSettingsCollection_SpecGenerator()))
+		"Round trip of Encryption via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForEncryption, EncryptionGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForEncryptionSettingsCollection_Spec runs a test to see if a specific instance of EncryptionSettingsCollection_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForEncryptionSettingsCollection_Spec(subject EncryptionSettingsCollection_Spec) string {
+// RunJSONSerializationTestForEncryption runs a test to see if a specific instance of Encryption round trips to JSON and back losslessly
+func RunJSONSerializationTestForEncryption(subject Encryption) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -573,7 +573,7 @@ func RunJSONSerializationTestForEncryptionSettingsCollection_Spec(subject Encryp
 	}
 
 	// Deserialize back into memory
-	var actual EncryptionSettingsCollection_Spec
+	var actual Encryption
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -591,41 +591,100 @@ func RunJSONSerializationTestForEncryptionSettingsCollection_Spec(subject Encryp
 	return ""
 }
 
-// Generator of EncryptionSettingsCollection_Spec instances for property testing - lazily instantiated by
-//EncryptionSettingsCollection_SpecGenerator()
-var encryptionSettingsCollection_specGenerator gopter.Gen
+// Generator of Encryption instances for property testing - lazily instantiated by EncryptionGenerator()
+var encryptionGenerator gopter.Gen
 
-// EncryptionSettingsCollection_SpecGenerator returns a generator of EncryptionSettingsCollection_Spec instances for property testing.
-// We first initialize encryptionSettingsCollection_specGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func EncryptionSettingsCollection_SpecGenerator() gopter.Gen {
-	if encryptionSettingsCollection_specGenerator != nil {
-		return encryptionSettingsCollection_specGenerator
+// EncryptionGenerator returns a generator of Encryption instances for property testing.
+func EncryptionGenerator() gopter.Gen {
+	if encryptionGenerator != nil {
+		return encryptionGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEncryptionSettingsCollection_Spec(generators)
-	encryptionSettingsCollection_specGenerator = gen.Struct(reflect.TypeOf(EncryptionSettingsCollection_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForEncryption(generators)
+	encryptionGenerator = gen.Struct(reflect.TypeOf(Encryption{}), generators)
+
+	return encryptionGenerator
+}
+
+// AddIndependentPropertyGeneratorsForEncryption is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEncryption(gens map[string]gopter.Gen) {
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_EncryptionSettingsCollection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of EncryptionSettingsCollection via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForEncryptionSettingsCollection, EncryptionSettingsCollectionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForEncryptionSettingsCollection runs a test to see if a specific instance of EncryptionSettingsCollection round trips to JSON and back losslessly
+func RunJSONSerializationTestForEncryptionSettingsCollection(subject EncryptionSettingsCollection) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual EncryptionSettingsCollection
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of EncryptionSettingsCollection instances for property testing - lazily instantiated by
+//EncryptionSettingsCollectionGenerator()
+var encryptionSettingsCollectionGenerator gopter.Gen
+
+// EncryptionSettingsCollectionGenerator returns a generator of EncryptionSettingsCollection instances for property testing.
+// We first initialize encryptionSettingsCollectionGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func EncryptionSettingsCollectionGenerator() gopter.Gen {
+	if encryptionSettingsCollectionGenerator != nil {
+		return encryptionSettingsCollectionGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForEncryptionSettingsCollection(generators)
+	encryptionSettingsCollectionGenerator = gen.Struct(reflect.TypeOf(EncryptionSettingsCollection{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEncryptionSettingsCollection_Spec(generators)
-	AddRelatedPropertyGeneratorsForEncryptionSettingsCollection_Spec(generators)
-	encryptionSettingsCollection_specGenerator = gen.Struct(reflect.TypeOf(EncryptionSettingsCollection_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForEncryptionSettingsCollection(generators)
+	AddRelatedPropertyGeneratorsForEncryptionSettingsCollection(generators)
+	encryptionSettingsCollectionGenerator = gen.Struct(reflect.TypeOf(EncryptionSettingsCollection{}), generators)
 
-	return encryptionSettingsCollection_specGenerator
+	return encryptionSettingsCollectionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForEncryptionSettingsCollection_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEncryptionSettingsCollection_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForEncryptionSettingsCollection is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEncryptionSettingsCollection(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["EncryptionSettingsVersion"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForEncryptionSettingsCollection_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForEncryptionSettingsCollection_Spec(gens map[string]gopter.Gen) {
-	gens["EncryptionSettings"] = gen.SliceOf(EncryptionSettingsElement_SpecGenerator())
+// AddRelatedPropertyGeneratorsForEncryptionSettingsCollection is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForEncryptionSettingsCollection(gens map[string]gopter.Gen) {
+	gens["EncryptionSettings"] = gen.SliceOf(EncryptionSettingsElementGenerator())
 }
 
 func Test_EncryptionSettingsCollection_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -703,65 +762,6 @@ func AddRelatedPropertyGeneratorsForEncryptionSettingsCollection_Status(gens map
 	gens["EncryptionSettings"] = gen.SliceOf(EncryptionSettingsElement_StatusGenerator())
 }
 
-func Test_Encryption_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Encryption_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEncryption_Spec, Encryption_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForEncryption_Spec runs a test to see if a specific instance of Encryption_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForEncryption_Spec(subject Encryption_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Encryption_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Encryption_Spec instances for property testing - lazily instantiated by Encryption_SpecGenerator()
-var encryption_specGenerator gopter.Gen
-
-// Encryption_SpecGenerator returns a generator of Encryption_Spec instances for property testing.
-func Encryption_SpecGenerator() gopter.Gen {
-	if encryption_specGenerator != nil {
-		return encryption_specGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEncryption_Spec(generators)
-	encryption_specGenerator = gen.Struct(reflect.TypeOf(Encryption_Spec{}), generators)
-
-	return encryption_specGenerator
-}
-
-// AddIndependentPropertyGeneratorsForEncryption_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEncryption_Spec(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
 func Test_Encryption_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -822,32 +822,32 @@ func AddIndependentPropertyGeneratorsForEncryption_Status(gens map[string]gopter
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ExtendedLocation_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ExtendedLocation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ExtendedLocation_Spec to ExtendedLocation_Spec via AssignPropertiesToExtendedLocation_Spec & AssignPropertiesFromExtendedLocation_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForExtendedLocation_Spec, ExtendedLocation_SpecGenerator()))
+		"Round trip from ExtendedLocation to ExtendedLocation via AssignPropertiesToExtendedLocation & AssignPropertiesFromExtendedLocation returns original",
+		prop.ForAll(RunPropertyAssignmentTestForExtendedLocation, ExtendedLocationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForExtendedLocation_Spec tests if a specific instance of ExtendedLocation_Spec can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForExtendedLocation_Spec(subject ExtendedLocation_Spec) string {
+// RunPropertyAssignmentTestForExtendedLocation tests if a specific instance of ExtendedLocation can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20201201storage.ExtendedLocation_Spec
-	err := copied.AssignPropertiesToExtendedLocation_Spec(&other)
+	var other v1alpha1api20201201storage.ExtendedLocation
+	err := copied.AssignPropertiesToExtendedLocation(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ExtendedLocation_Spec
-	err = actual.AssignPropertiesFromExtendedLocation_Spec(&other)
+	var actual ExtendedLocation
+	err = actual.AssignPropertiesFromExtendedLocation(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -864,19 +864,19 @@ func RunPropertyAssignmentTestForExtendedLocation_Spec(subject ExtendedLocation_
 	return ""
 }
 
-func Test_ExtendedLocation_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ExtendedLocation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ExtendedLocation_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForExtendedLocation_Spec, ExtendedLocation_SpecGenerator()))
+		"Round trip of ExtendedLocation via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForExtendedLocation, ExtendedLocationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForExtendedLocation_Spec runs a test to see if a specific instance of ExtendedLocation_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForExtendedLocation_Spec(subject ExtendedLocation_Spec) string {
+// RunJSONSerializationTestForExtendedLocation runs a test to see if a specific instance of ExtendedLocation round trips to JSON and back losslessly
+func RunJSONSerializationTestForExtendedLocation(subject ExtendedLocation) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -884,7 +884,7 @@ func RunJSONSerializationTestForExtendedLocation_Spec(subject ExtendedLocation_S
 	}
 
 	// Deserialize back into memory
-	var actual ExtendedLocation_Spec
+	var actual ExtendedLocation
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -902,25 +902,24 @@ func RunJSONSerializationTestForExtendedLocation_Spec(subject ExtendedLocation_S
 	return ""
 }
 
-// Generator of ExtendedLocation_Spec instances for property testing - lazily instantiated by
-//ExtendedLocation_SpecGenerator()
-var extendedLocation_specGenerator gopter.Gen
+// Generator of ExtendedLocation instances for property testing - lazily instantiated by ExtendedLocationGenerator()
+var extendedLocationGenerator gopter.Gen
 
-// ExtendedLocation_SpecGenerator returns a generator of ExtendedLocation_Spec instances for property testing.
-func ExtendedLocation_SpecGenerator() gopter.Gen {
-	if extendedLocation_specGenerator != nil {
-		return extendedLocation_specGenerator
+// ExtendedLocationGenerator returns a generator of ExtendedLocation instances for property testing.
+func ExtendedLocationGenerator() gopter.Gen {
+	if extendedLocationGenerator != nil {
+		return extendedLocationGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForExtendedLocation_Spec(generators)
-	extendedLocation_specGenerator = gen.Struct(reflect.TypeOf(ExtendedLocation_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForExtendedLocation(generators)
+	extendedLocationGenerator = gen.Struct(reflect.TypeOf(ExtendedLocation{}), generators)
 
-	return extendedLocation_specGenerator
+	return extendedLocationGenerator
 }
 
-// AddIndependentPropertyGeneratorsForExtendedLocation_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForExtendedLocation_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForExtendedLocation is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForExtendedLocation(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
@@ -1028,19 +1027,19 @@ func AddIndependentPropertyGeneratorsForExtendedLocation_Status(gens map[string]
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_PurchasePlan_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_PurchasePlan_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of PurchasePlan_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPurchasePlan_Spec, PurchasePlan_SpecGenerator()))
+		"Round trip of PurchasePlan via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPurchasePlan, PurchasePlanGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPurchasePlan_Spec runs a test to see if a specific instance of PurchasePlan_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForPurchasePlan_Spec(subject PurchasePlan_Spec) string {
+// RunJSONSerializationTestForPurchasePlan runs a test to see if a specific instance of PurchasePlan round trips to JSON and back losslessly
+func RunJSONSerializationTestForPurchasePlan(subject PurchasePlan) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1048,7 +1047,7 @@ func RunJSONSerializationTestForPurchasePlan_Spec(subject PurchasePlan_Spec) str
 	}
 
 	// Deserialize back into memory
-	var actual PurchasePlan_Spec
+	var actual PurchasePlan
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1066,24 +1065,24 @@ func RunJSONSerializationTestForPurchasePlan_Spec(subject PurchasePlan_Spec) str
 	return ""
 }
 
-// Generator of PurchasePlan_Spec instances for property testing - lazily instantiated by PurchasePlan_SpecGenerator()
-var purchasePlan_specGenerator gopter.Gen
+// Generator of PurchasePlan instances for property testing - lazily instantiated by PurchasePlanGenerator()
+var purchasePlanGenerator gopter.Gen
 
-// PurchasePlan_SpecGenerator returns a generator of PurchasePlan_Spec instances for property testing.
-func PurchasePlan_SpecGenerator() gopter.Gen {
-	if purchasePlan_specGenerator != nil {
-		return purchasePlan_specGenerator
+// PurchasePlanGenerator returns a generator of PurchasePlan instances for property testing.
+func PurchasePlanGenerator() gopter.Gen {
+	if purchasePlanGenerator != nil {
+		return purchasePlanGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPurchasePlan_Spec(generators)
-	purchasePlan_specGenerator = gen.Struct(reflect.TypeOf(PurchasePlan_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForPurchasePlan(generators)
+	purchasePlanGenerator = gen.Struct(reflect.TypeOf(PurchasePlan{}), generators)
 
-	return purchasePlan_specGenerator
+	return purchasePlanGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPurchasePlan_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPurchasePlan_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPurchasePlan is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPurchasePlan(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Product"] = gen.PtrOf(gen.AlphaString())
 	gens["PromotionCode"] = gen.PtrOf(gen.AlphaString())
@@ -1213,19 +1212,19 @@ func AddIndependentPropertyGeneratorsForShareInfoElement_Status(gens map[string]
 	gens["VmUri"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_EncryptionSettingsElement_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_EncryptionSettingsElement_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of EncryptionSettingsElement_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEncryptionSettingsElement_Spec, EncryptionSettingsElement_SpecGenerator()))
+		"Round trip of EncryptionSettingsElement via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForEncryptionSettingsElement, EncryptionSettingsElementGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForEncryptionSettingsElement_Spec runs a test to see if a specific instance of EncryptionSettingsElement_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForEncryptionSettingsElement_Spec(subject EncryptionSettingsElement_Spec) string {
+// RunJSONSerializationTestForEncryptionSettingsElement runs a test to see if a specific instance of EncryptionSettingsElement round trips to JSON and back losslessly
+func RunJSONSerializationTestForEncryptionSettingsElement(subject EncryptionSettingsElement) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1233,7 +1232,7 @@ func RunJSONSerializationTestForEncryptionSettingsElement_Spec(subject Encryptio
 	}
 
 	// Deserialize back into memory
-	var actual EncryptionSettingsElement_Spec
+	var actual EncryptionSettingsElement
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1251,27 +1250,27 @@ func RunJSONSerializationTestForEncryptionSettingsElement_Spec(subject Encryptio
 	return ""
 }
 
-// Generator of EncryptionSettingsElement_Spec instances for property testing - lazily instantiated by
-//EncryptionSettingsElement_SpecGenerator()
-var encryptionSettingsElement_specGenerator gopter.Gen
+// Generator of EncryptionSettingsElement instances for property testing - lazily instantiated by
+//EncryptionSettingsElementGenerator()
+var encryptionSettingsElementGenerator gopter.Gen
 
-// EncryptionSettingsElement_SpecGenerator returns a generator of EncryptionSettingsElement_Spec instances for property testing.
-func EncryptionSettingsElement_SpecGenerator() gopter.Gen {
-	if encryptionSettingsElement_specGenerator != nil {
-		return encryptionSettingsElement_specGenerator
+// EncryptionSettingsElementGenerator returns a generator of EncryptionSettingsElement instances for property testing.
+func EncryptionSettingsElementGenerator() gopter.Gen {
+	if encryptionSettingsElementGenerator != nil {
+		return encryptionSettingsElementGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForEncryptionSettingsElement_Spec(generators)
-	encryptionSettingsElement_specGenerator = gen.Struct(reflect.TypeOf(EncryptionSettingsElement_Spec{}), generators)
+	AddRelatedPropertyGeneratorsForEncryptionSettingsElement(generators)
+	encryptionSettingsElementGenerator = gen.Struct(reflect.TypeOf(EncryptionSettingsElement{}), generators)
 
-	return encryptionSettingsElement_specGenerator
+	return encryptionSettingsElementGenerator
 }
 
-// AddRelatedPropertyGeneratorsForEncryptionSettingsElement_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForEncryptionSettingsElement_Spec(gens map[string]gopter.Gen) {
-	gens["DiskEncryptionKey"] = gen.PtrOf(KeyVaultAndSecretReference_SpecGenerator())
-	gens["KeyEncryptionKey"] = gen.PtrOf(KeyVaultAndKeyReference_SpecGenerator())
+// AddRelatedPropertyGeneratorsForEncryptionSettingsElement is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForEncryptionSettingsElement(gens map[string]gopter.Gen) {
+	gens["DiskEncryptionKey"] = gen.PtrOf(KeyVaultAndSecretReferenceGenerator())
+	gens["KeyEncryptionKey"] = gen.PtrOf(KeyVaultAndKeyReferenceGenerator())
 }
 
 func Test_EncryptionSettingsElement_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1335,19 +1334,19 @@ func AddRelatedPropertyGeneratorsForEncryptionSettingsElement_Status(gens map[st
 	gens["KeyEncryptionKey"] = gen.PtrOf(KeyVaultAndKeyReference_StatusGenerator())
 }
 
-func Test_ImageDiskReference_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ImageDiskReference_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ImageDiskReference_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForImageDiskReference_Spec, ImageDiskReference_SpecGenerator()))
+		"Round trip of ImageDiskReference via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForImageDiskReference, ImageDiskReferenceGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForImageDiskReference_Spec runs a test to see if a specific instance of ImageDiskReference_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForImageDiskReference_Spec(subject ImageDiskReference_Spec) string {
+// RunJSONSerializationTestForImageDiskReference runs a test to see if a specific instance of ImageDiskReference round trips to JSON and back losslessly
+func RunJSONSerializationTestForImageDiskReference(subject ImageDiskReference) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1355,7 +1354,7 @@ func RunJSONSerializationTestForImageDiskReference_Spec(subject ImageDiskReferen
 	}
 
 	// Deserialize back into memory
-	var actual ImageDiskReference_Spec
+	var actual ImageDiskReference
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1373,25 +1372,24 @@ func RunJSONSerializationTestForImageDiskReference_Spec(subject ImageDiskReferen
 	return ""
 }
 
-// Generator of ImageDiskReference_Spec instances for property testing - lazily instantiated by
-//ImageDiskReference_SpecGenerator()
-var imageDiskReference_specGenerator gopter.Gen
+// Generator of ImageDiskReference instances for property testing - lazily instantiated by ImageDiskReferenceGenerator()
+var imageDiskReferenceGenerator gopter.Gen
 
-// ImageDiskReference_SpecGenerator returns a generator of ImageDiskReference_Spec instances for property testing.
-func ImageDiskReference_SpecGenerator() gopter.Gen {
-	if imageDiskReference_specGenerator != nil {
-		return imageDiskReference_specGenerator
+// ImageDiskReferenceGenerator returns a generator of ImageDiskReference instances for property testing.
+func ImageDiskReferenceGenerator() gopter.Gen {
+	if imageDiskReferenceGenerator != nil {
+		return imageDiskReferenceGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImageDiskReference_Spec(generators)
-	imageDiskReference_specGenerator = gen.Struct(reflect.TypeOf(ImageDiskReference_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForImageDiskReference(generators)
+	imageDiskReferenceGenerator = gen.Struct(reflect.TypeOf(ImageDiskReference{}), generators)
 
-	return imageDiskReference_specGenerator
+	return imageDiskReferenceGenerator
 }
 
-// AddIndependentPropertyGeneratorsForImageDiskReference_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForImageDiskReference_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForImageDiskReference is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForImageDiskReference(gens map[string]gopter.Gen) {
 	gens["Lun"] = gen.PtrOf(gen.Int())
 }
 
@@ -1456,19 +1454,19 @@ func AddIndependentPropertyGeneratorsForImageDiskReference_Status(gens map[strin
 	gens["Lun"] = gen.PtrOf(gen.Int())
 }
 
-func Test_KeyVaultAndKeyReference_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_KeyVaultAndKeyReference_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of KeyVaultAndKeyReference_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForKeyVaultAndKeyReference_Spec, KeyVaultAndKeyReference_SpecGenerator()))
+		"Round trip of KeyVaultAndKeyReference via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForKeyVaultAndKeyReference, KeyVaultAndKeyReferenceGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForKeyVaultAndKeyReference_Spec runs a test to see if a specific instance of KeyVaultAndKeyReference_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForKeyVaultAndKeyReference_Spec(subject KeyVaultAndKeyReference_Spec) string {
+// RunJSONSerializationTestForKeyVaultAndKeyReference runs a test to see if a specific instance of KeyVaultAndKeyReference round trips to JSON and back losslessly
+func RunJSONSerializationTestForKeyVaultAndKeyReference(subject KeyVaultAndKeyReference) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1476,7 +1474,7 @@ func RunJSONSerializationTestForKeyVaultAndKeyReference_Spec(subject KeyVaultAnd
 	}
 
 	// Deserialize back into memory
-	var actual KeyVaultAndKeyReference_Spec
+	var actual KeyVaultAndKeyReference
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1494,40 +1492,40 @@ func RunJSONSerializationTestForKeyVaultAndKeyReference_Spec(subject KeyVaultAnd
 	return ""
 }
 
-// Generator of KeyVaultAndKeyReference_Spec instances for property testing - lazily instantiated by
-//KeyVaultAndKeyReference_SpecGenerator()
-var keyVaultAndKeyReference_specGenerator gopter.Gen
+// Generator of KeyVaultAndKeyReference instances for property testing - lazily instantiated by
+//KeyVaultAndKeyReferenceGenerator()
+var keyVaultAndKeyReferenceGenerator gopter.Gen
 
-// KeyVaultAndKeyReference_SpecGenerator returns a generator of KeyVaultAndKeyReference_Spec instances for property testing.
-// We first initialize keyVaultAndKeyReference_specGenerator with a simplified generator based on the
+// KeyVaultAndKeyReferenceGenerator returns a generator of KeyVaultAndKeyReference instances for property testing.
+// We first initialize keyVaultAndKeyReferenceGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func KeyVaultAndKeyReference_SpecGenerator() gopter.Gen {
-	if keyVaultAndKeyReference_specGenerator != nil {
-		return keyVaultAndKeyReference_specGenerator
+func KeyVaultAndKeyReferenceGenerator() gopter.Gen {
+	if keyVaultAndKeyReferenceGenerator != nil {
+		return keyVaultAndKeyReferenceGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForKeyVaultAndKeyReference_Spec(generators)
-	keyVaultAndKeyReference_specGenerator = gen.Struct(reflect.TypeOf(KeyVaultAndKeyReference_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForKeyVaultAndKeyReference(generators)
+	keyVaultAndKeyReferenceGenerator = gen.Struct(reflect.TypeOf(KeyVaultAndKeyReference{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForKeyVaultAndKeyReference_Spec(generators)
-	AddRelatedPropertyGeneratorsForKeyVaultAndKeyReference_Spec(generators)
-	keyVaultAndKeyReference_specGenerator = gen.Struct(reflect.TypeOf(KeyVaultAndKeyReference_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForKeyVaultAndKeyReference(generators)
+	AddRelatedPropertyGeneratorsForKeyVaultAndKeyReference(generators)
+	keyVaultAndKeyReferenceGenerator = gen.Struct(reflect.TypeOf(KeyVaultAndKeyReference{}), generators)
 
-	return keyVaultAndKeyReference_specGenerator
+	return keyVaultAndKeyReferenceGenerator
 }
 
-// AddIndependentPropertyGeneratorsForKeyVaultAndKeyReference_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForKeyVaultAndKeyReference_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForKeyVaultAndKeyReference is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForKeyVaultAndKeyReference(gens map[string]gopter.Gen) {
 	gens["KeyUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForKeyVaultAndKeyReference_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForKeyVaultAndKeyReference_Spec(gens map[string]gopter.Gen) {
-	gens["SourceVault"] = gen.PtrOf(SourceVault_SpecGenerator())
+// AddRelatedPropertyGeneratorsForKeyVaultAndKeyReference is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForKeyVaultAndKeyReference(gens map[string]gopter.Gen) {
+	gens["SourceVault"] = gen.PtrOf(SourceVaultGenerator())
 }
 
 func Test_KeyVaultAndKeyReference_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1604,19 +1602,19 @@ func AddRelatedPropertyGeneratorsForKeyVaultAndKeyReference_Status(gens map[stri
 	gens["SourceVault"] = gen.PtrOf(SourceVault_StatusGenerator())
 }
 
-func Test_KeyVaultAndSecretReference_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_KeyVaultAndSecretReference_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of KeyVaultAndSecretReference_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForKeyVaultAndSecretReference_Spec, KeyVaultAndSecretReference_SpecGenerator()))
+		"Round trip of KeyVaultAndSecretReference via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForKeyVaultAndSecretReference, KeyVaultAndSecretReferenceGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForKeyVaultAndSecretReference_Spec runs a test to see if a specific instance of KeyVaultAndSecretReference_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForKeyVaultAndSecretReference_Spec(subject KeyVaultAndSecretReference_Spec) string {
+// RunJSONSerializationTestForKeyVaultAndSecretReference runs a test to see if a specific instance of KeyVaultAndSecretReference round trips to JSON and back losslessly
+func RunJSONSerializationTestForKeyVaultAndSecretReference(subject KeyVaultAndSecretReference) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1624,7 +1622,7 @@ func RunJSONSerializationTestForKeyVaultAndSecretReference_Spec(subject KeyVault
 	}
 
 	// Deserialize back into memory
-	var actual KeyVaultAndSecretReference_Spec
+	var actual KeyVaultAndSecretReference
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1642,40 +1640,40 @@ func RunJSONSerializationTestForKeyVaultAndSecretReference_Spec(subject KeyVault
 	return ""
 }
 
-// Generator of KeyVaultAndSecretReference_Spec instances for property testing - lazily instantiated by
-//KeyVaultAndSecretReference_SpecGenerator()
-var keyVaultAndSecretReference_specGenerator gopter.Gen
+// Generator of KeyVaultAndSecretReference instances for property testing - lazily instantiated by
+//KeyVaultAndSecretReferenceGenerator()
+var keyVaultAndSecretReferenceGenerator gopter.Gen
 
-// KeyVaultAndSecretReference_SpecGenerator returns a generator of KeyVaultAndSecretReference_Spec instances for property testing.
-// We first initialize keyVaultAndSecretReference_specGenerator with a simplified generator based on the
+// KeyVaultAndSecretReferenceGenerator returns a generator of KeyVaultAndSecretReference instances for property testing.
+// We first initialize keyVaultAndSecretReferenceGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func KeyVaultAndSecretReference_SpecGenerator() gopter.Gen {
-	if keyVaultAndSecretReference_specGenerator != nil {
-		return keyVaultAndSecretReference_specGenerator
+func KeyVaultAndSecretReferenceGenerator() gopter.Gen {
+	if keyVaultAndSecretReferenceGenerator != nil {
+		return keyVaultAndSecretReferenceGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForKeyVaultAndSecretReference_Spec(generators)
-	keyVaultAndSecretReference_specGenerator = gen.Struct(reflect.TypeOf(KeyVaultAndSecretReference_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForKeyVaultAndSecretReference(generators)
+	keyVaultAndSecretReferenceGenerator = gen.Struct(reflect.TypeOf(KeyVaultAndSecretReference{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForKeyVaultAndSecretReference_Spec(generators)
-	AddRelatedPropertyGeneratorsForKeyVaultAndSecretReference_Spec(generators)
-	keyVaultAndSecretReference_specGenerator = gen.Struct(reflect.TypeOf(KeyVaultAndSecretReference_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForKeyVaultAndSecretReference(generators)
+	AddRelatedPropertyGeneratorsForKeyVaultAndSecretReference(generators)
+	keyVaultAndSecretReferenceGenerator = gen.Struct(reflect.TypeOf(KeyVaultAndSecretReference{}), generators)
 
-	return keyVaultAndSecretReference_specGenerator
+	return keyVaultAndSecretReferenceGenerator
 }
 
-// AddIndependentPropertyGeneratorsForKeyVaultAndSecretReference_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForKeyVaultAndSecretReference_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForKeyVaultAndSecretReference is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForKeyVaultAndSecretReference(gens map[string]gopter.Gen) {
 	gens["SecretUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForKeyVaultAndSecretReference_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForKeyVaultAndSecretReference_Spec(gens map[string]gopter.Gen) {
-	gens["SourceVault"] = gen.PtrOf(SourceVault_SpecGenerator())
+// AddRelatedPropertyGeneratorsForKeyVaultAndSecretReference is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForKeyVaultAndSecretReference(gens map[string]gopter.Gen) {
+	gens["SourceVault"] = gen.PtrOf(SourceVaultGenerator())
 }
 
 func Test_KeyVaultAndSecretReference_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1752,19 +1750,19 @@ func AddRelatedPropertyGeneratorsForKeyVaultAndSecretReference_Status(gens map[s
 	gens["SourceVault"] = gen.PtrOf(SourceVault_StatusGenerator())
 }
 
-func Test_SourceVault_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SourceVault_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SourceVault_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSourceVault_Spec, SourceVault_SpecGenerator()))
+		"Round trip of SourceVault via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSourceVault, SourceVaultGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSourceVault_Spec runs a test to see if a specific instance of SourceVault_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForSourceVault_Spec(subject SourceVault_Spec) string {
+// RunJSONSerializationTestForSourceVault runs a test to see if a specific instance of SourceVault round trips to JSON and back losslessly
+func RunJSONSerializationTestForSourceVault(subject SourceVault) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1772,7 +1770,7 @@ func RunJSONSerializationTestForSourceVault_Spec(subject SourceVault_Spec) strin
 	}
 
 	// Deserialize back into memory
-	var actual SourceVault_Spec
+	var actual SourceVault
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1790,19 +1788,19 @@ func RunJSONSerializationTestForSourceVault_Spec(subject SourceVault_Spec) strin
 	return ""
 }
 
-// Generator of SourceVault_Spec instances for property testing - lazily instantiated by SourceVault_SpecGenerator()
-var sourceVault_specGenerator gopter.Gen
+// Generator of SourceVault instances for property testing - lazily instantiated by SourceVaultGenerator()
+var sourceVaultGenerator gopter.Gen
 
-// SourceVault_SpecGenerator returns a generator of SourceVault_Spec instances for property testing.
-func SourceVault_SpecGenerator() gopter.Gen {
-	if sourceVault_specGenerator != nil {
-		return sourceVault_specGenerator
+// SourceVaultGenerator returns a generator of SourceVault instances for property testing.
+func SourceVaultGenerator() gopter.Gen {
+	if sourceVaultGenerator != nil {
+		return sourceVaultGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	sourceVault_specGenerator = gen.Struct(reflect.TypeOf(SourceVault_Spec{}), generators)
+	sourceVaultGenerator = gen.Struct(reflect.TypeOf(SourceVault{}), generators)
 
-	return sourceVault_specGenerator
+	return sourceVaultGenerator
 }
 
 func Test_SourceVault_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

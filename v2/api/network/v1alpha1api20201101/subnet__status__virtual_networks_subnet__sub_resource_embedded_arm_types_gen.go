@@ -54,17 +54,17 @@ type SubnetPropertiesFormat_StatusARM struct {
 
 	//PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on
 	//private end point in the subnet.
-	PrivateEndpointNetworkPolicies *SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Status `json:"privateEndpointNetworkPolicies,omitempty"`
+	PrivateEndpointNetworkPolicies *string `json:"privateEndpointNetworkPolicies,omitempty"`
 
 	//PrivateEndpoints: An array of references to private endpoints.
 	PrivateEndpoints []PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"privateEndpoints,omitempty"`
 
 	//PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on
 	//private link service in the subnet.
-	PrivateLinkServiceNetworkPolicies *SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Status `json:"privateLinkServiceNetworkPolicies,omitempty"`
+	PrivateLinkServiceNetworkPolicies *string `json:"privateLinkServiceNetworkPolicies,omitempty"`
 
 	//ProvisioningState: The provisioning state of the subnet resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	//Purpose: A read-only string identifying the intention of use for this subnet
 	//based on delegations and other user-defined properties.
@@ -223,30 +223,16 @@ type ServiceEndpointPropertiesFormat_StatusARM struct {
 	Locations []string `json:"locations,omitempty"`
 
 	//ProvisioningState: The provisioning state of the service endpoint resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	//Service: The type of the endpoint service.
 	Service *string `json:"service,omitempty"`
 }
 
-type SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Status string
-
-const (
-	SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_StatusDisabled = SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Status("Disabled")
-	SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_StatusEnabled  = SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Status("Enabled")
-)
-
-type SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Status string
-
-const (
-	SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_StatusDisabled = SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Status("Disabled")
-	SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_StatusEnabled  = SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Status("Enabled")
-)
-
 type ApplicationGatewayIPConfigurationPropertiesFormat_StatusARM struct {
 	//ProvisioningState: The provisioning state of the application gateway IP
 	//configuration resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	//Subnet: Reference to the subnet resource. A subnet from where application
 	//gateway gets its private address.
@@ -256,7 +242,7 @@ type ApplicationGatewayIPConfigurationPropertiesFormat_StatusARM struct {
 type IPConfigurationProfilePropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
 	//ProvisioningState: The provisioning state of the IP configuration profile
 	//resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
 
 type IPConfigurationPropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
@@ -264,10 +250,10 @@ type IPConfigurationPropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmb
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
 	//PrivateIPAllocationMethod: The private IP address allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod_Status `json:"privateIPAllocationMethod,omitempty"`
+	PrivateIPAllocationMethod *string `json:"privateIPAllocationMethod,omitempty"`
 
 	//ProvisioningState: The provisioning state of the IP configuration resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	//PublicIPAddress: The reference to the public IP resource.
 	PublicIPAddress *PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"publicIPAddress,omitempty"`
@@ -282,7 +268,7 @@ type ResourceNavigationLinkFormat_StatusARM struct {
 
 	//ProvisioningState: The provisioning state of the resource navigation link
 	//resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
 
 type ServiceAssociationLinkPropertiesFormat_StatusARM struct {
@@ -300,7 +286,7 @@ type ServiceAssociationLinkPropertiesFormat_StatusARM struct {
 
 	//ProvisioningState: The provisioning state of the service association link
 	//resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
 
 type ServiceDelegationPropertiesFormat_StatusARM struct {
@@ -308,7 +294,7 @@ type ServiceDelegationPropertiesFormat_StatusARM struct {
 	Actions []string `json:"actions,omitempty"`
 
 	//ProvisioningState: The provisioning state of the service delegation resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	//ServiceName: The name of the service to whom the subnet should be delegated
 	//(e.g. Microsoft.Sql/servers).

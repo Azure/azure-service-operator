@@ -57,19 +57,19 @@ type PublicIPAddressPropertiesFormat_StatusARM struct {
 	IpTags []IpTag_StatusARM `json:"ipTags,omitempty"`
 
 	//MigrationPhase: Migration phase of Public IP Address.
-	MigrationPhase *PublicIPAddressPropertiesFormat_MigrationPhase_Status `json:"migrationPhase,omitempty"`
+	MigrationPhase *string `json:"migrationPhase,omitempty"`
 
 	//NatGateway: The NatGateway for the Public IP address.
 	NatGateway *NatGateway_Status_PublicIPAddress_SubResourceEmbeddedARM `json:"natGateway,omitempty"`
 
 	//ProvisioningState: The provisioning state of the public IP address resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	//PublicIPAddressVersion: The public IP address version.
-	PublicIPAddressVersion *IPVersion_Status `json:"publicIPAddressVersion,omitempty"`
+	PublicIPAddressVersion *string `json:"publicIPAddressVersion,omitempty"`
 
 	//PublicIPAllocationMethod: The public IP address allocation method.
-	PublicIPAllocationMethod *IPAllocationMethod_Status `json:"publicIPAllocationMethod,omitempty"`
+	PublicIPAllocationMethod *string `json:"publicIPAllocationMethod,omitempty"`
 
 	//PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated
 	//from.
@@ -81,10 +81,10 @@ type PublicIPAddressPropertiesFormat_StatusARM struct {
 
 type PublicIPAddressSku_StatusARM struct {
 	//Name: Name of a public IP address SKU.
-	Name *PublicIPAddressSku_Name_Status `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	//Tier: Tier of a public IP address SKU.
-	Tier *PublicIPAddressSku_Tier_Status `json:"tier,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 type DdosSettings_StatusARM struct {
@@ -96,7 +96,7 @@ type DdosSettings_StatusARM struct {
 
 	//ProtectionCoverage: The DDoS protection policy customizability of the public IP.
 	//Only standard coverage will have the ability to be customized.
-	ProtectionCoverage *DdosSettings_ProtectionCoverage_Status `json:"protectionCoverage,omitempty"`
+	ProtectionCoverage *string `json:"protectionCoverage,omitempty"`
 }
 
 type IPConfiguration_Status_PublicIPAddress_SubResourceEmbeddedARM struct {
@@ -153,29 +153,15 @@ type PublicIPAddressDnsSettings_StatusARM struct {
 	ReverseFqdn *string `json:"reverseFqdn,omitempty"`
 }
 
-type PublicIPAddressSku_Name_Status string
-
-const (
-	PublicIPAddressSku_Name_StatusBasic    = PublicIPAddressSku_Name_Status("Basic")
-	PublicIPAddressSku_Name_StatusStandard = PublicIPAddressSku_Name_Status("Standard")
-)
-
-type PublicIPAddressSku_Tier_Status string
-
-const (
-	PublicIPAddressSku_Tier_StatusGlobal   = PublicIPAddressSku_Tier_Status("Global")
-	PublicIPAddressSku_Tier_StatusRegional = PublicIPAddressSku_Tier_Status("Regional")
-)
-
 type IPConfigurationPropertiesFormat_Status_PublicIPAddress_SubResourceEmbeddedARM struct {
 	//PrivateIPAddress: The private IP address of the IP configuration.
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
 	//PrivateIPAllocationMethod: The private IP address allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod_Status `json:"privateIPAllocationMethod,omitempty"`
+	PrivateIPAllocationMethod *string `json:"privateIPAllocationMethod,omitempty"`
 
 	//ProvisioningState: The provisioning state of the IP configuration resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	//Subnet: The reference to the subnet resource.
 	Subnet *Subnet_Status_PublicIPAddress_SubResourceEmbeddedARM `json:"subnet,omitempty"`
@@ -183,7 +169,7 @@ type IPConfigurationPropertiesFormat_Status_PublicIPAddress_SubResourceEmbeddedA
 
 type NatGatewaySku_StatusARM struct {
 	//Name: Name of Nat Gateway SKU.
-	Name *NatGatewaySku_Name_Status `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 }
 
 type Subnet_Status_PublicIPAddress_SubResourceEmbeddedARM struct {

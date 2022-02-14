@@ -54,11 +54,11 @@ type ManagedClusterAgentPoolProfileProperties_StatusARM struct {
 
 	//GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance
 	//profile for supported GPU VM SKU.
-	GpuInstanceProfile *GPUInstanceProfile_Status `json:"gpuInstanceProfile,omitempty"`
+	GpuInstanceProfile *string `json:"gpuInstanceProfile,omitempty"`
 
 	//KubeletConfig: The Kubelet configuration on the agent pool nodes.
 	KubeletConfig   *KubeletConfig_StatusARM `json:"kubeletConfig,omitempty"`
-	KubeletDiskType *KubeletDiskType_Status  `json:"kubeletDiskType,omitempty"`
+	KubeletDiskType *string                  `json:"kubeletDiskType,omitempty"`
 
 	//LinuxOSConfig: The OS configuration of Linux agent nodes.
 	LinuxOSConfig *LinuxOSConfig_StatusARM `json:"linuxOSConfig,omitempty"`
@@ -70,8 +70,8 @@ type ManagedClusterAgentPoolProfileProperties_StatusARM struct {
 	MaxPods *int `json:"maxPods,omitempty"`
 
 	//MinCount: The minimum number of nodes for auto-scaling
-	MinCount *int                  `json:"minCount,omitempty"`
-	Mode     *AgentPoolMode_Status `json:"mode,omitempty"`
+	MinCount *int    `json:"minCount,omitempty"`
+	Mode     *string `json:"mode,omitempty"`
 
 	//NodeImageVersion: The version of node image
 	NodeImageVersion *string `json:"nodeImageVersion,omitempty"`
@@ -94,11 +94,11 @@ type ManagedClusterAgentPoolProfileProperties_StatusARM struct {
 	//cannot be greater than the control plane version. For more information see
 	//[upgrading a node
 	//pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
-	OrchestratorVersion *string            `json:"orchestratorVersion,omitempty"`
-	OsDiskSizeGB        *int               `json:"osDiskSizeGB,omitempty"`
-	OsDiskType          *OSDiskType_Status `json:"osDiskType,omitempty"`
-	OsSKU               *OSSKU_Status      `json:"osSKU,omitempty"`
-	OsType              *OSType_Status     `json:"osType,omitempty"`
+	OrchestratorVersion *string `json:"orchestratorVersion,omitempty"`
+	OsDiskSizeGB        *int    `json:"osDiskSizeGB,omitempty"`
+	OsDiskType          *string `json:"osDiskType,omitempty"`
+	OsSKU               *string `json:"osSKU,omitempty"`
+	OsType              *string `json:"osType,omitempty"`
 
 	//PodSubnetID: If omitted, pod IPs are statically assigned on the node subnet (see
 	//vnetSubnetID for more details). This is of the form:
@@ -116,11 +116,11 @@ type ManagedClusterAgentPoolProfileProperties_StatusARM struct {
 
 	//ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is
 	//'Spot'. If not specified, the default is 'Delete'.
-	ScaleSetEvictionPolicy *ScaleSetEvictionPolicy_Status `json:"scaleSetEvictionPolicy,omitempty"`
+	ScaleSetEvictionPolicy *string `json:"scaleSetEvictionPolicy,omitempty"`
 
 	//ScaleSetPriority: The Virtual Machine Scale Set priority. If not specified, the
 	//default is 'Regular'.
-	ScaleSetPriority *ScaleSetPriority_Status `json:"scaleSetPriority,omitempty"`
+	ScaleSetPriority *string `json:"scaleSetPriority,omitempty"`
 
 	//SpotMaxPrice: Possible values are any decimal value greater than zero or -1
 	//which indicates the willingness to pay any on-demand price. For more details on
@@ -129,8 +129,8 @@ type ManagedClusterAgentPoolProfileProperties_StatusARM struct {
 	SpotMaxPrice *float64 `json:"spotMaxPrice,omitempty"`
 
 	//Tags: The tags to be persisted on the agent pool virtual machine scale set.
-	Tags map[string]string     `json:"tags,omitempty"`
-	Type *AgentPoolType_Status `json:"type,omitempty"`
+	Tags map[string]string `json:"tags,omitempty"`
+	Type *string           `json:"type,omitempty"`
 
 	//UpgradeSettings: Settings for upgrading the agentpool
 	UpgradeSettings *AgentPoolUpgradeSettings_StatusARM `json:"upgradeSettings,omitempty"`
@@ -148,20 +148,6 @@ type ManagedClusterAgentPoolProfileProperties_StatusARM struct {
 	VnetSubnetID *string `json:"vnetSubnetID,omitempty"`
 }
 
-type AgentPoolMode_Status string
-
-const (
-	AgentPoolMode_StatusSystem = AgentPoolMode_Status("System")
-	AgentPoolMode_StatusUser   = AgentPoolMode_Status("User")
-)
-
-type AgentPoolType_Status string
-
-const (
-	AgentPoolType_StatusAvailabilitySet         = AgentPoolType_Status("AvailabilitySet")
-	AgentPoolType_StatusVirtualMachineScaleSets = AgentPoolType_Status("VirtualMachineScaleSets")
-)
-
 type AgentPoolUpgradeSettings_StatusARM struct {
 	//MaxSurge: This can either be set to an integer (e.g. '5') or a percentage (e.g.
 	//'50%'). If a percentage is specified, it is the percentage of the total agent
@@ -171,16 +157,6 @@ type AgentPoolUpgradeSettings_StatusARM struct {
 	//https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade
 	MaxSurge *string `json:"maxSurge,omitempty"`
 }
-
-type GPUInstanceProfile_Status string
-
-const (
-	GPUInstanceProfile_StatusMIG1G = GPUInstanceProfile_Status("MIG1g")
-	GPUInstanceProfile_StatusMIG2G = GPUInstanceProfile_Status("MIG2g")
-	GPUInstanceProfile_StatusMIG3G = GPUInstanceProfile_Status("MIG3g")
-	GPUInstanceProfile_StatusMIG4G = GPUInstanceProfile_Status("MIG4g")
-	GPUInstanceProfile_StatusMIG7G = GPUInstanceProfile_Status("MIG7g")
-)
 
 type KubeletConfig_StatusARM struct {
 	//AllowedUnsafeSysctls: Allowed list of unsafe sysctls or unsafe sysctl patterns
@@ -230,13 +206,6 @@ type KubeletConfig_StatusARM struct {
 	TopologyManagerPolicy *string `json:"topologyManagerPolicy,omitempty"`
 }
 
-type KubeletDiskType_Status string
-
-const (
-	KubeletDiskType_StatusOS        = KubeletDiskType_Status("OS")
-	KubeletDiskType_StatusTemporary = KubeletDiskType_Status("Temporary")
-)
-
 type LinuxOSConfig_StatusARM struct {
 	//SwapFileSizeMB: The size in MB of a swap file that will be created on each node.
 	SwapFileSizeMB *int `json:"swapFileSizeMB,omitempty"`
@@ -256,52 +225,10 @@ type LinuxOSConfig_StatusARM struct {
 	TransparentHugePageEnabled *string `json:"transparentHugePageEnabled,omitempty"`
 }
 
-type OSDiskType_Status string
-
-const (
-	OSDiskType_StatusEphemeral = OSDiskType_Status("Ephemeral")
-	OSDiskType_StatusManaged   = OSDiskType_Status("Managed")
-)
-
-type OSSKU_Status string
-
-const (
-	OSSKU_StatusCBLMariner = OSSKU_Status("CBLMariner")
-	OSSKU_StatusUbuntu     = OSSKU_Status("Ubuntu")
-)
-
-type OSType_Status string
-
-const (
-	OSType_StatusLinux   = OSType_Status("Linux")
-	OSType_StatusWindows = OSType_Status("Windows")
-)
-
 type PowerState_StatusARM struct {
 	//Code: Tells whether the cluster is Running or Stopped
-	Code *PowerState_Code_Status `json:"code,omitempty"`
+	Code *string `json:"code,omitempty"`
 }
-
-type ScaleSetEvictionPolicy_Status string
-
-const (
-	ScaleSetEvictionPolicy_StatusDeallocate = ScaleSetEvictionPolicy_Status("Deallocate")
-	ScaleSetEvictionPolicy_StatusDelete     = ScaleSetEvictionPolicy_Status("Delete")
-)
-
-type ScaleSetPriority_Status string
-
-const (
-	ScaleSetPriority_StatusRegular = ScaleSetPriority_Status("Regular")
-	ScaleSetPriority_StatusSpot    = ScaleSetPriority_Status("Spot")
-)
-
-type PowerState_Code_Status string
-
-const (
-	PowerState_Code_StatusRunning = PowerState_Code_Status("Running")
-	PowerState_Code_StatusStopped = PowerState_Code_Status("Stopped")
-)
 
 type SysctlConfig_StatusARM struct {
 	//FsAioMaxNr: Sysctl setting fs.aio-max-nr.

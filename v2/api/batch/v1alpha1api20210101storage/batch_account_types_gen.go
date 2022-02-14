@@ -28,7 +28,7 @@ import (
 type BatchAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              BatchAccounts_SPEC  `json:"spec,omitempty"`
+	Spec              BatchAccount_Spec   `json:"spec,omitempty"`
 	Status            BatchAccount_Status `json:"status,omitempty"`
 }
 
@@ -138,6 +138,47 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("2021-01-01")
 
+//Storage version of v1alpha1api20210101.BatchAccount_Spec
+type BatchAccount_Spec struct {
+	AutoStorage *AutoStorageBaseProperties `json:"autoStorage,omitempty"`
+
+	//AzureName: The name of the resource in Azure. This is often the same as the name
+	//of the resource in Kubernetes but it doesn't have to be.
+	AzureName         string                `json:"azureName"`
+	Encryption        *EncryptionProperties `json:"encryption,omitempty"`
+	Identity          *BatchAccountIdentity `json:"identity,omitempty"`
+	KeyVaultReference *KeyVaultReference    `json:"keyVaultReference,omitempty"`
+	Location          *string               `json:"location,omitempty"`
+	OriginalVersion   string                `json:"originalVersion"`
+
+	// +kubebuilder:validation:Required
+	Owner               genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	PoolAllocationMode  *string                           `json:"poolAllocationMode,omitempty"`
+	PropertyBag         genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                           `json:"publicNetworkAccess,omitempty"`
+	Tags                map[string]string                 `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &BatchAccount_Spec{}
+
+// ConvertSpecFrom populates our BatchAccount_Spec from the provided source
+func (account *BatchAccount_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == account {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(account)
+}
+
+// ConvertSpecTo populates the provided destination from our BatchAccount_Spec
+func (account *BatchAccount_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == account {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(account)
+}
+
 //Storage version of v1alpha1api20210101.BatchAccount_Status
 type BatchAccount_Status struct {
 	AutoStorage         *AutoStorageBaseProperties_Status `json:"autoStorage,omitempty"`
@@ -172,49 +213,8 @@ func (account *BatchAccount_Status) ConvertStatusTo(destination genruntime.Conve
 	return destination.ConvertStatusFrom(account)
 }
 
-//Storage version of v1alpha1api20210101.BatchAccounts_SPEC
-type BatchAccounts_SPEC struct {
-	AutoStorage *AutoStorageBaseProperties_Spec `json:"autoStorage,omitempty"`
-
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName         string                     `json:"azureName"`
-	Encryption        *EncryptionProperties_Spec `json:"encryption,omitempty"`
-	Identity          *BatchAccountIdentity_Spec `json:"identity,omitempty"`
-	KeyVaultReference *KeyVaultReference_Spec    `json:"keyVaultReference,omitempty"`
-	Location          *string                    `json:"location,omitempty"`
-	OriginalVersion   string                     `json:"originalVersion"`
-
-	// +kubebuilder:validation:Required
-	Owner               genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PoolAllocationMode  *string                           `json:"poolAllocationMode,omitempty"`
-	PropertyBag         genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                           `json:"publicNetworkAccess,omitempty"`
-	Tags                map[string]string                 `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &BatchAccounts_SPEC{}
-
-// ConvertSpecFrom populates our BatchAccounts_SPEC from the provided source
-func (spec *BatchAccounts_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(spec)
-}
-
-// ConvertSpecTo populates the provided destination from our BatchAccounts_SPEC
-func (spec *BatchAccounts_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(spec)
-}
-
-//Storage version of v1alpha1api20210101.AutoStorageBaseProperties_Spec
-type AutoStorageBaseProperties_Spec struct {
+//Storage version of v1alpha1api20210101.AutoStorageBaseProperties
+type AutoStorageBaseProperties struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -229,26 +229,26 @@ type AutoStorageBaseProperties_Status struct {
 	StorageAccountId *string                `json:"storageAccountId,omitempty"`
 }
 
-//Storage version of v1alpha1api20210101.BatchAccountIdentity_Spec
-type BatchAccountIdentity_Spec struct {
+//Storage version of v1alpha1api20210101.BatchAccountIdentity
+type BatchAccountIdentity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
 //Storage version of v1alpha1api20210101.BatchAccountIdentity_Status
 type BatchAccountIdentity_Status struct {
-	PrincipalId            *string                                                       `json:"principalId,omitempty"`
-	PropertyBag            genruntime.PropertyBag                                        `json:"$propertyBag,omitempty"`
-	TenantId               *string                                                       `json:"tenantId,omitempty"`
-	Type                   *string                                                       `json:"type,omitempty"`
-	UserAssignedIdentities map[string]BatchAccountIdentity_UserAssignedIdentities_Status `json:"userAssignedIdentities,omitempty"`
+	PrincipalId            *string                                                      `json:"principalId,omitempty"`
+	PropertyBag            genruntime.PropertyBag                                       `json:"$propertyBag,omitempty"`
+	TenantId               *string                                                      `json:"tenantId,omitempty"`
+	Type                   *string                                                      `json:"type,omitempty"`
+	UserAssignedIdentities map[string]BatchAccountIdentity_StatusUserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
 }
 
-//Storage version of v1alpha1api20210101.EncryptionProperties_Spec
-type EncryptionProperties_Spec struct {
-	KeySource          *string                  `json:"keySource,omitempty"`
-	KeyVaultProperties *KeyVaultProperties_Spec `json:"keyVaultProperties,omitempty"`
-	PropertyBag        genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
+//Storage version of v1alpha1api20210101.EncryptionProperties
+type EncryptionProperties struct {
+	KeySource          *string                `json:"keySource,omitempty"`
+	KeyVaultProperties *KeyVaultProperties    `json:"keyVaultProperties,omitempty"`
+	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v1alpha1api20210101.EncryptionProperties_Status
@@ -258,8 +258,8 @@ type EncryptionProperties_Status struct {
 	PropertyBag        genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210101.KeyVaultReference_Spec
-type KeyVaultReference_Spec struct {
+//Storage version of v1alpha1api20210101.KeyVaultReference
+type KeyVaultReference struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -276,15 +276,15 @@ type KeyVaultReference_Status struct {
 	Url         *string                `json:"url,omitempty"`
 }
 
-//Storage version of v1alpha1api20210101.BatchAccountIdentity_UserAssignedIdentities_Status
-type BatchAccountIdentity_UserAssignedIdentities_Status struct {
+//Storage version of v1alpha1api20210101.BatchAccountIdentity_StatusUserAssignedIdentities
+type BatchAccountIdentity_StatusUserAssignedIdentities struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210101.KeyVaultProperties_Spec
-type KeyVaultProperties_Spec struct {
+//Storage version of v1alpha1api20210101.KeyVaultProperties
+type KeyVaultProperties struct {
 	KeyIdentifier *string                `json:"keyIdentifier,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }

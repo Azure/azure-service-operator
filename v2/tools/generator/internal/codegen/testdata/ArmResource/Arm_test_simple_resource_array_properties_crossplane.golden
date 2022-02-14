@@ -17,7 +17,7 @@ import (
 type FakeResource struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FakeResource_SPEC `json:"spec,omitempty"`
+	Spec              FakeResource_Spec `json:"spec,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -33,14 +33,14 @@ type APIVersion string
 
 const APIVersionAPIVersionValue = APIVersion(placeholder for golden tests)
 
-type FakeResource_SPEC struct {
+type FakeResource_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline"`
 	ForProvider           FakeResourceParameters `json:"forProvider"`
 }
 
 type FakeResourceParameters struct {
 	// +kubebuilder:validation:Required
-	APIVersion FakeResource_APIVersion_SPEC `json:"apiVersion"`
+	APIVersion FakeResource_SpecAPIVersion `json:"apiVersion"`
 
 	// +kubebuilder:validation:Required
 	ArrayFoo              []Foo            `json:"arrayFoo"`
@@ -56,7 +56,7 @@ type FakeResourceParameters struct {
 	ResourceGroupNameSelector *v1alpha1.Selector  `json:"resourceGroupNameSelector,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Type FakeResource_Type_SPEC `json:"type"`
+	Type FakeResource_SpecType `json:"type"`
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Color
@@ -70,14 +70,14 @@ const (
 )
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
-type FakeResource_APIVersion_SPEC string
+type FakeResource_SpecAPIVersion string
 
-const FakeResource_APIVersion_SPEC20200601 = FakeResource_APIVersion_SPEC("2020-06-01")
+const FakeResource_SpecAPIVersion20200601 = FakeResource_SpecAPIVersion("2020-06-01")
 
 // +kubebuilder:validation:Enum={"Microsoft.Azure/FakeResource"}
-type FakeResource_Type_SPEC string
+type FakeResource_SpecType string
 
-const FakeResource_Type_SPECMicrosoftAzureFakeResource = FakeResource_Type_SPEC("Microsoft.Azure/FakeResource")
+const FakeResource_SpecTypeMicrosoftAzureFakeResource = FakeResource_SpecType("Microsoft.Azure/FakeResource")
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {

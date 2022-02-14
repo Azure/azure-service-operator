@@ -5,12 +5,12 @@ package v1alpha1api20200101
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-	MyBool     *bool            `json:"myBool,omitempty"`
-	MyString   *string          `json:"myString,omitempty"`
-	Properties *Test_Properties `json:"properties,omitempty"`
+	MyBool     *bool           `json:"myBool,omitempty"`
+	MyString   *string         `json:"myString,omitempty"`
+	Properties *TestProperties `json:"properties,omitempty"`
 }
 
-type Test_Properties struct {
+type TestProperties struct {
 	//Bar: Mutually exclusive with all other properties
 	Bar *Bar `json:"bar,omitempty"`
 

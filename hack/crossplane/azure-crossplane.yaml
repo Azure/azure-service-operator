@@ -72,11 +72,11 @@ typeFilters:
     because: Some types use OneOf to model inheritance, which we don't currently support.
   - action: prune
     group: compute.admin
-    name: LocationsDiskmigrationjobs
+    name: LocationsDiskmigrationjob
     because: has an array as body, not object. unsure how to handle this at the moment.
   - action: prune
     group: management
-    name: ManagementGroups
+    name: ManagementGroup
     because: directly recursive type
   - action: prune
     group: resources

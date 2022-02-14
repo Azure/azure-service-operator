@@ -15,7 +15,7 @@ type AuthorizationRule_StatusARM struct {
 	Name *string `json:"name,omitempty"`
 
 	//Properties: Properties supplied to create or update AuthorizationRule
-	Properties *AuthorizationRule_Properties_StatusARM `json:"properties,omitempty"`
+	Properties *AuthorizationRule_StatusPropertiesARM `json:"properties,omitempty"`
 
 	//SystemData: The system meta data relating to this resource.
 	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
@@ -25,9 +25,9 @@ type AuthorizationRule_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type AuthorizationRule_Properties_StatusARM struct {
+type AuthorizationRule_StatusPropertiesARM struct {
 	//Rights: The rights associated with the rule.
-	Rights []AuthorizationRule_Properties_Rights_Status `json:"rights,omitempty"`
+	Rights []string `json:"rights,omitempty"`
 }
 
 type SystemData_StatusARM struct {
@@ -38,7 +38,7 @@ type SystemData_StatusARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	//CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_Status `json:"createdByType,omitempty"`
+	CreatedByType *string `json:"createdByType,omitempty"`
 
 	//LastModifiedAt: The type of identity that last modified the resource.
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -47,31 +47,5 @@ type SystemData_StatusARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	//LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_Status `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *string `json:"lastModifiedByType,omitempty"`
 }
-
-type AuthorizationRule_Properties_Rights_Status string
-
-const (
-	AuthorizationRule_Properties_Rights_StatusListen = AuthorizationRule_Properties_Rights_Status("Listen")
-	AuthorizationRule_Properties_Rights_StatusManage = AuthorizationRule_Properties_Rights_Status("Manage")
-	AuthorizationRule_Properties_Rights_StatusSend   = AuthorizationRule_Properties_Rights_Status("Send")
-)
-
-type SystemData_CreatedByType_Status string
-
-const (
-	SystemData_CreatedByType_StatusApplication     = SystemData_CreatedByType_Status("Application")
-	SystemData_CreatedByType_StatusKey             = SystemData_CreatedByType_Status("Key")
-	SystemData_CreatedByType_StatusManagedIdentity = SystemData_CreatedByType_Status("ManagedIdentity")
-	SystemData_CreatedByType_StatusUser            = SystemData_CreatedByType_Status("User")
-)
-
-type SystemData_LastModifiedByType_Status string
-
-const (
-	SystemData_LastModifiedByType_StatusApplication     = SystemData_LastModifiedByType_Status("Application")
-	SystemData_LastModifiedByType_StatusKey             = SystemData_LastModifiedByType_Status("Key")
-	SystemData_LastModifiedByType_StatusManagedIdentity = SystemData_LastModifiedByType_Status("ManagedIdentity")
-	SystemData_LastModifiedByType_StatusUser            = SystemData_LastModifiedByType_Status("User")
-)

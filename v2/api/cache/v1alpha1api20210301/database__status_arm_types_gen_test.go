@@ -158,38 +158,12 @@ func DatabaseProperties_StatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDatabaseProperties_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseProperties_StatusARM(gens map[string]gopter.Gen) {
-	gens["ClientProtocol"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClientProtocol_StatusEncrypted, DatabaseProperties_ClientProtocol_StatusPlaintext))
-	gens["ClusteringPolicy"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClusteringPolicy_StatusEnterpriseCluster, DatabaseProperties_ClusteringPolicy_StatusOSSCluster))
-	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(
-		DatabaseProperties_EvictionPolicy_StatusAllKeysLFU,
-		DatabaseProperties_EvictionPolicy_StatusAllKeysLRU,
-		DatabaseProperties_EvictionPolicy_StatusAllKeysRandom,
-		DatabaseProperties_EvictionPolicy_StatusNoEviction,
-		DatabaseProperties_EvictionPolicy_StatusVolatileLFU,
-		DatabaseProperties_EvictionPolicy_StatusVolatileLRU,
-		DatabaseProperties_EvictionPolicy_StatusVolatileRandom,
-		DatabaseProperties_EvictionPolicy_StatusVolatileTTL))
+	gens["ClientProtocol"] = gen.PtrOf(gen.AlphaString())
+	gens["ClusteringPolicy"] = gen.PtrOf(gen.AlphaString())
+	gens["EvictionPolicy"] = gen.PtrOf(gen.AlphaString())
 	gens["Port"] = gen.PtrOf(gen.Int())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_StatusCanceled,
-		ProvisioningState_StatusCreating,
-		ProvisioningState_StatusDeleting,
-		ProvisioningState_StatusFailed,
-		ProvisioningState_StatusSucceeded,
-		ProvisioningState_StatusUpdating))
-	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ResourceState_StatusCreateFailed,
-		ResourceState_StatusCreating,
-		ResourceState_StatusDeleteFailed,
-		ResourceState_StatusDeleting,
-		ResourceState_StatusDisableFailed,
-		ResourceState_StatusDisabled,
-		ResourceState_StatusDisabling,
-		ResourceState_StatusEnableFailed,
-		ResourceState_StatusEnabling,
-		ResourceState_StatusRunning,
-		ResourceState_StatusUpdateFailed,
-		ResourceState_StatusUpdating))
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["ResourceState"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForDatabaseProperties_StatusARM is a factory method for creating gopter generators
@@ -317,7 +291,7 @@ func Persistence_StatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPersistence_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPersistence_StatusARM(gens map[string]gopter.Gen) {
 	gens["AofEnabled"] = gen.PtrOf(gen.Bool())
-	gens["AofFrequency"] = gen.PtrOf(gen.OneConstOf(Persistence_AofFrequency_Status1S, Persistence_AofFrequency_StatusAlways))
+	gens["AofFrequency"] = gen.PtrOf(gen.AlphaString())
 	gens["RdbEnabled"] = gen.PtrOf(gen.Bool())
-	gens["RdbFrequency"] = gen.PtrOf(gen.OneConstOf(Persistence_RdbFrequency_Status12H, Persistence_RdbFrequency_Status1H, Persistence_RdbFrequency_Status6H))
+	gens["RdbFrequency"] = gen.PtrOf(gen.AlphaString())
 }

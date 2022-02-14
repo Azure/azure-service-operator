@@ -73,8 +73,87 @@ func DomainGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForDomain is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDomain(gens map[string]gopter.Gen) {
-	gens["Spec"] = Domains_SPECGenerator()
+	gens["Spec"] = Domain_SpecGenerator()
 	gens["Status"] = Domain_StatusGenerator()
+}
+
+func Test_Domain_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Domain_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDomain_Spec, Domain_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDomain_Spec runs a test to see if a specific instance of Domain_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDomain_Spec(subject Domain_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Domain_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Domain_Spec instances for property testing - lazily instantiated by Domain_SpecGenerator()
+var domain_specGenerator gopter.Gen
+
+// Domain_SpecGenerator returns a generator of Domain_Spec instances for property testing.
+// We first initialize domain_specGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Domain_SpecGenerator() gopter.Gen {
+	if domain_specGenerator != nil {
+		return domain_specGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDomain_Spec(generators)
+	domain_specGenerator = gen.Struct(reflect.TypeOf(Domain_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDomain_Spec(generators)
+	AddRelatedPropertyGeneratorsForDomain_Spec(generators)
+	domain_specGenerator = gen.Struct(reflect.TypeOf(Domain_Spec{}), generators)
+
+	return domain_specGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDomain_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDomain_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["InputSchema"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForDomain_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDomain_Spec(gens map[string]gopter.Gen) {
+	gens["InboundIpRules"] = gen.SliceOf(InboundIpRuleGenerator())
+	gens["InputSchemaMapping"] = gen.PtrOf(InputSchemaMappingGenerator())
 }
 
 func Test_Domain_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -162,19 +241,19 @@ func AddRelatedPropertyGeneratorsForDomain_Status(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemData_StatusGenerator())
 }
 
-func Test_Domains_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_InboundIpRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Domains_SPEC via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDomains_SPEC, Domains_SPECGenerator()))
+		"Round trip of InboundIpRule via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForInboundIpRule, InboundIpRuleGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDomains_SPEC runs a test to see if a specific instance of Domains_SPEC round trips to JSON and back losslessly
-func RunJSONSerializationTestForDomains_SPEC(subject Domains_SPEC) string {
+// RunJSONSerializationTestForInboundIpRule runs a test to see if a specific instance of InboundIpRule round trips to JSON and back losslessly
+func RunJSONSerializationTestForInboundIpRule(subject InboundIpRule) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -182,7 +261,7 @@ func RunJSONSerializationTestForDomains_SPEC(subject Domains_SPEC) string {
 	}
 
 	// Deserialize back into memory
-	var actual Domains_SPEC
+	var actual InboundIpRule
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -200,103 +279,24 @@ func RunJSONSerializationTestForDomains_SPEC(subject Domains_SPEC) string {
 	return ""
 }
 
-// Generator of Domains_SPEC instances for property testing - lazily instantiated by Domains_SPECGenerator()
-var domains_specGenerator gopter.Gen
+// Generator of InboundIpRule instances for property testing - lazily instantiated by InboundIpRuleGenerator()
+var inboundIpRuleGenerator gopter.Gen
 
-// Domains_SPECGenerator returns a generator of Domains_SPEC instances for property testing.
-// We first initialize domains_specGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Domains_SPECGenerator() gopter.Gen {
-	if domains_specGenerator != nil {
-		return domains_specGenerator
+// InboundIpRuleGenerator returns a generator of InboundIpRule instances for property testing.
+func InboundIpRuleGenerator() gopter.Gen {
+	if inboundIpRuleGenerator != nil {
+		return inboundIpRuleGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDomains_SPEC(generators)
-	domains_specGenerator = gen.Struct(reflect.TypeOf(Domains_SPEC{}), generators)
+	AddIndependentPropertyGeneratorsForInboundIpRule(generators)
+	inboundIpRuleGenerator = gen.Struct(reflect.TypeOf(InboundIpRule{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDomains_SPEC(generators)
-	AddRelatedPropertyGeneratorsForDomains_SPEC(generators)
-	domains_specGenerator = gen.Struct(reflect.TypeOf(Domains_SPEC{}), generators)
-
-	return domains_specGenerator
+	return inboundIpRuleGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDomains_SPEC is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDomains_SPEC(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["InputSchema"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDomains_SPEC is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDomains_SPEC(gens map[string]gopter.Gen) {
-	gens["InboundIpRules"] = gen.SliceOf(InboundIpRule_SpecGenerator())
-	gens["InputSchemaMapping"] = gen.PtrOf(InputSchemaMapping_SpecGenerator())
-}
-
-func Test_InboundIpRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of InboundIpRule_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForInboundIpRule_Spec, InboundIpRule_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForInboundIpRule_Spec runs a test to see if a specific instance of InboundIpRule_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForInboundIpRule_Spec(subject InboundIpRule_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual InboundIpRule_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of InboundIpRule_Spec instances for property testing - lazily instantiated by InboundIpRule_SpecGenerator()
-var inboundIpRule_specGenerator gopter.Gen
-
-// InboundIpRule_SpecGenerator returns a generator of InboundIpRule_Spec instances for property testing.
-func InboundIpRule_SpecGenerator() gopter.Gen {
-	if inboundIpRule_specGenerator != nil {
-		return inboundIpRule_specGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForInboundIpRule_Spec(generators)
-	inboundIpRule_specGenerator = gen.Struct(reflect.TypeOf(InboundIpRule_Spec{}), generators)
-
-	return inboundIpRule_specGenerator
-}
-
-// AddIndependentPropertyGeneratorsForInboundIpRule_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForInboundIpRule_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForInboundIpRule is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForInboundIpRule(gens map[string]gopter.Gen) {
 	gens["Action"] = gen.PtrOf(gen.AlphaString())
 	gens["IpMask"] = gen.PtrOf(gen.AlphaString())
 }
@@ -362,19 +362,19 @@ func AddIndependentPropertyGeneratorsForInboundIpRule_Status(gens map[string]gop
 	gens["IpMask"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_InputSchemaMapping_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_InputSchemaMapping_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of InputSchemaMapping_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForInputSchemaMapping_Spec, InputSchemaMapping_SpecGenerator()))
+		"Round trip of InputSchemaMapping via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForInputSchemaMapping, InputSchemaMappingGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForInputSchemaMapping_Spec runs a test to see if a specific instance of InputSchemaMapping_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForInputSchemaMapping_Spec(subject InputSchemaMapping_Spec) string {
+// RunJSONSerializationTestForInputSchemaMapping runs a test to see if a specific instance of InputSchemaMapping round trips to JSON and back losslessly
+func RunJSONSerializationTestForInputSchemaMapping(subject InputSchemaMapping) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -382,7 +382,7 @@ func RunJSONSerializationTestForInputSchemaMapping_Spec(subject InputSchemaMappi
 	}
 
 	// Deserialize back into memory
-	var actual InputSchemaMapping_Spec
+	var actual InputSchemaMapping
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -400,25 +400,24 @@ func RunJSONSerializationTestForInputSchemaMapping_Spec(subject InputSchemaMappi
 	return ""
 }
 
-// Generator of InputSchemaMapping_Spec instances for property testing - lazily instantiated by
-//InputSchemaMapping_SpecGenerator()
-var inputSchemaMapping_specGenerator gopter.Gen
+// Generator of InputSchemaMapping instances for property testing - lazily instantiated by InputSchemaMappingGenerator()
+var inputSchemaMappingGenerator gopter.Gen
 
-// InputSchemaMapping_SpecGenerator returns a generator of InputSchemaMapping_Spec instances for property testing.
-func InputSchemaMapping_SpecGenerator() gopter.Gen {
-	if inputSchemaMapping_specGenerator != nil {
-		return inputSchemaMapping_specGenerator
+// InputSchemaMappingGenerator returns a generator of InputSchemaMapping instances for property testing.
+func InputSchemaMappingGenerator() gopter.Gen {
+	if inputSchemaMappingGenerator != nil {
+		return inputSchemaMappingGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForInputSchemaMapping_Spec(generators)
-	inputSchemaMapping_specGenerator = gen.Struct(reflect.TypeOf(InputSchemaMapping_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForInputSchemaMapping(generators)
+	inputSchemaMappingGenerator = gen.Struct(reflect.TypeOf(InputSchemaMapping{}), generators)
 
-	return inputSchemaMapping_specGenerator
+	return inputSchemaMappingGenerator
 }
 
-// AddIndependentPropertyGeneratorsForInputSchemaMapping_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForInputSchemaMapping_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForInputSchemaMapping is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForInputSchemaMapping(gens map[string]gopter.Gen) {
 	gens["InputSchemaMappingType"] = gen.PtrOf(gen.AlphaString())
 }
 

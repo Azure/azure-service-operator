@@ -53,12 +53,12 @@ func LoadTypesFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 				return nil, errors.Errorf("Failed to load swagger information")
 			}
 
-			statusTypes, err := generateStatusTypes(swaggerTypes)
+			resourceToStatus, statusTypes, err := generateStatusTypes(swaggerTypes)
 			if err != nil {
 				return nil, err
 			}
 
-			specTypes, err := generateSpecTypes(swaggerTypes)
+			resourceToSpec, specTypes, err := generateSpecTypes(swaggerTypes)
 			if err != nil {
 				return nil, err
 			}
@@ -68,8 +68,8 @@ func LoadTypesFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 			// all non-resources from Swagger are added regardless of whether they are used
 			// if they are not used they will be pruned off by a later pipeline stage
 			// (there will be no name clashes here due to suffixing with "_Status")
-			newTypes.AddTypes(statusTypes.otherTypes)
-			newTypes.AddTypes(specTypes.otherTypes)
+			newTypes.AddTypes(statusTypes)
+			newTypes.AddTypes(specTypes)
 
 			apiVersionTypes := make(map[astmodel.PackageReference]struct {
 				Type  astmodel.TypeName
@@ -77,13 +77,14 @@ func LoadTypesFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 			})
 
 			for resourceName, resourceInfo := range swaggerTypes.ResourceTypes {
-				spec, specOk := specTypes.findResourceType(resourceName)
-				status, statusOk := statusTypes.findResourceType(resourceName)
+				spec, specOk := resourceToSpec.TryGet(resourceName)
+				status, statusOk := resourceToStatus.TryGet(resourceName)
 				if !specOk || !statusOk {
 					panic("bad stuff happened")
 				}
 
-				spec = addRequiredSpecFields(spec)
+				specType := addRequiredSpecFields(spec.Type())
+				statusType := status.Type()
 
 				// see if we have built API Version type
 				apiVersion, ok := apiVersionTypes[resourceName.PackageReference]
@@ -109,19 +110,22 @@ func LoadTypesFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 				}
 
 				resourceType := astmodel.
-					NewResourceType(spec, status).
+					NewResourceType(specType, statusType).
 					WithAPIVersion(apiVersion.Type, apiVersion.Value).
 					WithARMType(resourceInfo.ARMURI.GetARMType())
 
 				sourceFile := strings.TrimPrefix(resourceInfo.SourceFile, config.SchemaRoot)
 
-				newTypes.Add(astmodel.
+				err := newTypes.AddAllowDuplicates(astmodel.
 					MakeTypeDefinition(resourceName, resourceType).
 					WithDescription([]string{
 						"Generator information:",
 						fmt.Sprintf(" - Generated from: %s", sourceFile),
 						fmt.Sprintf(" - ARM URI: %s", resourceInfo.ARMURI.Path),
 					}))
+				if err != nil {
+					return nil, err
+				}
 			}
 
 			klog.V(1).Infof("Input %d types, output %d types", len(types), len(newTypes))
@@ -158,59 +162,82 @@ func addRequiredSpecFields(t astmodel.Type) astmodel.Type {
 	return astmodel.BuildAllOfType(t, requiredSpecFields)
 }
 
-type statusTypes struct {
-	// resourceTypes maps Spec name to corresponding Status type
-	// the typeName is lowercased to be case-insensitive
-	resourceTypes resourceLookup
-
-	// otherTypes has all other Status types renamed to avoid clashes with Spec Types
-	otherTypes astmodel.Types
-}
-
-func (st statusTypes) findResourceType(typeName astmodel.TypeName) (astmodel.Type, bool) {
-	if statusDef, ok := st.resourceTypes.tryFind(typeName); ok {
-		klog.V(4).Infof("Swagger information found for %s", typeName)
-		return statusDef, true
-	} else {
-		klog.V(3).Infof("Swagger information missing for %s", typeName)
-		// add a warning that the status is missing
-		// this will be reported if the type is not pruned
-		return astmodel.NewErroredType(nil, []string{fmt.Sprintf("missing status information for %s", typeName)}, nil), false
-	}
-}
-
-type resourceLookup map[astmodel.TypeName]astmodel.Type
-
-func lowerCase(name astmodel.TypeName) astmodel.TypeName {
-	return astmodel.MakeTypeName(name.PackageReference, strings.ToLower(name.Name()))
-}
-
-func (resourceLookup resourceLookup) tryFind(name astmodel.TypeName) (astmodel.Type, bool) {
-	result, ok := resourceLookup[lowerCase(name)]
-	return result, ok
-}
-
-func (resourceLookup resourceLookup) add(name astmodel.TypeName, theType astmodel.Type) {
-	lower := lowerCase(name)
-	if _, ok := resourceLookup[lower]; ok {
-		panic(fmt.Sprintf("lowercase name collision: %s", name))
-	}
-
-	resourceLookup[lower] = theType
-}
-
 // generateStatusTypes returns the statusTypes for the input Swagger types
 // all types (apart from Resources) are renamed to have "_Status" as a
 // suffix, to avoid name clashes.
-func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (statusTypes, error) {
+func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.Types, astmodel.Types, error) {
 	return renamed(swaggerTypes, "_Status")
 }
 
-func generateSpecTypes(swaggerTypes jsonast.SwaggerTypes) (statusTypes, error) {
-	result, err := renamed(swaggerTypes, "_Spec")
+func generateSpecTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.Types, astmodel.Types, error) {
+	resources, otherTypes, err := renamed(swaggerTypes, "") // TODO: I think this should be renamed to "_Spec" for consistency, but will do in a separate PR for cleanliness
 	if err != nil {
-		return statusTypes{}, err
+		return nil, nil, err
 	}
+
+	// Fix-up: rename top-level resource types so that a Resource
+	// always points to a _Spec type.
+	// TODO: remove once preceding TODO is resolved and everything is consistently named _Spec
+	{
+		renames := make(map[astmodel.TypeName]astmodel.TypeName)
+		for typeName := range otherTypes {
+			if _, ok := resources[typeName]; ok {
+				// would be a clash with resource name
+				renames[typeName] = typeName.WithName(typeName.Name() + "Spec")
+			}
+		}
+
+		renamer := astmodel.NewRenamingVisitor(renames)
+		newOtherTypes, renameErr := renamer.RenameAll(otherTypes)
+		if renameErr != nil {
+			panic(renameErr)
+		}
+
+		otherTypes = newOtherTypes
+
+		// for resources we must only rename the Type not the Name,
+		// since this is used as a lookup:
+		newResources := make(astmodel.Types)
+		for rName, rType := range resources {
+			newType, renameErr := renamer.Rename(rType.Type())
+			if renameErr != nil {
+				panic(renameErr)
+			}
+			newResources.Add(astmodel.MakeTypeDefinition(rName, newType))
+		}
+
+		resources = newResources
+	}
+
+	/*
+		{
+			// Sorry, this is a bit yuck:
+
+			// remember that this is a mapping from ResourceName to Spec Type,
+			// so we don't want to change ResourceName, just what it points to
+			newResourceTypes := make(astmodel.Types)
+			renames := make(map[astmodel.TypeName]astmodel.TypeName)
+			for rName, rDef := range resources {
+				// klog.Infof("Resource: %s (%s)", rName.Name(), rName)
+				if tn, ok := rDef.Type().(astmodel.TypeName); ok {
+					newName := tn.WithName(rName.Name() + "_Spec")
+					renames[tn] = newName
+					newResourceTypes.Add(astmodel.MakeTypeDefinition(rName, newName))
+				} else {
+					panic("also here")
+				}
+			}
+			resources = newResourceTypes
+
+			// also apply any renames generated to the otherTypes
+			renamer := astmodel.NewRenamingVisitor(renames)
+			newOtherTypes, renameErr := renamer.RenameAll(otherTypes)
+			if err != nil {
+				return nil, nil, renameErr
+			}
+			otherTypes = newOtherTypes
+		}
+	*/
 
 	rewriter := astmodel.TypeVisitorBuilder{
 		VisitObjectType: func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
@@ -225,19 +252,17 @@ func generateSpecTypes(swaggerTypes jsonast.SwaggerTypes) (statusTypes, error) {
 		},
 	}.Build()
 
-	otherTypes, err := rewriter.VisitDefinitions(result.otherTypes, nil)
+	otherTypes, err = rewriter.VisitDefinitions(otherTypes, nil)
 	if err != nil {
-		return statusTypes{}, err
+		return nil, nil, err
 	}
 
-	result.otherTypes = otherTypes
-
-	return result, nil
+	return resources, otherTypes, nil
 }
 
-func renamed(swaggerTypes jsonast.SwaggerTypes, suffix string) (statusTypes, error) {
+func renamed(swaggerTypes jsonast.SwaggerTypes, suffix string) (astmodel.Types, astmodel.Types, error) {
 	renamer := astmodel.NewRenamingVisitorFromLambda(func(typeName astmodel.TypeName) astmodel.TypeName {
-		return astmodel.MakeTypeName(typeName.PackageReference, typeName.Name()+suffix)
+		return typeName.WithName(typeName.Name() + suffix)
 	})
 
 	var errs []error
@@ -251,23 +276,23 @@ func renamed(swaggerTypes jsonast.SwaggerTypes, suffix string) (statusTypes, err
 		}
 	}
 
-	resources := make(resourceLookup)
+	resources := make(astmodel.Types)
 	for resourceName, resourceDef := range swaggerTypes.ResourceTypes {
 		// resourceName is not renamed as this is a lookup for the resource type
 		renamedType, err := renamer.Rename(resourceDef.Type)
 		if err != nil {
 			errs = append(errs, err)
 		} else {
-			resources.add(resourceName, renamedType)
+			resources.Add(astmodel.MakeTypeDefinition(resourceName, renamedType))
 		}
 	}
 
 	err := kerrors.NewAggregate(errs)
 	if err != nil {
-		return statusTypes{}, err
+		return nil, nil, err
 	}
 
-	return statusTypes{resources, otherTypes}, nil
+	return resources, otherTypes, nil
 }
 
 func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, config *config.Configuration) (jsonast.SwaggerTypes, error) {

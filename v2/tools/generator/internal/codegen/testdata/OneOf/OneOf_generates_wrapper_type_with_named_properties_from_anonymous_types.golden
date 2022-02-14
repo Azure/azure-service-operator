@@ -12,7 +12,7 @@ type Test struct {
 	Foo *Foo `json:"foo,omitempty"`
 
 	//Object2: Mutually exclusive with all other properties
-	Object2 *Test_Object2 `json:"object2,omitempty"`
+	Object2 *TestObject2 `json:"object2,omitempty"`
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
@@ -20,6 +20,6 @@ type Foo struct {
 	Name *string `json:"name,omitempty"`
 }
 
-type Test_Object2 struct {
+type TestObject2 struct {
 	Foo *string `json:"foo,omitempty"`
 }

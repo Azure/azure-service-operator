@@ -28,7 +28,7 @@ import (
 type PublicIPAddress struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              PublicIPAddresses_SPEC                                     `json:"spec,omitempty"`
+	Spec              PublicIPAddress_Spec                                       `json:"spec,omitempty"`
 	Status            PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded `json:"status,omitempty"`
 }
 
@@ -133,6 +133,58 @@ type PublicIPAddressList struct {
 	Items           []PublicIPAddress `json:"items"`
 }
 
+//Storage version of v1alpha1api20201101.PublicIPAddress_Spec
+type PublicIPAddress_Spec struct {
+	//AzureName: The name of the resource in Azure. This is often the same as the name
+	//of the resource in Kubernetes but it doesn't have to be.
+	AzureName             string                                   `json:"azureName"`
+	DdosSettings          *DdosSettings                            `json:"ddosSettings,omitempty"`
+	DnsSettings           *PublicIPAddressDnsSettings              `json:"dnsSettings,omitempty"`
+	ExtendedLocation      *ExtendedLocation                        `json:"extendedLocation,omitempty"`
+	IdleTimeoutInMinutes  *int                                     `json:"idleTimeoutInMinutes,omitempty"`
+	IpAddress             *string                                  `json:"ipAddress,omitempty"`
+	IpTags                []IpTag                                  `json:"ipTags,omitempty"`
+	LinkedPublicIPAddress *PublicIPAddressSpec_SubResourceEmbedded `json:"linkedPublicIPAddress,omitempty"`
+	Location              *string                                  `json:"location,omitempty"`
+	MigrationPhase        *string                                  `json:"migrationPhase,omitempty"`
+	NatGateway            *NatGatewaySpec                          `json:"natGateway,omitempty"`
+	OriginalVersion       string                                   `json:"originalVersion"`
+
+	// +kubebuilder:validation:Required
+	Owner                    genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	PropertyBag              genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	PublicIPAddressVersion   *string                           `json:"publicIPAddressVersion,omitempty"`
+	PublicIPAllocationMethod *string                           `json:"publicIPAllocationMethod,omitempty"`
+	PublicIPPrefix           *SubResource                      `json:"publicIPPrefix,omitempty"`
+
+	//Reference: Resource ID.
+	Reference              *genruntime.ResourceReference            `armReference:"Id" json:"reference,omitempty"`
+	ServicePublicIPAddress *PublicIPAddressSpec_SubResourceEmbedded `json:"servicePublicIPAddress,omitempty"`
+	Sku                    *PublicIPAddressSku                      `json:"sku,omitempty"`
+	Tags                   map[string]string                        `json:"tags,omitempty"`
+	Zones                  []string                                 `json:"zones,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &PublicIPAddress_Spec{}
+
+// ConvertSpecFrom populates our PublicIPAddress_Spec from the provided source
+func (address *PublicIPAddress_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == address {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(address)
+}
+
+// ConvertSpecTo populates the provided destination from our PublicIPAddress_Spec
+func (address *PublicIPAddress_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == address {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(address)
+}
+
 //Storage version of v1alpha1api20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
 type PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded struct {
 	Conditions               []conditions.Condition                                      `json:"conditions,omitempty"`
@@ -181,61 +233,9 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Conv
 	return destination.ConvertStatusFrom(embedded)
 }
 
-//Storage version of v1alpha1api20201101.PublicIPAddresses_SPEC
-type PublicIPAddresses_SPEC struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName             string                                    `json:"azureName"`
-	DdosSettings          *DdosSettings_Spec                        `json:"ddosSettings,omitempty"`
-	DnsSettings           *PublicIPAddressDnsSettings_Spec          `json:"dnsSettings,omitempty"`
-	ExtendedLocation      *ExtendedLocation_Spec                    `json:"extendedLocation,omitempty"`
-	IdleTimeoutInMinutes  *int                                      `json:"idleTimeoutInMinutes,omitempty"`
-	IpAddress             *string                                   `json:"ipAddress,omitempty"`
-	IpTags                []IpTag_Spec                              `json:"ipTags,omitempty"`
-	LinkedPublicIPAddress *PublicIPAddress_Spec_SubResourceEmbedded `json:"linkedPublicIPAddress,omitempty"`
-	Location              *string                                   `json:"location,omitempty"`
-	MigrationPhase        *string                                   `json:"migrationPhase,omitempty"`
-	NatGateway            *NatGateway_Spec                          `json:"natGateway,omitempty"`
-	OriginalVersion       string                                    `json:"originalVersion"`
-
-	// +kubebuilder:validation:Required
-	Owner                    genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PropertyBag              genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	PublicIPAddressVersion   *string                           `json:"publicIPAddressVersion,omitempty"`
-	PublicIPAllocationMethod *string                           `json:"publicIPAllocationMethod,omitempty"`
-	PublicIPPrefix           *SubResource_Spec                 `json:"publicIPPrefix,omitempty"`
-
-	//Reference: Resource ID.
-	Reference              *genruntime.ResourceReference             `armReference:"Id" json:"reference,omitempty"`
-	ServicePublicIPAddress *PublicIPAddress_Spec_SubResourceEmbedded `json:"servicePublicIPAddress,omitempty"`
-	Sku                    *PublicIPAddressSku_Spec                  `json:"sku,omitempty"`
-	Tags                   map[string]string                         `json:"tags,omitempty"`
-	Zones                  []string                                  `json:"zones,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &PublicIPAddresses_SPEC{}
-
-// ConvertSpecFrom populates our PublicIPAddresses_SPEC from the provided source
-func (spec *PublicIPAddresses_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(spec)
-}
-
-// ConvertSpecTo populates the provided destination from our PublicIPAddresses_SPEC
-func (spec *PublicIPAddresses_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(spec)
-}
-
-//Storage version of v1alpha1api20201101.DdosSettings_Spec
-type DdosSettings_Spec struct {
-	DdosCustomPolicy   *SubResource_Spec      `json:"ddosCustomPolicy,omitempty"`
+//Storage version of v1alpha1api20201101.DdosSettings
+type DdosSettings struct {
+	DdosCustomPolicy   *SubResource           `json:"ddosCustomPolicy,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ProtectedIP        *bool                  `json:"protectedIP,omitempty"`
 	ProtectionCoverage *string                `json:"protectionCoverage,omitempty"`
@@ -261,8 +261,8 @@ type IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded struct {
 	Subnet                    *Subnet_Status_PublicIPAddress_SubResourceEmbedded `json:"subnet,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.IpTag_Spec
-type IpTag_Spec struct {
+//Storage version of v1alpha1api20201101.IpTag
+type IpTag struct {
 	IpTagType   *string                `json:"ipTagType,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tag         *string                `json:"tag,omitempty"`
@@ -275,17 +275,17 @@ type IpTag_Status struct {
 	Tag         *string                `json:"tag,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.NatGateway_Spec
-type NatGateway_Spec struct {
+//Storage version of v1alpha1api20201101.NatGatewaySpec
+type NatGatewaySpec struct {
 	IdleTimeoutInMinutes *int                   `json:"idleTimeoutInMinutes,omitempty"`
 	Location             *string                `json:"location,omitempty"`
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	PublicIpAddresses    []SubResource_Spec     `json:"publicIpAddresses,omitempty"`
-	PublicIpPrefixes     []SubResource_Spec     `json:"publicIpPrefixes,omitempty"`
+	PublicIpAddresses    []SubResource          `json:"publicIpAddresses,omitempty"`
+	PublicIpPrefixes     []SubResource          `json:"publicIpPrefixes,omitempty"`
 
 	//Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Sku       *NatGatewaySku_Spec           `json:"sku,omitempty"`
+	Sku       *NatGatewaySku                `json:"sku,omitempty"`
 	Tags      map[string]string             `json:"tags,omitempty"`
 	Zones     []string                      `json:"zones,omitempty"`
 }
@@ -298,8 +298,8 @@ type NatGateway_Status_PublicIPAddress_SubResourceEmbedded struct {
 	Zones       []string               `json:"zones,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.PublicIPAddressDnsSettings_Spec
-type PublicIPAddressDnsSettings_Spec struct {
+//Storage version of v1alpha1api20201101.PublicIPAddressDnsSettings
+type PublicIPAddressDnsSettings struct {
 	DomainNameLabel *string                `json:"domainNameLabel,omitempty"`
 	Fqdn            *string                `json:"fqdn,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -314,8 +314,8 @@ type PublicIPAddressDnsSettings_Status struct {
 	ReverseFqdn     *string                `json:"reverseFqdn,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.PublicIPAddressSku_Spec
-type PublicIPAddressSku_Spec struct {
+//Storage version of v1alpha1api20201101.PublicIPAddressSku
+type PublicIPAddressSku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`
@@ -328,29 +328,29 @@ type PublicIPAddressSku_Status struct {
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.PublicIPAddress_Spec_SubResourceEmbedded
-type PublicIPAddress_Spec_SubResourceEmbedded struct {
-	ExtendedLocation *ExtendedLocation_Spec `json:"extendedLocation,omitempty"`
+//Storage version of v1alpha1api20201101.PublicIPAddressSpec_SubResourceEmbedded
+type PublicIPAddressSpec_SubResourceEmbedded struct {
+	ExtendedLocation *ExtendedLocation      `json:"extendedLocation,omitempty"`
 	Location         *string                `json:"location,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	//Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Sku       *PublicIPAddressSku_Spec      `json:"sku,omitempty"`
+	Sku       *PublicIPAddressSku           `json:"sku,omitempty"`
 	Tags      map[string]string             `json:"tags,omitempty"`
 	Zones     []string                      `json:"zones,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.SubResource_Spec
-type SubResource_Spec struct {
+//Storage version of v1alpha1api20201101.SubResource
+type SubResource struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	//Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.NatGatewaySku_Spec
-type NatGatewaySku_Spec struct {
+//Storage version of v1alpha1api20201101.NatGatewaySku
+type NatGatewaySku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }

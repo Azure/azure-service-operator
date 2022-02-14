@@ -28,8 +28,8 @@ import (
 type FlexibleServersDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FlexibleServersDatabases_SPEC `json:"spec,omitempty"`
-	Status            Database_Status               `json:"status,omitempty"`
+	Spec              FlexibleServersDatabase_Spec `json:"spec,omitempty"`
+	Status            Database_Status              `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FlexibleServersDatabase{}
@@ -165,8 +165,8 @@ func (database *Database_Status) ConvertStatusTo(destination genruntime.Converti
 	return destination.ConvertStatusFrom(database)
 }
 
-//Storage version of v1alpha1api20210501.FlexibleServersDatabases_SPEC
-type FlexibleServersDatabases_SPEC struct {
+//Storage version of v1alpha1api20210501.FlexibleServersDatabase_Spec
+type FlexibleServersDatabase_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName       string  `json:"azureName"`
@@ -179,24 +179,24 @@ type FlexibleServersDatabases_SPEC struct {
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &FlexibleServersDatabases_SPEC{}
+var _ genruntime.ConvertibleSpec = &FlexibleServersDatabase_Spec{}
 
-// ConvertSpecFrom populates our FlexibleServersDatabases_SPEC from the provided source
-func (spec *FlexibleServersDatabases_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our FlexibleServersDatabase_Spec from the provided source
+func (database *FlexibleServersDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(database)
 }
 
-// ConvertSpecTo populates the provided destination from our FlexibleServersDatabases_SPEC
-func (spec *FlexibleServersDatabases_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our FlexibleServersDatabase_Spec
+func (database *FlexibleServersDatabase_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(database)
 }
 
 func init() {

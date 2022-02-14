@@ -26,8 +26,8 @@ func Test_Networking_NetworkSecurityGroup_CRUD(t *testing.T) {
 	// Network Security Group
 	nsg := &network.NetworkSecurityGroup{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("nsg")),
-		Spec: network.NetworkSecurityGroups_Spec{
-			Location: tc.AzureRegion,
+		Spec: network.NetworkSecurityGroup_Spec{
+			Location: &tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 		},
 	}
@@ -58,34 +58,38 @@ func Test_Networking_NetworkSecurityGroup_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(nsg)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.NetworkSecurityGroupsSecurityRulesSpecAPIVersion20201101))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
 }
 
 func NetworkSecurityGroup_SecurityRules_CRUD(tc *testcommon.KubePerTestContext, nsg client.Object) {
+	protocolTcp := network.SecurityRulePropertiesFormatProtocolTcp
+	accessAllow := network.SecurityRuleAccessAllow
+	directionInbound := network.SecurityRuleDirectionInbound
 	rule1 := &network.NetworkSecurityGroupsSecurityRule{
 		ObjectMeta: tc.MakeObjectMeta("rule1"),
-		Spec: network.NetworkSecurityGroupsSecurityRules_Spec{
+		Spec: network.NetworkSecurityGroupsSecurityRule_Spec{
 			Owner:                    testcommon.AsOwner(nsg),
-			Protocol:                 network.SecurityRulePropertiesFormatProtocolTcp,
+			Protocol:                 &protocolTcp,
 			SourcePortRange:          to.StringPtr("23-45"),
 			DestinationPortRange:     to.StringPtr("46-56"),
 			SourceAddressPrefix:      to.StringPtr("*"),
 			DestinationAddressPrefix: to.StringPtr("*"),
-			Access:                   network.SecurityRulePropertiesFormatAccessAllow,
-			Priority:                 123,
-			Direction:                network.SecurityRulePropertiesFormatDirectionInbound,
+			Access:                   &accessAllow,
+			Priority:                 to.IntPtr(123),
+			Direction:                &directionInbound,
 			Description:              to.StringPtr("The first rule of networking is don't talk about networking"),
 		},
 	}
 
+	accessDeny := network.SecurityRuleAccessDeny
 	rule2 := &network.NetworkSecurityGroupsSecurityRule{
 		ObjectMeta: tc.MakeObjectMeta("rule2"),
-		Spec: network.NetworkSecurityGroupsSecurityRules_Spec{
+		Spec: network.NetworkSecurityGroupsSecurityRule_Spec{
 			Owner:    testcommon.AsOwner(nsg),
-			Protocol: network.SecurityRulePropertiesFormatProtocolTcp,
+			Protocol: &protocolTcp,
 			SourcePortRanges: []string{
 				"23-45",
 				"5000-5100",
@@ -93,9 +97,9 @@ func NetworkSecurityGroup_SecurityRules_CRUD(tc *testcommon.KubePerTestContext, 
 			DestinationPortRange:     to.StringPtr("*"),
 			SourceAddressPrefix:      to.StringPtr("*"),
 			DestinationAddressPrefix: to.StringPtr("*"),
-			Access:                   network.SecurityRulePropertiesFormatAccessDeny,
-			Priority:                 124,
-			Direction:                network.SecurityRulePropertiesFormatDirectionInbound,
+			Access:                   &accessDeny,
+			Priority:                 to.IntPtr(124),
+			Direction:                &directionInbound,
 		},
 	}
 
@@ -116,7 +120,7 @@ func NetworkSecurityGroup_SecurityRules_CRUD(tc *testcommon.KubePerTestContext, 
 	// Perform a simple patch
 	old := rule1.DeepCopy()
 	newPriority := 100
-	rule1.Spec.Priority = newPriority
+	rule1.Spec.Priority = &newPriority
 	tc.PatchResourceAndWait(old, rule1)
 	tc.Expect(rule1.Status.Priority).To(Equal(&newPriority))
 }

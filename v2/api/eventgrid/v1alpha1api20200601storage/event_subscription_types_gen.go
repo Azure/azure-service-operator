@@ -28,7 +28,7 @@ import (
 type EventSubscription struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              EventSubscriptions_SPEC  `json:"spec,omitempty"`
+	Spec              EventSubscription_Spec   `json:"spec,omitempty"`
 	Status            EventSubscription_Status `json:"status,omitempty"`
 }
 
@@ -133,6 +133,45 @@ type EventSubscriptionList struct {
 	Items           []EventSubscription `json:"items"`
 }
 
+//Storage version of v1alpha1api20200601.EventSubscription_Spec
+type EventSubscription_Spec struct {
+	//AzureName: The name of the resource in Azure. This is often the same as the name
+	//of the resource in Kubernetes but it doesn't have to be.
+	AzureName             string                        `json:"azureName"`
+	DeadLetterDestination *DeadLetterDestination        `json:"deadLetterDestination,omitempty"`
+	Destination           *EventSubscriptionDestination `json:"destination,omitempty"`
+	EventDeliverySchema   *string                       `json:"eventDeliverySchema,omitempty"`
+	ExpirationTimeUtc     *string                       `json:"expirationTimeUtc,omitempty"`
+	Filter                *EventSubscriptionFilter      `json:"filter,omitempty"`
+	Labels                []string                      `json:"labels,omitempty"`
+	OriginalVersion       string                        `json:"originalVersion"`
+
+	// +kubebuilder:validation:Required
+	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	RetryPolicy *RetryPolicy                      `json:"retryPolicy,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &EventSubscription_Spec{}
+
+// ConvertSpecFrom populates our EventSubscription_Spec from the provided source
+func (subscription *EventSubscription_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == subscription {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(subscription)
+}
+
+// ConvertSpecTo populates the provided destination from our EventSubscription_Spec
+func (subscription *EventSubscription_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == subscription {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(subscription)
+}
+
 //Storage version of v1alpha1api20200601.EventSubscription_Status
 type EventSubscription_Status struct {
 	Conditions            []conditions.Condition               `json:"conditions,omitempty"`
@@ -172,47 +211,8 @@ func (subscription *EventSubscription_Status) ConvertStatusTo(destination genrun
 	return destination.ConvertStatusFrom(subscription)
 }
 
-//Storage version of v1alpha1api20200601.EventSubscriptions_SPEC
-type EventSubscriptions_SPEC struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName             string                             `json:"azureName"`
-	DeadLetterDestination *DeadLetterDestination_Spec        `json:"deadLetterDestination,omitempty"`
-	Destination           *EventSubscriptionDestination_Spec `json:"destination,omitempty"`
-	EventDeliverySchema   *string                            `json:"eventDeliverySchema,omitempty"`
-	ExpirationTimeUtc     *string                            `json:"expirationTimeUtc,omitempty"`
-	Filter                *EventSubscriptionFilter_Spec      `json:"filter,omitempty"`
-	Labels                []string                           `json:"labels,omitempty"`
-	OriginalVersion       string                             `json:"originalVersion"`
-
-	// +kubebuilder:validation:Required
-	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	RetryPolicy *RetryPolicy_Spec                 `json:"retryPolicy,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &EventSubscriptions_SPEC{}
-
-// ConvertSpecFrom populates our EventSubscriptions_SPEC from the provided source
-func (spec *EventSubscriptions_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(spec)
-}
-
-// ConvertSpecTo populates the provided destination from our EventSubscriptions_SPEC
-func (spec *EventSubscriptions_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(spec)
-}
-
-//Storage version of v1alpha1api20200601.DeadLetterDestination_Spec
-type DeadLetterDestination_Spec struct {
+//Storage version of v1alpha1api20200601.DeadLetterDestination
+type DeadLetterDestination struct {
 	EndpointType *string                `json:"endpointType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -223,8 +223,8 @@ type DeadLetterDestination_Status struct {
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20200601.EventSubscriptionDestination_Spec
-type EventSubscriptionDestination_Spec struct {
+//Storage version of v1alpha1api20200601.EventSubscriptionDestination
+type EventSubscriptionDestination struct {
 	EndpointType *string                `json:"endpointType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -235,9 +235,9 @@ type EventSubscriptionDestination_Status struct {
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20200601.EventSubscriptionFilter_Spec
-type EventSubscriptionFilter_Spec struct {
-	AdvancedFilters        []AdvancedFilter_Spec  `json:"advancedFilters,omitempty"`
+//Storage version of v1alpha1api20200601.EventSubscriptionFilter
+type EventSubscriptionFilter struct {
+	AdvancedFilters        []AdvancedFilter       `json:"advancedFilters,omitempty"`
 	IncludedEventTypes     []string               `json:"includedEventTypes,omitempty"`
 	IsSubjectCaseSensitive *bool                  `json:"isSubjectCaseSensitive,omitempty"`
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -255,8 +255,8 @@ type EventSubscriptionFilter_Status struct {
 	SubjectEndsWith        *string                 `json:"subjectEndsWith,omitempty"`
 }
 
-//Storage version of v1alpha1api20200601.RetryPolicy_Spec
-type RetryPolicy_Spec struct {
+//Storage version of v1alpha1api20200601.RetryPolicy
+type RetryPolicy struct {
 	EventTimeToLiveInMinutes *int                   `json:"eventTimeToLiveInMinutes,omitempty"`
 	MaxDeliveryAttempts      *int                   `json:"maxDeliveryAttempts,omitempty"`
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -269,8 +269,8 @@ type RetryPolicy_Status struct {
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20200601.AdvancedFilter_Spec
-type AdvancedFilter_Spec struct {
+//Storage version of v1alpha1api20200601.AdvancedFilter
+type AdvancedFilter struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`

@@ -73,8 +73,92 @@ func WorkspaceGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForWorkspace is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForWorkspace(gens map[string]gopter.Gen) {
-	gens["Spec"] = Workspaces_SPECGenerator()
+	gens["Spec"] = Workspace_SpecGenerator()
 	gens["Status"] = Workspace_StatusGenerator()
+}
+
+func Test_Workspace_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Workspace_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWorkspace_Spec, Workspace_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForWorkspace_Spec runs a test to see if a specific instance of Workspace_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForWorkspace_Spec(subject Workspace_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Workspace_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Workspace_Spec instances for property testing - lazily instantiated by Workspace_SpecGenerator()
+var workspace_specGenerator gopter.Gen
+
+// Workspace_SpecGenerator returns a generator of Workspace_Spec instances for property testing.
+// We first initialize workspace_specGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Workspace_SpecGenerator() gopter.Gen {
+	if workspace_specGenerator != nil {
+		return workspace_specGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForWorkspace_Spec(generators)
+	workspace_specGenerator = gen.Struct(reflect.TypeOf(Workspace_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForWorkspace_Spec(generators)
+	AddRelatedPropertyGeneratorsForWorkspace_Spec(generators)
+	workspace_specGenerator = gen.Struct(reflect.TypeOf(Workspace_Spec{}), generators)
+
+	return workspace_specGenerator
+}
+
+// AddIndependentPropertyGeneratorsForWorkspace_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWorkspace_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["ETag"] = gen.PtrOf(gen.AlphaString())
+	gens["ForceCmkForQuery"] = gen.PtrOf(gen.Bool())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.AlphaString())
+	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForWorkspace_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWorkspace_Spec(gens map[string]gopter.Gen) {
+	gens["Features"] = gen.PtrOf(WorkspaceFeaturesGenerator())
+	gens["Sku"] = gen.PtrOf(WorkspaceSkuGenerator())
+	gens["WorkspaceCapping"] = gen.PtrOf(WorkspaceCappingGenerator())
 }
 
 func Test_Workspace_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -166,90 +250,6 @@ func AddRelatedPropertyGeneratorsForWorkspace_Status(gens map[string]gopter.Gen)
 	gens["WorkspaceCapping"] = gen.PtrOf(WorkspaceCapping_StatusGenerator())
 }
 
-func Test_Workspaces_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Workspaces_SPEC via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspaces_SPEC, Workspaces_SPECGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForWorkspaces_SPEC runs a test to see if a specific instance of Workspaces_SPEC round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspaces_SPEC(subject Workspaces_SPEC) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Workspaces_SPEC
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Workspaces_SPEC instances for property testing - lazily instantiated by Workspaces_SPECGenerator()
-var workspaces_specGenerator gopter.Gen
-
-// Workspaces_SPECGenerator returns a generator of Workspaces_SPEC instances for property testing.
-// We first initialize workspaces_specGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Workspaces_SPECGenerator() gopter.Gen {
-	if workspaces_specGenerator != nil {
-		return workspaces_specGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaces_SPEC(generators)
-	workspaces_specGenerator = gen.Struct(reflect.TypeOf(Workspaces_SPEC{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaces_SPEC(generators)
-	AddRelatedPropertyGeneratorsForWorkspaces_SPEC(generators)
-	workspaces_specGenerator = gen.Struct(reflect.TypeOf(Workspaces_SPEC{}), generators)
-
-	return workspaces_specGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWorkspaces_SPEC is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaces_SPEC(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["ETag"] = gen.PtrOf(gen.AlphaString())
-	gens["ForceCmkForQuery"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.AlphaString())
-	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForWorkspaces_SPEC is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWorkspaces_SPEC(gens map[string]gopter.Gen) {
-	gens["Features"] = gen.PtrOf(WorkspaceFeatures_SpecGenerator())
-	gens["Sku"] = gen.PtrOf(WorkspaceSku_SpecGenerator())
-	gens["WorkspaceCapping"] = gen.PtrOf(WorkspaceCapping_SpecGenerator())
-}
-
 func Test_PrivateLinkScopedResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -311,19 +311,19 @@ func AddIndependentPropertyGeneratorsForPrivateLinkScopedResource_Status(gens ma
 	gens["ScopeId"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_WorkspaceCapping_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WorkspaceCapping_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WorkspaceCapping_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspaceCapping_Spec, WorkspaceCapping_SpecGenerator()))
+		"Round trip of WorkspaceCapping via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWorkspaceCapping, WorkspaceCappingGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWorkspaceCapping_Spec runs a test to see if a specific instance of WorkspaceCapping_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspaceCapping_Spec(subject WorkspaceCapping_Spec) string {
+// RunJSONSerializationTestForWorkspaceCapping runs a test to see if a specific instance of WorkspaceCapping round trips to JSON and back losslessly
+func RunJSONSerializationTestForWorkspaceCapping(subject WorkspaceCapping) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -331,7 +331,7 @@ func RunJSONSerializationTestForWorkspaceCapping_Spec(subject WorkspaceCapping_S
 	}
 
 	// Deserialize back into memory
-	var actual WorkspaceCapping_Spec
+	var actual WorkspaceCapping
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -349,25 +349,24 @@ func RunJSONSerializationTestForWorkspaceCapping_Spec(subject WorkspaceCapping_S
 	return ""
 }
 
-// Generator of WorkspaceCapping_Spec instances for property testing - lazily instantiated by
-//WorkspaceCapping_SpecGenerator()
-var workspaceCapping_specGenerator gopter.Gen
+// Generator of WorkspaceCapping instances for property testing - lazily instantiated by WorkspaceCappingGenerator()
+var workspaceCappingGenerator gopter.Gen
 
-// WorkspaceCapping_SpecGenerator returns a generator of WorkspaceCapping_Spec instances for property testing.
-func WorkspaceCapping_SpecGenerator() gopter.Gen {
-	if workspaceCapping_specGenerator != nil {
-		return workspaceCapping_specGenerator
+// WorkspaceCappingGenerator returns a generator of WorkspaceCapping instances for property testing.
+func WorkspaceCappingGenerator() gopter.Gen {
+	if workspaceCappingGenerator != nil {
+		return workspaceCappingGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaceCapping_Spec(generators)
-	workspaceCapping_specGenerator = gen.Struct(reflect.TypeOf(WorkspaceCapping_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForWorkspaceCapping(generators)
+	workspaceCappingGenerator = gen.Struct(reflect.TypeOf(WorkspaceCapping{}), generators)
 
-	return workspaceCapping_specGenerator
+	return workspaceCappingGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWorkspaceCapping_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaceCapping_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWorkspaceCapping is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWorkspaceCapping(gens map[string]gopter.Gen) {
 	gens["DailyQuotaGb"] = gen.PtrOf(gen.Float64())
 }
 
@@ -433,19 +432,19 @@ func AddIndependentPropertyGeneratorsForWorkspaceCapping_Status(gens map[string]
 	gens["QuotaNextResetTime"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_WorkspaceFeatures_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WorkspaceFeatures_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WorkspaceFeatures_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspaceFeatures_Spec, WorkspaceFeatures_SpecGenerator()))
+		"Round trip of WorkspaceFeatures via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWorkspaceFeatures, WorkspaceFeaturesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWorkspaceFeatures_Spec runs a test to see if a specific instance of WorkspaceFeatures_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspaceFeatures_Spec(subject WorkspaceFeatures_Spec) string {
+// RunJSONSerializationTestForWorkspaceFeatures runs a test to see if a specific instance of WorkspaceFeatures round trips to JSON and back losslessly
+func RunJSONSerializationTestForWorkspaceFeatures(subject WorkspaceFeatures) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -453,7 +452,7 @@ func RunJSONSerializationTestForWorkspaceFeatures_Spec(subject WorkspaceFeatures
 	}
 
 	// Deserialize back into memory
-	var actual WorkspaceFeatures_Spec
+	var actual WorkspaceFeatures
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -471,25 +470,24 @@ func RunJSONSerializationTestForWorkspaceFeatures_Spec(subject WorkspaceFeatures
 	return ""
 }
 
-// Generator of WorkspaceFeatures_Spec instances for property testing - lazily instantiated by
-//WorkspaceFeatures_SpecGenerator()
-var workspaceFeatures_specGenerator gopter.Gen
+// Generator of WorkspaceFeatures instances for property testing - lazily instantiated by WorkspaceFeaturesGenerator()
+var workspaceFeaturesGenerator gopter.Gen
 
-// WorkspaceFeatures_SpecGenerator returns a generator of WorkspaceFeatures_Spec instances for property testing.
-func WorkspaceFeatures_SpecGenerator() gopter.Gen {
-	if workspaceFeatures_specGenerator != nil {
-		return workspaceFeatures_specGenerator
+// WorkspaceFeaturesGenerator returns a generator of WorkspaceFeatures instances for property testing.
+func WorkspaceFeaturesGenerator() gopter.Gen {
+	if workspaceFeaturesGenerator != nil {
+		return workspaceFeaturesGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaceFeatures_Spec(generators)
-	workspaceFeatures_specGenerator = gen.Struct(reflect.TypeOf(WorkspaceFeatures_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForWorkspaceFeatures(generators)
+	workspaceFeaturesGenerator = gen.Struct(reflect.TypeOf(WorkspaceFeatures{}), generators)
 
-	return workspaceFeatures_specGenerator
+	return workspaceFeaturesGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWorkspaceFeatures_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaceFeatures_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWorkspaceFeatures is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWorkspaceFeatures(gens map[string]gopter.Gen) {
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["EnableDataExport"] = gen.PtrOf(gen.Bool())
 	gens["EnableLogAccessUsingOnlyResourcePermissions"] = gen.PtrOf(gen.Bool())
@@ -560,19 +558,19 @@ func AddIndependentPropertyGeneratorsForWorkspaceFeatures_Status(gens map[string
 	gens["ImmediatePurgeDataOn30Days"] = gen.PtrOf(gen.Bool())
 }
 
-func Test_WorkspaceSku_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WorkspaceSku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WorkspaceSku_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspaceSku_Spec, WorkspaceSku_SpecGenerator()))
+		"Round trip of WorkspaceSku via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWorkspaceSku, WorkspaceSkuGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWorkspaceSku_Spec runs a test to see if a specific instance of WorkspaceSku_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspaceSku_Spec(subject WorkspaceSku_Spec) string {
+// RunJSONSerializationTestForWorkspaceSku runs a test to see if a specific instance of WorkspaceSku round trips to JSON and back losslessly
+func RunJSONSerializationTestForWorkspaceSku(subject WorkspaceSku) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -580,7 +578,7 @@ func RunJSONSerializationTestForWorkspaceSku_Spec(subject WorkspaceSku_Spec) str
 	}
 
 	// Deserialize back into memory
-	var actual WorkspaceSku_Spec
+	var actual WorkspaceSku
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -598,24 +596,24 @@ func RunJSONSerializationTestForWorkspaceSku_Spec(subject WorkspaceSku_Spec) str
 	return ""
 }
 
-// Generator of WorkspaceSku_Spec instances for property testing - lazily instantiated by WorkspaceSku_SpecGenerator()
-var workspaceSku_specGenerator gopter.Gen
+// Generator of WorkspaceSku instances for property testing - lazily instantiated by WorkspaceSkuGenerator()
+var workspaceSkuGenerator gopter.Gen
 
-// WorkspaceSku_SpecGenerator returns a generator of WorkspaceSku_Spec instances for property testing.
-func WorkspaceSku_SpecGenerator() gopter.Gen {
-	if workspaceSku_specGenerator != nil {
-		return workspaceSku_specGenerator
+// WorkspaceSkuGenerator returns a generator of WorkspaceSku instances for property testing.
+func WorkspaceSkuGenerator() gopter.Gen {
+	if workspaceSkuGenerator != nil {
+		return workspaceSkuGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaceSku_Spec(generators)
-	workspaceSku_specGenerator = gen.Struct(reflect.TypeOf(WorkspaceSku_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForWorkspaceSku(generators)
+	workspaceSkuGenerator = gen.Struct(reflect.TypeOf(WorkspaceSku{}), generators)
 
-	return workspaceSku_specGenerator
+	return workspaceSkuGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWorkspaceSku_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaceSku_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWorkspaceSku is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWorkspaceSku(gens map[string]gopter.Gen) {
 	gens["CapacityReservationLevel"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }

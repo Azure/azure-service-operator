@@ -28,8 +28,8 @@ import (
 type SqlDatabaseContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsSqlDatabasesContainers_SPEC `json:"spec,omitempty"`
-	Status            SqlContainer_Status                         `json:"status,omitempty"`
+	Spec              DatabaseAccountsSqlDatabasesContainer_Spec `json:"spec,omitempty"`
+	Status            SqlContainer_Status                        `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainer{}
@@ -133,40 +133,40 @@ type SqlDatabaseContainerList struct {
 	Items           []SqlDatabaseContainer `json:"items"`
 }
 
-//Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainers_SPEC
-type DatabaseAccountsSqlDatabasesContainers_SPEC struct {
+//Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainer_Spec
+type DatabaseAccountsSqlDatabasesContainer_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName       string                    `json:"azureName"`
-	Location        *string                   `json:"location,omitempty"`
-	Options         *CreateUpdateOptions_Spec `json:"options,omitempty"`
-	OriginalVersion string                    `json:"originalVersion"`
+	AzureName       string               `json:"azureName"`
+	Location        *string              `json:"location,omitempty"`
+	Options         *CreateUpdateOptions `json:"options,omitempty"`
+	OriginalVersion string               `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
 	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Resource    *SqlContainerResource_Spec        `json:"resource,omitempty"`
+	Resource    *SqlContainerResource             `json:"resource,omitempty"`
 	Tags        map[string]string                 `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainers_SPEC{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainer_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainers_SPEC from the provided source
-func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainer_Spec from the provided source
+func (container *DatabaseAccountsSqlDatabasesContainer_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == container {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(container)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainers_SPEC
-func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainer_Spec
+func (container *DatabaseAccountsSqlDatabasesContainer_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == container {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(container)
 }
 
 //Storage version of v1alpha1api20210515.SqlContainer_Status
@@ -202,16 +202,16 @@ func (container *SqlContainer_Status) ConvertStatusTo(destination genruntime.Con
 	return destination.ConvertStatusFrom(container)
 }
 
-//Storage version of v1alpha1api20210515.SqlContainerResource_Spec
-type SqlContainerResource_Spec struct {
-	AnalyticalStorageTtl     *int                           `json:"analyticalStorageTtl,omitempty"`
-	ConflictResolutionPolicy *ConflictResolutionPolicy_Spec `json:"conflictResolutionPolicy,omitempty"`
-	DefaultTtl               *int                           `json:"defaultTtl,omitempty"`
-	Id                       *string                        `json:"id,omitempty"`
-	IndexingPolicy           *IndexingPolicy_Spec           `json:"indexingPolicy,omitempty"`
-	PartitionKey             *ContainerPartitionKey_Spec    `json:"partitionKey,omitempty"`
-	PropertyBag              genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
-	UniqueKeyPolicy          *UniqueKeyPolicy_Spec          `json:"uniqueKeyPolicy,omitempty"`
+//Storage version of v1alpha1api20210515.SqlContainerResource
+type SqlContainerResource struct {
+	AnalyticalStorageTtl     *int                      `json:"analyticalStorageTtl,omitempty"`
+	ConflictResolutionPolicy *ConflictResolutionPolicy `json:"conflictResolutionPolicy,omitempty"`
+	DefaultTtl               *int                      `json:"defaultTtl,omitempty"`
+	Id                       *string                   `json:"id,omitempty"`
+	IndexingPolicy           *IndexingPolicy           `json:"indexingPolicy,omitempty"`
+	PartitionKey             *ContainerPartitionKey    `json:"partitionKey,omitempty"`
+	PropertyBag              genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
+	UniqueKeyPolicy          *UniqueKeyPolicy          `json:"uniqueKeyPolicy,omitempty"`
 }
 
 //Storage version of v1alpha1api20210515.SqlContainerResource_Status
@@ -226,8 +226,8 @@ type SqlContainerResource_Status struct {
 	UniqueKeyPolicy          *UniqueKeyPolicy_Status          `json:"uniqueKeyPolicy,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.ConflictResolutionPolicy_Spec
-type ConflictResolutionPolicy_Spec struct {
+//Storage version of v1alpha1api20210515.ConflictResolutionPolicy
+type ConflictResolutionPolicy struct {
 	ConflictResolutionPath      *string                `json:"conflictResolutionPath,omitempty"`
 	ConflictResolutionProcedure *string                `json:"conflictResolutionProcedure,omitempty"`
 	Mode                        *string                `json:"mode,omitempty"`
@@ -242,8 +242,8 @@ type ConflictResolutionPolicy_Status struct {
 	PropertyBag                 genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.ContainerPartitionKey_Spec
-type ContainerPartitionKey_Spec struct {
+//Storage version of v1alpha1api20210515.ContainerPartitionKey
+type ContainerPartitionKey struct {
 	Kind        *string                `json:"kind,omitempty"`
 	Paths       []string               `json:"paths,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -259,15 +259,15 @@ type ContainerPartitionKey_Status struct {
 	Version     *int                   `json:"version,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.IndexingPolicy_Spec
-type IndexingPolicy_Spec struct {
+//Storage version of v1alpha1api20210515.IndexingPolicy
+type IndexingPolicy struct {
 	Automatic        *bool                  `json:"automatic,omitempty"`
-	CompositeIndexes [][]CompositePath_Spec `json:"compositeIndexes,omitempty"`
-	ExcludedPaths    []ExcludedPath_Spec    `json:"excludedPaths,omitempty"`
-	IncludedPaths    []IncludedPath_Spec    `json:"includedPaths,omitempty"`
+	CompositeIndexes [][]CompositePath      `json:"compositeIndexes,omitempty"`
+	ExcludedPaths    []ExcludedPath         `json:"excludedPaths,omitempty"`
+	IncludedPaths    []IncludedPath         `json:"includedPaths,omitempty"`
 	IndexingMode     *string                `json:"indexingMode,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SpatialIndexes   []SpatialSpec_Spec     `json:"spatialIndexes,omitempty"`
+	SpatialIndexes   []SpatialSpec          `json:"spatialIndexes,omitempty"`
 }
 
 //Storage version of v1alpha1api20210515.IndexingPolicy_Status
@@ -281,10 +281,10 @@ type IndexingPolicy_Status struct {
 	SpatialIndexes   []SpatialSpec_Status     `json:"spatialIndexes,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.UniqueKeyPolicy_Spec
-type UniqueKeyPolicy_Spec struct {
+//Storage version of v1alpha1api20210515.UniqueKeyPolicy
+type UniqueKeyPolicy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	UniqueKeys  []UniqueKey_Spec       `json:"uniqueKeys,omitempty"`
+	UniqueKeys  []UniqueKey            `json:"uniqueKeys,omitempty"`
 }
 
 //Storage version of v1alpha1api20210515.UniqueKeyPolicy_Status
@@ -293,8 +293,8 @@ type UniqueKeyPolicy_Status struct {
 	UniqueKeys  []UniqueKey_Status     `json:"uniqueKeys,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.CompositePath_Spec
-type CompositePath_Spec struct {
+//Storage version of v1alpha1api20210515.CompositePath
+type CompositePath struct {
 	Order       *string                `json:"order,omitempty"`
 	Path        *string                `json:"path,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -307,8 +307,8 @@ type CompositePath_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.ExcludedPath_Spec
-type ExcludedPath_Spec struct {
+//Storage version of v1alpha1api20210515.ExcludedPath
+type ExcludedPath struct {
 	Path        *string                `json:"path,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -319,9 +319,9 @@ type ExcludedPath_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.IncludedPath_Spec
-type IncludedPath_Spec struct {
-	Indexes     []Indexes_Spec         `json:"indexes,omitempty"`
+//Storage version of v1alpha1api20210515.IncludedPath
+type IncludedPath struct {
+	Indexes     []Indexes              `json:"indexes,omitempty"`
 	Path        *string                `json:"path,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -333,8 +333,8 @@ type IncludedPath_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.SpatialSpec_Spec
-type SpatialSpec_Spec struct {
+//Storage version of v1alpha1api20210515.SpatialSpec
+type SpatialSpec struct {
 	Path        *string                `json:"path,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Types       []string               `json:"types,omitempty"`
@@ -347,8 +347,8 @@ type SpatialSpec_Status struct {
 	Types       []string               `json:"types,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.UniqueKey_Spec
-type UniqueKey_Spec struct {
+//Storage version of v1alpha1api20210515.UniqueKey
+type UniqueKey struct {
 	Paths       []string               `json:"paths,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -359,8 +359,8 @@ type UniqueKey_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.Indexes_Spec
-type Indexes_Spec struct {
+//Storage version of v1alpha1api20210515.Indexes
+type Indexes struct {
 	DataType    *string                `json:"dataType,omitempty"`
 	Kind        *string                `json:"kind,omitempty"`
 	Precision   *int                   `json:"precision,omitempty"`

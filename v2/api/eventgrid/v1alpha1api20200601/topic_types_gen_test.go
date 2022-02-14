@@ -158,8 +158,128 @@ func TopicGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForTopic is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForTopic(gens map[string]gopter.Gen) {
-	gens["Spec"] = Topics_SPECGenerator()
+	gens["Spec"] = Topic_SpecGenerator()
 	gens["Status"] = Topic_StatusGenerator()
+}
+
+func Test_Topic_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Topic_Spec to Topic_Spec via AssignPropertiesToTopic_Spec & AssignPropertiesFromTopic_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTopic_Spec, Topic_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTopic_Spec tests if a specific instance of Topic_Spec can be assigned to v1alpha1api20200601storage and back losslessly
+func RunPropertyAssignmentTestForTopic_Spec(subject Topic_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20200601storage.Topic_Spec
+	err := copied.AssignPropertiesToTopic_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Topic_Spec
+	err = actual.AssignPropertiesFromTopic_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Topic_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Topic_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTopic_Spec, Topic_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForTopic_Spec runs a test to see if a specific instance of Topic_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForTopic_Spec(subject Topic_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Topic_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Topic_Spec instances for property testing - lazily instantiated by Topic_SpecGenerator()
+var topic_specGenerator gopter.Gen
+
+// Topic_SpecGenerator returns a generator of Topic_Spec instances for property testing.
+// We first initialize topic_specGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Topic_SpecGenerator() gopter.Gen {
+	if topic_specGenerator != nil {
+		return topic_specGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForTopic_Spec(generators)
+	topic_specGenerator = gen.Struct(reflect.TypeOf(Topic_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForTopic_Spec(generators)
+	AddRelatedPropertyGeneratorsForTopic_Spec(generators)
+	topic_specGenerator = gen.Struct(reflect.TypeOf(Topic_Spec{}), generators)
+
+	return topic_specGenerator
+}
+
+// AddIndependentPropertyGeneratorsForTopic_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForTopic_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(TopicPropertiesInputSchemaCloudEventSchemaV1_0, TopicPropertiesInputSchemaCustomEventSchema, TopicPropertiesInputSchemaEventGridSchema))
+	gens["Location"] = gen.AlphaString()
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(TopicPropertiesPublicNetworkAccessDisabled, TopicPropertiesPublicNetworkAccessEnabled))
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForTopic_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForTopic_Spec(gens map[string]gopter.Gen) {
+	gens["InboundIpRules"] = gen.SliceOf(InboundIpRuleGenerator())
+	gens["InputSchemaMapping"] = gen.PtrOf(InputSchemaMappingGenerator())
 }
 
 func Test_Topic_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -271,18 +391,12 @@ func Topic_StatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForTopic_Status(gens map[string]gopter.Gen) {
 	gens["Endpoint"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(TopicProperties_InputSchema_StatusCloudEventSchemaV1_0, TopicProperties_InputSchema_StatusCustomEventSchema, TopicProperties_InputSchema_StatusEventGridSchema))
+	gens["InputSchema"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MetricResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		TopicProperties_ProvisioningState_StatusCanceled,
-		TopicProperties_ProvisioningState_StatusCreating,
-		TopicProperties_ProvisioningState_StatusDeleting,
-		TopicProperties_ProvisioningState_StatusFailed,
-		TopicProperties_ProvisioningState_StatusSucceeded,
-		TopicProperties_ProvisioningState_StatusUpdating))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(TopicProperties_PublicNetworkAccess_StatusDisabled, TopicProperties_PublicNetworkAccess_StatusEnabled))
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
@@ -293,109 +407,6 @@ func AddRelatedPropertyGeneratorsForTopic_Status(gens map[string]gopter.Gen) {
 	gens["InputSchemaMapping"] = gen.PtrOf(InputSchemaMapping_StatusGenerator())
 	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_Status_Topic_SubResourceEmbeddedGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_StatusGenerator())
-}
-
-func Test_Topics_SPEC_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Topics_SPEC to Topics_SPEC via AssignPropertiesToTopics_SPEC & AssignPropertiesFromTopics_SPEC returns original",
-		prop.ForAll(RunPropertyAssignmentTestForTopics_SPEC, Topics_SPECGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForTopics_SPEC tests if a specific instance of Topics_SPEC can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForTopics_SPEC(subject Topics_SPEC) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.Topics_SPEC
-	err := copied.AssignPropertiesToTopics_SPEC(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Topics_SPEC
-	err = actual.AssignPropertiesFromTopics_SPEC(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Topics_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Topics_SPEC via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTopics_SPEC, Topics_SPECGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForTopics_SPEC runs a test to see if a specific instance of Topics_SPEC round trips to JSON and back losslessly
-func RunJSONSerializationTestForTopics_SPEC(subject Topics_SPEC) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Topics_SPEC
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Topics_SPEC instances for property testing - lazily instantiated by Topics_SPECGenerator()
-var topics_specGenerator gopter.Gen
-
-// Topics_SPECGenerator returns a generator of Topics_SPEC instances for property testing.
-func Topics_SPECGenerator() gopter.Gen {
-	if topics_specGenerator != nil {
-		return topics_specGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTopics_SPEC(generators)
-	topics_specGenerator = gen.Struct(reflect.TypeOf(Topics_SPEC{}), generators)
-
-	return topics_specGenerator
-}
-
-// AddIndependentPropertyGeneratorsForTopics_SPEC is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTopics_SPEC(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
 func Test_PrivateEndpointConnection_Status_Topic_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

@@ -28,8 +28,8 @@ import (
 type UserAssignedIdentity struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              UserAssignedIdentities_SPEC `json:"spec,omitempty"`
-	Status            Identity_Status             `json:"status,omitempty"`
+	Spec              UserAssignedIdentity_Spec `json:"spec,omitempty"`
+	Status            Identity_Status           `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &UserAssignedIdentity{}
@@ -172,8 +172,8 @@ func (identity *Identity_Status) ConvertStatusTo(destination genruntime.Converti
 	return destination.ConvertStatusFrom(identity)
 }
 
-//Storage version of v1alpha1api20181130.UserAssignedIdentities_SPEC
-type UserAssignedIdentities_SPEC struct {
+//Storage version of v1alpha1api20181130.UserAssignedIdentity_Spec
+type UserAssignedIdentity_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName       string  `json:"azureName"`
@@ -186,24 +186,24 @@ type UserAssignedIdentities_SPEC struct {
 	Tags        map[string]string                 `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &UserAssignedIdentities_SPEC{}
+var _ genruntime.ConvertibleSpec = &UserAssignedIdentity_Spec{}
 
-// ConvertSpecFrom populates our UserAssignedIdentities_SPEC from the provided source
-func (spec *UserAssignedIdentities_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our UserAssignedIdentity_Spec from the provided source
+func (identity *UserAssignedIdentity_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == identity {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(identity)
 }
 
-// ConvertSpecTo populates the provided destination from our UserAssignedIdentities_SPEC
-func (spec *UserAssignedIdentities_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our UserAssignedIdentity_Spec
+func (identity *UserAssignedIdentity_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == identity {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(identity)
 }
 
 func init() {

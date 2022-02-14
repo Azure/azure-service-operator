@@ -42,7 +42,7 @@ type ApplicationInsightsComponentProperties_StatusARM struct {
 	ApplicationId *string `json:"ApplicationId,omitempty"`
 
 	//Application_Type: Type of application being monitored.
-	Application_Type ApplicationInsightsComponentProperties_Application_Type_Status `json:"Application_Type"`
+	Application_Type string `json:"Application_Type"`
 
 	//ConnectionString: Application Insights component connection string.
 	ConnectionString *string `json:"ConnectionString,omitempty"`
@@ -60,7 +60,7 @@ type ApplicationInsightsComponentProperties_StatusARM struct {
 	//Flow_Type: Used by the Application Insights system to determine what kind of
 	//flow this component was created by. This is to be set to 'Bluefield' when
 	//creating/updating a component via the REST API.
-	Flow_Type *ApplicationInsightsComponentProperties_Flow_Type_Status `json:"Flow_Type,omitempty"`
+	Flow_Type *string `json:"Flow_Type,omitempty"`
 
 	//ForceCustomerStorageForProfiler: Force users to create their own storage account
 	//for profiler and debugger.
@@ -78,7 +78,7 @@ type ApplicationInsightsComponentProperties_StatusARM struct {
 	ImmediatePurgeDataOn30Days *bool `json:"ImmediatePurgeDataOn30Days,omitempty"`
 
 	//IngestionMode: Indicates the flow of the ingestion.
-	IngestionMode *ApplicationInsightsComponentProperties_IngestionMode_Status `json:"IngestionMode,omitempty"`
+	IngestionMode *string `json:"IngestionMode,omitempty"`
 
 	//InstrumentationKey: Application Insights Instrumentation key. A read-only value
 	//that applications can use to identify the destination for all telemetry sent to
@@ -104,15 +104,15 @@ type ApplicationInsightsComponentProperties_StatusARM struct {
 
 	//PublicNetworkAccessForIngestion: The network access type for accessing
 	//Application Insights ingestion.
-	PublicNetworkAccessForIngestion *PublicNetworkAccessType_Status `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForIngestion *string `json:"publicNetworkAccessForIngestion,omitempty"`
 
 	//PublicNetworkAccessForQuery: The network access type for accessing Application
 	//Insights query.
-	PublicNetworkAccessForQuery *PublicNetworkAccessType_Status `json:"publicNetworkAccessForQuery,omitempty"`
+	PublicNetworkAccessForQuery *string `json:"publicNetworkAccessForQuery,omitempty"`
 
 	//Request_Source: Describes what tool created this Application Insights component.
 	//Customers using this API should set this to the default 'rest'.
-	Request_Source *ApplicationInsightsComponentProperties_Request_Source_Status `json:"Request_Source,omitempty"`
+	Request_Source *string `json:"Request_Source,omitempty"`
 
 	//RetentionInDays: Retention period in days.
 	RetentionInDays *int `json:"RetentionInDays,omitempty"`
@@ -130,29 +130,6 @@ type ApplicationInsightsComponentProperties_StatusARM struct {
 	WorkspaceResourceId *string `json:"WorkspaceResourceId,omitempty"`
 }
 
-type ApplicationInsightsComponentProperties_Application_Type_Status string
-
-const (
-	ApplicationInsightsComponentProperties_Application_Type_StatusOther = ApplicationInsightsComponentProperties_Application_Type_Status("other")
-	ApplicationInsightsComponentProperties_Application_Type_StatusWeb   = ApplicationInsightsComponentProperties_Application_Type_Status("web")
-)
-
-type ApplicationInsightsComponentProperties_Flow_Type_Status string
-
-const ApplicationInsightsComponentProperties_Flow_Type_StatusBluefield = ApplicationInsightsComponentProperties_Flow_Type_Status("Bluefield")
-
-type ApplicationInsightsComponentProperties_IngestionMode_Status string
-
-const (
-	ApplicationInsightsComponentProperties_IngestionMode_StatusApplicationInsights                       = ApplicationInsightsComponentProperties_IngestionMode_Status("ApplicationInsights")
-	ApplicationInsightsComponentProperties_IngestionMode_StatusApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentProperties_IngestionMode_Status("ApplicationInsightsWithDiagnosticSettings")
-	ApplicationInsightsComponentProperties_IngestionMode_StatusLogAnalytics                              = ApplicationInsightsComponentProperties_IngestionMode_Status("LogAnalytics")
-)
-
-type ApplicationInsightsComponentProperties_Request_Source_Status string
-
-const ApplicationInsightsComponentProperties_Request_Source_StatusRest = ApplicationInsightsComponentProperties_Request_Source_Status("rest")
-
 type PrivateLinkScopedResource_StatusARM struct {
 	//ResourceId: The full resource Id of the private link scope resource.
 	ResourceId *string `json:"ResourceId,omitempty"`
@@ -160,10 +137,3 @@ type PrivateLinkScopedResource_StatusARM struct {
 	//ScopeId: The private link scope unique Identifier.
 	ScopeId *string `json:"ScopeId,omitempty"`
 }
-
-type PublicNetworkAccessType_Status string
-
-const (
-	PublicNetworkAccessType_StatusDisabled = PublicNetworkAccessType_Status("Disabled")
-	PublicNetworkAccessType_StatusEnabled  = PublicNetworkAccessType_Status("Enabled")
-)

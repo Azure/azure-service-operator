@@ -20,7 +20,7 @@ import (
 type Redis struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Redis_SPEC   `json:"spec,omitempty"`
+	Spec              Redis_Spec   `json:"spec,omitempty"`
 	Status            Redis_Status `json:"status,omitempty"`
 }
 
@@ -39,7 +39,7 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("2020-06-01")
 
-type Redis_SPEC struct {
+type Redis_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline"`
 	ForProvider           RedisParameters `json:"forProvider"`
 }
@@ -59,18 +59,18 @@ type RedisObservation struct {
 
 	//MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or
 	//higher) to connect (e,g, '1.0', '1.1', '1.2')
-	MinimumTlsVersion *RedisProperties_MinimumTlsVersion_Status `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *string `json:"minimumTlsVersion,omitempty"`
 
 	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this
 	//cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If
 	//'Disabled', private endpoints are the exclusive access method. Default value is
 	//'Enabled'
-	PublicNetworkAccess *RedisProperties_PublicNetworkAccess_Status `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 
 	//RedisConfiguration: All Redis Settings. Few possible keys:
 	//rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
 	//etc.
-	RedisConfiguration *RedisProperties_RedisConfiguration_Status `json:"redisConfiguration,omitempty"`
+	RedisConfiguration *RedisProperties_StatusRedisConfiguration `json:"redisConfiguration,omitempty"`
 
 	//ReplicasPerMaster: The number of replicas to be created per master.
 	ReplicasPerMaster *int `json:"replicasPerMaster,omitempty"`
@@ -114,19 +114,19 @@ type RedisParameters struct {
 
 	//MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or
 	//higher) to connect (e,g, '1.0', '1.1', '1.2')
-	MinimumTlsVersion *RedisProperties_MinimumTlsVersion_Spec `json:"minimumTlsVersion,omitempty"`
-	Name              string                                  `json:"name"`
+	MinimumTlsVersion *RedisPropertiesMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	Name              string                            `json:"name"`
 
 	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this
 	//cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If
 	//'Disabled', private endpoints are the exclusive access method. Default value is
 	//'Enabled'
-	PublicNetworkAccess *RedisProperties_PublicNetworkAccess_Spec `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *RedisPropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	//RedisConfiguration: All Redis Settings. Few possible keys:
 	//rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
 	//etc.
-	RedisConfiguration *RedisProperties_RedisConfiguration_Spec `json:"redisConfiguration,omitempty"`
+	RedisConfiguration *RedisPropertiesRedisConfiguration `json:"redisConfiguration,omitempty"`
 
 	//ReplicasPerMaster: The number of replicas to be created per master.
 	ReplicasPerMaster         *int                `json:"replicasPerMaster,omitempty"`
@@ -139,7 +139,7 @@ type RedisParameters struct {
 
 	// +kubebuilder:validation:Required
 	//Sku: The SKU of the Redis cache to deploy.
-	Sku Sku_Spec `json:"sku"`
+	Sku Sku `json:"sku"`
 
 	// +kubebuilder:validation:Pattern="^\\d+\\.\\d+\\.\\d+\\.\\d+$"
 	//StaticIP: Static IP address. Optionally, may be specified when deploying a Redis
@@ -164,38 +164,23 @@ type RedisParameters struct {
 }
 
 // +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
-type RedisProperties_MinimumTlsVersion_Spec string
+type RedisPropertiesMinimumTlsVersion string
 
 const (
-	RedisProperties_MinimumTlsVersion_Spec10 = RedisProperties_MinimumTlsVersion_Spec("1.0")
-	RedisProperties_MinimumTlsVersion_Spec11 = RedisProperties_MinimumTlsVersion_Spec("1.1")
-	RedisProperties_MinimumTlsVersion_Spec12 = RedisProperties_MinimumTlsVersion_Spec("1.2")
-)
-
-type RedisProperties_MinimumTlsVersion_Status string
-
-const (
-	RedisProperties_MinimumTlsVersion_Status10 = RedisProperties_MinimumTlsVersion_Status("1.0")
-	RedisProperties_MinimumTlsVersion_Status11 = RedisProperties_MinimumTlsVersion_Status("1.1")
-	RedisProperties_MinimumTlsVersion_Status12 = RedisProperties_MinimumTlsVersion_Status("1.2")
+	RedisPropertiesMinimumTlsVersion10 = RedisPropertiesMinimumTlsVersion("1.0")
+	RedisPropertiesMinimumTlsVersion11 = RedisPropertiesMinimumTlsVersion("1.1")
+	RedisPropertiesMinimumTlsVersion12 = RedisPropertiesMinimumTlsVersion("1.2")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type RedisProperties_PublicNetworkAccess_Spec string
+type RedisPropertiesPublicNetworkAccess string
 
 const (
-	RedisProperties_PublicNetworkAccess_SpecDisabled = RedisProperties_PublicNetworkAccess_Spec("Disabled")
-	RedisProperties_PublicNetworkAccess_SpecEnabled  = RedisProperties_PublicNetworkAccess_Spec("Enabled")
+	RedisPropertiesPublicNetworkAccessDisabled = RedisPropertiesPublicNetworkAccess("Disabled")
+	RedisPropertiesPublicNetworkAccessEnabled  = RedisPropertiesPublicNetworkAccess("Enabled")
 )
 
-type RedisProperties_PublicNetworkAccess_Status string
-
-const (
-	RedisProperties_PublicNetworkAccess_StatusDisabled = RedisProperties_PublicNetworkAccess_Status("Disabled")
-	RedisProperties_PublicNetworkAccess_StatusEnabled  = RedisProperties_PublicNetworkAccess_Status("Enabled")
-)
-
-type RedisProperties_RedisConfiguration_Spec struct {
+type RedisPropertiesRedisConfiguration struct {
 	AdditionalProperties map[string]string `json:"additionalProperties"`
 
 	//AofStorageConnectionString0: First storage account connection string
@@ -235,7 +220,7 @@ type RedisProperties_RedisConfiguration_Spec struct {
 	RdbStorageConnectionString *string `json:"rdb-storage-connection-string,omitempty"`
 }
 
-type RedisProperties_RedisConfiguration_Status struct {
+type RedisProperties_StatusRedisConfiguration struct {
 	AdditionalProperties map[string]string `json:"additionalProperties"`
 
 	//AofStorageConnectionString0: First storage account connection string
@@ -278,7 +263,7 @@ type RedisProperties_RedisConfiguration_Status struct {
 	RdbStorageConnectionString *string `json:"rdb-storage-connection-string,omitempty"`
 }
 
-type Sku_Spec struct {
+type Sku struct {
 	// +kubebuilder:validation:Required
 	//Capacity: The size of the Redis cache to deploy. Valid values: for C
 	//(Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for P (Premium) family (1, 2, 3,
@@ -288,11 +273,11 @@ type Sku_Spec struct {
 	// +kubebuilder:validation:Required
 	//Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P =
 	//Premium).
-	Family Sku_Family_Spec `json:"family"`
+	Family SkuFamily `json:"family"`
 
 	// +kubebuilder:validation:Required
 	//Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
-	Name Sku_Name_Spec `json:"name"`
+	Name SkuName `json:"name"`
 }
 
 type Sku_Status struct {
@@ -305,43 +290,28 @@ type Sku_Status struct {
 	// +kubebuilder:validation:Required
 	//Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P =
 	//Premium).
-	Family Sku_Family_Status `json:"family"`
+	Family string `json:"family"`
 
 	// +kubebuilder:validation:Required
 	//Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
-	Name Sku_Name_Status `json:"name"`
+	Name string `json:"name"`
 }
 
 // +kubebuilder:validation:Enum={"C","P"}
-type Sku_Family_Spec string
+type SkuFamily string
 
 const (
-	Sku_Family_SpecC = Sku_Family_Spec("C")
-	Sku_Family_SpecP = Sku_Family_Spec("P")
-)
-
-type Sku_Family_Status string
-
-const (
-	Sku_Family_StatusC = Sku_Family_Status("C")
-	Sku_Family_StatusP = Sku_Family_Status("P")
+	SkuFamilyC = SkuFamily("C")
+	SkuFamilyP = SkuFamily("P")
 )
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
-type Sku_Name_Spec string
+type SkuName string
 
 const (
-	Sku_Name_SpecBasic    = Sku_Name_Spec("Basic")
-	Sku_Name_SpecPremium  = Sku_Name_Spec("Premium")
-	Sku_Name_SpecStandard = Sku_Name_Spec("Standard")
-)
-
-type Sku_Name_Status string
-
-const (
-	Sku_Name_StatusBasic    = Sku_Name_Status("Basic")
-	Sku_Name_StatusPremium  = Sku_Name_Status("Premium")
-	Sku_Name_StatusStandard = Sku_Name_Status("Standard")
+	SkuNameBasic    = SkuName("Basic")
+	SkuNamePremium  = SkuName("Premium")
+	SkuNameStandard = SkuName("Standard")
 )
 
 func init() {

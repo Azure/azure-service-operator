@@ -28,7 +28,7 @@ import (
 type NetworkSecurityGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NetworkSecurityGroups_SPEC                                           `json:"spec,omitempty"`
+	Spec              NetworkSecurityGroup_Spec                                            `json:"spec,omitempty"`
 	Status            NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded `json:"status,omitempty"`
 }
 
@@ -133,6 +133,44 @@ type NetworkSecurityGroupList struct {
 	Items           []NetworkSecurityGroup `json:"items"`
 }
 
+//Storage version of v1alpha1api20201101.NetworkSecurityGroup_Spec
+type NetworkSecurityGroup_Spec struct {
+	//AzureName: The name of the resource in Azure. This is often the same as the name
+	//of the resource in Kubernetes but it doesn't have to be.
+	AzureName       string  `json:"azureName"`
+	Location        *string `json:"location,omitempty"`
+	OriginalVersion string  `json:"originalVersion"`
+
+	// +kubebuilder:validation:Required
+	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+
+	//Reference: Resource ID.
+	Reference     *genruntime.ResourceReference                           `armReference:"Id" json:"reference,omitempty"`
+	SecurityRules []SecurityRule_NetworkSecurityGroup_SubResourceEmbedded `json:"securityRules,omitempty"`
+	Tags          map[string]string                                       `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &NetworkSecurityGroup_Spec{}
+
+// ConvertSpecFrom populates our NetworkSecurityGroup_Spec from the provided source
+func (group *NetworkSecurityGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == group {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(group)
+}
+
+// ConvertSpecTo populates the provided destination from our NetworkSecurityGroup_Spec
+func (group *NetworkSecurityGroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == group {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(group)
+}
+
 //Storage version of v1alpha1api20201101.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded
 type NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
 	Conditions           []conditions.Condition                                             `json:"conditions,omitempty"`
@@ -172,44 +210,6 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 	return destination.ConvertStatusFrom(embedded)
 }
 
-//Storage version of v1alpha1api20201101.NetworkSecurityGroups_SPEC
-type NetworkSecurityGroups_SPEC struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName       string  `json:"azureName"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion"`
-
-	// +kubebuilder:validation:Required
-	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-
-	//Reference: Resource ID.
-	Reference     *genruntime.ResourceReference                                `armReference:"Id" json:"reference,omitempty"`
-	SecurityRules []SecurityRule_Spec_NetworkSecurityGroup_SubResourceEmbedded `json:"securityRules,omitempty"`
-	Tags          map[string]string                                            `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &NetworkSecurityGroups_SPEC{}
-
-// ConvertSpecFrom populates our NetworkSecurityGroups_SPEC from the provided source
-func (spec *NetworkSecurityGroups_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(spec)
-}
-
-// ConvertSpecTo populates the provided destination from our NetworkSecurityGroups_SPEC
-func (spec *NetworkSecurityGroups_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(spec)
-}
-
 //Storage version of v1alpha1api20201101.FlowLog_Status_SubResourceEmbedded
 type FlowLog_Status_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
@@ -223,8 +223,8 @@ type NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
 	PropertyBag      genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.SecurityRule_Spec_NetworkSecurityGroup_SubResourceEmbedded
-type SecurityRule_Spec_NetworkSecurityGroup_SubResourceEmbedded struct {
+//Storage version of v1alpha1api20201101.SecurityRule_NetworkSecurityGroup_SubResourceEmbedded
+type SecurityRule_NetworkSecurityGroup_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	//Reference: Resource ID.

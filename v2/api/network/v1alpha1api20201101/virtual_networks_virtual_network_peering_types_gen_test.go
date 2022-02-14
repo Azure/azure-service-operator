@@ -159,7 +159,7 @@ func VirtualNetworksVirtualNetworkPeeringGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForVirtualNetworksVirtualNetworkPeering is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualNetworksVirtualNetworkPeering(gens map[string]gopter.Gen) {
-	gens["Spec"] = VirtualNetworksVirtualNetworkPeerings_SPECGenerator()
+	gens["Spec"] = VirtualNetworksVirtualNetworkPeering_SpecGenerator()
 	gens["Status"] = VirtualNetworkPeering_StatusGenerator()
 }
 
@@ -278,12 +278,8 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkPeering_Status(gens map[st
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["PeeringState"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkPeeringPropertiesFormat_PeeringState_StatusConnected, VirtualNetworkPeeringPropertiesFormat_PeeringState_StatusDisconnected, VirtualNetworkPeeringPropertiesFormat_PeeringState_StatusInitiated))
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_StatusDeleting,
-		ProvisioningState_StatusFailed,
-		ProvisioningState_StatusSucceeded,
-		ProvisioningState_StatusUpdating))
+	gens["PeeringState"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["UseRemoteGateways"] = gen.PtrOf(gen.Bool())
@@ -296,32 +292,32 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkPeering_Status(gens map[string
 	gens["RemoteVirtualNetwork"] = gen.PtrOf(SubResource_StatusGenerator())
 }
 
-func Test_VirtualNetworksVirtualNetworkPeerings_SPEC_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualNetworksVirtualNetworkPeering_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualNetworksVirtualNetworkPeerings_SPEC to VirtualNetworksVirtualNetworkPeerings_SPEC via AssignPropertiesToVirtualNetworksVirtualNetworkPeerings_SPEC & AssignPropertiesFromVirtualNetworksVirtualNetworkPeerings_SPEC returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeerings_SPEC, VirtualNetworksVirtualNetworkPeerings_SPECGenerator()))
+		"Round trip from VirtualNetworksVirtualNetworkPeering_Spec to VirtualNetworksVirtualNetworkPeering_Spec via AssignPropertiesToVirtualNetworksVirtualNetworkPeering_Spec & AssignPropertiesFromVirtualNetworksVirtualNetworkPeering_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeering_Spec, VirtualNetworksVirtualNetworkPeering_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeerings_SPEC tests if a specific instance of VirtualNetworksVirtualNetworkPeerings_SPEC can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeerings_SPEC(subject VirtualNetworksVirtualNetworkPeerings_SPEC) string {
+// RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeering_Spec tests if a specific instance of VirtualNetworksVirtualNetworkPeering_Spec can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeering_Spec(subject VirtualNetworksVirtualNetworkPeering_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20201101storage.VirtualNetworksVirtualNetworkPeerings_SPEC
-	err := copied.AssignPropertiesToVirtualNetworksVirtualNetworkPeerings_SPEC(&other)
+	var other v1alpha1api20201101storage.VirtualNetworksVirtualNetworkPeering_Spec
+	err := copied.AssignPropertiesToVirtualNetworksVirtualNetworkPeering_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualNetworksVirtualNetworkPeerings_SPEC
-	err = actual.AssignPropertiesFromVirtualNetworksVirtualNetworkPeerings_SPEC(&other)
+	var actual VirtualNetworksVirtualNetworkPeering_Spec
+	err = actual.AssignPropertiesFromVirtualNetworksVirtualNetworkPeering_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -338,19 +334,19 @@ func RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeerings_SPEC(subj
 	return ""
 }
 
-func Test_VirtualNetworksVirtualNetworkPeerings_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualNetworksVirtualNetworkPeering_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualNetworksVirtualNetworkPeerings_SPEC via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworksVirtualNetworkPeerings_SPEC, VirtualNetworksVirtualNetworkPeerings_SPECGenerator()))
+		"Round trip of VirtualNetworksVirtualNetworkPeering_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworksVirtualNetworkPeering_Spec, VirtualNetworksVirtualNetworkPeering_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualNetworksVirtualNetworkPeerings_SPEC runs a test to see if a specific instance of VirtualNetworksVirtualNetworkPeerings_SPEC round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworksVirtualNetworkPeerings_SPEC(subject VirtualNetworksVirtualNetworkPeerings_SPEC) string {
+// RunJSONSerializationTestForVirtualNetworksVirtualNetworkPeering_Spec runs a test to see if a specific instance of VirtualNetworksVirtualNetworkPeering_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworksVirtualNetworkPeering_Spec(subject VirtualNetworksVirtualNetworkPeering_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -358,7 +354,7 @@ func RunJSONSerializationTestForVirtualNetworksVirtualNetworkPeerings_SPEC(subje
 	}
 
 	// Deserialize back into memory
-	var actual VirtualNetworksVirtualNetworkPeerings_SPEC
+	var actual VirtualNetworksVirtualNetworkPeering_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -376,47 +372,47 @@ func RunJSONSerializationTestForVirtualNetworksVirtualNetworkPeerings_SPEC(subje
 	return ""
 }
 
-// Generator of VirtualNetworksVirtualNetworkPeerings_SPEC instances for property testing - lazily instantiated by
-//VirtualNetworksVirtualNetworkPeerings_SPECGenerator()
-var virtualNetworksVirtualNetworkPeerings_specGenerator gopter.Gen
+// Generator of VirtualNetworksVirtualNetworkPeering_Spec instances for property testing - lazily instantiated by
+//VirtualNetworksVirtualNetworkPeering_SpecGenerator()
+var virtualNetworksVirtualNetworkPeering_specGenerator gopter.Gen
 
-// VirtualNetworksVirtualNetworkPeerings_SPECGenerator returns a generator of VirtualNetworksVirtualNetworkPeerings_SPEC instances for property testing.
-// We first initialize virtualNetworksVirtualNetworkPeerings_specGenerator with a simplified generator based on the
+// VirtualNetworksVirtualNetworkPeering_SpecGenerator returns a generator of VirtualNetworksVirtualNetworkPeering_Spec instances for property testing.
+// We first initialize virtualNetworksVirtualNetworkPeering_specGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualNetworksVirtualNetworkPeerings_SPECGenerator() gopter.Gen {
-	if virtualNetworksVirtualNetworkPeerings_specGenerator != nil {
-		return virtualNetworksVirtualNetworkPeerings_specGenerator
+func VirtualNetworksVirtualNetworkPeering_SpecGenerator() gopter.Gen {
+	if virtualNetworksVirtualNetworkPeering_specGenerator != nil {
+		return virtualNetworksVirtualNetworkPeering_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworksVirtualNetworkPeerings_SPEC(generators)
-	virtualNetworksVirtualNetworkPeerings_specGenerator = gen.Struct(reflect.TypeOf(VirtualNetworksVirtualNetworkPeerings_SPEC{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworksVirtualNetworkPeering_Spec(generators)
+	virtualNetworksVirtualNetworkPeering_specGenerator = gen.Struct(reflect.TypeOf(VirtualNetworksVirtualNetworkPeering_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworksVirtualNetworkPeerings_SPEC(generators)
-	AddRelatedPropertyGeneratorsForVirtualNetworksVirtualNetworkPeerings_SPEC(generators)
-	virtualNetworksVirtualNetworkPeerings_specGenerator = gen.Struct(reflect.TypeOf(VirtualNetworksVirtualNetworkPeerings_SPEC{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworksVirtualNetworkPeering_Spec(generators)
+	AddRelatedPropertyGeneratorsForVirtualNetworksVirtualNetworkPeering_Spec(generators)
+	virtualNetworksVirtualNetworkPeering_specGenerator = gen.Struct(reflect.TypeOf(VirtualNetworksVirtualNetworkPeering_Spec{}), generators)
 
-	return virtualNetworksVirtualNetworkPeerings_specGenerator
+	return virtualNetworksVirtualNetworkPeering_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualNetworksVirtualNetworkPeerings_SPEC is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworksVirtualNetworkPeerings_SPEC(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualNetworksVirtualNetworkPeering_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworksVirtualNetworkPeering_Spec(gens map[string]gopter.Gen) {
 	gens["AllowForwardedTraffic"] = gen.PtrOf(gen.Bool())
 	gens["AllowGatewayTransit"] = gen.PtrOf(gen.Bool())
 	gens["AllowVirtualNetworkAccess"] = gen.PtrOf(gen.Bool())
 	gens["AzureName"] = gen.AlphaString()
 	gens["DoNotVerifyRemoteGateways"] = gen.PtrOf(gen.Bool())
-	gens["PeeringState"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkPeeringPropertiesFormat_PeeringState_SpecConnected, VirtualNetworkPeeringPropertiesFormat_PeeringState_SpecDisconnected, VirtualNetworkPeeringPropertiesFormat_PeeringState_SpecInitiated))
+	gens["PeeringState"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkPeeringPropertiesFormatPeeringStateConnected, VirtualNetworkPeeringPropertiesFormatPeeringStateDisconnected, VirtualNetworkPeeringPropertiesFormatPeeringStateInitiated))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["UseRemoteGateways"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForVirtualNetworksVirtualNetworkPeerings_SPEC is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualNetworksVirtualNetworkPeerings_SPEC(gens map[string]gopter.Gen) {
-	gens["RemoteAddressSpace"] = gen.PtrOf(AddressSpace_SpecGenerator())
-	gens["RemoteBgpCommunities"] = gen.PtrOf(VirtualNetworkBgpCommunities_SpecGenerator())
-	gens["RemoteVirtualNetwork"] = gen.PtrOf(SubResource_SpecGenerator())
+// AddRelatedPropertyGeneratorsForVirtualNetworksVirtualNetworkPeering_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualNetworksVirtualNetworkPeering_Spec(gens map[string]gopter.Gen) {
+	gens["RemoteAddressSpace"] = gen.PtrOf(AddressSpaceGenerator())
+	gens["RemoteBgpCommunities"] = gen.PtrOf(VirtualNetworkBgpCommunitiesGenerator())
+	gens["RemoteVirtualNetwork"] = gen.PtrOf(SubResourceGenerator())
 }

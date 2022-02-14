@@ -24,10 +24,10 @@ func Test_Networking_VirtualNetwork_CRUD(t *testing.T) {
 
 	vnet := &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
-		Spec: network.VirtualNetworks_Spec{
+		Spec: network.VirtualNetwork_Spec{
 			Owner:    testcommon.AsOwner(rg),
-			Location: testcommon.DefaultTestRegion,
-			AddressSpace: network.AddressSpace{
+			Location: &testcommon.DefaultTestRegion,
+			AddressSpace: &network.AddressSpace{
 				AddressPrefixes: []string{"10.0.0.0/8"},
 			},
 		},
@@ -50,7 +50,7 @@ func Test_Networking_VirtualNetwork_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(vnet)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.VirtualNetworksSpecAPIVersion20201101))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
@@ -59,9 +59,9 @@ func Test_Networking_VirtualNetwork_CRUD(t *testing.T) {
 func Subnet_CRUD(tc *testcommon.KubePerTestContext, vnet *network.VirtualNetwork) {
 	subnet := &network.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
-		Spec: network.VirtualNetworksSubnets_Spec{
+		Spec: network.VirtualNetworksSubnet_Spec{
 			Owner:         testcommon.AsOwner(vnet),
-			AddressPrefix: "10.0.0.0/24",
+			AddressPrefix: to.StringPtr("10.0.0.0/24"),
 		},
 	}
 
@@ -73,9 +73,9 @@ func Subnet_CRUD(tc *testcommon.KubePerTestContext, vnet *network.VirtualNetwork
 
 	// Update the subnet
 	old := subnet.DeepCopy()
-	subnet.Spec.Delegations = []network.VirtualNetworksSubnets_Spec_Properties_Delegations{
+	subnet.Spec.Delegations = []network.Delegation{
 		{
-			Name:        "mydelegation",
+			Name:        to.StringPtr("mydelegation"),
 			ServiceName: to.StringPtr("Microsoft.DBforMySQL/serversv2"),
 		},
 	}

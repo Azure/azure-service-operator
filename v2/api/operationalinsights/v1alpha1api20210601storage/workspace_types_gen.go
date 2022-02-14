@@ -28,7 +28,7 @@ import (
 type Workspace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Workspaces_SPEC  `json:"spec,omitempty"`
+	Spec              Workspace_Spec   `json:"spec,omitempty"`
 	Status            Workspace_Status `json:"status,omitempty"`
 }
 
@@ -138,6 +138,49 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("2021-06-01")
 
+//Storage version of v1alpha1api20210601.Workspace_Spec
+type Workspace_Spec struct {
+	//AzureName: The name of the resource in Azure. This is often the same as the name
+	//of the resource in Kubernetes but it doesn't have to be.
+	AzureName        string             `json:"azureName"`
+	ETag             *string            `json:"eTag,omitempty"`
+	Features         *WorkspaceFeatures `json:"features,omitempty"`
+	ForceCmkForQuery *bool              `json:"forceCmkForQuery,omitempty"`
+	Location         *string            `json:"location,omitempty"`
+	OriginalVersion  string             `json:"originalVersion"`
+
+	// +kubebuilder:validation:Required
+	Owner                           genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	PropertyBag                     genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	ProvisioningState               *string                           `json:"provisioningState,omitempty"`
+	PublicNetworkAccessForIngestion *string                           `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForQuery     *string                           `json:"publicNetworkAccessForQuery,omitempty"`
+	RetentionInDays                 *int                              `json:"retentionInDays,omitempty"`
+	Sku                             *WorkspaceSku                     `json:"sku,omitempty"`
+	Tags                            map[string]string                 `json:"tags,omitempty"`
+	WorkspaceCapping                *WorkspaceCapping                 `json:"workspaceCapping,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &Workspace_Spec{}
+
+// ConvertSpecFrom populates our Workspace_Spec from the provided source
+func (workspace *Workspace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == workspace {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(workspace)
+}
+
+// ConvertSpecTo populates the provided destination from our Workspace_Spec
+func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == workspace {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(workspace)
+}
+
 //Storage version of v1alpha1api20210601.Workspace_Status
 type Workspace_Status struct {
 	Conditions                      []conditions.Condition             `json:"conditions,omitempty"`
@@ -182,49 +225,6 @@ func (workspace *Workspace_Status) ConvertStatusTo(destination genruntime.Conver
 	return destination.ConvertStatusFrom(workspace)
 }
 
-//Storage version of v1alpha1api20210601.Workspaces_SPEC
-type Workspaces_SPEC struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName        string                  `json:"azureName"`
-	ETag             *string                 `json:"eTag,omitempty"`
-	Features         *WorkspaceFeatures_Spec `json:"features,omitempty"`
-	ForceCmkForQuery *bool                   `json:"forceCmkForQuery,omitempty"`
-	Location         *string                 `json:"location,omitempty"`
-	OriginalVersion  string                  `json:"originalVersion"`
-
-	// +kubebuilder:validation:Required
-	Owner                           genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PropertyBag                     genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	ProvisioningState               *string                           `json:"provisioningState,omitempty"`
-	PublicNetworkAccessForIngestion *string                           `json:"publicNetworkAccessForIngestion,omitempty"`
-	PublicNetworkAccessForQuery     *string                           `json:"publicNetworkAccessForQuery,omitempty"`
-	RetentionInDays                 *int                              `json:"retentionInDays,omitempty"`
-	Sku                             *WorkspaceSku_Spec                `json:"sku,omitempty"`
-	Tags                            map[string]string                 `json:"tags,omitempty"`
-	WorkspaceCapping                *WorkspaceCapping_Spec            `json:"workspaceCapping,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Workspaces_SPEC{}
-
-// ConvertSpecFrom populates our Workspaces_SPEC from the provided source
-func (spec *Workspaces_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(spec)
-}
-
-// ConvertSpecTo populates the provided destination from our Workspaces_SPEC
-func (spec *Workspaces_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(spec)
-}
-
 //Storage version of v1alpha1api20210601.PrivateLinkScopedResource_Status
 type PrivateLinkScopedResource_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -232,8 +232,8 @@ type PrivateLinkScopedResource_Status struct {
 	ScopeId     *string                `json:"scopeId,omitempty"`
 }
 
-//Storage version of v1alpha1api20210601.WorkspaceCapping_Spec
-type WorkspaceCapping_Spec struct {
+//Storage version of v1alpha1api20210601.WorkspaceCapping
+type WorkspaceCapping struct {
 	DailyQuotaGb *float64               `json:"dailyQuotaGb,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -246,8 +246,8 @@ type WorkspaceCapping_Status struct {
 	QuotaNextResetTime  *string                `json:"quotaNextResetTime,omitempty"`
 }
 
-//Storage version of v1alpha1api20210601.WorkspaceFeatures_Spec
-type WorkspaceFeatures_Spec struct {
+//Storage version of v1alpha1api20210601.WorkspaceFeatures
+type WorkspaceFeatures struct {
 	//ClusterResourceReference: Dedicated LA cluster resourceId that is linked to the
 	//workspaces.
 	ClusterResourceReference                    *genruntime.ResourceReference `armReference:"ClusterResourceId" json:"clusterResourceReference,omitempty"`
@@ -268,8 +268,8 @@ type WorkspaceFeatures_Status struct {
 	PropertyBag                                 genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210601.WorkspaceSku_Spec
-type WorkspaceSku_Spec struct {
+//Storage version of v1alpha1api20210601.WorkspaceSku
+type WorkspaceSku struct {
 	CapacityReservationLevel *int                   `json:"capacityReservationLevel,omitempty"`
 	Name                     *string                `json:"name,omitempty"`
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`

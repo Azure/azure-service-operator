@@ -28,7 +28,7 @@ import (
 type Namespace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Namespaces_SPEC    `json:"spec,omitempty"`
+	Spec              Namespace_Spec     `json:"spec,omitempty"`
 	Status            SBNamespace_Status `json:"status,omitempty"`
 }
 
@@ -138,43 +138,43 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("2021-01-01-preview")
 
-//Storage version of v1alpha1api20210101preview.Namespaces_SPEC
-type Namespaces_SPEC struct {
+//Storage version of v1alpha1api20210101preview.Namespace_Spec
+type Namespace_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName       string           `json:"azureName"`
-	Encryption      *Encryption_Spec `json:"encryption,omitempty"`
-	Identity        *Identity_Spec   `json:"identity,omitempty"`
-	Location        *string          `json:"location,omitempty"`
-	OriginalVersion string           `json:"originalVersion"`
+	AzureName       string      `json:"azureName"`
+	Encryption      *Encryption `json:"encryption,omitempty"`
+	Identity        *Identity   `json:"identity,omitempty"`
+	Location        *string     `json:"location,omitempty"`
+	OriginalVersion string      `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
 	Owner                      genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PrivateEndpointConnections []PrivateEndpointConnection_Spec  `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection       `json:"privateEndpointConnections,omitempty"`
 	PropertyBag                genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Sku                        *SBSku_Spec                       `json:"sku,omitempty"`
+	Sku                        *SBSku                            `json:"sku,omitempty"`
 	Tags                       map[string]string                 `json:"tags,omitempty"`
 	ZoneRedundant              *bool                             `json:"zoneRedundant,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Namespaces_SPEC{}
+var _ genruntime.ConvertibleSpec = &Namespace_Spec{}
 
-// ConvertSpecFrom populates our Namespaces_SPEC from the provided source
-func (spec *Namespaces_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our Namespace_Spec from the provided source
+func (namespace *Namespace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == namespace {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(namespace)
 }
 
-// ConvertSpecTo populates the provided destination from our Namespaces_SPEC
-func (spec *Namespaces_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our Namespace_Spec
+func (namespace *Namespace_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == namespace {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(namespace)
 }
 
 //Storage version of v1alpha1api20210101preview.SBNamespace_Status
@@ -220,12 +220,12 @@ func (namespace *SBNamespace_Status) ConvertStatusTo(destination genruntime.Conv
 	return destination.ConvertStatusFrom(namespace)
 }
 
-//Storage version of v1alpha1api20210101preview.Encryption_Spec
-type Encryption_Spec struct {
-	KeySource                       *string                   `json:"keySource,omitempty"`
-	KeyVaultProperties              []KeyVaultProperties_Spec `json:"keyVaultProperties,omitempty"`
-	PropertyBag                     genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	RequireInfrastructureEncryption *bool                     `json:"requireInfrastructureEncryption,omitempty"`
+//Storage version of v1alpha1api20210101preview.Encryption
+type Encryption struct {
+	KeySource                       *string                `json:"keySource,omitempty"`
+	KeyVaultProperties              []KeyVaultProperties   `json:"keyVaultProperties,omitempty"`
+	PropertyBag                     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	RequireInfrastructureEncryption *bool                  `json:"requireInfrastructureEncryption,omitempty"`
 }
 
 //Storage version of v1alpha1api20210101preview.Encryption_Status
@@ -236,8 +236,8 @@ type Encryption_Status struct {
 	RequireInfrastructureEncryption *bool                       `json:"requireInfrastructureEncryption,omitempty"`
 }
 
-//Storage version of v1alpha1api20210101preview.Identity_Spec
-type Identity_Spec struct {
+//Storage version of v1alpha1api20210101preview.Identity
+type Identity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
@@ -251,10 +251,10 @@ type Identity_Status struct {
 	UserAssignedIdentities map[string]DictionaryValue_Status `json:"userAssignedIdentities,omitempty"`
 }
 
-//Storage version of v1alpha1api20210101preview.PrivateEndpointConnection_Spec
-type PrivateEndpointConnection_Spec struct {
-	PrivateEndpoint                   *PrivateEndpoint_Spec  `json:"privateEndpoint,omitempty"`
-	PrivateLinkServiceConnectionState *ConnectionState_Spec  `json:"privateLinkServiceConnectionState,omitempty"`
+//Storage version of v1alpha1api20210101preview.PrivateEndpointConnection
+type PrivateEndpointConnection struct {
+	PrivateEndpoint                   *PrivateEndpoint       `json:"privateEndpoint,omitempty"`
+	PrivateLinkServiceConnectionState *ConnectionState       `json:"privateLinkServiceConnectionState,omitempty"`
 	PropertyBag                       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ProvisioningState                 *string                `json:"provisioningState,omitempty"`
 }
@@ -266,8 +266,8 @@ type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 	SystemData  *SystemData_Status     `json:"systemData,omitempty"`
 }
 
-//Storage version of v1alpha1api20210101preview.SBSku_Spec
-type SBSku_Spec struct {
+//Storage version of v1alpha1api20210101preview.SBSku
+type SBSku struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -293,8 +293,8 @@ type SystemData_Status struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210101preview.ConnectionState_Spec
-type ConnectionState_Spec struct {
+//Storage version of v1alpha1api20210101preview.ConnectionState
+type ConnectionState struct {
 	Description *string                `json:"description,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
@@ -307,13 +307,13 @@ type DictionaryValue_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210101preview.KeyVaultProperties_Spec
-type KeyVaultProperties_Spec struct {
-	Identity    *UserAssignedIdentityProperties_Spec `json:"identity,omitempty"`
-	KeyName     *string                              `json:"keyName,omitempty"`
-	KeyVaultUri *string                              `json:"keyVaultUri,omitempty"`
-	KeyVersion  *string                              `json:"keyVersion,omitempty"`
-	PropertyBag genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
+//Storage version of v1alpha1api20210101preview.KeyVaultProperties
+type KeyVaultProperties struct {
+	Identity    *UserAssignedIdentityProperties `json:"identity,omitempty"`
+	KeyName     *string                         `json:"keyName,omitempty"`
+	KeyVaultUri *string                         `json:"keyVaultUri,omitempty"`
+	KeyVersion  *string                         `json:"keyVersion,omitempty"`
+	PropertyBag genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v1alpha1api20210101preview.KeyVaultProperties_Status
@@ -325,16 +325,16 @@ type KeyVaultProperties_Status struct {
 	PropertyBag genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210101preview.PrivateEndpoint_Spec
-type PrivateEndpoint_Spec struct {
+//Storage version of v1alpha1api20210101preview.PrivateEndpoint
+type PrivateEndpoint struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	//Reference: The ARM identifier for Private Endpoint.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-//Storage version of v1alpha1api20210101preview.UserAssignedIdentityProperties_Spec
-type UserAssignedIdentityProperties_Spec struct {
+//Storage version of v1alpha1api20210101preview.UserAssignedIdentityProperties
+type UserAssignedIdentityProperties struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	//UserAssignedIdentityReference: ARM ID of user Identity selected for encryption

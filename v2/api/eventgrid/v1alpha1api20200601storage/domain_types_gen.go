@@ -28,7 +28,7 @@ import (
 type Domain struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Domains_SPEC  `json:"spec,omitempty"`
+	Spec              Domain_Spec   `json:"spec,omitempty"`
 	Status            Domain_Status `json:"status,omitempty"`
 }
 
@@ -138,6 +138,44 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("2020-06-01")
 
+//Storage version of v1alpha1api20200601.Domain_Spec
+type Domain_Spec struct {
+	//AzureName: The name of the resource in Azure. This is often the same as the name
+	//of the resource in Kubernetes but it doesn't have to be.
+	AzureName          string              `json:"azureName"`
+	InboundIpRules     []InboundIpRule     `json:"inboundIpRules,omitempty"`
+	InputSchema        *string             `json:"inputSchema,omitempty"`
+	InputSchemaMapping *InputSchemaMapping `json:"inputSchemaMapping,omitempty"`
+	Location           *string             `json:"location,omitempty"`
+	OriginalVersion    string              `json:"originalVersion"`
+
+	// +kubebuilder:validation:Required
+	Owner               genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	PropertyBag         genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                           `json:"publicNetworkAccess,omitempty"`
+	Tags                map[string]string                 `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &Domain_Spec{}
+
+// ConvertSpecFrom populates our Domain_Spec from the provided source
+func (domain *Domain_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == domain {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(domain)
+}
+
+// ConvertSpecTo populates the provided destination from our Domain_Spec
+func (domain *Domain_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == domain {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(domain)
+}
+
 //Storage version of v1alpha1api20200601.Domain_Status
 type Domain_Status struct {
 	Conditions                 []conditions.Condition                                        `json:"conditions,omitempty"`
@@ -178,46 +216,8 @@ func (domain *Domain_Status) ConvertStatusTo(destination genruntime.ConvertibleS
 	return destination.ConvertStatusFrom(domain)
 }
 
-//Storage version of v1alpha1api20200601.Domains_SPEC
-type Domains_SPEC struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName          string                   `json:"azureName"`
-	InboundIpRules     []InboundIpRule_Spec     `json:"inboundIpRules,omitempty"`
-	InputSchema        *string                  `json:"inputSchema,omitempty"`
-	InputSchemaMapping *InputSchemaMapping_Spec `json:"inputSchemaMapping,omitempty"`
-	Location           *string                  `json:"location,omitempty"`
-	OriginalVersion    string                   `json:"originalVersion"`
-
-	// +kubebuilder:validation:Required
-	Owner               genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PropertyBag         genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                           `json:"publicNetworkAccess,omitempty"`
-	Tags                map[string]string                 `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Domains_SPEC{}
-
-// ConvertSpecFrom populates our Domains_SPEC from the provided source
-func (spec *Domains_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(spec)
-}
-
-// ConvertSpecTo populates the provided destination from our Domains_SPEC
-func (spec *Domains_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(spec)
-}
-
-//Storage version of v1alpha1api20200601.InboundIpRule_Spec
-type InboundIpRule_Spec struct {
+//Storage version of v1alpha1api20200601.InboundIpRule
+type InboundIpRule struct {
 	Action      *string                `json:"action,omitempty"`
 	IpMask      *string                `json:"ipMask,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -230,8 +230,8 @@ type InboundIpRule_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20200601.InputSchemaMapping_Spec
-type InputSchemaMapping_Spec struct {
+//Storage version of v1alpha1api20200601.InputSchemaMapping
+type InputSchemaMapping struct {
 	InputSchemaMappingType *string                `json:"inputSchemaMappingType,omitempty"`
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }

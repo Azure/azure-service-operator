@@ -72,7 +72,7 @@ func Test_Cache_RedisEnterprise_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(&redis)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(cache.RedisEnterpriseDatabasesSpecAPIVersion20210301))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(cache.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
@@ -88,7 +88,7 @@ func RedisEnterprise_Database_CRUD(tc *testcommon.KubePerTestContext, redis *cac
 		// The RP currently only allows one database, which must be
 		// named "default", in a cluster.
 		ObjectMeta: tc.MakeObjectMetaWithName("default"),
-		Spec: cache.RedisEnterpriseDatabases_Spec{
+		Spec: cache.RedisEnterpriseDatabase_Spec{
 			Owner:            testcommon.AsOwner(redis),
 			ClientProtocol:   &encrypted,
 			ClusteringPolicy: &enterpriseCluster,
@@ -116,10 +116,9 @@ func RedisEnterprise_Database_CRUD(tc *testcommon.KubePerTestContext, redis *cac
 	database.Spec.Persistence.AofFrequency = &oneSecond
 	tc.PatchResourceAndWait(old, &database)
 
-	oneSecondStatus := cache.PersistenceStatusAofFrequency1S
 	expectedPersistenceStatus := &cache.Persistence_Status{
 		AofEnabled:   to.BoolPtr(true),
-		AofFrequency: &oneSecondStatus,
+		AofFrequency: to.StringPtr(string(cache.PersistenceAofFrequency1S)),
 		RdbEnabled:   to.BoolPtr(false),
 	}
 	tc.Expect(database.Status.Persistence).To(Equal(expectedPersistenceStatus))

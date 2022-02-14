@@ -49,7 +49,7 @@ func Test_InferNameFromURLPath_SkipsDefault(t *testing.T) {
 	group, name, err := inferNameFromURLPath("Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}")
 	g.Expect(err).To(BeNil())
 	g.Expect(group).To(Equal("Microsoft.Storage"))
-	g.Expect(name).To(Equal("StorageAccountsBlobServicesContainers"))
+	g.Expect(name).To(Equal("StorageAccountsBlobServicesContainer")) // should be singularized
 }
 
 /*

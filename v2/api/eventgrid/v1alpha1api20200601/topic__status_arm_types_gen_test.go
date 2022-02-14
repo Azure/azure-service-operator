@@ -162,16 +162,10 @@ func TopicProperties_StatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForTopicProperties_StatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForTopicProperties_StatusARM(gens map[string]gopter.Gen) {
 	gens["Endpoint"] = gen.PtrOf(gen.AlphaString())
-	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(TopicProperties_InputSchema_StatusCloudEventSchemaV1_0, TopicProperties_InputSchema_StatusCustomEventSchema, TopicProperties_InputSchema_StatusEventGridSchema))
+	gens["InputSchema"] = gen.PtrOf(gen.AlphaString())
 	gens["MetricResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		TopicProperties_ProvisioningState_StatusCanceled,
-		TopicProperties_ProvisioningState_StatusCreating,
-		TopicProperties_ProvisioningState_StatusDeleting,
-		TopicProperties_ProvisioningState_StatusFailed,
-		TopicProperties_ProvisioningState_StatusSucceeded,
-		TopicProperties_ProvisioningState_StatusUpdating))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(TopicProperties_PublicNetworkAccess_StatusDisabled, TopicProperties_PublicNetworkAccess_StatusEnabled))
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForTopicProperties_StatusARM is a factory method for creating gopter generators

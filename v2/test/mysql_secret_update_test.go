@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"github.com/Azure/go-autorest/autorest/to"
-	_ "github.com/go-sql-driver/mysql" //sql drive link
+	_ "github.com/go-sql-driver/mysql" // sql drive link
 	. "github.com/onsi/gomega"
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
@@ -45,14 +45,14 @@ func Test_MySQL_Secret_Updated(t *testing.T) {
 
 	tc.CreateResource(secret)
 
-	version := mysql.ServerPropertiesVersion8021
+	version := mysql.ServerVersion8021
 	secretRef := genruntime.SecretReference{
 		Name: secret.Name,
 		Key:  adminPasswordKey,
 	}
 	flexibleServer := &mysql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("mysql"),
-		Spec: mysql.FlexibleServers_Spec{
+		Spec: mysql.FlexibleServer_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
@@ -74,7 +74,7 @@ func Test_MySQL_Secret_Updated(t *testing.T) {
 	// because there's no data in the database anyway
 	firewallRule := &mysql.FlexibleServersFirewallRule{
 		ObjectMeta: tc.MakeObjectMeta("firewall"),
-		Spec: mysql.FlexibleServersFirewallRules_Spec{
+		Spec: mysql.FlexibleServersFirewallRule_Spec{
 			Owner:          testcommon.AsOwner(flexibleServer),
 			StartIpAddress: "0.0.0.0",
 			EndIpAddress:   "255.255.255.255",
@@ -130,9 +130,11 @@ func Test_MySQL_Secret_Updated(t *testing.T) {
 	).Should(Succeed())
 }
 
-const MySQLServerPort = 3306
-const MySQLDriver = "mysql"
-const MySQLSystemDatabase = "mysql"
+const (
+	MySQLServerPort     = 3306
+	MySQLDriver         = "mysql"
+	MySQLSystemDatabase = "mysql"
+)
 
 // TODO: This will probably one day need to be put into a non-test package, but for now not bothering as we only use it to test
 func ConnectToMySQLDB(ctx context.Context, fullServer string, database string, port int, user string, password string) (*sql.DB, error) {

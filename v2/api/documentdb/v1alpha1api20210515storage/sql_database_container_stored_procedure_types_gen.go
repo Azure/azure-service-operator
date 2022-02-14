@@ -29,8 +29,8 @@ import (
 type SqlDatabaseContainerStoredProcedure struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC `json:"spec,omitempty"`
-	Status            SqlStoredProcedure_Status                                   `json:"status,omitempty"`
+	Spec              DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec `json:"spec,omitempty"`
+	Status            SqlStoredProcedure_Status                                  `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerStoredProcedure{}
@@ -135,40 +135,40 @@ type SqlDatabaseContainerStoredProcedureList struct {
 	Items           []SqlDatabaseContainerStoredProcedure `json:"items"`
 }
 
-//Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC
-type DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC struct {
+//Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec
+type DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName       string                    `json:"azureName"`
-	Location        *string                   `json:"location,omitempty"`
-	Options         *CreateUpdateOptions_Spec `json:"options,omitempty"`
-	OriginalVersion string                    `json:"originalVersion"`
+	AzureName       string               `json:"azureName"`
+	Location        *string              `json:"location,omitempty"`
+	Options         *CreateUpdateOptions `json:"options,omitempty"`
+	OriginalVersion string               `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
 	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Resource    *SqlStoredProcedureResource_Spec  `json:"resource,omitempty"`
+	Resource    *SqlStoredProcedureResource       `json:"resource,omitempty"`
 	Tags        map[string]string                 `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC from the provided source
-func (spec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec from the provided source
+func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == procedure {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(procedure)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC
-func (spec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec
+func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == procedure {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(procedure)
 }
 
 //Storage version of v1alpha1api20210515.SqlStoredProcedure_Status
@@ -204,8 +204,8 @@ func (procedure *SqlStoredProcedure_Status) ConvertStatusTo(destination genrunti
 	return destination.ConvertStatusFrom(procedure)
 }
 
-//Storage version of v1alpha1api20210515.SqlStoredProcedureResource_Spec
-type SqlStoredProcedureResource_Spec struct {
+//Storage version of v1alpha1api20210515.SqlStoredProcedureResource
+type SqlStoredProcedureResource struct {
 	Body        *string                `json:"body,omitempty"`
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

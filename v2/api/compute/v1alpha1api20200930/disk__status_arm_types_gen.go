@@ -81,7 +81,7 @@ type DiskProperties_StatusARM struct {
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
 	//DiskState: The state of the disk.
-	DiskState *DiskState_Status `json:"diskState,omitempty"`
+	DiskState *string `json:"diskState,omitempty"`
 
 	//Encryption: Encryption property can be used to encrypt data at rest with
 	//customer managed keys or platform managed keys.
@@ -93,16 +93,16 @@ type DiskProperties_StatusARM struct {
 
 	//HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable
 	//to OS disks only.
-	HyperVGeneration *DiskProperties_HyperVGeneration_Status `json:"hyperVGeneration,omitempty"`
+	HyperVGeneration *string `json:"hyperVGeneration,omitempty"`
 
 	//MaxShares: The maximum number of VMs that can attach to the disk at the same
 	//time. Value greater than one indicates a disk that can be mounted on multiple
 	//VMs at the same time.
-	MaxShares           *int                        `json:"maxShares,omitempty"`
-	NetworkAccessPolicy *NetworkAccessPolicy_Status `json:"networkAccessPolicy,omitempty"`
+	MaxShares           *int    `json:"maxShares,omitempty"`
+	NetworkAccessPolicy *string `json:"networkAccessPolicy,omitempty"`
 
 	//OsType: The Operating System type.
-	OsType *DiskProperties_OsType_Status `json:"osType,omitempty"`
+	OsType *string `json:"osType,omitempty"`
 
 	//ProvisioningState: The disk provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -131,7 +131,7 @@ type DiskProperties_StatusARM struct {
 
 type DiskSku_StatusARM struct {
 	//Name: The sku name.
-	Name *DiskSku_Name_Status `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	//Tier: The sku tier.
 	Tier *string `json:"tier,omitempty"`
@@ -142,12 +142,12 @@ type ExtendedLocation_StatusARM struct {
 	Name *string `json:"name,omitempty"`
 
 	//Type: The type of the extended location.
-	Type *ExtendedLocationType_Status `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 type CreationData_StatusARM struct {
 	//CreateOption: This enumerates the possible sources of a disk's creation.
-	CreateOption CreationData_CreateOption_Status `json:"createOption"`
+	CreateOption string `json:"createOption"`
 
 	//GalleryImageReference: Required if creating from a Gallery Image. The id of the
 	//ImageDiskReference will be the ARM id of the shared galley image version from
@@ -184,15 +184,6 @@ type CreationData_StatusARM struct {
 	UploadSizeBytes *int `json:"uploadSizeBytes,omitempty"`
 }
 
-type DiskSku_Name_Status string
-
-const (
-	DiskSku_Name_StatusPremium_LRS     = DiskSku_Name_Status("Premium_LRS")
-	DiskSku_Name_StatusStandardSSD_LRS = DiskSku_Name_Status("StandardSSD_LRS")
-	DiskSku_Name_StatusStandard_LRS    = DiskSku_Name_Status("Standard_LRS")
-	DiskSku_Name_StatusUltraSSD_LRS    = DiskSku_Name_Status("UltraSSD_LRS")
-)
-
 type EncryptionSettingsCollection_StatusARM struct {
 	//Enabled: Set this flag to true and provide DiskEncryptionKey and optional
 	//KeyEncryptionKey to enable encryption. Set this flag to false and remove
@@ -214,13 +205,9 @@ type EncryptionSettingsCollection_StatusARM struct {
 type Encryption_StatusARM struct {
 	//DiskEncryptionSetId: ResourceId of the disk encryption set to use for enabling
 	//encryption at rest.
-	DiskEncryptionSetId *string                `json:"diskEncryptionSetId,omitempty"`
-	Type                *EncryptionType_Status `json:"type,omitempty"`
+	DiskEncryptionSetId *string `json:"diskEncryptionSetId,omitempty"`
+	Type                *string `json:"type,omitempty"`
 }
-
-type ExtendedLocationType_Status string
-
-const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
 
 type PurchasePlan_StatusARM struct {
 	//Name: The plan ID.

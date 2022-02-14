@@ -30,7 +30,7 @@ import (
 type Topic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Topics_SPEC  `json:"spec,omitempty"`
+	Spec              Topic_Spec   `json:"spec,omitempty"`
 	Status            Topic_Status `json:"status,omitempty"`
 }
 
@@ -247,10 +247,10 @@ func (topic *Topic) AssignPropertiesFromTopic(source *v1alpha1api20200601storage
 	topic.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Topics_SPEC
-	err := spec.AssignPropertiesFromTopics_SPEC(&source.Spec)
+	var spec Topic_Spec
+	err := spec.AssignPropertiesFromTopic_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromTopics_SPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromTopic_Spec() to populate field Spec")
 	}
 	topic.Spec = spec
 
@@ -273,10 +273,10 @@ func (topic *Topic) AssignPropertiesToTopic(destination *v1alpha1api20200601stor
 	destination.ObjectMeta = *topic.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1alpha1api20200601storage.Topics_SPEC
-	err := topic.Spec.AssignPropertiesToTopics_SPEC(&spec)
+	var spec v1alpha1api20200601storage.Topic_Spec
+	err := topic.Spec.AssignPropertiesToTopic_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToTopics_SPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToTopic_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -311,6 +311,382 @@ type TopicList struct {
 	Items           []Topic `json:"items"`
 }
 
+type Topic_Spec struct {
+	//AzureName: The name of the resource in Azure. This is often the same as the name
+	//of the resource in Kubernetes but it doesn't have to be.
+	AzureName string `json:"azureName"`
+
+	//InboundIpRules: This can be used to restrict traffic from specific IPs instead
+	//of all IPs. Note: These are considered only if PublicNetworkAccess is enabled.
+	InboundIpRules []InboundIpRule `json:"inboundIpRules,omitempty"`
+
+	//InputSchema: This determines the format that Event Grid should expect for
+	//incoming events published to the topic.
+	InputSchema *TopicPropertiesInputSchema `json:"inputSchema,omitempty"`
+
+	//InputSchemaMapping: This enables publishing using custom event schemas. An
+	//InputSchemaMapping can be specified to map various properties of a source schema
+	//to various required properties of the EventGridEvent schema.
+	InputSchemaMapping *InputSchemaMapping `json:"inputSchemaMapping,omitempty"`
+
+	// +kubebuilder:validation:Required
+	//Location: Location of the resource.
+	Location string `json:"location"`
+
+	// +kubebuilder:validation:Required
+	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+
+	//PublicNetworkAccess: This determines if traffic is allowed over public network.
+	//By default it is enabled.
+	//You can further restrict to specific IPs by configuring <seealso
+	//cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules"
+	///>
+	PublicNetworkAccess *TopicPropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+
+	//Tags: Tags of the resource.
+	Tags map[string]string `json:"tags,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &Topic_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (topic *Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if topic == nil {
+		return nil, nil
+	}
+	var result Topic_SpecARM
+
+	// Set property ‘AzureName’:
+	result.AzureName = topic.AzureName
+
+	// Set property ‘Location’:
+	result.Location = topic.Location
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if topic.InboundIpRules != nil ||
+		topic.InputSchema != nil ||
+		topic.InputSchemaMapping != nil ||
+		topic.PublicNetworkAccess != nil {
+		result.Properties = &TopicPropertiesARM{}
+	}
+	for _, item := range topic.InboundIpRules {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.InboundIpRules = append(result.Properties.InboundIpRules, itemARM.(InboundIpRuleARM))
+	}
+	if topic.InputSchema != nil {
+		inputSchema := *topic.InputSchema
+		result.Properties.InputSchema = &inputSchema
+	}
+	if topic.InputSchemaMapping != nil {
+		inputSchemaMappingARM, err := (*topic.InputSchemaMapping).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		inputSchemaMapping := inputSchemaMappingARM.(InputSchemaMappingARM)
+		result.Properties.InputSchemaMapping = &inputSchemaMapping
+	}
+	if topic.PublicNetworkAccess != nil {
+		publicNetworkAccess := *topic.PublicNetworkAccess
+		result.Properties.PublicNetworkAccess = &publicNetworkAccess
+	}
+
+	// Set property ‘Tags’:
+	if topic.Tags != nil {
+		result.Tags = make(map[string]string)
+		for key, value := range topic.Tags {
+			result.Tags[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (topic *Topic_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Topic_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (topic *Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Topic_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Topic_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AzureName’:
+	topic.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘InboundIpRules’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.InboundIpRules {
+			var item1 InboundIpRule
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			topic.InboundIpRules = append(topic.InboundIpRules, item1)
+		}
+	}
+
+	// Set property ‘InputSchema’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.InputSchema != nil {
+			inputSchema := *typedInput.Properties.InputSchema
+			topic.InputSchema = &inputSchema
+		}
+	}
+
+	// Set property ‘InputSchemaMapping’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.InputSchemaMapping != nil {
+			var inputSchemaMapping1 InputSchemaMapping
+			err := inputSchemaMapping1.PopulateFromARM(owner, *typedInput.Properties.InputSchemaMapping)
+			if err != nil {
+				return err
+			}
+			inputSchemaMapping := inputSchemaMapping1
+			topic.InputSchemaMapping = &inputSchemaMapping
+		}
+	}
+
+	// Set property ‘Location’:
+	topic.Location = typedInput.Location
+
+	// Set property ‘Owner’:
+	topic.Owner = genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘PublicNetworkAccess’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicNetworkAccess != nil {
+			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			topic.PublicNetworkAccess = &publicNetworkAccess
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		topic.Tags = make(map[string]string)
+		for key, value := range typedInput.Tags {
+			topic.Tags[key] = value
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &Topic_Spec{}
+
+// ConvertSpecFrom populates our Topic_Spec from the provided source
+func (topic *Topic_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v1alpha1api20200601storage.Topic_Spec)
+	if ok {
+		// Populate our instance from source
+		return topic.AssignPropertiesFromTopic_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v1alpha1api20200601storage.Topic_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = topic.AssignPropertiesFromTopic_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our Topic_Spec
+func (topic *Topic_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v1alpha1api20200601storage.Topic_Spec)
+	if ok {
+		// Populate destination from our instance
+		return topic.AssignPropertiesToTopic_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v1alpha1api20200601storage.Topic_Spec{}
+	err := topic.AssignPropertiesToTopic_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromTopic_Spec populates our Topic_Spec from the provided source Topic_Spec
+func (topic *Topic_Spec) AssignPropertiesFromTopic_Spec(source *v1alpha1api20200601storage.Topic_Spec) error {
+
+	// AzureName
+	topic.AzureName = source.AzureName
+
+	// InboundIpRules
+	if source.InboundIpRules != nil {
+		inboundIpRuleList := make([]InboundIpRule, len(source.InboundIpRules))
+		for inboundIpRuleIndex, inboundIpRuleItem := range source.InboundIpRules {
+			// Shadow the loop variable to avoid aliasing
+			inboundIpRuleItem := inboundIpRuleItem
+			var inboundIpRule InboundIpRule
+			err := inboundIpRule.AssignPropertiesFromInboundIpRule(&inboundIpRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromInboundIpRule() to populate field InboundIpRules")
+			}
+			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
+		}
+		topic.InboundIpRules = inboundIpRuleList
+	} else {
+		topic.InboundIpRules = nil
+	}
+
+	// InputSchema
+	if source.InputSchema != nil {
+		inputSchema := TopicPropertiesInputSchema(*source.InputSchema)
+		topic.InputSchema = &inputSchema
+	} else {
+		topic.InputSchema = nil
+	}
+
+	// InputSchemaMapping
+	if source.InputSchemaMapping != nil {
+		var inputSchemaMapping InputSchemaMapping
+		err := inputSchemaMapping.AssignPropertiesFromInputSchemaMapping(source.InputSchemaMapping)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromInputSchemaMapping() to populate field InputSchemaMapping")
+		}
+		topic.InputSchemaMapping = &inputSchemaMapping
+	} else {
+		topic.InputSchemaMapping = nil
+	}
+
+	// Location
+	topic.Location = genruntime.GetOptionalStringValue(source.Location)
+
+	// Owner
+	topic.Owner = source.Owner.Copy()
+
+	// PublicNetworkAccess
+	if source.PublicNetworkAccess != nil {
+		publicNetworkAccess := TopicPropertiesPublicNetworkAccess(*source.PublicNetworkAccess)
+		topic.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		topic.PublicNetworkAccess = nil
+	}
+
+	// Tags
+	topic.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTopic_Spec populates the provided destination Topic_Spec from our Topic_Spec
+func (topic *Topic_Spec) AssignPropertiesToTopic_Spec(destination *v1alpha1api20200601storage.Topic_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = topic.AzureName
+
+	// InboundIpRules
+	if topic.InboundIpRules != nil {
+		inboundIpRuleList := make([]v1alpha1api20200601storage.InboundIpRule, len(topic.InboundIpRules))
+		for inboundIpRuleIndex, inboundIpRuleItem := range topic.InboundIpRules {
+			// Shadow the loop variable to avoid aliasing
+			inboundIpRuleItem := inboundIpRuleItem
+			var inboundIpRule v1alpha1api20200601storage.InboundIpRule
+			err := inboundIpRuleItem.AssignPropertiesToInboundIpRule(&inboundIpRule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToInboundIpRule() to populate field InboundIpRules")
+			}
+			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
+		}
+		destination.InboundIpRules = inboundIpRuleList
+	} else {
+		destination.InboundIpRules = nil
+	}
+
+	// InputSchema
+	if topic.InputSchema != nil {
+		inputSchema := string(*topic.InputSchema)
+		destination.InputSchema = &inputSchema
+	} else {
+		destination.InputSchema = nil
+	}
+
+	// InputSchemaMapping
+	if topic.InputSchemaMapping != nil {
+		var inputSchemaMapping v1alpha1api20200601storage.InputSchemaMapping
+		err := topic.InputSchemaMapping.AssignPropertiesToInputSchemaMapping(&inputSchemaMapping)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToInputSchemaMapping() to populate field InputSchemaMapping")
+		}
+		destination.InputSchemaMapping = &inputSchemaMapping
+	} else {
+		destination.InputSchemaMapping = nil
+	}
+
+	// Location
+	location := topic.Location
+	destination.Location = &location
+
+	// OriginalVersion
+	destination.OriginalVersion = topic.OriginalVersion()
+
+	// Owner
+	destination.Owner = topic.Owner.Copy()
+
+	// PublicNetworkAccess
+	if topic.PublicNetworkAccess != nil {
+		publicNetworkAccess := string(*topic.PublicNetworkAccess)
+		destination.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		destination.PublicNetworkAccess = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(topic.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (topic *Topic_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (topic *Topic_Spec) SetAzureName(azureName string) { topic.AzureName = azureName }
+
 type Topic_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -327,7 +703,7 @@ type Topic_Status struct {
 
 	//InputSchema: This determines the format that Event Grid should expect for
 	//incoming events published to the topic.
-	InputSchema *TopicProperties_InputSchema_Status `json:"inputSchema,omitempty"`
+	InputSchema *string `json:"inputSchema,omitempty"`
 
 	//InputSchemaMapping: This enables publishing using custom event schemas. An
 	//InputSchemaMapping can be specified to map various properties of a source schema
@@ -345,14 +721,14 @@ type Topic_Status struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_Topic_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
 
 	//ProvisioningState: Provisioning state of the topic.
-	ProvisioningState *TopicProperties_ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	//PublicNetworkAccess: This determines if traffic is allowed over public network.
 	//By default it is enabled.
 	//You can further restrict to specific IPs by configuring <seealso
 	//cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules"
 	///>
-	PublicNetworkAccess *TopicProperties_PublicNetworkAccess_Status `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 
 	//SystemData: The system metadata relating to Topic resource.
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
@@ -593,12 +969,7 @@ func (topic *Topic_Status) AssignPropertiesFromTopic_Status(source *v1alpha1api2
 	}
 
 	// InputSchema
-	if source.InputSchema != nil {
-		inputSchema := TopicProperties_InputSchema_Status(*source.InputSchema)
-		topic.InputSchema = &inputSchema
-	} else {
-		topic.InputSchema = nil
-	}
+	topic.InputSchema = genruntime.ClonePointerToString(source.InputSchema)
 
 	// InputSchemaMapping
 	if source.InputSchemaMapping != nil {
@@ -640,20 +1011,10 @@ func (topic *Topic_Status) AssignPropertiesFromTopic_Status(source *v1alpha1api2
 	}
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := TopicProperties_ProvisioningState_Status(*source.ProvisioningState)
-		topic.ProvisioningState = &provisioningState
-	} else {
-		topic.ProvisioningState = nil
-	}
+	topic.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := TopicProperties_PublicNetworkAccess_Status(*source.PublicNetworkAccess)
-		topic.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		topic.PublicNetworkAccess = nil
-	}
+	topic.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
 
 	// SystemData
 	if source.SystemData != nil {
@@ -710,12 +1071,7 @@ func (topic *Topic_Status) AssignPropertiesToTopic_Status(destination *v1alpha1a
 	}
 
 	// InputSchema
-	if topic.InputSchema != nil {
-		inputSchema := string(*topic.InputSchema)
-		destination.InputSchema = &inputSchema
-	} else {
-		destination.InputSchema = nil
-	}
+	destination.InputSchema = genruntime.ClonePointerToString(topic.InputSchema)
 
 	// InputSchemaMapping
 	if topic.InputSchemaMapping != nil {
@@ -757,20 +1113,10 @@ func (topic *Topic_Status) AssignPropertiesToTopic_Status(destination *v1alpha1a
 	}
 
 	// ProvisioningState
-	if topic.ProvisioningState != nil {
-		provisioningState := string(*topic.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(topic.ProvisioningState)
 
 	// PublicNetworkAccess
-	if topic.PublicNetworkAccess != nil {
-		publicNetworkAccess := string(*topic.PublicNetworkAccess)
-		destination.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		destination.PublicNetworkAccess = nil
-	}
+	destination.PublicNetworkAccess = genruntime.ClonePointerToString(topic.PublicNetworkAccess)
 
 	// SystemData
 	if topic.SystemData != nil {
@@ -800,194 +1146,6 @@ func (topic *Topic_Status) AssignPropertiesToTopic_Status(destination *v1alpha1a
 	// No error
 	return nil
 }
-
-type Topics_SPEC struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName string `json:"azureName"`
-
-	// +kubebuilder:validation:Required
-	//Location: Location of the resource.
-	Location string `json:"location"`
-
-	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-
-	//Tags: Tags of the resource.
-	Tags map[string]string `json:"tags,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Topics_SPEC{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (spec *Topics_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if spec == nil {
-		return nil, nil
-	}
-	var result Topics_SPECARM
-
-	// Set property ‘AzureName’:
-	result.AzureName = spec.AzureName
-
-	// Set property ‘Location’:
-	result.Location = spec.Location
-
-	// Set property ‘Name’:
-	result.Name = resolved.Name
-
-	// Set property ‘Tags’:
-	if spec.Tags != nil {
-		result.Tags = make(map[string]string)
-		for key, value := range spec.Tags {
-			result.Tags[key] = value
-		}
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (spec *Topics_SPEC) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Topics_SPECARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (spec *Topics_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Topics_SPECARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Topics_SPECARM, got %T", armInput)
-	}
-
-	// Set property ‘AzureName’:
-	spec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Location’:
-	spec.Location = typedInput.Location
-
-	// Set property ‘Owner’:
-	spec.Owner = genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		spec.Tags = make(map[string]string)
-		for key, value := range typedInput.Tags {
-			spec.Tags[key] = value
-		}
-	}
-
-	// No error
-	return nil
-}
-
-var _ genruntime.ConvertibleSpec = &Topics_SPEC{}
-
-// ConvertSpecFrom populates our Topics_SPEC from the provided source
-func (spec *Topics_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1alpha1api20200601storage.Topics_SPEC)
-	if ok {
-		// Populate our instance from source
-		return spec.AssignPropertiesFromTopics_SPEC(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v1alpha1api20200601storage.Topics_SPEC{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = spec.AssignPropertiesFromTopics_SPEC(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our Topics_SPEC
-func (spec *Topics_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1alpha1api20200601storage.Topics_SPEC)
-	if ok {
-		// Populate destination from our instance
-		return spec.AssignPropertiesToTopics_SPEC(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v1alpha1api20200601storage.Topics_SPEC{}
-	err := spec.AssignPropertiesToTopics_SPEC(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignPropertiesFromTopics_SPEC populates our Topics_SPEC from the provided source Topics_SPEC
-func (spec *Topics_SPEC) AssignPropertiesFromTopics_SPEC(source *v1alpha1api20200601storage.Topics_SPEC) error {
-
-	// AzureName
-	spec.AzureName = source.AzureName
-
-	// Location
-	spec.Location = genruntime.GetOptionalStringValue(source.Location)
-
-	// Owner
-	spec.Owner = source.Owner.Copy()
-
-	// Tags
-	spec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToTopics_SPEC populates the provided destination Topics_SPEC from our Topics_SPEC
-func (spec *Topics_SPEC) AssignPropertiesToTopics_SPEC(destination *v1alpha1api20200601storage.Topics_SPEC) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AzureName
-	destination.AzureName = spec.AzureName
-
-	// Location
-	location := spec.Location
-	destination.Location = &location
-
-	// OriginalVersion
-	destination.OriginalVersion = spec.OriginalVersion()
-
-	// Owner
-	destination.Owner = spec.Owner.Copy()
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(spec.Tags)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (spec *Topics_SPEC) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (spec *Topics_SPEC) SetAzureName(azureName string) { spec.AzureName = azureName }
 
 type PrivateEndpointConnection_Status_Topic_SubResourceEmbedded struct {
 	//Id: Fully qualified identifier of the resource.
@@ -1047,30 +1205,21 @@ func (embedded *PrivateEndpointConnection_Status_Topic_SubResourceEmbedded) Assi
 	return nil
 }
 
-type TopicProperties_InputSchema_Status string
+// +kubebuilder:validation:Enum={"CloudEventSchemaV1_0","CustomEventSchema","EventGridSchema"}
+type TopicPropertiesInputSchema string
 
 const (
-	TopicProperties_InputSchema_StatusCloudEventSchemaV1_0 = TopicProperties_InputSchema_Status("CloudEventSchemaV1_0")
-	TopicProperties_InputSchema_StatusCustomEventSchema    = TopicProperties_InputSchema_Status("CustomEventSchema")
-	TopicProperties_InputSchema_StatusEventGridSchema      = TopicProperties_InputSchema_Status("EventGridSchema")
+	TopicPropertiesInputSchemaCloudEventSchemaV1_0 = TopicPropertiesInputSchema("CloudEventSchemaV1_0")
+	TopicPropertiesInputSchemaCustomEventSchema    = TopicPropertiesInputSchema("CustomEventSchema")
+	TopicPropertiesInputSchemaEventGridSchema      = TopicPropertiesInputSchema("EventGridSchema")
 )
 
-type TopicProperties_ProvisioningState_Status string
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type TopicPropertiesPublicNetworkAccess string
 
 const (
-	TopicProperties_ProvisioningState_StatusCanceled  = TopicProperties_ProvisioningState_Status("Canceled")
-	TopicProperties_ProvisioningState_StatusCreating  = TopicProperties_ProvisioningState_Status("Creating")
-	TopicProperties_ProvisioningState_StatusDeleting  = TopicProperties_ProvisioningState_Status("Deleting")
-	TopicProperties_ProvisioningState_StatusFailed    = TopicProperties_ProvisioningState_Status("Failed")
-	TopicProperties_ProvisioningState_StatusSucceeded = TopicProperties_ProvisioningState_Status("Succeeded")
-	TopicProperties_ProvisioningState_StatusUpdating  = TopicProperties_ProvisioningState_Status("Updating")
-)
-
-type TopicProperties_PublicNetworkAccess_Status string
-
-const (
-	TopicProperties_PublicNetworkAccess_StatusDisabled = TopicProperties_PublicNetworkAccess_Status("Disabled")
-	TopicProperties_PublicNetworkAccess_StatusEnabled  = TopicProperties_PublicNetworkAccess_Status("Enabled")
+	TopicPropertiesPublicNetworkAccessDisabled = TopicPropertiesPublicNetworkAccess("Disabled")
+	TopicPropertiesPublicNetworkAccessEnabled  = TopicPropertiesPublicNetworkAccess("Enabled")
 )
 
 func init() {

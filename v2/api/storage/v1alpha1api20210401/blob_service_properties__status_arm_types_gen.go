@@ -12,7 +12,7 @@ type BlobServiceProperties_StatusARM struct {
 	Name *string `json:"name,omitempty"`
 
 	//Properties: The properties of a storage account’s Blob service.
-	Properties *BlobServiceProperties_Properties_StatusARM `json:"properties,omitempty"`
+	Properties *BlobServiceProperties_StatusPropertiesARM `json:"properties,omitempty"`
 
 	//Sku: Sku name and tier.
 	Sku *Sku_StatusARM `json:"sku,omitempty"`
@@ -22,7 +22,7 @@ type BlobServiceProperties_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type BlobServiceProperties_Properties_StatusARM struct {
+type BlobServiceProperties_StatusPropertiesARM struct {
 	//AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled
 	//property.
 	AutomaticSnapshotPolicyEnabled *bool `json:"automaticSnapshotPolicyEnabled,omitempty"`
@@ -61,8 +61,8 @@ type BlobServiceProperties_Properties_StatusARM struct {
 }
 
 type Sku_StatusARM struct {
-	Name SkuName_Status `json:"name"`
-	Tier *Tier_Status   `json:"tier,omitempty"`
+	Name string  `json:"name"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 type ChangeFeed_StatusARM struct {
@@ -101,7 +101,7 @@ type LastAccessTimeTrackingPolicy_StatusARM struct {
 
 	//Name: Name of the policy. The valid value is AccessTimeTracking. This field is
 	//currently read only
-	Name *LastAccessTimeTrackingPolicy_Name_Status `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	//TrackingGranularityInDays: The field specifies blob object tracking granularity
 	//in days, typically how often the blob object should be tracked.This field is
@@ -125,26 +125,6 @@ type RestorePolicyProperties_StatusARM struct {
 	MinRestoreTime *string `json:"minRestoreTime,omitempty"`
 }
 
-type SkuName_Status string
-
-const (
-	SkuName_StatusPremium_LRS     = SkuName_Status("Premium_LRS")
-	SkuName_StatusPremium_ZRS     = SkuName_Status("Premium_ZRS")
-	SkuName_StatusStandard_GRS    = SkuName_Status("Standard_GRS")
-	SkuName_StatusStandard_GZRS   = SkuName_Status("Standard_GZRS")
-	SkuName_StatusStandard_LRS    = SkuName_Status("Standard_LRS")
-	SkuName_StatusStandard_RAGRS  = SkuName_Status("Standard_RAGRS")
-	SkuName_StatusStandard_RAGZRS = SkuName_Status("Standard_RAGZRS")
-	SkuName_StatusStandard_ZRS    = SkuName_Status("Standard_ZRS")
-)
-
-type Tier_Status string
-
-const (
-	Tier_StatusPremium  = Tier_Status("Premium")
-	Tier_StatusStandard = Tier_Status("Standard")
-)
-
 type CorsRule_StatusARM struct {
 	//AllowedHeaders: Required if CorsRule element is present. A list of headers
 	//allowed to be part of the cross-origin request.
@@ -152,7 +132,7 @@ type CorsRule_StatusARM struct {
 
 	//AllowedMethods: Required if CorsRule element is present. A list of HTTP methods
 	//that are allowed to be executed by the origin.
-	AllowedMethods []CorsRule_AllowedMethods_Status `json:"allowedMethods"`
+	AllowedMethods []string `json:"allowedMethods"`
 
 	//AllowedOrigins: Required if CorsRule element is present. A list of origin
 	//domains that will be allowed via CORS, or "*" to allow all domains
@@ -166,19 +146,3 @@ type CorsRule_StatusARM struct {
 	//that the client/browser should cache a preflight response.
 	MaxAgeInSeconds int `json:"maxAgeInSeconds"`
 }
-
-type LastAccessTimeTrackingPolicy_Name_Status string
-
-const LastAccessTimeTrackingPolicy_Name_StatusAccessTimeTracking = LastAccessTimeTrackingPolicy_Name_Status("AccessTimeTracking")
-
-type CorsRule_AllowedMethods_Status string
-
-const (
-	CorsRule_AllowedMethods_StatusDELETE  = CorsRule_AllowedMethods_Status("DELETE")
-	CorsRule_AllowedMethods_StatusGET     = CorsRule_AllowedMethods_Status("GET")
-	CorsRule_AllowedMethods_StatusHEAD    = CorsRule_AllowedMethods_Status("HEAD")
-	CorsRule_AllowedMethods_StatusMERGE   = CorsRule_AllowedMethods_Status("MERGE")
-	CorsRule_AllowedMethods_StatusOPTIONS = CorsRule_AllowedMethods_Status("OPTIONS")
-	CorsRule_AllowedMethods_StatusPOST    = CorsRule_AllowedMethods_Status("POST")
-	CorsRule_AllowedMethods_StatusPUT     = CorsRule_AllowedMethods_Status("PUT")
-)

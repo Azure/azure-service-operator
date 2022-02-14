@@ -159,36 +159,36 @@ func MongodbDatabaseCollectionGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForMongodbDatabaseCollection is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForMongodbDatabaseCollection(gens map[string]gopter.Gen) {
-	gens["Spec"] = DatabaseAccountsMongodbDatabasesCollections_SPECGenerator()
+	gens["Spec"] = DatabaseAccountsMongodbDatabasesCollection_SpecGenerator()
 	gens["Status"] = MongoDBCollection_StatusGenerator()
 }
 
-func Test_DatabaseAccountsMongodbDatabasesCollections_SPEC_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_DatabaseAccountsMongodbDatabasesCollection_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from DatabaseAccountsMongodbDatabasesCollections_SPEC to DatabaseAccountsMongodbDatabasesCollections_SPEC via AssignPropertiesToDatabaseAccountsMongodbDatabasesCollections_SPEC & AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollections_SPEC returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesCollections_SPEC, DatabaseAccountsMongodbDatabasesCollections_SPECGenerator()))
+		"Round trip from DatabaseAccountsMongodbDatabasesCollection_Spec to DatabaseAccountsMongodbDatabasesCollection_Spec via AssignPropertiesToDatabaseAccountsMongodbDatabasesCollection_Spec & AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollection_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesCollection_Spec, DatabaseAccountsMongodbDatabasesCollection_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesCollections_SPEC tests if a specific instance of DatabaseAccountsMongodbDatabasesCollections_SPEC can be assigned to v1alpha1api20210515storage and back losslessly
-func RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesCollections_SPEC(subject DatabaseAccountsMongodbDatabasesCollections_SPEC) string {
+// RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesCollection_Spec tests if a specific instance of DatabaseAccountsMongodbDatabasesCollection_Spec can be assigned to v1alpha1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesCollection_Spec(subject DatabaseAccountsMongodbDatabasesCollection_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesCollections_SPEC
-	err := copied.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollections_SPEC(&other)
+	var other v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesCollection_Spec
+	err := copied.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollection_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DatabaseAccountsMongodbDatabasesCollections_SPEC
-	err = actual.AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollections_SPEC(&other)
+	var actual DatabaseAccountsMongodbDatabasesCollection_Spec
+	err = actual.AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollection_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -205,19 +205,19 @@ func RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesCollections_SPE
 	return ""
 }
 
-func Test_DatabaseAccountsMongodbDatabasesCollections_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DatabaseAccountsMongodbDatabasesCollection_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DatabaseAccountsMongodbDatabasesCollections_SPEC via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollections_SPEC, DatabaseAccountsMongodbDatabasesCollections_SPECGenerator()))
+		"Round trip of DatabaseAccountsMongodbDatabasesCollection_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollection_Spec, DatabaseAccountsMongodbDatabasesCollection_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollections_SPEC runs a test to see if a specific instance of DatabaseAccountsMongodbDatabasesCollections_SPEC round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollections_SPEC(subject DatabaseAccountsMongodbDatabasesCollections_SPEC) string {
+// RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollection_Spec runs a test to see if a specific instance of DatabaseAccountsMongodbDatabasesCollection_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollection_Spec(subject DatabaseAccountsMongodbDatabasesCollection_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -225,7 +225,7 @@ func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollections_SPEC
 	}
 
 	// Deserialize back into memory
-	var actual DatabaseAccountsMongodbDatabasesCollections_SPEC
+	var actual DatabaseAccountsMongodbDatabasesCollection_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -243,43 +243,43 @@ func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollections_SPEC
 	return ""
 }
 
-// Generator of DatabaseAccountsMongodbDatabasesCollections_SPEC instances for property testing - lazily instantiated by
-//DatabaseAccountsMongodbDatabasesCollections_SPECGenerator()
-var databaseAccountsMongodbDatabasesCollections_specGenerator gopter.Gen
+// Generator of DatabaseAccountsMongodbDatabasesCollection_Spec instances for property testing - lazily instantiated by
+//DatabaseAccountsMongodbDatabasesCollection_SpecGenerator()
+var databaseAccountsMongodbDatabasesCollection_specGenerator gopter.Gen
 
-// DatabaseAccountsMongodbDatabasesCollections_SPECGenerator returns a generator of DatabaseAccountsMongodbDatabasesCollections_SPEC instances for property testing.
-// We first initialize databaseAccountsMongodbDatabasesCollections_specGenerator with a simplified generator based on the
+// DatabaseAccountsMongodbDatabasesCollection_SpecGenerator returns a generator of DatabaseAccountsMongodbDatabasesCollection_Spec instances for property testing.
+// We first initialize databaseAccountsMongodbDatabasesCollection_specGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DatabaseAccountsMongodbDatabasesCollections_SPECGenerator() gopter.Gen {
-	if databaseAccountsMongodbDatabasesCollections_specGenerator != nil {
-		return databaseAccountsMongodbDatabasesCollections_specGenerator
+func DatabaseAccountsMongodbDatabasesCollection_SpecGenerator() gopter.Gen {
+	if databaseAccountsMongodbDatabasesCollection_specGenerator != nil {
+		return databaseAccountsMongodbDatabasesCollection_specGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollections_SPEC(generators)
-	databaseAccountsMongodbDatabasesCollections_specGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabasesCollections_SPEC{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollection_Spec(generators)
+	databaseAccountsMongodbDatabasesCollection_specGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabasesCollection_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollections_SPEC(generators)
-	AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollections_SPEC(generators)
-	databaseAccountsMongodbDatabasesCollections_specGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabasesCollections_SPEC{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollection_Spec(generators)
+	AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollection_Spec(generators)
+	databaseAccountsMongodbDatabasesCollection_specGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabasesCollection_Spec{}), generators)
 
-	return databaseAccountsMongodbDatabasesCollections_specGenerator
+	return databaseAccountsMongodbDatabasesCollection_specGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollections_SPEC is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollections_SPEC(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollection_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollection_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollections_SPEC is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollections_SPEC(gens map[string]gopter.Gen) {
-	gens["Options"] = gen.PtrOf(CreateUpdateOptions_SpecGenerator())
-	gens["Resource"] = MongoDBCollectionResource_SpecGenerator()
+// AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollection_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollection_Spec(gens map[string]gopter.Gen) {
+	gens["Options"] = gen.PtrOf(CreateUpdateOptionsGenerator())
+	gens["Resource"] = MongoDBCollectionResourceGenerator()
 }
 
 func Test_MongoDBCollection_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -403,32 +403,32 @@ func AddRelatedPropertyGeneratorsForMongoDBCollection_Status(gens map[string]gop
 	gens["Resource"] = gen.PtrOf(MongoDBCollectionResource_StatusGenerator())
 }
 
-func Test_MongoDBCollectionResource_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_MongoDBCollectionResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from MongoDBCollectionResource_Spec to MongoDBCollectionResource_Spec via AssignPropertiesToMongoDBCollectionResource_Spec & AssignPropertiesFromMongoDBCollectionResource_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForMongoDBCollectionResource_Spec, MongoDBCollectionResource_SpecGenerator()))
+		"Round trip from MongoDBCollectionResource to MongoDBCollectionResource via AssignPropertiesToMongoDBCollectionResource & AssignPropertiesFromMongoDBCollectionResource returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMongoDBCollectionResource, MongoDBCollectionResourceGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMongoDBCollectionResource_Spec tests if a specific instance of MongoDBCollectionResource_Spec can be assigned to v1alpha1api20210515storage and back losslessly
-func RunPropertyAssignmentTestForMongoDBCollectionResource_Spec(subject MongoDBCollectionResource_Spec) string {
+// RunPropertyAssignmentTestForMongoDBCollectionResource tests if a specific instance of MongoDBCollectionResource can be assigned to v1alpha1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForMongoDBCollectionResource(subject MongoDBCollectionResource) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210515storage.MongoDBCollectionResource_Spec
-	err := copied.AssignPropertiesToMongoDBCollectionResource_Spec(&other)
+	var other v1alpha1api20210515storage.MongoDBCollectionResource
+	err := copied.AssignPropertiesToMongoDBCollectionResource(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual MongoDBCollectionResource_Spec
-	err = actual.AssignPropertiesFromMongoDBCollectionResource_Spec(&other)
+	var actual MongoDBCollectionResource
+	err = actual.AssignPropertiesFromMongoDBCollectionResource(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -445,19 +445,19 @@ func RunPropertyAssignmentTestForMongoDBCollectionResource_Spec(subject MongoDBC
 	return ""
 }
 
-func Test_MongoDBCollectionResource_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_MongoDBCollectionResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of MongoDBCollectionResource_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMongoDBCollectionResource_Spec, MongoDBCollectionResource_SpecGenerator()))
+		"Round trip of MongoDBCollectionResource via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMongoDBCollectionResource, MongoDBCollectionResourceGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMongoDBCollectionResource_Spec runs a test to see if a specific instance of MongoDBCollectionResource_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForMongoDBCollectionResource_Spec(subject MongoDBCollectionResource_Spec) string {
+// RunJSONSerializationTestForMongoDBCollectionResource runs a test to see if a specific instance of MongoDBCollectionResource round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongoDBCollectionResource(subject MongoDBCollectionResource) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -465,7 +465,7 @@ func RunJSONSerializationTestForMongoDBCollectionResource_Spec(subject MongoDBCo
 	}
 
 	// Deserialize back into memory
-	var actual MongoDBCollectionResource_Spec
+	var actual MongoDBCollectionResource
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -483,42 +483,42 @@ func RunJSONSerializationTestForMongoDBCollectionResource_Spec(subject MongoDBCo
 	return ""
 }
 
-// Generator of MongoDBCollectionResource_Spec instances for property testing - lazily instantiated by
-//MongoDBCollectionResource_SpecGenerator()
-var mongoDBCollectionResource_specGenerator gopter.Gen
+// Generator of MongoDBCollectionResource instances for property testing - lazily instantiated by
+//MongoDBCollectionResourceGenerator()
+var mongoDBCollectionResourceGenerator gopter.Gen
 
-// MongoDBCollectionResource_SpecGenerator returns a generator of MongoDBCollectionResource_Spec instances for property testing.
-// We first initialize mongoDBCollectionResource_specGenerator with a simplified generator based on the
+// MongoDBCollectionResourceGenerator returns a generator of MongoDBCollectionResource instances for property testing.
+// We first initialize mongoDBCollectionResourceGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func MongoDBCollectionResource_SpecGenerator() gopter.Gen {
-	if mongoDBCollectionResource_specGenerator != nil {
-		return mongoDBCollectionResource_specGenerator
+func MongoDBCollectionResourceGenerator() gopter.Gen {
+	if mongoDBCollectionResourceGenerator != nil {
+		return mongoDBCollectionResourceGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMongoDBCollectionResource_Spec(generators)
-	mongoDBCollectionResource_specGenerator = gen.Struct(reflect.TypeOf(MongoDBCollectionResource_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForMongoDBCollectionResource(generators)
+	mongoDBCollectionResourceGenerator = gen.Struct(reflect.TypeOf(MongoDBCollectionResource{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMongoDBCollectionResource_Spec(generators)
-	AddRelatedPropertyGeneratorsForMongoDBCollectionResource_Spec(generators)
-	mongoDBCollectionResource_specGenerator = gen.Struct(reflect.TypeOf(MongoDBCollectionResource_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForMongoDBCollectionResource(generators)
+	AddRelatedPropertyGeneratorsForMongoDBCollectionResource(generators)
+	mongoDBCollectionResourceGenerator = gen.Struct(reflect.TypeOf(MongoDBCollectionResource{}), generators)
 
-	return mongoDBCollectionResource_specGenerator
+	return mongoDBCollectionResourceGenerator
 }
 
-// AddIndependentPropertyGeneratorsForMongoDBCollectionResource_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMongoDBCollectionResource_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForMongoDBCollectionResource is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMongoDBCollectionResource(gens map[string]gopter.Gen) {
 	gens["AnalyticalStorageTtl"] = gen.PtrOf(gen.Int())
 	gens["Id"] = gen.AlphaString()
 	gens["ShardKey"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForMongoDBCollectionResource_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMongoDBCollectionResource_Spec(gens map[string]gopter.Gen) {
-	gens["Indexes"] = gen.SliceOf(MongoIndex_SpecGenerator())
+// AddRelatedPropertyGeneratorsForMongoDBCollectionResource is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMongoDBCollectionResource(gens map[string]gopter.Gen) {
+	gens["Indexes"] = gen.SliceOf(MongoIndexGenerator())
 }
 
 func Test_MongoDBCollectionResource_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -639,32 +639,32 @@ func AddRelatedPropertyGeneratorsForMongoDBCollectionResource_Status(gens map[st
 	gens["Indexes"] = gen.SliceOf(MongoIndex_StatusGenerator())
 }
 
-func Test_MongoIndex_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_MongoIndex_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from MongoIndex_Spec to MongoIndex_Spec via AssignPropertiesToMongoIndex_Spec & AssignPropertiesFromMongoIndex_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForMongoIndex_Spec, MongoIndex_SpecGenerator()))
+		"Round trip from MongoIndex to MongoIndex via AssignPropertiesToMongoIndex & AssignPropertiesFromMongoIndex returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMongoIndex, MongoIndexGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMongoIndex_Spec tests if a specific instance of MongoIndex_Spec can be assigned to v1alpha1api20210515storage and back losslessly
-func RunPropertyAssignmentTestForMongoIndex_Spec(subject MongoIndex_Spec) string {
+// RunPropertyAssignmentTestForMongoIndex tests if a specific instance of MongoIndex can be assigned to v1alpha1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForMongoIndex(subject MongoIndex) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210515storage.MongoIndex_Spec
-	err := copied.AssignPropertiesToMongoIndex_Spec(&other)
+	var other v1alpha1api20210515storage.MongoIndex
+	err := copied.AssignPropertiesToMongoIndex(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual MongoIndex_Spec
-	err = actual.AssignPropertiesFromMongoIndex_Spec(&other)
+	var actual MongoIndex
+	err = actual.AssignPropertiesFromMongoIndex(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -681,19 +681,19 @@ func RunPropertyAssignmentTestForMongoIndex_Spec(subject MongoIndex_Spec) string
 	return ""
 }
 
-func Test_MongoIndex_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_MongoIndex_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of MongoIndex_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMongoIndex_Spec, MongoIndex_SpecGenerator()))
+		"Round trip of MongoIndex via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMongoIndex, MongoIndexGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMongoIndex_Spec runs a test to see if a specific instance of MongoIndex_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForMongoIndex_Spec(subject MongoIndex_Spec) string {
+// RunJSONSerializationTestForMongoIndex runs a test to see if a specific instance of MongoIndex round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongoIndex(subject MongoIndex) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -701,7 +701,7 @@ func RunJSONSerializationTestForMongoIndex_Spec(subject MongoIndex_Spec) string 
 	}
 
 	// Deserialize back into memory
-	var actual MongoIndex_Spec
+	var actual MongoIndex
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -719,26 +719,26 @@ func RunJSONSerializationTestForMongoIndex_Spec(subject MongoIndex_Spec) string 
 	return ""
 }
 
-// Generator of MongoIndex_Spec instances for property testing - lazily instantiated by MongoIndex_SpecGenerator()
-var mongoIndex_specGenerator gopter.Gen
+// Generator of MongoIndex instances for property testing - lazily instantiated by MongoIndexGenerator()
+var mongoIndexGenerator gopter.Gen
 
-// MongoIndex_SpecGenerator returns a generator of MongoIndex_Spec instances for property testing.
-func MongoIndex_SpecGenerator() gopter.Gen {
-	if mongoIndex_specGenerator != nil {
-		return mongoIndex_specGenerator
+// MongoIndexGenerator returns a generator of MongoIndex instances for property testing.
+func MongoIndexGenerator() gopter.Gen {
+	if mongoIndexGenerator != nil {
+		return mongoIndexGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForMongoIndex_Spec(generators)
-	mongoIndex_specGenerator = gen.Struct(reflect.TypeOf(MongoIndex_Spec{}), generators)
+	AddRelatedPropertyGeneratorsForMongoIndex(generators)
+	mongoIndexGenerator = gen.Struct(reflect.TypeOf(MongoIndex{}), generators)
 
-	return mongoIndex_specGenerator
+	return mongoIndexGenerator
 }
 
-// AddRelatedPropertyGeneratorsForMongoIndex_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMongoIndex_Spec(gens map[string]gopter.Gen) {
-	gens["Key"] = gen.PtrOf(MongoIndexKeys_SpecGenerator())
-	gens["Options"] = gen.PtrOf(MongoIndexOptions_SpecGenerator())
+// AddRelatedPropertyGeneratorsForMongoIndex is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMongoIndex(gens map[string]gopter.Gen) {
+	gens["Key"] = gen.PtrOf(MongoIndexKeysGenerator())
+	gens["Options"] = gen.PtrOf(MongoIndexOptionsGenerator())
 }
 
 func Test_MongoIndex_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -843,32 +843,32 @@ func AddRelatedPropertyGeneratorsForMongoIndex_Status(gens map[string]gopter.Gen
 	gens["Options"] = gen.PtrOf(MongoIndexOptions_StatusGenerator())
 }
 
-func Test_MongoIndexKeys_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_MongoIndexKeys_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from MongoIndexKeys_Spec to MongoIndexKeys_Spec via AssignPropertiesToMongoIndexKeys_Spec & AssignPropertiesFromMongoIndexKeys_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForMongoIndexKeys_Spec, MongoIndexKeys_SpecGenerator()))
+		"Round trip from MongoIndexKeys to MongoIndexKeys via AssignPropertiesToMongoIndexKeys & AssignPropertiesFromMongoIndexKeys returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMongoIndexKeys, MongoIndexKeysGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMongoIndexKeys_Spec tests if a specific instance of MongoIndexKeys_Spec can be assigned to v1alpha1api20210515storage and back losslessly
-func RunPropertyAssignmentTestForMongoIndexKeys_Spec(subject MongoIndexKeys_Spec) string {
+// RunPropertyAssignmentTestForMongoIndexKeys tests if a specific instance of MongoIndexKeys can be assigned to v1alpha1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForMongoIndexKeys(subject MongoIndexKeys) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210515storage.MongoIndexKeys_Spec
-	err := copied.AssignPropertiesToMongoIndexKeys_Spec(&other)
+	var other v1alpha1api20210515storage.MongoIndexKeys
+	err := copied.AssignPropertiesToMongoIndexKeys(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual MongoIndexKeys_Spec
-	err = actual.AssignPropertiesFromMongoIndexKeys_Spec(&other)
+	var actual MongoIndexKeys
+	err = actual.AssignPropertiesFromMongoIndexKeys(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -885,19 +885,19 @@ func RunPropertyAssignmentTestForMongoIndexKeys_Spec(subject MongoIndexKeys_Spec
 	return ""
 }
 
-func Test_MongoIndexKeys_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_MongoIndexKeys_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of MongoIndexKeys_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMongoIndexKeys_Spec, MongoIndexKeys_SpecGenerator()))
+		"Round trip of MongoIndexKeys via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMongoIndexKeys, MongoIndexKeysGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMongoIndexKeys_Spec runs a test to see if a specific instance of MongoIndexKeys_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForMongoIndexKeys_Spec(subject MongoIndexKeys_Spec) string {
+// RunJSONSerializationTestForMongoIndexKeys runs a test to see if a specific instance of MongoIndexKeys round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongoIndexKeys(subject MongoIndexKeys) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -905,7 +905,7 @@ func RunJSONSerializationTestForMongoIndexKeys_Spec(subject MongoIndexKeys_Spec)
 	}
 
 	// Deserialize back into memory
-	var actual MongoIndexKeys_Spec
+	var actual MongoIndexKeys
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -923,25 +923,24 @@ func RunJSONSerializationTestForMongoIndexKeys_Spec(subject MongoIndexKeys_Spec)
 	return ""
 }
 
-// Generator of MongoIndexKeys_Spec instances for property testing - lazily instantiated by
-//MongoIndexKeys_SpecGenerator()
-var mongoIndexKeys_specGenerator gopter.Gen
+// Generator of MongoIndexKeys instances for property testing - lazily instantiated by MongoIndexKeysGenerator()
+var mongoIndexKeysGenerator gopter.Gen
 
-// MongoIndexKeys_SpecGenerator returns a generator of MongoIndexKeys_Spec instances for property testing.
-func MongoIndexKeys_SpecGenerator() gopter.Gen {
-	if mongoIndexKeys_specGenerator != nil {
-		return mongoIndexKeys_specGenerator
+// MongoIndexKeysGenerator returns a generator of MongoIndexKeys instances for property testing.
+func MongoIndexKeysGenerator() gopter.Gen {
+	if mongoIndexKeysGenerator != nil {
+		return mongoIndexKeysGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMongoIndexKeys_Spec(generators)
-	mongoIndexKeys_specGenerator = gen.Struct(reflect.TypeOf(MongoIndexKeys_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForMongoIndexKeys(generators)
+	mongoIndexKeysGenerator = gen.Struct(reflect.TypeOf(MongoIndexKeys{}), generators)
 
-	return mongoIndexKeys_specGenerator
+	return mongoIndexKeysGenerator
 }
 
-// AddIndependentPropertyGeneratorsForMongoIndexKeys_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMongoIndexKeys_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForMongoIndexKeys is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMongoIndexKeys(gens map[string]gopter.Gen) {
 	gens["Keys"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -1047,32 +1046,32 @@ func AddIndependentPropertyGeneratorsForMongoIndexKeys_Status(gens map[string]go
 	gens["Keys"] = gen.SliceOf(gen.AlphaString())
 }
 
-func Test_MongoIndexOptions_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_MongoIndexOptions_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from MongoIndexOptions_Spec to MongoIndexOptions_Spec via AssignPropertiesToMongoIndexOptions_Spec & AssignPropertiesFromMongoIndexOptions_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForMongoIndexOptions_Spec, MongoIndexOptions_SpecGenerator()))
+		"Round trip from MongoIndexOptions to MongoIndexOptions via AssignPropertiesToMongoIndexOptions & AssignPropertiesFromMongoIndexOptions returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMongoIndexOptions, MongoIndexOptionsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMongoIndexOptions_Spec tests if a specific instance of MongoIndexOptions_Spec can be assigned to v1alpha1api20210515storage and back losslessly
-func RunPropertyAssignmentTestForMongoIndexOptions_Spec(subject MongoIndexOptions_Spec) string {
+// RunPropertyAssignmentTestForMongoIndexOptions tests if a specific instance of MongoIndexOptions can be assigned to v1alpha1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForMongoIndexOptions(subject MongoIndexOptions) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210515storage.MongoIndexOptions_Spec
-	err := copied.AssignPropertiesToMongoIndexOptions_Spec(&other)
+	var other v1alpha1api20210515storage.MongoIndexOptions
+	err := copied.AssignPropertiesToMongoIndexOptions(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual MongoIndexOptions_Spec
-	err = actual.AssignPropertiesFromMongoIndexOptions_Spec(&other)
+	var actual MongoIndexOptions
+	err = actual.AssignPropertiesFromMongoIndexOptions(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1089,19 +1088,19 @@ func RunPropertyAssignmentTestForMongoIndexOptions_Spec(subject MongoIndexOption
 	return ""
 }
 
-func Test_MongoIndexOptions_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_MongoIndexOptions_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of MongoIndexOptions_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMongoIndexOptions_Spec, MongoIndexOptions_SpecGenerator()))
+		"Round trip of MongoIndexOptions via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMongoIndexOptions, MongoIndexOptionsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMongoIndexOptions_Spec runs a test to see if a specific instance of MongoIndexOptions_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForMongoIndexOptions_Spec(subject MongoIndexOptions_Spec) string {
+// RunJSONSerializationTestForMongoIndexOptions runs a test to see if a specific instance of MongoIndexOptions round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongoIndexOptions(subject MongoIndexOptions) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1109,7 +1108,7 @@ func RunJSONSerializationTestForMongoIndexOptions_Spec(subject MongoIndexOptions
 	}
 
 	// Deserialize back into memory
-	var actual MongoIndexOptions_Spec
+	var actual MongoIndexOptions
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1127,25 +1126,24 @@ func RunJSONSerializationTestForMongoIndexOptions_Spec(subject MongoIndexOptions
 	return ""
 }
 
-// Generator of MongoIndexOptions_Spec instances for property testing - lazily instantiated by
-//MongoIndexOptions_SpecGenerator()
-var mongoIndexOptions_specGenerator gopter.Gen
+// Generator of MongoIndexOptions instances for property testing - lazily instantiated by MongoIndexOptionsGenerator()
+var mongoIndexOptionsGenerator gopter.Gen
 
-// MongoIndexOptions_SpecGenerator returns a generator of MongoIndexOptions_Spec instances for property testing.
-func MongoIndexOptions_SpecGenerator() gopter.Gen {
-	if mongoIndexOptions_specGenerator != nil {
-		return mongoIndexOptions_specGenerator
+// MongoIndexOptionsGenerator returns a generator of MongoIndexOptions instances for property testing.
+func MongoIndexOptionsGenerator() gopter.Gen {
+	if mongoIndexOptionsGenerator != nil {
+		return mongoIndexOptionsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMongoIndexOptions_Spec(generators)
-	mongoIndexOptions_specGenerator = gen.Struct(reflect.TypeOf(MongoIndexOptions_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForMongoIndexOptions(generators)
+	mongoIndexOptionsGenerator = gen.Struct(reflect.TypeOf(MongoIndexOptions{}), generators)
 
-	return mongoIndexOptions_specGenerator
+	return mongoIndexOptionsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForMongoIndexOptions_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMongoIndexOptions_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForMongoIndexOptions is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMongoIndexOptions(gens map[string]gopter.Gen) {
 	gens["ExpireAfterSeconds"] = gen.PtrOf(gen.Int())
 	gens["Unique"] = gen.PtrOf(gen.Bool())
 }

@@ -36,20 +36,20 @@ type ClusterProperties_StatusARM struct {
 	HostName *string `json:"hostName,omitempty"`
 
 	//MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'
-	MinimumTlsVersion *ClusterProperties_MinimumTlsVersion_Status `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *string `json:"minimumTlsVersion,omitempty"`
 
 	//PrivateEndpointConnections: List of private endpoint connections associated with
 	//the specified RedisEnterprise cluster
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
 
 	//ProvisioningState: Current provisioning status of the cluster
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	//RedisVersion: Version of redis the cluster supports, e.g. '6'
 	RedisVersion *string `json:"redisVersion,omitempty"`
 
 	//ResourceState: Current resource status of the cluster
-	ResourceState *ResourceState_Status `json:"resourceState,omitempty"`
+	ResourceState *string `json:"resourceState,omitempty"`
 }
 
 type Sku_StatusARM struct {
@@ -60,59 +60,11 @@ type Sku_StatusARM struct {
 
 	//Name: The type of RedisEnterprise cluster to deploy. Possible values:
 	//(Enterprise_E10, EnterpriseFlash_F300 etc.)
-	Name Sku_Name_Status `json:"name"`
+	Name string `json:"name"`
 }
-
-type ClusterProperties_MinimumTlsVersion_Status string
-
-const (
-	ClusterProperties_MinimumTlsVersion_Status10 = ClusterProperties_MinimumTlsVersion_Status("1.0")
-	ClusterProperties_MinimumTlsVersion_Status11 = ClusterProperties_MinimumTlsVersion_Status("1.1")
-	ClusterProperties_MinimumTlsVersion_Status12 = ClusterProperties_MinimumTlsVersion_Status("1.2")
-)
 
 type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 	//Id: Fully qualified resource ID for the resource. Ex -
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 }
-
-type ProvisioningState_Status string
-
-const (
-	ProvisioningState_StatusCanceled  = ProvisioningState_Status("Canceled")
-	ProvisioningState_StatusCreating  = ProvisioningState_Status("Creating")
-	ProvisioningState_StatusDeleting  = ProvisioningState_Status("Deleting")
-	ProvisioningState_StatusFailed    = ProvisioningState_Status("Failed")
-	ProvisioningState_StatusSucceeded = ProvisioningState_Status("Succeeded")
-	ProvisioningState_StatusUpdating  = ProvisioningState_Status("Updating")
-)
-
-type ResourceState_Status string
-
-const (
-	ResourceState_StatusCreateFailed  = ResourceState_Status("CreateFailed")
-	ResourceState_StatusCreating      = ResourceState_Status("Creating")
-	ResourceState_StatusDeleteFailed  = ResourceState_Status("DeleteFailed")
-	ResourceState_StatusDeleting      = ResourceState_Status("Deleting")
-	ResourceState_StatusDisableFailed = ResourceState_Status("DisableFailed")
-	ResourceState_StatusDisabled      = ResourceState_Status("Disabled")
-	ResourceState_StatusDisabling     = ResourceState_Status("Disabling")
-	ResourceState_StatusEnableFailed  = ResourceState_Status("EnableFailed")
-	ResourceState_StatusEnabling      = ResourceState_Status("Enabling")
-	ResourceState_StatusRunning       = ResourceState_Status("Running")
-	ResourceState_StatusUpdateFailed  = ResourceState_Status("UpdateFailed")
-	ResourceState_StatusUpdating      = ResourceState_Status("Updating")
-)
-
-type Sku_Name_Status string
-
-const (
-	Sku_Name_StatusEnterpriseFlash_F1500 = Sku_Name_Status("EnterpriseFlash_F1500")
-	Sku_Name_StatusEnterpriseFlash_F300  = Sku_Name_Status("EnterpriseFlash_F300")
-	Sku_Name_StatusEnterpriseFlash_F700  = Sku_Name_Status("EnterpriseFlash_F700")
-	Sku_Name_StatusEnterprise_E10        = Sku_Name_Status("Enterprise_E10")
-	Sku_Name_StatusEnterprise_E100       = Sku_Name_Status("Enterprise_E100")
-	Sku_Name_StatusEnterprise_E20        = Sku_Name_Status("Enterprise_E20")
-	Sku_Name_StatusEnterprise_E50        = Sku_Name_Status("Enterprise_E50")
-)

@@ -28,8 +28,8 @@ import (
 type NamespacesEventhubsConsumerGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NamespacesEventhubsConsumergroups_SPEC `json:"spec,omitempty"`
-	Status            ConsumerGroup_Status                   `json:"status,omitempty"`
+	Spec              NamespacesEventhubsConsumergroup_Spec `json:"spec,omitempty"`
+	Status            ConsumerGroup_Status                  `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesEventhubsConsumerGroup{}
@@ -167,8 +167,8 @@ func (group *ConsumerGroup_Status) ConvertStatusTo(destination genruntime.Conver
 	return destination.ConvertStatusFrom(group)
 }
 
-//Storage version of v1alpha1api20211101.NamespacesEventhubsConsumergroups_SPEC
-type NamespacesEventhubsConsumergroups_SPEC struct {
+//Storage version of v1alpha1api20211101.NamespacesEventhubsConsumergroup_Spec
+type NamespacesEventhubsConsumergroup_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName       string `json:"azureName"`
@@ -180,24 +180,24 @@ type NamespacesEventhubsConsumergroups_SPEC struct {
 	UserMetadata *string                           `json:"userMetadata,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &NamespacesEventhubsConsumergroups_SPEC{}
+var _ genruntime.ConvertibleSpec = &NamespacesEventhubsConsumergroup_Spec{}
 
-// ConvertSpecFrom populates our NamespacesEventhubsConsumergroups_SPEC from the provided source
-func (spec *NamespacesEventhubsConsumergroups_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our NamespacesEventhubsConsumergroup_Spec from the provided source
+func (consumergroup *NamespacesEventhubsConsumergroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == consumergroup {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(consumergroup)
 }
 
-// ConvertSpecTo populates the provided destination from our NamespacesEventhubsConsumergroups_SPEC
-func (spec *NamespacesEventhubsConsumergroups_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our NamespacesEventhubsConsumergroup_Spec
+func (consumergroup *NamespacesEventhubsConsumergroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == consumergroup {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(consumergroup)
 }
 
 func init() {

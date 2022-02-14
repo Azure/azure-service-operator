@@ -17,7 +17,7 @@ import (
 type A struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              A_SPEC `json:"spec,omitempty"`
+	Spec              A_Spec `json:"spec,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -33,14 +33,14 @@ type APIVersion string
 
 const APIVersionAPIVersionValue = APIVersion(placeholder for golden tests)
 
-type A_SPEC struct {
+type A_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline"`
 	ForProvider           AParameters `json:"forProvider"`
 }
 
 type AParameters struct {
 	// +kubebuilder:validation:Required
-	APIVersion A_APIVersion_SPEC `json:"apiVersion"`
+	APIVersion A_SpecAPIVersion `json:"apiVersion"`
 
 	// +kubebuilder:validation:Required
 	Name                      string              `json:"name"`
@@ -50,7 +50,7 @@ type AParameters struct {
 	ResourceGroupNameSelector *v1alpha1.Selector  `json:"resourceGroupNameSelector,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Type A_Type_SPEC `json:"type"`
+	Type A_SpecType `json:"type"`
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
@@ -60,14 +60,14 @@ type AProperties struct {
 }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
-type A_APIVersion_SPEC string
+type A_SpecAPIVersion string
 
-const A_APIVersion_SPEC20200601 = A_APIVersion_SPEC("2020-06-01")
+const A_SpecAPIVersion20200601 = A_SpecAPIVersion("2020-06-01")
 
 // +kubebuilder:validation:Enum={"Microsoft.Azure/A"}
-type A_Type_SPEC string
+type A_SpecType string
 
-const A_Type_SPECMicrosoftAzureA = A_Type_SPEC("Microsoft.Azure/A")
+const A_SpecTypeMicrosoftAzureA = A_SpecType("Microsoft.Azure/A")
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Left
 type Left struct {

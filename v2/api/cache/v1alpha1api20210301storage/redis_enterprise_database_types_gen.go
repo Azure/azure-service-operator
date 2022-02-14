@@ -28,8 +28,8 @@ import (
 type RedisEnterpriseDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RedisEnterpriseDatabases_SPEC `json:"spec,omitempty"`
-	Status            Database_Status               `json:"status,omitempty"`
+	Spec              RedisEnterpriseDatabase_Spec `json:"spec,omitempty"`
+	Status            Database_Status              `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &RedisEnterpriseDatabase{}
@@ -170,46 +170,46 @@ func (database *Database_Status) ConvertStatusTo(destination genruntime.Converti
 	return destination.ConvertStatusFrom(database)
 }
 
-//Storage version of v1alpha1api20210301.RedisEnterpriseDatabases_SPEC
-type RedisEnterpriseDatabases_SPEC struct {
+//Storage version of v1alpha1api20210301.RedisEnterpriseDatabase_Spec
+type RedisEnterpriseDatabase_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName        string        `json:"azureName"`
-	ClientProtocol   *string       `json:"clientProtocol,omitempty"`
-	ClusteringPolicy *string       `json:"clusteringPolicy,omitempty"`
-	EvictionPolicy   *string       `json:"evictionPolicy,omitempty"`
-	Modules          []Module_Spec `json:"modules,omitempty"`
-	OriginalVersion  string        `json:"originalVersion"`
+	AzureName        string   `json:"azureName"`
+	ClientProtocol   *string  `json:"clientProtocol,omitempty"`
+	ClusteringPolicy *string  `json:"clusteringPolicy,omitempty"`
+	EvictionPolicy   *string  `json:"evictionPolicy,omitempty"`
+	Modules          []Module `json:"modules,omitempty"`
+	OriginalVersion  string   `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
 	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	Persistence *Persistence_Spec                 `json:"persistence,omitempty"`
+	Persistence *Persistence                      `json:"persistence,omitempty"`
 	Port        *int                              `json:"port,omitempty"`
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &RedisEnterpriseDatabases_SPEC{}
+var _ genruntime.ConvertibleSpec = &RedisEnterpriseDatabase_Spec{}
 
-// ConvertSpecFrom populates our RedisEnterpriseDatabases_SPEC from the provided source
-func (spec *RedisEnterpriseDatabases_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our RedisEnterpriseDatabase_Spec from the provided source
+func (database *RedisEnterpriseDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(database)
 }
 
-// ConvertSpecTo populates the provided destination from our RedisEnterpriseDatabases_SPEC
-func (spec *RedisEnterpriseDatabases_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our RedisEnterpriseDatabase_Spec
+func (database *RedisEnterpriseDatabase_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(database)
 }
 
-//Storage version of v1alpha1api20210301.Module_Spec
-type Module_Spec struct {
+//Storage version of v1alpha1api20210301.Module
+type Module struct {
 	Args        *string                `json:"args,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -223,8 +223,8 @@ type Module_Status struct {
 	Version     *string                `json:"version,omitempty"`
 }
 
-//Storage version of v1alpha1api20210301.Persistence_Spec
-type Persistence_Spec struct {
+//Storage version of v1alpha1api20210301.Persistence
+type Persistence struct {
 	AofEnabled   *bool                  `json:"aofEnabled,omitempty"`
 	AofFrequency *string                `json:"aofFrequency,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`

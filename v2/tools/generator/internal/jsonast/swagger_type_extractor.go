@@ -451,7 +451,7 @@ func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(operationPa
 // to “ResourceTypeDifferentTypeSomething”.
 func inferNameFromURLPath(operationPath string) (string, string, error) {
 	group := ""
-	name := ""
+	nameParts := []string{}
 
 	urlParts := strings.Split(operationPath, "/")
 	reading := false
@@ -477,7 +477,7 @@ func inferNameFromURLPath(operationPath string) (string, string, error) {
 				skippedLast = true
 			} else {
 				// normal part of path, uppercase first character
-				name += strings.ToUpper(urlPart[0:1]) + urlPart[1:]
+				nameParts = append(nameParts, urlPart)
 				skippedLast = false
 			}
 		} else if astmodel.SwaggerGroupRegex.MatchString(urlPart) {
@@ -490,9 +490,19 @@ func inferNameFromURLPath(operationPath string) (string, string, error) {
 		return "", "", errors.Errorf("no group name (‘Microsoft…’ = %q) found", group)
 	}
 
-	if name == "" {
+	if len(nameParts) == 0 {
 		return "", "", errors.Errorf("couldn’t infer name")
 	}
+
+	// Uppercase first letter in each part:
+	for ix := range nameParts {
+		nameParts[ix] = strings.ToUpper(nameParts[ix][0:1]) + nameParts[ix][1:]
+	}
+
+	// Singularize last part of name:
+	nameParts[len(nameParts)-1] = astmodel.Singularize(nameParts[len(nameParts)-1])
+
+	name := strings.Join(nameParts, "")
 
 	return group, name, nil
 }

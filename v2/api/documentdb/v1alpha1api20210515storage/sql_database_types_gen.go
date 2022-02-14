@@ -28,8 +28,8 @@ import (
 type SqlDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsSqlDatabases_SPEC `json:"spec,omitempty"`
-	Status            SqlDatabase_Status                `json:"status,omitempty"`
+	Spec              DatabaseAccountsSqlDatabase_Spec `json:"spec,omitempty"`
+	Status            SqlDatabase_Status               `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabase{}
@@ -133,40 +133,40 @@ type SqlDatabaseList struct {
 	Items           []SqlDatabase `json:"items"`
 }
 
-//Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabases_SPEC
-type DatabaseAccountsSqlDatabases_SPEC struct {
+//Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabase_Spec
+type DatabaseAccountsSqlDatabase_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName       string                    `json:"azureName"`
-	Location        *string                   `json:"location,omitempty"`
-	Options         *CreateUpdateOptions_Spec `json:"options,omitempty"`
-	OriginalVersion string                    `json:"originalVersion"`
+	AzureName       string               `json:"azureName"`
+	Location        *string              `json:"location,omitempty"`
+	Options         *CreateUpdateOptions `json:"options,omitempty"`
+	OriginalVersion string               `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
 	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Resource    *SqlDatabaseResource_Spec         `json:"resource,omitempty"`
+	Resource    *SqlDatabaseResource              `json:"resource,omitempty"`
 	Tags        map[string]string                 `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabases_SPEC{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabase_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccountsSqlDatabases_SPEC from the provided source
-func (spec *DatabaseAccountsSqlDatabases_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our DatabaseAccountsSqlDatabase_Spec from the provided source
+func (database *DatabaseAccountsSqlDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(database)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabases_SPEC
-func (spec *DatabaseAccountsSqlDatabases_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabase_Spec
+func (database *DatabaseAccountsSqlDatabase_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(database)
 }
 
 //Storage version of v1alpha1api20210515.SqlDatabase_Status
@@ -202,8 +202,8 @@ func (database *SqlDatabase_Status) ConvertStatusTo(destination genruntime.Conve
 	return destination.ConvertStatusFrom(database)
 }
 
-//Storage version of v1alpha1api20210515.SqlDatabaseResource_Spec
-type SqlDatabaseResource_Spec struct {
+//Storage version of v1alpha1api20210515.SqlDatabaseResource
+type SqlDatabaseResource struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }

@@ -153,6 +153,11 @@ func (typeName TypeName) String() string {
 	return fmt.Sprintf("%s/%s", typeName.PackageReference, typeName.name)
 }
 
+// Singular returns a TypeName with the name singularized.
+func (typeName TypeName) Singular() TypeName {
+	return typeName.WithName(Singularize(typeName.Name()))
+}
+
 var typeNamePluralToSingularOverrides = map[string]string{
 	"Redis": "Redis",
 	"redis": "redis",
@@ -160,18 +165,15 @@ var typeNamePluralToSingularOverrides = map[string]string{
 
 var typeNameSingularToPluralOverrides map[string]string
 
-// Singular returns a TypeName with the name singularized.
-func (typeName TypeName) Singular() TypeName {
+func Singularize(name string) string {
 	// work around bug in flect: https://github.com/Azure/azure-service-operator/issues/1454
-	name := typeName.name
 	for plural, single := range typeNamePluralToSingularOverrides {
 		if strings.HasSuffix(name, plural) {
-			n := name[0:len(name)-len(plural)] + single
-			return MakeTypeName(typeName.PackageReference, n)
+			return name[0:len(name)-len(plural)] + single
 		}
 	}
 
-	return MakeTypeName(typeName.PackageReference, flect.Singularize(typeName.name))
+	return flect.Singularize(name)
 }
 
 // Plural returns a TypeName with the name pluralized.

@@ -38,8 +38,8 @@ type SqlTriggerResource_StatusARM struct {
 	Id string `json:"id"`
 
 	//TriggerOperation: The operation the trigger is associated with
-	TriggerOperation *SqlTriggerResource_TriggerOperation_Status `json:"triggerOperation,omitempty"`
+	TriggerOperation *string `json:"triggerOperation,omitempty"`
 
 	//TriggerType: Type of the Trigger
-	TriggerType *SqlTriggerResource_TriggerType_Status `json:"triggerType,omitempty"`
+	TriggerType *string `json:"triggerType,omitempty"`
 }

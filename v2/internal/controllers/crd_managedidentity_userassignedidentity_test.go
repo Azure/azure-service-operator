@@ -23,7 +23,7 @@ func Test_ManagedIdentity_UserAssignedIdentity_CRUD(t *testing.T) {
 
 	mi := &managedidentity.UserAssignedIdentity{
 		ObjectMeta: tc.MakeObjectMeta("mi"),
-		Spec: managedidentity.UserAssignedIdentities_Spec{
+		Spec: managedidentity.UserAssignedIdentity_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 		},
@@ -47,7 +47,7 @@ func Test_ManagedIdentity_UserAssignedIdentity_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(mi)
 
 	// Ensure that the resource group was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(managedidentity.UserAssignedIdentitiesSpecAPIVersion20181130))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(managedidentity.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

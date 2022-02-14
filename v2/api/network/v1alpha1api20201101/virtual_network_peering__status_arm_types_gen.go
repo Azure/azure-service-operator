@@ -39,11 +39,11 @@ type VirtualNetworkPeeringPropertiesFormat_StatusARM struct {
 	DoNotVerifyRemoteGateways *bool `json:"doNotVerifyRemoteGateways,omitempty"`
 
 	//PeeringState: The status of the virtual network peering.
-	PeeringState *VirtualNetworkPeeringPropertiesFormat_PeeringState_Status `json:"peeringState,omitempty"`
+	PeeringState *string `json:"peeringState,omitempty"`
 
 	//ProvisioningState: The provisioning state of the virtual network peering
 	//resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	//RemoteAddressSpace: The reference to the remote virtual network address space.
 	RemoteAddressSpace *AddressSpace_StatusARM `json:"remoteAddressSpace,omitempty"`
@@ -77,11 +77,3 @@ type VirtualNetworkBgpCommunities_StatusARM struct {
 	//VirtualNetworkCommunity: The BGP community associated with the virtual network.
 	VirtualNetworkCommunity string `json:"virtualNetworkCommunity"`
 }
-
-type VirtualNetworkPeeringPropertiesFormat_PeeringState_Status string
-
-const (
-	VirtualNetworkPeeringPropertiesFormat_PeeringState_StatusConnected    = VirtualNetworkPeeringPropertiesFormat_PeeringState_Status("Connected")
-	VirtualNetworkPeeringPropertiesFormat_PeeringState_StatusDisconnected = VirtualNetworkPeeringPropertiesFormat_PeeringState_Status("Disconnected")
-	VirtualNetworkPeeringPropertiesFormat_PeeringState_StatusInitiated    = VirtualNetworkPeeringPropertiesFormat_PeeringState_Status("Initiated")
-)

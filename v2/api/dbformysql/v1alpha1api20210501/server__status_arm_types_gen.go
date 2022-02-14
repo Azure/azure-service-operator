@@ -43,7 +43,7 @@ type ServerProperties_StatusARM struct {
 	Backup *Backup_StatusARM `json:"backup,omitempty"`
 
 	//CreateMode: The mode to create a new MySQL server.
-	CreateMode *ServerProperties_CreateMode_Status `json:"createMode,omitempty"`
+	CreateMode *string `json:"createMode,omitempty"`
 
 	//FullyQualifiedDomainName: The fully qualified domain name of a server.
 	FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
@@ -61,7 +61,7 @@ type ServerProperties_StatusARM struct {
 	ReplicaCapacity *int `json:"replicaCapacity,omitempty"`
 
 	//ReplicationRole: The replication role.
-	ReplicationRole *ReplicationRole_Status `json:"replicationRole,omitempty"`
+	ReplicationRole *string `json:"replicationRole,omitempty"`
 
 	//RestorePointInTime: Restore point creation time (ISO8601 format), specifying the
 	//time to restore from.
@@ -71,13 +71,13 @@ type ServerProperties_StatusARM struct {
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
 	//State: The state of a server.
-	State *ServerProperties_State_Status `json:"state,omitempty"`
+	State *string `json:"state,omitempty"`
 
 	//Storage: Storage related properties of a server.
 	Storage *Storage_StatusARM `json:"storage,omitempty"`
 
 	//Version: Server version.
-	Version *ServerVersion_Status `json:"version,omitempty"`
+	Version *string `json:"version,omitempty"`
 }
 
 type Sku_StatusARM struct {
@@ -85,7 +85,7 @@ type Sku_StatusARM struct {
 	Name string `json:"name"`
 
 	//Tier: The tier of the particular SKU, e.g. GeneralPurpose.
-	Tier Sku_Tier_Status `json:"tier"`
+	Tier string `json:"tier"`
 }
 
 type Backup_StatusARM struct {
@@ -96,18 +96,18 @@ type Backup_StatusARM struct {
 	EarliestRestoreDate *string `json:"earliestRestoreDate,omitempty"`
 
 	//GeoRedundantBackup: Whether or not geo redundant backup is enabled.
-	GeoRedundantBackup *EnableStatusEnum_Status `json:"geoRedundantBackup,omitempty"`
+	GeoRedundantBackup *string `json:"geoRedundantBackup,omitempty"`
 }
 
 type HighAvailability_StatusARM struct {
 	//Mode: High availability mode for a server.
-	Mode *HighAvailability_Mode_Status `json:"mode,omitempty"`
+	Mode *string `json:"mode,omitempty"`
 
 	//StandbyAvailabilityZone: Availability zone of the standby server.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
 
 	//State: The state of server high availability.
-	State *HighAvailability_State_Status `json:"state,omitempty"`
+	State *string `json:"state,omitempty"`
 }
 
 type MaintenanceWindow_StatusARM struct {
@@ -134,20 +134,12 @@ type Network_StatusARM struct {
 
 	//PublicNetworkAccess: Whether or not public network access is allowed for this
 	//server. Value is 'Disabled' when server has VNet integration.
-	PublicNetworkAccess *EnableStatusEnum_Status `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 }
-
-type Sku_Tier_Status string
-
-const (
-	Sku_Tier_StatusBurstable       = Sku_Tier_Status("Burstable")
-	Sku_Tier_StatusGeneralPurpose  = Sku_Tier_Status("GeneralPurpose")
-	Sku_Tier_StatusMemoryOptimized = Sku_Tier_Status("MemoryOptimized")
-)
 
 type Storage_StatusARM struct {
 	//AutoGrow: Enable Storage Auto Grow or not.
-	AutoGrow *EnableStatusEnum_Status `json:"autoGrow,omitempty"`
+	AutoGrow *string `json:"autoGrow,omitempty"`
 
 	//Iops: Storage IOPS for a server.
 	Iops *int `json:"iops,omitempty"`

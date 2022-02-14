@@ -12,7 +12,7 @@ type SignalRResource_StatusARM struct {
 
 	//Kind: The kind of the service - e.g. "SignalR" for
 	//"Microsoft.SignalRService/SignalR"
-	Kind *ServiceKind_Status `json:"kind,omitempty"`
+	Kind *string `json:"kind,omitempty"`
 
 	//Location: The GEO location of the resource. e.g. West US | East US | North
 	//Central US | South Central US.
@@ -49,7 +49,7 @@ type ManagedIdentity_StatusARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	//Type: Represent the identity type: systemAssigned, userAssigned, None
-	Type *ManagedIdentityType_Status `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 
 	//UserAssignedIdentities: Get or set the user assigned identities
 	UserAssignedIdentities map[string]UserAssignedIdentityProperty_StatusARM `json:"userAssignedIdentities,omitempty"`
@@ -74,15 +74,8 @@ type ResourceSku_StatusARM struct {
 
 	//Tier: Optional tier of this particular SKU. 'Standard' or 'Free'.
 	//`Basic` is deprecated, use `Standard` instead.
-	Tier *SignalRSkuTier_Status `json:"tier,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
-
-type ServiceKind_Status string
-
-const (
-	ServiceKind_StatusRawWebSockets = ServiceKind_Status("RawWebSockets")
-	ServiceKind_StatusSignalR       = ServiceKind_Status("SignalR")
-)
 
 type SignalRProperties_StatusARM struct {
 	//Cors: Cross-Origin Resource Sharing (CORS) settings.
@@ -123,7 +116,7 @@ type SignalRProperties_StatusARM struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SignalR_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
 
 	//ProvisioningState: Provisioning state of the resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	//PublicNetworkAccess: Enable or disable public network access. Default to
 	//"Enabled".
@@ -170,7 +163,7 @@ type SystemData_StatusARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	//CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_Status `json:"createdByType,omitempty"`
+	CreatedByType *string `json:"createdByType,omitempty"`
 
 	//LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -179,16 +172,8 @@ type SystemData_StatusARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	//LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_Status `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *string `json:"lastModifiedByType,omitempty"`
 }
-
-type ManagedIdentityType_Status string
-
-const (
-	ManagedIdentityType_StatusNone           = ManagedIdentityType_Status("None")
-	ManagedIdentityType_StatusSystemAssigned = ManagedIdentityType_Status("SystemAssigned")
-	ManagedIdentityType_StatusUserAssigned   = ManagedIdentityType_Status("UserAssigned")
-)
 
 type PrivateEndpointConnection_Status_SignalR_SubResourceEmbeddedARM struct {
 	//Id: Fully qualified resource Id for the resource.
@@ -243,7 +228,7 @@ type SignalRFeature_StatusARM struct {
 	//self-troubleshooting some issues. Please note that live traces are counted as
 	//outbound messages that will be charged. Values allowed: "true"/"false", to
 	//enable/disable live trace feature.
-	Flag FeatureFlags_Status `json:"flag"`
+	Flag string `json:"flag"`
 
 	//Properties: Optional properties related to this feature.
 	Properties map[string]string `json:"properties,omitempty"`
@@ -255,7 +240,7 @@ type SignalRFeature_StatusARM struct {
 
 type SignalRNetworkACLs_StatusARM struct {
 	//DefaultAction: Default action when no other rule matches
-	DefaultAction *ACLAction_Status `json:"defaultAction,omitempty"`
+	DefaultAction *string `json:"defaultAction,omitempty"`
 
 	//PrivateEndpoints: ACLs for requests from private endpoints
 	PrivateEndpoints []PrivateEndpointACL_StatusARM `json:"privateEndpoints,omitempty"`
@@ -264,37 +249,10 @@ type SignalRNetworkACLs_StatusARM struct {
 	PublicNetwork *NetworkACL_StatusARM `json:"publicNetwork,omitempty"`
 }
 
-type SignalRSkuTier_Status string
-
-const (
-	SignalRSkuTier_StatusBasic    = SignalRSkuTier_Status("Basic")
-	SignalRSkuTier_StatusFree     = SignalRSkuTier_Status("Free")
-	SignalRSkuTier_StatusPremium  = SignalRSkuTier_Status("Premium")
-	SignalRSkuTier_StatusStandard = SignalRSkuTier_Status("Standard")
-)
-
 type SignalRTlsSettings_StatusARM struct {
 	//ClientCertEnabled: Request client certificate during TLS handshake if enabled
 	ClientCertEnabled *bool `json:"clientCertEnabled,omitempty"`
 }
-
-type SystemData_CreatedByType_Status string
-
-const (
-	SystemData_CreatedByType_StatusApplication     = SystemData_CreatedByType_Status("Application")
-	SystemData_CreatedByType_StatusKey             = SystemData_CreatedByType_Status("Key")
-	SystemData_CreatedByType_StatusManagedIdentity = SystemData_CreatedByType_Status("ManagedIdentity")
-	SystemData_CreatedByType_StatusUser            = SystemData_CreatedByType_Status("User")
-)
-
-type SystemData_LastModifiedByType_Status string
-
-const (
-	SystemData_LastModifiedByType_StatusApplication     = SystemData_LastModifiedByType_Status("Application")
-	SystemData_LastModifiedByType_StatusKey             = SystemData_LastModifiedByType_Status("Key")
-	SystemData_LastModifiedByType_StatusManagedIdentity = SystemData_LastModifiedByType_Status("ManagedIdentity")
-	SystemData_LastModifiedByType_StatusUser            = SystemData_LastModifiedByType_Status("User")
-)
 
 type UserAssignedIdentityProperty_StatusARM struct {
 	//ClientId: Get the client id for the user assigned identity
@@ -307,21 +265,21 @@ type UserAssignedIdentityProperty_StatusARM struct {
 type NetworkACL_StatusARM struct {
 	//Allow: Allowed request types. The value can be one or more of: ClientConnection,
 	//ServerConnection, RESTAPI.
-	Allow []SignalRRequestType_Status `json:"allow,omitempty"`
+	Allow []string `json:"allow,omitempty"`
 
 	//Deny: Denied request types. The value can be one or more of: ClientConnection,
 	//ServerConnection, RESTAPI.
-	Deny []SignalRRequestType_Status `json:"deny,omitempty"`
+	Deny []string `json:"deny,omitempty"`
 }
 
 type PrivateEndpointACL_StatusARM struct {
 	//Allow: Allowed request types. The value can be one or more of: ClientConnection,
 	//ServerConnection, RESTAPI.
-	Allow []SignalRRequestType_Status `json:"allow,omitempty"`
+	Allow []string `json:"allow,omitempty"`
 
 	//Deny: Denied request types. The value can be one or more of: ClientConnection,
 	//ServerConnection, RESTAPI.
-	Deny []SignalRRequestType_Status `json:"deny,omitempty"`
+	Deny []string `json:"deny,omitempty"`
 
 	//Name: Name of the private endpoint connection
 	Name string `json:"name"`
@@ -387,7 +345,7 @@ type UpstreamAuthSettings_StatusARM struct {
 	ManagedIdentity *ManagedIdentitySettings_StatusARM `json:"managedIdentity,omitempty"`
 
 	//Type: Gets or sets the type of auth. None or ManagedIdentity is supported now.
-	Type *UpstreamAuthType_Status `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 type ManagedIdentitySettings_StatusARM struct {

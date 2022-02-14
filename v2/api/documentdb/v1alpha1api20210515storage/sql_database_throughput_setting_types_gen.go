@@ -28,8 +28,8 @@ import (
 type SqlDatabaseThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsSqlDatabasesThroughputSettings_SPEC `json:"spec,omitempty"`
-	Status            ThroughputSettings_Status                           `json:"status,omitempty"`
+	Spec              DatabaseAccountsSqlDatabasesThroughputSetting_Spec `json:"spec,omitempty"`
+	Status            ThroughputSettings_Status                          `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseThroughputSetting{}
@@ -133,8 +133,8 @@ type SqlDatabaseThroughputSettingList struct {
 	Items           []SqlDatabaseThroughputSetting `json:"items"`
 }
 
-//Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesThroughputSettings_SPEC
-type DatabaseAccountsSqlDatabasesThroughputSettings_SPEC struct {
+//Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesThroughputSetting_Spec
+type DatabaseAccountsSqlDatabasesThroughputSetting_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName       string  `json:"azureName"`
@@ -144,28 +144,28 @@ type DatabaseAccountsSqlDatabasesThroughputSettings_SPEC struct {
 	// +kubebuilder:validation:Required
 	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Resource    *ThroughputSettingsResource_Spec  `json:"resource,omitempty"`
+	Resource    *ThroughputSettingsResource       `json:"resource,omitempty"`
 	Tags        map[string]string                 `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesThroughputSettings_SPEC{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesThroughputSetting_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesThroughputSettings_SPEC from the provided source
-func (spec *DatabaseAccountsSqlDatabasesThroughputSettings_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesThroughputSetting_Spec from the provided source
+func (setting *DatabaseAccountsSqlDatabasesThroughputSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == setting {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(setting)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesThroughputSettings_SPEC
-func (spec *DatabaseAccountsSqlDatabasesThroughputSettings_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesThroughputSetting_Spec
+func (setting *DatabaseAccountsSqlDatabasesThroughputSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == setting {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(setting)
 }
 
 func init() {

@@ -29,8 +29,8 @@ import (
 type SqlDatabaseContainerTrigger struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsSqlDatabasesContainersTriggers_SPEC `json:"spec,omitempty"`
-	Status            SqlTrigger_Status                                   `json:"status,omitempty"`
+	Spec              DatabaseAccountsSqlDatabasesContainersTrigger_Spec `json:"spec,omitempty"`
+	Status            SqlTrigger_Status                                  `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerTrigger{}
@@ -135,40 +135,40 @@ type SqlDatabaseContainerTriggerList struct {
 	Items           []SqlDatabaseContainerTrigger `json:"items"`
 }
 
-//Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersTriggers_SPEC
-type DatabaseAccountsSqlDatabasesContainersTriggers_SPEC struct {
+//Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersTrigger_Spec
+type DatabaseAccountsSqlDatabasesContainersTrigger_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName       string                    `json:"azureName"`
-	Location        *string                   `json:"location,omitempty"`
-	Options         *CreateUpdateOptions_Spec `json:"options,omitempty"`
-	OriginalVersion string                    `json:"originalVersion"`
+	AzureName       string               `json:"azureName"`
+	Location        *string              `json:"location,omitempty"`
+	Options         *CreateUpdateOptions `json:"options,omitempty"`
+	OriginalVersion string               `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
 	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Resource    *SqlTriggerResource_Spec          `json:"resource,omitempty"`
+	Resource    *SqlTriggerResource               `json:"resource,omitempty"`
 	Tags        map[string]string                 `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersTriggers_SPEC{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersTrigger_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainersTriggers_SPEC from the provided source
-func (spec *DatabaseAccountsSqlDatabasesContainersTriggers_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
+// ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainersTrigger_Spec from the provided source
+func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == trigger {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(spec)
+	return source.ConvertSpecTo(trigger)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersTriggers_SPEC
-func (spec *DatabaseAccountsSqlDatabasesContainersTriggers_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
+// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersTrigger_Spec
+func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == trigger {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(spec)
+	return destination.ConvertSpecFrom(trigger)
 }
 
 //Storage version of v1alpha1api20210515.SqlTrigger_Status
@@ -204,8 +204,8 @@ func (trigger *SqlTrigger_Status) ConvertStatusTo(destination genruntime.Convert
 	return destination.ConvertStatusFrom(trigger)
 }
 
-//Storage version of v1alpha1api20210515.SqlTriggerResource_Spec
-type SqlTriggerResource_Spec struct {
+//Storage version of v1alpha1api20210515.SqlTriggerResource
+type SqlTriggerResource struct {
 	Body             *string                `json:"body,omitempty"`
 	Id               *string                `json:"id,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`

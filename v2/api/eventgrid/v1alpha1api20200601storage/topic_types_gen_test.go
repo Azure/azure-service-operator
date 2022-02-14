@@ -73,8 +73,87 @@ func TopicGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForTopic is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForTopic(gens map[string]gopter.Gen) {
-	gens["Spec"] = Topics_SPECGenerator()
+	gens["Spec"] = Topic_SpecGenerator()
 	gens["Status"] = Topic_StatusGenerator()
+}
+
+func Test_Topic_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Topic_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTopic_Spec, Topic_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForTopic_Spec runs a test to see if a specific instance of Topic_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForTopic_Spec(subject Topic_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Topic_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Topic_Spec instances for property testing - lazily instantiated by Topic_SpecGenerator()
+var topic_specGenerator gopter.Gen
+
+// Topic_SpecGenerator returns a generator of Topic_Spec instances for property testing.
+// We first initialize topic_specGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Topic_SpecGenerator() gopter.Gen {
+	if topic_specGenerator != nil {
+		return topic_specGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForTopic_Spec(generators)
+	topic_specGenerator = gen.Struct(reflect.TypeOf(Topic_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForTopic_Spec(generators)
+	AddRelatedPropertyGeneratorsForTopic_Spec(generators)
+	topic_specGenerator = gen.Struct(reflect.TypeOf(Topic_Spec{}), generators)
+
+	return topic_specGenerator
+}
+
+// AddIndependentPropertyGeneratorsForTopic_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForTopic_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["InputSchema"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForTopic_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForTopic_Spec(gens map[string]gopter.Gen) {
+	gens["InboundIpRules"] = gen.SliceOf(InboundIpRuleGenerator())
+	gens["InputSchemaMapping"] = gen.PtrOf(InputSchemaMappingGenerator())
 }
 
 func Test_Topic_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -160,68 +239,6 @@ func AddRelatedPropertyGeneratorsForTopic_Status(gens map[string]gopter.Gen) {
 	gens["InputSchemaMapping"] = gen.PtrOf(InputSchemaMapping_StatusGenerator())
 	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_Status_Topic_SubResourceEmbeddedGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_StatusGenerator())
-}
-
-func Test_Topics_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Topics_SPEC via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTopics_SPEC, Topics_SPECGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForTopics_SPEC runs a test to see if a specific instance of Topics_SPEC round trips to JSON and back losslessly
-func RunJSONSerializationTestForTopics_SPEC(subject Topics_SPEC) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Topics_SPEC
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Topics_SPEC instances for property testing - lazily instantiated by Topics_SPECGenerator()
-var topics_specGenerator gopter.Gen
-
-// Topics_SPECGenerator returns a generator of Topics_SPEC instances for property testing.
-func Topics_SPECGenerator() gopter.Gen {
-	if topics_specGenerator != nil {
-		return topics_specGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTopics_SPEC(generators)
-	topics_specGenerator = gen.Struct(reflect.TypeOf(Topics_SPEC{}), generators)
-
-	return topics_specGenerator
-}
-
-// AddIndependentPropertyGeneratorsForTopics_SPEC is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTopics_SPEC(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
 func Test_PrivateEndpointConnection_Status_Topic_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

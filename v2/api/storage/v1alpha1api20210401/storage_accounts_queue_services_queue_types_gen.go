@@ -30,8 +30,8 @@ import (
 type StorageAccountsQueueServicesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccountsQueueServicesQueues_SPEC `json:"spec,omitempty"`
-	Status            StorageQueue_Status                     `json:"status,omitempty"`
+	Spec              StorageAccountsQueueServicesQueue_Spec `json:"spec,omitempty"`
+	Status            StorageQueue_Status                    `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsQueueServicesQueue{}
@@ -247,10 +247,10 @@ func (queue *StorageAccountsQueueServicesQueue) AssignPropertiesFromStorageAccou
 	queue.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec StorageAccountsQueueServicesQueues_SPEC
-	err := spec.AssignPropertiesFromStorageAccountsQueueServicesQueues_SPEC(&source.Spec)
+	var spec StorageAccountsQueueServicesQueue_Spec
+	err := spec.AssignPropertiesFromStorageAccountsQueueServicesQueue_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountsQueueServicesQueues_SPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountsQueueServicesQueue_Spec() to populate field Spec")
 	}
 	queue.Spec = spec
 
@@ -273,10 +273,10 @@ func (queue *StorageAccountsQueueServicesQueue) AssignPropertiesToStorageAccount
 	destination.ObjectMeta = *queue.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1alpha1api20210401storage.StorageAccountsQueueServicesQueues_SPEC
-	err := queue.Spec.AssignPropertiesToStorageAccountsQueueServicesQueues_SPEC(&spec)
+	var spec v1alpha1api20210401storage.StorageAccountsQueueServicesQueue_Spec
+	err := queue.Spec.AssignPropertiesToStorageAccountsQueueServicesQueue_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsQueueServicesQueues_SPEC() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsQueueServicesQueue_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -311,7 +311,7 @@ type StorageAccountsQueueServicesQueueList struct {
 	Items           []StorageAccountsQueueServicesQueue `json:"items"`
 }
 
-type StorageAccountsQueueServicesQueues_SPEC struct {
+type StorageAccountsQueueServicesQueue_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
@@ -323,28 +323,28 @@ type StorageAccountsQueueServicesQueues_SPEC struct {
 	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 }
 
-var _ genruntime.ARMTransformer = &StorageAccountsQueueServicesQueues_SPEC{}
+var _ genruntime.ARMTransformer = &StorageAccountsQueueServicesQueue_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (spec *StorageAccountsQueueServicesQueues_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if spec == nil {
+func (queue *StorageAccountsQueueServicesQueue_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if queue == nil {
 		return nil, nil
 	}
-	var result StorageAccountsQueueServicesQueues_SPECARM
+	var result StorageAccountsQueueServicesQueue_SpecARM
 
 	// Set property ‘AzureName’:
-	result.AzureName = spec.AzureName
+	result.AzureName = queue.AzureName
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if spec.Metadata != nil {
-		result.Properties = &QueueProperties_SpecARM{}
+	if queue.Metadata != nil {
+		result.Properties = &QueuePropertiesARM{}
 	}
-	if spec.Metadata != nil {
+	if queue.Metadata != nil {
 		result.Properties.Metadata = make(map[string]string)
-		for key, value := range spec.Metadata {
+		for key, value := range queue.Metadata {
 			result.Properties.Metadata[key] = value
 		}
 	}
@@ -352,33 +352,33 @@ func (spec *StorageAccountsQueueServicesQueues_SPEC) ConvertToARM(resolved genru
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (spec *StorageAccountsQueueServicesQueues_SPEC) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageAccountsQueueServicesQueues_SPECARM{}
+func (queue *StorageAccountsQueueServicesQueue_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &StorageAccountsQueueServicesQueue_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (spec *StorageAccountsQueueServicesQueues_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageAccountsQueueServicesQueues_SPECARM)
+func (queue *StorageAccountsQueueServicesQueue_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(StorageAccountsQueueServicesQueue_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsQueueServicesQueues_SPECARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsQueueServicesQueue_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	spec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	queue.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Metadata’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
-			spec.Metadata = make(map[string]string)
+			queue.Metadata = make(map[string]string)
 			for key, value := range typedInput.Properties.Metadata {
-				spec.Metadata[key] = value
+				queue.Metadata[key] = value
 			}
 		}
 	}
 
 	// Set property ‘Owner’:
-	spec.Owner = genruntime.KnownResourceReference{
+	queue.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -386,25 +386,25 @@ func (spec *StorageAccountsQueueServicesQueues_SPEC) PopulateFromARM(owner genru
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &StorageAccountsQueueServicesQueues_SPEC{}
+var _ genruntime.ConvertibleSpec = &StorageAccountsQueueServicesQueue_Spec{}
 
-// ConvertSpecFrom populates our StorageAccountsQueueServicesQueues_SPEC from the provided source
-func (spec *StorageAccountsQueueServicesQueues_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1alpha1api20210401storage.StorageAccountsQueueServicesQueues_SPEC)
+// ConvertSpecFrom populates our StorageAccountsQueueServicesQueue_Spec from the provided source
+func (queue *StorageAccountsQueueServicesQueue_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v1alpha1api20210401storage.StorageAccountsQueueServicesQueue_Spec)
 	if ok {
 		// Populate our instance from source
-		return spec.AssignPropertiesFromStorageAccountsQueueServicesQueues_SPEC(src)
+		return queue.AssignPropertiesFromStorageAccountsQueueServicesQueue_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210401storage.StorageAccountsQueueServicesQueues_SPEC{}
+	src = &v1alpha1api20210401storage.StorageAccountsQueueServicesQueue_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = spec.AssignPropertiesFromStorageAccountsQueueServicesQueues_SPEC(src)
+	err = queue.AssignPropertiesFromStorageAccountsQueueServicesQueue_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -412,17 +412,17 @@ func (spec *StorageAccountsQueueServicesQueues_SPEC) ConvertSpecFrom(source genr
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our StorageAccountsQueueServicesQueues_SPEC
-func (spec *StorageAccountsQueueServicesQueues_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1alpha1api20210401storage.StorageAccountsQueueServicesQueues_SPEC)
+// ConvertSpecTo populates the provided destination from our StorageAccountsQueueServicesQueue_Spec
+func (queue *StorageAccountsQueueServicesQueue_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v1alpha1api20210401storage.StorageAccountsQueueServicesQueue_Spec)
 	if ok {
 		// Populate destination from our instance
-		return spec.AssignPropertiesToStorageAccountsQueueServicesQueues_SPEC(dst)
+		return queue.AssignPropertiesToStorageAccountsQueueServicesQueue_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210401storage.StorageAccountsQueueServicesQueues_SPEC{}
-	err := spec.AssignPropertiesToStorageAccountsQueueServicesQueues_SPEC(dst)
+	dst = &v1alpha1api20210401storage.StorageAccountsQueueServicesQueue_Spec{}
+	err := queue.AssignPropertiesToStorageAccountsQueueServicesQueue_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -436,38 +436,38 @@ func (spec *StorageAccountsQueueServicesQueues_SPEC) ConvertSpecTo(destination g
 	return nil
 }
 
-// AssignPropertiesFromStorageAccountsQueueServicesQueues_SPEC populates our StorageAccountsQueueServicesQueues_SPEC from the provided source StorageAccountsQueueServicesQueues_SPEC
-func (spec *StorageAccountsQueueServicesQueues_SPEC) AssignPropertiesFromStorageAccountsQueueServicesQueues_SPEC(source *v1alpha1api20210401storage.StorageAccountsQueueServicesQueues_SPEC) error {
+// AssignPropertiesFromStorageAccountsQueueServicesQueue_Spec populates our StorageAccountsQueueServicesQueue_Spec from the provided source StorageAccountsQueueServicesQueue_Spec
+func (queue *StorageAccountsQueueServicesQueue_Spec) AssignPropertiesFromStorageAccountsQueueServicesQueue_Spec(source *v1alpha1api20210401storage.StorageAccountsQueueServicesQueue_Spec) error {
 
 	// AzureName
-	spec.AzureName = source.AzureName
+	queue.AzureName = source.AzureName
 
 	// Metadata
-	spec.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
+	queue.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
 	// Owner
-	spec.Owner = source.Owner.Copy()
+	queue.Owner = source.Owner.Copy()
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToStorageAccountsQueueServicesQueues_SPEC populates the provided destination StorageAccountsQueueServicesQueues_SPEC from our StorageAccountsQueueServicesQueues_SPEC
-func (spec *StorageAccountsQueueServicesQueues_SPEC) AssignPropertiesToStorageAccountsQueueServicesQueues_SPEC(destination *v1alpha1api20210401storage.StorageAccountsQueueServicesQueues_SPEC) error {
+// AssignPropertiesToStorageAccountsQueueServicesQueue_Spec populates the provided destination StorageAccountsQueueServicesQueue_Spec from our StorageAccountsQueueServicesQueue_Spec
+func (queue *StorageAccountsQueueServicesQueue_Spec) AssignPropertiesToStorageAccountsQueueServicesQueue_Spec(destination *v1alpha1api20210401storage.StorageAccountsQueueServicesQueue_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = spec.AzureName
+	destination.AzureName = queue.AzureName
 
 	// Metadata
-	destination.Metadata = genruntime.CloneMapOfStringToString(spec.Metadata)
+	destination.Metadata = genruntime.CloneMapOfStringToString(queue.Metadata)
 
 	// OriginalVersion
-	destination.OriginalVersion = spec.OriginalVersion()
+	destination.OriginalVersion = queue.OriginalVersion()
 
 	// Owner
-	destination.Owner = spec.Owner.Copy()
+	destination.Owner = queue.Owner.Copy()
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -481,13 +481,13 @@ func (spec *StorageAccountsQueueServicesQueues_SPEC) AssignPropertiesToStorageAc
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (spec *StorageAccountsQueueServicesQueues_SPEC) OriginalVersion() string {
+func (queue *StorageAccountsQueueServicesQueue_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (spec *StorageAccountsQueueServicesQueues_SPEC) SetAzureName(azureName string) {
-	spec.AzureName = azureName
+func (queue *StorageAccountsQueueServicesQueue_Spec) SetAzureName(azureName string) {
+	queue.AzureName = azureName
 }
 
 type StorageQueue_Status struct {

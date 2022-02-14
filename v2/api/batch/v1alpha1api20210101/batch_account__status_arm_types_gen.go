@@ -27,13 +27,13 @@ type BatchAccountIdentity_StatusARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	//Type: The type of identity used for the Batch account.
-	Type BatchAccountIdentity_Type_Status `json:"type"`
+	Type string `json:"type"`
 
 	//UserAssignedIdentities: The list of user identities associated with the Batch
 	//account. The user identity dictionary key references will be ARM resource ids in
 	//the form:
 	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]BatchAccountIdentity_UserAssignedIdentities_StatusARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]BatchAccountIdentity_StatusUserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
 }
 
 type BatchAccountProperties_StatusARM struct {
@@ -54,10 +54,10 @@ type BatchAccountProperties_StatusARM struct {
 	//authenticate using access keys or Azure Active Directory. If the mode is
 	//UserSubscription, clients must use Azure Active Directory. The default is
 	//BatchService.
-	PoolAllocationMode *PoolAllocationMode_Status `json:"poolAllocationMode,omitempty"`
+	PoolAllocationMode *string `json:"poolAllocationMode,omitempty"`
 
 	//PublicNetworkAccess: If not specified, the default value is 'enabled'.
-	PublicNetworkAccess *PublicNetworkAccessType_Status `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 }
 
 type AutoStorageBaseProperties_StatusARM struct {
@@ -66,15 +66,7 @@ type AutoStorageBaseProperties_StatusARM struct {
 	StorageAccountId string `json:"storageAccountId"`
 }
 
-type BatchAccountIdentity_Type_Status string
-
-const (
-	BatchAccountIdentity_Type_StatusNone           = BatchAccountIdentity_Type_Status("None")
-	BatchAccountIdentity_Type_StatusSystemAssigned = BatchAccountIdentity_Type_Status("SystemAssigned")
-	BatchAccountIdentity_Type_StatusUserAssigned   = BatchAccountIdentity_Type_Status("UserAssigned")
-)
-
-type BatchAccountIdentity_UserAssignedIdentities_StatusARM struct {
+type BatchAccountIdentity_StatusUserAssignedIdentitiesARM struct {
 	//ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -84,7 +76,7 @@ type BatchAccountIdentity_UserAssignedIdentities_StatusARM struct {
 
 type EncryptionProperties_StatusARM struct {
 	//KeySource: Type of the key source.
-	KeySource *EncryptionProperties_KeySource_Status `json:"keySource,omitempty"`
+	KeySource *string `json:"keySource,omitempty"`
 
 	//KeyVaultProperties: Additional details when using Microsoft.KeyVault
 	KeyVaultProperties *KeyVaultProperties_StatusARM `json:"keyVaultProperties,omitempty"`

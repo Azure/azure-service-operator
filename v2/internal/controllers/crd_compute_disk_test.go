@@ -22,17 +22,17 @@ func Test_Compute_Disk_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Create a disk.
-	standardSkuName := compute.DiskSkuNameStandardLRS
+	standardSkuName := compute.DiskSkuNameStandard_LRS
 	sizeInGb := 500
 	disk := &compute.Disk{
 		ObjectMeta: tc.MakeObjectMeta("disk"),
-		Spec: compute.Disks_Spec{
+		Spec: compute.Disk_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &compute.DiskSku{
 				Name: &standardSkuName,
 			},
-			CreationData: compute.CreationData{
+			CreationData: &compute.CreationData{
 				CreateOption: compute.CreationDataCreateOptionEmpty,
 			},
 			DiskSizeGB: &sizeInGb,
@@ -48,7 +48,7 @@ func Test_Compute_Disk_CRUD(t *testing.T) {
 
 	// Perform a simple patch.
 	old := disk.DeepCopy()
-	networkAccessPolicy := compute.DiskPropertiesNetworkAccessPolicyDenyAll
+	networkAccessPolicy := compute.NetworkAccessPolicyDenyAll
 	disk.Spec.NetworkAccessPolicy = &networkAccessPolicy
 	tc.PatchResourceAndWait(old, disk)
 	tc.Expect(disk.Status.NetworkAccessPolicy).To(BeEquivalentTo(&networkAccessPolicy))
@@ -59,7 +59,7 @@ func Test_Compute_Disk_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
-		string(compute.DisksSpecAPIVersion20200930))
+		string(compute.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

@@ -136,5 +136,5 @@ func RedisLinkedServerProperties_StatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRedisLinkedServerProperties_StatusARM(gens map[string]gopter.Gen) {
 	gens["LinkedRedisCacheId"] = gen.AlphaString()
 	gens["LinkedRedisCacheLocation"] = gen.AlphaString()
-	gens["ServerRole"] = gen.OneConstOf(RedisLinkedServerProperties_ServerRole_StatusPrimary, RedisLinkedServerProperties_ServerRole_StatusSecondary)
+	gens["ServerRole"] = gen.AlphaString()
 }

@@ -27,7 +27,7 @@ type ConfigurationProperties_StatusARM struct {
 	AllowedValues *string `json:"allowedValues,omitempty"`
 
 	//DataType: Data type of the configuration.
-	DataType *ConfigurationProperties_DataType_Status `json:"dataType,omitempty"`
+	DataType *string `json:"dataType,omitempty"`
 
 	//DefaultValue: Default value of the configuration.
 	DefaultValue *string `json:"defaultValue,omitempty"`
@@ -50,7 +50,7 @@ type SystemData_StatusARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	//CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_Status `json:"createdByType,omitempty"`
+	CreatedByType *string `json:"createdByType,omitempty"`
 
 	//LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -59,32 +59,5 @@ type SystemData_StatusARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	//LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_Status `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *string `json:"lastModifiedByType,omitempty"`
 }
-
-type ConfigurationProperties_DataType_Status string
-
-const (
-	ConfigurationProperties_DataType_StatusBoolean     = ConfigurationProperties_DataType_Status("Boolean")
-	ConfigurationProperties_DataType_StatusEnumeration = ConfigurationProperties_DataType_Status("Enumeration")
-	ConfigurationProperties_DataType_StatusInteger     = ConfigurationProperties_DataType_Status("Integer")
-	ConfigurationProperties_DataType_StatusNumeric     = ConfigurationProperties_DataType_Status("Numeric")
-)
-
-type SystemData_CreatedByType_Status string
-
-const (
-	SystemData_CreatedByType_StatusApplication     = SystemData_CreatedByType_Status("Application")
-	SystemData_CreatedByType_StatusKey             = SystemData_CreatedByType_Status("Key")
-	SystemData_CreatedByType_StatusManagedIdentity = SystemData_CreatedByType_Status("ManagedIdentity")
-	SystemData_CreatedByType_StatusUser            = SystemData_CreatedByType_Status("User")
-)
-
-type SystemData_LastModifiedByType_Status string
-
-const (
-	SystemData_LastModifiedByType_StatusApplication     = SystemData_LastModifiedByType_Status("Application")
-	SystemData_LastModifiedByType_StatusKey             = SystemData_LastModifiedByType_Status("Key")
-	SystemData_LastModifiedByType_StatusManagedIdentity = SystemData_LastModifiedByType_Status("ManagedIdentity")
-	SystemData_LastModifiedByType_StatusUser            = SystemData_LastModifiedByType_Status("User")
-)

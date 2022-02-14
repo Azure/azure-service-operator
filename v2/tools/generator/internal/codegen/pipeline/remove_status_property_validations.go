@@ -143,5 +143,5 @@ func removeValidatedType(this *astmodel.TypeVisitor, vt *astmodel.ValidatedType,
 }
 
 func removeEnumValidations(this *astmodel.TypeVisitor, et *astmodel.EnumType, _ interface{}) (astmodel.Type, error) {
-	return et.WithoutValidation(), nil
+	return et.BaseType(), nil
 }

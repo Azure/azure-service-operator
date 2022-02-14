@@ -28,7 +28,7 @@ import (
 type LoadBalancer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              LoadBalancers_SPEC  `json:"spec,omitempty"`
+	Spec              LoadBalancer_Spec   `json:"spec,omitempty"`
 	Status            LoadBalancer_Status `json:"status,omitempty"`
 }
 
@@ -138,6 +138,52 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("2020-11-01")
 
+//Storage version of v1alpha1api20201101.LoadBalancer_Spec
+type LoadBalancer_Spec struct {
+	//AzureName: The name of the resource in Azure. This is often the same as the name
+	//of the resource in Kubernetes but it doesn't have to be.
+	AzureName                string                                                     `json:"azureName"`
+	BackendAddressPools      []BackendAddressPool_LoadBalancer_SubResourceEmbedded      `json:"backendAddressPools,omitempty"`
+	ExtendedLocation         *ExtendedLocation                                          `json:"extendedLocation,omitempty"`
+	FrontendIPConfigurations []FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded `json:"frontendIPConfigurations,omitempty"`
+	InboundNatPools          []InboundNatPool                                           `json:"inboundNatPools,omitempty"`
+	InboundNatRules          []InboundNatRule_LoadBalancer_SubResourceEmbedded          `json:"inboundNatRules,omitempty"`
+	LoadBalancingRules       []LoadBalancingRule                                        `json:"loadBalancingRules,omitempty"`
+	Location                 *string                                                    `json:"location,omitempty"`
+	OriginalVersion          string                                                     `json:"originalVersion"`
+	OutboundRules            []OutboundRule                                             `json:"outboundRules,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Probes      []Probe                           `json:"probes,omitempty"`
+	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+
+	//Reference: Resource ID.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	Sku       *LoadBalancerSku              `json:"sku,omitempty"`
+	Tags      map[string]string             `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &LoadBalancer_Spec{}
+
+// ConvertSpecFrom populates our LoadBalancer_Spec from the provided source
+func (balancer *LoadBalancer_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == balancer {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(balancer)
+}
+
+// ConvertSpecTo populates the provided destination from our LoadBalancer_Spec
+func (balancer *LoadBalancer_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == balancer {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(balancer)
+}
+
 //Storage version of v1alpha1api20201101.LoadBalancer_Status
 type LoadBalancer_Status struct {
 	BackendAddressPools      []BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded      `json:"backendAddressPools,omitempty"`
@@ -181,54 +227,8 @@ func (balancer *LoadBalancer_Status) ConvertStatusTo(destination genruntime.Conv
 	return destination.ConvertStatusFrom(balancer)
 }
 
-//Storage version of v1alpha1api20201101.LoadBalancers_SPEC
-type LoadBalancers_SPEC struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName                string                                                          `json:"azureName"`
-	BackendAddressPools      []BackendAddressPool_Spec_LoadBalancer_SubResourceEmbedded      `json:"backendAddressPools,omitempty"`
-	ExtendedLocation         *ExtendedLocation_Spec                                          `json:"extendedLocation,omitempty"`
-	FrontendIPConfigurations []FrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbedded `json:"frontendIPConfigurations,omitempty"`
-	InboundNatPools          []InboundNatPool_Spec                                           `json:"inboundNatPools,omitempty"`
-	InboundNatRules          []InboundNatRule_Spec_LoadBalancer_SubResourceEmbedded          `json:"inboundNatRules,omitempty"`
-	LoadBalancingRules       []LoadBalancingRule_Spec                                        `json:"loadBalancingRules,omitempty"`
-	Location                 *string                                                         `json:"location,omitempty"`
-	OriginalVersion          string                                                          `json:"originalVersion"`
-	OutboundRules            []OutboundRule_Spec                                             `json:"outboundRules,omitempty"`
-
-	// +kubebuilder:validation:Required
-	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	Probes      []Probe_Spec                      `json:"probes,omitempty"`
-	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Sku       *LoadBalancerSku_Spec         `json:"sku,omitempty"`
-	Tags      map[string]string             `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &LoadBalancers_SPEC{}
-
-// ConvertSpecFrom populates our LoadBalancers_SPEC from the provided source
-func (spec *LoadBalancers_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == spec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(spec)
-}
-
-// ConvertSpecTo populates the provided destination from our LoadBalancers_SPEC
-func (spec *LoadBalancers_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == spec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(spec)
-}
-
-//Storage version of v1alpha1api20201101.BackendAddressPool_Spec_LoadBalancer_SubResourceEmbedded
-type BackendAddressPool_Spec_LoadBalancer_SubResourceEmbedded struct {
+//Storage version of v1alpha1api20201101.BackendAddressPool_LoadBalancer_SubResourceEmbedded
+type BackendAddressPool_LoadBalancer_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	//Reference: Resource ID.
@@ -241,8 +241,8 @@ type BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.ExtendedLocation_Spec
-type ExtendedLocation_Spec struct {
+//Storage version of v1alpha1api20201101.ExtendedLocation
+type ExtendedLocation struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
@@ -255,20 +255,20 @@ type ExtendedLocation_Status struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.FrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbedded
-type FrontendIPConfiguration_Spec_LoadBalancer_SubResourceEmbedded struct {
+//Storage version of v1alpha1api20201101.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded
+type FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded struct {
 	Name                      *string                `json:"name,omitempty"`
 	PrivateIPAddress          *string                `json:"privateIPAddress,omitempty"`
 	PrivateIPAddressVersion   *string                `json:"privateIPAddressVersion,omitempty"`
 	PrivateIPAllocationMethod *string                `json:"privateIPAllocationMethod,omitempty"`
 	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	PublicIPAddress           *PublicIPAddress_Spec  `json:"publicIPAddress,omitempty"`
-	PublicIPPrefix            *SubResource_Spec      `json:"publicIPPrefix,omitempty"`
+	PublicIPAddress           *PublicIPAddressSpec   `json:"publicIPAddress,omitempty"`
+	PublicIPPrefix            *SubResource           `json:"publicIPPrefix,omitempty"`
 
 	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference                 `armReference:"Id" json:"reference,omitempty"`
-	Subnet    *Subnet_Spec_LoadBalancer_SubResourceEmbedded `json:"subnet,omitempty"`
-	Zones     []string                                      `json:"zones,omitempty"`
+	Reference *genruntime.ResourceReference            `armReference:"Id" json:"reference,omitempty"`
+	Subnet    *Subnet_LoadBalancer_SubResourceEmbedded `json:"subnet,omitempty"`
+	Zones     []string                                 `json:"zones,omitempty"`
 }
 
 //Storage version of v1alpha1api20201101.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded
@@ -292,12 +292,12 @@ type FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded struct {
 	Zones                     []string                                                 `json:"zones,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.InboundNatPool_Spec
-type InboundNatPool_Spec struct {
+//Storage version of v1alpha1api20201101.InboundNatPool
+type InboundNatPool struct {
 	BackendPort             *int                   `json:"backendPort,omitempty"`
 	EnableFloatingIP        *bool                  `json:"enableFloatingIP,omitempty"`
 	EnableTcpReset          *bool                  `json:"enableTcpReset,omitempty"`
-	FrontendIPConfiguration *SubResource_Spec      `json:"frontendIPConfiguration,omitempty"`
+	FrontendIPConfiguration *SubResource           `json:"frontendIPConfiguration,omitempty"`
 	FrontendPortRangeEnd    *int                   `json:"frontendPortRangeEnd,omitempty"`
 	FrontendPortRangeStart  *int                   `json:"frontendPortRangeStart,omitempty"`
 	IdleTimeoutInMinutes    *int                   `json:"idleTimeoutInMinutes,omitempty"`
@@ -327,8 +327,8 @@ type InboundNatPool_Status struct {
 	Type                    *string                `json:"type,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.InboundNatRule_Spec_LoadBalancer_SubResourceEmbedded
-type InboundNatRule_Spec_LoadBalancer_SubResourceEmbedded struct {
+//Storage version of v1alpha1api20201101.InboundNatRule_LoadBalancer_SubResourceEmbedded
+type InboundNatRule_LoadBalancer_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	//Reference: Resource ID.
@@ -341,8 +341,8 @@ type InboundNatRule_Status_LoadBalancer_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.LoadBalancerSku_Spec
-type LoadBalancerSku_Spec struct {
+//Storage version of v1alpha1api20201101.LoadBalancerSku
+type LoadBalancerSku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`
@@ -355,19 +355,19 @@ type LoadBalancerSku_Status struct {
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.LoadBalancingRule_Spec
-type LoadBalancingRule_Spec struct {
-	BackendAddressPool      *SubResource_Spec      `json:"backendAddressPool,omitempty"`
+//Storage version of v1alpha1api20201101.LoadBalancingRule
+type LoadBalancingRule struct {
+	BackendAddressPool      *SubResource           `json:"backendAddressPool,omitempty"`
 	BackendPort             *int                   `json:"backendPort,omitempty"`
 	DisableOutboundSnat     *bool                  `json:"disableOutboundSnat,omitempty"`
 	EnableFloatingIP        *bool                  `json:"enableFloatingIP,omitempty"`
 	EnableTcpReset          *bool                  `json:"enableTcpReset,omitempty"`
-	FrontendIPConfiguration *SubResource_Spec      `json:"frontendIPConfiguration,omitempty"`
+	FrontendIPConfiguration *SubResource           `json:"frontendIPConfiguration,omitempty"`
 	FrontendPort            *int                   `json:"frontendPort,omitempty"`
 	IdleTimeoutInMinutes    *int                   `json:"idleTimeoutInMinutes,omitempty"`
 	LoadDistribution        *string                `json:"loadDistribution,omitempty"`
 	Name                    *string                `json:"name,omitempty"`
-	Probe                   *SubResource_Spec      `json:"probe,omitempty"`
+	Probe                   *SubResource           `json:"probe,omitempty"`
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Protocol                *string                `json:"protocol,omitempty"`
 
@@ -396,12 +396,12 @@ type LoadBalancingRule_Status struct {
 	Type                    *string                `json:"type,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.OutboundRule_Spec
-type OutboundRule_Spec struct {
+//Storage version of v1alpha1api20201101.OutboundRule
+type OutboundRule struct {
 	AllocatedOutboundPorts   *int                   `json:"allocatedOutboundPorts,omitempty"`
-	BackendAddressPool       *SubResource_Spec      `json:"backendAddressPool,omitempty"`
+	BackendAddressPool       *SubResource           `json:"backendAddressPool,omitempty"`
 	EnableTcpReset           *bool                  `json:"enableTcpReset,omitempty"`
-	FrontendIPConfigurations []SubResource_Spec     `json:"frontendIPConfigurations,omitempty"`
+	FrontendIPConfigurations []SubResource          `json:"frontendIPConfigurations,omitempty"`
 	IdleTimeoutInMinutes     *int                   `json:"idleTimeoutInMinutes,omitempty"`
 	Name                     *string                `json:"name,omitempty"`
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -427,8 +427,8 @@ type OutboundRule_Status struct {
 	Type                     *string                `json:"type,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.Probe_Spec
-type Probe_Spec struct {
+//Storage version of v1alpha1api20201101.Probe
+type Probe struct {
 	IntervalInSeconds *int                   `json:"intervalInSeconds,omitempty"`
 	Name              *string                `json:"name,omitempty"`
 	NumberOfProbes    *int                   `json:"numberOfProbes,omitempty"`
@@ -457,27 +457,27 @@ type Probe_Status struct {
 	Type               *string                `json:"type,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.PublicIPAddress_Spec
-type PublicIPAddress_Spec struct {
-	DdosSettings             *DdosSettings_Spec               `json:"ddosSettings,omitempty"`
-	DnsSettings              *PublicIPAddressDnsSettings_Spec `json:"dnsSettings,omitempty"`
-	ExtendedLocation         *ExtendedLocation_Spec           `json:"extendedLocation,omitempty"`
-	IdleTimeoutInMinutes     *int                             `json:"idleTimeoutInMinutes,omitempty"`
-	IpAddress                *string                          `json:"ipAddress,omitempty"`
-	IpTags                   []IpTag_Spec                     `json:"ipTags,omitempty"`
-	LinkedPublicIPAddress    *PublicIPAddress_Spec            `json:"linkedPublicIPAddress,omitempty"`
-	Location                 *string                          `json:"location,omitempty"`
-	MigrationPhase           *string                          `json:"migrationPhase,omitempty"`
-	NatGateway               *NatGateway_Spec                 `json:"natGateway,omitempty"`
-	PropertyBag              genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
-	PublicIPAddressVersion   *string                          `json:"publicIPAddressVersion,omitempty"`
-	PublicIPAllocationMethod *string                          `json:"publicIPAllocationMethod,omitempty"`
-	PublicIPPrefix           *SubResource_Spec                `json:"publicIPPrefix,omitempty"`
+//Storage version of v1alpha1api20201101.PublicIPAddressSpec
+type PublicIPAddressSpec struct {
+	DdosSettings             *DdosSettings               `json:"ddosSettings,omitempty"`
+	DnsSettings              *PublicIPAddressDnsSettings `json:"dnsSettings,omitempty"`
+	ExtendedLocation         *ExtendedLocation           `json:"extendedLocation,omitempty"`
+	IdleTimeoutInMinutes     *int                        `json:"idleTimeoutInMinutes,omitempty"`
+	IpAddress                *string                     `json:"ipAddress,omitempty"`
+	IpTags                   []IpTag                     `json:"ipTags,omitempty"`
+	LinkedPublicIPAddress    *PublicIPAddressSpec        `json:"linkedPublicIPAddress,omitempty"`
+	Location                 *string                     `json:"location,omitempty"`
+	MigrationPhase           *string                     `json:"migrationPhase,omitempty"`
+	NatGateway               *NatGatewaySpec             `json:"natGateway,omitempty"`
+	PropertyBag              genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	PublicIPAddressVersion   *string                     `json:"publicIPAddressVersion,omitempty"`
+	PublicIPAllocationMethod *string                     `json:"publicIPAllocationMethod,omitempty"`
+	PublicIPPrefix           *SubResource                `json:"publicIPPrefix,omitempty"`
 
 	//Reference: Resource ID.
 	Reference              *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	ServicePublicIPAddress *PublicIPAddress_Spec         `json:"servicePublicIPAddress,omitempty"`
-	Sku                    *PublicIPAddressSku_Spec      `json:"sku,omitempty"`
+	ServicePublicIPAddress *PublicIPAddressSpec          `json:"servicePublicIPAddress,omitempty"`
+	Sku                    *PublicIPAddressSku           `json:"sku,omitempty"`
 	Tags                   map[string]string             `json:"tags,omitempty"`
 	Zones                  []string                      `json:"zones,omitempty"`
 }
@@ -491,8 +491,8 @@ type PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded struct {
 	Zones            []string                   `json:"zones,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.Subnet_Spec_LoadBalancer_SubResourceEmbedded
-type Subnet_Spec_LoadBalancer_SubResourceEmbedded struct {
+//Storage version of v1alpha1api20201101.Subnet_LoadBalancer_SubResourceEmbedded
+type Subnet_LoadBalancer_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	//Reference: Resource ID.
