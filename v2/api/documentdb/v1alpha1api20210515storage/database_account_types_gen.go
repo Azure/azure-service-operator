@@ -201,30 +201,31 @@ type DatabaseAccounts_Spec struct {
 	// +kubebuilder:validation:Pattern="^[a-z0-9]+(-[a-z0-9]+)*"
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName                          string                  `json:"azureName"`
-	BackupPolicy                       *BackupPolicy           `json:"backupPolicy,omitempty"`
-	Capabilities                       []Capability            `json:"capabilities,omitempty"`
-	ConnectorOffer                     *string                 `json:"connectorOffer,omitempty"`
-	ConsistencyPolicy                  *ConsistencyPolicy      `json:"consistencyPolicy,omitempty"`
-	Cors                               []CorsPolicy            `json:"cors,omitempty"`
-	DatabaseAccountOfferType           *string                 `json:"databaseAccountOfferType,omitempty"`
-	DefaultIdentity                    *string                 `json:"defaultIdentity,omitempty"`
-	DisableKeyBasedMetadataWriteAccess *bool                   `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
-	EnableAnalyticalStorage            *bool                   `json:"enableAnalyticalStorage,omitempty"`
-	EnableAutomaticFailover            *bool                   `json:"enableAutomaticFailover,omitempty"`
-	EnableCassandraConnector           *bool                   `json:"enableCassandraConnector,omitempty"`
-	EnableFreeTier                     *bool                   `json:"enableFreeTier,omitempty"`
-	EnableMultipleWriteLocations       *bool                   `json:"enableMultipleWriteLocations,omitempty"`
-	Identity                           *ManagedServiceIdentity `json:"identity,omitempty"`
-	IpRules                            []IpAddressOrRange      `json:"ipRules,omitempty"`
-	IsVirtualNetworkFilterEnabled      *bool                   `json:"isVirtualNetworkFilterEnabled,omitempty"`
-	KeyVaultKeyUri                     *string                 `json:"keyVaultKeyUri,omitempty"`
-	Kind                               *string                 `json:"kind,omitempty"`
-	Location                           *string                 `json:"location,omitempty"`
-	Locations                          []Location              `json:"locations,omitempty"`
-	NetworkAclBypass                   *string                 `json:"networkAclBypass,omitempty"`
-	NetworkAclBypassResourceIds        []string                `json:"networkAclBypassResourceIds,omitempty"`
-	OriginalVersion                    string                  `json:"originalVersion"`
+	AzureName                          string                       `json:"azureName"`
+	BackupPolicy                       *BackupPolicy                `json:"backupPolicy,omitempty"`
+	Capabilities                       []Capability                 `json:"capabilities,omitempty"`
+	ConnectorOffer                     *string                      `json:"connectorOffer,omitempty"`
+	ConsistencyPolicy                  *ConsistencyPolicy           `json:"consistencyPolicy,omitempty"`
+	Cors                               []CorsPolicy                 `json:"cors,omitempty"`
+	DatabaseAccountOfferType           *string                      `json:"databaseAccountOfferType,omitempty"`
+	DefaultIdentity                    *string                      `json:"defaultIdentity,omitempty"`
+	DisableKeyBasedMetadataWriteAccess *bool                        `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
+	EnableAnalyticalStorage            *bool                        `json:"enableAnalyticalStorage,omitempty"`
+	EnableAutomaticFailover            *bool                        `json:"enableAutomaticFailover,omitempty"`
+	EnableCassandraConnector           *bool                        `json:"enableCassandraConnector,omitempty"`
+	EnableFreeTier                     *bool                        `json:"enableFreeTier,omitempty"`
+	EnableMultipleWriteLocations       *bool                        `json:"enableMultipleWriteLocations,omitempty"`
+	Identity                           *ManagedServiceIdentity      `json:"identity,omitempty"`
+	IpRules                            []IpAddressOrRange           `json:"ipRules,omitempty"`
+	IsVirtualNetworkFilterEnabled      *bool                        `json:"isVirtualNetworkFilterEnabled,omitempty"`
+	KeyVaultKeyUri                     *string                      `json:"keyVaultKeyUri,omitempty"`
+	Kind                               *string                      `json:"kind,omitempty"`
+	Location                           *string                      `json:"location,omitempty"`
+	Locations                          []Location                   `json:"locations,omitempty"`
+	NetworkAclBypass                   *string                      `json:"networkAclBypass,omitempty"`
+	NetworkAclBypassResourceIds        []string                     `json:"networkAclBypassResourceIds,omitempty"`
+	OperatorSpec                       *DatabaseAccountOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion                    string                       `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
 	Owner               genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
@@ -345,6 +346,13 @@ type CorsPolicy_Status struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+//Storage version of v1alpha1api20210515.DatabaseAccountOperatorSpec
+//Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type DatabaseAccountOperatorSpec struct {
+	PropertyBag genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
+	Secrets     *DatabaseAccountOperatorSecrets `json:"secrets,omitempty"`
+}
+
 //Storage version of v1alpha1api20210515.FailoverPolicy_Status
 type FailoverPolicy_Status struct {
 	FailoverPriority *int                   `json:"failoverPriority,omitempty"`
@@ -431,6 +439,16 @@ type VirtualNetworkRule_Status struct {
 type ContinuousModeBackupPolicy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
+}
+
+//Storage version of v1alpha1api20210515.DatabaseAccountOperatorSecrets
+type DatabaseAccountOperatorSecrets struct {
+	DocumentEndpoint           *genruntime.SecretDestination `json:"documentEndpoint,omitempty"`
+	PrimaryMasterKey           *genruntime.SecretDestination `json:"primaryMasterKey,omitempty"`
+	PrimaryReadonlyMasterKey   *genruntime.SecretDestination `json:"primaryReadonlyMasterKey,omitempty"`
+	PropertyBag                genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecondaryMasterKey         *genruntime.SecretDestination `json:"secondaryMasterKey,omitempty"`
+	SecondaryReadonlyMasterKey *genruntime.SecretDestination `json:"secondaryReadonlyMasterKey,omitempty"`
 }
 
 //Storage version of v1alpha1api20210515.ManagedServiceIdentity_Status_UserAssignedIdentities
