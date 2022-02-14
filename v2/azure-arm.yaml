@@ -51,10 +51,14 @@ typeFilters:
   - action: prune
     group: web
     because: Some types (SitesSlotsConfig) use OneOf in a way we don't currently handle. Exclude the whole set for now.
+  - action: include
+    group: network
+    version: '*api20180901*'
+    because: Include networking api versions with PrivateDNSZone types
   - action: prune
     group: network
     version: '*api201*'
-    because: Pruning all older networking api versions types since we don't use them anyway
+    because: Pruning all other older networking api versions types since we don't use them anyway
   - action: prune
     group: compute
     version: '*api201*'
@@ -809,6 +813,9 @@ objectModelConfiguration:
       UserAssignedIdentity:
         $export: true
   network:
+    2018-09-01:
+      PrivateDNSZone:
+        $export: true
     2020-11-01:
       LoadBalancer:
         $export: true
