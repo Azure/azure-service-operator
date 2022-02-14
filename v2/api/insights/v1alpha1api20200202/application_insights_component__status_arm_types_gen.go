@@ -12,9 +12,8 @@ type ApplicationInsightsComponent_StatusARM struct {
 	//Id: Azure resource Id
 	Id *string `json:"id,omitempty"`
 
-	//Kind: The kind of application that this component refers to, used to customize
-	//UI. This value is a freeform string, values should typically be one of the
-	//following: web, ios, other, store, java, phone.
+	//Kind: The kind of application that this component refers to, used to customize UI. This value is a freeform string,
+	//values should typically be one of the following: web, ios, other, store, java, phone.
 	Kind *string `json:"kind,omitempty"`
 
 	//Location: Resource location
@@ -37,8 +36,7 @@ type ApplicationInsightsComponentProperties_StatusARM struct {
 	//AppId: Application Insights Unique ID for your Application.
 	AppId *string `json:"AppId,omitempty"`
 
-	//ApplicationId: The unique ID of your application. This field mirrors the 'Name'
-	//field and cannot be changed.
+	//ApplicationId: The unique ID of your application. This field mirrors the 'Name' field and cannot be changed.
 	ApplicationId *string `json:"ApplicationId,omitempty"`
 
 	//ApplicationType: Type of application being monitored.
@@ -47,8 +45,7 @@ type ApplicationInsightsComponentProperties_StatusARM struct {
 	//ConnectionString: Application Insights component connection string.
 	ConnectionString *string `json:"ConnectionString,omitempty"`
 
-	//CreationDate: Creation Date for the Application Insights component, in ISO 8601
-	//format.
+	//CreationDate: Creation Date for the Application Insights component, in ISO 8601 format.
 	CreationDate *string `json:"CreationDate,omitempty"`
 
 	//DisableIpMasking: Disable IP masking.
@@ -57,21 +54,18 @@ type ApplicationInsightsComponentProperties_StatusARM struct {
 	//DisableLocalAuth: Disable Non-AAD based Auth.
 	DisableLocalAuth *bool `json:"DisableLocalAuth,omitempty"`
 
-	//FlowType: Used by the Application Insights system to determine what kind of flow
-	//this component was created by. This is to be set to 'Bluefield' when
-	//creating/updating a component via the REST API.
+	//FlowType: Used by the Application Insights system to determine what kind of flow this component was created by. This is
+	//to be set to 'Bluefield' when creating/updating a component via the REST API.
 	FlowType *ApplicationInsightsComponentPropertiesStatusFlowType `json:"Flow_Type,omitempty"`
 
-	//ForceCustomerStorageForProfiler: Force users to create their own storage account
-	//for profiler and debugger.
+	//ForceCustomerStorageForProfiler: Force users to create their own storage account for profiler and debugger.
 	ForceCustomerStorageForProfiler *bool `json:"ForceCustomerStorageForProfiler,omitempty"`
 
-	//HockeyAppId: The unique application ID created when a new application is added
-	//to HockeyApp, used for communications with HockeyApp.
+	//HockeyAppId: The unique application ID created when a new application is added to HockeyApp, used for communications
+	//with HockeyApp.
 	HockeyAppId *string `json:"HockeyAppId,omitempty"`
 
-	//HockeyAppToken: Token used to authenticate communications with between
-	//Application Insights and HockeyApp.
+	//HockeyAppToken: Token used to authenticate communications with between Application Insights and HockeyApp.
 	HockeyAppToken *string `json:"HockeyAppToken,omitempty"`
 
 	//ImmediatePurgeDataOn30Days: Purge data immediately after 30 days.
@@ -80,14 +74,12 @@ type ApplicationInsightsComponentProperties_StatusARM struct {
 	//IngestionMode: Indicates the flow of the ingestion.
 	IngestionMode *ApplicationInsightsComponentPropertiesStatusIngestionMode `json:"IngestionMode,omitempty"`
 
-	//InstrumentationKey: Application Insights Instrumentation key. A read-only value
-	//that applications can use to identify the destination for all telemetry sent to
-	//Azure Application Insights. This value will be supplied upon construction of
+	//InstrumentationKey: Application Insights Instrumentation key. A read-only value that applications can use to identify
+	//the destination for all telemetry sent to Azure Application Insights. This value will be supplied upon construction of
 	//each new Application Insights component.
 	InstrumentationKey *string `json:"InstrumentationKey,omitempty"`
 
-	//LaMigrationDate: The date which the component got migrated to LA, in ISO 8601
-	//format.
+	//LaMigrationDate: The date which the component got migrated to LA, in ISO 8601 format.
 	LaMigrationDate *string `json:"LaMigrationDate,omitempty"`
 
 	//Name: Application name.
@@ -96,37 +88,33 @@ type ApplicationInsightsComponentProperties_StatusARM struct {
 	//PrivateLinkScopedResources: List of linked private link scope resources.
 	PrivateLinkScopedResources []PrivateLinkScopedResource_StatusARM `json:"PrivateLinkScopedResources,omitempty"`
 
-	//ProvisioningState: Current state of this component: whether or not is has been
-	//provisioned within the resource group it is defined. Users cannot change this
-	//value but are able to read from it. Values will include Succeeded, Deploying,
+	//ProvisioningState: Current state of this component: whether or not is has been provisioned within the resource group it
+	//is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying,
 	//Canceled, and Failed.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
-	//PublicNetworkAccessForIngestion: The network access type for accessing
-	//Application Insights ingestion.
+	//PublicNetworkAccessForIngestion: The network access type for accessing Application Insights ingestion.
 	PublicNetworkAccessForIngestion *PublicNetworkAccessType_Status `json:"publicNetworkAccessForIngestion,omitempty"`
 
-	//PublicNetworkAccessForQuery: The network access type for accessing Application
-	//Insights query.
+	//PublicNetworkAccessForQuery: The network access type for accessing Application Insights query.
 	PublicNetworkAccessForQuery *PublicNetworkAccessType_Status `json:"publicNetworkAccessForQuery,omitempty"`
 
-	//RequestSource: Describes what tool created this Application Insights component.
-	//Customers using this API should set this to the default 'rest'.
+	//RequestSource: Describes what tool created this Application Insights component. Customers using this API should set this
+	//to the default 'rest'.
 	RequestSource *ApplicationInsightsComponentPropertiesStatusRequestSource `json:"Request_Source,omitempty"`
 
 	//RetentionInDays: Retention period in days.
 	RetentionInDays *int `json:"RetentionInDays,omitempty"`
 
-	//SamplingPercentage: Percentage of the data produced by the application being
-	//monitored that is being sampled for Application Insights telemetry.
+	//SamplingPercentage: Percentage of the data produced by the application being monitored that is being sampled for
+	//Application Insights telemetry.
 	SamplingPercentage *float64 `json:"SamplingPercentage,omitempty"`
 
 	//TenantId: Azure Tenant Id.
 	TenantId *string `json:"TenantId,omitempty"`
 
-	//WorkspaceResourceId: Resource Id of the log analytics workspace which the data
-	//will be ingested to. This property is required to create an application with
-	//this API version. Applications from older versions will not have this property.
+	//WorkspaceResourceId: Resource Id of the log analytics workspace which the data will be ingested to. This property is
+	//required to create an application with this API version. Applications from older versions will not have this property.
 	WorkspaceResourceId *string `json:"WorkspaceResourceId,omitempty"`
 }
 

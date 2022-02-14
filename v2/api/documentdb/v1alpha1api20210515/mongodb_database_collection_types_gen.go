@@ -313,16 +313,15 @@ type DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion string
 const DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion20210515 = DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion("2021-05-15")
 
 type DatabaseAccountsMongodbDatabasesCollections_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
-	//Options: CreateUpdateOptions are a list of key-value pairs that describe the
-	//resource. Supported keys are "If-Match", "If-None-Match", "Session-Token" and
-	//"Throughput"
+	//Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
+	//"If-None-Match", "Session-Token" and "Throughput"
 	Options *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -332,13 +331,11 @@ type DatabaseAccountsMongodbDatabasesCollections_Spec struct {
 	//Resource: Cosmos DB MongoDB collection resource object
 	Resource MongoDBCollectionResource `json:"resource"`
 
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags
-	//can be used in viewing and grouping this resource (across resource groups). A
-	//maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For
-	//example, the default experience for a template type is set with
-	//"defaultExperience": "Cassandra". Current "defaultExperience" values also
-	//include "Table", "Graph", "DocumentDB", and "MongoDB".
+	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
+	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
+	//greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
+	//type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
+	//"DocumentDB", and "MongoDB".
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -859,8 +856,7 @@ type MongoDBCollectionGetProperties_Status_Resource struct {
 	//AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
 
-	//Etag: A system generated property representing the resource etag required for
-	//optimistic concurrency control.
+	//Etag: A system generated property representing the resource etag required for optimistic concurrency control.
 	Etag *string `json:"_etag,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -876,8 +872,7 @@ type MongoDBCollectionGetProperties_Status_Resource struct {
 	//ShardKey: A key-value pair of shard keys to be applied for the request.
 	ShardKey map[string]string `json:"shardKey,omitempty"`
 
-	//Ts: A system generated property that denotes the last updated timestamp of the
-	//resource.
+	//Ts: A system generated property that denotes the last updated timestamp of the resource.
 	Ts *float64 `json:"_ts,omitempty"`
 }
 
@@ -1062,8 +1057,7 @@ type MongoDBCollectionResource struct {
 	//Indexes: List of index keys
 	Indexes []MongoIndex `json:"indexes,omitempty"`
 
-	//ShardKey: The shard key and partition kind pair, only support "Hash" partition
-	//kind
+	//ShardKey: The shard key and partition kind pair, only support "Hash" partition kind
 	ShardKey map[string]string `json:"shardKey,omitempty"`
 }
 

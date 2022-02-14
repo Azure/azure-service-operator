@@ -30,16 +30,14 @@ type DomainProperties_StatusARM struct {
 	//Endpoint: Endpoint for the domain.
 	Endpoint *string `json:"endpoint,omitempty"`
 
-	//InboundIpRules: This can be used to restrict traffic from specific IPs instead
-	//of all IPs. Note: These are considered only if PublicNetworkAccess is enabled.
+	//InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
+	//only if PublicNetworkAccess is enabled.
 	InboundIpRules []InboundIpRule_StatusARM `json:"inboundIpRules,omitempty"`
 
-	//InputSchema: This determines the format that Event Grid should expect for
-	//incoming events published to the domain.
+	//InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.
 	InputSchema *DomainPropertiesStatusInputSchema `json:"inputSchema,omitempty"`
 
-	//InputSchemaMapping: Information about the InputSchemaMapping which specified the
-	//info about mapping event payload.
+	//InputSchemaMapping: Information about the InputSchemaMapping which specified the info about mapping event payload.
 	InputSchemaMapping *InputSchemaMapping_StatusARM `json:"inputSchemaMapping,omitempty"`
 
 	//MetricResourceId: Metric resource id for the domain.
@@ -51,11 +49,9 @@ type DomainProperties_StatusARM struct {
 	//ProvisioningState: Provisioning state of the domain.
 	ProvisioningState *DomainPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
 
-	//PublicNetworkAccess: This determines if traffic is allowed over public network.
-	//By default it is enabled.
+	//PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
 	//You can further restrict to specific IPs by configuring <seealso
-	//cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules"
-	///>
+	//cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />
 	PublicNetworkAccess *DomainPropertiesStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 }
 

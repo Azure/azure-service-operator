@@ -182,8 +182,8 @@ type BatchAccounts_Spec struct {
 	// +kubebuilder:validation:MaxLength=24
 	// +kubebuilder:validation:MinLength=3
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]+$"
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName         string                `json:"azureName"`
 	Encryption        *EncryptionProperties `json:"encryption,omitempty"`
 	Identity          *BatchAccountIdentity `json:"identity,omitempty"`
@@ -225,8 +225,7 @@ type AutoStorageBaseProperties struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//StorageAccountReference: The resource ID of the storage account to be used for
-	//auto-storage account.
+	//StorageAccountReference: The resource ID of the storage account to be used for auto-storage account.
 	StorageAccountReference genruntime.ResourceReference `armReference:"StorageAccountId" json:"storageAccountReference"`
 }
 
@@ -274,8 +273,7 @@ type KeyVaultReference struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Reference: The resource ID of the Azure key vault associated with the Batch
-	//account.
+	//Reference: The resource ID of the Azure key vault associated with the Batch account.
 	Reference genruntime.ResourceReference `armReference:"Id" json:"reference"`
 	Url       *string                      `json:"url,omitempty"`
 }

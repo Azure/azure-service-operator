@@ -170,8 +170,8 @@ func (cluster *Cluster_Status) ConvertStatusTo(destination genruntime.Convertibl
 
 //Storage version of v1alpha1api20210301.RedisEnterprise_Spec
 type RedisEnterprise_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName         string  `json:"azureName"`
 	Location          *string `json:"location,omitempty"`
 	MinimumTlsVersion *string `json:"minimumTlsVersion,omitempty"`

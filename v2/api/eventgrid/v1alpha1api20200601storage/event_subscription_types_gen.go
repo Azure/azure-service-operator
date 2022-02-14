@@ -169,8 +169,8 @@ func (subscription *EventSubscription_Status) ConvertStatusTo(destination genrun
 
 //Storage version of v1alpha1api20200601.EventSubscriptions_Spec
 type EventSubscriptions_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName             string                            `json:"azureName"`
 	DeadLetterDestination *StorageBlobDeadLetterDestination `json:"deadLetterDestination,omitempty"`
 	Destination           *EventSubscriptionDestination     `json:"destination,omitempty"`
@@ -348,8 +348,7 @@ type StorageBlobDeadLetterDestinationProperties struct {
 	BlobContainerName *string                `json:"blobContainerName,omitempty"`
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
-	//ResourceReference: The Azure Resource ID of the storage account that is the
-	//destination of the deadletter events
+	//ResourceReference: The Azure Resource ID of the storage account that is the destination of the deadletter events
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -472,8 +471,8 @@ type AzureFunctionEventSubscriptionDestinationProperties struct {
 	PreferredBatchSizeInKilobytes *int                   `json:"preferredBatchSizeInKilobytes,omitempty"`
 	PropertyBag                   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
-	//ResourceReference: The Azure Resource Id that represents the endpoint of the
-	//Azure Function destination of an event subscription.
+	//ResourceReference: The Azure Resource Id that represents the endpoint of the Azure Function destination of an event
+	//subscription.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -482,8 +481,8 @@ type AzureFunctionEventSubscriptionDestinationProperties struct {
 type EventHubEventSubscriptionDestinationProperties struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
-	//ResourceReference: The Azure Resource Id that represents the endpoint of an
-	//Event Hub destination of an event subscription.
+	//ResourceReference: The Azure Resource Id that represents the endpoint of an Event Hub destination of an event
+	//subscription.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -492,8 +491,7 @@ type EventHubEventSubscriptionDestinationProperties struct {
 type HybridConnectionEventSubscriptionDestinationProperties struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
-	//ResourceReference: The Azure Resource ID of an hybrid connection that is the
-	//destination of an event subscription.
+	//ResourceReference: The Azure Resource ID of an hybrid connection that is the destination of an event subscription.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -502,8 +500,8 @@ type HybridConnectionEventSubscriptionDestinationProperties struct {
 type ServiceBusQueueEventSubscriptionDestinationProperties struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
-	//ResourceReference: The Azure Resource Id that represents the endpoint of the
-	//Service Bus destination of an event subscription.
+	//ResourceReference: The Azure Resource Id that represents the endpoint of the Service Bus destination of an event
+	//subscription.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -512,8 +510,8 @@ type ServiceBusQueueEventSubscriptionDestinationProperties struct {
 type ServiceBusTopicEventSubscriptionDestinationProperties struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
-	//ResourceReference: The Azure Resource Id that represents the endpoint of the
-	//Service Bus Topic destination of an event subscription.
+	//ResourceReference: The Azure Resource Id that represents the endpoint of the Service Bus Topic destination of an event
+	//subscription.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -523,8 +521,8 @@ type StorageQueueEventSubscriptionDestinationProperties struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	QueueName   *string                `json:"queueName,omitempty"`
 
-	//ResourceReference: The Azure Resource ID of the storage account that contains
-	//the queue that is the destination of an event subscription.
+	//ResourceReference: The Azure Resource ID of the storage account that contains the queue that is the destination of an
+	//event subscription.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 

@@ -133,8 +133,8 @@ type NetworkSecurityGroupsSecurityRuleList struct {
 type NetworkSecurityGroupsSecurityRules_Spec struct {
 	Access *string `json:"access,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName                            string        `json:"azureName"`
 	Description                          *string       `json:"description,omitempty"`
 	DestinationAddressPrefix             *string       `json:"destinationAddressPrefix,omitempty"`

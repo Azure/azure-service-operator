@@ -167,8 +167,8 @@ func (image *Image_Status) ConvertStatusTo(destination genruntime.ConvertibleSta
 
 //Storage version of v1alpha1api20210701.Images_Spec
 type Images_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName        string            `json:"azureName"`
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 	HyperVGeneration *string           `json:"hyperVGeneration,omitempty"`

@@ -313,19 +313,18 @@ type FlexibleServersSpecAPIVersion string
 const FlexibleServersSpecAPIVersion20210601 = FlexibleServersSpecAPIVersion("2021-06-01")
 
 type FlexibleServers_Spec struct {
-	//AdministratorLogin: The administrator's login name of a server. Can only be
-	//specified when the server is being created (and is required for creation).
+	//AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
+	//(and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
 
-	//AdministratorLoginPassword: The administrator login password (required for
-	//server creation).
+	//AdministratorLoginPassword: The administrator login password (required for server creation).
 	AdministratorLoginPassword *genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`
 
 	//AvailabilityZone: availability zone information of the server.
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	//Backup: Backup properties of a server
@@ -349,15 +348,15 @@ type FlexibleServers_Spec struct {
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
-	//PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the
-	//time to restore from. It's required when 'createMode' is 'PointInTimeRestore'.
+	//PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the time to restore from. It's required when
+	//'createMode' is 'PointInTimeRestore'.
 	PointInTimeUTC *string `json:"pointInTimeUTC,omitempty"`
 
 	//Sku: Sku information related properties of a server.
 	Sku *Sku `json:"sku,omitempty"`
 
-	//SourceServerResourceReference: The source server resource ID to restore from.
-	//It's required when 'createMode' is 'PointInTimeRestore'.
+	//SourceServerResourceReference: The source server resource ID to restore from. It's required when 'createMode' is
+	//'PointInTimeRestore'.
 	SourceServerResourceReference *genruntime.ResourceReference `armReference:"SourceServerResourceId" json:"sourceServerResourceReference,omitempty"`
 
 	//Storage: Storage properties of a server
@@ -974,8 +973,8 @@ func (servers *FlexibleServers_Spec) OriginalVersion() string {
 func (servers *FlexibleServers_Spec) SetAzureName(azureName string) { servers.AzureName = azureName }
 
 type Server_Status struct {
-	//AdministratorLogin: The administrator's login name of a server. Can only be
-	//specified when the server is being created (and is required for creation).
+	//AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
+	//(and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
 
 	//AvailabilityZone: availability zone information of the server.
@@ -1015,15 +1014,15 @@ type Server_Status struct {
 	//Network: Network properties of a server.
 	Network *Network_Status `json:"network,omitempty"`
 
-	//PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the
-	//time to restore from. It's required when 'createMode' is 'PointInTimeRestore'.
+	//PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the time to restore from. It's required when
+	//'createMode' is 'PointInTimeRestore'.
 	PointInTimeUTC *string `json:"pointInTimeUTC,omitempty"`
 
 	//Sku: The SKU (pricing tier) of the server.
 	Sku *Sku_Status `json:"sku,omitempty"`
 
-	//SourceServerResourceId: The source server resource ID to restore from. It's
-	//required when 'createMode' is 'PointInTimeRestore'.
+	//SourceServerResourceId: The source server resource ID to restore from. It's required when 'createMode' is
+	//'PointInTimeRestore'.
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
 	//State: A state of a server that is visible to user.
@@ -1038,8 +1037,7 @@ type Server_Status struct {
 	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 
 	//Version: PostgreSQL Server version.
@@ -1637,8 +1635,7 @@ type Backup struct {
 	//BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 
-	//GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled
-	//on the server.
+	//GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server.
 	GeoRedundantBackup *BackupGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
 }
 
@@ -1745,8 +1742,7 @@ type Backup_Status struct {
 	//EarliestRestoreDate: The earliest restore point time (ISO8601 format) for server.
 	EarliestRestoreDate *string `json:"earliestRestoreDate,omitempty"`
 
-	//GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled
-	//on the server.
+	//GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server.
 	GeoRedundantBackup *BackupStatusGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
 }
 
@@ -2554,8 +2550,7 @@ const (
 //Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Sku
 type Sku struct {
 	// +kubebuilder:validation:Required
-	//Name: The name of the sku, typically, tier + family + cores, e.g.
-	//Standard_D4s_v3.
+	//Name: The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.
 	Name string `json:"name"`
 
 	// +kubebuilder:validation:Required
@@ -2645,8 +2640,7 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20210601storage.Sk
 
 type Sku_Status struct {
 	// +kubebuilder:validation:Required
-	//Name: The name of the sku, typically, tier + family + cores, e.g.
-	//Standard_D4s_v3.
+	//Name: The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.
 	Name string `json:"name"`
 
 	// +kubebuilder:validation:Required

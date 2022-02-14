@@ -23,8 +23,7 @@ type Workspace_StatusARM struct {
 	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -32,15 +31,13 @@ type WorkspaceProperties_StatusARM struct {
 	//CreatedDate: Workspace creation date.
 	CreatedDate *string `json:"createdDate,omitempty"`
 
-	//CustomerId: This is a read-only property. Represents the ID associated with the
-	//workspace.
+	//CustomerId: This is a read-only property. Represents the ID associated with the workspace.
 	CustomerId *string `json:"customerId,omitempty"`
 
 	//Features: Workspace features.
 	Features *WorkspaceFeatures_StatusARM `json:"features,omitempty"`
 
-	//ForceCmkForQuery: Indicates whether customer managed storage is mandatory for
-	//query management.
+	//ForceCmkForQuery: Indicates whether customer managed storage is mandatory for query management.
 	ForceCmkForQuery *bool `json:"forceCmkForQuery,omitempty"`
 
 	//ModifiedDate: Workspace modification date.
@@ -52,16 +49,14 @@ type WorkspaceProperties_StatusARM struct {
 	//ProvisioningState: The provisioning state of the workspace.
 	ProvisioningState *WorkspacePropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
 
-	//PublicNetworkAccessForIngestion: The network access type for accessing Log
-	//Analytics ingestion.
+	//PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.
 	PublicNetworkAccessForIngestion *PublicNetworkAccessType_Status `json:"publicNetworkAccessForIngestion,omitempty"`
 
-	//PublicNetworkAccessForQuery: The network access type for accessing Log Analytics
-	//query.
+	//PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.
 	PublicNetworkAccessForQuery *PublicNetworkAccessType_Status `json:"publicNetworkAccessForQuery,omitempty"`
 
-	//RetentionInDays: The workspace data retention in days. Allowed values are per
-	//pricing plan. See pricing tiers documentation for details.
+	//RetentionInDays: The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
+	//documentation for details.
 	RetentionInDays *int `json:"retentionInDays,omitempty"`
 
 	//Sku: The SKU of the workspace.
@@ -91,8 +86,7 @@ type WorkspaceCapping_StatusARM struct {
 }
 
 type WorkspaceFeatures_StatusARM struct {
-	//ClusterResourceId: Dedicated LA cluster resourceId that is linked to the
-	//workspaces.
+	//ClusterResourceId: Dedicated LA cluster resourceId that is linked to the workspaces.
 	ClusterResourceId *string `json:"clusterResourceId,omitempty"`
 
 	//DisableLocalAuth: Disable Non-AAD based Auth.
@@ -101,18 +95,16 @@ type WorkspaceFeatures_StatusARM struct {
 	//EnableDataExport: Flag that indicate if data should be exported.
 	EnableDataExport *bool `json:"enableDataExport,omitempty"`
 
-	//EnableLogAccessUsingOnlyResourcePermissions: Flag that indicate which permission
-	//to use - resource or workspace or both.
+	//EnableLogAccessUsingOnlyResourcePermissions: Flag that indicate which permission to use - resource or workspace or both.
 	EnableLogAccessUsingOnlyResourcePermissions *bool `json:"enableLogAccessUsingOnlyResourcePermissions,omitempty"`
 
-	//ImmediatePurgeDataOn30Days: Flag that describes if we want to remove the data
-	//after 30 days.
+	//ImmediatePurgeDataOn30Days: Flag that describes if we want to remove the data after 30 days.
 	ImmediatePurgeDataOn30Days *bool `json:"immediatePurgeDataOn30Days,omitempty"`
 }
 
 type WorkspaceSku_StatusARM struct {
-	//CapacityReservationLevel: The capacity reservation level in GB for this
-	//workspace, when CapacityReservation sku is selected.
+	//CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
+	//selected.
 	CapacityReservationLevel *WorkspaceSkuStatusCapacityReservationLevel `json:"capacityReservationLevel,omitempty"`
 
 	//LastSkuUpdate: The last time when the sku was updated.

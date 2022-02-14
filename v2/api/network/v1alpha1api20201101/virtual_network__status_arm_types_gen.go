@@ -30,28 +30,23 @@ type VirtualNetwork_StatusARM struct {
 }
 
 type VirtualNetworkPropertiesFormat_StatusARM struct {
-	//AddressSpace: The AddressSpace that contains an array of IP address ranges that
-	//can be used by subnets.
+	//AddressSpace: The AddressSpace that contains an array of IP address ranges that can be used by subnets.
 	AddressSpace *AddressSpace_StatusARM `json:"addressSpace,omitempty"`
 
-	//BgpCommunities: Bgp Communities sent over ExpressRoute with each route
-	//corresponding to a prefix in this VNET.
+	//BgpCommunities: Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
 	BgpCommunities *VirtualNetworkBgpCommunities_StatusARM `json:"bgpCommunities,omitempty"`
 
 	//DdosProtectionPlan: The DDoS protection plan associated with the virtual network.
 	DdosProtectionPlan *SubResource_StatusARM `json:"ddosProtectionPlan,omitempty"`
 
-	//DhcpOptions: The dhcpOptions that contains an array of DNS servers available to
-	//VMs deployed in the virtual network.
+	//DhcpOptions: The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.
 	DhcpOptions *DhcpOptions_StatusARM `json:"dhcpOptions,omitempty"`
 
-	//EnableDdosProtection: Indicates if DDoS protection is enabled for all the
-	//protected resources in the virtual network. It requires a DDoS protection plan
-	//associated with the resource.
+	//EnableDdosProtection: Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It
+	//requires a DDoS protection plan associated with the resource.
 	EnableDdosProtection *bool `json:"enableDdosProtection,omitempty"`
 
-	//EnableVmProtection: Indicates if VM protection is enabled for all the subnets in
-	//the virtual network.
+	//EnableVmProtection: Indicates if VM protection is enabled for all the subnets in the virtual network.
 	EnableVmProtection *bool `json:"enableVmProtection,omitempty"`
 
 	//IpAllocations: Array of IpAllocation which reference this VNET.

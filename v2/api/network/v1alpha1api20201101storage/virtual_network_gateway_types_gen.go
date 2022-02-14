@@ -183,8 +183,8 @@ func (gateway *VirtualNetworkGateway_Status) ConvertStatusTo(destination genrunt
 type VirtualNetworkGateways_Spec struct {
 	ActiveActive *bool `json:"activeActive,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName              string                                                    `json:"azureName"`
 	BgpSettings            *BgpSettings                                              `json:"bgpSettings,omitempty"`
 	CustomRoutes           *AddressSpace                                             `json:"customRoutes,omitempty"`
@@ -203,8 +203,8 @@ type VirtualNetworkGateways_Spec struct {
 	Sku         *VirtualNetworkGatewaySku         `json:"sku,omitempty"`
 	Tags        map[string]string                 `json:"tags,omitempty"`
 
-	//VNetExtendedLocationResourceReference: MAS FIJI customer vnet resource id.
-	//VirtualNetworkGateway of type local gateway is associated with the customer vnet.
+	//VNetExtendedLocationResourceReference: MAS FIJI customer vnet resource id. VirtualNetworkGateway of type local gateway
+	//is associated with the customer vnet.
 	VNetExtendedLocationResourceReference *genruntime.ResourceReference                                  `armReference:"VNetExtendedLocationResourceId" json:"vNetExtendedLocationResourceReference,omitempty"`
 	VirtualNetworkExtendedLocation        *ExtendedLocation                                              `json:"virtualNetworkExtendedLocation,omitempty"`
 	VpnClientConfiguration                *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration `json:"vpnClientConfiguration,omitempty"`

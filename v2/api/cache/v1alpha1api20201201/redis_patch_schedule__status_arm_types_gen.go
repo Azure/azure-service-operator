@@ -14,8 +14,7 @@ type RedisPatchSchedule_StatusARM struct {
 	//Properties: List of patch schedules for a Redis cache.
 	Properties *ScheduleEntries_StatusARM `json:"properties,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -28,8 +27,7 @@ type ScheduleEntry_StatusARM struct {
 	//DayOfWeek: Day of the week when a cache can be patched.
 	DayOfWeek ScheduleEntryStatusDayOfWeek `json:"dayOfWeek"`
 
-	//MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can
-	//take.
+	//MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
 	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`
 
 	//StartHourUtc: Start hour after which cache patching can start.

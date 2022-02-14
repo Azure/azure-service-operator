@@ -13,8 +13,7 @@ type SignalR_SpecARM struct {
 	Identity *ManagedIdentityARM `json:"identity,omitempty"`
 	Kind     *SignalRSpecKind    `json:"kind,omitempty"`
 
-	//Location: The GEO location of the resource. e.g. West US | East US | North
-	//Central US | South Central US.
+	//Location: The GEO location of the resource. e.g. West US | East US | North Central US | South Central US.
 	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the resource.
@@ -26,8 +25,7 @@ type SignalR_SpecARM struct {
 	//Sku: The billing information of the resource.
 	Sku *ResourceSkuARM `json:"sku,omitempty"`
 
-	//Tags: Tags of the service which is a list of key value pairs that describe the
-	//resource.
+	//Tags: Tags of the service which is a list of key value pairs that describe the resource.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -86,26 +84,21 @@ type SignalRPropertiesARM struct {
 	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
 
 	//Features: List of the featureFlags.
-	//FeatureFlags that are not included in the parameters for the update operation
-	//will not be modified.
+	//FeatureFlags that are not included in the parameters for the update operation will not be modified.
 	//And the response will only include featureFlags that are explicitly set.
 	//When a featureFlag is not explicitly set, its globally default value will be used
-	//But keep in mind, the default value doesn't mean "false". It varies in terms of
-	//different FeatureFlags.
+	//But keep in mind, the default value doesn't mean "false". It varies in terms of different FeatureFlags.
 	Features []SignalRFeatureARM `json:"features,omitempty"`
 
 	//NetworkACLs: Network ACLs for the resource
 	NetworkACLs *SignalRNetworkACLsARM `json:"networkACLs,omitempty"`
 
-	//PublicNetworkAccess: Enable or disable public network access. Default to
-	//"Enabled".
+	//PublicNetworkAccess: Enable or disable public network access. Default to "Enabled".
 	//When it's Enabled, network ACLs still apply.
-	//When it's Disabled, public network access is always disabled no matter what you
-	//set in network ACLs.
+	//When it's Disabled, public network access is always disabled no matter what you set in network ACLs.
 	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 
-	//ResourceLogConfiguration: Resource log configuration of a
-	//Microsoft.SignalRService resource.
+	//ResourceLogConfiguration: Resource log configuration of a Microsoft.SignalRService resource.
 	ResourceLogConfiguration *ResourceLogConfigurationARM `json:"resourceLogConfiguration,omitempty"`
 
 	//Tls: TLS settings for the resource
@@ -150,16 +143,14 @@ const (
 
 //Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ServerlessUpstreamSettings
 type ServerlessUpstreamSettingsARM struct {
-	//Templates: Gets or sets the list of Upstream URL templates. Order matters, and
-	//the first matching template takes effects.
+	//Templates: Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects.
 	Templates []UpstreamTemplateARM `json:"templates,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRCorsSettings
 type SignalRCorsSettingsARM struct {
-	//AllowedOrigins: Gets or sets the list of origins that should be allowed to make
-	//cross-origin calls (for example: http://example.com:12345). Use "*" to allow
-	//all. If omitted, allow all by default.
+	//AllowedOrigins: Gets or sets the list of origins that should be allowed to make cross-origin calls (for example:
+	//http://example.com:12345). Use "*" to allow all. If omitted, allow all by default.
 	AllowedOrigins []string `json:"allowedOrigins,omitempty"`
 }
 
@@ -170,8 +161,8 @@ type SignalRFeatureARM struct {
 	//Properties: Optional properties related to this feature.
 	Properties map[string]string `json:"properties,omitempty"`
 
-	//Value: Value of the feature flag. See Azure SignalR service document
-	//https://docs.microsoft.com/azure/azure-signalr/ for allowed values.
+	//Value: Value of the feature flag. See Azure SignalR service document https://docs.microsoft.com/azure/azure-signalr/ for
+	//allowed values.
 	Value string `json:"value"`
 }
 
@@ -194,23 +185,19 @@ type SignalRTlsSettingsARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/NetworkACL
 type NetworkACLARM struct {
-	//Allow: Allowed request types. The value can be one or more of: ClientConnection,
-	//ServerConnection, RESTAPI.
+	//Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Allow []NetworkACLAllow `json:"allow,omitempty"`
 
-	//Deny: Denied request types. The value can be one or more of: ClientConnection,
-	//ServerConnection, RESTAPI.
+	//Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Deny []NetworkACLDeny `json:"deny,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/PrivateEndpointACL
 type PrivateEndpointACLARM struct {
-	//Allow: Allowed request types. The value can be one or more of: ClientConnection,
-	//ServerConnection, RESTAPI.
+	//Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Allow []PrivateEndpointACLAllow `json:"allow,omitempty"`
 
-	//Deny: Denied request types. The value can be one or more of: ClientConnection,
-	//ServerConnection, RESTAPI.
+	//Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Deny []PrivateEndpointACLDeny `json:"deny,omitempty"`
 
 	//Name: Name of the private endpoint connection
@@ -235,40 +222,32 @@ type UpstreamTemplateARM struct {
 	//Auth: Upstream auth settings. If not set, no auth is used for upstream messages.
 	Auth *UpstreamAuthSettingsARM `json:"auth,omitempty"`
 
-	//CategoryPattern: Gets or sets the matching pattern for category names. If not
-	//set, it matches any category.
+	//CategoryPattern: Gets or sets the matching pattern for category names. If not set, it matches any category.
 	//There are 3 kind of patterns supported:
 	//1. "*", it to matches any category name
-	//2. Combine multiple categories with ",", for example "connections,messages", it
-	//matches category "connections" and "messages"
-	//3. The single category name, for example, "connections", it matches the category
-	//"connections"
+	//2. Combine multiple categories with ",", for example "connections,messages", it matches category "connections" and
+	//"messages"
+	//3. The single category name, for example, "connections", it matches the category "connections"
 	CategoryPattern *string `json:"categoryPattern,omitempty"`
 
-	//EventPattern: Gets or sets the matching pattern for event names. If not set, it
-	//matches any event.
+	//EventPattern: Gets or sets the matching pattern for event names. If not set, it matches any event.
 	//There are 3 kind of patterns supported:
 	//1. "*", it to matches any event name
-	//2. Combine multiple events with ",", for example "connect,disconnect", it
-	//matches event "connect" and "disconnect"
+	//2. Combine multiple events with ",", for example "connect,disconnect", it matches event "connect" and "disconnect"
 	//3. The single event name, for example, "connect", it matches "connect"
 	EventPattern *string `json:"eventPattern,omitempty"`
 
-	//HubPattern: Gets or sets the matching pattern for hub names. If not set, it
-	//matches any hub.
+	//HubPattern: Gets or sets the matching pattern for hub names. If not set, it matches any hub.
 	//There are 3 kind of patterns supported:
 	//1. "*", it to matches any hub name
-	//2. Combine multiple hubs with ",", for example "hub1,hub2", it matches "hub1"
-	//and "hub2"
+	//2. Combine multiple hubs with ",", for example "hub1,hub2", it matches "hub1" and "hub2"
 	//3. The single hub name, for example, "hub1", it matches "hub1"
 	HubPattern *string `json:"hubPattern,omitempty"`
 
-	//UrlTemplate: Gets or sets the Upstream URL template. You can use 3 predefined
-	//parameters {hub}, {category} {event} inside the template, the value of the
-	//Upstream URL is dynamically calculated when the client request comes in.
-	//For example, if the urlTemplate is `http://example.com/{hub}/api/{event}`, with
-	//a client request from hub `chat` connects, it will first POST to this URL:
-	//`http://example.com/chat/api/connect`.
+	//UrlTemplate: Gets or sets the Upstream URL template. You can use 3 predefined parameters {hub}, {category} {event}
+	//inside the template, the value of the Upstream URL is dynamically calculated when the client request comes in.
+	//For example, if the urlTemplate is `http://example.com/{hub}/api/{event}`, with a client request from hub `chat`
+	//connects, it will first POST to this URL: `http://example.com/chat/api/connect`.
 	UrlTemplate string `json:"urlTemplate"`
 }
 

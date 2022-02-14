@@ -104,7 +104,7 @@ func (enum *EnumType) createBaseDeclaration(
 		},
 	}
 
-	astbuilder.AddWrappedComments(&declaration.Decs.Start, description, 120)
+	astbuilder.AddWrappedComments(&declaration.Decs.Start, description)
 	AddValidationComments(&declaration.Decs.Start, validations)
 
 	if enum.emitValidation {

@@ -9,9 +9,8 @@ type Components_SpecARM struct {
 	//Etag: Resource etag
 	Etag *string `json:"etag,omitempty"`
 
-	//Kind: The kind of application that this component refers to, used to customize
-	//UI. This value is a freeform string, values should typically be one of the
-	//following: web, ios, other, store, java, phone.
+	//Kind: The kind of application that this component refers to, used to customize UI. This value is a freeform string,
+	//values should typically be one of the following: web, ios, other, store, java, phone.
 	Kind string `json:"kind"`
 
 	//Location: Location to deploy resource to
@@ -55,17 +54,15 @@ type ApplicationInsightsComponentPropertiesARM struct {
 	//DisableLocalAuth: Disable Non-AAD based Auth.
 	DisableLocalAuth *bool `json:"DisableLocalAuth,omitempty"`
 
-	//FlowType: Used by the Application Insights system to determine what kind of flow
-	//this component was created by. This is to be set to 'Bluefield' when
-	//creating/updating a component via the REST API.
+	//FlowType: Used by the Application Insights system to determine what kind of flow this component was created by. This is
+	//to be set to 'Bluefield' when creating/updating a component via the REST API.
 	FlowType *ApplicationInsightsComponentPropertiesFlowType `json:"Flow_Type,omitempty"`
 
-	//ForceCustomerStorageForProfiler: Force users to create their own storage account
-	//for profiler and debugger.
+	//ForceCustomerStorageForProfiler: Force users to create their own storage account for profiler and debugger.
 	ForceCustomerStorageForProfiler *bool `json:"ForceCustomerStorageForProfiler,omitempty"`
 
-	//HockeyAppId: The unique application ID created when a new application is added
-	//to HockeyApp, used for communications with HockeyApp.
+	//HockeyAppId: The unique application ID created when a new application is added to HockeyApp, used for communications
+	//with HockeyApp.
 	HockeyAppId *string `json:"HockeyAppId,omitempty"`
 
 	//ImmediatePurgeDataOn30Days: Purge data immediately after 30 days.
@@ -74,23 +71,21 @@ type ApplicationInsightsComponentPropertiesARM struct {
 	//IngestionMode: Indicates the flow of the ingestion.
 	IngestionMode *ApplicationInsightsComponentPropertiesIngestionMode `json:"IngestionMode,omitempty"`
 
-	//PublicNetworkAccessForIngestion: The network access type for accessing
-	//Application Insights ingestion.
+	//PublicNetworkAccessForIngestion: The network access type for accessing Application Insights ingestion.
 	PublicNetworkAccessForIngestion *ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion `json:"publicNetworkAccessForIngestion,omitempty"`
 
-	//PublicNetworkAccessForQuery: The network access type for accessing Application
-	//Insights query.
+	//PublicNetworkAccessForQuery: The network access type for accessing Application Insights query.
 	PublicNetworkAccessForQuery *ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery `json:"publicNetworkAccessForQuery,omitempty"`
 
-	//RequestSource: Describes what tool created this Application Insights component.
-	//Customers using this API should set this to the default 'rest'.
+	//RequestSource: Describes what tool created this Application Insights component. Customers using this API should set this
+	//to the default 'rest'.
 	RequestSource *ApplicationInsightsComponentPropertiesRequestSource `json:"Request_Source,omitempty"`
 
 	//RetentionInDays: Retention period in days.
 	RetentionInDays *int `json:"RetentionInDays,omitempty"`
 
-	//SamplingPercentage: Percentage of the data produced by the application being
-	//monitored that is being sampled for Application Insights telemetry.
+	//SamplingPercentage: Percentage of the data produced by the application being monitored that is being sampled for
+	//Application Insights telemetry.
 	SamplingPercentage  *float64 `json:"SamplingPercentage,omitempty"`
 	WorkspaceResourceId *string  `json:"workspaceResourceId,omitempty"`
 }

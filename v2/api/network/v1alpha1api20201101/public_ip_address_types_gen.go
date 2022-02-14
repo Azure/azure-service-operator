@@ -311,8 +311,7 @@ type PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//DdosSettings: The DDoS protection custom policy associated with the public IP
-	//address.
+	//DdosSettings: The DDoS protection custom policy associated with the public IP address.
 	DdosSettings *DdosSettings_Status `json:"ddosSettings,omitempty"`
 
 	//DnsSettings: The FQDN of the DNS record associated with the public IP address.
@@ -360,8 +359,7 @@ type PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded struct {
 	//PublicIPAllocationMethod: The public IP address allocation method.
 	PublicIPAllocationMethod *IPAllocationMethod_Status `json:"publicIPAllocationMethod,omitempty"`
 
-	//PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated
-	//from.
+	//PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated from.
 	PublicIPPrefix *SubResource_Status `json:"publicIPPrefix,omitempty"`
 
 	//ResourceGuid: The resource GUID property of the public IP address resource.
@@ -376,8 +374,7 @@ type PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded struct {
 	//Type: Resource type.
 	Type *string `json:"type,omitempty"`
 
-	//Zones: A list of availability zones denoting the IP allocated for the resource
-	//needs to come from.
+	//Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.
 	Zones []string `json:"zones,omitempty"`
 }
 
@@ -1025,12 +1022,11 @@ type PublicIPAddressesSpecAPIVersion string
 const PublicIPAddressesSpecAPIVersion20201101 = PublicIPAddressesSpecAPIVersion("2020-11-01")
 
 type PublicIPAddresses_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
-	//DdosSettings: The DDoS protection custom policy associated with the public IP
-	//address.
+	//DdosSettings: The DDoS protection custom policy associated with the public IP address.
 	DdosSettings *DdosSettings `json:"ddosSettings,omitempty"`
 
 	//DnsSettings: The FQDN of the DNS record associated with the public IP address.
@@ -1061,8 +1057,7 @@ type PublicIPAddresses_Spec struct {
 	//PublicIPAllocationMethod: The public IP address allocation method.
 	PublicIPAllocationMethod PublicIPAddressPropertiesFormatPublicIPAllocationMethod `json:"publicIPAllocationMethod"`
 
-	//PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated
-	//from.
+	//PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated from.
 	PublicIPPrefix *SubResource `json:"publicIPPrefix,omitempty"`
 
 	//Sku: The public IP address SKU.
@@ -1071,8 +1066,7 @@ type PublicIPAddresses_Spec struct {
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Zones: A list of availability zones denoting the IP allocated for the resource
-	//needs to come from.
+	//Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.
 	Zones []string `json:"zones,omitempty"`
 }
 
@@ -1626,8 +1620,8 @@ type DdosSettings struct {
 	//ProtectedIP: Enables DDoS protection on the public IP.
 	ProtectedIP *bool `json:"protectedIP,omitempty"`
 
-	//ProtectionCoverage: The DDoS protection policy customizability of the public IP.
-	//Only standard coverage will have the ability to be customized.
+	//ProtectionCoverage: The DDoS protection policy customizability of the public IP. Only standard coverage will have the
+	//ability to be customized.
 	ProtectionCoverage *DdosSettingsProtectionCoverage `json:"protectionCoverage,omitempty"`
 }
 
@@ -1789,8 +1783,8 @@ type DdosSettings_Status struct {
 	//ProtectedIP: Enables DDoS protection on the public IP.
 	ProtectedIP *bool `json:"protectedIP,omitempty"`
 
-	//ProtectionCoverage: The DDoS protection policy customizability of the public IP.
-	//Only standard coverage will have the ability to be customized.
+	//ProtectionCoverage: The DDoS protection policy customizability of the public IP. Only standard coverage will have the
+	//ability to be customized.
 	ProtectionCoverage *DdosSettingsStatusProtectionCoverage `json:"protectionCoverage,omitempty"`
 }
 
@@ -1928,8 +1922,7 @@ type IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//Name: The name of the resource that is unique within a resource group. This name
-	//can be used to access the resource.
+	//Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
 	//PrivateIPAddress: The private IP address of the IP configuration.
@@ -2307,8 +2300,7 @@ type NatGateway_Status_PublicIPAddress_SubResourceEmbedded struct {
 	//Sku: The nat gateway SKU.
 	Sku *NatGatewaySku_Status `json:"sku,omitempty"`
 
-	//Zones: A list of availability zones denoting the zone in which Nat Gateway
-	//should be deployed.
+	//Zones: A list of availability zones denoting the zone in which Nat Gateway should be deployed.
 	Zones []string `json:"zones,omitempty"`
 }
 
@@ -2414,21 +2406,18 @@ func (embedded *NatGateway_Status_PublicIPAddress_SubResourceEmbedded) AssignPro
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressDnsSettings
 type PublicIPAddressDnsSettings struct {
 	// +kubebuilder:validation:Required
-	//DomainNameLabel: The domain name label. The concatenation of the domain name
-	//label and the regionalized DNS zone make up the fully qualified domain name
-	//associated with the public IP address. If a domain name label is specified, an A
-	//DNS record is created for the public IP in the Microsoft Azure DNS system.
+	//DomainNameLabel: The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up
+	//the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS
+	//record is created for the public IP in the Microsoft Azure DNS system.
 	DomainNameLabel string `json:"domainNameLabel"`
 
-	//Fqdn: The Fully Qualified Domain Name of the A DNS record associated with the
-	//public IP. This is the concatenation of the domainNameLabel and the regionalized
-	//DNS zone.
+	//Fqdn: The Fully Qualified Domain Name of the A DNS record associated with the public IP. This is the concatenation of
+	//the domainNameLabel and the regionalized DNS zone.
 	Fqdn *string `json:"fqdn,omitempty"`
 
-	//ReverseFqdn: The reverse FQDN. A user-visible, fully qualified domain name that
-	//resolves to this public IP address. If the reverseFqdn is specified, then a PTR
-	//DNS record is created pointing from the IP address in the in-addr.arpa domain to
-	//the reverse FQDN.
+	//ReverseFqdn: The reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If
+	//the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain
+	//to the reverse FQDN.
 	ReverseFqdn *string `json:"reverseFqdn,omitempty"`
 }
 
@@ -2532,21 +2521,18 @@ func (settings *PublicIPAddressDnsSettings) AssignPropertiesToPublicIPAddressDns
 }
 
 type PublicIPAddressDnsSettings_Status struct {
-	//DomainNameLabel: The domain name label. The concatenation of the domain name
-	//label and the regionalized DNS zone make up the fully qualified domain name
-	//associated with the public IP address. If a domain name label is specified, an A
-	//DNS record is created for the public IP in the Microsoft Azure DNS system.
+	//DomainNameLabel: The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up
+	//the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS
+	//record is created for the public IP in the Microsoft Azure DNS system.
 	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
 
-	//Fqdn: The Fully Qualified Domain Name of the A DNS record associated with the
-	//public IP. This is the concatenation of the domainNameLabel and the regionalized
-	//DNS zone.
+	//Fqdn: The Fully Qualified Domain Name of the A DNS record associated with the public IP. This is the concatenation of
+	//the domainNameLabel and the regionalized DNS zone.
 	Fqdn *string `json:"fqdn,omitempty"`
 
-	//ReverseFqdn: The reverse FQDN. A user-visible, fully qualified domain name that
-	//resolves to this public IP address. If the reverseFqdn is specified, then a PTR
-	//DNS record is created pointing from the IP address in the in-addr.arpa domain to
-	//the reverse FQDN.
+	//ReverseFqdn: The reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If
+	//the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain
+	//to the reverse FQDN.
 	ReverseFqdn *string `json:"reverseFqdn,omitempty"`
 }
 

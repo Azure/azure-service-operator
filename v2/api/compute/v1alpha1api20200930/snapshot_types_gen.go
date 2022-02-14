@@ -311,48 +311,41 @@ type Snapshot_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//CreationData: Disk source information. CreationData information cannot be
-	//changed after the disk has been created.
+	//CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.
 	CreationData *CreationData_Status `json:"creationData,omitempty"`
 
-	//DiskAccessId: ARM id of the DiskAccess resource for using private endpoints on
-	//disks.
+	//DiskAccessId: ARM id of the DiskAccess resource for using private endpoints on disks.
 	DiskAccessId *string `json:"diskAccessId,omitempty"`
 
 	//DiskSizeBytes: The size of the disk in bytes. This field is read only.
 	DiskSizeBytes *int `json:"diskSizeBytes,omitempty"`
 
-	//DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and
-	//it indicates the size of the disk to create. If this field is present for
-	//updates or creation with other options, it indicates a resize. Resizes are only
-	//allowed if the disk is not attached to a running VM, and can only increase the
-	//disk's size.
+	//DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
+	//create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
+	//allowed if the disk is not attached to a running VM, and can only increase the disk's size.
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
 	//DiskState: The state of the snapshot.
 	DiskState *DiskState_Status `json:"diskState,omitempty"`
 
-	//Encryption: Encryption property can be used to encrypt data at rest with
-	//customer managed keys or platform managed keys.
+	//Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
 	Encryption *Encryption_Status `json:"encryption,omitempty"`
 
-	//EncryptionSettingsCollection: Encryption settings collection used be Azure Disk
-	//Encryption, can contain multiple encryption settings per disk or snapshot.
+	//EncryptionSettingsCollection: Encryption settings collection used be Azure Disk Encryption, can contain multiple
+	//encryption settings per disk or snapshot.
 	EncryptionSettingsCollection *EncryptionSettingsCollection_Status `json:"encryptionSettingsCollection,omitempty"`
 
-	//ExtendedLocation: The extended location where the snapshot will be created.
-	//Extended location cannot be changed.
+	//ExtendedLocation: The extended location where the snapshot will be created. Extended location cannot be changed.
 	ExtendedLocation *ExtendedLocation_Status `json:"extendedLocation,omitempty"`
 
-	//HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable
-	//to OS disks only.
+	//HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
 	HyperVGeneration *SnapshotPropertiesStatusHyperVGeneration `json:"hyperVGeneration,omitempty"`
 
 	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
-	//Incremental: Whether a snapshot is incremental. Incremental snapshots on the
-	//same disk occupy less space than full snapshots and can be diffed.
+	//Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
+	//snapshots and can be diffed.
 	Incremental *bool `json:"incremental,omitempty"`
 
 	//Location: Resource location
@@ -371,8 +364,7 @@ type Snapshot_Status struct {
 	//ProvisioningState: The disk provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
-	//PurchasePlan: Purchase plan information for the image from which the source disk
-	//for the snapshot was originally created.
+	//PurchasePlan: Purchase plan information for the image from which the source disk for the snapshot was originally created.
 	PurchasePlan *PurchasePlan_Status `json:"purchasePlan,omitempty"`
 	Sku          *SnapshotSku_Status  `json:"sku,omitempty"`
 
@@ -1004,23 +996,20 @@ type SnapshotsSpecAPIVersion string
 const SnapshotsSpecAPIVersion20200930 = SnapshotsSpecAPIVersion("2020-09-30")
 
 type Snapshots_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	// +kubebuilder:validation:Required
 	//CreationData: Data used when creating a disk.
 	CreationData CreationData `json:"creationData"`
 
-	//DiskAccessReference: ARM id of the DiskAccess resource for using private
-	//endpoints on disks.
+	//DiskAccessReference: ARM id of the DiskAccess resource for using private endpoints on disks.
 	DiskAccessReference *genruntime.ResourceReference `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
 
-	//DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and
-	//it indicates the size of the disk to create. If this field is present for
-	//updates or creation with other options, it indicates a resize. Resizes are only
-	//allowed if the disk is not attached to a running VM, and can only increase the
-	//disk's size.
+	//DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
+	//create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
+	//allowed if the disk is not attached to a running VM, and can only increase the disk's size.
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
 	//DiskState: The state of the snapshot.
@@ -1035,12 +1024,11 @@ type Snapshots_Spec struct {
 	//ExtendedLocation: The complex type of the extended location.
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
-	//HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable
-	//to OS disks only.
+	//HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
 	HyperVGeneration *SnapshotPropertiesHyperVGeneration `json:"hyperVGeneration,omitempty"`
 
-	//Incremental: Whether a snapshot is incremental. Incremental snapshots on the
-	//same disk occupy less space than full snapshots and can be diffed.
+	//Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
+	//snapshots and can be diffed.
 	Incremental *bool `json:"incremental,omitempty"`
 
 	//Location: Location to deploy resource to
@@ -1053,13 +1041,11 @@ type Snapshots_Spec struct {
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
-	//PurchasePlan: Used for establishing the purchase context of any 3rd Party
-	//artifact through MarketPlace.
+	//PurchasePlan: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
 	PurchasePlan *PurchasePlan `json:"purchasePlan,omitempty"`
 
-	//Sku: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS.
-	//This is an optional parameter for incremental snapshot and the default behavior
-	//is the SKU will be set to the same sku as the previous snapshot
+	//Sku: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for
+	//incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
 	Sku *SnapshotSku `json:"sku,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource

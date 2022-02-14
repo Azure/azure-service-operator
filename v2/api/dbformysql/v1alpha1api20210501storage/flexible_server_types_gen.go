@@ -135,8 +135,8 @@ type FlexibleServers_Spec struct {
 	AdministratorLoginPassword *genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`
 	AvailabilityZone           *string                     `json:"availabilityZone,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName         string             `json:"azureName"`
 	Backup            *Backup            `json:"backup,omitempty"`
 	CreateMode        *string            `json:"createMode,omitempty"`
@@ -280,8 +280,7 @@ type MaintenanceWindow_Status struct {
 //Storage version of v1alpha1api20210501.Network
 //Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Network
 type Network struct {
-	//DelegatedSubnetResourceReference: Delegated subnet resource id used to setup
-	//vnet for a server.
+	//DelegatedSubnetResourceReference: Delegated subnet resource id used to setup vnet for a server.
 	DelegatedSubnetResourceReference *genruntime.ResourceReference `armReference:"DelegatedSubnetResourceId" json:"delegatedSubnetResourceReference,omitempty"`
 
 	//PrivateDnsZoneResourceReference: Private DNS zone resource id.

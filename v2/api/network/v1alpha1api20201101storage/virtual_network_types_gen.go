@@ -177,8 +177,8 @@ func (network *VirtualNetwork_Status) ConvertStatusTo(destination genruntime.Con
 type VirtualNetworks_Spec struct {
 	AddressSpace *AddressSpace `json:"addressSpace,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName            string                        `json:"azureName"`
 	BgpCommunities       *VirtualNetworkBgpCommunities `json:"bgpCommunities,omitempty"`
 	DdosProtectionPlan   *SubResource                  `json:"ddosProtectionPlan,omitempty"`

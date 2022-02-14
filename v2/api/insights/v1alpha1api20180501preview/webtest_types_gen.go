@@ -321,22 +321,20 @@ type WebTest_Status struct {
 	//Enabled: Is the test actively being monitored.
 	Enabled *bool `json:"Enabled,omitempty"`
 
-	//Frequency: Interval in seconds between test runs for this WebTest. Default value
-	//is 300.
+	//Frequency: Interval in seconds between test runs for this WebTest. Default value is 300.
 	Frequency *int `json:"Frequency,omitempty"`
 
 	//Id: Azure resource Id
 	Id *string `json:"id,omitempty"`
 
-	//Kind: The kind of web test this is, valid choices are ping, multistep, basic,
-	//and standard.
+	//Kind: The kind of web test this is, valid choices are ping, multistep, basic, and standard.
 	Kind *WebTestPropertiesStatusKind `json:"Kind,omitempty"`
 
 	//Location: Resource location
 	Location *string `json:"location,omitempty"`
 
-	//Locations: A list of where to physically run the tests from to give global
-	//coverage for accessibility of your application.
+	//Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
+	//application.
 	Locations []WebTestGeolocation_Status `json:"Locations,omitempty"`
 
 	//Name: Azure resource name
@@ -345,9 +343,8 @@ type WebTest_Status struct {
 	//PropertiesName: User defined name if this WebTest.
 	PropertiesName *string `json:"properties_name,omitempty"`
 
-	//ProvisioningState: Current state of this component, whether or not is has been
-	//provisioned within the resource group it is defined. Users cannot change this
-	//value but are able to read from it. Values will include Succeeded, Deploying,
+	//ProvisioningState: Current state of this component, whether or not is has been provisioned within the resource group it
+	//is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying,
 	//Canceled, and Failed.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
@@ -357,8 +354,7 @@ type WebTest_Status struct {
 	//RetryEnabled: Allow for retries should this WebTest fail.
 	RetryEnabled *bool `json:"RetryEnabled,omitempty"`
 
-	//SyntheticMonitorId: Unique ID of this WebTest. This is typically the same value
-	//as the Name field.
+	//SyntheticMonitorId: Unique ID of this WebTest. This is typically the same value as the Name field.
 	SyntheticMonitorId *string `json:"SyntheticMonitorId,omitempty"`
 
 	//Tags: Resource tags
@@ -868,8 +864,8 @@ type WebtestsSpecAPIVersion string
 const WebtestsSpecAPIVersion20180501Preview = WebtestsSpecAPIVersion("2018-05-01-preview")
 
 type Webtests_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	//Configuration: An XML configuration specification for a WebTest.
@@ -881,21 +877,19 @@ type Webtests_Spec struct {
 	//Enabled: Is the test actively being monitored.
 	Enabled *bool `json:"Enabled,omitempty"`
 
-	//Frequency: Interval in seconds between test runs for this WebTest. Default value
-	//is 300.
+	//Frequency: Interval in seconds between test runs for this WebTest. Default value is 300.
 	Frequency *int `json:"Frequency,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Kind: The kind of web test this is, valid choices are ping, multistep, basic,
-	//and standard.
+	//Kind: The kind of web test this is, valid choices are ping, multistep, basic, and standard.
 	Kind WebTestPropertiesKind `json:"Kind"`
 
 	//Location: Location to deploy resource to
 	Location string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Locations: A list of where to physically run the tests from to give global
-	//coverage for accessibility of your application.
+	//Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
+	//application.
 	Locations []WebTestGeolocation `json:"Locations"`
 
 	// +kubebuilder:validation:Required
@@ -912,8 +906,7 @@ type Webtests_Spec struct {
 	RetryEnabled *bool `json:"RetryEnabled,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//SyntheticMonitorId: Unique ID of this WebTest. This is typically the same value
-	//as the Name field.
+	//SyntheticMonitorId: Unique ID of this WebTest. This is typically the same value as the Name field.
 	SyntheticMonitorId string `json:"SyntheticMonitorId"`
 
 	//Tags: Name-value pairs to add to the resource
@@ -1885,16 +1878,14 @@ type WebTestPropertiesValidationRules struct {
 	//ContentValidation: The collection of content validation properties
 	ContentValidation *WebTestPropertiesValidationRulesContentValidation `json:"ContentValidation,omitempty"`
 
-	//ExpectedHttpStatusCode: Validate that the WebTest returns the http status code
-	//provided.
+	//ExpectedHttpStatusCode: Validate that the WebTest returns the http status code provided.
 	ExpectedHttpStatusCode *int `json:"ExpectedHttpStatusCode,omitempty"`
 
 	//IgnoreHttpsStatusCode: When set, validation will ignore the status code.
 	IgnoreHttpsStatusCode *bool `json:"IgnoreHttpsStatusCode,omitempty"`
 
-	//SSLCertRemainingLifetimeCheck: A number of days to check still remain before the
-	//the existing SSL cert expires.  Value must be positive and the SSLCheck must be
-	//set to true.
+	//SSLCertRemainingLifetimeCheck: A number of days to check still remain before the the existing SSL cert expires.  Value
+	//must be positive and the SSLCheck must be set to true.
 	SSLCertRemainingLifetimeCheck *int `json:"SSLCertRemainingLifetimeCheck,omitempty"`
 
 	//SSLCheck: Checks to see if the SSL cert is still valid.
@@ -2337,16 +2328,14 @@ type WebTestProperties_Status_ValidationRules struct {
 	//ContentValidation: The collection of content validation properties
 	ContentValidation *WebTestProperties_Status_ValidationRules_ContentValidation `json:"ContentValidation,omitempty"`
 
-	//ExpectedHttpStatusCode: Validate that the WebTest returns the http status code
-	//provided.
+	//ExpectedHttpStatusCode: Validate that the WebTest returns the http status code provided.
 	ExpectedHttpStatusCode *int `json:"ExpectedHttpStatusCode,omitempty"`
 
 	//IgnoreHttpsStatusCode: When set, validation will ignore the status code.
 	IgnoreHttpsStatusCode *bool `json:"IgnoreHttpsStatusCode,omitempty"`
 
-	//SSLCertRemainingLifetimeCheck: A number of days to check still remain before the
-	//the existing SSL cert expires.  Value must be positive and the SSLCheck must be
-	//set to true.
+	//SSLCertRemainingLifetimeCheck: A number of days to check still remain before the the existing SSL cert expires.  Value
+	//must be positive and the SSLCheck must be set to true.
 	SSLCertRemainingLifetimeCheck *int `json:"SSLCertRemainingLifetimeCheck,omitempty"`
 
 	//SSLCheck: Checks to see if the SSL cert is still valid.
@@ -2667,16 +2656,14 @@ func (field *HeaderField_Status) AssignPropertiesToHeaderFieldStatus(destination
 
 //Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRulesContentValidation
 type WebTestPropertiesValidationRulesContentValidation struct {
-	//ContentMatch: Content to look for in the return of the WebTest.  Must not be
-	//null or empty.
+	//ContentMatch: Content to look for in the return of the WebTest.  Must not be null or empty.
 	ContentMatch *string `json:"ContentMatch,omitempty"`
 
-	//IgnoreCase: When set, this value makes the ContentMatch validation case
-	//insensitive.
+	//IgnoreCase: When set, this value makes the ContentMatch validation case insensitive.
 	IgnoreCase *bool `json:"IgnoreCase,omitempty"`
 
-	//PassIfTextFound: When true, validation will pass if there is a match for the
-	//ContentMatch string.  If false, validation will fail if there is a match
+	//PassIfTextFound: When true, validation will pass if there is a match for the ContentMatch string.  If false, validation
+	//will fail if there is a match
 	PassIfTextFound *bool `json:"PassIfTextFound,omitempty"`
 }
 
@@ -2805,16 +2792,14 @@ func (validation *WebTestPropertiesValidationRulesContentValidation) AssignPrope
 }
 
 type WebTestProperties_Status_ValidationRules_ContentValidation struct {
-	//ContentMatch: Content to look for in the return of the WebTest.  Must not be
-	//null or empty.
+	//ContentMatch: Content to look for in the return of the WebTest.  Must not be null or empty.
 	ContentMatch *string `json:"ContentMatch,omitempty"`
 
-	//IgnoreCase: When set, this value makes the ContentMatch validation case
-	//insensitive.
+	//IgnoreCase: When set, this value makes the ContentMatch validation case insensitive.
 	IgnoreCase *bool `json:"IgnoreCase,omitempty"`
 
-	//PassIfTextFound: When true, validation will pass if there is a match for the
-	//ContentMatch string.  If false, validation will fail if there is a match
+	//PassIfTextFound: When true, validation will pass if there is a match for the ContentMatch string.  If false, validation
+	//will fail if there is a match
 	PassIfTextFound *bool `json:"PassIfTextFound,omitempty"`
 }
 

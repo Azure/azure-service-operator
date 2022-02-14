@@ -68,7 +68,7 @@ func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerati
 		},
 	}
 
-	astbuilder.AddWrappedComments(&declaration.Decs.Start, declContext.Description, 200)
+	astbuilder.AddUnwrappedComments(&declaration.Decs.Start, declContext.Description)
 	AddValidationComments(&declaration.Decs.Start, declContext.Validations)
 
 	result := []dst.Decl{declaration}

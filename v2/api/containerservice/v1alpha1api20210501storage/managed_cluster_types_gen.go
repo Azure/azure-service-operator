@@ -204,8 +204,8 @@ type ManagedClusters_Spec struct {
 	// +kubebuilder:validation:MaxLength=63
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName            string `json:"azureName"`
 	DisableLocalAccounts *bool  `json:"disableLocalAccounts,omitempty"`
 
@@ -259,8 +259,7 @@ func (clusters *ManagedClusters_Spec) ConvertSpecTo(destination genruntime.Conve
 }
 
 //Storage version of v1alpha1api20210501.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
-//Generated from:
-//https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/Componentsqit0etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/Componentsqit0etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
 type Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	ObjectId    *string                `json:"objectId,omitempty"`
@@ -414,8 +413,8 @@ type ManagedClusterAgentPoolProfile struct {
 	OsSKU                         *string                       `json:"osSKU,omitempty"`
 	OsType                        *string                       `json:"osType,omitempty"`
 
-	//PodSubnetIDReference: If omitted, pod IPs are statically assigned on the node
-	//subnet (see vnetSubnetID for more details). This is of the form:
+	//PodSubnetIDReference: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more
+	//details). This is of the form:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 	PodSubnetIDReference      *genruntime.ResourceReference `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
 	PropertyBag               genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
@@ -428,9 +427,8 @@ type ManagedClusterAgentPoolProfile struct {
 	UpgradeSettings           *AgentPoolUpgradeSettings     `json:"upgradeSettings,omitempty"`
 	VmSize                    *string                       `json:"vmSize,omitempty"`
 
-	//VnetSubnetIDReference: If this is not specified, a VNET and subnet will be
-	//generated and used. If no podSubnetID is specified, this applies to nodes and
-	//pods, otherwise it applies to just nodes. This is of the form:
+	//VnetSubnetIDReference: If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is
+	//specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 	VnetSubnetIDReference *genruntime.ResourceReference `armReference:"VnetSubnetID" json:"vnetSubnetIDReference,omitempty"`
 }

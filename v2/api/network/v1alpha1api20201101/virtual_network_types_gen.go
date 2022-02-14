@@ -308,12 +308,10 @@ type VirtualNetworkList struct {
 }
 
 type VirtualNetwork_Status struct {
-	//AddressSpace: The AddressSpace that contains an array of IP address ranges that
-	//can be used by subnets.
+	//AddressSpace: The AddressSpace that contains an array of IP address ranges that can be used by subnets.
 	AddressSpace *AddressSpace_Status `json:"addressSpace,omitempty"`
 
-	//BgpCommunities: Bgp Communities sent over ExpressRoute with each route
-	//corresponding to a prefix in this VNET.
+	//BgpCommunities: Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
 	BgpCommunities *VirtualNetworkBgpCommunities_Status `json:"bgpCommunities,omitempty"`
 
 	//Conditions: The observed state of the resource
@@ -322,17 +320,14 @@ type VirtualNetwork_Status struct {
 	//DdosProtectionPlan: The DDoS protection plan associated with the virtual network.
 	DdosProtectionPlan *SubResource_Status `json:"ddosProtectionPlan,omitempty"`
 
-	//DhcpOptions: The dhcpOptions that contains an array of DNS servers available to
-	//VMs deployed in the virtual network.
+	//DhcpOptions: The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.
 	DhcpOptions *DhcpOptions_Status `json:"dhcpOptions,omitempty"`
 
-	//EnableDdosProtection: Indicates if DDoS protection is enabled for all the
-	//protected resources in the virtual network. It requires a DDoS protection plan
-	//associated with the resource.
+	//EnableDdosProtection: Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It
+	//requires a DDoS protection plan associated with the resource.
 	EnableDdosProtection *bool `json:"enableDdosProtection,omitempty"`
 
-	//EnableVmProtection: Indicates if VM protection is enabled for all the subnets in
-	//the virtual network.
+	//EnableVmProtection: Indicates if VM protection is enabled for all the subnets in the virtual network.
 	EnableVmProtection *bool `json:"enableVmProtection,omitempty"`
 
 	//Etag: A unique read-only string that changes whenever the resource is updated.
@@ -976,32 +971,27 @@ const VirtualNetworksSpecAPIVersion20201101 = VirtualNetworksSpecAPIVersion("202
 
 type VirtualNetworks_Spec struct {
 	// +kubebuilder:validation:Required
-	//AddressSpace: The AddressSpace that contains an array of IP address ranges that
-	//can be used by subnets.
+	//AddressSpace: The AddressSpace that contains an array of IP address ranges that can be used by subnets.
 	AddressSpace AddressSpace `json:"addressSpace"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
-	//BgpCommunities: Bgp Communities sent over ExpressRoute with each route
-	//corresponding to a prefix in this VNET.
+	//BgpCommunities: Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
 	BgpCommunities *VirtualNetworkBgpCommunities `json:"bgpCommunities,omitempty"`
 
 	//DdosProtectionPlan: The DDoS protection plan associated with the virtual network.
 	DdosProtectionPlan *SubResource `json:"ddosProtectionPlan,omitempty"`
 
-	//DhcpOptions: The dhcpOptions that contains an array of DNS servers available to
-	//VMs deployed in the virtual network.
+	//DhcpOptions: The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.
 	DhcpOptions *DhcpOptions `json:"dhcpOptions,omitempty"`
 
-	//EnableDdosProtection: Indicates if DDoS protection is enabled for all the
-	//protected resources in the virtual network. It requires a DDoS protection plan
-	//associated with the resource.
+	//EnableDdosProtection: Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It
+	//requires a DDoS protection plan associated with the resource.
 	EnableDdosProtection *bool `json:"enableDdosProtection,omitempty"`
 
-	//EnableVmProtection: Indicates if VM protection is enabled for all the subnets in
-	//the virtual network.
+	//EnableVmProtection: Indicates if VM protection is enabled for all the subnets in the virtual network.
 	EnableVmProtection *bool `json:"enableVmProtection,omitempty"`
 
 	//ExtendedLocation: The extended location of the virtual network.
@@ -1570,8 +1560,7 @@ func (networks *VirtualNetworks_Spec) SetAzureName(azureName string) { networks.
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/AddressSpace
 type AddressSpace struct {
 	// +kubebuilder:validation:Required
-	//AddressPrefixes: A list of address blocks reserved for this virtual network in
-	//CIDR notation.
+	//AddressPrefixes: A list of address blocks reserved for this virtual network in CIDR notation.
 	AddressPrefixes []string `json:"addressPrefixes"`
 }
 
@@ -1642,8 +1631,7 @@ func (space *AddressSpace) AssignPropertiesToAddressSpace(destination *v1alpha1a
 }
 
 type AddressSpace_Status struct {
-	//AddressPrefixes: A list of address blocks reserved for this virtual network in
-	//CIDR notation.
+	//AddressPrefixes: A list of address blocks reserved for this virtual network in CIDR notation.
 	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
 }
 
@@ -1958,8 +1946,7 @@ func (communities *VirtualNetworkBgpCommunities) AssignPropertiesToVirtualNetwor
 }
 
 type VirtualNetworkBgpCommunities_Status struct {
-	//RegionalCommunity: The BGP community associated with the region of the virtual
-	//network.
+	//RegionalCommunity: The BGP community associated with the region of the virtual network.
 	RegionalCommunity *string `json:"regionalCommunity,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -2102,8 +2089,7 @@ type VirtualNetworks_Spec_Properties_Subnets struct {
 	IpAllocations []SubResource `json:"ipAllocations,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Name: The name of the resource that is unique within a resource group. This name
-	//can be used to access the resource.
+	//Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name string `json:"name"`
 
 	//NatGateway: Nat gateway associated with this subnet.
@@ -2112,12 +2098,10 @@ type VirtualNetworks_Spec_Properties_Subnets struct {
 	//NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
 	NetworkSecurityGroup *SubResource `json:"networkSecurityGroup,omitempty"`
 
-	//PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on
-	//private end point in the subnet.
+	//PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on private end point in the subnet.
 	PrivateEndpointNetworkPolicies *string `json:"privateEndpointNetworkPolicies,omitempty"`
 
-	//PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on
-	//private link service in the subnet.
+	//PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on private link service in the subnet.
 	PrivateLinkServiceNetworkPolicies *string `json:"privateLinkServiceNetworkPolicies,omitempty"`
 
 	//RouteTable: The reference to the RouteTable resource.
@@ -2642,12 +2626,10 @@ func (subnets *VirtualNetworks_Spec_Properties_Subnets) AssignPropertiesToVirtua
 
 type VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations struct {
 	// +kubebuilder:validation:Required
-	//Name: The name of the resource that is unique within a subnet. This name can be
-	//used to access the resource.
+	//Name: The name of the resource that is unique within a subnet. This name can be used to access the resource.
 	Name string `json:"name"`
 
-	//ServiceName: The name of the service to whom the subnet should be delegated
-	//(e.g. Microsoft.Sql/servers).
+	//ServiceName: The name of the service to whom the subnet should be delegated (e.g. Microsoft.Sql/servers).
 	ServiceName *string `json:"serviceName,omitempty"`
 }
 

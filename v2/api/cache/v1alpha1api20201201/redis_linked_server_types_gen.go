@@ -324,15 +324,13 @@ type RedisLinkedServerWithProperties_Status struct {
 	//Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	//ProvisioningState: Terminal state of the link between primary and secondary
-	//redis cache.
+	//ProvisioningState: Terminal state of the link between primary and secondary redis cache.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	//ServerRole: Role of the linked server.
 	ServerRole *RedisLinkedServerPropertiesStatusServerRole `json:"serverRole,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -538,8 +536,8 @@ type RedisLinkedServersSpecAPIVersion string
 const RedisLinkedServersSpecAPIVersion20201201 = RedisLinkedServersSpecAPIVersion("2020-12-01")
 
 type RedisLinkedServers_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	// +kubebuilder:validation:Required

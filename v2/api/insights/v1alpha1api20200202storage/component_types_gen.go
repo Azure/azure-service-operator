@@ -192,8 +192,8 @@ func (component *ApplicationInsightsComponent_Status) ConvertStatusTo(destinatio
 type Components_Spec struct {
 	ApplicationType *string `json:"Application_Type,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName                       string  `json:"azureName"`
 	DisableIpMasking                *bool   `json:"DisableIpMasking,omitempty"`
 	DisableLocalAuth                *bool   `json:"DisableLocalAuth,omitempty"`
@@ -217,10 +217,8 @@ type Components_Spec struct {
 	SamplingPercentage              *float64                          `json:"SamplingPercentage,omitempty"`
 	Tags                            map[string]string                 `json:"tags,omitempty"`
 
-	//WorkspaceResourceReference: Resource Id of the log analytics workspace which the
-	//data will be ingested to. This property is required to create an application
-	//with this API version. Applications from older versions will not have this
-	//property.
+	//WorkspaceResourceReference: Resource Id of the log analytics workspace which the data will be ingested to. This property
+	//is required to create an application with this API version. Applications from older versions will not have this property.
 	WorkspaceResourceReference *genruntime.ResourceReference `armReference:"WorkspaceResourceId" json:"workspaceResourceReference,omitempty"`
 }
 

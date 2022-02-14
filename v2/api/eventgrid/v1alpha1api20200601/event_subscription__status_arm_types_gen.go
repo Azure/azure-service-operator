@@ -24,8 +24,7 @@ type EventSubscriptionProperties_StatusARM struct {
 	//DeadLetterDestination: The DeadLetter destination of the event subscription.
 	DeadLetterDestination *DeadLetterDestination_StatusARM `json:"deadLetterDestination,omitempty"`
 
-	//Destination: Information about the destination where events have to be delivered
-	//for the event subscription.
+	//Destination: Information about the destination where events have to be delivered for the event subscription.
 	Destination *EventSubscriptionDestination_StatusARM `json:"destination,omitempty"`
 
 	//EventDeliverySchema: The event delivery schema for the event subscription.
@@ -43,8 +42,8 @@ type EventSubscriptionProperties_StatusARM struct {
 	//ProvisioningState: Provisioning state of the event subscription.
 	ProvisioningState *EventSubscriptionPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
 
-	//RetryPolicy: The retry policy for events. This can be used to configure maximum
-	//number of delivery attempts and time to live for events.
+	//RetryPolicy: The retry policy for events. This can be used to configure maximum number of delivery attempts and time to
+	//live for events.
 	RetryPolicy *RetryPolicy_StatusARM `json:"retryPolicy,omitempty"`
 
 	//Topic: Name of the topic of the event subscription.
@@ -62,28 +61,23 @@ type EventSubscriptionDestination_StatusARM struct {
 }
 
 type EventSubscriptionFilter_StatusARM struct {
-	//AdvancedFilters: An array of advanced filters that are used for filtering event
-	//subscriptions.
+	//AdvancedFilters: An array of advanced filters that are used for filtering event subscriptions.
 	AdvancedFilters []AdvancedFilter_StatusARM `json:"advancedFilters,omitempty"`
 
-	//IncludedEventTypes: A list of applicable event types that need to be part of the
-	//event subscription. If it is desired to subscribe to all default event types,
-	//set the IncludedEventTypes to null.
+	//IncludedEventTypes: A list of applicable event types that need to be part of the event subscription. If it is desired to
+	//subscribe to all default event types, set the IncludedEventTypes to null.
 	IncludedEventTypes []string `json:"includedEventTypes,omitempty"`
 
-	//IsSubjectCaseSensitive: Specifies if the SubjectBeginsWith and SubjectEndsWith
-	//properties of the filter
+	//IsSubjectCaseSensitive: Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter
 	//should be compared in a case sensitive manner.
 	IsSubjectCaseSensitive *bool `json:"isSubjectCaseSensitive,omitempty"`
 
-	//SubjectBeginsWith: An optional string to filter events for an event subscription
-	//based on a resource path prefix.
+	//SubjectBeginsWith: An optional string to filter events for an event subscription based on a resource path prefix.
 	//The format of this depends on the publisher of the events.
 	//Wildcard characters are not supported in this path.
 	SubjectBeginsWith *string `json:"subjectBeginsWith,omitempty"`
 
-	//SubjectEndsWith: An optional string to filter events for an event subscription
-	//based on a resource path suffix.
+	//SubjectEndsWith: An optional string to filter events for an event subscription based on a resource path suffix.
 	//Wildcard characters are not supported in this path.
 	SubjectEndsWith *string `json:"subjectEndsWith,omitempty"`
 }
@@ -100,7 +94,6 @@ type AdvancedFilter_StatusARM struct {
 	//Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
-	//OperatorType: The operator type used for filtering, e.g., NumberIn,
-	//StringContains, BoolEquals and others.
+	//OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
 	OperatorType AdvancedFilterStatusOperatorType `json:"operatorType"`
 }

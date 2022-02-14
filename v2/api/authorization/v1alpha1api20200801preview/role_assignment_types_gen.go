@@ -307,10 +307,9 @@ type RoleAssignmentList struct {
 }
 
 type RoleAssignment_Status struct {
-	//Condition: The conditions on the role assignment. This limits the resources it
-	//can be assigned to. e.g.:
-	//@Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName]
-	//StringEqualsIgnoreCase 'foo_storage_container'
+	//Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
+	//@Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase
+	//'foo_storage_container'
 	Condition *string `json:"condition,omitempty"`
 
 	//ConditionVersion: Version of the condition. Currently accepted value is '2.0'
@@ -684,14 +683,13 @@ type RoleAssignmentsSpecAPIVersion string
 const RoleAssignmentsSpecAPIVersion20200801Preview = RoleAssignmentsSpecAPIVersion("2020-08-01-preview")
 
 type RoleAssignments_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
-	//Condition: The conditions on the role assignment. This limits the resources it
-	//can be assigned to. e.g.:
-	//@Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName]
-	//StringEqualsIgnoreCase 'foo_storage_container'
+	//Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
+	//@Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase
+	//'foo_storage_container'
 	Condition *string `json:"condition,omitempty"`
 
 	//ConditionVersion: Version of the condition. Currently accepted value is '2.0'

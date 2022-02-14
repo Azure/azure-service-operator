@@ -46,24 +46,22 @@ type Redis_Spec struct {
 }
 
 type RedisParameters struct {
-	//EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is
-	//enabled.
+	//EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.
 	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
 
 	//Location: The geo-location where the resource lives
 	Location string `json:"location,omitempty"`
 
-	//MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or
-	//higher) to connect (e,g, '1.0', '1.1', '1.2').
+	//MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
+	//'1.2').
 	MinimumTlsVersion *RedisCreatePropertiesMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Name: The name of the Redis cache.
 	Name string `json:"name"`
 
-	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this
-	//cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If
-	//'Disabled', private endpoints are the exclusive access method. Default value is
+	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
+	//in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
 	//'Enabled'.
 	PublicNetworkAccess *RedisCreatePropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
@@ -86,13 +84,12 @@ type RedisParameters struct {
 	Sku Sku `json:"sku"`
 
 	// +kubebuilder:validation:Pattern="^\\d+\\.\\d+\\.\\d+\\.\\d+$"
-	//StaticIP: Static IP address. Optionally, may be specified when deploying a Redis
-	//cache inside an existing Azure Virtual Network; auto assigned by default.
+	//StaticIP: Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual
+	//Network; auto assigned by default.
 	StaticIP *string `json:"staticIP,omitempty"`
 
 	// +kubebuilder:validation:Pattern="^/subscriptions/[^/]*/resourceGroups/[^/]*/providers/Microsoft.(ClassicNetwork|Network)/virtualNetworks/[^/]*/subnets/[^/]*$"
-	//SubnetId: The full resource ID of a subnet in a virtual network to deploy the
-	//Redis cache in. Example format:
+	//SubnetId: The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1
 	SubnetId *string `json:"subnetId,omitempty"`
 
@@ -102,18 +99,15 @@ type RedisParameters struct {
 	//TenantSettings: A dictionary of tenant settings
 	TenantSettings map[string]string `json:"tenantSettings,omitempty"`
 
-	//Zones: A list of availability zones denoting where the resource needs to come
-	//from.
+	//Zones: A list of availability zones denoting where the resource needs to come from.
 	Zones []string `json:"zones,omitempty"`
 }
 
 type RedisResourceObservation struct {
-	//AccessKeys: The keys of the Redis cache - not set if this object is not the
-	//response to Create or Update redis cache
+	//AccessKeys: The keys of the Redis cache - not set if this object is not the response to Create or Update redis cache
 	AccessKeys *RedisAccessKeys_Status `json:"accessKeys,omitempty"`
 
-	//EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is
-	//enabled.
+	//EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.
 	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
 
 	//HostName: Redis host name.
@@ -131,8 +125,8 @@ type RedisResourceObservation struct {
 	//Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
-	//MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or
-	//higher) to connect (e,g, '1.0', '1.1', '1.2')
+	//MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
+	//'1.2')
 	MinimumTlsVersion *RedisPropertiesStatusMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
 	//Name: Resource name.
@@ -141,16 +135,14 @@ type RedisResourceObservation struct {
 	//Port: Redis non-SSL port.
 	Port *int `json:"port,omitempty"`
 
-	//PrivateEndpointConnections: List of private endpoint connection associated with
-	//the specified redis cache
+	//PrivateEndpointConnections: List of private endpoint connection associated with the specified redis cache
 	PrivateEndpointConnections []PrivateEndpointConnection_Status `json:"privateEndpointConnections,omitempty"`
 
 	//ProvisioningState: Redis instance provisioning status.
 	ProvisioningState *RedisPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
 
-	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this
-	//cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If
-	//'Disabled', private endpoints are the exclusive access method. Default value is
+	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
+	//in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
 	//'Enabled'
 	PublicNetworkAccess *RedisPropertiesStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
@@ -174,12 +166,11 @@ type RedisResourceObservation struct {
 	//SslPort: Redis SSL port.
 	SslPort *int `json:"sslPort,omitempty"`
 
-	//StaticIP: Static IP address. Optionally, may be specified when deploying a Redis
-	//cache inside an existing Azure Virtual Network; auto assigned by default.
+	//StaticIP: Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual
+	//Network; auto assigned by default.
 	StaticIP *string `json:"staticIP,omitempty"`
 
-	//SubnetId: The full resource ID of a subnet in a virtual network to deploy the
-	//Redis cache in. Example format:
+	//SubnetId: The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1
 	SubnetId *string `json:"subnetId,omitempty"`
 
@@ -192,8 +183,7 @@ type RedisResourceObservation struct {
 	//Type: Resource type.
 	Type *string `json:"type,omitempty"`
 
-	//Zones: A list of availability zones denoting where the resource needs to come
-	//from.
+	//Zones: A list of availability zones denoting where the resource needs to come from.
 	Zones []string `json:"zones,omitempty"`
 }
 
@@ -208,33 +198,28 @@ type PrivateEndpointConnection_Status struct {
 	//PrivateEndpoint: The resource of private end point.
 	PrivateEndpoint *PrivateEndpoint_Status `json:"privateEndpoint,omitempty"`
 
-	//PrivateLinkServiceConnectionState: A collection of information about the state
-	//of the connection between service consumer and provider.
+	//PrivateLinkServiceConnectionState: A collection of information about the state of the connection between service
+	//consumer and provider.
 	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_Status `json:"privateLinkServiceConnectionState,omitempty"`
 
-	//ProvisioningState: The provisioning state of the private endpoint connection
-	//resource.
+	//ProvisioningState: The provisioning state of the private endpoint connection resource.
 	ProvisioningState *PrivateEndpointConnectionProvisioningState_Status `json:"provisioningState,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
 type RedisAccessKeys_Status struct {
-	//PrimaryKey: The current primary key that clients can use to authenticate with
-	//Redis cache.
+	//PrimaryKey: The current primary key that clients can use to authenticate with Redis cache.
 	PrimaryKey *string `json:"primaryKey,omitempty"`
 
-	//SecondaryKey: The current secondary key that clients can use to authenticate
-	//with Redis cache.
+	//SecondaryKey: The current secondary key that clients can use to authenticate with Redis cache.
 	SecondaryKey *string `json:"secondaryKey,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.Cache.json#/definitions/RedisCommonPropertiesRedisConfiguration
 type RedisCommonPropertiesRedisConfiguration struct {
-	//AdditionalProperties: Unmatched properties from the message are deserialized
-	//this collection
+	//AdditionalProperties: Unmatched properties from the message are deserialized this collection
 	AdditionalProperties map[string]string `json:"additionalProperties,omitempty"`
 
 	//AofStorageConnectionString0: First storage account connection string
@@ -243,20 +228,16 @@ type RedisCommonPropertiesRedisConfiguration struct {
 	//AofStorageConnectionString1: First storage account connection string
 	AofStorageConnectionString1 *string `json:"aof-storage-connection-string-1,omitempty"`
 
-	//MaxfragmentationmemoryReserved: Value in megabytes reserved for fragmentation
-	//per shard
+	//MaxfragmentationmemoryReserved: Value in megabytes reserved for fragmentation per shard
 	MaxfragmentationmemoryReserved *string `json:"maxfragmentationmemory-reserved,omitempty"`
 
-	//MaxmemoryDelta: Value in megabytes reserved for non-cache usage per shard e.g.
-	//failover.
+	//MaxmemoryDelta: Value in megabytes reserved for non-cache usage per shard e.g. failover.
 	MaxmemoryDelta *string `json:"maxmemory-delta,omitempty"`
 
-	//MaxmemoryPolicy: The eviction strategy used when your data won't fit within its
-	//memory limit.
+	//MaxmemoryPolicy: The eviction strategy used when your data won't fit within its memory limit.
 	MaxmemoryPolicy *string `json:"maxmemory-policy,omitempty"`
 
-	//MaxmemoryReserved: Value in megabytes reserved for non-cache usage per shard
-	//e.g. failover.
+	//MaxmemoryReserved: Value in megabytes reserved for non-cache usage per shard e.g. failover.
 	MaxmemoryReserved *string `json:"maxmemory-reserved,omitempty"`
 
 	//RdbBackupEnabled: Specifies whether the rdb backup is enabled
@@ -265,12 +246,10 @@ type RedisCommonPropertiesRedisConfiguration struct {
 	//RdbBackupFrequency: Specifies the frequency for creating rdb backup
 	RdbBackupFrequency *string `json:"rdb-backup-frequency,omitempty"`
 
-	//RdbBackupMaxSnapshotCount: Specifies the maximum number of snapshots for rdb
-	//backup
+	//RdbBackupMaxSnapshotCount: Specifies the maximum number of snapshots for rdb backup
 	RdbBackupMaxSnapshotCount *string `json:"rdb-backup-max-snapshot-count,omitempty"`
 
-	//RdbStorageConnectionString: The storage account connection string for storing
-	//rdb file
+	//RdbStorageConnectionString: The storage account connection string for storing rdb file
 	RdbStorageConnectionString *string `json:"rdb-storage-connection-string,omitempty"`
 }
 
@@ -304,8 +283,7 @@ type RedisInstanceDetails_Status struct {
 	//SslPort: Redis instance SSL port.
 	SslPort *int `json:"sslPort,omitempty"`
 
-	//Zone: If the Cache uses availability zones, specifies availability zone where
-	//this instance is located.
+	//Zone: If the Cache uses availability zones, specifies availability zone where this instance is located.
 	Zone *string `json:"zone,omitempty"`
 }
 
@@ -356,20 +334,16 @@ type RedisProperties_Status_RedisConfiguration struct {
 	//Maxclients: The max clients config
 	Maxclients *string `json:"maxclients,omitempty"`
 
-	//MaxfragmentationmemoryReserved: Value in megabytes reserved for fragmentation
-	//per shard
+	//MaxfragmentationmemoryReserved: Value in megabytes reserved for fragmentation per shard
 	MaxfragmentationmemoryReserved *string `json:"maxfragmentationmemory-reserved,omitempty"`
 
-	//MaxmemoryDelta: Value in megabytes reserved for non-cache usage per shard e.g.
-	//failover.
+	//MaxmemoryDelta: Value in megabytes reserved for non-cache usage per shard e.g. failover.
 	MaxmemoryDelta *string `json:"maxmemory-delta,omitempty"`
 
-	//MaxmemoryPolicy: The eviction strategy used when your data won't fit within its
-	//memory limit.
+	//MaxmemoryPolicy: The eviction strategy used when your data won't fit within its memory limit.
 	MaxmemoryPolicy *string `json:"maxmemory-policy,omitempty"`
 
-	//MaxmemoryReserved: Value in megabytes reserved for non-cache usage per shard
-	//e.g. failover.
+	//MaxmemoryReserved: Value in megabytes reserved for non-cache usage per shard e.g. failover.
 	MaxmemoryReserved *string `json:"maxmemory-reserved,omitempty"`
 
 	//RdbBackupEnabled: Specifies whether the rdb backup is enabled
@@ -378,12 +352,10 @@ type RedisProperties_Status_RedisConfiguration struct {
 	//RdbBackupFrequency: Specifies the frequency for creating rdb backup
 	RdbBackupFrequency *string `json:"rdb-backup-frequency,omitempty"`
 
-	//RdbBackupMaxSnapshotCount: Specifies the maximum number of snapshots for rdb
-	//backup
+	//RdbBackupMaxSnapshotCount: Specifies the maximum number of snapshots for rdb backup
 	RdbBackupMaxSnapshotCount *string `json:"rdb-backup-max-snapshot-count,omitempty"`
 
-	//RdbStorageConnectionString: The storage account connection string for storing
-	//rdb file
+	//RdbStorageConnectionString: The storage account connection string for storing rdb file
 	RdbStorageConnectionString *string           `json:"rdb-storage-connection-string,omitempty"`
 	additionalProperties       map[string]string `json:"additionalProperties"`
 }
@@ -391,32 +363,27 @@ type RedisProperties_Status_RedisConfiguration struct {
 //Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.Cache.json#/definitions/Sku
 type Sku struct {
 	// +kubebuilder:validation:Required
-	//Capacity: The size of the Redis cache to deploy. Valid values: for C
-	//(Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for P (Premium) family (1, 2, 3,
-	//4).
+	//Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
+	//P (Premium) family (1, 2, 3, 4).
 	Capacity int `json:"capacity"`
 
 	// +kubebuilder:validation:Required
-	//Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P =
-	//Premium).
+	//Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
 	Family SkuFamily `json:"family"`
 
 	// +kubebuilder:validation:Required
-	//Name: The type of Redis cache to deploy. Valid values: (Basic, Standard,
-	//Premium).
+	//Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium).
 	Name SkuName `json:"name"`
 }
 
 type Sku_Status struct {
 	// +kubebuilder:validation:Required
-	//Capacity: The size of the Redis cache to deploy. Valid values: for C
-	//(Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for P (Premium) family (1, 2, 3,
-	//4).
+	//Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
+	//P (Premium) family (1, 2, 3, 4).
 	Capacity int `json:"capacity"`
 
 	// +kubebuilder:validation:Required
-	//Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P =
-	//Premium).
+	//Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
 	Family SkuStatusFamily `json:"family"`
 
 	// +kubebuilder:validation:Required
@@ -439,15 +406,13 @@ type PrivateEndpoint_Status struct {
 }
 
 type PrivateLinkServiceConnectionState_Status struct {
-	//ActionsRequired: A message indicating if changes on the service provider require
-	//any updates on the consumer.
+	//ActionsRequired: A message indicating if changes on the service provider require any updates on the consumer.
 	ActionsRequired *string `json:"actionsRequired,omitempty"`
 
 	//Description: The reason for approval/rejection of the connection.
 	Description *string `json:"description,omitempty"`
 
-	//Status: Indicates whether the connection has been Approved/Rejected/Removed by
-	//the owner of the service.
+	//Status: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
 	Status *PrivateEndpointServiceConnectionStatus_Status `json:"status,omitempty"`
 }
 

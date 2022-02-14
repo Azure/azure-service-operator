@@ -179,8 +179,8 @@ type Workspaces_Spec struct {
 	// +kubebuilder:validation:MaxLength=63
 	// +kubebuilder:validation:MinLength=4
 	// +kubebuilder:validation:Pattern="^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName        string             `json:"azureName"`
 	ETag             *string            `json:"eTag,omitempty"`
 	Features         *WorkspaceFeatures `json:"features,omitempty"`
@@ -247,8 +247,7 @@ type WorkspaceCapping_Status struct {
 type WorkspaceFeatures struct {
 	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
 
-	//ClusterResourceReference: Dedicated LA cluster resourceId that is linked to the
-	//workspaces.
+	//ClusterResourceReference: Dedicated LA cluster resourceId that is linked to the workspaces.
 	ClusterResourceReference                    *genruntime.ResourceReference `armReference:"ClusterResourceId" json:"clusterResourceReference,omitempty"`
 	DisableLocalAuth                            *bool                         `json:"disableLocalAuth,omitempty"`
 	EnableDataExport                            *bool                         `json:"enableDataExport,omitempty"`

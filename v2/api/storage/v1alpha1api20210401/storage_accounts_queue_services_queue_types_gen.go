@@ -315,8 +315,8 @@ const StorageAccountsQueueServicesQueuesSpecAPIVersion20210401 = StorageAccounts
 type StorageAccountsQueueServicesQueues_Spec struct {
 	// +kubebuilder:validation:MaxLength=63
 	// +kubebuilder:validation:MinLength=3
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	//Location: Location to deploy resource to
@@ -537,9 +537,8 @@ func (queues *StorageAccountsQueueServicesQueues_Spec) SetAzureName(azureName st
 }
 
 type StorageQueue_Status struct {
-	//ApproximateMessageCount: Integer indicating an approximate number of messages in
-	//the queue. This number is not lower than the actual number of messages in the
-	//queue, but could be higher.
+	//ApproximateMessageCount: Integer indicating an approximate number of messages in the queue. This number is not lower
+	//than the actual number of messages in the queue, but could be higher.
 	ApproximateMessageCount *int `json:"approximateMessageCount,omitempty"`
 
 	//Conditions: The observed state of the resource
@@ -555,8 +554,7 @@ type StorageQueue_Status struct {
 	//Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 

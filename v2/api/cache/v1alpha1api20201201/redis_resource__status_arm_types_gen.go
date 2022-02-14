@@ -20,22 +20,18 @@ type RedisResource_StatusARM struct {
 	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 
-	//Zones: A list of availability zones denoting where the resource needs to come
-	//from.
+	//Zones: A list of availability zones denoting where the resource needs to come from.
 	Zones []string `json:"zones,omitempty"`
 }
 
 type RedisProperties_StatusARM struct {
-	//AccessKeys: The keys of the Redis cache - not set if this object is not the
-	//response to Create or Update redis cache
+	//AccessKeys: The keys of the Redis cache - not set if this object is not the response to Create or Update redis cache
 	AccessKeys *RedisAccessKeys_StatusARM `json:"accessKeys,omitempty"`
 
-	//EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is
-	//enabled.
+	//EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.
 	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
 
 	//HostName: Redis host name.
@@ -47,23 +43,21 @@ type RedisProperties_StatusARM struct {
 	//LinkedServers: List of the linked servers associated with the cache
 	LinkedServers []RedisLinkedServer_StatusARM `json:"linkedServers,omitempty"`
 
-	//MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or
-	//higher) to connect (e,g, '1.0', '1.1', '1.2')
+	//MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
+	//'1.2')
 	MinimumTlsVersion *RedisPropertiesStatusMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
 	//Port: Redis non-SSL port.
 	Port *int `json:"port,omitempty"`
 
-	//PrivateEndpointConnections: List of private endpoint connection associated with
-	//the specified redis cache
+	//PrivateEndpointConnections: List of private endpoint connection associated with the specified redis cache
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
 
 	//ProvisioningState: Redis instance provisioning status.
 	ProvisioningState *RedisPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
 
-	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this
-	//cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If
-	//'Disabled', private endpoints are the exclusive access method. Default value is
+	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
+	//in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
 	//'Enabled'
 	PublicNetworkAccess *RedisPropertiesStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
@@ -72,8 +66,7 @@ type RedisProperties_StatusARM struct {
 	//etc.
 	RedisConfiguration map[string]string `json:"redisConfiguration,omitempty"`
 
-	//RedisVersion: Redis version. Only major version will be used in PUT/PATCH
-	//request with current valid values: (4, 6)
+	//RedisVersion: Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6)
 	RedisVersion *string `json:"redisVersion,omitempty"`
 
 	//ReplicasPerMaster: The number of replicas to be created per primary.
@@ -91,12 +84,11 @@ type RedisProperties_StatusARM struct {
 	//SslPort: Redis SSL port.
 	SslPort *int `json:"sslPort,omitempty"`
 
-	//StaticIP: Static IP address. Optionally, may be specified when deploying a Redis
-	//cache inside an existing Azure Virtual Network; auto assigned by default.
+	//StaticIP: Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual
+	//Network; auto assigned by default.
 	StaticIP *string `json:"staticIP,omitempty"`
 
-	//SubnetId: The full resource ID of a subnet in a virtual network to deploy the
-	//Redis cache in. Example format:
+	//SubnetId: The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1
 	SubnetId *string `json:"subnetId,omitempty"`
 
@@ -111,12 +103,10 @@ type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 }
 
 type RedisAccessKeys_StatusARM struct {
-	//PrimaryKey: The current primary key that clients can use to authenticate with
-	//Redis cache.
+	//PrimaryKey: The current primary key that clients can use to authenticate with Redis cache.
 	PrimaryKey *string `json:"primaryKey,omitempty"`
 
-	//SecondaryKey: The current secondary key that clients can use to authenticate
-	//with Redis cache.
+	//SecondaryKey: The current secondary key that clients can use to authenticate with Redis cache.
 	SecondaryKey *string `json:"secondaryKey,omitempty"`
 }
 
@@ -136,8 +126,7 @@ type RedisInstanceDetails_StatusARM struct {
 	//SslPort: Redis instance SSL port.
 	SslPort *int `json:"sslPort,omitempty"`
 
-	//Zone: If the Cache uses availability zones, specifies availability zone where
-	//this instance is located.
+	//Zone: If the Cache uses availability zones, specifies availability zone where this instance is located.
 	Zone *string `json:"zone,omitempty"`
 }
 
@@ -147,13 +136,11 @@ type RedisLinkedServer_StatusARM struct {
 }
 
 type Sku_StatusARM struct {
-	//Capacity: The size of the Redis cache to deploy. Valid values: for C
-	//(Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for P (Premium) family (1, 2, 3,
-	//4).
+	//Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
+	//P (Premium) family (1, 2, 3, 4).
 	Capacity int `json:"capacity"`
 
-	//Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P =
-	//Premium).
+	//Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
 	Family SkuStatusFamily `json:"family"`
 
 	//Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)

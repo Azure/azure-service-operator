@@ -12,8 +12,8 @@ type EventSubscriptions_SpecARM struct {
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
-	//Name: Name of the event subscription. Event subscription names must be between 3
-	//and 64 characters in length and should use alphanumeric letters only.
+	//Name: Name of the event subscription. Event subscription names must be between 3 and 64 characters in length and should
+	//use alphanumeric letters only.
 	Name string `json:"name"`
 
 	//Properties: Properties of the Event Subscription.
@@ -42,11 +42,9 @@ func (subscriptions EventSubscriptions_SpecARM) GetType() string {
 
 //Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventSubscriptionProperties
 type EventSubscriptionPropertiesARM struct {
-	//DeadLetterDestination: Information about the dead letter destination for an
-	//event subscription. To configure a deadletter destination, do not directly
-	//instantiate an object of this class. Instead, instantiate an object of a derived
-	//class. Currently, StorageBlobDeadLetterDestination is the only class that
-	//derives from this class.
+	//DeadLetterDestination: Information about the dead letter destination for an event subscription. To configure a
+	//deadletter destination, do not directly instantiate an object of this class. Instead, instantiate an object of a derived
+	//class. Currently, StorageBlobDeadLetterDestination is the only class that derives from this class.
 	DeadLetterDestination *StorageBlobDeadLetterDestinationARM `json:"deadLetterDestination,omitempty"`
 
 	//Destination: Information about the destination for an event subscription.
@@ -161,28 +159,23 @@ func (destination *EventSubscriptionDestinationARM) UnmarshalJSON(data []byte) e
 
 //Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventSubscriptionFilter
 type EventSubscriptionFilterARM struct {
-	//AdvancedFilters: An array of advanced filters that are used for filtering event
-	//subscriptions.
+	//AdvancedFilters: An array of advanced filters that are used for filtering event subscriptions.
 	AdvancedFilters []AdvancedFilterARM `json:"advancedFilters,omitempty"`
 
-	//IncludedEventTypes: A list of applicable event types that need to be part of the
-	//event subscription. If it is desired to subscribe to all default event types,
-	//set the IncludedEventTypes to null.
+	//IncludedEventTypes: A list of applicable event types that need to be part of the event subscription. If it is desired to
+	//subscribe to all default event types, set the IncludedEventTypes to null.
 	IncludedEventTypes []string `json:"includedEventTypes,omitempty"`
 
-	//IsSubjectCaseSensitive: Specifies if the SubjectBeginsWith and SubjectEndsWith
-	//properties of the filter
+	//IsSubjectCaseSensitive: Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter
 	//should be compared in a case sensitive manner.
 	IsSubjectCaseSensitive *bool `json:"isSubjectCaseSensitive,omitempty"`
 
-	//SubjectBeginsWith: An optional string to filter events for an event subscription
-	//based on a resource path prefix.
+	//SubjectBeginsWith: An optional string to filter events for an event subscription based on a resource path prefix.
 	//The format of this depends on the publisher of the events.
 	//Wildcard characters are not supported in this path.
 	SubjectBeginsWith *string `json:"subjectBeginsWith,omitempty"`
 
-	//SubjectEndsWith: An optional string to filter events for an event subscription
-	//based on a resource path suffix.
+	//SubjectEndsWith: An optional string to filter events for an event subscription based on a resource path suffix.
 	//Wildcard characters are not supported in this path.
 	SubjectEndsWith *string `json:"subjectEndsWith,omitempty"`
 }
@@ -349,8 +342,7 @@ func (filter *AdvancedFilterARM) UnmarshalJSON(data []byte) error {
 type AzureFunctionEventSubscriptionDestinationARM struct {
 	EndpointType AzureFunctionEventSubscriptionDestinationEndpointType `json:"endpointType"`
 
-	//Properties: The properties that represent the Azure Function destination of an
-	//event subscription.
+	//Properties: The properties that represent the Azure Function destination of an event subscription.
 	Properties *AzureFunctionEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
 }
 
@@ -374,8 +366,7 @@ type HybridConnectionEventSubscriptionDestinationARM struct {
 type ServiceBusQueueEventSubscriptionDestinationARM struct {
 	EndpointType ServiceBusQueueEventSubscriptionDestinationEndpointType `json:"endpointType"`
 
-	//Properties: The properties that represent the Service Bus destination of an
-	//event subscription.
+	//Properties: The properties that represent the Service Bus destination of an event subscription.
 	Properties *ServiceBusQueueEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
 }
 
@@ -383,15 +374,13 @@ type ServiceBusQueueEventSubscriptionDestinationARM struct {
 type ServiceBusTopicEventSubscriptionDestinationARM struct {
 	EndpointType ServiceBusTopicEventSubscriptionDestinationEndpointType `json:"endpointType"`
 
-	//Properties: The properties that represent the Service Bus Topic destination of
-	//an event subscription.
+	//Properties: The properties that represent the Service Bus Topic destination of an event subscription.
 	Properties *ServiceBusTopicEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageBlobDeadLetterDestinationProperties
 type StorageBlobDeadLetterDestinationPropertiesARM struct {
-	//BlobContainerName: The name of the Storage blob container that is the
-	//destination of the deadletter events
+	//BlobContainerName: The name of the Storage blob container that is the destination of the deadletter events
 	BlobContainerName *string `json:"blobContainerName,omitempty"`
 	ResourceId        *string `json:"resourceId,omitempty"`
 }
@@ -408,8 +397,7 @@ type StorageQueueEventSubscriptionDestinationARM struct {
 type WebHookEventSubscriptionDestinationARM struct {
 	EndpointType WebHookEventSubscriptionDestinationEndpointType `json:"endpointType"`
 
-	//Properties: Information about the webhook destination properties for an event
-	//subscription.
+	//Properties: Information about the webhook destination properties for an event subscription.
 	Properties *WebHookEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
 }
 
@@ -553,25 +541,22 @@ type ServiceBusTopicEventSubscriptionDestinationPropertiesARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageQueueEventSubscriptionDestinationProperties
 type StorageQueueEventSubscriptionDestinationPropertiesARM struct {
-	//QueueName: The name of the Storage queue under a storage account that is the
-	//destination of an event subscription.
+	//QueueName: The name of the Storage queue under a storage account that is the destination of an event subscription.
 	QueueName  *string `json:"queueName,omitempty"`
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/WebHookEventSubscriptionDestinationProperties
 type WebHookEventSubscriptionDestinationPropertiesARM struct {
-	//AzureActiveDirectoryApplicationIdOrUri: The Azure Active Directory Application
-	//ID or URI to get the access token that will be included as the bearer token in
-	//delivery requests.
+	//AzureActiveDirectoryApplicationIdOrUri: The Azure Active Directory Application ID or URI to get the access token that
+	//will be included as the bearer token in delivery requests.
 	AzureActiveDirectoryApplicationIdOrUri *string `json:"azureActiveDirectoryApplicationIdOrUri,omitempty"`
 
-	//AzureActiveDirectoryTenantId: The Azure Active Directory Tenant ID to get the
-	//access token that will be included as the bearer token in delivery requests.
+	//AzureActiveDirectoryTenantId: The Azure Active Directory Tenant ID to get the access token that will be included as the
+	//bearer token in delivery requests.
 	AzureActiveDirectoryTenantId *string `json:"azureActiveDirectoryTenantId,omitempty"`
 
-	//EndpointUrl: The URL that represents the endpoint of the destination of an event
-	//subscription.
+	//EndpointUrl: The URL that represents the endpoint of the destination of an event subscription.
 	EndpointUrl *string `json:"endpointUrl,omitempty"`
 
 	//MaxEventsPerBatch: Maximum number of events per batch.

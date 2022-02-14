@@ -171,8 +171,8 @@ func (eventhub *Eventhub_Status) ConvertStatusTo(destination genruntime.Converti
 type NamespacesEventhubs_Spec struct {
 	// +kubebuilder:validation:MaxLength=256
 	// +kubebuilder:validation:MinLength=1
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName              string                                                  `json:"azureName"`
 	CaptureDescription     *NamespacesEventhubs_Spec_Properties_CaptureDescription `json:"captureDescription,omitempty"`
 	Location               *string                                                 `json:"location,omitempty"`
@@ -250,8 +250,7 @@ type NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination struct {
 	Name                   *string                `json:"name,omitempty"`
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
-	//StorageAccountResourceReference: Resource id of the storage account to be used
-	//to create the blobs
+	//StorageAccountResourceReference: Resource id of the storage account to be used to create the blobs
 	StorageAccountResourceReference *genruntime.ResourceReference `armReference:"StorageAccountResourceId" json:"storageAccountResourceReference,omitempty"`
 }
 

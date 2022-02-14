@@ -10,8 +10,7 @@ type Registry_StatusARM struct {
 	//Identity: The identity of the container registry.
 	Identity *IdentityProperties_StatusARM `json:"identity,omitempty"`
 
-	//Location: The location of the resource. This cannot be changed after the
-	//resource is created.
+	//Location: The location of the resource. This cannot be changed after the resource is created.
 	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the resource.
@@ -23,8 +22,7 @@ type Registry_StatusARM struct {
 	//Sku: The SKU of the container registry.
 	Sku *Sku_StatusARM `json:"sku,omitempty"`
 
-	//SystemData: Metadata pertaining to creation and last modification of the
-	//resource.
+	//SystemData: Metadata pertaining to creation and last modification of the resource.
 	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
 
 	//Tags: The tags of the resource.
@@ -44,8 +42,7 @@ type IdentityProperties_StatusARM struct {
 	//Type: The identity type.
 	Type *IdentityPropertiesStatusType `json:"type,omitempty"`
 
-	//UserAssignedIdentities: The list of user identities associated with the
-	//resource. The user identity
+	//UserAssignedIdentities: The list of user identities associated with the resource. The user identity
 	//dictionary key references will be ARM resource ids in the form:
 	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
 	//providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
@@ -62,8 +59,7 @@ type RegistryProperties_StatusARM struct {
 	//DataEndpointEnabled: Enable a single data endpoint per region for serving data.
 	DataEndpointEnabled *bool `json:"dataEndpointEnabled,omitempty"`
 
-	//DataEndpointHostNames: List of host names that will serve data when
-	//dataEndpointEnabled is true.
+	//DataEndpointHostNames: List of host names that will serve data when dataEndpointEnabled is true.
 	DataEndpointHostNames []string `json:"dataEndpointHostNames,omitempty"`
 
 	//Encryption: The encryption settings of container registry.
@@ -72,8 +68,7 @@ type RegistryProperties_StatusARM struct {
 	//LoginServer: The URL that can be used to log into the container registry.
 	LoginServer *string `json:"loginServer,omitempty"`
 
-	//NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a
-	//network restricted registry.
+	//NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.
 	NetworkRuleBypassOptions *RegistryPropertiesStatusNetworkRuleBypassOptions `json:"networkRuleBypassOptions,omitempty"`
 
 	//NetworkRuleSet: The network rule set for a container registry.
@@ -82,24 +77,19 @@ type RegistryProperties_StatusARM struct {
 	//Policies: The policies for a container registry.
 	Policies *Policies_StatusARM `json:"policies,omitempty"`
 
-	//PrivateEndpointConnections: List of private endpoint connections for a container
-	//registry.
+	//PrivateEndpointConnections: List of private endpoint connections for a container registry.
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
 
-	//ProvisioningState: The provisioning state of the container registry at the time
-	//the operation was called.
+	//ProvisioningState: The provisioning state of the container registry at the time the operation was called.
 	ProvisioningState *RegistryPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
 
-	//PublicNetworkAccess: Whether or not public network access is allowed for the
-	//container registry.
+	//PublicNetworkAccess: Whether or not public network access is allowed for the container registry.
 	PublicNetworkAccess *RegistryPropertiesStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
-	//Status: The status of the container registry at the time the operation was
-	//called.
+	//Status: The status of the container registry at the time the operation was called.
 	Status *Status_StatusARM `json:"status,omitempty"`
 
-	//ZoneRedundancy: Whether or not zone redundancy is enabled for this container
-	//registry
+	//ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry
 	ZoneRedundancy *RegistryPropertiesStatusZoneRedundancy `json:"zoneRedundancy,omitempty"`
 }
 
@@ -135,8 +125,7 @@ type EncryptionProperty_StatusARM struct {
 	//KeyVaultProperties: Key vault properties.
 	KeyVaultProperties *KeyVaultProperties_StatusARM `json:"keyVaultProperties,omitempty"`
 
-	//Status: Indicates whether or not the encryption is enabled for container
-	//registry.
+	//Status: Indicates whether or not the encryption is enabled for container registry.
 	Status *EncryptionPropertyStatusStatus `json:"status,omitempty"`
 }
 
@@ -175,8 +164,7 @@ type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 	//Id: The resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//SystemData: Metadata pertaining to creation and last modification of the
-	//resource.
+	//SystemData: Metadata pertaining to creation and last modification of the resource.
 	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
 }
 
@@ -202,8 +190,7 @@ type Status_StatusARM struct {
 	//DisplayStatus: The short label for the status.
 	DisplayStatus *string `json:"displayStatus,omitempty"`
 
-	//Message: The detailed message for the status, including alerts and error
-	//messages.
+	//Message: The detailed message for the status, including alerts and error messages.
 	Message *string `json:"message,omitempty"`
 
 	//Timestamp: The timestamp when the status was changed to the current value.
@@ -262,8 +249,8 @@ type KeyVaultProperties_StatusARM struct {
 	//LastKeyRotationTimestamp: Timestamp of the last successful key rotation.
 	LastKeyRotationTimestamp *string `json:"lastKeyRotationTimestamp,omitempty"`
 
-	//VersionedKeyIdentifier: The fully qualified key identifier that includes the
-	//version of the key that is actually used for encryption.
+	//VersionedKeyIdentifier: The fully qualified key identifier that includes the version of the key that is actually used
+	//for encryption.
 	VersionedKeyIdentifier *string `json:"versionedKeyIdentifier,omitempty"`
 }
 
@@ -273,8 +260,7 @@ type QuarantinePolicy_StatusARM struct {
 }
 
 type RetentionPolicy_StatusARM struct {
-	//Days: The number of days to retain an untagged manifest after which it gets
-	//purged.
+	//Days: The number of days to retain an untagged manifest after which it gets purged.
 	Days *int `json:"days,omitempty"`
 
 	//LastUpdatedTime: The timestamp when the policy was last updated.

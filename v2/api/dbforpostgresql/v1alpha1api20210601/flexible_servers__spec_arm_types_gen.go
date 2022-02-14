@@ -41,12 +41,11 @@ func (servers FlexibleServers_SpecARM) GetType() string {
 
 //Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/ServerProperties
 type ServerPropertiesARM struct {
-	//AdministratorLogin: The administrator's login name of a server. Can only be
-	//specified when the server is being created (and is required for creation).
+	//AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
+	//(and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
 
-	//AdministratorLoginPassword: The administrator login password (required for
-	//server creation).
+	//AdministratorLoginPassword: The administrator login password (required for server creation).
 	AdministratorLoginPassword *string `json:"administratorLoginPassword,omitempty"`
 
 	//AvailabilityZone: availability zone information of the server.
@@ -67,8 +66,8 @@ type ServerPropertiesARM struct {
 	//Network: Network properties of a server
 	Network *NetworkARM `json:"network,omitempty"`
 
-	//PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the
-	//time to restore from. It's required when 'createMode' is 'PointInTimeRestore'.
+	//PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the time to restore from. It's required when
+	//'createMode' is 'PointInTimeRestore'.
 	PointInTimeUTC         *string `json:"pointInTimeUTC,omitempty"`
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
@@ -81,8 +80,7 @@ type ServerPropertiesARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Sku
 type SkuARM struct {
-	//Name: The name of the sku, typically, tier + family + cores, e.g.
-	//Standard_D4s_v3.
+	//Name: The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.
 	Name string `json:"name"`
 
 	//Tier: The tier of the particular SKU, e.g. Burstable.
@@ -94,8 +92,7 @@ type BackupARM struct {
 	//BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 
-	//GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled
-	//on the server.
+	//GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server.
 	GeoRedundantBackup *BackupGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
 }
 

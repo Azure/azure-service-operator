@@ -9,8 +9,7 @@ type Registries_SpecARM struct {
 	//Identity: Managed identity for the resource.
 	Identity *IdentityPropertiesARM `json:"identity,omitempty"`
 
-	//Location: The location of the resource. This cannot be changed after the
-	//resource is created.
+	//Location: The location of the resource. This cannot be changed after the resource is created.
 	Location string `json:"location,omitempty"`
 
 	//Name: The name of the container registry.
@@ -54,8 +53,7 @@ type IdentityPropertiesARM struct {
 	//Type: The identity type.
 	Type *IdentityPropertiesType `json:"type,omitempty"`
 
-	//UserAssignedIdentities: The list of user identities associated with the
-	//resource. The user identity
+	//UserAssignedIdentities: The list of user identities associated with the resource. The user identity
 	//dictionary key references will be ARM resource ids in the form:
 	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
 	//providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
@@ -71,8 +69,7 @@ type RegistryPropertiesARM struct {
 	DataEndpointEnabled *bool                  `json:"dataEndpointEnabled,omitempty"`
 	Encryption          *EncryptionPropertyARM `json:"encryption,omitempty"`
 
-	//NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a
-	//network restricted registry.
+	//NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.
 	NetworkRuleBypassOptions *RegistryPropertiesNetworkRuleBypassOptions `json:"networkRuleBypassOptions,omitempty"`
 
 	//NetworkRuleSet: The network rule set for a container registry.
@@ -81,12 +78,10 @@ type RegistryPropertiesARM struct {
 	//Policies: The policies for a container registry.
 	Policies *PoliciesARM `json:"policies,omitempty"`
 
-	//PublicNetworkAccess: Whether or not public network access is allowed for the
-	//container registry.
+	//PublicNetworkAccess: Whether or not public network access is allowed for the container registry.
 	PublicNetworkAccess *RegistryPropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
-	//ZoneRedundancy: Whether or not zone redundancy is enabled for this container
-	//registry.
+	//ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry.
 	ZoneRedundancy *RegistryPropertiesZoneRedundancy `json:"zoneRedundancy,omitempty"`
 }
 
@@ -100,8 +95,7 @@ type SkuARM struct {
 type EncryptionPropertyARM struct {
 	KeyVaultProperties *KeyVaultPropertiesARM `json:"keyVaultProperties,omitempty"`
 
-	//Status: Indicates whether or not the encryption is enabled for container
-	//registry.
+	//Status: Indicates whether or not the encryption is enabled for container registry.
 	Status *EncryptionPropertyStatus `json:"status,omitempty"`
 }
 
@@ -230,8 +224,7 @@ type QuarantinePolicyARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/RetentionPolicy
 type RetentionPolicyARM struct {
-	//Days: The number of days to retain an untagged manifest after which it gets
-	//purged.
+	//Days: The number of days to retain an untagged manifest after which it gets purged.
 	Days *int `json:"days,omitempty"`
 
 	//Status: The value that indicates whether the policy is enabled or not.

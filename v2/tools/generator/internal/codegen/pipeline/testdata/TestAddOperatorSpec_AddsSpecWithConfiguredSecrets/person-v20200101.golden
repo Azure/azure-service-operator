@@ -34,8 +34,8 @@ type Person_Spec struct {
 	//KnownAs: How the person is generally known
 	KnownAs string `json:"knownAs"`
 
-	//OperatorSpec: The specification for configuring operator behavior. This field is
-	//interpreted by the operator and not passed directly to Azure
+	//OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	//passed directly to Azure
 	OperatorSpec *PersonOperatorSpec `json:"operatorSpec,omitempty"`
 }
 
@@ -50,8 +50,7 @@ type PersonOperatorSpec struct {
 }
 
 type PersonOperatorSecrets struct {
-	//Key1: indicates where the key1 secret should be placed. If omitted, the secret
-	//will not be retrieved from Azure.
+	//Key1: indicates where the key1 secret should be placed. If omitted, the secret will not be retrieved from Azure.
 	Key1 *genruntime.SecretDestination `json:"key1,omitempty"`
 }
 

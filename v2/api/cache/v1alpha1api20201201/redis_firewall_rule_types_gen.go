@@ -324,8 +324,7 @@ type RedisFirewallRule_Status struct {
 	//StartIP: lowest IP address included in the range
 	StartIP *string `json:"startIP,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -494,8 +493,8 @@ type RedisFirewallRulesSpecAPIVersion string
 const RedisFirewallRulesSpecAPIVersion20201201 = RedisFirewallRulesSpecAPIVersion("2020-12-01")
 
 type RedisFirewallRules_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	// +kubebuilder:validation:Required
