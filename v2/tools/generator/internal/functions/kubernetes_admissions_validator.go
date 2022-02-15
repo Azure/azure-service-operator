@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package astmodel
+package functions
 
 import (
 	"fmt"
@@ -13,11 +13,7 @@ import (
 	"github.com/dave/dst"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
-)
-
-var (
-	ValidatorInterfaceName           = MakeTypeName(ControllerRuntimeAdmission, "Validator")
-	GenRuntimeValidatorInterfaceName = MakeTypeName(GenRuntimeReference, "Validator")
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 // ValidationKind determines when a particular validation should be run
@@ -31,20 +27,20 @@ const (
 
 // ValidatorBuilder helps in building an interface implementation for admissions.Validator.
 type ValidatorBuilder struct {
-	resourceName TypeName
-	resource     *ResourceType
-	idFactory    IdentifierFactory
+	resourceName astmodel.TypeName
+	resource     *astmodel.ResourceType
+	idFactory    astmodel.IdentifierFactory
 
-	validations map[ValidationKind][]*resourceFunction
+	validations map[ValidationKind][]*ResourceFunction
 }
 
 // NewValidatorBuilder creates a new ValidatorBuilder for the given object type.
-func NewValidatorBuilder(resourceName TypeName, resource *ResourceType, idFactory IdentifierFactory) *ValidatorBuilder {
+func NewValidatorBuilder(resourceName astmodel.TypeName, resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *ValidatorBuilder {
 	return &ValidatorBuilder{
 		resourceName: resourceName,
 		resource:     resource,
 		idFactory:    idFactory,
-		validations: map[ValidationKind][]*resourceFunction{
+		validations: map[ValidationKind][]*ResourceFunction{
 			ValidationKindCreate: nil,
 			ValidationKindUpdate: nil,
 			ValidationKindDelete: nil,
@@ -53,8 +49,8 @@ func NewValidatorBuilder(resourceName TypeName, resource *ResourceType, idFactor
 }
 
 // AddValidation adds an additional validation function to the set of validation functions to be applied to the given object.
-func (v *ValidatorBuilder) AddValidation(kind ValidationKind, f *resourceFunction) {
-	if !v.resource.Equals(f.resource, EqualityOverrides{}) {
+func (v *ValidatorBuilder) AddValidation(kind ValidationKind, f *ResourceFunction) {
+	if !v.resource.Equals(f.resource, astmodel.EqualityOverrides{}) {
 		panic("cannot add validation function on non-matching object types")
 	}
 	v.validations[kind] = append(v.validations[kind], f)
@@ -64,7 +60,7 @@ func (v *ValidatorBuilder) AddValidation(kind ValidationKind, f *resourceFunctio
 // This implementation includes calls to all validations registered with this ValidatorBuilder via the AddValidation function,
 // as well as helper functions that allow additional handcrafted validations to be injected by
 // implementing the genruntime.Validator interface.
-func (v *ValidatorBuilder) ToInterfaceImplementation() *InterfaceImplementation {
+func (v *ValidatorBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplementation {
 	group, version, ok := v.resourceName.PackageReference.GroupVersion()
 	if !ok {
 		panic(fmt.Sprintf("unexpected external package reference for resource name %s", v.resourceName))
@@ -76,7 +72,7 @@ func (v *ValidatorBuilder) ToInterfaceImplementation() *InterfaceImplementation 
 
 	resource := v.resourceName.Name()
 
-	group = strings.ToLower(group + GroupSuffix)
+	group = strings.ToLower(group + astmodel.GroupSuffix)
 	nonPluralResource := strings.ToLower(resource)
 	resource = strings.ToLower(v.resourceName.Plural().Name())
 
@@ -98,49 +94,43 @@ func (v *ValidatorBuilder) ToInterfaceImplementation() *InterfaceImplementation 
 		version,
 		name)
 
-	funcs := []Function{
-		&resourceFunction{
-			name:             "ValidateCreate",
-			resource:         v.resource,
-			idFactory:        v.idFactory,
-			asFunc:           v.validateCreate,
-			requiredPackages: NewPackageReferenceSet(GenRuntimeReference, APIMachineryErrorsReference, APIMachineryRuntimeReference),
-		},
-		&resourceFunction{
-			name:             "ValidateUpdate",
-			resource:         v.resource,
-			idFactory:        v.idFactory,
-			asFunc:           v.validateUpdate,
-			requiredPackages: NewPackageReferenceSet(GenRuntimeReference, APIMachineryErrorsReference, APIMachineryRuntimeReference),
-		},
-		&resourceFunction{
-			name:             "ValidateDelete",
-			resource:         v.resource,
-			idFactory:        v.idFactory,
-			asFunc:           v.validateDelete,
-			requiredPackages: NewPackageReferenceSet(GenRuntimeReference, APIMachineryErrorsReference, APIMachineryRuntimeReference),
-		},
-		&resourceFunction{
-			name:             "createValidations",
-			resource:         v.resource,
-			idFactory:        v.idFactory,
-			asFunc:           v.localCreateValidations,
-			requiredPackages: NewPackageReferenceSet(),
-		},
-		&resourceFunction{
-			name:             "updateValidations",
-			resource:         v.resource,
-			idFactory:        v.idFactory,
-			asFunc:           v.localUpdateValidations,
-			requiredPackages: NewPackageReferenceSet(),
-		},
-		&resourceFunction{
-			name:             "deleteValidations",
-			resource:         v.resource,
-			idFactory:        v.idFactory,
-			asFunc:           v.localDeleteValidations,
-			requiredPackages: NewPackageReferenceSet(),
-		},
+	funcs := []astmodel.Function{
+		NewResourceFunction(
+			"ValidateCreate",
+			v.resource,
+			v.idFactory,
+			v.validateCreate,
+			astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference, astmodel.APIMachineryErrorsReference, astmodel.APIMachineryRuntimeReference)),
+		NewResourceFunction(
+			"ValidateUpdate",
+			v.resource,
+			v.idFactory,
+			v.validateUpdate,
+			astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference, astmodel.APIMachineryErrorsReference, astmodel.APIMachineryRuntimeReference)),
+		NewResourceFunction(
+			"ValidateDelete",
+			v.resource,
+			v.idFactory,
+			v.validateDelete,
+			astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference, astmodel.APIMachineryErrorsReference, astmodel.APIMachineryRuntimeReference)),
+		NewResourceFunction(
+			"createValidations",
+			v.resource,
+			v.idFactory,
+			v.localCreateValidations,
+			astmodel.NewPackageReferenceSet()),
+		NewResourceFunction(
+			"updateValidations",
+			v.resource,
+			v.idFactory,
+			v.localUpdateValidations,
+			astmodel.NewPackageReferenceSet()),
+		NewResourceFunction(
+			"deleteValidations",
+			v.resource,
+			v.idFactory,
+			v.localDeleteValidations,
+			astmodel.NewPackageReferenceSet()),
 	}
 
 	// Add the actual individual validation functions
@@ -150,14 +140,14 @@ func (v *ValidatorBuilder) ToInterfaceImplementation() *InterfaceImplementation 
 		}
 	}
 
-	return NewInterfaceImplementation(
-		ValidatorInterfaceName,
+	return astmodel.NewInterfaceImplementation(
+		astmodel.ValidatorInterfaceName,
 		funcs...,
 	).WithAnnotation(annotation)
 }
 
 // validateCreate returns a function that performs validation of creation for the resource
-func (v *ValidatorBuilder) validateCreate(k *resourceFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
+func (v *ValidatorBuilder) validateCreate(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -180,7 +170,7 @@ func (v *ValidatorBuilder) validateCreate(k *resourceFunction, codeGenerationCon
 }
 
 // validateUpdate returns a function that performs validation of update for the resource
-func (v *ValidatorBuilder) validateUpdate(k *resourceFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
+func (v *ValidatorBuilder) validateUpdate(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -202,7 +192,7 @@ func (v *ValidatorBuilder) validateUpdate(k *resourceFunction, codeGenerationCon
 }
 
 // validateDelete returns a function that performs validation of deletion for the resource
-func (v *ValidatorBuilder) validateDelete(k *resourceFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
+func (v *ValidatorBuilder) validateDelete(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -240,13 +230,13 @@ func (v *ValidatorBuilder) validateDelete(k *resourceFunction, codeGenerationCon
 //		}
 //	}
 //	return kerrors.NewAggregate(errs)
-func (v *ValidatorBuilder) validateBody(codeGenerationContext *CodeGenerationContext, receiverIdent string, implFunctionName string, overrideFunctionName string, funcParamIdent string) []dst.Stmt {
-	kErrors, err := codeGenerationContext.GetImportedPackageName(APIMachineryErrorsReference)
+func (v *ValidatorBuilder) validateBody(codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string, implFunctionName string, overrideFunctionName string, funcParamIdent string) []dst.Stmt {
+	kErrors, err := codeGenerationContext.GetImportedPackageName(astmodel.APIMachineryErrorsReference)
 	if err != nil {
 		panic(err)
 	}
 
-	overrideInterfaceType := GenRuntimeValidatorInterfaceName.AsType(codeGenerationContext)
+	overrideInterfaceType := astmodel.GenRuntimeValidatorInterfaceName.AsType(codeGenerationContext)
 
 	validationsIdent := "validations"
 	validationIdent := "validation"
@@ -299,25 +289,25 @@ func (v *ValidatorBuilder) validateBody(codeGenerationContext *CodeGenerationCon
 	return body
 }
 
-func (v *ValidatorBuilder) localCreateValidations(_ *resourceFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
+func (v *ValidatorBuilder) localCreateValidations(_ *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 	fn := v.makeLocalValidationFuncDetails(ValidationKindCreate, codeGenerationContext, receiver, methodName)
 	fn.AddComments("validates the creation of the resource")
 	return fn.DefineFunc()
 }
 
-func (v *ValidatorBuilder) localUpdateValidations(_ *resourceFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
+func (v *ValidatorBuilder) localUpdateValidations(_ *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 	fn := v.makeLocalValidationFuncDetails(ValidationKindUpdate, codeGenerationContext, receiver, methodName)
 	fn.AddComments("validates the update of the resource")
 	return fn.DefineFunc()
 }
 
-func (v *ValidatorBuilder) localDeleteValidations(_ *resourceFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
+func (v *ValidatorBuilder) localDeleteValidations(_ *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 	fn := v.makeLocalValidationFuncDetails(ValidationKindDelete, codeGenerationContext, receiver, methodName)
 	fn.AddComments("validates the deletion of the resource")
 	return fn.DefineFunc()
 }
 
-func (v *ValidatorBuilder) makeLocalValidationFuncDetails(kind ValidationKind, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *astbuilder.FuncDetails {
+func (v *ValidatorBuilder) makeLocalValidationFuncDetails(kind ValidationKind, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *astbuilder.FuncDetails {
 	receiverIdent := v.idFactory.CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -351,7 +341,7 @@ func (v *ValidatorBuilder) makeLocalValidationFuncDetails(kind ValidationKind, c
 //		},
 //		<receiver>.<validationFunc2>,
 //	}
-func (v *ValidatorBuilder) localValidationFuncBody(kind ValidationKind, codeGenerationContext *CodeGenerationContext, receiver TypeName) []dst.Stmt {
+func (v *ValidatorBuilder) localValidationFuncBody(kind ValidationKind, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) []dst.Stmt {
 	var elements []dst.Expr
 	for _, validationFunc := range v.validations[kind] {
 		elements = append(elements, v.makeLocalValidationElement(kind, validationFunc, codeGenerationContext, receiver))
@@ -381,9 +371,9 @@ func (v *ValidatorBuilder) localValidationFuncBody(kind ValidationKind, codeGene
 //	}
 func (v *ValidatorBuilder) makeLocalValidationElement(
 	kind ValidationKind,
-	validation *resourceFunction,
-	codeGenerationContext *CodeGenerationContext,
-	receiver TypeName) dst.Expr {
+	validation *ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName) dst.Expr {
 
 	receiverIdent := v.idFactory.CreateReceiver(receiver.Name())
 
@@ -413,8 +403,8 @@ func (v *ValidatorBuilder) makeLocalValidationElement(
 	return astbuilder.Selector(dst.NewIdent(receiverIdent), validation.name)
 }
 
-func getValidationFuncType(kind ValidationKind, codeGenerationContext *CodeGenerationContext) *dst.FuncType {
-	runtime, err := codeGenerationContext.GetImportedPackageName(APIMachineryRuntimeReference)
+func getValidationFuncType(kind ValidationKind, codeGenerationContext *astmodel.CodeGenerationContext) *dst.FuncType {
+	runtime, err := codeGenerationContext.GetImportedPackageName(astmodel.APIMachineryRuntimeReference)
 	if err != nil {
 		panic(err)
 	}
