@@ -29,6 +29,8 @@ vars:
   CROSSPLANE_APP: crossplane-gen
   CROSSPLANE_ROOT: ./hack/crossplane/
 
+  KUBE_RBAC_PROXY: gcr.io/kubebuilder/kube-rbac-proxy
+
   # how long to let tests against live resources run for
   LIVE_TEST_TIMEOUT: 3h
 
@@ -392,6 +394,26 @@ tasks:
       - mkdir -p config/crd/out
       - find "config/crd/out" -type f -delete
       - kustomize build config/crd > config/crd/out/azureserviceoperator.yaml
+
+  controller:gen-helm-manifest:
+    desc: Generate helm manifest using Kustomize for the release
+    dir: "v2/"
+    cmds:
+     - sed -i '' 's@\({{.PUBLIC_REGISTRY}}\)\(.*\)@\1{{.CONTROLLER_DOCKER_IMAGE}}@g' ./charts/azure-service-operator/values.yaml
+     - rm -rf charts/azure-service-operator/templates/generated/rm -rf charts/azure-service-operator/templates/generated/
+     - rm -rf charts/azure-service-operator/crds # remove generated files
+     - mkdir charts/azure-service-operator/templates/generated
+     - mkdir charts/azure-service-operator/crds # create dirs for generated files
+     - kustomize build ./config/default -o ./charts/azure-service-operator/templates/generated
+     - find ./charts/azure-service-operator/templates/generated/*_customresourcedefinition_* -exec mv '{}' ./charts/azure-service-operator/crds \; # move CRD definitions to crd folder
+     - rm charts/azure-service-operator/templates/generated/*_namespace_* # remove namespace as we will let Helm manage it
+     - sed -i '' 's@{{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}}@{{ "{{.Values.image.repository}}" }}@g' ./charts/azure-service-operator/templates/generated/*_deployment_* # Replace hardcoded ASO image
+     - grep -E {{.KUBE_RBAC_PROXY}} ./charts/azure-service-operator/templates/generated/*_deployment_* # Ensure that what we're about to try to replace actually exists (if it doesn't we want to fail)
+     - sed -i '' 's@{{.KUBE_RBAC_PROXY}}.*@{{ "{{.Values.image.kubeRBACProxy}}" }}@g' ./charts/azure-service-operator/templates/generated/*_deployment_*
+     - find ./charts/azure-service-operator/templates/generated/ -type f -exec sed -i '' 's@azureserviceoperator-system@{{ "{{.Release.Namespace | azureserviceoperator-system}}" }}@g' {} \;
+     - sed -i '' '1,/version:.*/s/\(version:\)\(.*\)/\1 {{.VERSION}}/g' ./charts/azure-service-operator/Chart.yaml  # find version key and update the value with the current version
+     - helm package ./charts/azure-service-operator -d ./charts # package the necessary files into a tar file
+     - helm repo index ./charts # update Chart.yaml for Helm Repository
 
   controller:kind-delete:
     desc: Deletes a kind cluster
