@@ -21,8 +21,8 @@ var typeWalkerRemoveType = MakeTypeName(LocalPackageReference{}, "TypeWalkerRemo
 // MakeContext is called before each visit, and AfterVisit is called after each visit. ShouldRemoveCycle is called
 // if a cycle is detected.
 type TypeWalker struct {
-	allTypes TypeDefinitionSet
-	visitor  TypeVisitor
+	allDefinitions TypeDefinitionSet
+	visitor        TypeVisitor
 
 	// MakeContext is called before any type is visited - including before the root type is visited. It is given the current context and returns
 	// a new context for use in the upcoming Visit. When visiting the root type, the ctx parameter is always nil.
@@ -45,9 +45,9 @@ type typeWalkerState struct {
 // NewTypeWalker returns a TypeWalker.
 // The provided visitor visitTypeName function must return a TypeName and visitObjectType must return an ObjectType or calls to
 // Walk will panic.
-func NewTypeWalker(allTypes TypeDefinitionSet, visitor TypeVisitor) *TypeWalker {
+func NewTypeWalker(allDefs TypeDefinitionSet, visitor TypeVisitor) *TypeWalker {
 	typeWalker := TypeWalker{
-		allTypes:                allTypes,
+		allDefinitions:          allDefs,
 		originalVisitTypeName:   visitor.visitTypeName,
 		originalVisitObjectType: visitor.visitObjectType,
 		AfterVisit:              IdentityAfterVisit,
@@ -85,7 +85,7 @@ func (t *TypeWalker) visitTypeName(this *TypeVisitor, it TypeName, ctx interface
 		return it, nil
 	}
 
-	def, ok := t.allTypes[it]
+	def, ok := t.allDefinitions[it]
 	if !ok {
 		return nil, errors.Errorf("couldn't find type %q", it)
 	}

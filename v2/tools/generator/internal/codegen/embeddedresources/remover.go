@@ -55,7 +55,7 @@ func (e resourceRemovalVisitorContext) WithMoreDepth() resourceRemovalVisitorCon
 // the only difference being that for Status definitions the resource reference in Swagger (the source of the Status definitions)
 // is to the Status type (as opposed to the "Properties" type for Spec).
 type EmbeddedResourceRemover struct {
-	types                    astmodel.TypeDefinitionSet
+	definitions              astmodel.TypeDefinitionSet
 	resourceToSubresourceMap map[astmodel.TypeName]astmodel.TypeNameSet
 	resourcePropertiesTypes  astmodel.TypeNameSet
 	resourceStatusTypes      astmodel.TypeNameSet
@@ -77,7 +77,7 @@ func MakeEmbeddedResourceRemover(definitions astmodel.TypeDefinitionSet) (Embedd
 	}
 
 	remover := EmbeddedResourceRemover{
-		types:                    definitions,
+		definitions:              definitions,
 		resourceToSubresourceMap: resourceToSubresourceMap,
 		resourcePropertiesTypes:  resourcePropertiesTypes,
 		resourceStatusTypes:      resourceStatusTypes,
@@ -94,7 +94,7 @@ func (e EmbeddedResourceRemover) RemoveEmbeddedResources() (astmodel.TypeDefinit
 
 	visitor := e.makeEmbeddedResourceRemovalTypeVisitor()
 
-	for _, def := range e.types {
+	for _, def := range e.definitions {
 		if astmodel.IsResourceDefinition(def) {
 			typeWalker := e.newResourceRemovalTypeWalker(visitor, def)
 
@@ -164,7 +164,7 @@ func (e EmbeddedResourceRemover) makeEmbeddedResourceRemovalTypeVisitor() astmod
 }
 
 func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.TypeVisitor, def astmodel.TypeDefinition) *astmodel.TypeWalker {
-	typeWalker := astmodel.NewTypeWalker(e.types, visitor)
+	typeWalker := astmodel.NewTypeWalker(e.definitions, visitor)
 	typeWalker.AfterVisit = func(original astmodel.TypeDefinition, updated astmodel.TypeDefinition, ctx interface{}) (astmodel.TypeDefinition, error) {
 		typedCtx := ctx.(resourceRemovalVisitorContext)
 
