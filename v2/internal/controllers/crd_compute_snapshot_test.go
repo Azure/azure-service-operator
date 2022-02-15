@@ -37,6 +37,8 @@ func Test_Compute_Snapshot_CRUD(t *testing.T) {
 
 	tc.CreateResourceAndWait(snapshot)
 	tc.Expect(snapshot.Status.Id).ToNot(BeNil())
+	tc.Expect(*snapshot.Status.DiskSizeGB).To(Equal(*snapshot.Spec.DiskSizeGB))
+	tc.Expect(*snapshot.Status.Location).To(Equal(snapshot.Spec.Location))
 	armId := *snapshot.Status.Id
 
 	// Perform a simple patch to resize the disk

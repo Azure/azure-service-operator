@@ -1,16 +1,3 @@
-apiVersion: compute.azure.com/v1alpha1api20201201
-kind: Snapshot
-metadata:
-  name: aso-sample-snapshot
-  namespace: default
-spec:
-  location: westcentralus
-  owner:
-    name: aso-sample-rg
-  creationData:
-    creatOption: empty
-  diskSizeGB: 64
----
 apiVersion: compute.azure.com/v1alpha1api20210701
 kind: Image
 metadata:

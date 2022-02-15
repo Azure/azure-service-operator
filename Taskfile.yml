@@ -252,7 +252,6 @@ tasks:
     deps: [controller:run-kustomize-for-envtest]
     cmds:
     # -race fails at the moment in controller-runtime
-    
     - go test -timeout 15m -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers
     vars:
       VERBOSE:
