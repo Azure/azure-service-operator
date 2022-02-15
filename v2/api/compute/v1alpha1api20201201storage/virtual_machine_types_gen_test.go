@@ -5,6 +5,7 @@ package v1alpha1api20201201storage
 
 import (
 	"encoding/json"
+	"github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20210701storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -636,6 +637,48 @@ func AddRelatedPropertyGeneratorsForDiagnosticsProfileStatus(gens map[string]gop
 	gens["BootDiagnostics"] = gen.PtrOf(BootDiagnosticsStatusGenerator())
 }
 
+func Test_ExtendedLocation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ExtendedLocation to ExtendedLocation via AssignPropertiesToExtendedLocation & AssignPropertiesFromExtendedLocation returns original",
+		prop.ForAll(RunPropertyAssignmentTestForExtendedLocation, ExtendedLocationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForExtendedLocation tests if a specific instance of ExtendedLocation can be assigned to v1alpha1api20210701storage and back losslessly
+func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20210701storage.ExtendedLocation
+	err := copied.AssignPropertiesToExtendedLocation(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ExtendedLocation
+	err = actual.AssignPropertiesFromExtendedLocation(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ExtendedLocation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -694,6 +737,48 @@ func ExtendedLocationGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForExtendedLocation(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ExtendedLocation_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ExtendedLocation_Status to ExtendedLocation_Status via AssignPropertiesToExtendedLocationStatus & AssignPropertiesFromExtendedLocationStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForExtendedLocationStatus, ExtendedLocationStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForExtendedLocationStatus tests if a specific instance of ExtendedLocation_Status can be assigned to v1alpha1api20210701storage and back losslessly
+func RunPropertyAssignmentTestForExtendedLocationStatus(subject ExtendedLocation_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20210701storage.ExtendedLocation_Status
+	err := copied.AssignPropertiesToExtendedLocationStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ExtendedLocation_Status
+	err = actual.AssignPropertiesFromExtendedLocationStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ExtendedLocation_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1491,6 +1576,48 @@ func AddRelatedPropertyGeneratorsForStorageProfileStatus(gens map[string]gopter.
 	gens["OsDisk"] = gen.PtrOf(OSDiskStatusGenerator())
 }
 
+func Test_SubResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SubResource to SubResource via AssignPropertiesToSubResource & AssignPropertiesFromSubResource returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSubResource, SubResourceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSubResource tests if a specific instance of SubResource can be assigned to v1alpha1api20210701storage and back losslessly
+func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20210701storage.SubResource
+	err := copied.AssignPropertiesToSubResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SubResource
+	err = actual.AssignPropertiesFromSubResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SubResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1542,6 +1669,48 @@ func SubResourceGenerator() gopter.Gen {
 	subResourceGenerator = gen.Struct(reflect.TypeOf(SubResource{}), generators)
 
 	return subResourceGenerator
+}
+
+func Test_SubResource_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SubResource_Status to SubResource_Status via AssignPropertiesToSubResourceStatus & AssignPropertiesFromSubResourceStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSubResourceStatus, SubResourceStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSubResourceStatus tests if a specific instance of SubResource_Status can be assigned to v1alpha1api20210701storage and back losslessly
+func RunPropertyAssignmentTestForSubResourceStatus(subject SubResource_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20210701storage.SubResource_Status
+	err := copied.AssignPropertiesToSubResourceStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SubResource_Status
+	err = actual.AssignPropertiesFromSubResourceStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SubResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -5410,6 +5579,48 @@ func AddIndependentPropertyGeneratorsForApiErrorStatus(gens map[string]gopter.Ge
 func AddRelatedPropertyGeneratorsForApiErrorStatus(gens map[string]gopter.Gen) {
 	gens["Details"] = gen.SliceOf(ApiErrorBaseStatusGenerator())
 	gens["Innererror"] = gen.PtrOf(InnerErrorStatusGenerator())
+}
+
+func Test_DiskEncryptionSetParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DiskEncryptionSetParameters to DiskEncryptionSetParameters via AssignPropertiesToDiskEncryptionSetParameters & AssignPropertiesFromDiskEncryptionSetParameters returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDiskEncryptionSetParameters, DiskEncryptionSetParametersGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDiskEncryptionSetParameters tests if a specific instance of DiskEncryptionSetParameters can be assigned to v1alpha1api20210701storage and back losslessly
+func RunPropertyAssignmentTestForDiskEncryptionSetParameters(subject DiskEncryptionSetParameters) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20210701storage.DiskEncryptionSetParameters
+	err := copied.AssignPropertiesToDiskEncryptionSetParameters(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DiskEncryptionSetParameters
+	err = actual.AssignPropertiesFromDiskEncryptionSetParameters(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_DiskEncryptionSetParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

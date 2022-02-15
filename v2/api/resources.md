@@ -46,6 +46,7 @@ Use CRD version `v1alpha1api20210301`
 ### ARM version 2020-09-30
 
 - Disk ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1alpha1api20200930_disk.yaml))
+- Snapshot ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1alpha1api20200930_snapshot.yaml))
 
 Use CRD version `v1alpha1api20200930`
 
@@ -56,6 +57,13 @@ Use CRD version `v1alpha1api20200930`
 - VirtualMachineScaleSet ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1alpha1api20201201_virtualmachinescaleset.yaml))
 
 Use CRD version `v1alpha1api20201201`
+
+
+### ARM version 2021-07-01
+
+- Image ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1alpha1api20210701_image.yaml))
+
+Use CRD version `v1alpha1api20210701`
 
 ## containerregistry
 

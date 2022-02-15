@@ -9,6 +9,7 @@ import (
 	"context"
 	"fmt"
 	"math"
+	"strings"
 	"testing"
 	"time"
 
@@ -436,6 +437,14 @@ func (tc *KubePerTestContext) DeleteResourcesAndWait(objs ...client.Object) {
 	for _, obj := range objs {
 		tc.Eventually(obj).Should(tc.Match.BeDeleted())
 	}
+}
+
+// LogSection creates a distinctive header in the log to aid scanning
+func (tc *KubePerTestContext) LogSection(section string) {
+	line := strings.Repeat("=", 50)
+	tc.T.Log(line)
+	tc.T.Log(section)
+	tc.T.Log(line)
 }
 
 type Subtest struct {

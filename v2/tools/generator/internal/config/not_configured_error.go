@@ -50,8 +50,9 @@ func (e NotConfiguredError) Error() string {
 
 	sort.Strings(e.options)
 	return fmt.Sprintf(
-		"%s (available %s are %s",
+		"%s (%d available %s are %s)",
 		e.message,
+		len(e.options),
 		e.optionKind,
 		strings.Join(e.options, "; "))
 }
