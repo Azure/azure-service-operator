@@ -1,0 +1,64 @@
+# Create secret or use an existing secret
+createAzureOperatorSecret: true
+
+# azureTenantID is the AAD tenant that the subscription is in
+azureTenantID: ""
+# azureSubscriptionID is the Azure Subscription the operator will act against.
+azureSubscriptionID: ""
+
+# azureOperatorKeyvault is the Azure Key Vault to store secrets in. This field is optional.
+azureOperatorKeyvault: ""
+
+# cloudEnvironment is the cloud environment. Possible values include: AzurePublicCloud, AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud
+cloudEnvironment: AzurePublicCloud
+
+# azureClientID is the client ID of the Azure Service Principal or Managed Identity to use to authenticate with Azure.
+azureClientID: ""
+
+# azureClientSecret is the client secret of the Azure Service Principal used to authenticate with Azure.
+# This is required when using Service Principal authentication.
+azureClientSecret: ""
+
+# azureUseMI determines if ASO will use a Managed Identity to authenticate.
+azureUseMI: False
+
+# azureSecretNamingVersion allows choosing the algorithm used to derive secret names. Version 2 is recommended.
+azureSecretNamingVersion: "2"
+
+# purgeDeletedKeyVaultSecrets determines if the operator should issue a secret Purge request in addition
+# to Delete when deleting secrets in Azure Key Vault. This only applies to secrets that are stored in Azure Key Vault.
+# It does nothing if the secret is stored in Kubernetes.
+purgeDeletedKeyVaultSecrets: False
+
+# recoverSoftDeletedKeyVaultSecrets determines if the operator should issue a secret Recover request when it
+# encounters an "ObjectIsDeletedButRecoverable" error from Azure Key Vault during secret creation. This error
+# can occur when a Key Vault has soft delete enabled and an ASO resource was deleted and recreated with the same name.
+# This only applies to secrets that are stored in Azure Key Vault.
+# It does nothing if the secret is stored in Kubernetes.
+recoverSoftDeletedKeyVaultSecrets: True
+
+# image defines the container image the ASO pod should run
+# Note: This should use the latest released tag number explicitly. If
+# it's ':latest' and someone deploys the chart after a new version has
+# been released but before the the chart is updated, they could get
+# errors, eg. due to types in the operator binary that have no
+# corresponding CRD yaml in the cart (and so no CRD in the k8s
+# repository).
+image:
+  repository: mcr.microsoft.com/k8s/azureserviceoperator:v2.0.0-alpha.5
+  kubeRBACProxy: gcr.io/kubebuilder/kube-rbac-proxy:v0.4.1 
+
+# installAadPodIdentity determines if the aad-pod-identity subchart should be installed.
+installAadPodIdentity: False
+
+aad-pod-identity:
+  azureIdentities:
+    aso-identity:
+      name: aso-identity
+      type: 0
+      # Update values for Managed Identity
+      resourceID: ""
+      clientID: ""
+      binding:
+        name: aso-identity-binding
+        selector: aso_manager_binding

@@ -1,0 +1,1028 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: azureserviceoperator-system/azureserviceoperator-serving-cert
+    controller-gen.kubebuilder.io/version: (devel)
+  name: publicipaddresses.network.azure.com
+spec:
+  conversion:
+    strategy: Webhook
+    webhook:
+      clientConfig:
+        service:
+          name: azureserviceoperator-webhook-service
+          namespace: azureserviceoperator-system
+          path: /convert
+      conversionReviewVersions:
+      - v1beta1
+  group: network.azure.com
+  names:
+    kind: PublicIPAddress
+    listKind: PublicIPAddressList
+    plural: publicipaddresses
+    singular: publicipaddress
+  preserveUnknownFields: false
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1alpha1api20201101
+    schema:
+      openAPIV3Schema:
+        description: 'Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/publicIPAddresses'
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              azureName:
+                description: 'AzureName: The name of the resource in Azure. This is
+                  often the same as the name of the resource in Kubernetes but it
+                  doesn''t have to be.'
+                type: string
+              ddosSettings:
+                description: 'DdosSettings: The DDoS protection custom policy associated
+                  with the public IP address.'
+                properties:
+                  ddosCustomPolicy:
+                    description: 'DdosCustomPolicy: The DDoS custom policy associated
+                      with the public IP.'
+                    properties:
+                      reference:
+                        description: 'Reference: Resource ID.'
+                        properties:
+                          armId:
+                            description: 'TODO: The below regex may be overly restrictive
+                              ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                              The /resourcegroups/{resourceGroupName} bit is optional
+                              as some resources are scoped at the subscription level
+                              ARMID is mutually exclusive with Group, Kind, Namespace
+                              and Name.'
+                            pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                            type: string
+                          group:
+                            description: Group is the Kubernetes group of the resource.
+                            type: string
+                          kind:
+                            description: Kind is the Kubernetes kind of the resource.
+                            type: string
+                          name:
+                            description: Name is the Kubernetes name of the resource.
+                            type: string
+                        type: object
+                    required:
+                    - reference
+                    type: object
+                  protectedIP:
+                    description: 'ProtectedIP: Enables DDoS protection on the public
+                      IP.'
+                    type: boolean
+                  protectionCoverage:
+                    description: 'ProtectionCoverage: The DDoS protection policy customizability
+                      of the public IP. Only standard coverage will have the ability
+                      to be customized.'
+                    enum:
+                    - Basic
+                    - Standard
+                    type: string
+                type: object
+              dnsSettings:
+                description: 'DnsSettings: The FQDN of the DNS record associated with
+                  the public IP address.'
+                properties:
+                  domainNameLabel:
+                    description: 'DomainNameLabel: The domain name label. The concatenation
+                      of the domain name label and the regionalized DNS zone make
+                      up the fully qualified domain name associated with the public
+                      IP address. If a domain name label is specified, an A DNS record
+                      is created for the public IP in the Microsoft Azure DNS system.'
+                    type: string
+                  fqdn:
+                    description: 'Fqdn: The Fully Qualified Domain Name of the A DNS
+                      record associated with the public IP. This is the concatenation
+                      of the domainNameLabel and the regionalized DNS zone.'
+                    type: string
+                  reverseFqdn:
+                    description: 'ReverseFqdn: The reverse FQDN. A user-visible, fully
+                      qualified domain name that resolves to this public IP address.
+                      If the reverseFqdn is specified, then a PTR DNS record is created
+                      pointing from the IP address in the in-addr.arpa domain to the
+                      reverse FQDN.'
+                    type: string
+                required:
+                - domainNameLabel
+                type: object
+              extendedLocation:
+                description: 'ExtendedLocation: The extended location of the public
+                  ip address.'
+                properties:
+                  name:
+                    description: 'Name: The name of the extended location.'
+                    type: string
+                  type:
+                    description: 'Type: The type of the extended location.'
+                    enum:
+                    - EdgeZone
+                    type: string
+                required:
+                - name
+                - type
+                type: object
+              idleTimeoutInMinutes:
+                description: 'IdleTimeoutInMinutes: The idle timeout of the public
+                  IP address.'
+                type: integer
+              ipAddress:
+                description: 'IpAddress: The IP address associated with the public
+                  IP address resource.'
+                type: string
+              ipTags:
+                description: 'IpTags: The list of tags associated with the public
+                  IP address.'
+                items:
+                  description: 'Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IpTag'
+                  properties:
+                    ipTagType:
+                      description: 'IpTagType: The IP tag type. Example: FirstPartyUsage.'
+                      type: string
+                    tag:
+                      description: 'Tag: The value of the IP tag associated with the
+                        public IP. Example: SQL.'
+                      type: string
+                  type: object
+                type: array
+              location:
+                description: 'Location: Location to deploy resource to'
+                type: string
+              owner:
+                description: KnownResourceReference is a resource reference to a known
+                  type.
+                properties:
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                required:
+                - name
+                type: object
+              publicIPAddressVersion:
+                description: 'PublicIPAddressVersion: The public IP address version.'
+                enum:
+                - IPv4
+                - IPv6
+                type: string
+              publicIPAllocationMethod:
+                description: 'PublicIPAllocationMethod: The public IP address allocation
+                  method.'
+                enum:
+                - Dynamic
+                - Static
+                type: string
+              publicIPPrefix:
+                description: 'PublicIPPrefix: The Public IP Prefix this Public IP
+                  Address should be allocated from.'
+                properties:
+                  reference:
+                    description: 'Reference: Resource ID.'
+                    properties:
+                      armId:
+                        description: 'TODO: The below regex may be overly restrictive
+                          ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                          The /resourcegroups/{resourceGroupName} bit is optional
+                          as some resources are scoped at the subscription level ARMID
+                          is mutually exclusive with Group, Kind, Namespace and Name.'
+                        pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                        type: string
+                      group:
+                        description: Group is the Kubernetes group of the resource.
+                        type: string
+                      kind:
+                        description: Kind is the Kubernetes kind of the resource.
+                        type: string
+                      name:
+                        description: Name is the Kubernetes name of the resource.
+                        type: string
+                    type: object
+                required:
+                - reference
+                type: object
+              sku:
+                description: 'Sku: The public IP address SKU.'
+                properties:
+                  name:
+                    description: 'Name: Name of a public IP address SKU.'
+                    enum:
+                    - Basic
+                    - Standard
+                    type: string
+                  tier:
+                    description: 'Tier: Tier of a public IP address SKU.'
+                    enum:
+                    - Global
+                    - Regional
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Name-value pairs to add to the resource'
+                type: object
+              zones:
+                description: 'Zones: A list of availability zones denoting the IP
+                  allocated for the resource needs to come from.'
+                items:
+                  type: string
+                type: array
+            required:
+            - owner
+            - publicIPAllocationMethod
+            type: object
+          status:
+            properties:
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: ObservedGeneration is the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.condition[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: Reason for the condition's last transition. Reasons
+                        are upper CamelCase (PascalCase) with no spaces. A reason
+                        is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: Severity with which to treat failures of this type
+                        of condition. For conditions which have positive polarity
+                        (Status == True is their normal/healthy state), this will
+                        be omitted when Status == True For conditions which have negative
+                        polarity (Status == False is their normal/healthy state),
+                        this will be omitted when Status == False. This is omitted
+                        in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              ddosSettings:
+                description: 'DdosSettings: The DDoS protection custom policy associated
+                  with the public IP address.'
+                properties:
+                  ddosCustomPolicy:
+                    description: 'DdosCustomPolicy: The DDoS custom policy associated
+                      with the public IP.'
+                    properties:
+                      id:
+                        description: 'Id: Resource ID.'
+                        type: string
+                    type: object
+                  protectedIP:
+                    description: 'ProtectedIP: Enables DDoS protection on the public
+                      IP.'
+                    type: boolean
+                  protectionCoverage:
+                    description: 'ProtectionCoverage: The DDoS protection policy customizability
+                      of the public IP. Only standard coverage will have the ability
+                      to be customized.'
+                    type: string
+                type: object
+              dnsSettings:
+                description: 'DnsSettings: The FQDN of the DNS record associated with
+                  the public IP address.'
+                properties:
+                  domainNameLabel:
+                    description: 'DomainNameLabel: The domain name label. The concatenation
+                      of the domain name label and the regionalized DNS zone make
+                      up the fully qualified domain name associated with the public
+                      IP address. If a domain name label is specified, an A DNS record
+                      is created for the public IP in the Microsoft Azure DNS system.'
+                    type: string
+                  fqdn:
+                    description: 'Fqdn: The Fully Qualified Domain Name of the A DNS
+                      record associated with the public IP. This is the concatenation
+                      of the domainNameLabel and the regionalized DNS zone.'
+                    type: string
+                  reverseFqdn:
+                    description: 'ReverseFqdn: The reverse FQDN. A user-visible, fully
+                      qualified domain name that resolves to this public IP address.
+                      If the reverseFqdn is specified, then a PTR DNS record is created
+                      pointing from the IP address in the in-addr.arpa domain to the
+                      reverse FQDN.'
+                    type: string
+                type: object
+              etag:
+                description: 'Etag: A unique read-only string that changes whenever
+                  the resource is updated.'
+                type: string
+              extendedLocation:
+                description: 'ExtendedLocation: The extended location of the public
+                  ip address.'
+                properties:
+                  name:
+                    description: 'Name: The name of the extended location.'
+                    type: string
+                  type:
+                    description: 'Type: The type of the extended location.'
+                    type: string
+                required:
+                - name
+                - type
+                type: object
+              id:
+                description: 'Id: Resource ID.'
+                type: string
+              idleTimeoutInMinutes:
+                description: 'IdleTimeoutInMinutes: The idle timeout of the public
+                  IP address.'
+                type: integer
+              ipAddress:
+                description: 'IpAddress: The IP address associated with the public
+                  IP address resource.'
+                type: string
+              ipConfiguration:
+                description: 'IpConfiguration: The IP configuration associated with
+                  the public IP address.'
+                properties:
+                  etag:
+                    description: 'Etag: A unique read-only string that changes whenever
+                      the resource is updated.'
+                    type: string
+                  id:
+                    description: 'Id: Resource ID.'
+                    type: string
+                  name:
+                    description: 'Name: The name of the resource that is unique within
+                      a resource group. This name can be used to access the resource.'
+                    type: string
+                  privateIPAddress:
+                    description: 'PrivateIPAddress: The private IP address of the
+                      IP configuration.'
+                    type: string
+                  privateIPAllocationMethod:
+                    description: 'PrivateIPAllocationMethod: The private IP address
+                      allocation method.'
+                    type: string
+                  provisioningState:
+                    description: 'ProvisioningState: The provisioning state of the
+                      IP configuration resource.'
+                    type: string
+                  subnet:
+                    description: 'Subnet: The reference to the subnet resource.'
+                    properties:
+                      id:
+                        description: 'Id: Resource ID.'
+                        type: string
+                    type: object
+                type: object
+              ipTags:
+                description: 'IpTags: The list of tags associated with the public
+                  IP address.'
+                items:
+                  properties:
+                    ipTagType:
+                      description: 'IpTagType: The IP tag type. Example: FirstPartyUsage.'
+                      type: string
+                    tag:
+                      description: 'Tag: The value of the IP tag associated with the
+                        public IP. Example: SQL.'
+                      type: string
+                  type: object
+                type: array
+              location:
+                description: 'Location: Resource location.'
+                type: string
+              migrationPhase:
+                description: 'MigrationPhase: Migration phase of Public IP Address.'
+                type: string
+              name:
+                description: 'Name: Resource name.'
+                type: string
+              natGateway:
+                description: 'NatGateway: The NatGateway for the Public IP address.'
+                properties:
+                  id:
+                    description: 'Id: Resource ID.'
+                    type: string
+                  sku:
+                    description: 'Sku: The nat gateway SKU.'
+                    properties:
+                      name:
+                        description: 'Name: Name of Nat Gateway SKU.'
+                        type: string
+                    type: object
+                  zones:
+                    description: 'Zones: A list of availability zones denoting the
+                      zone in which Nat Gateway should be deployed.'
+                    items:
+                      type: string
+                    type: array
+                type: object
+              provisioningState:
+                description: 'ProvisioningState: The provisioning state of the public
+                  IP address resource.'
+                type: string
+              publicIPAddressVersion:
+                description: 'PublicIPAddressVersion: The public IP address version.'
+                type: string
+              publicIPAllocationMethod:
+                description: 'PublicIPAllocationMethod: The public IP address allocation
+                  method.'
+                type: string
+              publicIPPrefix:
+                description: 'PublicIPPrefix: The Public IP Prefix this Public IP
+                  Address should be allocated from.'
+                properties:
+                  id:
+                    description: 'Id: Resource ID.'
+                    type: string
+                type: object
+              resourceGuid:
+                description: 'ResourceGuid: The resource GUID property of the public
+                  IP address resource.'
+                type: string
+              sku:
+                description: 'Sku: The public IP address SKU.'
+                properties:
+                  name:
+                    description: 'Name: Name of a public IP address SKU.'
+                    type: string
+                  tier:
+                    description: 'Tier: Tier of a public IP address SKU.'
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Resource tags.'
+                type: object
+              type:
+                description: 'Type: Resource type.'
+                type: string
+              zones:
+                description: 'Zones: A list of availability zones denoting the IP
+                  allocated for the resource needs to come from.'
+                items:
+                  type: string
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1alpha1api20201101storage
+    schema:
+      openAPIV3Schema:
+        description: 'Storage version of v1alpha1api20201101.PublicIPAddress Generated
+          from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/publicIPAddresses'
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1alpha1api20201101.PublicIPAddresses_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: PropertyBag is an unordered set of stashed information
+                  that used for properties not directly supported by storage resources,
+                  allowing for full fidelity round trip conversions
+                type: object
+              azureName:
+                description: 'AzureName: The name of the resource in Azure. This is
+                  often the same as the name of the resource in Kubernetes but it
+                  doesn''t have to be.'
+                type: string
+              ddosSettings:
+                description: 'Storage version of v1alpha1api20201101.DdosSettings
+                  Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DdosSettings'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  ddosCustomPolicy:
+                    description: 'Storage version of v1alpha1api20201101.SubResource
+                      Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/SubResource'
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information
+                          that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      reference:
+                        description: 'Reference: Resource ID.'
+                        properties:
+                          armId:
+                            description: 'TODO: The below regex may be overly restrictive
+                              ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                              The /resourcegroups/{resourceGroupName} bit is optional
+                              as some resources are scoped at the subscription level
+                              ARMID is mutually exclusive with Group, Kind, Namespace
+                              and Name.'
+                            pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                            type: string
+                          group:
+                            description: Group is the Kubernetes group of the resource.
+                            type: string
+                          kind:
+                            description: Kind is the Kubernetes kind of the resource.
+                            type: string
+                          name:
+                            description: Name is the Kubernetes name of the resource.
+                            type: string
+                        type: object
+                    required:
+                    - reference
+                    type: object
+                  protectedIP:
+                    type: boolean
+                  protectionCoverage:
+                    type: string
+                type: object
+              dnsSettings:
+                description: 'Storage version of v1alpha1api20201101.PublicIPAddressDnsSettings
+                  Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressDnsSettings'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  domainNameLabel:
+                    type: string
+                  fqdn:
+                    type: string
+                  reverseFqdn:
+                    type: string
+                type: object
+              extendedLocation:
+                description: 'Storage version of v1alpha1api20201101.ExtendedLocation
+                  Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ExtendedLocation'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  name:
+                    type: string
+                  type:
+                    type: string
+                type: object
+              idleTimeoutInMinutes:
+                type: integer
+              ipAddress:
+                type: string
+              ipTags:
+                items:
+                  description: 'Storage version of v1alpha1api20201101.IpTag Generated
+                    from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IpTag'
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: PropertyBag is an unordered set of stashed information
+                        that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    ipTagType:
+                      type: string
+                    tag:
+                      type: string
+                  type: object
+                type: array
+              location:
+                type: string
+              originalVersion:
+                type: string
+              owner:
+                description: KnownResourceReference is a resource reference to a known
+                  type.
+                properties:
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                required:
+                - name
+                type: object
+              publicIPAddressVersion:
+                type: string
+              publicIPAllocationMethod:
+                type: string
+              publicIPPrefix:
+                description: 'Storage version of v1alpha1api20201101.SubResource Generated
+                  from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/SubResource'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  reference:
+                    description: 'Reference: Resource ID.'
+                    properties:
+                      armId:
+                        description: 'TODO: The below regex may be overly restrictive
+                          ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                          The /resourcegroups/{resourceGroupName} bit is optional
+                          as some resources are scoped at the subscription level ARMID
+                          is mutually exclusive with Group, Kind, Namespace and Name.'
+                        pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                        type: string
+                      group:
+                        description: Group is the Kubernetes group of the resource.
+                        type: string
+                      kind:
+                        description: Kind is the Kubernetes kind of the resource.
+                        type: string
+                      name:
+                        description: Name is the Kubernetes name of the resource.
+                        type: string
+                    type: object
+                required:
+                - reference
+                type: object
+              sku:
+                description: 'Storage version of v1alpha1api20201101.PublicIPAddressSku
+                  Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressSku'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  name:
+                    type: string
+                  tier:
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              zones:
+                items:
+                  type: string
+                type: array
+            required:
+            - owner
+            type: object
+          status:
+            description: Storage version of v1alpha1api20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: PropertyBag is an unordered set of stashed information
+                  that used for properties not directly supported by storage resources,
+                  allowing for full fidelity round trip conversions
+                type: object
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: ObservedGeneration is the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.condition[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: Reason for the condition's last transition. Reasons
+                        are upper CamelCase (PascalCase) with no spaces. A reason
+                        is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: Severity with which to treat failures of this type
+                        of condition. For conditions which have positive polarity
+                        (Status == True is their normal/healthy state), this will
+                        be omitted when Status == True For conditions which have negative
+                        polarity (Status == False is their normal/healthy state),
+                        this will be omitted when Status == False. This is omitted
+                        in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              ddosSettings:
+                description: Storage version of v1alpha1api20201101.DdosSettings_Status
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  ddosCustomPolicy:
+                    description: Storage version of v1alpha1api20201101.SubResource_Status
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information
+                          that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      id:
+                        type: string
+                    type: object
+                  protectedIP:
+                    type: boolean
+                  protectionCoverage:
+                    type: string
+                type: object
+              dnsSettings:
+                description: Storage version of v1alpha1api20201101.PublicIPAddressDnsSettings_Status
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  domainNameLabel:
+                    type: string
+                  fqdn:
+                    type: string
+                  reverseFqdn:
+                    type: string
+                type: object
+              etag:
+                type: string
+              extendedLocation:
+                description: Storage version of v1alpha1api20201101.ExtendedLocation_Status
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  name:
+                    type: string
+                  type:
+                    type: string
+                type: object
+              id:
+                type: string
+              idleTimeoutInMinutes:
+                type: integer
+              ipAddress:
+                type: string
+              ipConfiguration:
+                description: Storage version of v1alpha1api20201101.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  etag:
+                    type: string
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  privateIPAddress:
+                    type: string
+                  privateIPAllocationMethod:
+                    type: string
+                  provisioningState:
+                    type: string
+                  subnet:
+                    description: Storage version of v1alpha1api20201101.Subnet_Status_PublicIPAddress_SubResourceEmbedded
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information
+                          that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      id:
+                        type: string
+                    type: object
+                type: object
+              ipTags:
+                items:
+                  description: Storage version of v1alpha1api20201101.IpTag_Status
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: PropertyBag is an unordered set of stashed information
+                        that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    ipTagType:
+                      type: string
+                    tag:
+                      type: string
+                  type: object
+                type: array
+              location:
+                type: string
+              migrationPhase:
+                type: string
+              name:
+                type: string
+              natGateway:
+                description: Storage version of v1alpha1api20201101.NatGateway_Status_PublicIPAddress_SubResourceEmbedded
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  id:
+                    type: string
+                  sku:
+                    description: Storage version of v1alpha1api20201101.NatGatewaySku_Status
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information
+                          that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      name:
+                        type: string
+                    type: object
+                  zones:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              provisioningState:
+                type: string
+              publicIPAddressVersion:
+                type: string
+              publicIPAllocationMethod:
+                type: string
+              publicIPPrefix:
+                description: Storage version of v1alpha1api20201101.SubResource_Status
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  id:
+                    type: string
+                type: object
+              resourceGuid:
+                type: string
+              sku:
+                description: Storage version of v1alpha1api20201101.PublicIPAddressSku_Status
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  name:
+                    type: string
+                  tier:
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              type:
+                type: string
+              zones:
+                items:
+                  type: string
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
