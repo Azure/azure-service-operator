@@ -78,6 +78,7 @@ func init() {
 		copyKnownType(astmodel.KnownResourceReferenceType, "Copy", returnsValue),
 		copyKnownType(astmodel.ResourceReferenceType, "Copy", returnsValue),
 		copyKnownType(astmodel.SecretReferenceType, "Copy", returnsValue),
+		copyKnownType(astmodel.SecretDestinationType, "Copy", returnsValue),
 		copyKnownType(astmodel.ArbitraryOwnerReference, "Copy", returnsValue),
 		copyKnownType(astmodel.ConditionType, "Copy", returnsValue),
 		copyKnownType(astmodel.JSONType, "DeepCopy", returnsReference),

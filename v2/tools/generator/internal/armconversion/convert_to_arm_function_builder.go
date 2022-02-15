@@ -65,6 +65,7 @@ func newConvertToARMFunctionBuilder(
 	result.propertyConversionHandlers = []propertyConversionHandler{
 		// Handlers for specific properties come first
 		result.namePropertyHandler,
+		result.operatorSpecPropertyHandler,
 		// Generic handlers come second
 		result.referencePropertyHandler,
 		result.flattenedPropertyHandler,
@@ -142,6 +143,18 @@ func (builder *convertToARMBuilder) namePropertyHandler(
 		astbuilder.Selector(dst.NewIdent(resolvedParameterString), "Name"))
 
 	return []dst.Stmt{result}, true
+}
+
+func (builder *convertToARMBuilder) operatorSpecPropertyHandler(
+	toProp *astmodel.PropertyDefinition,
+	_ *astmodel.ObjectType) ([]dst.Stmt, bool) {
+
+	if toProp.PropertyName() != astmodel.OperatorSpecProperty || builder.typeKind != TypeKindSpec {
+		return nil, false
+	}
+
+	// Do nothing with this property, it exists for the operator only and is not sent to Azure
+	return nil, true
 }
 
 func (builder *convertToARMBuilder) referencePropertyHandler(

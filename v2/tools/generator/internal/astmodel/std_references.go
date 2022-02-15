@@ -69,6 +69,7 @@ var (
 	ConvertToARMResolvedDetailsType = MakeTypeName(GenRuntimeReference, "ConvertToARMResolvedDetails")
 	SecretReferenceType             = MakeTypeName(GenRuntimeReference, "SecretReference")
 	ResourceExtensionType           = MakeTypeName(GenRuntimeReference, "ResourceExtension")
+	SecretDestinationType           = MakeTypeName(GenRuntimeReference, "SecretDestination")
 
 	// Type names - Registration
 	StorageTypeRegistrationType = MakeTypeName(GenRuntimeRegistrationReference, "StorageType")

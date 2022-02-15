@@ -51,3 +51,28 @@ type NamespacedSecretReference struct {
 func (s NamespacedSecretReference) String() string {
 	return fmt.Sprintf("Namespace: %q, %s", s.Namespace, s.SecretReference.String())
 }
+
+// SecretDestination describes the location to store a single secret value
+type SecretDestination struct {
+	// Note: We could embed SecretReference here, but it makes our life harder because then our reflection based tools will "find" SecretReference's
+	// inside of SecretDestination and try to resolve them. It also gives a worse experience when using the Go Types (the YAML is the same either way).
+
+	// SecretName is the name of the Kubernetes secret being referenced.
+	// The secret must be in the same namespace as the resource
+	// +kubebuilder:validation:Required
+	Name string `json:"name"`
+
+	// Key is the key in the Kubernetes secret being referenced
+	// +kubebuilder:validation:Required
+	Key string `json:"key"`
+
+	// This is a type separate from SecretReference as in the future we may want to support things like
+	// customizable annotations or labels, instructions to not delete the secret when the resource is
+	// deleted, etc. None of those things make sense for SecretReference so using the exact same type isn't
+	// advisable.
+}
+
+// Copy makes an independent copy of the SecretDestination
+func (s SecretDestination) Copy() SecretDestination {
+	return s
+}
