@@ -70,8 +70,8 @@ func Test_Compute_Image_CRUD(t *testing.T) {
 	tc.Expect(image.Status.StorageProfile).ToNot(BeNil())
 	tc.Expect(image.Status.StorageProfile.OsDisk).ToNot(BeNil())
 	tc.Expect(*image.Status.StorageProfile.OsDisk.DiskSizeGB).To(Equal(*image.Spec.StorageProfile.OsDisk.DiskSizeGB))
-	tc.Expect(image.Status.StorageProfile.OsDisk.OsType).To(Equal(image.Spec.StorageProfile.OsDisk.OsType))
-	tc.Expect(image.Status.StorageProfile.OsDisk.OsState).To(Equal(image.Spec.StorageProfile.OsDisk.OsState))
+	tc.Expect(string(image.Status.StorageProfile.OsDisk.OsType)).To(Equal(string(image.Spec.StorageProfile.OsDisk.OsType)))
+	tc.Expect(string(image.Status.StorageProfile.OsDisk.OsState)).To(Equal(string(image.Spec.StorageProfile.OsDisk.OsState)))
 	imageARMId := *image.Status.Id
 
 	tc.LogSection("Clean up")
