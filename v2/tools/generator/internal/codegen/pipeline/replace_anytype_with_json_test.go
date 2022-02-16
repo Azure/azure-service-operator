@@ -22,7 +22,7 @@ func TestReplacingAnyTypes(t *testing.T) {
 	aName := astmodel.MakeTypeName(p1, "A")
 	bName := astmodel.MakeTypeName(p1, "B")
 
-	defs := make(astmodel.Types)
+	defs := make(astmodel.TypeDefinitionSet)
 	defs.Add(astmodel.MakeTypeDefinition(aName, astmodel.AnyType))
 	defs.Add(astmodel.MakeTypeDefinition(
 		bName,
@@ -59,7 +59,7 @@ func TestReplacingMapMapInterface(t *testing.T) {
 	p1 := test.MakeLocalPackageReference("horo.logy", "v20200730")
 	aName := astmodel.MakeTypeName(p1, "A")
 
-	defs := make(astmodel.Types)
+	defs := make(astmodel.TypeDefinitionSet)
 	defs.Add(astmodel.MakeTypeDefinition(
 		aName,
 		astmodel.NewObjectType().WithProperties(

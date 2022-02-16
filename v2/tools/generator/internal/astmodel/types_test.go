@@ -28,7 +28,7 @@ func Test_TypesAdd_GivenType_ModifiesSet(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	types := make(Types)
+	types := make(TypeDefinitionSet)
 	types.Add(alphaDefinition)
 
 	g.Expect(types).To(ContainElement(alphaDefinition))
@@ -38,7 +38,7 @@ func Test_TypesAdd_GivenTypeAlreadyPresent_Panics(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	types := make(Types)
+	types := make(TypeDefinitionSet)
 	types.Add(alphaDefinition)
 
 	g.Expect(func() { types.Add(alphaDefinition) }).To(Panic())
@@ -118,7 +118,7 @@ func Test_TypesExcept_GivenEmptySet_ReturnsExpectedSet(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	types := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition)
-	empty := make(Types)
+	empty := make(TypeDefinitionSet)
 	set := types.Except(empty)
 
 	g.Expect(len(set)).To(Equal(len(types)))
@@ -162,7 +162,7 @@ func Test_TypesIntersect_GivenEmptySet_ReturnsExpectedSet(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	types := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition)
-	empty := make(Types)
+	empty := make(TypeDefinitionSet)
 	set := types.Intersect(empty)
 
 	g.Expect(len(set)).To(Equal(0))
@@ -232,10 +232,10 @@ func Test_TypesOverlayWith_GivenOverlappingSets_PrefersTypeInOverlay(t *testing.
 }
 
 /*
- * FindSpecTypes() tests
+ * FindSpecDefinitions() tests
  */
 
-func TestFindSpecTypes(t *testing.T) {
+func TestFindSpecDefinitions(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -244,20 +244,20 @@ func TestFindSpecTypes(t *testing.T) {
 	status := createTestStatus("Person")
 	resource := createTestResource("Person", spec, status)
 
-	types := make(Types)
+	types := make(TypeDefinitionSet)
 	types.AddAll(resource, status, spec)
 
-	specs := FindSpecTypes(types)
+	specs := FindSpecDefinitions(types)
 
 	g.Expect(specs).To(HaveLen(1))
 	g.Expect(specs.Contains(spec.Name())).To(BeTrue())
 }
 
 /*
- * FindStatusTypes() tests
+ * FindStatusDefinitions() tests
  */
 
-func TestFindStatusTypes(t *testing.T) {
+func TestFindStatusDefinitions(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -266,20 +266,20 @@ func TestFindStatusTypes(t *testing.T) {
 	status := createTestStatus("Person")
 	resource := createTestResource("Person", spec, status)
 
-	types := make(Types)
+	types := make(TypeDefinitionSet)
 	types.AddAll(resource, status, spec)
 
-	statuses := FindStatusTypes(types)
+	statuses := FindStatusDefinitions(types)
 
 	g.Expect(statuses).To(HaveLen(1))
 	g.Expect(statuses.Contains(status.Name())).To(BeTrue())
 }
 
 /*
- * FindSpecConnectedTypes() tests
+ * FindSpecConnectedDefinitions() tests
  */
 
-func TestFindSpecConnectedTypes(t *testing.T) {
+func TestFindSpecConnectedDefinitions(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -294,10 +294,10 @@ func TestFindSpecConnectedTypes(t *testing.T) {
 
 	resource := createTestResource("PersonAugmented", spec, status)
 
-	types := make(Types)
+	types := make(TypeDefinitionSet)
 	types.AddAll(resource, status, spec, nameInfo, nameInfoStatus)
 
-	specs, err := FindSpecConnectedTypes(types)
+	specs, err := FindSpecConnectedDefinitions(types)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(specs).To(HaveLen(2))
@@ -306,10 +306,10 @@ func TestFindSpecConnectedTypes(t *testing.T) {
 }
 
 /*
- * FindStatusConnectedTypes() tests
+ * FindStatusConnectedDefinitions() tests
  */
 
-func TestFindStatusConnectedTypes(t *testing.T) {
+func TestFindStatusConnectedDefinitions(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -324,10 +324,10 @@ func TestFindStatusConnectedTypes(t *testing.T) {
 
 	resource := createTestResource("PersonAugmented", spec, status)
 
-	types := make(Types)
+	types := make(TypeDefinitionSet)
 	types.AddAll(resource, status, spec, nameInfo, nameInfoStatus)
 
-	statuses, err := FindStatusConnectedTypes(types)
+	statuses, err := FindStatusConnectedDefinitions(types)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(statuses).To(HaveLen(2))
@@ -348,7 +348,7 @@ func TestResolveResourceSpecAndStatus(t *testing.T) {
 	status := createTestStatus("Person")
 	resource := createTestResource("Person", spec, status)
 
-	types := make(Types)
+	types := make(TypeDefinitionSet)
 	types.AddAll(resource, status, spec)
 
 	resolved, err := types.ResolveResourceSpecAndStatus(resource)
@@ -374,8 +374,8 @@ func createTestDefinition(name string, underlyingType Type) TypeDefinition {
 	return MakeTypeDefinition(n, underlyingType)
 }
 
-func createTestTypes(defs ...TypeDefinition) Types {
-	result := make(Types)
+func createTestTypes(defs ...TypeDefinition) TypeDefinitionSet {
+	result := make(TypeDefinitionSet)
 	for _, d := range defs {
 		result.Add(d)
 	}

@@ -21,7 +21,7 @@ type typeAsserter struct {
 	t          *testing.T
 	writeCode  bool
 	writeTests bool
-	reference  astmodel.Types
+	reference  astmodel.TypeDefinitionSet
 }
 
 func newTypeAsserter(t *testing.T) *typeAsserter {
@@ -29,7 +29,7 @@ func newTypeAsserter(t *testing.T) *typeAsserter {
 		t:          t,
 		writeCode:  true,
 		writeTests: false,
-		reference:  make(astmodel.Types),
+		reference:  make(astmodel.TypeDefinitionSet),
 	}
 }
 

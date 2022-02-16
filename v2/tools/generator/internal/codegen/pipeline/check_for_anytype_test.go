@@ -24,7 +24,7 @@ func TestFindsAnyTypes(t *testing.T) {
 	p2 := test.MakeLocalPackageReference("road.train", "v20200730")
 	p3 := test.MakeLocalPackageReference("wah.wah", "v20200730")
 
-	defs := make(astmodel.Types)
+	defs := make(astmodel.TypeDefinitionSet)
 	add := func(p astmodel.PackageReference, n string, t astmodel.Type) {
 		defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(p, n), t))
 	}
@@ -55,7 +55,7 @@ func TestIgnoresExpectedAnyTypePackages(t *testing.T) {
 	p2 := test.MakeLocalPackageReference("road.train", "v20200730")
 	p3 := test.MakeLocalPackageReference("wah.wah", "v20200730")
 
-	defs := make(astmodel.Types)
+	defs := make(astmodel.TypeDefinitionSet)
 	add := func(p astmodel.PackageReference, n string, t astmodel.Type) {
 		defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(p, n), t))
 	}
@@ -76,7 +76,7 @@ func TestIgnoresExpectedAnyTypePackages(t *testing.T) {
 	finalState, err := FilterOutDefinitionsUsingAnyType(exclusions).action(context.Background(), state)
 	g.Expect(err).To(BeNil())
 
-	expected := make(astmodel.Types)
+	expected := make(astmodel.TypeDefinitionSet)
 	expected.Add(astmodel.MakeTypeDefinition(
 		astmodel.MakeTypeName(p3, "C"), astmodel.NewArrayType(astmodel.IntType),
 	))
@@ -90,7 +90,7 @@ func TestComplainsAboutUnneededExclusions(t *testing.T) {
 	p2 := test.MakeLocalPackageReference("road.train", "v20200730")
 	p3 := test.MakeLocalPackageReference("wah.wah", "v20200730")
 
-	defs := make(astmodel.Types)
+	defs := make(astmodel.TypeDefinitionSet)
 	add := func(p astmodel.PackageReference, n string, t astmodel.Type) {
 		defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(p, n), t))
 	}

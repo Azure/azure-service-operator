@@ -75,8 +75,8 @@ func injectEmbeddedStructType() pipeline.Stage {
 	return pipeline.MakeLegacyStage(
 		"injectEmbeddedStructType",
 		"Injects an embedded struct into each object",
-		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
-			results := make(astmodel.Types)
+		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+			results := make(astmodel.TypeDefinitionSet)
 			embeddedTypeDef := makeEmbeddedTestTypeDefinition()
 			for _, def := range defs {
 				if astmodel.IsObjectDefinition(def) {
@@ -208,7 +208,7 @@ func loadTestSchemaIntoTypes(
 	return pipeline.MakeLegacyStage(
 		"loadTestSchema",
 		"Load and walk schema (test)",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			klog.V(0).Infof("Loading JSON schema %q", source)
 
 			inputFile, err := ioutil.ReadFile(path)
@@ -242,7 +242,7 @@ func exportPackagesTestPipelineStage(t *testing.T, testName string) pipeline.Sta
 	return pipeline.MakeLegacyStage(
 		"exportTestPackages",
 		"Export packages for test",
-		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			if len(defs) == 0 {
 				t.Fatalf("defs was empty")
 			}
@@ -291,7 +291,7 @@ func stripUnusedTypesPipelineStage() pipeline.Stage {
 	return pipeline.MakeLegacyStage(
 		"stripUnused",
 		"Strip unused types for test",
-		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			// The golden files always generate a top-level Test type - mark
 			// that as the root.
 			roots := astmodel.NewTypeNameSet(astmodel.MakeTypeName(
@@ -314,8 +314,8 @@ func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) pip
 	return pipeline.MakeLegacyStage(
 		pipeline.AddCrossResourceReferencesStageID,
 		"Add cross resource references for test",
-		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
-			result := make(astmodel.Types)
+		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+			result := make(astmodel.TypeDefinitionSet)
 			isCrossResourceReference := func(_ astmodel.TypeName, prop *astmodel.PropertyDefinition) bool {
 				return pipeline.DoesPropertyLookLikeARMReference(prop)
 			}

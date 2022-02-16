@@ -7,13 +7,13 @@ package storage
 
 import "github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 
-// HubVersionMarker is a utility for marking resource types as "hub" versions
+// HubVersionMarker is a utility for marking resource definitions as "hub" versions
 type HubVersionMarker struct {
 	// visitor is used to do the actual marking
 	visitor astmodel.TypeVisitor
 }
 
-// NewHubVersionMarker returns a new hub version marker for flagging resource types
+// NewHubVersionMarker returns a new hub version marker for flagging resource definitions
 func NewHubVersionMarker() *HubVersionMarker {
 	result := &HubVersionMarker{}
 

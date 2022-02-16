@@ -30,8 +30,8 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 	return MakeLegacyStage(
 		AddCrossResourceReferencesStageID,
 		"Replace cross-resource references with genruntime.ResourceReference",
-		func(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {
-			result := make(astmodel.Types)
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+			result := make(astmodel.TypeDefinitionSet)
 
 			var crossResourceReferenceErrs []error
 

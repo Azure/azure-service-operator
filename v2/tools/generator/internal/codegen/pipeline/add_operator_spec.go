@@ -23,9 +23,9 @@ func AddOperatorSpec(configuration *config.Configuration, idFactory astmodel.Ide
 		"Adds the property 'OperatorSpec' to all Spec types that require it",
 		func(ctx context.Context, state *State) (*State, error) {
 			defs := state.Types()
-			result := make(astmodel.Types)
+			result := make(astmodel.TypeDefinitionSet)
 
-			for _, resource := range astmodel.FindResourceTypes(defs) {
+			for _, resource := range astmodel.FindResourceDefinitions(defs) {
 				resolved, err := defs.ResolveResourceSpecAndStatus(resource)
 				if err != nil {
 					return nil, errors.Wrapf(err, "resolving resource spec and status for %s", resource.Name())
@@ -55,12 +55,12 @@ func AddOperatorSpec(configuration *config.Configuration, idFactory astmodel.Ide
 func createOperatorSpecIfNeeded(
 	configuration *config.Configuration,
 	idFactory astmodel.IdentifierFactory,
-	resolved *astmodel.ResolvedResourceDefinition) (astmodel.Types, error) {
+	resolved *astmodel.ResolvedResourceDefinition) (astmodel.TypeDefinitionSet, error) {
 
 	secrets, err := configuration.ObjectModelConfiguration.AzureGeneratedSecrets(resolved.ResourceDef.Name())
 	if err != nil {
 		if config.IsNotConfiguredError(err) {
-			// In this case, error is OK and just means we dont need to make an OperatorSpec type
+			// In this case, error is OK and just means we don't need to make an OperatorSpec type
 			return nil, nil
 		}
 		return nil, errors.Wrapf(err, "reading azureGeneratedSecrets for %s", resolved.ResourceDef.Name())
@@ -76,7 +76,7 @@ func createOperatorSpecIfNeeded(
 		return nil, errors.Wrapf(err, "couldn't add OperatorSpec to spec %q", resolved.SpecDef.Name())
 	}
 
-	result := make(astmodel.Types)
+	result := make(astmodel.TypeDefinitionSet)
 
 	result.Add(updatedDef)
 	result.Add(operatorSpec)
@@ -89,7 +89,7 @@ type operatorSpecBuilder struct {
 	idFactory     astmodel.IdentifierFactory
 	configuration *config.Configuration
 	resource      astmodel.TypeDefinition
-	types         astmodel.Types
+	types         astmodel.TypeDefinitionSet
 }
 
 func newOperatorSpecBuilder(
@@ -100,7 +100,7 @@ func newOperatorSpecBuilder(
 		idFactory:     idFactory,
 		configuration: configuration,
 		resource:      resource,
-		types:         make(astmodel.Types),
+		types:         make(astmodel.TypeDefinitionSet),
 	}
 }
 
@@ -157,7 +157,7 @@ func (b *operatorSpecBuilder) addSecretsToOperatorSpec(
 			astmodel.Exported))
 	secretsType := astmodel.NewObjectType()
 
-	// Add the secrets property to the operator spec
+	// Add the "secrets" property to the operator spec
 	secretProp := b.newSecretsProperty(secretsTypeName)
 	operatorSpec = operatorSpec.WithProperty(secretProp)
 

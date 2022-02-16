@@ -22,15 +22,15 @@ func CollapseCrossGroupReferences() Stage {
 	return MakeLegacyStage(
 		CollapseCrossGroupReferencesStageID,
 		"Find and remove cross group references",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			resources := astmodel.FindResourceTypes(types)
-			result := make(astmodel.Types)
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+			resources := astmodel.FindResourceDefinitions(definitions)
+			result := make(astmodel.TypeDefinitionSet)
 
 			for name, def := range resources {
-				walker := newTypeWalker(types, name)
+				walker := newTypeWalker(definitions, name)
 				updatedTypes, err := walker.Walk(def)
 				if err != nil {
-					return nil, errors.Wrapf(err, "failed walking types")
+					return nil, errors.Wrapf(err, "failed walking definitions")
 				}
 
 				for _, newDef := range updatedTypes {
@@ -45,9 +45,9 @@ func CollapseCrossGroupReferences() Stage {
 		})
 }
 
-func newTypeWalker(types astmodel.Types, resourceName astmodel.TypeName) *astmodel.TypeWalker {
+func newTypeWalker(definitions astmodel.TypeDefinitionSet, resourceName astmodel.TypeName) *astmodel.TypeWalker {
 	visitor := astmodel.TypeVisitorBuilder{}.Build()
-	walker := astmodel.NewTypeWalker(types, visitor)
+	walker := astmodel.NewTypeWalker(definitions, visitor)
 	walker.AfterVisit = func(original astmodel.TypeDefinition, updated astmodel.TypeDefinition, ctx interface{}) (astmodel.TypeDefinition, error) {
 		if !resourceName.PackageReference.Equals(updated.Name().PackageReference) {
 			// Note: If we ever find this generating colliding names, we might need to introduce a unique suffix.

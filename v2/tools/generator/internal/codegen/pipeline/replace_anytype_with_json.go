@@ -34,7 +34,7 @@ func ReplaceAnyTypeWithJSON() Stage {
 	return MakeLegacyStage(
 		"replaceAnyTypeWithJSON",
 		"Replace properties using interface{} with arbitrary JSON",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			replaceAnyWithJson := func(it *astmodel.PrimitiveType) astmodel.Type {
 				if it == astmodel.AnyType {
 					return astmodel.JSONType
@@ -55,8 +55,8 @@ func ReplaceAnyTypeWithJSON() Stage {
 				VisitMapType:   replaceMapOfMapOfAnyWithJSON,
 			}.Build()
 
-			results := make(astmodel.Types)
-			for _, def := range types {
+			results := make(astmodel.TypeDefinitionSet)
+			for _, def := range definitions {
 				d, err := visitor.VisitDefinition(def, nil)
 				if err != nil {
 					return nil, errors.Wrapf(err, "visiting %q", def.Name())

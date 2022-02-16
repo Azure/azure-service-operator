@@ -109,7 +109,7 @@ func (codeGenContext *CodeGenerationContext) GetImportedDefinition(typeName Type
 }
 
 // GetTypesInPackage returns the actual definitions from a specific package
-func (codeGenContext *CodeGenerationContext) GetTypesInPackage(packageRef PackageReference) (Types, bool) {
+func (codeGenContext *CodeGenerationContext) GetTypesInPackage(packageRef PackageReference) (TypeDefinitionSet, bool) {
 	def, ok := codeGenContext.generatedPackages[packageRef]
 	if !ok {
 		// Package reference not found
@@ -120,7 +120,7 @@ func (codeGenContext *CodeGenerationContext) GetTypesInPackage(packageRef Packag
 }
 
 // GetTypesInCurrentPackage returns the actual definitions from a specific package
-func (codeGenContext *CodeGenerationContext) GetTypesInCurrentPackage() Types {
+func (codeGenContext *CodeGenerationContext) GetTypesInCurrentPackage() TypeDefinitionSet {
 	def, ok := codeGenContext.GetTypesInPackage(codeGenContext.currentPackage)
 	if !ok {
 		msg := fmt.Sprintf("Should always have definitions for the current package %s", codeGenContext.currentPackage)
@@ -131,7 +131,7 @@ func (codeGenContext *CodeGenerationContext) GetTypesInCurrentPackage() Types {
 }
 
 // GetTypesInCurrentPackage returns the actual definitions from a specific package
-func (codeGenContext *CodeGenerationContext) GetAllReachableTypes() Types {
+func (codeGenContext *CodeGenerationContext) GetAllReachableTypes() TypeDefinitionSet {
 	result := codeGenContext.GetTypesInCurrentPackage()
 	for _, pkgImport := range codeGenContext.packageImports.AsSlice() {
 		types, found := codeGenContext.GetTypesInPackage(pkgImport.packageReference)

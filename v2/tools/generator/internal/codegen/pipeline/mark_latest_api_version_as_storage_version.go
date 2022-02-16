@@ -22,8 +22,8 @@ func MarkLatestAPIVersionAsStorageVersion() Stage {
 	return MakeLegacyStage(
 		MarkLatestAPIVersionAsStorageVersionId,
 		"Mark the latest API version of each resource as the storage version",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			updatedDefs, err := MarkLatestResourceVersionsForStorage(types)
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+			updatedDefs, err := MarkLatestResourceVersionsForStorage(definitions)
 			if err != nil {
 				return nil, errors.Wrapf(err, "unable to mark latest resource version as storage version")
 			}
@@ -33,14 +33,14 @@ func MarkLatestAPIVersionAsStorageVersion() Stage {
 }
 
 // MarkLatestResourceVersionsForStorage marks the latest version of each resource as the storage version
-func MarkLatestResourceVersionsForStorage(types astmodel.Types) (astmodel.Types, error) {
-	result := make(astmodel.Types)
-	resourceLookup, err := groupResourcesByVersion(types)
+func MarkLatestResourceVersionsForStorage(definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+	result := make(astmodel.TypeDefinitionSet)
+	resourceLookup, err := groupResourcesByVersion(definitions)
 	if err != nil {
 		return nil, err
 	}
 
-	for _, def := range types {
+	for _, def := range definitions {
 		// see if it is a resource
 		if resourceType, ok := def.Type().(*astmodel.ResourceType); ok {
 
@@ -69,12 +69,12 @@ func MarkLatestResourceVersionsForStorage(types astmodel.Types) (astmodel.Types,
 	return result, nil
 }
 
-func groupResourcesByVersion(types astmodel.Types) (map[unversionedName][]astmodel.TypeDefinition, error) {
+func groupResourcesByVersion(definitions astmodel.TypeDefinitionSet) (map[unversionedName][]astmodel.TypeDefinition, error) {
 	result := make(map[unversionedName][]astmodel.TypeDefinition)
 
-	for _, def := range types {
+	for _, def := range definitions {
 
-		// We want to explicitly avoid storage types, as as this approach for flagging the hub version is
+		// We want to explicitly avoid storage definitions, as as this approach for flagging the hub version is
 		// used when we aren't leveraging the conversions between storage versions.
 		if astmodel.IsStoragePackageReference(def.Name().PackageReference) {
 			continue

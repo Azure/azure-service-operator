@@ -40,7 +40,7 @@ func TestGolden_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCod
 		test.CityProperty)
 
 	// Create Property Assignment functions
-	types := make(astmodel.Types)
+	types := make(astmodel.TypeDefinitionSet)
 	types.AddAll(personSpec2020)
 	types.AddAll(personSpec2021)
 
@@ -85,7 +85,7 @@ func TestGolden_NewStatusChainedConversionFunction_Conversion_GeneratesExpectedC
 	personStatus2021 := test.CreateStatus(test.Pkg2021, "Person")
 
 	// Create Property Assignment functions
-	types := make(astmodel.Types)
+	types := make(astmodel.TypeDefinitionSet)
 	types.AddAll(personStatus2020)
 	types.AddAll(personStatus2021)
 

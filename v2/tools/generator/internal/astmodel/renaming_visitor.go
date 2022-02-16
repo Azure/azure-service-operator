@@ -64,12 +64,12 @@ func (r *RenamingVisitor) Rename(t Type) (Type, error) {
 	return r.visitor.Visit(t, nil)
 }
 
-// RenameAll applies the renames to the Types
-func (r *RenamingVisitor) RenameAll(types Types) (Types, error) {
-	result := make(Types)
+// RenameAll applies the renames to all the type definitions in the provided set
+func (r *RenamingVisitor) RenameAll(definitions TypeDefinitionSet) (TypeDefinitionSet, error) {
+	result := make(TypeDefinitionSet)
 	var errs []error
 
-	for _, def := range types {
+	for _, def := range definitions {
 		renamed, err := r.visitor.VisitDefinition(def, nil)
 		if err != nil {
 			errs = append(errs, err)

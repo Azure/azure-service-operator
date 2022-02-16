@@ -22,8 +22,8 @@ var (
 	rightTypeName = MakeTypeName(makeTestLocalPackageReference(group, version), "Right")
 )
 
-func makeSimpleTestTypeGraph() Types {
-	result := make(Types)
+func makeSimpleTestTypeGraph() TypeDefinitionSet {
+	result := make(TypeDefinitionSet)
 
 	leftChildType := NewObjectType().WithProperty(
 		NewPropertyDefinition("SimpleString", "simpleString", StringType))
@@ -50,8 +50,8 @@ func makeSimpleTestTypeGraph() Types {
 	return result
 }
 
-func makeDuplicateReferencesTypeGraph() Types {
-	result := make(Types)
+func makeDuplicateReferencesTypeGraph() TypeDefinitionSet {
+	result := make(TypeDefinitionSet)
 
 	childType := NewObjectType().WithProperty(
 		NewPropertyDefinition("SimpleString", "simpleString", StringType))
@@ -72,8 +72,8 @@ func makeDuplicateReferencesTypeGraph() Types {
 	return result
 }
 
-func makeCycleTypeGraph() Types {
-	result := make(Types)
+func makeCycleTypeGraph() TypeDefinitionSet {
+	result := make(TypeDefinitionSet)
 
 	leftChildType := NewObjectType().WithProperty(
 		NewPropertyDefinition("Root", "root", rootTypeName))

@@ -31,7 +31,7 @@ func (b *GroupConversionGraphBuilder) Add(ref astmodel.PackageReference) {
 	b.references.AddReference(ref)
 }
 
-// Build connects all the provided API types together into a single conversion graph
+// Build connects all the provided API definitions together into a single conversion graph
 func (b *GroupConversionGraphBuilder) Build() (*GroupConversionGraph, error) {
 	links := make(map[astmodel.PackageReference]astmodel.PackageReference)
 

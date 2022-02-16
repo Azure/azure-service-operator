@@ -22,10 +22,10 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 	return MakeLegacyStage(
 		"exportControllerResourceRegistrations",
 		fmt.Sprintf("Export resource registrations to %q", outputPath),
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			// If the configuration doesn't specify an output destination for us, just do nothing
 			if outputPath == "" {
-				return types, nil
+				return definitions, nil
 			}
 
 			var resources []astmodel.TypeName
@@ -35,14 +35,14 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 			secretPropertyKeys := make(map[astmodel.TypeName][]string)
 
 			// We need to register each version
-			for _, def := range types {
+			for _, def := range definitions {
 
 				if resource, ok := astmodel.AsResourceType(def.Type()); ok {
 
 					if resource.IsStorageVersion() {
 						storageVersionResources = append(storageVersionResources, def.Name())
 
-						chains, err := catalogSecretPropertyChains(def, types)
+						chains, err := catalogSecretPropertyChains(def, definitions)
 						if err != nil {
 							return nil, errors.Wrapf(err, "failed to catalog %s property chains", def.Name())
 						}
@@ -69,7 +69,7 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 				return nil, errors.Wrapf(err, "failed to write controller type registration file to %q", outputPath)
 			}
 
-			return types, nil
+			return definitions, nil
 		})
 }
 
@@ -95,14 +95,14 @@ func handleSecretPropertyChains(
 	return indexFunctions, secretPropertyKeys
 }
 
-func catalogSecretPropertyChains(def astmodel.TypeDefinition, allTypes astmodel.Types) ([][]*astmodel.PropertyDefinition, error) {
+func catalogSecretPropertyChains(def astmodel.TypeDefinition, definitions astmodel.TypeDefinitionSet) ([][]*astmodel.PropertyDefinition, error) {
 	indexBuilder := &indexFunctionBuilder{}
 
 	visitor := astmodel.TypeVisitorBuilder{
 		VisitObjectType: indexBuilder.catalogSecretProperties,
 	}.Build()
 
-	walker := astmodel.NewTypeWalker(allTypes, visitor)
+	walker := astmodel.NewTypeWalker(definitions, visitor)
 	walker.MakeContext = func(it astmodel.TypeName, ctx interface{}) (interface{}, error) {
 		if ctx != nil {
 			return ctx, nil

@@ -48,7 +48,7 @@ func UnrollRecursiveTypes() Stage {
 		UnrollRecursiveTypesStageID,
 		"Unroll directly recursive types since they are not supported by controller-gen",
 		func(ctx context.Context, state *State) (*State, error) {
-			result := make(astmodel.Types)
+			result := make(astmodel.TypeDefinitionSet)
 
 			// Find object types that reference themselves
 			fixer := recursivetypefixer.NewSimpleRecursiveTypeFixer()

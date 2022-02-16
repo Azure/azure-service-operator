@@ -24,7 +24,7 @@ func InjectResourceConversionTestCases(idFactory astmodel.IdentifierFactory) Sta
 		"Add test cases to verify Resource implementations of conversion.Convertible (funcs ConvertTo & ConvertFrom) behave as expected",
 		func(ctx context.Context, state *State) (*State, error) {
 			factory := makeResourceConversionTestCaseFactory(idFactory)
-			modifiedTypes := make(astmodel.Types)
+			modifiedTypes := make(astmodel.TypeDefinitionSet)
 			var errs []error
 			for _, d := range state.Types() {
 				if factory.NeedsTest(d) {

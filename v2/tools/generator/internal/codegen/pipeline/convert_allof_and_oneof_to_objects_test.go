@@ -15,7 +15,7 @@ import (
 
 func makeSynth() synthesizer {
 	return synthesizer{
-		defs:      make(astmodel.Types),
+		defs:      make(astmodel.TypeDefinitionSet),
 		idFactory: astmodel.NewIdentifierFactory(),
 	}
 }

@@ -41,7 +41,7 @@ This list is not exhaustive; other implementations of `Type` are used within lim
 
 Usefully, there is also `TypeName` which is both a type in itself and an indirect reference to a type defined elsewhere.
 
-When a `Type` is given a `TypeName`, it becomes a `TypeDefinition` and can be emitted as the source code for a Go type definition. A set of many `TypeDefinition`, each with a unique name is a `Types`. 
+When a `Type` is given a `TypeName`, it becomes a `TypeDefinition` and can be emitted as the source code for a Go type definition. A set of many `TypeDefinition`, each with a unique name is a `TypeDefinitionSet`. 
 
 Both `ResourceType` and `ObjectType` act as containers, each implementing `PropertyContainer`, `FunctionContainer`, and `TestCaseContainer`. These do pretty much what you'd expect from the names, though the implementations differ between `ResourceType` and `ObjectType`. For example, where an `ObjectType` implements `PropertyContainer` by providing support for an arbitrary set of properties, `ResourceType` has only `Spec` and `Status`.
 

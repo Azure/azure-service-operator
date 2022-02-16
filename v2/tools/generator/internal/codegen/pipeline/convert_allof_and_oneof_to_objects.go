@@ -33,7 +33,7 @@ func ConvertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) Stage {
 	return MakeLegacyStage(
 		"allof-anyof-objects",
 		"Convert allOf and oneOf to object types",
-		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			builder := astmodel.TypeVisitorBuilder{}
 
 			// the context here is whether we are selecting spec or status fields
@@ -97,7 +97,7 @@ func ConvertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) Stage {
 			}
 
 			visitor := builder.Build()
-			result := make(astmodel.Types)
+			result := make(astmodel.TypeDefinitionSet)
 
 			for _, def := range defs {
 				resourceUpdater := chooseSpec
@@ -121,7 +121,7 @@ func ConvertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) Stage {
 type synthesizer struct {
 	specOrStatus resourceFieldSelector
 	idFactory    astmodel.IdentifierFactory
-	defs         astmodel.Types
+	defs         astmodel.TypeDefinitionSet
 }
 
 type propertyNames struct {

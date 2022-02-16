@@ -19,10 +19,10 @@ func SimplifyDefinitions() Stage {
 	return MakeLegacyStage(
 		"simplifyDefinitions",
 		"Flatten definitions by removing wrapper types",
-		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			visitor := createSimplifyingVisitor()
 			var errs []error
-			result := make(astmodel.Types)
+			result := make(astmodel.TypeDefinitionSet)
 			for _, def := range defs {
 				visited, err := visitor.VisitDefinition(def, nil)
 				if err != nil {

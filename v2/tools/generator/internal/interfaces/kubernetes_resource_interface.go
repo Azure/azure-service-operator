@@ -24,9 +24,9 @@ func AddKubernetesResourceInterfaceImpls(
 	resourceName astmodel.TypeName,
 	r *astmodel.ResourceType,
 	idFactory astmodel.IdentifierFactory,
-	types astmodel.Types) (*astmodel.ResourceType, error) {
+	definitions astmodel.TypeDefinitionSet) (*astmodel.ResourceType, error) {
 
-	resolvedSpec, err := types.FullyResolve(r.SpecType())
+	resolvedSpec, err := definitions.FullyResolve(r.SpecType())
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to resolve resource spec type")
 	}
@@ -48,7 +48,7 @@ func AddKubernetesResourceInterfaceImpls(
 		return nil, errors.Errorf("resource spec doesn't have %q property", astmodel.AzureNameProperty)
 	}
 
-	getNameFunction, setNameFunction, err := getAzureNameFunctionsForType(&r, spec, azureNameProp.PropertyType(), types)
+	getNameFunction, setNameFunction, err := getAzureNameFunctionsForType(&r, spec, azureNameProp.PropertyType(), definitions)
 	if err != nil {
 		return nil, err
 	}
@@ -104,7 +104,7 @@ func AddKubernetesResourceInterfaceImpls(
 		// re-fetch the spec ObjectType since the getAzureNameFunctionsForType
 		// could have updated it
 		spec := r.SpecType()
-		spec, err = types.FullyResolve(spec)
+		spec, err = definitions.FullyResolve(spec)
 		if err != nil {
 			return nil, err
 		}
@@ -136,12 +136,12 @@ func AddKubernetesResourceInterfaceImpls(
 
 // note that this can, as a side-effect, update the resource type
 // it is a bit ugly!
-func getAzureNameFunctionsForType(r **astmodel.ResourceType, spec *astmodel.ObjectType, t astmodel.Type, types astmodel.Types) (functions.ObjectFunctionHandler, functions.ObjectFunctionHandler, error) {
-	// handle different types of AzureName property
+func getAzureNameFunctionsForType(r **astmodel.ResourceType, spec *astmodel.ObjectType, t astmodel.Type, definitions astmodel.TypeDefinitionSet) (functions.ObjectFunctionHandler, functions.ObjectFunctionHandler, error) {
+	// handle different definitions of AzureName property
 	switch azureNamePropType := t.(type) {
 	case *astmodel.ValidatedType:
 		if !astmodel.TypeEquals(azureNamePropType.ElementType(), astmodel.StringType) {
-			return nil, nil, errors.Errorf("unable to handle non-string validated types in AzureName property")
+			return nil, nil, errors.Errorf("unable to handle non-string validated definitions in AzureName property")
 		}
 
 		validations := azureNamePropType.Validations().(astmodel.StringValidations)
@@ -163,7 +163,7 @@ func getAzureNameFunctionsForType(r **astmodel.ResourceType, spec *astmodel.Obje
 
 	case astmodel.TypeName:
 		// resolve property type if it is a typename
-		resolvedPropType, err := types.FullyResolve(azureNamePropType)
+		resolvedPropType, err := definitions.FullyResolve(azureNamePropType)
 		if err != nil {
 			return nil, nil, errors.Wrapf(err, "unable to resolve type of resource Name property: %s", azureNamePropType.String())
 		}

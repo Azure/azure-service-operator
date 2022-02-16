@@ -42,7 +42,7 @@ func (b *ConversionGraphBuilder) AddAll(set *astmodel.PackageReferenceSet) {
 	}
 }
 
-// Build connects all the provided API types together into a single conversion graph
+// Build connects all the provided API definitions together into a single conversion graph
 func (b *ConversionGraphBuilder) Build() (*ConversionGraph, error) {
 	subgraphs := make(map[string]*GroupConversionGraph)
 	for group, builder := range b.subBuilders {

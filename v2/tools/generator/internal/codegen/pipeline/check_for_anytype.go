@@ -46,9 +46,9 @@ func checkForAnyType(description string, packages []string) Stage {
 	return MakeLegacyStage(
 		CheckForAnyTypeStageID,
 		description,
-		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			var badNames []astmodel.TypeName
-			output := make(astmodel.Types)
+			output := make(astmodel.TypeDefinitionSet)
 			for name, def := range defs {
 				if containsAnyType(def.Type()) {
 					badNames = append(badNames, name)
