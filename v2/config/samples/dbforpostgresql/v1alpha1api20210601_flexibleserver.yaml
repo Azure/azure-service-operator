@@ -12,6 +12,8 @@ spec:
     name: Standard_D4s_v3
     tier: GeneralPurpose
   administratorLogin: myAdmin
-  administratorLoginPassword: mypassword  # TODO: This should be changed to be specified via a secret link
+  administratorLoginPassword: # This is the name/key of a Kubernetes secret in the same namespace
+    name: server-admin-pw
+    key: password
   storage:
     storageSizeGB: 128
