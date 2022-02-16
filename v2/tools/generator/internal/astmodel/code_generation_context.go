@@ -23,6 +23,8 @@ type CodeGenerationContext struct {
 	generatedPackages map[PackageReference]*PackageDefinition
 }
 
+var _ ReadonlyTypes = &CodeGenerationContext{}
+
 // NewCodeGenerationContext creates a new immutable code generation context
 func NewCodeGenerationContext(
 	currentPackage PackageReference,
@@ -40,41 +42,41 @@ func NewCodeGenerationContext(
 }
 
 // CurrentPackage returns the current package being generated
-func (codeGenContext *CodeGenerationContext) CurrentPackage() PackageReference {
-	return codeGenContext.currentPackage
+func (ctx *CodeGenerationContext) CurrentPackage() PackageReference {
+	return ctx.currentPackage
 }
 
 // PackageImports returns the set of package imports in the current context
-func (codeGenContext *CodeGenerationContext) PackageImports() *PackageImportSet {
+func (ctx *CodeGenerationContext) PackageImports() *PackageImportSet {
 	// return a copy to ensure immutability
 	result := NewPackageImportSet()
-	result.Merge(codeGenContext.packageImports)
+	result.Merge(ctx.packageImports)
 	return result
 }
 
 // UsedPackageImports returns the set of package imports that have been used by the generated code
-func (codeGenContext *CodeGenerationContext) UsedPackageImports() *PackageImportSet {
+func (ctx *CodeGenerationContext) UsedPackageImports() *PackageImportSet {
 	// return a copy to ensure immutability
 	result := NewPackageImportSet()
-	result.Merge(codeGenContext.usedImports)
+	result.Merge(ctx.usedImports)
 	return result
 }
 
 // GetImportedPackageName gets the imported packages name or an error if the package was not imported
-func (codeGenContext *CodeGenerationContext) GetImportedPackageName(reference PackageReference) (string, error) {
-	packageImport, ok := codeGenContext.packageImports.ImportFor(reference)
+func (ctx *CodeGenerationContext) GetImportedPackageName(reference PackageReference) (string, error) {
+	packageImport, ok := ctx.packageImports.ImportFor(reference)
 	if !ok {
 		return "", errors.Errorf("package %s not imported", reference)
 	}
 
-	codeGenContext.usedImports.AddImport(packageImport)
+	ctx.usedImports.AddImport(packageImport)
 	return packageImport.PackageName(), nil
 }
 
 // MustGetImportedPackageName gets the imported packages name or panics if the package was not imported
 // Use this when you're absolutely positively sure the package will be there already
-func (codeGenContext *CodeGenerationContext) MustGetImportedPackageName(reference PackageReference) string {
-	result, err := codeGenContext.GetImportedPackageName(reference)
+func (ctx *CodeGenerationContext) MustGetImportedPackageName(reference PackageReference) string {
+	result, err := ctx.GetImportedPackageName(reference)
 	if err != nil {
 		panic(err)
 	}
@@ -83,34 +85,45 @@ func (codeGenContext *CodeGenerationContext) MustGetImportedPackageName(referenc
 }
 
 // GetGeneratedPackage gets a reference to the PackageDefinition referred to by the provided reference
-func (codeGenContext *CodeGenerationContext) GetGeneratedPackage(reference PackageReference) (*PackageDefinition, error) {
+func (ctx *CodeGenerationContext) GetGeneratedPackage(reference PackageReference) (*PackageDefinition, error) {
 	// Make sure that we're actually importing that package -- don't want to allow references to things we aren't importing
-	_, err := codeGenContext.GetImportedPackageName(reference)
-	if !reference.Equals(codeGenContext.currentPackage) && err != nil {
+	_, err := ctx.GetImportedPackageName(reference)
+	if !reference.Equals(ctx.currentPackage) && err != nil {
 		return nil, err
 	}
 
-	packageDef, ok := codeGenContext.generatedPackages[reference]
+	packageDef, ok := ctx.generatedPackages[reference]
 	if !ok {
 		return nil, errors.Errorf("%s not imported", reference)
 	}
 	return packageDef, nil
 }
 
-// GetImportedDefinition looks up a particular type definition in a package available in this context
-func (codeGenContext *CodeGenerationContext) GetImportedDefinition(typeName TypeName) (TypeDefinition, error) {
-	pkg, err := codeGenContext.GetGeneratedPackage(typeName.PackageReference)
+// GetDefinition looks up a particular type definition in a package available in this context
+func (ctx *CodeGenerationContext) GetDefinition(name TypeName) (TypeDefinition, error) {
+	pkg, err := ctx.GetGeneratedPackage(name.PackageReference)
 
 	if err != nil {
 		return TypeDefinition{}, err
 	}
 
-	return pkg.GetDefinition(typeName)
+	return pkg.GetDefinition(name)
+}
+
+// MustGetDefinition looks up a particular type definition in a package available in this context.
+// If it cannot be found, MustGetDefinition panics.
+func (ctx *CodeGenerationContext) MustGetDefinition(name TypeName) TypeDefinition {
+	result, err := ctx.GetDefinition(name)
+	if err != nil {
+		panic(err)
+	}
+
+	return result
 }
 
 // GetDefinitionsInPackage returns the actual definitions from a specific package
-func (codeGenContext *CodeGenerationContext) GetDefinitionsInPackage(packageRef PackageReference) (TypeDefinitionSet, bool) {
-	def, ok := codeGenContext.generatedPackages[packageRef]
+func (ctx *CodeGenerationContext) GetDefinitionsInPackage(packageRef PackageReference) (TypeDefinitionSet, bool) {
+	def, ok := ctx.generatedPackages[packageRef]
 	if !ok {
 		// Package reference not found
 		return nil, false
@@ -120,10 +133,10 @@ func (codeGenContext *CodeGenerationContext) GetDefinitionsInPackage(packageRef 
 }
 
 // GetDefinitionsInCurrentPackage returns the actual definitions from a specific package
-func (codeGenContext *CodeGenerationContext) GetDefinitionsInCurrentPackage() TypeDefinitionSet {
-	def, ok := codeGenContext.GetDefinitionsInPackage(codeGenContext.currentPackage)
+func (ctx *CodeGenerationContext) GetDefinitionsInCurrentPackage() TypeDefinitionSet {
+	def, ok := ctx.GetDefinitionsInPackage(ctx.currentPackage)
 	if !ok {
-		msg := fmt.Sprintf("Should always have definitions for the current package %s", codeGenContext.currentPackage)
+		msg := fmt.Sprintf("Should always have definitions for the current package %s", ctx.currentPackage)
 		panic(msg)
 	}
 
@@ -131,10 +144,10 @@ func (codeGenContext *CodeGenerationContext) GetDefinitionsInCurrentPackage() Ty
 }
 
 // GetAllReachableDefinitions returns the actual definitions from a specific package
-func (codeGenContext *CodeGenerationContext) GetAllReachableDefinitions() TypeDefinitionSet {
-	result := codeGenContext.GetDefinitionsInCurrentPackage()
-	for _, pkgImport := range codeGenContext.packageImports.AsSlice() {
-		defs, found := codeGenContext.GetDefinitionsInPackage(pkgImport.packageReference)
+func (ctx *CodeGenerationContext) GetAllReachableDefinitions() TypeDefinitionSet {
+	result := ctx.GetDefinitionsInCurrentPackage()
+	for _, pkgImport := range ctx.packageImports.AsSlice() {
+		defs, found := ctx.GetDefinitionsInPackage(pkgImport.packageReference)
 		if found {
 			for k, v := range defs {
 				result[k] = v
