@@ -173,8 +173,6 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkPropertiesFormatARM(gens map[s
 	gens["DdosProtectionPlan"] = gen.PtrOf(SubResourceARMGenerator())
 	gens["DhcpOptions"] = gen.PtrOf(DhcpOptionsARMGenerator())
 	gens["IpAllocations"] = gen.SliceOf(SubResourceARMGenerator())
-	gens["Subnets"] = gen.SliceOf(Subnet_VirtualNetwork_SubResourceEmbeddedARMGenerator())
-	gens["VirtualNetworkPeerings"] = gen.SliceOf(VirtualNetworkPeeringARMGenerator())
 }
 
 func Test_DhcpOptionsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -236,66 +234,6 @@ func AddIndependentPropertyGeneratorsForDhcpOptionsARM(gens map[string]gopter.Ge
 	gens["DnsServers"] = gen.SliceOf(gen.AlphaString())
 }
 
-func Test_Subnet_VirtualNetwork_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Subnet_VirtualNetwork_SubResourceEmbeddedARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubnet_VirtualNetwork_SubResourceEmbeddedARM, Subnet_VirtualNetwork_SubResourceEmbeddedARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSubnet_VirtualNetwork_SubResourceEmbeddedARM runs a test to see if a specific instance of Subnet_VirtualNetwork_SubResourceEmbeddedARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubnet_VirtualNetwork_SubResourceEmbeddedARM(subject Subnet_VirtualNetwork_SubResourceEmbeddedARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Subnet_VirtualNetwork_SubResourceEmbeddedARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Subnet_VirtualNetwork_SubResourceEmbeddedARM instances for property testing - lazily instantiated by
-//Subnet_VirtualNetwork_SubResourceEmbeddedARMGenerator()
-var subnet_virtualNetwork_subResourceEmbeddedARMGenerator gopter.Gen
-
-// Subnet_VirtualNetwork_SubResourceEmbeddedARMGenerator returns a generator of Subnet_VirtualNetwork_SubResourceEmbeddedARM instances for property testing.
-func Subnet_VirtualNetwork_SubResourceEmbeddedARMGenerator() gopter.Gen {
-	if subnet_virtualNetwork_subResourceEmbeddedARMGenerator != nil {
-		return subnet_virtualNetwork_subResourceEmbeddedARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubnet_VirtualNetwork_SubResourceEmbeddedARM(generators)
-	subnet_virtualNetwork_subResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(Subnet_VirtualNetwork_SubResourceEmbeddedARM{}), generators)
-
-	return subnet_virtualNetwork_subResourceEmbeddedARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSubnet_VirtualNetwork_SubResourceEmbeddedARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubnet_VirtualNetwork_SubResourceEmbeddedARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
 func Test_VirtualNetworkBgpCommunitiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -354,64 +292,4 @@ func VirtualNetworkBgpCommunitiesARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunitiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunitiesARM(gens map[string]gopter.Gen) {
 	gens["VirtualNetworkCommunity"] = gen.AlphaString()
-}
-
-func Test_VirtualNetworkPeeringARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualNetworkPeeringARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkPeeringARM, VirtualNetworkPeeringARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualNetworkPeeringARM runs a test to see if a specific instance of VirtualNetworkPeeringARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkPeeringARM(subject VirtualNetworkPeeringARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualNetworkPeeringARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualNetworkPeeringARM instances for property testing - lazily instantiated by
-//VirtualNetworkPeeringARMGenerator()
-var virtualNetworkPeeringARMGenerator gopter.Gen
-
-// VirtualNetworkPeeringARMGenerator returns a generator of VirtualNetworkPeeringARM instances for property testing.
-func VirtualNetworkPeeringARMGenerator() gopter.Gen {
-	if virtualNetworkPeeringARMGenerator != nil {
-		return virtualNetworkPeeringARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkPeeringARM(generators)
-	virtualNetworkPeeringARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkPeeringARM{}), generators)
-
-	return virtualNetworkPeeringARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualNetworkPeeringARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkPeeringARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }

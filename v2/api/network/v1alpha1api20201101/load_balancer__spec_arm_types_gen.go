@@ -53,11 +53,11 @@ type ExtendedLocationARM struct {
 
 type LoadBalancerPropertiesFormatARM struct {
 	//BackendAddressPools: Collection of backend address pools used by a load balancer.
-	BackendAddressPools []BackendAddressPool_LoadBalancer_SubResourceEmbeddedARM `json:"backendAddressPools,omitempty"`
+	BackendAddressPools []BackendAddressPoolARM `json:"backendAddressPools,omitempty"`
 
 	//FrontendIPConfigurations: Object representing the frontend IPs to be used for
 	//the load balancer.
-	FrontendIPConfigurations []FrontendIPConfiguration_LoadBalancer_SubResourceEmbeddedARM `json:"frontendIPConfigurations,omitempty"`
+	FrontendIPConfigurations []FrontendIPConfigurationARM `json:"frontendIPConfigurations,omitempty"`
 
 	//InboundNatPools: Defines an external port range for inbound NAT to a single
 	//backend port on NICs associated with a load balancer. Inbound NAT rules are
@@ -75,7 +75,7 @@ type LoadBalancerPropertiesFormatARM struct {
 	//machine scale sets. NICs that are associated with individual virtual machines
 	//cannot reference an Inbound NAT pool. They have to reference individual inbound
 	//NAT rules.
-	InboundNatRules []InboundNatRule_LoadBalancer_SubResourceEmbeddedARM `json:"inboundNatRules,omitempty"`
+	InboundNatRules []InboundNatRuleARM `json:"inboundNatRules,omitempty"`
 
 	//LoadBalancingRules: Object collection representing the load balancing rules Gets
 	//the provisioning.
@@ -96,7 +96,7 @@ type LoadBalancerSkuARM struct {
 	Tier *LoadBalancerSkuTier `json:"tier,omitempty"`
 }
 
-type BackendAddressPool_LoadBalancer_SubResourceEmbeddedARM struct {
+type BackendAddressPoolARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
@@ -105,7 +105,7 @@ type ExtendedLocationType string
 
 const ExtendedLocationTypeEdgeZone = ExtendedLocationType("EdgeZone")
 
-type FrontendIPConfiguration_LoadBalancer_SubResourceEmbeddedARM struct {
+type FrontendIPConfigurationARM struct {
 	Id *string `json:"id,omitempty"`
 
 	//Name: The name of the resource that is unique within the set of frontend IP
@@ -114,7 +114,7 @@ type FrontendIPConfiguration_LoadBalancer_SubResourceEmbeddedARM struct {
 	Name *string `json:"name,omitempty"`
 
 	//Properties: Properties of the load balancer probe.
-	Properties *FrontendIPConfigurationPropertiesFormat_LoadBalancer_SubResourceEmbeddedARM `json:"properties,omitempty"`
+	Properties *FrontendIPConfigurationPropertiesFormatARM `json:"properties,omitempty"`
 
 	//Zones: A list of availability zones denoting the IP allocated for the resource
 	//needs to come from.
@@ -132,7 +132,7 @@ type InboundNatPoolARM struct {
 	Properties *InboundNatPoolPropertiesFormatARM `json:"properties,omitempty"`
 }
 
-type InboundNatRule_LoadBalancer_SubResourceEmbeddedARM struct {
+type InboundNatRuleARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
@@ -185,7 +185,7 @@ type ProbeARM struct {
 	Properties *ProbePropertiesFormatARM `json:"properties,omitempty"`
 }
 
-type FrontendIPConfigurationPropertiesFormat_LoadBalancer_SubResourceEmbeddedARM struct {
+type FrontendIPConfigurationPropertiesFormatARM struct {
 	//PrivateIPAddress: The private IP address of the IP configuration.
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
@@ -201,9 +201,7 @@ type FrontendIPConfigurationPropertiesFormat_LoadBalancer_SubResourceEmbeddedARM
 
 	//PublicIPPrefix: The reference to the Public IP Prefix resource.
 	PublicIPPrefix *SubResourceARM `json:"publicIPPrefix,omitempty"`
-
-	//Subnet: The reference to the subnet resource.
-	Subnet *Subnet_LoadBalancer_SubResourceEmbeddedARM `json:"subnet,omitempty"`
+	Subnet         *string         `json:"subnet,omitempty"`
 }
 
 type InboundNatPoolPropertiesFormatARM struct {
@@ -365,10 +363,6 @@ type PublicIPAddressSpecARM struct {
 	//Zones: A list of availability zones denoting the IP allocated for the resource
 	//needs to come from.
 	Zones []string `json:"zones,omitempty"`
-}
-
-type Subnet_LoadBalancer_SubResourceEmbeddedARM struct {
-	Id *string `json:"id,omitempty"`
 }
 
 type PublicIPAddressPropertiesFormatARM struct {

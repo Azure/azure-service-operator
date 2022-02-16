@@ -408,7 +408,7 @@ type ManagedCluster_Spec struct {
 	PodIdentityProfile *ManagedClusterPodIdentityProfile `json:"podIdentityProfile,omitempty"`
 
 	//PrivateLinkResources: Private link resources associated with the cluster.
-	PrivateLinkResources []PrivateLinkResource `json:"privateLinkResources,omitempty"`
+	PrivateLinkResources []genruntime.ResourceReference `json:"privateLinkResources,omitempty"`
 
 	//ServicePrincipalProfile: Information about a service principal identity for the
 	//cluster to use for manipulating Azure APIs.
@@ -603,11 +603,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.PodIdentityProfile = &podIdentityProfile
 	}
 	for _, item := range cluster.PrivateLinkResources {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.PrivateLinkResources = append(result.Properties.PrivateLinkResources, itemARM.(PrivateLinkResourceARM))
+		result.Properties.PrivateLinkResources = append(result.Properties.PrivateLinkResources, item)
 	}
 	if cluster.ServicePrincipalProfile != nil {
 		servicePrincipalProfileARM, err := (*cluster.ServicePrincipalProfile).ConvertToARM(resolved)
@@ -903,12 +899,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateLinkResources {
-			var item1 PrivateLinkResource
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			cluster.PrivateLinkResources = append(cluster.PrivateLinkResources, item1)
+			cluster.PrivateLinkResources = append(cluster.PrivateLinkResources, item)
 		}
 	}
 
@@ -1225,16 +1216,11 @@ func (cluster *ManagedCluster_Spec) AssignPropertiesFromManagedCluster_Spec(sour
 
 	// PrivateLinkResources
 	if source.PrivateLinkResources != nil {
-		privateLinkResourceList := make([]PrivateLinkResource, len(source.PrivateLinkResources))
+		privateLinkResourceList := make([]genruntime.ResourceReference, len(source.PrivateLinkResources))
 		for privateLinkResourceIndex, privateLinkResourceItem := range source.PrivateLinkResources {
 			// Shadow the loop variable to avoid aliasing
 			privateLinkResourceItem := privateLinkResourceItem
-			var privateLinkResource PrivateLinkResource
-			err := privateLinkResource.AssignPropertiesFromPrivateLinkResource(&privateLinkResourceItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateLinkResource() to populate field PrivateLinkResources")
-			}
-			privateLinkResourceList[privateLinkResourceIndex] = privateLinkResource
+			privateLinkResourceList[privateLinkResourceIndex] = privateLinkResourceItem.Copy()
 		}
 		cluster.PrivateLinkResources = privateLinkResourceList
 	} else {
@@ -1502,16 +1488,11 @@ func (cluster *ManagedCluster_Spec) AssignPropertiesToManagedCluster_Spec(destin
 
 	// PrivateLinkResources
 	if cluster.PrivateLinkResources != nil {
-		privateLinkResourceList := make([]v1alpha1api20210501storage.PrivateLinkResource, len(cluster.PrivateLinkResources))
+		privateLinkResourceList := make([]genruntime.ResourceReference, len(cluster.PrivateLinkResources))
 		for privateLinkResourceIndex, privateLinkResourceItem := range cluster.PrivateLinkResources {
 			// Shadow the loop variable to avoid aliasing
 			privateLinkResourceItem := privateLinkResourceItem
-			var privateLinkResource v1alpha1api20210501storage.PrivateLinkResource
-			err := privateLinkResourceItem.AssignPropertiesToPrivateLinkResource(&privateLinkResource)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkResource() to populate field PrivateLinkResources")
-			}
-			privateLinkResourceList[privateLinkResourceIndex] = privateLinkResource
+			privateLinkResourceList[privateLinkResourceIndex] = privateLinkResourceItem.Copy()
 		}
 		destination.PrivateLinkResources = privateLinkResourceList
 	} else {
@@ -8769,171 +8750,6 @@ func (state *PowerState_Status) AssignPropertiesToPowerState_Status(destination 
 
 	// Code
 	destination.Code = genruntime.ClonePointerToString(state.Code)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type PrivateLinkResource struct {
-	//GroupId: The group ID of the resource.
-	GroupId *string `json:"groupId,omitempty"`
-
-	//Name: The name of the private link resource.
-	Name *string `json:"name,omitempty"`
-
-	//Reference: The ID of the private link resource.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-
-	//RequiredMembers: The RequiredMembers of the resource
-	RequiredMembers []string `json:"requiredMembers,omitempty"`
-
-	//Type: The resource type.
-	Type *string `json:"type,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &PrivateLinkResource{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (resource *PrivateLinkResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if resource == nil {
-		return nil, nil
-	}
-	var result PrivateLinkResourceARM
-
-	// Set property ‘GroupId’:
-	if resource.GroupId != nil {
-		groupId := *resource.GroupId
-		result.GroupId = &groupId
-	}
-
-	// Set property ‘Id’:
-	if resource.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*resource.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
-	}
-
-	// Set property ‘Name’:
-	if resource.Name != nil {
-		name := *resource.Name
-		result.Name = &name
-	}
-
-	// Set property ‘RequiredMembers’:
-	for _, item := range resource.RequiredMembers {
-		result.RequiredMembers = append(result.RequiredMembers, item)
-	}
-
-	// Set property ‘Type’:
-	if resource.Type != nil {
-		typeVar := *resource.Type
-		result.Type = &typeVar
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *PrivateLinkResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateLinkResourceARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *PrivateLinkResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateLinkResourceARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkResourceARM, got %T", armInput)
-	}
-
-	// Set property ‘GroupId’:
-	if typedInput.GroupId != nil {
-		groupId := *typedInput.GroupId
-		resource.GroupId = &groupId
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		resource.Name = &name
-	}
-
-	// no assignment for property ‘Reference’
-
-	// Set property ‘RequiredMembers’:
-	for _, item := range typedInput.RequiredMembers {
-		resource.RequiredMembers = append(resource.RequiredMembers, item)
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		resource.Type = &typeVar
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromPrivateLinkResource populates our PrivateLinkResource from the provided source PrivateLinkResource
-func (resource *PrivateLinkResource) AssignPropertiesFromPrivateLinkResource(source *v1alpha1api20210501storage.PrivateLinkResource) error {
-
-	// GroupId
-	resource.GroupId = genruntime.ClonePointerToString(source.GroupId)
-
-	// Name
-	resource.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		resource.Reference = &reference
-	} else {
-		resource.Reference = nil
-	}
-
-	// RequiredMembers
-	resource.RequiredMembers = genruntime.CloneSliceOfString(source.RequiredMembers)
-
-	// Type
-	resource.Type = genruntime.ClonePointerToString(source.Type)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPrivateLinkResource populates the provided destination PrivateLinkResource from our PrivateLinkResource
-func (resource *PrivateLinkResource) AssignPropertiesToPrivateLinkResource(destination *v1alpha1api20210501storage.PrivateLinkResource) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// GroupId
-	destination.GroupId = genruntime.ClonePointerToString(resource.GroupId)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(resource.Name)
-
-	// Reference
-	if resource.Reference != nil {
-		reference := resource.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
-
-	// RequiredMembers
-	destination.RequiredMembers = genruntime.CloneSliceOfString(resource.RequiredMembers)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(resource.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

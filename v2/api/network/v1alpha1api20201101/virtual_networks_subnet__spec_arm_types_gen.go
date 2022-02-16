@@ -49,7 +49,7 @@ type SubnetPropertiesFormatARM struct {
 	ApplicationGatewayIpConfigurations []ApplicationGatewayIPConfigurationARM `json:"applicationGatewayIpConfigurations,omitempty"`
 
 	//Delegations: An array of references to the delegations on the subnet.
-	Delegations []DelegationARM `json:"delegations,omitempty"`
+	Delegations []genruntime.ResourceReference `json:"delegations,omitempty"`
 
 	//IpAllocations: Array of IpAllocation which reference this subnet.
 	IpAllocations []SubResourceARM `json:"ipAllocations,omitempty"`
@@ -58,7 +58,7 @@ type SubnetPropertiesFormatARM struct {
 	NatGateway *SubResourceARM `json:"natGateway,omitempty"`
 
 	//NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
-	NetworkSecurityGroup *NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"networkSecurityGroup,omitempty"`
+	NetworkSecurityGroup *NetworkSecurityGroupSpecARM `json:"networkSecurityGroup,omitempty"`
 
 	//PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on
 	//private end point in the subnet.
@@ -88,33 +88,6 @@ type ApplicationGatewayIPConfigurationARM struct {
 	Properties *ApplicationGatewayIPConfigurationPropertiesFormatARM `json:"properties,omitempty"`
 }
 
-type DelegationARM struct {
-	Id *string `json:"id,omitempty"`
-
-	//Name: The name of the resource that is unique within a subnet. This name can be
-	//used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	//Properties: Properties of the subnet.
-	Properties *ServiceDelegationPropertiesFormatARM `json:"properties,omitempty"`
-
-	//Type: Resource type.
-	Type *string `json:"type,omitempty"`
-}
-
-type NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
-	Id *string `json:"id,omitempty"`
-
-	//Location: Resource location.
-	Location *string `json:"location,omitempty"`
-
-	//Properties: Properties of the network security group.
-	Properties *NetworkSecurityGroupPropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"properties,omitempty"`
-
-	//Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-}
-
 type RouteTableSpecARM struct {
 	Id *string `json:"id,omitempty"`
 
@@ -122,7 +95,7 @@ type RouteTableSpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Properties: Properties of the route table.
-	Properties *RouteTablePropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"properties,omitempty"`
+	Properties *RouteTablePropertiesFormatARM `json:"properties,omitempty"`
 
 	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -155,38 +128,19 @@ type ApplicationGatewayIPConfigurationPropertiesFormatARM struct {
 	Subnet *SubResourceARM `json:"subnet,omitempty"`
 }
 
-type NetworkSecurityGroupPropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
-	//SecurityRules: A collection of security rules of the network security group.
-	SecurityRules []SecurityRule_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"securityRules,omitempty"`
-}
-
-type RouteTablePropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
+type RouteTablePropertiesFormatARM struct {
 	//DisableBgpRoutePropagation: Whether to disable the routes learned by BGP on that
 	//route table. True means disable.
 	DisableBgpRoutePropagation *bool `json:"disableBgpRoutePropagation,omitempty"`
 
 	//Routes: Collection of routes contained within a route table.
-	Routes []Route_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"routes,omitempty"`
-}
-
-type ServiceDelegationPropertiesFormatARM struct {
-	//ServiceName: The name of the service to whom the subnet should be delegated
-	//(e.g. Microsoft.Sql/servers).
-	ServiceName *string `json:"serviceName,omitempty"`
+	Routes []genruntime.ResourceReference `json:"routes,omitempty"`
 }
 
 type ServiceEndpointPolicyPropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
 	//ServiceEndpointPolicyDefinitions: A collection of service endpoint policy
 	//definitions of the service endpoint policy.
 	ServiceEndpointPolicyDefinitions []ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"serviceEndpointPolicyDefinitions,omitempty"`
-}
-
-type Route_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
-	Id *string `json:"id,omitempty"`
-}
-
-type SecurityRule_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
-	Id *string `json:"id,omitempty"`
 }
 
 type ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {

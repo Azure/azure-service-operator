@@ -69,10 +69,10 @@ type VirtualNetworkPropertiesFormatARM struct {
 	IpAllocations []SubResourceARM `json:"ipAllocations,omitempty"`
 
 	//Subnets: A list of subnets in a Virtual Network.
-	Subnets []Subnet_VirtualNetwork_SubResourceEmbeddedARM `json:"subnets,omitempty"`
+	Subnets []genruntime.ResourceReference `json:"subnets,omitempty"`
 
 	//VirtualNetworkPeerings: A list of peerings in a Virtual Network.
-	VirtualNetworkPeerings []VirtualNetworkPeeringARM `json:"virtualNetworkPeerings,omitempty"`
+	VirtualNetworkPeerings []genruntime.ResourceReference `json:"virtualNetworkPeerings,omitempty"`
 }
 
 type DhcpOptionsARM struct {
@@ -80,15 +80,7 @@ type DhcpOptionsARM struct {
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
-type Subnet_VirtualNetwork_SubResourceEmbeddedARM struct {
-	Id *string `json:"id,omitempty"`
-}
-
 type VirtualNetworkBgpCommunitiesARM struct {
 	//VirtualNetworkCommunity: The BGP community associated with the virtual network.
 	VirtualNetworkCommunity string `json:"virtualNetworkCommunity"`
-}
-
-type VirtualNetworkPeeringARM struct {
-	Id *string `json:"id,omitempty"`
 }

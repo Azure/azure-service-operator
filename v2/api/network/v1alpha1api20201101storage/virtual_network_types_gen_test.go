@@ -159,8 +159,6 @@ func AddRelatedPropertyGeneratorsForVirtualNetwork_Spec(gens map[string]gopter.G
 	gens["DhcpOptions"] = gen.PtrOf(DhcpOptionsGenerator())
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
 	gens["IpAllocations"] = gen.SliceOf(SubResourceGenerator())
-	gens["Subnets"] = gen.SliceOf(Subnet_VirtualNetwork_SubResourceEmbeddedGenerator())
-	gens["VirtualNetworkPeerings"] = gen.SliceOf(VirtualNetworkPeeringGenerator())
 }
 
 func Test_VirtualNetwork_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -550,60 +548,6 @@ func AddIndependentPropertyGeneratorsForSubnet_Status_VirtualNetwork_SubResource
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Subnet_VirtualNetwork_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Subnet_VirtualNetwork_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubnet_VirtualNetwork_SubResourceEmbedded, Subnet_VirtualNetwork_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSubnet_VirtualNetwork_SubResourceEmbedded runs a test to see if a specific instance of Subnet_VirtualNetwork_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubnet_VirtualNetwork_SubResourceEmbedded(subject Subnet_VirtualNetwork_SubResourceEmbedded) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Subnet_VirtualNetwork_SubResourceEmbedded
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Subnet_VirtualNetwork_SubResourceEmbedded instances for property testing - lazily instantiated by
-//Subnet_VirtualNetwork_SubResourceEmbeddedGenerator()
-var subnet_virtualNetwork_subResourceEmbeddedGenerator gopter.Gen
-
-// Subnet_VirtualNetwork_SubResourceEmbeddedGenerator returns a generator of Subnet_VirtualNetwork_SubResourceEmbedded instances for property testing.
-func Subnet_VirtualNetwork_SubResourceEmbeddedGenerator() gopter.Gen {
-	if subnet_virtualNetwork_subResourceEmbeddedGenerator != nil {
-		return subnet_virtualNetwork_subResourceEmbeddedGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	subnet_virtualNetwork_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(Subnet_VirtualNetwork_SubResourceEmbedded{}), generators)
-
-	return subnet_virtualNetwork_subResourceEmbeddedGenerator
-}
-
 func Test_VirtualNetworkBgpCommunities_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -723,60 +667,6 @@ func VirtualNetworkBgpCommunities_StatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities_Status(gens map[string]gopter.Gen) {
 	gens["RegionalCommunity"] = gen.PtrOf(gen.AlphaString())
 	gens["VirtualNetworkCommunity"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_VirtualNetworkPeering_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualNetworkPeering via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkPeering, VirtualNetworkPeeringGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualNetworkPeering runs a test to see if a specific instance of VirtualNetworkPeering round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkPeering(subject VirtualNetworkPeering) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualNetworkPeering
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualNetworkPeering instances for property testing - lazily instantiated by
-//VirtualNetworkPeeringGenerator()
-var virtualNetworkPeeringGenerator gopter.Gen
-
-// VirtualNetworkPeeringGenerator returns a generator of VirtualNetworkPeering instances for property testing.
-func VirtualNetworkPeeringGenerator() gopter.Gen {
-	if virtualNetworkPeeringGenerator != nil {
-		return virtualNetworkPeeringGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	virtualNetworkPeeringGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkPeering{}), generators)
-
-	return virtualNetworkPeeringGenerator
 }
 
 func Test_VirtualNetworkPeering_Status_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

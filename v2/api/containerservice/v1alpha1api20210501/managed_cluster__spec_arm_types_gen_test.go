@@ -305,7 +305,6 @@ func AddRelatedPropertyGeneratorsForManagedClusterPropertiesARM(gens map[string]
 	gens["LinuxProfile"] = gen.PtrOf(ContainerServiceLinuxProfileARMGenerator())
 	gens["NetworkProfile"] = gen.PtrOf(ContainerServiceNetworkProfileARMGenerator())
 	gens["PodIdentityProfile"] = gen.PtrOf(ManagedClusterPodIdentityProfileARMGenerator())
-	gens["PrivateLinkResources"] = gen.SliceOf(PrivateLinkResourceARMGenerator())
 	gens["ServicePrincipalProfile"] = gen.PtrOf(ManagedClusterServicePrincipalProfileARMGenerator())
 	gens["WindowsProfile"] = gen.PtrOf(ManagedClusterWindowsProfileARMGenerator())
 }
@@ -1175,70 +1174,6 @@ func AddIndependentPropertyGeneratorsForManagedClusterWindowsProfileARM(gens map
 	gens["AdminUsername"] = gen.AlphaString()
 	gens["EnableCSIProxy"] = gen.PtrOf(gen.Bool())
 	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterWindowsProfileLicenseTypeNone, ManagedClusterWindowsProfileLicenseTypeWindows_Server))
-}
-
-func Test_PrivateLinkResourceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateLinkResourceARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateLinkResourceARM, PrivateLinkResourceARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateLinkResourceARM runs a test to see if a specific instance of PrivateLinkResourceARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateLinkResourceARM(subject PrivateLinkResourceARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrivateLinkResourceARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrivateLinkResourceARM instances for property testing - lazily instantiated by
-//PrivateLinkResourceARMGenerator()
-var privateLinkResourceARMGenerator gopter.Gen
-
-// PrivateLinkResourceARMGenerator returns a generator of PrivateLinkResourceARM instances for property testing.
-func PrivateLinkResourceARMGenerator() gopter.Gen {
-	if privateLinkResourceARMGenerator != nil {
-		return privateLinkResourceARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateLinkResourceARM(generators)
-	privateLinkResourceARMGenerator = gen.Struct(reflect.TypeOf(PrivateLinkResourceARM{}), generators)
-
-	return privateLinkResourceARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateLinkResourceARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateLinkResourceARM(gens map[string]gopter.Gen) {
-	gens["GroupId"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["RequiredMembers"] = gen.SliceOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ContainerServiceSshConfigurationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

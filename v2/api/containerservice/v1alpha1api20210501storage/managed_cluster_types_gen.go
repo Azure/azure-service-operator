@@ -174,7 +174,7 @@ type ManagedCluster_Spec struct {
 	// +kubebuilder:validation:Required
 	Owner                   genruntime.KnownResourceReference      `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	PodIdentityProfile      *ManagedClusterPodIdentityProfile      `json:"podIdentityProfile,omitempty"`
-	PrivateLinkResources    []PrivateLinkResource                  `json:"privateLinkResources,omitempty"`
+	PrivateLinkResources    []genruntime.ResourceReference         `json:"privateLinkResources,omitempty"`
 	PropertyBag             genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 	ServicePrincipalProfile *ManagedClusterServicePrincipalProfile `json:"servicePrincipalProfile,omitempty"`
 	Sku                     *ManagedClusterSKU                     `json:"sku,omitempty"`
@@ -614,18 +614,6 @@ type ManagedClusterWindowsProfile_Status struct {
 type PowerState_Status struct {
 	Code        *string                `json:"code,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-//Storage version of v1alpha1api20210501.PrivateLinkResource
-type PrivateLinkResource struct {
-	GroupId     *string                `json:"groupId,omitempty"`
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//Reference: The ID of the private link resource.
-	Reference       *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	RequiredMembers []string                      `json:"requiredMembers,omitempty"`
-	Type            *string                       `json:"type,omitempty"`
 }
 
 //Storage version of v1alpha1api20210501.PrivateLinkResource_Status

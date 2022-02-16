@@ -14,7 +14,7 @@ type NetworkSecurityGroup_SpecARM struct {
 	Name     string  `json:"name"`
 
 	//Properties: Properties of the network security group.
-	Properties *NetworkSecurityGroupPropertiesFormat_NetworkSecurityGroup_SubResourceEmbeddedARM `json:"properties,omitempty"`
+	Properties *NetworkSecurityGroupPropertiesFormatARM `json:"properties,omitempty"`
 
 	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -37,11 +37,7 @@ func (group NetworkSecurityGroup_SpecARM) GetType() string {
 	return "Microsoft.Network/networkSecurityGroups"
 }
 
-type NetworkSecurityGroupPropertiesFormat_NetworkSecurityGroup_SubResourceEmbeddedARM struct {
+type NetworkSecurityGroupPropertiesFormatARM struct {
 	//SecurityRules: A collection of security rules of the network security group.
-	SecurityRules []SecurityRule_NetworkSecurityGroup_SubResourceEmbeddedARM `json:"securityRules,omitempty"`
-}
-
-type SecurityRule_NetworkSecurityGroup_SubResourceEmbeddedARM struct {
-	Id *string `json:"id,omitempty"`
+	SecurityRules []genruntime.ResourceReference `json:"securityRules,omitempty"`
 }

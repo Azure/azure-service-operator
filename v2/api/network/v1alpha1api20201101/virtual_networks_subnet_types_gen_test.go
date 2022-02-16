@@ -419,10 +419,9 @@ func AddIndependentPropertyGeneratorsForVirtualNetworksSubnet_Spec(gens map[stri
 // AddRelatedPropertyGeneratorsForVirtualNetworksSubnet_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualNetworksSubnet_Spec(gens map[string]gopter.Gen) {
 	gens["ApplicationGatewayIpConfigurations"] = gen.SliceOf(ApplicationGatewayIPConfigurationGenerator())
-	gens["Delegations"] = gen.SliceOf(DelegationGenerator())
 	gens["IpAllocations"] = gen.SliceOf(SubResourceGenerator())
 	gens["NatGateway"] = gen.PtrOf(SubResourceGenerator())
-	gens["NetworkSecurityGroup"] = gen.PtrOf(NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator())
+	gens["NetworkSecurityGroup"] = gen.PtrOf(NetworkSecurityGroupSpecGenerator())
 	gens["RouteTable"] = gen.PtrOf(RouteTableSpecGenerator())
 	gens["ServiceEndpointPolicies"] = gen.SliceOf(ServiceEndpointPolicySpecGenerator())
 	gens["ServiceEndpoints"] = gen.SliceOf(ServiceEndpointPropertiesFormatGenerator())
@@ -662,109 +661,6 @@ func AddIndependentPropertyGeneratorsForApplicationGatewayIPConfiguration_Status
 // AddRelatedPropertyGeneratorsForApplicationGatewayIPConfiguration_Status is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForApplicationGatewayIPConfiguration_Status(gens map[string]gopter.Gen) {
 	gens["Subnet"] = gen.PtrOf(SubResource_StatusGenerator())
-}
-
-func Test_Delegation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Delegation to Delegation via AssignPropertiesToDelegation & AssignPropertiesFromDelegation returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDelegation, DelegationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForDelegation tests if a specific instance of Delegation can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForDelegation(subject Delegation) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20201101storage.Delegation
-	err := copied.AssignPropertiesToDelegation(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Delegation
-	err = actual.AssignPropertiesFromDelegation(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Delegation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Delegation via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDelegation, DelegationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDelegation runs a test to see if a specific instance of Delegation round trips to JSON and back losslessly
-func RunJSONSerializationTestForDelegation(subject Delegation) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Delegation
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Delegation instances for property testing - lazily instantiated by DelegationGenerator()
-var delegationGenerator gopter.Gen
-
-// DelegationGenerator returns a generator of Delegation instances for property testing.
-func DelegationGenerator() gopter.Gen {
-	if delegationGenerator != nil {
-		return delegationGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDelegation(generators)
-	delegationGenerator = gen.Struct(reflect.TypeOf(Delegation{}), generators)
-
-	return delegationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDelegation is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDelegation(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ServiceName"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Delegation_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1099,123 +995,6 @@ func AddIndependentPropertyGeneratorsForIPConfiguration_Status_VirtualNetworksSu
 // AddRelatedPropertyGeneratorsForIPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForIPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["PublicIPAddress"] = gen.PtrOf(PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbeddedGenerator())
-}
-
-func Test_NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded to NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded via AssignPropertiesToNetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded & AssignPropertiesFromNetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded, NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForNetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded tests if a specific instance of NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForNetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded(subject NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20201101storage.NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded
-	err := copied.AssignPropertiesToNetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded
-	err = actual.AssignPropertiesFromNetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded, NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForNetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded runs a test to see if a specific instance of NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForNetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded(subject NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing -
-//lazily instantiated by NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()
-var networkSecurityGroupSpec_virtualNetworksSubnet_subResourceEmbeddedGenerator gopter.Gen
-
-// NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator returns a generator of NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
-// We first initialize networkSecurityGroupSpec_virtualNetworksSubnet_subResourceEmbeddedGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbeddedGenerator() gopter.Gen {
-	if networkSecurityGroupSpec_virtualNetworksSubnet_subResourceEmbeddedGenerator != nil {
-		return networkSecurityGroupSpec_virtualNetworksSubnet_subResourceEmbeddedGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded(generators)
-	networkSecurityGroupSpec_virtualNetworksSubnet_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded(generators)
-	AddRelatedPropertyGeneratorsForNetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded(generators)
-	networkSecurityGroupSpec_virtualNetworksSubnet_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
-
-	return networkSecurityGroupSpec_virtualNetworksSubnet_subResourceEmbeddedGenerator
-}
-
-// AddIndependentPropertyGeneratorsForNetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForNetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["SecurityRules"] = gen.SliceOf(SecurityRule_VirtualNetworksSubnet_SubResourceEmbeddedGenerator())
 }
 
 func Test_NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1628,9 +1407,6 @@ func RunJSONSerializationTestForRouteTableSpec(subject RouteTableSpec) string {
 var routeTableSpecGenerator gopter.Gen
 
 // RouteTableSpecGenerator returns a generator of RouteTableSpec instances for property testing.
-// We first initialize routeTableSpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func RouteTableSpecGenerator() gopter.Gen {
 	if routeTableSpecGenerator != nil {
 		return routeTableSpecGenerator
@@ -1638,12 +1414,6 @@ func RouteTableSpecGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForRouteTableSpec(generators)
-	routeTableSpecGenerator = gen.Struct(reflect.TypeOf(RouteTableSpec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRouteTableSpec(generators)
-	AddRelatedPropertyGeneratorsForRouteTableSpec(generators)
 	routeTableSpecGenerator = gen.Struct(reflect.TypeOf(RouteTableSpec{}), generators)
 
 	return routeTableSpecGenerator
@@ -1654,11 +1424,6 @@ func AddIndependentPropertyGeneratorsForRouteTableSpec(gens map[string]gopter.Ge
 	gens["DisableBgpRoutePropagation"] = gen.PtrOf(gen.Bool())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForRouteTableSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRouteTableSpec(gens map[string]gopter.Gen) {
-	gens["Routes"] = gen.SliceOf(Route_VirtualNetworksSubnet_SubResourceEmbeddedGenerator())
 }
 
 func Test_RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2416,198 +2181,6 @@ func AddIndependentPropertyGeneratorsForPublicIPAddress_Status_VirtualNetworksSu
 func AddRelatedPropertyGeneratorsForPublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_StatusGenerator())
 	gens["Sku"] = gen.PtrOf(PublicIPAddressSku_StatusGenerator())
-}
-
-func Test_Route_VirtualNetworksSubnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Route_VirtualNetworksSubnet_SubResourceEmbedded to Route_VirtualNetworksSubnet_SubResourceEmbedded via AssignPropertiesToRoute_VirtualNetworksSubnet_SubResourceEmbedded & AssignPropertiesFromRoute_VirtualNetworksSubnet_SubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRoute_VirtualNetworksSubnet_SubResourceEmbedded, Route_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForRoute_VirtualNetworksSubnet_SubResourceEmbedded tests if a specific instance of Route_VirtualNetworksSubnet_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForRoute_VirtualNetworksSubnet_SubResourceEmbedded(subject Route_VirtualNetworksSubnet_SubResourceEmbedded) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20201101storage.Route_VirtualNetworksSubnet_SubResourceEmbedded
-	err := copied.AssignPropertiesToRoute_VirtualNetworksSubnet_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Route_VirtualNetworksSubnet_SubResourceEmbedded
-	err = actual.AssignPropertiesFromRoute_VirtualNetworksSubnet_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Route_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Route_VirtualNetworksSubnet_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRoute_VirtualNetworksSubnet_SubResourceEmbedded, Route_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForRoute_VirtualNetworksSubnet_SubResourceEmbedded runs a test to see if a specific instance of Route_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForRoute_VirtualNetworksSubnet_SubResourceEmbedded(subject Route_VirtualNetworksSubnet_SubResourceEmbedded) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Route_VirtualNetworksSubnet_SubResourceEmbedded
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Route_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing - lazily instantiated by
-//Route_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()
-var route_virtualNetworksSubnet_subResourceEmbeddedGenerator gopter.Gen
-
-// Route_VirtualNetworksSubnet_SubResourceEmbeddedGenerator returns a generator of Route_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
-func Route_VirtualNetworksSubnet_SubResourceEmbeddedGenerator() gopter.Gen {
-	if route_virtualNetworksSubnet_subResourceEmbeddedGenerator != nil {
-		return route_virtualNetworksSubnet_subResourceEmbeddedGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	route_virtualNetworksSubnet_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(Route_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
-
-	return route_virtualNetworksSubnet_subResourceEmbeddedGenerator
-}
-
-func Test_SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded to SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded via AssignPropertiesToSecurityRule_VirtualNetworksSubnet_SubResourceEmbedded & AssignPropertiesFromSecurityRule_VirtualNetworksSubnet_SubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSecurityRule_VirtualNetworksSubnet_SubResourceEmbedded, SecurityRule_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForSecurityRule_VirtualNetworksSubnet_SubResourceEmbedded tests if a specific instance of SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForSecurityRule_VirtualNetworksSubnet_SubResourceEmbedded(subject SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20201101storage.SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded
-	err := copied.AssignPropertiesToSecurityRule_VirtualNetworksSubnet_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded
-	err = actual.AssignPropertiesFromSecurityRule_VirtualNetworksSubnet_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSecurityRule_VirtualNetworksSubnet_SubResourceEmbedded, SecurityRule_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSecurityRule_VirtualNetworksSubnet_SubResourceEmbedded runs a test to see if a specific instance of SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForSecurityRule_VirtualNetworksSubnet_SubResourceEmbedded(subject SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing - lazily
-//instantiated by SecurityRule_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()
-var securityRule_virtualNetworksSubnet_subResourceEmbeddedGenerator gopter.Gen
-
-// SecurityRule_VirtualNetworksSubnet_SubResourceEmbeddedGenerator returns a generator of SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
-func SecurityRule_VirtualNetworksSubnet_SubResourceEmbeddedGenerator() gopter.Gen {
-	if securityRule_virtualNetworksSubnet_subResourceEmbeddedGenerator != nil {
-		return securityRule_virtualNetworksSubnet_subResourceEmbeddedGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	securityRule_virtualNetworksSubnet_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
-
-	return securityRule_virtualNetworksSubnet_subResourceEmbeddedGenerator
 }
 
 func Test_ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

@@ -205,6 +205,11 @@ func (c *armTypeCreator) createARMTypeIfNeeded(t astmodel.Type) (astmodel.Type, 
 			return it, nil
 		}
 
+		// Allow ResourceReference to pass through
+		if it == astmodel.ResourceReferenceType {
+			return it, nil
+		}
+
 		def, ok := c.definitions[it]
 		if !ok {
 			return nil, errors.Errorf("failed to lookup %s", it)
@@ -255,22 +260,28 @@ func (c *armTypeCreator) createResourceReferenceProperty(prop *astmodel.Property
 
 	// Extract expected property name
 	values, ok := prop.Tag(astmodel.ARMReferenceTag)
-	if !ok {
-		return nil, errors.Errorf("ResourceReference property missing %q tag", astmodel.ARMReferenceTag)
-	}
 
-	if len(values) != 1 {
-		return nil, errors.Errorf("ResourceReference %q tag len(values) != 1", astmodel.ARMReferenceTag)
+	armPropName := prop.PropertyName().String()
+	if ok && len(values) == 1 {
+		armPropName = values[0]
 	}
+	/*
+		if !ok {
+			return nil, errors.Errorf("ResourceReference property missing %q tag", astmodel.ARMReferenceTag)
+		}
 
-	armPropName := values[0]
+		if len(values) != 1 {
+			return nil, errors.Errorf("ResourceReference %q tag len(values) != 1", astmodel.ARMReferenceTag)
+		}
+	*/
+
 	newProp := astmodel.NewPropertyDefinition(
 		c.idFactory.CreatePropertyName(armPropName, astmodel.Exported),
 		c.idFactory.CreateIdentifier(armPropName, astmodel.NotExported),
 		astmodel.StringType)
 
 	if isRequired {
-		// We want to be required but don't need any kubebuidler annotations on this type because it's an ARM type
+		// We want to be required but don't need any kubebuilder annotations on this type because it's an ARM type
 		newProp = newProp.MakeRequired().WithKubebuilderRequiredValidation(false)
 	} else {
 		newProp = newProp.MakeOptional()

@@ -53,13 +53,13 @@ type NetworkInterfacePropertiesFormatARM struct {
 	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
 
 	//IpConfigurations: A list of IPConfigurations of the network interface.
-	IpConfigurations []NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbeddedARM `json:"ipConfigurations,omitempty"`
+	IpConfigurations []genruntime.ResourceReference `json:"ipConfigurations,omitempty"`
 
 	//MigrationPhase: Migration phase of Network Interface resource.
 	MigrationPhase *NetworkInterfacePropertiesFormatMigrationPhase `json:"migrationPhase,omitempty"`
 
 	//NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
-	NetworkSecurityGroup *NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbeddedARM `json:"networkSecurityGroup,omitempty"`
+	NetworkSecurityGroup *NetworkSecurityGroupSpecARM `json:"networkSecurityGroup,omitempty"`
 
 	//NicType: Type of Network Interface resource.
 	NicType *NetworkInterfacePropertiesFormatNicType `json:"nicType,omitempty"`
@@ -79,28 +79,14 @@ type NetworkInterfaceDnsSettingsARM struct {
 	InternalDnsNameLabel *string `json:"internalDnsNameLabel,omitempty"`
 }
 
-type NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbeddedARM struct {
-	Id *string `json:"id,omitempty"`
-
-	//Name: The name of the resource that is unique within a resource group. This name
-	//can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	//Properties: Network interface IP configuration properties.
-	Properties *NetworkInterfaceIPConfigurationPropertiesFormat_NetworkInterface_SubResourceEmbeddedARM `json:"properties,omitempty"`
-
-	//Type: Resource type.
-	Type *string `json:"type,omitempty"`
-}
-
-type NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbeddedARM struct {
+type NetworkSecurityGroupSpecARM struct {
 	Id *string `json:"id,omitempty"`
 
 	//Location: Resource location.
 	Location *string `json:"location,omitempty"`
 
 	//Properties: Properties of the network security group.
-	Properties *NetworkSecurityGroupPropertiesFormat_NetworkInterface_SubResourceEmbeddedARM `json:"properties,omitempty"`
+	Properties *NetworkSecurityGroupPropertiesFormatARM `json:"properties,omitempty"`
 
 	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -115,57 +101,13 @@ type PrivateLinkServiceSpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Properties: Properties of the private link service.
-	Properties *PrivateLinkServiceProperties_NetworkInterface_SubResourceEmbeddedARM `json:"properties,omitempty"`
+	Properties *PrivateLinkServicePropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-type NetworkInterfaceIPConfigurationPropertiesFormat_NetworkInterface_SubResourceEmbeddedARM struct {
-	//ApplicationGatewayBackendAddressPools: The reference to
-	//ApplicationGatewayBackendAddressPool resource.
-	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPoolARM `json:"applicationGatewayBackendAddressPools,omitempty"`
-
-	//ApplicationSecurityGroups: Application security groups in which the IP
-	//configuration is included.
-	ApplicationSecurityGroups []ApplicationSecurityGroupSpecARM `json:"applicationSecurityGroups,omitempty"`
-
-	//LoadBalancerBackendAddressPools: The reference to LoadBalancerBackendAddressPool
-	//resource.
-	LoadBalancerBackendAddressPools []BackendAddressPool_NetworkInterface_SubResourceEmbeddedARM `json:"loadBalancerBackendAddressPools,omitempty"`
-
-	//LoadBalancerInboundNatRules: A list of references of LoadBalancerInboundNatRules.
-	LoadBalancerInboundNatRules []InboundNatRule_NetworkInterface_SubResourceEmbeddedARM `json:"loadBalancerInboundNatRules,omitempty"`
-
-	//Primary: Whether this is a primary customer address on the network interface.
-	Primary *bool `json:"primary,omitempty"`
-
-	//PrivateIPAddress: Private IP address of the IP configuration.
-	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
-
-	//PrivateIPAddressVersion: Whether the specific IP configuration is IPv4 or IPv6.
-	//Default is IPv4.
-	PrivateIPAddressVersion *IPVersion `json:"privateIPAddressVersion,omitempty"`
-
-	//PrivateIPAllocationMethod: The private IP address allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
-
-	//PublicIPAddress: Public IP address bound to the IP configuration.
-	PublicIPAddress *PublicIPAddressSpecARM `json:"publicIPAddress,omitempty"`
-
-	//Subnet: Subnet bound to the IP configuration.
-	Subnet *Subnet_NetworkInterface_SubResourceEmbeddedARM `json:"subnet,omitempty"`
-
-	//VirtualNetworkTaps: The reference to Virtual Network Taps.
-	VirtualNetworkTaps []VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbeddedARM `json:"virtualNetworkTaps,omitempty"`
-}
-
-type NetworkSecurityGroupPropertiesFormat_NetworkInterface_SubResourceEmbeddedARM struct {
-	//SecurityRules: A collection of security rules of the network security group.
-	SecurityRules []SecurityRule_NetworkInterface_SubResourceEmbeddedARM `json:"securityRules,omitempty"`
-}
-
-type PrivateLinkServiceProperties_NetworkInterface_SubResourceEmbeddedARM struct {
+type PrivateLinkServicePropertiesARM struct {
 	//AutoApproval: The auto-approval list of the private link service.
 	AutoApproval *ResourceSetARM `json:"autoApproval,omitempty"`
 
@@ -177,59 +119,24 @@ type PrivateLinkServiceProperties_NetworkInterface_SubResourceEmbeddedARM struct
 	Fqdns []string `json:"fqdns,omitempty"`
 
 	//IpConfigurations: An array of private link service IP configurations.
-	IpConfigurations []PrivateLinkServiceIpConfiguration_NetworkInterface_SubResourceEmbeddedARM `json:"ipConfigurations,omitempty"`
+	IpConfigurations []PrivateLinkServiceIpConfigurationARM `json:"ipConfigurations,omitempty"`
 
 	//LoadBalancerFrontendIpConfigurations: An array of references to the load
 	//balancer IP configurations.
-	LoadBalancerFrontendIpConfigurations []FrontendIPConfiguration_NetworkInterface_SubResourceEmbeddedARM `json:"loadBalancerFrontendIpConfigurations,omitempty"`
+	LoadBalancerFrontendIpConfigurations []FrontendIPConfigurationARM `json:"loadBalancerFrontendIpConfigurations,omitempty"`
 
 	//Visibility: The visibility list of the private link service.
 	Visibility *ResourceSetARM `json:"visibility,omitempty"`
 }
 
-type ApplicationGatewayBackendAddressPoolARM struct {
-	Id *string `json:"id,omitempty"`
-
-	//Name: Name of the backend address pool that is unique within an Application
-	//Gateway.
-	Name *string `json:"name,omitempty"`
-
-	//Properties: Properties of the application gateway backend address pool.
-	Properties *ApplicationGatewayBackendAddressPoolPropertiesFormatARM `json:"properties,omitempty"`
-}
-
-type BackendAddressPool_NetworkInterface_SubResourceEmbeddedARM struct {
-	Id *string `json:"id,omitempty"`
-}
-
-type FrontendIPConfiguration_NetworkInterface_SubResourceEmbeddedARM struct {
-	Id *string `json:"id,omitempty"`
-
-	//Name: The name of the resource that is unique within the set of frontend IP
-	//configurations used by the load balancer. This name can be used to access the
-	//resource.
-	Name *string `json:"name,omitempty"`
-
-	//Properties: Properties of the load balancer probe.
-	Properties *FrontendIPConfigurationPropertiesFormat_NetworkInterface_SubResourceEmbeddedARM `json:"properties,omitempty"`
-
-	//Zones: A list of availability zones denoting the IP allocated for the resource
-	//needs to come from.
-	Zones []string `json:"zones,omitempty"`
-}
-
-type InboundNatRule_NetworkInterface_SubResourceEmbeddedARM struct {
-	Id *string `json:"id,omitempty"`
-}
-
-type PrivateLinkServiceIpConfiguration_NetworkInterface_SubResourceEmbeddedARM struct {
+type PrivateLinkServiceIpConfigurationARM struct {
 	Id *string `json:"id,omitempty"`
 
 	//Name: The name of private link service ip configuration.
 	Name *string `json:"name,omitempty"`
 
 	//Properties: Properties of the private link service ip configuration.
-	Properties *PrivateLinkServiceIpConfigurationProperties_NetworkInterface_SubResourceEmbeddedARM `json:"properties,omitempty"`
+	Properties *PrivateLinkServiceIpConfigurationPropertiesARM `json:"properties,omitempty"`
 }
 
 type ResourceSetARM struct {
@@ -237,54 +144,7 @@ type ResourceSetARM struct {
 	Subscriptions []string `json:"subscriptions,omitempty"`
 }
 
-type SecurityRule_NetworkInterface_SubResourceEmbeddedARM struct {
-	Id *string `json:"id,omitempty"`
-}
-
-type Subnet_NetworkInterface_SubResourceEmbeddedARM struct {
-	Id *string `json:"id,omitempty"`
-}
-
-type VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbeddedARM struct {
-	Id *string `json:"id,omitempty"`
-
-	//Location: Resource location.
-	Location *string `json:"location,omitempty"`
-
-	//Properties: Virtual Network Tap Properties.
-	Properties *VirtualNetworkTapPropertiesFormat_NetworkInterface_SubResourceEmbeddedARM `json:"properties,omitempty"`
-
-	//Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-}
-
-type ApplicationGatewayBackendAddressPoolPropertiesFormatARM struct {
-	//BackendAddresses: Backend addresses.
-	BackendAddresses []ApplicationGatewayBackendAddressARM `json:"backendAddresses,omitempty"`
-}
-
-type FrontendIPConfigurationPropertiesFormat_NetworkInterface_SubResourceEmbeddedARM struct {
-	//PrivateIPAddress: The private IP address of the IP configuration.
-	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
-
-	//PrivateIPAddressVersion: Whether the specific ipconfiguration is IPv4 or IPv6.
-	//Default is taken as IPv4.
-	PrivateIPAddressVersion *IPVersion `json:"privateIPAddressVersion,omitempty"`
-
-	//PrivateIPAllocationMethod: The Private IP allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
-
-	//PublicIPAddress: The reference to the Public IP resource.
-	PublicIPAddress *PublicIPAddressSpecARM `json:"publicIPAddress,omitempty"`
-
-	//PublicIPPrefix: The reference to the Public IP Prefix resource.
-	PublicIPPrefix *SubResourceARM `json:"publicIPPrefix,omitempty"`
-
-	//Subnet: The reference to the subnet resource.
-	Subnet *Subnet_NetworkInterface_SubResourceEmbeddedARM `json:"subnet,omitempty"`
-}
-
-type PrivateLinkServiceIpConfigurationProperties_NetworkInterface_SubResourceEmbeddedARM struct {
+type PrivateLinkServiceIpConfigurationPropertiesARM struct {
 	//Primary: Whether the ip configuration is primary or not.
 	Primary *bool `json:"primary,omitempty"`
 
@@ -297,24 +157,5 @@ type PrivateLinkServiceIpConfigurationProperties_NetworkInterface_SubResourceEmb
 
 	//PrivateIPAllocationMethod: The private IP address allocation method.
 	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
-
-	//Subnet: The reference to the subnet resource.
-	Subnet *Subnet_NetworkInterface_SubResourceEmbeddedARM `json:"subnet,omitempty"`
-}
-
-type VirtualNetworkTapPropertiesFormat_NetworkInterface_SubResourceEmbeddedARM struct {
-	//DestinationLoadBalancerFrontEndIPConfiguration: The reference to the private IP
-	//address on the internal Load Balancer that will receive the tap.
-	DestinationLoadBalancerFrontEndIPConfiguration *FrontendIPConfiguration_NetworkInterface_SubResourceEmbeddedARM `json:"destinationLoadBalancerFrontEndIPConfiguration,omitempty"`
-
-	//DestinationPort: The VXLAN destination port that will receive the tapped traffic.
-	DestinationPort *int `json:"destinationPort,omitempty"`
-}
-
-type ApplicationGatewayBackendAddressARM struct {
-	//Fqdn: Fully qualified domain name (FQDN).
-	Fqdn *string `json:"fqdn,omitempty"`
-
-	//IpAddress: IP address.
-	IpAddress *string `json:"ipAddress,omitempty"`
+	Subnet                    *string             `json:"subnet,omitempty"`
 }

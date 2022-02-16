@@ -733,6 +733,9 @@ objectModelConfiguration:
       ApplicationGatewayBackendAddressPool:
         Id:
           $armReference: true
+      BackendAddressPool:
+        Id:
+          $armReference: true
       ApplicationGatewayIPConfiguration:
         Id:
           $armReference: true
@@ -748,6 +751,9 @@ objectModelConfiguration:
       Delegation:
         Id:
           $armReference: true
+      FrontendIPConfiguration:
+        Id:
+          $armReference: true
       FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded:
         Id:
           $armReference: true
@@ -755,6 +761,9 @@ objectModelConfiguration:
         Id:
           $armReference: true
       InboundNatPool:
+        Id:
+          $armReference: true
+      InboundNatRule:
         Id:
           $armReference: true
       InboundNatRule_LoadBalancer_SubResourceEmbedded:
@@ -799,6 +808,9 @@ objectModelConfiguration:
       NetworkSecurityGroup_Spec:
         Id:
           $armReference: true
+      NetworkSecurityGroupSpec:
+        Id:
+          $armReference: true
       NetworkSecurityGroupsSecurityRules_SPEC:
         Id:
           $armReference: true
@@ -820,6 +832,9 @@ objectModelConfiguration:
         Id:
           $armReference: true
       PrivateLinkService_Spec_NetworkInterface_SubResourceEmbedded:
+        Id: 
+          $armReference: true
+      PrivateLinkServiceIpConfiguration:
         Id: 
           $armReference: true
       PrivateLinkServiceIpConfiguration_NetworkInterface_SubResourceEmbedded:

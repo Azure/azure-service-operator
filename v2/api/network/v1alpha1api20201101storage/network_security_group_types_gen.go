@@ -146,9 +146,9 @@ type NetworkSecurityGroup_Spec struct {
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 
 	//Reference: Resource ID.
-	Reference     *genruntime.ResourceReference                           `armReference:"Id" json:"reference,omitempty"`
-	SecurityRules []SecurityRule_NetworkSecurityGroup_SubResourceEmbedded `json:"securityRules,omitempty"`
-	Tags          map[string]string                                       `json:"tags,omitempty"`
+	Reference     *genruntime.ResourceReference  `armReference:"Id" json:"reference,omitempty"`
+	SecurityRules []genruntime.ResourceReference `json:"securityRules,omitempty"`
+	Tags          map[string]string              `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &NetworkSecurityGroup_Spec{}
@@ -221,14 +221,6 @@ type NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
 	ExtendedLocation *ExtendedLocation_Status `json:"extendedLocation,omitempty"`
 	Id               *string                  `json:"id,omitempty"`
 	PropertyBag      genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
-}
-
-//Storage version of v1alpha1api20201101.SecurityRule_NetworkSecurityGroup_SubResourceEmbedded
-type SecurityRule_NetworkSecurityGroup_SubResourceEmbedded struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 //Storage version of v1alpha1api20201101.SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded

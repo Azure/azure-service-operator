@@ -55,6 +55,11 @@ func RemoveTypeAliases() Stage {
 }
 
 func resolveTypeName(visitor *astmodel.TypeVisitor, name astmodel.TypeName, types astmodel.Types) (astmodel.Type, error) {
+	if name == astmodel.ResourceReferenceType {
+		// don’t need to visit resource references
+		return name, nil
+	}
+
 	def, ok := types[name]
 	if !ok {
 		return nil, errors.Errorf("couldn't find definition for type name %s", name)

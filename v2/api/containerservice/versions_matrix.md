@@ -87,7 +87,6 @@
 | OSSKU                                                          | v1alpha1api20210501 |
 | OSType                                                         | v1alpha1api20210501 |
 | PowerState_Status                                              | v1alpha1api20210501 |
-| PrivateLinkResource                                            | v1alpha1api20210501 |
 | PrivateLinkResource_Status                                     | v1alpha1api20210501 |
 | ResourceReference                                              | v1alpha1api20210501 |
 | ResourceReference_Status                                       | v1alpha1api20210501 |

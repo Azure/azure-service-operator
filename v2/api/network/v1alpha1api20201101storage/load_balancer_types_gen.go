@@ -142,16 +142,16 @@ const APIVersionValue = APIVersion("2020-11-01")
 type LoadBalancer_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName                string                                                     `json:"azureName"`
-	BackendAddressPools      []BackendAddressPool_LoadBalancer_SubResourceEmbedded      `json:"backendAddressPools,omitempty"`
-	ExtendedLocation         *ExtendedLocation                                          `json:"extendedLocation,omitempty"`
-	FrontendIPConfigurations []FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded `json:"frontendIPConfigurations,omitempty"`
-	InboundNatPools          []InboundNatPool                                           `json:"inboundNatPools,omitempty"`
-	InboundNatRules          []InboundNatRule_LoadBalancer_SubResourceEmbedded          `json:"inboundNatRules,omitempty"`
-	LoadBalancingRules       []LoadBalancingRule                                        `json:"loadBalancingRules,omitempty"`
-	Location                 *string                                                    `json:"location,omitempty"`
-	OriginalVersion          string                                                     `json:"originalVersion"`
-	OutboundRules            []OutboundRule                                             `json:"outboundRules,omitempty"`
+	AzureName                string                    `json:"azureName"`
+	BackendAddressPools      []BackendAddressPool      `json:"backendAddressPools,omitempty"`
+	ExtendedLocation         *ExtendedLocation         `json:"extendedLocation,omitempty"`
+	FrontendIPConfigurations []FrontendIPConfiguration `json:"frontendIPConfigurations,omitempty"`
+	InboundNatPools          []InboundNatPool          `json:"inboundNatPools,omitempty"`
+	InboundNatRules          []InboundNatRule          `json:"inboundNatRules,omitempty"`
+	LoadBalancingRules       []LoadBalancingRule       `json:"loadBalancingRules,omitempty"`
+	Location                 *string                   `json:"location,omitempty"`
+	OriginalVersion          string                    `json:"originalVersion"`
+	OutboundRules            []OutboundRule            `json:"outboundRules,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
@@ -227,8 +227,8 @@ func (balancer *LoadBalancer_Status) ConvertStatusTo(destination genruntime.Conv
 	return destination.ConvertStatusFrom(balancer)
 }
 
-//Storage version of v1alpha1api20201101.BackendAddressPool_LoadBalancer_SubResourceEmbedded
-type BackendAddressPool_LoadBalancer_SubResourceEmbedded struct {
+//Storage version of v1alpha1api20201101.BackendAddressPool
+type BackendAddressPool struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	//Reference: Resource ID.
@@ -255,8 +255,8 @@ type ExtendedLocation_Status struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded
-type FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded struct {
+//Storage version of v1alpha1api20201101.FrontendIPConfiguration
+type FrontendIPConfiguration struct {
 	Name                      *string                `json:"name,omitempty"`
 	PrivateIPAddress          *string                `json:"privateIPAddress,omitempty"`
 	PrivateIPAddressVersion   *string                `json:"privateIPAddressVersion,omitempty"`
@@ -266,9 +266,11 @@ type FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded struct {
 	PublicIPPrefix            *SubResource           `json:"publicIPPrefix,omitempty"`
 
 	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference            `armReference:"Id" json:"reference,omitempty"`
-	Subnet    *Subnet_LoadBalancer_SubResourceEmbedded `json:"subnet,omitempty"`
-	Zones     []string                                 `json:"zones,omitempty"`
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+
+	//Subnet: The reference to the subnet resource.
+	Subnet *genruntime.ResourceReference `json:"subnet,omitempty"`
+	Zones  []string                      `json:"zones,omitempty"`
 }
 
 //Storage version of v1alpha1api20201101.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded
@@ -327,8 +329,8 @@ type InboundNatPool_Status struct {
 	Type                    *string                `json:"type,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.InboundNatRule_LoadBalancer_SubResourceEmbedded
-type InboundNatRule_LoadBalancer_SubResourceEmbedded struct {
+//Storage version of v1alpha1api20201101.InboundNatRule
+type InboundNatRule struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	//Reference: Resource ID.
@@ -489,14 +491,6 @@ type PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded struct {
 	PropertyBag      genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	Sku              *PublicIPAddressSku_Status `json:"sku,omitempty"`
 	Zones            []string                   `json:"zones,omitempty"`
-}
-
-//Storage version of v1alpha1api20201101.Subnet_LoadBalancer_SubResourceEmbedded
-type Subnet_LoadBalancer_SubResourceEmbedded struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 //Storage version of v1alpha1api20201101.Subnet_Status_LoadBalancer_SubResourceEmbedded

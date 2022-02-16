@@ -169,7 +169,6 @@ func AddRelatedPropertyGeneratorsForManagedCluster_Spec(gens map[string]gopter.G
 	gens["LinuxProfile"] = gen.PtrOf(ContainerServiceLinuxProfileGenerator())
 	gens["NetworkProfile"] = gen.PtrOf(ContainerServiceNetworkProfileGenerator())
 	gens["PodIdentityProfile"] = gen.PtrOf(ManagedClusterPodIdentityProfileGenerator())
-	gens["PrivateLinkResources"] = gen.SliceOf(PrivateLinkResourceGenerator())
 	gens["ServicePrincipalProfile"] = gen.PtrOf(ManagedClusterServicePrincipalProfileGenerator())
 	gens["Sku"] = gen.PtrOf(ManagedClusterSKUGenerator())
 	gens["WindowsProfile"] = gen.PtrOf(ManagedClusterWindowsProfileGenerator())
@@ -2296,69 +2295,6 @@ func PowerState_StatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPowerState_Status is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPowerState_Status(gens map[string]gopter.Gen) {
 	gens["Code"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_PrivateLinkResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateLinkResource via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateLinkResource, PrivateLinkResourceGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateLinkResource runs a test to see if a specific instance of PrivateLinkResource round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateLinkResource(subject PrivateLinkResource) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrivateLinkResource
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrivateLinkResource instances for property testing - lazily instantiated by
-//PrivateLinkResourceGenerator()
-var privateLinkResourceGenerator gopter.Gen
-
-// PrivateLinkResourceGenerator returns a generator of PrivateLinkResource instances for property testing.
-func PrivateLinkResourceGenerator() gopter.Gen {
-	if privateLinkResourceGenerator != nil {
-		return privateLinkResourceGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateLinkResource(generators)
-	privateLinkResourceGenerator = gen.Struct(reflect.TypeOf(PrivateLinkResource{}), generators)
-
-	return privateLinkResourceGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateLinkResource is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateLinkResource(gens map[string]gopter.Gen) {
-	gens["GroupId"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["RequiredMembers"] = gen.SliceOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_PrivateLinkResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

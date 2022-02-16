@@ -12,6 +12,7 @@ removeAliases                                      Remove type aliases
 stripUnreferenced                                  Strip unreferenced types
 nameTypes                                          Name inner types for CRD
 removeAliases                                      Remove type aliases
+identifySubResources                               Replace sub-resources with references
 propertyRewrites                                   Modify property types using configured transforms
 removeResourceScope                                Remove scope from all resources
 unrollRecursiveTypes                               Unroll directly recursive types since they are not supported by controller-gen

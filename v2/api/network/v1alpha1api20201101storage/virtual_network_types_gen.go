@@ -155,10 +155,10 @@ type VirtualNetwork_Spec struct {
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 
 	//Reference: Resource ID.
-	Reference              *genruntime.ResourceReference               `armReference:"Id" json:"reference,omitempty"`
-	Subnets                []Subnet_VirtualNetwork_SubResourceEmbedded `json:"subnets,omitempty"`
-	Tags                   map[string]string                           `json:"tags,omitempty"`
-	VirtualNetworkPeerings []VirtualNetworkPeering                     `json:"virtualNetworkPeerings,omitempty"`
+	Reference              *genruntime.ResourceReference  `armReference:"Id" json:"reference,omitempty"`
+	Subnets                []genruntime.ResourceReference `json:"subnets,omitempty"`
+	Tags                   map[string]string              `json:"tags,omitempty"`
+	VirtualNetworkPeerings []genruntime.ResourceReference `json:"virtualNetworkPeerings,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &VirtualNetwork_Spec{}
@@ -255,14 +255,6 @@ type Subnet_Status_VirtualNetwork_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.Subnet_VirtualNetwork_SubResourceEmbedded
-type Subnet_VirtualNetwork_SubResourceEmbedded struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
 //Storage version of v1alpha1api20201101.VirtualNetworkBgpCommunities
 type VirtualNetworkBgpCommunities struct {
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -274,14 +266,6 @@ type VirtualNetworkBgpCommunities_Status struct {
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RegionalCommunity       *string                `json:"regionalCommunity,omitempty"`
 	VirtualNetworkCommunity *string                `json:"virtualNetworkCommunity,omitempty"`
-}
-
-//Storage version of v1alpha1api20201101.VirtualNetworkPeering
-type VirtualNetworkPeering struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 //Storage version of v1alpha1api20201101.VirtualNetworkPeering_Status_SubResourceEmbedded

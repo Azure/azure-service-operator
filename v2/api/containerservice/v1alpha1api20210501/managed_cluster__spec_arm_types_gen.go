@@ -133,7 +133,7 @@ type ManagedClusterPropertiesARM struct {
 	PodIdentityProfile *ManagedClusterPodIdentityProfileARM `json:"podIdentityProfile,omitempty"`
 
 	//PrivateLinkResources: Private link resources associated with the cluster.
-	PrivateLinkResources []PrivateLinkResourceARM `json:"privateLinkResources,omitempty"`
+	PrivateLinkResources []genruntime.ResourceReference `json:"privateLinkResources,omitempty"`
 
 	//ServicePrincipalProfile: Information about a service principal identity for the
 	//cluster to use for manipulating Azure APIs.
@@ -533,21 +533,6 @@ type ManagedClusterWindowsProfileARM struct {
 	//Benefits](https://azure.microsoft.com/pricing/hybrid-benefit/faq/) for more
 	//details.
 	LicenseType *ManagedClusterWindowsProfileLicenseType `json:"licenseType,omitempty"`
-}
-
-type PrivateLinkResourceARM struct {
-	//GroupId: The group ID of the resource.
-	GroupId *string `json:"groupId,omitempty"`
-	Id      *string `json:"id,omitempty"`
-
-	//Name: The name of the private link resource.
-	Name *string `json:"name,omitempty"`
-
-	//RequiredMembers: The RequiredMembers of the resource
-	RequiredMembers []string `json:"requiredMembers,omitempty"`
-
-	//Type: The resource type.
-	Type *string `json:"type,omitempty"`
 }
 
 type ContainerServiceSshConfigurationARM struct {
