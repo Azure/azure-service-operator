@@ -34,11 +34,11 @@ func StripUnusedDefinitions(
 	roots astmodel.TypeNameSet,
 	defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 	graph := astmodel.MakeReferenceGraphWithRoots(roots, defs)
-	connectedTypes := graph.Connected()
+	connectedDefinitions := graph.Connected()
 
 	usedDefinitions := make(astmodel.TypeDefinitionSet)
 	for _, def := range defs {
-		if connectedTypes.Contains(def.Name()) {
+		if connectedDefinitions.Contains(def.Name()) {
 			usedDefinitions.Add(def)
 		}
 	}

@@ -25,8 +25,8 @@ func TestAddOperatorSpec_AddsSpecWithConfiguredSecrets(t *testing.T) {
 	status := test.CreateStatus(test.Pkg2020, "Person")
 	resource := test.CreateResource(test.Pkg2020, "Person", spec, status)
 
-	types := make(astmodel.TypeDefinitionSet)
-	types.AddAll(resource, status, spec)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(resource, status, spec)
 
 	idFactory := astmodel.NewIdentifierFactory()
 	omc, tc := config.CreateTestObjectModelConfiguration(resource.Name())
@@ -38,7 +38,7 @@ func TestAddOperatorSpec_AddsSpecWithConfiguredSecrets(t *testing.T) {
 	addOperatorSpec := AddOperatorSpec(configuration, idFactory)
 
 	// Don't need a context when testing
-	state := NewState().WithTypes(types)
+	state := NewState().WithTypes(defs)
 	finalState, err := addOperatorSpec.Run(context.TODO(), state)
 
 	g.Expect(err).To(Succeed())

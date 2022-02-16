@@ -66,9 +66,9 @@ func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) 
 	address2021s := test.CreateSimpleResource(test.Pkg2021s, "Address")
 
 	// Create our set of definitions
-	types := make(astmodel.TypeDefinitionSet)
-	types.AddAll(person2020, person2021, person2022, address2020, address2021)
-	types.AddAll(person2020s, person2021s, person2022s, address2020s, address2021s)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(person2020, person2021, person2022, address2020, address2021)
+	defs.AddAll(person2020s, person2021s, person2022s, address2020s, address2021s)
 
 	// Create a builder use it to configure a graph to test
 	omc := config.NewObjectModelConfiguration()
@@ -108,7 +108,7 @@ func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) 
 			g := NewGomegaWithT(t)
 			t.Parallel()
 
-			actual, err := graph.FindHub(c.start, types)
+			actual, err := graph.FindHub(c.start, defs)
 			g.Expect(err).To(Succeed())
 			g.Expect(actual).To(Equal(c.expectedName))
 		})
@@ -128,9 +128,9 @@ func Test_ConversionGraph_WhenRenameConfigured_FindsRenamedType(t *testing.T) {
 	party2021s := test.CreateSimpleResource(test.Pkg2021s, "Party")
 
 	// Create our set of definitions
-	types := make(astmodel.TypeDefinitionSet)
-	types.AddAll(person2020, party2021)
-	types.AddAll(person2020s, party2021s)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(person2020, party2021)
+	defs.AddAll(person2020s, party2021s)
 
 	// Create configuration for our rename
 	omc := config.CreateTestObjectModelConfigurationForRename(person2020.Name(), party2021.Name().Name())
@@ -143,7 +143,7 @@ func Test_ConversionGraph_WhenRenameConfigured_FindsRenamedType(t *testing.T) {
 	graph, err := builder.Build()
 	g.Expect(err).To(Succeed())
 
-	name, err := graph.FindNextType(person2020s.Name(), types)
+	name, err := graph.FindNextType(person2020s.Name(), defs)
 	g.Expect(err).To(Succeed())
 	g.Expect(name).To(Equal(party2021s.Name()))
 }
@@ -161,9 +161,9 @@ func Test_ConversionGraph_WhenRenameSpecifiesMissingType_ReturnsError(t *testing
 	party2021s := test.CreateSimpleResource(test.Pkg2021s, "Party")
 
 	// Create our set of definitions
-	types := make(astmodel.TypeDefinitionSet)
-	types.AddAll(person2020, party2021)
-	types.AddAll(person2020s, party2021s)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(person2020, party2021)
+	defs.AddAll(person2020s, party2021s)
 
 	// Create mis-configuration for our rename specifying a type that doesn't exist
 	omc := config.CreateTestObjectModelConfigurationForRename(person2020.Name(), "Phantom")
@@ -176,7 +176,7 @@ func Test_ConversionGraph_WhenRenameSpecifiesMissingType_ReturnsError(t *testing
 	graph, err := builder.Build()
 	g.Expect(err).To(Succeed())
 
-	_, err = graph.FindNextType(person2020s.Name(), types)
+	_, err = graph.FindNextType(person2020s.Name(), defs)
 	g.Expect(err).NotTo(Succeed())
 	g.Expect(err.Error()).To(ContainSubstring("Phantom"))
 }
@@ -197,9 +197,9 @@ func Test_ConversionGraph_WhenRenameSpecifiesConflictingType_ReturnsError(t *tes
 	party2021s := test.CreateSimpleResource(test.Pkg2021s, "Party")
 
 	// Create our set of definitions
-	types := make(astmodel.TypeDefinitionSet)
-	types.AddAll(person2020, person2021, party2021)
-	types.AddAll(person2020s, person2021s, party2021s)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(person2020, person2021, party2021)
+	defs.AddAll(person2020s, person2021s, party2021s)
 
 	// Create mis-configuration for our rename that conflicts with the second type
 	omc := config.CreateTestObjectModelConfigurationForRename(person2020.Name(), party2021.Name().Name())
@@ -212,7 +212,7 @@ func Test_ConversionGraph_WhenRenameSpecifiesConflictingType_ReturnsError(t *tes
 	graph, err := builder.Build()
 	g.Expect(err).To(Succeed())
 
-	_, err = graph.FindNextType(person2020s.Name(), types)
+	_, err = graph.FindNextType(person2020s.Name(), defs)
 	g.Expect(err).NotTo(Succeed())
 	g.Expect(err.Error()).To(ContainSubstring(person2020.Name().Name()))
 	g.Expect(err.Error()).To(ContainSubstring(party2021.Name().Name()))

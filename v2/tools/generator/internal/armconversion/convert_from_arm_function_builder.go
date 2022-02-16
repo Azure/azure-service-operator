@@ -331,7 +331,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 			strings.Join(props, ".")))
 	}
 
-	allTypes := builder.codeGenerationContext.GetAllReachableTypes()
+	allDefs := builder.codeGenerationContext.GetAllReachableDefinitions()
 
 	// the from shape here must be:
 	// 1. maybe a typename, pointing to…
@@ -340,7 +340,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 	// 4. an object type
 
 	// (1.) resolve any outer typename
-	fromPropType, err := allTypes.FullyResolve(fromProp.PropertyType())
+	fromPropType, err := allDefs.FullyResolve(fromProp.PropertyType())
 	if err != nil {
 		panic(err)
 	}
@@ -352,7 +352,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 	if fromPropOptType, ok := fromPropType.(*astmodel.OptionalType); ok {
 		generateNilCheck = true
 		// (3.) resolve any inner typename
-		elementType, err := allTypes.FullyResolve(fromPropOptType.Element())
+		elementType, err := allDefs.FullyResolve(fromPropOptType.Element())
 		if err != nil {
 			panic(err)
 		}

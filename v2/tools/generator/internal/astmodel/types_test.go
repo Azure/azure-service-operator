@@ -28,20 +28,20 @@ func Test_TypesAdd_GivenType_ModifiesSet(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	types := make(TypeDefinitionSet)
-	types.Add(alphaDefinition)
+	defs := make(TypeDefinitionSet)
+	defs.Add(alphaDefinition)
 
-	g.Expect(types).To(ContainElement(alphaDefinition))
+	g.Expect(defs).To(ContainElement(alphaDefinition))
 }
 
 func Test_TypesAdd_GivenTypeAlreadyPresent_Panics(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	types := make(TypeDefinitionSet)
-	types.Add(alphaDefinition)
+	defs := make(TypeDefinitionSet)
+	defs.Add(alphaDefinition)
 
-	g.Expect(func() { types.Add(alphaDefinition) }).To(Panic())
+	g.Expect(func() { defs.Add(alphaDefinition) }).To(Panic())
 }
 
 /*
@@ -52,18 +52,18 @@ func Test_TypesAddAll_GivenTypes_ModifiesSet(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	types := createTestTypes(alphaDefinition, betaDefinition)
-	types.AddAll(gammaDefinition, deltaDefinition)
+	defs := createTestTypes(alphaDefinition, betaDefinition)
+	defs.AddAll(gammaDefinition, deltaDefinition)
 
-	g.Expect(types).To(ContainElements(gammaDefinition, deltaDefinition))
+	g.Expect(defs).To(ContainElements(gammaDefinition, deltaDefinition))
 }
 
 func Test_TypesAddAll_GivenOverlappingTypes_Panics(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	types := createTestTypes(alphaDefinition, betaDefinition)
-	g.Expect(func() { types.AddAll(betaDefinition, deltaDefinition) }).To(Panic())
+	defs := createTestTypes(alphaDefinition, betaDefinition)
+	g.Expect(func() { defs.AddAll(betaDefinition, deltaDefinition) }).To(Panic())
 }
 
 /*
@@ -74,22 +74,22 @@ func Test_TypesAddTypes_GivenTypes_ModifiesSet(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	types := createTestTypes(alphaDefinition, betaDefinition)
-	otherTypes := createTestTypes(gammaDefinition, deltaDefinition)
+	defs := createTestTypes(alphaDefinition, betaDefinition)
+	otherDefs := createTestTypes(gammaDefinition, deltaDefinition)
 
-	types.AddTypes(otherTypes)
+	defs.AddTypes(otherDefs)
 
-	g.Expect(types).To(ContainElements(gammaDefinition, deltaDefinition))
+	g.Expect(defs).To(ContainElements(gammaDefinition, deltaDefinition))
 }
 
 func Test_TypesAddTypes_GivenOverlappingTypes_Panics(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	types := createTestTypes(alphaDefinition, betaDefinition)
-	otherTypes := createTestTypes(betaDefinition, deltaDefinition)
+	defs := createTestTypes(alphaDefinition, betaDefinition)
+	otherDefs := createTestTypes(betaDefinition, deltaDefinition)
 
-	g.Expect(func() { types.AddTypes(otherTypes) }).To(Panic())
+	g.Expect(func() { defs.AddTypes(otherDefs) }).To(Panic())
 }
 
 /*
@@ -100,13 +100,13 @@ func Test_TypesWhere_GivenPredicate_ReturnsExpectedSet(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	types := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition).
+	defs := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition).
 		Where(func(def TypeDefinition) bool {
 			return len(def.name.name) == 5
 		})
 
-	g.Expect(types).To(ContainElements(alphaDefinition, gammaDefinition, deltaDefinition))
-	g.Expect(types).NotTo(ContainElement(betaDefinition))
+	g.Expect(defs).To(ContainElements(alphaDefinition, gammaDefinition, deltaDefinition))
+	g.Expect(defs).NotTo(ContainElement(betaDefinition))
 }
 
 /*
@@ -117,11 +117,11 @@ func Test_TypesExcept_GivenEmptySet_ReturnsExpectedSet(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	types := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition)
+	defs := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition)
 	empty := make(TypeDefinitionSet)
-	set := types.Except(empty)
+	set := defs.Except(empty)
 
-	g.Expect(len(set)).To(Equal(len(types)))
+	g.Expect(len(set)).To(Equal(len(defs)))
 	g.Expect(set).To(ContainElement(alphaDefinition))
 	g.Expect(set).To(ContainElement(betaDefinition))
 	g.Expect(set).To(ContainElement(gammaDefinition))
@@ -132,8 +132,8 @@ func Test_TypesExcept_GivenSelf_ReturnsEmptySet(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	types := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition)
-	set := types.Except(types)
+	defs := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition)
+	set := defs.Except(defs)
 
 	g.Expect(len(set)).To(Equal(0))
 }
@@ -142,9 +142,9 @@ func Test_TypesExcept_GivenSubset_ReturnsExpectedSet(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	types := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition)
+	defs := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition)
 	subset := createTestTypes(alphaDefinition, betaDefinition)
-	set := types.Except(subset)
+	set := defs.Except(subset)
 
 	g.Expect(len(set)).To(Equal(2))
 	g.Expect(set).NotTo(ContainElement(alphaDefinition))
@@ -161,9 +161,9 @@ func Test_TypesIntersect_GivenEmptySet_ReturnsExpectedSet(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	types := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition)
+	defs := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition)
 	empty := make(TypeDefinitionSet)
-	set := types.Intersect(empty)
+	set := defs.Intersect(empty)
 
 	g.Expect(len(set)).To(Equal(0))
 }
@@ -172,10 +172,10 @@ func Test_TypesIntersect_GivenSelf_ReturnsSelf(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	types := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition)
-	set := types.Intersect(types)
+	defs := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition)
+	set := defs.Intersect(defs)
 
-	g.Expect(len(set)).To(Equal(len(types)))
+	g.Expect(len(set)).To(Equal(len(defs)))
 	g.Expect(set).To(ContainElement(alphaDefinition))
 	g.Expect(set).To(ContainElement(betaDefinition))
 	g.Expect(set).To(ContainElement(gammaDefinition))
@@ -186,9 +186,9 @@ func Test_TypesIntersect_GivenSubset_ReturnsExpectedSet(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	types := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition)
+	defs := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition)
 	subset := createTestTypes(alphaDefinition, betaDefinition)
-	set := types.Intersect(subset)
+	set := defs.Intersect(subset)
 
 	g.Expect(len(set)).To(Equal(2))
 	g.Expect(set).To(ContainElement(alphaDefinition))
@@ -244,10 +244,10 @@ func TestFindSpecDefinitions(t *testing.T) {
 	status := createTestStatus("Person")
 	resource := createTestResource("Person", spec, status)
 
-	types := make(TypeDefinitionSet)
-	types.AddAll(resource, status, spec)
+	defs := make(TypeDefinitionSet)
+	defs.AddAll(resource, status, spec)
 
-	specs := FindSpecDefinitions(types)
+	specs := FindSpecDefinitions(defs)
 
 	g.Expect(specs).To(HaveLen(1))
 	g.Expect(specs.Contains(spec.Name())).To(BeTrue())
@@ -266,10 +266,10 @@ func TestFindStatusDefinitions(t *testing.T) {
 	status := createTestStatus("Person")
 	resource := createTestResource("Person", spec, status)
 
-	types := make(TypeDefinitionSet)
-	types.AddAll(resource, status, spec)
+	defs := make(TypeDefinitionSet)
+	defs.AddAll(resource, status, spec)
 
-	statuses := FindStatusDefinitions(types)
+	statuses := FindStatusDefinitions(defs)
 
 	g.Expect(statuses).To(HaveLen(1))
 	g.Expect(statuses.Contains(status.Name())).To(BeTrue())
@@ -294,10 +294,10 @@ func TestFindSpecConnectedDefinitions(t *testing.T) {
 
 	resource := createTestResource("PersonAugmented", spec, status)
 
-	types := make(TypeDefinitionSet)
-	types.AddAll(resource, status, spec, nameInfo, nameInfoStatus)
+	defs := make(TypeDefinitionSet)
+	defs.AddAll(resource, status, spec, nameInfo, nameInfoStatus)
 
-	specs, err := FindSpecConnectedDefinitions(types)
+	specs, err := FindSpecConnectedDefinitions(defs)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(specs).To(HaveLen(2))
@@ -324,10 +324,10 @@ func TestFindStatusConnectedDefinitions(t *testing.T) {
 
 	resource := createTestResource("PersonAugmented", spec, status)
 
-	types := make(TypeDefinitionSet)
-	types.AddAll(resource, status, spec, nameInfo, nameInfoStatus)
+	defs := make(TypeDefinitionSet)
+	defs.AddAll(resource, status, spec, nameInfo, nameInfoStatus)
 
-	statuses, err := FindStatusConnectedDefinitions(types)
+	statuses, err := FindStatusConnectedDefinitions(defs)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(statuses).To(HaveLen(2))
@@ -348,10 +348,10 @@ func TestResolveResourceSpecAndStatus(t *testing.T) {
 	status := createTestStatus("Person")
 	resource := createTestResource("Person", spec, status)
 
-	types := make(TypeDefinitionSet)
-	types.AddAll(resource, status, spec)
+	defs := make(TypeDefinitionSet)
+	defs.AddAll(resource, status, spec)
 
-	resolved, err := types.ResolveResourceSpecAndStatus(resource)
+	resolved, err := defs.ResolveResourceSpecAndStatus(resource)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(resolved.SpecDef.Name()).To(Equal(spec.Name()))

@@ -29,12 +29,12 @@ func TestMarkLatestStorageVariantAsStorageVersion(t *testing.T) {
 	statusV2 := test.CreateStatus(test.Pkg2021, "Person")
 	resourceV2 := test.CreateResource(test.Pkg2021, "Person", specV2, statusV2)
 
-	types := make(astmodel.TypeDefinitionSet)
-	types.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2)
 
 	cfg := config.NewConfiguration()
 	initialState, err := RunTestPipeline(
-		NewState(types),
+		NewState(defs),
 		CreateConversionGraph(cfg), // First create the conversion graph showing relationships
 		CreateStorageTypes(),       // Then create the storage types
 	)

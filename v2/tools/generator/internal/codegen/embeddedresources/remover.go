@@ -65,7 +65,7 @@ type EmbeddedResourceRemover struct {
 
 // MakeEmbeddedResourceRemover creates an EmbeddedResourceRemover for the specified astmodel.TypeDefinitionSet collection.
 func MakeEmbeddedResourceRemover(definitions astmodel.TypeDefinitionSet) (EmbeddedResourceRemover, error) {
-	resourceStatusTypes := findAllResourceStatusTypes(definitions)
+	resourceStatusTypeNames := findAllResourceStatusTypes(definitions)
 	resourceToSubresourceMap, err := findSubResourcePropertiesTypeNames(definitions)
 	if err != nil {
 		return EmbeddedResourceRemover{}, errors.Wrap(err, "couldn't find subresource \"Properties\" type names")
@@ -80,7 +80,7 @@ func MakeEmbeddedResourceRemover(definitions astmodel.TypeDefinitionSet) (Embedd
 		definitions:              definitions,
 		resourceToSubresourceMap: resourceToSubresourceMap,
 		resourcePropertiesTypes:  resourcePropertiesTypes,
-		resourceStatusTypes:      resourceStatusTypes,
+		resourceStatusTypes:      resourceStatusTypeNames,
 		typeSuffix:               "SubResourceEmbedded",
 		typeFlag:                 astmodel.TypeFlag("embeddedSubResource"), // TODO: Instead of flag we could just use a map here if we wanted
 	}

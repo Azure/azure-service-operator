@@ -31,11 +31,11 @@ func InjectPropertyAssignmentFunctions(
 		InjectPropertyAssignmentFunctionsStageID,
 		"Inject property assignment functions AssignFrom() and AssignTo() into resources and objects",
 		func(ctx context.Context, state *State) (*State, error) {
-			types := state.Types()
-			result := types.Copy()
-			factory := NewPropertyAssignmentFunctionsFactory(state.ConversionGraph(), idFactory, configuration, types)
+			defs := state.Definitions()
+			result := defs.Copy()
+			factory := NewPropertyAssignmentFunctionsFactory(state.ConversionGraph(), idFactory, configuration, defs)
 
-			for name, def := range types {
+			for name, def := range defs {
 				_, ok := astmodel.AsFunctionContainer(def.Type())
 				if !ok {
 					// just skip it - not a resource nor an object
@@ -56,7 +56,7 @@ func InjectPropertyAssignmentFunctions(
 					continue
 				}
 
-				nextDef, ok := types[nextName]
+				nextDef, ok := defs[nextName]
 				if !ok {
 					// No next type so nothing to do
 					// (this is expected if the type is discontinued, or we're looking at the hub type)

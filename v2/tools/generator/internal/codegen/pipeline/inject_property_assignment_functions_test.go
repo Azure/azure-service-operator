@@ -44,10 +44,10 @@ func TestGolden_InjectPropertyAssignmentFunctions(t *testing.T) {
 	statusV2 := test.CreateStatus(test.Pkg2021, "Person")
 	resourceV2 := test.CreateResource(test.Pkg2021, "Person", specV2, statusV2)
 
-	types := make(astmodel.TypeDefinitionSet)
-	types.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2, test.Address2021)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2, test.Address2021)
 
-	state := NewState().WithTypes(types)
+	state := NewState().WithTypes(defs)
 
 	cfg := config.NewConfiguration()
 	finalState, err := RunTestPipeline(

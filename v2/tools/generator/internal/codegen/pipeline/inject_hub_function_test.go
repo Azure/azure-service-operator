@@ -29,18 +29,18 @@ func TestInjectHubFunction_WhenResourceIsStorageVersion_GeneratesExpectedFile(t 
 	resource = resource.WithType(
 		resource.Type().(*astmodel.ResourceType).MarkAsStorageVersion())
 
-	types := make(astmodel.TypeDefinitionSet)
-	types.AddAll(resource, status, spec)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(resource, status, spec)
 
 	injectHubFunction := InjectHubFunction(idFactory)
 
 	// Don't need a context when testing
-	state := NewState().WithTypes(types)
+	state := NewState().WithTypes(defs)
 	finalState, err := injectHubFunction.Run(context.TODO(), state)
 
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalState.Types())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions())
 }
 
 func TestInjectHubFunction_WhenResourceIsNotStorageVersion_GeneratesExpectedFile(t *testing.T) {
@@ -54,16 +54,16 @@ func TestInjectHubFunction_WhenResourceIsNotStorageVersion_GeneratesExpectedFile
 	status := test.CreateStatus(test.Pkg2020, "Person")
 	resource := test.CreateResource(test.Pkg2020, "Person", spec, status)
 
-	types := make(astmodel.TypeDefinitionSet)
-	types.AddAll(resource, status, spec)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(resource, status, spec)
 
 	injectHubFunction := InjectHubFunction(idFactory)
 
 	// Don't need a context when testing
-	state := NewState().WithTypes(types)
+	state := NewState().WithTypes(defs)
 	finalState, err := injectHubFunction.Run(context.TODO(), state)
 
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalState.Types())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions())
 }

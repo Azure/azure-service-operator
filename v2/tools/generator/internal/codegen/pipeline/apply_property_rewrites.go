@@ -22,11 +22,11 @@ func ApplyPropertyRewrites(config *config.Configuration) Stage {
 		"propertyRewrites",
 		"Modify property types using configured transforms",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			newTypes := make(astmodel.TypeDefinitionSet, len(definitions))
+			newDefinitions := make(astmodel.TypeDefinitionSet, len(definitions))
 			for name, t := range definitions {
 				objectType, ok := t.Type().(*astmodel.ObjectType)
 				if !ok {
-					newTypes.Add(t)
+					newDefinitions.Add(t)
 					continue
 				}
 
@@ -36,7 +36,7 @@ func ApplyPropertyRewrites(config *config.Configuration) Stage {
 					objectType = transformation.NewType
 				}
 
-				newTypes.Add(t.WithType(objectType))
+				newDefinitions.Add(t.WithType(objectType))
 			}
 
 			// Ensure that the property transformers had no errors
@@ -45,6 +45,6 @@ func ApplyPropertyRewrites(config *config.Configuration) Stage {
 				return nil, err
 			}
 
-			return newTypes, nil
+			return newDefinitions, nil
 		})
 }

@@ -25,7 +25,7 @@ func AugmentSpecWithStatus() Stage {
 				secretAugmenter(definitions),
 			)
 
-			newTypes := make(astmodel.TypeDefinitionSet)
+			defs := make(astmodel.TypeDefinitionSet)
 
 			for _, typeDef := range definitions {
 				if resource, ok := typeDef.Type().(*astmodel.ResourceType); ok {
@@ -35,13 +35,13 @@ func AugmentSpecWithStatus() Stage {
 						return nil, err
 					}
 
-					newTypes.Add(typeDef.WithType(resource.WithSpec(newSpec)))
+					defs.Add(typeDef.WithType(resource.WithSpec(newSpec)))
 				} else {
-					newTypes.Add(typeDef)
+					defs.Add(typeDef)
 				}
 			}
 
-			return newTypes, nil
+			return defs, nil
 		})
 }
 

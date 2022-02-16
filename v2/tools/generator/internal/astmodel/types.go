@@ -487,14 +487,14 @@ func FindConnectedDefinitions(definitions TypeDefinitionSet, roots TypeDefinitio
 // This differs from FindSpecDefinitions in that it finds not only the top level spec definitions but
 // also the types which the top level types are built out of.
 func FindSpecConnectedDefinitions(definitions TypeDefinitionSet) (TypeDefinitionSet, error) {
-	specTypes := FindSpecDefinitions(definitions)
-	return FindConnectedDefinitions(definitions, specTypes)
+	specDefs := FindSpecDefinitions(definitions)
+	return FindConnectedDefinitions(definitions, specDefs)
 }
 
 // FindStatusConnectedDefinitions finds all status definitions and all types referenced by those spec definitions.
 // This differs from FindStatusDefinitions in that it finds not only the top level status definitions but
 // also the types which the top level types are built out of.
 func FindStatusConnectedDefinitions(definitions TypeDefinitionSet) (TypeDefinitionSet, error) {
-	statusTypes := FindStatusDefinitions(definitions)
-	return FindConnectedDefinitions(definitions, statusTypes)
+	statusDefs := FindStatusDefinitions(definitions)
+	return FindConnectedDefinitions(definitions, statusDefs)
 }

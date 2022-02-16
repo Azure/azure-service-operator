@@ -54,7 +54,7 @@ func RemoveStatusValidations() Stage {
 }
 
 func removeStatusTypeValidations(definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-	statusTypes := astmodel.FindStatusDefinitions(definitions)
+	statusDefinitions := astmodel.FindStatusDefinitions(definitions)
 
 	walker := astmodel.NewTypeWalker(
 		definitions,
@@ -66,7 +66,7 @@ func removeStatusTypeValidations(definitions astmodel.TypeDefinitionSet) (astmod
 	var errs []error
 
 	result := make(astmodel.TypeDefinitionSet)
-	for _, def := range statusTypes {
+	for _, def := range statusDefinitions {
 		updatedTypes, err := walker.Walk(def)
 		if err != nil {
 			errs = append(errs, errors.Wrapf(err, "failed walking definitions"))

@@ -26,13 +26,13 @@ type State struct {
 // NewState returns a new empty state
 // typeses is a (possibly empty) sequence of types to combine for the intitial state
 func NewState(typeses ...astmodel.TypeDefinitionSet) *State {
-	types := make(astmodel.TypeDefinitionSet)
+	defs := make(astmodel.TypeDefinitionSet)
 	for _, ts := range typeses {
-		types = types.OverlayWith(ts)
+		defs = defs.OverlayWith(ts)
 	}
 
 	return &State{
-		definitions:     types,
+		definitions:     defs,
 		conversionGraph: nil,
 	}
 }

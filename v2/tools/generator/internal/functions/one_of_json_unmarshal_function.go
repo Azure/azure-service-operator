@@ -164,8 +164,8 @@ func (f *OneOfJSONUnmarshalFunction) AsFunc(
 	jsonPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.JsonReference)
 	receiverName := f.idFactory.CreateReceiver(receiver.Name())
 
-	allTypes := codeGenerationContext.GetAllReachableTypes()
-	discrimJSONName, valuesMapping := f.determineDiscriminant(allTypes)
+	allDefinitions := codeGenerationContext.GetAllReachableDefinitions()
+	discrimJSONName, valuesMapping := f.determineDiscriminant(allDefinitions)
 
 	paramName := "data"
 	mapName := "rawJson"

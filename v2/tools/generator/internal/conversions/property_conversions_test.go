@@ -61,14 +61,14 @@ func TestCreateTypeConversion_GivenIncompatibleEndpoints_ReturnsExpectedError(t 
 		},
 	}
 
-	types := make(astmodel.TypeDefinitionSet)
-	types.AddAll(stringEnum, intEnum)
-	types.AddAll(addressObject, locationObject)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(stringEnum, intEnum)
+	defs.AddAll(addressObject, locationObject)
 
 	idFactory := astmodel.NewIdentifierFactory()
 	configuration := config.NewObjectModelConfiguration()
 
-	conversionContext := NewPropertyConversionContext(types, idFactory, configuration).
+	conversionContext := NewPropertyConversionContext(defs, idFactory, configuration).
 		WithDirection(ConvertTo)
 
 	for _, c := range cases {

@@ -44,8 +44,8 @@ func MarkLatestStorageVariantAsHubVersion() Stage {
 				return nil, errors.Wrap(err, "marking storage versions")
 			}
 
-			types := state.Types().OverlayWith(updatedDefs)
-			return state.WithTypes(types), nil
+			defs := state.Definitions().OverlayWith(updatedDefs)
+			return state.WithTypes(defs), nil
 		})
 
 	stage.RequiresPrerequisiteStages(CreateConversionGraphStageId)

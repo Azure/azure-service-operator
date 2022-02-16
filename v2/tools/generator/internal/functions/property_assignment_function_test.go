@@ -141,16 +141,16 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 			astmodel.MakeTypeName(vNext, "Person"),
 			hubType)
 
-		types := make(astmodel.TypeDefinitionSet)
-		types.Add(currentDefinition)
-		types.Add(hubDefinition)
-		types.AddAll(otherDefinitions...)
+		defs := make(astmodel.TypeDefinitionSet)
+		defs.Add(currentDefinition)
+		defs.Add(hubDefinition)
+		defs.AddAll(otherDefinitions...)
 
 		return &StorageConversionPropertyTestCase{
 			name:        name,
 			current:     currentDefinition,
 			other:       hubDefinition,
-			definitions: types,
+			definitions: defs,
 		}
 	}
 
@@ -169,15 +169,15 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 			astmodel.MakeTypeName(vNext, "Person"),
 			hubType)
 
-		types := make(astmodel.TypeDefinitionSet)
-		types.Add(currentDefinition)
-		types.Add(hubDefinition)
+		defs := make(astmodel.TypeDefinitionSet)
+		defs.Add(currentDefinition)
+		defs.Add(hubDefinition)
 
 		return &StorageConversionPropertyTestCase{
 			name:        name,
 			current:     currentDefinition,
 			other:       hubDefinition,
-			definitions: types,
+			definitions: defs,
 		}
 	}
 
@@ -356,10 +356,10 @@ func TestGolden_PropertyAssignmentFunction_WhenTypeRenamed(t *testing.T) {
 
 	modelConfig := config.CreateTestObjectModelConfigurationForRename(location.Name(), venue.Name().Name())
 
-	types := make(astmodel.TypeDefinitionSet)
-	types.AddAll(location, venue)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(location, venue)
 
-	conversionContext := conversions.NewPropertyConversionContext(types, idFactory, modelConfig)
+	conversionContext := conversions.NewPropertyConversionContext(defs, idFactory, modelConfig)
 
 	assignFrom, err := NewPropertyAssignmentFunction(event2020, event2021, conversionContext, conversions.ConvertFrom)
 	g.Expect(err).To(Succeed())
