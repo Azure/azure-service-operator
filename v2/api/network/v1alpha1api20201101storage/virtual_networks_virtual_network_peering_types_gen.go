@@ -176,8 +176,8 @@ type VirtualNetworksVirtualNetworkPeerings_Spec struct {
 	AllowGatewayTransit       *bool `json:"allowGatewayTransit,omitempty"`
 	AllowVirtualNetworkAccess *bool `json:"allowVirtualNetworkAccess,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName       string  `json:"azureName"`
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion"`

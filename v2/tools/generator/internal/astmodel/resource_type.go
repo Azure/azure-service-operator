@@ -568,7 +568,7 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 		astbuilder.AddComments(&comments, resource.annotations)
 	}
 
-	astbuilder.AddWrappedComments(&comments, declContext.Description, 200)
+	astbuilder.AddUnwrappedComments(&comments, declContext.Description)
 	AddValidationComments(&comments, declContext.Validations)
 
 	resourceDeclaration := &dst.GenDecl{
@@ -641,7 +641,7 @@ func (resource *ResourceType) resourceListTypeDecls(
 		"// +kubebuilder:object:root=true\n",
 	}
 
-	astbuilder.AddWrappedComments(&comments, description, 200)
+	astbuilder.AddUnwrappedComments(&comments, description)
 
 	return []dst.Decl{
 		&dst.GenDecl{

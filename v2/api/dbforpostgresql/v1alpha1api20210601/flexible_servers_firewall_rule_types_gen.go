@@ -311,8 +311,7 @@ type FirewallRule_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//EndIpAddress: The end IP address of the server firewall rule. Must be IPv4
-	//format.
+	//EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.
 	EndIpAddress *string `json:"endIpAddress,omitempty"`
 
 	//Id: Fully qualified resource ID for the resource. Ex -
@@ -322,15 +321,13 @@ type FirewallRule_Status struct {
 	//Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	//StartIpAddress: The start IP address of the server firewall rule. Must be IPv4
-	//format.
+	//StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.
 	StartIpAddress *string `json:"startIpAddress,omitempty"`
 
 	//SystemData: The system metadata relating to this resource.
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -534,14 +531,13 @@ type FlexibleServersFirewallRulesSpecAPIVersion string
 const FlexibleServersFirewallRulesSpecAPIVersion20210601 = FlexibleServersFirewallRulesSpecAPIVersion("2021-06-01")
 
 type FlexibleServersFirewallRules_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
-	//EndIpAddress: The end IP address of the server firewall rule. Must be IPv4
-	//format.
+	//EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.
 	EndIpAddress string `json:"endIpAddress"`
 
 	//Location: Location to deploy resource to
@@ -552,8 +548,7 @@ type FlexibleServersFirewallRules_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
-	//StartIpAddress: The start IP address of the server firewall rule. Must be IPv4
-	//format.
+	//StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.
 	StartIpAddress string `json:"startIpAddress"`
 
 	//Tags: Name-value pairs to add to the resource

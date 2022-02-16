@@ -36,40 +36,35 @@ type SqlContainerGetProperties_Status_ResourceARM struct {
 	//DefaultTtl: Default time to live
 	DefaultTtl *int `json:"defaultTtl,omitempty"`
 
-	//Etag: A system generated property representing the resource etag required for
-	//optimistic concurrency control.
+	//Etag: A system generated property representing the resource etag required for optimistic concurrency control.
 	Etag *string `json:"_etag,omitempty"`
 
 	//Id: Name of the Cosmos DB SQL container
 	Id string `json:"id"`
 
-	//IndexingPolicy: The configuration of the indexing policy. By default, the
-	//indexing is automatic for all document paths within the container
+	//IndexingPolicy: The configuration of the indexing policy. By default, the indexing is automatic for all document paths
+	//within the container
 	IndexingPolicy *IndexingPolicy_StatusARM `json:"indexingPolicy,omitempty"`
 
-	//PartitionKey: The configuration of the partition key to be used for partitioning
-	//data into multiple partitions
+	//PartitionKey: The configuration of the partition key to be used for partitioning data into multiple partitions
 	PartitionKey *ContainerPartitionKey_StatusARM `json:"partitionKey,omitempty"`
 
 	//Rid: A system generated property. A unique identifier.
 	Rid *string `json:"_rid,omitempty"`
 
-	//Ts: A system generated property that denotes the last updated timestamp of the
-	//resource.
+	//Ts: A system generated property that denotes the last updated timestamp of the resource.
 	Ts *float64 `json:"_ts,omitempty"`
 
-	//UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness
-	//constraints on documents in the collection in the Azure Cosmos DB service.
+	//UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness constraints on documents in the
+	//collection in the Azure Cosmos DB service.
 	UniqueKeyPolicy *UniqueKeyPolicy_StatusARM `json:"uniqueKeyPolicy,omitempty"`
 }
 
 type ConflictResolutionPolicy_StatusARM struct {
-	//ConflictResolutionPath: The conflict resolution path in the case of
-	//LastWriterWins mode.
+	//ConflictResolutionPath: The conflict resolution path in the case of LastWriterWins mode.
 	ConflictResolutionPath *string `json:"conflictResolutionPath,omitempty"`
 
-	//ConflictResolutionProcedure: The procedure to resolve conflicts in the case of
-	//custom mode.
+	//ConflictResolutionProcedure: The procedure to resolve conflicts in the case of custom mode.
 	ConflictResolutionProcedure *string `json:"conflictResolutionProcedure,omitempty"`
 
 	//Mode: Indicates the conflict resolution mode.
@@ -77,8 +72,8 @@ type ConflictResolutionPolicy_StatusARM struct {
 }
 
 type ContainerPartitionKey_StatusARM struct {
-	//Kind: Indicates the kind of algorithm used for partitioning. For MultiHash,
-	//multiple partition keys (upto three maximum) are supported for container create
+	//Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
+	//are supported for container create
 	Kind *ContainerPartitionKeyStatusKind `json:"kind,omitempty"`
 
 	//Paths: List of paths using which data within the container can be partitioned
@@ -112,8 +107,8 @@ type IndexingPolicy_StatusARM struct {
 }
 
 type UniqueKeyPolicy_StatusARM struct {
-	//UniqueKeys: List of unique keys on that enforces uniqueness constraint on
-	//documents in the collection in the Azure Cosmos DB service.
+	//UniqueKeys: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure
+	//Cosmos DB service.
 	UniqueKeys []UniqueKey_StatusARM `json:"uniqueKeys,omitempty"`
 }
 
@@ -121,8 +116,8 @@ type CompositePath_StatusARM struct {
 	//Order: Sort order for composite paths.
 	Order *CompositePathStatusOrder `json:"order,omitempty"`
 
-	//Path: The path for which the indexing behavior applies to. Index paths typically
-	//start with root and end with wildcard (/path/*)
+	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
+	//(/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
@@ -142,8 +137,8 @@ const (
 )
 
 type ExcludedPath_StatusARM struct {
-	//Path: The path for which the indexing behavior applies to. Index paths typically
-	//start with root and end with wildcard (/path/*)
+	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
+	//(/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
@@ -151,8 +146,8 @@ type IncludedPath_StatusARM struct {
 	//Indexes: List of indexes for this path
 	Indexes []Indexes_StatusARM `json:"indexes,omitempty"`
 
-	//Path: The path for which the indexing behavior applies to. Index paths typically
-	//start with root and end with wildcard (/path/*)
+	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
+	//(/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
@@ -165,8 +160,8 @@ const (
 )
 
 type SpatialSpec_StatusARM struct {
-	//Path: The path for which the indexing behavior applies to. Index paths typically
-	//start with root and end with wildcard (/path/*)
+	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
+	//(/path/*)
 	Path *string `json:"path,omitempty"`
 
 	//Types: List of path's spatial type
@@ -174,8 +169,7 @@ type SpatialSpec_StatusARM struct {
 }
 
 type UniqueKey_StatusARM struct {
-	//Paths: List of paths must be unique for each document in the Azure Cosmos DB
-	//service
+	//Paths: List of paths must be unique for each document in the Azure Cosmos DB service
 	Paths []string `json:"paths,omitempty"`
 }
 

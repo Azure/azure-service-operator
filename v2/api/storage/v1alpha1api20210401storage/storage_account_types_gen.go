@@ -204,8 +204,8 @@ type StorageAccounts_Spec struct {
 
 	// +kubebuilder:validation:MaxLength=24
 	// +kubebuilder:validation:MinLength=3
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName            string            `json:"azureName"`
 	CustomDomain         *CustomDomain     `json:"customDomain,omitempty"`
 	Encryption           *Encryption       `json:"encryption,omitempty"`
@@ -494,8 +494,8 @@ type BlobRestoreParameters_Status struct {
 type EncryptionIdentity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
-	//UserAssignedIdentityReference: Resource identifier of the UserAssigned identity
-	//to be associated with server-side encryption on the storage account.
+	//UserAssignedIdentityReference: Resource identifier of the UserAssigned identity to be associated with server-side
+	//encryption on the storage account.
 	UserAssignedIdentityReference *genruntime.ResourceReference `armReference:"UserAssignedIdentity" json:"userAssignedIdentityReference,omitempty"`
 }
 

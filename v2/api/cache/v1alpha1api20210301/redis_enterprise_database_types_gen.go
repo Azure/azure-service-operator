@@ -308,12 +308,11 @@ type RedisEnterpriseDatabaseList struct {
 }
 
 type Database_Status struct {
-	//ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted
-	//or plaintext redis protocols. Default is TLS-encrypted.
+	//ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
+	//TLS-encrypted.
 	ClientProtocol *DatabasePropertiesStatusClientProtocol `json:"clientProtocol,omitempty"`
 
-	//ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create
-	//time.
+	//ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create time.
 	ClusteringPolicy *DatabasePropertiesStatusClusteringPolicy `json:"clusteringPolicy,omitempty"`
 
 	//Conditions: The observed state of the resource
@@ -326,8 +325,7 @@ type Database_Status struct {
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	//Modules: Optional set of redis modules to enable in this database - modules can
-	//only be added at creation time.
+	//Modules: Optional set of redis modules to enable in this database - modules can only be added at creation time.
 	Modules []Module_Status `json:"modules,omitempty"`
 
 	//Name: The name of the resource
@@ -336,8 +334,7 @@ type Database_Status struct {
 	//Persistence: Persistence settings
 	Persistence *Persistence_Status `json:"persistence,omitempty"`
 
-	//Port: TCP port of the database endpoint. Specified at create time. Defaults to
-	//an available port.
+	//Port: TCP port of the database endpoint. Specified at create time. Defaults to an available port.
 	Port *int `json:"port,omitempty"`
 
 	//ProvisioningState: Current provisioning status of the database
@@ -346,8 +343,7 @@ type Database_Status struct {
 	//ResourceState: Current resource status of the database
 	ResourceState *ResourceState_Status `json:"resourceState,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -719,16 +715,15 @@ type RedisEnterpriseDatabasesSpecAPIVersion string
 const RedisEnterpriseDatabasesSpecAPIVersion20210301 = RedisEnterpriseDatabasesSpecAPIVersion("2021-03-01")
 
 type RedisEnterpriseDatabases_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
-	//ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted
-	//or plaintext redis protocols. Default is TLS-encrypted.
+	//ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
+	//TLS-encrypted.
 	ClientProtocol *DatabasePropertiesClientProtocol `json:"clientProtocol,omitempty"`
 
-	//ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create
-	//time.
+	//ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create time.
 	ClusteringPolicy *DatabasePropertiesClusteringPolicy `json:"clusteringPolicy,omitempty"`
 
 	//EvictionPolicy: Redis eviction policy - default is VolatileLRU.
@@ -737,8 +732,7 @@ type RedisEnterpriseDatabases_Spec struct {
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
-	//Modules: Optional set of redis modules to enable in this database - modules can
-	//only be added at creation time.
+	//Modules: Optional set of redis modules to enable in this database - modules can only be added at creation time.
 	Modules []Module `json:"modules,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -747,8 +741,7 @@ type RedisEnterpriseDatabases_Spec struct {
 	//Persistence: Persistence-related configuration for the RedisEnterprise database
 	Persistence *Persistence `json:"persistence,omitempty"`
 
-	//Port: TCP port of the database endpoint. Specified at create time. Defaults to
-	//an available port.
+	//Port: TCP port of the database endpoint. Specified at create time. Defaults to an available port.
 	Port *int `json:"port,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
@@ -1161,8 +1154,7 @@ const (
 
 //Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Module
 type Module struct {
-	//Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE
-	//400'.
+	//Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
 	Args *string `json:"args,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -1252,8 +1244,7 @@ func (module *Module) AssignPropertiesToModule(destination *v1alpha1api20210301s
 }
 
 type Module_Status struct {
-	//Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE
-	//400'.
+	//Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
 	Args *string `json:"args,omitempty"`
 
 	// +kubebuilder:validation:Required

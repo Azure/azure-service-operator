@@ -815,8 +815,8 @@ type NetworkSecurityGroupsSpecAPIVersion string
 const NetworkSecurityGroupsSpecAPIVersion20201101 = NetworkSecurityGroupsSpecAPIVersion("2020-11-01")
 
 type NetworkSecurityGroups_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	//Location: Location to deploy resource to

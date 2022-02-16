@@ -14,8 +14,7 @@ type RedisLinkedServerWithProperties_StatusARM struct {
 	//Properties: Properties of the linked server.
 	Properties *RedisLinkedServerProperties_StatusARM `json:"properties,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -26,8 +25,7 @@ type RedisLinkedServerProperties_StatusARM struct {
 	//LinkedRedisCacheLocation: Location of the linked redis cache.
 	LinkedRedisCacheLocation string `json:"linkedRedisCacheLocation"`
 
-	//ProvisioningState: Terminal state of the link between primary and secondary
-	//redis cache.
+	//ProvisioningState: Terminal state of the link between primary and secondary redis cache.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	//ServerRole: Role of the linked server.

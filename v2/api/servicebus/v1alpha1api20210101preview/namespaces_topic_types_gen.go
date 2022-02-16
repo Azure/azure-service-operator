@@ -313,50 +313,45 @@ type NamespacesTopicsSpecAPIVersion string
 const NamespacesTopicsSpecAPIVersion20210101Preview = NamespacesTopicsSpecAPIVersion("2021-01-01-preview")
 
 type NamespacesTopics_Spec struct {
-	//AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is
-	//automatically deleted. The minimum duration is 5 minutes.
+	//AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration
+	//is 5 minutes.
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
 	// +kubebuilder:validation:MinLength=1
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
-	//DefaultMessageTimeToLive: ISO 8601 Default message timespan to live value. This
-	//is the duration after which the message expires, starting from when the message
-	//is sent to Service Bus. This is the default value used when TimeToLive is not
+	//DefaultMessageTimeToLive: ISO 8601 Default message timespan to live value. This is the duration after which the message
+	//expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
 	//set on a message itself.
 	DefaultMessageTimeToLive *string `json:"defaultMessageTimeToLive,omitempty"`
 
-	//DuplicateDetectionHistoryTimeWindow: ISO8601 timespan structure that defines the
-	//duration of the duplicate detection history. The default value is 10 minutes.
+	//DuplicateDetectionHistoryTimeWindow: ISO8601 timespan structure that defines the duration of the duplicate detection
+	//history. The default value is 10 minutes.
 	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
 
-	//EnableBatchedOperations: Value that indicates whether server-side batched
-	//operations are enabled.
+	//EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.
 	EnableBatchedOperations *bool `json:"enableBatchedOperations,omitempty"`
 
-	//EnableExpress: Value that indicates whether Express Entities are enabled. An
-	//express topic holds a message in memory temporarily before writing it to
-	//persistent storage.
+	//EnableExpress: Value that indicates whether Express Entities are enabled. An express topic holds a message in memory
+	//temporarily before writing it to persistent storage.
 	EnableExpress *bool `json:"enableExpress,omitempty"`
 
-	//EnablePartitioning: Value that indicates whether the topic to be partitioned
-	//across multiple message brokers is enabled.
+	//EnablePartitioning: Value that indicates whether the topic to be partitioned across multiple message brokers is enabled.
 	EnablePartitioning *bool `json:"enablePartitioning,omitempty"`
 
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
-	//MaxSizeInMegabytes: Maximum size of the topic in megabytes, which is the size of
-	//the memory allocated for the topic. Default is 1024.
+	//MaxSizeInMegabytes: Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic.
+	//Default is 1024.
 	MaxSizeInMegabytes *int `json:"maxSizeInMegabytes,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner" kind:"Namespace"`
 
-	//RequiresDuplicateDetection: Value indicating if this topic requires duplicate
-	//detection.
+	//RequiresDuplicateDetection: Value indicating if this topic requires duplicate detection.
 	RequiresDuplicateDetection *bool `json:"requiresDuplicateDetection,omitempty"`
 
 	//SupportOrdering: Value that indicates whether the topic supports ordering.
@@ -776,12 +771,11 @@ func (topics *NamespacesTopics_Spec) OriginalVersion() string {
 func (topics *NamespacesTopics_Spec) SetAzureName(azureName string) { topics.AzureName = azureName }
 
 type SBTopic_Status struct {
-	//AccessedAt: Last time the message was sent, or a request was received, for this
-	//topic.
+	//AccessedAt: Last time the message was sent, or a request was received, for this topic.
 	AccessedAt *string `json:"accessedAt,omitempty"`
 
-	//AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is
-	//automatically deleted. The minimum duration is 5 minutes.
+	//AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration
+	//is 5 minutes.
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
 	//Conditions: The observed state of the resource
@@ -793,41 +787,36 @@ type SBTopic_Status struct {
 	//CreatedAt: Exact time the message was created.
 	CreatedAt *string `json:"createdAt,omitempty"`
 
-	//DefaultMessageTimeToLive: ISO 8601 Default message timespan to live value. This
-	//is the duration after which the message expires, starting from when the message
-	//is sent to Service Bus. This is the default value used when TimeToLive is not
+	//DefaultMessageTimeToLive: ISO 8601 Default message timespan to live value. This is the duration after which the message
+	//expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
 	//set on a message itself.
 	DefaultMessageTimeToLive *string `json:"defaultMessageTimeToLive,omitempty"`
 
-	//DuplicateDetectionHistoryTimeWindow: ISO8601 timespan structure that defines the
-	//duration of the duplicate detection history. The default value is 10 minutes.
+	//DuplicateDetectionHistoryTimeWindow: ISO8601 timespan structure that defines the duration of the duplicate detection
+	//history. The default value is 10 minutes.
 	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
 
-	//EnableBatchedOperations: Value that indicates whether server-side batched
-	//operations are enabled.
+	//EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.
 	EnableBatchedOperations *bool `json:"enableBatchedOperations,omitempty"`
 
-	//EnableExpress: Value that indicates whether Express Entities are enabled. An
-	//express topic holds a message in memory temporarily before writing it to
-	//persistent storage.
+	//EnableExpress: Value that indicates whether Express Entities are enabled. An express topic holds a message in memory
+	//temporarily before writing it to persistent storage.
 	EnableExpress *bool `json:"enableExpress,omitempty"`
 
-	//EnablePartitioning: Value that indicates whether the topic to be partitioned
-	//across multiple message brokers is enabled.
+	//EnablePartitioning: Value that indicates whether the topic to be partitioned across multiple message brokers is enabled.
 	EnablePartitioning *bool `json:"enablePartitioning,omitempty"`
 
 	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
-	//MaxSizeInMegabytes: Maximum size of the topic in megabytes, which is the size of
-	//the memory allocated for the topic. Default is 1024.
+	//MaxSizeInMegabytes: Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic.
+	//Default is 1024.
 	MaxSizeInMegabytes *int `json:"maxSizeInMegabytes,omitempty"`
 
 	//Name: Resource name
 	Name *string `json:"name,omitempty"`
 
-	//RequiresDuplicateDetection: Value indicating if this topic requires duplicate
-	//detection.
+	//RequiresDuplicateDetection: Value indicating if this topic requires duplicate detection.
 	RequiresDuplicateDetection *bool `json:"requiresDuplicateDetection,omitempty"`
 
 	//SizeInBytes: Size of the topic, in bytes.

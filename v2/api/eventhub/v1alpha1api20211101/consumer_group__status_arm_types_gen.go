@@ -20,8 +20,7 @@ type ConsumerGroup_StatusARM struct {
 	//SystemData: The system meta data relating to this resource.
 	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or
-	//"Microsoft.EventHub/Namespaces/EventHubs"
+	//Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -32,9 +31,8 @@ type ConsumerGroup_Status_PropertiesARM struct {
 	//UpdatedAt: The exact time the message was updated.
 	UpdatedAt *string `json:"updatedAt,omitempty"`
 
-	//UserMetadata: User Metadata is a placeholder to store user-defined string data
-	//with maximum length 1024. e.g. it can be used to store descriptive data, such as
-	//list of teams and their contact information also user-defined configuration
+	//UserMetadata: User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be
+	//used to store descriptive data, such as list of teams and their contact information also user-defined configuration
 	//settings can be stored.
 	UserMetadata *string `json:"userMetadata,omitempty"`
 }

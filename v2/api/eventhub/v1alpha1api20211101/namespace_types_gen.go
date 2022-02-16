@@ -320,8 +320,7 @@ type EHNamespace_Status struct {
 	//CreatedAt: The time the Namespace was created.
 	CreatedAt *string `json:"createdAt,omitempty"`
 
-	//DisableLocalAuth: This property disables SAS authentication for the Event Hubs
-	//namespace.
+	//DisableLocalAuth: This property disables SAS authentication for the Event Hubs namespace.
 	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
 
 	//Encryption: Properties of BYOK Encryption description
@@ -334,20 +333,17 @@ type EHNamespace_Status struct {
 	//Identity: Properties of BYOK Identity description
 	Identity *Identity_Status `json:"identity,omitempty"`
 
-	//IsAutoInflateEnabled: Value that indicates whether AutoInflate is enabled for
-	//eventhub namespace.
+	//IsAutoInflateEnabled: Value that indicates whether AutoInflate is enabled for eventhub namespace.
 	IsAutoInflateEnabled *bool `json:"isAutoInflateEnabled,omitempty"`
 
-	//KafkaEnabled: Value that indicates whether Kafka is enabled for eventhub
-	//namespace.
+	//KafkaEnabled: Value that indicates whether Kafka is enabled for eventhub namespace.
 	KafkaEnabled *bool `json:"kafkaEnabled,omitempty"`
 
 	//Location: Resource location.
 	Location *string `json:"location,omitempty"`
 
-	//MaximumThroughputUnits: Upper limit of throughput units when AutoInflate is
-	//enabled, value should be within 0 to 20 throughput units. ( '0' if
-	//AutoInflateEnabled = true)
+	//MaximumThroughputUnits: Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20
+	//throughput units. ( '0' if AutoInflateEnabled = true)
 	MaximumThroughputUnits *int `json:"maximumThroughputUnits,omitempty"`
 
 	//MetricId: Identifier for Azure Insights metrics.
@@ -377,15 +373,13 @@ type EHNamespace_Status struct {
 	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 
 	//UpdatedAt: The time the Namespace was updated.
 	UpdatedAt *string `json:"updatedAt,omitempty"`
 
-	//ZoneRedundant: Enabling this property creates a Standard Event Hubs Namespace in
-	//regions supported availability zones.
+	//ZoneRedundant: Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones.
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
@@ -988,15 +982,14 @@ type Namespaces_Spec struct {
 
 	// +kubebuilder:validation:MaxLength=50
 	// +kubebuilder:validation:MinLength=6
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	//ClusterArmReference: Cluster ARM ID of the Namespace.
 	ClusterArmReference *genruntime.ResourceReference `armReference:"ClusterArmId" json:"clusterArmReference,omitempty"`
 
-	//DisableLocalAuth: This property disables SAS authentication for the Event Hubs
-	//namespace.
+	//DisableLocalAuth: This property disables SAS authentication for the Event Hubs namespace.
 	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
 
 	//Encryption: Properties to configure Encryption
@@ -1005,20 +998,17 @@ type Namespaces_Spec struct {
 	//Identity: Properties to configure Identity for Bring your Own Keys
 	Identity *Identity `json:"identity,omitempty"`
 
-	//IsAutoInflateEnabled: Value that indicates whether AutoInflate is enabled for
-	//eventhub namespace.
+	//IsAutoInflateEnabled: Value that indicates whether AutoInflate is enabled for eventhub namespace.
 	IsAutoInflateEnabled *bool `json:"isAutoInflateEnabled,omitempty"`
 
-	//KafkaEnabled: Value that indicates whether Kafka is enabled for eventhub
-	//namespace.
+	//KafkaEnabled: Value that indicates whether Kafka is enabled for eventhub namespace.
 	KafkaEnabled *bool `json:"kafkaEnabled,omitempty"`
 
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
-	//MaximumThroughputUnits: Upper limit of throughput units when AutoInflate is
-	//enabled, value should be within 0 to 20 throughput units. ( '0' if
-	//AutoInflateEnabled = true)
+	//MaximumThroughputUnits: Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20
+	//throughput units. ( '0' if AutoInflateEnabled = true)
 	MaximumThroughputUnits *int `json:"maximumThroughputUnits,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -1033,8 +1023,7 @@ type Namespaces_Spec struct {
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//ZoneRedundant: Enabling this property creates a Standard Event Hubs Namespace in
-	//regions supported availability zones.
+	//ZoneRedundant: Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones.
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
@@ -1578,8 +1567,7 @@ type Encryption struct {
 	//KeyVaultProperties: Properties of KeyVault
 	KeyVaultProperties []KeyVaultProperties `json:"keyVaultProperties,omitempty"`
 
-	//RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double
-	//Encryption)
+	//RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
 	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
 }
 
@@ -1751,8 +1739,7 @@ type Encryption_Status struct {
 	//KeyVaultProperties: Properties of KeyVault
 	KeyVaultProperties []KeyVaultProperties_Status `json:"keyVaultProperties,omitempty"`
 
-	//RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double
-	//Encryption)
+	//RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
 	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
 }
 
@@ -2327,9 +2314,8 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 //Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/Sku
 type Sku struct {
 	// +kubebuilder:validation:Minimum=0
-	//Capacity: The Event Hubs throughput units for Basic or Standard tiers, where
-	//value should be 0 to 20 throughput units. The Event Hubs premium units for
-	//Premium tier, where value should be 0 to 10 premium units.
+	//Capacity: The Event Hubs throughput units for Basic or Standard tiers, where value should be 0 to 20 throughput units.
+	//The Event Hubs premium units for Premium tier, where value should be 0 to 10 premium units.
 	Capacity *int `json:"capacity,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -2464,9 +2450,8 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20211101storage.Sk
 }
 
 type Sku_Status struct {
-	//Capacity: The Event Hubs throughput units for Basic or Standard tiers, where
-	//value should be 0 to 20 throughput units. The Event Hubs premium units for
-	//Premium tier, where value should be 0 to 10 premium units.
+	//Capacity: The Event Hubs throughput units for Basic or Standard tiers, where value should be 0 to 20 throughput units.
+	//The Event Hubs premium units for Premium tier, where value should be 0 to 10 premium units.
 	Capacity *int `json:"capacity,omitempty"`
 
 	// +kubebuilder:validation:Required

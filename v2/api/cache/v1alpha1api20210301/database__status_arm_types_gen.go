@@ -14,32 +14,28 @@ type Database_StatusARM struct {
 	//Properties: Other properties of the database.
 	Properties *DatabaseProperties_StatusARM `json:"properties,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
 type DatabaseProperties_StatusARM struct {
-	//ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted
-	//or plaintext redis protocols. Default is TLS-encrypted.
+	//ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
+	//TLS-encrypted.
 	ClientProtocol *DatabasePropertiesStatusClientProtocol `json:"clientProtocol,omitempty"`
 
-	//ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create
-	//time.
+	//ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create time.
 	ClusteringPolicy *DatabasePropertiesStatusClusteringPolicy `json:"clusteringPolicy,omitempty"`
 
 	//EvictionPolicy: Redis eviction policy - default is VolatileLRU
 	EvictionPolicy *DatabasePropertiesStatusEvictionPolicy `json:"evictionPolicy,omitempty"`
 
-	//Modules: Optional set of redis modules to enable in this database - modules can
-	//only be added at creation time.
+	//Modules: Optional set of redis modules to enable in this database - modules can only be added at creation time.
 	Modules []Module_StatusARM `json:"modules,omitempty"`
 
 	//Persistence: Persistence settings
 	Persistence *Persistence_StatusARM `json:"persistence,omitempty"`
 
-	//Port: TCP port of the database endpoint. Specified at create time. Defaults to
-	//an available port.
+	//Port: TCP port of the database endpoint. Specified at create time. Defaults to an available port.
 	Port *int `json:"port,omitempty"`
 
 	//ProvisioningState: Current provisioning status of the database
@@ -77,8 +73,7 @@ const (
 )
 
 type Module_StatusARM struct {
-	//Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE
-	//400'.
+	//Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
 	Args *string `json:"args,omitempty"`
 
 	//Name: The name of the module, e.g. 'RedisBloom', 'RediSearch', 'RedisTimeSeries'

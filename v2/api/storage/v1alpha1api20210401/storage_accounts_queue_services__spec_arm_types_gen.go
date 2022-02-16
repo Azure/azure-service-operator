@@ -9,8 +9,7 @@ type StorageAccountsQueueServices_SpecARM struct {
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
-	//Name: The name of the Queue Service within the specified storage account. Queue
-	//Service Name must be 'default'
+	//Name: The name of the Queue Service within the specified storage account. Queue Service Name must be 'default'
 	Name string `json:"name"`
 
 	//Properties: The properties of a storage account’s Queue service.
@@ -39,7 +38,6 @@ func (services StorageAccountsQueueServices_SpecARM) GetType() string {
 
 //Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/QueueServicePropertiesProperties
 type QueueServicePropertiesPropertiesARM struct {
-	//Cors: Sets the CORS rules. You can include up to five CorsRule elements in the
-	//request.
+	//Cors: Sets the CORS rules. You can include up to five CorsRule elements in the request.
 	Cors *CorsRulesARM `json:"cors,omitempty"`
 }

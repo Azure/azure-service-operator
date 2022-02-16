@@ -35,52 +35,46 @@ func (pools ManagedClustersAgentPools_SpecARM) GetType() string {
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAgentPoolProfileProperties
 type ManagedClusterAgentPoolProfilePropertiesARM struct {
-	//AvailabilityZones: The list of Availability zones to use for nodes. This can
-	//only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'.
+	//AvailabilityZones: The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType
+	//property is 'VirtualMachineScaleSets'.
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
 
-	//Count: Number of agents (VMs) to host docker containers. Allowed values must be
-	//in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to
-	//1000 (inclusive) for system pools. The default value is 1.
+	//Count: Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive)
+	//for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1.
 	Count *int `json:"count,omitempty"`
 
 	//EnableAutoScaling: Whether to enable auto-scaler
 	EnableAutoScaling *bool `json:"enableAutoScaling,omitempty"`
 
-	//EnableEncryptionAtHost: This is only supported on certain VM sizes and in
-	//certain Azure regions. For more information, see:
-	//https://docs.microsoft.com/azure/aks/enable-host-encryption
+	//EnableEncryptionAtHost: This is only supported on certain VM sizes and in certain Azure regions. For more information,
+	//see: https://docs.microsoft.com/azure/aks/enable-host-encryption
 	EnableEncryptionAtHost *bool `json:"enableEncryptionAtHost,omitempty"`
 
 	//EnableFIPS: See [Add a FIPS-enabled node
-	//pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview)
-	//for more details.
+	//pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more
+	//details.
 	EnableFIPS *bool `json:"enableFIPS,omitempty"`
 
-	//EnableNodePublicIP: Some scenarios may require nodes in a node pool to receive
-	//their own dedicated public IP addresses. A common scenario is for gaming
-	//workloads, where a console needs to make a direct connection to a cloud virtual
-	//machine to minimize hops. For more information see [assigning a public IP per
-	//node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools).
-	//The default is false.
+	//EnableNodePublicIP: Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses.
+	//A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine
+	//to minimize hops. For more information see [assigning a public IP per
+	//node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The
+	//default is false.
 	EnableNodePublicIP *bool `json:"enableNodePublicIP,omitempty"`
 
 	//EnableUltraSSD: Whether to enable UltraSSD
 	EnableUltraSSD *bool `json:"enableUltraSSD,omitempty"`
 
-	//GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance
-	//profile for supported GPU VM SKU.
+	//GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
 	GpuInstanceProfile *ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile `json:"gpuInstanceProfile,omitempty"`
 
-	//KubeletConfig: See [AKS custom node
-	//configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration)
-	//for more details.
+	//KubeletConfig: See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for
+	//more details.
 	KubeletConfig   *KubeletConfigARM                                        `json:"kubeletConfig,omitempty"`
 	KubeletDiskType *ManagedClusterAgentPoolProfilePropertiesKubeletDiskType `json:"kubeletDiskType,omitempty"`
 
-	//LinuxOSConfig: See [AKS custom node
-	//configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration)
-	//for more details.
+	//LinuxOSConfig: See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for
+	//more details.
 	LinuxOSConfig *LinuxOSConfigARM `json:"linuxOSConfig,omitempty"`
 
 	//MaxCount: The maximum number of nodes for auto-scaling
@@ -97,22 +91,18 @@ type ManagedClusterAgentPoolProfilePropertiesARM struct {
 	NodeLabels           map[string]string `json:"nodeLabels,omitempty"`
 	NodePublicIPPrefixID *string           `json:"nodePublicIPPrefixID,omitempty"`
 
-	//NodeTaints: The taints added to new nodes during node pool create and scale. For
-	//example, key=value:NoSchedule.
+	//NodeTaints: The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.
 	NodeTaints []string `json:"nodeTaints,omitempty"`
 
-	//OrchestratorVersion: As a best practice, you should upgrade all node pools in an
-	//AKS cluster to the same Kubernetes version. The node pool version must have the
-	//same major version as the control plane. The node pool minor version must be
-	//within two minor versions of the control plane version. The node pool version
-	//cannot be greater than the control plane version. For more information see
-	//[upgrading a node
+	//OrchestratorVersion: As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes
+	//version. The node pool version must have the same major version as the control plane. The node pool minor version must
+	//be within two minor versions of the control plane version. The node pool version cannot be greater than the control
+	//plane version. For more information see [upgrading a node
 	//pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
 	OrchestratorVersion *string `json:"orchestratorVersion,omitempty"`
 
-	//OsDiskSizeGB: OS Disk Size in GB to be used to specify the disk size for every
-	//machine in the master/agent pool. If you specify 0, it will apply the default
-	//osDisk size according to the vmSize specified.
+	//OsDiskSizeGB: OS Disk Size in GB to be used to specify the disk size for every machine in the master/agent pool. If you
+	//specify 0, it will apply the default osDisk size according to the vmSize specified.
 	OsDiskSizeGB *int                                                `json:"osDiskSizeGB,omitempty"`
 	OsDiskType   *ManagedClusterAgentPoolProfilePropertiesOsDiskType `json:"osDiskType,omitempty"`
 	OsSKU        *ManagedClusterAgentPoolProfilePropertiesOsSKU      `json:"osSKU,omitempty"`
@@ -122,17 +112,15 @@ type ManagedClusterAgentPoolProfilePropertiesARM struct {
 	//ProximityPlacementGroupID: The ID for Proximity Placement Group.
 	ProximityPlacementGroupID *string `json:"proximityPlacementGroupID,omitempty"`
 
-	//ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is
-	//'Spot'. If not specified, the default is 'Delete'.
+	//ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is
+	//'Delete'.
 	ScaleSetEvictionPolicy *ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy `json:"scaleSetEvictionPolicy,omitempty"`
 
-	//ScaleSetPriority: The Virtual Machine Scale Set priority. If not specified, the
-	//default is 'Regular'.
+	//ScaleSetPriority: The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'.
 	ScaleSetPriority *ManagedClusterAgentPoolProfilePropertiesScaleSetPriority `json:"scaleSetPriority,omitempty"`
 
-	//SpotMaxPrice: Possible values are any decimal value greater than zero or -1
-	//which indicates the willingness to pay any on-demand price. For more details on
-	//spot pricing, see [spot VMs
+	//SpotMaxPrice: Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any
+	//on-demand price. For more details on spot pricing, see [spot VMs
 	//pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)
 	SpotMaxPrice *float64 `json:"spotMaxPrice,omitempty"`
 
@@ -143,9 +131,8 @@ type ManagedClusterAgentPoolProfilePropertiesARM struct {
 	//UpgradeSettings: Settings for upgrading an agentpool
 	UpgradeSettings *AgentPoolUpgradeSettingsARM `json:"upgradeSettings,omitempty"`
 
-	//VmSize: VM size availability varies by region. If a node contains insufficient
-	//compute resources (memory, cpu, etc) pods might fail to run correctly. For more
-	//details on restricted VM sizes, see:
+	//VmSize: VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods
+	//might fail to run correctly. For more details on restricted VM sizes, see:
 	//https://docs.microsoft.com/azure/aks/quotas-skus-regions
 	VmSize       *string `json:"vmSize,omitempty"`
 	VnetSubnetID *string `json:"vnetSubnetID,omitempty"`
@@ -153,61 +140,52 @@ type ManagedClusterAgentPoolProfilePropertiesARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/AgentPoolUpgradeSettings
 type AgentPoolUpgradeSettingsARM struct {
-	//MaxSurge: This can either be set to an integer (e.g. '5') or a percentage (e.g.
-	//'50%'). If a percentage is specified, it is the percentage of the total agent
-	//pool size at the time of the upgrade. For percentages, fractional nodes are
-	//rounded up. If not specified, the default is 1. For more information, including
-	//best practices, see:
+	//MaxSurge: This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it
+	//is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded
+	//up. If not specified, the default is 1. For more information, including best practices, see:
 	//https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade
 	MaxSurge *string `json:"maxSurge,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/KubeletConfig
 type KubeletConfigARM struct {
-	//AllowedUnsafeSysctls: Allowed list of unsafe sysctls or unsafe sysctl patterns
-	//(ending in `*`).
+	//AllowedUnsafeSysctls: Allowed list of unsafe sysctls or unsafe sysctl patterns (ending in `*`).
 	AllowedUnsafeSysctls []string `json:"allowedUnsafeSysctls,omitempty"`
 
-	//ContainerLogMaxFiles: The maximum number of container log files that can be
-	//present for a container. The number must be ≥ 2.
+	//ContainerLogMaxFiles: The maximum number of container log files that can be present for a container. The number must be
+	//≥ 2.
 	ContainerLogMaxFiles *int `json:"containerLogMaxFiles,omitempty"`
 
-	//ContainerLogMaxSizeMB: The maximum size (e.g. 10Mi) of container log file before
-	//it is rotated.
+	//ContainerLogMaxSizeMB: The maximum size (e.g. 10Mi) of container log file before it is rotated.
 	ContainerLogMaxSizeMB *int `json:"containerLogMaxSizeMB,omitempty"`
 
 	//CpuCfsQuota: The default is true.
 	CpuCfsQuota *bool `json:"cpuCfsQuota,omitempty"`
 
-	//CpuCfsQuotaPeriod: The default is '100ms.' Valid values are a sequence of
-	//decimal numbers with an optional fraction and a unit suffix. For example:
-	//'300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'.
+	//CpuCfsQuotaPeriod: The default is '100ms.' Valid values are a sequence of decimal numbers with an optional fraction and
+	//a unit suffix. For example: '300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'.
 	CpuCfsQuotaPeriod *string `json:"cpuCfsQuotaPeriod,omitempty"`
 
 	//CpuManagerPolicy: The default is 'none'. See [Kubernetes CPU management
-	//policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies)
-	//for more information. Allowed values are 'none' and 'static'.
+	//policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies) for more
+	//information. Allowed values are 'none' and 'static'.
 	CpuManagerPolicy *string `json:"cpuManagerPolicy,omitempty"`
 
-	//FailSwapOn: If set to true it will make the Kubelet fail to start if swap is
-	//enabled on the node.
+	//FailSwapOn: If set to true it will make the Kubelet fail to start if swap is enabled on the node.
 	FailSwapOn *bool `json:"failSwapOn,omitempty"`
 
-	//ImageGcHighThreshold: To disable image garbage collection, set to 100. The
-	//default is 85%
+	//ImageGcHighThreshold: To disable image garbage collection, set to 100. The default is 85%
 	ImageGcHighThreshold *int `json:"imageGcHighThreshold,omitempty"`
 
-	//ImageGcLowThreshold: This cannot be set higher than imageGcHighThreshold. The
-	//default is 80%
+	//ImageGcLowThreshold: This cannot be set higher than imageGcHighThreshold. The default is 80%
 	ImageGcLowThreshold *int `json:"imageGcLowThreshold,omitempty"`
 
 	//PodMaxPids: The maximum number of processes per pod.
 	PodMaxPids *int `json:"podMaxPids,omitempty"`
 
 	//TopologyManagerPolicy: For more information see [Kubernetes Topology
-	//Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager).
-	//The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted',
-	//and 'single-numa-node'.
+	//Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager). The default is 'none'. Allowed values
+	//are 'none', 'best-effort', 'restricted', and 'single-numa-node'.
 	TopologyManagerPolicy *string `json:"topologyManagerPolicy,omitempty"`
 }
 
@@ -219,14 +197,13 @@ type LinuxOSConfigARM struct {
 	//Sysctls: Sysctl settings for Linux agent nodes.
 	Sysctls *SysctlConfigARM `json:"sysctls,omitempty"`
 
-	//TransparentHugePageDefrag: Valid values are 'always', 'defer', 'defer+madvise',
-	//'madvise' and 'never'. The default is 'madvise'. For more information see
-	//[Transparent
+	//TransparentHugePageDefrag: Valid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is
+	//'madvise'. For more information see [Transparent
 	//Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
 	TransparentHugePageDefrag *string `json:"transparentHugePageDefrag,omitempty"`
 
-	//TransparentHugePageEnabled: Valid values are 'always', 'madvise', and 'never'.
-	//The default is 'always'. For more information see [Transparent
+	//TransparentHugePageEnabled: Valid values are 'always', 'madvise', and 'never'. The default is 'always'. For more
+	//information see [Transparent
 	//Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
 	TransparentHugePageEnabled *string `json:"transparentHugePageEnabled,omitempty"`
 }
@@ -302,8 +279,7 @@ type SysctlConfigARM struct {
 	//NetIpv4TcpkeepaliveIntvl: Sysctl setting net.ipv4.tcp_keepalive_intvl.
 	NetIpv4TcpkeepaliveIntvl *int `json:"netIpv4TcpkeepaliveIntvl,omitempty"`
 
-	//NetNetfilterNfConntrackBuckets: Sysctl setting
-	//net.netfilter.nf_conntrack_buckets.
+	//NetNetfilterNfConntrackBuckets: Sysctl setting net.netfilter.nf_conntrack_buckets.
 	NetNetfilterNfConntrackBuckets *int `json:"netNetfilterNfConntrackBuckets,omitempty"`
 
 	//NetNetfilterNfConntrackMax: Sysctl setting net.netfilter.nf_conntrack_max.

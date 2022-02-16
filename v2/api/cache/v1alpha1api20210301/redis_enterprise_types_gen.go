@@ -327,8 +327,7 @@ type Cluster_Status struct {
 	//Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	//PrivateEndpointConnections: List of private endpoint connections associated with
-	//the specified RedisEnterprise cluster
+	//PrivateEndpointConnections: List of private endpoint connections associated with the specified RedisEnterprise cluster
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
 
 	//ProvisioningState: Current provisioning status of the cluster
@@ -346,8 +345,7 @@ type Cluster_Status struct {
 	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 
 	//Zones: The Availability Zones where this cluster will be deployed.
@@ -721,15 +719,14 @@ type RedisEnterpriseSpecAPIVersion string
 const RedisEnterpriseSpecAPIVersion20210301 = RedisEnterpriseSpecAPIVersion("2021-03-01")
 
 type RedisEnterprise_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	//Location: The geo-location where the resource lives
 	Location string `json:"location,omitempty"`
 
-	//MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g.
-	//'1.2'.
+	//MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'.
 	MinimumTlsVersion *ClusterPropertiesMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -1067,14 +1064,12 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 
 //Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Sku
 type Sku struct {
-	//Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending
-	//on SKU. Valid values are (2, 4, 6, ...) for Enterprise SKUs and (3, 9, 15, ...)
-	//for Flash SKUs.
+	//Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, ...)
+	//for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
 	Capacity *int `json:"capacity,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Name: The type of RedisEnterprise cluster to deploy. Possible values:
-	//(Enterprise_E10, EnterpriseFlash_F300 etc.).
+	//Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.).
 	Name SkuName `json:"name"`
 }
 
@@ -1164,14 +1159,12 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20210301storage.Sk
 }
 
 type Sku_Status struct {
-	//Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending
-	//on SKU. Valid values are (2, 4, 6, ...) for Enterprise SKUs and (3, 9, 15, ...)
-	//for Flash SKUs.
+	//Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, ...)
+	//for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
 	Capacity *int `json:"capacity,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Name: The type of RedisEnterprise cluster to deploy. Possible values:
-	//(Enterprise_E10, EnterpriseFlash_F300 etc.)
+	//Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.)
 	Name SkuStatusName `json:"name"`
 }
 

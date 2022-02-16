@@ -30,8 +30,7 @@ type MongoDBCollectionGetProperties_Status_ResourceARM struct {
 	//AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
 
-	//Etag: A system generated property representing the resource etag required for
-	//optimistic concurrency control.
+	//Etag: A system generated property representing the resource etag required for optimistic concurrency control.
 	Etag *string `json:"_etag,omitempty"`
 
 	//Id: Name of the Cosmos DB MongoDB collection
@@ -46,8 +45,7 @@ type MongoDBCollectionGetProperties_Status_ResourceARM struct {
 	//ShardKey: A key-value pair of shard keys to be applied for the request.
 	ShardKey map[string]string `json:"shardKey,omitempty"`
 
-	//Ts: A system generated property that denotes the last updated timestamp of the
-	//resource.
+	//Ts: A system generated property that denotes the last updated timestamp of the resource.
 	Ts *float64 `json:"_ts,omitempty"`
 }
 
@@ -55,8 +53,8 @@ type OptionsResource_StatusARM struct {
 	//AutoscaleSettings: Specifies the Autoscale settings.
 	AutoscaleSettings *AutoscaleSettings_StatusARM `json:"autoscaleSettings,omitempty"`
 
-	//Throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use
-	//the ThroughputSetting resource when retrieving offer details.
+	//Throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use the ThroughputSetting resource when
+	//retrieving offer details.
 	Throughput *int `json:"throughput,omitempty"`
 }
 

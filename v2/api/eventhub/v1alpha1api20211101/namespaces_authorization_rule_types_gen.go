@@ -327,8 +327,7 @@ type AuthorizationRule_Status struct {
 	//SystemData: The system meta data relating to this resource.
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or
-	//"Microsoft.EventHub/Namespaces/EventHubs"
+	//Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -555,8 +554,8 @@ const NamespacesAuthorizationRulesSpecAPIVersion20211101 = NamespacesAuthorizati
 
 type NamespacesAuthorizationRules_Spec struct {
 	// +kubebuilder:validation:MinLength=1
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	//Location: Location to deploy resource to

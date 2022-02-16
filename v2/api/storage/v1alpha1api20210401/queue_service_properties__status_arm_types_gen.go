@@ -14,15 +14,13 @@ type QueueServiceProperties_StatusARM struct {
 	//Properties: The properties of a storage account’s Queue service.
 	Properties *QueueServiceProperties_Status_PropertiesARM `json:"properties,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
 type QueueServiceProperties_Status_PropertiesARM struct {
-	//Cors: Specifies CORS rules for the Queue service. You can include up to five
-	//CorsRule elements in the request. If no CorsRule elements are included in the
-	//request body, all CORS rules will be deleted, and CORS will be disabled for the
+	//Cors: Specifies CORS rules for the Queue service. You can include up to five CorsRule elements in the request. If no
+	//CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the
 	//Queue service.
 	Cors *CorsRules_StatusARM `json:"cors,omitempty"`
 }

@@ -327,16 +327,14 @@ type ConsumerGroup_Status struct {
 	//SystemData: The system meta data relating to this resource.
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or
-	//"Microsoft.EventHub/Namespaces/EventHubs"
+	//Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
 	Type *string `json:"type,omitempty"`
 
 	//UpdatedAt: The exact time the message was updated.
 	UpdatedAt *string `json:"updatedAt,omitempty"`
 
-	//UserMetadata: User Metadata is a placeholder to store user-defined string data
-	//with maximum length 1024. e.g. it can be used to store descriptive data, such as
-	//list of teams and their contact information also user-defined configuration
+	//UserMetadata: User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be
+	//used to store descriptive data, such as list of teams and their contact information also user-defined configuration
 	//settings can be stored.
 	UserMetadata *string `json:"userMetadata,omitempty"`
 }
@@ -576,8 +574,8 @@ const NamespacesEventhubsConsumergroupsSpecAPIVersion20211101 = NamespacesEventh
 type NamespacesEventhubsConsumergroups_Spec struct {
 	// +kubebuilder:validation:MaxLength=50
 	// +kubebuilder:validation:MinLength=1
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	//Location: Location to deploy resource to
@@ -589,9 +587,8 @@ type NamespacesEventhubsConsumergroups_Spec struct {
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//UserMetadata: User Metadata is a placeholder to store user-defined string data
-	//with maximum length 1024. e.g. it can be used to store descriptive data, such as
-	//list of teams and their contact information also user-defined configuration
+	//UserMetadata: User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be
+	//used to store descriptive data, such as list of teams and their contact information also user-defined configuration
 	//settings can be stored.
 	UserMetadata *string `json:"userMetadata,omitempty"`
 }

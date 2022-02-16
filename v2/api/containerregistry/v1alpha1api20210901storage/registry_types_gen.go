@@ -136,8 +136,8 @@ type Registries_Spec struct {
 	// +kubebuilder:validation:MaxLength=50
 	// +kubebuilder:validation:MinLength=5
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]*$"
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName                string              `json:"azureName"`
 	DataEndpointEnabled      *bool               `json:"dataEndpointEnabled,omitempty"`
 	Encryption               *EncryptionProperty `json:"encryption,omitempty"`

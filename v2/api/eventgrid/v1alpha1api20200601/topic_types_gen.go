@@ -317,17 +317,15 @@ type Topic_Status struct {
 	//Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
 
-	//InboundIpRules: This can be used to restrict traffic from specific IPs instead
-	//of all IPs. Note: These are considered only if PublicNetworkAccess is enabled.
+	//InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
+	//only if PublicNetworkAccess is enabled.
 	InboundIpRules []InboundIpRule_Status `json:"inboundIpRules,omitempty"`
 
-	//InputSchema: This determines the format that Event Grid should expect for
-	//incoming events published to the topic.
+	//InputSchema: This determines the format that Event Grid should expect for incoming events published to the topic.
 	InputSchema *TopicPropertiesStatusInputSchema `json:"inputSchema,omitempty"`
 
-	//InputSchemaMapping: This enables publishing using custom event schemas. An
-	//InputSchemaMapping can be specified to map various properties of a source schema
-	//to various required properties of the EventGridEvent schema.
+	//InputSchemaMapping: This enables publishing using custom event schemas. An InputSchemaMapping can be specified to map
+	//various properties of a source schema to various required properties of the EventGridEvent schema.
 	InputSchemaMapping *InputSchemaMapping_Status `json:"inputSchemaMapping,omitempty"`
 
 	//Location: Location of the resource.
@@ -343,11 +341,9 @@ type Topic_Status struct {
 	//ProvisioningState: Provisioning state of the topic.
 	ProvisioningState *TopicPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
 
-	//PublicNetworkAccess: This determines if traffic is allowed over public network.
-	//By default it is enabled.
+	//PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
 	//You can further restrict to specific IPs by configuring <seealso
-	//cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules"
-	///>
+	//cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules" />
 	PublicNetworkAccess *TopicPropertiesStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	//SystemData: The system metadata relating to Topic resource.
@@ -803,8 +799,8 @@ type TopicsSpecAPIVersion string
 const TopicsSpecAPIVersion20200601 = TopicsSpecAPIVersion("2020-06-01")
 
 type Topics_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	//Location: Location to deploy resource to

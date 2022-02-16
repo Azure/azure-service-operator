@@ -313,16 +313,15 @@ type DatabaseAccountsMongodbDatabasesSpecAPIVersion string
 const DatabaseAccountsMongodbDatabasesSpecAPIVersion20210515 = DatabaseAccountsMongodbDatabasesSpecAPIVersion("2021-05-15")
 
 type DatabaseAccountsMongodbDatabases_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
-	//Options: CreateUpdateOptions are a list of key-value pairs that describe the
-	//resource. Supported keys are "If-Match", "If-None-Match", "Session-Token" and
-	//"Throughput"
+	//Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
+	//"If-None-Match", "Session-Token" and "Throughput"
 	Options *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -332,13 +331,11 @@ type DatabaseAccountsMongodbDatabases_Spec struct {
 	//Resource: Cosmos DB MongoDB database resource object
 	Resource MongoDBDatabaseResource `json:"resource"`
 
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags
-	//can be used in viewing and grouping this resource (across resource groups). A
-	//maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For
-	//example, the default experience for a template type is set with
-	//"defaultExperience": "Cassandra". Current "defaultExperience" values also
-	//include "Table", "Graph", "DocumentDB", and "MongoDB".
+	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
+	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
+	//greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
+	//type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
+	//"DocumentDB", and "MongoDB".
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -977,8 +974,7 @@ func (options *CreateUpdateOptions) AssignPropertiesToCreateUpdateOptions(destin
 }
 
 type MongoDBDatabaseGetProperties_Status_Resource struct {
-	//Etag: A system generated property representing the resource etag required for
-	//optimistic concurrency control.
+	//Etag: A system generated property representing the resource etag required for optimistic concurrency control.
 	Etag *string `json:"_etag,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -988,8 +984,7 @@ type MongoDBDatabaseGetProperties_Status_Resource struct {
 	//Rid: A system generated property. A unique identifier.
 	Rid *string `json:"_rid,omitempty"`
 
-	//Ts: A system generated property that denotes the last updated timestamp of the
-	//resource.
+	//Ts: A system generated property that denotes the last updated timestamp of the resource.
 	Ts *float64 `json:"_ts,omitempty"`
 }
 
@@ -1164,8 +1159,8 @@ type OptionsResource_Status struct {
 	//AutoscaleSettings: Specifies the Autoscale settings.
 	AutoscaleSettings *AutoscaleSettings_Status `json:"autoscaleSettings,omitempty"`
 
-	//Throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use
-	//the ThroughputSetting resource when retrieving offer details.
+	//Throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use the ThroughputSetting resource when
+	//retrieving offer details.
 	Throughput *int `json:"throughput,omitempty"`
 }
 

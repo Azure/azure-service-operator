@@ -23,8 +23,7 @@ type Cluster_StatusARM struct {
 	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 
 	//Zones: The Availability Zones where this cluster will be deployed.
@@ -38,8 +37,7 @@ type ClusterProperties_StatusARM struct {
 	//MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'
 	MinimumTlsVersion *ClusterPropertiesStatusMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
-	//PrivateEndpointConnections: List of private endpoint connections associated with
-	//the specified RedisEnterprise cluster
+	//PrivateEndpointConnections: List of private endpoint connections associated with the specified RedisEnterprise cluster
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
 
 	//ProvisioningState: Current provisioning status of the cluster
@@ -53,13 +51,11 @@ type ClusterProperties_StatusARM struct {
 }
 
 type Sku_StatusARM struct {
-	//Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending
-	//on SKU. Valid values are (2, 4, 6, ...) for Enterprise SKUs and (3, 9, 15, ...)
-	//for Flash SKUs.
+	//Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, ...)
+	//for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
 	Capacity *int `json:"capacity,omitempty"`
 
-	//Name: The type of RedisEnterprise cluster to deploy. Possible values:
-	//(Enterprise_E10, EnterpriseFlash_F300 etc.)
+	//Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.)
 	Name SkuStatusName `json:"name"`
 }
 

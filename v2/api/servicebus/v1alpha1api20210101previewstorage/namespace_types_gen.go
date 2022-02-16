@@ -131,8 +131,8 @@ type NamespaceList struct {
 
 //Storage version of v1alpha1api20210101preview.Namespaces_Spec
 type Namespaces_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName       string      `json:"azureName"`
 	Encryption      *Encryption `json:"encryption,omitempty"`
 	Identity        *Identity   `json:"identity,omitempty"`

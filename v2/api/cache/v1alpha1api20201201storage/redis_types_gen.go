@@ -184,8 +184,8 @@ func (resource *RedisResource_Status) ConvertStatusTo(destination genruntime.Con
 
 //Storage version of v1alpha1api20201201.Redis_Spec
 type Redis_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName         string  `json:"azureName"`
 	EnableNonSslPort  *bool   `json:"enableNonSslPort,omitempty"`
 	Location          *string `json:"location,omitempty"`
@@ -204,8 +204,7 @@ type Redis_Spec struct {
 	Sku                 *Sku                              `json:"sku,omitempty"`
 	StaticIP            *string                           `json:"staticIP,omitempty"`
 
-	//SubnetReference: The full resource ID of a subnet in a virtual network to deploy
-	//the Redis cache in. Example format:
+	//SubnetReference: The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1
 	SubnetReference *genruntime.ResourceReference `armReference:"SubnetId" json:"subnetReference,omitempty"`
 	Tags            map[string]string             `json:"tags,omitempty"`

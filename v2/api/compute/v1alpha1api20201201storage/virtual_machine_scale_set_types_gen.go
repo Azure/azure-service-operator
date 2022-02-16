@@ -186,8 +186,8 @@ type VirtualMachineScaleSets_Spec struct {
 	AdditionalCapabilities *AdditionalCapabilities `json:"additionalCapabilities,omitempty"`
 	AutomaticRepairsPolicy *AutomaticRepairsPolicy `json:"automaticRepairsPolicy,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName                              string                          `json:"azureName"`
 	DoNotRunExtensionsOnOverprovisionedVMs *bool                           `json:"doNotRunExtensionsOnOverprovisionedVMs,omitempty"`
 	ExtendedLocation                       *ExtendedLocation               `json:"extendedLocation,omitempty"`
@@ -477,8 +477,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 type ApiEntityReference struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
-	//Reference: The ARM resource id in the form of
-	///subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
+	//Reference: The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -688,8 +687,7 @@ type VirtualMachineScaleSetPublicIPAddressConfiguration_Status struct {
 	PublicIPPrefix         *SubResource_Status                                                   `json:"publicIPPrefix,omitempty"`
 }
 
-//Storage version of
-//v1alpha1api20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration
+//Storage version of v1alpha1api20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration struct {
 	DnsSettings            *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings `json:"dnsSettings,omitempty"`
 	IdleTimeoutInMinutes   *int                                                           `json:"idleTimeoutInMinutes,omitempty"`

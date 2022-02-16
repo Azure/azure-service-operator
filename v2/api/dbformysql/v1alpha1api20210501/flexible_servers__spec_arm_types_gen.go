@@ -41,12 +41,11 @@ func (servers FlexibleServers_SpecARM) GetType() string {
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/ServerProperties
 type ServerPropertiesARM struct {
-	//AdministratorLogin: The administrator's login name of a server. Can only be
-	//specified when the server is being created (and is required for creation).
+	//AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
+	//(and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
 
-	//AdministratorLoginPassword: The password of the administrator login (required
-	//for server creation).
+	//AdministratorLoginPassword: The password of the administrator login (required for server creation).
 	AdministratorLoginPassword *string `json:"administratorLoginPassword,omitempty"`
 
 	//AvailabilityZone: availability Zone information of the server.
@@ -70,8 +69,7 @@ type ServerPropertiesARM struct {
 	//ReplicationRole: The replication role.
 	ReplicationRole *ServerPropertiesReplicationRole `json:"replicationRole,omitempty"`
 
-	//RestorePointInTime: Restore point creation time (ISO8601 format), specifying the
-	//time to restore from.
+	//RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.
 	RestorePointInTime *string `json:"restorePointInTime,omitempty"`
 
 	//SourceServerResourceId: The source MySQL server id.

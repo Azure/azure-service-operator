@@ -9,10 +9,9 @@ type StorageAccountsQueueServicesQueues_SpecARM struct {
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
-	//Name: A queue name must be unique within a storage account and must be between 3
-	//and 63 characters.The name must comprise of lowercase alphanumeric and dash(-)
-	//characters only, it should begin and end with an alphanumeric character and it
-	//cannot have two consecutive dash(-) characters.
+	//Name: A queue name must be unique within a storage account and must be between 3 and 63 characters.The name must
+	//comprise of lowercase alphanumeric and dash(-) characters only, it should begin and end with an alphanumeric character
+	//and it cannot have two consecutive dash(-) characters.
 	Name       string              `json:"name"`
 	Properties *QueuePropertiesARM `json:"properties,omitempty"`
 

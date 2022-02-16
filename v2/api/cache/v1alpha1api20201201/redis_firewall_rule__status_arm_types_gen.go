@@ -14,8 +14,7 @@ type RedisFirewallRule_StatusARM struct {
 	//Properties: redis cache firewall rule properties
 	Properties *RedisFirewallRuleProperties_StatusARM `json:"properties,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
