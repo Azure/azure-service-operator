@@ -26,10 +26,10 @@ func ImplementConvertibleInterface(idFactory astmodel.IdentifierFactory) Stage {
 		func(ctx context.Context, state *State) (*State, error) {
 			injector := astmodel.NewInterfaceInjector()
 
-			modifiedTypes, err := astmodel.FindResourceDefinitions(state.Types()).Process(
+			modifiedTypes, err := astmodel.FindResourceDefinitions(state.Definitions()).Process(
 				func(def astmodel.TypeDefinition) (*astmodel.TypeDefinition, error) {
 					rsrc := astmodel.MustBeResourceType(def.Type())
-					hub, err := state.ConversionGraph().FindHub(def.Name(), state.Types())
+					hub, err := state.ConversionGraph().FindHub(def.Name(), state.Definitions())
 					if err != nil {
 						return nil, errors.Wrapf(
 							err,
@@ -66,8 +66,8 @@ func ImplementConvertibleInterface(idFactory astmodel.IdentifierFactory) Stage {
 				return nil, errors.Wrap(err, "injecting conversions.Convertible implementations")
 			}
 
-			newTypes := state.Types().OverlayWith(modifiedTypes)
-			return state.WithTypes(newTypes), nil
+			newDefinitions := state.Definitions().OverlayWith(modifiedTypes)
+			return state.WithDefinitions(newDefinitions), nil
 		})
 
 	stage.RequiresPrerequisiteStages(InjectPropertyAssignmentFunctionsStageID)

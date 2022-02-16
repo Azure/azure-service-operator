@@ -27,12 +27,12 @@ func TestCreateConversionGraph(t *testing.T) {
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(person2020, person2021, person2022)
 
-	initialState := NewState().WithTypes(defs)
+	initialState := NewState().WithDefinitions(defs)
 	cfg := config.NewConfiguration()
 	stage := CreateConversionGraph(cfg)
 	finalState, err := stage.Run(context.TODO(), initialState)
 	g.Expect(err).To(Succeed())
-	g.Expect(finalState.Types()).To(Equal(types))
+	g.Expect(finalState.Definitions()).To(Equal(defs))
 	g.Expect(finalState.ConversionGraph()).NotTo(BeNil())
 
 	graph := finalState.ConversionGraph()

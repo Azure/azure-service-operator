@@ -53,7 +53,7 @@ func UnrollRecursiveTypes() Stage {
 			// Find object types that reference themselves
 			fixer := recursivetypefixer.NewSimpleRecursiveTypeFixer()
 
-			for _, def := range state.Types() {
+			for _, def := range state.Definitions() {
 				updatedDef, err := fixer.Fix(def)
 				if err != nil {
 					return nil, err
@@ -72,6 +72,6 @@ func UnrollRecursiveTypes() Stage {
 			// Add new unrolled types
 			result.AddTypes(fixer.Types())
 
-			return state.WithTypes(result), nil
+			return state.WithDefinitions(result), nil
 		})
 }

@@ -28,7 +28,7 @@ func TestGolden_AddStatusConditions(t *testing.T) {
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(resourceV1, spec, status)
 
-	initialState := NewState().WithTypes(defs)
+	initialState := NewState().WithDefinitions(defs)
 	finalState, err := RunTestPipeline(
 		initialState,
 		AddStatusConditions(idFactory))

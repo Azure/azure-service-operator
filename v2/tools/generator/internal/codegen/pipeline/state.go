@@ -24,10 +24,10 @@ type State struct {
  */
 
 // NewState returns a new empty state
-// typeses is a (possibly empty) sequence of types to combine for the intitial state
-func NewState(typeses ...astmodel.TypeDefinitionSet) *State {
+// typeses is a (possibly empty) sequence of types to combine for the initial state
+func NewState(definitions ...astmodel.TypeDefinitionSet) *State {
 	defs := make(astmodel.TypeDefinitionSet)
-	for _, ts := range typeses {
+	for _, ts := range definitions {
 		defs = defs.OverlayWith(ts)
 	}
 
@@ -37,8 +37,8 @@ func NewState(typeses ...astmodel.TypeDefinitionSet) *State {
 	}
 }
 
-// WithTypes returns a new independentState with the given types instead
-func (s *State) WithTypes(definitions astmodel.TypeDefinitionSet) *State {
+// WithDefinitions returns a new independentState with the given type definitions instead
+func (s *State) WithDefinitions(definitions astmodel.TypeDefinitionSet) *State {
 	return &State{
 		definitions:     definitions,
 		conversionGraph: s.conversionGraph,
@@ -57,8 +57,8 @@ func (s *State) WithConversionGraph(graph *storage.ConversionGraph) *State {
 	}
 }
 
-// Types returns the set of types contained by the state
-func (s *State) Types() astmodel.TypeDefinitionSet {
+// Definitions returns the set of type definitions contained by the state
+func (s *State) Definitions() astmodel.TypeDefinitionSet {
 	return s.definitions
 }
 

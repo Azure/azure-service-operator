@@ -137,7 +137,7 @@ func Test_DetectSkippingProperties(t *testing.T) {
 
 	cfg := config.NewConfiguration()
 	initialState, err := RunTestPipeline(
-		NewState().WithTypes(defs),
+		NewState().WithDefinitions(defs),
 		CreateConversionGraph(cfg), // First create the conversion graph showing relationships
 		CreateStorageTypes(),       // Then create the storage types
 	)

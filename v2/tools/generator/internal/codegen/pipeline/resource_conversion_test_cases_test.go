@@ -48,7 +48,7 @@ func TestGolden_InjectResourceConversionTestCases(t *testing.T) {
 	defs.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2, test.Address2021)
 	cfg := config.NewConfiguration()
 	initialState, err := RunTestPipeline(
-		NewState().WithTypes(defs),
+		NewState().WithDefinitions(defs),
 		CreateConversionGraph(cfg),
 		CreateStorageTypes(),
 		InjectPropertyAssignmentFunctions(cfg, idFactory),
@@ -63,5 +63,5 @@ func TestGolden_InjectResourceConversionTestCases(t *testing.T) {
 		InjectResourceConversionTestCases(idFactory))
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalState.Types(), test.IncludeTestFiles())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions(), test.IncludeTestFiles())
 }

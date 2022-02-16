@@ -32,10 +32,10 @@ func TestInjectOriginalVersionFunction(t *testing.T) {
 	injectOriginalVersion := InjectOriginalVersionFunction(idFactory)
 
 	// Don't need a context when testing
-	state := NewState().WithTypes(defs)
+	state := NewState().WithDefinitions(defs)
 	finalState, err := injectOriginalVersion.Run(context.TODO(), state)
 
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalState.Types())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions())
 }

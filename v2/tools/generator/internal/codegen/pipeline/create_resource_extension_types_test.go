@@ -24,13 +24,13 @@ func TestGolden_ResoureExtension_OneVersion(t *testing.T) {
 	defs.AddAll(resourceV1, specV1, statusV1)
 
 	initialState, err := RunTestPipeline(
-		NewState().WithTypes(defs))
+		NewState().WithDefinitions(defs))
 	g.Expect(err).To(Succeed())
 
 	finalState, err := RunTestPipeline(initialState, CreateResourceExtensions("testPath", astmodel.NewIdentifierFactory()))
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalState.Types())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions())
 }
 
 func TestGolden_ResoureExtension_MoreThanOneVersion(t *testing.T) {
@@ -47,13 +47,13 @@ func TestGolden_ResoureExtension_MoreThanOneVersion(t *testing.T) {
 	defs.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2)
 
 	initialState, err := RunTestPipeline(
-		NewState().WithTypes(defs))
+		NewState().WithDefinitions(defs))
 	g.Expect(err).To(Succeed())
 
 	finalState, err := RunTestPipeline(initialState, CreateResourceExtensions("testPath", astmodel.NewIdentifierFactory()))
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalState.Types())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions())
 }
 
 func getResourceExtensionTestData(pkg astmodel.LocalPackageReference, resourceName string) (astmodel.TypeDefinition, astmodel.TypeDefinition, astmodel.TypeDefinition) {

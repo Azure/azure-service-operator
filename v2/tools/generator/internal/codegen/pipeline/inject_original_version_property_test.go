@@ -31,7 +31,7 @@ func TestInjectOriginalVersionProperty_InjectsIntoSpec(t *testing.T) {
 	injectOriginalProperty := InjectOriginalVersionProperty()
 
 	// Don't need a context when testing
-	state := NewState().WithTypes(defs)
+	state := NewState().WithDefinitions(defs)
 	finalState, err := injectOriginalProperty.Run(context.TODO(), state)
 
 	g.Expect(err).To(Succeed())
@@ -60,7 +60,7 @@ func TestInjectOriginalVersionProperty_WhenOriginalVersionFunctionFound_DoesNotI
 	injectOriginalProperty := InjectOriginalVersionProperty()
 
 	// Don't need a context when testing
-	state := NewState().WithTypes(defs)
+	state := NewState().WithDefinitions(defs)
 	finalState, err := injectOriginalProperty.Run(context.TODO(), state)
 
 	g.Expect(err).To(Succeed())

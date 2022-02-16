@@ -42,12 +42,12 @@ func TestGolden_CreateStorageTypes(t *testing.T) {
 	defs.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2, test.Address2021)
 
 	initialState, err := RunTestPipeline(
-		NewState().WithTypes(defs),
+		NewState().WithDefinitions(defs),
 		CreateConversionGraph(config.NewConfiguration()))
 	g.Expect(err).To(Succeed())
 
 	finalState, err := RunTestPipeline(initialState, CreateStorageTypes())
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalState.Types())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions())
 }

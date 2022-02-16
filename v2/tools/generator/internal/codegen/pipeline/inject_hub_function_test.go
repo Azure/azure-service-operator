@@ -35,7 +35,7 @@ func TestInjectHubFunction_WhenResourceIsStorageVersion_GeneratesExpectedFile(t 
 	injectHubFunction := InjectHubFunction(idFactory)
 
 	// Don't need a context when testing
-	state := NewState().WithTypes(defs)
+	state := NewState().WithDefinitions(defs)
 	finalState, err := injectHubFunction.Run(context.TODO(), state)
 
 	g.Expect(err).To(Succeed())
@@ -60,7 +60,7 @@ func TestInjectHubFunction_WhenResourceIsNotStorageVersion_GeneratesExpectedFile
 	injectHubFunction := InjectHubFunction(idFactory)
 
 	// Don't need a context when testing
-	state := NewState().WithTypes(defs)
+	state := NewState().WithDefinitions(defs)
 	finalState, err := injectHubFunction.Run(context.TODO(), state)
 
 	g.Expect(err).To(Succeed())

@@ -643,8 +643,8 @@ func (o *JSONSerializationTestCase) createIndependentGenerator(
 
 	switch t := propertyType.(type) {
 	case astmodel.TypeName:
-		types := genContext.GetTypesInCurrentPackage()
-		def, ok := types[t]
+		defs := genContext.GetDefinitionsInCurrentPackage()
+		def, ok := defs[t]
 		if ok {
 			return o.createIndependentGenerator(def.Name().Name(), def.Type(), genContext)
 		}
@@ -693,7 +693,7 @@ func (o *JSONSerializationTestCase) createRelatedGenerator(
 
 	switch t := propertyType.(type) {
 	case astmodel.TypeName:
-		_, ok := genContext.GetTypesInPackage(t.PackageReference)
+		_, ok := genContext.GetDefinitionsInPackage(t.PackageReference)
 		if ok {
 			// This is a type we're defining, so we can create a generator for it
 			if t.PackageReference.Equals(genContext.CurrentPackage()) {

@@ -49,7 +49,7 @@ func TestGolden_InjectJsonSerializationTests(t *testing.T) {
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2, test.Address2021)
 
-	state := NewState().WithTypes(defs)
+	state := NewState().WithDefinitions(defs)
 
 	cfg := config.NewConfiguration()
 	finalState, err := RunTestPipeline(
@@ -64,5 +64,5 @@ func TestGolden_InjectJsonSerializationTests(t *testing.T) {
 	 * When verifying these golden tests, check the _test files contain the expected tests, test runners, and generator
 	 * factory methods.
 	 */
-	test.AssertPackagesGenerateExpectedCode(t, finalState.Types(), test.IncludeTestFiles())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions(), test.IncludeTestFiles())
 }

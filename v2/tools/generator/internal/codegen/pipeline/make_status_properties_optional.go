@@ -45,10 +45,10 @@ func MakeStatusPropertiesOptional() Stage {
 				return nil, err
 			}
 
-			remaining := state.Types().Except(result)
+			remaining := state.Definitions().Except(result)
 			result.AddTypes(remaining)
 
-			return state.WithTypes(result), nil
+			return state.WithDefinitions(result), nil
 		})
 }
 

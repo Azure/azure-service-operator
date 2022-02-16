@@ -22,7 +22,7 @@ func AddOperatorSpec(configuration *config.Configuration, idFactory astmodel.Ide
 		AddOperatorSpecStageID,
 		"Adds the property 'OperatorSpec' to all Spec types that require it",
 		func(ctx context.Context, state *State) (*State, error) {
-			defs := state.Types()
+			defs := state.Definitions()
 			result := make(astmodel.TypeDefinitionSet)
 
 			for _, resource := range astmodel.FindResourceDefinitions(defs) {
@@ -48,7 +48,7 @@ func AddOperatorSpec(configuration *config.Configuration, idFactory astmodel.Ide
 
 			result = defs.OverlayWith(result)
 
-			return state.WithTypes(result), nil
+			return state.WithDefinitions(result), nil
 		})
 }
 

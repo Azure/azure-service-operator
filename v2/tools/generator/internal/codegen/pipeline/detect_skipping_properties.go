@@ -52,10 +52,10 @@ func DetectSkippingProperties() Stage {
 		DetectSkippingPropertiesStageID,
 		"Detect properties that skip resource or object versions",
 		func(ctx context.Context, state *State) (*State, error) {
-			detector := newSkippingPropertyDetector(state.Types(), state.ConversionGraph())
+			detector := newSkippingPropertyDetector(state.Definitions(), state.ConversionGraph())
 
 			// Add resources and objects to the graph
-			for _, def := range state.Types() {
+			for _, def := range state.Definitions() {
 				if t, ok := astmodel.AsPropertyContainer(def.Type()); ok {
 					err := detector.AddProperties(def.Name(), t.Properties().AsSlice()...)
 					if err != nil {

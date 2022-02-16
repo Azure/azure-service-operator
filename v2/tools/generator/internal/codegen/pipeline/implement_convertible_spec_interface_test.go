@@ -35,7 +35,7 @@ func TestGolden_InjectConvertibleSpecInterface(t *testing.T) {
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2)
 
-	initialState := NewState().WithTypes(defs)
+	initialState := NewState().WithDefinitions(defs)
 
 	cfg := config.NewConfiguration()
 	finalState, err := RunTestPipeline(

@@ -38,7 +38,7 @@ func ImplementConvertibleSpecInterface(idFactory astmodel.IdentifierFactory) Sta
 			}
 
 			defs := state.Definitions().OverlayWith(modifiedDefinitions)
-			return state.WithTypes(defs), nil
+			return state.WithDefinitions(defs), nil
 		})
 
 	stage.RequiresPrerequisiteStages(InjectPropertyAssignmentFunctionsStageID)

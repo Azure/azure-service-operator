@@ -36,20 +36,20 @@ func RemoveStatusValidations() Stage {
 		RemoveStatusPropertyValidationsStageID,
 		"Remove validation from all status properties",
 		func(ctx context.Context, state *State) (*State, error) {
-			result, err := removeStatusTypeValidations(state.Types())
+			result, err := removeStatusTypeValidations(state.Definitions())
 			if err != nil {
 				return nil, err
 			}
 
-			err = errorIfSpecStatusOverlap(result, state.Types())
+			err = errorIfSpecStatusOverlap(result, state.Definitions())
 			if err != nil {
 				return nil, err
 			}
 
-			remaining := state.Types().Except(result)
+			remaining := state.Definitions().Except(result)
 			result.AddTypes(remaining)
 
-			return state.WithTypes(result), nil
+			return state.WithDefinitions(result), nil
 		})
 }
 

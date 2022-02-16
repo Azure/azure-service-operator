@@ -26,7 +26,7 @@ func InjectResourceConversionTestCases(idFactory astmodel.IdentifierFactory) Sta
 			factory := makeResourceConversionTestCaseFactory(idFactory)
 			modifiedDefs := make(astmodel.TypeDefinitionSet)
 			var errs []error
-			for _, d := range state.Types() {
+			for _, d := range state.Definitions() {
 				if factory.NeedsTest(d) {
 					updated, err := factory.AddTestTo(d)
 					if err != nil {
@@ -41,7 +41,7 @@ func InjectResourceConversionTestCases(idFactory astmodel.IdentifierFactory) Sta
 				return nil, kerrors.NewAggregate(errs)
 			}
 
-			return state.WithTypes(state.Types().OverlayWith(modifiedTypes)), nil
+			return state.WithDefinitions(state.Definitions().OverlayWith(modifiedDefs)), nil
 		})
 
 	stage.RequiresPrerequisiteStages(
