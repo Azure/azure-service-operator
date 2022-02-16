@@ -138,7 +138,7 @@ func (scanner *SchemaScanner) RunHandlerForSchema(ctx context.Context, schema Sc
 // 							- ARM specific resources. I'm not 100% sure why...
 //
 // 		allOf acts like composition which composites each schema from the child oneOf with the base reference from allOf.
-func (scanner *SchemaScanner) GenerateDefinitionsFromDeploymentTemplate(ctx context.Context, root Schema) (astmodel.Types, error) {
+func (scanner *SchemaScanner) GenerateDefinitionsFromDeploymentTemplate(ctx context.Context, root Schema) (astmodel.TypeDefinitionSet, error) {
 	ctx, span := tab.StartSpan(ctx, "GenerateDefinitionsFromDeploymentTemplate")
 	defer span.End()
 
@@ -224,7 +224,7 @@ func (scanner *SchemaScanner) GenerateDefinitionsFromDeploymentTemplate(ctx cont
 	return scanner.Definitions(), nil
 }
 
-func (scanner *SchemaScanner) GenerateAllDefinitions(ctx context.Context, schema Schema) (astmodel.Types, error) {
+func (scanner *SchemaScanner) GenerateAllDefinitions(ctx context.Context, schema Schema) (astmodel.TypeDefinitionSet, error) {
 	title := schema.title()
 	if title == nil {
 		return nil, errors.New("given schema has no title")
@@ -253,8 +253,8 @@ func (scanner *SchemaScanner) GenerateAllDefinitions(ctx context.Context, schema
 }
 
 // Definitions produces a set of all the types defined so far
-func (scanner *SchemaScanner) Definitions() astmodel.Types {
-	defs := make(astmodel.Types)
+func (scanner *SchemaScanner) Definitions() astmodel.TypeDefinitionSet {
+	defs := make(astmodel.TypeDefinitionSet)
 	for defName, def := range scanner.definitions {
 		if def == nil {
 			// safety check/assert:

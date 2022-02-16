@@ -18,16 +18,16 @@ func AugmentSpecWithStatus() Stage {
 	return MakeLegacyStage(
 		AugmentSpecWithStatusStageID,
 		"Merge information from Status into Spec",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			// build the augmenter we will use:
 			augmenter := fuseAugmenters(
-				flattenAugmenter(types),
-				secretAugmenter(types),
+				flattenAugmenter(definitions),
+				secretAugmenter(definitions),
 			)
 
-			newTypes := make(astmodel.Types)
+			newTypes := make(astmodel.TypeDefinitionSet)
 
-			for _, typeDef := range types {
+			for _, typeDef := range definitions {
 				if resource, ok := typeDef.Type().(*astmodel.ResourceType); ok {
 					// augment spec with any bits needed from status
 					newSpec, err := augmenter(resource.SpecType(), resource.StatusType())
@@ -192,7 +192,7 @@ func newDefaultMerger(allTypes astmodel.ReadonlyTypes) *astmodel.TypeMerger {
 func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 	return func(spec astmodel.Type, status astmodel.Type) (astmodel.Type, error) {
 		// reminder: merger is invoked with a pair of Types and invokes the first
-		// Added function that matches those types
+		// function added that matches those types
 		//
 		// in this incarnation we are using it to handle the pair of values
 		// (SpecType, StatusType),  to copy the StatusType’s “flatten” property
@@ -250,8 +250,8 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 // and stores them in a secret property
 func secretAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 	return func(spec astmodel.Type, status astmodel.Type) (astmodel.Type, error) {
-		// reminder: merger is invoked with a pair of Types and invokes the first
-		// Added function that matches those types
+		// reminder: merger is invoked with a pair of Typesand invokes the first
+		// function added that matches those types
 		//
 		// note that we do a small optimization where we don’t return a new type
 		// if nothing was changed; this allows us to keep the same TypeNames

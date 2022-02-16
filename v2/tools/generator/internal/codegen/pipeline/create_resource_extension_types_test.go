@@ -20,7 +20,7 @@ func TestGolden_ResoureExtension_OneVersion(t *testing.T) {
 
 	// Test Resource V1
 	resourceV1, specV1, statusV1 := getResourceExtensionTestData(test.Pkg2020, "Person")
-	types := make(astmodel.Types)
+	types := make(astmodel.TypeDefinitionSet)
 	types.AddAll(resourceV1, specV1, statusV1)
 
 	initialState, err := RunTestPipeline(
@@ -43,7 +43,7 @@ func TestGolden_ResoureExtension_MoreThanOneVersion(t *testing.T) {
 	// Test Resource V2
 	resourceV2, specV2, statusV2 := getResourceExtensionTestData(test.Pkg2021, "Person")
 
-	types := make(astmodel.Types)
+	types := make(astmodel.TypeDefinitionSet)
 	types.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2)
 
 	initialState, err := RunTestPipeline(

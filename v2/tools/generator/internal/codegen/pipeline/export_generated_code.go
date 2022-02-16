@@ -30,8 +30,8 @@ func ExportPackages(outputPath string) Stage {
 	stage := MakeLegacyStage(
 		ExportPackagesStageID,
 		description,
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			packages, err := CreatePackagesForDefinitions(types)
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+			packages, err := CreatePackagesForDefinitions(definitions)
 			if err != nil {
 				return nil, errors.Wrapf(err, "failed to assign generated definitions to packages")
 			}
@@ -41,14 +41,14 @@ func ExportPackages(outputPath string) Stage {
 				return nil, errors.Wrapf(err, "unable to write files into %q", outputPath)
 			}
 
-			return types, nil
+			return definitions, nil
 		})
 	stage.RequiresPrerequisiteStages(DeleteGeneratedCodeStageID)
 	return stage
 }
 
 // CreatePackagesForDefinitions groups type definitions into packages
-func CreatePackagesForDefinitions(definitions astmodel.Types) (map[astmodel.PackageReference]*astmodel.PackageDefinition, error) {
+func CreatePackagesForDefinitions(definitions astmodel.TypeDefinitionSet) (map[astmodel.PackageReference]*astmodel.PackageDefinition, error) {
 	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
 	for _, def := range definitions {
 		name := def.Name()

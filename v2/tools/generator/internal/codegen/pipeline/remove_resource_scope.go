@@ -22,10 +22,10 @@ func RemoveResourceScope() Stage {
 		RemoveResourceScopeStageID,
 		"Remove scope from all resources",
 		func(ctx context.Context, state *State) (*State, error) {
-			newDefs := make(astmodel.Types)
+			newDefs := make(astmodel.TypeDefinitionSet)
 			scopePropertyRemovalVisitor := makeScopePropertyRemovalVisitor()
 
-			resources := astmodel.FindResourceTypes(state.Types())
+			resources := astmodel.FindResourceDefinitions(state.Types())
 			for _, resource := range resources {
 				resolved, err := state.Types().ResolveResourceSpecAndStatus(resource)
 				if err != nil {

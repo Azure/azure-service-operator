@@ -24,7 +24,7 @@ func InjectPropertyAssignmentTests(idFactory astmodel.IdentifierFactory) Stage {
 		"Add test cases to verify PropertyAssignment functions",
 		func(ctx context.Context, state *State) (*State, error) {
 			factory := makePropertyAssignmentTestCaseFactory(idFactory)
-			modifiedTypes := make(astmodel.Types)
+			modifiedTypes := make(astmodel.TypeDefinitionSet)
 			var errs []error
 			for _, d := range state.Types() {
 				if factory.NeedsTest(d) {

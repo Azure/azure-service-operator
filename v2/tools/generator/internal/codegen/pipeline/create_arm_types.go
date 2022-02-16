@@ -26,7 +26,7 @@ func CreateARMTypes(idFactory astmodel.IdentifierFactory) Stage {
 	return MakeLegacyStage(
 		CreateARMTypesStageID,
 		"Create types for interaction with ARM",
-		func(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			armTypeCreator := &armTypeCreator{definitions: definitions, idFactory: idFactory}
 			armTypes, err := armTypeCreator.createARMTypes()
 			if err != nil {
@@ -42,15 +42,15 @@ func CreateARMTypes(idFactory astmodel.IdentifierFactory) Stage {
 type armPropertyTypeConversionHandler func(prop *astmodel.PropertyDefinition, isSpec bool) (*astmodel.PropertyDefinition, error)
 
 type armTypeCreator struct {
-	definitions astmodel.Types
+	definitions astmodel.TypeDefinitionSet
 	idFactory   astmodel.IdentifierFactory
 }
 
-func (c *armTypeCreator) createARMTypes() (astmodel.Types, error) {
-	result := make(astmodel.Types)
-	resourceSpecDefs := make(astmodel.Types)
+func (c *armTypeCreator) createARMTypes() (astmodel.TypeDefinitionSet, error) {
+	result := make(astmodel.TypeDefinitionSet)
+	resourceSpecDefs := make(astmodel.TypeDefinitionSet)
 
-	resourceDefs := astmodel.FindResourceTypes(c.definitions)
+	resourceDefs := astmodel.FindResourceDefinitions(c.definitions)
 
 	for _, def := range resourceDefs {
 		resolved, err := c.definitions.ResolveResourceSpecAndStatus(def)

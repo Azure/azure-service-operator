@@ -25,7 +25,7 @@ func TestGolden_AddStatusConditions(t *testing.T) {
 	status := test.CreateStatus(test.Pkg2020, "Person")
 	resourceV1 := test.CreateResource(test.Pkg2020, "Person", spec, status)
 
-	types := make(astmodel.Types)
+	types := make(astmodel.TypeDefinitionSet)
 	types.AddAll(resourceV1, spec, status)
 
 	initialState := NewState().WithTypes(types)

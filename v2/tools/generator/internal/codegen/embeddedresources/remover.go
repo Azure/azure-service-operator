@@ -16,16 +16,16 @@ import (
 )
 
 type resourceRemovalVisitorContext struct {
-	resource      astmodel.TypeName
-	depth         int
-	modifiedTypes astmodel.Types
+	resource            astmodel.TypeName
+	depth               int
+	modifiedDefinitions astmodel.TypeDefinitionSet
 }
 
 func (e resourceRemovalVisitorContext) WithMoreDepth() resourceRemovalVisitorContext {
 	e.depth += 1
 
-	// Note that e.modifiedTypes is a pointer and so is shared between all instances
-	// in order to allow tracking what types have been modified.
+	// Note that e.modifiedDefinitions is a pointer and so is shared between all instances
+	// in order to allow tracking what definitions have been modified.
 	return e
 }
 
@@ -51,11 +51,11 @@ func (e resourceRemovalVisitorContext) WithMoreDepth() resourceRemovalVisitorCon
 //    given parent via a label. An example of this type of embedding is
 //    v20180601 Microsoft.Networking RouteTable.Spec.Properties.Routes. The Routes property is of type RouteTableRoutes
 //    which is a child resource of RouteTable.
-// Note that even though the above examples do not include Status types, the same rules apply to Status types, with
-// the only difference being that for Status types the resource reference in Swagger (the source of the Status types)
+// Note that even though the above examples do not include Status definitions, the same rules apply to Status definitions, with
+// the only difference being that for Status definitions the resource reference in Swagger (the source of the Status definitions)
 // is to the Status type (as opposed to the "Properties" type for Spec).
 type EmbeddedResourceRemover struct {
-	types                    astmodel.Types
+	definitions              astmodel.TypeDefinitionSet
 	resourceToSubresourceMap map[astmodel.TypeName]astmodel.TypeNameSet
 	resourcePropertiesTypes  astmodel.TypeNameSet
 	resourceStatusTypes      astmodel.TypeNameSet
@@ -63,21 +63,21 @@ type EmbeddedResourceRemover struct {
 	typeFlag                 astmodel.TypeFlag
 }
 
-// MakeEmbeddedResourceRemover creates an EmbeddedResourceRemover for the specified astmodel.Types collection.
-func MakeEmbeddedResourceRemover(types astmodel.Types) (EmbeddedResourceRemover, error) {
-	resourceStatusTypes := findAllResourceStatusTypes(types)
-	resourceToSubresourceMap, err := findSubResourcePropertiesTypeNames(types)
+// MakeEmbeddedResourceRemover creates an EmbeddedResourceRemover for the specified astmodel.TypeDefinitionSet collection.
+func MakeEmbeddedResourceRemover(definitions astmodel.TypeDefinitionSet) (EmbeddedResourceRemover, error) {
+	resourceStatusTypes := findAllResourceStatusTypes(definitions)
+	resourceToSubresourceMap, err := findSubResourcePropertiesTypeNames(definitions)
 	if err != nil {
 		return EmbeddedResourceRemover{}, errors.Wrap(err, "couldn't find subresource \"Properties\" type names")
 	}
 
-	resourcePropertiesTypes, err := findAllResourcePropertiesTypes(types)
+	resourcePropertiesTypes, err := findAllResourcePropertiesTypes(definitions)
 	if err != nil {
 		return EmbeddedResourceRemover{}, errors.Wrap(err, "couldn't find resource \"Properties\" type names")
 	}
 
 	remover := EmbeddedResourceRemover{
-		types:                    types,
+		definitions:              definitions,
 		resourceToSubresourceMap: resourceToSubresourceMap,
 		resourcePropertiesTypes:  resourcePropertiesTypes,
 		resourceStatusTypes:      resourceStatusTypes,
@@ -89,12 +89,12 @@ func MakeEmbeddedResourceRemover(types astmodel.Types) (EmbeddedResourceRemover,
 }
 
 // RemoveEmbeddedResources removes any embedded resources according to the
-func (e EmbeddedResourceRemover) RemoveEmbeddedResources() (astmodel.Types, error) {
-	result := make(astmodel.Types)
+func (e EmbeddedResourceRemover) RemoveEmbeddedResources() (astmodel.TypeDefinitionSet, error) {
+	result := make(astmodel.TypeDefinitionSet)
 
 	visitor := e.makeEmbeddedResourceRemovalTypeVisitor()
 
-	for _, def := range e.types {
+	for _, def := range e.definitions {
 		if astmodel.IsResourceDefinition(def) {
 			typeWalker := e.newResourceRemovalTypeWalker(visitor, def)
 
@@ -164,7 +164,7 @@ func (e EmbeddedResourceRemover) makeEmbeddedResourceRemovalTypeVisitor() astmod
 }
 
 func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.TypeVisitor, def astmodel.TypeDefinition) *astmodel.TypeWalker {
-	typeWalker := astmodel.NewTypeWalker(e.types, visitor)
+	typeWalker := astmodel.NewTypeWalker(e.definitions, visitor)
 	typeWalker.AfterVisit = func(original astmodel.TypeDefinition, updated astmodel.TypeDefinition, ctx interface{}) (astmodel.TypeDefinition, error) {
 		typedCtx := ctx.(resourceRemovalVisitorContext)
 
@@ -186,7 +186,7 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.T
 		exists := false
 		for count := 0; ; count++ {
 			newName = embeddedResourceTypeName{original: original.Name(), context: typedCtx.resource.Name(), suffix: e.typeSuffix, count: count}.ToTypeName()
-			existing, ok := typedCtx.modifiedTypes[newName]
+			existing, ok := typedCtx.modifiedDefinitions[newName]
 			if !ok {
 				break
 			}
@@ -199,7 +199,7 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.T
 		updated = updated.WithName(newName)
 		updated = updated.WithType(flaggedType)
 		if !exists {
-			typedCtx.modifiedTypes.Add(updated)
+			typedCtx.modifiedDefinitions.Add(updated)
 		}
 
 		klog.V(5).Infof("Updating %q to %q", original.Name(), updated.Name())
@@ -234,7 +234,7 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.T
 
 	typeWalker.MakeContext = func(it astmodel.TypeName, ctx interface{}) (interface{}, error) {
 		if ctx == nil {
-			return resourceRemovalVisitorContext{resource: def.Name(), depth: 0, modifiedTypes: make(astmodel.Types)}, nil
+			return resourceRemovalVisitorContext{resource: def.Name(), depth: 0, modifiedDefinitions: make(astmodel.TypeDefinitionSet)}, nil
 		}
 		typedCtx := ctx.(resourceRemovalVisitorContext)
 		return typedCtx.WithMoreDepth(), nil
@@ -245,13 +245,13 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.T
 
 // findSubResourcePropertiesTypeNames finds the "Properties" type of each subresource and returns a map of
 // parent resource to subresource "Properties" type names.
-func findSubResourcePropertiesTypeNames(types astmodel.Types) (map[astmodel.TypeName]astmodel.TypeNameSet, error) {
+func findSubResourcePropertiesTypeNames(definitions astmodel.TypeDefinitionSet) (map[astmodel.TypeName]astmodel.TypeNameSet, error) {
 	var errs []error
 	result := make(map[astmodel.TypeName]astmodel.TypeNameSet)
 
 	// Identify sub-resources and their "properties", associate them with parent resource
 	// Look through parent resource for subresource properties
-	for _, def := range astmodel.FindResourceTypes(types) {
+	for _, def := range astmodel.FindResourceDefinitions(definitions) {
 		resource, ok := astmodel.AsResourceType(def.Type())
 		if !ok {
 			// Shouldn't be possible to get here
@@ -263,7 +263,7 @@ func findSubResourcePropertiesTypeNames(types astmodel.Types) (map[astmodel.Type
 		}
 
 		owner := *resource.Owner()
-		specPropertiesTypeName, statusPropertiesTypeName, err := tryResolveSpecStatusTypes(types, resource)
+		specPropertiesTypeName, statusPropertiesTypeName, err := tryResolveSpecStatusTypes(definitions, resource)
 		if err != nil {
 			errs = append(errs, errors.Wrapf(err, "couldn't extract spec/status properties from %q", def.Name()))
 			continue
@@ -295,13 +295,13 @@ func findSubResourcePropertiesTypeNames(types astmodel.Types) (map[astmodel.Type
 }
 
 // TODO: Move this to resourceType?
-func tryResolveSpecStatusTypes(types astmodel.Types, resource *astmodel.ResourceType) (*astmodel.TypeName, *astmodel.TypeName, error) {
+func tryResolveSpecStatusTypes(definitions astmodel.TypeDefinitionSet, resource *astmodel.ResourceType) (*astmodel.TypeName, *astmodel.TypeName, error) {
 	specName, ok := astmodel.AsTypeName(resource.SpecType())
 	if !ok {
 		return nil, nil, errors.Errorf("resource spec was not a TypeName")
 	}
 
-	specPropertiesTypeName, err := extractPropertiesType(types, specName)
+	specPropertiesTypeName, err := extractPropertiesType(definitions, specName)
 	if err != nil {
 		return nil, nil, errors.Wrap(err, "couldn't extract spec properties")
 	}
@@ -309,7 +309,7 @@ func tryResolveSpecStatusTypes(types astmodel.Types, resource *astmodel.Resource
 	var statusPropertiesTypeName *astmodel.TypeName
 	statusName, ok := astmodel.AsTypeName(resource.StatusType())
 	if ok {
-		statusPropertiesTypeName, err = extractPropertiesType(types, statusName)
+		statusPropertiesTypeName, err = extractPropertiesType(definitions, statusName)
 		if err != nil {
 			return nil, nil, errors.Wrap(err, "couldn't extract status properties")
 		}
@@ -320,20 +320,20 @@ func tryResolveSpecStatusTypes(types astmodel.Types, resource *astmodel.Resource
 
 // findAllResourcePropertiesTypes finds the "Properties" type for each resource. The result is a astmodel.TypeNameSet containing
 // each resources "Properties" type.
-func findAllResourcePropertiesTypes(types astmodel.Types) (astmodel.TypeNameSet, error) {
+func findAllResourcePropertiesTypes(definitions astmodel.TypeDefinitionSet) (astmodel.TypeNameSet, error) {
 	var errs []error
 	result := astmodel.NewTypeNameSet()
 
 	// Identify sub-resources and their "properties", associate them with parent resource
 	// Look through parent resource for subresource properties
-	for _, def := range astmodel.FindResourceTypes(types) {
+	for _, def := range astmodel.FindResourceDefinitions(definitions) {
 		resource, ok := astmodel.AsResourceType(def.Type())
 		if !ok {
 			// Shouldn't be possible to get here
 			panic(fmt.Sprintf("resource was somehow not a resource: %q", def.Name()))
 		}
 
-		specPropertiesTypeName, statusPropertiesTypeName, err := tryResolveSpecStatusTypes(types, resource)
+		specPropertiesTypeName, statusPropertiesTypeName, err := tryResolveSpecStatusTypes(definitions, resource)
 		if err != nil {
 			errs = append(errs, errors.Wrapf(err, "couldn't extract spec/status properties from %q", def.Name()))
 			continue
@@ -358,8 +358,8 @@ func findAllResourcePropertiesTypes(types astmodel.Types) (astmodel.TypeNameSet,
 
 // findAllResourceStatusTypes finds the astmodel.TypeName's of each resources Status type. If the resource does not have a Status type then
 // that TypeName is not included in the resulting astmodel.TypeNameSet (obviously).
-func findAllResourceStatusTypes(types astmodel.Types) astmodel.TypeNameSet {
-	resources := types.Where(func(def astmodel.TypeDefinition) bool {
+func findAllResourceStatusTypes(definitions astmodel.TypeDefinitionSet) astmodel.TypeNameSet {
+	resources := definitions.Where(func(def astmodel.TypeDefinition) bool {
 		_, ok := astmodel.AsResourceType(def.Type())
 		return ok
 	})
@@ -386,8 +386,8 @@ func findAllResourceStatusTypes(types astmodel.Types) astmodel.TypeNameSet {
 	return result
 }
 
-func extractPropertiesType(types astmodel.Types, typeName astmodel.TypeName) (*astmodel.TypeName, error) {
-	resolved := types.Get(typeName)
+func extractPropertiesType(definitions astmodel.TypeDefinitionSet, typeName astmodel.TypeName) (*astmodel.TypeName, error) {
+	resolved := definitions.Get(typeName)
 	ot, ok := astmodel.AsObjectType(resolved.Type())
 	if !ok {
 		return nil, errors.Errorf("couldn't find object type %q", typeName)
@@ -415,7 +415,7 @@ func requiredResourceProperties() []string {
 }
 
 // optionalResourceProperties are properties which may or may not be on a resource. Technically all resources
-// should have all of these properties, but because we drop the top-level AllOf that joins resource types with
+// should have all of these properties, but because we drop the top-level AllOf that joins resource definitions with
 // ResourceBase when parsing schemas sometimes they aren't defined.
 func optionalResourceProperties() []string {
 	return []string{

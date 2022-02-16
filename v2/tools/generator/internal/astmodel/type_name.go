@@ -75,7 +75,7 @@ func (typeName TypeName) AsType(codeGenerationContext *CodeGenerationContext) ds
 
 // AsZero renders an expression for the "zero" value of the type.
 // The exact thing we need to generate depends on the actual type we reference
-func (typeName TypeName) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
+func (typeName TypeName) AsZero(definitions TypeDefinitionSet, ctx *CodeGenerationContext) dst.Expr {
 	if IsExternalPackageReference(typeName.PackageReference) {
 		// TypeName is external, zero value is a qualified empty struct
 		// (we might not actually use this, if the property is optional, but we still need to generate the right thing)
@@ -87,7 +87,7 @@ func (typeName TypeName) AsZero(types Types, ctx *CodeGenerationContext) dst.Exp
 		}
 	}
 
-	actualType, err := types.FullyResolve(typeName)
+	actualType, err := definitions.FullyResolve(typeName)
 	if err != nil {
 		// This should never happen
 		panic(err)
@@ -112,7 +112,7 @@ func (typeName TypeName) AsZero(types Types, ctx *CodeGenerationContext) dst.Exp
 	}
 
 	// Otherwise we need the underlying type (e.g. enums, primitive type, etc)
-	return actualType.AsZero(types, ctx)
+	return actualType.AsZero(definitions, ctx)
 }
 
 // References returns a set containing this type name.
@@ -193,7 +193,7 @@ func (typeName TypeName) Plural() TypeName {
 // WriteDebugDescription adds a description of the current type to the passed builder
 // builder receives the full description, including nested types
 // types is a dictionary for resolving named types
-func (typeName TypeName) WriteDebugDescription(builder *strings.Builder, types Types) {
+func (typeName TypeName) WriteDebugDescription(builder *strings.Builder, definitions TypeDefinitionSet) {
 	if typeName.PackageReference == nil {
 		builder.WriteString("<nilRef>")
 	} else {
@@ -205,8 +205,8 @@ func (typeName TypeName) WriteDebugDescription(builder *strings.Builder, types T
 	if typeName.PackageReference != nil {
 		if !IsExternalPackageReference(typeName.PackageReference) {
 			builder.WriteString(":")
-			if definition, ok := types[typeName]; ok {
-				definition.Type().WriteDebugDescription(builder, types)
+			if definition, ok := definitions[typeName]; ok {
+				definition.Type().WriteDebugDescription(builder, definitions)
 			} else {
 				builder.WriteString("NOTDEFINED")
 			}

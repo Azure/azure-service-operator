@@ -1,4 +1,4 @@
-| Types defined in package "containerservice"                                                  | v1alpha1api20210501 |
+| Type Definitions in package "containerservice"                                               | v1alpha1api20210501 |
 |----------------------------------------------------------------------------------------------|---------------------|
 | AgentPoolMode_Status                                                                         | v1alpha1api20210501 |
 | AgentPoolType_Status                                                                         | v1alpha1api20210501 |

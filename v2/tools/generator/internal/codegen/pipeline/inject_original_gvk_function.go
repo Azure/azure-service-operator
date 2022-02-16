@@ -24,11 +24,11 @@ func InjectOriginalGVKFunction(idFactory astmodel.IdentifierFactory) Stage {
 	stage := MakeLegacyStage(
 		InjectOriginalGVKFunctionStageID,
 		"Inject the function OriginalGVK() into each Resource type",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			injector := astmodel.NewFunctionInjector()
-			result := types.Copy()
+			result := definitions.Copy()
 
-			resources := astmodel.FindResourceTypes(types)
+			resources := astmodel.FindResourceDefinitions(definitions)
 			for name, def := range resources {
 				var fn *functions.OriginalGVKFunction
 				if astmodel.IsStoragePackageReference(name.PackageReference) {

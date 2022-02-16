@@ -33,8 +33,8 @@ func filterTypes(
 	state *State) (*State, error) {
 
 	renames := make(map[astmodel.TypeName]astmodel.TypeName)
-	resourcesToExport := make(astmodel.Types)
-	for _, def := range astmodel.FindResourceTypes(state.Types()) {
+	resourcesToExport := make(astmodel.TypeDefinitionSet)
+	for _, def := range astmodel.FindResourceDefinitions(state.Types()) {
 		defName := def.Name()
 
 		export, err := shouldExport(defName, configuration)
@@ -51,7 +51,7 @@ func filterTypes(
 		resourcesToExport.Add(def)
 	}
 
-	typesToExport, err := astmodel.FindConnectedTypes(state.Types(), resourcesToExport)
+	typesToExport, err := astmodel.FindConnectedDefinitions(state.Types(), resourcesToExport)
 	if err != nil {
 		return nil, errors.Wrap(err, "finding types connected to resources marked for export")
 	}

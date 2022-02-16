@@ -19,14 +19,14 @@ func AddCrossplaneAtProvider(idFactory astmodel.IdentifierFactory) Stage {
 	return MakeLegacyStage(
 		"addCrossplaneAtProviderProperty",
 		"Add an 'AtProvider' property on every status",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			result := make(astmodel.Types)
-			for _, typeDef := range types {
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+			result := make(astmodel.TypeDefinitionSet)
+			for _, typeDef := range definitions {
 				if _, ok := astmodel.AsResourceType(typeDef.Type()); ok {
 					atProviderTypes, err := nestStatusIntoAtProvider(
-						idFactory, types, typeDef)
+						idFactory, definitions, typeDef)
 					if err != nil {
-						return nil, errors.Wrapf(err, "creating AtProvider types")
+						return nil, errors.Wrapf(err, "creating AtProvider definitions")
 					}
 
 					// Allow duplicates here because some resources share the same _Status type
@@ -39,7 +39,7 @@ func AddCrossplaneAtProvider(idFactory astmodel.IdentifierFactory) Stage {
 				}
 			}
 
-			unmodified := types.Except(result)
+			unmodified := definitions.Except(result)
 			result.AddTypes(unmodified)
 
 			return result, nil
@@ -50,7 +50,7 @@ func AddCrossplaneAtProvider(idFactory astmodel.IdentifierFactory) Stage {
 // into a property named "AtProvider" whose type is "<name>Observation"
 func nestStatusIntoAtProvider(
 	idFactory astmodel.IdentifierFactory,
-	types astmodel.Types,
+	definitions astmodel.TypeDefinitionSet,
 	typeDef astmodel.TypeDefinition) ([]astmodel.TypeDefinition, error) {
 
 	resource, ok := astmodel.AsResourceType(typeDef.Type())
@@ -61,7 +61,7 @@ func nestStatusIntoAtProvider(
 
 	statusType := astmodel.IgnoringErrors(resource.StatusType())
 	if statusType == nil {
-		return nil, nil // TODO: Some types don't have status yet
+		return nil, nil // TODO: Some definitions don't have status yet
 	}
 
 	statusName, ok := astmodel.AsTypeName(resource.StatusType())
@@ -69,10 +69,10 @@ func nestStatusIntoAtProvider(
 		return nil, errors.Errorf("resource %q status was not of type TypeName, instead: %T", resourceName, resource.StatusType())
 	}
 
-	// In the case where a status type is reused across multiple resource types, we need to make sure
+	// In the case where a status type is reused across multiple resource definitions, we need to make sure
 	// to generate the same names for all of their nested properties, so base the nested type name off the
 	// status type name
 	nestedTypeName := strings.Split(statusName.Name(), "_")[0] + "Observation"
 	nestedPropertyName := "AtProvider"
-	return nestType(idFactory, types, statusName, nestedTypeName, nestedPropertyName)
+	return nestType(idFactory, definitions, statusName, nestedTypeName, nestedPropertyName)
 }

@@ -23,7 +23,7 @@ func MarkLatestStorageVariantAsHubVersion() Stage {
 		MarkLatestStorageVariantAsHubVersionID,
 		"Mark the latest GA storage variant of each resource as the hub version",
 		func(ctx context.Context, state *State) (*State, error) {
-			updatedDefs, err := astmodel.FindResourceTypes(state.Types()).Process(
+			updatedDefs, err := astmodel.FindResourceDefinitions(state.Types()).Process(
 				func(def astmodel.TypeDefinition) (*astmodel.TypeDefinition, error) {
 					rsrc := astmodel.MustBeResourceType(def.Type())
 					hub, err := state.ConversionGraph().FindHub(def.Name(), state.Types())

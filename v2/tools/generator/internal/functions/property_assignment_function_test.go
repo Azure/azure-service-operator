@@ -20,7 +20,7 @@ type StorageConversionPropertyTestCase struct {
 	name          string
 	currentObject astmodel.TypeDefinition
 	otherObject   astmodel.TypeDefinition
-	types         astmodel.Types
+	types         astmodel.TypeDefinitionSet
 }
 
 func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTestCase {
@@ -28,7 +28,7 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 	vCurrent := test.MakeLocalPackageReference("verification", "vCurrent")
 	vNext := test.MakeLocalPackageReference("verification", "vNext")
 
-	// Custom Types
+	// Custom TypeDefinitionSet
 	alpha := astmodel.EnumValue{Identifier: "Alpha", Value: "alpha"}
 	beta := astmodel.EnumValue{Identifier: "Beta", Value: "beta"}
 
@@ -141,7 +141,7 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 			astmodel.MakeTypeName(vNext, "Person"),
 			hubType)
 
-		types := make(astmodel.Types)
+		types := make(astmodel.TypeDefinitionSet)
 		types.Add(currentDefinition)
 		types.Add(hubDefinition)
 		types.AddAll(otherDefinitions...)
@@ -169,7 +169,7 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 			astmodel.MakeTypeName(vNext, "Person"),
 			hubType)
 
-		types := make(astmodel.Types)
+		types := make(astmodel.TypeDefinitionSet)
 		types.Add(currentDefinition)
 		types.Add(hubDefinition)
 
@@ -307,7 +307,7 @@ func TestGolden_PropertyAssignmentFunction_WhenPropertyBagPresent(t *testing.T) 
 		test.PropertyBagProperty)
 
 	conversionContext := conversions.NewPropertyConversionContext(
-		make(astmodel.Types), idFactory, nil /* ObjectModelConfiguration*/)
+		make(astmodel.TypeDefinitionSet), idFactory, nil /* ObjectModelConfiguration*/)
 	assignFrom, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertFrom)
 	g.Expect(err).To(Succeed())
 
@@ -356,7 +356,7 @@ func TestGolden_PropertyAssignmentFunction_WhenTypeRenamed(t *testing.T) {
 
 	modelConfig := config.CreateTestObjectModelConfigurationForRename(location.Name(), venue.Name().Name())
 
-	types := make(astmodel.Types)
+	types := make(astmodel.TypeDefinitionSet)
 	types.AddAll(location, venue)
 
 	conversionContext := conversions.NewPropertyConversionContext(types, idFactory, modelConfig)

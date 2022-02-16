@@ -29,7 +29,7 @@ func TestInjectHubFunction_WhenResourceIsStorageVersion_GeneratesExpectedFile(t 
 	resource = resource.WithType(
 		resource.Type().(*astmodel.ResourceType).MarkAsStorageVersion())
 
-	types := make(astmodel.Types)
+	types := make(astmodel.TypeDefinitionSet)
 	types.AddAll(resource, status, spec)
 
 	injectHubFunction := InjectHubFunction(idFactory)
@@ -54,7 +54,7 @@ func TestInjectHubFunction_WhenResourceIsNotStorageVersion_GeneratesExpectedFile
 	status := test.CreateStatus(test.Pkg2020, "Person")
 	resource := test.CreateResource(test.Pkg2020, "Person", spec, status)
 
-	types := make(astmodel.Types)
+	types := make(astmodel.TypeDefinitionSet)
 	types.AddAll(resource, status, spec)
 
 	injectHubFunction := InjectHubFunction(idFactory)

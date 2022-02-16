@@ -26,7 +26,7 @@ func TestInjectOriginalVersionFunction(t *testing.T) {
 	status := test.CreateStatus(test.Pkg2020, "Person")
 	resource := test.CreateResource(test.Pkg2020, "Person", spec, status)
 
-	types := make(astmodel.Types)
+	types := make(astmodel.TypeDefinitionSet)
 	types.AddAll(resource, status, spec)
 
 	injectOriginalVersion := InjectOriginalVersionFunction(idFactory)

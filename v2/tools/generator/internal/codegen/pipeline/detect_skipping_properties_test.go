@@ -30,7 +30,7 @@ func TestSkippingPropertyDetector_AddProperty_CreatesExpectedChain(t *testing.T)
 	person2021s := test.CreateSpec(test.Pkg2021s, "Person", test.FullNameProperty)
 	person2022s := test.CreateSpec(test.Pkg2022s, "Person", test.FullNameProperty)
 
-	types := make(astmodel.Types)
+	types := make(astmodel.TypeDefinitionSet)
 	types.AddAll(person2020, person2021, person2022)
 	types.AddAll(person2020s, person2021s, person2022s)
 
@@ -73,7 +73,7 @@ func TestSkippingPropertyDetector_findBreak_returnsExpectedResults(t *testing.T)
 	kappaSeen := createPropertyRef("v9", "kappa")
 	empty := astmodel.EmptyPropertyReference
 
-	types := make(astmodel.Types)
+	types := make(astmodel.TypeDefinitionSet)
 	cfg := config.NewObjectModelConfiguration()
 	graph, _ := storage.NewConversionGraphBuilder(cfg).Build()
 	detector := newSkippingPropertyDetector(types, graph)
@@ -132,7 +132,7 @@ func Test_DetectSkippingProperties(t *testing.T) {
 	personV2 := test.CreateSpec(test.Pkg2021, "Person", test.FullNameProperty, test.FamilyNameProperty)
 	personV3 := test.CreateSpec(test.Pkg2022, "Person", test.FullNameProperty, test.FamilyNameProperty, test.KnownAsProperty)
 
-	types := make(astmodel.Types)
+	types := make(astmodel.TypeDefinitionSet)
 	types.AddAll(personV1, personV2, personV3)
 
 	cfg := config.NewConfiguration()

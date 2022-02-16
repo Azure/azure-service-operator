@@ -19,7 +19,7 @@ type ReferenceGraph struct {
 
 // CollectARMSpecAndStatusDefinitions returns a TypeNameSet of all of the ARM spec definitions
 // passed in.
-func CollectARMSpecAndStatusDefinitions(definitions Types) TypeNameSet {
+func CollectARMSpecAndStatusDefinitions(definitions TypeDefinitionSet) TypeNameSet {
 	findARMType := func(t Type) (TypeName, error) {
 		name, ok := t.(TypeName)
 		if !ok {
@@ -36,11 +36,11 @@ func CollectARMSpecAndStatusDefinitions(definitions Types) TypeNameSet {
 	}
 
 	armSpecAndStatus := NewTypeNameSet()
-	resources := FindResourceTypes(definitions)
+	resources := FindResourceDefinitions(definitions)
 	for _, def := range resources {
 		resourceType, ok := AsResourceType(def.Type())
 		if !ok {
-			panic(fmt.Sprintf("FindResourceTypes() returned non-resource type %T", def.Type()))
+			panic(fmt.Sprintf("FindResourceDefinitions() returned non-resource type %T", def.Type()))
 		}
 
 		armSpecName, err := findARMType(resourceType.spec)
@@ -71,9 +71,9 @@ func MakeReferenceGraph(roots TypeNameSet, references map[TypeName]TypeNameSet) 
 
 // MakeReferenceGraphWithRoots produces a ReferenceGraph with the given roots, and references
 // derived from the provided types collection.
-func MakeReferenceGraphWithRoots(roots TypeNameSet, types Types) ReferenceGraph {
+func MakeReferenceGraphWithRoots(roots TypeNameSet, definitions TypeDefinitionSet) ReferenceGraph {
 	references := make(map[TypeName]TypeNameSet)
-	for _, def := range types {
+	for _, def := range definitions {
 		references[def.Name()] = def.References()
 	}
 
@@ -82,12 +82,12 @@ func MakeReferenceGraphWithRoots(roots TypeNameSet, types Types) ReferenceGraph 
 
 // MakeReferenceGraphWithResourcesAsRoots produces a ReferenceGraph for the given set of
 // types, where the Resource types (and their ARM spec/status) are the roots.
-func MakeReferenceGraphWithResourcesAsRoots(types Types) ReferenceGraph {
-	resources := FindResourceTypes(types)
-	armSpecAndStatus := CollectARMSpecAndStatusDefinitions(types)
+func MakeReferenceGraphWithResourcesAsRoots(definitions TypeDefinitionSet) ReferenceGraph {
+	resources := FindResourceDefinitions(definitions)
+	armSpecAndStatus := CollectARMSpecAndStatusDefinitions(definitions)
 	roots := SetUnion(resources.Names(), armSpecAndStatus)
 
-	return MakeReferenceGraphWithRoots(roots, types)
+	return MakeReferenceGraphWithRoots(roots, definitions)
 }
 
 type ReachableTypes map[TypeName]int // int = depth

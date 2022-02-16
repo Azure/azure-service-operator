@@ -25,7 +25,7 @@ func InjectJsonSerializationTests(idFactory astmodel.IdentifierFactory) Stage {
 		"Add test cases to verify JSON serialization",
 		func(ctx context.Context, state *State) (*State, error) {
 			factory := makeObjectSerializationTestCaseFactory(idFactory)
-			modifiedTypes := make(astmodel.Types)
+			modifiedTypes := make(astmodel.TypeDefinitionSet)
 			var errs []error
 			for _, def := range state.Types() {
 				if factory.NeedsTest(def) {

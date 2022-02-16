@@ -25,7 +25,7 @@ func ApplyARMConversionInterface(idFactory astmodel.IdentifierFactory) Stage {
 	return MakeLegacyStage(
 		ApplyARMConversionInterfaceStageID,
 		"Add ARM conversion interfaces to Kubernetes types",
-		func(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			converter := &armConversionApplier{
 				definitions: definitions,
 				idFactory:   idFactory,
@@ -37,7 +37,7 @@ func ApplyARMConversionInterface(idFactory astmodel.IdentifierFactory) Stage {
 
 // GetARMTypeDefinition gets the ARM type definition for a given Kubernetes type name.
 // If no matching definition can be found an error is returned.
-func GetARMTypeDefinition(defs astmodel.Types, name astmodel.TypeName) (astmodel.TypeDefinition, error) {
+func GetARMTypeDefinition(defs astmodel.TypeDefinitionSet, name astmodel.TypeName) (astmodel.TypeDefinition, error) {
 	armDefinition, ok := defs[astmodel.CreateARMTypeName(name)]
 	if !ok {
 		return astmodel.TypeDefinition{}, errors.Errorf("couldn't find ARM definition matching kube name %q", name)
@@ -47,14 +47,14 @@ func GetARMTypeDefinition(defs astmodel.Types, name astmodel.TypeName) (astmodel
 }
 
 type armConversionApplier struct {
-	definitions astmodel.Types
+	definitions astmodel.TypeDefinitionSet
 	idFactory   astmodel.IdentifierFactory
 }
 
 // transformResourceSpecs applies the genruntime.ARMTransformer interface to all of the resource Spec types.
 // It also adds the Owner property.
-func (c *armConversionApplier) transformResourceSpecs() (astmodel.Types, error) {
-	result := make(astmodel.Types)
+func (c *armConversionApplier) transformResourceSpecs() (astmodel.TypeDefinitionSet, error) {
+	result := make(astmodel.TypeDefinitionSet)
 
 	resources := c.definitions.Where(func(td astmodel.TypeDefinition) bool {
 		_, ok := astmodel.AsResourceType(td.Type())
@@ -89,8 +89,8 @@ func (c *armConversionApplier) transformResourceSpecs() (astmodel.Types, error) 
 }
 
 // transformResourceStatuses applies the genruntime.ARMTransformer interface to all of the resource Status types.
-func (c *armConversionApplier) transformResourceStatuses() (astmodel.Types, error) {
-	result := make(astmodel.Types)
+func (c *armConversionApplier) transformResourceStatuses() (astmodel.TypeDefinitionSet, error) {
+	result := make(astmodel.TypeDefinitionSet)
 
 	statusDefs := c.definitions.Where(func(def astmodel.TypeDefinition) bool {
 		_, ok := astmodel.AsObjectType(def.Type())
@@ -121,8 +121,8 @@ func (c *armConversionApplier) transformResourceStatuses() (astmodel.Types, erro
 
 // transformTypes adds the required ARM conversion information to all applicable types.
 // If a type doesn't need any modification, it is returned unmodified.
-func (c *armConversionApplier) transformTypes() (astmodel.Types, error) {
-	result := make(astmodel.Types)
+func (c *armConversionApplier) transformTypes() (astmodel.TypeDefinitionSet, error) {
+	result := make(astmodel.TypeDefinitionSet)
 
 	// Specs
 	specs, err := c.transformResourceSpecs()

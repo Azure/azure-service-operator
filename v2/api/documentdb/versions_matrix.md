@@ -1,4 +1,4 @@
-| Types defined in package "documentdb"                                       | v1alpha1api20210515 |
+| Type Definitions in package "documentdb"                                    | v1alpha1api20210515 |
 |-----------------------------------------------------------------------------|---------------------|
 | AnalyticalStorageConfiguration                                              | v1alpha1api20210515 |
 | AnalyticalStorageConfigurationSchemaType                                    | v1alpha1api20210515 |

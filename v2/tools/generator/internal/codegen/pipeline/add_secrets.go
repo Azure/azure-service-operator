@@ -48,8 +48,8 @@ func AddSecrets(config *config.Configuration) Stage {
 		RequiresPostrequisiteStages(CreateARMTypesStageID)
 }
 
-func applyConfigSecretOverrides(config *config.Configuration, types astmodel.Types) (astmodel.Types, error) {
-	result := make(astmodel.Types)
+func applyConfigSecretOverrides(config *config.Configuration, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+	result := make(astmodel.TypeDefinitionSet)
 
 	applyConfigSecrets := func(_ *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 		typeName := ctx.(astmodel.TypeName)
@@ -67,7 +67,7 @@ func applyConfigSecretOverrides(config *config.Configuration, types astmodel.Typ
 		VisitObjectType: applyConfigSecrets,
 	}.Build()
 
-	for _, def := range types {
+	for _, def := range definitions {
 		updatedDef, err := visitor.VisitDefinition(def, def.Name())
 		if err != nil {
 			return nil, errors.Wrapf(err, "visiting type %q", def.Name())
@@ -79,17 +79,17 @@ func applyConfigSecretOverrides(config *config.Configuration, types astmodel.Typ
 	return result, nil
 }
 
-func transformSpecSecrets(types astmodel.Types) (astmodel.Types, error) {
+func transformSpecSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 	specVisitor := astmodel.TypeVisitorBuilder{
 		VisitObjectType: transformSecretProperties,
 	}.Build()
 
-	specTypes, err := astmodel.FindSpecConnectedTypes(types)
+	specTypes, err := astmodel.FindSpecConnectedDefinitions(definitions)
 	if err != nil {
-		return nil, errors.Wrap(err, "couldn't find all spec types")
+		return nil, errors.Wrap(err, "couldn't find all spec definitions")
 	}
 
-	result := make(astmodel.Types)
+	result := make(astmodel.TypeDefinitionSet)
 
 	for _, def := range specTypes {
 		updatedDef, err := specVisitor.VisitDefinition(def, nil)
@@ -103,17 +103,17 @@ func transformSpecSecrets(types astmodel.Types) (astmodel.Types, error) {
 	return result, nil
 }
 
-func removeStatusSecrets(types astmodel.Types) (astmodel.Types, error) {
+func removeStatusSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 	specVisitor := astmodel.TypeVisitorBuilder{
 		VisitObjectType: removeSecretProperties,
 	}.Build()
 
-	statusTypes, err := astmodel.FindStatusConnectedTypes(types)
+	statusTypes, err := astmodel.FindStatusConnectedDefinitions(definitions)
 	if err != nil {
-		return nil, errors.Wrap(err, "couldn't find all status types")
+		return nil, errors.Wrap(err, "couldn't find all status definitions")
 	}
 
-	result := make(astmodel.Types)
+	result := make(astmodel.TypeDefinitionSet)
 
 	for _, def := range statusTypes {
 		updatedDef, err := specVisitor.VisitDefinition(def, nil)
