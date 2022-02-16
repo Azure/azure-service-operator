@@ -26,7 +26,7 @@ func CreateResourceExtensions(localPath string, idFactory astmodel.IdentifierFac
 			// Map of the new extension types, to all the resource types names on which the extension applies to
 			extendedResourceTypesMapping := make(map[astmodel.TypeName][]astmodel.TypeName)
 			extendedResourceTypes := make(astmodel.TypeDefinitionSet)
-			resourceTypes := astmodel.FindResourceDefinitions(state.types)
+			resourceTypes := astmodel.FindResourceDefinitions(state.definitions)
 
 			// Iterate through resource types and aggregate the resource types that share the same extension type in a map.
 			for _, typeDef := range resourceTypes {
@@ -49,7 +49,7 @@ func CreateResourceExtensions(localPath string, idFactory astmodel.IdentifierFac
 				}
 
 			}
-			state.types.AddTypes(extendedResourceTypes)
+			state.definitions.AddTypes(extendedResourceTypes)
 			return state, nil
 		})
 

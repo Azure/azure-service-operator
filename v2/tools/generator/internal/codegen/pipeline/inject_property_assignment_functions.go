@@ -83,7 +83,7 @@ type propertyAssignmentFunctionsFactory struct {
 	graph            *storage.ConversionGraph
 	idFactory        astmodel.IdentifierFactory
 	configuration    *config.Configuration
-	types            astmodel.TypeDefinitionSet
+	definitions      astmodel.TypeDefinitionSet
 	functionInjector *astmodel.FunctionInjector
 }
 
@@ -96,7 +96,7 @@ func NewPropertyAssignmentFunctionsFactory(
 		graph:            graph,
 		idFactory:        idFactory,
 		configuration:    configuration,
-		types:            definitions,
+		definitions:      definitions,
 		functionInjector: astmodel.NewFunctionInjector(),
 	}
 }
@@ -109,14 +109,14 @@ func (f propertyAssignmentFunctionsFactory) injectBetween(
 	downstreamDef astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
 
 	// Create conversion functions
-	assignFromContext := conversions.NewPropertyConversionContext(f.types, f.idFactory, f.configuration.ObjectModelConfiguration)
+	assignFromContext := conversions.NewPropertyConversionContext(f.definitions, f.idFactory, f.configuration.ObjectModelConfiguration)
 	assignFromFn, err := functions.NewPropertyAssignmentFunction(upstreamDef, downstreamDef, assignFromContext, conversions.ConvertFrom)
 	upstreamName := upstreamDef.Name()
 	if err != nil {
 		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating AssignFrom() function for %q", upstreamName)
 	}
 
-	assignToContext := conversions.NewPropertyConversionContext(f.types, f.idFactory, f.configuration.ObjectModelConfiguration)
+	assignToContext := conversions.NewPropertyConversionContext(f.definitions, f.idFactory, f.configuration.ObjectModelConfiguration)
 	assignToFn, err := functions.NewPropertyAssignmentFunction(upstreamDef, downstreamDef, assignToContext, conversions.ConvertTo)
 	if err != nil {
 		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating AssignTo() function for %q", upstreamName)

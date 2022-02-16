@@ -12,7 +12,7 @@ import (
 
 // State is an immutable instance that captures the information being passed along the pipeline
 type State struct {
-	types           astmodel.TypeDefinitionSet // set of types generated so far
+	definitions     astmodel.TypeDefinitionSet // set of type definitions generated so far
 	conversionGraph *storage.ConversionGraph   // graph of transitions between packages in our conversion graph
 }
 
@@ -32,7 +32,7 @@ func NewState(typeses ...astmodel.TypeDefinitionSet) *State {
 	}
 
 	return &State{
-		types:           types,
+		definitions:     types,
 		conversionGraph: nil,
 	}
 }
@@ -40,7 +40,7 @@ func NewState(typeses ...astmodel.TypeDefinitionSet) *State {
 // WithTypes returns a new independentState with the given types instead
 func (s *State) WithTypes(definitions astmodel.TypeDefinitionSet) *State {
 	return &State{
-		types:           definitions,
+		definitions:     definitions,
 		conversionGraph: s.conversionGraph,
 	}
 }
@@ -52,14 +52,14 @@ func (s *State) WithConversionGraph(graph *storage.ConversionGraph) *State {
 	}
 
 	return &State{
-		types:           s.types.Copy(),
+		definitions:     s.definitions.Copy(),
 		conversionGraph: graph,
 	}
 }
 
 // Types returns the set of types contained by the state
 func (s *State) Types() astmodel.TypeDefinitionSet {
-	return s.types
+	return s.definitions
 }
 
 // ConversionGraph returns the conversion graph included in our state (may be null)

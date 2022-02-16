@@ -73,7 +73,7 @@ func DetectSkippingProperties() Stage {
 type skippingPropertyDetector struct {
 	links              map[astmodel.PropertyReference]astmodel.PropertyReference // Individual links in chains of related properties
 	observedProperties *astmodel.PropertyReferenceSet                            // Set of properties we've observed
-	types              astmodel.TypeDefinitionSet                                // Set of all known types
+	definitions        astmodel.TypeDefinitionSet                                // Set of all known type definitions
 	conversionGraph    *storage.ConversionGraph                                  // Graph of conversions between types
 }
 
@@ -85,7 +85,7 @@ func newSkippingPropertyDetector(definitions astmodel.TypeDefinitionSet, convers
 	return &skippingPropertyDetector{
 		links:              make(map[astmodel.PropertyReference]astmodel.PropertyReference),
 		observedProperties: astmodel.NewPropertyReferenceSet(),
-		types:              definitions,
+		definitions:        definitions,
 		conversionGraph:    conversionGraph,
 	}
 }
@@ -149,7 +149,7 @@ func (detector *skippingPropertyDetector) establishPropertyChain(ref astmodel.Pr
 // ref is the property reference that specifies the start of our chain.
 // It recursively calls establishPropertyChain to avoid creating parts of the chain multiple times.
 func (detector *skippingPropertyDetector) createPropertyChain(ref astmodel.PropertyReference) error {
-	next, err := detector.conversionGraph.FindNextProperty(ref, detector.types)
+	next, err := detector.conversionGraph.FindNextProperty(ref, detector.definitions)
 	if err != nil {
 		return errors.Wrapf(err, "creating property chain link from %s", ref.String())
 	}

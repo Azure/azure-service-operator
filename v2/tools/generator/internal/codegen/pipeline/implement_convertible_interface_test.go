@@ -55,5 +55,5 @@ func TestGolden_InjectConvertibleInterface(t *testing.T) {
 	// When verifying the golden file, check that the implementations of ConvertTo() and ConvertFrom() are correctly
 	// injected on the resources, but not on the other types. Verify that the code does what you expect. If you don't
 	// know what to expect, check that they do the right thing. :-)
-	test.AssertPackagesGenerateExpectedCode(t, finalState.types, test.DiffWithTypes(initialState.Types()))
+	test.AssertPackagesGenerateExpectedCode(t, finalState.definitions, test.DiffWithTypes(initialState.Types()))
 }

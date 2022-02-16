@@ -36,5 +36,5 @@ func TestGolden_AddStatusConditions(t *testing.T) {
 
 	// When verifying the golden file, check to ensure that the Conditions property on the Status type looks correct,
 	// and that the conditions.Conditioner interface is properly implemented on the resource.
-	test.AssertPackagesGenerateExpectedCode(t, finalState.types, test.DiffWithTypes(types))
+	test.AssertPackagesGenerateExpectedCode(t, finalState.definitions, test.DiffWithTypes(types))
 }
