@@ -336,7 +336,8 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 
 	// If we have no resourceID to begin with, or no finalizer, the Azure resource was never created
 	hasFinalizer := controllerutil.ContainsFinalizer(r.obj, GenericControllerFinalizer)
-	if genruntime.GetResourceIDOrDefault(r.obj) == "" || !hasFinalizer {
+	resourceID := genruntime.GetResourceIDOrDefault(r.obj)
+	if resourceID == "" || !hasFinalizer {
 		return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
 	}
 
@@ -346,32 +347,20 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 		return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
 	}
 
-	// TODO: Drop this entirely in favor if calling the genruntime.MetaObject interface methods that
-	// TODO: return the data we need.
-	armResource, err := r.ConvertResourceToARMResource(ctx)
+	// Check that this objects owner still exists
+	// This is an optimization to avoid excess requests to Azure.
+	_, err := r.ResourceResolver.ResolveResourceHierarchy(ctx, r.obj)
 	if err != nil {
-		// If the error is that the owner isn't found, that probably
-		// means that the owner was deleted in Kubernetes. The current
-		// assumption is that that deletion has been propagated to Azure
-		// and so the child resource is already deleted.
-		// TODO: We should confirm that this is actually the owner missing and not some
-		// TODO: other missing reference.
 		var typedErr *genruntime.ReferenceNotFound
 		if errors.As(err, &typedErr) {
-			// TODO: We should confirm the above assumption by performing a HEAD on
-			// TODO: the resource in Azure. This requires GetAPIVersion() on  metaObj which
-			// TODO: we don't currently have in the interface.
-			// gr.ARMClient.HeadResource(ctx, data.resourceID, r.obj.GetAPIVersion())
 			return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
 		}
-
-		return ctrl.Result{}, errors.Wrapf(err, "converting to ARM resource")
 	}
 
 	// retryAfter = ARM can tell us how long to wait for a DELETE
-	retryAfter, err := r.ARMClient.DeleteByID(ctx, armResource.GetID(), armResource.Spec().GetAPIVersion())
+	retryAfter, err := r.ARMClient.DeleteByID(ctx, resourceID, r.obj.GetAPIVersion())
 	if err != nil {
-		return ctrl.Result{}, errors.Wrapf(err, "deleting resource %q", armResource.GetID())
+		return ctrl.Result{}, errors.Wrapf(err, "deleting resource %q", resourceID)
 	}
 
 	conditions.SetCondition(r.obj, r.PositiveConditions.Ready.Deleting(r.obj.GetGeneration()))
@@ -429,10 +418,26 @@ func (r *AzureDeploymentReconciler) MonitorDelete(ctx context.Context) (ctrl.Res
 	return ctrl.Result{}, err
 }
 
+func (r *AzureDeploymentReconciler) writeReadyConditionIfNeeded(ctx context.Context, err error) (ctrl.Result, error) {
+	var typedErr *conditions.ReadyConditionImpactingError
+	if errors.As(err, &typedErr) {
+		conditions.SetCondition(r.obj, r.PositiveConditions.Ready.ReadyCondition(
+			typedErr.Severity,
+			r.obj.GetGeneration(),
+			typedErr.Reason,
+			typedErr.Error()))
+		commitErr := client.IgnoreNotFound(r.CommitUpdate(ctx))
+		if commitErr != nil {
+			return ctrl.Result{}, errors.Wrap(commitErr, "updating resource error")
+		}
+	}
+	return ctrl.Result{}, err
+}
+
 func (r *AzureDeploymentReconciler) BeginCreateOrUpdateResource(ctx context.Context) (ctrl.Result, error) {
 	armResource, err := r.ConvertResourceToARMResource(ctx)
 	if err != nil {
-		return ctrl.Result{}, err
+		return r.writeReadyConditionIfNeeded(ctx, err)
 	}
 	r.log.V(Status).Info("About to send resource to Azure")
 
@@ -945,12 +950,14 @@ func resolve(ctx context.Context, resolver *genruntime.Resolver, metaObject genr
 	// Find all of the references
 	resolvedRefs, err := resolveResourceRefs(ctx, resolver, metaObject)
 	if err != nil {
+		err = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonReferenceNotFound)
 		return nil, genruntime.ConvertToARMResolvedDetails{}, err
 	}
 
 	// resolve secrets
 	resolvedSecrets, err := resolveSecretRefs(ctx, resolver, metaObject)
 	if err != nil {
+		err = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonSecretNotFound)
 		return nil, genruntime.ConvertToARMResolvedDetails{}, err
 	}
 

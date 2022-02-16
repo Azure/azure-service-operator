@@ -13,6 +13,8 @@ const (
 	ReasonDeleting                        = "Deleting"
 	ReasonReconciliationFailedPermanently = "ReconciliationFailedPermanently"
 	ReasonAzureResourceNotFound           = "AzureResourceNotFound"
+	ReasonSecretNotFound                  = "SecretNotFound"
+	ReasonReferenceNotFound               = "ReferenceNotFound"
 )
 
 func NewReadyConditionBuilder(builder PositiveConditionBuilderInterface) *ReadyConditionBuilder {
@@ -23,6 +25,15 @@ func NewReadyConditionBuilder(builder PositiveConditionBuilderInterface) *ReadyC
 
 type ReadyConditionBuilder struct {
 	builder PositiveConditionBuilderInterface
+}
+
+func (b *ReadyConditionBuilder) ReadyCondition(severity ConditionSeverity, observedGeneration int64, reason string, message string) Condition {
+	return b.builder.MakeFalseCondition(
+		ConditionTypeReady,
+		severity,
+		observedGeneration,
+		reason,
+		message)
 }
 
 func (b *ReadyConditionBuilder) Reconciling(observedGeneration int64) Condition {
