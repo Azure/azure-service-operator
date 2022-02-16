@@ -14,12 +14,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
-type CloudErrorDetails struct {
-	Classification CloudErrorClassification
-	Code           string
-	Message        string
-}
-
 const (
 	UnknownErrorCode    = "UnknownError"
 	UnknownErrorMessage = "There was an unknown deployment error"
@@ -33,22 +27,24 @@ func stringOrDefault(str string, def string) string {
 	return str
 }
 
-func ClassifyCloudError(err *core.CloudError) (genruntime.CloudErrorDetails, error) {
+func ClassifyCloudError(err *core.CloudError) (core.CloudErrorDetails, error) {
 	if err == nil || err.InnerError == nil {
 		// Default to retrying if we're asked to classify a nil error
-		return CloudErrorDetails{
+		result := core.CloudErrorDetails{
 			Classification: core.ErrorRetryable,
 			Code:           UnknownErrorCode,
 			Message:        UnknownErrorMessage,
 		}
+		return result, nil
 	}
 
 	classification := classifyInnerCloudError(err.InnerError)
-	return CloudErrorDetails{
+	result := core.CloudErrorDetails{
 		Classification: classification,
 		Code:           stringOrDefault(to.String(err.InnerError.Code), UnknownErrorCode),
 		Message:        stringOrDefault(to.String(err.InnerError.Message), UnknownErrorMessage),
 	}
+	return result, nil
 }
 
 func classifyInnerCloudError(err *genericarmclient.ErrorResponse) core.ErrorClassification {
