@@ -21,7 +21,7 @@ Code Structure #  Key packages used to structure the code of the generator are a
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.0f970d7ddf63a561cb15f517627e938e2b79401afc5ce511298f195250988862.js" integrity="sha256-D5cNfd9jpWHLFfUXYn6Tjit5QBr8XOURKY8ZUlCYiGI=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.d42298feb2747a2304e1fd7b8e3dbc71ad00e793c6262c0f085da24b89181f2b.js" integrity="sha256-1CKY/rJ0eiME4f17jj28ca0A55PGJiwPCF2iS4kYHys=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -647,7 +647,7 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 <p>This list is not exhaustive; other implementations of <code>Type</code> are used within limited scopes. For example, <code>AllOfType</code> and <code>OneOfType</code> represent JSON Schema techniques for creating object definitions via composition.</p>
 <p>Usefully, there is also <code>TypeName</code> which is both a type in itself and an indirect reference to a type defined elsewhere.</p>
-<p>When a <code>Type</code> is given a <code>TypeName</code>, it becomes a <code>TypeDefinition</code> and can be emitted as the source code for a Go type definition. A set of many <code>TypeDefinition</code>, each with a unique name is a <code>Types</code>.</p>
+<p>When a <code>Type</code> is given a <code>TypeName</code>, it becomes a <code>TypeDefinition</code> and can be emitted as the source code for a Go type definition. A set of many <code>TypeDefinition</code>, each with a unique name is a <code>TypeDefinitionSet</code>.</p>
 <p>Both <code>ResourceType</code> and <code>ObjectType</code> act as containers, each implementing <code>PropertyContainer</code>, <code>FunctionContainer</code>, and <code>TestCaseContainer</code>. These do pretty much what you&rsquo;d expect from the names, though the implementations differ between <code>ResourceType</code> and <code>ObjectType</code>. For example, where an <code>ObjectType</code> implements <code>PropertyContainer</code> by providing support for an arbitrary set of properties, <code>ResourceType</code> has only <code>Spec</code> and <code>Status</code>.</p>
 <p>Most implementations of <code>astmodel.Function</code> are found in the <strong>functions</strong> package. New function implementations should go here; existing implementations are slowly being relocated.</p>
 <p>All implementations of <code>astmodel.TestCase</code> are found in the <strong>testcases</strong> package. New test case implementations should go here.</p>
