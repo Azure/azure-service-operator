@@ -24,8 +24,7 @@ type PublicIPAddresses_SpecARM struct {
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Zones: A list of availability zones denoting the IP allocated for the resource
-	//needs to come from.
+	//Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.
 	Zones []string `json:"zones,omitempty"`
 }
 
@@ -48,8 +47,7 @@ func (addresses PublicIPAddresses_SpecARM) GetType() string {
 
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressPropertiesFormat
 type PublicIPAddressPropertiesFormatARM struct {
-	//DdosSettings: The DDoS protection custom policy associated with the public IP
-	//address.
+	//DdosSettings: The DDoS protection custom policy associated with the public IP address.
 	DdosSettings *DdosSettingsARM `json:"ddosSettings,omitempty"`
 
 	//DnsSettings: The FQDN of the DNS record associated with the public IP address.
@@ -70,8 +68,7 @@ type PublicIPAddressPropertiesFormatARM struct {
 	//PublicIPAllocationMethod: The public IP address allocation method.
 	PublicIPAllocationMethod PublicIPAddressPropertiesFormatPublicIPAllocationMethod `json:"publicIPAllocationMethod"`
 
-	//PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated
-	//from.
+	//PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated from.
 	PublicIPPrefix *SubResourceARM `json:"publicIPPrefix,omitempty"`
 }
 
@@ -92,8 +89,8 @@ type DdosSettingsARM struct {
 	//ProtectedIP: Enables DDoS protection on the public IP.
 	ProtectedIP *bool `json:"protectedIP,omitempty"`
 
-	//ProtectionCoverage: The DDoS protection policy customizability of the public IP.
-	//Only standard coverage will have the ability to be customized.
+	//ProtectionCoverage: The DDoS protection policy customizability of the public IP. Only standard coverage will have the
+	//ability to be customized.
 	ProtectionCoverage *DdosSettingsProtectionCoverage `json:"protectionCoverage,omitempty"`
 }
 
@@ -108,21 +105,18 @@ type IpTagARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressDnsSettings
 type PublicIPAddressDnsSettingsARM struct {
-	//DomainNameLabel: The domain name label. The concatenation of the domain name
-	//label and the regionalized DNS zone make up the fully qualified domain name
-	//associated with the public IP address. If a domain name label is specified, an A
-	//DNS record is created for the public IP in the Microsoft Azure DNS system.
+	//DomainNameLabel: The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up
+	//the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS
+	//record is created for the public IP in the Microsoft Azure DNS system.
 	DomainNameLabel string `json:"domainNameLabel"`
 
-	//Fqdn: The Fully Qualified Domain Name of the A DNS record associated with the
-	//public IP. This is the concatenation of the domainNameLabel and the regionalized
-	//DNS zone.
+	//Fqdn: The Fully Qualified Domain Name of the A DNS record associated with the public IP. This is the concatenation of
+	//the domainNameLabel and the regionalized DNS zone.
 	Fqdn *string `json:"fqdn,omitempty"`
 
-	//ReverseFqdn: The reverse FQDN. A user-visible, fully qualified domain name that
-	//resolves to this public IP address. If the reverseFqdn is specified, then a PTR
-	//DNS record is created pointing from the IP address in the in-addr.arpa domain to
-	//the reverse FQDN.
+	//ReverseFqdn: The reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If
+	//the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain
+	//to the reverse FQDN.
 	ReverseFqdn *string `json:"reverseFqdn,omitempty"`
 }
 

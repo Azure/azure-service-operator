@@ -26,14 +26,13 @@ type Server_StatusARM struct {
 	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
 type ServerProperties_StatusARM struct {
-	//AdministratorLogin: The administrator's login name of a server. Can only be
-	//specified when the server is being created (and is required for creation).
+	//AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
+	//(and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
 
 	//AvailabilityZone: availability zone information of the server.
@@ -60,12 +59,12 @@ type ServerProperties_StatusARM struct {
 	//Network: Network properties of a server.
 	Network *Network_StatusARM `json:"network,omitempty"`
 
-	//PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the
-	//time to restore from. It's required when 'createMode' is 'PointInTimeRestore'.
+	//PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the time to restore from. It's required when
+	//'createMode' is 'PointInTimeRestore'.
 	PointInTimeUTC *string `json:"pointInTimeUTC,omitempty"`
 
-	//SourceServerResourceId: The source server resource ID to restore from. It's
-	//required when 'createMode' is 'PointInTimeRestore'.
+	//SourceServerResourceId: The source server resource ID to restore from. It's required when 'createMode' is
+	//'PointInTimeRestore'.
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
 	//State: A state of a server that is visible to user.
@@ -79,8 +78,7 @@ type ServerProperties_StatusARM struct {
 }
 
 type Sku_StatusARM struct {
-	//Name: The name of the sku, typically, tier + family + cores, e.g.
-	//Standard_D4s_v3.
+	//Name: The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.
 	Name string `json:"name"`
 
 	//Tier: The tier of the particular SKU, e.g. Burstable.
@@ -94,8 +92,7 @@ type Backup_StatusARM struct {
 	//EarliestRestoreDate: The earliest restore point time (ISO8601 format) for server.
 	EarliestRestoreDate *string `json:"earliestRestoreDate,omitempty"`
 
-	//GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled
-	//on the server.
+	//GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server.
 	GeoRedundantBackup *BackupStatusGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
 }
 

@@ -17,17 +17,14 @@ type FirewallRule_StatusARM struct {
 	//SystemData: The system metadata relating to this resource.
 	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
 type FirewallRuleProperties_StatusARM struct {
-	//EndIpAddress: The end IP address of the server firewall rule. Must be IPv4
-	//format.
+	//EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.
 	EndIpAddress string `json:"endIpAddress"`
 
-	//StartIpAddress: The start IP address of the server firewall rule. Must be IPv4
-	//format.
+	//StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.
 	StartIpAddress string `json:"startIpAddress"`
 }

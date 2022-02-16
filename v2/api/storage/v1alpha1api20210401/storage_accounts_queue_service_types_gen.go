@@ -304,9 +304,8 @@ type QueueServiceProperties_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//Cors: Specifies CORS rules for the Queue service. You can include up to five
-	//CorsRule elements in the request. If no CorsRule elements are included in the
-	//request body, all CORS rules will be deleted, and CORS will be disabled for the
+	//Cors: Specifies CORS rules for the Queue service. You can include up to five CorsRule elements in the request. If no
+	//CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the
 	//Queue service.
 	Cors *CorsRules_Status `json:"cors,omitempty"`
 
@@ -317,8 +316,7 @@ type QueueServiceProperties_Status struct {
 	//Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -501,8 +499,7 @@ type StorageAccountsQueueServicesSpecAPIVersion string
 const StorageAccountsQueueServicesSpecAPIVersion20210401 = StorageAccountsQueueServicesSpecAPIVersion("2021-04-01")
 
 type StorageAccountsQueueServices_Spec struct {
-	//Cors: Sets the CORS rules. You can include up to five CorsRule elements in the
-	//request.
+	//Cors: Sets the CORS rules. You can include up to five CorsRule elements in the request.
 	Cors *CorsRules `json:"cors,omitempty"`
 
 	//Location: Location to deploy resource to

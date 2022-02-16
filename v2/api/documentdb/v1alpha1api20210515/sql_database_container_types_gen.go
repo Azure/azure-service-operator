@@ -313,16 +313,15 @@ type DatabaseAccountsSqlDatabasesContainersSpecAPIVersion string
 const DatabaseAccountsSqlDatabasesContainersSpecAPIVersion20210515 = DatabaseAccountsSqlDatabasesContainersSpecAPIVersion("2021-05-15")
 
 type DatabaseAccountsSqlDatabasesContainers_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
-	//Options: CreateUpdateOptions are a list of key-value pairs that describe the
-	//resource. Supported keys are "If-Match", "If-None-Match", "Session-Token" and
-	//"Throughput"
+	//Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
+	//"If-None-Match", "Session-Token" and "Throughput"
 	Options *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -332,13 +331,11 @@ type DatabaseAccountsSqlDatabasesContainers_Spec struct {
 	//Resource: Cosmos DB SQL container resource object
 	Resource SqlContainerResource `json:"resource"`
 
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags
-	//can be used in viewing and grouping this resource (across resource groups). A
-	//maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For
-	//example, the default experience for a template type is set with
-	//"defaultExperience": "Cassandra". Current "defaultExperience" values also
-	//include "Table", "Graph", "DocumentDB", and "MongoDB".
+	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
+	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
+	//greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
+	//type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
+	//"DocumentDB", and "MongoDB".
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -865,31 +862,28 @@ type SqlContainerGetProperties_Status_Resource struct {
 	//DefaultTtl: Default time to live
 	DefaultTtl *int `json:"defaultTtl,omitempty"`
 
-	//Etag: A system generated property representing the resource etag required for
-	//optimistic concurrency control.
+	//Etag: A system generated property representing the resource etag required for optimistic concurrency control.
 	Etag *string `json:"_etag,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Id: Name of the Cosmos DB SQL container
 	Id string `json:"id"`
 
-	//IndexingPolicy: The configuration of the indexing policy. By default, the
-	//indexing is automatic for all document paths within the container
+	//IndexingPolicy: The configuration of the indexing policy. By default, the indexing is automatic for all document paths
+	//within the container
 	IndexingPolicy *IndexingPolicy_Status `json:"indexingPolicy,omitempty"`
 
-	//PartitionKey: The configuration of the partition key to be used for partitioning
-	//data into multiple partitions
+	//PartitionKey: The configuration of the partition key to be used for partitioning data into multiple partitions
 	PartitionKey *ContainerPartitionKey_Status `json:"partitionKey,omitempty"`
 
 	//Rid: A system generated property. A unique identifier.
 	Rid *string `json:"_rid,omitempty"`
 
-	//Ts: A system generated property that denotes the last updated timestamp of the
-	//resource.
+	//Ts: A system generated property that denotes the last updated timestamp of the resource.
 	Ts *float64 `json:"_ts,omitempty"`
 
-	//UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness
-	//constraints on documents in the collection in the Azure Cosmos DB service.
+	//UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness constraints on documents in the
+	//collection in the Azure Cosmos DB service.
 	UniqueKeyPolicy *UniqueKeyPolicy_Status `json:"uniqueKeyPolicy,omitempty"`
 }
 
@@ -1172,12 +1166,11 @@ type SqlContainerResource struct {
 	//IndexingPolicy: Cosmos DB indexing policy
 	IndexingPolicy *IndexingPolicy `json:"indexingPolicy,omitempty"`
 
-	//PartitionKey: The configuration of the partition key to be used for partitioning
-	//data into multiple partitions
+	//PartitionKey: The configuration of the partition key to be used for partitioning data into multiple partitions
 	PartitionKey *ContainerPartitionKey `json:"partitionKey,omitempty"`
 
-	//UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness
-	//constraints on documents in the collection in the Azure Cosmos DB service.
+	//UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness constraints on documents in the
+	//collection in the Azure Cosmos DB service.
 	UniqueKeyPolicy *UniqueKeyPolicy `json:"uniqueKeyPolicy,omitempty"`
 }
 
@@ -1462,12 +1455,10 @@ func (resource *SqlContainerResource) AssignPropertiesToSqlContainerResource(des
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConflictResolutionPolicy
 type ConflictResolutionPolicy struct {
-	//ConflictResolutionPath: The conflict resolution path in the case of
-	//LastWriterWins mode.
+	//ConflictResolutionPath: The conflict resolution path in the case of LastWriterWins mode.
 	ConflictResolutionPath *string `json:"conflictResolutionPath,omitempty"`
 
-	//ConflictResolutionProcedure: The procedure to resolve conflicts in the case of
-	//custom mode.
+	//ConflictResolutionProcedure: The procedure to resolve conflicts in the case of custom mode.
 	ConflictResolutionProcedure *string `json:"conflictResolutionProcedure,omitempty"`
 
 	//Mode: Indicates the conflict resolution mode.
@@ -1589,12 +1580,10 @@ func (policy *ConflictResolutionPolicy) AssignPropertiesToConflictResolutionPoli
 }
 
 type ConflictResolutionPolicy_Status struct {
-	//ConflictResolutionPath: The conflict resolution path in the case of
-	//LastWriterWins mode.
+	//ConflictResolutionPath: The conflict resolution path in the case of LastWriterWins mode.
 	ConflictResolutionPath *string `json:"conflictResolutionPath,omitempty"`
 
-	//ConflictResolutionProcedure: The procedure to resolve conflicts in the case of
-	//custom mode.
+	//ConflictResolutionProcedure: The procedure to resolve conflicts in the case of custom mode.
 	ConflictResolutionProcedure *string `json:"conflictResolutionProcedure,omitempty"`
 
 	//Mode: Indicates the conflict resolution mode.
@@ -1690,8 +1679,8 @@ func (policy *ConflictResolutionPolicy_Status) AssignPropertiesToConflictResolut
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContainerPartitionKey
 type ContainerPartitionKey struct {
-	//Kind: Indicates the kind of algorithm used for partitioning. For MultiHash,
-	//multiple partition keys (upto three maximum) are supported for container create.
+	//Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
+	//are supported for container create.
 	Kind *ContainerPartitionKeyKind `json:"kind,omitempty"`
 
 	//Paths: List of paths using which data within the container can be partitioned
@@ -1826,8 +1815,8 @@ func (partitionKey *ContainerPartitionKey) AssignPropertiesToContainerPartitionK
 }
 
 type ContainerPartitionKey_Status struct {
-	//Kind: Indicates the kind of algorithm used for partitioning. For MultiHash,
-	//multiple partition keys (upto three maximum) are supported for container create
+	//Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
+	//are supported for container create
 	Kind *ContainerPartitionKeyStatusKind `json:"kind,omitempty"`
 
 	//Paths: List of paths using which data within the container can be partitioned
@@ -2638,8 +2627,8 @@ func (policy *IndexingPolicy_Status) AssignPropertiesToIndexingPolicyStatus(dest
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKeyPolicy
 type UniqueKeyPolicy struct {
-	//UniqueKeys: List of unique keys on that enforces uniqueness constraint on
-	//documents in the collection in the Azure Cosmos DB service.
+	//UniqueKeys: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure
+	//Cosmos DB service.
 	UniqueKeys []UniqueKey `json:"uniqueKeys,omitempty"`
 }
 
@@ -2749,8 +2738,8 @@ func (policy *UniqueKeyPolicy) AssignPropertiesToUniqueKeyPolicy(destination *v1
 }
 
 type UniqueKeyPolicy_Status struct {
-	//UniqueKeys: List of unique keys on that enforces uniqueness constraint on
-	//documents in the collection in the Azure Cosmos DB service.
+	//UniqueKeys: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure
+	//Cosmos DB service.
 	UniqueKeys []UniqueKey_Status `json:"uniqueKeys,omitempty"`
 }
 
@@ -2846,8 +2835,8 @@ type CompositePath struct {
 	//Order: Sort order for composite paths.
 	Order *CompositePathOrder `json:"order,omitempty"`
 
-	//Path: The path for which the indexing behavior applies to. Index paths typically
-	//start with root and end with wildcard (/path/*)
+	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
+	//(/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
@@ -2951,8 +2940,8 @@ type CompositePath_Status struct {
 	//Order: Sort order for composite paths.
 	Order *CompositePathStatusOrder `json:"order,omitempty"`
 
-	//Path: The path for which the indexing behavior applies to. Index paths typically
-	//start with root and end with wildcard (/path/*)
+	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
+	//(/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
@@ -3033,8 +3022,8 @@ func (path *CompositePath_Status) AssignPropertiesToCompositePathStatus(destinat
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ExcludedPath
 type ExcludedPath struct {
-	//Path: The path for which the indexing behavior applies to. Index paths typically
-	//start with root and end with wildcard (/path/*)
+	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
+	//(/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
@@ -3107,8 +3096,8 @@ func (path *ExcludedPath) AssignPropertiesToExcludedPath(destination *v1alpha1ap
 }
 
 type ExcludedPath_Status struct {
-	//Path: The path for which the indexing behavior applies to. Index paths typically
-	//start with root and end with wildcard (/path/*)
+	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
+	//(/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
@@ -3170,8 +3159,8 @@ type IncludedPath struct {
 	//Indexes: List of indexes for this path
 	Indexes []Indexes `json:"indexes,omitempty"`
 
-	//Path: The path for which the indexing behavior applies to. Index paths typically
-	//start with root and end with wildcard (/path/*)
+	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
+	//(/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
@@ -3302,8 +3291,8 @@ type IncludedPath_Status struct {
 	//Indexes: List of indexes for this path
 	Indexes []Indexes_Status `json:"indexes,omitempty"`
 
-	//Path: The path for which the indexing behavior applies to. Index paths typically
-	//start with root and end with wildcard (/path/*)
+	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
+	//(/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
@@ -3408,8 +3397,8 @@ func (path *IncludedPath_Status) AssignPropertiesToIncludedPathStatus(destinatio
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SpatialSpec
 type SpatialSpec struct {
-	//Path: The path for which the indexing behavior applies to. Index paths typically
-	//start with root and end with wildcard (/path/*)
+	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
+	//(/path/*)
 	Path *string `json:"path,omitempty"`
 
 	//Types: List of path's spatial type
@@ -3521,8 +3510,8 @@ func (spatial *SpatialSpec) AssignPropertiesToSpatialSpec(destination *v1alpha1a
 }
 
 type SpatialSpec_Status struct {
-	//Path: The path for which the indexing behavior applies to. Index paths typically
-	//start with root and end with wildcard (/path/*)
+	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
+	//(/path/*)
 	Path *string `json:"path,omitempty"`
 
 	//Types: List of path's spatial type
@@ -3615,8 +3604,7 @@ func (spatial *SpatialSpec_Status) AssignPropertiesToSpatialSpecStatus(destinati
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKey
 type UniqueKey struct {
-	//Paths: List of paths must be unique for each document in the Azure Cosmos DB
-	//service
+	//Paths: List of paths must be unique for each document in the Azure Cosmos DB service
 	Paths []string `json:"paths,omitempty"`
 }
 
@@ -3687,8 +3675,7 @@ func (uniqueKey *UniqueKey) AssignPropertiesToUniqueKey(destination *v1alpha1api
 }
 
 type UniqueKey_Status struct {
-	//Paths: List of paths must be unique for each document in the Azure Cosmos DB
-	//service
+	//Paths: List of paths must be unique for each document in the Azure Cosmos DB service
 	Paths []string `json:"paths,omitempty"`
 }
 

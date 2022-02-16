@@ -348,8 +348,7 @@ type Configuration_Status struct {
 	//SystemData: The system metadata relating to this resource.
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 
 	//Unit: Configuration unit.
@@ -740,8 +739,8 @@ type FlexibleServersConfigurationsSpecAPIVersion string
 const FlexibleServersConfigurationsSpecAPIVersion20210601 = FlexibleServersConfigurationsSpecAPIVersion("2021-06-01")
 
 type FlexibleServersConfigurations_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	//Location: Location to deploy resource to

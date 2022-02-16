@@ -329,12 +329,10 @@ type SignalRResource_Status struct {
 	ExternalIP *string `json:"externalIP,omitempty"`
 
 	//Features: List of the featureFlags.
-	//FeatureFlags that are not included in the parameters for the update operation
-	//will not be modified.
+	//FeatureFlags that are not included in the parameters for the update operation will not be modified.
 	//And the response will only include featureFlags that are explicitly set.
 	//When a featureFlag is not explicitly set, its globally default value will be used
-	//But keep in mind, the default value doesn't mean "false". It varies in terms of
-	//different FeatureFlags.
+	//But keep in mind, the default value doesn't mean "false". It varies in terms of different FeatureFlags.
 	Features []SignalRFeature_Status `json:"features,omitempty"`
 
 	//HostName: FQDN of the service instance.
@@ -349,12 +347,10 @@ type SignalRResource_Status struct {
 	//Identity: The managed identity response
 	Identity *ManagedIdentity_Status `json:"identity,omitempty"`
 
-	//Kind: The kind of the service - e.g. "SignalR" for
-	//"Microsoft.SignalRService/SignalR"
+	//Kind: The kind of the service - e.g. "SignalR" for "Microsoft.SignalRService/SignalR"
 	Kind *ServiceKind_Status `json:"kind,omitempty"`
 
-	//Location: The GEO location of the resource. e.g. West US | East US | North
-	//Central US | South Central US.
+	//Location: The GEO location of the resource. e.g. West US | East US | North Central US | South Central US.
 	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the resource.
@@ -369,27 +365,21 @@ type SignalRResource_Status struct {
 	//ProvisioningState: Provisioning state of the resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 
-	//PublicNetworkAccess: Enable or disable public network access. Default to
-	//"Enabled".
+	//PublicNetworkAccess: Enable or disable public network access. Default to "Enabled".
 	//When it's Enabled, network ACLs still apply.
-	//When it's Disabled, public network access is always disabled no matter what you
-	//set in network ACLs.
+	//When it's Disabled, public network access is always disabled no matter what you set in network ACLs.
 	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 
-	//PublicPort: The publicly accessible port of the resource which is designed for
-	//browser/client side usage.
+	//PublicPort: The publicly accessible port of the resource which is designed for browser/client side usage.
 	PublicPort *int `json:"publicPort,omitempty"`
 
-	//ResourceLogConfiguration: Resource log configuration of a
-	//Microsoft.SignalRService resource.
-	//If resourceLogConfiguration isn't null or empty, it will override options
-	//"EnableConnectivityLog" and "EnableMessagingLogs" in features.
-	//Otherwise, use options "EnableConnectivityLog" and "EnableMessagingLogs" in
-	//features.
+	//ResourceLogConfiguration: Resource log configuration of a Microsoft.SignalRService resource.
+	//If resourceLogConfiguration isn't null or empty, it will override options "EnableConnectivityLog" and
+	//"EnableMessagingLogs" in features.
+	//Otherwise, use options "EnableConnectivityLog" and "EnableMessagingLogs" in features.
 	ResourceLogConfiguration *ResourceLogConfiguration_Status `json:"resourceLogConfiguration,omitempty"`
 
-	//ServerPort: The publicly accessible port of the resource which is designed for
-	//customer server side usage.
+	//ServerPort: The publicly accessible port of the resource which is designed for customer server side usage.
 	ServerPort *int `json:"serverPort,omitempty"`
 
 	//SharedPrivateLinkResources: The list of shared private link resources.
@@ -398,12 +388,10 @@ type SignalRResource_Status struct {
 	//Sku: The billing information of the resource.(e.g. Free, Standard)
 	Sku *ResourceSku_Status `json:"sku,omitempty"`
 
-	//SystemData: Metadata pertaining to creation and last modification of the
-	//resource.
+	//SystemData: Metadata pertaining to creation and last modification of the resource.
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
 
-	//Tags: Tags of the service which is a list of key value pairs that describe the
-	//resource.
+	//Tags: Tags of the service which is a list of key value pairs that describe the resource.
 	Tags map[string]string `json:"tags,omitempty"`
 
 	//Tls: TLS settings.
@@ -415,8 +403,7 @@ type SignalRResource_Status struct {
 	//Upstream: Upstream settings when the service is in server-less mode.
 	Upstream *ServerlessUpstreamSettings_Status `json:"upstream,omitempty"`
 
-	//Version: Version of the resource. Probably you need the same or higher version
-	//of client SDKs.
+	//Version: Version of the resource. Probably you need the same or higher version of client SDKs.
 	Version *string `json:"version,omitempty"`
 }
 
@@ -1231,8 +1218,8 @@ type SignalRSpecAPIVersion string
 const SignalRSpecAPIVersion20211001 = SignalRSpecAPIVersion("2021-10-01")
 
 type SignalR_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	//Cors: Cross-Origin Resource Sharing (CORS) settings.
@@ -1249,20 +1236,17 @@ type SignalR_Spec struct {
 	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
 
 	//Features: List of the featureFlags.
-	//FeatureFlags that are not included in the parameters for the update operation
-	//will not be modified.
+	//FeatureFlags that are not included in the parameters for the update operation will not be modified.
 	//And the response will only include featureFlags that are explicitly set.
 	//When a featureFlag is not explicitly set, its globally default value will be used
-	//But keep in mind, the default value doesn't mean "false". It varies in terms of
-	//different FeatureFlags.
+	//But keep in mind, the default value doesn't mean "false". It varies in terms of different FeatureFlags.
 	Features []SignalRFeature `json:"features,omitempty"`
 
 	//Identity: A class represent managed identities used for request and response
 	Identity *ManagedIdentity `json:"identity,omitempty"`
 	Kind     *SignalRSpecKind `json:"kind,omitempty"`
 
-	//Location: The GEO location of the resource. e.g. West US | East US | North
-	//Central US | South Central US.
+	//Location: The GEO location of the resource. e.g. West US | East US | North Central US | South Central US.
 	Location *string `json:"location,omitempty"`
 
 	//NetworkACLs: Network ACLs for the resource
@@ -1271,22 +1255,18 @@ type SignalR_Spec struct {
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
-	//PublicNetworkAccess: Enable or disable public network access. Default to
-	//"Enabled".
+	//PublicNetworkAccess: Enable or disable public network access. Default to "Enabled".
 	//When it's Enabled, network ACLs still apply.
-	//When it's Disabled, public network access is always disabled no matter what you
-	//set in network ACLs.
+	//When it's Disabled, public network access is always disabled no matter what you set in network ACLs.
 	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 
-	//ResourceLogConfiguration: Resource log configuration of a
-	//Microsoft.SignalRService resource.
+	//ResourceLogConfiguration: Resource log configuration of a Microsoft.SignalRService resource.
 	ResourceLogConfiguration *ResourceLogConfiguration `json:"resourceLogConfiguration,omitempty"`
 
 	//Sku: The billing information of the resource.
 	Sku *ResourceSku `json:"sku,omitempty"`
 
-	//Tags: Tags of the service which is a list of key value pairs that describe the
-	//resource.
+	//Tags: Tags of the service which is a list of key value pairs that describe the resource.
 	Tags map[string]string `json:"tags,omitempty"`
 
 	//Tls: TLS settings for the resource
@@ -2219,8 +2199,7 @@ type PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded struct {
 	//Id: Fully qualified resource Id for the resource.
 	Id *string `json:"id,omitempty"`
 
-	//SystemData: Metadata pertaining to creation and last modification of the
-	//resource.
+	//SystemData: Metadata pertaining to creation and last modification of the resource.
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
 }
 
@@ -2787,8 +2766,7 @@ func (resourceSku *ResourceSku_Status) AssignPropertiesToResourceSkuStatus(desti
 
 //Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ServerlessUpstreamSettings
 type ServerlessUpstreamSettings struct {
-	//Templates: Gets or sets the list of Upstream URL templates. Order matters, and
-	//the first matching template takes effects.
+	//Templates: Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects.
 	Templates []UpstreamTemplate `json:"templates,omitempty"`
 }
 
@@ -2898,8 +2876,7 @@ func (settings *ServerlessUpstreamSettings) AssignPropertiesToServerlessUpstream
 }
 
 type ServerlessUpstreamSettings_Status struct {
-	//Templates: Gets or sets the list of Upstream URL templates. Order matters, and
-	//the first matching template takes effects.
+	//Templates: Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects.
 	Templates []UpstreamTemplate_Status `json:"templates,omitempty"`
 }
 
@@ -2994,8 +2971,7 @@ type SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded struct {
 	//Id: Fully qualified resource Id for the resource.
 	Id *string `json:"id,omitempty"`
 
-	//SystemData: Metadata pertaining to creation and last modification of the
-	//resource.
+	//SystemData: Metadata pertaining to creation and last modification of the resource.
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
 }
 
@@ -3089,9 +3065,8 @@ func (embedded *SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded) As
 
 //Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRCorsSettings
 type SignalRCorsSettings struct {
-	//AllowedOrigins: Gets or sets the list of origins that should be allowed to make
-	//cross-origin calls (for example: http://example.com:12345). Use "*" to allow
-	//all. If omitted, allow all by default.
+	//AllowedOrigins: Gets or sets the list of origins that should be allowed to make cross-origin calls (for example:
+	//http://example.com:12345). Use "*" to allow all. If omitted, allow all by default.
 	AllowedOrigins []string `json:"allowedOrigins,omitempty"`
 }
 
@@ -3162,9 +3137,8 @@ func (settings *SignalRCorsSettings) AssignPropertiesToSignalRCorsSettings(desti
 }
 
 type SignalRCorsSettings_Status struct {
-	//AllowedOrigins: Gets or sets the list of origins that should be allowed to make
-	//cross-origin calls (for example: http://example.com:12345). Use "*" to allow
-	//all. If omitted, allow all by default.
+	//AllowedOrigins: Gets or sets the list of origins that should be allowed to make cross-origin calls (for example:
+	//http://example.com:12345). Use "*" to allow all. If omitted, allow all by default.
 	AllowedOrigins []string `json:"allowedOrigins,omitempty"`
 }
 
@@ -3231,8 +3205,8 @@ type SignalRFeature struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MaxLength=128
 	// +kubebuilder:validation:MinLength=1
-	//Value: Value of the feature flag. See Azure SignalR service document
-	//https://docs.microsoft.com/azure/azure-signalr/ for allowed values.
+	//Value: Value of the feature flag. See Azure SignalR service document https://docs.microsoft.com/azure/azure-signalr/ for
+	//allowed values.
 	Value string `json:"value"`
 }
 
@@ -3345,29 +3319,23 @@ func (feature *SignalRFeature) AssignPropertiesToSignalRFeature(destination *v1a
 type SignalRFeature_Status struct {
 	// +kubebuilder:validation:Required
 	//Flag: FeatureFlags is the supported features of Azure SignalR service.
-	//- ServiceMode: Flag for backend server for SignalR service. Values allowed:
-	//"Default": have your own backend server; "Serverless": your application doesn't
-	//have a backend server; "Classic": for backward compatibility. Support both
-	//Default and Serverless mode but not recommended; "PredefinedOnly": for future
-	//use.
-	//- EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log
-	//category respectively.
-	//- EnableMessagingLogs: "true"/"false", to enable/disable the connectivity log
-	//category respectively.
-	//- EnableLiveTrace: Live Trace allows you to know what's happening inside Azure
-	//SignalR service, it will give you live traces in real time, it will be helpful
-	//when you developing your own Azure SignalR based web application or
-	//self-troubleshooting some issues. Please note that live traces are counted as
-	//outbound messages that will be charged. Values allowed: "true"/"false", to
-	//enable/disable live trace feature.
+	//- ServiceMode: Flag for backend server for SignalR service. Values allowed: "Default": have your own backend server;
+	//"Serverless": your application doesn't have a backend server; "Classic": for backward compatibility. Support both
+	//Default and Serverless mode but not recommended; "PredefinedOnly": for future use.
+	//- EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log category respectively.
+	//- EnableMessagingLogs: "true"/"false", to enable/disable the connectivity log category respectively.
+	//- EnableLiveTrace: Live Trace allows you to know what's happening inside Azure SignalR service, it will give you live
+	//traces in real time, it will be helpful when you developing your own Azure SignalR based web application or
+	//self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged.
+	//Values allowed: "true"/"false", to enable/disable live trace feature.
 	Flag FeatureFlags_Status `json:"flag"`
 
 	//Properties: Optional properties related to this feature.
 	Properties map[string]string `json:"properties,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Value: Value of the feature flag. See Azure SignalR service document
-	//https://docs.microsoft.com/azure/azure-signalr/ for allowed values.
+	//Value: Value of the feature flag. See Azure SignalR service document https://docs.microsoft.com/azure/azure-signalr/ for
+	//allowed values.
 	Value string `json:"value"`
 }
 
@@ -4117,12 +4085,10 @@ const (
 
 //Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/NetworkACL
 type NetworkACL struct {
-	//Allow: Allowed request types. The value can be one or more of: ClientConnection,
-	//ServerConnection, RESTAPI.
+	//Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Allow []NetworkACLAllow `json:"allow,omitempty"`
 
-	//Deny: Denied request types. The value can be one or more of: ClientConnection,
-	//ServerConnection, RESTAPI.
+	//Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Deny []NetworkACLDeny `json:"deny,omitempty"`
 }
 
@@ -4249,12 +4215,10 @@ func (networkACL *NetworkACL) AssignPropertiesToNetworkACL(destination *v1alpha1
 }
 
 type NetworkACL_Status struct {
-	//Allow: Allowed request types. The value can be one or more of: ClientConnection,
-	//ServerConnection, RESTAPI.
+	//Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Allow []SignalRRequestType_Status `json:"allow,omitempty"`
 
-	//Deny: Denied request types. The value can be one or more of: ClientConnection,
-	//ServerConnection, RESTAPI.
+	//Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Deny []SignalRRequestType_Status `json:"deny,omitempty"`
 }
 
@@ -4363,12 +4327,10 @@ func (networkACL *NetworkACL_Status) AssignPropertiesToNetworkACLStatus(destinat
 
 //Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/PrivateEndpointACL
 type PrivateEndpointACL struct {
-	//Allow: Allowed request types. The value can be one or more of: ClientConnection,
-	//ServerConnection, RESTAPI.
+	//Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Allow []PrivateEndpointACLAllow `json:"allow,omitempty"`
 
-	//Deny: Denied request types. The value can be one or more of: ClientConnection,
-	//ServerConnection, RESTAPI.
+	//Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Deny []PrivateEndpointACLDeny `json:"deny,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -4512,12 +4474,10 @@ func (endpointACL *PrivateEndpointACL) AssignPropertiesToPrivateEndpointACL(dest
 }
 
 type PrivateEndpointACL_Status struct {
-	//Allow: Allowed request types. The value can be one or more of: ClientConnection,
-	//ServerConnection, RESTAPI.
+	//Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Allow []SignalRRequestType_Status `json:"allow,omitempty"`
 
-	//Deny: Denied request types. The value can be one or more of: ClientConnection,
-	//ServerConnection, RESTAPI.
+	//Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Deny []SignalRRequestType_Status `json:"deny,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -4837,41 +4797,33 @@ type UpstreamTemplate struct {
 	//Auth: Upstream auth settings. If not set, no auth is used for upstream messages.
 	Auth *UpstreamAuthSettings `json:"auth,omitempty"`
 
-	//CategoryPattern: Gets or sets the matching pattern for category names. If not
-	//set, it matches any category.
+	//CategoryPattern: Gets or sets the matching pattern for category names. If not set, it matches any category.
 	//There are 3 kind of patterns supported:
 	//1. "*", it to matches any category name
-	//2. Combine multiple categories with ",", for example "connections,messages", it
-	//matches category "connections" and "messages"
-	//3. The single category name, for example, "connections", it matches the category
-	//"connections"
+	//2. Combine multiple categories with ",", for example "connections,messages", it matches category "connections" and
+	//"messages"
+	//3. The single category name, for example, "connections", it matches the category "connections"
 	CategoryPattern *string `json:"categoryPattern,omitempty"`
 
-	//EventPattern: Gets or sets the matching pattern for event names. If not set, it
-	//matches any event.
+	//EventPattern: Gets or sets the matching pattern for event names. If not set, it matches any event.
 	//There are 3 kind of patterns supported:
 	//1. "*", it to matches any event name
-	//2. Combine multiple events with ",", for example "connect,disconnect", it
-	//matches event "connect" and "disconnect"
+	//2. Combine multiple events with ",", for example "connect,disconnect", it matches event "connect" and "disconnect"
 	//3. The single event name, for example, "connect", it matches "connect"
 	EventPattern *string `json:"eventPattern,omitempty"`
 
-	//HubPattern: Gets or sets the matching pattern for hub names. If not set, it
-	//matches any hub.
+	//HubPattern: Gets or sets the matching pattern for hub names. If not set, it matches any hub.
 	//There are 3 kind of patterns supported:
 	//1. "*", it to matches any hub name
-	//2. Combine multiple hubs with ",", for example "hub1,hub2", it matches "hub1"
-	//and "hub2"
+	//2. Combine multiple hubs with ",", for example "hub1,hub2", it matches "hub1" and "hub2"
 	//3. The single hub name, for example, "hub1", it matches "hub1"
 	HubPattern *string `json:"hubPattern,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//UrlTemplate: Gets or sets the Upstream URL template. You can use 3 predefined
-	//parameters {hub}, {category} {event} inside the template, the value of the
-	//Upstream URL is dynamically calculated when the client request comes in.
-	//For example, if the urlTemplate is `http://example.com/{hub}/api/{event}`, with
-	//a client request from hub `chat` connects, it will first POST to this URL:
-	//`http://example.com/chat/api/connect`.
+	//UrlTemplate: Gets or sets the Upstream URL template. You can use 3 predefined parameters {hub}, {category} {event}
+	//inside the template, the value of the Upstream URL is dynamically calculated when the client request comes in.
+	//For example, if the urlTemplate is `http://example.com/{hub}/api/{event}`, with a client request from hub `chat`
+	//connects, it will first POST to this URL: `http://example.com/chat/api/connect`.
 	UrlTemplate string `json:"urlTemplate"`
 }
 
@@ -5038,45 +4990,36 @@ func (template *UpstreamTemplate) AssignPropertiesToUpstreamTemplate(destination
 }
 
 type UpstreamTemplate_Status struct {
-	//Auth: Gets or sets the auth settings for an upstream. If not set, no auth is
-	//used for upstream messages.
+	//Auth: Gets or sets the auth settings for an upstream. If not set, no auth is used for upstream messages.
 	Auth *UpstreamAuthSettings_Status `json:"auth,omitempty"`
 
-	//CategoryPattern: Gets or sets the matching pattern for category names. If not
-	//set, it matches any category.
+	//CategoryPattern: Gets or sets the matching pattern for category names. If not set, it matches any category.
 	//There are 3 kind of patterns supported:
 	//1. "*", it to matches any category name
-	//2. Combine multiple categories with ",", for example "connections,messages", it
-	//matches category "connections" and "messages"
-	//3. The single category name, for example, "connections", it matches the category
-	//"connections"
+	//2. Combine multiple categories with ",", for example "connections,messages", it matches category "connections" and
+	//"messages"
+	//3. The single category name, for example, "connections", it matches the category "connections"
 	CategoryPattern *string `json:"categoryPattern,omitempty"`
 
-	//EventPattern: Gets or sets the matching pattern for event names. If not set, it
-	//matches any event.
+	//EventPattern: Gets or sets the matching pattern for event names. If not set, it matches any event.
 	//There are 3 kind of patterns supported:
 	//1. "*", it to matches any event name
-	//2. Combine multiple events with ",", for example "connect,disconnect", it
-	//matches event "connect" and "disconnect"
+	//2. Combine multiple events with ",", for example "connect,disconnect", it matches event "connect" and "disconnect"
 	//3. The single event name, for example, "connect", it matches "connect"
 	EventPattern *string `json:"eventPattern,omitempty"`
 
-	//HubPattern: Gets or sets the matching pattern for hub names. If not set, it
-	//matches any hub.
+	//HubPattern: Gets or sets the matching pattern for hub names. If not set, it matches any hub.
 	//There are 3 kind of patterns supported:
 	//1. "*", it to matches any hub name
-	//2. Combine multiple hubs with ",", for example "hub1,hub2", it matches "hub1"
-	//and "hub2"
+	//2. Combine multiple hubs with ",", for example "hub1,hub2", it matches "hub1" and "hub2"
 	//3. The single hub name, for example, "hub1", it matches "hub1"
 	HubPattern *string `json:"hubPattern,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//UrlTemplate: Gets or sets the Upstream URL template. You can use 3 predefined
-	//parameters {hub}, {category} {event} inside the template, the value of the
-	//Upstream URL is dynamically calculated when the client request comes in.
-	//For example, if the urlTemplate is `http://example.com/{hub}/api/{event}`, with
-	//a client request from hub `chat` connects, it will first POST to this URL:
-	//`http://example.com/chat/api/connect`.
+	//UrlTemplate: Gets or sets the Upstream URL template. You can use 3 predefined parameters {hub}, {category} {event}
+	//inside the template, the value of the Upstream URL is dynamically calculated when the client request comes in.
+	//For example, if the urlTemplate is `http://example.com/{hub}/api/{event}`, with a client request from hub `chat`
+	//connects, it will first POST to this URL: `http://example.com/chat/api/connect`.
 	UrlTemplate string `json:"urlTemplate"`
 }
 
@@ -5455,8 +5398,7 @@ func (settings *UpstreamAuthSettings) AssignPropertiesToUpstreamAuthSettings(des
 }
 
 type UpstreamAuthSettings_Status struct {
-	//ManagedIdentity: Gets or sets the managed identity settings. It's required if
-	//the auth type is set to ManagedIdentity.
+	//ManagedIdentity: Gets or sets the managed identity settings. It's required if the auth type is set to ManagedIdentity.
 	ManagedIdentity *ManagedIdentitySettings_Status `json:"managedIdentity,omitempty"`
 
 	//Type: Gets or sets the type of auth. None or ManagedIdentity is supported now.

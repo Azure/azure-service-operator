@@ -162,8 +162,8 @@ func (rule *RedisFirewallRule_Status) ConvertStatusTo(destination genruntime.Con
 
 //Storage version of v1alpha1api20201201.RedisFirewallRules_Spec
 type RedisFirewallRules_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName       string  `json:"azureName"`
 	EndIP           *string `json:"endIP,omitempty"`
 	Location        *string `json:"location,omitempty"`

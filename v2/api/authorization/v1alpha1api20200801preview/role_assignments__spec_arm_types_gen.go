@@ -38,10 +38,9 @@ func (assignments RoleAssignments_SpecARM) GetType() string {
 
 //Generated from: https://schema.management.azure.com/schemas/2020-08-01-preview/Microsoft.Authorization.Authz.json#/definitions/RoleAssignmentProperties
 type RoleAssignmentPropertiesARM struct {
-	//Condition: The conditions on the role assignment. This limits the resources it
-	//can be assigned to. e.g.:
-	//@Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName]
-	//StringEqualsIgnoreCase 'foo_storage_container'
+	//Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
+	//@Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase
+	//'foo_storage_container'
 	Condition *string `json:"condition,omitempty"`
 
 	//ConditionVersion: Version of the condition. Currently accepted value is '2.0'

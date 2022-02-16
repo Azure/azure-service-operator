@@ -27,8 +27,7 @@ type MongoDBDatabaseGetProperties_StatusARM struct {
 }
 
 type MongoDBDatabaseGetProperties_Status_ResourceARM struct {
-	//Etag: A system generated property representing the resource etag required for
-	//optimistic concurrency control.
+	//Etag: A system generated property representing the resource etag required for optimistic concurrency control.
 	Etag *string `json:"_etag,omitempty"`
 
 	//Id: Name of the Cosmos DB MongoDB database
@@ -37,7 +36,6 @@ type MongoDBDatabaseGetProperties_Status_ResourceARM struct {
 	//Rid: A system generated property. A unique identifier.
 	Rid *string `json:"_rid,omitempty"`
 
-	//Ts: A system generated property that denotes the last updated timestamp of the
-	//resource.
+	//Ts: A system generated property that denotes the last updated timestamp of the resource.
 	Ts *float64 `json:"_ts,omitempty"`
 }

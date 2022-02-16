@@ -12,23 +12,52 @@ import (
 	"github.com/dave/dst"
 )
 
+const DefaultCommentWrapWidth = 120
+
 // AddWrappedComments adds comments to the specified list, wrapping text to the specified width as
 // it goes. Respects any existing line breaks specified by \n or <br>
-func AddWrappedComments(commentList *dst.Decorations, comments []string, width int) {
+func AddWrappedComments(commentList *dst.Decorations, comments []string) {
 	for _, comment := range comments {
 		// Skip empty comments
 		if comment == "" {
 			continue
 		}
 
-		AddWrappedComment(commentList, comment, width)
+		AddWrappedComment(commentList, comment)
 	}
 }
 
-// AddWrappedComment adds a single comment to the specified list, wrapping text to the specified
+// AddWrappedComment adds a single comment to the specified list, wrapping text as it goes.
+// Respects any existing line breaks specified by \n or <br>
+func AddWrappedComment(commentList *dst.Decorations, comment string) {
+	AddWrappedCommentAtWidth(commentList, comment, DefaultCommentWrapWidth)
+}
+
+// AddWrappedCommentAtWidth adds a single comment to the specified list, wrapping text to the specified
 // width as it goes. Respects any existing line breaks specified by \n or <br>
-func AddWrappedComment(commentList *dst.Decorations, comment string, width int) {
+func AddWrappedCommentAtWidth(commentList *dst.Decorations, comment string, width int) {
 	for _, c := range formatComment(comment, width) {
+		AddComment(commentList, c)
+	}
+}
+
+// AddUnwrappedComments adds comments to the specified list. The text is not wrapped.
+// Respects any existing line breaks specified by \n or <br>
+func AddUnwrappedComments(commentList *dst.Decorations, comments []string) {
+	for _, comment := range comments {
+		// Skip empty comments
+		if comment == "" {
+			continue
+		}
+
+		AddUnwrappedComment(commentList, comment)
+	}
+}
+
+// AddUnwrappedComment adds a single comment to the specified list. The text is not wrapped.
+// Respects any existing line breaks specified by \n or <br>.
+func AddUnwrappedComment(commentList *dst.Decorations, comment string) {
+	for _, c := range formatComment(comment, 1000) { // We don't want line-wrapping with these comments
 		AddComment(commentList, c)
 	}
 }

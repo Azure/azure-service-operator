@@ -308,8 +308,7 @@ type UserAssignedIdentityList struct {
 }
 
 type Identity_Status struct {
-	//ClientId: The id of the app associated with the identity. This is a random
-	//generated UUID by MSI.
+	//ClientId: The id of the app associated with the identity. This is a random generated UUID by MSI.
 	ClientId *string `json:"clientId,omitempty"`
 
 	//Conditions: The observed state of the resource
@@ -325,8 +324,7 @@ type Identity_Status struct {
 	//Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	//PrincipalId: The id of the service principal object associated with the created
-	//identity.
+	//PrincipalId: The id of the service principal object associated with the created identity.
 	PrincipalId *string `json:"principalId,omitempty"`
 
 	//Tags: Resource tags.
@@ -335,8 +333,7 @@ type Identity_Status struct {
 	//TenantId: The id of the tenant which the identity belongs to.
 	TenantId *string `json:"tenantId,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -552,8 +549,8 @@ type UserAssignedIdentitiesSpecAPIVersion string
 const UserAssignedIdentitiesSpecAPIVersion20181130 = UserAssignedIdentitiesSpecAPIVersion("2018-11-30")
 
 type UserAssignedIdentities_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	//Location: The Azure region where the identity lives.

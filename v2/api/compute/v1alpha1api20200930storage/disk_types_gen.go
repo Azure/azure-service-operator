@@ -190,14 +190,13 @@ func (disk *Disk_Status) ConvertStatusTo(destination genruntime.ConvertibleStatu
 
 //Storage version of v1alpha1api20200930.Disks_Spec
 type Disks_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName       string        `json:"azureName"`
 	BurstingEnabled *bool         `json:"burstingEnabled,omitempty"`
 	CreationData    *CreationData `json:"creationData,omitempty"`
 
-	//DiskAccessReference: ARM id of the DiskAccess resource for using private
-	//endpoints on disks.
+	//DiskAccessReference: ARM id of the DiskAccess resource for using private endpoints on disks.
 	DiskAccessReference          *genruntime.ResourceReference `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
 	DiskIOPSReadOnly             *int                          `json:"diskIOPSReadOnly,omitempty"`
 	DiskIOPSReadWrite            *int                          `json:"diskIOPSReadWrite,omitempty"`
@@ -253,8 +252,7 @@ type CreationData struct {
 	LogicalSectorSize     *int                   `json:"logicalSectorSize,omitempty"`
 	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
-	//SourceResourceReference: If createOption is Copy, this is the ARM id of the
-	//source snapshot or disk.
+	//SourceResourceReference: If createOption is Copy, this is the ARM id of the source snapshot or disk.
 	SourceResourceReference *genruntime.ResourceReference `armReference:"SourceResourceId" json:"sourceResourceReference,omitempty"`
 	SourceUri               *string                       `json:"sourceUri,omitempty"`
 	StorageAccountId        *string                       `json:"storageAccountId,omitempty"`
@@ -292,8 +290,7 @@ type DiskSku_Status struct {
 //Storage version of v1alpha1api20200930.Encryption
 //Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/Encryption
 type Encryption struct {
-	//DiskEncryptionSetReference: ResourceId of the disk encryption set to use for
-	//enabling encryption at rest.
+	//DiskEncryptionSetReference: ResourceId of the disk encryption set to use for enabling encryption at rest.
 	DiskEncryptionSetReference *genruntime.ResourceReference `armReference:"DiskEncryptionSetId" json:"diskEncryptionSetReference,omitempty"`
 	PropertyBag                genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	Type                       *string                       `json:"type,omitempty"`
@@ -473,8 +470,7 @@ type ImageDiskReference struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Reference: A relative uri containing either a Platform Image Repository or user
-	//image reference.
+	//Reference: A relative uri containing either a Platform Image Repository or user image reference.
 	Reference genruntime.ResourceReference `armReference:"Id" json:"reference"`
 }
 

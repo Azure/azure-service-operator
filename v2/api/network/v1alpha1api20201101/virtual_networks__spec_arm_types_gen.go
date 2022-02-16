@@ -40,28 +40,23 @@ func (networks VirtualNetworks_SpecARM) GetType() string {
 }
 
 type VirtualNetworks_Spec_PropertiesARM struct {
-	//AddressSpace: The AddressSpace that contains an array of IP address ranges that
-	//can be used by subnets.
+	//AddressSpace: The AddressSpace that contains an array of IP address ranges that can be used by subnets.
 	AddressSpace AddressSpaceARM `json:"addressSpace"`
 
-	//BgpCommunities: Bgp Communities sent over ExpressRoute with each route
-	//corresponding to a prefix in this VNET.
+	//BgpCommunities: Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
 	BgpCommunities *VirtualNetworkBgpCommunitiesARM `json:"bgpCommunities,omitempty"`
 
 	//DdosProtectionPlan: The DDoS protection plan associated with the virtual network.
 	DdosProtectionPlan *SubResourceARM `json:"ddosProtectionPlan,omitempty"`
 
-	//DhcpOptions: The dhcpOptions that contains an array of DNS servers available to
-	//VMs deployed in the virtual network.
+	//DhcpOptions: The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.
 	DhcpOptions *DhcpOptionsARM `json:"dhcpOptions,omitempty"`
 
-	//EnableDdosProtection: Indicates if DDoS protection is enabled for all the
-	//protected resources in the virtual network. It requires a DDoS protection plan
-	//associated with the resource.
+	//EnableDdosProtection: Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It
+	//requires a DDoS protection plan associated with the resource.
 	EnableDdosProtection *bool `json:"enableDdosProtection,omitempty"`
 
-	//EnableVmProtection: Indicates if VM protection is enabled for all the subnets in
-	//the virtual network.
+	//EnableVmProtection: Indicates if VM protection is enabled for all the subnets in the virtual network.
 	EnableVmProtection *bool `json:"enableVmProtection,omitempty"`
 
 	//IpAllocations: Array of IpAllocation which reference this VNET.
@@ -78,8 +73,7 @@ type DhcpOptionsARM struct {
 }
 
 type VirtualNetworks_Spec_Properties_SubnetsARM struct {
-	//Name: The name of the resource that is unique within a resource group. This name
-	//can be used to access the resource.
+	//Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name string `json:"name"`
 
 	//Properties: Properties of the subnet.
@@ -105,12 +99,10 @@ type VirtualNetworks_Spec_Properties_Subnets_PropertiesARM struct {
 	//NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
 	NetworkSecurityGroup *SubResourceARM `json:"networkSecurityGroup,omitempty"`
 
-	//PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on
-	//private end point in the subnet.
+	//PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on private end point in the subnet.
 	PrivateEndpointNetworkPolicies *string `json:"privateEndpointNetworkPolicies,omitempty"`
 
-	//PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on
-	//private link service in the subnet.
+	//PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on private link service in the subnet.
 	PrivateLinkServiceNetworkPolicies *string `json:"privateLinkServiceNetworkPolicies,omitempty"`
 
 	//RouteTable: The reference to the RouteTable resource.
@@ -124,8 +116,7 @@ type VirtualNetworks_Spec_Properties_Subnets_PropertiesARM struct {
 }
 
 type VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM struct {
-	//Name: The name of the resource that is unique within a subnet. This name can be
-	//used to access the resource.
+	//Name: The name of the resource that is unique within a subnet. This name can be used to access the resource.
 	Name string `json:"name"`
 
 	//Properties: Properties of the subnet.

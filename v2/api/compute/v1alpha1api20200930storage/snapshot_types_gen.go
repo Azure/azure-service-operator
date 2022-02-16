@@ -180,13 +180,12 @@ func (snapshot *Snapshot_Status) ConvertStatusTo(destination genruntime.Converti
 
 //Storage version of v1alpha1api20200930.Snapshots_Spec
 type Snapshots_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName    string        `json:"azureName"`
 	CreationData *CreationData `json:"creationData,omitempty"`
 
-	//DiskAccessReference: ARM id of the DiskAccess resource for using private
-	//endpoints on disks.
+	//DiskAccessReference: ARM id of the DiskAccess resource for using private endpoints on disks.
 	DiskAccessReference          *genruntime.ResourceReference `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
 	DiskSizeGB                   *int                          `json:"diskSizeGB,omitempty"`
 	DiskState                    *string                       `json:"diskState,omitempty"`

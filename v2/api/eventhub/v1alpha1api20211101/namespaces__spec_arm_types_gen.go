@@ -53,39 +53,33 @@ type Namespaces_Spec_PropertiesARM struct {
 	AlternateName *string `json:"alternateName,omitempty"`
 	ClusterArmId  *string `json:"clusterArmId,omitempty"`
 
-	//DisableLocalAuth: This property disables SAS authentication for the Event Hubs
-	//namespace.
+	//DisableLocalAuth: This property disables SAS authentication for the Event Hubs namespace.
 	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
 
 	//Encryption: Properties to configure Encryption
 	Encryption *EncryptionARM `json:"encryption,omitempty"`
 
-	//IsAutoInflateEnabled: Value that indicates whether AutoInflate is enabled for
-	//eventhub namespace.
+	//IsAutoInflateEnabled: Value that indicates whether AutoInflate is enabled for eventhub namespace.
 	IsAutoInflateEnabled *bool `json:"isAutoInflateEnabled,omitempty"`
 
-	//KafkaEnabled: Value that indicates whether Kafka is enabled for eventhub
-	//namespace.
+	//KafkaEnabled: Value that indicates whether Kafka is enabled for eventhub namespace.
 	KafkaEnabled *bool `json:"kafkaEnabled,omitempty"`
 
-	//MaximumThroughputUnits: Upper limit of throughput units when AutoInflate is
-	//enabled, value should be within 0 to 20 throughput units. ( '0' if
-	//AutoInflateEnabled = true)
+	//MaximumThroughputUnits: Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20
+	//throughput units. ( '0' if AutoInflateEnabled = true)
 	MaximumThroughputUnits *int `json:"maximumThroughputUnits,omitempty"`
 
 	//PrivateEndpointConnections: List of private endpoint connections.
 	PrivateEndpointConnections []Namespaces_Spec_Properties_PrivateEndpointConnectionsARM `json:"privateEndpointConnections,omitempty"`
 
-	//ZoneRedundant: Enabling this property creates a Standard Event Hubs Namespace in
-	//regions supported availability zones.
+	//ZoneRedundant: Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones.
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/Sku
 type SkuARM struct {
-	//Capacity: The Event Hubs throughput units for Basic or Standard tiers, where
-	//value should be 0 to 20 throughput units. The Event Hubs premium units for
-	//Premium tier, where value should be 0 to 10 premium units.
+	//Capacity: The Event Hubs throughput units for Basic or Standard tiers, where value should be 0 to 20 throughput units.
+	//The Event Hubs premium units for Premium tier, where value should be 0 to 10 premium units.
 	Capacity *int `json:"capacity,omitempty"`
 
 	//Name: Name of this SKU.
@@ -103,8 +97,7 @@ type EncryptionARM struct {
 	//KeyVaultProperties: Properties of KeyVault
 	KeyVaultProperties []KeyVaultPropertiesARM `json:"keyVaultProperties,omitempty"`
 
-	//RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double
-	//Encryption)
+	//RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
 	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
 }
 

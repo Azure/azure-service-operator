@@ -43,12 +43,10 @@ type ExtendedLocation_StatusARM struct {
 }
 
 type ManagedClusterIdentity_StatusARM struct {
-	//PrincipalId: The principal id of the system assigned identity which is used by
-	//master components.
+	//PrincipalId: The principal id of the system assigned identity which is used by master components.
 	PrincipalId *string `json:"principalId,omitempty"`
 
-	//TenantId: The tenant id of the system assigned identity which is used by master
-	//components.
+	//TenantId: The tenant id of the system assigned identity which is used by master components.
 	TenantId *string `json:"tenantId,omitempty"`
 
 	//Type: For more information see [use managed identities in
@@ -73,22 +71,19 @@ type ManagedClusterProperties_StatusARM struct {
 	//ApiServerAccessProfile: The access profile for managed cluster API server.
 	ApiServerAccessProfile *ManagedClusterAPIServerAccessProfile_StatusARM `json:"apiServerAccessProfile,omitempty"`
 
-	//AutoScalerProfile: Parameters to be applied to the cluster-autoscaler when
-	//enabled
+	//AutoScalerProfile: Parameters to be applied to the cluster-autoscaler when enabled
 	AutoScalerProfile *ManagedClusterProperties_Status_AutoScalerProfileARM `json:"autoScalerProfile,omitempty"`
 
 	//AutoUpgradeProfile: The auto upgrade configuration.
 	AutoUpgradeProfile *ManagedClusterAutoUpgradeProfile_StatusARM `json:"autoUpgradeProfile,omitempty"`
 
-	//AzurePortalFQDN: The Azure Portal requires certain Cross-Origin Resource Sharing
-	//(CORS) headers to be sent in some responses, which Kubernetes APIServer doesn't
-	//handle by default. This special FQDN supports CORS, allowing the Azure Portal to
-	//function properly.
+	//AzurePortalFQDN: The Azure Portal requires certain Cross-Origin Resource Sharing (CORS) headers to be sent in some
+	//responses, which Kubernetes APIServer doesn't handle by default. This special FQDN supports CORS, allowing the Azure
+	//Portal to function properly.
 	AzurePortalFQDN *string `json:"azurePortalFQDN,omitempty"`
 
-	//DisableLocalAccounts: If set to true, getting static credentials will be
-	//disabled for this cluster. This must only be used on Managed Clusters that are
-	//AAD enabled. For more details see [disable local
+	//DisableLocalAccounts: If set to true, getting static credentials will be disabled for this cluster. This must only be
+	//used on Managed Clusters that are AAD enabled. For more details see [disable local
 	//accounts](https://docs.microsoft.com/azure/aks/managed-aad#disable-local-accounts-preview).
 	DisableLocalAccounts *bool `json:"disableLocalAccounts,omitempty"`
 
@@ -99,9 +94,8 @@ type ManagedClusterProperties_StatusARM struct {
 	//DnsPrefix: This cannot be updated once the Managed Cluster has been created.
 	DnsPrefix *string `json:"dnsPrefix,omitempty"`
 
-	//EnablePodSecurityPolicy: (DEPRECATING) Whether to enable Kubernetes pod security
-	//policy (preview). This feature is set for removal on October 15th, 2020. Learn
-	//more at aka.ms/aks/azpodpolicy.
+	//EnablePodSecurityPolicy: (DEPRECATING) Whether to enable Kubernetes pod security policy (preview). This feature is set
+	//for removal on October 15th, 2020. Learn more at aka.ms/aks/azpodpolicy.
 	EnablePodSecurityPolicy *bool `json:"enablePodSecurityPolicy,omitempty"`
 
 	//EnableRBAC: Whether to enable Kubernetes Role-Based Access Control.
@@ -113,19 +107,16 @@ type ManagedClusterProperties_StatusARM struct {
 	//FqdnSubdomain: This cannot be updated once the Managed Cluster has been created.
 	FqdnSubdomain *string `json:"fqdnSubdomain,omitempty"`
 
-	//HttpProxyConfig: Configurations for provisioning the cluster with HTTP proxy
-	//servers.
+	//HttpProxyConfig: Configurations for provisioning the cluster with HTTP proxy servers.
 	HttpProxyConfig *ManagedClusterHTTPProxyConfig_StatusARM `json:"httpProxyConfig,omitempty"`
 
 	//IdentityProfile: Identities associated with the cluster.
 	IdentityProfile *v1.JSON `json:"identityProfile,omitempty"`
 
-	//KubernetesVersion: When you upgrade a supported AKS cluster, Kubernetes minor
-	//versions cannot be skipped. All upgrades must be performed sequentially by major
-	//version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x ->
-	//1.16.x are allowed, however 1.14.x -> 1.16.x is not allowed. See [upgrading an
-	//AKS cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more
-	//details.
+	//KubernetesVersion: When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades
+	//must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x ->
+	//1.16.x are allowed, however 1.14.x -> 1.16.x is not allowed. See [upgrading an AKS
+	//cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more details.
 	KubernetesVersion *string `json:"kubernetesVersion,omitempty"`
 
 	//LinuxProfile: The profile for Linux VMs in the Managed Cluster.
@@ -140,9 +131,8 @@ type ManagedClusterProperties_StatusARM struct {
 	//NodeResourceGroup: The name of the resource group containing agent pool nodes.
 	NodeResourceGroup *string `json:"nodeResourceGroup,omitempty"`
 
-	//PodIdentityProfile: See [use AAD pod
-	//identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for
-	//more details on AAD pod identity integration.
+	//PodIdentityProfile: See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more
+	//details on AAD pod identity integration.
 	PodIdentityProfile *ManagedClusterPodIdentityProfile_StatusARM `json:"podIdentityProfile,omitempty"`
 
 	//PowerState: The Power State of the cluster.
@@ -157,8 +147,8 @@ type ManagedClusterProperties_StatusARM struct {
 	//ProvisioningState: The current provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
-	//ServicePrincipalProfile: Information about a service principal identity for the
-	//cluster to use for manipulating Azure APIs.
+	//ServicePrincipalProfile: Information about a service principal identity for the cluster to use for manipulating Azure
+	//APIs.
 	ServicePrincipalProfile *ManagedClusterServicePrincipalProfile_StatusARM `json:"servicePrincipalProfile,omitempty"`
 
 	//WindowsProfile: The profile for Windows VMs in the Managed Cluster.
@@ -169,8 +159,8 @@ type ManagedClusterSKU_StatusARM struct {
 	//Name: The name of a managed cluster SKU.
 	Name *ManagedClusterSKUStatusName `json:"name,omitempty"`
 
-	//Tier: If not specified, the default is 'Free'. See [uptime
-	//SLA](https://docs.microsoft.com/azure/aks/uptime-sla) for more details.
+	//Tier: If not specified, the default is 'Free'. See [uptime SLA](https://docs.microsoft.com/azure/aks/uptime-sla) for
+	//more details.
 	Tier *ManagedClusterSKUStatusTier `json:"tier,omitempty"`
 }
 
@@ -183,25 +173,23 @@ type ContainerServiceLinuxProfile_StatusARM struct {
 }
 
 type ContainerServiceNetworkProfile_StatusARM struct {
-	//DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be
-	//within the Kubernetes service address range specified in serviceCidr.
+	//DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address
+	//range specified in serviceCidr.
 	DnsServiceIP *string `json:"dnsServiceIP,omitempty"`
 
-	//DockerBridgeCidr: A CIDR notation IP range assigned to the Docker bridge
-	//network. It must not overlap with any Subnet IP ranges or the Kubernetes service
-	//address range.
+	//DockerBridgeCidr: A CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP
+	//ranges or the Kubernetes service address range.
 	DockerBridgeCidr *string `json:"dockerBridgeCidr,omitempty"`
 
 	//LoadBalancerProfile: Profile of the cluster load balancer.
 	LoadBalancerProfile *ManagedClusterLoadBalancerProfile_StatusARM `json:"loadBalancerProfile,omitempty"`
 
 	//LoadBalancerSku: The default is 'standard'. See [Azure Load Balancer
-	//SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information
-	//about the differences between load balancer SKUs.
+	//SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load
+	//balancer SKUs.
 	LoadBalancerSku *ContainerServiceNetworkProfileStatusLoadBalancerSku `json:"loadBalancerSku,omitempty"`
 
-	//NetworkMode: This cannot be specified if networkPlugin is anything other than
-	//'azure'.
+	//NetworkMode: This cannot be specified if networkPlugin is anything other than 'azure'.
 	NetworkMode *ContainerServiceNetworkProfileStatusNetworkMode `json:"networkMode,omitempty"`
 
 	//NetworkPlugin: Network plugin used for building the Kubernetes network.
@@ -210,17 +198,15 @@ type ContainerServiceNetworkProfile_StatusARM struct {
 	//NetworkPolicy: Network policy used for building the Kubernetes network.
 	NetworkPolicy *ContainerServiceNetworkProfileStatusNetworkPolicy `json:"networkPolicy,omitempty"`
 
-	//OutboundType: This can only be set at cluster creation time and cannot be
-	//changed later. For more information see [egress outbound
-	//type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
+	//OutboundType: This can only be set at cluster creation time and cannot be changed later. For more information see
+	//[egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
 	OutboundType *ContainerServiceNetworkProfileStatusOutboundType `json:"outboundType,omitempty"`
 
-	//PodCidr: A CIDR notation IP range from which to assign pod IPs when kubenet is
-	//used.
+	//PodCidr: A CIDR notation IP range from which to assign pod IPs when kubenet is used.
 	PodCidr *string `json:"podCidr,omitempty"`
 
-	//ServiceCidr: A CIDR notation IP range from which to assign service cluster IPs.
-	//It must not overlap with any Subnet IP ranges.
+	//ServiceCidr: A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP
+	//ranges.
 	ServiceCidr *string `json:"serviceCidr,omitempty"`
 }
 
@@ -229,8 +215,7 @@ type ExtendedLocationType_Status string
 const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
 
 type ManagedClusterAADProfile_StatusARM struct {
-	//AdminGroupObjectIDs: The list of AAD group object IDs that will have admin role
-	//of the cluster.
+	//AdminGroupObjectIDs: The list of AAD group object IDs that will have admin role of the cluster.
 	AdminGroupObjectIDs []string `json:"adminGroupObjectIDs,omitempty"`
 
 	//ClientAppID: The client AAD application ID.
@@ -248,70 +233,62 @@ type ManagedClusterAADProfile_StatusARM struct {
 	//ServerAppSecret: The server AAD application secret.
 	ServerAppSecret *string `json:"serverAppSecret,omitempty"`
 
-	//TenantID: The AAD tenant ID to use for authentication. If not specified, will
-	//use the tenant of the deployment subscription.
+	//TenantID: The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment
+	//subscription.
 	TenantID *string `json:"tenantID,omitempty"`
 }
 
 type ManagedClusterAPIServerAccessProfile_StatusARM struct {
-	//AuthorizedIPRanges: IP ranges are specified in CIDR format, e.g.
-	//137.117.106.88/29. This feature is not compatible with clusters that use Public
-	//IP Per Node, or clusters that are using a Basic Load Balancer. For more
-	//information see [API server authorized IP
-	//ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges).
+	//AuthorizedIPRanges: IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with
+	//clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API
+	//server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges).
 	AuthorizedIPRanges []string `json:"authorizedIPRanges,omitempty"`
 
 	//EnablePrivateCluster: For more details, see [Creating a private AKS
 	//cluster](https://docs.microsoft.com/azure/aks/private-clusters).
 	EnablePrivateCluster *bool `json:"enablePrivateCluster,omitempty"`
 
-	//EnablePrivateClusterPublicFQDN: Whether to create additional public FQDN for
-	//private cluster or not.
+	//EnablePrivateClusterPublicFQDN: Whether to create additional public FQDN for private cluster or not.
 	EnablePrivateClusterPublicFQDN *bool `json:"enablePrivateClusterPublicFQDN,omitempty"`
 
-	//PrivateDNSZone: The default is System. For more details see [configure private
-	//DNS
-	//zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone).
-	//Allowed values are 'system' and 'none'.
+	//PrivateDNSZone: The default is System. For more details see [configure private DNS
+	//zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone). Allowed values are 'system' and
+	//'none'.
 	PrivateDNSZone *string `json:"privateDNSZone,omitempty"`
 }
 
 type ManagedClusterAgentPoolProfile_StatusARM struct {
-	//AvailabilityZones: The list of Availability zones to use for nodes. This can
-	//only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'.
+	//AvailabilityZones: The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType
+	//property is 'VirtualMachineScaleSets'.
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
 
-	//Count: Number of agents (VMs) to host docker containers. Allowed values must be
-	//in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to
-	//1000 (inclusive) for system pools. The default value is 1.
+	//Count: Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive)
+	//for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1.
 	Count *int `json:"count,omitempty"`
 
 	//EnableAutoScaling: Whether to enable auto-scaler
 	EnableAutoScaling *bool `json:"enableAutoScaling,omitempty"`
 
-	//EnableEncryptionAtHost: This is only supported on certain VM sizes and in
-	//certain Azure regions. For more information, see:
-	//https://docs.microsoft.com/azure/aks/enable-host-encryption
+	//EnableEncryptionAtHost: This is only supported on certain VM sizes and in certain Azure regions. For more information,
+	//see: https://docs.microsoft.com/azure/aks/enable-host-encryption
 	EnableEncryptionAtHost *bool `json:"enableEncryptionAtHost,omitempty"`
 
 	//EnableFIPS: See [Add a FIPS-enabled node
-	//pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview)
-	//for more details.
+	//pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more
+	//details.
 	EnableFIPS *bool `json:"enableFIPS,omitempty"`
 
-	//EnableNodePublicIP: Some scenarios may require nodes in a node pool to receive
-	//their own dedicated public IP addresses. A common scenario is for gaming
-	//workloads, where a console needs to make a direct connection to a cloud virtual
-	//machine to minimize hops. For more information see [assigning a public IP per
-	//node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools).
-	//The default is false.
+	//EnableNodePublicIP: Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses.
+	//A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine
+	//to minimize hops. For more information see [assigning a public IP per
+	//node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The
+	//default is false.
 	EnableNodePublicIP *bool `json:"enableNodePublicIP,omitempty"`
 
 	//EnableUltraSSD: Whether to enable UltraSSD
 	EnableUltraSSD *bool `json:"enableUltraSSD,omitempty"`
 
-	//GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance
-	//profile for supported GPU VM SKU.
+	//GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
 	GpuInstanceProfile *GPUInstanceProfile_Status `json:"gpuInstanceProfile,omitempty"`
 
 	//KubeletConfig: The Kubelet configuration on the agent pool nodes.
@@ -344,16 +321,13 @@ type ManagedClusterAgentPoolProfile_StatusARM struct {
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
 	NodePublicIPPrefixID *string `json:"nodePublicIPPrefixID,omitempty"`
 
-	//NodeTaints: The taints added to new nodes during node pool create and scale. For
-	//example, key=value:NoSchedule.
+	//NodeTaints: The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.
 	NodeTaints []string `json:"nodeTaints,omitempty"`
 
-	//OrchestratorVersion: As a best practice, you should upgrade all node pools in an
-	//AKS cluster to the same Kubernetes version. The node pool version must have the
-	//same major version as the control plane. The node pool minor version must be
-	//within two minor versions of the control plane version. The node pool version
-	//cannot be greater than the control plane version. For more information see
-	//[upgrading a node
+	//OrchestratorVersion: As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes
+	//version. The node pool version must have the same major version as the control plane. The node pool minor version must
+	//be within two minor versions of the control plane version. The node pool version cannot be greater than the control
+	//plane version. For more information see [upgrading a node
 	//pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
 	OrchestratorVersion *string            `json:"orchestratorVersion,omitempty"`
 	OsDiskSizeGB        *int               `json:"osDiskSizeGB,omitempty"`
@@ -361,8 +335,8 @@ type ManagedClusterAgentPoolProfile_StatusARM struct {
 	OsSKU               *OSSKU_Status      `json:"osSKU,omitempty"`
 	OsType              *OSType_Status     `json:"osType,omitempty"`
 
-	//PodSubnetID: If omitted, pod IPs are statically assigned on the node subnet (see
-	//vnetSubnetID for more details). This is of the form:
+	//PodSubnetID: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is
+	//of the form:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 	PodSubnetID *string `json:"podSubnetID,omitempty"`
 
@@ -375,17 +349,15 @@ type ManagedClusterAgentPoolProfile_StatusARM struct {
 	//ProximityPlacementGroupID: The ID for Proximity Placement Group.
 	ProximityPlacementGroupID *string `json:"proximityPlacementGroupID,omitempty"`
 
-	//ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is
-	//'Spot'. If not specified, the default is 'Delete'.
+	//ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is
+	//'Delete'.
 	ScaleSetEvictionPolicy *ScaleSetEvictionPolicy_Status `json:"scaleSetEvictionPolicy,omitempty"`
 
-	//ScaleSetPriority: The Virtual Machine Scale Set priority. If not specified, the
-	//default is 'Regular'.
+	//ScaleSetPriority: The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'.
 	ScaleSetPriority *ScaleSetPriority_Status `json:"scaleSetPriority,omitempty"`
 
-	//SpotMaxPrice: Possible values are any decimal value greater than zero or -1
-	//which indicates the willingness to pay any on-demand price. For more details on
-	//spot pricing, see [spot VMs
+	//SpotMaxPrice: Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any
+	//on-demand price. For more details on spot pricing, see [spot VMs
 	//pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)
 	SpotMaxPrice *float64 `json:"spotMaxPrice,omitempty"`
 
@@ -396,15 +368,13 @@ type ManagedClusterAgentPoolProfile_StatusARM struct {
 	//UpgradeSettings: Settings for upgrading the agentpool
 	UpgradeSettings *AgentPoolUpgradeSettings_StatusARM `json:"upgradeSettings,omitempty"`
 
-	//VmSize: VM size availability varies by region. If a node contains insufficient
-	//compute resources (memory, cpu, etc) pods might fail to run correctly. For more
-	//details on restricted VM sizes, see:
+	//VmSize: VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods
+	//might fail to run correctly. For more details on restricted VM sizes, see:
 	//https://docs.microsoft.com/azure/aks/quotas-skus-regions
 	VmSize *string `json:"vmSize,omitempty"`
 
-	//VnetSubnetID: If this is not specified, a VNET and subnet will be generated and
-	//used. If no podSubnetID is specified, this applies to nodes and pods, otherwise
-	//it applies to just nodes. This is of the form:
+	//VnetSubnetID: If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified,
+	//this applies to nodes and pods, otherwise it applies to just nodes. This is of the form:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 	VnetSubnetID *string `json:"vnetSubnetID,omitempty"`
 }
@@ -446,9 +416,8 @@ type ManagedClusterIdentity_Status_UserAssignedIdentitiesARM struct {
 }
 
 type ManagedClusterPodIdentityProfile_StatusARM struct {
-	//AllowNetworkPluginKubenet: Running in Kubenet is disabled by default due to the
-	//security related nature of AAD Pod Identity and the risks of IP spoofing. See
-	//[using Kubenet network plugin with AAD Pod
+	//AllowNetworkPluginKubenet: Running in Kubenet is disabled by default due to the security related nature of AAD Pod
+	//Identity and the risks of IP spoofing. See [using Kubenet network plugin with AAD Pod
 	//Identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity#using-kubenet-network-plugin-with-azure-active-directory-pod-managed-identities)
 	//for more information.
 	AllowNetworkPluginKubenet *bool `json:"allowNetworkPluginKubenet,omitempty"`
@@ -468,8 +437,8 @@ type ManagedClusterProperties_Status_AutoScalerProfileARM struct {
 	BalanceSimilarNodeGroups *string `json:"balance-similar-node-groups,omitempty"`
 
 	//Expander: If not specified, the default is 'random'. See
-	//[expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders)
-	//for more information.
+	//[expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more
+	//information.
 	Expander *ManagedClusterPropertiesStatusAutoScalerProfileExpander `json:"expander,omitempty"`
 
 	//MaxEmptyBulkDelete: The default is 10.
@@ -478,42 +447,39 @@ type ManagedClusterProperties_Status_AutoScalerProfileARM struct {
 	//MaxGracefulTerminationSec: The default is 600.
 	MaxGracefulTerminationSec *string `json:"max-graceful-termination-sec,omitempty"`
 
-	//MaxNodeProvisionTime: The default is '15m'. Values must be an integer followed
-	//by an 'm'. No unit of time other than minutes (m) is supported.
+	//MaxNodeProvisionTime: The default is '15m'. Values must be an integer followed by an 'm'. No unit of time other than
+	//minutes (m) is supported.
 	MaxNodeProvisionTime *string `json:"max-node-provision-time,omitempty"`
 
-	//MaxTotalUnreadyPercentage: The default is 45. The maximum is 100 and the minimum
-	//is 0.
+	//MaxTotalUnreadyPercentage: The default is 45. The maximum is 100 and the minimum is 0.
 	MaxTotalUnreadyPercentage *string `json:"max-total-unready-percentage,omitempty"`
 
-	//NewPodScaleUpDelay: For scenarios like burst/batch scale where you don't want CA
-	//to act before the kubernetes scheduler could schedule all the pods, you can tell
-	//CA to ignore unscheduled pods before they're a certain age. The default is '0s'.
-	//Values must be an integer followed by a unit ('s' for seconds, 'm' for minutes,
-	//'h' for hours, etc).
+	//NewPodScaleUpDelay: For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler
+	//could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. The default is
+	//'0s'. Values must be an integer followed by a unit ('s' for seconds, 'm' for minutes, 'h' for hours, etc).
 	NewPodScaleUpDelay *string `json:"new-pod-scale-up-delay,omitempty"`
 
 	//OkTotalUnreadyCount: This must be an integer. The default is 3.
 	OkTotalUnreadyCount *string `json:"ok-total-unready-count,omitempty"`
 
-	//ScaleDownDelayAfterAdd: The default is '10m'. Values must be an integer followed
-	//by an 'm'. No unit of time other than minutes (m) is supported.
+	//ScaleDownDelayAfterAdd: The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than
+	//minutes (m) is supported.
 	ScaleDownDelayAfterAdd *string `json:"scale-down-delay-after-add,omitempty"`
 
-	//ScaleDownDelayAfterDelete: The default is the scan-interval. Values must be an
-	//integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+	//ScaleDownDelayAfterDelete: The default is the scan-interval. Values must be an integer followed by an 'm'. No unit of
+	//time other than minutes (m) is supported.
 	ScaleDownDelayAfterDelete *string `json:"scale-down-delay-after-delete,omitempty"`
 
-	//ScaleDownDelayAfterFailure: The default is '3m'. Values must be an integer
-	//followed by an 'm'. No unit of time other than minutes (m) is supported.
+	//ScaleDownDelayAfterFailure: The default is '3m'. Values must be an integer followed by an 'm'. No unit of time other
+	//than minutes (m) is supported.
 	ScaleDownDelayAfterFailure *string `json:"scale-down-delay-after-failure,omitempty"`
 
-	//ScaleDownUnneededTime: The default is '10m'. Values must be an integer followed
-	//by an 'm'. No unit of time other than minutes (m) is supported.
+	//ScaleDownUnneededTime: The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than
+	//minutes (m) is supported.
 	ScaleDownUnneededTime *string `json:"scale-down-unneeded-time,omitempty"`
 
-	//ScaleDownUnreadyTime: The default is '20m'. Values must be an integer followed
-	//by an 'm'. No unit of time other than minutes (m) is supported.
+	//ScaleDownUnreadyTime: The default is '20m'. Values must be an integer followed by an 'm'. No unit of time other than
+	//minutes (m) is supported.
 	ScaleDownUnreadyTime *string `json:"scale-down-unready-time,omitempty"`
 
 	//ScaleDownUtilizationThreshold: The default is '0.5'.
@@ -557,17 +523,15 @@ type ManagedClusterWindowsProfile_StatusARM struct {
 	//Has upper characters
 	//Has a digit
 	//Has a special character (Regex match [\W_])
-	//Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word",
-	//"pass@word1", "Password!", "Password1", "Password22", "iloveyou!"
+	//Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1",
+	//"Password22", "iloveyou!"
 	AdminPassword *string `json:"adminPassword,omitempty"`
 
 	//AdminUsername: Specifies the name of the administrator account.
 	//Restriction: Cannot end in "."
-	//Disallowed values: "administrator", "admin", "user", "user1", "test", "user2",
-	//"test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2",
-	//"aspnet", "backup", "console", "david", "guest", "john", "owner", "root",
-	//"server", "sql", "support", "support_388945a0", "sys", "test2", "test3",
-	//"user4", "user5".
+	//Disallowed values: "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123",
+	//"a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server",
+	//"sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5".
 	//Minimum-length: 1 character
 	//Max-length: 20 characters
 	AdminUsername string `json:"adminUsername"`
@@ -577,8 +541,7 @@ type ManagedClusterWindowsProfile_StatusARM struct {
 	EnableCSIProxy *bool `json:"enableCSIProxy,omitempty"`
 
 	//LicenseType: The license type to use for Windows VMs. See [Azure Hybrid User
-	//Benefits](https://azure.microsoft.com/pricing/hybrid-benefit/faq/) for more
-	//details.
+	//Benefits](https://azure.microsoft.com/pricing/hybrid-benefit/faq/) for more details.
 	LicenseType *ManagedClusterWindowsProfileStatusLicenseType `json:"licenseType,omitempty"`
 }
 
@@ -592,8 +555,7 @@ type PrivateLinkResource_StatusARM struct {
 	//Name: The name of the private link resource.
 	Name *string `json:"name,omitempty"`
 
-	//PrivateLinkServiceID: The private link service ID of the resource, this field is
-	//exposed only to NRP internally.
+	//PrivateLinkServiceID: The private link service ID of the resource, this field is exposed only to NRP internally.
 	PrivateLinkServiceID *string `json:"privateLinkServiceID,omitempty"`
 
 	//RequiredMembers: The RequiredMembers of the resource
@@ -604,30 +566,26 @@ type PrivateLinkResource_StatusARM struct {
 }
 
 type ContainerServiceSshConfiguration_StatusARM struct {
-	//PublicKeys: The list of SSH public keys used to authenticate with Linux-based
-	//VMs. A maximum of 1 key may be specified.
+	//PublicKeys: The list of SSH public keys used to authenticate with Linux-based VMs. A maximum of 1 key may be specified.
 	PublicKeys []ContainerServiceSshPublicKey_StatusARM `json:"publicKeys"`
 }
 
 type ManagedClusterLoadBalancerProfile_StatusARM struct {
-	//AllocatedOutboundPorts: The desired number of allocated SNAT ports per VM.
-	//Allowed values are in the range of 0 to 64000 (inclusive). The default value is
-	//0 which results in Azure dynamically allocating ports.
+	//AllocatedOutboundPorts: The desired number of allocated SNAT ports per VM. Allowed values are in the range of 0 to 64000
+	//(inclusive). The default value is 0 which results in Azure dynamically allocating ports.
 	AllocatedOutboundPorts *int `json:"allocatedOutboundPorts,omitempty"`
 
-	//EffectiveOutboundIPs: The effective outbound IP resources of the cluster load
-	//balancer.
+	//EffectiveOutboundIPs: The effective outbound IP resources of the cluster load balancer.
 	EffectiveOutboundIPs []ResourceReference_StatusARM `json:"effectiveOutboundIPs,omitempty"`
 
-	//IdleTimeoutInMinutes: Desired outbound flow idle timeout in minutes. Allowed
-	//values are in the range of 4 to 120 (inclusive). The default value is 30 minutes.
+	//IdleTimeoutInMinutes: Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120
+	//(inclusive). The default value is 30 minutes.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	//ManagedOutboundIPs: Desired managed outbound IPs for the cluster load balancer.
 	ManagedOutboundIPs *ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPsARM `json:"managedOutboundIPs,omitempty"`
 
-	//OutboundIPPrefixes: Desired outbound IP Prefix resources for the cluster load
-	//balancer.
+	//OutboundIPPrefixes: Desired outbound IP Prefix resources for the cluster load balancer.
 	OutboundIPPrefixes *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixesARM `json:"outboundIPPrefixes,omitempty"`
 
 	//OutboundIPs: Desired outbound IP resources for the cluster load balancer.
@@ -646,8 +604,7 @@ type ManagedClusterPodIdentityException_StatusARM struct {
 }
 
 type ManagedClusterPodIdentity_StatusARM struct {
-	//BindingSelector: The binding selector to use for the AzureIdentityBinding
-	//resource.
+	//BindingSelector: The binding selector to use for the AzureIdentityBinding resource.
 	BindingSelector *string `json:"bindingSelector,omitempty"`
 
 	//Identity: The user assigned identity details.
@@ -665,15 +622,14 @@ type ManagedClusterPodIdentity_StatusARM struct {
 }
 
 type ContainerServiceSshPublicKey_StatusARM struct {
-	//KeyData: Certificate public key used to authenticate with VMs through SSH. The
-	//certificate must be in PEM format with or without headers.
+	//KeyData: Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or
+	//without headers.
 	KeyData string `json:"keyData"`
 }
 
 type ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPsARM struct {
-	//Count: The desired number of outbound IPs created/managed by Azure for the
-	//cluster load balancer. Allowed values must be in the range of 1 to 100
-	//(inclusive). The default value is 1.
+	//Count: The desired number of outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be
+	//in the range of 1 to 100 (inclusive). The default value is 1.
 	Count *int `json:"count,omitempty"`
 }
 
@@ -714,32 +670,26 @@ type ManagedClusterPodIdentityProvisioningError_StatusARM struct {
 }
 
 type ManagedClusterPodIdentityProvisioningErrorBody_StatusARM struct {
-	//Code: An identifier for the error. Codes are invariant and are intended to be
-	//consumed programmatically.
+	//Code: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
 	Code *string `json:"code,omitempty"`
 
 	//Details: A list of additional details about the error.
 	Details []ManagedClusterPodIdentityProvisioningErrorBody_Status_UnrolledARM `json:"details,omitempty"`
 
-	//Message: A message describing the error, intended to be suitable for display in
-	//a user interface.
+	//Message: A message describing the error, intended to be suitable for display in a user interface.
 	Message *string `json:"message,omitempty"`
 
-	//Target: The target of the particular error. For example, the name of the
-	//property in error.
+	//Target: The target of the particular error. For example, the name of the property in error.
 	Target *string `json:"target,omitempty"`
 }
 
 type ManagedClusterPodIdentityProvisioningErrorBody_Status_UnrolledARM struct {
-	//Code: An identifier for the error. Codes are invariant and are intended to be
-	//consumed programmatically.
+	//Code: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
 	Code *string `json:"code,omitempty"`
 
-	//Message: A message describing the error, intended to be suitable for display in
-	//a user interface.
+	//Message: A message describing the error, intended to be suitable for display in a user interface.
 	Message *string `json:"message,omitempty"`
 
-	//Target: The target of the particular error. For example, the name of the
-	//property in error.
+	//Target: The target of the particular error. For example, the name of the property in error.
 	Target *string `json:"target,omitempty"`
 }

@@ -313,19 +313,18 @@ type FlexibleServersSpecAPIVersion string
 const FlexibleServersSpecAPIVersion20210501 = FlexibleServersSpecAPIVersion("2021-05-01")
 
 type FlexibleServers_Spec struct {
-	//AdministratorLogin: The administrator's login name of a server. Can only be
-	//specified when the server is being created (and is required for creation).
+	//AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
+	//(and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
 
-	//AdministratorLoginPassword: The password of the administrator login (required
-	//for server creation).
+	//AdministratorLoginPassword: The password of the administrator login (required for server creation).
 	AdministratorLoginPassword *genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`
 
 	//AvailabilityZone: availability Zone information of the server.
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	//Backup: Storage Profile properties of a server
@@ -352,8 +351,7 @@ type FlexibleServers_Spec struct {
 	//ReplicationRole: The replication role.
 	ReplicationRole *ServerPropertiesReplicationRole `json:"replicationRole,omitempty"`
 
-	//RestorePointInTime: Restore point creation time (ISO8601 format), specifying the
-	//time to restore from.
+	//RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.
 	RestorePointInTime *string `json:"restorePointInTime,omitempty"`
 
 	//Sku: Billing information related properties of a server.
@@ -994,8 +992,8 @@ func (servers *FlexibleServers_Spec) OriginalVersion() string {
 func (servers *FlexibleServers_Spec) SetAzureName(azureName string) { servers.AzureName = azureName }
 
 type Server_Status struct {
-	//AdministratorLogin: The administrator's login name of a server. Can only be
-	//specified when the server is being created (and is required for creation).
+	//AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
+	//(and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
 
 	//AvailabilityZone: availability Zone information of the server.
@@ -1038,8 +1036,7 @@ type Server_Status struct {
 	//ReplicationRole: The replication role.
 	ReplicationRole *ReplicationRole_Status `json:"replicationRole,omitempty"`
 
-	//RestorePointInTime: Restore point creation time (ISO8601 format), specifying the
-	//time to restore from.
+	//RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.
 	RestorePointInTime *string `json:"restorePointInTime,omitempty"`
 
 	//Sku: The SKU (pricing tier) of the server.
@@ -1060,8 +1057,7 @@ type Server_Status struct {
 	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 
 	//Version: Server version.
@@ -2337,8 +2333,7 @@ func (window *MaintenanceWindow_Status) AssignPropertiesToMaintenanceWindowStatu
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Network
 type Network struct {
-	//DelegatedSubnetResourceReference: Delegated subnet resource id used to setup
-	//vnet for a server.
+	//DelegatedSubnetResourceReference: Delegated subnet resource id used to setup vnet for a server.
 	DelegatedSubnetResourceReference *genruntime.ResourceReference `armReference:"DelegatedSubnetResourceId" json:"delegatedSubnetResourceReference,omitempty"`
 
 	//PrivateDnsZoneResourceReference: Private DNS zone resource id.
@@ -2452,15 +2447,14 @@ func (network *Network) AssignPropertiesToNetwork(destination *v1alpha1api202105
 }
 
 type Network_Status struct {
-	//DelegatedSubnetResourceId: Delegated subnet resource id used to setup vnet for a
-	//server.
+	//DelegatedSubnetResourceId: Delegated subnet resource id used to setup vnet for a server.
 	DelegatedSubnetResourceId *string `json:"delegatedSubnetResourceId,omitempty"`
 
 	//PrivateDnsZoneResourceId: Private DNS zone resource id.
 	PrivateDnsZoneResourceId *string `json:"privateDnsZoneResourceId,omitempty"`
 
-	//PublicNetworkAccess: Whether or not public network access is allowed for this
-	//server. Value is 'Disabled' when server has VNet integration.
+	//PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is 'Disabled' when server
+	//has VNet integration.
 	PublicNetworkAccess *EnableStatusEnum_Status `json:"publicNetworkAccess,omitempty"`
 }
 

@@ -179,8 +179,8 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Conv
 
 //Storage version of v1alpha1api20201101.PublicIPAddresses_Spec
 type PublicIPAddresses_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName            string                      `json:"azureName"`
 	DdosSettings         *DdosSettings               `json:"ddosSettings,omitempty"`
 	DnsSettings          *PublicIPAddressDnsSettings `json:"dnsSettings,omitempty"`

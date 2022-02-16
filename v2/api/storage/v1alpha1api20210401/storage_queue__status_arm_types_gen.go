@@ -14,15 +14,13 @@ type StorageQueue_StatusARM struct {
 	//Properties: Queue resource properties.
 	Properties *QueueProperties_StatusARM `json:"properties,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
 type QueueProperties_StatusARM struct {
-	//ApproximateMessageCount: Integer indicating an approximate number of messages in
-	//the queue. This number is not lower than the actual number of messages in the
-	//queue, but could be higher.
+	//ApproximateMessageCount: Integer indicating an approximate number of messages in the queue. This number is not lower
+	//than the actual number of messages in the queue, but could be higher.
 	ApproximateMessageCount *int `json:"approximateMessageCount,omitempty"`
 
 	//Metadata: A name-value pair that represents queue metadata.

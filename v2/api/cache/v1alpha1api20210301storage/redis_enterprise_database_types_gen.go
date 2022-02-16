@@ -168,8 +168,8 @@ func (database *Database_Status) ConvertStatusTo(destination genruntime.Converti
 
 //Storage version of v1alpha1api20210301.RedisEnterpriseDatabases_Spec
 type RedisEnterpriseDatabases_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName        string   `json:"azureName"`
 	ClientProtocol   *string  `json:"clientProtocol,omitempty"`
 	ClusteringPolicy *string  `json:"clusteringPolicy,omitempty"`

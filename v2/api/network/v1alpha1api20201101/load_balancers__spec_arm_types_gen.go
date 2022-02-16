@@ -64,22 +64,17 @@ type LoadBalancers_Spec_PropertiesARM struct {
 	//BackendAddressPools: Collection of backend address pools used by a load balancer.
 	BackendAddressPools []LoadBalancers_Spec_Properties_BackendAddressPoolsARM `json:"backendAddressPools,omitempty"`
 
-	//FrontendIPConfigurations: Object representing the frontend IPs to be used for
-	//the load balancer.
+	//FrontendIPConfigurations: Object representing the frontend IPs to be used for the load balancer.
 	FrontendIPConfigurations []LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM `json:"frontendIPConfigurations,omitempty"`
 
-	//InboundNatPools: Defines an external port range for inbound NAT to a single
-	//backend port on NICs associated with a load balancer. Inbound NAT rules are
-	//created automatically for each NIC associated with the Load Balancer using an
-	//external port from this range. Defining an Inbound NAT pool on your Load
-	//Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT
-	//pools are referenced from virtual machine scale sets. NICs that are associated
-	//with individual virtual machines cannot reference an inbound NAT pool. They have
-	//to reference individual inbound NAT rules.
+	//InboundNatPools: Defines an external port range for inbound NAT to a single backend port on NICs associated with a load
+	//balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external
+	//port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat
+	//rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual
+	//virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.
 	InboundNatPools []LoadBalancers_Spec_Properties_InboundNatPoolsARM `json:"inboundNatPools,omitempty"`
 
-	//LoadBalancingRules: Object collection representing the load balancing rules Gets
-	//the provisioning.
+	//LoadBalancingRules: Object collection representing the load balancing rules Gets the provisioning.
 	LoadBalancingRules []LoadBalancers_Spec_Properties_LoadBalancingRulesARM `json:"loadBalancingRules,omitempty"`
 
 	//OutboundRules: The outbound rules.
@@ -111,8 +106,8 @@ const (
 )
 
 type LoadBalancers_Spec_Properties_BackendAddressPoolsARM struct {
-	//Name: The name of the resource that is unique within the set of backend address
-	//pools used by the load balancer. This name can be used to access the resource.
+	//Name: The name of the resource that is unique within the set of backend address pools used by the load balancer. This
+	//name can be used to access the resource.
 	Name string `json:"name"`
 
 	//Properties: Properties of load balancer backend address pool.
@@ -120,22 +115,20 @@ type LoadBalancers_Spec_Properties_BackendAddressPoolsARM struct {
 }
 
 type LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM struct {
-	//Name: The name of the resource that is unique within the set of frontend IP
-	//configurations used by the load balancer. This name can be used to access the
-	//resource.
+	//Name: The name of the resource that is unique within the set of frontend IP configurations used by the load balancer.
+	//This name can be used to access the resource.
 	Name string `json:"name"`
 
 	//Properties: Properties of the load balancer probe.
 	Properties *FrontendIPConfigurationPropertiesFormatARM `json:"properties,omitempty"`
 
-	//Zones: A list of availability zones denoting the IP allocated for the resource
-	//needs to come from.
+	//Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.
 	Zones []string `json:"zones,omitempty"`
 }
 
 type LoadBalancers_Spec_Properties_InboundNatPoolsARM struct {
-	//Name: The name of the resource that is unique within the set of inbound NAT
-	//pools used by the load balancer. This name can be used to access the resource.
+	//Name: The name of the resource that is unique within the set of inbound NAT pools used by the load balancer. This name
+	//can be used to access the resource.
 	Name string `json:"name"`
 
 	//Properties: Properties of load balancer inbound nat pool.
@@ -143,8 +136,8 @@ type LoadBalancers_Spec_Properties_InboundNatPoolsARM struct {
 }
 
 type LoadBalancers_Spec_Properties_LoadBalancingRulesARM struct {
-	//Name: The name of the resource that is unique within the set of load balancing
-	//rules used by the load balancer. This name can be used to access the resource.
+	//Name: The name of the resource that is unique within the set of load balancing rules used by the load balancer. This
+	//name can be used to access the resource.
 	Name string `json:"name"`
 
 	//Properties: Properties of load balancer load balancing rule.
@@ -152,8 +145,8 @@ type LoadBalancers_Spec_Properties_LoadBalancingRulesARM struct {
 }
 
 type LoadBalancers_Spec_Properties_OutboundRulesARM struct {
-	//Name: The name of the resource that is unique within the set of outbound rules
-	//used by the load balancer. This name can be used to access the resource.
+	//Name: The name of the resource that is unique within the set of outbound rules used by the load balancer. This name can
+	//be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
 	//Properties: Properties of load balancer outbound rule.
@@ -161,8 +154,8 @@ type LoadBalancers_Spec_Properties_OutboundRulesARM struct {
 }
 
 type LoadBalancers_Spec_Properties_ProbesARM struct {
-	//Name: The name of the resource that is unique within the set of probes used by
-	//the load balancer. This name can be used to access the resource.
+	//Name: The name of the resource that is unique within the set of probes used by the load balancer. This name can be used
+	//to access the resource.
 	Name string `json:"name"`
 
 	//Properties: Properties of load balancer probe.
@@ -174,8 +167,7 @@ type FrontendIPConfigurationPropertiesFormatARM struct {
 	//PrivateIPAddress: The private IP address of the IP configuration.
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
-	//PrivateIPAddressVersion: Whether the specific ipconfiguration is IPv4 or IPv6.
-	//Default is taken as IPv4.
+	//PrivateIPAddressVersion: Whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.
 	PrivateIPAddressVersion *FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
 
 	//PrivateIPAllocationMethod: The Private IP allocation method.
@@ -193,37 +185,31 @@ type FrontendIPConfigurationPropertiesFormatARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/InboundNatPoolPropertiesFormat
 type InboundNatPoolPropertiesFormatARM struct {
-	//BackendPort: The port used for internal connections on the endpoint. Acceptable
-	//values are between 1 and 65535.
+	//BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.
 	BackendPort int `json:"backendPort"`
 
-	//EnableFloatingIP: Configures a virtual machine's endpoint for the floating IP
-	//capability required to configure a SQL AlwaysOn Availability Group. This setting
-	//is required when using the SQL AlwaysOn Availability Groups in SQL server. This
-	//setting can't be changed after you create the endpoint.
+	//EnableFloatingIP: Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL
+	//AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
+	//This setting can't be changed after you create the endpoint.
 	EnableFloatingIP *bool `json:"enableFloatingIP,omitempty"`
 
-	//EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or
-	//unexpected connection termination. This element is only used when the protocol
-	//is set to TCP.
+	//EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
+	//element is only used when the protocol is set to TCP.
 	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
 
 	//FrontendIPConfiguration: A reference to frontend IP addresses.
 	FrontendIPConfiguration SubResourceARM `json:"frontendIPConfiguration"`
 
-	//FrontendPortRangeEnd: The last port number in the range of external ports that
-	//will be used to provide Inbound Nat to NICs associated with a load balancer.
-	//Acceptable values range between 1 and 65535.
+	//FrontendPortRangeEnd: The last port number in the range of external ports that will be used to provide Inbound Nat to
+	//NICs associated with a load balancer. Acceptable values range between 1 and 65535.
 	FrontendPortRangeEnd int `json:"frontendPortRangeEnd"`
 
-	//FrontendPortRangeStart: The first port number in the range of external ports
-	//that will be used to provide Inbound Nat to NICs associated with a load
-	//balancer. Acceptable values range between 1 and 65534.
+	//FrontendPortRangeStart: The first port number in the range of external ports that will be used to provide Inbound Nat to
+	//NICs associated with a load balancer. Acceptable values range between 1 and 65534.
 	FrontendPortRangeStart int `json:"frontendPortRangeStart"`
 
-	//IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be
-	//set between 4 and 30 minutes. The default value is 4 minutes. This element is
-	//only used when the protocol is set to TCP.
+	//IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
+	//default value is 4 minutes. This element is only used when the protocol is set to TCP.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	//Protocol: The reference to the transport protocol used by the inbound NAT pool.
@@ -240,40 +226,36 @@ type LoadBalancers_Spec_Properties_BackendAddressPools_PropertiesARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/LoadBalancingRulePropertiesFormat
 type LoadBalancingRulePropertiesFormatARM struct {
-	//BackendAddressPool: A reference to a pool of DIPs. Inbound traffic is randomly
-	//load balanced across IPs in the backend IPs.
+	//BackendAddressPool: A reference to a pool of DIPs. Inbound traffic is randomly load balanced across IPs in the backend
+	//IPs.
 	BackendAddressPool *SubResourceARM `json:"backendAddressPool,omitempty"`
 
-	//BackendPort: The port used for internal connections on the endpoint. Acceptable
-	//values are between 0 and 65535. Note that value 0 enables "Any Port".
+	//BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note
+	//that value 0 enables "Any Port".
 	BackendPort int `json:"backendPort"`
 
-	//DisableOutboundSnat: Configures SNAT for the VMs in the backend pool to use the
-	//publicIP address specified in the frontend of the load balancing rule.
+	//DisableOutboundSnat: Configures SNAT for the VMs in the backend pool to use the publicIP address specified in the
+	//frontend of the load balancing rule.
 	DisableOutboundSnat *bool `json:"disableOutboundSnat,omitempty"`
 
-	//EnableFloatingIP: Configures a virtual machine's endpoint for the floating IP
-	//capability required to configure a SQL AlwaysOn Availability Group. This setting
-	//is required when using the SQL AlwaysOn Availability Groups in SQL server. This
-	//setting can't be changed after you create the endpoint.
+	//EnableFloatingIP: Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL
+	//AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
+	//This setting can't be changed after you create the endpoint.
 	EnableFloatingIP *bool `json:"enableFloatingIP,omitempty"`
 
-	//EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or
-	//unexpected connection termination. This element is only used when the protocol
-	//is set to TCP.
+	//EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
+	//element is only used when the protocol is set to TCP.
 	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
 
 	//FrontendIPConfiguration: A reference to frontend IP addresses.
 	FrontendIPConfiguration SubResourceARM `json:"frontendIPConfiguration"`
 
-	//FrontendPort: The port for the external endpoint. Port numbers for each rule
-	//must be unique within the Load Balancer. Acceptable values are between 0 and
-	//65534. Note that value 0 enables "Any Port".
+	//FrontendPort: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer.
+	//Acceptable values are between 0 and 65534. Note that value 0 enables "Any Port".
 	FrontendPort int `json:"frontendPort"`
 
-	//IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be
-	//set between 4 and 30 minutes. The default value is 4 minutes. This element is
-	//only used when the protocol is set to TCP.
+	//IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
+	//default value is 4 minutes. This element is only used when the protocol is set to TCP.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	//LoadDistribution: The load distribution policy for this rule.
@@ -282,8 +264,7 @@ type LoadBalancingRulePropertiesFormatARM struct {
 	//Probe: The reference to the load balancer probe used by the load balancing rule.
 	Probe *SubResourceARM `json:"probe,omitempty"`
 
-	//Protocol: The reference to the transport protocol used by the load balancing
-	//rule.
+	//Protocol: The reference to the transport protocol used by the load balancing rule.
 	Protocol LoadBalancingRulePropertiesFormatProtocol `json:"protocol"`
 }
 
@@ -292,13 +273,12 @@ type OutboundRulePropertiesFormatARM struct {
 	//AllocatedOutboundPorts: The number of outbound ports to be used for NAT.
 	AllocatedOutboundPorts *int `json:"allocatedOutboundPorts,omitempty"`
 
-	//BackendAddressPool: A reference to a pool of DIPs. Outbound traffic is randomly
-	//load balanced across IPs in the backend IPs.
+	//BackendAddressPool: A reference to a pool of DIPs. Outbound traffic is randomly load balanced across IPs in the backend
+	//IPs.
 	BackendAddressPool SubResourceARM `json:"backendAddressPool"`
 
-	//EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or
-	//unexpected connection termination. This element is only used when the protocol
-	//is set to TCP.
+	//EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
+	//element is only used when the protocol is set to TCP.
 	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
 
 	//FrontendIPConfigurations: The Frontend IP addresses of the load balancer.
@@ -313,32 +293,26 @@ type OutboundRulePropertiesFormatARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ProbePropertiesFormat
 type ProbePropertiesFormatARM struct {
-	//IntervalInSeconds: The interval, in seconds, for how frequently to probe the
-	//endpoint for health status. Typically, the interval is slightly less than half
-	//the allocated timeout period (in seconds) which allows two full probes before
-	//taking the instance out of rotation. The default value is 15, the minimum value
-	//is 5.
+	//IntervalInSeconds: The interval, in seconds, for how frequently to probe the endpoint for health status. Typically, the
+	//interval is slightly less than half the allocated timeout period (in seconds) which allows two full probes before taking
+	//the instance out of rotation. The default value is 15, the minimum value is 5.
 	IntervalInSeconds *int `json:"intervalInSeconds,omitempty"`
 
-	//NumberOfProbes: The number of probes where if no response, will result in
-	//stopping further traffic from being delivered to the endpoint. This values
-	//allows endpoints to be taken out of rotation faster or slower than the typical
-	//times used in Azure.
+	//NumberOfProbes: The number of probes where if no response, will result in stopping further traffic from being delivered
+	//to the endpoint. This values allows endpoints to be taken out of rotation faster or slower than the typical times used
+	//in Azure.
 	NumberOfProbes int `json:"numberOfProbes"`
 
-	//Port: The port for communicating the probe. Possible values range from 1 to
-	//65535, inclusive.
+	//Port: The port for communicating the probe. Possible values range from 1 to 65535, inclusive.
 	Port int `json:"port"`
 
-	//Protocol: The protocol of the end point. If 'Tcp' is specified, a received ACK
-	//is required for the probe to be successful. If 'Http' or 'Https' is specified, a
-	//200 OK response from the specifies URI is required for the probe to be
+	//Protocol: The protocol of the end point. If 'Tcp' is specified, a received ACK is required for the probe to be
+	//successful. If 'Http' or 'Https' is specified, a 200 OK response from the specifies URI is required for the probe to be
 	//successful.
 	Protocol ProbePropertiesFormatProtocol `json:"protocol"`
 
-	//RequestPath: The URI used for requesting health status from the VM. Path is
-	//required if a protocol is set to http. Otherwise, it is not allowed. There is no
-	//default value.
+	//RequestPath: The URI used for requesting health status from the VM. Path is required if a protocol is set to http.
+	//Otherwise, it is not allowed. There is no default value.
 	RequestPath *string `json:"requestPath,omitempty"`
 }
 
@@ -355,8 +329,7 @@ type LoadBalancerBackendAddressPropertiesFormatARM struct {
 	//IpAddress: IP Address belonging to the referenced virtual network.
 	IpAddress *string `json:"ipAddress,omitempty"`
 
-	//LoadBalancerFrontendIPConfiguration: Reference to the frontend ip address
-	//configuration defined in regional loadbalancer.
+	//LoadBalancerFrontendIPConfiguration: Reference to the frontend ip address configuration defined in regional loadbalancer.
 	LoadBalancerFrontendIPConfiguration *SubResourceARM `json:"loadBalancerFrontendIPConfiguration,omitempty"`
 
 	//Subnet: Reference to an existing subnet.

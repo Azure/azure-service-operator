@@ -314,8 +314,7 @@ type RedisPatchSchedule_Status struct {
 	//ScheduleEntries: List of patch schedules for a Redis cache.
 	ScheduleEntries []ScheduleEntry_Status `json:"scheduleEntries,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -747,8 +746,7 @@ type ScheduleEntry struct {
 	//DayOfWeek: Day of the week when a cache can be patched.
 	DayOfWeek ScheduleEntryDayOfWeek `json:"dayOfWeek"`
 
-	//MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can
-	//take.
+	//MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
 	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -869,8 +867,7 @@ type ScheduleEntry_Status struct {
 	//DayOfWeek: Day of the week when a cache can be patched.
 	DayOfWeek ScheduleEntryStatusDayOfWeek `json:"dayOfWeek"`
 
-	//MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can
-	//take.
+	//MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
 	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`
 
 	// +kubebuilder:validation:Required

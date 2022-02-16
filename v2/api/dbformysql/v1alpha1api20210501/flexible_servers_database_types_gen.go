@@ -327,8 +327,7 @@ type Database_Status struct {
 	//SystemData: The system metadata relating to this resource.
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -538,8 +537,8 @@ type FlexibleServersDatabasesSpecAPIVersion string
 const FlexibleServersDatabasesSpecAPIVersion20210501 = FlexibleServersDatabasesSpecAPIVersion("2021-05-01")
 
 type FlexibleServersDatabases_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	//Charset: The charset of the database.

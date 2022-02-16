@@ -20,8 +20,7 @@ type Eventhub_StatusARM struct {
 	//SystemData: The system meta data relating to this resource.
 	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or
-	//"Microsoft.EventHub/Namespaces/EventHubs"
+	//Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -32,12 +31,10 @@ type Eventhub_Status_PropertiesARM struct {
 	//CreatedAt: Exact time the Event Hub was created.
 	CreatedAt *string `json:"createdAt,omitempty"`
 
-	//MessageRetentionInDays: Number of days to retain the events for this Event Hub,
-	//value should be 1 to 7 days
+	//MessageRetentionInDays: Number of days to retain the events for this Event Hub, value should be 1 to 7 days
 	MessageRetentionInDays *int `json:"messageRetentionInDays,omitempty"`
 
-	//PartitionCount: Number of partitions created for the Event Hub, allowed values
-	//are from 1 to 32 partitions.
+	//PartitionCount: Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
 	PartitionCount *int `json:"partitionCount,omitempty"`
 
 	//PartitionIds: Current number of shards on the Event Hub.
@@ -51,24 +48,22 @@ type Eventhub_Status_PropertiesARM struct {
 }
 
 type CaptureDescription_StatusARM struct {
-	//Destination: Properties of Destination where capture will be stored. (Storage
-	//Account, Blob Names)
+	//Destination: Properties of Destination where capture will be stored. (Storage Account, Blob Names)
 	Destination *Destination_StatusARM `json:"destination,omitempty"`
 
 	//Enabled: A value that indicates whether capture description is enabled.
 	Enabled *bool `json:"enabled,omitempty"`
 
-	//Encoding: Enumerates the possible values for the encoding format of capture
-	//description. Note: 'AvroDeflate' will be deprecated in New API Version
+	//Encoding: Enumerates the possible values for the encoding format of capture description. Note: 'AvroDeflate' will be
+	//deprecated in New API Version
 	Encoding *CaptureDescriptionStatusEncoding `json:"encoding,omitempty"`
 
-	//IntervalInSeconds: The time window allows you to set the frequency with which
-	//the capture to Azure Blobs will happen, value should between 60 to 900 seconds
+	//IntervalInSeconds: The time window allows you to set the frequency with which the capture to Azure Blobs will happen,
+	//value should between 60 to 900 seconds
 	IntervalInSeconds *int `json:"intervalInSeconds,omitempty"`
 
-	//SizeLimitInBytes: The size window defines the amount of data built up in your
-	//Event Hub before an capture operation, value should be between 10485760 to
-	//524288000 bytes
+	//SizeLimitInBytes: The size window defines the amount of data built up in your Event Hub before an capture operation,
+	//value should be between 10485760 to 524288000 bytes
 	SizeLimitInBytes *int `json:"sizeLimitInBytes,omitempty"`
 
 	//SkipEmptyArchives: A value that indicates whether to Skip Empty Archives
@@ -100,16 +95,14 @@ type Destination_StatusARM struct {
 	//Name: Name for capture destination
 	Name *string `json:"name,omitempty"`
 
-	//Properties: Properties describing the storage account, blob container and
-	//archive name format for capture destination
+	//Properties: Properties describing the storage account, blob container and archive name format for capture destination
 	Properties *Destination_Status_PropertiesARM `json:"properties,omitempty"`
 }
 
 type Destination_Status_PropertiesARM struct {
 	//ArchiveNameFormat: Blob naming convention for archive, e.g.
-	//{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}.
-	//Here all the parameters (Namespace,EventHub .. etc) are mandatory irrespective
-	//of order
+	//{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters
+	//(Namespace,EventHub .. etc) are mandatory irrespective of order
 	ArchiveNameFormat *string `json:"archiveNameFormat,omitempty"`
 
 	//BlobContainer: Blob container Name
@@ -124,7 +117,6 @@ type Destination_Status_PropertiesARM struct {
 	//DataLakeSubscriptionId: Subscription Id of Azure Data Lake Store
 	DataLakeSubscriptionId *string `json:"dataLakeSubscriptionId,omitempty"`
 
-	//StorageAccountResourceId: Resource id of the storage account to be used to
-	//create the blobs
+	//StorageAccountResourceId: Resource id of the storage account to be used to create the blobs
 	StorageAccountResourceId *string `json:"storageAccountResourceId,omitempty"`
 }

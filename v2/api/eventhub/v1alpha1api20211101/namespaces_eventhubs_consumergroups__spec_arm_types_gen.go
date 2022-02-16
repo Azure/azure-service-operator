@@ -38,9 +38,8 @@ func (consumergroups NamespacesEventhubsConsumergroups_SpecARM) GetType() string
 
 //Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/ConsumerGroupProperties
 type ConsumerGroupPropertiesARM struct {
-	//UserMetadata: User Metadata is a placeholder to store user-defined string data
-	//with maximum length 1024. e.g. it can be used to store descriptive data, such as
-	//list of teams and their contact information also user-defined configuration
+	//UserMetadata: User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be
+	//used to store descriptive data, such as list of teams and their contact information also user-defined configuration
 	//settings can be stored.
 	UserMetadata *string `json:"userMetadata,omitempty"`
 }

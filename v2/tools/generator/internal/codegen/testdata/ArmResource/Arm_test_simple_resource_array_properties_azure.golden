@@ -256,8 +256,8 @@ type FakeResource_Spec struct {
 	ArrayOfEnums          []Color          `json:"arrayOfEnums,omitempty"`
 	ArrayOfMaps           []map[string]Foo `json:"arrayOfMaps,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	// +kubebuilder:validation:Required

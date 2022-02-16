@@ -6,8 +6,7 @@ package v1alpha1api20210101preview
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Namespaces_SpecARM struct {
-	//Identity: Properties to configure User Assigned Identities for Bring your Own
-	//Keys
+	//Identity: Properties to configure User Assigned Identities for Bring your Own Keys
 	Identity *IdentityARM `json:"identity,omitempty"`
 
 	//Location: The Geo-location where the resource lives
@@ -53,15 +52,13 @@ type Namespaces_Spec_PropertiesARM struct {
 	//Encryption: Properties to configure Encryption
 	Encryption *EncryptionARM `json:"encryption,omitempty"`
 
-	//ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in
-	//regions supported availability zones.
+	//ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/SBSku
 type SBSkuARM struct {
-	//Capacity: The specified messaging units for the tier. For Premium tier, capacity
-	//are 1,2 and 4.
+	//Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
 	Capacity *int `json:"capacity,omitempty"`
 
 	//Name: Name of this SKU.
@@ -79,8 +76,7 @@ type EncryptionARM struct {
 	//KeyVaultProperties: Properties of KeyVault
 	KeyVaultProperties []KeyVaultPropertiesARM `json:"keyVaultProperties,omitempty"`
 
-	//RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double
-	//Encryption)
+	//RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
 	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
 }
 

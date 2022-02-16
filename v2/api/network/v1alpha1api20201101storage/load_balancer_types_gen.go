@@ -174,8 +174,8 @@ func (balancer *LoadBalancer_Status) ConvertStatusTo(destination genruntime.Conv
 
 //Storage version of v1alpha1api20201101.LoadBalancers_Spec
 type LoadBalancers_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName                string                                                   `json:"azureName"`
 	BackendAddressPools      []LoadBalancers_Spec_Properties_BackendAddressPools      `json:"backendAddressPools,omitempty"`
 	ExtendedLocation         *ExtendedLocation                                        `json:"extendedLocation,omitempty"`

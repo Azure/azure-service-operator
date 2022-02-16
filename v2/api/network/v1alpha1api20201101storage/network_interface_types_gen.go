@@ -181,8 +181,8 @@ func (embedded *NetworkInterface_Status_NetworkInterface_SubResourceEmbedded) Co
 
 //Storage version of v1alpha1api20201101.NetworkInterfaces_Spec
 type NetworkInterfaces_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName                   string                                               `json:"azureName"`
 	DnsSettings                 *NetworkInterfaceDnsSettings                         `json:"dnsSettings,omitempty"`
 	EnableAcceleratedNetworking *bool                                                `json:"enableAcceleratedNetworking,omitempty"`

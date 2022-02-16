@@ -17,14 +17,12 @@ type BlobContainer_StatusARM struct {
 	//Properties: Properties of the blob container.
 	Properties *ContainerProperties_StatusARM `json:"properties,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
 type ContainerProperties_StatusARM struct {
-	//DefaultEncryptionScope: Default the container to use specified encryption scope
-	//for all writes.
+	//DefaultEncryptionScope: Default the container to use specified encryption scope for all writes.
 	DefaultEncryptionScope *string `json:"defaultEncryptionScope,omitempty"`
 
 	//Deleted: Indicates whether the blob container was deleted.
@@ -33,35 +31,31 @@ type ContainerProperties_StatusARM struct {
 	//DeletedTime: Blob container deletion time.
 	DeletedTime *string `json:"deletedTime,omitempty"`
 
-	//DenyEncryptionScopeOverride: Block override of encryption scope from the
-	//container default.
+	//DenyEncryptionScopeOverride: Block override of encryption scope from the container default.
 	DenyEncryptionScopeOverride *bool `json:"denyEncryptionScopeOverride,omitempty"`
 
-	//HasImmutabilityPolicy: The hasImmutabilityPolicy public property is set to true
-	//by SRP if ImmutabilityPolicy has been created for this container. The
-	//hasImmutabilityPolicy public property is set to false by SRP if
-	//ImmutabilityPolicy has not been created for this container.
+	//HasImmutabilityPolicy: The hasImmutabilityPolicy public property is set to true by SRP if ImmutabilityPolicy has been
+	//created for this container. The hasImmutabilityPolicy public property is set to false by SRP if ImmutabilityPolicy has
+	//not been created for this container.
 	HasImmutabilityPolicy *bool `json:"hasImmutabilityPolicy,omitempty"`
 
-	//HasLegalHold: The hasLegalHold public property is set to true by SRP if there
-	//are at least one existing tag. The hasLegalHold public property is set to false
-	//by SRP if all existing legal hold tags are cleared out. There can be a maximum
-	//of 1000 blob containers with hasLegalHold=true for a given account.
+	//HasLegalHold: The hasLegalHold public property is set to true by SRP if there are at least one existing tag. The
+	//hasLegalHold public property is set to false by SRP if all existing legal hold tags are cleared out. There can be a
+	//maximum of 1000 blob containers with hasLegalHold=true for a given account.
 	HasLegalHold *bool `json:"hasLegalHold,omitempty"`
 
 	//ImmutabilityPolicy: The ImmutabilityPolicy property of the container.
 	ImmutabilityPolicy *ImmutabilityPolicyProperties_StatusARM `json:"immutabilityPolicy,omitempty"`
 
-	//ImmutableStorageWithVersioning: The object level immutability property of the
-	//container. The property is immutable and can only be set to true at the
-	//container creation time. Existing containers must undergo a migration process.
+	//ImmutableStorageWithVersioning: The object level immutability property of the container. The property is immutable and
+	//can only be set to true at the container creation time. Existing containers must undergo a migration process.
 	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_StatusARM `json:"immutableStorageWithVersioning,omitempty"`
 
 	//LastModifiedTime: Returns the date and time the container was last modified.
 	LastModifiedTime *string `json:"lastModifiedTime,omitempty"`
 
-	//LeaseDuration: Specifies whether the lease on a container is of infinite or
-	//fixed duration, only when the container is leased.
+	//LeaseDuration: Specifies whether the lease on a container is of infinite or fixed duration, only when the container is
+	//leased.
 	LeaseDuration *ContainerPropertiesStatusLeaseDuration `json:"leaseDuration,omitempty"`
 
 	//LeaseState: Lease state of the container.
@@ -76,8 +70,7 @@ type ContainerProperties_StatusARM struct {
 	//Metadata: A name-value pair to associate with the container as metadata.
 	Metadata map[string]string `json:"metadata,omitempty"`
 
-	//PublicAccess: Specifies whether data in the container may be accessed publicly
-	//and the level of access.
+	//PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.
 	PublicAccess *ContainerPropertiesStatusPublicAccess `json:"publicAccess,omitempty"`
 
 	//RemainingRetentionDays: Remaining retention days for soft deleted blob container.
@@ -131,12 +124,10 @@ type ImmutabilityPolicyProperties_StatusARM struct {
 }
 
 type ImmutableStorageWithVersioning_StatusARM struct {
-	//Enabled: This is an immutable property, when set to true it enables object level
-	//immutability at the container level.
+	//Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.
 	Enabled *bool `json:"enabled,omitempty"`
 
-	//MigrationState: This property denotes the container level immutability to object
-	//level immutability migration state.
+	//MigrationState: This property denotes the container level immutability to object level immutability migration state.
 	MigrationState *ImmutableStorageWithVersioningStatusMigrationState `json:"migrationState,omitempty"`
 
 	//TimeStamp: Returns the date and time the object level immutability was enabled.
@@ -144,10 +135,9 @@ type ImmutableStorageWithVersioning_StatusARM struct {
 }
 
 type LegalHoldProperties_StatusARM struct {
-	//HasLegalHold: The hasLegalHold public property is set to true by SRP if there
-	//are at least one existing tag. The hasLegalHold public property is set to false
-	//by SRP if all existing legal hold tags are cleared out. There can be a maximum
-	//of 1000 blob containers with hasLegalHold=true for a given account.
+	//HasLegalHold: The hasLegalHold public property is set to true by SRP if there are at least one existing tag. The
+	//hasLegalHold public property is set to false by SRP if all existing legal hold tags are cleared out. There can be a
+	//maximum of 1000 blob containers with hasLegalHold=true for a given account.
 	HasLegalHold *bool `json:"hasLegalHold,omitempty"`
 
 	//Tags: The list of LegalHold tags of a blob container.
@@ -155,19 +145,17 @@ type LegalHoldProperties_StatusARM struct {
 }
 
 type ImmutabilityPolicyProperty_StatusARM struct {
-	//AllowProtectedAppendWrites: This property can only be changed for unlocked
-	//time-based retention policies. When enabled, new blocks can be written to an
-	//append blob while maintaining immutability protection and compliance. Only new
-	//blocks can be added and any existing blocks cannot be modified or deleted. This
-	//property cannot be changed with ExtendImmutabilityPolicy API
+	//AllowProtectedAppendWrites: This property can only be changed for unlocked time-based retention policies. When enabled,
+	//new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks
+	//can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with
+	//ExtendImmutabilityPolicy API
 	AllowProtectedAppendWrites *bool `json:"allowProtectedAppendWrites,omitempty"`
 
-	//ImmutabilityPeriodSinceCreationInDays: The immutability period for the blobs in
-	//the container since the policy creation, in days.
+	//ImmutabilityPeriodSinceCreationInDays: The immutability period for the blobs in the container since the policy creation,
+	//in days.
 	ImmutabilityPeriodSinceCreationInDays *int `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
 
-	//State: The ImmutabilityPolicy state of a blob container, possible values
-	//include: Locked and Unlocked.
+	//State: The ImmutabilityPolicy state of a blob container, possible values include: Locked and Unlocked.
 	State *ImmutabilityPolicyPropertyStatusState `json:"state,omitempty"`
 }
 
@@ -185,8 +173,7 @@ type TagProperty_StatusARM struct {
 	//Tag: The tag value.
 	Tag *string `json:"tag,omitempty"`
 
-	//TenantId: Returns the Tenant ID that issued the token for the user who added the
-	//tag.
+	//TenantId: Returns the Tenant ID that issued the token for the user who added the tag.
 	TenantId *string `json:"tenantId,omitempty"`
 
 	//Timestamp: Returns the date and time the tag was added.
@@ -197,27 +184,23 @@ type TagProperty_StatusARM struct {
 }
 
 type UpdateHistoryProperty_StatusARM struct {
-	//ImmutabilityPeriodSinceCreationInDays: The immutability period for the blobs in
-	//the container since the policy creation, in days.
+	//ImmutabilityPeriodSinceCreationInDays: The immutability period for the blobs in the container since the policy creation,
+	//in days.
 	ImmutabilityPeriodSinceCreationInDays *int `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
 
-	//ObjectIdentifier: Returns the Object ID of the user who updated the
-	//ImmutabilityPolicy.
+	//ObjectIdentifier: Returns the Object ID of the user who updated the ImmutabilityPolicy.
 	ObjectIdentifier *string `json:"objectIdentifier,omitempty"`
 
-	//TenantId: Returns the Tenant ID that issued the token for the user who updated
-	//the ImmutabilityPolicy.
+	//TenantId: Returns the Tenant ID that issued the token for the user who updated the ImmutabilityPolicy.
 	TenantId *string `json:"tenantId,omitempty"`
 
 	//Timestamp: Returns the date and time the ImmutabilityPolicy was updated.
 	Timestamp *string `json:"timestamp,omitempty"`
 
-	//Update: The ImmutabilityPolicy update type of a blob container, possible values
-	//include: put, lock and extend.
+	//Update: The ImmutabilityPolicy update type of a blob container, possible values include: put, lock and extend.
 	Update *UpdateHistoryPropertyStatusUpdate `json:"update,omitempty"`
 
-	//Upn: Returns the User Principal Name of the user who updated the
-	//ImmutabilityPolicy.
+	//Upn: Returns the User Principal Name of the user who updated the ImmutabilityPolicy.
 	Upn *string `json:"upn,omitempty"`
 }
 
