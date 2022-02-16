@@ -80,7 +80,6 @@ func (r *kubeSecretResolver) ResolveSecretReference(ctx context.Context, ref Nam
 
 	valueBytes, ok := secret.Data[ref.Key]
 	if !ok {
-		// TODO: Do we want a specific error type for this?
 		return "", errors.Errorf("Secret %q does not contain key %q", refNamespacedName.String(), ref.Key)
 	}
 
