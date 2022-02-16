@@ -11,13 +11,7 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-)
-
-type CloudErrorClassification string
-
-const (
-	CloudErrorRetryable = CloudErrorClassification("retryable")
-	CloudErrorFatal     = CloudErrorClassification("fatal")
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
 type CloudErrorDetails struct {
@@ -43,7 +37,7 @@ func ClassifyCloudError(err *genericarmclient.CloudError) CloudErrorDetails {
 	if err == nil || err.InnerError == nil {
 		// Default to retrying if we're asked to classify a nil error
 		return CloudErrorDetails{
-			Classification: CloudErrorRetryable,
+			Classification: core.ErrorRetryable,
 			Code:           UnknownErrorCode,
 			Message:        UnknownErrorMessage,
 		}
@@ -57,7 +51,7 @@ func ClassifyCloudError(err *genericarmclient.CloudError) CloudErrorDetails {
 	}
 }
 
-func classifyInnerCloudError(err *genericarmclient.ErrorResponse) CloudErrorClassification {
+func classifyInnerCloudError(err *genericarmclient.ErrorResponse) core.ErrorClassification {
 	// See https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/common-deployment-errors
 	// for a breakdown of common deployment error codes. Note that the error codes documented there are
 	// the inner error codes we're parsing here.
@@ -65,7 +59,7 @@ func classifyInnerCloudError(err *genericarmclient.ErrorResponse) CloudErrorClas
 	code := to.String(err.Code)
 	if code == "" {
 		// If there's no code, assume we can retry on it
-		return CloudErrorRetryable
+		return core.ErrorRetryable
 	}
 
 	switch code {
@@ -87,18 +81,18 @@ func classifyInnerCloudError(err *genericarmclient.ErrorResponse) CloudErrorClas
 		"ResourceNotFound",
 		"ResourceQuotaExceeded",
 		"SubscriptionNotRegistered":
-		return CloudErrorRetryable
+		return core.ErrorRetryable
 	case "Conflict":
 		// Conflict should really be fatal, but there are some
 		// services that include a message that we should try again
 		// later. In that case classify it as retryable.
 		if err.Message == nil {
-			return CloudErrorFatal
+			return core.ErrorFatal
 		}
 		if strings.Contains(strings.ToLower(*err.Message), "try again later") {
-			return CloudErrorRetryable
+			return core.ErrorRetryable
 		}
-		return CloudErrorFatal
+		return core.ErrorFatal
 	case "BadRequestFormat",
 		// TODO: See https://github.com/Azure/azure-service-operator/issues/1997 for why this is commented out
 		// "BadRequest",
@@ -122,10 +116,10 @@ func classifyInnerCloudError(err *genericarmclient.ErrorResponse) CloudErrorClas
 		"ReservedResourceName",
 		"SkuNotAvailable",
 		"SubscriptionNotFound":
-		return CloudErrorFatal
+		return core.ErrorFatal
 	default:
 		// TODO: We could technically avoid listing the above Retryable errors since that's the default anyway
 		// If we don't know what the error is, default to retrying on it
-		return CloudErrorRetryable
+		return core.ErrorRetryable
 	}
 }

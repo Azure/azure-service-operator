@@ -256,9 +256,9 @@ func (r *AzureDeploymentReconciler) makeReadyConditionFromError(cloudError *gene
 	var severity conditions.ConditionSeverity
 	errorDetails := ClassifyCloudError(cloudError)
 	switch errorDetails.Classification {
-	case CloudErrorRetryable:
+	case core.ErrorRetryable:
 		severity = conditions.ConditionSeverityWarning
-	case CloudErrorFatal:
+	case core.ErrorFatal:
 		severity = conditions.ConditionSeverityError
 		// This case purposefully does nothing as the fatal provisioning state was already set above
 	default:
