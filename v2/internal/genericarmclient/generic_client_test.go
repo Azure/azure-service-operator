@@ -20,6 +20,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
 func Test_NewResourceGroup(t *testing.T) {
@@ -95,7 +96,7 @@ func Test_NewResourceGroup_Error(t *testing.T) {
 	g.Expect(err).To(HaveOccurred())
 
 	// Some basic assertions about the shape of the error
-	var cloudError *genericarmclient.CloudError
+	var cloudError *core.CloudError
 	var httpErr *azcore.ResponseError
 	g.Expect(errors.As(err, &cloudError)).To(BeTrue())
 	g.Expect(errors.As(err, &httpErr)).To(BeTrue())

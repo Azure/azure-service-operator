@@ -33,7 +33,7 @@ func stringOrDefault(str string, def string) string {
 	return str
 }
 
-func ClassifyCloudError(err *genericarmclient.CloudError) CloudErrorDetails {
+func ClassifyCloudError(err *core.CloudError) (genruntime.CloudErrorDetails, error) {
 	if err == nil || err.InnerError == nil {
 		// Default to retrying if we're asked to classify a nil error
 		return CloudErrorDetails{

@@ -20,6 +20,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 
 	"github.com/Azure/azure-service-operator/v2/internal/version"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
 // NOTE: All of these methods (and types) were adapted from
@@ -158,7 +159,7 @@ func (client *GenericClient) createOrUpdateByIDCreateRequest(
 
 // createOrUpdateByIDHandleError handles the CreateOrUpdateByID error response.
 func (client *GenericClient) createOrUpdateByIDHandleError(resp *http.Response) error {
-	errType := CloudError{error: runtime.NewResponseError(resp)}
+	errType := core.CloudError{error: runtime.NewResponseError(resp)}
 	if err := runtime.UnmarshalAsJSON(resp, &errType); err != nil {
 		return runtime.NewResponseError(resp)
 	}

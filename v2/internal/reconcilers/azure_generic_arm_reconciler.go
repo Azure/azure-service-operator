@@ -24,6 +24,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
@@ -491,7 +492,7 @@ func (r *AzureDeploymentReconciler) BeginCreateOrUpdateResource(ctx context.Cont
 }
 
 func (r *AzureDeploymentReconciler) handlePollerFailed(ctx context.Context, err error) (ctrl.Result, error) {
-	var cloudError *genericarmclient.CloudError
+	var cloudError *core.CloudError
 	isCloudErr := errors.As(err, &cloudError)
 
 	r.log.V(Status).Info(
