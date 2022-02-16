@@ -24,7 +24,7 @@ type State struct {
  */
 
 // NewState returns a new empty state
-// typeses is a (possibly empty) sequence of types to combine for the initial state
+// definitions is a (possibly empty) sequence of types to combine for the initial state
 func NewState(definitions ...astmodel.TypeDefinitionSet) *State {
 	defs := make(astmodel.TypeDefinitionSet)
 	for _, ts := range definitions {

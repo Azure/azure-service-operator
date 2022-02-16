@@ -30,7 +30,7 @@ type Type interface {
 	AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl
 
 	// AsZero renders an expression for the "zero" value of the type
-	// types allows TypeName to resolve to the underlying type
+	// definitions allows TypeName to resolve to the underlying type
 	// ctx allows current imports to be correctly identified where needed
 	AsZero(definitions TypeDefinitionSet, ctx *CodeGenerationContext) dst.Expr
 
@@ -43,7 +43,7 @@ type Type interface {
 
 	// WriteDebugDescription adds a description of the current type to the passed builder
 	// builder receives the full description, including nested types
-	// types is a dictionary for resolving named types
+	// definitions is a dictionary for resolving named types
 	WriteDebugDescription(builder *strings.Builder, definitions TypeDefinitionSet)
 }
 

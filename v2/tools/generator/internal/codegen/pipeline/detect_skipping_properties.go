@@ -79,7 +79,7 @@ type skippingPropertyDetector struct {
 
 // newSkippingPropertyDetector creates a new graph for tracking chains of properties as they evolve through different
 // versions of a resource or object.
-// types is a set of all known types.
+// definitions is a set of all known types.
 // conversionGraph contains every conversion/transition between versions.
 func newSkippingPropertyDetector(definitions astmodel.TypeDefinitionSet, conversionGraph *storage.ConversionGraph) *skippingPropertyDetector {
 	return &skippingPropertyDetector{

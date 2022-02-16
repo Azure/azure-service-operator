@@ -81,7 +81,7 @@ func MakeReferenceGraphWithRoots(roots TypeNameSet, definitions TypeDefinitionSe
 }
 
 // MakeReferenceGraphWithResourcesAsRoots produces a ReferenceGraph for the given set of
-// types, where the Resource types (and their ARM spec/status) are the roots.
+// definitions, where the Resource types (and their ARM spec/status) are the roots.
 func MakeReferenceGraphWithResourcesAsRoots(definitions TypeDefinitionSet) ReferenceGraph {
 	resources := FindResourceDefinitions(definitions)
 	armSpecAndStatus := CollectARMSpecAndStatusDefinitions(definitions)

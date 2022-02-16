@@ -224,7 +224,7 @@ func (enum *EnumType) String() string {
 // WriteDebugDescription adds a description of the current enum type, including option names, to the
 // passed builder
 // builder receives the full description
-// types is a dictionary for resolving named types
+// definitions is for resolving named types
 func (enum *EnumType) WriteDebugDescription(builder *strings.Builder, definitions TypeDefinitionSet) {
 	if enum == nil {
 		builder.WriteString("<nilEnum>")

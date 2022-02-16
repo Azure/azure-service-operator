@@ -15,7 +15,7 @@ import (
 // AssertPackagesGenerateExpectedCode creates a golden file for each package represented in the set of type definitions,
 // asserting that the generated content is expected.
 // t is the current test
-// types is the set of type definitions to be asserted
+// definitions is the set of type definitions to be asserted
 // options is an optional set of configuration options to control the assertion
 func AssertPackagesGenerateExpectedCode(t *testing.T, definitions astmodel.TypeDefinitionSet, options ...AssertionOption) {
 	// Group type definitions by package
