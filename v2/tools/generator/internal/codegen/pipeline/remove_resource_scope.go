@@ -25,9 +25,9 @@ func RemoveResourceScope() Stage {
 			newDefs := make(astmodel.TypeDefinitionSet)
 			scopePropertyRemovalVisitor := makeScopePropertyRemovalVisitor()
 
-			resources := astmodel.FindResourceDefinitions(state.Types())
+			resources := astmodel.FindResourceDefinitions(state.Definitions())
 			for _, resource := range resources {
-				resolved, err := state.Types().ResolveResourceSpecAndStatus(resource)
+				resolved, err := state.Definitions().ResolveResourceSpecAndStatus(resource)
 				if err != nil {
 					return nil, errors.Wrapf(err, "unable to find resource %s spec and status", resource.Name())
 				}
@@ -39,9 +39,9 @@ func RemoveResourceScope() Stage {
 				newDefs.Add(updatedDef)
 			}
 
-			result := state.Types().OverlayWith(newDefs)
+			result := state.Definitions().OverlayWith(newDefs)
 
-			return state.WithTypes(result), nil
+			return state.WithDefinitions(result), nil
 		})
 }
 

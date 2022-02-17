@@ -24,7 +24,7 @@ func AddSecrets(config *config.Configuration) Stage {
 		"Replace properties flagged as secret with genruntime.SecretReference",
 		func(ctx context.Context, state *State) (*State, error) {
 
-			types, err := applyConfigSecretOverrides(config, state.Types())
+			types, err := applyConfigSecretOverrides(config, state.Definitions())
 			if err != nil {
 				return nil, errors.Wrap(err, "applying config secret overrides")
 			}
@@ -40,7 +40,7 @@ func AddSecrets(config *config.Configuration) Stage {
 			}
 
 			result := types.OverlayWith(astmodel.TypesDisjointUnion(updatedSpecs, updatedStatuses))
-			return state.WithTypes(result), nil
+			return state.WithDefinitions(result), nil
 		})
 
 	return stage.

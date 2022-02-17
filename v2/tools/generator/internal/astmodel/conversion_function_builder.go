@@ -166,11 +166,11 @@ func (builder *ConversionFunctionBuilder) BuildConversion(params ConversionParam
 		}
 	}
 
-	types := builder.CodeGenerationContext.GetAllReachableTypes()
+	defs := builder.CodeGenerationContext.GetAllReachableDefinitions()
 	msg := fmt.Sprintf(
 		"don't know how to perform conversion for %s -> %s",
-		DebugDescription(params.SourceType, types),
-		DebugDescription(params.DestinationType, types))
+		DebugDescription(params.SourceType, defs),
+		DebugDescription(params.DestinationType, defs))
 	panic(msg)
 }
 

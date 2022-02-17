@@ -36,25 +36,25 @@ func RemoveStatusValidations() Stage {
 		RemoveStatusPropertyValidationsStageID,
 		"Remove validation from all status properties",
 		func(ctx context.Context, state *State) (*State, error) {
-			result, err := removeStatusTypeValidations(state.Types())
+			result, err := removeStatusTypeValidations(state.Definitions())
 			if err != nil {
 				return nil, err
 			}
 
-			err = errorIfSpecStatusOverlap(result, state.Types())
+			err = errorIfSpecStatusOverlap(result, state.Definitions())
 			if err != nil {
 				return nil, err
 			}
 
-			remaining := state.Types().Except(result)
+			remaining := state.Definitions().Except(result)
 			result.AddTypes(remaining)
 
-			return state.WithTypes(result), nil
+			return state.WithDefinitions(result), nil
 		})
 }
 
 func removeStatusTypeValidations(definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-	statusTypes := astmodel.FindStatusDefinitions(definitions)
+	statusDefinitions := astmodel.FindStatusDefinitions(definitions)
 
 	walker := astmodel.NewTypeWalker(
 		definitions,
@@ -66,7 +66,7 @@ func removeStatusTypeValidations(definitions astmodel.TypeDefinitionSet) (astmod
 	var errs []error
 
 	result := make(astmodel.TypeDefinitionSet)
-	for _, def := range statusTypes {
+	for _, def := range statusDefinitions {
 		updatedTypes, err := walker.Walk(def)
 		if err != nil {
 			errs = append(errs, errors.Wrapf(err, "failed walking definitions"))

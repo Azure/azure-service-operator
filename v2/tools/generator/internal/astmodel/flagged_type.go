@@ -185,8 +185,8 @@ func (ft *FlaggedType) Unwrap() Type {
 }
 
 // WriteDebugDescription adds a description of the current type to the passed builder
-// builder receives the full description, including nested types
-// types is a dictionary for resolving named types
+// builder receives the full description, including nested types.
+// definitions is a dictionary for resolving named types.
 func (ft *FlaggedType) WriteDebugDescription(builder *strings.Builder, definitions TypeDefinitionSet) {
 	if ft == nil {
 		builder.WriteString("<nilFlagged>")

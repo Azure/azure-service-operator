@@ -56,12 +56,12 @@ func MakeLegacyStage(
 		id,
 		description,
 		func(ctx context.Context, state *State) (*State, error) {
-			types, err := action(ctx, state.Types())
+			types, err := action(ctx, state.Definitions())
 			if err != nil {
 				return nil, err
 			}
 
-			return state.WithTypes(types), nil
+			return state.WithDefinitions(types), nil
 		})
 }
 

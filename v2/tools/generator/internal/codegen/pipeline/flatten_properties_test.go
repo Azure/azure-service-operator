@@ -27,10 +27,10 @@ func TestDuplicateNamesAreCaughtAndRenamed(t *testing.T) {
 
 	objType := astmodel.NewObjectType().WithProperties(prop, innerObjProp)
 
-	types := make(astmodel.TypeDefinitionSet)
-	types.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "ObjType"), objType))
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "ObjType"), objType))
 
-	result, err := applyPropertyFlattening(context.Background(), types)
+	result, err := applyPropertyFlattening(context.Background(), defs)
 
 	// We don't fail but flattening does not occur, and flatten is set to false
 	g.Expect(err).ToNot(HaveOccurred())
@@ -42,10 +42,10 @@ func TestDuplicateNamesAreCaughtAndRenamed(t *testing.T) {
 		WithProperties(
 			prop,
 			prop.WithName(newName).WithJsonName(newJsonName).AddFlattenedFrom(astmodel.PropertyName("Inner")))
-	expectedTypes := make(astmodel.TypeDefinitionSet)
-	expectedTypes.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "ObjType"), newObjType))
+	expectedDefs := make(astmodel.TypeDefinitionSet)
+	expectedDefs.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "ObjType"), newObjType))
 
-	g.Expect(result).To(Equal(expectedTypes))
+	g.Expect(result).To(Equal(expectedDefs))
 }
 
 func TestFlatteningWorks(t *testing.T) {
@@ -63,10 +63,10 @@ func TestFlatteningWorks(t *testing.T) {
 		astmodel.NewPropertyDefinition("inner", "inner", innerObj).SetFlatten(true),
 		astmodel.NewPropertyDefinition("z", "z", astmodel.IntType))
 
-	types := make(astmodel.TypeDefinitionSet)
-	types.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "objType"), objType))
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "objType"), objType))
 
-	result, err := applyPropertyFlattening(context.Background(), types)
+	result, err := applyPropertyFlattening(context.Background(), defs)
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(result).To(HaveLen(1))
 

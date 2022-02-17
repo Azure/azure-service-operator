@@ -27,7 +27,7 @@ func CreateConversionGraph(configuration *config.Configuration) Stage {
 		func(ctx context.Context, state *State) (*State, error) {
 			// Collect all distinct references
 			allReferences := astmodel.NewPackageReferenceSet()
-			for _, def := range state.Types() {
+			for _, def := range state.Definitions() {
 				allReferences.AddReference(def.Name().PackageReference)
 			}
 

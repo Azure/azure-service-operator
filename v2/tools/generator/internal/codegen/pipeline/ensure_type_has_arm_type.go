@@ -26,7 +26,7 @@ func EnsureARMTypeExistsForEveryResource() Stage {
 }
 
 // validateExpectedTypesHaveARMType returns an error containing details about all
-// types which do not have a matching ARM type.
+// definitions which do not have a matching ARM type.
 func validateExpectedTypesHaveARMType(definitions astmodel.TypeDefinitionSet) error {
 	findARMType := func(t astmodel.Type) error {
 		name, ok := astmodel.AsTypeName(t)

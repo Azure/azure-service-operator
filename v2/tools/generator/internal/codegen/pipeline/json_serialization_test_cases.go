@@ -25,15 +25,15 @@ func InjectJsonSerializationTests(idFactory astmodel.IdentifierFactory) Stage {
 		"Add test cases to verify JSON serialization",
 		func(ctx context.Context, state *State) (*State, error) {
 			factory := makeObjectSerializationTestCaseFactory(idFactory)
-			modifiedTypes := make(astmodel.TypeDefinitionSet)
+			modifiedDefinitions := make(astmodel.TypeDefinitionSet)
 			var errs []error
-			for _, def := range state.Types() {
+			for _, def := range state.Definitions() {
 				if factory.NeedsTest(def) {
 					updated, err := factory.AddTestTo(def)
 					if err != nil {
 						errs = append(errs, err)
 					} else {
-						modifiedTypes[updated.Name()] = updated
+						modifiedDefinitions[updated.Name()] = updated
 					}
 				}
 			}
@@ -42,7 +42,7 @@ func InjectJsonSerializationTests(idFactory astmodel.IdentifierFactory) Stage {
 				return nil, kerrors.NewAggregate(errs)
 			}
 
-			return state.WithTypes(state.Types().OverlayWith(modifiedTypes)), nil
+			return state.WithDefinitions(state.Definitions().OverlayWith(modifiedDefinitions)), nil
 		})
 
 	return stage.RequiresPostrequisiteStages("simplifyDefinitions" /* needs flags */)

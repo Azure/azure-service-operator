@@ -52,10 +52,10 @@ func DetectSkippingProperties() Stage {
 		DetectSkippingPropertiesStageID,
 		"Detect properties that skip resource or object versions",
 		func(ctx context.Context, state *State) (*State, error) {
-			detector := newSkippingPropertyDetector(state.Types(), state.ConversionGraph())
+			detector := newSkippingPropertyDetector(state.Definitions(), state.ConversionGraph())
 
 			// Add resources and objects to the graph
-			for _, def := range state.Types() {
+			for _, def := range state.Definitions() {
 				if t, ok := astmodel.AsPropertyContainer(def.Type()); ok {
 					err := detector.AddProperties(def.Name(), t.Properties().AsSlice()...)
 					if err != nil {
@@ -73,19 +73,19 @@ func DetectSkippingProperties() Stage {
 type skippingPropertyDetector struct {
 	links              map[astmodel.PropertyReference]astmodel.PropertyReference // Individual links in chains of related properties
 	observedProperties *astmodel.PropertyReferenceSet                            // Set of properties we've observed
-	types              astmodel.TypeDefinitionSet                                // Set of all known types
+	definitions        astmodel.TypeDefinitionSet                                // Set of all known type definitions
 	conversionGraph    *storage.ConversionGraph                                  // Graph of conversions between types
 }
 
 // newSkippingPropertyDetector creates a new graph for tracking chains of properties as they evolve through different
 // versions of a resource or object.
-// types is a set of all known types.
+// definitions is a set of all known types.
 // conversionGraph contains every conversion/transition between versions.
 func newSkippingPropertyDetector(definitions astmodel.TypeDefinitionSet, conversionGraph *storage.ConversionGraph) *skippingPropertyDetector {
 	return &skippingPropertyDetector{
 		links:              make(map[astmodel.PropertyReference]astmodel.PropertyReference),
 		observedProperties: astmodel.NewPropertyReferenceSet(),
-		types:              definitions,
+		definitions:        definitions,
 		conversionGraph:    conversionGraph,
 	}
 }
@@ -149,7 +149,7 @@ func (detector *skippingPropertyDetector) establishPropertyChain(ref astmodel.Pr
 // ref is the property reference that specifies the start of our chain.
 // It recursively calls establishPropertyChain to avoid creating parts of the chain multiple times.
 func (detector *skippingPropertyDetector) createPropertyChain(ref astmodel.PropertyReference) error {
-	next, err := detector.conversionGraph.FindNextProperty(ref, detector.types)
+	next, err := detector.conversionGraph.FindNextProperty(ref, detector.definitions)
 	if err != nil {
 		return errors.Wrapf(err, "creating property chain link from %s", ref.String())
 	}

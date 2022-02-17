@@ -37,10 +37,10 @@ func CreateStorageTypes() Stage {
 			}
 
 			// Filter to the types we want to process
-			typesToConvert := state.Types().Where(isResourceOrObject).Where(isNotARMType)
+			typesToConvert := state.Definitions().Where(isResourceOrObject).Where(isNotARMType)
 
-			storageTypes := make(astmodel.TypeDefinitionSet)
-			typeConverter := storage.NewTypeConverter(state.Types(), state.ConversionGraph())
+			storageDefs := make(astmodel.TypeDefinitionSet)
+			typeConverter := storage.NewTypeConverter(state.Definitions(), state.ConversionGraph())
 
 			// Create storage variants
 			for name, def := range typesToConvert {
@@ -49,13 +49,13 @@ func CreateStorageTypes() Stage {
 					return nil, errors.Wrapf(err, "creating storage variant of %q", name)
 				}
 
-				storageTypes.Add(storageDef)
+				storageDefs.Add(storageDef)
 			}
 
-			types := state.Types().Copy()
-			types.AddTypes(storageTypes)
+			defs := state.Definitions().Copy()
+			defs.AddTypes(storageDefs)
 
-			return state.WithTypes(types), nil
+			return state.WithDefinitions(defs), nil
 		})
 
 	stage.RequiresPrerequisiteStages(InjectOriginalVersionFunctionStageID, CreateConversionGraphStageId)

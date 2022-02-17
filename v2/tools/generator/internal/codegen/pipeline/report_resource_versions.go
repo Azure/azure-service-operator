@@ -29,7 +29,7 @@ func ReportResourceVersions(configuration *config.Configuration) Stage {
 		ReportResourceVersionsStageID,
 		"Generate a report listing all the resources generated",
 		func(ctx context.Context, state *State) (*State, error) {
-			report := NewResourceVersionsReport(state.Types())
+			report := NewResourceVersionsReport(state.Definitions())
 			err := report.WriteTo(configuration.FullTypesOutputPath(), configuration.SamplesURL)
 			return state, err
 		})

@@ -50,12 +50,12 @@ func TestGolden_ResourceConversionTestCase_AsFunc(t *testing.T) {
 
 	person2021 := test.CreateResource(test.Pkg2021, "Person", personSpec2021, personStatus2021)
 
-	types := make(astmodel.TypeDefinitionSet)
-	types.AddAll(person2020, personSpec2020, personStatus2020)
-	types.AddAll(person2021, personSpec2021, personStatus2021)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(person2020, personSpec2020, personStatus2020)
+	defs.AddAll(person2021, personSpec2021, personStatus2021)
 
 	cfg := config.NewObjectModelConfiguration()
-	conversionContext := conversions.NewPropertyConversionContext(types, idFactory, cfg)
+	conversionContext := conversions.NewPropertyConversionContext(defs, idFactory, cfg)
 	assignFrom, err := functions.NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertFrom)
 	g.Expect(err).To(Succeed())
 

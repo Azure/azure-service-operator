@@ -32,10 +32,10 @@ func TestGolden_InjectConvertibleSpecInterface(t *testing.T) {
 	statusV2 := test.CreateStatus(test.Pkg2021, "Person")
 	resourceV2 := test.CreateResource(test.Pkg2021, "Person", specV2, statusV2)
 
-	types := make(astmodel.TypeDefinitionSet)
-	types.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2)
 
-	initialState := NewState().WithTypes(types)
+	initialState := NewState().WithDefinitions(defs)
 
 	cfg := config.NewConfiguration()
 	finalState, err := RunTestPipeline(
@@ -51,5 +51,5 @@ func TestGolden_InjectConvertibleSpecInterface(t *testing.T) {
 	// correctly injected on the specs, but not on the other types. Verify that the code does what you expect. If you
 	// don't know what to expect, check that the non-hub spec types have chained conversions that use the property
 	// assignment functions, and that the hub spec type has a pivot conversion.
-	test.AssertPackagesGenerateExpectedCode(t, finalState.types)
+	test.AssertPackagesGenerateExpectedCode(t, finalState.definitions)
 }

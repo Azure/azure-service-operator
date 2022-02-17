@@ -22,7 +22,7 @@ func AddOperatorSpec(configuration *config.Configuration, idFactory astmodel.Ide
 		AddOperatorSpecStageID,
 		"Adds the property 'OperatorSpec' to all Spec types that require it",
 		func(ctx context.Context, state *State) (*State, error) {
-			defs := state.Types()
+			defs := state.Definitions()
 			result := make(astmodel.TypeDefinitionSet)
 
 			for _, resource := range astmodel.FindResourceDefinitions(defs) {
@@ -48,7 +48,7 @@ func AddOperatorSpec(configuration *config.Configuration, idFactory astmodel.Ide
 
 			result = defs.OverlayWith(result)
 
-			return state.WithTypes(result), nil
+			return state.WithDefinitions(result), nil
 		})
 }
 
@@ -80,7 +80,7 @@ func createOperatorSpecIfNeeded(
 
 	result.Add(updatedDef)
 	result.Add(operatorSpec)
-	result.AddTypes(builder.types) // Add any other types that were needed as well
+	result.AddTypes(builder.definitions) // Add any other types that were needed as well
 
 	return result, nil
 }
@@ -89,7 +89,7 @@ type operatorSpecBuilder struct {
 	idFactory     astmodel.IdentifierFactory
 	configuration *config.Configuration
 	resource      astmodel.TypeDefinition
-	types         astmodel.TypeDefinitionSet
+	definitions   astmodel.TypeDefinitionSet
 }
 
 func newOperatorSpecBuilder(
@@ -100,7 +100,7 @@ func newOperatorSpecBuilder(
 		idFactory:     idFactory,
 		configuration: configuration,
 		resource:      resource,
-		types:         make(astmodel.TypeDefinitionSet),
+		definitions:   make(astmodel.TypeDefinitionSet),
 	}
 }
 
@@ -175,7 +175,7 @@ func (b *operatorSpecBuilder) addSecretsToOperatorSpec(
 	}
 
 	secretsTypeDef := astmodel.MakeTypeDefinition(secretsTypeName, secretsType)
-	b.types.Add(secretsTypeDef)
+	b.definitions.Add(secretsTypeDef)
 
 	return operatorSpecDef.WithType(operatorSpec)
 }

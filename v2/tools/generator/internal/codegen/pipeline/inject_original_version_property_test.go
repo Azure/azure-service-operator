@@ -25,18 +25,18 @@ func TestInjectOriginalVersionProperty_InjectsIntoSpec(t *testing.T) {
 	status := test.CreateStatus(test.Pkg2020, "Person")
 	resource := test.CreateResource(test.Pkg2020, "Person", spec, status)
 
-	types := make(astmodel.TypeDefinitionSet)
-	types.AddAll(resource, status, spec)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(resource, status, spec)
 
 	injectOriginalProperty := InjectOriginalVersionProperty()
 
 	// Don't need a context when testing
-	state := NewState().WithTypes(types)
+	state := NewState().WithDefinitions(defs)
 	finalState, err := injectOriginalProperty.Run(context.TODO(), state)
 
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalState.Types())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions())
 }
 
 func TestInjectOriginalVersionProperty_WhenOriginalVersionFunctionFound_DoesNotInjectIntoSpec(t *testing.T) {
@@ -54,16 +54,16 @@ func TestInjectOriginalVersionProperty_WhenOriginalVersionFunctionFound_DoesNotI
 	spec, err := fnInjector.Inject(spec, functions.NewOriginalVersionFunction(idFactory))
 	g.Expect(err).To(Succeed())
 
-	types := make(astmodel.TypeDefinitionSet)
-	types.AddAll(resource, status, spec)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(resource, status, spec)
 
 	injectOriginalProperty := InjectOriginalVersionProperty()
 
 	// Don't need a context when testing
-	state := NewState().WithTypes(types)
+	state := NewState().WithDefinitions(defs)
 	finalState, err := injectOriginalProperty.Run(context.TODO(), state)
 
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalState.Types())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions())
 }

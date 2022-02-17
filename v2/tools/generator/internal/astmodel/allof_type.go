@@ -162,7 +162,7 @@ func (allOf *AllOfType) String() string {
 
 // WriteDebugDescription adds a description of the current AnyOf type to the passed builder
 // builder receives the full description, including nested types
-// types is a dictionary for resolving named types
+// definitions is a dictionary for resolving named types
 func (allOf *AllOfType) WriteDebugDescription(builder *strings.Builder, definitions TypeDefinitionSet) {
 	if allOf == nil {
 		builder.WriteString("<nilAllOf>")

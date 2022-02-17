@@ -24,11 +24,11 @@ func RemoveTypeProperty() Stage {
 
 			newDefs := make(astmodel.TypeDefinitionSet)
 
-			defs := state.Types()
+			defs := state.Definitions()
 			resources := astmodel.FindResourceDefinitions(defs)
 
 			for _, resource := range resources {
-				resolved, err := state.Types().ResolveResourceSpecAndStatus(resource)
+				resolved, err := state.Definitions().ResolveResourceSpecAndStatus(resource)
 				if err != nil {
 					return nil, errors.Wrapf(err, "failed to resolve resource spec and status types")
 				}
@@ -51,7 +51,7 @@ func RemoveTypeProperty() Stage {
 				newDefs.Add(resolved.SpecDef.WithType(specType))
 			}
 
-			return state.WithTypes(defs.OverlayWith(newDefs)), nil
+			return state.WithDefinitions(defs.OverlayWith(newDefs)), nil
 		})
 }
 

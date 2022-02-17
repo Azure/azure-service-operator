@@ -24,15 +24,15 @@ func TestCreateConversionGraph(t *testing.T) {
 	person2021 := test.CreateSpec(test.Pkg2021, "Person", test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty)
 	person2022 := test.CreateSpec(test.Pkg2022, "Person", test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty)
 
-	types := make(astmodel.TypeDefinitionSet)
-	types.AddAll(person2020, person2021, person2022)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(person2020, person2021, person2022)
 
-	initialState := NewState().WithTypes(types)
+	initialState := NewState().WithDefinitions(defs)
 	cfg := config.NewConfiguration()
 	stage := CreateConversionGraph(cfg)
 	finalState, err := stage.Run(context.TODO(), initialState)
 	g.Expect(err).To(Succeed())
-	g.Expect(finalState.Types()).To(Equal(types))
+	g.Expect(finalState.Definitions()).To(Equal(defs))
 	g.Expect(finalState.ConversionGraph()).NotTo(BeNil())
 
 	graph := finalState.ConversionGraph()

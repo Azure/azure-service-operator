@@ -70,11 +70,12 @@ func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 			}
 
 			// put all definitions into a new set
-			newTypes := make(astmodel.TypeDefinitionSet)
+			defs := make(astmodel.TypeDefinitionSet)
+
 			// all non-resources from Swagger are added regardless of whether they are used
 			// if they are not used they will be pruned off by a later pipeline stage
 			// (there will be no name clashes here due to suffixing with "_Status")
-			newTypes.AddTypes(statusTypes.otherDefinitions)
+			defs.AddTypes(statusTypes.otherDefinitions)
 
 			matchedResources := 0
 			// find any resources and update them with status info
@@ -86,16 +87,16 @@ func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 						matchedResources++
 					}
 
-					newTypes.Add(typeDef.WithType(resource.WithStatus(newStatus)))
+					defs.Add(typeDef.WithType(resource.WithStatus(newStatus)))
 				} else {
-					newTypes.Add(typeDef)
+					defs.Add(typeDef)
 				}
 			}
 
 			klog.V(1).Infof("Found status information for %d resources", matchedResources)
-			klog.V(1).Infof("Input %d definitions, output %d definitions", len(definitions), len(newTypes))
+			klog.V(1).Infof("Input %d definitions, output %d definitions", len(definitions), len(defs))
 
-			return newTypes, nil
+			return defs, nil
 		})
 }
 

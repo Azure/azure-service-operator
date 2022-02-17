@@ -185,8 +185,6 @@ func (objectType *ObjectType) AsType(codeGenerationContext *CodeGenerationContex
 }
 
 // AsZero renders an expression for the "zero" value of the type
-// types allows TypeName to resolve to the underlying type
-// ctx allows current imports to be correctly identified where needed
 // We can only generate a zero value for a named object type (and that's handled by TypeName, so
 // we'll only end up here if it is an anonymous type.)
 func (objectType *ObjectType) AsZero(_ TypeDefinitionSet, _ *CodeGenerationContext) dst.Expr {
@@ -545,7 +543,6 @@ func extractEmbeddedTypeName(t Type) (TypeName, error) {
 
 // WriteDebugDescription adds a description of the current type to the passed builder.
 // builder receives the full description, including nested types.
-// types is a dictionary for resolving named types.
 func (objectType *ObjectType) WriteDebugDescription(builder *strings.Builder, _ TypeDefinitionSet) {
 	if objectType == nil {
 		builder.WriteString("<nilObject>")

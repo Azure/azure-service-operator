@@ -17,10 +17,10 @@ import (
 )
 
 type StorageConversionPropertyTestCase struct {
-	name          string
-	currentObject astmodel.TypeDefinition
-	otherObject   astmodel.TypeDefinition
-	types         astmodel.TypeDefinitionSet
+	name        string
+	current     astmodel.TypeDefinition
+	other       astmodel.TypeDefinition
+	definitions astmodel.TypeDefinitionSet
 }
 
 func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTestCase {
@@ -141,16 +141,16 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 			astmodel.MakeTypeName(vNext, "Person"),
 			hubType)
 
-		types := make(astmodel.TypeDefinitionSet)
-		types.Add(currentDefinition)
-		types.Add(hubDefinition)
-		types.AddAll(otherDefinitions...)
+		defs := make(astmodel.TypeDefinitionSet)
+		defs.Add(currentDefinition)
+		defs.Add(hubDefinition)
+		defs.AddAll(otherDefinitions...)
 
 		return &StorageConversionPropertyTestCase{
-			name:          name,
-			currentObject: currentDefinition,
-			otherObject:   hubDefinition,
-			types:         types,
+			name:        name,
+			current:     currentDefinition,
+			other:       hubDefinition,
+			definitions: defs,
 		}
 	}
 
@@ -169,15 +169,15 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 			astmodel.MakeTypeName(vNext, "Person"),
 			hubType)
 
-		types := make(astmodel.TypeDefinitionSet)
-		types.Add(currentDefinition)
-		types.Add(hubDefinition)
+		defs := make(astmodel.TypeDefinitionSet)
+		defs.Add(currentDefinition)
+		defs.Add(hubDefinition)
 
 		return &StorageConversionPropertyTestCase{
-			name:          name,
-			currentObject: currentDefinition,
-			otherObject:   hubDefinition,
-			types:         types,
+			name:        name,
+			current:     currentDefinition,
+			other:       hubDefinition,
+			definitions: defs,
 		}
 	}
 
@@ -272,17 +272,17 @@ func runTestPropertyAssignmentFunction_AsFunc(c *StorageConversionPropertyTestCa
 	g := NewGomegaWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 
-	currentType, ok := astmodel.AsObjectType(c.currentObject.Type())
+	currentType, ok := astmodel.AsObjectType(c.current.Type())
 	g.Expect(ok).To(BeTrue())
 
-	conversionContext := conversions.NewPropertyConversionContext(c.types, idFactory, nil /* ObjectModelConfiguration*/)
-	assignFrom, err := NewPropertyAssignmentFunction(c.currentObject, c.otherObject, conversionContext, conversions.ConvertFrom)
+	conversionContext := conversions.NewPropertyConversionContext(c.definitions, idFactory, nil /* ObjectModelConfiguration*/)
+	assignFrom, err := NewPropertyAssignmentFunction(c.current, c.other, conversionContext, conversions.ConvertFrom)
 	g.Expect(err).To(BeNil())
 
-	assignTo, err := NewPropertyAssignmentFunction(c.currentObject, c.otherObject, conversionContext, conversions.ConvertTo)
+	assignTo, err := NewPropertyAssignmentFunction(c.current, c.other, conversionContext, conversions.ConvertTo)
 	g.Expect(err).To(BeNil())
 
-	receiverDefinition := c.currentObject.WithType(currentType.WithFunction(assignFrom).WithFunction(assignTo))
+	receiverDefinition := c.current.WithType(currentType.WithFunction(assignFrom).WithFunction(assignTo))
 
 	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, c.name, receiverDefinition)
 }
@@ -356,10 +356,10 @@ func TestGolden_PropertyAssignmentFunction_WhenTypeRenamed(t *testing.T) {
 
 	modelConfig := config.CreateTestObjectModelConfigurationForRename(location.Name(), venue.Name().Name())
 
-	types := make(astmodel.TypeDefinitionSet)
-	types.AddAll(location, venue)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(location, venue)
 
-	conversionContext := conversions.NewPropertyConversionContext(types, idFactory, modelConfig)
+	conversionContext := conversions.NewPropertyConversionContext(defs, idFactory, modelConfig)
 
 	assignFrom, err := NewPropertyAssignmentFunction(event2020, event2021, conversionContext, conversions.ConvertFrom)
 	g.Expect(err).To(Succeed())
