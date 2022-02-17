@@ -8,7 +8,6 @@ package reconcilers
 import (
 	"github.com/Azure/go-autorest/autorest/to"
 
-	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
@@ -45,7 +44,7 @@ func ClassifyCloudError(err *core.CloudError) (core.CloudErrorDetails, error) {
 	return result, nil
 }
 
-func classifyInnerCloudError(err *genericarmclient.ErrorResponse) core.ErrorClassification {
+func classifyInnerCloudError(err *core.ErrorResponse) core.ErrorClassification {
 	// See https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/common-deployment-errors
 	// for a breakdown of common deployment error codes. Note that the error codes documented there are
 	// the inner error codes we're parsing here.

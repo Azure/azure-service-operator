@@ -11,41 +11,40 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
-	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
 var badRequestError = &core.CloudError{
-	InnerError: &genericarmclient.ErrorResponse{
+	InnerError: &core.ErrorResponse{
 		Code:    to.StringPtr("BadRequest"),
 		Message: to.StringPtr("That was not a good request"),
 	},
 }
 
 var conflictError = &core.CloudError{
-	InnerError: &genericarmclient.ErrorResponse{
+	InnerError: &core.ErrorResponse{
 		Code:    to.StringPtr("Conflict"),
 		Message: to.StringPtr("That doesn't match what I have"),
 	},
 }
 
 var retryableConflictError = &core.CloudError{
-	InnerError: &genericarmclient.ErrorResponse{
+	InnerError: &core.ErrorResponse{
 		Code:    to.StringPtr("Conflict"),
 		Message: to.StringPtr("Umm, other stuff is going on. Try again later?"),
 	},
 }
 
 var resourceGroupNotFoundError = &core.CloudError{
-	InnerError: &genericarmclient.ErrorResponse{
+	InnerError: &core.ErrorResponse{
 		Code:    to.StringPtr("ResourceGroupNotFound"),
 		Message: to.StringPtr("The resource group was not found"),
 	},
 }
 
 var unknownError = &core.CloudError{
-	InnerError: &genericarmclient.ErrorResponse{
+	InnerError: &core.ErrorResponse{
 		Code:    to.StringPtr("ThisCodeIsNotACodeUnderstoodByTheClassifier"),
 		Message: to.StringPtr("No idea what went wrong"),
 	},

@@ -5,17 +5,13 @@ Licensed under the MIT license.
 
 package core
 
-import (
-	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-)
-
 // CloudError - An error response for a resource management request.
 type CloudError struct {
 	error error
 
 	// Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response
 	// format.)
-	InnerError *genericarmclient.ErrorResponse `json:"error,omitempty"`
+	InnerError *ErrorResponse `json:"error,omitempty"`
 }
 
 // Error implements the error interface for type CloudError.
