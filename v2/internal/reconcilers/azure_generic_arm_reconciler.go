@@ -33,6 +33,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/randextensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
 
 // TODO: I think we will want to pull some of this back into the Generic Controller so that it happens
@@ -572,6 +574,20 @@ func (r *AzureDeploymentReconciler) handlePollerSuccess(ctx context.Context) (ct
 		return ctrl.Result{}, errors.Wrapf(err, "error updating status")
 	}
 
+	if retrieveSecrets, ok := r.extension.(extensions.SecretsRetriever); ok {
+		err = r.writeSecrets(ctx, retrieveSecrets)
+		if err != nil {
+			conditions.SetCondition(r.obj, r.PositiveConditions.Ready.SecretWriteFailure(r.obj.GetGeneration(), err.Error()))
+			commitErr := r.CommitUpdate(ctx)
+			if commitErr != nil {
+				// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
+				// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
+				return ctrl.Result{}, client.IgnoreNotFound(commitErr)
+			}
+			return ctrl.Result{}, err
+		}
+	}
+
 	r.ClearPollerResumeToken()
 	conditions.SetCondition(r.obj, r.PositiveConditions.Ready.Succeeded(r.obj.GetGeneration()))
 	err = r.CommitUpdate(ctx)
@@ -845,17 +861,13 @@ func (r *AzureDeploymentReconciler) applyOwnership(ctx context.Context) error {
 		return nil
 	}
 
-	ownerGvk := owner.GetObjectKind().GroupVersionKind()
-
-	ownerRef := metav1.OwnerReference{
-		APIVersion: strings.Join([]string{ownerGvk.Group, ownerGvk.Version}, "/"),
-		Kind:       ownerGvk.Kind,
-		Name:       owner.GetName(),
-		UID:        owner.GetUID(),
-	}
+	ownerRef := ownerutil.MakeOwnerReference(owner)
 
 	r.obj.SetOwnerReferences(ownerutil.EnsureOwnerRef(r.obj.GetOwnerReferences(), ownerRef))
-	r.log.V(Info).Info("Set owner reference", "ownerGvk", ownerGvk, "ownerName", owner.GetName())
+	r.log.V(Info).Info(
+		"Set owner reference",
+		"ownerGvk", owner.GetObjectKind().GroupVersionKind(),
+		"ownerName", owner.GetName())
 	err = r.CommitUpdate(ctx)
 
 	if err != nil {
@@ -878,6 +890,34 @@ func (r *AzureDeploymentReconciler) deleteResourceSucceeded(ctx context.Context)
 	}
 
 	r.log.V(Status).Info("Deleted resource")
+	return nil
+}
+
+func (r *AzureDeploymentReconciler) writeSecrets(ctx context.Context, extension extensions.SecretsRetriever) error {
+	secretSlice, err := extension.RetrieveSecrets(ctx, r.obj, r.ARMClient, r.log)
+	if err != nil {
+		return err
+	}
+
+	results, err := secrets.ApplySecretsAndEnsureOwner(ctx, r.KubeClient.Client, r.obj, secretSlice)
+	if err != nil {
+		return err
+	}
+
+	if len(results) != len(secretSlice) {
+		return errors.Errorf("unexpected results len %d not equal to secrets length %d", len(results), len(secretSlice))
+	}
+
+	for i := 0; i < len(secretSlice); i++ {
+		secret := secretSlice[i]
+		result := results[i]
+
+		r.log.V(Debug).Info("Successfully wrote secret",
+			"namespace", secret.ObjectMeta.Namespace,
+			"name", secret.ObjectMeta.Name,
+			"action", result)
+	}
+
 	return nil
 }
 

@@ -15,6 +15,7 @@ const (
 	ReasonAzureResourceNotFound           = "AzureResourceNotFound"
 	ReasonSecretNotFound                  = "SecretNotFound"
 	ReasonReferenceNotFound               = "ReferenceNotFound"
+	ReasonSecretWriteFailure              = "FailedWritingSecret"
 )
 
 func NewReadyConditionBuilder(builder PositiveConditionBuilderInterface) *ReadyConditionBuilder {
@@ -73,5 +74,14 @@ func (b *ReadyConditionBuilder) AzureResourceNotFound(observedGeneration int64, 
 		ConditionSeverityWarning,
 		observedGeneration,
 		ReasonAzureResourceNotFound,
+		message)
+}
+
+func (b *ReadyConditionBuilder) SecretWriteFailure(observedGeneration int64, message string) Condition {
+	return b.builder.MakeFalseCondition(
+		ConditionTypeReady,
+		ConditionSeverityWarning,
+		observedGeneration,
+		ReasonSecretWriteFailure,
 		message)
 }
