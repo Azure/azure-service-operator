@@ -447,9 +447,46 @@ func (tc *KubePerTestContext) LogSection(section string) {
 	tc.T.Log(line)
 }
 
+// GetSecret retrieves the specified secret from K8s. The namespace used is the default tc.Namespace.
+func (tc *KubePerTestContext) GetSecret(name string) *corev1.Secret {
+	secretName := types.NamespacedName{Namespace: tc.Namespace, Name: name}
+	var secret corev1.Secret
+	tc.GetResource(secretName, &secret)
+
+	return &secret
+}
+
+// ExpectSecretHasKeys checks if the secret with the given name has the expected keys.
+// If the secret does not exist, or it is missing keys, the test fails.
+func (tc *KubePerTestContext) ExpectSecretHasKeys(name string, expectedKeys ...string) {
+	tc.T.Helper()
+	secretName := types.NamespacedName{Namespace: tc.Namespace, Name: name}
+	var secret corev1.Secret
+	tc.GetResource(secretName, &secret)
+
+	// We could make the below a gomega matcher, but it doesn't seem that worth it because
+	// a lot of the boilerplate code is actually getting the secret
+	tc.Expect(secret.Data).To(gomega.HaveLen(len(expectedKeys)))
+	for _, k := range expectedKeys {
+		tc.Expect(secret.Data[k]).ToNot(gomega.BeEmpty())
+	}
+}
+
 type Subtest struct {
 	Name string
 	Test func(testContext *KubePerTestContext)
+}
+
+// RunSubtests runs the given subtests in sequence. They are given
+// their own KubePerTestContext. This does NOT run the tests in parallel.
+// In most cases, RunParallelSubtests should be used instead of this.
+func (tc *KubePerTestContext) RunSubtests(tests ...Subtest) {
+	for _, test := range tests {
+		test := test
+		tc.T.Run(test.Name, func(t *testing.T) {
+			test.Test(tc.Subtest(t))
+		})
+	}
 }
 
 // RunParallelSubtests runs the given tests in parallel. They are given
