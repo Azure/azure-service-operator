@@ -31,6 +31,7 @@ reportTypesAndVersions                    azure      Generate reports on types a
 createArmTypes                            azure      Create types for interaction with ARM
 applyArmConversionInterface               azure      Add ARM conversion interfaces to Kubernetes types
 applyKubernetesResourceInterface          azure      Add the KubernetesResource interface to every resource
+applyDefaulterAndValidatorInterfaces      azure      Add the admission.Defaulter and admission.Validator interfaces to each resource that requires them
 flattenProperties                                    Apply flattening to properties marked for flattening
 stripUnreferenced                                    Strip unreferenced types
 addStatusConditions                       azure      Add the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources
