@@ -15,7 +15,8 @@ import (
 func AddValidatorInterface(
 	resourceDef astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
-	definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinition, error) {
+	definitions astmodel.TypeDefinitionSet,
+	validations map[functions.ValidationKind][]*functions.ResourceFunction) (astmodel.TypeDefinition, error) {
 
 	resolved, err := definitions.ResolveResourceSpecAndStatus(resourceDef)
 	if err != nil {
@@ -23,8 +24,12 @@ func AddValidatorInterface(
 	}
 
 	validatorBuilder := functions.NewValidatorBuilder(resourceDef.Name(), resolved.ResourceType, idFactory)
-	validatorBuilder.AddValidation(functions.ValidationKindCreate, functions.NewValidateResourceReferencesFunction(resolved.ResourceType, idFactory))
-	validatorBuilder.AddValidation(functions.ValidationKindUpdate, functions.NewValidateResourceReferencesFunction(resolved.ResourceType, idFactory))
+	for validationKind, vs := range validations {
+		for _, validation := range vs {
+			validatorBuilder.AddValidation(validationKind, validation)
+		}
+
+	}
 
 	resourceType := resolved.ResourceType.WithInterface(validatorBuilder.ToInterfaceImplementation())
 
