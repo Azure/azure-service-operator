@@ -16,9 +16,9 @@ import (
 	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
-	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
 func newVMVirtualNetwork(tc *testcommon.KubePerTestContext, owner genruntime.KnownResourceReference) *network.VirtualNetwork {
@@ -66,7 +66,7 @@ func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.Res
 	protocol := network.InboundNatPoolPropertiesFormatProtocolTcp
 
 	// TODO: Getting this is SUPER awkward
-	frontIPConfigurationARMID, err := genericarmclient.MakeResourceGroupScopeARMID(
+	frontIPConfigurationARMID, err := core.MakeResourceGroupScopeARMID(
 		tc.AzureSubscription,
 		rg.Name,
 		"Microsoft.Network",

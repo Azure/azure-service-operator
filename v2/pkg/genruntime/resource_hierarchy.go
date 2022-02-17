@@ -11,7 +11,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
 type ResourceHierarchyRoot string
@@ -97,7 +97,7 @@ func (h ResourceHierarchy) FullyQualifiedARMID(subscriptionID string) (string, e
 	case ResourceHierarchyRootSubscription:
 		// This is currently a special case as the only resource like this is ResourceGroup and ResourceGroup itself
 		// is a bit funky because it doesn't have a /providers like everything else does...
-		return genericarmclient.MakeResourceGroupID(subscriptionID, azureNames[0]), nil
+		return core.MakeResourceGroupID(subscriptionID, azureNames[0]), nil
 	case ResourceHierarchyRootResourceGroup:
 		rgName := azureNames[0]
 		remainingNames := azureNames[1:]
@@ -121,7 +121,7 @@ func (h ResourceHierarchy) FullyQualifiedARMID(subscriptionID string) (string, e
 
 		// Join them together
 		interleaved := InterleaveStrSlice(resourceTypes, remainingNames)
-		return genericarmclient.MakeResourceGroupScopeARMID(subscriptionID, rgName, provider, interleaved...)
+		return core.MakeResourceGroupScopeARMID(subscriptionID, rgName, provider, interleaved...)
 	default:
 		return "", errors.Errorf("unknown root kind %q", h.RootKind())
 	}

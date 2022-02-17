@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package genericarmclient
+package core
 
 import (
 	"fmt"

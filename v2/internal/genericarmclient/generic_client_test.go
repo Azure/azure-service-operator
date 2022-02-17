@@ -17,7 +17,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
-	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
@@ -41,7 +40,7 @@ func Test_NewResourceGroup(t *testing.T) {
 
 	typedResourceGroupSpec := resourceGroupSpec.(resources.ResourceGroupSpecARM)
 
-	id := genericarmclient.MakeResourceGroupID(testContext.AzureSubscription, resourceGroup.Name)
+	id := core.MakeResourceGroupID(testContext.AzureSubscription, resourceGroup.Name)
 
 	poller, err := testContext.AzureClient.BeginCreateOrUpdateByID(ctx, id, typedResourceGroupSpec.GetAPIVersion(), typedResourceGroupSpec)
 	g.Expect(err).ToNot(HaveOccurred())
@@ -90,7 +89,7 @@ func Test_NewResourceGroup_Error(t *testing.T) {
 
 	typedResourceGroupSpec := resourceGroupSpec.(resources.ResourceGroupSpecARM)
 
-	id := genericarmclient.MakeResourceGroupID(testContext.AzureSubscription, resourceGroup.Name)
+	id := core.MakeResourceGroupID(testContext.AzureSubscription, resourceGroup.Name)
 
 	_, err = testContext.AzureClient.BeginCreateOrUpdateByID(ctx, id, typedResourceGroupSpec.GetAPIVersion(), typedResourceGroupSpec)
 	g.Expect(err).To(HaveOccurred())

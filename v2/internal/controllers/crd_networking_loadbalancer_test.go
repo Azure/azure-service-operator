@@ -15,9 +15,9 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101"
-	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
 func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
@@ -55,7 +55,7 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 	protocol := network.InboundNatPoolPropertiesFormatProtocolTcp
 
 	// TODO: This is still really awkward
-	frontendIPConfigurationARMID, err := genericarmclient.MakeResourceGroupScopeARMID(
+	frontendIPConfigurationARMID, err := core.MakeResourceGroupScopeARMID(
 		tc.AzureSubscription,
 		rg.Name,
 		"Microsoft.Network",
