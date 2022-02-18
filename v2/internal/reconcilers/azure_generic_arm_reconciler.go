@@ -273,8 +273,10 @@ func (r *AzureDeploymentReconciler) makeReadyConditionFromError(cloudError *gene
 		severity = conditions.ConditionSeverityError
 		// This case purposefully does nothing as the fatal provisioning state was already set above
 	default:
-		// TODO: Is panic OK here?
-		panic(fmt.Sprintf("Unknown error classification %q", details.Classification))
+		return conditions.Condition{},
+			errors.Errorf(
+				"unknown error classification %q while making Ready condition",
+				details.Classification)
 	}
 
 	cond := r.PositiveConditions.MakeFalseCondition(conditions.ConditionTypeReady, severity, r.obj.GetGeneration(), details.Code, details.Message)
