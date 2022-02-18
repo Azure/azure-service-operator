@@ -8,7 +8,6 @@ package secrets
 import (
 	"context"
 
-	"github.com/pkg/errors"
 	"k8s.io/api/core/v1"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -124,12 +123,7 @@ func checkSecretOwner(obj client.Object, secret *v1.Secret) error {
 	}
 
 	if !owned {
-		return errors.Errorf(
-			"cannot overwrite secret %s/%s which is not owned by %s/%s",
-			secret.GetNamespace(),
-			secret.GetName(),
-			secret.GetNamespace(),
-			obj.GetName())
+		return NewSecretNotOwnedError(secret.GetNamespace(), secret.GetName(), obj.GetName())
 	}
 
 	return nil

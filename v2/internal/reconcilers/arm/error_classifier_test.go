@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package reconcilers_test
+package arm_test
 
 import (
 	"testing"
@@ -11,7 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
@@ -32,7 +32,7 @@ func Test_NilError_IsRetryable(t *testing.T) {
 		Message:        core.UnknownErrorMessage,
 	}
 
-	g.Expect(reconcilers.ClassifyCloudError(nil)).To(Equal(expected))
+	g.Expect(arm.ClassifyCloudError(nil)).To(Equal(expected))
 }
 
 func Test_Conflict_IsNotRetryable(t *testing.T) {
@@ -44,8 +44,7 @@ func Test_Conflict_IsNotRetryable(t *testing.T) {
 		Code:           conflictError.Code(),
 		Message:        conflictError.Message(),
 	}
-
-	g.Expect(reconcilers.ClassifyCloudError(conflictError)).To(Equal(expected))
+	g.Expect(arm.ClassifyCloudError(conflictError)).To(Equal(expected))
 }
 
 func Test_BadRequest_IsFatal(t *testing.T) {
@@ -57,8 +56,7 @@ func Test_BadRequest_IsFatal(t *testing.T) {
 		Code:           badRequestError.Code(),
 		Message:        badRequestError.Message(),
 	}
-
-	g.Expect(reconcilers.ClassifyCloudError(badRequestError)).To(Equal(expected))
+	g.Expect(arm.ClassifyCloudError(badRequestError)).To(Equal(expected))
 }
 
 func Test_ResourceGroupNotFound_IsRetryable(t *testing.T) {
@@ -70,8 +68,7 @@ func Test_ResourceGroupNotFound_IsRetryable(t *testing.T) {
 		Code:           resourceGroupNotFoundError.Code(),
 		Message:        resourceGroupNotFoundError.Message(),
 	}
-
-	g.Expect(reconcilers.ClassifyCloudError(resourceGroupNotFoundError)).To(Equal(expected))
+	g.Expect(arm.ClassifyCloudError(resourceGroupNotFoundError)).To(Equal(expected))
 }
 
 func Test_UnknownError_IsRetryable(t *testing.T) {
@@ -83,6 +80,5 @@ func Test_UnknownError_IsRetryable(t *testing.T) {
 		Code:           unknownError.Code(),
 		Message:        unknownError.Message(),
 	}
-
-	g.Expect(reconcilers.ClassifyCloudError(unknownError)).To(Equal(expected))
+	g.Expect(arm.ClassifyCloudError(unknownError)).To(Equal(expected))
 }
