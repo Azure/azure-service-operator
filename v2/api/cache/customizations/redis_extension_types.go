@@ -35,10 +35,13 @@ func (e *RedisExtension) ClassifyError(
 	}
 
 	// Override is to treat Conflict as retryable for Redis, if the message contains "try again later"
-	//TODO: Do we need to check the message, or was that just a discriminator for when the code was generic?
-	inner := cloudError.InnerError
-	if details.Classification == genericarmclient.ErrorFatal && to.String(inner.Code) == "Conflict" {
-		if inner.Message != nil && strings.Contains(strings.ToLower(*inner.Message), "try again later") {
+	// TODO: Do we need to check the message, or was that just a discriminator for when the code was generic?
+	if details.Classification == genericarmclient.ErrorFatal &&
+		cloudError.InnerError != nil &&
+		cloudError.InnerError.Message != nil {
+		inner := cloudError.InnerError
+		if to.String(cloudError.InnerError.Code) == "Conflict" &&
+			strings.Contains(strings.ToLower(*inner.Message), "try again later") {
 			details.Classification = genericarmclient.ErrorRetryable
 		}
 	}
