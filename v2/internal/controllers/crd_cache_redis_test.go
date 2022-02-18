@@ -10,10 +10,13 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
+	v1 "k8s.io/api/core/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 //nolint:tparallel
@@ -171,4 +174,96 @@ func Redis_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Red
 	tc.Expect(rule.Status.EndIP).ToNot(BeNil())
 	tc.Expect(*rule.Status.EndIP).To(Equal("1.2.3.5"))
 	tc.Expect(rule.Status.Id).ToNot(BeNil())
+}
+
+func Test_Cache_Redis_SecretsFromAzure(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+	redis := makeRedis(tc, rg, "redis")
+
+	tc.CreateResourceAndWait(redis)
+
+	// There should be no secrets at this point
+	list := &v1.SecretList{}
+	tc.ListResources(list, client.InNamespace(tc.Namespace))
+	tc.Expect(list.Items).To(HaveLen(0))
+
+	// Run sub-tests on the redis
+	tc.RunSubtests(
+		testcommon.Subtest{
+			Name: "SecretsWrittenToSameKubeSecret",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				Redis_SecretsWrittenToSameKubeSecret(tc, redis)
+			},
+		},
+		testcommon.Subtest{
+			Name: "SecretsWrittenToDifferentKubeSecrets",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				Redis_SecretsWrittenToDifferentKubeSecrets(tc, redis)
+			},
+		},
+	)
+}
+
+func Redis_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, redis *cache.Redis) {
+	old := redis.DeepCopy()
+	redisSecret := "storagekeys"
+	redis.Spec.OperatorSpec = &cache.RedisOperatorSpec{
+		Secrets: &cache.RedisOperatorSecrets{
+			PrimaryKey: &genruntime.SecretDestination{
+				Name: redisSecret,
+				Key:  "primarykey",
+			},
+			HostName: &genruntime.SecretDestination{
+				Name: redisSecret,
+				Key:  "hostname",
+			},
+			SSLPort: &genruntime.SecretDestination{
+				Name: redisSecret,
+				Key:  "sslport",
+			},
+		},
+	}
+	tc.PatchResourceAndWait(old, redis)
+
+	tc.ExpectSecretHasKeys(redisSecret, "primarykey", "hostname", "sslport")
+}
+
+func Redis_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerTestContext, redis *cache.Redis) {
+	old := redis.DeepCopy()
+	primaryKeySecret := "secret1"
+	secondaryKeySecret := "secret2"
+	hostnameSecret := "secret3"
+	sslPortSecret := "secret4"
+
+	// Not testing port as it's not returned by default so won't be written anyway
+
+	redis.Spec.OperatorSpec = &cache.RedisOperatorSpec{
+		Secrets: &cache.RedisOperatorSecrets{
+			PrimaryKey: &genruntime.SecretDestination{
+				Name: primaryKeySecret,
+				Key:  "primarykey",
+			},
+			SecondaryKey: &genruntime.SecretDestination{
+				Name: secondaryKeySecret,
+				Key:  "secondarykey",
+			},
+			HostName: &genruntime.SecretDestination{
+				Name: hostnameSecret,
+				Key:  "hostname",
+			},
+			SSLPort: &genruntime.SecretDestination{
+				Name: sslPortSecret,
+				Key:  "sslport",
+			},
+		},
+	}
+	tc.PatchResourceAndWait(old, redis)
+
+	tc.ExpectSecretHasKeys(primaryKeySecret, "primarykey")
+	tc.ExpectSecretHasKeys(secondaryKeySecret, "secondarykey")
+	tc.ExpectSecretHasKeys(hostnameSecret, "hostname")
+	tc.ExpectSecretHasKeys(sslPortSecret, "sslport")
 }

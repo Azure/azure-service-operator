@@ -147,6 +147,11 @@ typeTransformers:
         value:
           name: string
     because: the definition in rest api specs uses additionalProperties + defined fields which we don't support
+  - group: cache
+    name: RedisProperties_Status
+    property: AccessKeys
+    remove: true
+    because: AccessKeys is only set on response to PUT/CREATE, but we fill out Status via GET so this field is always empty. It also contains secrets we wouldn't want to expose in status anyway.
   - group: deploymenttemplate
     name: ResourceLocations
     target:
@@ -542,6 +547,12 @@ objectModelConfiguration:
     2020-12-01:
       Redis:
         $export: true
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - SecondaryKey
+          - HostName
+          - Port
+          - SSLPort
       RedisCreateProperties:
         SubnetId:
           $armReference: true
