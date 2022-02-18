@@ -515,7 +515,8 @@ func (r *AzureDeploymentReconciler) handlePollerFailed(ctx context.Context, err 
 
 	isFatal := false
 	if isCloudErr {
-		ready, err := r.makeReadyConditionFromError(cloudError)
+		var ready conditions.Condition
+		ready, err = r.makeReadyConditionFromError(cloudError)
 		if err != nil {
 			return ctrl.Result{}, err
 		}
