@@ -29,13 +29,6 @@ var conflictError = &genericarmclient.CloudError{
 	},
 }
 
-var retryableConflictError = &genericarmclient.CloudError{
-	InnerError: &genericarmclient.ErrorResponse{
-		Code:    to.StringPtr("Conflict"),
-		Message: to.StringPtr("Umm, other stuff is going on. Try again later?"),
-	},
-}
-
 var resourceGroupNotFoundError = &genericarmclient.CloudError{
 	InnerError: &genericarmclient.ErrorResponse{
 		Code:    to.StringPtr("ResourceGroupNotFound"),
@@ -71,18 +64,6 @@ func Test_Conflict_IsNotRetryable(t *testing.T) {
 		Message:        to.String(conflictError.InnerError.Message),
 	}
 	g.Expect(reconcilers.ClassifyCloudError(conflictError)).To(Equal(expected))
-}
-
-func Test_RetryableConflict_IsRetryable(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	expected := genericarmclient.CloudErrorDetails{
-		Classification: genericarmclient.ErrorRetryable,
-		Code:           to.String(retryableConflictError.InnerError.Code),
-		Message:        to.String(retryableConflictError.InnerError.Message),
-	}
-	g.Expect(reconcilers.ClassifyCloudError(retryableConflictError)).To(Equal(expected))
 }
 
 func Test_BadRequest_IsRetryable(t *testing.T) {
