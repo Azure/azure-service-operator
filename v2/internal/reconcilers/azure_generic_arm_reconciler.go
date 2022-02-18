@@ -24,7 +24,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
@@ -255,7 +254,7 @@ func (r *AzureDeploymentReconciler) GetReconcilePolicy() ReconcilePolicy {
 	return policy
 }
 
-func (r *AzureDeploymentReconciler) makeReadyConditionFromError(cloudError *core.CloudError) (conditions.Condition, error) {
+func (r *AzureDeploymentReconciler) makeReadyConditionFromError(cloudError *genericarmclient.CloudError) (conditions.Condition, error) {
 	classifier := extensions.CreateErrorClassifier(r.extension, ClassifyCloudError, r.obj.GetAPIVersion(), r.log)
 	details, err := classifier(cloudError)
 	if err != nil {
@@ -268,9 +267,9 @@ func (r *AzureDeploymentReconciler) makeReadyConditionFromError(cloudError *core
 
 	var severity conditions.ConditionSeverity
 	switch details.Classification {
-	case core.ErrorRetryable:
+	case genericarmclient.ErrorRetryable:
 		severity = conditions.ConditionSeverityWarning
-	case core.ErrorFatal:
+	case genericarmclient.ErrorFatal:
 		severity = conditions.ConditionSeverityError
 		// This case purposefully does nothing as the fatal provisioning state was already set above
 	default:
@@ -504,7 +503,7 @@ func (r *AzureDeploymentReconciler) BeginCreateOrUpdateResource(ctx context.Cont
 }
 
 func (r *AzureDeploymentReconciler) handlePollerFailed(ctx context.Context, err error) (ctrl.Result, error) {
-	var cloudError *core.CloudError
+	var cloudError *genericarmclient.CloudError
 	isCloudErr := errors.As(err, &cloudError)
 
 	r.log.V(Status).Info(

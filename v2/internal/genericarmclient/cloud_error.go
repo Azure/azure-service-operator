@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package core
+package genericarmclient
 
 // CloudError - An error response for a resource management request.
 type CloudError struct {

@@ -11,7 +11,7 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
@@ -25,10 +25,10 @@ var _ extensions.ErrorClassifier = &RedisExtension{}
 // log is a logger than can be used for telemetry.
 // next is the next implementation to call.
 func (e *RedisExtension) ClassifyError(
-	cloudError *core.CloudError,
+	cloudError *genericarmclient.CloudError,
 	apiVersion string,
 	log logr.Logger,
-	next extensions.ErrorClassifierFunc) (core.CloudErrorDetails, error) {
+	next extensions.ErrorClassifierFunc) (genericarmclient.CloudErrorDetails, error) {
 	details, err := next(cloudError)
 	if err != nil {
 		return details, err
@@ -37,9 +37,9 @@ func (e *RedisExtension) ClassifyError(
 	// Override is to treat Conflict as retryable for Redis, if the message contains "try again later"
 	//TODO: Do we need to check the message, or was that just a discriminator for when the code was generic?
 	inner := cloudError.InnerError
-	if details.Classification == core.ErrorFatal && to.String(inner.Code) == "Conflict" {
+	if details.Classification == genericarmclient.ErrorFatal && to.String(inner.Code) == "Conflict" {
 		if inner.Message != nil && strings.Contains(strings.ToLower(*inner.Message), "try again later") {
-			details.Classification = core.ErrorRetryable
+			details.Classification = genericarmclient.ErrorRetryable
 		}
 	}
 

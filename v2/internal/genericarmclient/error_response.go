@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package core
+package genericarmclient
 
 // ErrorResponse - Common error response for all Azure Resource Manager APIs to return error details for failed operations.
 type ErrorResponse struct {
