@@ -31,7 +31,7 @@ func (e *RedisExtension) ClassifyError(
 	next extensions.ErrorClassifierFunc) (genericarmclient.CloudErrorDetails, error) {
 	details, err := next(cloudError)
 	if err != nil {
-		return details, err
+		return genericarmclient.CloudErrorDetails{}, err
 	}
 
 	// Override is to treat Conflict as retryable for Redis, if the message contains "try again later"
