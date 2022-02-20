@@ -34,6 +34,9 @@ azureTargetNamespaces: []
 # watchers, webhooks or both.
 azureOperatorMode: ""
 
+# api version to use for cert-manager custom resources. Depends on the version of cert-manager which is deployed externally to this chart
+certManagerResourcesAPIVersion: cert-manager.io/v1
+
 # image defines the container image the ASO pod should run
 # Note: This should use the latest released tag number explicitly. If
 # it's ':latest' and someone deploys the chart after a new version has

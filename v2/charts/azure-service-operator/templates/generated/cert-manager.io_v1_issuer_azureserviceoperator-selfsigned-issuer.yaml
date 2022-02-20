@@ -1,4 +1,4 @@
-apiVersion: cert-manager.io/v1
+apiVersion: {{.Values.certManagerResourcesAPIVersion}}
 kind: Issuer
 metadata:
   name: azureserviceoperator-selfsigned-issuer

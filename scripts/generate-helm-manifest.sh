@@ -22,5 +22,6 @@ rm charts/azure-service-operator/templates/generated/*_namespace_* # remove name
 sed -i '' "s@$LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE@{{.Values.image.repository}}@g" "$DIR"charts/azure-service-operator/templates/generated/*_deployment_* # Replace hardcoded ASO image
 grep -E {{.KUBE_RBAC_PROXY}} "$DIR"charts/azure-service-operator/templates/generated/*_deployment_* # Ensure that what we're about to try to replace actually exists (if it doesn't we want to fail)
 sed -i '' "s@$KUBE_RBAC_PROXY.*@{{.Values.image.kubeRBACProxy}}@g" "$DIR"charts/azure-service-operator/templates/generated/*_deployment_*
+sed -i '' "s@cert-manager.io/.*@{{.Values.certManagerResourcesAPIVersion}}@g" "$DIR"charts/azure-service-operator/templates/generated/*cert-manager.io*
 find "$DIR"charts/azure-service-operator/templates/generated/ -type f -exec sed -i '' "s@azureserviceoperator-system@{{.Release.Namespace}}@g" {} \;
 sed -i '' "1,/version:.*/s/\(version: \)\(.*\)/\1$VERSION/g" "$DIR"charts/azure-service-operator/Chart.yaml  # find version key and update the value with the current version
