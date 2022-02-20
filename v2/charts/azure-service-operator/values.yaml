@@ -6,9 +6,6 @@ azureTenantID: ""
 # azureSubscriptionID is the Azure Subscription the operator will act against.
 azureSubscriptionID: ""
 
-# azureOperatorKeyvault is the Azure Key Vault to store secrets in. This field is optional.
-azureOperatorKeyvault: ""
-
 # cloudEnvironment is the cloud environment. Possible values include: AzurePublicCloud, AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud
 cloudEnvironment: AzurePublicCloud
 
@@ -19,23 +16,23 @@ azureClientID: ""
 # This is required when using Service Principal authentication.
 azureClientSecret: ""
 
-# azureUseMI determines if ASO will use a Managed Identity to authenticate.
-azureUseMI: False
+# SyncPeriod is the frequency at which resources are re-reconciled with Azure
+# when there have been no triggering changes in the Kubernetes resources. This sync
+# exists to detect and correct changes that happened in Azure that Kubernetes is not
+# aware about. BE VERY CAREFUL setting this value low - even a modest number of resources
+# can cause subscription level throttling if they are re-synced frequently.
+# If nil, no sync is performed. Durations are specified as "1h", "15m", or "60s". See
+# https://pkg.go.dev/time#ParseDuration for more details.
+azureSyncPeriod: ""
 
-# azureSecretNamingVersion allows choosing the algorithm used to derive secret names. Version 2 is recommended.
-azureSecretNamingVersion: "2"
+# TargetNamespaces lists the namespaces the operator will watch
+# for Azure resources (if the mode includes running watchers). If
+# it's empty the operator will watch all namespaces.
+azureTargetNamespaces: []
 
-# purgeDeletedKeyVaultSecrets determines if the operator should issue a secret Purge request in addition
-# to Delete when deleting secrets in Azure Key Vault. This only applies to secrets that are stored in Azure Key Vault.
-# It does nothing if the secret is stored in Kubernetes.
-purgeDeletedKeyVaultSecrets: False
-
-# recoverSoftDeletedKeyVaultSecrets determines if the operator should issue a secret Recover request when it
-# encounters an "ObjectIsDeletedButRecoverable" error from Azure Key Vault during secret creation. This error
-# can occur when a Key Vault has soft delete enabled and an ASO resource was deleted and recreated with the same name.
-# This only applies to secrets that are stored in Azure Key Vault.
-# It does nothing if the secret is stored in Kubernetes.
-recoverSoftDeletedKeyVaultSecrets: True
+# OperatorMode determines whether the operator should run
+# watchers, webhooks or both.
+azureOperatorMode: ""
 
 # image defines the container image the ASO pod should run
 # Note: This should use the latest released tag number explicitly. If
@@ -45,7 +42,7 @@ recoverSoftDeletedKeyVaultSecrets: True
 # corresponding CRD yaml in the cart (and so no CRD in the k8s
 # repository).
 image:
-  repository: mcr.microsoft.com/k8s/azureserviceoperator:v2.0.0-alpha.5
+  repository: mcr.microsoft.com/k8s/azureserviceoperator:v2.0.0-alpha.6
   kubeRBACProxy: gcr.io/kubebuilder/kube-rbac-proxy:v0.4.1 
 
 # installAadPodIdentity determines if the aad-pod-identity subchart should be installed.
