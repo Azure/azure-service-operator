@@ -45,17 +45,3 @@ image:
   repository: mcr.microsoft.com/k8s/azureserviceoperator:v2.0.0-alpha.6
   kubeRBACProxy: gcr.io/kubebuilder/kube-rbac-proxy:v0.4.1 
 
-# installAadPodIdentity determines if the aad-pod-identity subchart should be installed.
-installAadPodIdentity: False
-
-aad-pod-identity:
-  azureIdentities:
-    aso-identity:
-      name: aso-identity
-      type: 0
-      # Update values for Managed Identity
-      resourceID: ""
-      clientID: ""
-      binding:
-        name: aso-identity-binding
-        selector: aso_manager_binding

@@ -10,7 +10,7 @@ PUBLIC_REGISTRY=$3
 VERSION=$4
 DIR=$5
 
-echo "$DIR"charts/azure-service-operator/values.yaml
+echo "Generating helm chart manifest"
 sed -i '' "s@\($PUBLIC_REGISTRY\)\(.*\)@\1azureserviceoperator:$VERSION@g" "$DIR"charts/azure-service-operator/values.yaml
 rm -rf "$DIR"charts/azure-service-operator/templates/generated
 rm -rf "$DIR"charts/azure-service-operator/crds # remove generated files
