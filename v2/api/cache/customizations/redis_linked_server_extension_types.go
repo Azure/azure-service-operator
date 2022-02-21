@@ -15,16 +15,16 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
-var _ extensions.ErrorClassifier = &RedisExtension{}
+var _ extensions.ErrorClassifier = &RedisLinkedServerExtension{}
 
 // ClassifyError evaluates the provided error, returning including whether it is fatal or can be retried.
-// A conflict error (409) is normally fatal, but Redis resources may return 409 whilst a dependency is being created,
-// so we override for that case.
+// A conflict error (409) is normally fatal, but RedisLinkedServer resources may return 409 whilst a dependency is being
+// created, so we override for that case.
 // cloudError is the error returned from ARM.
 // apiVersion is the ARM API version used for the request.
 // log is a logger than can be used for telemetry.
 // next is the next implementation to call.
-func (e *RedisExtension) ClassifyError(
+func (e *RedisLinkedServerExtension) ClassifyError(
 	cloudError *genericarmclient.CloudError,
 	apiVersion string,
 	log logr.Logger,
@@ -34,7 +34,7 @@ func (e *RedisExtension) ClassifyError(
 		return genericarmclient.CloudErrorDetails{}, err
 	}
 
-	// Override is to treat Conflict as retryable for Redis, if the message contains "try again later"
+	// Override is to treat Conflict as retryable for RedisLinkedServers, if the message contains "try again later"
 	if cloudError.InnerError != nil &&
 		cloudError.InnerError.Message != nil {
 		inner := cloudError.InnerError
