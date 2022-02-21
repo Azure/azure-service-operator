@@ -12,6 +12,7 @@ import (
 	"github.com/go-logr/logr"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
@@ -28,10 +29,10 @@ func (e *RedisLinkedServerExtension) ClassifyError(
 	cloudError *genericarmclient.CloudError,
 	apiVersion string,
 	log logr.Logger,
-	next extensions.ErrorClassifierFunc) (genericarmclient.CloudErrorDetails, error) {
+	next extensions.ErrorClassifierFunc) (core.CloudErrorDetails, error) {
 	details, err := next(cloudError)
 	if err != nil {
-		return genericarmclient.CloudErrorDetails{}, err
+		return core.CloudErrorDetails{}, err
 	}
 
 	// Override is to treat Conflict as retryable for RedisLinkedServers, if the message contains "try again later"
@@ -40,7 +41,7 @@ func (e *RedisLinkedServerExtension) ClassifyError(
 		inner := cloudError.InnerError
 		if to.String(inner.Code) == "Conflict" &&
 			strings.Contains(strings.ToLower(*inner.Message), "try again later") {
-			details.Classification = genericarmclient.ErrorRetryable
+			details.Classification = core.ErrorRetryable
 		}
 	}
 

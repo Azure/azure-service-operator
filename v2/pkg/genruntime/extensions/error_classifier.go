@@ -11,6 +11,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
 // ErrorClassifier can be implemented to customize how the reconciler reacts to specific errors
@@ -24,11 +25,11 @@ type ErrorClassifier interface {
 		cloudError *genericarmclient.CloudError,
 		apiVersion string,
 		log logr.Logger,
-		next ErrorClassifierFunc) (genericarmclient.CloudErrorDetails, error)
+		next ErrorClassifierFunc) (core.CloudErrorDetails, error)
 }
 
 // ErrorClassifierFunc is the signature of a function that can be used to create a DefaultErrorClassifier
-type ErrorClassifierFunc func(cloudError *genericarmclient.CloudError) (genericarmclient.CloudErrorDetails, error)
+type ErrorClassifierFunc func(cloudError *genericarmclient.CloudError) (core.CloudErrorDetails, error)
 
 func CreateErrorClassifier(
 	host genruntime.ResourceExtension,
@@ -40,7 +41,7 @@ func CreateErrorClassifier(
 		return classifier
 	}
 
-	return func(cloudError *genericarmclient.CloudError) (genericarmclient.CloudErrorDetails, error) {
+	return func(cloudError *genericarmclient.CloudError) (core.CloudErrorDetails, error) {
 		log.V(Info).Info(
 			"Classifying cloud error",
 			"Message", cloudError.InnerError.Message,

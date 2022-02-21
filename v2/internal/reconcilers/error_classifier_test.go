@@ -13,6 +13,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
 var badRequestError = &genericarmclient.CloudError{
@@ -46,8 +47,8 @@ var unknownError = &genericarmclient.CloudError{
 func Test_NilError_IsRetryable(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
-	expected := genericarmclient.CloudErrorDetails{
-		Classification: genericarmclient.ErrorRetryable,
+	expected := core.CloudErrorDetails{
+		Classification: core.ErrorRetryable,
 		Code:           reconcilers.UnknownErrorCode,
 		Message:        reconcilers.UnknownErrorMessage,
 	}
@@ -58,8 +59,8 @@ func Test_Conflict_IsNotRetryable(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	expected := genericarmclient.CloudErrorDetails{
-		Classification: genericarmclient.ErrorFatal,
+	expected := core.CloudErrorDetails{
+		Classification: core.ErrorFatal,
 		Code:           to.String(conflictError.InnerError.Code),
 		Message:        to.String(conflictError.InnerError.Message),
 	}
@@ -70,8 +71,8 @@ func Test_BadRequest_IsRetryable(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	expected := genericarmclient.CloudErrorDetails{
-		Classification: genericarmclient.ErrorRetryable,
+	expected := core.CloudErrorDetails{
+		Classification: core.ErrorRetryable,
 		Code:           to.String(badRequestError.InnerError.Code),
 		Message:        to.String(badRequestError.InnerError.Message),
 	}
@@ -82,8 +83,8 @@ func Test_ResourceGroupNotFound_IsRetryable(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	expected := genericarmclient.CloudErrorDetails{
-		Classification: genericarmclient.ErrorRetryable,
+	expected := core.CloudErrorDetails{
+		Classification: core.ErrorRetryable,
 		Code:           to.String(resourceGroupNotFoundError.InnerError.Code),
 		Message:        to.String(resourceGroupNotFoundError.InnerError.Message),
 	}
@@ -94,8 +95,8 @@ func Test_UnknownError_IsRetryable(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	expected := genericarmclient.CloudErrorDetails{
-		Classification: genericarmclient.ErrorRetryable,
+	expected := core.CloudErrorDetails{
+		Classification: core.ErrorRetryable,
 		Code:           to.String(unknownError.InnerError.Code),
 		Message:        to.String(unknownError.InnerError.Message),
 	}

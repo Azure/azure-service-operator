@@ -24,6 +24,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
@@ -35,7 +36,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/randextensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
 
@@ -267,9 +267,9 @@ func (r *AzureDeploymentReconciler) makeReadyConditionFromError(cloudError *gene
 
 	var severity conditions.ConditionSeverity
 	switch details.Classification {
-	case genericarmclient.ErrorRetryable:
+	case core.ErrorRetryable:
 		severity = conditions.ConditionSeverityWarning
-	case genericarmclient.ErrorFatal:
+	case core.ErrorFatal:
 		severity = conditions.ConditionSeverityError
 		// This case purposefully does nothing as the fatal provisioning state was already set above
 	default:

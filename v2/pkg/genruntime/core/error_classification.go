@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package genericarmclient
+package core
 
 type ErrorClassification string
 
