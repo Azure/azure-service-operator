@@ -23,8 +23,8 @@
 9. Make sure they deploy successfully - check in the portal as well.
 
 # Creating and testing Helm chart for new release
-1. Create a new branch from `main` HEAD
-2. Generate fresh helm manifest: `task controller:gen-helm-manifest`
+1. Create a new branch from `<NEW_RELEASE_TAG>` HEAD
+2. Generate helm manifest for new release: `task controller:gen-helm-manifest`
 3. Check the version in `/v2/charts/azure-service-operator/Chart.yaml` if matches with the latest release tag.
 4. Install helm chart:
 ```
@@ -35,7 +35,7 @@ helm install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
 asov2 -n azureserviceoperator-system --create-namespace ./v2/charts/azure-service-operator/.
 ```
 5. Wait for the chart installation.
-6. Make sure chart is installed successfully.
+6. Ensure that the chart is installed successfully.
 7. If installed successfully, commit the files under `v2/charts/azure-service-operator`.
 8. Send a PR.
 
