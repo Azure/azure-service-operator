@@ -127,10 +127,11 @@ tasks:
 
   generator:diagrams:
     desc: Regenerate all GraphViz diagrams
-    dir: "./docs/hugo/static/images"
+    dir: "./docs/hugo/content"
     sources: ["**/*.dot"]
     cmds:
-    - "for f in **/*.dot; do dot -Tpng -o${f%.dot}.png $f; done"
+    - "for f in $(find . -name '*.dot'); do dot -Tpng -o${f%.dot}.png $f; done"
+
 
   ############### Controller targets ###############
   controller:quick-checks:
