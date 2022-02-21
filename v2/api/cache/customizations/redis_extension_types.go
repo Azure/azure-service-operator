@@ -18,7 +18,7 @@ import (
 
 var _ extensions.ErrorClassifier = &RedisExtension{}
 
-// ClassifyError evaluates the provided error, returning including whether it is fatal or can be retried.
+// ClassifyError evaluates the provided error, returning whether it is fatal or can be retried.
 // A conflict error (409) is normally fatal, but Redis resources may return 409 whilst a dependency is being created,
 // so we override for that case.
 // cloudError is the error returned from ARM.
@@ -36,14 +36,19 @@ func (e *RedisExtension) ClassifyError(
 	}
 
 	// Override is to treat Conflict as retryable for Redis, if the message contains "try again later"
-	if cloudError.InnerError != nil &&
-		cloudError.InnerError.Message != nil {
-		inner := cloudError.InnerError
-		if to.String(inner.Code) == "Conflict" &&
-			strings.Contains(strings.ToLower(*inner.Message), "try again later") {
-			details.Classification = core.ErrorRetryable
-		}
+	if isRetryableConflict(cloudError.InnerError) {
+		details.Classification = core.ErrorRetryable
 	}
 
 	return details, nil
+}
+
+// isRetryableConflict checks the passed error to see if it is a retryable conflict, returning true if it is.
+func isRetryableConflict(err *genericarmclient.ErrorResponse) bool {
+	if err == nil || err.Message == nil {
+		return false
+	}
+
+	return to.String(err.Code) == "Conflict" &&
+		strings.Contains(strings.ToLower(*err.Message), "try again later")
 }
