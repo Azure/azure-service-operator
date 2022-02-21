@@ -24,6 +24,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
+
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
@@ -33,7 +36,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/randextensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
 
@@ -252,21 +254,33 @@ func (r *AzureDeploymentReconciler) GetReconcilePolicy() ReconcilePolicy {
 	return policy
 }
 
-func (r *AzureDeploymentReconciler) makeReadyConditionFromError(cloudError *genericarmclient.CloudError) conditions.Condition {
+func (r *AzureDeploymentReconciler) makeReadyConditionFromError(cloudError *genericarmclient.CloudError) (conditions.Condition, error) {
+	classifier := extensions.CreateErrorClassifier(r.extension, ClassifyCloudError, r.obj.GetAPIVersion(), r.log)
+	details, err := classifier(cloudError)
+	if err != nil {
+		return conditions.Condition{},
+			errors.Wrapf(
+				err,
+				"Unable to classify cloud error (%s)",
+				cloudError.Error())
+	}
+
 	var severity conditions.ConditionSeverity
-	errorDetails := ClassifyCloudError(cloudError)
-	switch errorDetails.Classification {
-	case CloudErrorRetryable:
+	switch details.Classification {
+	case core.ErrorRetryable:
 		severity = conditions.ConditionSeverityWarning
-	case CloudErrorFatal:
+	case core.ErrorFatal:
 		severity = conditions.ConditionSeverityError
 		// This case purposefully does nothing as the fatal provisioning state was already set above
 	default:
-		// TODO: Is panic OK here?
-		panic(fmt.Sprintf("Unknown error classification %q", errorDetails.Classification))
+		return conditions.Condition{},
+			errors.Errorf(
+				"unknown error classification %q while making Ready condition",
+				details.Classification)
 	}
 
-	return r.PositiveConditions.MakeFalseCondition(conditions.ConditionTypeReady, severity, r.obj.GetGeneration(), errorDetails.Code, errorDetails.Message)
+	cond := r.PositiveConditions.MakeFalseCondition(conditions.ConditionTypeReady, severity, r.obj.GetGeneration(), details.Code, details.Message)
+	return cond, nil
 }
 
 func (r *AzureDeploymentReconciler) AddInitialResourceState(resourceID string) error {
@@ -501,7 +515,12 @@ func (r *AzureDeploymentReconciler) handlePollerFailed(ctx context.Context, err 
 
 	isFatal := false
 	if isCloudErr {
-		ready := r.makeReadyConditionFromError(cloudError)
+		var ready conditions.Condition
+		ready, err = r.makeReadyConditionFromError(cloudError)
+		if err != nil {
+			return ctrl.Result{}, err
+		}
+
 		conditions.SetCondition(r.obj, ready)
 		isFatal = ready.Severity == conditions.ConditionSeverityError
 	}
