@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package astmodel
+package functions
 
 import (
 	"go/token"
@@ -11,20 +11,20 @@ import (
 	"github.com/dave/dst"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-func NewValidateResourceReferencesFunction(resource *ResourceType, idFactory IdentifierFactory) *resourceFunction {
-	return &resourceFunction{
-		name:             "validateResourceReferences",
-		resource:         resource,
-		idFactory:        idFactory,
-		asFunc:           validateResourceReferences,
-		requiredPackages: NewPackageReferenceSet(GenRuntimeReference, ReflectHelpersReference),
-	}
+func NewValidateResourceReferencesFunction(resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *ResourceFunction {
+	return NewResourceFunction(
+		"validateResourceReferences",
+		resource,
+		idFactory,
+		validateResourceReferences,
+		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference, astmodel.ReflectHelpersReference))
 }
 
-func validateResourceReferences(k *resourceFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
-	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
+func validateResourceReferences(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
 	fn := &astbuilder.FuncDetails{
@@ -51,13 +51,13 @@ func validateResourceReferences(k *resourceFunction, codeGenerationContext *Code
 //		return err
 //	}
 //	return genruntime.ValidateResourceReferences(refs)
-func validateResourceReferencesBody(codeGenerationContext *CodeGenerationContext, receiverIdent string) []dst.Stmt {
-	reflectHelpers, err := codeGenerationContext.GetImportedPackageName(ReflectHelpersReference)
+func validateResourceReferencesBody(codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string) []dst.Stmt {
+	reflectHelpers, err := codeGenerationContext.GetImportedPackageName(astmodel.ReflectHelpersReference)
 	if err != nil {
 		panic(err)
 	}
 
-	genRuntime, err := codeGenerationContext.GetImportedPackageName(GenRuntimeReference)
+	genRuntime, err := codeGenerationContext.GetImportedPackageName(astmodel.GenRuntimeReference)
 	if err != nil {
 		panic(err)
 	}

@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package astmodel
+package functions
 
 import (
 	"fmt"
@@ -12,24 +12,20 @@ import (
 	"github.com/dave/dst"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
-)
-
-var (
-	DefaulterInterfaceName           = MakeTypeName(ControllerRuntimeAdmission, "Defaulter")
-	GenRuntimeDefaulterInterfaceName = MakeTypeName(GenRuntimeReference, "Defaulter")
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 // DefaulterBuilder helps in building an interface implementation for admissions.Defaulter.
 type DefaulterBuilder struct {
-	resourceName TypeName
-	resource     *ResourceType
-	idFactory    IdentifierFactory
+	resourceName astmodel.TypeName
+	resource     *astmodel.ResourceType
+	idFactory    astmodel.IdentifierFactory
 
-	defaults []*resourceFunction
+	defaults []*ResourceFunction
 }
 
 // NewDefaulterBuilder creates a new DefaulterBuilder for the given object type.
-func NewDefaulterBuilder(resourceName TypeName, resource *ResourceType, idFactory IdentifierFactory) *DefaulterBuilder {
+func NewDefaulterBuilder(resourceName astmodel.TypeName, resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *DefaulterBuilder {
 	return &DefaulterBuilder{
 		resourceName: resourceName,
 		resource:     resource,
@@ -38,8 +34,8 @@ func NewDefaulterBuilder(resourceName TypeName, resource *ResourceType, idFactor
 }
 
 // AddDefault adds a default function to the set of default functions to be applied to the given object
-func (d *DefaulterBuilder) AddDefault(f *resourceFunction) {
-	if !d.resource.Equals(f.resource, EqualityOverrides{}) {
+func (d *DefaulterBuilder) AddDefault(f *ResourceFunction) {
+	if !d.resource.Equals(f.Resource(), astmodel.EqualityOverrides{}) {
 		panic("cannot add default function on non-matching object types")
 	}
 	d.defaults = append(d.defaults, f)
@@ -49,7 +45,7 @@ func (d *DefaulterBuilder) AddDefault(f *resourceFunction) {
 // This implementation includes calls to all defaults registered with this DefaulterBuilder via the AddDefault function,
 // as well as helper functions that allow additional handcrafted defaults to be injected by
 // implementing the genruntime.Defaulter interface.
-func (d *DefaulterBuilder) ToInterfaceImplementation() *InterfaceImplementation {
+func (d *DefaulterBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplementation {
 	group, version, ok := d.resourceName.PackageReference.GroupVersion()
 	if !ok {
 		panic(fmt.Sprintf("unexpected external package reference for resource name %s", d.resourceName))
@@ -61,7 +57,7 @@ func (d *DefaulterBuilder) ToInterfaceImplementation() *InterfaceImplementation 
 
 	resource := d.resourceName.Name()
 
-	group = strings.ToLower(group + GroupSuffix)
+	group = strings.ToLower(group + astmodel.GroupSuffix)
 	nonPluralResource := strings.ToLower(resource)
 	resource = strings.ToLower(d.resourceName.Plural().Name())
 
@@ -83,21 +79,19 @@ func (d *DefaulterBuilder) ToInterfaceImplementation() *InterfaceImplementation 
 		version,
 		name)
 
-	funcs := []Function{
-		&resourceFunction{
-			name:             "Default",
-			resource:         d.resource,
-			idFactory:        d.idFactory,
-			asFunc:           d.defaultFunction,
-			requiredPackages: NewPackageReferenceSet(GenRuntimeReference),
-		},
-		&resourceFunction{
-			name:             "defaultImpl",
-			resource:         d.resource,
-			idFactory:        d.idFactory,
-			asFunc:           d.localDefault,
-			requiredPackages: NewPackageReferenceSet(GenRuntimeReference),
-		},
+	funcs := []astmodel.Function{
+		NewResourceFunction(
+			"Default",
+			d.resource,
+			d.idFactory,
+			d.defaultFunction,
+			astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference)),
+		NewResourceFunction(
+			"defaultImpl",
+			d.resource,
+			d.idFactory,
+			d.localDefault,
+			astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference)),
 	}
 
 	// Add the actual individual default functions
@@ -105,13 +99,13 @@ func (d *DefaulterBuilder) ToInterfaceImplementation() *InterfaceImplementation 
 		funcs = append(funcs, def)
 	}
 
-	return NewInterfaceImplementation(
-		DefaulterInterfaceName,
+	return astmodel.NewInterfaceImplementation(
+		astmodel.DefaulterInterfaceName,
 		funcs...).WithAnnotation(annotation)
 }
 
-func (d *DefaulterBuilder) localDefault(k *resourceFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
-	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
+func (d *DefaulterBuilder) localDefault(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
 	var defaults []dst.Stmt
@@ -119,7 +113,7 @@ func (d *DefaulterBuilder) localDefault(k *resourceFunction, codeGenerationConte
 		defaults = append(
 			defaults,
 			&dst.ExprStmt{
-				X: astbuilder.CallQualifiedFunc(receiverIdent, def.name),
+				X: astbuilder.CallQualifiedFunc(receiverIdent, def.Name()),
 			})
 	}
 
@@ -136,13 +130,13 @@ func (d *DefaulterBuilder) localDefault(k *resourceFunction, codeGenerationConte
 	return fn.DefineFunc()
 }
 
-func (d *DefaulterBuilder) defaultFunction(k *resourceFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
-	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
+func (d *DefaulterBuilder) defaultFunction(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 	tempVarIdent := "temp"
 	runtimeDefaulterIdent := "runtimeDefaulter"
 
-	overrideInterfaceType := GenRuntimeDefaulterInterfaceName.AsType(codeGenerationContext)
+	overrideInterfaceType := astmodel.GenRuntimeDefaulterInterfaceName.AsType(codeGenerationContext)
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,

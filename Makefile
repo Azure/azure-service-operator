@@ -229,6 +229,8 @@ helm-chart-manifests: generate
 	# Ensure that what we're about to try to replace actually exists (if it doesn't we want to fail)
 	grep -E $(KUBE_RBAC_PROXY) ./charts/azure-service-operator/templates/generated/*_deployment_*
 	perl -pi -e s,$(KUBE_RBAC_PROXY),"{{ .Values.image.kubeRBACProxy }}",g ./charts/azure-service-operator/templates/generated/*_deployment_*
+	# replace hard coded cert-manager version with templating
+	sed -i "s@apiVersion: cert-manager.io/.*@apiVersion: {{ .Values.certManagerResourcesAPIVersion }}@g" ./charts/azure-service-operator/templates/generated/*cert-manager.io*
 	# replace hard coded namespace with Helm templating
 	find ./charts/azure-service-operator/templates/generated/ -type f -exec perl -pi -e s,azureoperator-system,"{{ .Release.Namespace }}",g {} \;
 	# create unique names so each instance of the operator has its own role binding 
