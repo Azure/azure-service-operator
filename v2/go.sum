@@ -33,6 +33,8 @@ github.com/Azure/azure-sdk-for-go/sdk/azidentity v0.13.0/go.mod h1:TmXReXZ9yPp5D
 github.com/Azure/azure-sdk-for-go/sdk/internal v0.8.3/go.mod h1:KLF4gFr6DcKFZwSuH8w8yEK6DpFl3LP5rhdvAb7Yz5I=
 github.com/Azure/azure-sdk-for-go/sdk/internal v0.9.0 h1:HMbyI+KfvL+XyuWekow/nWbRxsAhB6+DVzgQTIABecU=
 github.com/Azure/azure-sdk-for-go/sdk/internal v0.9.0/go.mod h1:KLF4gFr6DcKFZwSuH8w8yEK6DpFl3LP5rhdvAb7Yz5I=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos v0.3.0 h1:eM9yo28gEPw2Ub78z37BGjHuGDQPRuOLgwbfppdHfSk=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos v0.3.0/go.mod h1:FGhJ5xANgK7qasLEBZumvaGOJwAsnSzBhl7cpUADWq4=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis v0.3.0 h1:oX1DLGsPo04UGr7HfVqEwNBo0LYFk7MPbDEKarvLELE=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis v0.3.0/go.mod h1:XuasrW9k6UtyOa2zinkJCbGtjHs9EpAbUU7Qflzmq8g=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v0.3.0 h1:eAjCVVYhoxCxan05p4WUuvC0aVUpAbKB/P8xedcjBwQ=
