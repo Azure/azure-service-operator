@@ -16,4 +16,5 @@ const (
 	ScopeProperty               = "Scope"
 	OperatorSpecProperty        = "OperatorSpec"
 	OperatorSpecSecretsProperty = "Secrets"
+	ConditionsProperty          = "Conditions"
 )

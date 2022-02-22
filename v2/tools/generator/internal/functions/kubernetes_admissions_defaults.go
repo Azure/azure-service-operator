@@ -3,27 +3,28 @@
  * Licensed under the MIT license.
  */
 
-package astmodel
+package functions
 
 import (
 	"github.com/dave/dst"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-func NewDefaultAzureNameFunction(resource *ResourceType, idFactory IdentifierFactory) *resourceFunction {
-	return &resourceFunction{
+func NewDefaultAzureNameFunction(resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *ResourceFunction {
+	return &ResourceFunction{
 		name:             "defaultAzureName",
 		resource:         resource,
 		idFactory:        idFactory,
 		asFunc:           defaultAzureNameFunction,
-		requiredPackages: NewPackageReferenceSet(GenRuntimeReference),
+		requiredPackages: astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference),
 	}
 }
 
 // defaultAzureNameFunction returns a function that defaults the AzureName property of the resource spec
 // to the Name property of the resource spec
-func defaultAzureNameFunction(k *resourceFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
+func defaultAzureNameFunction(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -34,7 +35,7 @@ func defaultAzureNameFunction(k *resourceFunction, codeGenerationContext *CodeGe
 
 	azureNameProp := &dst.SelectorExpr{
 		X:   specSelector,
-		Sel: dst.NewIdent(AzureNameProperty),
+		Sel: dst.NewIdent(astmodel.AzureNameProperty),
 	}
 
 	nameProp := &dst.SelectorExpr{
