@@ -48,12 +48,12 @@ func Test_Conflict_IsNotRetryable(t *testing.T) {
 	g.Expect(reconcilers.ClassifyCloudError(conflictError)).To(Equal(expected))
 }
 
-func Test_BadRequest_IsRetryable(t *testing.T) {
+func Test_BadRequest_IsFatal(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	expected := core.CloudErrorDetails{
-		Classification: core.ErrorRetryable,
+		Classification: core.ErrorFatal,
 		Code:           badRequestError.Code(),
 		Message:        badRequestError.Message(),
 	}

@@ -62,8 +62,7 @@ func classifyCloudErrorCode(code string) core.ErrorClassification {
 		return core.ErrorRetryable
 	case "BadRequestFormat",
 		"Conflict",
-		// TODO: See https://github.com/Azure/azure-service-operator/issues/1997 for why this is commented out
-		// "BadRequest",
+		"BadRequest",
 		"PublicIpForGatewayIsRequired", // TODO: There's not a great way to look at an arbitrary error returned by this API and determine if it's a 4xx or 5xx level... ugh
 		"InvalidParameter",
 		"InvalidParameterValue",
