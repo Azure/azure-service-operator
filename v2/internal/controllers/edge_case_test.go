@@ -188,3 +188,47 @@ func Test_CreateStorageAccountThatAlreadyExists_ReconcilesSuccessfully(t *testin
 	// Create it again
 	tc.CreateResourcesAndWait(acctCopy)
 }
+
+func Test_CreateStorageAccountWithoutRequiredProperties_Rejected(t *testing.T) {
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	// Create another resource group that points to the same Azure resource
+	// Custom namer because storage accounts have strict names
+	namer := tc.Namer.WithSeparator("")
+
+	// Create a storage account
+	kind := storage.StorageAccountsSpecKindBlobStorage
+	sku := storage.SkuNameStandardLRS
+	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
+	acct := &storage.StorageAccount{
+		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("stor")),
+		Spec: storage.StorageAccounts_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+			Kind:     &kind,
+			Sku: &storage.Sku{
+				Name: &sku,
+			},
+			AccessTier: &accessTier,
+		},
+	}
+
+	acctCopy := acct.DeepCopy()
+
+	tc.CreateResourcesAndWait(acct)
+
+	// Patch the account to remove the finalizer
+	old := acct.DeepCopy()
+	controllerutil.RemoveFinalizer(acct, "serviceoperator.azure.com/finalizer")
+	tc.Patch(old, acct)
+
+	// Delete the account
+	tc.DeleteResourceAndWait(acct)
+
+	// Create it again
+	tc.CreateResourcesAndWait(acctCopy)
+}
