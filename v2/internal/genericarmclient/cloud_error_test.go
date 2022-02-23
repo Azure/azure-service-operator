@@ -1,3 +1,8 @@
+/*
+Copyright (c) Microsoft Corporation.
+Licensed under the MIT license.
+*/
+
 package genericarmclient
 
 import (
@@ -8,6 +13,7 @@ import (
 )
 
 func TestCloudError_WhenLoadedFromJSON_ReturnsExpectedResults(t *testing.T) {
+	t.Parallel()
 
 	cases := []struct {
 		Name            string
@@ -61,9 +67,9 @@ func TestCloudError_WhenLoadedFromJSON_ReturnsExpectedResults(t *testing.T) {
 			g := NewGomegaWithT(t)
 			g.Expect(json.Unmarshal([]byte(c.JSON), &cloudError)).To(Succeed())
 
-			g.Expect(cloudError.ErrorCode()).To(Equal(c.ExpectedCode))
-			g.Expect(cloudError.ErrorMessage()).To(Equal(c.ExpectedMessage))
-			g.Expect(cloudError.ErrorTarget()).To(Equal(c.ExpectedTarget))
+			g.Expect(cloudError.Code()).To(Equal(c.ExpectedCode))
+			g.Expect(cloudError.Message()).To(Equal(c.ExpectedMessage))
+			g.Expect(cloudError.Target()).To(Equal(c.ExpectedTarget))
 		})
 	}
 }

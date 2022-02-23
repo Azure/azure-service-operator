@@ -21,11 +21,11 @@ func ClassifyCloudError(err *genericarmclient.CloudError) (core.CloudErrorDetail
 		return result, nil
 	}
 
-	classification := classifyCloudErrorCode(err.ErrorCode())
+	classification := classifyCloudErrorCode(err.Code())
 	result := core.CloudErrorDetails{
 		Classification: classification,
-		Code:           err.ErrorCode(),
-		Message:        err.ErrorMessage(),
+		Code:           err.Code(),
+		Message:        err.Message(),
 	}
 	return result, nil
 }

@@ -42,9 +42,9 @@ func (e *RedisExtension) ClassifyError(
 
 // isRetryableConflict checks the passed error to see if it is a retryable conflict, returning true if it is.
 func isRetryableConflict(err *genericarmclient.CloudError) bool {
-	if err == nil  {
+	if err == nil {
 		return false
 	}
 
-	return err.ErrorCode() == "Conflict"
+	return err.Code() == "Conflict"
 }
