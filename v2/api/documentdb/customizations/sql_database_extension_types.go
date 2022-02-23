@@ -19,8 +19,6 @@ var _ extensions.ErrorClassifier = &SqlDatabaseExtension{}
 // A BadRequest (400) is normally fatal, but CosmosDB Databases may return 400 if database creation is attempted while
 // the parent account is still being created, so we make BadRequest retryable for this case.
 // cloudError is the error returned from ARM.
-// apiVersion is the ARM API version used for the request.
-// log is a logger than can be used for telemetry.
 // next is the next implementation to call.
 func (extension *SqlDatabaseExtension) ClassifyError(
 	cloudError *genericarmclient.CloudError,
