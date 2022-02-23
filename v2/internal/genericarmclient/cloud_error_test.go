@@ -24,11 +24,32 @@ func TestCloudError_WhenLoadedFromJSON_ReturnsExpectedResults(t *testing.T) {
 			ExpectedTarget:  "Janus VI",
 		},
 		{
+			Name:            "ARM style, code missing",
+			JSON:            `{"error": { "message": "It's dead, Jim", "target": "Janus VI" } }`,
+			ExpectedCode:    "UnknownError",
+			ExpectedMessage: "It's dead, Jim",
+			ExpectedTarget:  "Janus VI",
+		},
+		{
 			Name:            "Simple style",
 			JSON:            `{ "code": "broken", "message": "It's dead, Jim", "target": "Janus VI" }`,
 			ExpectedCode:    "broken",
 			ExpectedMessage: "It's dead, Jim",
 			ExpectedTarget:  "Janus VI",
+		},
+		{
+			Name:            "Simple style, code missing",
+			JSON:            `{ "message": "It's dead, Jim", "target": "Janus VI" }`,
+			ExpectedCode:    "UnknownError",
+			ExpectedMessage: "It's dead, Jim",
+			ExpectedTarget:  "Janus VI",
+		},
+		{
+			Name:            "CosmosDB Actual",
+			JSON:            `{"code":"BadRequest","message":"The requested operation cannot be performed because the database account asotestdbiosaow is in the process of being created."}`,
+			ExpectedCode:    "BadRequest",
+			ExpectedMessage: "The requested operation cannot be performed because the database account asotestdbiosaow is in the process of being created.",
+			ExpectedTarget:  "",
 		},
 	}
 
