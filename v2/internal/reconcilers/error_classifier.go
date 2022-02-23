@@ -6,51 +6,35 @@
 package reconcilers
 
 import (
-	"github.com/Azure/go-autorest/autorest/to"
-
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
-const (
-	UnknownErrorCode    = "UnknownError"
-	UnknownErrorMessage = "There was an unknown deployment error"
-)
-
-func stringOrDefault(str string, def string) string {
-	if str == "" {
-		return def
-	}
-
-	return str
-}
-
 func ClassifyCloudError(err *genericarmclient.CloudError) (core.CloudErrorDetails, error) {
-	if err == nil || err.InnerError == nil {
+	if err == nil {
 		// Default to retrying if we're asked to classify a nil error
 		result := core.CloudErrorDetails{
 			Classification: core.ErrorRetryable,
-			Code:           UnknownErrorCode,
-			Message:        UnknownErrorMessage,
+			Code:           core.UnknownErrorCode,
+			Message:        core.UnknownErrorMessage,
 		}
 		return result, nil
 	}
 
-	classification := classifyInnerCloudError(err.InnerError)
+	classification := classifyCloudErrorCode(err.Code())
 	result := core.CloudErrorDetails{
 		Classification: classification,
-		Code:           stringOrDefault(to.String(err.InnerError.Code), UnknownErrorCode),
-		Message:        stringOrDefault(to.String(err.InnerError.Message), UnknownErrorMessage),
+		Code:           err.Code(),
+		Message:        err.Message(),
 	}
 	return result, nil
 }
 
-func classifyInnerCloudError(err *genericarmclient.ErrorResponse) core.ErrorClassification {
+func classifyCloudErrorCode(code string) core.ErrorClassification {
 	// See https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/common-deployment-errors
 	// for a breakdown of common deployment error codes. Note that the error codes documented there are
 	// the inner error codes we're parsing here.
 
-	code := to.String(err.Code)
 	if code == "" {
 		// If there's no code, assume we can retry on it
 		return core.ErrorRetryable
