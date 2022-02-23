@@ -1,0 +1,389 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: azureserviceoperator-system/azureserviceoperator-serving-cert
+    controller-gen.kubebuilder.io/version: (devel)
+  name: flexibleserversconfigurations.dbforpostgresql.azure.com
+spec:
+  conversion:
+    strategy: Webhook
+    webhook:
+      clientConfig:
+        service:
+          name: azureserviceoperator-webhook-service
+          namespace: azureserviceoperator-system
+          path: /convert
+      conversionReviewVersions:
+      - v1beta1
+  group: dbforpostgresql.azure.com
+  names:
+    kind: FlexibleServersConfiguration
+    listKind: FlexibleServersConfigurationList
+    plural: flexibleserversconfigurations
+    singular: flexibleserversconfiguration
+  preserveUnknownFields: false
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1alpha1api20210601
+    schema:
+      openAPIV3Schema:
+        description: 'Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers_configurations'
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              azureName:
+                description: 'AzureName: The name of the resource in Azure. This is
+                  often the same as the name of the resource in Kubernetes but it
+                  doesn''t have to be.'
+                type: string
+              location:
+                description: 'Location: Location to deploy resource to'
+                type: string
+              owner:
+                description: KnownResourceReference is a resource reference to a known
+                  type.
+                properties:
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                required:
+                - name
+                type: object
+              source:
+                description: 'Source: Source of the configuration.'
+                type: string
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Name-value pairs to add to the resource'
+                type: object
+              value:
+                description: 'Value: Value of the configuration.'
+                type: string
+            required:
+            - owner
+            type: object
+          status:
+            properties:
+              allowedValues:
+                description: 'AllowedValues: Allowed values of the configuration.'
+                type: string
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: ObservedGeneration is the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.condition[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: Reason for the condition's last transition. Reasons
+                        are upper CamelCase (PascalCase) with no spaces. A reason
+                        is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: Severity with which to treat failures of this type
+                        of condition. For conditions which have positive polarity
+                        (Status == True is their normal/healthy state), this will
+                        be omitted when Status == True For conditions which have negative
+                        polarity (Status == False is their normal/healthy state),
+                        this will be omitted when Status == False. This is omitted
+                        in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              dataType:
+                description: 'DataType: Data type of the configuration.'
+                type: string
+              defaultValue:
+                description: 'DefaultValue: Default value of the configuration.'
+                type: string
+              description:
+                description: 'Description: Description of the configuration.'
+                type: string
+              id:
+                description: 'Id: Fully qualified resource ID for the resource. Ex
+                  - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
+                type: string
+              name:
+                description: 'Name: The name of the resource'
+                type: string
+              source:
+                description: 'Source: Source of the configuration.'
+                type: string
+              systemData:
+                description: 'SystemData: The system metadata relating to this resource.'
+                properties:
+                  createdAt:
+                    description: 'CreatedAt: The timestamp of resource creation (UTC).'
+                    type: string
+                  createdBy:
+                    description: 'CreatedBy: The identity that created the resource.'
+                    type: string
+                  createdByType:
+                    description: 'CreatedByType: The type of identity that created
+                      the resource.'
+                    type: string
+                  lastModifiedAt:
+                    description: 'LastModifiedAt: The timestamp of resource last modification
+                      (UTC)'
+                    type: string
+                  lastModifiedBy:
+                    description: 'LastModifiedBy: The identity that last modified
+                      the resource.'
+                    type: string
+                  lastModifiedByType:
+                    description: 'LastModifiedByType: The type of identity that last
+                      modified the resource.'
+                    type: string
+                type: object
+              type:
+                description: 'Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines"
+                  or "Microsoft.Storage/storageAccounts"'
+                type: string
+              value:
+                description: 'Value: Value of the configuration.'
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1alpha1api20210601storage
+    schema:
+      openAPIV3Schema:
+        description: 'Storage version of v1alpha1api20210601.FlexibleServersConfiguration
+          Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers_configurations'
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1alpha1api20210601.FlexibleServersConfigurations_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: PropertyBag is an unordered set of stashed information
+                  that used for properties not directly supported by storage resources,
+                  allowing for full fidelity round trip conversions
+                type: object
+              azureName:
+                description: 'AzureName: The name of the resource in Azure. This is
+                  often the same as the name of the resource in Kubernetes but it
+                  doesn''t have to be.'
+                type: string
+              location:
+                type: string
+              originalVersion:
+                type: string
+              owner:
+                description: KnownResourceReference is a resource reference to a known
+                  type.
+                properties:
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                required:
+                - name
+                type: object
+              source:
+                type: string
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              value:
+                type: string
+            required:
+            - owner
+            type: object
+          status:
+            description: Storage version of v1alpha1api20210601.Configuration_Status
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: PropertyBag is an unordered set of stashed information
+                  that used for properties not directly supported by storage resources,
+                  allowing for full fidelity round trip conversions
+                type: object
+              allowedValues:
+                type: string
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: ObservedGeneration is the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.condition[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: Reason for the condition's last transition. Reasons
+                        are upper CamelCase (PascalCase) with no spaces. A reason
+                        is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: Severity with which to treat failures of this type
+                        of condition. For conditions which have positive polarity
+                        (Status == True is their normal/healthy state), this will
+                        be omitted when Status == True For conditions which have negative
+                        polarity (Status == False is their normal/healthy state),
+                        this will be omitted when Status == False. This is omitted
+                        in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              dataType:
+                type: string
+              defaultValue:
+                type: string
+              description:
+                type: string
+              id:
+                type: string
+              name:
+                type: string
+              source:
+                type: string
+              systemData:
+                description: Storage version of v1alpha1api20210601.SystemData_Status
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  createdAt:
+                    type: string
+                  createdBy:
+                    type: string
+                  createdByType:
+                    type: string
+                  lastModifiedAt:
+                    type: string
+                  lastModifiedBy:
+                    type: string
+                  lastModifiedByType:
+                    type: string
+                type: object
+              type:
+                type: string
+              value:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

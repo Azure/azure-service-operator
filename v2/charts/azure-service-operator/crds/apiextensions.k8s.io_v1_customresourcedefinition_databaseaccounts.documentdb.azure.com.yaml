@@ -1,0 +1,1559 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: azureserviceoperator-system/azureserviceoperator-serving-cert
+    controller-gen.kubebuilder.io/version: (devel)
+  name: databaseaccounts.documentdb.azure.com
+spec:
+  conversion:
+    strategy: Webhook
+    webhook:
+      clientConfig:
+        service:
+          name: azureserviceoperator-webhook-service
+          namespace: azureserviceoperator-system
+          path: /convert
+      conversionReviewVersions:
+      - v1beta1
+  group: documentdb.azure.com
+  names:
+    kind: DatabaseAccount
+    listKind: DatabaseAccountList
+    plural: databaseaccounts
+    singular: databaseaccount
+  preserveUnknownFields: false
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1alpha1api20210515
+    schema:
+      openAPIV3Schema:
+        description: 'Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts'
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              analyticalStorageConfiguration:
+                description: 'AnalyticalStorageConfiguration: Analytical storage specific
+                  properties.'
+                properties:
+                  schemaType:
+                    enum:
+                    - FullFidelity
+                    - WellDefined
+                    type: string
+                type: object
+              apiProperties:
+                description: 'Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ApiProperties'
+                properties:
+                  serverVersion:
+                    description: 'ServerVersion: Describes the ServerVersion of an
+                      a MongoDB account.'
+                    enum:
+                    - "3.2"
+                    - "3.6"
+                    - "4.0"
+                    type: string
+                type: object
+              azureName:
+                description: 'AzureName: The name of the resource in Azure. This is
+                  often the same as the name of the resource in Kubernetes but it
+                  doesn''t have to be.'
+                maxLength: 50
+                minLength: 3
+                pattern: ^[a-z0-9]+(-[a-z0-9]+)*
+                type: string
+              backupPolicy:
+                description: 'BackupPolicy: The object representing the policy for
+                  taking backups on an account.'
+                properties:
+                  continuousModeBackupPolicy:
+                    description: 'Continuous: Mutually exclusive with all other properties'
+                    properties:
+                      type:
+                        enum:
+                        - Continuous
+                        type: string
+                    required:
+                    - type
+                    type: object
+                  periodicModeBackupPolicy:
+                    description: 'Periodic: Mutually exclusive with all other properties'
+                    properties:
+                      periodicModeProperties:
+                        description: 'PeriodicModeProperties: Configuration values
+                          for periodic mode backup'
+                        properties:
+                          backupIntervalInMinutes:
+                            description: 'BackupIntervalInMinutes: An integer representing
+                              the interval in minutes between two backups'
+                            minimum: 0
+                            type: integer
+                          backupRetentionIntervalInHours:
+                            description: 'BackupRetentionIntervalInHours: An integer
+                              representing the time (in hours) that each backup is
+                              retained'
+                            minimum: 0
+                            type: integer
+                        type: object
+                      type:
+                        enum:
+                        - Periodic
+                        type: string
+                    required:
+                    - type
+                    type: object
+                type: object
+              capabilities:
+                description: 'Capabilities: List of Cosmos DB capabilities for the
+                  account'
+                items:
+                  description: 'Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Capability'
+                  properties:
+                    name:
+                      description: 'Name: Name of the Cosmos DB capability. For example,
+                        "name": "EnableCassandra". Current values also include "EnableTable"
+                        and "EnableGremlin".'
+                      type: string
+                  type: object
+                type: array
+              connectorOffer:
+                description: 'ConnectorOffer: The cassandra connector offer type for
+                  the Cosmos DB database C* account.'
+                enum:
+                - Small
+                type: string
+              consistencyPolicy:
+                description: 'ConsistencyPolicy: The consistency policy for the Cosmos
+                  DB database account.'
+                properties:
+                  defaultConsistencyLevel:
+                    description: 'DefaultConsistencyLevel: The default consistency
+                      level and configuration settings of the Cosmos DB account.'
+                    enum:
+                    - BoundedStaleness
+                    - ConsistentPrefix
+                    - Eventual
+                    - Session
+                    - Strong
+                    type: string
+                  maxIntervalInSeconds:
+                    description: 'MaxIntervalInSeconds: When used with the Bounded
+                      Staleness consistency level, this value represents the time
+                      amount of staleness (in seconds) tolerated. Accepted range for
+                      this value is 5 - 86400. Required when defaultConsistencyPolicy
+                      is set to ''BoundedStaleness''.'
+                    maximum: 86400
+                    minimum: 5
+                    type: integer
+                  maxStalenessPrefix:
+                    description: 'MaxStalenessPrefix: When used with the Bounded Staleness
+                      consistency level, this value represents the number of stale
+                      requests tolerated. Accepted range for this value is 1 – 2,147,483,647.
+                      Required when defaultConsistencyPolicy is set to ''BoundedStaleness''.'
+                    maximum: 2147483647
+                    minimum: 1
+                    type: integer
+                required:
+                - defaultConsistencyLevel
+                type: object
+              cors:
+                description: 'Cors: The CORS policy for the Cosmos DB database account.'
+                items:
+                  description: 'Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CorsPolicy'
+                  properties:
+                    allowedHeaders:
+                      description: 'AllowedHeaders: The request headers that the origin
+                        domain may specify on the CORS request.'
+                      type: string
+                    allowedMethods:
+                      description: 'AllowedMethods: The methods (HTTP request verbs)
+                        that the origin domain may use for a CORS request.'
+                      type: string
+                    allowedOrigins:
+                      description: 'AllowedOrigins: The origin domains that are permitted
+                        to make a request against the service via CORS.'
+                      type: string
+                    exposedHeaders:
+                      description: 'ExposedHeaders: The response headers that may
+                        be sent in the response to the CORS request and exposed by
+                        the browser to the request issuer.'
+                      type: string
+                    maxAgeInSeconds:
+                      description: 'MaxAgeInSeconds: The maximum amount time that
+                        a browser should cache the preflight OPTIONS request.'
+                      maximum: 2147483647
+                      minimum: 1
+                      type: integer
+                  required:
+                  - allowedOrigins
+                  type: object
+                type: array
+              databaseAccountOfferType:
+                description: 'DatabaseAccountOfferType: The offer type for the database'
+                enum:
+                - Standard
+                type: string
+              defaultIdentity:
+                description: 'DefaultIdentity: The default identity for accessing
+                  key vault used in features like customer managed keys. The default
+                  identity needs to be explicitly set by the users. It can be "FirstPartyIdentity",
+                  "SystemAssignedIdentity" and more.'
+                type: string
+              disableKeyBasedMetadataWriteAccess:
+                description: 'DisableKeyBasedMetadataWriteAccess: Disable write operations
+                  on metadata resources (databases, containers, throughput) via account
+                  keys'
+                type: boolean
+              enableAnalyticalStorage:
+                description: 'EnableAnalyticalStorage: Flag to indicate whether to
+                  enable storage analytics.'
+                type: boolean
+              enableAutomaticFailover:
+                description: 'EnableAutomaticFailover: Enables automatic failover
+                  of the write region in the rare event that the region is unavailable
+                  due to an outage. Automatic failover will result in a new write
+                  region for the account and is chosen based on the failover priorities
+                  configured for the account.'
+                type: boolean
+              enableCassandraConnector:
+                description: 'EnableCassandraConnector: Enables the cassandra connector
+                  on the Cosmos DB C* account'
+                type: boolean
+              enableFreeTier:
+                description: 'EnableFreeTier: Flag to indicate whether Free Tier is
+                  enabled.'
+                type: boolean
+              enableMultipleWriteLocations:
+                description: 'EnableMultipleWriteLocations: Enables the account to
+                  write in multiple locations'
+                type: boolean
+              identity:
+                description: 'Identity: Identity for the resource.'
+                properties:
+                  type:
+                    description: 'Type: The type of identity used for the resource.
+                      The type ''SystemAssigned,UserAssigned'' includes both an implicitly
+                      created identity and a set of user assigned identities. The
+                      type ''None'' will remove any identities from the service.'
+                    enum:
+                    - None
+                    - SystemAssigned
+                    - SystemAssigned,UserAssigned
+                    - UserAssigned
+                    type: string
+                type: object
+              ipRules:
+                description: 'IpRules: Array of IpAddressOrRange objects.'
+                items:
+                  description: 'Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IpAddressOrRange'
+                  properties:
+                    ipAddressOrRange:
+                      description: 'IpAddressOrRange: A single IPv4 address or a single
+                        IPv4 address range in CIDR format. Provided IPs must be well-formatted
+                        and cannot be contained in one of the following ranges: 10.0.0.0/8,
+                        100.64.0.0/10, 172.16.0.0/12, 192.168.0.0/16, since these
+                        are not enforceable by the IP address filter. Example of valid
+                        inputs: “23.40.210.245” or “23.40.210.0/8”.'
+                      type: string
+                  type: object
+                type: array
+              isVirtualNetworkFilterEnabled:
+                description: 'IsVirtualNetworkFilterEnabled: Flag to indicate whether
+                  to enable/disable Virtual Network ACL rules.'
+                type: boolean
+              keyVaultKeyUri:
+                description: 'KeyVaultKeyUri: The URI of the key vault'
+                type: string
+              kind:
+                description: 'Kind: Indicates the type of database account. This can
+                  only be set at database account creation.'
+                enum:
+                - GlobalDocumentDB
+                - MongoDB
+                - Parse
+                type: string
+              location:
+                description: 'Location: The location of the resource group to which
+                  the resource belongs.'
+                type: string
+              locations:
+                description: 'Locations: An array that contains the georeplication
+                  locations enabled for the Cosmos DB account.'
+                items:
+                  description: 'Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Location'
+                  properties:
+                    failoverPriority:
+                      description: 'FailoverPriority: The failover priority of the
+                        region. A failover priority of 0 indicates a write region.
+                        The maximum value for a failover priority = (total number
+                        of regions - 1). Failover priority values must be unique for
+                        each of the regions in which the database account exists.'
+                      minimum: 0
+                      type: integer
+                    isZoneRedundant:
+                      description: 'IsZoneRedundant: Flag to indicate whether or not
+                        this region is an AvailabilityZone region'
+                      type: boolean
+                    locationName:
+                      description: 'LocationName: The name of the region.'
+                      type: string
+                  type: object
+                type: array
+              networkAclBypass:
+                description: 'NetworkAclBypass: Indicates what services are allowed
+                  to bypass firewall checks.'
+                enum:
+                - AzureServices
+                - None
+                type: string
+              networkAclBypassResourceIds:
+                description: 'NetworkAclBypassResourceIds: An array that contains
+                  the Resource Ids for Network Acl Bypass for the Cosmos DB account.'
+                items:
+                  type: string
+                type: array
+              owner:
+                description: KnownResourceReference is a resource reference to a known
+                  type.
+                properties:
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                required:
+                - name
+                type: object
+              publicNetworkAccess:
+                description: 'PublicNetworkAccess: Whether requests from Public Network
+                  are allowed.'
+                enum:
+                - Disabled
+                - Enabled
+                type: string
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Tags are a list of key-value pairs that describe
+                  the resource. These tags can be used in viewing and grouping this
+                  resource (across resource groups). A maximum of 15 tags can be provided
+                  for a resource. Each tag must have a key no greater than 128 characters
+                  and value no greater than 256 characters. For example, the default
+                  experience for a template type is set with "defaultExperience":
+                  "Cassandra". Current "defaultExperience" values also include "Table",
+                  "Graph", "DocumentDB", and "MongoDB".'
+                type: object
+              virtualNetworkRules:
+                description: 'VirtualNetworkRules: List of Virtual Network ACL rules
+                  configured for the Cosmos DB account.'
+                items:
+                  description: 'Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/VirtualNetworkRule'
+                  properties:
+                    ignoreMissingVNetServiceEndpoint:
+                      description: 'IgnoreMissingVNetServiceEndpoint: Create firewall
+                        rule before the virtual network has vnet service endpoint
+                        enabled.'
+                      type: boolean
+                    reference:
+                      description: 'Reference: Resource ID of a subnet, for example:
+                        /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.'
+                      properties:
+                        armId:
+                          description: 'TODO: The below regex may be overly restrictive
+                            ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                            The /resourcegroups/{resourceGroupName} bit is optional
+                            as some resources are scoped at the subscription level
+                            ARMID is mutually exclusive with Group, Kind, Namespace
+                            and Name.'
+                          pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                          type: string
+                        group:
+                          description: Group is the Kubernetes group of the resource.
+                          type: string
+                        kind:
+                          description: Kind is the Kubernetes kind of the resource.
+                          type: string
+                        name:
+                          description: Name is the Kubernetes name of the resource.
+                          type: string
+                      type: object
+                  type: object
+                type: array
+            required:
+            - databaseAccountOfferType
+            - locations
+            - owner
+            type: object
+          status:
+            properties:
+              analyticalStorageConfiguration:
+                description: 'AnalyticalStorageConfiguration: Analytical storage specific
+                  properties.'
+                properties:
+                  schemaType:
+                    type: string
+                type: object
+              apiProperties:
+                description: 'ApiProperties: API specific properties.'
+                properties:
+                  serverVersion:
+                    description: 'ServerVersion: Describes the ServerVersion of an
+                      a MongoDB account.'
+                    type: string
+                type: object
+              backupPolicy:
+                description: 'BackupPolicy: The object representing the policy for
+                  taking backups on an account.'
+                properties:
+                  type:
+                    type: string
+                required:
+                - type
+                type: object
+              capabilities:
+                description: 'Capabilities: List of Cosmos DB capabilities for the
+                  account'
+                items:
+                  properties:
+                    name:
+                      description: 'Name: Name of the Cosmos DB capability. For example,
+                        "name": "EnableCassandra". Current values also include "EnableTable"
+                        and "EnableGremlin".'
+                      type: string
+                  type: object
+                type: array
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: ObservedGeneration is the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.condition[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: Reason for the condition's last transition. Reasons
+                        are upper CamelCase (PascalCase) with no spaces. A reason
+                        is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: Severity with which to treat failures of this type
+                        of condition. For conditions which have positive polarity
+                        (Status == True is their normal/healthy state), this will
+                        be omitted when Status == True For conditions which have negative
+                        polarity (Status == False is their normal/healthy state),
+                        this will be omitted when Status == False. This is omitted
+                        in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              connectorOffer:
+                description: 'ConnectorOffer: The cassandra connector offer type for
+                  the Cosmos DB database C* account.'
+                type: string
+              consistencyPolicy:
+                description: 'ConsistencyPolicy: The consistency policy for the Cosmos
+                  DB database account.'
+                properties:
+                  defaultConsistencyLevel:
+                    description: 'DefaultConsistencyLevel: The default consistency
+                      level and configuration settings of the Cosmos DB account.'
+                    type: string
+                  maxIntervalInSeconds:
+                    description: 'MaxIntervalInSeconds: When used with the Bounded
+                      Staleness consistency level, this value represents the time
+                      amount of staleness (in seconds) tolerated. Accepted range for
+                      this value is 5 - 86400. Required when defaultConsistencyPolicy
+                      is set to ''BoundedStaleness''.'
+                    type: integer
+                  maxStalenessPrefix:
+                    description: 'MaxStalenessPrefix: When used with the Bounded Staleness
+                      consistency level, this value represents the number of stale
+                      requests tolerated. Accepted range for this value is 1 – 2,147,483,647.
+                      Required when defaultConsistencyPolicy is set to ''BoundedStaleness''.'
+                    type: integer
+                required:
+                - defaultConsistencyLevel
+                type: object
+              cors:
+                description: 'Cors: The CORS policy for the Cosmos DB database account.'
+                items:
+                  properties:
+                    allowedHeaders:
+                      description: 'AllowedHeaders: The request headers that the origin
+                        domain may specify on the CORS request.'
+                      type: string
+                    allowedMethods:
+                      description: 'AllowedMethods: The methods (HTTP request verbs)
+                        that the origin domain may use for a CORS request.'
+                      type: string
+                    allowedOrigins:
+                      description: 'AllowedOrigins: The origin domains that are permitted
+                        to make a request against the service via CORS.'
+                      type: string
+                    exposedHeaders:
+                      description: 'ExposedHeaders: The response headers that may
+                        be sent in the response to the CORS request and exposed by
+                        the browser to the request issuer.'
+                      type: string
+                    maxAgeInSeconds:
+                      description: 'MaxAgeInSeconds: The maximum amount time that
+                        a browser should cache the preflight OPTIONS request.'
+                      type: integer
+                  required:
+                  - allowedOrigins
+                  type: object
+                type: array
+              databaseAccountOfferType:
+                description: 'DatabaseAccountOfferType: The offer type for the Cosmos
+                  DB database account. Default value: Standard.'
+                type: string
+              defaultIdentity:
+                description: 'DefaultIdentity: The default identity for accessing
+                  key vault used in features like customer managed keys. The default
+                  identity needs to be explicitly set by the users. It can be "FirstPartyIdentity",
+                  "SystemAssignedIdentity" and more.'
+                type: string
+              disableKeyBasedMetadataWriteAccess:
+                description: 'DisableKeyBasedMetadataWriteAccess: Disable write operations
+                  on metadata resources (databases, containers, throughput) via account
+                  keys'
+                type: boolean
+              documentEndpoint:
+                description: 'DocumentEndpoint: The connection endpoint for the Cosmos
+                  DB database account.'
+                type: string
+              enableAnalyticalStorage:
+                description: 'EnableAnalyticalStorage: Flag to indicate whether to
+                  enable storage analytics.'
+                type: boolean
+              enableAutomaticFailover:
+                description: 'EnableAutomaticFailover: Enables automatic failover
+                  of the write region in the rare event that the region is unavailable
+                  due to an outage. Automatic failover will result in a new write
+                  region for the account and is chosen based on the failover priorities
+                  configured for the account.'
+                type: boolean
+              enableCassandraConnector:
+                description: 'EnableCassandraConnector: Enables the cassandra connector
+                  on the Cosmos DB C* account'
+                type: boolean
+              enableFreeTier:
+                description: 'EnableFreeTier: Flag to indicate whether Free Tier is
+                  enabled.'
+                type: boolean
+              enableMultipleWriteLocations:
+                description: 'EnableMultipleWriteLocations: Enables the account to
+                  write in multiple locations'
+                type: boolean
+              failoverPolicies:
+                description: 'FailoverPolicies: An array that contains the regions
+                  ordered by their failover priorities.'
+                items:
+                  properties:
+                    failoverPriority:
+                      description: 'FailoverPriority: The failover priority of the
+                        region. A failover priority of 0 indicates a write region.
+                        The maximum value for a failover priority = (total number
+                        of regions - 1). Failover priority values must be unique for
+                        each of the regions in which the database account exists.'
+                      type: integer
+                    id:
+                      description: 'Id: The unique identifier of the region in which
+                        the database account replicates to. Example: &lt;accountName&gt;-&lt;locationName&gt;.'
+                      type: string
+                    locationName:
+                      description: 'LocationName: The name of the region in which
+                        the database account exists.'
+                      type: string
+                  type: object
+                type: array
+              id:
+                description: 'Id: The unique resource identifier of the ARM resource.'
+                type: string
+              identity:
+                properties:
+                  principalId:
+                    description: 'PrincipalId: The principal id of the system assigned
+                      identity. This property will only be provided for a system assigned
+                      identity.'
+                    type: string
+                  tenantId:
+                    description: 'TenantId: The tenant id of the system assigned identity.
+                      This property will only be provided for a system assigned identity.'
+                    type: string
+                  type:
+                    description: 'Type: The type of identity used for the resource.
+                      The type ''SystemAssigned,UserAssigned'' includes both an implicitly
+                      created identity and a set of user assigned identities. The
+                      type ''None'' will remove any identities from the service.'
+                    type: string
+                  userAssignedIdentities:
+                    additionalProperties:
+                      properties:
+                        clientId:
+                          description: 'ClientId: The client id of user assigned identity.'
+                          type: string
+                        principalId:
+                          description: 'PrincipalId: The principal id of user assigned
+                            identity.'
+                          type: string
+                      type: object
+                    description: 'UserAssignedIdentities: The list of user identities
+                      associated with resource. The user identity dictionary key references
+                      will be ARM resource ids in the form: ''/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}''.'
+                    type: object
+                type: object
+              ipRules:
+                description: 'IpRules: List of IpRules.'
+                items:
+                  properties:
+                    ipAddressOrRange:
+                      description: 'IpAddressOrRange: A single IPv4 address or a single
+                        IPv4 address range in CIDR format. Provided IPs must be well-formatted
+                        and cannot be contained in one of the following ranges: 10.0.0.0/8,
+                        100.64.0.0/10, 172.16.0.0/12, 192.168.0.0/16, since these
+                        are not enforceable by the IP address filter. Example of valid
+                        inputs: “23.40.210.245” or “23.40.210.0/8”.'
+                      type: string
+                  type: object
+                type: array
+              isVirtualNetworkFilterEnabled:
+                description: 'IsVirtualNetworkFilterEnabled: Flag to indicate whether
+                  to enable/disable Virtual Network ACL rules.'
+                type: boolean
+              keyVaultKeyUri:
+                description: 'KeyVaultKeyUri: The URI of the key vault'
+                type: string
+              kind:
+                description: 'Kind: Indicates the type of database account. This can
+                  only be set at database account creation.'
+                type: string
+              location:
+                description: 'Location: The location of the resource group to which
+                  the resource belongs.'
+                type: string
+              locations:
+                description: 'Locations: An array that contains all of the locations
+                  enabled for the Cosmos DB account.'
+                items:
+                  properties:
+                    documentEndpoint:
+                      description: 'DocumentEndpoint: The connection endpoint for
+                        the specific region. Example: https://&lt;accountName&gt;-&lt;locationName&gt;.documents.azure.com:443/'
+                      type: string
+                    failoverPriority:
+                      description: 'FailoverPriority: The failover priority of the
+                        region. A failover priority of 0 indicates a write region.
+                        The maximum value for a failover priority = (total number
+                        of regions - 1). Failover priority values must be unique for
+                        each of the regions in which the database account exists.'
+                      type: integer
+                    id:
+                      description: 'Id: The unique identifier of the region within
+                        the database account. Example: &lt;accountName&gt;-&lt;locationName&gt;.'
+                      type: string
+                    isZoneRedundant:
+                      description: 'IsZoneRedundant: Flag to indicate whether or not
+                        this region is an AvailabilityZone region'
+                      type: boolean
+                    locationName:
+                      description: 'LocationName: The name of the region.'
+                      type: string
+                    provisioningState:
+                      type: string
+                  type: object
+                type: array
+              name:
+                description: 'Name: The name of the ARM resource.'
+                type: string
+              networkAclBypass:
+                description: 'NetworkAclBypass: Indicates what services are allowed
+                  to bypass firewall checks.'
+                type: string
+              networkAclBypassResourceIds:
+                description: 'NetworkAclBypassResourceIds: An array that contains
+                  the Resource Ids for Network Acl Bypass for the Cosmos DB account.'
+                items:
+                  type: string
+                type: array
+              privateEndpointConnections:
+                description: 'PrivateEndpointConnections: List of Private Endpoint
+                  Connections configured for the Cosmos DB account.'
+                items:
+                  properties:
+                    id:
+                      description: 'Id: Fully qualified resource ID for the resource.
+                        Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
+                      type: string
+                  type: object
+                type: array
+              provisioningState:
+                type: string
+              publicNetworkAccess:
+                description: 'PublicNetworkAccess: Whether requests from Public Network
+                  are allowed'
+                type: string
+              readLocations:
+                description: 'ReadLocations: An array that contains of the read locations
+                  enabled for the Cosmos DB account.'
+                items:
+                  properties:
+                    documentEndpoint:
+                      description: 'DocumentEndpoint: The connection endpoint for
+                        the specific region. Example: https://&lt;accountName&gt;-&lt;locationName&gt;.documents.azure.com:443/'
+                      type: string
+                    failoverPriority:
+                      description: 'FailoverPriority: The failover priority of the
+                        region. A failover priority of 0 indicates a write region.
+                        The maximum value for a failover priority = (total number
+                        of regions - 1). Failover priority values must be unique for
+                        each of the regions in which the database account exists.'
+                      type: integer
+                    id:
+                      description: 'Id: The unique identifier of the region within
+                        the database account. Example: &lt;accountName&gt;-&lt;locationName&gt;.'
+                      type: string
+                    isZoneRedundant:
+                      description: 'IsZoneRedundant: Flag to indicate whether or not
+                        this region is an AvailabilityZone region'
+                      type: boolean
+                    locationName:
+                      description: 'LocationName: The name of the region.'
+                      type: string
+                    provisioningState:
+                      type: string
+                  type: object
+                type: array
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              type:
+                description: 'Type: The type of Azure resource.'
+                type: string
+              virtualNetworkRules:
+                description: 'VirtualNetworkRules: List of Virtual Network ACL rules
+                  configured for the Cosmos DB account.'
+                items:
+                  properties:
+                    id:
+                      description: 'Id: Resource ID of a subnet, for example: /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.'
+                      type: string
+                    ignoreMissingVNetServiceEndpoint:
+                      description: 'IgnoreMissingVNetServiceEndpoint: Create firewall
+                        rule before the virtual network has vnet service endpoint
+                        enabled.'
+                      type: boolean
+                  type: object
+                type: array
+              writeLocations:
+                description: 'WriteLocations: An array that contains the write location
+                  for the Cosmos DB account.'
+                items:
+                  properties:
+                    documentEndpoint:
+                      description: 'DocumentEndpoint: The connection endpoint for
+                        the specific region. Example: https://&lt;accountName&gt;-&lt;locationName&gt;.documents.azure.com:443/'
+                      type: string
+                    failoverPriority:
+                      description: 'FailoverPriority: The failover priority of the
+                        region. A failover priority of 0 indicates a write region.
+                        The maximum value for a failover priority = (total number
+                        of regions - 1). Failover priority values must be unique for
+                        each of the regions in which the database account exists.'
+                      type: integer
+                    id:
+                      description: 'Id: The unique identifier of the region within
+                        the database account. Example: &lt;accountName&gt;-&lt;locationName&gt;.'
+                      type: string
+                    isZoneRedundant:
+                      description: 'IsZoneRedundant: Flag to indicate whether or not
+                        this region is an AvailabilityZone region'
+                      type: boolean
+                    locationName:
+                      description: 'LocationName: The name of the region.'
+                      type: string
+                    provisioningState:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1alpha1api20210515storage
+    schema:
+      openAPIV3Schema:
+        description: 'Storage version of v1alpha1api20210515.DatabaseAccount Generated
+          from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts'
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1alpha1api20210515.DatabaseAccounts_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: PropertyBag is an unordered set of stashed information
+                  that used for properties not directly supported by storage resources,
+                  allowing for full fidelity round trip conversions
+                type: object
+              analyticalStorageConfiguration:
+                description: 'Storage version of v1alpha1api20210515.AnalyticalStorageConfiguration
+                  Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AnalyticalStorageConfiguration'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  schemaType:
+                    type: string
+                type: object
+              apiProperties:
+                description: 'Storage version of v1alpha1api20210515.ApiProperties
+                  Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ApiProperties'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  serverVersion:
+                    type: string
+                type: object
+              azureName:
+                description: 'AzureName: The name of the resource in Azure. This is
+                  often the same as the name of the resource in Kubernetes but it
+                  doesn''t have to be.'
+                maxLength: 50
+                minLength: 3
+                pattern: ^[a-z0-9]+(-[a-z0-9]+)*
+                type: string
+              backupPolicy:
+                description: 'Storage version of v1alpha1api20210515.BackupPolicy
+                  Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/BackupPolicy'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  continuousModeBackupPolicy:
+                    description: 'Storage version of v1alpha1api20210515.ContinuousModeBackupPolicy
+                      Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContinuousModeBackupPolicy'
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information
+                          that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      type:
+                        type: string
+                    type: object
+                  periodicModeBackupPolicy:
+                    description: 'Storage version of v1alpha1api20210515.PeriodicModeBackupPolicy
+                      Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/PeriodicModeBackupPolicy'
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information
+                          that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      periodicModeProperties:
+                        description: 'Storage version of v1alpha1api20210515.PeriodicModeProperties
+                          Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/PeriodicModeProperties'
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: PropertyBag is an unordered set of stashed
+                              information that used for properties not directly supported
+                              by storage resources, allowing for full fidelity round
+                              trip conversions
+                            type: object
+                          backupIntervalInMinutes:
+                            type: integer
+                          backupRetentionIntervalInHours:
+                            type: integer
+                        type: object
+                      type:
+                        type: string
+                    type: object
+                type: object
+              capabilities:
+                items:
+                  description: 'Storage version of v1alpha1api20210515.Capability
+                    Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Capability'
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: PropertyBag is an unordered set of stashed information
+                        that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    name:
+                      type: string
+                  type: object
+                type: array
+              connectorOffer:
+                type: string
+              consistencyPolicy:
+                description: 'Storage version of v1alpha1api20210515.ConsistencyPolicy
+                  Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConsistencyPolicy'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  defaultConsistencyLevel:
+                    type: string
+                  maxIntervalInSeconds:
+                    type: integer
+                  maxStalenessPrefix:
+                    type: integer
+                type: object
+              cors:
+                items:
+                  description: 'Storage version of v1alpha1api20210515.CorsPolicy
+                    Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CorsPolicy'
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: PropertyBag is an unordered set of stashed information
+                        that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    allowedHeaders:
+                      type: string
+                    allowedMethods:
+                      type: string
+                    allowedOrigins:
+                      type: string
+                    exposedHeaders:
+                      type: string
+                    maxAgeInSeconds:
+                      type: integer
+                  type: object
+                type: array
+              databaseAccountOfferType:
+                type: string
+              defaultIdentity:
+                type: string
+              disableKeyBasedMetadataWriteAccess:
+                type: boolean
+              enableAnalyticalStorage:
+                type: boolean
+              enableAutomaticFailover:
+                type: boolean
+              enableCassandraConnector:
+                type: boolean
+              enableFreeTier:
+                type: boolean
+              enableMultipleWriteLocations:
+                type: boolean
+              identity:
+                description: 'Storage version of v1alpha1api20210515.ManagedServiceIdentity
+                  Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ManagedServiceIdentity'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  type:
+                    type: string
+                type: object
+              ipRules:
+                items:
+                  description: 'Storage version of v1alpha1api20210515.IpAddressOrRange
+                    Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IpAddressOrRange'
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: PropertyBag is an unordered set of stashed information
+                        that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    ipAddressOrRange:
+                      type: string
+                  type: object
+                type: array
+              isVirtualNetworkFilterEnabled:
+                type: boolean
+              keyVaultKeyUri:
+                type: string
+              kind:
+                type: string
+              location:
+                type: string
+              locations:
+                items:
+                  description: 'Storage version of v1alpha1api20210515.Location Generated
+                    from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Location'
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: PropertyBag is an unordered set of stashed information
+                        that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    failoverPriority:
+                      type: integer
+                    isZoneRedundant:
+                      type: boolean
+                    locationName:
+                      type: string
+                  type: object
+                type: array
+              networkAclBypass:
+                type: string
+              networkAclBypassResourceIds:
+                items:
+                  type: string
+                type: array
+              originalVersion:
+                type: string
+              owner:
+                description: KnownResourceReference is a resource reference to a known
+                  type.
+                properties:
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                required:
+                - name
+                type: object
+              publicNetworkAccess:
+                type: string
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              virtualNetworkRules:
+                items:
+                  description: 'Storage version of v1alpha1api20210515.VirtualNetworkRule
+                    Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/VirtualNetworkRule'
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: PropertyBag is an unordered set of stashed information
+                        that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    ignoreMissingVNetServiceEndpoint:
+                      type: boolean
+                    reference:
+                      description: 'Reference: Resource ID of a subnet, for example:
+                        /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.'
+                      properties:
+                        armId:
+                          description: 'TODO: The below regex may be overly restrictive
+                            ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                            The /resourcegroups/{resourceGroupName} bit is optional
+                            as some resources are scoped at the subscription level
+                            ARMID is mutually exclusive with Group, Kind, Namespace
+                            and Name.'
+                          pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                          type: string
+                        group:
+                          description: Group is the Kubernetes group of the resource.
+                          type: string
+                        kind:
+                          description: Kind is the Kubernetes kind of the resource.
+                          type: string
+                        name:
+                          description: Name is the Kubernetes name of the resource.
+                          type: string
+                      type: object
+                  type: object
+                type: array
+            required:
+            - owner
+            type: object
+          status:
+            description: Storage version of v1alpha1api20210515.DatabaseAccountGetResults_Status
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: PropertyBag is an unordered set of stashed information
+                  that used for properties not directly supported by storage resources,
+                  allowing for full fidelity round trip conversions
+                type: object
+              analyticalStorageConfiguration:
+                description: Storage version of v1alpha1api20210515.AnalyticalStorageConfiguration_Status
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  schemaType:
+                    type: string
+                type: object
+              apiProperties:
+                description: Storage version of v1alpha1api20210515.ApiProperties_Status
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  serverVersion:
+                    type: string
+                type: object
+              backupPolicy:
+                description: Storage version of v1alpha1api20210515.BackupPolicy_Status
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  type:
+                    type: string
+                type: object
+              capabilities:
+                items:
+                  description: Storage version of v1alpha1api20210515.Capability_Status
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: PropertyBag is an unordered set of stashed information
+                        that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    name:
+                      type: string
+                  type: object
+                type: array
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: ObservedGeneration is the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.condition[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: Reason for the condition's last transition. Reasons
+                        are upper CamelCase (PascalCase) with no spaces. A reason
+                        is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: Severity with which to treat failures of this type
+                        of condition. For conditions which have positive polarity
+                        (Status == True is their normal/healthy state), this will
+                        be omitted when Status == True For conditions which have negative
+                        polarity (Status == False is their normal/healthy state),
+                        this will be omitted when Status == False. This is omitted
+                        in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              connectorOffer:
+                type: string
+              consistencyPolicy:
+                description: Storage version of v1alpha1api20210515.ConsistencyPolicy_Status
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  defaultConsistencyLevel:
+                    type: string
+                  maxIntervalInSeconds:
+                    type: integer
+                  maxStalenessPrefix:
+                    type: integer
+                type: object
+              cors:
+                items:
+                  description: Storage version of v1alpha1api20210515.CorsPolicy_Status
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: PropertyBag is an unordered set of stashed information
+                        that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    allowedHeaders:
+                      type: string
+                    allowedMethods:
+                      type: string
+                    allowedOrigins:
+                      type: string
+                    exposedHeaders:
+                      type: string
+                    maxAgeInSeconds:
+                      type: integer
+                  type: object
+                type: array
+              databaseAccountOfferType:
+                type: string
+              defaultIdentity:
+                type: string
+              disableKeyBasedMetadataWriteAccess:
+                type: boolean
+              documentEndpoint:
+                type: string
+              enableAnalyticalStorage:
+                type: boolean
+              enableAutomaticFailover:
+                type: boolean
+              enableCassandraConnector:
+                type: boolean
+              enableFreeTier:
+                type: boolean
+              enableMultipleWriteLocations:
+                type: boolean
+              failoverPolicies:
+                items:
+                  description: Storage version of v1alpha1api20210515.FailoverPolicy_Status
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: PropertyBag is an unordered set of stashed information
+                        that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    failoverPriority:
+                      type: integer
+                    id:
+                      type: string
+                    locationName:
+                      type: string
+                  type: object
+                type: array
+              id:
+                type: string
+              identity:
+                description: Storage version of v1alpha1api20210515.ManagedServiceIdentity_Status
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  principalId:
+                    type: string
+                  tenantId:
+                    type: string
+                  type:
+                    type: string
+                  userAssignedIdentities:
+                    additionalProperties:
+                      description: Storage version of v1alpha1api20210515.ManagedServiceIdentity_Status_UserAssignedIdentities
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: PropertyBag is an unordered set of stashed
+                            information that used for properties not directly supported
+                            by storage resources, allowing for full fidelity round
+                            trip conversions
+                          type: object
+                        clientId:
+                          type: string
+                        principalId:
+                          type: string
+                      type: object
+                    type: object
+                type: object
+              ipRules:
+                items:
+                  description: Storage version of v1alpha1api20210515.IpAddressOrRange_Status
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: PropertyBag is an unordered set of stashed information
+                        that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    ipAddressOrRange:
+                      type: string
+                  type: object
+                type: array
+              isVirtualNetworkFilterEnabled:
+                type: boolean
+              keyVaultKeyUri:
+                type: string
+              kind:
+                type: string
+              location:
+                type: string
+              locations:
+                items:
+                  description: Storage version of v1alpha1api20210515.Location_Status
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: PropertyBag is an unordered set of stashed information
+                        that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    documentEndpoint:
+                      type: string
+                    failoverPriority:
+                      type: integer
+                    id:
+                      type: string
+                    isZoneRedundant:
+                      type: boolean
+                    locationName:
+                      type: string
+                    provisioningState:
+                      type: string
+                  type: object
+                type: array
+              name:
+                type: string
+              networkAclBypass:
+                type: string
+              networkAclBypassResourceIds:
+                items:
+                  type: string
+                type: array
+              privateEndpointConnections:
+                items:
+                  description: Storage version of v1alpha1api20210515.PrivateEndpointConnection_Status_SubResourceEmbedded
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: PropertyBag is an unordered set of stashed information
+                        that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    id:
+                      type: string
+                  type: object
+                type: array
+              provisioningState:
+                type: string
+              publicNetworkAccess:
+                type: string
+              readLocations:
+                items:
+                  description: Storage version of v1alpha1api20210515.Location_Status
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: PropertyBag is an unordered set of stashed information
+                        that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    documentEndpoint:
+                      type: string
+                    failoverPriority:
+                      type: integer
+                    id:
+                      type: string
+                    isZoneRedundant:
+                      type: boolean
+                    locationName:
+                      type: string
+                    provisioningState:
+                      type: string
+                  type: object
+                type: array
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              type:
+                type: string
+              virtualNetworkRules:
+                items:
+                  description: Storage version of v1alpha1api20210515.VirtualNetworkRule_Status
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: PropertyBag is an unordered set of stashed information
+                        that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    id:
+                      type: string
+                    ignoreMissingVNetServiceEndpoint:
+                      type: boolean
+                  type: object
+                type: array
+              writeLocations:
+                items:
+                  description: Storage version of v1alpha1api20210515.Location_Status
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: PropertyBag is an unordered set of stashed information
+                        that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    documentEndpoint:
+                      type: string
+                    failoverPriority:
+                      type: integer
+                    id:
+                      type: string
+                    isZoneRedundant:
+                      type: boolean
+                    locationName:
+                      type: string
+                    provisioningState:
+                      type: string
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

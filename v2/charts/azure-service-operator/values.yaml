@@ -1,0 +1,47 @@
+# Create secret or use an existing secret
+createAzureOperatorSecret: true
+
+# azureTenantID is the AAD tenant that the subscription is in
+azureTenantID: ""
+# azureSubscriptionID is the Azure Subscription the operator will act against.
+azureSubscriptionID: ""
+
+# cloudEnvironment is the cloud environment. Possible values include: AzurePublicCloud, AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud
+cloudEnvironment: AzurePublicCloud
+
+# azureClientID is the client ID of the Azure Service Principal or Managed Identity to use to authenticate with Azure.
+azureClientID: ""
+
+# azureClientSecret is the client secret of the Azure Service Principal used to authenticate with Azure.
+# This is required when using Service Principal authentication.
+azureClientSecret: ""
+
+# azureSyncPeriod is the frequency at which resources are re-reconciled with Azure
+# when there have been no triggering changes in the Kubernetes resources. This sync
+# exists to detect and correct changes that happened in Azure that Kubernetes is not
+# aware about. BE VERY CAREFUL setting this value low - even a modest number of resources
+# can cause subscription level throttling if they are re-synced frequently.
+# If nil, no sync is performed. Durations are specified as "1h", "15m", or "60s". See
+# https://pkg.go.dev/time#ParseDuration for more details.
+azureSyncPeriod: ""
+
+# azureTargetNamespaces lists the namespaces the operator will watch
+# for Azure resources (if the mode includes running watchers). If
+# it's empty the operator will watch all namespaces.
+azureTargetNamespaces: []
+
+# azureOperatorMode determines whether the operator should run
+# watchers, webhooks or both.
+azureOperatorMode: ""
+
+# image defines the container image the ASO pod should run
+# Note: This should use the latest released tag number explicitly. If
+# it's ':latest' and someone deploys the chart after a new version has
+# been released but before the the chart is updated, they could get
+# errors, eg. due to types in the operator binary that have no
+# corresponding CRD yaml in the cart (and so no CRD in the k8s
+# repository).
+image:
+  repository: mcr.microsoft.com/k8s/azureserviceoperator:v2.0.0-alpha.6
+  kubeRBACProxy: gcr.io/kubebuilder/kube-rbac-proxy:v0.4.1 
+
