@@ -49,8 +49,8 @@ func Test_NilError_IsRetryable(t *testing.T) {
 	g := NewGomegaWithT(t)
 	expected := core.CloudErrorDetails{
 		Classification: core.ErrorRetryable,
-		Code:           reconcilers.UnknownErrorCode,
-		Message:        reconcilers.UnknownErrorMessage,
+		Code:           core.UnknownErrorCode,
+		Message:        core.UnknownErrorMessage,
 	}
 	g.Expect(reconcilers.ClassifyCloudError(nil)).To(Equal(expected))
 }

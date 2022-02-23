@@ -12,11 +12,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
-const (
-	UnknownErrorCode    = "UnknownError"
-	UnknownErrorMessage = "There was an unknown deployment error"
-)
-
 func stringOrDefault(str string, def string) string {
 	if str == "" {
 		return def
@@ -30,8 +25,8 @@ func ClassifyCloudError(err *genericarmclient.CloudError) (core.CloudErrorDetail
 		// Default to retrying if we're asked to classify a nil error
 		result := core.CloudErrorDetails{
 			Classification: core.ErrorRetryable,
-			Code:           UnknownErrorCode,
-			Message:        UnknownErrorMessage,
+			Code:           core.UnknownErrorCode,
+			Message:        core.UnknownErrorMessage,
 		}
 		return result, nil
 	}
