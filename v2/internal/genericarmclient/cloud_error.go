@@ -90,6 +90,10 @@ func (e CloudError) ErrorTarget() string {
 		return *e.InnerError.Target
 	}
 
+	if e.Target != nil && *e.Target != "" {
+		return *e.Target
+	}
+
 	return ""
 }
 
