@@ -44,9 +44,9 @@ func CreateErrorClassifier(
 	return func(cloudError *genericarmclient.CloudError) (core.CloudErrorDetails, error) {
 		log.V(Info).Info(
 			"Classifying cloud error",
-			"Message", cloudError.InnerError.Message,
-			"Code", cloudError.InnerError.Code,
-			"Target", cloudError.InnerError.Target)
+			"Message", cloudError.ErrorMessage(),
+			"Code", cloudError.ErrorCode(),
+			"Target", cloudError.ErrorTarget())
 
 		result, err := impl.ClassifyError(cloudError, apiVersion, log, classifier)
 
