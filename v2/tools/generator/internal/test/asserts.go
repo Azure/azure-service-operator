@@ -15,12 +15,12 @@ import (
 // AssertPackagesGenerateExpectedCode creates a golden file for each package represented in the set of type definitions,
 // asserting that the generated content is expected.
 // t is the current test
-// types is the set of type definitions to be asserted
+// definitions is the set of type definitions to be asserted
 // options is an optional set of configuration options to control the assertion
-func AssertPackagesGenerateExpectedCode(t *testing.T, types astmodel.Types, options ...AssertionOption) {
+func AssertPackagesGenerateExpectedCode(t *testing.T, definitions astmodel.TypeDefinitionSet, options ...AssertionOption) {
 	// Group type definitions by package
 	groups := make(map[astmodel.PackageReference][]astmodel.TypeDefinition)
-	for _, def := range types {
+	for _, def := range definitions {
 		ref := def.Name().PackageReference
 		groups[ref] = append(groups[ref], def)
 	}
@@ -30,7 +30,7 @@ func AssertPackagesGenerateExpectedCode(t *testing.T, types astmodel.Types, opti
 		ref := defs[0].Name().PackageReference
 		group, version, ok := ref.GroupVersion()
 		if !ok {
-			msg := fmt.Sprintf("May not have types from external package %s - fix your test", ref)
+			msg := fmt.Sprintf("May not have definitions from external package %s - fix your test", ref)
 			panic(msg)
 		}
 

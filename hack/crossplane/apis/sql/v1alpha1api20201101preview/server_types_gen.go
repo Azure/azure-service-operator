@@ -46,12 +46,10 @@ type Servers_Spec struct {
 }
 
 type ServerObservation struct {
-	//AdministratorLogin: Administrator username for the server. Once created it
-	//cannot be changed.
+	//AdministratorLogin: Administrator username for the server. Once created it cannot be changed.
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
 
-	//AdministratorLoginPassword: The administrator login password (required for
-	//server creation).
+	//AdministratorLoginPassword: The administrator login password (required for server creation).
 	AdministratorLoginPassword *string `json:"administratorLoginPassword,omitempty"`
 
 	//Administrators: The Azure Active Directory identity of the server.
@@ -81,15 +79,14 @@ type ServerObservation struct {
 	//Name: Resource name.
 	Name *string `json:"name,omitempty"`
 
-	//PrimaryUserAssignedIdentityId: The resource id of a user assigned identity to be
-	//used by default.
+	//PrimaryUserAssignedIdentityId: The resource id of a user assigned identity to be used by default.
 	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
 
 	//PrivateEndpointConnections: List of private endpoint connections on a server
 	PrivateEndpointConnections []ServerPrivateEndpointConnection_Status `json:"privateEndpointConnections,omitempty"`
 
-	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this
-	//server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'
+	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this server.  Value is optional but if passed
+	//in, must be 'Enabled' or 'Disabled'
 	PublicNetworkAccess *ServerPropertiesStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	//State: The state of the server.
@@ -104,18 +101,15 @@ type ServerObservation struct {
 	//Version: The version of the server.
 	Version *string `json:"version,omitempty"`
 
-	//WorkspaceFeature: Whether or not existing server has a workspace created and if
-	//it allows connection from workspace
+	//WorkspaceFeature: Whether or not existing server has a workspace created and if it allows connection from workspace
 	WorkspaceFeature *ServerPropertiesStatusWorkspaceFeature `json:"workspaceFeature,omitempty"`
 }
 
 type ServersParameters struct {
-	//AdministratorLogin: Administrator username for the server. Once created it
-	//cannot be changed.
+	//AdministratorLogin: Administrator username for the server. Once created it cannot be changed.
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
 
-	//AdministratorLoginPassword: The administrator login password (required for
-	//server creation).
+	//AdministratorLoginPassword: The administrator login password (required for server creation).
 	AdministratorLoginPassword *string `json:"administratorLoginPassword,omitempty"`
 
 	//Administrators: Properties of a active directory administrator.
@@ -137,12 +131,11 @@ type ServersParameters struct {
 	//Name: The name of the server.
 	Name string `json:"name"`
 
-	//PrimaryUserAssignedIdentityId: The resource id of a user assigned identity to be
-	//used by default.
+	//PrimaryUserAssignedIdentityId: The resource id of a user assigned identity to be used by default.
 	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
 
-	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this
-	//server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'.
+	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this server.  Value is optional but if passed
+	//in, must be 'Enabled' or 'Disabled'.
 	PublicNetworkAccess       *ServerPropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 	ResourceGroupName         string                               `json:"resourceGroupName"`
 	ResourceGroupNameRef      *v1alpha1.Reference                  `json:"resourceGroupNameRef,omitempty"`
@@ -157,8 +150,8 @@ type ServersParameters struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01-preview/Microsoft.Sql.json#/definitions/ResourceIdentity
 type ResourceIdentity struct {
-	//Type: The identity type. Set this to 'SystemAssigned' in order to automatically
-	//create and assign an Azure Active Directory principal for the resource.
+	//Type: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active
+	//Directory principal for the resource.
 	Type *ResourceIdentityType `json:"type,omitempty"`
 }
 
@@ -169,8 +162,8 @@ type ResourceIdentity_Status struct {
 	//TenantId: The Azure Active Directory tenant id.
 	TenantId *string `json:"tenantId,omitempty"`
 
-	//Type: The identity type. Set this to 'SystemAssigned' in order to automatically
-	//create and assign an Azure Active Directory principal for the resource.
+	//Type: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active
+	//Directory principal for the resource.
 	Type *ResourceIdentityStatusType `json:"type,omitempty"`
 
 	//UserAssignedIdentities: The resource ids of the user assigned identities to use
@@ -254,8 +247,7 @@ type PrivateEndpointConnectionProperties_Status struct {
 	//PrivateEndpoint: Private endpoint which the connection belongs to.
 	PrivateEndpoint *PrivateEndpointProperty_Status `json:"privateEndpoint,omitempty"`
 
-	//PrivateLinkServiceConnectionState: Connection state of the private endpoint
-	//connection.
+	//PrivateLinkServiceConnectionState: Connection state of the private endpoint connection.
 	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionStateProperty_Status `json:"privateLinkServiceConnectionState,omitempty"`
 
 	//ProvisioningState: State of the private endpoint connection.

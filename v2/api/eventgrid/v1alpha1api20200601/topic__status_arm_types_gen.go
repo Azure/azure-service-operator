@@ -30,17 +30,15 @@ type TopicProperties_StatusARM struct {
 	//Endpoint: Endpoint for the topic.
 	Endpoint *string `json:"endpoint,omitempty"`
 
-	//InboundIpRules: This can be used to restrict traffic from specific IPs instead
-	//of all IPs. Note: These are considered only if PublicNetworkAccess is enabled.
+	//InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
+	//only if PublicNetworkAccess is enabled.
 	InboundIpRules []InboundIpRule_StatusARM `json:"inboundIpRules,omitempty"`
 
-	//InputSchema: This determines the format that Event Grid should expect for
-	//incoming events published to the topic.
+	//InputSchema: This determines the format that Event Grid should expect for incoming events published to the topic.
 	InputSchema *TopicPropertiesStatusInputSchema `json:"inputSchema,omitempty"`
 
-	//InputSchemaMapping: This enables publishing using custom event schemas. An
-	//InputSchemaMapping can be specified to map various properties of a source schema
-	//to various required properties of the EventGridEvent schema.
+	//InputSchemaMapping: This enables publishing using custom event schemas. An InputSchemaMapping can be specified to map
+	//various properties of a source schema to various required properties of the EventGridEvent schema.
 	InputSchemaMapping *InputSchemaMapping_StatusARM `json:"inputSchemaMapping,omitempty"`
 
 	//MetricResourceId: Metric resource id for the topic.
@@ -50,11 +48,9 @@ type TopicProperties_StatusARM struct {
 	//ProvisioningState: Provisioning state of the topic.
 	ProvisioningState *TopicPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
 
-	//PublicNetworkAccess: This determines if traffic is allowed over public network.
-	//By default it is enabled.
+	//PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
 	//You can further restrict to specific IPs by configuring <seealso
-	//cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules"
-	///>
+	//cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules" />
 	PublicNetworkAccess *TopicPropertiesStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 }
 

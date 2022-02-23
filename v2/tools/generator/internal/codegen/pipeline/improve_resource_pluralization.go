@@ -16,16 +16,16 @@ func ImproveResourcePluralization() Stage {
 	stage := MakeLegacyStage(
 		"pluralizeNames",
 		"Improve resource pluralization",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			result := make(astmodel.Types)
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+			result := make(astmodel.TypeDefinitionSet)
 
 			renames := make(map[astmodel.TypeName]astmodel.TypeName)
 
-			for _, typeDef := range types {
+			for _, typeDef := range definitions {
 				if resourceType, ok := typeDef.Type().(*astmodel.ResourceType); ok {
 					newTypeName := typeDef.Name().Singular()
 					// check if there is already a resource with this name
-					if _, ok := types[newTypeName]; !ok {
+					if _, ok := definitions[newTypeName]; !ok {
 						// not found: rename the resource
 						renames[typeDef.Name()] = newTypeName
 						typeDef = typeDef.WithName(newTypeName)

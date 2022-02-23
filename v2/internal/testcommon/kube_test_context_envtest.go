@@ -16,6 +16,7 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -127,10 +128,16 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 			maxBackoff = 5 * time.Millisecond
 		}
 
+		var extensions map[schema.GroupVersionKind]genruntime.ResourceExtension
+		extensions, err = controllers.GetResourceExtensions(scheme)
+		if err != nil {
+			return nil, errors.Wrapf(err, "getting extensions")
+		}
 		err = controllers.RegisterAll(
 			mgr,
 			clientFactory,
 			controllers.GetKnownStorageTypes(),
+			extensions,
 			controllers.Options{
 				LoggerFactory: loggerFactory,
 				RequeueDelay:  requeueDelay,

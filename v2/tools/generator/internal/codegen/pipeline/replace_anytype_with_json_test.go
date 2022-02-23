@@ -22,7 +22,7 @@ func TestReplacingAnyTypes(t *testing.T) {
 	aName := astmodel.MakeTypeName(p1, "A")
 	bName := astmodel.MakeTypeName(p1, "B")
 
-	defs := make(astmodel.Types)
+	defs := make(astmodel.TypeDefinitionSet)
 	defs.Add(astmodel.MakeTypeDefinition(aName, astmodel.AnyType))
 	defs.Add(astmodel.MakeTypeDefinition(
 		bName,
@@ -32,19 +32,19 @@ func TestReplacingAnyTypes(t *testing.T) {
 		),
 	))
 
-	state := NewState().WithTypes(defs)
+	state := NewState().WithDefinitions(defs)
 	finalState, err := ReplaceAnyTypeWithJSON().action(context.Background(), state)
 	g.Expect(err).To(BeNil())
 
-	finalTypes := finalState.Types()
-	a := finalTypes[aName]
+	finalDefs := finalState.Definitions()
+	a := finalDefs[aName]
 	expectedType := astmodel.MakeTypeName(
 		astmodel.MakeExternalPackageReference("k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"),
 		"JSON",
 	)
 	g.Expect(a.Type()).To(Equal(expectedType))
 
-	bDef := finalTypes[bName]
+	bDef := finalDefs[bName]
 	bProp, found := bDef.Type().(*astmodel.ObjectType).Property("Field2")
 	g.Expect(found).To(BeTrue())
 	g.Expect(bProp.PropertyType()).To(Equal(expectedType))
@@ -59,7 +59,7 @@ func TestReplacingMapMapInterface(t *testing.T) {
 	p1 := test.MakeLocalPackageReference("horo.logy", "v20200730")
 	aName := astmodel.MakeTypeName(p1, "A")
 
-	defs := make(astmodel.Types)
+	defs := make(astmodel.TypeDefinitionSet)
 	defs.Add(astmodel.MakeTypeDefinition(
 		aName,
 		astmodel.NewObjectType().WithProperties(
@@ -74,7 +74,7 @@ func TestReplacingMapMapInterface(t *testing.T) {
 		),
 	))
 
-	state := NewState().WithTypes(defs)
+	state := NewState().WithDefinitions(defs)
 	finalState, err := ReplaceAnyTypeWithJSON().action(context.Background(), state)
 
 	g.Expect(err).To(BeNil())
@@ -88,8 +88,8 @@ func TestReplacingMapMapInterface(t *testing.T) {
 		),
 	)
 
-	finalTypes := finalState.Types()
-	aDef := finalTypes[aName]
+	finalDefinitions := finalState.Definitions()
+	aDef := finalDefinitions[aName]
 	aProp, found := aDef.Type().(*astmodel.ObjectType).Property("Maps")
 	g.Expect(found).To(BeTrue())
 	g.Expect(aProp.PropertyType()).To(Equal(expectedType))

@@ -21,10 +21,10 @@ func FlattenProperties() Stage {
 
 func applyPropertyFlattening(
 	ctx context.Context,
-	defs astmodel.Types) (astmodel.Types, error) {
+	defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 	visitor := makeFlatteningVisitor(defs)
 
-	result := make(astmodel.Types)
+	result := make(astmodel.TypeDefinitionSet)
 	for name, def := range defs {
 		newDef, err := visitor.VisitDefinition(def, name)
 		if err != nil {
@@ -37,7 +37,7 @@ func applyPropertyFlattening(
 	return result, nil
 }
 
-func makeFlatteningVisitor(defs astmodel.Types) astmodel.TypeVisitor {
+func makeFlatteningVisitor(defs astmodel.TypeDefinitionSet) astmodel.TypeVisitor {
 	return astmodel.TypeVisitorBuilder{
 		VisitObjectType: func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 			name := ctx.(astmodel.TypeName)
@@ -139,7 +139,7 @@ func fixCollisions(props []*astmodel.PropertyDefinition) []*astmodel.PropertyDef
 }
 
 // collectAndFlattenProperties walks the object type and extracts all properties, flattening any properties that require flattening
-func collectAndFlattenProperties(objectType *astmodel.ObjectType, defs astmodel.Types) ([]*astmodel.PropertyDefinition, error) {
+func collectAndFlattenProperties(objectType *astmodel.ObjectType, defs astmodel.TypeDefinitionSet) ([]*astmodel.PropertyDefinition, error) {
 	var flattenedProps []*astmodel.PropertyDefinition
 
 	props := objectType.Properties()
@@ -162,7 +162,7 @@ func collectAndFlattenProperties(objectType *astmodel.ObjectType, defs astmodel.
 }
 
 // flattenPropType is invoked on a property marked for flattening to collect all inner properties
-func flattenPropType(propType astmodel.Type, defs astmodel.Types) ([]*astmodel.PropertyDefinition, error) {
+func flattenPropType(propType astmodel.Type, defs astmodel.TypeDefinitionSet) ([]*astmodel.PropertyDefinition, error) {
 	switch propType := propType.(type) {
 	// "base case"
 	case *astmodel.ObjectType:

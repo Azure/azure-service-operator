@@ -293,6 +293,14 @@ var (
 	dateMatcher     = regexp.MustCompile(`\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?Z`)
 	sshKeyMatcher   = regexp.MustCompile("ssh-rsa [0-9a-zA-Z+/=]+")
 	passwordMatcher = regexp.MustCompile("pass.*?pass")
+
+	// keyMatcher matches any valid base64 value with at least 10 sets of 4 bytes of data that ends in = or ==.
+	// Both storage account keys and Redis account keys are longer than that and end in = or ==. Note that technically
+	// base64 values need not end in == or =, but allowing for that in the match will flag tons of false positives as
+	// any text (including long URLs) have strings of characters that meet this requirement. There are other base64 values
+	// in the payloads (such as operationResults URLs for polling async operations for some services) that seem to use
+	// very long base64 strings as well.
+	keyMatcher = regexp.MustCompile("(?:[A-Za-z0-9+/]{4}){10,}(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)")
 )
 
 // hideDates replaces all ISO8601 datetimes with a fixed value
@@ -311,10 +319,15 @@ func hidePasswords(s string) string {
 	return passwordMatcher.ReplaceAllLiteralString(s, "{PASSWORD}")
 }
 
+func hideKeys(s string) string {
+	return keyMatcher.ReplaceAllLiteralString(s, "{KEY}")
+}
+
 func hideRecordingData(s string) string {
 	result := hideDates(s)
 	result = hideSSHKeys(result)
 	result = hidePasswords(result)
+	result = hideKeys(result)
 
 	return result
 }

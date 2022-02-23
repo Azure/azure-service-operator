@@ -163,8 +163,8 @@ func (rule *FirewallRule_Status) ConvertStatusTo(destination genruntime.Converti
 
 //Storage version of v1alpha1api20210501.FlexibleServersFirewallRules_Spec
 type FlexibleServersFirewallRules_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName       string  `json:"azureName"`
 	EndIpAddress    *string `json:"endIpAddress,omitempty"`
 	Location        *string `json:"location,omitempty"`

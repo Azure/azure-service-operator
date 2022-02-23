@@ -104,7 +104,7 @@ func (optional *OptionalType) AsType(codeGenerationContext *CodeGenerationContex
 
 // AsZero renders an expression for the "zero" value of the type
 // by returning a literal "nil"
-func (optional *OptionalType) AsZero(_ Types, _ *CodeGenerationContext) dst.Expr {
+func (optional *OptionalType) AsZero(_ TypeDefinitionSet, _ *CodeGenerationContext) dst.Expr {
 	return astbuilder.Nil()
 }
 
@@ -148,14 +148,14 @@ func (optional *OptionalType) Unwrap() Type {
 
 // WriteDebugDescription adds a description of the current type to the passed builder
 // builder receives the full description, including nested types
-// types is a dictionary for resolving named types
-func (optional *OptionalType) WriteDebugDescription(builder *strings.Builder, types Types) {
+// definitions is a dictionary for resolving named types
+func (optional *OptionalType) WriteDebugDescription(builder *strings.Builder, definitions TypeDefinitionSet) {
 	if optional == nil {
 		builder.WriteString("<nilOptional>")
 		return
 	}
 
 	builder.WriteString("Optional[")
-	optional.element.WriteDebugDescription(builder, types)
+	optional.element.WriteDebugDescription(builder, definitions)
 	builder.WriteString("]")
 }

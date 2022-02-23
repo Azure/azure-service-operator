@@ -85,7 +85,7 @@ func (oneOf OneOfType) AsDeclarations(_ *CodeGenerationContext, _ DeclarationCon
 
 // AsZero always panics; OneOf cannot be represented by the Go AST and must be
 // lowered to an object type
-func (oneOf OneOfType) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
+func (oneOf OneOfType) AsZero(definitions TypeDefinitionSet, ctx *CodeGenerationContext) dst.Expr {
 	panic(errors.New(oneOfPanicMsg))
 }
 
@@ -125,8 +125,8 @@ func (oneOf *OneOfType) String() string {
 
 // WriteDebugDescription adds a description of the current type to the passed builder
 // builder receives the full description, including nested types
-// types is a dictionary for resolving named types
-func (oneOf *OneOfType) WriteDebugDescription(builder *strings.Builder, types Types) {
+// definitions is a dictionary for resolving named types
+func (oneOf *OneOfType) WriteDebugDescription(builder *strings.Builder, definitions TypeDefinitionSet) {
 	if oneOf == nil {
 		builder.WriteString("<nilOneOf>")
 		return
@@ -137,7 +137,7 @@ func (oneOf *OneOfType) WriteDebugDescription(builder *strings.Builder, types Ty
 		if ix > 0 {
 			builder.WriteString("|")
 		}
-		t.WriteDebugDescription(builder, types)
+		t.WriteDebugDescription(builder, definitions)
 	})
 	builder.WriteString("]")
 }

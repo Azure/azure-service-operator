@@ -176,8 +176,8 @@ func (test *WebTest_Status) ConvertStatusTo(destination genruntime.ConvertibleSt
 
 //Storage version of v1alpha1api20180501preview.Webtests_Spec
 type Webtests_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName       string                          `json:"azureName"`
 	Configuration   *WebTestPropertiesConfiguration `json:"Configuration,omitempty"`
 	Description     *string                         `json:"Description,omitempty"`

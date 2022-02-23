@@ -20,18 +20,15 @@ type Identity_StatusARM struct {
 	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
 type UserAssignedIdentityProperties_StatusARM struct {
-	//ClientId: The id of the app associated with the identity. This is a random
-	//generated UUID by MSI.
+	//ClientId: The id of the app associated with the identity. This is a random generated UUID by MSI.
 	ClientId *string `json:"clientId,omitempty"`
 
-	//PrincipalId: The id of the service principal object associated with the created
-	//identity.
+	//PrincipalId: The id of the service principal object associated with the created identity.
 	PrincipalId *string `json:"principalId,omitempty"`
 
 	//TenantId: The id of the tenant which the identity belongs to.

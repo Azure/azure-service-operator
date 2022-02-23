@@ -27,11 +27,11 @@ func MakeStatusPropertiesOptional() Stage {
 		MakeStatusPropertiesOptionalStageID,
 		"Force all status properties to be optional",
 		func(ctx context.Context, state *State) (*State, error) {
-			statusTypes := astmodel.FindStatusTypes(state.Types())
+			statusDefs := astmodel.FindStatusDefinitions(state.Definitions())
 			var errs []error
 
-			result := make(astmodel.Types)
-			for _, def := range statusTypes {
+			result := make(astmodel.TypeDefinitionSet)
+			for _, def := range statusDefs {
 				modifiedType, err := makeStatusPropertiesOptional(def)
 				if err != nil {
 					errs = append(errs, err)
@@ -45,10 +45,10 @@ func MakeStatusPropertiesOptional() Stage {
 				return nil, err
 			}
 
-			remaining := state.Types().Except(result)
+			remaining := state.Definitions().Except(result)
 			result.AddTypes(remaining)
 
-			return state.WithTypes(result), nil
+			return state.WithDefinitions(result), nil
 		})
 }
 

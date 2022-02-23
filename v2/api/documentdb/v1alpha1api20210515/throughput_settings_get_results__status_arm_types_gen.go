@@ -26,12 +26,11 @@ type ThroughputSettingsGetProperties_StatusARM struct {
 }
 
 type ThroughputSettingsGetProperties_Status_ResourceARM struct {
-	//AutoscaleSettings: Cosmos DB resource for autoscale settings. Either throughput
-	//is required or autoscaleSettings is required, but not both.
+	//AutoscaleSettings: Cosmos DB resource for autoscale settings. Either throughput is required or autoscaleSettings is
+	//required, but not both.
 	AutoscaleSettings *AutoscaleSettingsResource_StatusARM `json:"autoscaleSettings,omitempty"`
 
-	//Etag: A system generated property representing the resource etag required for
-	//optimistic concurrency control.
+	//Etag: A system generated property representing the resource etag required for optimistic concurrency control.
 	Etag *string `json:"_etag,omitempty"`
 
 	//MinimumThroughput: The minimum throughput of the resource
@@ -43,12 +42,11 @@ type ThroughputSettingsGetProperties_Status_ResourceARM struct {
 	//Rid: A system generated property. A unique identifier.
 	Rid *string `json:"_rid,omitempty"`
 
-	//Throughput: Value of the Cosmos DB resource throughput. Either throughput is
-	//required or autoscaleSettings is required, but not both.
+	//Throughput: Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings is required,
+	//but not both.
 	Throughput *int `json:"throughput,omitempty"`
 
-	//Ts: A system generated property that denotes the last updated timestamp of the
-	//resource.
+	//Ts: A system generated property that denotes the last updated timestamp of the resource.
 	Ts *float64 `json:"_ts,omitempty"`
 }
 
@@ -59,20 +57,18 @@ type AutoscaleSettingsResource_StatusARM struct {
 	//MaxThroughput: Represents maximum throughput container can scale up to.
 	MaxThroughput int `json:"maxThroughput"`
 
-	//TargetMaxThroughput: Represents target maximum throughput container can scale up
-	//to once offer is no longer in pending state.
+	//TargetMaxThroughput: Represents target maximum throughput container can scale up to once offer is no longer in pending
+	//state.
 	TargetMaxThroughput *int `json:"targetMaxThroughput,omitempty"`
 }
 
 type AutoUpgradePolicyResource_StatusARM struct {
-	//ThroughputPolicy: Represents throughput policy which service must adhere to for
-	//auto-upgrade
+	//ThroughputPolicy: Represents throughput policy which service must adhere to for auto-upgrade
 	ThroughputPolicy *ThroughputPolicyResource_StatusARM `json:"throughputPolicy,omitempty"`
 }
 
 type ThroughputPolicyResource_StatusARM struct {
-	//IncrementPercent: Represents the percentage by which throughput can increase
-	//every time throughput policy kicks in.
+	//IncrementPercent: Represents the percentage by which throughput can increase every time throughput policy kicks in.
 	IncrementPercent *int `json:"incrementPercent,omitempty"`
 
 	//IsEnabled: Determines whether the ThroughputPolicy is active or not

@@ -180,8 +180,8 @@ func (container *BlobContainer_Status) ConvertStatusTo(destination genruntime.Co
 type StorageAccountsBlobServicesContainers_Spec struct {
 	// +kubebuilder:validation:MaxLength=63
 	// +kubebuilder:validation:MinLength=3
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName                      string                          `json:"azureName"`
 	DefaultEncryptionScope         *string                         `json:"defaultEncryptionScope,omitempty"`
 	DenyEncryptionScopeOverride    *bool                           `json:"denyEncryptionScopeOverride,omitempty"`

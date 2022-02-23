@@ -1,0 +1,642 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"name":"asotest-rg-owoazy","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "93"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy?api-version=2020-06-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy","name":"asotest-rg-owoazy","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "276"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy","name":"asotest-rg-owoazy","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"location":"westus2","name":"asotest-snapshot-xsdrzf","properties":{"creationData":{"createOption":"Empty"},"diskSizeGB":32}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "126"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy/providers/Microsoft.Compute/snapshots/asotest-snapshot-xsdrzf?api-version=2020-09-30
+    method: PUT
+  response:
+    body: "{\r\n  \"name\": \"asotest-snapshot-xsdrzf\",\r\n  \"location\": \"westus2\",\r\n
+      \ \"properties\": {\r\n    \"creationData\": {\r\n      \"createOption\": \"Empty\"\r\n
+      \   },\r\n    \"diskSizeGB\": 32,\r\n    \"provisioningState\": \"Updating\",\r\n
+      \   \"isArmResource\": true\r\n  }\r\n}"
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/9bba0c71-735a-44a9-a66a-22a82fd85b27?p=330bd1e4-9ec8-43c5-83fb-8151747429a9&api-version=2020-09-30
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "242"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/9bba0c71-735a-44a9-a66a-22a82fd85b27?p=330bd1e4-9ec8-43c5-83fb-8151747429a9&monitor=true&api-version=2020-09-30
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "2"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/HighCostSnapshotCreateHydrate3Min;999,Microsoft.Compute/HighCostSnapshotCreateHydrate30Min;7999
+      X-Ms-Served-By:
+      - 330bd1e4-9ec8-43c5-83fb-8151747429a9_132754234314773538
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/9bba0c71-735a-44a9-a66a-22a82fd85b27?p=330bd1e4-9ec8-43c5-83fb-8151747429a9&api-version=2020-09-30
+    method: GET
+  response:
+    body: "{\r\n  \"startTime\": \"2022-02-14T03:02:35.5262024+00:00\",\r\n  \"endTime\":
+      \"2022-02-14T03:02:35.9011914+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"properties\":
+      {\r\n    \"output\": {\"name\":\"asotest-snapshot-xsdrzf\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy/providers/Microsoft.Compute/snapshots/asotest-snapshot-xsdrzf\",\"type\":\"Microsoft.Compute/snapshots\",\"location\":\"westus2\",\"sku\":{\"name\":\"Standard_LRS\",\"tier\":\"Standard\"},\"properties\":{\"creationData\":{\"createOption\":\"Empty\"},\"diskSizeGB\":32,\"encryption\":{\"type\":\"EncryptionAtRestWithPlatformKey\"},\"incremental\":false,\"networkAccessPolicy\":\"AllowAll\",\"timeCreated\":\"2022-02-14T03:02:35.5262024+00:00\",\"provisioningState\":\"Succeeded\",\"diskState\":\"Unattached\",\"diskSizeBytes\":34359738368,\"uniqueId\":\"bfb1aba1-eca4-4254-9dc4-b5623bfeae21\"}}\r\n
+      \ },\r\n  \"name\": \"9bba0c71-735a-44a9-a66a-22a82fd85b27\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/GetOperation3Min;49998,Microsoft.Compute/GetOperation30Min;399998
+      X-Ms-Served-By:
+      - 330bd1e4-9ec8-43c5-83fb-8151747429a9_132754234314773538
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy/providers/Microsoft.Compute/snapshots/asotest-snapshot-xsdrzf?api-version=2020-09-30
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-snapshot-xsdrzf\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy/providers/Microsoft.Compute/snapshots/asotest-snapshot-xsdrzf\",\r\n
+      \ \"type\": \"Microsoft.Compute/snapshots\",\r\n  \"location\": \"westus2\",\r\n
+      \ \"sku\": {\r\n    \"name\": \"Standard_LRS\",\r\n    \"tier\": \"Standard\"\r\n
+      \ },\r\n  \"properties\": {\r\n    \"creationData\": {\r\n      \"createOption\":
+      \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 32,\r\n    \"encryption\": {\r\n
+      \     \"type\": \"EncryptionAtRestWithPlatformKey\"\r\n    },\r\n    \"incremental\":
+      false,\r\n    \"networkAccessPolicy\": \"AllowAll\",\r\n    \"timeCreated\":
+      \"2022-02-14T03:02:35.5262024+00:00\",\r\n    \"provisioningState\": \"Succeeded\",\r\n
+      \   \"diskState\": \"Unattached\",\r\n    \"diskSizeBytes\": 34359738368,\r\n
+      \   \"uniqueId\": \"bfb1aba1-eca4-4254-9dc4-b5623bfeae21\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/LowCostGet3Min;14998,Microsoft.Compute/LowCostGet30Min;119996
+      X-Ms-Served-By:
+      - 330bd1e4-9ec8-43c5-83fb-8151747429a9_132754234314773538
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"location":"westus2","name":"asotest-snapshot-xsdrzf","properties":{"creationData":{"createOption":"Empty"},"diskSizeGB":64}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "126"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy/providers/Microsoft.Compute/snapshots/asotest-snapshot-xsdrzf?api-version=2020-09-30
+    method: PUT
+  response:
+    body: "{\r\n  \"name\": \"asotest-snapshot-xsdrzf\",\r\n  \"location\": \"westus2\",\r\n
+      \ \"sku\": {\r\n    \"name\": \"Standard_LRS\",\r\n    \"tier\": \"Standard\"\r\n
+      \ },\r\n  \"properties\": {\r\n    \"creationData\": {\r\n      \"createOption\":
+      \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 64,\r\n    \"provisioningState\":
+      \"Updating\",\r\n    \"isArmResource\": true,\r\n    \"colocationConstraints\":
+      {},\r\n    \"faultDomain\": 0\r\n  }\r\n}"
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/cc5b9a87-2e62-4f84-aabc-5bcf8f6dbda0?p=330bd1e4-9ec8-43c5-83fb-8151747429a9&api-version=2020-09-30
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "370"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/cc5b9a87-2e62-4f84-aabc-5bcf8f6dbda0?p=330bd1e4-9ec8-43c5-83fb-8151747429a9&monitor=true&api-version=2020-09-30
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "2"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/HighCostSnapshotCreateHydrate3Min;998,Microsoft.Compute/HighCostSnapshotCreateHydrate30Min;7998
+      X-Ms-Served-By:
+      - 330bd1e4-9ec8-43c5-83fb-8151747429a9_132754234314773538
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/cc5b9a87-2e62-4f84-aabc-5bcf8f6dbda0?p=330bd1e4-9ec8-43c5-83fb-8151747429a9&api-version=2020-09-30
+    method: GET
+  response:
+    body: "{\r\n  \"startTime\": \"2022-02-14T03:02:50.7919098+00:00\",\r\n  \"endTime\":
+      \"2022-02-14T03:02:51.0106649+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"properties\":
+      {\r\n    \"output\": {\r\n  \"name\": \"asotest-snapshot-xsdrzf\",\r\n  \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy/providers/Microsoft.Compute/snapshots/asotest-snapshot-xsdrzf\",\r\n
+      \ \"type\": \"Microsoft.Compute/snapshots\",\r\n  \"location\": \"westus2\",\r\n
+      \ \"sku\": {\r\n    \"name\": \"Standard_LRS\",\r\n    \"tier\": \"Standard\"\r\n
+      \ },\r\n  \"properties\": {\r\n    \"creationData\": {\r\n      \"createOption\":
+      \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 64,\r\n    \"encryption\": {\r\n
+      \     \"type\": \"EncryptionAtRestWithPlatformKey\"\r\n    },\r\n    \"incremental\":
+      false,\r\n    \"networkAccessPolicy\": \"AllowAll\",\r\n    \"timeCreated\":
+      \"2022-02-14T03:02:35.5262024+00:00\",\r\n    \"provisioningState\": \"Succeeded\",\r\n
+      \   \"diskState\": \"Unattached\",\r\n    \"diskSizeBytes\": 68719476736,\r\n
+      \   \"uniqueId\": \"bfb1aba1-eca4-4254-9dc4-b5623bfeae21\"\r\n  }\r\n}\r\n  },\r\n
+      \ \"name\": \"cc5b9a87-2e62-4f84-aabc-5bcf8f6dbda0\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/GetOperation3Min;49997,Microsoft.Compute/GetOperation30Min;399997
+      X-Ms-Served-By:
+      - 330bd1e4-9ec8-43c5-83fb-8151747429a9_132754234314773538
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy/providers/Microsoft.Compute/snapshots/asotest-snapshot-xsdrzf?api-version=2020-09-30
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-snapshot-xsdrzf\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy/providers/Microsoft.Compute/snapshots/asotest-snapshot-xsdrzf\",\r\n
+      \ \"type\": \"Microsoft.Compute/snapshots\",\r\n  \"location\": \"westus2\",\r\n
+      \ \"sku\": {\r\n    \"name\": \"Standard_LRS\",\r\n    \"tier\": \"Standard\"\r\n
+      \ },\r\n  \"properties\": {\r\n    \"creationData\": {\r\n      \"createOption\":
+      \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 64,\r\n    \"encryption\": {\r\n
+      \     \"type\": \"EncryptionAtRestWithPlatformKey\"\r\n    },\r\n    \"incremental\":
+      false,\r\n    \"networkAccessPolicy\": \"AllowAll\",\r\n    \"timeCreated\":
+      \"2022-02-14T03:02:35.5262024+00:00\",\r\n    \"provisioningState\": \"Succeeded\",\r\n
+      \   \"diskState\": \"Unattached\",\r\n    \"diskSizeBytes\": 68719476736,\r\n
+      \   \"uniqueId\": \"bfb1aba1-eca4-4254-9dc4-b5623bfeae21\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/LowCostGet3Min;14995,Microsoft.Compute/LowCostGet30Min;119993
+      X-Ms-Served-By:
+      - 330bd1e4-9ec8-43c5-83fb-8151747429a9_132754234314773538
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy/providers/Microsoft.Compute/snapshots/asotest-snapshot-xsdrzf?api-version=2020-09-30
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/c76f58b8-87eb-46b9-9eec-03a2fe8df3dc?p=330bd1e4-9ec8-43c5-83fb-8151747429a9&api-version=2020-09-30
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/c76f58b8-87eb-46b9-9eec-03a2fe8df3dc?p=330bd1e4-9ec8-43c5-83fb-8151747429a9&monitor=true&api-version=2020-09-30
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/DeleteDisks3Min;2999,Microsoft.Compute/DeleteDisks30Min;23999
+      X-Ms-Served-By:
+      - 330bd1e4-9ec8-43c5-83fb-8151747429a9_132754234314773538
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy?api-version=2020-06-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRPV09BWlktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy/providers/Microsoft.Compute/snapshots/asotest-snapshot-xsdrzf?api-version=2020-09-30
+    method: GET
+  response:
+    body: "{\r\n  \"error\": {\r\n    \"code\": \"NotFound\",\r\n    \"message\":
+      \"Snapshot asotest-snapshot-xsdrzf is not found.\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "113"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/LowCostGet3Min;14993,Microsoft.Compute/LowCostGet30Min;119991
+      X-Ms-Served-By:
+      - 330bd1e4-9ec8-43c5-83fb-8151747429a9_132754234314773538
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy","name":"asotest-rg-owoazy","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy","name":"asotest-rg-owoazy","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy","name":"asotest-rg-owoazy","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy","name":"asotest-rg-owoazy","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "5"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-owoazy''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy/providers/Microsoft.Compute/snapshots/asotest-snapshot-xsdrzf?api-version=2020-09-30
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-owoazy''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""

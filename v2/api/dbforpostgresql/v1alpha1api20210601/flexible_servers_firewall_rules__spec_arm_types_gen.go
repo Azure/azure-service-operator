@@ -38,11 +38,9 @@ func (rules FlexibleServersFirewallRules_SpecARM) GetType() string {
 
 //Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/FirewallRuleProperties
 type FirewallRulePropertiesARM struct {
-	//EndIpAddress: The end IP address of the server firewall rule. Must be IPv4
-	//format.
+	//EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.
 	EndIpAddress string `json:"endIpAddress"`
 
-	//StartIpAddress: The start IP address of the server firewall rule. Must be IPv4
-	//format.
+	//StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.
 	StartIpAddress string `json:"startIpAddress"`
 }

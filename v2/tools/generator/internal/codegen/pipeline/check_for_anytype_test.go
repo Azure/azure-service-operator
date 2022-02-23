@@ -24,7 +24,7 @@ func TestFindsAnyTypes(t *testing.T) {
 	p2 := test.MakeLocalPackageReference("road.train", "v20200730")
 	p3 := test.MakeLocalPackageReference("wah.wah", "v20200730")
 
-	defs := make(astmodel.Types)
+	defs := make(astmodel.TypeDefinitionSet)
 	add := func(p astmodel.PackageReference, n string, t astmodel.Type) {
 		defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(p, n), t))
 	}
@@ -40,7 +40,7 @@ func TestFindsAnyTypes(t *testing.T) {
 	// One that's fine.
 	add(p3, "C", astmodel.NewArrayType(astmodel.IntType))
 
-	state := NewState().WithTypes(defs)
+	state := NewState().WithDefinitions(defs)
 	stage := FilterOutDefinitionsUsingAnyType(nil)
 	finalState, err := stage.Run(context.Background(), state)
 
@@ -55,7 +55,7 @@ func TestIgnoresExpectedAnyTypePackages(t *testing.T) {
 	p2 := test.MakeLocalPackageReference("road.train", "v20200730")
 	p3 := test.MakeLocalPackageReference("wah.wah", "v20200730")
 
-	defs := make(astmodel.Types)
+	defs := make(astmodel.TypeDefinitionSet)
 	add := func(p astmodel.PackageReference, n string, t astmodel.Type) {
 		defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(p, n), t))
 	}
@@ -72,15 +72,15 @@ func TestIgnoresExpectedAnyTypePackages(t *testing.T) {
 
 	exclusions := []string{"horo.logy/v20200730", "road.train/v20200730"}
 
-	state := NewState().WithTypes(defs)
+	state := NewState().WithDefinitions(defs)
 	finalState, err := FilterOutDefinitionsUsingAnyType(exclusions).action(context.Background(), state)
 	g.Expect(err).To(BeNil())
 
-	expected := make(astmodel.Types)
+	expected := make(astmodel.TypeDefinitionSet)
 	expected.Add(astmodel.MakeTypeDefinition(
 		astmodel.MakeTypeName(p3, "C"), astmodel.NewArrayType(astmodel.IntType),
 	))
-	g.Expect(finalState.Types()).To(Equal(expected))
+	g.Expect(finalState.Definitions()).To(Equal(expected))
 }
 
 func TestComplainsAboutUnneededExclusions(t *testing.T) {
@@ -90,7 +90,7 @@ func TestComplainsAboutUnneededExclusions(t *testing.T) {
 	p2 := test.MakeLocalPackageReference("road.train", "v20200730")
 	p3 := test.MakeLocalPackageReference("wah.wah", "v20200730")
 
-	defs := make(astmodel.Types)
+	defs := make(astmodel.TypeDefinitionSet)
 	add := func(p astmodel.PackageReference, n string, t astmodel.Type) {
 		defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(p, n), t))
 	}
@@ -112,7 +112,7 @@ func TestComplainsAboutUnneededExclusions(t *testing.T) {
 		"road.train/v20200730",
 	}
 
-	state := NewState().WithTypes(defs)
+	state := NewState().WithDefinitions(defs)
 	stage := FilterOutDefinitionsUsingAnyType(exclusions)
 	finalState, err := stage.Run(context.Background(), state)
 	g.Expect(finalState).To(BeNil())

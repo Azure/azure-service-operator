@@ -92,7 +92,7 @@ func AsSimpleDeclarations(
 
 	var docComments dst.Decorations
 	if len(declContext.Description) > 0 {
-		astbuilder.AddWrappedComments(&docComments, declContext.Description, 120)
+		astbuilder.AddWrappedComments(&docComments, declContext.Description)
 	}
 
 	AddValidationComments(&docComments, declContext.Validations)

@@ -47,23 +47,20 @@ type WorkspacePropertiesARM struct {
 	//Features: Workspace features.
 	Features *WorkspaceFeaturesARM `json:"features,omitempty"`
 
-	//ForceCmkForQuery: Indicates whether customer managed storage is mandatory for
-	//query management.
+	//ForceCmkForQuery: Indicates whether customer managed storage is mandatory for query management.
 	ForceCmkForQuery *bool `json:"forceCmkForQuery,omitempty"`
 
 	//ProvisioningState: The provisioning state of the workspace.
 	ProvisioningState *WorkspacePropertiesProvisioningState `json:"provisioningState,omitempty"`
 
-	//PublicNetworkAccessForIngestion: The network access type for accessing Log
-	//Analytics ingestion.
+	//PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.
 	PublicNetworkAccessForIngestion *WorkspacePropertiesPublicNetworkAccessForIngestion `json:"publicNetworkAccessForIngestion,omitempty"`
 
-	//PublicNetworkAccessForQuery: The network access type for accessing Log Analytics
-	//query.
+	//PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.
 	PublicNetworkAccessForQuery *WorkspacePropertiesPublicNetworkAccessForQuery `json:"publicNetworkAccessForQuery,omitempty"`
 
-	//RetentionInDays: The workspace data retention in days. Allowed values are per
-	//pricing plan. See pricing tiers documentation for details.
+	//RetentionInDays: The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
+	//documentation for details.
 	RetentionInDays *int `json:"retentionInDays,omitempty"`
 
 	//Sku: The SKU (tier) of a workspace.
@@ -81,8 +78,7 @@ type WorkspaceCappingARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceFeatures
 type WorkspaceFeaturesARM struct {
-	//AdditionalProperties: Unmatched properties from the message are deserialized
-	//this collection
+	//AdditionalProperties: Unmatched properties from the message are deserialized this collection
 	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
 	ClusterResourceId    *string            `json:"clusterResourceId,omitempty"`
 
@@ -92,19 +88,17 @@ type WorkspaceFeaturesARM struct {
 	//EnableDataExport: Flag that indicate if data should be exported.
 	EnableDataExport *bool `json:"enableDataExport,omitempty"`
 
-	//EnableLogAccessUsingOnlyResourcePermissions: Flag that indicate which permission
-	//to use - resource or workspace or both.
+	//EnableLogAccessUsingOnlyResourcePermissions: Flag that indicate which permission to use - resource or workspace or both.
 	EnableLogAccessUsingOnlyResourcePermissions *bool `json:"enableLogAccessUsingOnlyResourcePermissions,omitempty"`
 
-	//ImmediatePurgeDataOn30Days: Flag that describes if we want to remove the data
-	//after 30 days.
+	//ImmediatePurgeDataOn30Days: Flag that describes if we want to remove the data after 30 days.
 	ImmediatePurgeDataOn30Days *bool `json:"immediatePurgeDataOn30Days,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceSku
 type WorkspaceSkuARM struct {
-	//CapacityReservationLevel: The capacity reservation level in GB for this
-	//workspace, when CapacityReservation sku is selected.
+	//CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
+	//selected.
 	CapacityReservationLevel *int `json:"capacityReservationLevel,omitempty"`
 
 	//Name: The name of the SKU.

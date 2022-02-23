@@ -862,8 +862,8 @@ type ASpecAPIVersion string
 const ASpecAPIVersion20200601 = ASpecAPIVersion("2020-06-01")
 
 type A_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	// +kubebuilder:validation:Required
@@ -942,8 +942,8 @@ type BSpecAPIVersion string
 const BSpecAPIVersion20200601 = BSpecAPIVersion("2020-06-01")
 
 type B_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	// +kubebuilder:validation:Required
@@ -1022,8 +1022,8 @@ type CSpecAPIVersion string
 const CSpecAPIVersion20200601 = CSpecAPIVersion("2020-06-01")
 
 type C_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	// +kubebuilder:validation:Required
@@ -1102,8 +1102,8 @@ type DSpecAPIVersion string
 const DSpecAPIVersion20200601 = DSpecAPIVersion("2020-06-01")
 
 type D_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	// +kubebuilder:validation:Required

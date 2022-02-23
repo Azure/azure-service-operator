@@ -43,10 +43,10 @@ func TestGolden_ReportResourceVersions(t *testing.T) {
 		test.CreateSpec(test.Pkg2021, "Address"),
 		test.CreateStatus(test.Pkg2021, "Address"))
 
-	types := make(astmodel.Types)
-	types.AddAll(person2020, address2020, person2021, address2021)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(person2020, address2020, person2021, address2021)
 
-	report := NewResourceVersionsReport(types)
+	report := NewResourceVersionsReport(defs)
 
 	var buffer strings.Builder
 	report.WriteToBuffer(&buffer, "https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples")

@@ -135,8 +135,8 @@ type FlexibleServers_Spec struct {
 	AdministratorLoginPassword *genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`
 	AvailabilityZone           *string                     `json:"availabilityZone,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName         string             `json:"azureName"`
 	Backup            *Backup            `json:"backup,omitempty"`
 	CreateMode        *string            `json:"createMode,omitempty"`
@@ -152,8 +152,8 @@ type FlexibleServers_Spec struct {
 	PropertyBag    genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 	Sku            *Sku                              `json:"sku,omitempty"`
 
-	//SourceServerResourceReference: The source server resource ID to restore from.
-	//It's required when 'createMode' is 'PointInTimeRestore'.
+	//SourceServerResourceReference: The source server resource ID to restore from. It's required when 'createMode' is
+	//'PointInTimeRestore'.
 	SourceServerResourceReference *genruntime.ResourceReference `armReference:"SourceServerResourceId" json:"sourceServerResourceReference,omitempty"`
 	Storage                       *Storage                      `json:"storage,omitempty"`
 	Tags                          map[string]string             `json:"tags,omitempty"`

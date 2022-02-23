@@ -12,8 +12,8 @@ import (
 	"github.com/pkg/errors"
 )
 
-// Types is a map of TypeName to TypeDefinition, representing a set of types.
-type Types map[TypeName]TypeDefinition
+// TypeDefinitionSet is a map of TypeName to TypeDefinition, representing a set of type definitions.
+type TypeDefinitionSet map[TypeName]TypeDefinition
 
 // A restricted interface to indicate that the
 // consumer won’t modify the contained types.
@@ -23,9 +23,9 @@ type ReadonlyTypes interface {
 	TryGet(t TypeName) (TypeDefinition, bool)
 }
 
-// MakeTypes makes it easier to declare a Types from a map
-func MakeTypes(tys map[TypeName]Type) Types {
-	result := make(Types, len(tys))
+// MakeTypes makes it easier to declare a TypeDefinitionSet from a map
+func MakeTypes(tys map[TypeName]Type) TypeDefinitionSet {
+	result := make(TypeDefinitionSet, len(tys))
 	for name, ty := range tys {
 		result.Add(MakeTypeDefinition(name, ty))
 	}
@@ -33,30 +33,32 @@ func MakeTypes(tys map[TypeName]Type) Types {
 	return result
 }
 
-func (types Types) Get(t TypeName) TypeDefinition {
-	return types[t]
+// Get looks up a type definition based on the name
+func (set TypeDefinitionSet) Get(name TypeName) TypeDefinition {
+	return set[name]
 }
 
-func (types Types) TryGet(t TypeName) (TypeDefinition, bool) {
-	result, ok := types[t]
+// TryGet attempts to look up a type definition based on the name
+func (set TypeDefinitionSet) TryGet(t TypeName) (TypeDefinition, bool) {
+	result, ok := set[t]
 	return result, ok
 }
 
 // Add adds a type to the set, with safety check that it has not already been defined
-func (types Types) Add(def TypeDefinition) {
+func (set TypeDefinitionSet) Add(def TypeDefinition) {
 	key := def.Name()
-	if _, ok := types[key]; ok {
+	if _, ok := set[key]; ok {
 		panic(fmt.Sprintf("type already defined: %s", key))
 	}
 
-	types[key] = def
+	set[key] = def
 }
 
 // FullyResolve turns something that might be a TypeName into something that isn't
-func (types Types) FullyResolve(t Type) (Type, error) {
+func (set TypeDefinitionSet) FullyResolve(t Type) (Type, error) {
 	tName, ok := t.(TypeName)
 	for ok {
-		tDef, found := types[tName]
+		tDef, found := set[tName]
 		if !found {
 			return nil, errors.Errorf("couldn't find definition for %s", tName)
 		}
@@ -69,25 +71,25 @@ func (types Types) FullyResolve(t Type) (Type, error) {
 }
 
 // AddAll adds multiple definitions to the set, with the same safety check as Add() to panic if a duplicate is included
-func (types Types) AddAll(otherDefinitions ...TypeDefinition) {
+func (set TypeDefinitionSet) AddAll(otherDefinitions ...TypeDefinition) {
 	for _, t := range otherDefinitions {
-		types.Add(t)
+		set.Add(t)
 	}
 }
 
 // AddTypes adds multiple types to the set, with the same safety check as Add() to panic if a duplicate is included
-func (types Types) AddTypes(otherTypes Types) {
-	for _, t := range otherTypes {
-		types.Add(t)
+func (set TypeDefinitionSet) AddTypes(definitions TypeDefinitionSet) {
+	for _, t := range definitions {
+		set.Add(t)
 	}
 }
 
 // AddTypesAllowDuplicates adds multiple types to the set.
 // Multiple adds of a type with the same shape are allowed, but attempting to add two
 // types with the same name but different shape will trigger an error.
-func (types Types) AddTypesAllowDuplicates(otherTypes Types) error {
-	for _, t := range otherTypes {
-		err := types.AddAllowDuplicates(t)
+func (set TypeDefinitionSet) AddTypesAllowDuplicates(definitions TypeDefinitionSet) error {
+	for _, t := range definitions {
+		err := set.AddAllowDuplicates(t)
 		if err != nil {
 			return err
 		}
@@ -99,13 +101,13 @@ func (types Types) AddTypesAllowDuplicates(otherTypes Types) error {
 // AddAllowDuplicates attempts to add the specified definition to the types collection.
 // Multiple adds of a type with the same shape are allowed, but attempting to add two
 // types with the same name but different shape will trigger an error.
-func (types Types) AddAllowDuplicates(def TypeDefinition) error {
-	if !types.Contains(def.Name()) {
-		types.Add(def)
+func (set TypeDefinitionSet) AddAllowDuplicates(def TypeDefinition) error {
+	if !set.Contains(def.Name()) {
+		set.Add(def)
 		return nil
 	}
 
-	existing := types[def.Name()]
+	existing := set[def.Name()]
 	if !TypeEquals(def.Type(), existing.Type()) {
 		return errors.Errorf("type definition for %q has two shapes: %s", existing.Name(), DiffTypes(existing.Type(), def.Type()))
 	}
@@ -136,9 +138,9 @@ func DiffTypes(x, y interface{}) string {
 // AddAllAllowDuplicates adds multiple definitions to the set.
 // Multiple adds of a type with the same shape are allowed, but attempting to add two
 // types with the same name but different shape will trigger an error.
-func (types Types) AddAllAllowDuplicates(otherDefinitions []TypeDefinition) error {
+func (set TypeDefinitionSet) AddAllAllowDuplicates(otherDefinitions []TypeDefinition) error {
 	for _, def := range otherDefinitions {
-		err := types.AddAllowDuplicates(def)
+		err := set.AddAllowDuplicates(def)
 		if err != nil {
 			return err
 		}
@@ -148,9 +150,9 @@ func (types Types) AddAllAllowDuplicates(otherDefinitions []TypeDefinition) erro
 }
 
 // Where returns a new set of types including only those that satisfy the predicate
-func (types Types) Where(predicate func(definition TypeDefinition) bool) Types {
-	result := make(Types)
-	for _, t := range types {
+func (set TypeDefinitionSet) Where(predicate func(definition TypeDefinition) bool) TypeDefinitionSet {
+	result := make(TypeDefinitionSet)
+	for _, t := range set {
 		if predicate(t) {
 			result[t.Name()] = t
 		}
@@ -160,37 +162,37 @@ func (types Types) Where(predicate func(definition TypeDefinition) bool) Types {
 }
 
 // Intersect returns a new set of types including only those defined in both types and otherTypes.
-func (types Types) Intersect(otherTypes Types) Types {
-	return types.Where(func(def TypeDefinition) bool {
-		return otherTypes.Contains(def.Name())
+func (set TypeDefinitionSet) Intersect(definitions TypeDefinitionSet) TypeDefinitionSet {
+	return set.Where(func(def TypeDefinition) bool {
+		return definitions.Contains(def.Name())
 	})
 }
 
 // Except returns a new set of types including only those not defined in otherTypes
-func (types Types) Except(otherTypes Types) Types {
-	return types.Where(func(def TypeDefinition) bool {
-		return !otherTypes.Contains(def.Name())
+func (set TypeDefinitionSet) Except(definitions TypeDefinitionSet) TypeDefinitionSet {
+	return set.Where(func(def TypeDefinition) bool {
+		return !definitions.Contains(def.Name())
 	})
 }
 
 // Contains returns true if the set contains a definition for the specified name
-func (types Types) Contains(name TypeName) bool {
-	_, ok := types[name]
+func (set TypeDefinitionSet) Contains(name TypeName) bool {
+	_, ok := set[name]
 	return ok
 }
 
 // OverlayWith creates a new set containing all the type definitions from both this and the provided set. Any name
 // collisions are resolved in favour of the provided set. Returns a new independent set, leaving the original unmodified.
-func (types Types) OverlayWith(t Types) Types {
+func (set TypeDefinitionSet) OverlayWith(t TypeDefinitionSet) TypeDefinitionSet {
 	result := t.Copy()
-	result.AddTypes(types.Except(t))
+	result.AddTypes(set.Except(t))
 	return result
 }
 
 // Names returns the names of all of the types in the set
-func (types Types) Names() TypeNameSet {
+func (set TypeDefinitionSet) Names() TypeNameSet {
 	result := NewTypeNameSet()
-	for name := range types {
+	for name := range set {
 		result.Add(name)
 	}
 
@@ -199,29 +201,29 @@ func (types Types) Names() TypeNameSet {
 
 // TypesDisjointUnion merges this and other, with a safety check that no type is overwritten.
 // If an attempt is made to overwrite a type, this function panics
-func TypesDisjointUnion(s1 Types, s2 Types) Types {
+func TypesDisjointUnion(s1 TypeDefinitionSet, s2 TypeDefinitionSet) TypeDefinitionSet {
 	result := s1.Copy()
 	result.AddTypes(s2)
 	return result
 }
 
 // Copy makes an independent copy of this set of types
-func (types Types) Copy() Types {
-	result := make(Types)
-	result.AddTypes(types)
+func (set TypeDefinitionSet) Copy() TypeDefinitionSet {
+	result := make(TypeDefinitionSet)
+	result.AddTypes(set)
 	return result
 }
 
 // ResolveResourceType returns the underlying resource type if the definition contains one or names one
-func (types Types) ResolveResourceType(aType Type) (*ResourceType, bool) {
+func (set TypeDefinitionSet) ResolveResourceType(aType Type) (*ResourceType, bool) {
 	switch t := aType.(type) {
 
 	case *ResourceType:
 		return t, true
 
 	case TypeName:
-		if def, ok := types[t]; ok {
-			return types.ResolveResourceType(def.theType)
+		if def, ok := set[t]; ok {
+			return set.ResolveResourceType(def.theType)
 		}
 		return nil, false
 
@@ -231,14 +233,14 @@ func (types Types) ResolveResourceType(aType Type) (*ResourceType, bool) {
 }
 
 // ResolveEnumType returns true if the passed type is an enum type or names an enum type; false otherwise.
-func (types Types) ResolveEnumType(aType Type) (EnumType, bool) {
+func (set TypeDefinitionSet) ResolveEnumType(aType Type) (EnumType, bool) {
 	switch t := aType.(type) {
 	case *EnumType:
 		return *t, true
 
 	case TypeName:
-		if def, ok := types[t]; ok {
-			return types.ResolveEnumDefinition(&def)
+		if def, ok := set[t]; ok {
+			return set.ResolveEnumDefinition(&def)
 		}
 		return EnumType{}, false
 
@@ -248,15 +250,15 @@ func (types Types) ResolveEnumType(aType Type) (EnumType, bool) {
 }
 
 // ResolveObjectType returns the underlying resource type if the definition contains one or names one
-func (types Types) ResolveObjectType(aType Type) (*ObjectType, bool) {
+func (set TypeDefinitionSet) ResolveObjectType(aType Type) (*ObjectType, bool) {
 	switch t := aType.(type) {
 
 	case *ObjectType:
 		return t, true
 
 	case TypeName:
-		if def, ok := types[t]; ok {
-			return types.ResolveObjectType(def.theType)
+		if def, ok := set[t]; ok {
+			return set.ResolveObjectType(def.theType)
 		}
 		return nil, false
 
@@ -266,12 +268,12 @@ func (types Types) ResolveObjectType(aType Type) (*ObjectType, bool) {
 }
 
 // ResolveEnumDefinition returns true if the passed definition is for an Enum type or names an Enum type; false otherwise.
-func (types Types) ResolveEnumDefinition(definition *TypeDefinition) (EnumType, bool) {
-	return types.ResolveEnumType(definition.Type())
+func (set TypeDefinitionSet) ResolveEnumDefinition(definition *TypeDefinition) (EnumType, bool) {
+	return set.ResolveEnumType(definition.Type())
 }
 
 // ResolveResourceSpecDefinition finds the TypeDefinition associated with the resource Spec.
-func (types Types) ResolveResourceSpecDefinition(
+func (set TypeDefinitionSet) ResolveResourceSpecDefinition(
 	resourceType *ResourceType) (TypeDefinition, error) {
 
 	// The expectation is that the spec type is just a name
@@ -280,7 +282,7 @@ func (types Types) ResolveResourceSpecDefinition(
 		return TypeDefinition{}, errors.Errorf("spec was not of type TypeName, instead: %T", resourceType.SpecType())
 	}
 
-	resourceSpecDef, ok := types[specName]
+	resourceSpecDef, ok := set[specName]
 	if !ok {
 		return TypeDefinition{}, errors.Errorf("couldn't find spec %s", specName)
 	}
@@ -288,7 +290,7 @@ func (types Types) ResolveResourceSpecDefinition(
 	return resourceSpecDef, nil
 }
 
-func (types Types) ResolveResourceStatusDefinition(
+func (set TypeDefinitionSet) ResolveResourceStatusDefinition(
 	resourceType *ResourceType) (TypeDefinition, error) {
 
 	statusName, ok := resourceType.StatusType().(TypeName)
@@ -296,7 +298,7 @@ func (types Types) ResolveResourceStatusDefinition(
 		return TypeDefinition{}, errors.Errorf("status was not of type TypeName, instead: %T", resourceType.StatusType())
 	}
 
-	resourceStatusDef, ok := types[statusName]
+	resourceStatusDef, ok := set[statusName]
 	if !ok {
 		return TypeDefinition{}, errors.Errorf("couldn't find status %s", statusName)
 	}
@@ -318,14 +320,14 @@ type ResolvedResourceDefinition struct {
 
 // ResolveResourceSpecAndStatus takes a TypeDefinition that is a ResourceType and looks up its Spec and Status (as well as
 // the TypeDefinition's corresponding to them) and returns a ResolvedResourceDefinition
-func (types Types) ResolveResourceSpecAndStatus(resourceDef TypeDefinition) (*ResolvedResourceDefinition, error) {
+func (set TypeDefinitionSet) ResolveResourceSpecAndStatus(resourceDef TypeDefinition) (*ResolvedResourceDefinition, error) {
 	resource, ok := AsResourceType(resourceDef.Type())
 	if !ok {
 		return nil, errors.Errorf("expected %q to be a Resource but instead it was a %T", resourceDef.Name(), resourceDef.Type())
 	}
 
 	// Resolve the spec
-	specDef, err := types.ResolveResourceSpecDefinition(resource)
+	specDef, err := set.ResolveResourceSpecDefinition(resource)
 	if err != nil {
 		return nil, err
 	}
@@ -339,7 +341,7 @@ func (types Types) ResolveResourceSpecAndStatus(resourceDef TypeDefinition) (*Re
 	var status *ObjectType
 
 	if IgnoringErrors(resource.StatusType()) != nil {
-		statusDef, err = types.ResolveResourceStatusDefinition(resource)
+		statusDef, err = set.ResolveResourceStatusDefinition(resource)
 		if err != nil {
 			return nil, err
 		}
@@ -363,10 +365,10 @@ func (types Types) ResolveResourceSpecAndStatus(resourceDef TypeDefinition) (*Re
 // definitions containing the results of the transformation, or possibly an error
 // Only definitions returned by the func will be included in the results of the function. The func may return a nil
 // TypeDefinition if it doesn't want to include anything in the output set.
-func (types Types) Process(transformation func(definition TypeDefinition) (*TypeDefinition, error)) (Types, error) {
-	result := make(Types)
+func (set TypeDefinitionSet) Process(transformation func(definition TypeDefinition) (*TypeDefinition, error)) (TypeDefinitionSet, error) {
+	result := make(TypeDefinitionSet)
 
-	for _, def := range types {
+	for _, def := range set {
 		d, err := transformation(def)
 		if err != nil {
 			return nil, err
@@ -378,12 +380,12 @@ func (types Types) Process(transformation func(definition TypeDefinition) (*Type
 	return result, nil
 }
 
-// FindResourceTypes walks the provided set of TypeDefinitions and returns all the resource types
-func FindResourceTypes(types Types) Types {
-	result := make(Types)
+// FindResourceDefinitions walks the provided set of TypeDefinitions and returns all the resource definitions
+func FindResourceDefinitions(definitions TypeDefinitionSet) TypeDefinitionSet {
+	result := make(TypeDefinitionSet)
 
 	// Find all our resources and extract all their Specs
-	for _, def := range types {
+	for _, def := range definitions {
 		_, ok := AsResourceType(def.Type())
 		if !ok {
 			continue
@@ -396,12 +398,12 @@ func FindResourceTypes(types Types) Types {
 	return result
 }
 
-// FindSpecTypes walks the provided set of TypeDefinitions and returns all the spec types
-func FindSpecTypes(types Types) Types {
-	result := make(Types)
+// FindSpecDefinitions walks the provided set of TypeDefinitions and returns all the spec definitions
+func FindSpecDefinitions(definitions TypeDefinitionSet) TypeDefinitionSet {
+	result := make(TypeDefinitionSet)
 
 	// Find all our resources and extract all their Specs
-	for _, def := range types {
+	for _, def := range definitions {
 		rt, ok := AsResourceType(def.Type())
 		if !ok {
 			continue
@@ -414,7 +416,7 @@ func FindSpecTypes(types Types) Types {
 		}
 
 		// Add the named spec type to our results
-		if spec, ok := types.TryGet(tn); ok {
+		if spec, ok := definitions.TryGet(tn); ok {
 			// Use AddAllowDuplicates here because some resources share the same spec
 			// across multiple resources, which can trigger multiple adds of the same type
 			err := result.AddAllowDuplicates(spec)
@@ -427,12 +429,12 @@ func FindSpecTypes(types Types) Types {
 	return result
 }
 
-// FindStatusTypes walks the provided set of TypeDefinitions and returns all the status types
-func FindStatusTypes(types Types) Types {
-	result := make(Types)
+// FindStatusDefinitions walks the provided set of TypeDefinitions and returns all the status definitions
+func FindStatusDefinitions(definitions TypeDefinitionSet) TypeDefinitionSet {
+	result := make(TypeDefinitionSet)
 
 	// Find all our resources and extract all their Statuses
-	for _, def := range types {
+	for _, def := range definitions {
 		rt, ok := AsResourceType(def.Type())
 		if !ok {
 			continue
@@ -445,7 +447,7 @@ func FindStatusTypes(types Types) Types {
 		}
 
 		// Add the named status type to our results
-		if status, ok := types.TryGet(tn); ok {
+		if status, ok := definitions.TryGet(tn); ok {
 			// Use AddAllowDuplicates here because some resources share the same status
 			// across multiple resources, which can trigger multiple adds of the same type
 			err := result.AddAllowDuplicates(status)
@@ -458,14 +460,14 @@ func FindStatusTypes(types Types) Types {
 	return result
 }
 
-// FindConnectedTypes finds all types reachable from the provided types
+// FindConnectedDefinitions finds all types reachable from the provided definitions
 // TODO: This is very similar to ReferenceGraph.Connected.
-func FindConnectedTypes(allTypes Types, roots Types) (Types, error) {
+func FindConnectedDefinitions(definitions TypeDefinitionSet, roots TypeDefinitionSet) (TypeDefinitionSet, error) {
 	walker := NewTypeWalker(
-		allTypes,
+		definitions,
 		TypeVisitorBuilder{}.Build())
 
-	result := make(Types)
+	result := make(TypeDefinitionSet)
 	for _, def := range roots {
 		types, err := walker.Walk(def)
 		if err != nil {
@@ -481,18 +483,18 @@ func FindConnectedTypes(allTypes Types, roots Types) (Types, error) {
 	return result, nil
 }
 
-// FindSpecConnectedTypes finds all spec types and all types referenced by those spec types.
-// This differs from FindSpecTypes in that it finds not only the top level spec types but
+// FindSpecConnectedDefinitions finds all spec definitions and all types referenced by those spec definitions.
+// This differs from FindSpecDefinitions in that it finds not only the top level spec definitions but
 // also the types which the top level types are built out of.
-func FindSpecConnectedTypes(types Types) (Types, error) {
-	specTypes := FindSpecTypes(types)
-	return FindConnectedTypes(types, specTypes)
+func FindSpecConnectedDefinitions(definitions TypeDefinitionSet) (TypeDefinitionSet, error) {
+	specDefs := FindSpecDefinitions(definitions)
+	return FindConnectedDefinitions(definitions, specDefs)
 }
 
-// FindStatusConnectedTypes finds all status types and all types referenced by those spec types.
-// This differs from FindStatusTypes in that it finds not only the top level spec types but
+// FindStatusConnectedDefinitions finds all status definitions and all types referenced by those spec definitions.
+// This differs from FindStatusDefinitions in that it finds not only the top level status definitions but
 // also the types which the top level types are built out of.
-func FindStatusConnectedTypes(types Types) (Types, error) {
-	statusTypes := FindStatusTypes(types)
-	return FindConnectedTypes(types, statusTypes)
+func FindStatusConnectedDefinitions(definitions TypeDefinitionSet) (TypeDefinitionSet, error) {
+	statusDefs := FindStatusDefinitions(definitions)
+	return FindConnectedDefinitions(definitions, statusDefs)
 }

@@ -457,6 +457,7 @@ func AddRelatedPropertyGeneratorsForStorageAccountsSpec(gens map[string]gopter.G
 	gens["Identity"] = gen.PtrOf(IdentityGenerator())
 	gens["KeyPolicy"] = gen.PtrOf(KeyPolicyGenerator())
 	gens["NetworkAcls"] = gen.PtrOf(NetworkRuleSetGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(StorageAccountOperatorSpecGenerator())
 	gens["RoutingPreference"] = gen.PtrOf(RoutingPreferenceGenerator())
 	gens["SasPolicy"] = gen.PtrOf(SasPolicyGenerator())
 	gens["Sku"] = SkuGenerator()
@@ -3203,6 +3204,108 @@ func AddIndependentPropertyGeneratorsForSkuStatus(gens map[string]gopter.Gen) {
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Tier_StatusPremium, Tier_StatusStandard))
 }
 
+func Test_StorageAccountOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from StorageAccountOperatorSpec to StorageAccountOperatorSpec via AssignPropertiesToStorageAccountOperatorSpec & AssignPropertiesFromStorageAccountOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForStorageAccountOperatorSpec, StorageAccountOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForStorageAccountOperatorSpec tests if a specific instance of StorageAccountOperatorSpec can be assigned to v1alpha1api20210401storage and back losslessly
+func RunPropertyAssignmentTestForStorageAccountOperatorSpec(subject StorageAccountOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20210401storage.StorageAccountOperatorSpec
+	err := copied.AssignPropertiesToStorageAccountOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual StorageAccountOperatorSpec
+	err = actual.AssignPropertiesFromStorageAccountOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_StorageAccountOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of StorageAccountOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccountOperatorSpec, StorageAccountOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForStorageAccountOperatorSpec runs a test to see if a specific instance of StorageAccountOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccountOperatorSpec(subject StorageAccountOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual StorageAccountOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of StorageAccountOperatorSpec instances for property testing - lazily instantiated by
+//StorageAccountOperatorSpecGenerator()
+var storageAccountOperatorSpecGenerator gopter.Gen
+
+// StorageAccountOperatorSpecGenerator returns a generator of StorageAccountOperatorSpec instances for property testing.
+func StorageAccountOperatorSpecGenerator() gopter.Gen {
+	if storageAccountOperatorSpecGenerator != nil {
+		return storageAccountOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForStorageAccountOperatorSpec(generators)
+	storageAccountOperatorSpecGenerator = gen.Struct(reflect.TypeOf(StorageAccountOperatorSpec{}), generators)
+
+	return storageAccountOperatorSpecGenerator
+}
+
+// AddRelatedPropertyGeneratorsForStorageAccountOperatorSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccountOperatorSpec(gens map[string]gopter.Gen) {
+	gens["Secrets"] = gen.PtrOf(StorageAccountOperatorSecretsGenerator())
+}
+
 func Test_ActiveDirectoryProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -4766,6 +4869,102 @@ func AddIndependentPropertyGeneratorsForStorageAccountMicrosoftEndpointsStatus(g
 	gens["Queue"] = gen.PtrOf(gen.AlphaString())
 	gens["Table"] = gen.PtrOf(gen.AlphaString())
 	gens["Web"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_StorageAccountOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from StorageAccountOperatorSecrets to StorageAccountOperatorSecrets via AssignPropertiesToStorageAccountOperatorSecrets & AssignPropertiesFromStorageAccountOperatorSecrets returns original",
+		prop.ForAll(RunPropertyAssignmentTestForStorageAccountOperatorSecrets, StorageAccountOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForStorageAccountOperatorSecrets tests if a specific instance of StorageAccountOperatorSecrets can be assigned to v1alpha1api20210401storage and back losslessly
+func RunPropertyAssignmentTestForStorageAccountOperatorSecrets(subject StorageAccountOperatorSecrets) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20210401storage.StorageAccountOperatorSecrets
+	err := copied.AssignPropertiesToStorageAccountOperatorSecrets(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual StorageAccountOperatorSecrets
+	err = actual.AssignPropertiesFromStorageAccountOperatorSecrets(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_StorageAccountOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of StorageAccountOperatorSecrets via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccountOperatorSecrets, StorageAccountOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForStorageAccountOperatorSecrets runs a test to see if a specific instance of StorageAccountOperatorSecrets round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccountOperatorSecrets(subject StorageAccountOperatorSecrets) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual StorageAccountOperatorSecrets
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of StorageAccountOperatorSecrets instances for property testing - lazily instantiated by
+//StorageAccountOperatorSecretsGenerator()
+var storageAccountOperatorSecretsGenerator gopter.Gen
+
+// StorageAccountOperatorSecretsGenerator returns a generator of StorageAccountOperatorSecrets instances for property testing.
+func StorageAccountOperatorSecretsGenerator() gopter.Gen {
+	if storageAccountOperatorSecretsGenerator != nil {
+		return storageAccountOperatorSecretsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	storageAccountOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(StorageAccountOperatorSecrets{}), generators)
+
+	return storageAccountOperatorSecretsGenerator
 }
 
 func Test_UserAssignedIdentity_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

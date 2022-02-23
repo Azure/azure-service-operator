@@ -66,6 +66,7 @@ func newConvertFromARMFunctionBuilder(
 		result.namePropertyHandler,
 		result.ownerPropertyHandler,
 		result.conditionsPropertyHandler,
+		result.operatorSpecPropertyHandler,
 		// Generic handlers come second
 		result.referencePropertyHandler,
 		result.secretPropertyHandler,
@@ -272,6 +273,21 @@ func (builder *convertFromARMBuilder) conditionsPropertyHandler(
 	return nil, true
 }
 
+// operatorSpecPropertyHandler generates conversions for the "OperatorSpec" property.
+// TODO: This property should be copied from the "previous" spec, it can't be sourced from ARM. We'll need to come up
+// TODO: with some paradigm for that if/when we start doing diffing, but for now we don't actually use FromARM with Spec types
+// TODO: so just skip this
+func (builder *convertFromARMBuilder) operatorSpecPropertyHandler(
+	toProp *astmodel.PropertyDefinition,
+	_ *astmodel.ObjectType) ([]dst.Stmt, bool) {
+
+	if toProp.PropertyName() != astmodel.OperatorSpecProperty || builder.typeKind != TypeKindSpec {
+		return nil, false
+	}
+
+	return nil, true
+}
+
 // flattenedPropertyHandler generates conversions for properties that
 // were flattened out from inside other properties. The code it generates will
 // look something like:
@@ -315,7 +331,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 			strings.Join(props, ".")))
 	}
 
-	allTypes := builder.codeGenerationContext.GetAllReachableTypes()
+	allDefs := builder.codeGenerationContext.GetAllReachableDefinitions()
 
 	// the from shape here must be:
 	// 1. maybe a typename, pointing to…
@@ -324,7 +340,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 	// 4. an object type
 
 	// (1.) resolve any outer typename
-	fromPropType, err := allTypes.FullyResolve(fromProp.PropertyType())
+	fromPropType, err := allDefs.FullyResolve(fromProp.PropertyType())
 	if err != nil {
 		panic(err)
 	}
@@ -336,7 +352,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 	if fromPropOptType, ok := fromPropType.(*astmodel.OptionalType); ok {
 		generateNilCheck = true
 		// (3.) resolve any inner typename
-		elementType, err := allTypes.FullyResolve(fromPropOptType.Element())
+		elementType, err := allDefs.FullyResolve(fromPropOptType.Element())
 		if err != nil {
 			panic(err)
 		}

@@ -65,6 +65,7 @@ func newConvertToARMFunctionBuilder(
 	result.propertyConversionHandlers = []propertyConversionHandler{
 		// Handlers for specific properties come first
 		result.namePropertyHandler,
+		result.operatorSpecPropertyHandler,
 		// Generic handlers come second
 		result.referencePropertyHandler,
 		result.flattenedPropertyHandler,
@@ -144,6 +145,18 @@ func (builder *convertToARMBuilder) namePropertyHandler(
 	return []dst.Stmt{result}, true
 }
 
+func (builder *convertToARMBuilder) operatorSpecPropertyHandler(
+	toProp *astmodel.PropertyDefinition,
+	_ *astmodel.ObjectType) ([]dst.Stmt, bool) {
+
+	if toProp.PropertyName() != astmodel.OperatorSpecProperty || builder.typeKind != TypeKindSpec {
+		return nil, false
+	}
+
+	// Do nothing with this property, it exists for the operator only and is not sent to Azure
+	return nil, true
+}
+
 func (builder *convertToARMBuilder) referencePropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType) ([]dst.Stmt, bool) {
@@ -215,7 +228,7 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 		return nil, false
 	}
 
-	allTypes := builder.codeGenerationContext.GetAllReachableTypes()
+	allDefs := builder.codeGenerationContext.GetAllReachableDefinitions()
 
 	// the toProp shape here must be:
 	// 1. maybe a typename, pointing to…
@@ -224,7 +237,7 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 	// 4. an object type
 
 	// (1.) resolve the outer typename
-	toPropType, err := allTypes.FullyResolve(toProp.PropertyType())
+	toPropType, err := allDefs.FullyResolve(toProp.PropertyType())
 	if err != nil {
 		panic(err)
 	}
@@ -236,7 +249,7 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 		needToInitializeToProp = true
 		// (3.) resolve any inner typename
 		toPropTypeName = optType.Element().(astmodel.TypeName)
-		toPropType, err = allTypes.FullyResolve(optType.Element())
+		toPropType, err = allDefs.FullyResolve(optType.Element())
 		if err != nil {
 			panic(err)
 		}

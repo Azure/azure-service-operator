@@ -204,22 +204,23 @@ type StorageAccounts_Spec struct {
 
 	// +kubebuilder:validation:MaxLength=24
 	// +kubebuilder:validation:MinLength=3
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName            string            `json:"azureName"`
-	CustomDomain         *CustomDomain     `json:"customDomain,omitempty"`
-	Encryption           *Encryption       `json:"encryption,omitempty"`
-	ExtendedLocation     *ExtendedLocation `json:"extendedLocation,omitempty"`
-	Identity             *Identity         `json:"identity,omitempty"`
-	IsHnsEnabled         *bool             `json:"isHnsEnabled,omitempty"`
-	IsNfsV3Enabled       *bool             `json:"isNfsV3Enabled,omitempty"`
-	KeyPolicy            *KeyPolicy        `json:"keyPolicy,omitempty"`
-	Kind                 *string           `json:"kind,omitempty"`
-	LargeFileSharesState *string           `json:"largeFileSharesState,omitempty"`
-	Location             *string           `json:"location,omitempty"`
-	MinimumTlsVersion    *string           `json:"minimumTlsVersion,omitempty"`
-	NetworkAcls          *NetworkRuleSet   `json:"networkAcls,omitempty"`
-	OriginalVersion      string            `json:"originalVersion"`
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
+	AzureName            string                      `json:"azureName"`
+	CustomDomain         *CustomDomain               `json:"customDomain,omitempty"`
+	Encryption           *Encryption                 `json:"encryption,omitempty"`
+	ExtendedLocation     *ExtendedLocation           `json:"extendedLocation,omitempty"`
+	Identity             *Identity                   `json:"identity,omitempty"`
+	IsHnsEnabled         *bool                       `json:"isHnsEnabled,omitempty"`
+	IsNfsV3Enabled       *bool                       `json:"isNfsV3Enabled,omitempty"`
+	KeyPolicy            *KeyPolicy                  `json:"keyPolicy,omitempty"`
+	Kind                 *string                     `json:"kind,omitempty"`
+	LargeFileSharesState *string                     `json:"largeFileSharesState,omitempty"`
+	Location             *string                     `json:"location,omitempty"`
+	MinimumTlsVersion    *string                     `json:"minimumTlsVersion,omitempty"`
+	NetworkAcls          *NetworkRuleSet             `json:"networkAcls,omitempty"`
+	OperatorSpec         *StorageAccountOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion      string                      `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
 	Owner                    genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
@@ -459,6 +460,13 @@ type Sku_Status struct {
 	Tier        *string                `json:"tier,omitempty"`
 }
 
+//Storage version of v1alpha1api20210401.StorageAccountOperatorSpec
+//Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type StorageAccountOperatorSpec struct {
+	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	Secrets     *StorageAccountOperatorSecrets `json:"secrets,omitempty"`
+}
+
 //Storage version of v1alpha1api20210401.ActiveDirectoryProperties
 //Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ActiveDirectoryProperties
 type ActiveDirectoryProperties struct {
@@ -494,8 +502,8 @@ type BlobRestoreParameters_Status struct {
 type EncryptionIdentity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
-	//UserAssignedIdentityReference: Resource identifier of the UserAssigned identity
-	//to be associated with server-side encryption on the storage account.
+	//UserAssignedIdentityReference: Resource identifier of the UserAssigned identity to be associated with server-side
+	//encryption on the storage account.
 	UserAssignedIdentityReference *genruntime.ResourceReference `armReference:"UserAssignedIdentity" json:"userAssignedIdentityReference,omitempty"`
 }
 
@@ -593,6 +601,19 @@ type StorageAccountMicrosoftEndpoints_Status struct {
 	Queue       *string                `json:"queue,omitempty"`
 	Table       *string                `json:"table,omitempty"`
 	Web         *string                `json:"web,omitempty"`
+}
+
+//Storage version of v1alpha1api20210401.StorageAccountOperatorSecrets
+type StorageAccountOperatorSecrets struct {
+	BlobEndpoint  *genruntime.SecretDestination `json:"blobEndpoint,omitempty"`
+	DfsEndpoint   *genruntime.SecretDestination `json:"dfsEndpoint,omitempty"`
+	FileEndpoint  *genruntime.SecretDestination `json:"fileEndpoint,omitempty"`
+	Key1          *genruntime.SecretDestination `json:"key1,omitempty"`
+	Key2          *genruntime.SecretDestination `json:"key2,omitempty"`
+	PropertyBag   genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	QueueEndpoint *genruntime.SecretDestination `json:"queueEndpoint,omitempty"`
+	TableEndpoint *genruntime.SecretDestination `json:"tableEndpoint,omitempty"`
+	WebEndpoint   *genruntime.SecretDestination `json:"webEndpoint,omitempty"`
 }
 
 //Storage version of v1alpha1api20210401.UserAssignedIdentity_Status

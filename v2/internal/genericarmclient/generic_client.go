@@ -30,6 +30,8 @@ type GenericClient struct {
 	endpoint       string
 	pl             runtime.Pipeline
 	subscriptionID string
+	creds          azcore.TokenCredential
+	opts           *arm.ClientOptions
 }
 
 // TODO: Need to do retryAfter detection in each call?
@@ -65,12 +67,30 @@ func NewGenericClientFromHTTPClient(endpoint arm.Endpoint, creds azcore.TokenCre
 		runtime.PipelineOptions{},
 		opts)
 
-	return &GenericClient{endpoint: string(endpoint), pl: pipeline, subscriptionID: subscriptionID}
+	return &GenericClient{
+		endpoint:       string(endpoint),
+		pl:             pipeline,
+		creds:          creds,
+		subscriptionID: subscriptionID,
+		opts:           opts,
+	}
 }
 
 // SubscriptionID returns the subscription the client is configured for
 func (client *GenericClient) SubscriptionID() string {
 	return client.subscriptionID
+}
+
+// Creds returns the credentials used by this client
+func (client *GenericClient) Creds() azcore.TokenCredential {
+	return client.creds
+}
+
+// ClientOptions returns the arm.ClientOptions used by this client. These options include
+// the HTTP pipeline. If these options are used to create a new client, it will share the configured
+// HTTP pipeline.
+func (client *GenericClient) ClientOptions() *arm.ClientOptions {
+	return client.opts
 }
 
 func (client *GenericClient) BeginCreateOrUpdateByID(ctx context.Context, resourceID string, apiVersion string, resource interface{}) (*PollerResponse, error) {
@@ -138,10 +158,11 @@ func (client *GenericClient) createOrUpdateByIDCreateRequest(
 
 // createOrUpdateByIDHandleError handles the CreateOrUpdateByID error response.
 func (client *GenericClient) createOrUpdateByIDHandleError(resp *http.Response) error {
-	errType := CloudError{error: runtime.NewResponseError(resp)}
+	errType := NewCloudError(runtime.NewResponseError(resp))
 	if err := runtime.UnmarshalAsJSON(resp, &errType); err != nil {
 		return runtime.NewResponseError(resp)
 	}
+
 	return &errType
 }
 

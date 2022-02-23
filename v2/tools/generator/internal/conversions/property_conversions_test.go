@@ -54,21 +54,21 @@ func TestCreateTypeConversion_GivenIncompatibleEndpoints_ReturnsExpectedError(t 
 			"no conversion from string to int",
 		},
 		{
-			"Object types with different names and no active rename",
+			"Object definitions with different names and no active rename",
 			addressObject,
 			locationObject,
 			"no configuration to rename Address to Location",
 		},
 	}
 
-	types := make(astmodel.Types)
-	types.AddAll(stringEnum, intEnum)
-	types.AddAll(addressObject, locationObject)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(stringEnum, intEnum)
+	defs.AddAll(addressObject, locationObject)
 
 	idFactory := astmodel.NewIdentifierFactory()
 	configuration := config.NewObjectModelConfiguration()
 
-	conversionContext := NewPropertyConversionContext(types, idFactory, configuration).
+	conversionContext := NewPropertyConversionContext(defs, idFactory, configuration).
 		WithDirection(ConvertTo)
 
 	for _, c := range cases {

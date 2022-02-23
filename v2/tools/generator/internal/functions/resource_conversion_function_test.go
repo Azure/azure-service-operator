@@ -33,11 +33,11 @@ func TestGolden_ResourceConversionFunction_DirectConversion_GeneratesExpectedCod
 	person2021 := test.CreateResource(test.Pkg2021, "Person", personSpec2021, personStatus2021)
 
 	// Create Property Assignment functions
-	types := make(astmodel.Types)
-	types.AddAll(person2020, personSpec2020, personStatus2020)
-	types.AddAll(person2021, personSpec2021, personStatus2021)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(person2020, personSpec2020, personStatus2020)
+	defs.AddAll(person2021, personSpec2021, personStatus2021)
 
-	conversionContext := conversions.NewPropertyConversionContext(types, idFactory, nil /* ObjectModelConfiguration*/)
+	conversionContext := conversions.NewPropertyConversionContext(defs, idFactory, nil /* ObjectModelConfiguration*/)
 	propertyAssignTo, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertTo)
 	g.Expect(err).To(Succeed())
 
@@ -81,12 +81,12 @@ func TestGolden_ResourceConversionFunction_IndirectConversion_GeneratesExpectedC
 	person2022 := test.CreateResource(test.Pkg2022, "Person", personSpec2021, personStatus2021)
 
 	// Create Property Assignment functions
-	types := make(astmodel.Types)
-	types.AddAll(person2020, personSpec2020, personStatus2020)
-	types.AddAll(person2021, personSpec2021, personStatus2021)
-	types.AddAll(person2022, personSpec2022, personStatus2022)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(person2020, personSpec2020, personStatus2020)
+	defs.AddAll(person2021, personSpec2021, personStatus2021)
+	defs.AddAll(person2022, personSpec2022, personStatus2022)
 
-	conversionContext := conversions.NewPropertyConversionContext(types, idFactory, nil /* ObjectModelConfiguration*/)
+	conversionContext := conversions.NewPropertyConversionContext(defs, idFactory, nil /* ObjectModelConfiguration*/)
 	propertyAssignTo, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertTo)
 	g.Expect(err).To(Succeed())
 

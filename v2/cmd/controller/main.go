@@ -13,6 +13,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/go-logr/logr"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	"k8s.io/klog/v2"
 	"k8s.io/klog/v2/klogr"
@@ -86,7 +87,20 @@ func main() {
 	log.V(Status).Info("Configuration details", "config", cfg.String())
 
 	if cfg.OperatorMode.IncludesWatchers() {
-		if errs := controllers.RegisterAll(mgr, clientFactory, controllers.GetKnownStorageTypes(), makeControllerOptions(log, cfg)); errs != nil {
+		var extensions map[schema.GroupVersionKind]genruntime.ResourceExtension
+		extensions, err = controllers.GetResourceExtensions(scheme)
+		if err != nil {
+			setupLog.Error(err, "getting extensions")
+			os.Exit(1)
+		}
+
+		err = controllers.RegisterAll(
+			mgr,
+			clientFactory,
+			controllers.GetKnownStorageTypes(),
+			extensions,
+			makeControllerOptions(log, cfg))
+		if err != nil {
 			setupLog.Error(err, "failed to register gvks")
 			os.Exit(1)
 		}

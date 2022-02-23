@@ -61,7 +61,7 @@ func init() {
 		// Property bag items
 		pullFromBagItem,
 		writeToBagItem,
-		// Primitive types and aliases
+		// Primitive definitions and aliases
 		assignPrimitiveFromPrimitive,
 		assignAliasedPrimitiveFromAliasedPrimitive,
 		// Handcrafted implementations in genruntime
@@ -72,12 +72,13 @@ func init() {
 		// Enumerations
 		assignEnumFromEnum,
 		assignPrimitiveFromEnum,
-		// Complex object types
+		// Complex object definitions
 		assignObjectFromObject,
-		// Known types
+		// Known definitions
 		copyKnownType(astmodel.KnownResourceReferenceType, "Copy", returnsValue),
 		copyKnownType(astmodel.ResourceReferenceType, "Copy", returnsValue),
 		copyKnownType(astmodel.SecretReferenceType, "Copy", returnsValue),
+		copyKnownType(astmodel.SecretDestinationType, "Copy", returnsValue),
 		copyKnownType(astmodel.ArbitraryOwnerReference, "Copy", returnsValue),
 		copyKnownType(astmodel.ConditionType, "Copy", returnsValue),
 		copyKnownType(astmodel.JSONType, "DeepCopy", returnsReference),
@@ -91,7 +92,7 @@ func init() {
 	}
 }
 
-// CreateTypeConversion tries to create a type conversion between the two provided types, using
+// CreateTypeConversion tries to create a type conversion between the two provided definitions, using
 // all of the available type conversion functions in priority order to do so.
 //
 // The method works by considering the conversion requested by sourceEndpoint & destinationEndpoint,
@@ -549,7 +550,7 @@ func assignToEnumeration(
 	}, nil
 }
 
-// assignPrimitiveFromPrimitive will generate a direct assignment if both types have the
+// assignPrimitiveFromPrimitive will generate a direct assignment if both definitions have the
 // same primitive type and are not optional
 //
 // <destination> = <source>
@@ -602,7 +603,7 @@ func assignPrimitiveFromPrimitive(
 }
 
 // assignAliasedPrimitiveFromAliasedPrimitive will generate a direct assignment if both
-// types have the same underlying primitive type and are not optional
+// definitions have the same underlying primitive type and are not optional
 //
 // <destination> = <cast>(<source>)
 //
@@ -849,7 +850,7 @@ func assignHandcraftedImplementations(
 }
 
 // assignArrayFromArray will generate a code fragment to populate an array, assuming the
-// underlying types of the two arrays are compatible
+// underlying definitions of the two arrays are compatible
 //
 // <arr> := make([]<type>, len(<reader>))
 // for <index>, <value> := range <reader> {
@@ -886,7 +887,7 @@ func assignArrayFromArray(
 		return nil, nil
 	}
 
-	// Require a conversion between the array types
+	// Require a conversion between the array definitions
 	unwrappedSourceEndpoint := sourceEndpoint.WithType(sourceArray.Element())
 	unwrappedDestinationEndpoint := destinationEndpoint.WithType(destinationArray.Element())
 	conversion, err := CreateTypeConversion(
@@ -974,7 +975,7 @@ func assignArrayFromArray(
 }
 
 // assignMapFromMap will generate a code fragment to populate an array, assuming the
-// underlying types of the two arrays are compatible
+// underlying definitions of the two arrays are compatible
 //
 // if <reader> != nil {
 //     <map> := make(map[<key>]<type>)
@@ -1017,7 +1018,7 @@ func assignMapFromMap(
 
 	// Require map keys to be identical
 	if !astmodel.TypeEquals(sourceMap.KeyType(), destinationMap.KeyType()) {
-		// Keys are different types
+		// Keys are different definitions
 		return nil, nil
 	}
 
@@ -1112,7 +1113,7 @@ func assignMapFromMap(
 	}, nil
 }
 
-// assignEnumFromEnum will generate a conversion if both types have the same underlying
+// assignEnumFromEnum will generate a conversion if both definitions have the same underlying
 // primitive type and neither source nor destination is optional
 //
 // <local> = <baseType>(<source>)
@@ -1164,7 +1165,7 @@ func assignEnumFromEnum(
 		return nil, nil
 	}
 
-	// Require enumerations to have the same base types
+	// Require enumerations to have the same base definitions
 	if !astmodel.TypeEquals(sourceEnum.BaseType(), destinationEnum.BaseType()) {
 		return nil, errors.Errorf(
 			"no conversion from %s to %s",
@@ -1306,7 +1307,7 @@ func assignObjectFromObject(
 		return nil, nil
 	}
 
-	// If the two types have different names, require an explicit rename from one to the other
+	// If the two definitions have different names, require an explicit rename from one to the other
 	//
 	// Challenge: If we can detect incorrect renaming configuration here, why do we need that configuration at all?
 	// Answer: Because we need to use that configuration other places (such as ConversionGraph) where we don't have
@@ -1416,7 +1417,7 @@ func assignObjectFromObject(
 	}, nil
 }
 
-// assignKnownType will generate an assignment if both types have the specified TypeName
+// assignKnownType will generate an assignment if both definitions have the specified TypeName
 //
 // <destination> = <source>
 //

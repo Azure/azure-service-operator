@@ -283,6 +283,7 @@ func AddRelatedPropertyGeneratorsForDatabaseAccountsSpec(gens map[string]gopter.
 	gens["Identity"] = gen.PtrOf(ManagedServiceIdentityGenerator())
 	gens["IpRules"] = gen.SliceOf(IpAddressOrRangeGenerator())
 	gens["Locations"] = gen.SliceOf(LocationGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(DatabaseAccountOperatorSpecGenerator())
 	gens["VirtualNetworkRules"] = gen.SliceOf(VirtualNetworkRuleGenerator())
 }
 
@@ -1023,6 +1024,66 @@ func AddIndependentPropertyGeneratorsForCorsPolicyStatus(gens map[string]gopter.
 	gens["MaxAgeInSeconds"] = gen.PtrOf(gen.Int())
 }
 
+func Test_DatabaseAccountOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DatabaseAccountOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccountOperatorSpec, DatabaseAccountOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDatabaseAccountOperatorSpec runs a test to see if a specific instance of DatabaseAccountOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccountOperatorSpec(subject DatabaseAccountOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DatabaseAccountOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DatabaseAccountOperatorSpec instances for property testing - lazily instantiated by
+//DatabaseAccountOperatorSpecGenerator()
+var databaseAccountOperatorSpecGenerator gopter.Gen
+
+// DatabaseAccountOperatorSpecGenerator returns a generator of DatabaseAccountOperatorSpec instances for property testing.
+func DatabaseAccountOperatorSpecGenerator() gopter.Gen {
+	if databaseAccountOperatorSpecGenerator != nil {
+		return databaseAccountOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForDatabaseAccountOperatorSpec(generators)
+	databaseAccountOperatorSpecGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountOperatorSpec{}), generators)
+
+	return databaseAccountOperatorSpecGenerator
+}
+
+// AddRelatedPropertyGeneratorsForDatabaseAccountOperatorSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccountOperatorSpec(gens map[string]gopter.Gen) {
+	gens["Secrets"] = gen.PtrOf(DatabaseAccountOperatorSecretsGenerator())
+}
+
 func Test_FailoverPolicy_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1703,6 +1764,60 @@ func ContinuousModeBackupPolicyGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForContinuousModeBackupPolicy is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForContinuousModeBackupPolicy(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_DatabaseAccountOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DatabaseAccountOperatorSecrets via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccountOperatorSecrets, DatabaseAccountOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDatabaseAccountOperatorSecrets runs a test to see if a specific instance of DatabaseAccountOperatorSecrets round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccountOperatorSecrets(subject DatabaseAccountOperatorSecrets) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DatabaseAccountOperatorSecrets
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DatabaseAccountOperatorSecrets instances for property testing - lazily instantiated by
+//DatabaseAccountOperatorSecretsGenerator()
+var databaseAccountOperatorSecretsGenerator gopter.Gen
+
+// DatabaseAccountOperatorSecretsGenerator returns a generator of DatabaseAccountOperatorSecrets instances for property testing.
+func DatabaseAccountOperatorSecretsGenerator() gopter.Gen {
+	if databaseAccountOperatorSecretsGenerator != nil {
+		return databaseAccountOperatorSecretsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	databaseAccountOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountOperatorSecrets{}), generators)
+
+	return databaseAccountOperatorSecretsGenerator
 }
 
 func Test_ManagedServiceIdentity_Status_UserAssignedIdentities_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

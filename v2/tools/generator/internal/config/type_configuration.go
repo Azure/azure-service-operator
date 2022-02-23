@@ -26,12 +26,15 @@ import (
 // └──────────────────────────┘       └────────────────────┘       └──────────────────────┘       ╚═══════════════════╝       └───────────────────────┘
 //
 type TypeConfiguration struct {
-	name              string
-	properties        map[string]*PropertyConfiguration
-	nameInNextVersion configurableString
-	export            configurableBool
-	exportAs          configurableString
+	name                  string
+	properties            map[string]*PropertyConfiguration
+	nameInNextVersion     configurableString
+	export                configurableBool
+	exportAs              configurableString
+	azureGeneratedSecrets configurableStringSlice
 }
+
+const azureGeneratedSecretsTag = "$azureGeneratedSecrets"
 
 func NewTypeConfiguration(name string) *TypeConfiguration {
 	return &TypeConfiguration{
@@ -101,6 +104,33 @@ func (tc *TypeConfiguration) VerifyExportAsConsumed() error {
 	if tc.exportAs.isUnconsumed() {
 		v, _ := tc.exportAs.read()
 		return errors.Errorf("type %s: "+exportAsTag+": %s not consumed", tc.name, v)
+	}
+
+	return nil
+}
+
+// SetAzureGeneratedSecrets sets the list of Azure Generated secrets this type supports
+func (tc *TypeConfiguration) SetAzureGeneratedSecrets(secrets []string) *TypeConfiguration {
+	tc.azureGeneratedSecrets.write(secrets)
+	return tc
+}
+
+// AzureGeneratedSecrets gets the list of Azure Generated secrets this type supports
+func (tc *TypeConfiguration) AzureGeneratedSecrets() ([]string, error) {
+	v, ok := tc.azureGeneratedSecrets.read()
+	if !ok {
+		msg := fmt.Sprintf("%s not specified for type %s", azureGeneratedSecretsTag, tc.name)
+		return nil, NewNotConfiguredError(msg)
+	}
+
+	return v, nil
+}
+
+// VerifyAzureGeneratedSecretsConsumed returns an error if our configured azureGeneratedSecrets were not used,
+// nil otherwise.
+func (tc *TypeConfiguration) VerifyAzureGeneratedSecretsConsumed() error {
+	if tc.azureGeneratedSecrets.isUnconsumed() {
+		return errors.Errorf("type %s: "+azureGeneratedSecretsTag+": not consumed", tc.name)
 	}
 
 	return nil
@@ -207,6 +237,18 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		// $exportAs: <string>
 		if strings.EqualFold(lastId, exportAsTag) && c.Kind == yaml.ScalarNode {
 			tc.exportAs.write(c.Value)
+			continue
+		}
+
+		// $azureGeneratedSecrets:
+		// - secret1
+		// - secret2
+		if strings.EqualFold(lastId, azureGeneratedSecretsTag) && c.Kind == yaml.SequenceNode {
+			var azureGeneratedSecrets []string
+			for _, content := range c.Content {
+				azureGeneratedSecrets = append(azureGeneratedSecrets, content.Value)
+			}
+			tc.SetAzureGeneratedSecrets(azureGeneratedSecrets)
 			continue
 		}
 

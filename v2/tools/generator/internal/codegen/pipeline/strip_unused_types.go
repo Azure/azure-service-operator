@@ -18,8 +18,8 @@ func StripUnreferencedTypeDefinitions() Stage {
 	return MakeLegacyStage(
 		StripUnreferencedTypeDefinitionsStageID,
 		"Strip unreferenced types",
-		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
-			resources := astmodel.FindResourceTypes(defs)
+		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+			resources := astmodel.FindResourceDefinitions(defs)
 			armSpecAndStatus := astmodel.CollectARMSpecAndStatusDefinitions(defs)
 			roots := astmodel.SetUnion(resources.Names(), armSpecAndStatus)
 
@@ -32,13 +32,13 @@ func StripUnreferencedTypeDefinitions() Stage {
 // generated as a byproduct of an allOf element.
 func StripUnusedDefinitions(
 	roots astmodel.TypeNameSet,
-	defs astmodel.Types) (astmodel.Types, error) {
+	defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 	graph := astmodel.MakeReferenceGraphWithRoots(roots, defs)
-	connectedTypes := graph.Connected()
+	connectedDefinitions := graph.Connected()
 
-	usedDefinitions := make(astmodel.Types)
+	usedDefinitions := make(astmodel.TypeDefinitionSet)
 	for _, def := range defs {
-		if connectedTypes.Contains(def.Name()) {
+		if connectedDefinitions.Contains(def.Name()) {
 			usedDefinitions.Add(def)
 		}
 	}

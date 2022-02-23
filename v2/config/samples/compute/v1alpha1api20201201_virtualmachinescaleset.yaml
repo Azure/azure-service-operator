@@ -27,9 +27,8 @@ spec:
       linuxConfiguration:
         disablePasswordAuthentication: true
         ssh:
-          # TODO: This section will be replaced by secrets handling in the future
           publicKeys:
-            - keyData: # TODO
+            - keyData: ssh-rsa AAAAB  # Specify your SSH public key here
               path: /home/adminUser/.ssh/authorized_keys
     networkProfile:
       networkInterfaceConfigurations:

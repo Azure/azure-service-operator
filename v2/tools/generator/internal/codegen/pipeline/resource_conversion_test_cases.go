@@ -24,15 +24,15 @@ func InjectResourceConversionTestCases(idFactory astmodel.IdentifierFactory) Sta
 		"Add test cases to verify Resource implementations of conversion.Convertible (funcs ConvertTo & ConvertFrom) behave as expected",
 		func(ctx context.Context, state *State) (*State, error) {
 			factory := makeResourceConversionTestCaseFactory(idFactory)
-			modifiedTypes := make(astmodel.Types)
+			modifiedDefs := make(astmodel.TypeDefinitionSet)
 			var errs []error
-			for _, d := range state.Types() {
+			for _, d := range state.Definitions() {
 				if factory.NeedsTest(d) {
 					updated, err := factory.AddTestTo(d)
 					if err != nil {
 						errs = append(errs, err)
 					} else {
-						modifiedTypes[updated.Name()] = updated
+						modifiedDefs[updated.Name()] = updated
 					}
 				}
 			}
@@ -41,7 +41,7 @@ func InjectResourceConversionTestCases(idFactory astmodel.IdentifierFactory) Sta
 				return nil, kerrors.NewAggregate(errs)
 			}
 
-			return state.WithTypes(state.Types().OverlayWith(modifiedTypes)), nil
+			return state.WithDefinitions(state.Definitions().OverlayWith(modifiedDefs)), nil
 		})
 
 	stage.RequiresPrerequisiteStages(

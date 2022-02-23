@@ -133,8 +133,8 @@ type StorageAccountsQueueServicesQueueList struct {
 type StorageAccountsQueueServicesQueues_Spec struct {
 	// +kubebuilder:validation:MaxLength=63
 	// +kubebuilder:validation:MinLength=3
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName       string            `json:"azureName"`
 	Location        *string           `json:"location,omitempty"`
 	Metadata        map[string]string `json:"metadata,omitempty"`

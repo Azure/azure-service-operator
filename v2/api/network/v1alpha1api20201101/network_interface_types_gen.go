@@ -314,16 +314,13 @@ type NetworkInterface_Status_NetworkInterface_SubResourceEmbedded struct {
 	//DnsSettings: The DNS settings in network interface.
 	DnsSettings *NetworkInterfaceDnsSettings_Status `json:"dnsSettings,omitempty"`
 
-	//DscpConfiguration: A reference to the dscp configuration to which the network
-	//interface is linked.
+	//DscpConfiguration: A reference to the dscp configuration to which the network interface is linked.
 	DscpConfiguration *SubResource_Status `json:"dscpConfiguration,omitempty"`
 
-	//EnableAcceleratedNetworking: If the network interface is accelerated networking
-	//enabled.
+	//EnableAcceleratedNetworking: If the network interface is accelerated networking enabled.
 	EnableAcceleratedNetworking *bool `json:"enableAcceleratedNetworking,omitempty"`
 
-	//EnableIPForwarding: Indicates whether IP forwarding is enabled on this network
-	//interface.
+	//EnableIPForwarding: Indicates whether IP forwarding is enabled on this network interface.
 	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
 
 	//Etag: A unique read-only string that changes whenever the resource is updated.
@@ -362,8 +359,7 @@ type NetworkInterface_Status_NetworkInterface_SubResourceEmbedded struct {
 	//Primary: Whether this is a primary network interface on a virtual machine.
 	Primary *bool `json:"primary,omitempty"`
 
-	//PrivateEndpoint: A reference to the private endpoint to which the network
-	//interface is linked.
+	//PrivateEndpoint: A reference to the private endpoint to which the network interface is linked.
 	PrivateEndpoint *PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded `json:"privateEndpoint,omitempty"`
 
 	//PrivateLinkService: Privatelinkservice of the network interface resource.
@@ -1122,19 +1118,17 @@ type NetworkInterfacesSpecAPIVersion string
 const NetworkInterfacesSpecAPIVersion20201101 = NetworkInterfacesSpecAPIVersion("2020-11-01")
 
 type NetworkInterfaces_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	//DnsSettings: The DNS settings in network interface.
 	DnsSettings *NetworkInterfaceDnsSettings `json:"dnsSettings,omitempty"`
 
-	//EnableAcceleratedNetworking: If the network interface is accelerated networking
-	//enabled.
+	//EnableAcceleratedNetworking: If the network interface is accelerated networking enabled.
 	EnableAcceleratedNetworking *bool `json:"enableAcceleratedNetworking,omitempty"`
 
-	//EnableIPForwarding: Indicates whether IP forwarding is enabled on this network
-	//interface.
+	//EnableIPForwarding: Indicates whether IP forwarding is enabled on this network interface.
 	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
 
 	//ExtendedLocation: The extended location of the network interface.
@@ -1573,13 +1567,12 @@ func (interfaces *NetworkInterfaces_Spec) SetAzureName(azureName string) {
 
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/NetworkInterfaceDnsSettings
 type NetworkInterfaceDnsSettings struct {
-	//DnsServers: List of DNS servers IP addresses. Use 'AzureProvidedDNS' to switch
-	//to azure provided DNS resolution. 'AzureProvidedDNS' value cannot be combined
-	//with other IPs, it must be the only value in dnsServers collection.
+	//DnsServers: List of DNS servers IP addresses. Use 'AzureProvidedDNS' to switch to azure provided DNS resolution.
+	//'AzureProvidedDNS' value cannot be combined with other IPs, it must be the only value in dnsServers collection.
 	DnsServers []string `json:"dnsServers,omitempty"`
 
-	//InternalDnsNameLabel: Relative DNS name for this NIC used for internal
-	//communications between VMs in the same virtual network.
+	//InternalDnsNameLabel: Relative DNS name for this NIC used for internal communications between VMs in the same virtual
+	//network.
 	InternalDnsNameLabel *string `json:"internalDnsNameLabel,omitempty"`
 }
 
@@ -1668,28 +1661,24 @@ func (settings *NetworkInterfaceDnsSettings) AssignPropertiesToNetworkInterfaceD
 }
 
 type NetworkInterfaceDnsSettings_Status struct {
-	//AppliedDnsServers: If the VM that uses this NIC is part of an Availability Set,
-	//then this list will have the union of all DNS servers from all NICs that are
-	//part of the Availability Set. This property is what is configured on each of
+	//AppliedDnsServers: If the VM that uses this NIC is part of an Availability Set, then this list will have the union of
+	//all DNS servers from all NICs that are part of the Availability Set. This property is what is configured on each of
 	//those VMs.
 	AppliedDnsServers []string `json:"appliedDnsServers,omitempty"`
 
-	//DnsServers: List of DNS servers IP addresses. Use 'AzureProvidedDNS' to switch
-	//to azure provided DNS resolution. 'AzureProvidedDNS' value cannot be combined
-	//with other IPs, it must be the only value in dnsServers collection.
+	//DnsServers: List of DNS servers IP addresses. Use 'AzureProvidedDNS' to switch to azure provided DNS resolution.
+	//'AzureProvidedDNS' value cannot be combined with other IPs, it must be the only value in dnsServers collection.
 	DnsServers []string `json:"dnsServers,omitempty"`
 
-	//InternalDnsNameLabel: Relative DNS name for this NIC used for internal
-	//communications between VMs in the same virtual network.
+	//InternalDnsNameLabel: Relative DNS name for this NIC used for internal communications between VMs in the same virtual
+	//network.
 	InternalDnsNameLabel *string `json:"internalDnsNameLabel,omitempty"`
 
-	//InternalDomainNameSuffix: Even if internalDnsNameLabel is not specified, a DNS
-	//entry is created for the primary NIC of the VM. This DNS name can be constructed
-	//by concatenating the VM name with the value of internalDomainNameSuffix.
+	//InternalDomainNameSuffix: Even if internalDnsNameLabel is not specified, a DNS entry is created for the primary NIC of
+	//the VM. This DNS name can be constructed by concatenating the VM name with the value of internalDomainNameSuffix.
 	InternalDomainNameSuffix *string `json:"internalDomainNameSuffix,omitempty"`
 
-	//InternalFqdn: Fully qualified DNS name supporting internal communications
-	//between VMs in the same virtual network.
+	//InternalFqdn: Fully qualified DNS name supporting internal communications between VMs in the same virtual network.
 	InternalFqdn *string `json:"internalFqdn,omitempty"`
 }
 
@@ -1793,12 +1782,10 @@ func (settings *NetworkInterfaceDnsSettings_Status) AssignPropertiesToNetworkInt
 }
 
 type NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded struct {
-	//ApplicationGatewayBackendAddressPools: The reference to
-	//ApplicationGatewayBackendAddressPool resource.
+	//ApplicationGatewayBackendAddressPools: The reference to ApplicationGatewayBackendAddressPool resource.
 	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded `json:"applicationGatewayBackendAddressPools,omitempty"`
 
-	//ApplicationSecurityGroups: Application security groups in which the IP
-	//configuration is included.
+	//ApplicationSecurityGroups: Application security groups in which the IP configuration is included.
 	ApplicationSecurityGroups []ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded `json:"applicationSecurityGroups,omitempty"`
 
 	//Etag: A unique read-only string that changes whenever the resource is updated.
@@ -1807,15 +1794,13 @@ type NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//LoadBalancerBackendAddressPools: The reference to LoadBalancerBackendAddressPool
-	//resource.
+	//LoadBalancerBackendAddressPools: The reference to LoadBalancerBackendAddressPool resource.
 	LoadBalancerBackendAddressPools []BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded `json:"loadBalancerBackendAddressPools,omitempty"`
 
 	//LoadBalancerInboundNatRules: A list of references of LoadBalancerInboundNatRules.
 	LoadBalancerInboundNatRules []InboundNatRule_Status_NetworkInterface_SubResourceEmbedded `json:"loadBalancerInboundNatRules,omitempty"`
 
-	//Name: The name of the resource that is unique within a resource group. This name
-	//can be used to access the resource.
+	//Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
 	//Primary: Whether this is a primary customer address on the network interface.
@@ -1824,19 +1809,16 @@ type NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded
 	//PrivateIPAddress: Private IP address of the IP configuration.
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
-	//PrivateIPAddressVersion: Whether the specific IP configuration is IPv4 or IPv6.
-	//Default is IPv4.
+	//PrivateIPAddressVersion: Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.
 	PrivateIPAddressVersion *IPVersion_Status `json:"privateIPAddressVersion,omitempty"`
 
 	//PrivateIPAllocationMethod: The private IP address allocation method.
 	PrivateIPAllocationMethod *IPAllocationMethod_Status `json:"privateIPAllocationMethod,omitempty"`
 
-	//PrivateLinkConnectionProperties: PrivateLinkConnection properties for the
-	//network interface.
+	//PrivateLinkConnectionProperties: PrivateLinkConnection properties for the network interface.
 	PrivateLinkConnectionProperties *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status `json:"privateLinkConnectionProperties,omitempty"`
 
-	//ProvisioningState: The provisioning state of the network interface IP
-	//configuration.
+	//ProvisioningState: The provisioning state of the network interface IP configuration.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 
 	//PublicIPAddress: Public IP address bound to the IP configuration.
@@ -2491,24 +2473,20 @@ func (embedded *NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubReso
 }
 
 type NetworkInterfaces_Spec_Properties_IpConfigurations struct {
-	//ApplicationGatewayBackendAddressPools: The reference to
-	//ApplicationGatewayBackendAddressPool resource.
+	//ApplicationGatewayBackendAddressPools: The reference to ApplicationGatewayBackendAddressPool resource.
 	ApplicationGatewayBackendAddressPools []SubResource `json:"applicationGatewayBackendAddressPools,omitempty"`
 
-	//ApplicationSecurityGroups: Application security groups in which the IP
-	//configuration is included.
+	//ApplicationSecurityGroups: Application security groups in which the IP configuration is included.
 	ApplicationSecurityGroups []SubResource `json:"applicationSecurityGroups,omitempty"`
 
-	//LoadBalancerBackendAddressPools: The reference to LoadBalancerBackendAddressPool
-	//resource.
+	//LoadBalancerBackendAddressPools: The reference to LoadBalancerBackendAddressPool resource.
 	LoadBalancerBackendAddressPools []SubResource `json:"loadBalancerBackendAddressPools,omitempty"`
 
 	//LoadBalancerInboundNatRules: A list of references of LoadBalancerInboundNatRules.
 	LoadBalancerInboundNatRules []SubResource `json:"loadBalancerInboundNatRules,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Name: The name of the resource that is unique within a resource group. This name
-	//can be used to access the resource.
+	//Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name string `json:"name"`
 
 	//Primary: Whether this is a primary customer address on the network interface.
@@ -2517,8 +2495,7 @@ type NetworkInterfaces_Spec_Properties_IpConfigurations struct {
 	//PrivateIPAddress: Private IP address of the IP configuration.
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
-	//PrivateIPAddressVersion: Whether the specific IP configuration is IPv4 or IPv6.
-	//Default is IPv4.
+	//PrivateIPAddressVersion: Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.
 	PrivateIPAddressVersion *NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
 
 	//PrivateIPAllocationMethod: The private IP address allocation method.
@@ -3480,8 +3457,7 @@ type ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmb
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//Name: Name of the backend address pool that is unique within an Application
-	//Gateway.
+	//Name: Name of the backend address pool that is unique within an Application Gateway.
 	Name *string `json:"name,omitempty"`
 
 	//ProvisioningState: The provisioning state of the backend address pool resource.
@@ -3941,8 +3917,7 @@ type PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded struct {
 	//Sku: The public IP address SKU.
 	Sku *PublicIPAddressSku_Status `json:"sku,omitempty"`
 
-	//Zones: A list of availability zones denoting the IP allocated for the resource
-	//needs to come from.
+	//Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.
 	Zones []string `json:"zones,omitempty"`
 }
 

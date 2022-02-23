@@ -36,10 +36,10 @@ func TestWriteDebugDescription(t *testing.T) {
 
 	erroredAge := NewErroredType(age, []string{"boom"}, []string{"oh oh"})
 
-	types := make(Types)
-	types.Add(ageDefinition)
-	types.Add(personIdDefinition)
-	types.Add(suitDefinition)
+	defs := make(TypeDefinitionSet)
+	defs.Add(ageDefinition)
+	defs.Add(personIdDefinition)
+	defs.Add(suitDefinition)
 
 	cases := []struct {
 		name     string
@@ -72,7 +72,7 @@ func TestWriteDebugDescription(t *testing.T) {
 			g := NewGomegaWithT(t)
 
 			var builder strings.Builder
-			c.subject.WriteDebugDescription(&builder, types)
+			c.subject.WriteDebugDescription(&builder, defs)
 			g.Expect(builder.String()).To(Equal(c.expected))
 		})
 	}

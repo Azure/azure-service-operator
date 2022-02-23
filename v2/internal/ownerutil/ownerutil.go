@@ -16,8 +16,11 @@ limitations under the License.
 package ownerutil
 
 import (
+	"strings"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // HasOwnerRef returns true if the OwnerReference is already in the slice.
@@ -58,4 +61,16 @@ func referSameObject(a, b metav1.OwnerReference) bool {
 	}
 
 	return aGV.Group == bGV.Group && a.Kind == b.Kind && a.Name == b.Name
+}
+
+// MakeOwnerReference creates a metav1.OwnerReference pointing to the specified object
+func MakeOwnerReference(owner client.Object) metav1.OwnerReference {
+	ownerGvk := owner.GetObjectKind().GroupVersionKind()
+
+	return metav1.OwnerReference{
+		APIVersion: strings.Join([]string{ownerGvk.Group, ownerGvk.Version}, "/"),
+		Kind:       ownerGvk.Kind,
+		Name:       owner.GetName(),
+		UID:        owner.GetUID(),
+	}
 }

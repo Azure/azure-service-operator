@@ -40,11 +40,11 @@ func TestGolden_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCod
 		test.CityProperty)
 
 	// Create Property Assignment functions
-	types := make(astmodel.Types)
-	types.AddAll(personSpec2020)
-	types.AddAll(personSpec2021)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(personSpec2020)
+	defs.AddAll(personSpec2021)
 
-	conversionContext := conversions.NewPropertyConversionContext(types, idFactory, nil /* ObjectModelConfiguration*/)
+	conversionContext := conversions.NewPropertyConversionContext(defs, idFactory, nil /* ObjectModelConfiguration*/)
 	propertyAssignTo, err := NewPropertyAssignmentFunction(
 		personSpec2020, personSpec2021, conversionContext, conversions.ConvertTo)
 	g.Expect(err).To(Succeed())
@@ -85,11 +85,11 @@ func TestGolden_NewStatusChainedConversionFunction_Conversion_GeneratesExpectedC
 	personStatus2021 := test.CreateStatus(test.Pkg2021, "Person")
 
 	// Create Property Assignment functions
-	types := make(astmodel.Types)
-	types.AddAll(personStatus2020)
-	types.AddAll(personStatus2021)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(personStatus2020)
+	defs.AddAll(personStatus2021)
 
-	conversionContext := conversions.NewPropertyConversionContext(types, idFactory, nil /* ObjectModelConfiguration*/)
+	conversionContext := conversions.NewPropertyConversionContext(defs, idFactory, nil /* ObjectModelConfiguration*/)
 	propertyAssignTo, err := NewPropertyAssignmentFunction(
 		personStatus2020, personStatus2021, conversionContext, conversions.ConvertTo)
 	g.Expect(err).To(Succeed())

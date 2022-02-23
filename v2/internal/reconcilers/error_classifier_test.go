@@ -13,6 +13,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
 var badRequestError = &genericarmclient.CloudError{
@@ -26,13 +27,6 @@ var conflictError = &genericarmclient.CloudError{
 	InnerError: &genericarmclient.ErrorResponse{
 		Code:    to.StringPtr("Conflict"),
 		Message: to.StringPtr("That doesn't match what I have"),
-	},
-}
-
-var retryableConflictError = &genericarmclient.CloudError{
-	InnerError: &genericarmclient.ErrorResponse{
-		Code:    to.StringPtr("Conflict"),
-		Message: to.StringPtr("Umm, other stuff is going on. Try again later?"),
 	},
 }
 
@@ -53,8 +47,8 @@ var unknownError = &genericarmclient.CloudError{
 func Test_NilError_IsRetryable(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
-	expected := reconcilers.CloudErrorDetails{
-		Classification: reconcilers.CloudErrorRetryable,
+	expected := core.CloudErrorDetails{
+		Classification: core.ErrorRetryable,
 		Code:           reconcilers.UnknownErrorCode,
 		Message:        reconcilers.UnknownErrorMessage,
 	}
@@ -65,32 +59,20 @@ func Test_Conflict_IsNotRetryable(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	expected := reconcilers.CloudErrorDetails{
-		Classification: reconcilers.CloudErrorFatal,
+	expected := core.CloudErrorDetails{
+		Classification: core.ErrorFatal,
 		Code:           to.String(conflictError.InnerError.Code),
 		Message:        to.String(conflictError.InnerError.Message),
 	}
 	g.Expect(reconcilers.ClassifyCloudError(conflictError)).To(Equal(expected))
 }
 
-func Test_RetryableConflict_IsRetryable(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	expected := reconcilers.CloudErrorDetails{
-		Classification: reconcilers.CloudErrorRetryable,
-		Code:           to.String(retryableConflictError.InnerError.Code),
-		Message:        to.String(retryableConflictError.InnerError.Message),
-	}
-	g.Expect(reconcilers.ClassifyCloudError(retryableConflictError)).To(Equal(expected))
-}
-
 func Test_BadRequest_IsRetryable(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	expected := reconcilers.CloudErrorDetails{
-		Classification: reconcilers.CloudErrorRetryable,
+	expected := core.CloudErrorDetails{
+		Classification: core.ErrorRetryable,
 		Code:           to.String(badRequestError.InnerError.Code),
 		Message:        to.String(badRequestError.InnerError.Message),
 	}
@@ -101,8 +83,8 @@ func Test_ResourceGroupNotFound_IsRetryable(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	expected := reconcilers.CloudErrorDetails{
-		Classification: reconcilers.CloudErrorRetryable,
+	expected := core.CloudErrorDetails{
+		Classification: core.ErrorRetryable,
 		Code:           to.String(resourceGroupNotFoundError.InnerError.Code),
 		Message:        to.String(resourceGroupNotFoundError.InnerError.Message),
 	}
@@ -113,8 +95,8 @@ func Test_UnknownError_IsRetryable(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	expected := reconcilers.CloudErrorDetails{
-		Classification: reconcilers.CloudErrorRetryable,
+	expected := core.CloudErrorDetails{
+		Classification: core.ErrorRetryable,
 		Code:           to.String(unknownError.InnerError.Code),
 		Message:        to.String(unknownError.InnerError.Message),
 	}

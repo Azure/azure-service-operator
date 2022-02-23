@@ -17,33 +17,27 @@ type BlobServiceProperties_StatusARM struct {
 	//Sku: Sku name and tier.
 	Sku *Sku_StatusARM `json:"sku,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
 type BlobServiceProperties_Status_PropertiesARM struct {
-	//AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled
-	//property.
+	//AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled property.
 	AutomaticSnapshotPolicyEnabled *bool `json:"automaticSnapshotPolicyEnabled,omitempty"`
 
 	//ChangeFeed: The blob service properties for change feed events.
 	ChangeFeed *ChangeFeed_StatusARM `json:"changeFeed,omitempty"`
 
-	//ContainerDeleteRetentionPolicy: The blob service properties for container soft
-	//delete.
+	//ContainerDeleteRetentionPolicy: The blob service properties for container soft delete.
 	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy_StatusARM `json:"containerDeleteRetentionPolicy,omitempty"`
 
-	//Cors: Specifies CORS rules for the Blob service. You can include up to five
-	//CorsRule elements in the request. If no CorsRule elements are included in the
-	//request body, all CORS rules will be deleted, and CORS will be disabled for the
+	//Cors: Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no
+	//CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the
 	//Blob service.
 	Cors *CorsRules_StatusARM `json:"cors,omitempty"`
 
-	//DefaultServiceVersion: DefaultServiceVersion indicates the default version to
-	//use for requests to the Blob service if an incoming request’s version is not
-	//specified. Possible values include version 2008-10-27 and all more recent
-	//versions.
+	//DefaultServiceVersion: DefaultServiceVersion indicates the default version to use for requests to the Blob service if an
+	//incoming request’s version is not specified. Possible values include version 2008-10-27 and all more recent versions.
 	DefaultServiceVersion *string `json:"defaultServiceVersion,omitempty"`
 
 	//DeleteRetentionPolicy: The blob service properties for blob soft delete.
@@ -52,8 +46,7 @@ type BlobServiceProperties_Status_PropertiesARM struct {
 	//IsVersioningEnabled: Versioning is enabled if set to true.
 	IsVersioningEnabled *bool `json:"isVersioningEnabled,omitempty"`
 
-	//LastAccessTimeTrackingPolicy: The blob service property to configure last access
-	//time based tracking policy.
+	//LastAccessTimeTrackingPolicy: The blob service property to configure last access time based tracking policy.
 	LastAccessTimeTrackingPolicy *LastAccessTimeTrackingPolicy_StatusARM `json:"lastAccessTimeTrackingPolicy,omitempty"`
 
 	//RestorePolicy: The blob service properties for blob restore policy.
@@ -66,25 +59,22 @@ type Sku_StatusARM struct {
 }
 
 type ChangeFeed_StatusARM struct {
-	//Enabled: Indicates whether change feed event logging is enabled for the Blob
-	//service.
+	//Enabled: Indicates whether change feed event logging is enabled for the Blob service.
 	Enabled *bool `json:"enabled,omitempty"`
 
-	//RetentionInDays: Indicates the duration of changeFeed retention in days. Minimum
-	//value is 1 day and maximum value is 146000 days (400 years). A null value
-	//indicates an infinite retention of the change feed.
+	//RetentionInDays: Indicates the duration of changeFeed retention in days. Minimum value is 1 day and maximum value is
+	//146000 days (400 years). A null value indicates an infinite retention of the change feed.
 	RetentionInDays *int `json:"retentionInDays,omitempty"`
 }
 
 type CorsRules_StatusARM struct {
-	//CorsRules: The List of CORS rules. You can include up to five CorsRule elements
-	//in the request.
+	//CorsRules: The List of CORS rules. You can include up to five CorsRule elements in the request.
 	CorsRules []CorsRule_StatusARM `json:"corsRules,omitempty"`
 }
 
 type DeleteRetentionPolicy_StatusARM struct {
-	//Days: Indicates the number of days that the deleted item should be retained. The
-	//minimum specified value can be 1 and the maximum value can be 365.
+	//Days: Indicates the number of days that the deleted item should be retained. The minimum specified value can be 1 and
+	//the maximum value can be 365.
 	Days *int `json:"days,omitempty"`
 
 	//Enabled: Indicates whether DeleteRetentionPolicy is enabled.
@@ -92,26 +82,23 @@ type DeleteRetentionPolicy_StatusARM struct {
 }
 
 type LastAccessTimeTrackingPolicy_StatusARM struct {
-	//BlobType: An array of predefined supported blob types. Only blockBlob is the
-	//supported value. This field is currently read only
+	//BlobType: An array of predefined supported blob types. Only blockBlob is the supported value. This field is currently
+	//read only
 	BlobType []string `json:"blobType,omitempty"`
 
 	//Enable: When set to true last access time based tracking is enabled.
 	Enable bool `json:"enable"`
 
-	//Name: Name of the policy. The valid value is AccessTimeTracking. This field is
-	//currently read only
+	//Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
 	Name *LastAccessTimeTrackingPolicyStatusName `json:"name,omitempty"`
 
-	//TrackingGranularityInDays: The field specifies blob object tracking granularity
-	//in days, typically how often the blob object should be tracked.This field is
-	//currently read only with value as 1
+	//TrackingGranularityInDays: The field specifies blob object tracking granularity in days, typically how often the blob
+	//object should be tracked.This field is currently read only with value as 1
 	TrackingGranularityInDays *int `json:"trackingGranularityInDays,omitempty"`
 }
 
 type RestorePolicyProperties_StatusARM struct {
-	//Days: how long this blob can be restored. It should be great than zero and less
-	//than DeleteRetentionPolicy.days.
+	//Days: how long this blob can be restored. It should be great than zero and less than DeleteRetentionPolicy.days.
 	Days *int `json:"days,omitempty"`
 
 	//Enabled: Blob restore is enabled if set to true.
@@ -120,8 +107,7 @@ type RestorePolicyProperties_StatusARM struct {
 	//LastEnabledTime: Deprecated in favor of minRestoreTime property.
 	LastEnabledTime *string `json:"lastEnabledTime,omitempty"`
 
-	//MinRestoreTime: Returns the minimum date and time that the restore can be
-	//started.
+	//MinRestoreTime: Returns the minimum date and time that the restore can be started.
 	MinRestoreTime *string `json:"minRestoreTime,omitempty"`
 }
 
@@ -146,24 +132,23 @@ const (
 )
 
 type CorsRule_StatusARM struct {
-	//AllowedHeaders: Required if CorsRule element is present. A list of headers
-	//allowed to be part of the cross-origin request.
+	//AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
+	//request.
 	AllowedHeaders []string `json:"allowedHeaders"`
 
-	//AllowedMethods: Required if CorsRule element is present. A list of HTTP methods
-	//that are allowed to be executed by the origin.
+	//AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
+	//origin.
 	AllowedMethods []CorsRuleStatusAllowedMethods `json:"allowedMethods"`
 
-	//AllowedOrigins: Required if CorsRule element is present. A list of origin
-	//domains that will be allowed via CORS, or "*" to allow all domains
+	//AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*"
+	//to allow all domains
 	AllowedOrigins []string `json:"allowedOrigins"`
 
-	//ExposedHeaders: Required if CorsRule element is present. A list of response
-	//headers to expose to CORS clients.
+	//ExposedHeaders: Required if CorsRule element is present. A list of response headers to expose to CORS clients.
 	ExposedHeaders []string `json:"exposedHeaders"`
 
-	//MaxAgeInSeconds: Required if CorsRule element is present. The number of seconds
-	//that the client/browser should cache a preflight response.
+	//MaxAgeInSeconds: Required if CorsRule element is present. The number of seconds that the client/browser should cache a
+	//preflight response.
 	MaxAgeInSeconds int `json:"maxAgeInSeconds"`
 }
 

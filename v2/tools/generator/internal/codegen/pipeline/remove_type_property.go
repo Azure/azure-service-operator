@@ -22,13 +22,13 @@ func RemoveTypeProperty() Stage {
 		"Remove the ARM type property and instead augment the ResourceType with it",
 		func(ctx context.Context, state *State) (*State, error) {
 
-			newDefs := make(astmodel.Types)
+			newDefs := make(astmodel.TypeDefinitionSet)
 
-			defs := state.Types()
-			resources := astmodel.FindResourceTypes(defs)
+			defs := state.Definitions()
+			resources := astmodel.FindResourceDefinitions(defs)
 
 			for _, resource := range resources {
-				resolved, err := state.Types().ResolveResourceSpecAndStatus(resource)
+				resolved, err := state.Definitions().ResolveResourceSpecAndStatus(resource)
 				if err != nil {
 					return nil, errors.Wrapf(err, "failed to resolve resource spec and status types")
 				}
@@ -51,19 +51,19 @@ func RemoveTypeProperty() Stage {
 				newDefs.Add(resolved.SpecDef.WithType(specType))
 			}
 
-			return state.WithTypes(defs.OverlayWith(newDefs)), nil
+			return state.WithDefinitions(defs.OverlayWith(newDefs)), nil
 		})
 }
 
 // extractPropertySingleEnumValue returns the enum id and value for a property that is an enum with a single value.
 // Any other type of property results in an error. An enum with more than a single value results in an error.
-func extractPropertySingleEnumValue(types astmodel.Types, prop *astmodel.PropertyDefinition) (astmodel.EnumValue, error) {
+func extractPropertySingleEnumValue(definitions astmodel.TypeDefinitionSet, prop *astmodel.PropertyDefinition) (astmodel.EnumValue, error) {
 	propertyTypeName, ok := astmodel.AsTypeName(prop.PropertyType())
 	if !ok {
 		return astmodel.EnumValue{}, errors.Errorf("property %s was not of type astmodel.TypeName", prop.PropertyName())
 	}
 
-	t, ok := types[propertyTypeName]
+	t, ok := definitions[propertyTypeName]
 	if !ok {
 		return astmodel.EnumValue{}, errors.Errorf("couldn't find type %q", propertyTypeName)
 	}

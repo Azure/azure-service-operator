@@ -12,8 +12,8 @@ import (
 
 // State is an immutable instance that captures the information being passed along the pipeline
 type State struct {
-	types           astmodel.Types           // set of types generated so far
-	conversionGraph *storage.ConversionGraph // graph of transitions between packages in our conversion graph
+	definitions     astmodel.TypeDefinitionSet // set of type definitions generated so far
+	conversionGraph *storage.ConversionGraph   // graph of transitions between packages in our conversion graph
 }
 
 /*
@@ -24,23 +24,23 @@ type State struct {
  */
 
 // NewState returns a new empty state
-// typeses is a (possibly empty) sequence of types to combine for the intitial state
-func NewState(typeses ...astmodel.Types) *State {
-	types := make(astmodel.Types)
-	for _, ts := range typeses {
-		types = types.OverlayWith(ts)
+// definitions is a (possibly empty) sequence of types to combine for the initial state
+func NewState(definitions ...astmodel.TypeDefinitionSet) *State {
+	defs := make(astmodel.TypeDefinitionSet)
+	for _, ts := range definitions {
+		defs = defs.OverlayWith(ts)
 	}
 
 	return &State{
-		types:           types,
+		definitions:     defs,
 		conversionGraph: nil,
 	}
 }
 
-// WithTypes returns a new independentState with the given types instead
-func (s *State) WithTypes(types astmodel.Types) *State {
+// WithDefinitions returns a new independentState with the given type definitions instead
+func (s *State) WithDefinitions(definitions astmodel.TypeDefinitionSet) *State {
 	return &State{
-		types:           types,
+		definitions:     definitions,
 		conversionGraph: s.conversionGraph,
 	}
 }
@@ -52,14 +52,14 @@ func (s *State) WithConversionGraph(graph *storage.ConversionGraph) *State {
 	}
 
 	return &State{
-		types:           s.types.Copy(),
+		definitions:     s.definitions.Copy(),
 		conversionGraph: graph,
 	}
 }
 
-// Types returns the set of types contained by the state
-func (s *State) Types() astmodel.Types {
-	return s.types
+// Definitions returns the set of type definitions contained by the state
+func (s *State) Definitions() astmodel.TypeDefinitionSet {
+	return s.definitions
 }
 
 // ConversionGraph returns the conversion graph included in our state (may be null)

@@ -131,8 +131,8 @@ type MongodbDatabaseList struct {
 
 //Storage version of v1alpha1api20210515.DatabaseAccountsMongodbDatabases_Spec
 type DatabaseAccountsMongodbDatabases_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName       string               `json:"azureName"`
 	Location        *string              `json:"location,omitempty"`
 	Options         *CreateUpdateOptions `json:"options,omitempty"`

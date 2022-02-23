@@ -22,15 +22,15 @@ import (
 type PackageDefinition struct {
 	GroupName   string
 	PackageName string
-	definitions Types
+	definitions TypeDefinitionSet
 }
 
 // NewPackageDefinition constructs a new package definition
 func NewPackageDefinition(groupName string, packageName string) *PackageDefinition {
-	return &PackageDefinition{groupName, packageName, make(Types)}
+	return &PackageDefinition{groupName, packageName, make(TypeDefinitionSet)}
 }
 
-func (p *PackageDefinition) Definitions() Types {
+func (p *PackageDefinition) Definitions() TypeDefinitionSet {
 	return p.definitions
 }
 
@@ -59,7 +59,7 @@ func (p *PackageDefinition) EmitDefinitions(outputDir string, generatedPackages 
 	}
 
 	// Only generate GroupVersion file if this file includes resources
-	if resources := FindResourceTypes(p.definitions); len(resources) > 0 {
+	if resources := FindResourceDefinitions(p.definitions); len(resources) > 0 {
 		err = emitGroupVersionFile(p, outputDir)
 		if err != nil {
 			return 0, err
@@ -154,8 +154,8 @@ func (p *PackageDefinition) writeTestFile(
 	return nil
 }
 
-func allocateTypesToFiles(types Types) map[string][]TypeDefinition {
-	graph := MakeReferenceGraphWithResourcesAsRoots(types)
+func allocateTypesToFiles(definitions TypeDefinitionSet) map[string][]TypeDefinition {
+	graph := MakeReferenceGraphWithResourcesAsRoots(definitions)
 
 	type Root struct {
 		depth int
@@ -183,7 +183,7 @@ func allocateTypesToFiles(types Types) map[string][]TypeDefinition {
 
 	filesToGenerate := make(map[string][]TypeDefinition)
 
-	for _, def := range types {
+	for _, def := range definitions {
 		var fileName string
 		if root, ok := rootFor[def.name]; ok {
 			fileName = FileNameHint(root.name)

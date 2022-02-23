@@ -71,14 +71,12 @@ type SBNamespaceProperties_StatusARM struct {
 	//UpdatedAt: The time the namespace was updated.
 	UpdatedAt *string `json:"updatedAt,omitempty"`
 
-	//ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in
-	//regions supported availability zones.
+	//ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
 type SBSku_StatusARM struct {
-	//Capacity: The specified messaging units for the tier. For Premium tier, capacity
-	//are 1,2 and 4.
+	//Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
 	Capacity *int `json:"capacity,omitempty"`
 
 	//Name: Name of this SKU.
@@ -123,8 +121,7 @@ type Encryption_StatusARM struct {
 	//KeyVaultProperties: Properties of KeyVault
 	KeyVaultProperties []KeyVaultProperties_StatusARM `json:"keyVaultProperties,omitempty"`
 
-	//RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double
-	//Encryption)
+	//RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
 	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
 }
 

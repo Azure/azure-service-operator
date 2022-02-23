@@ -198,8 +198,8 @@ func (pool *AgentPool_Status) ConvertStatusTo(destination genruntime.Convertible
 type ManagedClustersAgentPools_Spec struct {
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName              string            `json:"azureName"`
 	Count                  *int              `json:"count,omitempty"`
 	EnableAutoScaling      *bool             `json:"enableAutoScaling,omitempty"`
@@ -232,8 +232,8 @@ type ManagedClustersAgentPools_Spec struct {
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"containerservice.azure.com" json:"owner" kind:"ManagedCluster"`
 
-	//PodSubnetIDReference: If omitted, pod IPs are statically assigned on the node
-	//subnet (see vnetSubnetID for more details). This is of the form:
+	//PodSubnetIDReference: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more
+	//details). This is of the form:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 	PodSubnetIDReference      *genruntime.ResourceReference `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
 	PropertyBag               genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
@@ -246,9 +246,8 @@ type ManagedClustersAgentPools_Spec struct {
 	UpgradeSettings           *AgentPoolUpgradeSettings     `json:"upgradeSettings,omitempty"`
 	VmSize                    *string                       `json:"vmSize,omitempty"`
 
-	//VnetSubnetIDReference: If this is not specified, a VNET and subnet will be
-	//generated and used. If no podSubnetID is specified, this applies to nodes and
-	//pods, otherwise it applies to just nodes. This is of the form:
+	//VnetSubnetIDReference: If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is
+	//specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 	VnetSubnetIDReference *genruntime.ResourceReference `armReference:"VnetSubnetID" json:"vnetSubnetIDReference,omitempty"`
 }

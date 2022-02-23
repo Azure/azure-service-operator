@@ -25,19 +25,19 @@ func RemoveTypeAliases() Stage {
 	return MakeLegacyStage(
 		RemoveTypeAliasesStageID,
 		"Remove type aliases",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			simplifyAliases := func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
-				return resolveTypeName(this, it, types)
+				return resolveTypeName(this, it, definitions)
 			}
 
 			visitor := astmodel.TypeVisitorBuilder{
 				VisitTypeName: simplifyAliases,
 			}.Build()
 
-			result := make(astmodel.Types)
+			result := make(astmodel.TypeDefinitionSet)
 
 			var errs []error
-			for _, typeDef := range types {
+			for _, typeDef := range definitions {
 				visitedType, err := visitor.Visit(typeDef.Type(), nil)
 				if err != nil {
 					errs = append(errs, err)
@@ -54,8 +54,8 @@ func RemoveTypeAliases() Stage {
 		})
 }
 
-func resolveTypeName(visitor *astmodel.TypeVisitor, name astmodel.TypeName, types astmodel.Types) (astmodel.Type, error) {
-	def, ok := types[name]
+func resolveTypeName(visitor *astmodel.TypeVisitor, name astmodel.TypeName, definitions astmodel.TypeDefinitionSet) (astmodel.Type, error) {
+	def, ok := definitions[name]
 	if !ok {
 		return nil, errors.Errorf("couldn't find definition for type name %s", name)
 	}
@@ -76,7 +76,7 @@ func resolveTypeName(visitor *astmodel.TypeVisitor, name astmodel.TypeName, type
 	case astmodel.TypeName:
 		// We need to resolve further because this type is an alias
 		klog.V(3).Infof("Found type alias %s, replacing it with %s", name, concreteType)
-		return resolveTypeName(visitor, concreteType, types)
+		return resolveTypeName(visitor, concreteType, definitions)
 	case *astmodel.PrimitiveType:
 		return visitor.Visit(concreteType, nil)
 	case *astmodel.OptionalType:

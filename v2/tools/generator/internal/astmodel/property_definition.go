@@ -438,7 +438,7 @@ func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGeneratio
 	// generate comment:
 	if property.description != "" {
 		result.Decs.Before = dst.EmptyLine
-		astbuilder.AddWrappedComment(&result.Decs.Start, fmt.Sprintf("%s: %s", property.propertyName, property.description), 80)
+		astbuilder.AddWrappedComment(&result.Decs.Start, fmt.Sprintf("%s: %s", property.propertyName, property.description))
 	}
 
 	return result

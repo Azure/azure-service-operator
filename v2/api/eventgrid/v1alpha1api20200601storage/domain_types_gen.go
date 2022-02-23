@@ -171,8 +171,8 @@ func (domain *Domain_Status) ConvertStatusTo(destination genruntime.ConvertibleS
 
 //Storage version of v1alpha1api20200601.Domains_Spec
 type Domains_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName          string                  `json:"azureName"`
 	InboundIpRules     []InboundIpRule         `json:"inboundIpRules,omitempty"`
 	InputSchema        *string                 `json:"inputSchema,omitempty"`

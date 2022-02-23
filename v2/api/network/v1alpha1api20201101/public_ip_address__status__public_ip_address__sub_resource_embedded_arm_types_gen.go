@@ -31,14 +31,12 @@ type PublicIPAddress_Status_PublicIPAddress_SubResourceEmbeddedARM struct {
 	//Type: Resource type.
 	Type *string `json:"type,omitempty"`
 
-	//Zones: A list of availability zones denoting the IP allocated for the resource
-	//needs to come from.
+	//Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.
 	Zones []string `json:"zones,omitempty"`
 }
 
 type PublicIPAddressPropertiesFormat_StatusARM struct {
-	//DdosSettings: The DDoS protection custom policy associated with the public IP
-	//address.
+	//DdosSettings: The DDoS protection custom policy associated with the public IP address.
 	DdosSettings *DdosSettings_StatusARM `json:"ddosSettings,omitempty"`
 
 	//DnsSettings: The FQDN of the DNS record associated with the public IP address.
@@ -71,8 +69,7 @@ type PublicIPAddressPropertiesFormat_StatusARM struct {
 	//PublicIPAllocationMethod: The public IP address allocation method.
 	PublicIPAllocationMethod *IPAllocationMethod_Status `json:"publicIPAllocationMethod,omitempty"`
 
-	//PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated
-	//from.
+	//PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated from.
 	PublicIPPrefix *SubResource_StatusARM `json:"publicIPPrefix,omitempty"`
 
 	//ResourceGuid: The resource GUID property of the public IP address resource.
@@ -94,8 +91,8 @@ type DdosSettings_StatusARM struct {
 	//ProtectedIP: Enables DDoS protection on the public IP.
 	ProtectedIP *bool `json:"protectedIP,omitempty"`
 
-	//ProtectionCoverage: The DDoS protection policy customizability of the public IP.
-	//Only standard coverage will have the ability to be customized.
+	//ProtectionCoverage: The DDoS protection policy customizability of the public IP. Only standard coverage will have the
+	//ability to be customized.
 	ProtectionCoverage *DdosSettingsStatusProtectionCoverage `json:"protectionCoverage,omitempty"`
 }
 
@@ -106,8 +103,7 @@ type IPConfiguration_Status_PublicIPAddress_SubResourceEmbeddedARM struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//Name: The name of the resource that is unique within a resource group. This name
-	//can be used to access the resource.
+	//Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
 	//Properties: Properties of the IP configuration.
@@ -129,27 +125,23 @@ type NatGateway_Status_PublicIPAddress_SubResourceEmbeddedARM struct {
 	//Sku: The nat gateway SKU.
 	Sku *NatGatewaySku_StatusARM `json:"sku,omitempty"`
 
-	//Zones: A list of availability zones denoting the zone in which Nat Gateway
-	//should be deployed.
+	//Zones: A list of availability zones denoting the zone in which Nat Gateway should be deployed.
 	Zones []string `json:"zones,omitempty"`
 }
 
 type PublicIPAddressDnsSettings_StatusARM struct {
-	//DomainNameLabel: The domain name label. The concatenation of the domain name
-	//label and the regionalized DNS zone make up the fully qualified domain name
-	//associated with the public IP address. If a domain name label is specified, an A
-	//DNS record is created for the public IP in the Microsoft Azure DNS system.
+	//DomainNameLabel: The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up
+	//the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS
+	//record is created for the public IP in the Microsoft Azure DNS system.
 	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
 
-	//Fqdn: The Fully Qualified Domain Name of the A DNS record associated with the
-	//public IP. This is the concatenation of the domainNameLabel and the regionalized
-	//DNS zone.
+	//Fqdn: The Fully Qualified Domain Name of the A DNS record associated with the public IP. This is the concatenation of
+	//the domainNameLabel and the regionalized DNS zone.
 	Fqdn *string `json:"fqdn,omitempty"`
 
-	//ReverseFqdn: The reverse FQDN. A user-visible, fully qualified domain name that
-	//resolves to this public IP address. If the reverseFqdn is specified, then a PTR
-	//DNS record is created pointing from the IP address in the in-addr.arpa domain to
-	//the reverse FQDN.
+	//ReverseFqdn: The reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If
+	//the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain
+	//to the reverse FQDN.
 	ReverseFqdn *string `json:"reverseFqdn,omitempty"`
 }
 

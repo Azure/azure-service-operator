@@ -25,10 +25,10 @@ func TestGolden_AddStatusConditions(t *testing.T) {
 	status := test.CreateStatus(test.Pkg2020, "Person")
 	resourceV1 := test.CreateResource(test.Pkg2020, "Person", spec, status)
 
-	types := make(astmodel.Types)
-	types.AddAll(resourceV1, spec, status)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(resourceV1, spec, status)
 
-	initialState := NewState().WithTypes(types)
+	initialState := NewState().WithDefinitions(defs)
 	finalState, err := RunTestPipeline(
 		initialState,
 		AddStatusConditions(idFactory))
@@ -36,5 +36,5 @@ func TestGolden_AddStatusConditions(t *testing.T) {
 
 	// When verifying the golden file, check to ensure that the Conditions property on the Status type looks correct,
 	// and that the conditions.Conditioner interface is properly implemented on the resource.
-	test.AssertPackagesGenerateExpectedCode(t, finalState.types, test.DiffWithTypes(types))
+	test.AssertPackagesGenerateExpectedCode(t, finalState.definitions, test.DiffWithTypes(defs))
 }

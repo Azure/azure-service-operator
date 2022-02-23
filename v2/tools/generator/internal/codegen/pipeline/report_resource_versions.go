@@ -29,7 +29,7 @@ func ReportResourceVersions(configuration *config.Configuration) Stage {
 		ReportResourceVersionsStageID,
 		"Generate a report listing all the resources generated",
 		func(ctx context.Context, state *State) (*State, error) {
-			report := NewResourceVersionsReport(state.Types())
+			report := NewResourceVersionsReport(state.Definitions())
 			err := report.WriteTo(configuration.FullTypesOutputPath(), configuration.SamplesURL)
 			return state, err
 		})
@@ -40,18 +40,18 @@ type ResourceVersionsReport struct {
 	lists map[astmodel.PackageReference][]astmodel.TypeDefinition
 }
 
-func NewResourceVersionsReport(types astmodel.Types) *ResourceVersionsReport {
+func NewResourceVersionsReport(definitions astmodel.TypeDefinitionSet) *ResourceVersionsReport {
 	result := &ResourceVersionsReport{
 		lists: make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
 	}
 
-	result.summarize(types)
+	result.summarize(definitions)
 	return result
 }
 
 // summarize collates a list of all resources, grouped by package
-func (r *ResourceVersionsReport) summarize(types astmodel.Types) {
-	resources := astmodel.FindResourceTypes(types)
+func (r *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinitionSet) {
+	resources := astmodel.FindResourceDefinitions(definitions)
 	for _, rsrc := range resources {
 		name := rsrc.Name()
 		pkg := name.PackageReference

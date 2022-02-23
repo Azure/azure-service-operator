@@ -20,8 +20,7 @@ type AuthorizationRule_StatusARM struct {
 	//SystemData: The system meta data relating to this resource.
 	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or
-	//"Microsoft.EventHub/Namespaces/EventHubs"
+	//Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
 	Type *string `json:"type,omitempty"`
 }
 

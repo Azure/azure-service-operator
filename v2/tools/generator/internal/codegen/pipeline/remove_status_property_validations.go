@@ -36,28 +36,28 @@ func RemoveStatusValidations() Stage {
 		RemoveStatusPropertyValidationsStageID,
 		"Remove validation from all status properties",
 		func(ctx context.Context, state *State) (*State, error) {
-			result, err := removeStatusTypeValidations(state.Types())
+			result, err := removeStatusTypeValidations(state.Definitions())
 			if err != nil {
 				return nil, err
 			}
 
-			err = errorIfSpecStatusOverlap(result, state.Types())
+			err = errorIfSpecStatusOverlap(result, state.Definitions())
 			if err != nil {
 				return nil, err
 			}
 
-			remaining := state.Types().Except(result)
+			remaining := state.Definitions().Except(result)
 			result.AddTypes(remaining)
 
-			return state.WithTypes(result), nil
+			return state.WithDefinitions(result), nil
 		})
 }
 
-func removeStatusTypeValidations(types astmodel.Types) (astmodel.Types, error) {
-	statusTypes := astmodel.FindStatusTypes(types)
+func removeStatusTypeValidations(definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+	statusDefinitions := astmodel.FindStatusDefinitions(definitions)
 
 	walker := astmodel.NewTypeWalker(
-		types,
+		definitions,
 		astmodel.TypeVisitorBuilder{
 			VisitEnumType:      removeEnumValidations,
 			VisitValidatedType: removeValidatedType,
@@ -65,11 +65,11 @@ func removeStatusTypeValidations(types astmodel.Types) (astmodel.Types, error) {
 
 	var errs []error
 
-	result := make(astmodel.Types)
-	for _, def := range statusTypes {
+	result := make(astmodel.TypeDefinitionSet)
+	for _, def := range statusDefinitions {
 		updatedTypes, err := walker.Walk(def)
 		if err != nil {
-			errs = append(errs, errors.Wrapf(err, "failed walking types"))
+			errs = append(errs, errors.Wrapf(err, "failed walking definitions"))
 		}
 
 		err = result.AddTypesAllowDuplicates(updatedTypes)
@@ -86,21 +86,21 @@ func removeStatusTypeValidations(types astmodel.Types) (astmodel.Types, error) {
 	return result, err
 }
 
-func errorIfSpecStatusOverlap(statusTypes astmodel.Types, types astmodel.Types) error {
-	allSpecTypes, err := astmodel.FindSpecConnectedTypes(types)
+func errorIfSpecStatusOverlap(statusDefinitions astmodel.TypeDefinitionSet, definitions astmodel.TypeDefinitionSet) error {
+	allSpecTypes, err := astmodel.FindSpecConnectedDefinitions(definitions)
 	if err != nil {
-		return errors.Wrap(err, "couldn't find all spec types")
+		return errors.Wrap(err, "couldn't find all spec definitions")
 	}
 
-	// Verify that the set of spec types and the set of modified status types is totally disjoint
-	intersection := allSpecTypes.Intersect(statusTypes)
+	// Verify that the set of spec definitions and the set of modified status definitions is totally disjoint
+	intersection := allSpecTypes.Intersect(statusDefinitions)
 	if len(intersection) > 0 {
 		var nameStrings []string
 		for name := range intersection {
 			nameStrings = append(nameStrings, name.String())
 		}
 
-		return errors.Errorf("expected 0 overlapping spec/status types but there were %d. Overlapping: %s", len(intersection), strings.Join(nameStrings, ", "))
+		return errors.Errorf("expected 0 overlapping spec/status definitions but there were %d. Overlapping: %s", len(intersection), strings.Join(nameStrings, ", "))
 	}
 
 	return nil

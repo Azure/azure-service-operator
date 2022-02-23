@@ -1,4 +1,4 @@
-| Types defined in package "cache"                     | v1alpha1api20201201 | v1alpha1api20210301 |
+| Type Definitions in package "cache"                  | v1alpha1api20201201 | v1alpha1api20210301 |
 |------------------------------------------------------|---------------------|---------------------|
 | ClusterProperties                                    |                     | v1alpha1api20210301 |
 | ClusterPropertiesMinimumTlsVersion                   |                     | v1alpha1api20210301 |
@@ -25,7 +25,6 @@
 | PrivateEndpointConnection_Status_SubResourceEmbedded | v1alpha1api20201201 | v1alpha1api20210301 |
 | ProvisioningState_Status                             |                     | v1alpha1api20210301 |
 | Redis                                                | v1alpha1api20201201 |                     |
-| RedisAccessKeys_Status                               | v1alpha1api20201201 |                     |
 | RedisCreateProperties                                | v1alpha1api20201201 |                     |
 | RedisCreatePropertiesMinimumTlsVersion               | v1alpha1api20201201 |                     |
 | RedisCreatePropertiesPublicNetworkAccess             | v1alpha1api20201201 |                     |

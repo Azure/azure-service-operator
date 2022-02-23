@@ -121,7 +121,7 @@ func (allOf AllOfType) AsDeclarations(_ *CodeGenerationContext, _ DeclarationCon
 
 // AsZero always panics; AllOf cannot be represented by the Go AST and must be
 // lowered to an object type
-func (allOf AllOfType) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
+func (allOf AllOfType) AsZero(definitions TypeDefinitionSet, ctx *CodeGenerationContext) dst.Expr {
 	panic(errors.New(allOfPanicMsg))
 }
 
@@ -162,8 +162,8 @@ func (allOf *AllOfType) String() string {
 
 // WriteDebugDescription adds a description of the current AnyOf type to the passed builder
 // builder receives the full description, including nested types
-// types is a dictionary for resolving named types
-func (allOf *AllOfType) WriteDebugDescription(builder *strings.Builder, types Types) {
+// definitions is a dictionary for resolving named types
+func (allOf *AllOfType) WriteDebugDescription(builder *strings.Builder, definitions TypeDefinitionSet) {
 	if allOf == nil {
 		builder.WriteString("<nilAllOf>")
 		return
@@ -174,7 +174,7 @@ func (allOf *AllOfType) WriteDebugDescription(builder *strings.Builder, types Ty
 		if ix > 0 {
 			builder.WriteString("|")
 		}
-		t.WriteDebugDescription(builder, types)
+		t.WriteDebugDescription(builder, definitions)
 	})
 	builder.WriteString("]")
 }

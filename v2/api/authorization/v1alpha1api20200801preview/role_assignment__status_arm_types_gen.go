@@ -18,10 +18,9 @@ type RoleAssignment_StatusARM struct {
 }
 
 type RoleAssignmentProperties_StatusARM struct {
-	//Condition: The conditions on the role assignment. This limits the resources it
-	//can be assigned to. e.g.:
-	//@Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName]
-	//StringEqualsIgnoreCase 'foo_storage_container'
+	//Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
+	//@Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase
+	//'foo_storage_container'
 	Condition *string `json:"condition,omitempty"`
 
 	//ConditionVersion: Version of the condition. Currently accepted value is '2.0'

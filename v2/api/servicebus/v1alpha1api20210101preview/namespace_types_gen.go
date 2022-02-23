@@ -313,15 +313,14 @@ type NamespacesSpecAPIVersion string
 const NamespacesSpecAPIVersion20210101Preview = NamespacesSpecAPIVersion("2021-01-01-preview")
 
 type Namespaces_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	//Encryption: Properties to configure Encryption
 	Encryption *Encryption `json:"encryption,omitempty"`
 
-	//Identity: Properties to configure User Assigned Identities for Bring your Own
-	//Keys
+	//Identity: Properties to configure User Assigned Identities for Bring your Own Keys
 	Identity *Identity `json:"identity,omitempty"`
 
 	//Location: The Geo-location where the resource lives
@@ -336,8 +335,7 @@ type Namespaces_Spec struct {
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in
-	//regions supported availability zones.
+	//ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
@@ -725,8 +723,7 @@ type SBNamespace_Status struct {
 	//UpdatedAt: The time the namespace was updated.
 	UpdatedAt *string `json:"updatedAt,omitempty"`
 
-	//ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in
-	//regions supported availability zones.
+	//ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
@@ -1206,8 +1203,7 @@ type Encryption struct {
 	//KeyVaultProperties: Properties of KeyVault
 	KeyVaultProperties []KeyVaultProperties `json:"keyVaultProperties,omitempty"`
 
-	//RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double
-	//Encryption)
+	//RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
 	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
 }
 
@@ -1379,8 +1375,7 @@ type Encryption_Status struct {
 	//KeyVaultProperties: Properties of KeyVault
 	KeyVaultProperties []KeyVaultProperties_Status `json:"keyVaultProperties,omitempty"`
 
-	//RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double
-	//Encryption)
+	//RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
 	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
 }
 
@@ -1847,8 +1842,7 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 
 //Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/SBSku
 type SBSku struct {
-	//Capacity: The specified messaging units for the tier. For Premium tier, capacity
-	//are 1,2 and 4.
+	//Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
 	Capacity *int `json:"capacity,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -1973,8 +1967,7 @@ func (sbSku *SBSku) AssignPropertiesToSBSku(destination *v1alpha1api20210101prev
 }
 
 type SBSku_Status struct {
-	//Capacity: The specified messaging units for the tier. For Premium tier, capacity
-	//are 1,2 and 4.
+	//Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
 	Capacity *int `json:"capacity,omitempty"`
 
 	// +kubebuilder:validation:Required

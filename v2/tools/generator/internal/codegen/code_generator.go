@@ -163,6 +163,10 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		pipeline.AddStatusConditions(idFactory).UsedFor(pipeline.ARMTarget),
 
+		pipeline.AddOperatorSpec(configuration, idFactory).UsedFor(pipeline.ARMTarget),
+		// To be added when needed
+		// pipeline.AddOperatorStatus(idFactory).UsedFor(pipeline.ARMTarget),
+
 		pipeline.AddCrossplaneOwnerProperties(idFactory).UsedFor(pipeline.CrossplaneTarget),
 		pipeline.AddCrossplaneForProvider(idFactory).UsedFor(pipeline.CrossplaneTarget),
 		pipeline.AddCrossplaneAtProvider(idFactory).UsedFor(pipeline.CrossplaneTarget),
@@ -223,8 +227,8 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 			return errors.Wrapf(err, "failed during pipeline stage %d/%d: %s", i+1, len(generator.pipeline), stage.Description())
 		}
 
-		defsAdded := stateOut.Types().Except(state.Types())
-		defsRemoved := state.Types().Except(stateOut.Types())
+		defsAdded := stateOut.Definitions().Except(state.Definitions())
+		defsRemoved := state.Definitions().Except(stateOut.Definitions())
 
 		if len(defsAdded) > 0 && len(defsRemoved) > 0 {
 			klog.V(1).Infof("Added %d, removed %d type definitions", len(defsAdded), len(defsRemoved))

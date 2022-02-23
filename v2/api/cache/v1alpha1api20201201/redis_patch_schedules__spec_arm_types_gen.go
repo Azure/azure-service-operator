@@ -47,8 +47,7 @@ type ScheduleEntryARM struct {
 	//DayOfWeek: Day of the week when a cache can be patched.
 	DayOfWeek ScheduleEntryDayOfWeek `json:"dayOfWeek"`
 
-	//MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can
-	//take.
+	//MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
 	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`
 
 	//StartHourUtc: Start hour after which cache patching can start.

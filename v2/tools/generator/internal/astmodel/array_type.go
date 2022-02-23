@@ -57,7 +57,7 @@ func (array *ArrayType) AsType(codeGenerationContext *CodeGenerationContext) dst
 }
 
 // AsZero renders an expression for the "zero" value of the array by calling make()
-func (array *ArrayType) AsZero(_ Types, ctx *CodeGenerationContext) dst.Expr {
+func (array *ArrayType) AsZero(_ TypeDefinitionSet, ctx *CodeGenerationContext) dst.Expr {
 	return astbuilder.Nil()
 }
 
@@ -91,14 +91,14 @@ func (array *ArrayType) String() string {
 
 // WriteDebugDescription adds a description of the current array type to the passed builder
 // builder receives the full description, including nested types
-// types is a dictionary for resolving named types
-func (array *ArrayType) WriteDebugDescription(builder *strings.Builder, types Types) {
+// definitions is a dictionary for resolving named types
+func (array *ArrayType) WriteDebugDescription(builder *strings.Builder, definitions TypeDefinitionSet) {
 	if array == nil {
 		builder.WriteString("<nilArray>")
 		return
 	}
 
 	builder.WriteString("Array[")
-	array.element.WriteDebugDescription(builder, types)
+	array.element.WriteDebugDescription(builder, definitions)
 	builder.WriteString("]")
 }

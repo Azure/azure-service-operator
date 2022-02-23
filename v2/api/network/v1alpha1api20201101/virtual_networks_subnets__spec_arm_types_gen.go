@@ -55,12 +55,10 @@ type VirtualNetworksSubnets_Spec_PropertiesARM struct {
 	//NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
 	NetworkSecurityGroup *SubResourceARM `json:"networkSecurityGroup,omitempty"`
 
-	//PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on
-	//private end point in the subnet.
+	//PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on private end point in the subnet.
 	PrivateEndpointNetworkPolicies *string `json:"privateEndpointNetworkPolicies,omitempty"`
 
-	//PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on
-	//private link service in the subnet.
+	//PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on private link service in the subnet.
 	PrivateLinkServiceNetworkPolicies *string `json:"privateLinkServiceNetworkPolicies,omitempty"`
 
 	//RouteTable: The reference to the RouteTable resource.
@@ -83,8 +81,7 @@ type ServiceEndpointPropertiesFormatARM struct {
 }
 
 type VirtualNetworksSubnets_Spec_Properties_DelegationsARM struct {
-	//Name: The name of the resource that is unique within a subnet. This name can be
-	//used to access the resource.
+	//Name: The name of the resource that is unique within a subnet. This name can be used to access the resource.
 	Name string `json:"name"`
 
 	//Properties: Properties of the subnet.
@@ -93,7 +90,6 @@ type VirtualNetworksSubnets_Spec_Properties_DelegationsARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ServiceDelegationPropertiesFormat
 type ServiceDelegationPropertiesFormatARM struct {
-	//ServiceName: The name of the service to whom the subnet should be delegated
-	//(e.g. Microsoft.Sql/servers).
+	//ServiceName: The name of the service to whom the subnet should be delegated (e.g. Microsoft.Sql/servers).
 	ServiceName *string `json:"serviceName,omitempty"`
 }

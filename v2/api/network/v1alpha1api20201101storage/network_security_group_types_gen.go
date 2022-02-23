@@ -170,8 +170,8 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 
 //Storage version of v1alpha1api20201101.NetworkSecurityGroups_Spec
 type NetworkSecurityGroups_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName       string  `json:"azureName"`
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion"`

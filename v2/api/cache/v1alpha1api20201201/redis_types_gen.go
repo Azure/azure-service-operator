@@ -308,15 +308,10 @@ type RedisList struct {
 }
 
 type RedisResource_Status struct {
-	//AccessKeys: The keys of the Redis cache - not set if this object is not the
-	//response to Create or Update redis cache
-	AccessKeys *RedisAccessKeys_Status `json:"accessKeys,omitempty"`
-
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is
-	//enabled.
+	//EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.
 	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
 
 	//HostName: Redis host name.
@@ -335,8 +330,8 @@ type RedisResource_Status struct {
 	//Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
-	//MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or
-	//higher) to connect (e,g, '1.0', '1.1', '1.2')
+	//MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
+	//'1.2')
 	MinimumTlsVersion *RedisPropertiesStatusMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
 	//Name: The name of the resource
@@ -345,16 +340,14 @@ type RedisResource_Status struct {
 	//Port: Redis non-SSL port.
 	Port *int `json:"port,omitempty"`
 
-	//PrivateEndpointConnections: List of private endpoint connection associated with
-	//the specified redis cache
+	//PrivateEndpointConnections: List of private endpoint connection associated with the specified redis cache
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
 
 	//ProvisioningState: Redis instance provisioning status.
 	ProvisioningState *RedisPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
 
-	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this
-	//cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If
-	//'Disabled', private endpoints are the exclusive access method. Default value is
+	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
+	//in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
 	//'Enabled'
 	PublicNetworkAccess *RedisPropertiesStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
@@ -363,8 +356,7 @@ type RedisResource_Status struct {
 	//etc.
 	RedisConfiguration map[string]string `json:"redisConfiguration,omitempty"`
 
-	//RedisVersion: Redis version. Only major version will be used in PUT/PATCH
-	//request with current valid values: (4, 6)
+	//RedisVersion: Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6)
 	RedisVersion *string `json:"redisVersion,omitempty"`
 
 	//ReplicasPerMaster: The number of replicas to be created per primary.
@@ -382,12 +374,11 @@ type RedisResource_Status struct {
 	//SslPort: Redis SSL port.
 	SslPort *int `json:"sslPort,omitempty"`
 
-	//StaticIP: Static IP address. Optionally, may be specified when deploying a Redis
-	//cache inside an existing Azure Virtual Network; auto assigned by default.
+	//StaticIP: Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual
+	//Network; auto assigned by default.
 	StaticIP *string `json:"staticIP,omitempty"`
 
-	//SubnetId: The full resource ID of a subnet in a virtual network to deploy the
-	//Redis cache in. Example format:
+	//SubnetId: The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1
 	SubnetId *string `json:"subnetId,omitempty"`
 
@@ -397,12 +388,10 @@ type RedisResource_Status struct {
 	//TenantSettings: A dictionary of tenant settings
 	TenantSettings map[string]string `json:"tenantSettings,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 
-	//Zones: A list of availability zones denoting where the resource needs to come
-	//from.
+	//Zones: A list of availability zones denoting where the resource needs to come from.
 	Zones []string `json:"zones,omitempty"`
 }
 
@@ -468,20 +457,6 @@ func (resource *RedisResource_Status) PopulateFromARM(owner genruntime.Arbitrary
 	typedInput, ok := armInput.(RedisResource_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisResource_StatusARM, got %T", armInput)
-	}
-
-	// Set property ‘AccessKeys’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.AccessKeys != nil {
-			var accessKeys1 RedisAccessKeys_Status
-			err := accessKeys1.PopulateFromARM(owner, *typedInput.Properties.AccessKeys)
-			if err != nil {
-				return err
-			}
-			accessKeys := accessKeys1
-			resource.AccessKeys = &accessKeys
-		}
 	}
 
 	// no assignment for property ‘Conditions’
@@ -721,18 +696,6 @@ func (resource *RedisResource_Status) PopulateFromARM(owner genruntime.Arbitrary
 // AssignPropertiesFromRedisResourceStatus populates our RedisResource_Status from the provided source RedisResource_Status
 func (resource *RedisResource_Status) AssignPropertiesFromRedisResourceStatus(source *v1alpha1api20201201storage.RedisResource_Status) error {
 
-	// AccessKeys
-	if source.AccessKeys != nil {
-		var accessKey RedisAccessKeys_Status
-		err := accessKey.AssignPropertiesFromRedisAccessKeysStatus(source.AccessKeys)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRedisAccessKeysStatus() to populate field AccessKeys")
-		}
-		resource.AccessKeys = &accessKey
-	} else {
-		resource.AccessKeys = nil
-	}
-
 	// Conditions
 	resource.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
@@ -893,18 +856,6 @@ func (resource *RedisResource_Status) AssignPropertiesFromRedisResourceStatus(so
 func (resource *RedisResource_Status) AssignPropertiesToRedisResourceStatus(destination *v1alpha1api20201201storage.RedisResource_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// AccessKeys
-	if resource.AccessKeys != nil {
-		var accessKey v1alpha1api20201201storage.RedisAccessKeys_Status
-		err := resource.AccessKeys.AssignPropertiesToRedisAccessKeysStatus(&accessKey)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRedisAccessKeysStatus() to populate field AccessKeys")
-		}
-		destination.AccessKeys = &accessKey
-	} else {
-		destination.AccessKeys = nil
-	}
 
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(resource.Conditions)
@@ -1075,27 +1026,29 @@ type RedisSpecAPIVersion string
 const RedisSpecAPIVersion20201201 = RedisSpecAPIVersion("2020-12-01")
 
 type Redis_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
 	AzureName string `json:"azureName"`
 
-	//EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is
-	//enabled.
+	//EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.
 	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
 
 	//Location: The geo-location where the resource lives
 	Location string `json:"location,omitempty"`
 
-	//MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or
-	//higher) to connect (e,g, '1.0', '1.1', '1.2').
+	//MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
+	//'1.2').
 	MinimumTlsVersion *RedisCreatePropertiesMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+
+	//OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	//passed directly to Azure
+	OperatorSpec *RedisOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
-	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this
-	//cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If
-	//'Disabled', private endpoints are the exclusive access method. Default value is
+	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
+	//in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
 	//'Enabled'.
 	PublicNetworkAccess *RedisCreatePropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
@@ -1104,8 +1057,7 @@ type Redis_Spec struct {
 	//etc.
 	RedisConfiguration map[string]string `json:"redisConfiguration,omitempty"`
 
-	//RedisVersion: Redis version. Only major version will be used in PUT/PATCH
-	//request with current valid values: (4, 6)
+	//RedisVersion: Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6)
 	RedisVersion *string `json:"redisVersion,omitempty"`
 
 	//ReplicasPerMaster: The number of replicas to be created per primary.
@@ -1122,12 +1074,11 @@ type Redis_Spec struct {
 	Sku Sku `json:"sku"`
 
 	// +kubebuilder:validation:Pattern="^\\d+\\.\\d+\\.\\d+\\.\\d+$"
-	//StaticIP: Static IP address. Optionally, may be specified when deploying a Redis
-	//cache inside an existing Azure Virtual Network; auto assigned by default.
+	//StaticIP: Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual
+	//Network; auto assigned by default.
 	StaticIP *string `json:"staticIP,omitempty"`
 
-	//SubnetReference: The full resource ID of a subnet in a virtual network to deploy
-	//the Redis cache in. Example format:
+	//SubnetReference: The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1
 	SubnetReference *genruntime.ResourceReference `armReference:"SubnetId" json:"subnetReference,omitempty"`
 
@@ -1137,8 +1088,7 @@ type Redis_Spec struct {
 	//TenantSettings: A dictionary of tenant settings
 	TenantSettings map[string]string `json:"tenantSettings,omitempty"`
 
-	//Zones: A list of availability zones denoting where the resource needs to come
-	//from.
+	//Zones: A list of availability zones denoting where the resource needs to come from.
 	Zones []string `json:"zones,omitempty"`
 }
 
@@ -1262,6 +1212,8 @@ func (redis *Redis_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		minimumTlsVersion := *typedInput.Properties.MinimumTlsVersion
 		redis.MinimumTlsVersion = &minimumTlsVersion
 	}
+
+	// no assignment for property ‘OperatorSpec’
 
 	// Set property ‘Owner’:
 	redis.Owner = genruntime.KnownResourceReference{
@@ -1431,6 +1383,18 @@ func (redis *Redis_Spec) AssignPropertiesFromRedisSpec(source *v1alpha1api202012
 		redis.MinimumTlsVersion = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec RedisOperatorSpec
+		err := operatorSpec.AssignPropertiesFromRedisOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromRedisOperatorSpec() to populate field OperatorSpec")
+		}
+		redis.OperatorSpec = &operatorSpec
+	} else {
+		redis.OperatorSpec = nil
+	}
+
 	// Owner
 	redis.Owner = source.Owner.Copy()
 
@@ -1524,6 +1488,18 @@ func (redis *Redis_Spec) AssignPropertiesToRedisSpec(destination *v1alpha1api202
 		destination.MinimumTlsVersion = &minimumTlsVersion
 	} else {
 		destination.MinimumTlsVersion = nil
+	}
+
+	// OperatorSpec
+	if redis.OperatorSpec != nil {
+		var operatorSpec v1alpha1api20201201storage.RedisOperatorSpec
+		err := redis.OperatorSpec.AssignPropertiesToRedisOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToRedisOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -1666,81 +1642,6 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 	return nil
 }
 
-type RedisAccessKeys_Status struct {
-	//PrimaryKey: The current primary key that clients can use to authenticate with
-	//Redis cache.
-	PrimaryKey *string `json:"primaryKey,omitempty"`
-
-	//SecondaryKey: The current secondary key that clients can use to authenticate
-	//with Redis cache.
-	SecondaryKey *string `json:"secondaryKey,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &RedisAccessKeys_Status{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (keys *RedisAccessKeys_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisAccessKeys_StatusARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (keys *RedisAccessKeys_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisAccessKeys_StatusARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisAccessKeys_StatusARM, got %T", armInput)
-	}
-
-	// Set property ‘PrimaryKey’:
-	if typedInput.PrimaryKey != nil {
-		primaryKey := *typedInput.PrimaryKey
-		keys.PrimaryKey = &primaryKey
-	}
-
-	// Set property ‘SecondaryKey’:
-	if typedInput.SecondaryKey != nil {
-		secondaryKey := *typedInput.SecondaryKey
-		keys.SecondaryKey = &secondaryKey
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromRedisAccessKeysStatus populates our RedisAccessKeys_Status from the provided source RedisAccessKeys_Status
-func (keys *RedisAccessKeys_Status) AssignPropertiesFromRedisAccessKeysStatus(source *v1alpha1api20201201storage.RedisAccessKeys_Status) error {
-
-	// PrimaryKey
-	keys.PrimaryKey = genruntime.ClonePointerToString(source.PrimaryKey)
-
-	// SecondaryKey
-	keys.SecondaryKey = genruntime.ClonePointerToString(source.SecondaryKey)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToRedisAccessKeysStatus populates the provided destination RedisAccessKeys_Status from our RedisAccessKeys_Status
-func (keys *RedisAccessKeys_Status) AssignPropertiesToRedisAccessKeysStatus(destination *v1alpha1api20201201storage.RedisAccessKeys_Status) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// PrimaryKey
-	destination.PrimaryKey = genruntime.ClonePointerToString(keys.PrimaryKey)
-
-	// SecondaryKey
-	destination.SecondaryKey = genruntime.ClonePointerToString(keys.SecondaryKey)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
 type RedisCreatePropertiesMinimumTlsVersion string
 
@@ -1774,8 +1675,7 @@ type RedisInstanceDetails_Status struct {
 	//SslPort: Redis instance SSL port.
 	SslPort *int `json:"sslPort,omitempty"`
 
-	//Zone: If the Cache uses availability zones, specifies availability zone where
-	//this instance is located.
+	//Zone: If the Cache uses availability zones, specifies availability zone where this instance is located.
 	Zone *string `json:"zone,omitempty"`
 }
 
@@ -1970,6 +1870,59 @@ func (server *RedisLinkedServer_Status) AssignPropertiesToRedisLinkedServerStatu
 	return nil
 }
 
+//Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type RedisOperatorSpec struct {
+	//Secrets: configures where to place Azure generated secrets.
+	Secrets *RedisOperatorSecrets `json:"secrets,omitempty"`
+}
+
+// AssignPropertiesFromRedisOperatorSpec populates our RedisOperatorSpec from the provided source RedisOperatorSpec
+func (operator *RedisOperatorSpec) AssignPropertiesFromRedisOperatorSpec(source *v1alpha1api20201201storage.RedisOperatorSpec) error {
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret RedisOperatorSecrets
+		err := secret.AssignPropertiesFromRedisOperatorSecrets(source.Secrets)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromRedisOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToRedisOperatorSpec populates the provided destination RedisOperatorSpec from our RedisOperatorSpec
+func (operator *RedisOperatorSpec) AssignPropertiesToRedisOperatorSpec(destination *v1alpha1api20201201storage.RedisOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret v1alpha1api20201201storage.RedisOperatorSecrets
+		err := operator.Secrets.AssignPropertiesToRedisOperatorSecrets(&secret)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToRedisOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type RedisPropertiesStatusMinimumTlsVersion string
 
 const (
@@ -2005,19 +1958,16 @@ const (
 //Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/Sku
 type Sku struct {
 	// +kubebuilder:validation:Required
-	//Capacity: The size of the Redis cache to deploy. Valid values: for C
-	//(Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for P (Premium) family (1, 2, 3,
-	//4).
+	//Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
+	//P (Premium) family (1, 2, 3, 4).
 	Capacity int `json:"capacity"`
 
 	// +kubebuilder:validation:Required
-	//Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P =
-	//Premium).
+	//Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
 	Family SkuFamily `json:"family"`
 
 	// +kubebuilder:validation:Required
-	//Name: The type of Redis cache to deploy. Valid values: (Basic, Standard,
-	//Premium).
+	//Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium).
 	Name SkuName `json:"name"`
 }
 
@@ -2120,14 +2070,12 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20201201storage.Sk
 
 type Sku_Status struct {
 	// +kubebuilder:validation:Required
-	//Capacity: The size of the Redis cache to deploy. Valid values: for C
-	//(Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for P (Premium) family (1, 2, 3,
-	//4).
+	//Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
+	//P (Premium) family (1, 2, 3, 4).
 	Capacity int `json:"capacity"`
 
 	// +kubebuilder:validation:Required
-	//Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P =
-	//Premium).
+	//Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
 	Family SkuStatusFamily `json:"family"`
 
 	// +kubebuilder:validation:Required
@@ -2202,6 +2150,128 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1api20201
 	// Name
 	name := string(sku.Name)
 	destination.Name = &name
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type RedisOperatorSecrets struct {
+	//HostName: indicates where the HostName secret should be placed. If omitted, the secret will not be retrieved from Azure.
+	HostName *genruntime.SecretDestination `json:"hostName,omitempty"`
+
+	//Port: indicates where the Port secret should be placed. If omitted, the secret will not be retrieved from Azure.
+	Port *genruntime.SecretDestination `json:"port,omitempty"`
+
+	//PrimaryKey: indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from
+	//Azure.
+	PrimaryKey *genruntime.SecretDestination `json:"primaryKey,omitempty"`
+
+	//SSLPort: indicates where the SSLPort secret should be placed. If omitted, the secret will not be retrieved from Azure.
+	SSLPort *genruntime.SecretDestination `json:"sslPort,omitempty"`
+
+	//SecondaryKey: indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved
+	//from Azure.
+	SecondaryKey *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
+}
+
+// AssignPropertiesFromRedisOperatorSecrets populates our RedisOperatorSecrets from the provided source RedisOperatorSecrets
+func (secrets *RedisOperatorSecrets) AssignPropertiesFromRedisOperatorSecrets(source *v1alpha1api20201201storage.RedisOperatorSecrets) error {
+
+	// HostName
+	if source.HostName != nil {
+		hostName := source.HostName.Copy()
+		secrets.HostName = &hostName
+	} else {
+		secrets.HostName = nil
+	}
+
+	// Port
+	if source.Port != nil {
+		port := source.Port.Copy()
+		secrets.Port = &port
+	} else {
+		secrets.Port = nil
+	}
+
+	// PrimaryKey
+	if source.PrimaryKey != nil {
+		primaryKey := source.PrimaryKey.Copy()
+		secrets.PrimaryKey = &primaryKey
+	} else {
+		secrets.PrimaryKey = nil
+	}
+
+	// SSLPort
+	if source.SSLPort != nil {
+		sslPort := source.SSLPort.Copy()
+		secrets.SSLPort = &sslPort
+	} else {
+		secrets.SSLPort = nil
+	}
+
+	// SecondaryKey
+	if source.SecondaryKey != nil {
+		secondaryKey := source.SecondaryKey.Copy()
+		secrets.SecondaryKey = &secondaryKey
+	} else {
+		secrets.SecondaryKey = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToRedisOperatorSecrets populates the provided destination RedisOperatorSecrets from our RedisOperatorSecrets
+func (secrets *RedisOperatorSecrets) AssignPropertiesToRedisOperatorSecrets(destination *v1alpha1api20201201storage.RedisOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// HostName
+	if secrets.HostName != nil {
+		hostName := secrets.HostName.Copy()
+		destination.HostName = &hostName
+	} else {
+		destination.HostName = nil
+	}
+
+	// Port
+	if secrets.Port != nil {
+		port := secrets.Port.Copy()
+		destination.Port = &port
+	} else {
+		destination.Port = nil
+	}
+
+	// PrimaryKey
+	if secrets.PrimaryKey != nil {
+		primaryKey := secrets.PrimaryKey.Copy()
+		destination.PrimaryKey = &primaryKey
+	} else {
+		destination.PrimaryKey = nil
+	}
+
+	// SSLPort
+	if secrets.SSLPort != nil {
+		sslPort := secrets.SSLPort.Copy()
+		destination.SSLPort = &sslPort
+	} else {
+		destination.SSLPort = nil
+	}
+
+	// SecondaryKey
+	if secrets.SecondaryKey != nil {
+		secondaryKey := secrets.SecondaryKey.Copy()
+		destination.SecondaryKey = &secondaryKey
+	} else {
+		destination.SecondaryKey = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

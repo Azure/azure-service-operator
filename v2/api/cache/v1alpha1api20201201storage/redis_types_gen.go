@@ -132,7 +132,6 @@ type RedisList struct {
 
 //Storage version of v1alpha1api20201201.RedisResource_Status
 type RedisResource_Status struct {
-	AccessKeys                 *RedisAccessKeys_Status                                `json:"accessKeys,omitempty"`
 	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
 	EnableNonSslPort           *bool                                                  `json:"enableNonSslPort,omitempty"`
 	HostName                   *string                                                `json:"hostName,omitempty"`
@@ -184,13 +183,14 @@ func (resource *RedisResource_Status) ConvertStatusTo(destination genruntime.Con
 
 //Storage version of v1alpha1api20201201.Redis_Spec
 type Redis_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName         string  `json:"azureName"`
-	EnableNonSslPort  *bool   `json:"enableNonSslPort,omitempty"`
-	Location          *string `json:"location,omitempty"`
-	MinimumTlsVersion *string `json:"minimumTlsVersion,omitempty"`
-	OriginalVersion   string  `json:"originalVersion"`
+	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	//doesn't have to be.
+	AzureName         string             `json:"azureName"`
+	EnableNonSslPort  *bool              `json:"enableNonSslPort,omitempty"`
+	Location          *string            `json:"location,omitempty"`
+	MinimumTlsVersion *string            `json:"minimumTlsVersion,omitempty"`
+	OperatorSpec      *RedisOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion   string             `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
 	Owner               genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
@@ -204,8 +204,7 @@ type Redis_Spec struct {
 	Sku                 *Sku                              `json:"sku,omitempty"`
 	StaticIP            *string                           `json:"staticIP,omitempty"`
 
-	//SubnetReference: The full resource ID of a subnet in a virtual network to deploy
-	//the Redis cache in. Example format:
+	//SubnetReference: The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1
 	SubnetReference *genruntime.ResourceReference `armReference:"SubnetId" json:"subnetReference,omitempty"`
 	Tags            map[string]string             `json:"tags,omitempty"`
@@ -277,13 +276,6 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.RedisAccessKeys_Status
-type RedisAccessKeys_Status struct {
-	PrimaryKey   *string                `json:"primaryKey,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SecondaryKey *string                `json:"secondaryKey,omitempty"`
-}
-
 //Storage version of v1alpha1api20201201.RedisInstanceDetails_Status
 type RedisInstanceDetails_Status struct {
 	IsMaster    *bool                  `json:"isMaster,omitempty"`
@@ -299,6 +291,13 @@ type RedisInstanceDetails_Status struct {
 type RedisLinkedServer_Status struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+//Storage version of v1alpha1api20201201.RedisOperatorSpec
+//Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type RedisOperatorSpec struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Secrets     *RedisOperatorSecrets  `json:"secrets,omitempty"`
 }
 
 //Storage version of v1alpha1api20201201.Sku
@@ -440,6 +439,16 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1api20210
 
 	// No error
 	return nil
+}
+
+//Storage version of v1alpha1api20201201.RedisOperatorSecrets
+type RedisOperatorSecrets struct {
+	HostName     *genruntime.SecretDestination `json:"hostName,omitempty"`
+	Port         *genruntime.SecretDestination `json:"port,omitempty"`
+	PrimaryKey   *genruntime.SecretDestination `json:"primaryKey,omitempty"`
+	PropertyBag  genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SSLPort      *genruntime.SecretDestination `json:"sslPort,omitempty"`
+	SecondaryKey *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
 }
 
 func init() {

@@ -19,11 +19,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func newVM(
-	tc *testcommon.KubePerTestContext,
-	rg *resources.ResourceGroup,
-	networkInterface *network.NetworkInterface) *compute.VirtualMachine {
-
+func createVMPasswordSecretAndRef(tc *testcommon.KubePerTestContext) genruntime.SecretReference {
 	password := tc.Namer.GeneratePasswordOfLength(40)
 
 	passwordKey := "password"
@@ -40,6 +36,15 @@ func newVM(
 		Name: secret.Name,
 		Key:  passwordKey,
 	}
+	return secretRef
+}
+
+func newVM(
+	tc *testcommon.KubePerTestContext,
+	rg *resources.ResourceGroup,
+	networkInterface *network.NetworkInterface,
+	secretRef genruntime.SecretReference) *compute.VirtualMachine {
+
 	adminUsername := "bloom"
 	size := compute.HardwareProfileVmSizeStandardA1V2
 
@@ -106,7 +111,8 @@ func Test_Compute_VM_CRUD(t *testing.T) {
 	// https://github.com/Azure/azure-service-operator/issues/1944
 	tc.CreateResourceAndWait(vnet)
 	tc.CreateResourcesAndWait(subnet, networkInterface)
-	vm := newVM(tc, rg, networkInterface)
+	secret := createVMPasswordSecretAndRef(tc)
+	vm := newVM(tc, rg, networkInterface, secret)
 
 	tc.CreateResourceAndWait(vm)
 	tc.Expect(vm.Status.Id).ToNot(BeNil())

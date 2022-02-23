@@ -26,14 +26,13 @@ type Server_StatusARM struct {
 	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
 type ServerProperties_StatusARM struct {
-	//AdministratorLogin: The administrator's login name of a server. Can only be
-	//specified when the server is being created (and is required for creation).
+	//AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
+	//(and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
 
 	//AvailabilityZone: availability Zone information of the server.
@@ -63,8 +62,7 @@ type ServerProperties_StatusARM struct {
 	//ReplicationRole: The replication role.
 	ReplicationRole *ReplicationRole_Status `json:"replicationRole,omitempty"`
 
-	//RestorePointInTime: Restore point creation time (ISO8601 format), specifying the
-	//time to restore from.
+	//RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.
 	RestorePointInTime *string `json:"restorePointInTime,omitempty"`
 
 	//SourceServerResourceId: The source MySQL server id.
@@ -125,15 +123,14 @@ type MaintenanceWindow_StatusARM struct {
 }
 
 type Network_StatusARM struct {
-	//DelegatedSubnetResourceId: Delegated subnet resource id used to setup vnet for a
-	//server.
+	//DelegatedSubnetResourceId: Delegated subnet resource id used to setup vnet for a server.
 	DelegatedSubnetResourceId *string `json:"delegatedSubnetResourceId,omitempty"`
 
 	//PrivateDnsZoneResourceId: Private DNS zone resource id.
 	PrivateDnsZoneResourceId *string `json:"privateDnsZoneResourceId,omitempty"`
 
-	//PublicNetworkAccess: Whether or not public network access is allowed for this
-	//server. Value is 'Disabled' when server has VNet integration.
+	//PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is 'Disabled' when server
+	//has VNet integration.
 	PublicNetworkAccess *EnableStatusEnum_Status `json:"publicNetworkAccess,omitempty"`
 }
 

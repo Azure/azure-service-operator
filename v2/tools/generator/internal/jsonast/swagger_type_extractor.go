@@ -49,7 +49,8 @@ func NewSwaggerTypeExtractor(
 }
 
 type SwaggerTypes struct {
-	ResourceTypes, OtherTypes astmodel.Types
+	ResourceDefinitions astmodel.TypeDefinitionSet
+	OtherDefinitions    astmodel.TypeDefinitionSet
 }
 
 // ExtractTypes finds all operations in the Swagger spec that
@@ -58,8 +59,8 @@ type SwaggerTypes struct {
 // Any additional types required by the resource types are placed into the 'otherTypes' result.
 func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (SwaggerTypes, error) {
 	result := SwaggerTypes{
-		ResourceTypes: make(astmodel.Types),
-		OtherTypes:    make(astmodel.Types),
+		ResourceDefinitions: make(astmodel.TypeDefinitionSet),
+		OtherDefinitions:    make(astmodel.TypeDefinitionSet),
 	}
 
 	scanner := NewSchemaScanner(extractor.idFactory, extractor.config)
@@ -98,21 +99,21 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 				continue
 			}
 
-			if existingResource, ok := result.ResourceTypes[resourceName]; ok {
+			if existingResource, ok := result.ResourceDefinitions[resourceName]; ok {
 				if !astmodel.TypeEquals(existingResource.Type(), resourceType) {
 					return SwaggerTypes{}, errors.Errorf("resource already defined differently: %s\ndiff: %s",
 						resourceName,
 						astmodel.DiffTypes(existingResource.Type(), resourceType))
 				}
 			} else {
-				result.ResourceTypes.Add(astmodel.MakeTypeDefinition(resourceName, resourceType))
+				result.ResourceDefinitions.Add(astmodel.MakeTypeDefinition(resourceName, resourceType))
 			}
 		}
 	}
 
 	for _, def := range scanner.Definitions() {
 		// now add in the additional type definitions required by the resources
-		if existingDef, ok := result.OtherTypes[def.Name()]; ok {
+		if existingDef, ok := result.OtherDefinitions[def.Name()]; ok {
 			if !astmodel.TypeEquals(existingDef.Type(), def.Type()) {
 				return SwaggerTypes{}, errors.Errorf("type already defined differently: %s\nwas %s is %s\ndiff: %s",
 					def.Name(),
@@ -121,7 +122,7 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 					astmodel.DiffTypes(existingDef.Type(), def.Type()))
 			}
 		} else {
-			result.OtherTypes.Add(def)
+			result.OtherDefinitions.Add(def)
 		}
 	}
 

@@ -31,11 +31,11 @@ func InjectPropertyAssignmentFunctions(
 		InjectPropertyAssignmentFunctionsStageID,
 		"Inject property assignment functions AssignFrom() and AssignTo() into resources and objects",
 		func(ctx context.Context, state *State) (*State, error) {
-			types := state.Types()
-			result := types.Copy()
-			factory := NewPropertyAssignmentFunctionsFactory(state.ConversionGraph(), idFactory, configuration, types)
+			defs := state.Definitions()
+			result := defs.Copy()
+			factory := NewPropertyAssignmentFunctionsFactory(state.ConversionGraph(), idFactory, configuration, defs)
 
-			for name, def := range types {
+			for name, def := range defs {
 				_, ok := astmodel.AsFunctionContainer(def.Type())
 				if !ok {
 					// just skip it - not a resource nor an object
@@ -46,7 +46,7 @@ func InjectPropertyAssignmentFunctions(
 				klog.V(3).Infof("Injecting conversion functions into %s", name)
 
 				// Find the definition we want to convert to/from
-				nextName, err := state.ConversionGraph().FindNextType(name, state.Types())
+				nextName, err := state.ConversionGraph().FindNextType(name, state.Definitions())
 				if err != nil {
 					return nil, errors.Wrapf(err, "finding next type after %s", name)
 				}
@@ -56,7 +56,7 @@ func InjectPropertyAssignmentFunctions(
 					continue
 				}
 
-				nextDef, ok := types[nextName]
+				nextDef, ok := defs[nextName]
 				if !ok {
 					// No next type so nothing to do
 					// (this is expected if the type is discontinued, or we're looking at the hub type)
@@ -71,7 +71,7 @@ func InjectPropertyAssignmentFunctions(
 				result[modified.Name()] = modified
 			}
 
-			return state.WithTypes(result), nil
+			return state.WithDefinitions(result), nil
 		})
 
 	// Needed to populate the conversion graph
@@ -83,7 +83,7 @@ type propertyAssignmentFunctionsFactory struct {
 	graph            *storage.ConversionGraph
 	idFactory        astmodel.IdentifierFactory
 	configuration    *config.Configuration
-	types            astmodel.Types
+	definitions      astmodel.TypeDefinitionSet
 	functionInjector *astmodel.FunctionInjector
 }
 
@@ -91,12 +91,12 @@ func NewPropertyAssignmentFunctionsFactory(
 	graph *storage.ConversionGraph,
 	idFactory astmodel.IdentifierFactory,
 	configuration *config.Configuration,
-	types astmodel.Types) *propertyAssignmentFunctionsFactory {
+	definitions astmodel.TypeDefinitionSet) *propertyAssignmentFunctionsFactory {
 	return &propertyAssignmentFunctionsFactory{
 		graph:            graph,
 		idFactory:        idFactory,
 		configuration:    configuration,
-		types:            types,
+		definitions:      definitions,
 		functionInjector: astmodel.NewFunctionInjector(),
 	}
 }
@@ -109,14 +109,14 @@ func (f propertyAssignmentFunctionsFactory) injectBetween(
 	downstreamDef astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
 
 	// Create conversion functions
-	assignFromContext := conversions.NewPropertyConversionContext(f.types, f.idFactory, f.configuration.ObjectModelConfiguration)
+	assignFromContext := conversions.NewPropertyConversionContext(f.definitions, f.idFactory, f.configuration.ObjectModelConfiguration)
 	assignFromFn, err := functions.NewPropertyAssignmentFunction(upstreamDef, downstreamDef, assignFromContext, conversions.ConvertFrom)
 	upstreamName := upstreamDef.Name()
 	if err != nil {
 		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating AssignFrom() function for %q", upstreamName)
 	}
 
-	assignToContext := conversions.NewPropertyConversionContext(f.types, f.idFactory, f.configuration.ObjectModelConfiguration)
+	assignToContext := conversions.NewPropertyConversionContext(f.definitions, f.idFactory, f.configuration.ObjectModelConfiguration)
 	assignToFn, err := functions.NewPropertyAssignmentFunction(upstreamDef, downstreamDef, assignToContext, conversions.ConvertTo)
 	if err != nil {
 		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating AssignTo() function for %q", upstreamName)

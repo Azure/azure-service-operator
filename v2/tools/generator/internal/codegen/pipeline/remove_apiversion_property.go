@@ -22,10 +22,10 @@ func RemoveAPIVersionProperty() Stage {
 		"Remove the ARM API version property and instead augment the ResourceType with it",
 		func(ctx context.Context, state *State) (*State, error) {
 
-			newDefs := make(astmodel.Types)
+			newDefs := make(astmodel.TypeDefinitionSet)
 
-			defs := state.Types()
-			resources := astmodel.FindResourceTypes(defs)
+			defs := state.Definitions()
+			resources := astmodel.FindResourceDefinitions(defs)
 
 			for _, resource := range resources {
 				resolved, err := defs.ResolveResourceSpecAndStatus(resource)
@@ -55,6 +55,6 @@ func RemoveAPIVersionProperty() Stage {
 				newDefs.Add(resolved.SpecDef.WithType(specType))
 			}
 
-			return state.WithTypes(defs.OverlayWith(newDefs)), nil
+			return state.WithDefinitions(defs.OverlayWith(newDefs)), nil
 		})
 }

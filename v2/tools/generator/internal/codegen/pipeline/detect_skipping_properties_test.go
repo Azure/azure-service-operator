@@ -30,9 +30,9 @@ func TestSkippingPropertyDetector_AddProperty_CreatesExpectedChain(t *testing.T)
 	person2021s := test.CreateSpec(test.Pkg2021s, "Person", test.FullNameProperty)
 	person2022s := test.CreateSpec(test.Pkg2022s, "Person", test.FullNameProperty)
 
-	types := make(astmodel.Types)
-	types.AddAll(person2020, person2021, person2022)
-	types.AddAll(person2020s, person2021s, person2022s)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(person2020, person2021, person2022)
+	defs.AddAll(person2020s, person2021s, person2022s)
 
 	cfg := config.NewObjectModelConfiguration()
 	builder := storage.NewConversionGraphBuilder(cfg)
@@ -42,7 +42,7 @@ func TestSkippingPropertyDetector_AddProperty_CreatesExpectedChain(t *testing.T)
 	graph, err := builder.Build()
 	g.Expect(err).NotTo(HaveOccurred())
 
-	detector := newSkippingPropertyDetector(types, graph)
+	detector := newSkippingPropertyDetector(defs, graph)
 	err = detector.AddProperties(person2020.Name(), test.FullNameProperty)
 	g.Expect(err).NotTo(HaveOccurred())
 
@@ -73,10 +73,10 @@ func TestSkippingPropertyDetector_findBreak_returnsExpectedResults(t *testing.T)
 	kappaSeen := createPropertyRef("v9", "kappa")
 	empty := astmodel.EmptyPropertyReference
 
-	types := make(astmodel.Types)
+	defs := make(astmodel.TypeDefinitionSet)
 	cfg := config.NewObjectModelConfiguration()
 	graph, _ := storage.NewConversionGraphBuilder(cfg).Build()
-	detector := newSkippingPropertyDetector(types, graph)
+	detector := newSkippingPropertyDetector(defs, graph)
 
 	detector.addLink(alphaSeen, betaSeen)
 	detector.addLink(betaSeen, gammaSeen)
@@ -132,12 +132,12 @@ func Test_DetectSkippingProperties(t *testing.T) {
 	personV2 := test.CreateSpec(test.Pkg2021, "Person", test.FullNameProperty, test.FamilyNameProperty)
 	personV3 := test.CreateSpec(test.Pkg2022, "Person", test.FullNameProperty, test.FamilyNameProperty, test.KnownAsProperty)
 
-	types := make(astmodel.Types)
-	types.AddAll(personV1, personV2, personV3)
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(personV1, personV2, personV3)
 
 	cfg := config.NewConfiguration()
 	initialState, err := RunTestPipeline(
-		NewState().WithTypes(types),
+		NewState().WithDefinitions(defs),
 		CreateConversionGraph(cfg), // First create the conversion graph showing relationships
 		CreateStorageTypes(),       // Then create the storage types
 	)

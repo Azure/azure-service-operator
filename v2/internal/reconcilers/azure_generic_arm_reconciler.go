@@ -24,6 +24,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
+
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
@@ -33,6 +36,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/randextensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
 
 // TODO: I think we will want to pull some of this back into the Generic Controller so that it happens
@@ -80,6 +84,7 @@ type AzureDeploymentReconciler struct {
 	PositiveConditions *conditions.PositiveConditionBuilder
 	config             config.Values
 	rand               *rand.Rand
+	extension          genruntime.ResourceExtension
 }
 
 // TODO: It's a bit weird that this is a "reconciler" that operates only on a specific genruntime.MetaObject.
@@ -93,7 +98,8 @@ func NewAzureDeploymentReconciler(
 	resourceResolver *genruntime.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
 	cfg config.Values,
-	rand *rand.Rand) *AzureDeploymentReconciler {
+	rand *rand.Rand,
+	extension genruntime.ResourceExtension) *AzureDeploymentReconciler {
 
 	return &AzureDeploymentReconciler{
 		obj:                metaObj,
@@ -105,6 +111,7 @@ func NewAzureDeploymentReconciler(
 		PositiveConditions: positiveConditions,
 		config:             cfg,
 		rand:               rand,
+		extension:          extension,
 	}
 }
 
@@ -247,21 +254,33 @@ func (r *AzureDeploymentReconciler) GetReconcilePolicy() ReconcilePolicy {
 	return policy
 }
 
-func (r *AzureDeploymentReconciler) makeReadyConditionFromError(cloudError *genericarmclient.CloudError) conditions.Condition {
+func (r *AzureDeploymentReconciler) makeReadyConditionFromError(cloudError *genericarmclient.CloudError) (conditions.Condition, error) {
+	classifier := extensions.CreateErrorClassifier(r.extension, ClassifyCloudError, r.obj.GetAPIVersion(), r.log)
+	details, err := classifier(cloudError)
+	if err != nil {
+		return conditions.Condition{},
+			errors.Wrapf(
+				err,
+				"Unable to classify cloud error (%s)",
+				cloudError.Error())
+	}
+
 	var severity conditions.ConditionSeverity
-	errorDetails := ClassifyCloudError(cloudError)
-	switch errorDetails.Classification {
-	case CloudErrorRetryable:
+	switch details.Classification {
+	case core.ErrorRetryable:
 		severity = conditions.ConditionSeverityWarning
-	case CloudErrorFatal:
+	case core.ErrorFatal:
 		severity = conditions.ConditionSeverityError
 		// This case purposefully does nothing as the fatal provisioning state was already set above
 	default:
-		// TODO: Is panic OK here?
-		panic(fmt.Sprintf("Unknown error classification %q", errorDetails.Classification))
+		return conditions.Condition{},
+			errors.Errorf(
+				"unknown error classification %q while making Ready condition",
+				details.Classification)
 	}
 
-	return r.PositiveConditions.MakeFalseCondition(conditions.ConditionTypeReady, severity, r.obj.GetGeneration(), errorDetails.Code, errorDetails.Message)
+	cond := r.PositiveConditions.MakeFalseCondition(conditions.ConditionTypeReady, severity, r.obj.GetGeneration(), details.Code, details.Message)
+	return cond, nil
 }
 
 func (r *AzureDeploymentReconciler) AddInitialResourceState(resourceID string) error {
@@ -333,7 +352,8 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 
 	// If we have no resourceID to begin with, or no finalizer, the Azure resource was never created
 	hasFinalizer := controllerutil.ContainsFinalizer(r.obj, GenericControllerFinalizer)
-	if genruntime.GetResourceIDOrDefault(r.obj) == "" || !hasFinalizer {
+	resourceID := genruntime.GetResourceIDOrDefault(r.obj)
+	if resourceID == "" || !hasFinalizer {
 		return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
 	}
 
@@ -343,32 +363,20 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 		return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
 	}
 
-	// TODO: Drop this entirely in favor if calling the genruntime.MetaObject interface methods that
-	// TODO: return the data we need.
-	armResource, err := r.ConvertResourceToARMResource(ctx)
+	// Check that this objects owner still exists
+	// This is an optimization to avoid excess requests to Azure.
+	_, err := r.ResourceResolver.ResolveResourceHierarchy(ctx, r.obj)
 	if err != nil {
-		// If the error is that the owner isn't found, that probably
-		// means that the owner was deleted in Kubernetes. The current
-		// assumption is that that deletion has been propagated to Azure
-		// and so the child resource is already deleted.
-		// TODO: We should confirm that this is actually the owner missing and not some
-		// TODO: other missing reference.
 		var typedErr *genruntime.ReferenceNotFound
 		if errors.As(err, &typedErr) {
-			// TODO: We should confirm the above assumption by performing a HEAD on
-			// TODO: the resource in Azure. This requires GetAPIVersion() on  metaObj which
-			// TODO: we don't currently have in the interface.
-			// gr.ARMClient.HeadResource(ctx, data.resourceID, r.obj.GetAPIVersion())
 			return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
 		}
-
-		return ctrl.Result{}, errors.Wrapf(err, "converting to ARM resource")
 	}
 
 	// retryAfter = ARM can tell us how long to wait for a DELETE
-	retryAfter, err := r.ARMClient.DeleteByID(ctx, armResource.GetID(), armResource.Spec().GetAPIVersion())
+	retryAfter, err := r.ARMClient.DeleteByID(ctx, resourceID, r.obj.GetAPIVersion())
 	if err != nil {
-		return ctrl.Result{}, errors.Wrapf(err, "deleting resource %q", armResource.GetID())
+		return ctrl.Result{}, errors.Wrapf(err, "deleting resource %q", resourceID)
 	}
 
 	conditions.SetCondition(r.obj, r.PositiveConditions.Ready.Deleting(r.obj.GetGeneration()))
@@ -426,10 +434,26 @@ func (r *AzureDeploymentReconciler) MonitorDelete(ctx context.Context) (ctrl.Res
 	return ctrl.Result{}, err
 }
 
+func (r *AzureDeploymentReconciler) writeReadyConditionIfNeeded(ctx context.Context, err error) (ctrl.Result, error) {
+	var typedErr *conditions.ReadyConditionImpactingError
+	if errors.As(err, &typedErr) {
+		conditions.SetCondition(r.obj, r.PositiveConditions.Ready.ReadyCondition(
+			typedErr.Severity,
+			r.obj.GetGeneration(),
+			typedErr.Reason,
+			typedErr.Error()))
+		commitErr := client.IgnoreNotFound(r.CommitUpdate(ctx))
+		if commitErr != nil {
+			return ctrl.Result{}, errors.Wrap(commitErr, "updating resource error")
+		}
+	}
+	return ctrl.Result{}, err
+}
+
 func (r *AzureDeploymentReconciler) BeginCreateOrUpdateResource(ctx context.Context) (ctrl.Result, error) {
 	armResource, err := r.ConvertResourceToARMResource(ctx)
 	if err != nil {
-		return ctrl.Result{}, err
+		return r.writeReadyConditionIfNeeded(ctx, err)
 	}
 	r.log.V(Status).Info("About to send resource to Azure")
 
@@ -491,7 +515,12 @@ func (r *AzureDeploymentReconciler) handlePollerFailed(ctx context.Context, err 
 
 	isFatal := false
 	if isCloudErr {
-		ready := r.makeReadyConditionFromError(cloudError)
+		var ready conditions.Condition
+		ready, err = r.makeReadyConditionFromError(cloudError)
+		if err != nil {
+			return ctrl.Result{}, err
+		}
+
 		conditions.SetCondition(r.obj, ready)
 		isFatal = ready.Severity == conditions.ConditionSeverityError
 	}
@@ -562,6 +591,20 @@ func (r *AzureDeploymentReconciler) handlePollerSuccess(ctx context.Context) (ct
 	err := r.updateStatus(ctx)
 	if err != nil {
 		return ctrl.Result{}, errors.Wrapf(err, "error updating status")
+	}
+
+	if retrieveSecrets, ok := r.extension.(extensions.SecretsRetriever); ok {
+		err = r.writeSecrets(ctx, retrieveSecrets)
+		if err != nil {
+			conditions.SetCondition(r.obj, r.PositiveConditions.Ready.SecretWriteFailure(r.obj.GetGeneration(), err.Error()))
+			commitErr := r.CommitUpdate(ctx)
+			if commitErr != nil {
+				// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
+				// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
+				return ctrl.Result{}, client.IgnoreNotFound(commitErr)
+			}
+			return ctrl.Result{}, err
+		}
 	}
 
 	r.ClearPollerResumeToken()
@@ -837,17 +880,13 @@ func (r *AzureDeploymentReconciler) applyOwnership(ctx context.Context) error {
 		return nil
 	}
 
-	ownerGvk := owner.GetObjectKind().GroupVersionKind()
-
-	ownerRef := metav1.OwnerReference{
-		APIVersion: strings.Join([]string{ownerGvk.Group, ownerGvk.Version}, "/"),
-		Kind:       ownerGvk.Kind,
-		Name:       owner.GetName(),
-		UID:        owner.GetUID(),
-	}
+	ownerRef := ownerutil.MakeOwnerReference(owner)
 
 	r.obj.SetOwnerReferences(ownerutil.EnsureOwnerRef(r.obj.GetOwnerReferences(), ownerRef))
-	r.log.V(Info).Info("Set owner reference", "ownerGvk", ownerGvk, "ownerName", owner.GetName())
+	r.log.V(Info).Info(
+		"Set owner reference",
+		"ownerGvk", owner.GetObjectKind().GroupVersionKind(),
+		"ownerName", owner.GetName())
 	err = r.CommitUpdate(ctx)
 
 	if err != nil {
@@ -870,6 +909,34 @@ func (r *AzureDeploymentReconciler) deleteResourceSucceeded(ctx context.Context)
 	}
 
 	r.log.V(Status).Info("Deleted resource")
+	return nil
+}
+
+func (r *AzureDeploymentReconciler) writeSecrets(ctx context.Context, extension extensions.SecretsRetriever) error {
+	secretSlice, err := extension.RetrieveSecrets(ctx, r.obj, r.ARMClient, r.log)
+	if err != nil {
+		return err
+	}
+
+	results, err := secrets.ApplySecretsAndEnsureOwner(ctx, r.KubeClient.Client, r.obj, secretSlice)
+	if err != nil {
+		return err
+	}
+
+	if len(results) != len(secretSlice) {
+		return errors.Errorf("unexpected results len %d not equal to secrets length %d", len(results), len(secretSlice))
+	}
+
+	for i := 0; i < len(secretSlice); i++ {
+		secret := secretSlice[i]
+		result := results[i]
+
+		r.log.V(Debug).Info("Successfully wrote secret",
+			"namespace", secret.ObjectMeta.Namespace,
+			"name", secret.ObjectMeta.Name,
+			"action", result)
+	}
+
 	return nil
 }
 
@@ -942,12 +1009,14 @@ func resolve(ctx context.Context, resolver *genruntime.Resolver, metaObject genr
 	// Find all of the references
 	resolvedRefs, err := resolveResourceRefs(ctx, resolver, metaObject)
 	if err != nil {
+		err = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonReferenceNotFound)
 		return nil, genruntime.ConvertToARMResolvedDetails{}, err
 	}
 
 	// resolve secrets
 	resolvedSecrets, err := resolveSecretRefs(ctx, resolver, metaObject)
 	if err != nil {
+		err = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonSecretNotFound)
 		return nil, genruntime.ConvertToARMResolvedDetails{}, err
 	}
 
