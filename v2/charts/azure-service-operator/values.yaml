@@ -16,7 +16,7 @@ azureClientID: ""
 # This is required when using Service Principal authentication.
 azureClientSecret: ""
 
-# SyncPeriod is the frequency at which resources are re-reconciled with Azure
+# azureSyncPeriod is the frequency at which resources are re-reconciled with Azure
 # when there have been no triggering changes in the Kubernetes resources. This sync
 # exists to detect and correct changes that happened in Azure that Kubernetes is not
 # aware about. BE VERY CAREFUL setting this value low - even a modest number of resources
@@ -25,17 +25,14 @@ azureClientSecret: ""
 # https://pkg.go.dev/time#ParseDuration for more details.
 azureSyncPeriod: ""
 
-# TargetNamespaces lists the namespaces the operator will watch
+# azureTargetNamespaces lists the namespaces the operator will watch
 # for Azure resources (if the mode includes running watchers). If
 # it's empty the operator will watch all namespaces.
 azureTargetNamespaces: []
 
-# OperatorMode determines whether the operator should run
+# azureOperatorMode determines whether the operator should run
 # watchers, webhooks or both.
 azureOperatorMode: ""
-
-# api version to use for cert-manager custom resources. Depends on the version of cert-manager which is deployed externally to this chart
-certManagerResourcesAPIVersion: cert-manager.io/v1
 
 # image defines the container image the ASO pod should run
 # Note: This should use the latest released tag number explicitly. If
