@@ -123,8 +123,8 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		minBackoff := 5 * time.Second
 		maxBackoff := 1 * time.Minute
 		if cfg.Replaying {
-			requeueDelay = 10 * time.Millisecond
-			minBackoff = 5 * time.Millisecond
+			requeueDelay = 1 * time.Millisecond
+			minBackoff = 1 * time.Millisecond
 			maxBackoff = 5 * time.Millisecond
 		}
 
