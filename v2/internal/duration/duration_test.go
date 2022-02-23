@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/onsi/gomega"
+	. "github.com/onsi/gomega"
 )
 
 type (
@@ -58,8 +58,8 @@ func TestDuration_String(t *testing.T) {
 		t.Run(c.Expected, func(t *testing.T) {
 			t.Parallel()
 			d := ISO8601{Duration: c.Duration}
-			g := gomega.NewGomegaWithT(t)
-			g.Expect(d.String()).To(gomega.Equal(c.Expected))
+			g := NewGomegaWithT(t)
+			g.Expect(d.String()).To(Equal(c.Expected))
 		})
 	}
 }
@@ -97,12 +97,12 @@ func TestDuration_JSON(t *testing.T) {
 		t.Run(c.Name, func(t *testing.T) {
 			t.Parallel()
 			var testStruct DurationTest
-			g := gomega.NewGomegaWithT(t)
-			g.Expect(json.Unmarshal([]byte(c.JSON), &testStruct))
-			g.Expect(testStruct).To(gomega.Equal(c.Struct))
+			g := NewGomegaWithT(t)
+			g.Expect(json.Unmarshal([]byte(c.JSON), &testStruct)).To(Succeed())
+			g.Expect(testStruct).To(Equal(c.Struct))
 			bits, err := json.Marshal(testStruct)
-			g.Expect(err).ToNot(gomega.HaveOccurred())
-			g.Expect(string(bits)).To(gomega.Equal(c.JSON))
+			g.Expect(err).ToNot(HaveOccurred())
+			g.Expect(string(bits)).To(Equal(c.JSON))
 		})
 	}
 }
