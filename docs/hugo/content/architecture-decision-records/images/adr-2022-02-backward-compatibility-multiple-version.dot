@@ -19,10 +19,6 @@ graph {
 
         node [shape=rect]
         v1beta20210701storage [label="v1beta20210701storage\nVirtualMachine"]
-    }
-
-    subgraph compatVersions {
-        rank=same;
 
         node [shape=rect, penwidth=3]
         v1alpha1api20201201storage [label="v1alpha1api20201201storage\nVirtualMachine"]
@@ -40,9 +36,9 @@ graph {
     edge [arrowhead=vee, arrowtail=vee, dir=both]
     v1beta20201201storage -- v1beta20210701storage
 
-    edge [arrowhead=none, arrowtail=vee, dir=both]
-    v1beta20201201storage -- v1alpha1api20201201storage
+    edge [arrowhead=vee, arrowtail=none, dir=both]
+    v1alpha1api20201201storage -- v1alpha1api20210701storage
 
-    edge [arrowhead=none, arrowtail=vee, dir=both]
-    v1beta20210701storage -- v1alpha1api20210701storage
+    edge [arrowhead=vee, arrowtail=none, dir=both]
+    v1alpha1api20210701storage -- v1beta20201201storage
 }
