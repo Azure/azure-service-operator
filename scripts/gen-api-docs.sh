@@ -38,8 +38,8 @@ do
     then
 
         echo "generating docs for: $package"
-        "${GOBIN}/gen-crd-api-reference-docs" -config "../docs/template/config.json" \
-                -template-dir "../docs/template" \
+        "${GOBIN}/gen-crd-api-reference-docs" -config "../docs/api/template/config.json" \
+                -template-dir "../docs/api/template" \
                 -api-dir $package \
                 -out-file "$OUTPUTDIR/$GROUPNAME.$PACKAGE_VERSION-docs.md" \
                 "$@"
