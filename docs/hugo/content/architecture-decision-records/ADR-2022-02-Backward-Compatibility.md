@@ -23,7 +23,7 @@ When we have multiple ARM versions in flight (as we do with `compute`), supporti
 
 ![image](images/adr-2022-02-backward-compatibility-multiple-version.png)
 
-This approach also gives us backward compatibility when we have a mix of resources across multiple versions (as happens with both `compute` and `network`).
+This approach also gives us backward compatibility when we have a mix of resources across multiple versions (as happens with both `compute` and `network`). We know from prior work (including introduction of the `PropertyBag` field) that conversions between storage versions are lossless.
 
 We'll only drop these backward compatibility types if it is necessary to do so.
 
