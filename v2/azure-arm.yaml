@@ -694,6 +694,14 @@ objectModelConfiguration:
       UserAssignedIdentity:
         ResourceId:
           $armReference: true
+  dataprotection:
+    2021-01-01:
+      backupVaults:
+        $export: true
+      backupVaults_backupInstances:
+        $export: true
+      backupVaults_backupPolicies:
+        $export: true
   dbformysql:
     2021-05-01:
       FlexibleServer: 
