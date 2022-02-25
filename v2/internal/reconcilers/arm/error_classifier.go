@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package reconcilers
+package arm
 
 import (
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"

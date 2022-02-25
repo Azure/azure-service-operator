@@ -25,6 +25,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	armreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
@@ -78,7 +79,7 @@ func main() {
 
 	armClient := genericarmclient.NewGenericClient(arm.AzurePublicCloud, creds, cfg.SubscriptionID)
 
-	var clientFactory controllers.ARMClientFactory = func(_ genruntime.MetaObject) *genericarmclient.GenericClient {
+	var clientFactory armreconciler.ARMClientFactory = func(_ genruntime.MetaObject) *genericarmclient.GenericClient {
 		// always use the configured ARM client
 		return armClient
 	}

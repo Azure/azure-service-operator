@@ -15,8 +15,9 @@ import (
 	"github.com/dnaeon/go-vcr/cassette"
 	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/google/go-cmp/cmp"
+	"github.com/pkg/errors"
 
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
 // translateErrors wraps the given Recorder to handle any "Requested interaction not found"
@@ -80,14 +81,15 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 	matchingBodies := w.findMatchingBodies(req)
 
 	if len(matchingBodies) == 0 {
-		return nil, reconcilers.FatalReconciliationError{
-			Message: fmt.Sprintf("cannot find go-vcr recording for request from test %q (casette: %q) (no responses recorded for this method/URL): %s %s (attempt: %s)\n\n",
+		return nil, conditions.NewReadyConditionImpactingError(
+			errors.Errorf("cannot find go-vcr recording for request from test %q (casette: %q) (no responses recorded for this method/URL): %s %s (attempt: %s)\n\n",
 				w.t.Name(),
 				w.cassetteName,
 				req.Method,
 				req.URL.String(),
 				req.Header.Get(COUNT_HEADER)),
-		}
+			conditions.ConditionSeverityError,
+			conditions.ReasonReconciliationFailedPermanently)
 	}
 
 	// locate the request body with the shortest diff from the sent body
@@ -99,14 +101,15 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 		}
 	}
 
-	return nil, reconcilers.FatalReconciliationError{
-		Message: fmt.Sprintf("cannot find go-vcr recording for request from test %q (casette: %q) (body mismatch): %s %s\nShortest body diff: %s\n\n",
+	return nil, conditions.NewReadyConditionImpactingError(
+		errors.Errorf("cannot find go-vcr recording for request from test %q (casette: %q) (body mismatch): %s %s\nShortest body diff: %s\n\n",
 			w.t.Name(),
 			w.cassetteName,
 			req.Method,
 			req.URL.String(),
 			shortestDiff),
-	}
+		conditions.ConditionSeverityError,
+		conditions.ReasonReconciliationFailedPermanently)
 }
 
 // finds bodies for interactions where request method, URL, and COUNT_HEADER match
