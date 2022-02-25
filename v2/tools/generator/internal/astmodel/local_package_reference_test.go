@@ -19,13 +19,14 @@ func TestMakeLocalPackageReference_GivenGroupAndPackage_ReturnsInstanceWithPrope
 	t.Parallel()
 
 	cases := []struct {
-		name  string
-		group string
-		pkg   string
+		name    string
+		group   string
+		version string
+		pkg     string
 	}{
-		{"Networking", "microsoft.networking", "v20200901"},
-		{"Batch (new)", "microsoft.batch", "v20200901"},
-		{"Batch (old)", "microsoft.batch", "v20150101"},
+		{"Networking", "microsoft.networking", "2020-09-01", "v1alpha1api20200901"},
+		{"Batch (new)", "microsoft.batch", "2020-09-01", "v1alpha1api20200901"},
+		{"Batch (old)", "microsoft.batch", "2015-01-01", "v1alpha1api20150101"},
 	}
 	for _, c := range cases {
 		c := c
@@ -33,7 +34,7 @@ func TestMakeLocalPackageReference_GivenGroupAndPackage_ReturnsInstanceWithPrope
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			ref := makeTestLocalPackageReference(c.group, c.pkg)
+			ref := makeTestLocalPackageReference(c.group, c.version)
 			grp := ref.Group()
 			pkg := ref.PackageName()
 
@@ -47,28 +48,32 @@ func TestLocalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 	t.Parallel()
 
 	cases := []struct {
-		name         string
-		group        string
-		pkg          string
+		name    string
+		group   string
+		version string
+		pkg string
 		expectedPath string
 	}{
 		{
 			"Networking",
 			"microsoft.networking",
-			"v20200901",
-			"github.com/Azure/azure-service-operator/v2/api/microsoft.networking/v20200901",
+			"2020-09-01",
+			"v1alpha1api20200901",
+			"github.com/Azure/azure-service-operator/v2/api/microsoft.networking/v1alpha1api20200901",
 		},
 		{
 			"Batch (new)",
 			"microsoft.batch",
-			"v20200901",
-			"github.com/Azure/azure-service-operator/v2/api/microsoft.batch/v20200901",
+			"2020-09-01",
+			"v1alpha1api20200901",
+			"github.com/Azure/azure-service-operator/v2/api/microsoft.batch/v1alpha1api20200901",
 		},
 		{
 			"Batch (old)",
 			"microsoft.batch",
-			"v20150101",
-			"github.com/Azure/azure-service-operator/v2/api/microsoft.batch/v20150101",
+			"2015-01-01",
+			"v1alpha1api20150101",
+			"github.com/Azure/azure-service-operator/v2/api/microsoft.batch/v1alpha1api20150101",
 		},
 	}
 	for _, c := range cases {
@@ -77,7 +82,7 @@ func TestLocalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			ref := makeTestLocalPackageReference(c.group, c.pkg)
+			ref := makeTestLocalPackageReference(c.group, c.version)
 			grp := ref.Group()
 			g.Expect(ref.PackageName()).To(Equal(c.pkg))
 			g.Expect(ref.PackagePath()).To(Equal(c.expectedPath))
@@ -144,9 +149,7 @@ func TestLocalPackageReferenceIsPreview(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			ref := makeTestLocalPackageReference(
-				"microsoft.storage",
-				CreateLocalPackageNameFromVersion(c.version))
+			ref := makeTestLocalPackageReference("microsoft.storage", c.version)
 
 			g.Expect(ref.IsPreview()).To(Equal(c.isPreview))
 		})

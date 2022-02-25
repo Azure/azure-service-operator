@@ -19,8 +19,8 @@ func TestMakeStoragePackageReference(t *testing.T) {
 		version         string
 		expectedVersion string
 	}{
-		{"group", "v1", "v1storage"},
-		{"microsoft.network", "v20180501", "v20180501storage"},
+		{"group", "1", "v1alpha1api1storage"},
+		{"microsoft.network", "2018-05-01", "v1alpha1api20180501storage"},
 	}
 
 	for _, c := range cases {
@@ -91,9 +91,7 @@ func TestStoragePackageReferenceIsPreview(t *testing.T) {
 			g := NewGomegaWithT(t)
 
 			ref := MakeStoragePackageReference(
-				makeTestLocalPackageReference(
-					"microsoft.storage",
-					CreateLocalPackageNameFromVersion(c.version)))
+				makeTestLocalPackageReference("microsoft.storage", c.version))
 
 			g.Expect(ref.IsPreview()).To(Equal(c.isPreview))
 		})

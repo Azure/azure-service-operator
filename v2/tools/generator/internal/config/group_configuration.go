@@ -43,15 +43,20 @@ func NewGroupConfiguration(name string) *GroupConfiguration {
 // of the version, so we can do lookups via TypeName. All indexing is lower-case to allow case-insensitive lookups (this
 // makes our configuration more forgiving).
 func (gc *GroupConfiguration) add(version *VersionConfiguration) {
-	pkg := astmodel.CreateLocalPackageNameFromVersion(version.name)
+	// Convert version.name into a package version
+	// We do this by constructing a local package reference because this avoids replicating the logic here and risking
+	// inconsistency if things are changed in the future.
+	local := astmodel.MakeLocalPackageReference("prefix", "group", version.name)
+	_, lv, _ := local.GroupVersion()
+
+	// Convert version.name into a storage package version
+	// We do this by constructing a storage package reference for reasons similar to above.
+	storage := astmodel.MakeStoragePackageReference(local)
+	_, sv, _ := storage.GroupVersion()
 
 	gc.versions[strings.ToLower(version.name)] = version
-	gc.versions[strings.ToLower(pkg)] = version
-
-	if !strings.HasSuffix(version.name, astmodel.StoragePackageSuffix) {
-		str := pkg + astmodel.StoragePackageSuffix
-		gc.versions[strings.ToLower(str)] = version
-	}
+	gc.versions[strings.ToLower(lv)] = version
+	gc.versions[strings.ToLower(sv)] = version
 }
 
 // visitVersion invokes the provided visitor on the specified version if present.

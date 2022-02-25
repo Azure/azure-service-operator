@@ -306,7 +306,7 @@ func stripUnusedTypesPipelineStage() *pipeline.Stage {
 			// The golden files always generate a top-level Test type - mark
 			// that as the root.
 			roots := astmodel.NewTypeNameSet(astmodel.MakeTypeName(
-				test.MakeLocalPackageReference("test", "v1alpha1api20200101"),
+				test.MakeLocalPackageReference("test", "20200101"),
 				"Test",
 			))
 			defs, err := pipeline.StripUnusedDefinitions(roots, state.Definitions())
