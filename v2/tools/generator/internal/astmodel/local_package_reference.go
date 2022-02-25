@@ -96,6 +96,11 @@ func (pr LocalPackageReference) WithVersionPrefix(prefix string) LocalPackageRef
 	return pr
 }
 
+// HasVersionPrefix returns true if we have the specified version prefix, false otherwise.
+func (pr LocalPackageReference) HasVersionPrefix(prefix string) bool {
+	return pr.versionPrefix == prefix
+}
+
 // IsLocalPackageReference returns true if the supplied reference is a local one
 func IsLocalPackageReference(ref PackageReference) bool {
 	_, ok := ref.(LocalPackageReference)
