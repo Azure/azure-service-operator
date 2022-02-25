@@ -1,16 +1,5 @@
 {{ define "packages" }}
 
-{{ with .packages}}
-<p>Packages:</p>
-<ul>
-    {{ range . }}
-    <li>
-        <a href="#{{- packageAnchorID . -}}">{{ packageDisplayName . }}</a>
-    </li>
-    {{ end }}
-</ul>
-{{ end}}
-
 {{ range .packages }}
     <h2 id="{{- packageAnchorID . -}}">
         {{- packageDisplayName . -}}
