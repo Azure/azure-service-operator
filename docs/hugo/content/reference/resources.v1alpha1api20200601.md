@@ -1,9 +1,3 @@
-<p>Packages:</p>
-<ul>
-<li>
-<a href="#resources.azure.com%2fv1alpha1api20200601">resources.azure.com/v1alpha1api20200601</a>
-</li>
-</ul>
 <h2 id="resources.azure.com/v1alpha1api20200601">resources.azure.com/v1alpha1api20200601</h2>
 <div>
 <p>Package v1alpha1api20200601 contains API Schema definitions for the resources v1alpha1api20200601 API group</p>

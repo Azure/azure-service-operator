@@ -1,9 +1,3 @@
-<p>Packages:</p>
-<ul>
-<li>
-<a href="#dbforpostgresql.azure.com%2fv1alpha1api20210601">dbforpostgresql.azure.com/v1alpha1api20210601</a>
-</li>
-</ul>
 <h2 id="dbforpostgresql.azure.com/v1alpha1api20210601">dbforpostgresql.azure.com/v1alpha1api20210601</h2>
 <div>
 <p>Package v1alpha1api20210601 contains API Schema definitions for the dbforpostgresql v1alpha1api20210601 API group</p>

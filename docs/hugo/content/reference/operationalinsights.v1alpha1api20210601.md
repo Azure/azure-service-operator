@@ -1,9 +1,3 @@
-<p>Packages:</p>
-<ul>
-<li>
-<a href="#operationalinsights.azure.com%2fv1alpha1api20210601">operationalinsights.azure.com/v1alpha1api20210601</a>
-</li>
-</ul>
 <h2 id="operationalinsights.azure.com/v1alpha1api20210601">operationalinsights.azure.com/v1alpha1api20210601</h2>
 <div>
 <p>Package v1alpha1api20210601 contains API Schema definitions for the operationalinsights v1alpha1api20210601 API group</p>

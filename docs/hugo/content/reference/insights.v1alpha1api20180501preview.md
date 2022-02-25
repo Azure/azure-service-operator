@@ -1,9 +1,3 @@
-<p>Packages:</p>
-<ul>
-<li>
-<a href="#insights.azure.com%2fv1alpha1api20180501preview">insights.azure.com/v1alpha1api20180501preview</a>
-</li>
-</ul>
 <h2 id="insights.azure.com/v1alpha1api20180501preview">insights.azure.com/v1alpha1api20180501preview</h2>
 <div>
 <p>Package v1alpha1api20180501preview contains API Schema definitions for the insights v1alpha1api20180501preview API group</p>

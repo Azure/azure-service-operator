@@ -1,9 +1,3 @@
-<p>Packages:</p>
-<ul>
-<li>
-<a href="#documentdb.azure.com%2fv1alpha1api20210515">documentdb.azure.com/v1alpha1api20210515</a>
-</li>
-</ul>
 <h2 id="documentdb.azure.com/v1alpha1api20210515">documentdb.azure.com/v1alpha1api20210515</h2>
 <div>
 <p>Package v1alpha1api20210515 contains API Schema definitions for the documentdb v1alpha1api20210515 API group</p>

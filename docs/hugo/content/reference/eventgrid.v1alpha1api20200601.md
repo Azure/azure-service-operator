@@ -1,9 +1,3 @@
-<p>Packages:</p>
-<ul>
-<li>
-<a href="#eventgrid.azure.com%2fv1alpha1api20200601">eventgrid.azure.com/v1alpha1api20200601</a>
-</li>
-</ul>
 <h2 id="eventgrid.azure.com/v1alpha1api20200601">eventgrid.azure.com/v1alpha1api20200601</h2>
 <div>
 <p>Package v1alpha1api20200601 contains API Schema definitions for the eventgrid v1alpha1api20200601 API group</p>

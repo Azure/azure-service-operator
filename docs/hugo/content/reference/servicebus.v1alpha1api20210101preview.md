@@ -1,9 +1,3 @@
-<p>Packages:</p>
-<ul>
-<li>
-<a href="#servicebus.azure.com%2fv1alpha1api20210101preview">servicebus.azure.com/v1alpha1api20210101preview</a>
-</li>
-</ul>
 <h2 id="servicebus.azure.com/v1alpha1api20210101preview">servicebus.azure.com/v1alpha1api20210101preview</h2>
 <div>
 <p>Package v1alpha1api20210101preview contains API Schema definitions for the servicebus v1alpha1api20210101preview API group</p>
