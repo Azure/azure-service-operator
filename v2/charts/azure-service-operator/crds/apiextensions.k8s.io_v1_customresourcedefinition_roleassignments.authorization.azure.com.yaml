@@ -1,0 +1,464 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: azureserviceoperator-system/azureserviceoperator-serving-cert
+    controller-gen.kubebuilder.io/version: (devel)
+  name: roleassignments.authorization.azure.com
+spec:
+  conversion:
+    strategy: Webhook
+    webhook:
+      clientConfig:
+        service:
+          name: azureserviceoperator-webhook-service
+          namespace: azureserviceoperator-system
+          path: /convert
+      conversionReviewVersions:
+      - v1beta1
+  group: authorization.azure.com
+  names:
+    kind: RoleAssignment
+    listKind: RoleAssignmentList
+    plural: roleassignments
+    singular: roleassignment
+  preserveUnknownFields: false
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1alpha1api20200801preview
+    schema:
+      openAPIV3Schema:
+        description: 'Generated from: https://schema.management.azure.com/schemas/2020-08-01-preview/Microsoft.Authorization.Authz.json#/unknown_resourceDefinitions/roleAssignments'
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              azureName:
+                description: 'AzureName: The name of the resource in Azure. This is
+                  often the same as the name of the resource in Kubernetes but it
+                  doesn''t have to be.'
+                type: string
+              condition:
+                description: 'Condition: The conditions on the role assignment. This
+                  limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName]
+                  StringEqualsIgnoreCase ''foo_storage_container'''
+                type: string
+              conditionVersion:
+                description: 'ConditionVersion: Version of the condition. Currently
+                  accepted value is ''2.0'''
+                type: string
+              delegatedManagedIdentityResourceId:
+                description: 'DelegatedManagedIdentityResourceId: Id of the delegated
+                  managed identity resource'
+                type: string
+              description:
+                description: 'Description: Description of role assignment'
+                type: string
+              location:
+                description: 'Location: Location to deploy resource to'
+                type: string
+              owner:
+                description: ArbitraryOwnerReference is an owner reference to an unknown
+                  type.
+                properties:
+                  group:
+                    description: Group is the Kubernetes group of the resource.
+                    type: string
+                  kind:
+                    description: Kind is the Kubernetes kind of the resource.
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                required:
+                - group
+                - kind
+                - name
+                type: object
+              principalId:
+                description: 'PrincipalId: The principal ID.'
+                type: string
+              principalType:
+                description: 'PrincipalType: The principal type of the assigned principal
+                  ID.'
+                enum:
+                - ForeignGroup
+                - Group
+                - ServicePrincipal
+                - User
+                type: string
+              roleDefinitionReference:
+                description: 'RoleDefinitionReference: The role definition ID.'
+                properties:
+                  armId:
+                    description: 'TODO: The below regex may be overly restrictive
+                      ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                      The /resourcegroups/{resourceGroupName} bit is optional as some
+                      resources are scoped at the subscription level ARMID is mutually
+                      exclusive with Group, Kind, Namespace and Name.'
+                    pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                    type: string
+                  group:
+                    description: Group is the Kubernetes group of the resource.
+                    type: string
+                  kind:
+                    description: Kind is the Kubernetes kind of the resource.
+                    type: string
+                  name:
+                    description: Name is the Kubernetes name of the resource.
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Name-value pairs to add to the resource'
+                type: object
+            required:
+            - owner
+            - principalId
+            - roleDefinitionReference
+            type: object
+          status:
+            properties:
+              condition:
+                description: 'Condition: The conditions on the role assignment. This
+                  limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName]
+                  StringEqualsIgnoreCase ''foo_storage_container'''
+                type: string
+              conditionVersion:
+                description: 'ConditionVersion: Version of the condition. Currently
+                  accepted value is ''2.0'''
+                type: string
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: ObservedGeneration is the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.condition[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: Reason for the condition's last transition. Reasons
+                        are upper CamelCase (PascalCase) with no spaces. A reason
+                        is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: Severity with which to treat failures of this type
+                        of condition. For conditions which have positive polarity
+                        (Status == True is their normal/healthy state), this will
+                        be omitted when Status == True For conditions which have negative
+                        polarity (Status == False is their normal/healthy state),
+                        this will be omitted when Status == False. This is omitted
+                        in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              createdBy:
+                description: 'CreatedBy: Id of the user who created the assignment'
+                type: string
+              createdOn:
+                description: 'CreatedOn: Time it was created'
+                type: string
+              delegatedManagedIdentityResourceId:
+                description: 'DelegatedManagedIdentityResourceId: Id of the delegated
+                  managed identity resource'
+                type: string
+              description:
+                description: 'Description: Description of role assignment'
+                type: string
+              id:
+                description: 'Id: The role assignment ID.'
+                type: string
+              name:
+                description: 'Name: The role assignment name.'
+                type: string
+              principalId:
+                description: 'PrincipalId: The principal ID.'
+                type: string
+              principalType:
+                description: 'PrincipalType: The principal type of the assigned principal
+                  ID.'
+                type: string
+              roleDefinitionId:
+                description: 'RoleDefinitionId: The role definition ID.'
+                type: string
+              scope:
+                description: 'Scope: The role assignment scope.'
+                type: string
+              type:
+                description: 'Type: The role assignment type.'
+                type: string
+              updatedBy:
+                description: 'UpdatedBy: Id of the user who updated the assignment'
+                type: string
+              updatedOn:
+                description: 'UpdatedOn: Time it was updated'
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1alpha1api20200801previewstorage
+    schema:
+      openAPIV3Schema:
+        description: 'Storage version of v1alpha1api20200801preview.RoleAssignment
+          Generated from: https://schema.management.azure.com/schemas/2020-08-01-preview/Microsoft.Authorization.Authz.json#/unknown_resourceDefinitions/roleAssignments'
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1alpha1api20200801preview.RoleAssignments_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: PropertyBag is an unordered set of stashed information
+                  that used for properties not directly supported by storage resources,
+                  allowing for full fidelity round trip conversions
+                type: object
+              azureName:
+                description: 'AzureName: The name of the resource in Azure. This is
+                  often the same as the name of the resource in Kubernetes but it
+                  doesn''t have to be.'
+                type: string
+              condition:
+                type: string
+              conditionVersion:
+                type: string
+              delegatedManagedIdentityResourceId:
+                type: string
+              description:
+                type: string
+              location:
+                type: string
+              originalVersion:
+                type: string
+              owner:
+                description: ArbitraryOwnerReference is an owner reference to an unknown
+                  type.
+                properties:
+                  group:
+                    description: Group is the Kubernetes group of the resource.
+                    type: string
+                  kind:
+                    description: Kind is the Kubernetes kind of the resource.
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                required:
+                - group
+                - kind
+                - name
+                type: object
+              principalId:
+                type: string
+              principalType:
+                type: string
+              roleDefinitionReference:
+                description: 'RoleDefinitionReference: The role definition ID.'
+                properties:
+                  armId:
+                    description: 'TODO: The below regex may be overly restrictive
+                      ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                      The /resourcegroups/{resourceGroupName} bit is optional as some
+                      resources are scoped at the subscription level ARMID is mutually
+                      exclusive with Group, Kind, Namespace and Name.'
+                    pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                    type: string
+                  group:
+                    description: Group is the Kubernetes group of the resource.
+                    type: string
+                  kind:
+                    description: Kind is the Kubernetes kind of the resource.
+                    type: string
+                  name:
+                    description: Name is the Kubernetes name of the resource.
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+            required:
+            - owner
+            - roleDefinitionReference
+            type: object
+          status:
+            description: Storage version of v1alpha1api20200801preview.RoleAssignment_Status
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: PropertyBag is an unordered set of stashed information
+                  that used for properties not directly supported by storage resources,
+                  allowing for full fidelity round trip conversions
+                type: object
+              condition:
+                type: string
+              conditionVersion:
+                type: string
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: ObservedGeneration is the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.condition[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: Reason for the condition's last transition. Reasons
+                        are upper CamelCase (PascalCase) with no spaces. A reason
+                        is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: Severity with which to treat failures of this type
+                        of condition. For conditions which have positive polarity
+                        (Status == True is their normal/healthy state), this will
+                        be omitted when Status == True For conditions which have negative
+                        polarity (Status == False is their normal/healthy state),
+                        this will be omitted when Status == False. This is omitted
+                        in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              createdBy:
+                type: string
+              createdOn:
+                type: string
+              delegatedManagedIdentityResourceId:
+                type: string
+              description:
+                type: string
+              id:
+                type: string
+              name:
+                type: string
+              principalId:
+                type: string
+              principalType:
+                type: string
+              roleDefinitionId:
+                type: string
+              scope:
+                type: string
+              type:
+                type: string
+              updatedBy:
+                type: string
+              updatedOn:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

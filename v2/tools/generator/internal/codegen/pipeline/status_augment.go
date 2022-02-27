@@ -95,7 +95,7 @@ func newDefaultMerger(allTypes astmodel.ReadonlyTypes) *astmodel.TypeMerger {
 			return spec, nil
 		}
 
-		specType := allTypes.Get(spec).Type()
+		specType := allTypes.MustGetDefinition(spec).Type()
 
 		newSpec, err := merger.Merge(specType, status)
 		if err != nil {
@@ -112,7 +112,7 @@ func newDefaultMerger(allTypes astmodel.ReadonlyTypes) *astmodel.TypeMerger {
 
 	// handle (Type, TypeName) by resolving RHS
 	merger.Add(func(spec astmodel.Type, status astmodel.TypeName) (astmodel.Type, error) {
-		return merger.Merge(spec, allTypes.Get(status).Type())
+		return merger.Merge(spec, allTypes.MustGetDefinition(status).Type())
 	})
 
 	// handle (Optional, Type)

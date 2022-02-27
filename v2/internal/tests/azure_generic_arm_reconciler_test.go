@@ -11,7 +11,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 
@@ -36,7 +36,7 @@ func Test_ConvertResourceToARMResource(t *testing.T) {
 
 	subscriptionID := "1234"
 
-	resource, err := reconcilers.ConvertToARMResourceImpl(ctx, account, scheme, resolver, subscriptionID)
+	resource, err := arm.ConvertToARMResourceImpl(ctx, account, scheme, resolver, subscriptionID)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect("azureName").To(Equal(resource.Spec().GetName()))

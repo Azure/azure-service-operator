@@ -8,9 +8,12 @@ package genruntime
 import (
 	"context"
 
+	"github.com/go-logr/logr"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
+
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
 type ResourceKind string
@@ -37,7 +40,7 @@ type MetaObject interface {
 }
 
 type Reconciler interface {
-	Reconcile(ctx context.Context) (ctrl.Result, error)
+	Reconcile(ctx context.Context, log logr.Logger, obj MetaObject) (ctrl.Result, error)
 }
 
 // TODO: We really want these methods to be on MetaObject itself -- should update code generator to make them at some point
@@ -126,4 +129,15 @@ func (resource *armResourceImpl) Status() ARMResourceStatus {
 
 func (resource *armResourceImpl) GetID() string {
 	return resource.Id
+}
+
+// GetReadyCondition gets the ready condition from the object
+func GetReadyCondition(obj MetaObject) *conditions.Condition {
+	for _, c := range obj.GetConditions() {
+		if c.Type == conditions.ConditionTypeReady {
+			return &c
+		}
+	}
+
+	return nil
 }

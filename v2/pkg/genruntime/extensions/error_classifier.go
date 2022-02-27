@@ -42,19 +42,27 @@ func CreateErrorClassifier(
 	}
 
 	return func(cloudError *genericarmclient.CloudError) (core.CloudErrorDetails, error) {
-		log.V(Info).Info(
-			"Classifying cloud error",
-			"Message", cloudError.InnerError.Message,
-			"Code", cloudError.InnerError.Code,
-			"Target", cloudError.InnerError.Target)
+		log.V(Status).Info(
+			"Classifying CloudError",
+			"Message", cloudError.Message(),
+			"Code", cloudError.Code(),
+			"Target", cloudError.Target())
 
 		result, err := impl.ClassifyError(cloudError, apiVersion, log, classifier)
+		if err != nil {
+			log.V(Status).Info(
+				"CloudError classification failed",
+				"Error", err.Error())
 
-		log.V(Info).Info(
-			"Cloud error classified",
+			return core.CloudErrorDetails{}, err
+		}
+
+		log.V(Status).Info(
+			"CloudError classified",
 			"Classification", result.Classification,
 			"Code", result.Code,
 			"Message", result.Message)
-		return result, err
+
+		return result, nil
 	}
 }

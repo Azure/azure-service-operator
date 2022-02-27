@@ -33,7 +33,7 @@ func (e *RedisPatchScheduleExtension) ClassifyError(
 	}
 
 	// Override is to treat Conflict as retryable for RedisPatchSchedules, if the message contains "try again later"
-	if isRetryableConflict(cloudError.InnerError) {
+	if isRetryableConflict(cloudError) {
 		details.Classification = core.ErrorRetryable
 	}
 

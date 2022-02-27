@@ -81,7 +81,7 @@ func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, definitions a
 
 	// With no configured rename, we can return nextTypeName, as long as it exists
 	if !haveRename {
-		if _, found := definitions.TryGet(nextTypeName); found {
+		if _, err := definitions.GetDefinition(nextTypeName); err == nil {
 			return nextTypeName, nil
 		}
 
@@ -91,7 +91,7 @@ func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, definitions a
 	// Validity check on the type-rename we found - ensure it specifies a type that's known
 	// If we don't find the type, the configured rename is invalid
 	renamedTypeName := astmodel.MakeTypeName(nextPackage, rename)
-	if _, found := definitions.TryGet(renamedTypeName); !found {
+	if _, err := definitions.GetDefinition(renamedTypeName); err != nil {
 		return astmodel.EmptyTypeName, errors.Errorf(
 			"rename of %s invalid because specified type %s does not exist",
 			name,
@@ -100,7 +100,7 @@ func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, definitions a
 
 	// Validity check that the type-rename doesn't conflict
 	// if v1.Foo and v2.Foo both exist, it's illegal to specify a type-rename on v1.Foo
-	if _, found := definitions.TryGet(nextTypeName); found {
+	if _, err := definitions.GetDefinition(nextTypeName); err == nil {
 		return astmodel.EmptyTypeName, errors.Errorf(
 			"configured rename of %s to %s conflicts with existing type %s",
 			name,

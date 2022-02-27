@@ -5,8 +5,6 @@ Licensed under the MIT license.
 
 package conditions
 
-import "fmt"
-
 const (
 	ReasonReconciling                     = "Reconciling"
 	ReasonWaitingForOwner                 = "WaitingForOwner"
@@ -46,15 +44,6 @@ func (b *ReadyConditionBuilder) Reconciling(observedGeneration int64) Condition 
 		"The resource is in the process of being reconciled by the operator")
 }
 
-func (b *ReadyConditionBuilder) WaitingForOwner(observedGeneration int64, ownerDetails string) Condition {
-	return b.builder.MakeFalseCondition(
-		ConditionTypeReady,
-		ConditionSeverityWarning,
-		observedGeneration,
-		ReasonWaitingForOwner,
-		fmt.Sprintf("Owner %q cannot be found. Progress is blocked until the owner is created.", ownerDetails))
-}
-
 func (b *ReadyConditionBuilder) Deleting(observedGeneration int64) Condition {
 	return b.builder.MakeFalseCondition(
 		ConditionTypeReady,
@@ -66,22 +55,4 @@ func (b *ReadyConditionBuilder) Deleting(observedGeneration int64) Condition {
 
 func (b *ReadyConditionBuilder) Succeeded(observedGeneration int64) Condition {
 	return b.builder.MakeTrueCondition(ConditionTypeReady, observedGeneration)
-}
-
-func (b *ReadyConditionBuilder) AzureResourceNotFound(observedGeneration int64, message string) Condition {
-	return b.builder.MakeFalseCondition(
-		ConditionTypeReady,
-		ConditionSeverityWarning,
-		observedGeneration,
-		ReasonAzureResourceNotFound,
-		message)
-}
-
-func (b *ReadyConditionBuilder) SecretWriteFailure(observedGeneration int64, message string) Condition {
-	return b.builder.MakeFalseCondition(
-		ConditionTypeReady,
-		ConditionSeverityWarning,
-		observedGeneration,
-		ReasonSecretWriteFailure,
-		message)
 }
