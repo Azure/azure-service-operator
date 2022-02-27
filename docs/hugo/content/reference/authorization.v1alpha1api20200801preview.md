@@ -1,3 +1,5 @@
+---
+---
 <h2 id="authorization.azure.com/v1alpha1api20200801preview">authorization.azure.com/v1alpha1api20200801preview</h2>
 <div>
 <p>Package v1alpha1api20200801preview contains API Schema definitions for the authorization v1alpha1api20200801preview API group</p>
