@@ -68,8 +68,8 @@ func (p *PackageDefinition) EmitDefinitions(outputDir string, generatedPackages 
 			return 0, err
 		}
 
-		// If package contains resources and is not Storage package, then we generate doc file for the package
-		if !strings.HasSuffix(p.PackageName, StoragePackageSuffix) {
+		// If package contains ARM resources is not Storage package, then we generate doc file for the package
+		if !strings.HasSuffix(p.PackageName, StoragePackageSuffix) && !strings.Contains(outputDir, "crossplane") {
 			if err = emitDocFile(p, outputDir); err != nil {
 				return 0, err
 			}
