@@ -7,7 +7,6 @@ package astmodel
 
 import (
 	"fmt"
-	"strings"
 )
 
 const (
@@ -57,7 +56,7 @@ func (s StoragePackageReference) String() string {
 
 // IsPreview returns true if this package reference is a preview
 func (s StoragePackageReference) IsPreview() bool {
-	return containsPreviewVersionLabel(strings.ToLower(s.inner.version))
+	return s.inner.IsPreview()
 }
 
 // IsStoragePackageReference returns true if the reference is to a storage package
