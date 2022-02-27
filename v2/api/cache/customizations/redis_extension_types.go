@@ -6,9 +6,6 @@ Licensed under the MIT license.
 package customizations
 
 import (
-	"strings"
-
-	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
@@ -36,7 +33,7 @@ func (e *RedisExtension) ClassifyError(
 	}
 
 	// Override is to treat Conflict as retryable for Redis, if the message contains "try again later"
-	if isRetryableConflict(cloudError.InnerError) {
+	if isRetryableConflict(cloudError) {
 		details.Classification = core.ErrorRetryable
 	}
 
@@ -44,11 +41,10 @@ func (e *RedisExtension) ClassifyError(
 }
 
 // isRetryableConflict checks the passed error to see if it is a retryable conflict, returning true if it is.
-func isRetryableConflict(err *genericarmclient.ErrorResponse) bool {
-	if err == nil || err.Message == nil {
+func isRetryableConflict(err *genericarmclient.CloudError) bool {
+	if err == nil {
 		return false
 	}
 
-	return to.String(err.Code) == "Conflict" &&
-		strings.Contains(strings.ToLower(*err.Message), "try again later")
+	return err.Code() == "Conflict"
 }

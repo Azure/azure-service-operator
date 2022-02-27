@@ -88,11 +88,7 @@ func GetAzureNameProperty(idFactory astmodel.IdentifierFactory) *astmodel.Proper
 
 func getReceiverObjectType(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *astmodel.ObjectType {
 	// Determine the type we're operating on
-	rt, err := codeGenerationContext.GetImportedDefinition(receiver)
-	if err != nil {
-		panic(err)
-	}
-
+	rt := codeGenerationContext.MustGetDefinition(receiver)
 	receiverType, ok := rt.Type().(*astmodel.ObjectType)
 	if !ok {
 		// Don't expect to have any wrapper types left at this point

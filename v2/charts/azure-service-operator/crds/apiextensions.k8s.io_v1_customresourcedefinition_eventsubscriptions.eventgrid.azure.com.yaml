@@ -1,0 +1,1907 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: azureserviceoperator-system/azureserviceoperator-serving-cert
+    controller-gen.kubebuilder.io/version: (devel)
+  name: eventsubscriptions.eventgrid.azure.com
+spec:
+  conversion:
+    strategy: Webhook
+    webhook:
+      clientConfig:
+        service:
+          name: azureserviceoperator-webhook-service
+          namespace: azureserviceoperator-system
+          path: /convert
+      conversionReviewVersions:
+      - v1beta1
+  group: eventgrid.azure.com
+  names:
+    kind: EventSubscription
+    listKind: EventSubscriptionList
+    plural: eventsubscriptions
+    singular: eventsubscription
+  preserveUnknownFields: false
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1alpha1api20200601
+    schema:
+      openAPIV3Schema:
+        description: 'Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/unknown_resourceDefinitions/eventSubscriptions'
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              azureName:
+                description: 'AzureName: The name of the resource in Azure. This is
+                  often the same as the name of the resource in Kubernetes but it
+                  doesn''t have to be.'
+                type: string
+              deadLetterDestination:
+                description: 'DeadLetterDestination: Information about the dead letter
+                  destination for an event subscription. To configure a deadletter
+                  destination, do not directly instantiate an object of this class.
+                  Instead, instantiate an object of a derived class. Currently, StorageBlobDeadLetterDestination
+                  is the only class that derives from this class.'
+                properties:
+                  endpointType:
+                    enum:
+                    - StorageBlob
+                    type: string
+                  properties:
+                    description: 'Properties: Properties of the storage blob based
+                      dead letter destination.'
+                    properties:
+                      blobContainerName:
+                        description: 'BlobContainerName: The name of the Storage blob
+                          container that is the destination of the deadletter events'
+                        type: string
+                      resourceReference:
+                        description: 'ResourceReference: The Azure Resource ID of
+                          the storage account that is the destination of the deadletter
+                          events'
+                        properties:
+                          armId:
+                            description: 'TODO: The below regex may be overly restrictive
+                              ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                              The /resourcegroups/{resourceGroupName} bit is optional
+                              as some resources are scoped at the subscription level
+                              ARMID is mutually exclusive with Group, Kind, Namespace
+                              and Name.'
+                            pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                            type: string
+                          group:
+                            description: Group is the Kubernetes group of the resource.
+                            type: string
+                          kind:
+                            description: Kind is the Kubernetes kind of the resource.
+                            type: string
+                          name:
+                            description: Name is the Kubernetes name of the resource.
+                            type: string
+                        type: object
+                    type: object
+                required:
+                - endpointType
+                type: object
+              destination:
+                description: 'Destination: Information about the destination for an
+                  event subscription.'
+                properties:
+                  azureFunctionEventSubscriptionDestination:
+                    description: 'AzureFunction: Mutually exclusive with all other
+                      properties'
+                    properties:
+                      endpointType:
+                        enum:
+                        - AzureFunction
+                        type: string
+                      properties:
+                        description: 'Properties: The properties that represent the
+                          Azure Function destination of an event subscription.'
+                        properties:
+                          maxEventsPerBatch:
+                            description: 'MaxEventsPerBatch: Maximum number of events
+                              per batch.'
+                            type: integer
+                          preferredBatchSizeInKilobytes:
+                            description: 'PreferredBatchSizeInKilobytes: Preferred
+                              batch size in Kilobytes.'
+                            type: integer
+                          resourceReference:
+                            description: 'ResourceReference: The Azure Resource Id
+                              that represents the endpoint of the Azure Function destination
+                              of an event subscription.'
+                            properties:
+                              armId:
+                                description: 'TODO: The below regex may be overly
+                                  restrictive ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                  The /resourcegroups/{resourceGroupName} bit is optional
+                                  as some resources are scoped at the subscription
+                                  level ARMID is mutually exclusive with Group, Kind,
+                                  Namespace and Name.'
+                                pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                                type: string
+                              group:
+                                description: Group is the Kubernetes group of the
+                                  resource.
+                                type: string
+                              kind:
+                                description: Kind is the Kubernetes kind of the resource.
+                                type: string
+                              name:
+                                description: Name is the Kubernetes name of the resource.
+                                type: string
+                            type: object
+                        type: object
+                    required:
+                    - endpointType
+                    type: object
+                  eventHubEventSubscriptionDestination:
+                    description: 'EventHub: Mutually exclusive with all other properties'
+                    properties:
+                      endpointType:
+                        enum:
+                        - EventHub
+                        type: string
+                      properties:
+                        description: 'Properties: The properties for a event hub destination.'
+                        properties:
+                          resourceReference:
+                            description: 'ResourceReference: The Azure Resource Id
+                              that represents the endpoint of an Event Hub destination
+                              of an event subscription.'
+                            properties:
+                              armId:
+                                description: 'TODO: The below regex may be overly
+                                  restrictive ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                  The /resourcegroups/{resourceGroupName} bit is optional
+                                  as some resources are scoped at the subscription
+                                  level ARMID is mutually exclusive with Group, Kind,
+                                  Namespace and Name.'
+                                pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                                type: string
+                              group:
+                                description: Group is the Kubernetes group of the
+                                  resource.
+                                type: string
+                              kind:
+                                description: Kind is the Kubernetes kind of the resource.
+                                type: string
+                              name:
+                                description: Name is the Kubernetes name of the resource.
+                                type: string
+                            type: object
+                        type: object
+                    required:
+                    - endpointType
+                    type: object
+                  hybridConnectionEventSubscriptionDestination:
+                    description: 'HybridConnection: Mutually exclusive with all other
+                      properties'
+                    properties:
+                      endpointType:
+                        enum:
+                        - HybridConnection
+                        type: string
+                      properties:
+                        description: 'Properties: The properties for a hybrid connection
+                          destination.'
+                        properties:
+                          resourceReference:
+                            description: 'ResourceReference: The Azure Resource ID
+                              of an hybrid connection that is the destination of an
+                              event subscription.'
+                            properties:
+                              armId:
+                                description: 'TODO: The below regex may be overly
+                                  restrictive ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                  The /resourcegroups/{resourceGroupName} bit is optional
+                                  as some resources are scoped at the subscription
+                                  level ARMID is mutually exclusive with Group, Kind,
+                                  Namespace and Name.'
+                                pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                                type: string
+                              group:
+                                description: Group is the Kubernetes group of the
+                                  resource.
+                                type: string
+                              kind:
+                                description: Kind is the Kubernetes kind of the resource.
+                                type: string
+                              name:
+                                description: Name is the Kubernetes name of the resource.
+                                type: string
+                            type: object
+                        type: object
+                    required:
+                    - endpointType
+                    type: object
+                  serviceBusQueueEventSubscriptionDestination:
+                    description: 'ServiceBusQueue: Mutually exclusive with all other
+                      properties'
+                    properties:
+                      endpointType:
+                        enum:
+                        - ServiceBusQueue
+                        type: string
+                      properties:
+                        description: 'Properties: The properties that represent the
+                          Service Bus destination of an event subscription.'
+                        properties:
+                          resourceReference:
+                            description: 'ResourceReference: The Azure Resource Id
+                              that represents the endpoint of the Service Bus destination
+                              of an event subscription.'
+                            properties:
+                              armId:
+                                description: 'TODO: The below regex may be overly
+                                  restrictive ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                  The /resourcegroups/{resourceGroupName} bit is optional
+                                  as some resources are scoped at the subscription
+                                  level ARMID is mutually exclusive with Group, Kind,
+                                  Namespace and Name.'
+                                pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                                type: string
+                              group:
+                                description: Group is the Kubernetes group of the
+                                  resource.
+                                type: string
+                              kind:
+                                description: Kind is the Kubernetes kind of the resource.
+                                type: string
+                              name:
+                                description: Name is the Kubernetes name of the resource.
+                                type: string
+                            type: object
+                        type: object
+                    required:
+                    - endpointType
+                    type: object
+                  serviceBusTopicEventSubscriptionDestination:
+                    description: 'ServiceBusTopic: Mutually exclusive with all other
+                      properties'
+                    properties:
+                      endpointType:
+                        enum:
+                        - ServiceBusTopic
+                        type: string
+                      properties:
+                        description: 'Properties: The properties that represent the
+                          Service Bus Topic destination of an event subscription.'
+                        properties:
+                          resourceReference:
+                            description: 'ResourceReference: The Azure Resource Id
+                              that represents the endpoint of the Service Bus Topic
+                              destination of an event subscription.'
+                            properties:
+                              armId:
+                                description: 'TODO: The below regex may be overly
+                                  restrictive ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                  The /resourcegroups/{resourceGroupName} bit is optional
+                                  as some resources are scoped at the subscription
+                                  level ARMID is mutually exclusive with Group, Kind,
+                                  Namespace and Name.'
+                                pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                                type: string
+                              group:
+                                description: Group is the Kubernetes group of the
+                                  resource.
+                                type: string
+                              kind:
+                                description: Kind is the Kubernetes kind of the resource.
+                                type: string
+                              name:
+                                description: Name is the Kubernetes name of the resource.
+                                type: string
+                            type: object
+                        type: object
+                    required:
+                    - endpointType
+                    type: object
+                  storageQueueEventSubscriptionDestination:
+                    description: 'StorageQueue: Mutually exclusive with all other
+                      properties'
+                    properties:
+                      endpointType:
+                        enum:
+                        - StorageQueue
+                        type: string
+                      properties:
+                        description: 'Properties: The properties for a storage queue
+                          destination.'
+                        properties:
+                          queueName:
+                            description: 'QueueName: The name of the Storage queue
+                              under a storage account that is the destination of an
+                              event subscription.'
+                            type: string
+                          resourceReference:
+                            description: 'ResourceReference: The Azure Resource ID
+                              of the storage account that contains the queue that
+                              is the destination of an event subscription.'
+                            properties:
+                              armId:
+                                description: 'TODO: The below regex may be overly
+                                  restrictive ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                  The /resourcegroups/{resourceGroupName} bit is optional
+                                  as some resources are scoped at the subscription
+                                  level ARMID is mutually exclusive with Group, Kind,
+                                  Namespace and Name.'
+                                pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                                type: string
+                              group:
+                                description: Group is the Kubernetes group of the
+                                  resource.
+                                type: string
+                              kind:
+                                description: Kind is the Kubernetes kind of the resource.
+                                type: string
+                              name:
+                                description: Name is the Kubernetes name of the resource.
+                                type: string
+                            type: object
+                        type: object
+                    required:
+                    - endpointType
+                    type: object
+                  webHookEventSubscriptionDestination:
+                    description: 'WebHook: Mutually exclusive with all other properties'
+                    properties:
+                      endpointType:
+                        enum:
+                        - WebHook
+                        type: string
+                      properties:
+                        description: 'Properties: Information about the webhook destination
+                          properties for an event subscription.'
+                        properties:
+                          azureActiveDirectoryApplicationIdOrUri:
+                            description: 'AzureActiveDirectoryApplicationIdOrUri:
+                              The Azure Active Directory Application ID or URI to
+                              get the access token that will be included as the bearer
+                              token in delivery requests.'
+                            type: string
+                          azureActiveDirectoryTenantId:
+                            description: 'AzureActiveDirectoryTenantId: The Azure
+                              Active Directory Tenant ID to get the access token that
+                              will be included as the bearer token in delivery requests.'
+                            type: string
+                          endpointUrl:
+                            description: 'EndpointUrl: The URL that represents the
+                              endpoint of the destination of an event subscription.'
+                            type: string
+                          maxEventsPerBatch:
+                            description: 'MaxEventsPerBatch: Maximum number of events
+                              per batch.'
+                            type: integer
+                          preferredBatchSizeInKilobytes:
+                            description: 'PreferredBatchSizeInKilobytes: Preferred
+                              batch size in Kilobytes.'
+                            type: integer
+                        type: object
+                    required:
+                    - endpointType
+                    type: object
+                type: object
+              eventDeliverySchema:
+                description: 'EventDeliverySchema: The event delivery schema for the
+                  event subscription.'
+                enum:
+                - CloudEventSchemaV1_0
+                - CustomInputSchema
+                - EventGridSchema
+                type: string
+              expirationTimeUtc:
+                description: 'ExpirationTimeUtc: Expiration time of the event subscription.'
+                type: string
+              filter:
+                description: 'Filter: Filter for the Event Subscription.'
+                properties:
+                  advancedFilters:
+                    description: 'AdvancedFilters: An array of advanced filters that
+                      are used for filtering event subscriptions.'
+                    items:
+                      description: 'Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AdvancedFilter'
+                      properties:
+                        boolEqualsAdvancedFilter:
+                          description: 'BoolEquals: Mutually exclusive with all other
+                            properties'
+                          properties:
+                            key:
+                              description: 'Key: The field/property in the event based
+                                on which you want to filter.'
+                              type: string
+                            operatorType:
+                              enum:
+                              - BoolEquals
+                              type: string
+                            value:
+                              description: 'Value: The boolean filter value.'
+                              type: boolean
+                          required:
+                          - operatorType
+                          type: object
+                        numberGreaterThanAdvancedFilter:
+                          description: 'NumberGreaterThan: Mutually exclusive with
+                            all other properties'
+                          properties:
+                            key:
+                              description: 'Key: The field/property in the event based
+                                on which you want to filter.'
+                              type: string
+                            operatorType:
+                              enum:
+                              - NumberGreaterThan
+                              type: string
+                            value:
+                              description: 'Value: The filter value.'
+                              type: number
+                          required:
+                          - operatorType
+                          type: object
+                        numberGreaterThanOrEqualsAdvancedFilter:
+                          description: 'NumberGreaterThanOrEquals: Mutually exclusive
+                            with all other properties'
+                          properties:
+                            key:
+                              description: 'Key: The field/property in the event based
+                                on which you want to filter.'
+                              type: string
+                            operatorType:
+                              enum:
+                              - NumberGreaterThanOrEquals
+                              type: string
+                            value:
+                              description: 'Value: The filter value.'
+                              type: number
+                          required:
+                          - operatorType
+                          type: object
+                        numberInAdvancedFilter:
+                          description: 'NumberIn: Mutually exclusive with all other
+                            properties'
+                          properties:
+                            key:
+                              description: 'Key: The field/property in the event based
+                                on which you want to filter.'
+                              type: string
+                            operatorType:
+                              enum:
+                              - NumberIn
+                              type: string
+                            values:
+                              description: 'Values: The set of filter values.'
+                              items:
+                                type: number
+                              type: array
+                          required:
+                          - operatorType
+                          type: object
+                        numberLessThanAdvancedFilter:
+                          description: 'NumberLessThan: Mutually exclusive with all
+                            other properties'
+                          properties:
+                            key:
+                              description: 'Key: The field/property in the event based
+                                on which you want to filter.'
+                              type: string
+                            operatorType:
+                              enum:
+                              - NumberLessThan
+                              type: string
+                            value:
+                              description: 'Value: The filter value.'
+                              type: number
+                          required:
+                          - operatorType
+                          type: object
+                        numberLessThanOrEqualsAdvancedFilter:
+                          description: 'NumberLessThanOrEquals: Mutually exclusive
+                            with all other properties'
+                          properties:
+                            key:
+                              description: 'Key: The field/property in the event based
+                                on which you want to filter.'
+                              type: string
+                            operatorType:
+                              enum:
+                              - NumberLessThanOrEquals
+                              type: string
+                            value:
+                              description: 'Value: The filter value.'
+                              type: number
+                          required:
+                          - operatorType
+                          type: object
+                        numberNotInAdvancedFilter:
+                          description: 'NumberNotIn: Mutually exclusive with all other
+                            properties'
+                          properties:
+                            key:
+                              description: 'Key: The field/property in the event based
+                                on which you want to filter.'
+                              type: string
+                            operatorType:
+                              enum:
+                              - NumberNotIn
+                              type: string
+                            values:
+                              description: 'Values: The set of filter values.'
+                              items:
+                                type: number
+                              type: array
+                          required:
+                          - operatorType
+                          type: object
+                        stringBeginsWithAdvancedFilter:
+                          description: 'StringBeginsWith: Mutually exclusive with
+                            all other properties'
+                          properties:
+                            key:
+                              description: 'Key: The field/property in the event based
+                                on which you want to filter.'
+                              type: string
+                            operatorType:
+                              enum:
+                              - StringBeginsWith
+                              type: string
+                            values:
+                              description: 'Values: The set of filter values.'
+                              items:
+                                type: string
+                              type: array
+                          required:
+                          - operatorType
+                          type: object
+                        stringContainsAdvancedFilter:
+                          description: 'StringContains: Mutually exclusive with all
+                            other properties'
+                          properties:
+                            key:
+                              description: 'Key: The field/property in the event based
+                                on which you want to filter.'
+                              type: string
+                            operatorType:
+                              enum:
+                              - StringContains
+                              type: string
+                            values:
+                              description: 'Values: The set of filter values.'
+                              items:
+                                type: string
+                              type: array
+                          required:
+                          - operatorType
+                          type: object
+                        stringEndsWithAdvancedFilter:
+                          description: 'StringEndsWith: Mutually exclusive with all
+                            other properties'
+                          properties:
+                            key:
+                              description: 'Key: The field/property in the event based
+                                on which you want to filter.'
+                              type: string
+                            operatorType:
+                              enum:
+                              - StringEndsWith
+                              type: string
+                            values:
+                              description: 'Values: The set of filter values.'
+                              items:
+                                type: string
+                              type: array
+                          required:
+                          - operatorType
+                          type: object
+                        stringInAdvancedFilter:
+                          description: 'StringIn: Mutually exclusive with all other
+                            properties'
+                          properties:
+                            key:
+                              description: 'Key: The field/property in the event based
+                                on which you want to filter.'
+                              type: string
+                            operatorType:
+                              enum:
+                              - StringIn
+                              type: string
+                            values:
+                              description: 'Values: The set of filter values.'
+                              items:
+                                type: string
+                              type: array
+                          required:
+                          - operatorType
+                          type: object
+                        stringNotInAdvancedFilter:
+                          description: 'StringNotIn: Mutually exclusive with all other
+                            properties'
+                          properties:
+                            key:
+                              description: 'Key: The field/property in the event based
+                                on which you want to filter.'
+                              type: string
+                            operatorType:
+                              enum:
+                              - StringNotIn
+                              type: string
+                            values:
+                              description: 'Values: The set of filter values.'
+                              items:
+                                type: string
+                              type: array
+                          required:
+                          - operatorType
+                          type: object
+                      type: object
+                    type: array
+                  includedEventTypes:
+                    description: 'IncludedEventTypes: A list of applicable event types
+                      that need to be part of the event subscription. If it is desired
+                      to subscribe to all default event types, set the IncludedEventTypes
+                      to null.'
+                    items:
+                      type: string
+                    type: array
+                  isSubjectCaseSensitive:
+                    description: 'IsSubjectCaseSensitive: Specifies if the SubjectBeginsWith
+                      and SubjectEndsWith properties of the filter should be compared
+                      in a case sensitive manner.'
+                    type: boolean
+                  subjectBeginsWith:
+                    description: 'SubjectBeginsWith: An optional string to filter
+                      events for an event subscription based on a resource path prefix.
+                      The format of this depends on the publisher of the events. Wildcard
+                      characters are not supported in this path.'
+                    type: string
+                  subjectEndsWith:
+                    description: 'SubjectEndsWith: An optional string to filter events
+                      for an event subscription based on a resource path suffix. Wildcard
+                      characters are not supported in this path.'
+                    type: string
+                type: object
+              labels:
+                description: 'Labels: List of user defined labels.'
+                items:
+                  type: string
+                type: array
+              location:
+                description: 'Location: Location to deploy resource to'
+                type: string
+              owner:
+                description: ArbitraryOwnerReference is an owner reference to an unknown
+                  type.
+                properties:
+                  group:
+                    description: Group is the Kubernetes group of the resource.
+                    type: string
+                  kind:
+                    description: Kind is the Kubernetes kind of the resource.
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                required:
+                - group
+                - kind
+                - name
+                type: object
+              retryPolicy:
+                description: 'RetryPolicy: Information about the retry policy for
+                  an event subscription.'
+                properties:
+                  eventTimeToLiveInMinutes:
+                    description: 'EventTimeToLiveInMinutes: Time To Live (in minutes)
+                      for events.'
+                    type: integer
+                  maxDeliveryAttempts:
+                    description: 'MaxDeliveryAttempts: Maximum number of delivery
+                      retry attempts for events.'
+                    type: integer
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Name-value pairs to add to the resource'
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            properties:
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: ObservedGeneration is the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.condition[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: Reason for the condition's last transition. Reasons
+                        are upper CamelCase (PascalCase) with no spaces. A reason
+                        is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: Severity with which to treat failures of this type
+                        of condition. For conditions which have positive polarity
+                        (Status == True is their normal/healthy state), this will
+                        be omitted when Status == True For conditions which have negative
+                        polarity (Status == False is their normal/healthy state),
+                        this will be omitted when Status == False. This is omitted
+                        in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              deadLetterDestination:
+                description: 'DeadLetterDestination: The DeadLetter destination of
+                  the event subscription.'
+                properties:
+                  endpointType:
+                    description: 'EndpointType: Type of the endpoint for the dead
+                      letter destination'
+                    type: string
+                required:
+                - endpointType
+                type: object
+              destination:
+                description: 'Destination: Information about the destination where
+                  events have to be delivered for the event subscription.'
+                properties:
+                  endpointType:
+                    description: 'EndpointType: Type of the endpoint for the event
+                      subscription destination.'
+                    type: string
+                required:
+                - endpointType
+                type: object
+              eventDeliverySchema:
+                description: 'EventDeliverySchema: The event delivery schema for the
+                  event subscription.'
+                type: string
+              expirationTimeUtc:
+                description: 'ExpirationTimeUtc: Expiration time of the event subscription.'
+                type: string
+              filter:
+                description: 'Filter: Information about the filter for the event subscription.'
+                properties:
+                  advancedFilters:
+                    description: 'AdvancedFilters: An array of advanced filters that
+                      are used for filtering event subscriptions.'
+                    items:
+                      properties:
+                        key:
+                          description: 'Key: The field/property in the event based
+                            on which you want to filter.'
+                          type: string
+                        operatorType:
+                          description: 'OperatorType: The operator type used for filtering,
+                            e.g., NumberIn, StringContains, BoolEquals and others.'
+                          type: string
+                      required:
+                      - operatorType
+                      type: object
+                    type: array
+                  includedEventTypes:
+                    description: 'IncludedEventTypes: A list of applicable event types
+                      that need to be part of the event subscription. If it is desired
+                      to subscribe to all default event types, set the IncludedEventTypes
+                      to null.'
+                    items:
+                      type: string
+                    type: array
+                  isSubjectCaseSensitive:
+                    description: 'IsSubjectCaseSensitive: Specifies if the SubjectBeginsWith
+                      and SubjectEndsWith properties of the filter should be compared
+                      in a case sensitive manner.'
+                    type: boolean
+                  subjectBeginsWith:
+                    description: 'SubjectBeginsWith: An optional string to filter
+                      events for an event subscription based on a resource path prefix.
+                      The format of this depends on the publisher of the events. Wildcard
+                      characters are not supported in this path.'
+                    type: string
+                  subjectEndsWith:
+                    description: 'SubjectEndsWith: An optional string to filter events
+                      for an event subscription based on a resource path suffix. Wildcard
+                      characters are not supported in this path.'
+                    type: string
+                type: object
+              id:
+                description: 'Id: Fully qualified identifier of the resource.'
+                type: string
+              labels:
+                description: 'Labels: List of user defined labels.'
+                items:
+                  type: string
+                type: array
+              name:
+                description: 'Name: Name of the resource.'
+                type: string
+              provisioningState:
+                description: 'ProvisioningState: Provisioning state of the event subscription.'
+                type: string
+              retryPolicy:
+                description: 'RetryPolicy: The retry policy for events. This can be
+                  used to configure maximum number of delivery attempts and time to
+                  live for events.'
+                properties:
+                  eventTimeToLiveInMinutes:
+                    description: 'EventTimeToLiveInMinutes: Time To Live (in minutes)
+                      for events.'
+                    type: integer
+                  maxDeliveryAttempts:
+                    description: 'MaxDeliveryAttempts: Maximum number of delivery
+                      retry attempts for events.'
+                    type: integer
+                type: object
+              systemData:
+                description: 'SystemData: The system metadata relating to Event Subscription
+                  resource.'
+                properties:
+                  createdAt:
+                    description: 'CreatedAt: The timestamp of resource creation (UTC).'
+                    type: string
+                  createdBy:
+                    description: 'CreatedBy: The identity that created the resource.'
+                    type: string
+                  createdByType:
+                    description: 'CreatedByType: The type of identity that created
+                      the resource.'
+                    type: string
+                  lastModifiedAt:
+                    description: 'LastModifiedAt: The timestamp of resource last modification
+                      (UTC)'
+                    type: string
+                  lastModifiedBy:
+                    description: 'LastModifiedBy: The identity that last modified
+                      the resource.'
+                    type: string
+                  lastModifiedByType:
+                    description: 'LastModifiedByType: The type of identity that last
+                      modified the resource.'
+                    type: string
+                type: object
+              topic:
+                description: 'Topic: Name of the topic of the event subscription.'
+                type: string
+              type:
+                description: 'Type: Type of the resource.'
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1alpha1api20200601storage
+    schema:
+      openAPIV3Schema:
+        description: 'Storage version of v1alpha1api20200601.EventSubscription Generated
+          from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/unknown_resourceDefinitions/eventSubscriptions'
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1alpha1api20200601.EventSubscriptions_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: PropertyBag is an unordered set of stashed information
+                  that used for properties not directly supported by storage resources,
+                  allowing for full fidelity round trip conversions
+                type: object
+              azureName:
+                description: 'AzureName: The name of the resource in Azure. This is
+                  often the same as the name of the resource in Kubernetes but it
+                  doesn''t have to be.'
+                type: string
+              deadLetterDestination:
+                description: 'Storage version of v1alpha1api20200601.StorageBlobDeadLetterDestination
+                  Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageBlobDeadLetterDestination'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  endpointType:
+                    type: string
+                  properties:
+                    description: 'Storage version of v1alpha1api20200601.StorageBlobDeadLetterDestinationProperties
+                      Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageBlobDeadLetterDestinationProperties'
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information
+                          that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      blobContainerName:
+                        type: string
+                      resourceReference:
+                        description: 'ResourceReference: The Azure Resource ID of
+                          the storage account that is the destination of the deadletter
+                          events'
+                        properties:
+                          armId:
+                            description: 'TODO: The below regex may be overly restrictive
+                              ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                              The /resourcegroups/{resourceGroupName} bit is optional
+                              as some resources are scoped at the subscription level
+                              ARMID is mutually exclusive with Group, Kind, Namespace
+                              and Name.'
+                            pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                            type: string
+                          group:
+                            description: Group is the Kubernetes group of the resource.
+                            type: string
+                          kind:
+                            description: Kind is the Kubernetes kind of the resource.
+                            type: string
+                          name:
+                            description: Name is the Kubernetes name of the resource.
+                            type: string
+                        type: object
+                    type: object
+                type: object
+              destination:
+                description: 'Storage version of v1alpha1api20200601.EventSubscriptionDestination
+                  Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventSubscriptionDestination'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  azureFunctionEventSubscriptionDestination:
+                    description: 'Storage version of v1alpha1api20200601.AzureFunctionEventSubscriptionDestination
+                      Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AzureFunctionEventSubscriptionDestination'
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information
+                          that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      endpointType:
+                        type: string
+                      properties:
+                        description: 'Storage version of v1alpha1api20200601.AzureFunctionEventSubscriptionDestinationProperties
+                          Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AzureFunctionEventSubscriptionDestinationProperties'
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: PropertyBag is an unordered set of stashed
+                              information that used for properties not directly supported
+                              by storage resources, allowing for full fidelity round
+                              trip conversions
+                            type: object
+                          maxEventsPerBatch:
+                            type: integer
+                          preferredBatchSizeInKilobytes:
+                            type: integer
+                          resourceReference:
+                            description: 'ResourceReference: The Azure Resource Id
+                              that represents the endpoint of the Azure Function destination
+                              of an event subscription.'
+                            properties:
+                              armId:
+                                description: 'TODO: The below regex may be overly
+                                  restrictive ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                  The /resourcegroups/{resourceGroupName} bit is optional
+                                  as some resources are scoped at the subscription
+                                  level ARMID is mutually exclusive with Group, Kind,
+                                  Namespace and Name.'
+                                pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                                type: string
+                              group:
+                                description: Group is the Kubernetes group of the
+                                  resource.
+                                type: string
+                              kind:
+                                description: Kind is the Kubernetes kind of the resource.
+                                type: string
+                              name:
+                                description: Name is the Kubernetes name of the resource.
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  eventHubEventSubscriptionDestination:
+                    description: 'Storage version of v1alpha1api20200601.EventHubEventSubscriptionDestination
+                      Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventHubEventSubscriptionDestination'
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information
+                          that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      endpointType:
+                        type: string
+                      properties:
+                        description: 'Storage version of v1alpha1api20200601.EventHubEventSubscriptionDestinationProperties
+                          Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventHubEventSubscriptionDestinationProperties'
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: PropertyBag is an unordered set of stashed
+                              information that used for properties not directly supported
+                              by storage resources, allowing for full fidelity round
+                              trip conversions
+                            type: object
+                          resourceReference:
+                            description: 'ResourceReference: The Azure Resource Id
+                              that represents the endpoint of an Event Hub destination
+                              of an event subscription.'
+                            properties:
+                              armId:
+                                description: 'TODO: The below regex may be overly
+                                  restrictive ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                  The /resourcegroups/{resourceGroupName} bit is optional
+                                  as some resources are scoped at the subscription
+                                  level ARMID is mutually exclusive with Group, Kind,
+                                  Namespace and Name.'
+                                pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                                type: string
+                              group:
+                                description: Group is the Kubernetes group of the
+                                  resource.
+                                type: string
+                              kind:
+                                description: Kind is the Kubernetes kind of the resource.
+                                type: string
+                              name:
+                                description: Name is the Kubernetes name of the resource.
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  hybridConnectionEventSubscriptionDestination:
+                    description: 'Storage version of v1alpha1api20200601.HybridConnectionEventSubscriptionDestination
+                      Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/HybridConnectionEventSubscriptionDestination'
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information
+                          that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      endpointType:
+                        type: string
+                      properties:
+                        description: 'Storage version of v1alpha1api20200601.HybridConnectionEventSubscriptionDestinationProperties
+                          Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/HybridConnectionEventSubscriptionDestinationProperties'
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: PropertyBag is an unordered set of stashed
+                              information that used for properties not directly supported
+                              by storage resources, allowing for full fidelity round
+                              trip conversions
+                            type: object
+                          resourceReference:
+                            description: 'ResourceReference: The Azure Resource ID
+                              of an hybrid connection that is the destination of an
+                              event subscription.'
+                            properties:
+                              armId:
+                                description: 'TODO: The below regex may be overly
+                                  restrictive ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                  The /resourcegroups/{resourceGroupName} bit is optional
+                                  as some resources are scoped at the subscription
+                                  level ARMID is mutually exclusive with Group, Kind,
+                                  Namespace and Name.'
+                                pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                                type: string
+                              group:
+                                description: Group is the Kubernetes group of the
+                                  resource.
+                                type: string
+                              kind:
+                                description: Kind is the Kubernetes kind of the resource.
+                                type: string
+                              name:
+                                description: Name is the Kubernetes name of the resource.
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  serviceBusQueueEventSubscriptionDestination:
+                    description: 'Storage version of v1alpha1api20200601.ServiceBusQueueEventSubscriptionDestination
+                      Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusQueueEventSubscriptionDestination'
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information
+                          that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      endpointType:
+                        type: string
+                      properties:
+                        description: 'Storage version of v1alpha1api20200601.ServiceBusQueueEventSubscriptionDestinationProperties
+                          Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusQueueEventSubscriptionDestinationProperties'
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: PropertyBag is an unordered set of stashed
+                              information that used for properties not directly supported
+                              by storage resources, allowing for full fidelity round
+                              trip conversions
+                            type: object
+                          resourceReference:
+                            description: 'ResourceReference: The Azure Resource Id
+                              that represents the endpoint of the Service Bus destination
+                              of an event subscription.'
+                            properties:
+                              armId:
+                                description: 'TODO: The below regex may be overly
+                                  restrictive ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                  The /resourcegroups/{resourceGroupName} bit is optional
+                                  as some resources are scoped at the subscription
+                                  level ARMID is mutually exclusive with Group, Kind,
+                                  Namespace and Name.'
+                                pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                                type: string
+                              group:
+                                description: Group is the Kubernetes group of the
+                                  resource.
+                                type: string
+                              kind:
+                                description: Kind is the Kubernetes kind of the resource.
+                                type: string
+                              name:
+                                description: Name is the Kubernetes name of the resource.
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  serviceBusTopicEventSubscriptionDestination:
+                    description: 'Storage version of v1alpha1api20200601.ServiceBusTopicEventSubscriptionDestination
+                      Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusTopicEventSubscriptionDestination'
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information
+                          that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      endpointType:
+                        type: string
+                      properties:
+                        description: 'Storage version of v1alpha1api20200601.ServiceBusTopicEventSubscriptionDestinationProperties
+                          Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusTopicEventSubscriptionDestinationProperties'
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: PropertyBag is an unordered set of stashed
+                              information that used for properties not directly supported
+                              by storage resources, allowing for full fidelity round
+                              trip conversions
+                            type: object
+                          resourceReference:
+                            description: 'ResourceReference: The Azure Resource Id
+                              that represents the endpoint of the Service Bus Topic
+                              destination of an event subscription.'
+                            properties:
+                              armId:
+                                description: 'TODO: The below regex may be overly
+                                  restrictive ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                  The /resourcegroups/{resourceGroupName} bit is optional
+                                  as some resources are scoped at the subscription
+                                  level ARMID is mutually exclusive with Group, Kind,
+                                  Namespace and Name.'
+                                pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                                type: string
+                              group:
+                                description: Group is the Kubernetes group of the
+                                  resource.
+                                type: string
+                              kind:
+                                description: Kind is the Kubernetes kind of the resource.
+                                type: string
+                              name:
+                                description: Name is the Kubernetes name of the resource.
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  storageQueueEventSubscriptionDestination:
+                    description: 'Storage version of v1alpha1api20200601.StorageQueueEventSubscriptionDestination
+                      Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageQueueEventSubscriptionDestination'
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information
+                          that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      endpointType:
+                        type: string
+                      properties:
+                        description: 'Storage version of v1alpha1api20200601.StorageQueueEventSubscriptionDestinationProperties
+                          Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageQueueEventSubscriptionDestinationProperties'
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: PropertyBag is an unordered set of stashed
+                              information that used for properties not directly supported
+                              by storage resources, allowing for full fidelity round
+                              trip conversions
+                            type: object
+                          queueName:
+                            type: string
+                          resourceReference:
+                            description: 'ResourceReference: The Azure Resource ID
+                              of the storage account that contains the queue that
+                              is the destination of an event subscription.'
+                            properties:
+                              armId:
+                                description: 'TODO: The below regex may be overly
+                                  restrictive ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                  The /resourcegroups/{resourceGroupName} bit is optional
+                                  as some resources are scoped at the subscription
+                                  level ARMID is mutually exclusive with Group, Kind,
+                                  Namespace and Name.'
+                                pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                                type: string
+                              group:
+                                description: Group is the Kubernetes group of the
+                                  resource.
+                                type: string
+                              kind:
+                                description: Kind is the Kubernetes kind of the resource.
+                                type: string
+                              name:
+                                description: Name is the Kubernetes name of the resource.
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  webHookEventSubscriptionDestination:
+                    description: 'Storage version of v1alpha1api20200601.WebHookEventSubscriptionDestination
+                      Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/WebHookEventSubscriptionDestination'
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information
+                          that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      endpointType:
+                        type: string
+                      properties:
+                        description: 'Storage version of v1alpha1api20200601.WebHookEventSubscriptionDestinationProperties
+                          Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/WebHookEventSubscriptionDestinationProperties'
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: PropertyBag is an unordered set of stashed
+                              information that used for properties not directly supported
+                              by storage resources, allowing for full fidelity round
+                              trip conversions
+                            type: object
+                          azureActiveDirectoryApplicationIdOrUri:
+                            type: string
+                          azureActiveDirectoryTenantId:
+                            type: string
+                          endpointUrl:
+                            type: string
+                          maxEventsPerBatch:
+                            type: integer
+                          preferredBatchSizeInKilobytes:
+                            type: integer
+                        type: object
+                    type: object
+                type: object
+              eventDeliverySchema:
+                type: string
+              expirationTimeUtc:
+                type: string
+              filter:
+                description: 'Storage version of v1alpha1api20200601.EventSubscriptionFilter
+                  Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventSubscriptionFilter'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  advancedFilters:
+                    items:
+                      description: 'Storage version of v1alpha1api20200601.AdvancedFilter
+                        Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AdvancedFilter'
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: PropertyBag is an unordered set of stashed
+                            information that used for properties not directly supported
+                            by storage resources, allowing for full fidelity round
+                            trip conversions
+                          type: object
+                        boolEqualsAdvancedFilter:
+                          description: Storage version of v1alpha1api20200601.AdvancedFilter_BoolEquals
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: PropertyBag is an unordered set of stashed
+                                information that used for properties not directly
+                                supported by storage resources, allowing for full
+                                fidelity round trip conversions
+                              type: object
+                            key:
+                              type: string
+                            operatorType:
+                              type: string
+                            value:
+                              type: boolean
+                          type: object
+                        numberGreaterThanAdvancedFilter:
+                          description: Storage version of v1alpha1api20200601.AdvancedFilter_NumberGreaterThan
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: PropertyBag is an unordered set of stashed
+                                information that used for properties not directly
+                                supported by storage resources, allowing for full
+                                fidelity round trip conversions
+                              type: object
+                            key:
+                              type: string
+                            operatorType:
+                              type: string
+                            value:
+                              type: number
+                          type: object
+                        numberGreaterThanOrEqualsAdvancedFilter:
+                          description: Storage version of v1alpha1api20200601.AdvancedFilter_NumberGreaterThanOrEquals
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: PropertyBag is an unordered set of stashed
+                                information that used for properties not directly
+                                supported by storage resources, allowing for full
+                                fidelity round trip conversions
+                              type: object
+                            key:
+                              type: string
+                            operatorType:
+                              type: string
+                            value:
+                              type: number
+                          type: object
+                        numberInAdvancedFilter:
+                          description: Storage version of v1alpha1api20200601.AdvancedFilter_NumberIn
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: PropertyBag is an unordered set of stashed
+                                information that used for properties not directly
+                                supported by storage resources, allowing for full
+                                fidelity round trip conversions
+                              type: object
+                            key:
+                              type: string
+                            operatorType:
+                              type: string
+                            values:
+                              items:
+                                type: number
+                              type: array
+                          type: object
+                        numberLessThanAdvancedFilter:
+                          description: Storage version of v1alpha1api20200601.AdvancedFilter_NumberLessThan
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: PropertyBag is an unordered set of stashed
+                                information that used for properties not directly
+                                supported by storage resources, allowing for full
+                                fidelity round trip conversions
+                              type: object
+                            key:
+                              type: string
+                            operatorType:
+                              type: string
+                            value:
+                              type: number
+                          type: object
+                        numberLessThanOrEqualsAdvancedFilter:
+                          description: Storage version of v1alpha1api20200601.AdvancedFilter_NumberLessThanOrEquals
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: PropertyBag is an unordered set of stashed
+                                information that used for properties not directly
+                                supported by storage resources, allowing for full
+                                fidelity round trip conversions
+                              type: object
+                            key:
+                              type: string
+                            operatorType:
+                              type: string
+                            value:
+                              type: number
+                          type: object
+                        numberNotInAdvancedFilter:
+                          description: Storage version of v1alpha1api20200601.AdvancedFilter_NumberNotIn
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: PropertyBag is an unordered set of stashed
+                                information that used for properties not directly
+                                supported by storage resources, allowing for full
+                                fidelity round trip conversions
+                              type: object
+                            key:
+                              type: string
+                            operatorType:
+                              type: string
+                            values:
+                              items:
+                                type: number
+                              type: array
+                          type: object
+                        stringBeginsWithAdvancedFilter:
+                          description: Storage version of v1alpha1api20200601.AdvancedFilter_StringBeginsWith
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: PropertyBag is an unordered set of stashed
+                                information that used for properties not directly
+                                supported by storage resources, allowing for full
+                                fidelity round trip conversions
+                              type: object
+                            key:
+                              type: string
+                            operatorType:
+                              type: string
+                            values:
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                        stringContainsAdvancedFilter:
+                          description: Storage version of v1alpha1api20200601.AdvancedFilter_StringContains
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: PropertyBag is an unordered set of stashed
+                                information that used for properties not directly
+                                supported by storage resources, allowing for full
+                                fidelity round trip conversions
+                              type: object
+                            key:
+                              type: string
+                            operatorType:
+                              type: string
+                            values:
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                        stringEndsWithAdvancedFilter:
+                          description: Storage version of v1alpha1api20200601.AdvancedFilter_StringEndsWith
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: PropertyBag is an unordered set of stashed
+                                information that used for properties not directly
+                                supported by storage resources, allowing for full
+                                fidelity round trip conversions
+                              type: object
+                            key:
+                              type: string
+                            operatorType:
+                              type: string
+                            values:
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                        stringInAdvancedFilter:
+                          description: Storage version of v1alpha1api20200601.AdvancedFilter_StringIn
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: PropertyBag is an unordered set of stashed
+                                information that used for properties not directly
+                                supported by storage resources, allowing for full
+                                fidelity round trip conversions
+                              type: object
+                            key:
+                              type: string
+                            operatorType:
+                              type: string
+                            values:
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                        stringNotInAdvancedFilter:
+                          description: Storage version of v1alpha1api20200601.AdvancedFilter_StringNotIn
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: PropertyBag is an unordered set of stashed
+                                information that used for properties not directly
+                                supported by storage resources, allowing for full
+                                fidelity round trip conversions
+                              type: object
+                            key:
+                              type: string
+                            operatorType:
+                              type: string
+                            values:
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                      type: object
+                    type: array
+                  includedEventTypes:
+                    items:
+                      type: string
+                    type: array
+                  isSubjectCaseSensitive:
+                    type: boolean
+                  subjectBeginsWith:
+                    type: string
+                  subjectEndsWith:
+                    type: string
+                type: object
+              labels:
+                items:
+                  type: string
+                type: array
+              location:
+                type: string
+              originalVersion:
+                type: string
+              owner:
+                description: ArbitraryOwnerReference is an owner reference to an unknown
+                  type.
+                properties:
+                  group:
+                    description: Group is the Kubernetes group of the resource.
+                    type: string
+                  kind:
+                    description: Kind is the Kubernetes kind of the resource.
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                required:
+                - group
+                - kind
+                - name
+                type: object
+              retryPolicy:
+                description: 'Storage version of v1alpha1api20200601.RetryPolicy Generated
+                  from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/RetryPolicy'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  eventTimeToLiveInMinutes:
+                    type: integer
+                  maxDeliveryAttempts:
+                    type: integer
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            description: Storage version of v1alpha1api20200601.EventSubscription_Status
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: PropertyBag is an unordered set of stashed information
+                  that used for properties not directly supported by storage resources,
+                  allowing for full fidelity round trip conversions
+                type: object
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: ObservedGeneration is the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.condition[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: Reason for the condition's last transition. Reasons
+                        are upper CamelCase (PascalCase) with no spaces. A reason
+                        is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: Severity with which to treat failures of this type
+                        of condition. For conditions which have positive polarity
+                        (Status == True is their normal/healthy state), this will
+                        be omitted when Status == True For conditions which have negative
+                        polarity (Status == False is their normal/healthy state),
+                        this will be omitted when Status == False. This is omitted
+                        in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              deadLetterDestination:
+                description: Storage version of v1alpha1api20200601.DeadLetterDestination_Status
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  endpointType:
+                    type: string
+                type: object
+              destination:
+                description: Storage version of v1alpha1api20200601.EventSubscriptionDestination_Status
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  endpointType:
+                    type: string
+                type: object
+              eventDeliverySchema:
+                type: string
+              expirationTimeUtc:
+                type: string
+              filter:
+                description: Storage version of v1alpha1api20200601.EventSubscriptionFilter_Status
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  advancedFilters:
+                    items:
+                      description: Storage version of v1alpha1api20200601.AdvancedFilter_Status
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: PropertyBag is an unordered set of stashed
+                            information that used for properties not directly supported
+                            by storage resources, allowing for full fidelity round
+                            trip conversions
+                          type: object
+                        key:
+                          type: string
+                        operatorType:
+                          type: string
+                      type: object
+                    type: array
+                  includedEventTypes:
+                    items:
+                      type: string
+                    type: array
+                  isSubjectCaseSensitive:
+                    type: boolean
+                  subjectBeginsWith:
+                    type: string
+                  subjectEndsWith:
+                    type: string
+                type: object
+              id:
+                type: string
+              labels:
+                items:
+                  type: string
+                type: array
+              name:
+                type: string
+              provisioningState:
+                type: string
+              retryPolicy:
+                description: Storage version of v1alpha1api20200601.RetryPolicy_Status
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  eventTimeToLiveInMinutes:
+                    type: integer
+                  maxDeliveryAttempts:
+                    type: integer
+                type: object
+              systemData:
+                description: Storage version of v1alpha1api20200601.SystemData_Status
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  createdAt:
+                    type: string
+                  createdBy:
+                    type: string
+                  createdByType:
+                    type: string
+                  lastModifiedAt:
+                    type: string
+                  lastModifiedBy:
+                    type: string
+                  lastModifiedByType:
+                    type: string
+                type: object
+              topic:
+                type: string
+              type:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

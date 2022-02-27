@@ -387,7 +387,11 @@ func findAllResourceStatusTypes(definitions astmodel.TypeDefinitionSet) astmodel
 }
 
 func extractPropertiesType(definitions astmodel.TypeDefinitionSet, typeName astmodel.TypeName) (*astmodel.TypeName, error) {
-	resolved := definitions.Get(typeName)
+	resolved, err := definitions.GetDefinition(typeName)
+	if err != nil {
+		return nil, err
+	}
+
 	ot, ok := astmodel.AsObjectType(resolved.Type())
 	if !ok {
 		return nil, errors.Errorf("couldn't find object type %q", typeName)

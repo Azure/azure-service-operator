@@ -118,16 +118,16 @@ func AddKubernetesResourceInterfaceImpls(
 	}
 
 	// Add defaults
-	defaulterBuilder := astmodel.NewDefaulterBuilder(resourceName, r, idFactory)
+	defaulterBuilder := functions.NewDefaulterBuilder(resourceName, r, idFactory)
 	if setNameFunction != nil {
-		defaulterBuilder.AddDefault(astmodel.NewDefaultAzureNameFunction(r, idFactory))
+		defaulterBuilder.AddDefault(functions.NewDefaultAzureNameFunction(r, idFactory))
 	}
 	r = r.WithInterface(defaulterBuilder.ToInterfaceImplementation())
 
 	// Add validations
-	validatorBuilder := astmodel.NewValidatorBuilder(resourceName, r, idFactory)
-	validatorBuilder.AddValidation(astmodel.ValidationKindCreate, astmodel.NewValidateResourceReferencesFunction(r, idFactory))
-	validatorBuilder.AddValidation(astmodel.ValidationKindUpdate, astmodel.NewValidateResourceReferencesFunction(r, idFactory))
+	validatorBuilder := functions.NewValidatorBuilder(resourceName, r, idFactory)
+	validatorBuilder.AddValidation(functions.ValidationKindCreate, functions.NewValidateResourceReferencesFunction(r, idFactory))
+	validatorBuilder.AddValidation(functions.ValidationKindUpdate, functions.NewValidateResourceReferencesFunction(r, idFactory))
 
 	r = r.WithInterface(validatorBuilder.ToInterfaceImplementation())
 

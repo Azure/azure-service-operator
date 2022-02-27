@@ -31,9 +31,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
-	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -42,24 +41,19 @@ import (
 )
 
 type (
-	ARMClientFactory func(genruntime.MetaObject) *genericarmclient.GenericClient
-	LoggerFactory    func(genruntime.MetaObject) logr.Logger
+	LoggerFactory func(genruntime.MetaObject) logr.Logger
 )
 
 // GenericReconciler reconciles resources
 type GenericReconciler struct {
+	Reconciler           genruntime.Reconciler
 	LoggerFactory        LoggerFactory
-	ARMClientFactory     ARMClientFactory
 	KubeClient           *kubeclient.Client
-	ResourceResolver     *genruntime.Resolver
 	Recorder             record.EventRecorder
 	Name                 string
 	Config               config.Values
 	GVK                  schema.GroupVersionKind
 	RequeueDelayOverride time.Duration
-	PositiveConditions   *conditions.PositiveConditionBuilder
-	Rand                 *rand.Rand
-	Extension            genruntime.ResourceExtension
 }
 
 var _ reconcile.Reconciler = &GenericReconciler{} // GenericReconciler is a reconcile.Reconciler
@@ -103,7 +97,7 @@ func registerWebhook(mgr ctrl.Manager, obj client.Object) error {
 
 func RegisterAll(
 	mgr ctrl.Manager,
-	clientFactory ARMClientFactory,
+	clientFactory arm.ARMClientFactory,
 	objs []registration.StorageType,
 	extensions map[schema.GroupVersionKind]genruntime.ResourceExtension,
 	options Options) error {
@@ -141,7 +135,7 @@ func RegisterAll(
 func register(
 	mgr ctrl.Manager,
 	reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind,
-	clientFactory ARMClientFactory,
+	clientFactory arm.ARMClientFactory,
 	info registration.StorageType,
 	extensions map[schema.GroupVersionKind]genruntime.ResourceExtension,
 	options Options) error {
@@ -175,27 +169,38 @@ func register(
 		return result.WithName(controllerName)
 	}
 
+	eventRecorder := mgr.GetEventRecorderFor(controllerName)
+
+	// Make the ARM reconciler
+	// TODO: In the future when we support other reconciler's we may need to construct
+	// TODO: this further up the stack and pass it in
+	innerReconciler := arm.NewAzureDeploymentReconciler(
+		clientFactory,
+		eventRecorder,
+		kubeClient,
+		genruntime.NewResolver(kubeClient, reconciledResourceLookup),
+		conditions.NewPositiveConditionBuilder(clock.New()),
+		options.Config,
+		//nolint:gosec // do not want cryptographic randomness here
+		rand.New(lockedrand.NewSource(time.Now().UnixNano())),
+		extension)
+
 	reconciler := &GenericReconciler{
-		ARMClientFactory:     clientFactory,
+		Reconciler:           innerReconciler,
 		KubeClient:           kubeClient,
-		ResourceResolver:     genruntime.NewResolver(kubeClient, reconciledResourceLookup),
 		Name:                 t.Name(),
 		Config:               options.Config,
 		LoggerFactory:        loggerFactory,
-		Recorder:             mgr.GetEventRecorderFor(controllerName),
+		Recorder:             eventRecorder,
 		GVK:                  gvk,
 		RequeueDelayOverride: options.RequeueDelay,
-		PositiveConditions:   conditions.NewPositiveConditionBuilder(clock.New()),
-		//nolint:gosec // do not want cryptographic randomness here
-		Rand:      rand.New(lockedrand.NewSource(time.Now().UnixNano())),
-		Extension: extension,
 	}
 
 	// Note: These predicates prevent status updates from triggering a reconcile.
 	// to learn more look at https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/predicate#GenerationChangedPredicate
 	filter := predicate.Or(
 		predicate.GenerationChangedPredicate{},
-		reconcilers.ARMReconcilerAnnotationChangedPredicate(options.Log.WithName(controllerName)))
+		arm.ARMReconcilerAnnotationChangedPredicate(options.Log.WithName(controllerName)))
 
 	builder := ctrl.NewControllerManagedBy(mgr).
 		// Note: These predicates prevent status updates from triggering a reconcile.
@@ -291,20 +296,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		return ctrl.Result{Requeue: true}, gr.KubeClient.Client.Update(ctx, obj)
 	}
 
-	// TODO: We need some factory-lookup here
-	reconciler := reconcilers.NewAzureDeploymentReconciler(
-		metaObj,
-		log,
-		gr.ARMClientFactory(metaObj),
-		gr.Recorder,
-		gr.KubeClient,
-		gr.ResourceResolver,
-		gr.PositiveConditions,
-		gr.Config,
-		gr.Rand,
-		gr.Extension)
-
-	result, err := reconciler.Reconcile(ctx)
+	result, err := gr.Reconciler.Reconcile(ctx, log, metaObj)
 	if err != nil {
 		return ctrl.Result{}, err
 	}

@@ -1,0 +1,777 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: azureserviceoperator-system/azureserviceoperator-serving-cert
+    controller-gen.kubebuilder.io/version: (devel)
+  name: redis.cache.azure.com
+spec:
+  conversion:
+    strategy: Webhook
+    webhook:
+      clientConfig:
+        service:
+          name: azureserviceoperator-webhook-service
+          namespace: azureserviceoperator-system
+          path: /convert
+      conversionReviewVersions:
+      - v1beta1
+  group: cache.azure.com
+  names:
+    kind: Redis
+    listKind: RedisList
+    plural: redis
+    singular: redis
+  preserveUnknownFields: false
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1alpha1api20201201
+    schema:
+      openAPIV3Schema:
+        description: 'Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis'
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              azureName:
+                description: 'AzureName: The name of the resource in Azure. This is
+                  often the same as the name of the resource in Kubernetes but it
+                  doesn''t have to be.'
+                type: string
+              enableNonSslPort:
+                description: 'EnableNonSslPort: Specifies whether the non-ssl Redis
+                  server port (6379) is enabled.'
+                type: boolean
+              location:
+                description: 'Location: The geo-location where the resource lives'
+                type: string
+              minimumTlsVersion:
+                description: 'MinimumTlsVersion: Optional: requires clients to use
+                  a specified TLS version (or higher) to connect (e,g, ''1.0'', ''1.1'',
+                  ''1.2'').'
+                enum:
+                - "1.0"
+                - "1.1"
+                - "1.2"
+                type: string
+              owner:
+                description: KnownResourceReference is a resource reference to a known
+                  type.
+                properties:
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                required:
+                - name
+                type: object
+              publicNetworkAccess:
+                description: 'PublicNetworkAccess: Whether or not public endpoint
+                  access is allowed for this cache.  Value is optional but if passed
+                  in, must be ''Enabled'' or ''Disabled''. If ''Disabled'', private
+                  endpoints are the exclusive access method. Default value is ''Enabled''.'
+                enum:
+                - Disabled
+                - Enabled
+                type: string
+              redisConfiguration:
+                additionalProperties:
+                  type: string
+                description: 'RedisConfiguration: All Redis Settings. Few possible
+                  keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
+                  etc.'
+                type: object
+              redisVersion:
+                description: 'RedisVersion: Redis version. Only major version will
+                  be used in PUT/PATCH request with current valid values: (4, 6)'
+                type: string
+              replicasPerMaster:
+                description: 'ReplicasPerMaster: The number of replicas to be created
+                  per primary.'
+                type: integer
+              replicasPerPrimary:
+                description: 'ReplicasPerPrimary: The number of replicas to be created
+                  per primary.'
+                type: integer
+              shardCount:
+                description: 'ShardCount: The number of shards to be created on a
+                  Premium Cluster Cache.'
+                type: integer
+              sku:
+                description: 'Sku: SKU parameters supplied to the create Redis operation.'
+                properties:
+                  capacity:
+                    description: 'Capacity: The size of the Redis cache to deploy.
+                      Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4,
+                      5, 6), for P (Premium) family (1, 2, 3, 4).'
+                    type: integer
+                  family:
+                    description: 'Family: The SKU family to use. Valid values: (C,
+                      P). (C = Basic/Standard, P = Premium).'
+                    enum:
+                    - C
+                    - P
+                    type: string
+                  name:
+                    description: 'Name: The type of Redis cache to deploy. Valid values:
+                      (Basic, Standard, Premium).'
+                    enum:
+                    - Basic
+                    - Premium
+                    - Standard
+                    type: string
+                required:
+                - capacity
+                - family
+                - name
+                type: object
+              staticIP:
+                description: 'StaticIP: Static IP address. Optionally, may be specified
+                  when deploying a Redis cache inside an existing Azure Virtual Network;
+                  auto assigned by default.'
+                pattern: ^\d+\.\d+\.\d+\.\d+$
+                type: string
+              subnetReference:
+                description: 'SubnetReference: The full resource ID of a subnet in
+                  a virtual network to deploy the Redis cache in. Example format:
+                  /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1'
+                properties:
+                  armId:
+                    description: 'TODO: The below regex may be overly restrictive
+                      ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                      The /resourcegroups/{resourceGroupName} bit is optional as some
+                      resources are scoped at the subscription level ARMID is mutually
+                      exclusive with Group, Kind, Namespace and Name.'
+                    pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                    type: string
+                  group:
+                    description: Group is the Kubernetes group of the resource.
+                    type: string
+                  kind:
+                    description: Kind is the Kubernetes kind of the resource.
+                    type: string
+                  name:
+                    description: Name is the Kubernetes name of the resource.
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Name-value pairs to add to the resource'
+                type: object
+              tenantSettings:
+                additionalProperties:
+                  type: string
+                description: 'TenantSettings: A dictionary of tenant settings'
+                type: object
+              zones:
+                description: 'Zones: A list of availability zones denoting where the
+                  resource needs to come from.'
+                items:
+                  type: string
+                type: array
+            required:
+            - owner
+            - sku
+            type: object
+          status:
+            properties:
+              accessKeys:
+                description: 'AccessKeys: The keys of the Redis cache - not set if
+                  this object is not the response to Create or Update redis cache'
+                properties:
+                  primaryKey:
+                    description: 'PrimaryKey: The current primary key that clients
+                      can use to authenticate with Redis cache.'
+                    type: string
+                  secondaryKey:
+                    description: 'SecondaryKey: The current secondary key that clients
+                      can use to authenticate with Redis cache.'
+                    type: string
+                type: object
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: ObservedGeneration is the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.condition[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: Reason for the condition's last transition. Reasons
+                        are upper CamelCase (PascalCase) with no spaces. A reason
+                        is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: Severity with which to treat failures of this type
+                        of condition. For conditions which have positive polarity
+                        (Status == True is their normal/healthy state), this will
+                        be omitted when Status == True For conditions which have negative
+                        polarity (Status == False is their normal/healthy state),
+                        this will be omitted when Status == False. This is omitted
+                        in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              enableNonSslPort:
+                description: 'EnableNonSslPort: Specifies whether the non-ssl Redis
+                  server port (6379) is enabled.'
+                type: boolean
+              hostName:
+                description: 'HostName: Redis host name.'
+                type: string
+              id:
+                description: 'Id: Fully qualified resource ID for the resource. Ex
+                  - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
+                type: string
+              instances:
+                description: 'Instances: List of the Redis instances associated with
+                  the cache'
+                items:
+                  properties:
+                    isMaster:
+                      description: 'IsMaster: Specifies whether the instance is a
+                        primary node.'
+                      type: boolean
+                    isPrimary:
+                      description: 'IsPrimary: Specifies whether the instance is a
+                        primary node.'
+                      type: boolean
+                    nonSslPort:
+                      description: 'NonSslPort: If enableNonSslPort is true, provides
+                        Redis instance Non-SSL port.'
+                      type: integer
+                    shardId:
+                      description: 'ShardId: If clustering is enabled, the Shard ID
+                        of Redis Instance'
+                      type: integer
+                    sslPort:
+                      description: 'SslPort: Redis instance SSL port.'
+                      type: integer
+                    zone:
+                      description: 'Zone: If the Cache uses availability zones, specifies
+                        availability zone where this instance is located.'
+                      type: string
+                  type: object
+                type: array
+              linkedServers:
+                description: 'LinkedServers: List of the linked servers associated
+                  with the cache'
+                items:
+                  properties:
+                    id:
+                      description: 'Id: Linked server Id.'
+                      type: string
+                  type: object
+                type: array
+              location:
+                description: 'Location: The geo-location where the resource lives'
+                type: string
+              minimumTlsVersion:
+                description: 'MinimumTlsVersion: Optional: requires clients to use
+                  a specified TLS version (or higher) to connect (e,g, ''1.0'', ''1.1'',
+                  ''1.2'')'
+                type: string
+              name:
+                description: 'Name: The name of the resource'
+                type: string
+              port:
+                description: 'Port: Redis non-SSL port.'
+                type: integer
+              privateEndpointConnections:
+                description: 'PrivateEndpointConnections: List of private endpoint
+                  connection associated with the specified redis cache'
+                items:
+                  properties:
+                    id:
+                      description: 'Id: Fully qualified resource ID for the resource.
+                        Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
+                      type: string
+                  type: object
+                type: array
+              provisioningState:
+                description: 'ProvisioningState: Redis instance provisioning status.'
+                type: string
+              publicNetworkAccess:
+                description: 'PublicNetworkAccess: Whether or not public endpoint
+                  access is allowed for this cache.  Value is optional but if passed
+                  in, must be ''Enabled'' or ''Disabled''. If ''Disabled'', private
+                  endpoints are the exclusive access method. Default value is ''Enabled'''
+                type: string
+              redisConfiguration:
+                additionalProperties:
+                  type: string
+                description: 'RedisConfiguration: All Redis Settings. Few possible
+                  keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
+                  etc.'
+                type: object
+              redisVersion:
+                description: 'RedisVersion: Redis version. Only major version will
+                  be used in PUT/PATCH request with current valid values: (4, 6)'
+                type: string
+              replicasPerMaster:
+                description: 'ReplicasPerMaster: The number of replicas to be created
+                  per primary.'
+                type: integer
+              replicasPerPrimary:
+                description: 'ReplicasPerPrimary: The number of replicas to be created
+                  per primary.'
+                type: integer
+              shardCount:
+                description: 'ShardCount: The number of shards to be created on a
+                  Premium Cluster Cache.'
+                type: integer
+              sku:
+                description: 'Sku: The SKU of the Redis cache to deploy.'
+                properties:
+                  capacity:
+                    description: 'Capacity: The size of the Redis cache to deploy.
+                      Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4,
+                      5, 6), for P (Premium) family (1, 2, 3, 4).'
+                    type: integer
+                  family:
+                    description: 'Family: The SKU family to use. Valid values: (C,
+                      P). (C = Basic/Standard, P = Premium).'
+                    type: string
+                  name:
+                    description: 'Name: The type of Redis cache to deploy. Valid values:
+                      (Basic, Standard, Premium)'
+                    type: string
+                required:
+                - capacity
+                - family
+                - name
+                type: object
+              sslPort:
+                description: 'SslPort: Redis SSL port.'
+                type: integer
+              staticIP:
+                description: 'StaticIP: Static IP address. Optionally, may be specified
+                  when deploying a Redis cache inside an existing Azure Virtual Network;
+                  auto assigned by default.'
+                type: string
+              subnetId:
+                description: 'SubnetId: The full resource ID of a subnet in a virtual
+                  network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1'
+                type: string
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Resource tags.'
+                type: object
+              tenantSettings:
+                additionalProperties:
+                  type: string
+                description: 'TenantSettings: A dictionary of tenant settings'
+                type: object
+              type:
+                description: 'Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines"
+                  or "Microsoft.Storage/storageAccounts"'
+                type: string
+              zones:
+                description: 'Zones: A list of availability zones denoting where the
+                  resource needs to come from.'
+                items:
+                  type: string
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1alpha1api20201201storage
+    schema:
+      openAPIV3Schema:
+        description: 'Storage version of v1alpha1api20201201.Redis Generated from:
+          https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis'
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1alpha1api20201201.Redis_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: PropertyBag is an unordered set of stashed information
+                  that used for properties not directly supported by storage resources,
+                  allowing for full fidelity round trip conversions
+                type: object
+              azureName:
+                description: 'AzureName: The name of the resource in Azure. This is
+                  often the same as the name of the resource in Kubernetes but it
+                  doesn''t have to be.'
+                type: string
+              enableNonSslPort:
+                type: boolean
+              location:
+                type: string
+              minimumTlsVersion:
+                type: string
+              originalVersion:
+                type: string
+              owner:
+                description: KnownResourceReference is a resource reference to a known
+                  type.
+                properties:
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                required:
+                - name
+                type: object
+              publicNetworkAccess:
+                type: string
+              redisConfiguration:
+                additionalProperties:
+                  type: string
+                type: object
+              redisVersion:
+                type: string
+              replicasPerMaster:
+                type: integer
+              replicasPerPrimary:
+                type: integer
+              shardCount:
+                type: integer
+              sku:
+                description: 'Storage version of v1alpha1api20201201.Sku Generated
+                  from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/Sku'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  capacity:
+                    type: integer
+                  family:
+                    type: string
+                  name:
+                    type: string
+                type: object
+              staticIP:
+                type: string
+              subnetReference:
+                description: 'SubnetReference: The full resource ID of a subnet in
+                  a virtual network to deploy the Redis cache in. Example format:
+                  /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1'
+                properties:
+                  armId:
+                    description: 'TODO: The below regex may be overly restrictive
+                      ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                      The /resourcegroups/{resourceGroupName} bit is optional as some
+                      resources are scoped at the subscription level ARMID is mutually
+                      exclusive with Group, Kind, Namespace and Name.'
+                    pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                    type: string
+                  group:
+                    description: Group is the Kubernetes group of the resource.
+                    type: string
+                  kind:
+                    description: Kind is the Kubernetes kind of the resource.
+                    type: string
+                  name:
+                    description: Name is the Kubernetes name of the resource.
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              tenantSettings:
+                additionalProperties:
+                  type: string
+                type: object
+              zones:
+                items:
+                  type: string
+                type: array
+            required:
+            - owner
+            type: object
+          status:
+            description: Storage version of v1alpha1api20201201.RedisResource_Status
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: PropertyBag is an unordered set of stashed information
+                  that used for properties not directly supported by storage resources,
+                  allowing for full fidelity round trip conversions
+                type: object
+              accessKeys:
+                description: Storage version of v1alpha1api20201201.RedisAccessKeys_Status
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  primaryKey:
+                    type: string
+                  secondaryKey:
+                    type: string
+                type: object
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: ObservedGeneration is the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.condition[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: Reason for the condition's last transition. Reasons
+                        are upper CamelCase (PascalCase) with no spaces. A reason
+                        is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: Severity with which to treat failures of this type
+                        of condition. For conditions which have positive polarity
+                        (Status == True is their normal/healthy state), this will
+                        be omitted when Status == True For conditions which have negative
+                        polarity (Status == False is their normal/healthy state),
+                        this will be omitted when Status == False. This is omitted
+                        in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              enableNonSslPort:
+                type: boolean
+              hostName:
+                type: string
+              id:
+                type: string
+              instances:
+                items:
+                  description: Storage version of v1alpha1api20201201.RedisInstanceDetails_Status
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: PropertyBag is an unordered set of stashed information
+                        that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    isMaster:
+                      type: boolean
+                    isPrimary:
+                      type: boolean
+                    nonSslPort:
+                      type: integer
+                    shardId:
+                      type: integer
+                    sslPort:
+                      type: integer
+                    zone:
+                      type: string
+                  type: object
+                type: array
+              linkedServers:
+                items:
+                  description: Storage version of v1alpha1api20201201.RedisLinkedServer_Status
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: PropertyBag is an unordered set of stashed information
+                        that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    id:
+                      type: string
+                  type: object
+                type: array
+              location:
+                type: string
+              minimumTlsVersion:
+                type: string
+              name:
+                type: string
+              port:
+                type: integer
+              privateEndpointConnections:
+                items:
+                  description: Storage version of v1alpha1api20201201.PrivateEndpointConnection_Status_SubResourceEmbedded
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: PropertyBag is an unordered set of stashed information
+                        that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    id:
+                      type: string
+                  type: object
+                type: array
+              provisioningState:
+                type: string
+              publicNetworkAccess:
+                type: string
+              redisConfiguration:
+                additionalProperties:
+                  type: string
+                type: object
+              redisVersion:
+                type: string
+              replicasPerMaster:
+                type: integer
+              replicasPerPrimary:
+                type: integer
+              shardCount:
+                type: integer
+              sku:
+                description: Storage version of v1alpha1api20201201.Sku_Status
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  capacity:
+                    type: integer
+                  family:
+                    type: string
+                  name:
+                    type: string
+                type: object
+              sslPort:
+                type: integer
+              staticIP:
+                type: string
+              subnetId:
+                type: string
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              tenantSettings:
+                additionalProperties:
+                  type: string
+                type: object
+              type:
+                type: string
+              zones:
+                items:
+                  type: string
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

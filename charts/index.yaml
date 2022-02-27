@@ -3,14 +3,31 @@ entries:
   azure-service-operator:
   - apiVersion: v2
     appVersion: 1.0.28631
-    created: "2021-09-01T16:27:53.680374239+12:00"
+    created: "2022-02-18T10:32:22.448657331-08:00"
     dependencies:
     - condition: installAadPodIdentity
       name: aad-pod-identity
       repository: https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts
       version: 4.1.1
     description: Deploy components and dependencies of azure-service-operator
-    digest: 83c32e8acddf7dbc10d1efb6739ea4ce8b7055db20635ea8fa2340aaa9ddf99d
+    digest: 76bc1cfc53056f2a9e4f4bfe582ee60fd3ff128ec26d4df4c6d16f3d1b6dca2f
+    home: https://github.com/Azure/azure-service-operator
+    name: azure-service-operator
+    sources:
+    - https://github.com/Azure/azure-service-operator
+    urls:
+    - azure-service-operator-1.9.0.tgz
+    version: 1.9.0
+  - apiVersion: v2
+    appVersion: 1.0.28631
+    created: "2022-02-18T10:32:22.445782341-08:00"
+    dependencies:
+    - condition: installAadPodIdentity
+      name: aad-pod-identity
+      repository: https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts
+      version: 4.1.1
+    description: Deploy components and dependencies of azure-service-operator
+    digest: 43203712b006eb6f060fb75625ab98d9c4b84e1555d141157edd56d3e8e62cf1
     home: https://github.com/Azure/azure-service-operator
     name: azure-service-operator
     sources:
@@ -20,7 +37,7 @@ entries:
     version: 1.8.0
   - apiVersion: v2
     appVersion: 1.0.27207
-    created: "2021-09-01T16:27:53.677433342+12:00"
+    created: "2022-02-18T10:32:22.443805147-08:00"
     dependencies:
     - condition: installAadPodIdentity
       name: aad-pod-identity
@@ -37,7 +54,7 @@ entries:
     version: 1.7.0
   - apiVersion: v2
     appVersion: 1.0.24492
-    created: "2021-09-01T16:27:53.675406637+12:00"
+    created: "2022-02-18T10:32:22.441785054-08:00"
     dependencies:
     - condition: installAadPodIdentity
       name: aad-pod-identity
@@ -54,7 +71,7 @@ entries:
     version: 1.6.0
   - apiVersion: v2
     appVersion: 1.0.24492
-    created: "2021-09-01T16:27:53.673360216+12:00"
+    created: "2022-02-18T10:32:22.438583965-08:00"
     dependencies:
     - condition: installAadPodIdentity
       name: aad-pod-identity
@@ -71,7 +88,7 @@ entries:
     version: 1.5.0
   - apiVersion: v2
     appVersion: 1.0.23956
-    created: "2021-09-01T16:27:53.671504888+12:00"
+    created: "2022-02-18T10:32:22.436751471-08:00"
     dependencies:
     - condition: installAadPodIdentity
       name: aad-pod-identity
@@ -88,7 +105,7 @@ entries:
     version: 1.4.0
   - apiVersion: v2
     appVersion: 1.0.23694
-    created: "2021-09-01T16:27:53.66901365+12:00"
+    created: "2022-02-18T10:32:22.434883277-08:00"
     dependencies:
     - condition: installAadPodIdentity
       name: aad-pod-identity
@@ -105,7 +122,7 @@ entries:
     version: 1.3.0
   - apiVersion: v2
     appVersion: 1.0.22275
-    created: "2021-09-01T16:27:53.667176972+12:00"
+    created: "2022-02-18T10:32:22.431985387-08:00"
     dependencies:
     - condition: installAadPodIdentity
       name: aad-pod-identity
@@ -122,7 +139,7 @@ entries:
     version: 1.2.0
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2021-09-01T16:27:53.665275827+12:00"
+    created: "2022-02-18T10:32:22.430128493-08:00"
     dependencies:
     - condition: installAadPodIdentity
       name: aad-pod-identity
@@ -139,7 +156,7 @@ entries:
     version: 1.1.0
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2021-09-01T16:27:53.662666897+12:00"
+    created: "2022-02-18T10:32:22.428466798-08:00"
     dependencies:
     - condition: installAadPodIdentity
       name: aad-pod-identity
@@ -156,7 +173,7 @@ entries:
     version: 1.0.0
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2021-09-01T16:27:53.66055747+12:00"
+    created: "2022-02-18T10:32:22.426749204-08:00"
     dependencies:
     - condition: installAadPodIdentity
       name: aad-pod-identity
@@ -171,4 +188,4 @@ entries:
     urls:
     - azure-service-operator-0.1.0.tgz
     version: 0.1.0
-generated: "2021-09-01T16:27:53.658535708+12:00"
+generated: "2022-02-18T10:32:22.423937413-08:00"

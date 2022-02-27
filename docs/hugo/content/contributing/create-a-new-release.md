@@ -23,6 +23,29 @@
    ```
 9. Make sure they deploy successfully - check in the portal as well.
 
+# Creating and testing Helm chart for new release
+1. Create a new branch from `<NEW_RELEASE_TAG>` HEAD
+2. Generate helm manifest for new release: `task controller:gen-helm-manifest`
+3. Check the version in `/v2/charts/azure-service-operator/Chart.yaml` if matches with the latest release tag.
+4. Install helm chart:
+    ```
+   helm install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+   --set azureTenantID=$AZURE_TENANT_ID \
+   --set azureClientSecret=$AZURE_CLIENT_SECRET \
+   --set azureClientID=$AZURE_CLIENT_ID \
+   asov2 -n azureserviceoperator-system --create-namespace ./v2/charts/azure-service-operator/.
+    ```
+5. Wait for the chart installation.
+6. Wait for it to start: `k get all -n azureserviceoperator-system`
+7. Create a resource group and a vnet in it (the vnet is to check that conversion webhooks are working, since there aren't any for RGs):
+   ```
+   k apply -f v2/config/samples/resources/v1alpha1api20200601_resourcegroup.yaml
+   k apply -f v2/config/samples/network/v1alpha1api20201101_virtualnetwork.yaml
+   ```
+8. Make sure they deploy successfully - check in the portal as well.
+9. If installed successfully, commit the files under `v2/charts/azure-service-operator`.
+10. Send a PR.
+
 # Fixing an incorrect release
 If there was an issue publishing a new release, we may want to delete the existing release and try again. 
 Only do this if you've just published the release and there is something wrong with it. We shouldn't be deleting releases people are actually using. 

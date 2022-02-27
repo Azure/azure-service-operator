@@ -10,7 +10,6 @@ import (
 
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
@@ -64,7 +63,7 @@ func Test_WhenObjectPullSecretsAndSecretAlreadyExists_WarningConditionIsSet(t *t
 	}
 	tc.CreateResource(collidingSecret)
 
-	tc.CreateResourceAndWaitForState(acct, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
+	tc.CreateResourceAndWaitForFailure(acct)
 
 	// Expect that the ARM ID in status is set. This indicates that status is filled out and the resource
 	// has been created in Azure
@@ -72,6 +71,7 @@ func Test_WhenObjectPullSecretsAndSecretAlreadyExists_WarningConditionIsSet(t *t
 	armId := *acct.Status.Id
 
 	// We expect the ready condition to include details of the error
+	tc.Expect(acct.Status.Conditions[0].Severity).To(Equal(conditions.ConditionSeverityError))
 	tc.Expect(acct.Status.Conditions[0].Reason).To(Equal("FailedWritingSecret"))
 	tc.Expect(acct.Status.Conditions[0].Message).To(MatchRegexp("cannot overwrite secret.*which is not owned by"))
 
@@ -99,9 +99,11 @@ func Test_TwoObjectsWriteSameSecret_WarningConditionIsSetOnSecond(t *testing.T) 
 	acct2 := makeSimpleStorageAccountWithOperatorSpecSecrets(tc, rg, storageKeysSecret, "key2")
 
 	tc.CreateResourceAndWait(acct1)
-	tc.CreateResourceAndWaitForState(acct2, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
+	tc.CreateResourceAndWaitForFailure(acct2)
 
 	// We expect the ready condition to include details of the error
+	// Note that the error is fatal as the customer must take some action in order to resolve the problem.
+	tc.Expect(acct2.Status.Conditions[0].Severity).To(Equal(conditions.ConditionSeverityError))
 	tc.Expect(acct2.Status.Conditions[0].Reason).To(Equal("FailedWritingSecret"))
 	tc.Expect(acct2.Status.Conditions[0].Message).To(MatchRegexp("cannot overwrite secret.*which is not owned by"))
 }

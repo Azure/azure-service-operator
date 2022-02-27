@@ -1,0 +1,1500 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: azureserviceoperator-system/azureserviceoperator-serving-cert
+    controller-gen.kubebuilder.io/version: (devel)
+  name: managedclustersagentpools.containerservice.azure.com
+spec:
+  conversion:
+    strategy: Webhook
+    webhook:
+      clientConfig:
+        service:
+          name: azureserviceoperator-webhook-service
+          namespace: azureserviceoperator-system
+          path: /convert
+      conversionReviewVersions:
+      - v1beta1
+  group: containerservice.azure.com
+  names:
+    kind: ManagedClustersAgentPool
+    listKind: ManagedClustersAgentPoolList
+    plural: managedclustersagentpools
+    singular: managedclustersagentpool
+  preserveUnknownFields: false
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1alpha1api20210501
+    schema:
+      openAPIV3Schema:
+        description: 'Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/resourceDefinitions/managedClusters_agentPools'
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              availabilityZones:
+                description: 'AvailabilityZones: The list of Availability zones to
+                  use for nodes. This can only be specified if the AgentPoolType property
+                  is ''VirtualMachineScaleSets''.'
+                items:
+                  type: string
+                type: array
+              azureName:
+                description: 'AzureName: The name of the resource in Azure. This is
+                  often the same as the name of the resource in Kubernetes but it
+                  doesn''t have to be.'
+                type: string
+              count:
+                description: 'Count: Number of agents (VMs) to host docker containers.
+                  Allowed values must be in the range of 0 to 1000 (inclusive) for
+                  user pools and in the range of 1 to 1000 (inclusive) for system
+                  pools. The default value is 1.'
+                type: integer
+              enableAutoScaling:
+                description: 'EnableAutoScaling: Whether to enable auto-scaler'
+                type: boolean
+              enableEncryptionAtHost:
+                description: 'EnableEncryptionAtHost: This is only supported on certain
+                  VM sizes and in certain Azure regions. For more information, see:
+                  https://docs.microsoft.com/azure/aks/enable-host-encryption'
+                type: boolean
+              enableFIPS:
+                description: 'EnableFIPS: See [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview)
+                  for more details.'
+                type: boolean
+              enableNodePublicIP:
+                description: 'EnableNodePublicIP: Some scenarios may require nodes
+                  in a node pool to receive their own dedicated public IP addresses.
+                  A common scenario is for gaming workloads, where a console needs
+                  to make a direct connection to a cloud virtual machine to minimize
+                  hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools).
+                  The default is false.'
+                type: boolean
+              enableUltraSSD:
+                description: 'EnableUltraSSD: Whether to enable UltraSSD'
+                type: boolean
+              gpuInstanceProfile:
+                description: 'GpuInstanceProfile: GPUInstanceProfile to be used to
+                  specify GPU MIG instance profile for supported GPU VM SKU.'
+                enum:
+                - MIG1g
+                - MIG2g
+                - MIG3g
+                - MIG4g
+                - MIG7g
+                type: string
+              kubeletConfig:
+                description: 'KubeletConfig: See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration)
+                  for more details.'
+                properties:
+                  allowedUnsafeSysctls:
+                    description: 'AllowedUnsafeSysctls: Allowed list of unsafe sysctls
+                      or unsafe sysctl patterns (ending in `*`).'
+                    items:
+                      type: string
+                    type: array
+                  containerLogMaxFiles:
+                    description: 'ContainerLogMaxFiles: The maximum number of container
+                      log files that can be present for a container. The number must
+                      be ≥ 2.'
+                    minimum: 2
+                    type: integer
+                  containerLogMaxSizeMB:
+                    description: 'ContainerLogMaxSizeMB: The maximum size (e.g. 10Mi)
+                      of container log file before it is rotated.'
+                    type: integer
+                  cpuCfsQuota:
+                    description: 'CpuCfsQuota: The default is true.'
+                    type: boolean
+                  cpuCfsQuotaPeriod:
+                    description: 'CpuCfsQuotaPeriod: The default is ''100ms.'' Valid
+                      values are a sequence of decimal numbers with an optional fraction
+                      and a unit suffix. For example: ''300ms'', ''2h45m''. Supported
+                      units are ''ns'', ''us'', ''ms'', ''s'', ''m'', and ''h''.'
+                    type: string
+                  cpuManagerPolicy:
+                    description: 'CpuManagerPolicy: The default is ''none''. See [Kubernetes
+                      CPU management policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies)
+                      for more information. Allowed values are ''none'' and ''static''.'
+                    type: string
+                  failSwapOn:
+                    description: 'FailSwapOn: If set to true it will make the Kubelet
+                      fail to start if swap is enabled on the node.'
+                    type: boolean
+                  imageGcHighThreshold:
+                    description: 'ImageGcHighThreshold: To disable image garbage collection,
+                      set to 100. The default is 85%'
+                    type: integer
+                  imageGcLowThreshold:
+                    description: 'ImageGcLowThreshold: This cannot be set higher than
+                      imageGcHighThreshold. The default is 80%'
+                    type: integer
+                  podMaxPids:
+                    description: 'PodMaxPids: The maximum number of processes per
+                      pod.'
+                    type: integer
+                  topologyManagerPolicy:
+                    description: 'TopologyManagerPolicy: For more information see
+                      [Kubernetes Topology Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager).
+                      The default is ''none''. Allowed values are ''none'', ''best-effort'',
+                      ''restricted'', and ''single-numa-node''.'
+                    type: string
+                type: object
+              kubeletDiskType:
+                enum:
+                - OS
+                - Temporary
+                type: string
+              linuxOSConfig:
+                description: 'LinuxOSConfig: See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration)
+                  for more details.'
+                properties:
+                  swapFileSizeMB:
+                    description: 'SwapFileSizeMB: The size in MB of a swap file that
+                      will be created on each node.'
+                    type: integer
+                  sysctls:
+                    description: 'Sysctls: Sysctl settings for Linux agent nodes.'
+                    properties:
+                      fsAioMaxNr:
+                        description: 'FsAioMaxNr: Sysctl setting fs.aio-max-nr.'
+                        type: integer
+                      fsFileMax:
+                        description: 'FsFileMax: Sysctl setting fs.file-max.'
+                        type: integer
+                      fsInotifyMaxUserWatches:
+                        description: 'FsInotifyMaxUserWatches: Sysctl setting fs.inotify.max_user_watches.'
+                        type: integer
+                      fsNrOpen:
+                        description: 'FsNrOpen: Sysctl setting fs.nr_open.'
+                        type: integer
+                      kernelThreadsMax:
+                        description: 'KernelThreadsMax: Sysctl setting kernel.threads-max.'
+                        type: integer
+                      netCoreNetdevMaxBacklog:
+                        description: 'NetCoreNetdevMaxBacklog: Sysctl setting net.core.netdev_max_backlog.'
+                        type: integer
+                      netCoreOptmemMax:
+                        description: 'NetCoreOptmemMax: Sysctl setting net.core.optmem_max.'
+                        type: integer
+                      netCoreRmemDefault:
+                        description: 'NetCoreRmemDefault: Sysctl setting net.core.rmem_default.'
+                        type: integer
+                      netCoreRmemMax:
+                        description: 'NetCoreRmemMax: Sysctl setting net.core.rmem_max.'
+                        type: integer
+                      netCoreSomaxconn:
+                        description: 'NetCoreSomaxconn: Sysctl setting net.core.somaxconn.'
+                        type: integer
+                      netCoreWmemDefault:
+                        description: 'NetCoreWmemDefault: Sysctl setting net.core.wmem_default.'
+                        type: integer
+                      netCoreWmemMax:
+                        description: 'NetCoreWmemMax: Sysctl setting net.core.wmem_max.'
+                        type: integer
+                      netIpv4IpLocalPortRange:
+                        description: 'NetIpv4IpLocalPortRange: Sysctl setting net.ipv4.ip_local_port_range.'
+                        type: string
+                      netIpv4NeighDefaultGcThresh1:
+                        description: 'NetIpv4NeighDefaultGcThresh1: Sysctl setting
+                          net.ipv4.neigh.default.gc_thresh1.'
+                        type: integer
+                      netIpv4NeighDefaultGcThresh2:
+                        description: 'NetIpv4NeighDefaultGcThresh2: Sysctl setting
+                          net.ipv4.neigh.default.gc_thresh2.'
+                        type: integer
+                      netIpv4NeighDefaultGcThresh3:
+                        description: 'NetIpv4NeighDefaultGcThresh3: Sysctl setting
+                          net.ipv4.neigh.default.gc_thresh3.'
+                        type: integer
+                      netIpv4TcpFinTimeout:
+                        description: 'NetIpv4TcpFinTimeout: Sysctl setting net.ipv4.tcp_fin_timeout.'
+                        type: integer
+                      netIpv4TcpKeepaliveProbes:
+                        description: 'NetIpv4TcpKeepaliveProbes: Sysctl setting net.ipv4.tcp_keepalive_probes.'
+                        type: integer
+                      netIpv4TcpKeepaliveTime:
+                        description: 'NetIpv4TcpKeepaliveTime: Sysctl setting net.ipv4.tcp_keepalive_time.'
+                        type: integer
+                      netIpv4TcpMaxSynBacklog:
+                        description: 'NetIpv4TcpMaxSynBacklog: Sysctl setting net.ipv4.tcp_max_syn_backlog.'
+                        type: integer
+                      netIpv4TcpMaxTwBuckets:
+                        description: 'NetIpv4TcpMaxTwBuckets: Sysctl setting net.ipv4.tcp_max_tw_buckets.'
+                        type: integer
+                      netIpv4TcpTwReuse:
+                        description: 'NetIpv4TcpTwReuse: Sysctl setting net.ipv4.tcp_tw_reuse.'
+                        type: boolean
+                      netIpv4TcpkeepaliveIntvl:
+                        description: 'NetIpv4TcpkeepaliveIntvl: Sysctl setting net.ipv4.tcp_keepalive_intvl.'
+                        type: integer
+                      netNetfilterNfConntrackBuckets:
+                        description: 'NetNetfilterNfConntrackBuckets: Sysctl setting
+                          net.netfilter.nf_conntrack_buckets.'
+                        type: integer
+                      netNetfilterNfConntrackMax:
+                        description: 'NetNetfilterNfConntrackMax: Sysctl setting net.netfilter.nf_conntrack_max.'
+                        type: integer
+                      vmMaxMapCount:
+                        description: 'VmMaxMapCount: Sysctl setting vm.max_map_count.'
+                        type: integer
+                      vmSwappiness:
+                        description: 'VmSwappiness: Sysctl setting vm.swappiness.'
+                        type: integer
+                      vmVfsCachePressure:
+                        description: 'VmVfsCachePressure: Sysctl setting vm.vfs_cache_pressure.'
+                        type: integer
+                    type: object
+                  transparentHugePageDefrag:
+                    description: 'TransparentHugePageDefrag: Valid values are ''always'',
+                      ''defer'', ''defer+madvise'', ''madvise'' and ''never''. The
+                      default is ''madvise''. For more information see [Transparent
+                      Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).'
+                    type: string
+                  transparentHugePageEnabled:
+                    description: 'TransparentHugePageEnabled: Valid values are ''always'',
+                      ''madvise'', and ''never''. The default is ''always''. For more
+                      information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).'
+                    type: string
+                type: object
+              location:
+                description: 'Location: Location to deploy resource to'
+                type: string
+              maxCount:
+                description: 'MaxCount: The maximum number of nodes for auto-scaling'
+                type: integer
+              maxPods:
+                description: 'MaxPods: The maximum number of pods that can run on
+                  a node.'
+                type: integer
+              minCount:
+                description: 'MinCount: The minimum number of nodes for auto-scaling'
+                type: integer
+              mode:
+                enum:
+                - System
+                - User
+                type: string
+              nodeLabels:
+                additionalProperties:
+                  type: string
+                description: 'NodeLabels: The node labels to be persisted across all
+                  nodes in agent pool.'
+                type: object
+              nodePublicIPPrefixIDReference:
+                description: 'NodePublicIPPrefixIDReference: This is of the form:
+                  /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}'
+                properties:
+                  armId:
+                    description: 'TODO: The below regex may be overly restrictive
+                      ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                      The /resourcegroups/{resourceGroupName} bit is optional as some
+                      resources are scoped at the subscription level ARMID is mutually
+                      exclusive with Group, Kind, Namespace and Name.'
+                    pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                    type: string
+                  group:
+                    description: Group is the Kubernetes group of the resource.
+                    type: string
+                  kind:
+                    description: Kind is the Kubernetes kind of the resource.
+                    type: string
+                  name:
+                    description: Name is the Kubernetes name of the resource.
+                    type: string
+                type: object
+              nodeTaints:
+                description: 'NodeTaints: The taints added to new nodes during node
+                  pool create and scale. For example, key=value:NoSchedule.'
+                items:
+                  type: string
+                type: array
+              orchestratorVersion:
+                description: 'OrchestratorVersion: As a best practice, you should
+                  upgrade all node pools in an AKS cluster to the same Kubernetes
+                  version. The node pool version must have the same major version
+                  as the control plane. The node pool minor version must be within
+                  two minor versions of the control plane version. The node pool version
+                  cannot be greater than the control plane version. For more information
+                  see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).'
+                type: string
+              osDiskSizeGB:
+                description: 'OsDiskSizeGB: OS Disk Size in GB to be used to specify
+                  the disk size for every machine in the master/agent pool. If you
+                  specify 0, it will apply the default osDisk size according to the
+                  vmSize specified.'
+                maximum: 2048
+                minimum: 0
+                type: integer
+              osDiskType:
+                enum:
+                - Ephemeral
+                - Managed
+                type: string
+              osSKU:
+                enum:
+                - CBLMariner
+                - Ubuntu
+                type: string
+              osType:
+                enum:
+                - Linux
+                - Windows
+                type: string
+              owner:
+                description: KnownResourceReference is a resource reference to a known
+                  type.
+                properties:
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                required:
+                - name
+                type: object
+              podSubnetIDReference:
+                description: 'PodSubnetIDReference: If omitted, pod IPs are statically
+                  assigned on the node subnet (see vnetSubnetID for more details).
+                  This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}'
+                properties:
+                  armId:
+                    description: 'TODO: The below regex may be overly restrictive
+                      ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                      The /resourcegroups/{resourceGroupName} bit is optional as some
+                      resources are scoped at the subscription level ARMID is mutually
+                      exclusive with Group, Kind, Namespace and Name.'
+                    pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                    type: string
+                  group:
+                    description: Group is the Kubernetes group of the resource.
+                    type: string
+                  kind:
+                    description: Kind is the Kubernetes kind of the resource.
+                    type: string
+                  name:
+                    description: Name is the Kubernetes name of the resource.
+                    type: string
+                type: object
+              proximityPlacementGroupID:
+                description: 'ProximityPlacementGroupID: The ID for Proximity Placement
+                  Group.'
+                type: string
+              scaleSetEvictionPolicy:
+                description: 'ScaleSetEvictionPolicy: This cannot be specified unless
+                  the scaleSetPriority is ''Spot''. If not specified, the default
+                  is ''Delete''.'
+                enum:
+                - Deallocate
+                - Delete
+                type: string
+              scaleSetPriority:
+                description: 'ScaleSetPriority: The Virtual Machine Scale Set priority.
+                  If not specified, the default is ''Regular''.'
+                enum:
+                - Regular
+                - Spot
+                type: string
+              spotMaxPrice:
+                description: 'SpotMaxPrice: Possible values are any decimal value
+                  greater than zero or -1 which indicates the willingness to pay any
+                  on-demand price. For more details on spot pricing, see [spot VMs
+                  pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)'
+                type: number
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: The tags to be persisted on the agent pool virtual
+                  machine scale set.'
+                type: object
+              type:
+                enum:
+                - AvailabilitySet
+                - VirtualMachineScaleSets
+                type: string
+              upgradeSettings:
+                description: 'UpgradeSettings: Settings for upgrading an agentpool'
+                properties:
+                  maxSurge:
+                    description: 'MaxSurge: This can either be set to an integer (e.g.
+                      ''5'') or a percentage (e.g. ''50%''). If a percentage is specified,
+                      it is the percentage of the total agent pool size at the time
+                      of the upgrade. For percentages, fractional nodes are rounded
+                      up. If not specified, the default is 1. For more information,
+                      including best practices, see: https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade'
+                    type: string
+                type: object
+              vmSize:
+                description: 'VmSize: VM size availability varies by region. If a
+                  node contains insufficient compute resources (memory, cpu, etc)
+                  pods might fail to run correctly. For more details on restricted
+                  VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions'
+                type: string
+              vnetSubnetIDReference:
+                description: 'VnetSubnetIDReference: If this is not specified, a VNET
+                  and subnet will be generated and used. If no podSubnetID is specified,
+                  this applies to nodes and pods, otherwise it applies to just nodes.
+                  This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}'
+                properties:
+                  armId:
+                    description: 'TODO: The below regex may be overly restrictive
+                      ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                      The /resourcegroups/{resourceGroupName} bit is optional as some
+                      resources are scoped at the subscription level ARMID is mutually
+                      exclusive with Group, Kind, Namespace and Name.'
+                    pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                    type: string
+                  group:
+                    description: Group is the Kubernetes group of the resource.
+                    type: string
+                  kind:
+                    description: Kind is the Kubernetes kind of the resource.
+                    type: string
+                  name:
+                    description: Name is the Kubernetes name of the resource.
+                    type: string
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            properties:
+              availabilityZones:
+                description: 'AvailabilityZones: The list of Availability zones to
+                  use for nodes. This can only be specified if the AgentPoolType property
+                  is ''VirtualMachineScaleSets''.'
+                items:
+                  type: string
+                type: array
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: ObservedGeneration is the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.condition[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: Reason for the condition's last transition. Reasons
+                        are upper CamelCase (PascalCase) with no spaces. A reason
+                        is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: Severity with which to treat failures of this type
+                        of condition. For conditions which have positive polarity
+                        (Status == True is their normal/healthy state), this will
+                        be omitted when Status == True For conditions which have negative
+                        polarity (Status == False is their normal/healthy state),
+                        this will be omitted when Status == False. This is omitted
+                        in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              count:
+                description: 'Count: Number of agents (VMs) to host docker containers.
+                  Allowed values must be in the range of 0 to 1000 (inclusive) for
+                  user pools and in the range of 1 to 1000 (inclusive) for system
+                  pools. The default value is 1.'
+                type: integer
+              enableAutoScaling:
+                description: 'EnableAutoScaling: Whether to enable auto-scaler'
+                type: boolean
+              enableEncryptionAtHost:
+                description: 'EnableEncryptionAtHost: This is only supported on certain
+                  VM sizes and in certain Azure regions. For more information, see:
+                  https://docs.microsoft.com/azure/aks/enable-host-encryption'
+                type: boolean
+              enableFIPS:
+                description: 'EnableFIPS: See [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview)
+                  for more details.'
+                type: boolean
+              enableNodePublicIP:
+                description: 'EnableNodePublicIP: Some scenarios may require nodes
+                  in a node pool to receive their own dedicated public IP addresses.
+                  A common scenario is for gaming workloads, where a console needs
+                  to make a direct connection to a cloud virtual machine to minimize
+                  hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools).
+                  The default is false.'
+                type: boolean
+              enableUltraSSD:
+                description: 'EnableUltraSSD: Whether to enable UltraSSD'
+                type: boolean
+              gpuInstanceProfile:
+                description: 'GpuInstanceProfile: GPUInstanceProfile to be used to
+                  specify GPU MIG instance profile for supported GPU VM SKU.'
+                type: string
+              id:
+                description: 'Id: Resource ID.'
+                type: string
+              kubeletConfig:
+                description: 'KubeletConfig: The Kubelet configuration on the agent
+                  pool nodes.'
+                properties:
+                  allowedUnsafeSysctls:
+                    description: 'AllowedUnsafeSysctls: Allowed list of unsafe sysctls
+                      or unsafe sysctl patterns (ending in `*`).'
+                    items:
+                      type: string
+                    type: array
+                  containerLogMaxFiles:
+                    description: 'ContainerLogMaxFiles: The maximum number of container
+                      log files that can be present for a container. The number must
+                      be ≥ 2.'
+                    type: integer
+                  containerLogMaxSizeMB:
+                    description: 'ContainerLogMaxSizeMB: The maximum size (e.g. 10Mi)
+                      of container log file before it is rotated.'
+                    type: integer
+                  cpuCfsQuota:
+                    description: 'CpuCfsQuota: The default is true.'
+                    type: boolean
+                  cpuCfsQuotaPeriod:
+                    description: 'CpuCfsQuotaPeriod: The default is ''100ms.'' Valid
+                      values are a sequence of decimal numbers with an optional fraction
+                      and a unit suffix. For example: ''300ms'', ''2h45m''. Supported
+                      units are ''ns'', ''us'', ''ms'', ''s'', ''m'', and ''h''.'
+                    type: string
+                  cpuManagerPolicy:
+                    description: 'CpuManagerPolicy: The default is ''none''. See [Kubernetes
+                      CPU management policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies)
+                      for more information. Allowed values are ''none'' and ''static''.'
+                    type: string
+                  failSwapOn:
+                    description: 'FailSwapOn: If set to true it will make the Kubelet
+                      fail to start if swap is enabled on the node.'
+                    type: boolean
+                  imageGcHighThreshold:
+                    description: 'ImageGcHighThreshold: To disable image garbage collection,
+                      set to 100. The default is 85%'
+                    type: integer
+                  imageGcLowThreshold:
+                    description: 'ImageGcLowThreshold: This cannot be set higher than
+                      imageGcHighThreshold. The default is 80%'
+                    type: integer
+                  podMaxPids:
+                    description: 'PodMaxPids: The maximum number of processes per
+                      pod.'
+                    type: integer
+                  topologyManagerPolicy:
+                    description: 'TopologyManagerPolicy: For more information see
+                      [Kubernetes Topology Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager).
+                      The default is ''none''. Allowed values are ''none'', ''best-effort'',
+                      ''restricted'', and ''single-numa-node''.'
+                    type: string
+                type: object
+              kubeletDiskType:
+                type: string
+              linuxOSConfig:
+                description: 'LinuxOSConfig: The OS configuration of Linux agent nodes.'
+                properties:
+                  swapFileSizeMB:
+                    description: 'SwapFileSizeMB: The size in MB of a swap file that
+                      will be created on each node.'
+                    type: integer
+                  sysctls:
+                    description: 'Sysctls: Sysctl settings for Linux agent nodes.'
+                    properties:
+                      fsAioMaxNr:
+                        description: 'FsAioMaxNr: Sysctl setting fs.aio-max-nr.'
+                        type: integer
+                      fsFileMax:
+                        description: 'FsFileMax: Sysctl setting fs.file-max.'
+                        type: integer
+                      fsInotifyMaxUserWatches:
+                        description: 'FsInotifyMaxUserWatches: Sysctl setting fs.inotify.max_user_watches.'
+                        type: integer
+                      fsNrOpen:
+                        description: 'FsNrOpen: Sysctl setting fs.nr_open.'
+                        type: integer
+                      kernelThreadsMax:
+                        description: 'KernelThreadsMax: Sysctl setting kernel.threads-max.'
+                        type: integer
+                      netCoreNetdevMaxBacklog:
+                        description: 'NetCoreNetdevMaxBacklog: Sysctl setting net.core.netdev_max_backlog.'
+                        type: integer
+                      netCoreOptmemMax:
+                        description: 'NetCoreOptmemMax: Sysctl setting net.core.optmem_max.'
+                        type: integer
+                      netCoreRmemDefault:
+                        description: 'NetCoreRmemDefault: Sysctl setting net.core.rmem_default.'
+                        type: integer
+                      netCoreRmemMax:
+                        description: 'NetCoreRmemMax: Sysctl setting net.core.rmem_max.'
+                        type: integer
+                      netCoreSomaxconn:
+                        description: 'NetCoreSomaxconn: Sysctl setting net.core.somaxconn.'
+                        type: integer
+                      netCoreWmemDefault:
+                        description: 'NetCoreWmemDefault: Sysctl setting net.core.wmem_default.'
+                        type: integer
+                      netCoreWmemMax:
+                        description: 'NetCoreWmemMax: Sysctl setting net.core.wmem_max.'
+                        type: integer
+                      netIpv4IpLocalPortRange:
+                        description: 'NetIpv4IpLocalPortRange: Sysctl setting net.ipv4.ip_local_port_range.'
+                        type: string
+                      netIpv4NeighDefaultGcThresh1:
+                        description: 'NetIpv4NeighDefaultGcThresh1: Sysctl setting
+                          net.ipv4.neigh.default.gc_thresh1.'
+                        type: integer
+                      netIpv4NeighDefaultGcThresh2:
+                        description: 'NetIpv4NeighDefaultGcThresh2: Sysctl setting
+                          net.ipv4.neigh.default.gc_thresh2.'
+                        type: integer
+                      netIpv4NeighDefaultGcThresh3:
+                        description: 'NetIpv4NeighDefaultGcThresh3: Sysctl setting
+                          net.ipv4.neigh.default.gc_thresh3.'
+                        type: integer
+                      netIpv4TcpFinTimeout:
+                        description: 'NetIpv4TcpFinTimeout: Sysctl setting net.ipv4.tcp_fin_timeout.'
+                        type: integer
+                      netIpv4TcpKeepaliveProbes:
+                        description: 'NetIpv4TcpKeepaliveProbes: Sysctl setting net.ipv4.tcp_keepalive_probes.'
+                        type: integer
+                      netIpv4TcpKeepaliveTime:
+                        description: 'NetIpv4TcpKeepaliveTime: Sysctl setting net.ipv4.tcp_keepalive_time.'
+                        type: integer
+                      netIpv4TcpMaxSynBacklog:
+                        description: 'NetIpv4TcpMaxSynBacklog: Sysctl setting net.ipv4.tcp_max_syn_backlog.'
+                        type: integer
+                      netIpv4TcpMaxTwBuckets:
+                        description: 'NetIpv4TcpMaxTwBuckets: Sysctl setting net.ipv4.tcp_max_tw_buckets.'
+                        type: integer
+                      netIpv4TcpTwReuse:
+                        description: 'NetIpv4TcpTwReuse: Sysctl setting net.ipv4.tcp_tw_reuse.'
+                        type: boolean
+                      netIpv4TcpkeepaliveIntvl:
+                        description: 'NetIpv4TcpkeepaliveIntvl: Sysctl setting net.ipv4.tcp_keepalive_intvl.'
+                        type: integer
+                      netNetfilterNfConntrackBuckets:
+                        description: 'NetNetfilterNfConntrackBuckets: Sysctl setting
+                          net.netfilter.nf_conntrack_buckets.'
+                        type: integer
+                      netNetfilterNfConntrackMax:
+                        description: 'NetNetfilterNfConntrackMax: Sysctl setting net.netfilter.nf_conntrack_max.'
+                        type: integer
+                      vmMaxMapCount:
+                        description: 'VmMaxMapCount: Sysctl setting vm.max_map_count.'
+                        type: integer
+                      vmSwappiness:
+                        description: 'VmSwappiness: Sysctl setting vm.swappiness.'
+                        type: integer
+                      vmVfsCachePressure:
+                        description: 'VmVfsCachePressure: Sysctl setting vm.vfs_cache_pressure.'
+                        type: integer
+                    type: object
+                  transparentHugePageDefrag:
+                    description: 'TransparentHugePageDefrag: Valid values are ''always'',
+                      ''defer'', ''defer+madvise'', ''madvise'' and ''never''. The
+                      default is ''madvise''. For more information see [Transparent
+                      Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).'
+                    type: string
+                  transparentHugePageEnabled:
+                    description: 'TransparentHugePageEnabled: Valid values are ''always'',
+                      ''madvise'', and ''never''. The default is ''always''. For more
+                      information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).'
+                    type: string
+                type: object
+              maxCount:
+                description: 'MaxCount: The maximum number of nodes for auto-scaling'
+                type: integer
+              maxPods:
+                description: 'MaxPods: The maximum number of pods that can run on
+                  a node.'
+                type: integer
+              minCount:
+                description: 'MinCount: The minimum number of nodes for auto-scaling'
+                type: integer
+              mode:
+                type: string
+              name:
+                description: 'Name: The name of the resource that is unique within
+                  a resource group. This name can be used to access the resource.'
+                type: string
+              nodeImageVersion:
+                description: 'NodeImageVersion: The version of node image'
+                type: string
+              nodeLabels:
+                additionalProperties:
+                  type: string
+                description: 'NodeLabels: The node labels to be persisted across all
+                  nodes in agent pool.'
+                type: object
+              nodePublicIPPrefixID:
+                description: 'NodePublicIPPrefixID: This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}'
+                type: string
+              nodeTaints:
+                description: 'NodeTaints: The taints added to new nodes during node
+                  pool create and scale. For example, key=value:NoSchedule.'
+                items:
+                  type: string
+                type: array
+              orchestratorVersion:
+                description: 'OrchestratorVersion: As a best practice, you should
+                  upgrade all node pools in an AKS cluster to the same Kubernetes
+                  version. The node pool version must have the same major version
+                  as the control plane. The node pool minor version must be within
+                  two minor versions of the control plane version. The node pool version
+                  cannot be greater than the control plane version. For more information
+                  see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).'
+                type: string
+              osDiskSizeGB:
+                type: integer
+              osDiskType:
+                type: string
+              osSKU:
+                type: string
+              osType:
+                type: string
+              podSubnetID:
+                description: 'PodSubnetID: If omitted, pod IPs are statically assigned
+                  on the node subnet (see vnetSubnetID for more details). This is
+                  of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}'
+                type: string
+              powerState:
+                description: 'PowerState: Describes whether the Agent Pool is Running
+                  or Stopped'
+                properties:
+                  code:
+                    description: 'Code: Tells whether the cluster is Running or Stopped'
+                    type: string
+                type: object
+              properties_type:
+                type: string
+              provisioningState:
+                description: 'ProvisioningState: The current deployment or provisioning
+                  state.'
+                type: string
+              proximityPlacementGroupID:
+                description: 'ProximityPlacementGroupID: The ID for Proximity Placement
+                  Group.'
+                type: string
+              scaleSetEvictionPolicy:
+                description: 'ScaleSetEvictionPolicy: This cannot be specified unless
+                  the scaleSetPriority is ''Spot''. If not specified, the default
+                  is ''Delete''.'
+                type: string
+              scaleSetPriority:
+                description: 'ScaleSetPriority: The Virtual Machine Scale Set priority.
+                  If not specified, the default is ''Regular''.'
+                type: string
+              spotMaxPrice:
+                description: 'SpotMaxPrice: Possible values are any decimal value
+                  greater than zero or -1 which indicates the willingness to pay any
+                  on-demand price. For more details on spot pricing, see [spot VMs
+                  pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)'
+                type: number
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: The tags to be persisted on the agent pool virtual
+                  machine scale set.'
+                type: object
+              type:
+                description: 'Type: Resource type'
+                type: string
+              upgradeSettings:
+                description: 'UpgradeSettings: Settings for upgrading the agentpool'
+                properties:
+                  maxSurge:
+                    description: 'MaxSurge: This can either be set to an integer (e.g.
+                      ''5'') or a percentage (e.g. ''50%''). If a percentage is specified,
+                      it is the percentage of the total agent pool size at the time
+                      of the upgrade. For percentages, fractional nodes are rounded
+                      up. If not specified, the default is 1. For more information,
+                      including best practices, see: https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade'
+                    type: string
+                type: object
+              vmSize:
+                description: 'VmSize: VM size availability varies by region. If a
+                  node contains insufficient compute resources (memory, cpu, etc)
+                  pods might fail to run correctly. For more details on restricted
+                  VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions'
+                type: string
+              vnetSubnetID:
+                description: 'VnetSubnetID: If this is not specified, a VNET and subnet
+                  will be generated and used. If no podSubnetID is specified, this
+                  applies to nodes and pods, otherwise it applies to just nodes. This
+                  is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}'
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1alpha1api20210501storage
+    schema:
+      openAPIV3Schema:
+        description: 'Storage version of v1alpha1api20210501.ManagedClustersAgentPool
+          Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/resourceDefinitions/managedClusters_agentPools'
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1alpha1api20210501.ManagedClustersAgentPools_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: PropertyBag is an unordered set of stashed information
+                  that used for properties not directly supported by storage resources,
+                  allowing for full fidelity round trip conversions
+                type: object
+              availabilityZones:
+                items:
+                  type: string
+                type: array
+              azureName:
+                description: 'AzureName: The name of the resource in Azure. This is
+                  often the same as the name of the resource in Kubernetes but it
+                  doesn''t have to be.'
+                type: string
+              count:
+                type: integer
+              enableAutoScaling:
+                type: boolean
+              enableEncryptionAtHost:
+                type: boolean
+              enableFIPS:
+                type: boolean
+              enableNodePublicIP:
+                type: boolean
+              enableUltraSSD:
+                type: boolean
+              gpuInstanceProfile:
+                type: string
+              kubeletConfig:
+                description: 'Storage version of v1alpha1api20210501.KubeletConfig
+                  Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/KubeletConfig'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  allowedUnsafeSysctls:
+                    items:
+                      type: string
+                    type: array
+                  containerLogMaxFiles:
+                    type: integer
+                  containerLogMaxSizeMB:
+                    type: integer
+                  cpuCfsQuota:
+                    type: boolean
+                  cpuCfsQuotaPeriod:
+                    type: string
+                  cpuManagerPolicy:
+                    type: string
+                  failSwapOn:
+                    type: boolean
+                  imageGcHighThreshold:
+                    type: integer
+                  imageGcLowThreshold:
+                    type: integer
+                  podMaxPids:
+                    type: integer
+                  topologyManagerPolicy:
+                    type: string
+                type: object
+              kubeletDiskType:
+                type: string
+              linuxOSConfig:
+                description: 'Storage version of v1alpha1api20210501.LinuxOSConfig
+                  Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/LinuxOSConfig'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  swapFileSizeMB:
+                    type: integer
+                  sysctls:
+                    description: 'Storage version of v1alpha1api20210501.SysctlConfig
+                      Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/SysctlConfig'
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information
+                          that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      fsAioMaxNr:
+                        type: integer
+                      fsFileMax:
+                        type: integer
+                      fsInotifyMaxUserWatches:
+                        type: integer
+                      fsNrOpen:
+                        type: integer
+                      kernelThreadsMax:
+                        type: integer
+                      netCoreNetdevMaxBacklog:
+                        type: integer
+                      netCoreOptmemMax:
+                        type: integer
+                      netCoreRmemDefault:
+                        type: integer
+                      netCoreRmemMax:
+                        type: integer
+                      netCoreSomaxconn:
+                        type: integer
+                      netCoreWmemDefault:
+                        type: integer
+                      netCoreWmemMax:
+                        type: integer
+                      netIpv4IpLocalPortRange:
+                        type: string
+                      netIpv4NeighDefaultGcThresh1:
+                        type: integer
+                      netIpv4NeighDefaultGcThresh2:
+                        type: integer
+                      netIpv4NeighDefaultGcThresh3:
+                        type: integer
+                      netIpv4TcpFinTimeout:
+                        type: integer
+                      netIpv4TcpKeepaliveProbes:
+                        type: integer
+                      netIpv4TcpKeepaliveTime:
+                        type: integer
+                      netIpv4TcpMaxSynBacklog:
+                        type: integer
+                      netIpv4TcpMaxTwBuckets:
+                        type: integer
+                      netIpv4TcpTwReuse:
+                        type: boolean
+                      netIpv4TcpkeepaliveIntvl:
+                        type: integer
+                      netNetfilterNfConntrackBuckets:
+                        type: integer
+                      netNetfilterNfConntrackMax:
+                        type: integer
+                      vmMaxMapCount:
+                        type: integer
+                      vmSwappiness:
+                        type: integer
+                      vmVfsCachePressure:
+                        type: integer
+                    type: object
+                  transparentHugePageDefrag:
+                    type: string
+                  transparentHugePageEnabled:
+                    type: string
+                type: object
+              location:
+                type: string
+              maxCount:
+                type: integer
+              maxPods:
+                type: integer
+              minCount:
+                type: integer
+              mode:
+                type: string
+              nodeLabels:
+                additionalProperties:
+                  type: string
+                type: object
+              nodePublicIPPrefixIDReference:
+                description: 'NodePublicIPPrefixIDReference: This is of the form:
+                  /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}'
+                properties:
+                  armId:
+                    description: 'TODO: The below regex may be overly restrictive
+                      ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                      The /resourcegroups/{resourceGroupName} bit is optional as some
+                      resources are scoped at the subscription level ARMID is mutually
+                      exclusive with Group, Kind, Namespace and Name.'
+                    pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                    type: string
+                  group:
+                    description: Group is the Kubernetes group of the resource.
+                    type: string
+                  kind:
+                    description: Kind is the Kubernetes kind of the resource.
+                    type: string
+                  name:
+                    description: Name is the Kubernetes name of the resource.
+                    type: string
+                type: object
+              nodeTaints:
+                items:
+                  type: string
+                type: array
+              orchestratorVersion:
+                type: string
+              originalVersion:
+                type: string
+              osDiskSizeGB:
+                type: integer
+              osDiskType:
+                type: string
+              osSKU:
+                type: string
+              osType:
+                type: string
+              owner:
+                description: KnownResourceReference is a resource reference to a known
+                  type.
+                properties:
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                required:
+                - name
+                type: object
+              podSubnetIDReference:
+                description: 'PodSubnetIDReference: If omitted, pod IPs are statically
+                  assigned on the node subnet (see vnetSubnetID for more details).
+                  This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}'
+                properties:
+                  armId:
+                    description: 'TODO: The below regex may be overly restrictive
+                      ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                      The /resourcegroups/{resourceGroupName} bit is optional as some
+                      resources are scoped at the subscription level ARMID is mutually
+                      exclusive with Group, Kind, Namespace and Name.'
+                    pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                    type: string
+                  group:
+                    description: Group is the Kubernetes group of the resource.
+                    type: string
+                  kind:
+                    description: Kind is the Kubernetes kind of the resource.
+                    type: string
+                  name:
+                    description: Name is the Kubernetes name of the resource.
+                    type: string
+                type: object
+              proximityPlacementGroupID:
+                type: string
+              scaleSetEvictionPolicy:
+                type: string
+              scaleSetPriority:
+                type: string
+              spotMaxPrice:
+                type: number
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              type:
+                type: string
+              upgradeSettings:
+                description: 'Storage version of v1alpha1api20210501.AgentPoolUpgradeSettings
+                  Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/AgentPoolUpgradeSettings'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  maxSurge:
+                    type: string
+                type: object
+              vmSize:
+                type: string
+              vnetSubnetIDReference:
+                description: 'VnetSubnetIDReference: If this is not specified, a VNET
+                  and subnet will be generated and used. If no podSubnetID is specified,
+                  this applies to nodes and pods, otherwise it applies to just nodes.
+                  This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}'
+                properties:
+                  armId:
+                    description: 'TODO: The below regex may be overly restrictive
+                      ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                      The /resourcegroups/{resourceGroupName} bit is optional as some
+                      resources are scoped at the subscription level ARMID is mutually
+                      exclusive with Group, Kind, Namespace and Name.'
+                    pattern: (?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$
+                    type: string
+                  group:
+                    description: Group is the Kubernetes group of the resource.
+                    type: string
+                  kind:
+                    description: Kind is the Kubernetes kind of the resource.
+                    type: string
+                  name:
+                    description: Name is the Kubernetes name of the resource.
+                    type: string
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            description: Storage version of v1alpha1api20210501.AgentPool_Status
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: PropertyBag is an unordered set of stashed information
+                  that used for properties not directly supported by storage resources,
+                  allowing for full fidelity round trip conversions
+                type: object
+              availabilityZones:
+                items:
+                  type: string
+                type: array
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: ObservedGeneration is the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.condition[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: Reason for the condition's last transition. Reasons
+                        are upper CamelCase (PascalCase) with no spaces. A reason
+                        is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: Severity with which to treat failures of this type
+                        of condition. For conditions which have positive polarity
+                        (Status == True is their normal/healthy state), this will
+                        be omitted when Status == True For conditions which have negative
+                        polarity (Status == False is their normal/healthy state),
+                        this will be omitted when Status == False. This is omitted
+                        in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              count:
+                type: integer
+              enableAutoScaling:
+                type: boolean
+              enableEncryptionAtHost:
+                type: boolean
+              enableFIPS:
+                type: boolean
+              enableNodePublicIP:
+                type: boolean
+              enableUltraSSD:
+                type: boolean
+              gpuInstanceProfile:
+                type: string
+              id:
+                type: string
+              kubeletConfig:
+                description: Storage version of v1alpha1api20210501.KubeletConfig_Status
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  allowedUnsafeSysctls:
+                    items:
+                      type: string
+                    type: array
+                  containerLogMaxFiles:
+                    type: integer
+                  containerLogMaxSizeMB:
+                    type: integer
+                  cpuCfsQuota:
+                    type: boolean
+                  cpuCfsQuotaPeriod:
+                    type: string
+                  cpuManagerPolicy:
+                    type: string
+                  failSwapOn:
+                    type: boolean
+                  imageGcHighThreshold:
+                    type: integer
+                  imageGcLowThreshold:
+                    type: integer
+                  podMaxPids:
+                    type: integer
+                  topologyManagerPolicy:
+                    type: string
+                type: object
+              kubeletDiskType:
+                type: string
+              linuxOSConfig:
+                description: Storage version of v1alpha1api20210501.LinuxOSConfig_Status
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  swapFileSizeMB:
+                    type: integer
+                  sysctls:
+                    description: Storage version of v1alpha1api20210501.SysctlConfig_Status
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information
+                          that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      fsAioMaxNr:
+                        type: integer
+                      fsFileMax:
+                        type: integer
+                      fsInotifyMaxUserWatches:
+                        type: integer
+                      fsNrOpen:
+                        type: integer
+                      kernelThreadsMax:
+                        type: integer
+                      netCoreNetdevMaxBacklog:
+                        type: integer
+                      netCoreOptmemMax:
+                        type: integer
+                      netCoreRmemDefault:
+                        type: integer
+                      netCoreRmemMax:
+                        type: integer
+                      netCoreSomaxconn:
+                        type: integer
+                      netCoreWmemDefault:
+                        type: integer
+                      netCoreWmemMax:
+                        type: integer
+                      netIpv4IpLocalPortRange:
+                        type: string
+                      netIpv4NeighDefaultGcThresh1:
+                        type: integer
+                      netIpv4NeighDefaultGcThresh2:
+                        type: integer
+                      netIpv4NeighDefaultGcThresh3:
+                        type: integer
+                      netIpv4TcpFinTimeout:
+                        type: integer
+                      netIpv4TcpKeepaliveProbes:
+                        type: integer
+                      netIpv4TcpKeepaliveTime:
+                        type: integer
+                      netIpv4TcpMaxSynBacklog:
+                        type: integer
+                      netIpv4TcpMaxTwBuckets:
+                        type: integer
+                      netIpv4TcpTwReuse:
+                        type: boolean
+                      netIpv4TcpkeepaliveIntvl:
+                        type: integer
+                      netNetfilterNfConntrackBuckets:
+                        type: integer
+                      netNetfilterNfConntrackMax:
+                        type: integer
+                      vmMaxMapCount:
+                        type: integer
+                      vmSwappiness:
+                        type: integer
+                      vmVfsCachePressure:
+                        type: integer
+                    type: object
+                  transparentHugePageDefrag:
+                    type: string
+                  transparentHugePageEnabled:
+                    type: string
+                type: object
+              maxCount:
+                type: integer
+              maxPods:
+                type: integer
+              minCount:
+                type: integer
+              mode:
+                type: string
+              name:
+                type: string
+              nodeImageVersion:
+                type: string
+              nodeLabels:
+                additionalProperties:
+                  type: string
+                type: object
+              nodePublicIPPrefixID:
+                type: string
+              nodeTaints:
+                items:
+                  type: string
+                type: array
+              orchestratorVersion:
+                type: string
+              osDiskSizeGB:
+                type: integer
+              osDiskType:
+                type: string
+              osSKU:
+                type: string
+              osType:
+                type: string
+              podSubnetID:
+                type: string
+              powerState:
+                description: Storage version of v1alpha1api20210501.PowerState_Status
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  code:
+                    type: string
+                type: object
+              properties_type:
+                type: string
+              provisioningState:
+                type: string
+              proximityPlacementGroupID:
+                type: string
+              scaleSetEvictionPolicy:
+                type: string
+              scaleSetPriority:
+                type: string
+              spotMaxPrice:
+                type: number
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              type:
+                type: string
+              upgradeSettings:
+                description: Storage version of v1alpha1api20210501.AgentPoolUpgradeSettings_Status
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  maxSurge:
+                    type: string
+                type: object
+              vmSize:
+                type: string
+              vnetSubnetID:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

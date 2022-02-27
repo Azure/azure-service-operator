@@ -11,7 +11,6 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -104,5 +103,5 @@ func Test_NewResourceGroup_Error(t *testing.T) {
 	// nolint:bodyclose
 	g.Expect(httpErr.RawResponse.StatusCode).To(Equal(http.StatusBadRequest))
 	g.Expect(httpErr.StatusCode).To(Equal(http.StatusBadRequest))
-	g.Expect(to.String(cloudError.InnerError.Code)).To(Equal("LocationNotAvailableForResourceGroup"))
+	g.Expect(cloudError.Code()).To(Equal("LocationNotAvailableForResourceGroup"))
 }

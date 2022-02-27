@@ -1,0 +1,814 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: azureserviceoperator-system/azureserviceoperator-serving-cert
+    controller-gen.kubebuilder.io/version: (devel)
+  name: webtests.insights.azure.com
+spec:
+  conversion:
+    strategy: Webhook
+    webhook:
+      clientConfig:
+        service:
+          name: azureserviceoperator-webhook-service
+          namespace: azureserviceoperator-system
+          path: /convert
+      conversionReviewVersions:
+      - v1beta1
+  group: insights.azure.com
+  names:
+    kind: Webtest
+    listKind: WebtestList
+    plural: webtests
+    singular: webtest
+  preserveUnknownFields: false
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1alpha1api20180501preview
+    schema:
+      openAPIV3Schema:
+        description: 'Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/resourceDefinitions/webtests'
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              Configuration:
+                description: 'Configuration: An XML configuration specification for
+                  a WebTest.'
+                properties:
+                  WebTest:
+                    description: 'WebTest: The XML specification of a WebTest to run
+                      against an application.'
+                    type: string
+                type: object
+              Description:
+                description: 'Description: User defined description for this WebTest.'
+                type: string
+              Enabled:
+                description: 'Enabled: Is the test actively being monitored.'
+                type: boolean
+              Frequency:
+                description: 'Frequency: Interval in seconds between test runs for
+                  this WebTest. Default value is 300.'
+                type: integer
+              Kind:
+                description: 'Kind: The kind of web test this is, valid choices are
+                  ping, multistep, basic, and standard.'
+                enum:
+                - basic
+                - multistep
+                - ping
+                - standard
+                type: string
+              Locations:
+                description: 'Locations: A list of where to physically run the tests
+                  from to give global coverage for accessibility of your application.'
+                items:
+                  description: 'Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestGeolocation'
+                  properties:
+                    Id:
+                      description: 'Id: Location ID for the WebTest to run from.'
+                      type: string
+                  type: object
+                type: array
+              Name:
+                description: 'Name: User defined name if this WebTest.'
+                type: string
+              Request:
+                description: 'Request: The collection of request properties'
+                properties:
+                  FollowRedirects:
+                    description: 'FollowRedirects: Follow redirects for this web test.'
+                    type: boolean
+                  Headers:
+                    description: 'Headers: List of headers and their values to add
+                      to the WebTest call.'
+                    items:
+                      description: 'Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/HeaderField'
+                      properties:
+                        key:
+                          description: 'Key: The name of the header.'
+                          type: string
+                        value:
+                          description: 'Value: The value of the header.'
+                          type: string
+                      type: object
+                    type: array
+                  HttpVerb:
+                    description: 'HttpVerb: Http verb to use for this web test.'
+                    type: string
+                  ParseDependentRequests:
+                    description: 'ParseDependentRequests: Parse Dependent request
+                      for this WebTest.'
+                    type: boolean
+                  RequestBody:
+                    description: 'RequestBody: Base64 encoded string body to send
+                      with this web test.'
+                    type: string
+                  RequestUrl:
+                    description: 'RequestUrl: Url location to test.'
+                    type: string
+                type: object
+              RetryEnabled:
+                description: 'RetryEnabled: Allow for retries should this WebTest
+                  fail.'
+                type: boolean
+              SyntheticMonitorId:
+                description: 'SyntheticMonitorId: Unique ID of this WebTest. This
+                  is typically the same value as the Name field.'
+                type: string
+              Timeout:
+                description: 'Timeout: Seconds until this WebTest will timeout and
+                  fail. Default value is 30.'
+                type: integer
+              ValidationRules:
+                description: 'ValidationRules: The collection of validation rule properties'
+                properties:
+                  ContentValidation:
+                    description: 'ContentValidation: The collection of content validation
+                      properties'
+                    properties:
+                      ContentMatch:
+                        description: 'ContentMatch: Content to look for in the return
+                          of the WebTest.  Must not be null or empty.'
+                        type: string
+                      IgnoreCase:
+                        description: 'IgnoreCase: When set, this value makes the ContentMatch
+                          validation case insensitive.'
+                        type: boolean
+                      PassIfTextFound:
+                        description: 'PassIfTextFound: When true, validation will
+                          pass if there is a match for the ContentMatch string.  If
+                          false, validation will fail if there is a match'
+                        type: boolean
+                    type: object
+                  ExpectedHttpStatusCode:
+                    description: 'ExpectedHttpStatusCode: Validate that the WebTest
+                      returns the http status code provided.'
+                    type: integer
+                  IgnoreHttpsStatusCode:
+                    description: 'IgnoreHttpsStatusCode: When set, validation will
+                      ignore the status code.'
+                    type: boolean
+                  SSLCertRemainingLifetimeCheck:
+                    description: 'SSLCertRemainingLifetimeCheck: A number of days
+                      to check still remain before the the existing SSL cert expires.  Value
+                      must be positive and the SSLCheck must be set to true.'
+                    type: integer
+                  SSLCheck:
+                    description: 'SSLCheck: Checks to see if the SSL cert is still
+                      valid.'
+                    type: boolean
+                type: object
+              azureName:
+                description: 'AzureName: The name of the resource in Azure. This is
+                  often the same as the name of the resource in Kubernetes but it
+                  doesn''t have to be.'
+                type: string
+              location:
+                description: 'Location: Location to deploy resource to'
+                type: string
+              owner:
+                description: KnownResourceReference is a resource reference to a known
+                  type.
+                properties:
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                required:
+                - name
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Name-value pairs to add to the resource'
+                type: object
+            required:
+            - Kind
+            - Locations
+            - Name
+            - SyntheticMonitorId
+            - owner
+            type: object
+          status:
+            properties:
+              Configuration:
+                description: 'Configuration: An XML configuration specification for
+                  a WebTest.'
+                properties:
+                  WebTest:
+                    description: 'WebTest: The XML specification of a WebTest to run
+                      against an application.'
+                    type: string
+                type: object
+              Description:
+                description: 'Description: User defined description for this WebTest.'
+                type: string
+              Enabled:
+                description: 'Enabled: Is the test actively being monitored.'
+                type: boolean
+              Frequency:
+                description: 'Frequency: Interval in seconds between test runs for
+                  this WebTest. Default value is 300.'
+                type: integer
+              Kind:
+                description: 'Kind: The kind of web test this is, valid choices are
+                  ping, multistep, basic, and standard.'
+                type: string
+              Locations:
+                description: 'Locations: A list of where to physically run the tests
+                  from to give global coverage for accessibility of your application.'
+                items:
+                  properties:
+                    Id:
+                      description: 'Id: Location ID for the WebTest to run from.'
+                      type: string
+                  type: object
+                type: array
+              Request:
+                description: 'Request: The collection of request properties'
+                properties:
+                  FollowRedirects:
+                    description: 'FollowRedirects: Follow redirects for this web test.'
+                    type: boolean
+                  Headers:
+                    description: 'Headers: List of headers and their values to add
+                      to the WebTest call.'
+                    items:
+                      properties:
+                        key:
+                          description: 'Key: The name of the header.'
+                          type: string
+                        value:
+                          description: 'Value: The value of the header.'
+                          type: string
+                      type: object
+                    type: array
+                  HttpVerb:
+                    description: 'HttpVerb: Http verb to use for this web test.'
+                    type: string
+                  ParseDependentRequests:
+                    description: 'ParseDependentRequests: Parse Dependent request
+                      for this WebTest.'
+                    type: boolean
+                  RequestBody:
+                    description: 'RequestBody: Base64 encoded string body to send
+                      with this web test.'
+                    type: string
+                  RequestUrl:
+                    description: 'RequestUrl: Url location to test.'
+                    type: string
+                type: object
+              RetryEnabled:
+                description: 'RetryEnabled: Allow for retries should this WebTest
+                  fail.'
+                type: boolean
+              SyntheticMonitorId:
+                description: 'SyntheticMonitorId: Unique ID of this WebTest. This
+                  is typically the same value as the Name field.'
+                type: string
+              Timeout:
+                description: 'Timeout: Seconds until this WebTest will timeout and
+                  fail. Default value is 30.'
+                type: integer
+              ValidationRules:
+                description: 'ValidationRules: The collection of validation rule properties'
+                properties:
+                  ContentValidation:
+                    description: 'ContentValidation: The collection of content validation
+                      properties'
+                    properties:
+                      ContentMatch:
+                        description: 'ContentMatch: Content to look for in the return
+                          of the WebTest.  Must not be null or empty.'
+                        type: string
+                      IgnoreCase:
+                        description: 'IgnoreCase: When set, this value makes the ContentMatch
+                          validation case insensitive.'
+                        type: boolean
+                      PassIfTextFound:
+                        description: 'PassIfTextFound: When true, validation will
+                          pass if there is a match for the ContentMatch string.  If
+                          false, validation will fail if there is a match'
+                        type: boolean
+                    type: object
+                  ExpectedHttpStatusCode:
+                    description: 'ExpectedHttpStatusCode: Validate that the WebTest
+                      returns the http status code provided.'
+                    type: integer
+                  IgnoreHttpsStatusCode:
+                    description: 'IgnoreHttpsStatusCode: When set, validation will
+                      ignore the status code.'
+                    type: boolean
+                  SSLCertRemainingLifetimeCheck:
+                    description: 'SSLCertRemainingLifetimeCheck: A number of days
+                      to check still remain before the the existing SSL cert expires.  Value
+                      must be positive and the SSLCheck must be set to true.'
+                    type: integer
+                  SSLCheck:
+                    description: 'SSLCheck: Checks to see if the SSL cert is still
+                      valid.'
+                    type: boolean
+                type: object
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: ObservedGeneration is the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.condition[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: Reason for the condition's last transition. Reasons
+                        are upper CamelCase (PascalCase) with no spaces. A reason
+                        is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: Severity with which to treat failures of this type
+                        of condition. For conditions which have positive polarity
+                        (Status == True is their normal/healthy state), this will
+                        be omitted when Status == True For conditions which have negative
+                        polarity (Status == False is their normal/healthy state),
+                        this will be omitted when Status == False. This is omitted
+                        in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              id:
+                description: 'Id: Azure resource Id'
+                type: string
+              location:
+                description: 'Location: Resource location'
+                type: string
+              name:
+                description: 'Name: Azure resource name'
+                type: string
+              properties_name:
+                description: 'PropertiesName: User defined name if this WebTest.'
+                type: string
+              provisioningState:
+                description: 'ProvisioningState: Current state of this component,
+                  whether or not is has been provisioned within the resource group
+                  it is defined. Users cannot change this value but are able to read
+                  from it. Values will include Succeeded, Deploying, Canceled, and
+                  Failed.'
+                type: string
+              tags:
+                description: 'Tags: Resource tags'
+                x-kubernetes-preserve-unknown-fields: true
+              type:
+                description: 'Type: Azure resource type'
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1alpha1api20180501previewstorage
+    schema:
+      openAPIV3Schema:
+        description: 'Storage version of v1alpha1api20180501preview.Webtest Generated
+          from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/resourceDefinitions/webtests'
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1alpha1api20180501preview.Webtests_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: PropertyBag is an unordered set of stashed information
+                  that used for properties not directly supported by storage resources,
+                  allowing for full fidelity round trip conversions
+                type: object
+              Configuration:
+                description: 'Storage version of v1alpha1api20180501preview.WebTestPropertiesConfiguration
+                  Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesConfiguration'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  WebTest:
+                    type: string
+                type: object
+              Description:
+                type: string
+              Enabled:
+                type: boolean
+              Frequency:
+                type: integer
+              Kind:
+                type: string
+              Locations:
+                items:
+                  description: 'Storage version of v1alpha1api20180501preview.WebTestGeolocation
+                    Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestGeolocation'
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: PropertyBag is an unordered set of stashed information
+                        that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    Id:
+                      type: string
+                  type: object
+                type: array
+              Name:
+                type: string
+              Request:
+                description: 'Storage version of v1alpha1api20180501preview.WebTestPropertiesRequest
+                  Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesRequest'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  FollowRedirects:
+                    type: boolean
+                  Headers:
+                    items:
+                      description: 'Storage version of v1alpha1api20180501preview.HeaderField
+                        Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/HeaderField'
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: PropertyBag is an unordered set of stashed
+                            information that used for properties not directly supported
+                            by storage resources, allowing for full fidelity round
+                            trip conversions
+                          type: object
+                        key:
+                          type: string
+                        value:
+                          type: string
+                      type: object
+                    type: array
+                  HttpVerb:
+                    type: string
+                  ParseDependentRequests:
+                    type: boolean
+                  RequestBody:
+                    type: string
+                  RequestUrl:
+                    type: string
+                type: object
+              RetryEnabled:
+                type: boolean
+              SyntheticMonitorId:
+                type: string
+              Timeout:
+                type: integer
+              ValidationRules:
+                description: 'Storage version of v1alpha1api20180501preview.WebTestPropertiesValidationRules
+                  Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRules'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  ContentValidation:
+                    description: 'Storage version of v1alpha1api20180501preview.WebTestPropertiesValidationRulesContentValidation
+                      Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRulesContentValidation'
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information
+                          that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      ContentMatch:
+                        type: string
+                      IgnoreCase:
+                        type: boolean
+                      PassIfTextFound:
+                        type: boolean
+                    type: object
+                  ExpectedHttpStatusCode:
+                    type: integer
+                  IgnoreHttpsStatusCode:
+                    type: boolean
+                  SSLCertRemainingLifetimeCheck:
+                    type: integer
+                  SSLCheck:
+                    type: boolean
+                type: object
+              azureName:
+                description: 'AzureName: The name of the resource in Azure. This is
+                  often the same as the name of the resource in Kubernetes but it
+                  doesn''t have to be.'
+                type: string
+              location:
+                type: string
+              originalVersion:
+                type: string
+              owner:
+                description: KnownResourceReference is a resource reference to a known
+                  type.
+                properties:
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                required:
+                - name
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            description: Storage version of v1alpha1api20180501preview.WebTest_Status
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: PropertyBag is an unordered set of stashed information
+                  that used for properties not directly supported by storage resources,
+                  allowing for full fidelity round trip conversions
+                type: object
+              Configuration:
+                description: Storage version of v1alpha1api20180501preview.WebTestProperties_Status_Configuration
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  WebTest:
+                    type: string
+                type: object
+              Description:
+                type: string
+              Enabled:
+                type: boolean
+              Frequency:
+                type: integer
+              Kind:
+                type: string
+              Locations:
+                items:
+                  description: Storage version of v1alpha1api20180501preview.WebTestGeolocation_Status
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: PropertyBag is an unordered set of stashed information
+                        that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    Id:
+                      type: string
+                  type: object
+                type: array
+              Request:
+                description: Storage version of v1alpha1api20180501preview.WebTestProperties_Status_Request
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  FollowRedirects:
+                    type: boolean
+                  Headers:
+                    items:
+                      description: Storage version of v1alpha1api20180501preview.HeaderField_Status
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: PropertyBag is an unordered set of stashed
+                            information that used for properties not directly supported
+                            by storage resources, allowing for full fidelity round
+                            trip conversions
+                          type: object
+                        key:
+                          type: string
+                        value:
+                          type: string
+                      type: object
+                    type: array
+                  HttpVerb:
+                    type: string
+                  ParseDependentRequests:
+                    type: boolean
+                  RequestBody:
+                    type: string
+                  RequestUrl:
+                    type: string
+                type: object
+              RetryEnabled:
+                type: boolean
+              SyntheticMonitorId:
+                type: string
+              Timeout:
+                type: integer
+              ValidationRules:
+                description: Storage version of v1alpha1api20180501preview.WebTestProperties_Status_ValidationRules
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information
+                      that used for properties not directly supported by storage resources,
+                      allowing for full fidelity round trip conversions
+                    type: object
+                  ContentValidation:
+                    description: Storage version of v1alpha1api20180501preview.WebTestProperties_Status_ValidationRules_ContentValidation
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information
+                          that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      ContentMatch:
+                        type: string
+                      IgnoreCase:
+                        type: boolean
+                      PassIfTextFound:
+                        type: boolean
+                    type: object
+                  ExpectedHttpStatusCode:
+                    type: integer
+                  IgnoreHttpsStatusCode:
+                    type: boolean
+                  SSLCertRemainingLifetimeCheck:
+                    type: integer
+                  SSLCheck:
+                    type: boolean
+                type: object
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: ObservedGeneration is the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.condition[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: Reason for the condition's last transition. Reasons
+                        are upper CamelCase (PascalCase) with no spaces. A reason
+                        is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: Severity with which to treat failures of this type
+                        of condition. For conditions which have positive polarity
+                        (Status == True is their normal/healthy state), this will
+                        be omitted when Status == True For conditions which have negative
+                        polarity (Status == False is their normal/healthy state),
+                        this will be omitted when Status == False. This is omitted
+                        in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              id:
+                type: string
+              location:
+                type: string
+              name:
+                type: string
+              properties_name:
+                type: string
+              provisioningState:
+                type: string
+              tags:
+                x-kubernetes-preserve-unknown-fields: true
+              type:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

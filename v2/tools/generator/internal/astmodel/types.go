@@ -18,10 +18,11 @@ type TypeDefinitionSet map[TypeName]TypeDefinition
 // A restricted interface to indicate that the
 // consumer won’t modify the contained types.
 type ReadonlyTypes interface {
-	FullyResolve(t Type) (Type, error)
-	Get(t TypeName) TypeDefinition
-	TryGet(t TypeName) (TypeDefinition, bool)
+	MustGetDefinition(name TypeName) TypeDefinition
+	GetDefinition(name TypeName) (TypeDefinition, error)
 }
+
+var _ ReadonlyTypes = TypeDefinitionSet{}
 
 // MakeTypes makes it easier to declare a TypeDefinitionSet from a map
 func MakeTypes(tys map[TypeName]Type) TypeDefinitionSet {
@@ -33,15 +34,25 @@ func MakeTypes(tys map[TypeName]Type) TypeDefinitionSet {
 	return result
 }
 
-// Get looks up a type definition based on the name
-func (set TypeDefinitionSet) Get(name TypeName) TypeDefinition {
-	return set[name]
+// MustGetDefinition looks up a type definition and panics if it cannot be found
+func (set TypeDefinitionSet) MustGetDefinition(name TypeName) TypeDefinition {
+	result, ok := set[name]
+	if !ok {
+		panic(fmt.Sprintf("couldn't find type %q", name))
+	}
+
+	return result
 }
 
-// TryGet attempts to look up a type definition based on the name
-func (set TypeDefinitionSet) TryGet(t TypeName) (TypeDefinition, bool) {
-	result, ok := set[t]
-	return result, ok
+// GetDefinition attempts to look up a type definition based on the name. An error is
+// returned if it cannot be found
+func (set TypeDefinitionSet) GetDefinition(name TypeName) (TypeDefinition, error) {
+	result, ok := set[name]
+	if !ok {
+		return TypeDefinition{}, errors.Errorf("couldn't find type %q", name)
+	}
+
+	return result, nil
 }
 
 // Add adds a type to the set, with safety check that it has not already been defined
@@ -273,38 +284,13 @@ func (set TypeDefinitionSet) ResolveEnumDefinition(definition *TypeDefinition) (
 }
 
 // ResolveResourceSpecDefinition finds the TypeDefinition associated with the resource Spec.
-func (set TypeDefinitionSet) ResolveResourceSpecDefinition(
-	resourceType *ResourceType) (TypeDefinition, error) {
-
-	// The expectation is that the spec type is just a name
-	specName, ok := resourceType.SpecType().(TypeName)
-	if !ok {
-		return TypeDefinition{}, errors.Errorf("spec was not of type TypeName, instead: %T", resourceType.SpecType())
-	}
-
-	resourceSpecDef, ok := set[specName]
-	if !ok {
-		return TypeDefinition{}, errors.Errorf("couldn't find spec %s", specName)
-	}
-
-	return resourceSpecDef, nil
+func (set TypeDefinitionSet) ResolveResourceSpecDefinition(resourceType *ResourceType) (TypeDefinition, error) {
+	return ResolveResourceSpecDefinition(set, resourceType)
 }
 
-func (set TypeDefinitionSet) ResolveResourceStatusDefinition(
-	resourceType *ResourceType) (TypeDefinition, error) {
-
-	statusName, ok := resourceType.StatusType().(TypeName)
-	if !ok {
-		return TypeDefinition{}, errors.Errorf("status was not of type TypeName, instead: %T", resourceType.StatusType())
-	}
-
-	resourceStatusDef, ok := set[statusName]
-	if !ok {
-		return TypeDefinition{}, errors.Errorf("couldn't find status %s", statusName)
-	}
-
-	// preserve outer spec name
-	return resourceStatusDef.WithName(statusName), nil
+// ResolveResourceStatusDefinition finds the TypeDefinition associated with the resource Status.
+func (set TypeDefinitionSet) ResolveResourceStatusDefinition(resourceType *ResourceType) (TypeDefinition, error) {
+	return ResolveResourceStatusDefinition(set, resourceType)
 }
 
 type ResolvedResourceDefinition struct {
@@ -321,44 +307,7 @@ type ResolvedResourceDefinition struct {
 // ResolveResourceSpecAndStatus takes a TypeDefinition that is a ResourceType and looks up its Spec and Status (as well as
 // the TypeDefinition's corresponding to them) and returns a ResolvedResourceDefinition
 func (set TypeDefinitionSet) ResolveResourceSpecAndStatus(resourceDef TypeDefinition) (*ResolvedResourceDefinition, error) {
-	resource, ok := AsResourceType(resourceDef.Type())
-	if !ok {
-		return nil, errors.Errorf("expected %q to be a Resource but instead it was a %T", resourceDef.Name(), resourceDef.Type())
-	}
-
-	// Resolve the spec
-	specDef, err := set.ResolveResourceSpecDefinition(resource)
-	if err != nil {
-		return nil, err
-	}
-	spec, ok := AsObjectType(specDef.Type())
-	if !ok {
-		return nil, errors.Errorf("resource spec %q did not contain an object", resource.SpecType().String())
-	}
-
-	// Resolve the status if it's there (we need this because our golden file tests don't have status currently)
-	var statusDef TypeDefinition
-	var status *ObjectType
-
-	if IgnoringErrors(resource.StatusType()) != nil {
-		statusDef, err = set.ResolveResourceStatusDefinition(resource)
-		if err != nil {
-			return nil, err
-		}
-		status, ok = AsObjectType(statusDef.Type())
-		if !ok {
-			return nil, errors.Errorf("resource status %q did not contain an object", resource.StatusType().String())
-		}
-	}
-
-	return &ResolvedResourceDefinition{
-		ResourceDef:  resourceDef,
-		ResourceType: resource,
-		SpecDef:      specDef,
-		SpecType:     spec,
-		StatusDef:    statusDef,
-		StatusType:   status,
-	}, nil
+	return ResolveResourceSpecAndStatus(set, resourceDef)
 }
 
 // Process applies a func to transform all members of this set of type definitions, returning a new set of type
@@ -378,6 +327,81 @@ func (set TypeDefinitionSet) Process(transformation func(definition TypeDefiniti
 	}
 
 	return result, nil
+}
+
+// ResolveResourceSpecDefinition finds the TypeDefinition associated with the resource Spec.
+func ResolveResourceSpecDefinition(defs ReadonlyTypes, resourceType *ResourceType) (TypeDefinition, error) {
+	// The expectation is that the spec type is just a name
+	specName, ok := resourceType.SpecType().(TypeName)
+	if !ok {
+		return TypeDefinition{}, errors.Errorf("spec was not of type TypeName, instead: %T", resourceType.SpecType())
+	}
+
+	resourceSpecDef, err := defs.GetDefinition(specName)
+	if !ok {
+		return TypeDefinition{}, errors.Wrapf(err, "couldn't find spec")
+	}
+
+	return resourceSpecDef, nil
+}
+
+// ResolveResourceStatusDefinition finds the TypeDefinition associated with the resource Status.
+func ResolveResourceStatusDefinition(defs ReadonlyTypes, resourceType *ResourceType) (TypeDefinition, error) {
+	statusName, ok := resourceType.StatusType().(TypeName)
+	if !ok {
+		return TypeDefinition{}, errors.Errorf("status was not of type TypeName, instead: %T", resourceType.StatusType())
+	}
+
+	resourceStatusDef, err := defs.GetDefinition(statusName)
+	if !ok {
+		return TypeDefinition{}, errors.Wrapf(err, "couldn't find status")
+	}
+
+	// preserve outer spec name
+	return resourceStatusDef.WithName(statusName), nil
+}
+
+// ResolveResourceSpecAndStatus takes a TypeDefinition that is a ResourceType and looks up its Spec and Status (as well as
+// the TypeDefinition's corresponding to them) and returns a ResolvedResourceDefinition
+func ResolveResourceSpecAndStatus(defs ReadonlyTypes, resourceDef TypeDefinition) (*ResolvedResourceDefinition, error) {
+	resource, ok := AsResourceType(resourceDef.Type())
+	if !ok {
+		return nil, errors.Errorf("expected %q to be a Resource but instead it was a %T", resourceDef.Name(), resourceDef.Type())
+	}
+
+	// Resolve the spec
+	specDef, err := ResolveResourceSpecDefinition(defs, resource)
+	if err != nil {
+		return nil, err
+	}
+	spec, ok := AsObjectType(specDef.Type())
+	if !ok {
+		return nil, errors.Errorf("resource spec %q did not contain an object", resource.SpecType().String())
+	}
+
+	// Resolve the status if it's there (we need this because our golden file tests don't have status currently)
+	var statusDef TypeDefinition
+	var status *ObjectType
+
+	if IgnoringErrors(resource.StatusType()) != nil {
+		statusDef, err = ResolveResourceStatusDefinition(defs, resource)
+		if err != nil {
+			return nil, err
+		}
+		status, ok = AsObjectType(statusDef.Type())
+		if !ok {
+			return nil, errors.Errorf("resource status %q did not contain an object", resource.StatusType().String())
+		}
+	}
+
+	return &ResolvedResourceDefinition{
+		ResourceDef:  resourceDef,
+		ResourceType: resource,
+		SpecDef:      specDef,
+		SpecType:     spec,
+		StatusDef:    statusDef,
+		StatusType:   status,
+	}, nil
 }
 
 // FindResourceDefinitions walks the provided set of TypeDefinitions and returns all the resource definitions
@@ -416,10 +440,10 @@ func FindSpecDefinitions(definitions TypeDefinitionSet) TypeDefinitionSet {
 		}
 
 		// Add the named spec type to our results
-		if spec, ok := definitions.TryGet(tn); ok {
+		if spec, err := definitions.GetDefinition(tn); err == nil {
 			// Use AddAllowDuplicates here because some resources share the same spec
 			// across multiple resources, which can trigger multiple adds of the same type
-			err := result.AddAllowDuplicates(spec)
+			err = result.AddAllowDuplicates(spec)
 			if err != nil {
 				panic(err)
 			}
@@ -447,10 +471,10 @@ func FindStatusDefinitions(definitions TypeDefinitionSet) TypeDefinitionSet {
 		}
 
 		// Add the named status type to our results
-		if status, ok := definitions.TryGet(tn); ok {
+		if status, err := definitions.GetDefinition(tn); err == nil {
 			// Use AddAllowDuplicates here because some resources share the same status
 			// across multiple resources, which can trigger multiple adds of the same type
-			err := result.AddAllowDuplicates(status)
+			err = result.AddAllowDuplicates(status)
 			if err != nil {
 				panic(err)
 			}

@@ -33,7 +33,7 @@ func (e *RedisLinkedServerExtension) ClassifyError(
 	}
 
 	// Override is to treat Conflict as retryable for RedisLinkedServers, if the message contains "try again later"
-	if isRetryableConflict(cloudError.InnerError) {
+	if isRetryableConflict(cloudError) {
 		details.Classification = core.ErrorRetryable
 	}
 

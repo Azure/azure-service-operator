@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: azure-service-operator-v2
+    control-plane: controller-manager
+  name: azureserviceoperator-controller-manager
+  namespace: {{.Release.Namespace}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      control-plane: controller-manager
+  template:
+    metadata:
+      labels:
+        aadpodidbinding: aso-manager-binding
+        control-plane: controller-manager
+    spec:
+      containers:
+      - args:
+        - --metrics-addr=127.0.0.1:8080
+        - --enable-leader-election
+        - --v=2
+        env:
+        - name: AZURE_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              key: AZURE_CLIENT_ID
+              name: aso-controller-settings
+        - name: AZURE_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              key: AZURE_CLIENT_SECRET
+              name: aso-controller-settings
+              optional: true
+        - name: AZURE_TENANT_ID
+          valueFrom:
+            secretKeyRef:
+              key: AZURE_TENANT_ID
+              name: aso-controller-settings
+        - name: AZURE_SUBSCRIPTION_ID
+          valueFrom:
+            secretKeyRef:
+              key: AZURE_SUBSCRIPTION_ID
+              name: aso-controller-settings
+        - name: AZURE_TARGET_NAMESPACES
+          valueFrom:
+            secretKeyRef:
+              key: AZURE_TARGET_NAMESPACES
+              name: aso-controller-settings
+              optional: true
+        - name: AZURE_OPERATOR_MODE
+          valueFrom:
+            secretKeyRef:
+              key: AZURE_OPERATOR_MODE
+              name: aso-controller-settings
+              optional: true
+        - name: AZURE_SYNC_PERIOD
+          valueFrom:
+            secretKeyRef:
+              key: AZURE_SYNC_PERIOD
+              name: aso-controller-settings
+              optional: true
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        image: {{.Values.image.repository}}
+        imagePullPolicy: Always
+        name: manager
+        ports:
+        - containerPort: 9443
+          name: webhook-server
+          protocol: TCP
+        - containerPort: 8081
+          name: liveness-port
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 200m
+            memory: 256Mi
+        volumeMounts:
+        - mountPath: /tmp/k8s-webhook-server/serving-certs
+          name: cert
+          readOnly: true
+      - args:
+        - --secure-listen-address=0.0.0.0:8443
+        - --upstream=http://127.0.0.1:8080/
+        - --logtostderr=true
+        - --v=10
+        image: {{.Values.image.kubeRBACProxy}}
+        name: kube-rbac-proxy
+        ports:
+        - containerPort: 8443
+          name: https
+      nodeSelector:
+        kubernetes.io/os: linux
+      terminationGracePeriodSeconds: 10
+      volumes:
+      - name: cert
+        secret:
+          defaultMode: 420
+          secretName: webhook-server-cert

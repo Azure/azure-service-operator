@@ -5,6 +5,7 @@ go 1.17
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v0.21.0
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v0.13.0
+	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos v0.3.0
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis v0.3.0
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v0.3.0
 	github.com/Azure/go-autorest/autorest/to v0.4.0

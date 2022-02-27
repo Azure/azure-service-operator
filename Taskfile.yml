@@ -29,6 +29,8 @@ vars:
   CROSSPLANE_APP: crossplane-gen
   CROSSPLANE_ROOT: ./hack/crossplane/
 
+  KUBE_RBAC_PROXY: gcr.io/kubebuilder/kube-rbac-proxy
+
   # how long to let tests against live resources run for
   LIVE_TEST_TIMEOUT: 3h
 
@@ -395,6 +397,12 @@ tasks:
       - mkdir -p config/crd/out
       - find "config/crd/out" -type f -delete
       - kustomize build config/crd > config/crd/out/azureserviceoperator.yaml
+
+  controller:gen-helm-manifest:
+    desc: Generate helm manifest using Kustomize for the release
+    cmds:
+     - "{{.SCRIPTS_ROOT}}/generate-helm-manifest.sh {{.KUBE_RBAC_PROXY}} {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} {{.PUBLIC_REGISTRY}} {{.VERSION}} `pwd`/{{.CONTROLLER_ROOT}}"
+
 
   controller:kind-delete:
     desc: Deletes a kind cluster

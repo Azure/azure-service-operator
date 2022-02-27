@@ -46,6 +46,8 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
     ```sh
     kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
     ```
+   **Note:** if you are using a more recent version of cert-manager you will have to add `--set certManagerResourcesAPIVersion=cert-manager.io/v1` to the Helm command specified below.
+
 2.  Install [Helm](https://helm.sh/docs/intro/install/), and add the Helm repo for Azure Service Operator. Please note that the instructions here use Helm 3.
 
     ```sh

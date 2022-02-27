@@ -11,7 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -27,7 +27,7 @@ func Test_ReconcilePolicy_SkipReconcile_DoesntCreateResourceInAzure(t *testing.T
 	// Create a resource group
 	rg := tc.NewTestResourceGroup()
 	rg.Annotations = map[string]string{
-		reconcilers.ReconcilePolicyAnnotation: string(reconcilers.ReconcilePolicySkip),
+		arm.ReconcilePolicyAnnotation: string(arm.ReconcilePolicySkip),
 	}
 	tc.CreateResourceAndWaitForState(rg, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
 
@@ -53,7 +53,7 @@ func Test_ReconcilePolicy_SkipReconcile_DoesntCreateResourceInAzure(t *testing.T
 	// Now when we remove the annotation the resource should move to ready state
 	// Update the tags
 	old := rg.DeepCopy()
-	delete(rg.Annotations, reconcilers.ReconcilePolicyAnnotation)
+	delete(rg.Annotations, arm.ReconcilePolicyAnnotation)
 	tc.Patch(old, rg)
 	tc.Eventually(rg).Should(tc.Match.BeProvisioned(0))
 

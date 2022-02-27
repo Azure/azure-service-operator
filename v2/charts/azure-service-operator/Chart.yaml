@@ -1,0 +1,7 @@
+apiVersion: v2
+name: azure-service-operator
+version: v2.0.0-alpha.6
+description: Deploy components and dependencies of azure-service-operator
+home: https://github.com/Azure/azure-service-operator/v2
+sources:
+  - https://github.com/Azure/azure-service-operator/v2

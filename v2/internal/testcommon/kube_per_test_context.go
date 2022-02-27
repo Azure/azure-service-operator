@@ -468,7 +468,7 @@ func (tc *KubePerTestContext) ExpectSecretHasKeys(name string, expectedKeys ...s
 	// a lot of the boilerplate code is actually getting the secret
 	tc.Expect(secret.Data).To(gomega.HaveLen(len(expectedKeys)))
 	for _, k := range expectedKeys {
-		tc.Expect(secret.Data[k]).ToNot(gomega.BeEmpty())
+		tc.Expect(secret.Data[k]).ToNot(gomega.BeEmpty(), "key %s missing", k)
 	}
 }
 

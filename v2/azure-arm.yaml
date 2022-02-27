@@ -729,6 +729,12 @@ objectModelConfiguration:
     2021-05-15:
       DatabaseAccount:
         $export: true
+        $azureGeneratedSecrets:
+          - PrimaryMasterKey
+          - SecondaryMasterKey
+          - PrimaryReadonlyMasterKey
+          - SecondaryReadonlyMasterKey
+          - DocumentEndpoint
       DatabaseAccountsMongodbDatabase:
         $exportAs: MongodbDatabase
       DatabaseAccountsMongodbDatabasesCollection:

@@ -1667,6 +1667,10 @@ type DatabaseAccounts_Spec struct {
 	//NetworkAclBypassResourceIds: An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.
 	NetworkAclBypassResourceIds []string `json:"networkAclBypassResourceIds,omitempty"`
 
+	//OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	//passed directly to Azure
+	OperatorSpec *DatabaseAccountOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
@@ -2066,6 +2070,8 @@ func (accounts *DatabaseAccounts_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		accounts.NetworkAclBypassResourceIds = append(accounts.NetworkAclBypassResourceIds, item)
 	}
 
+	// no assignment for property ‘OperatorSpec’
+
 	// Set property ‘Owner’:
 	accounts.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
@@ -2388,6 +2394,18 @@ func (accounts *DatabaseAccounts_Spec) AssignPropertiesFromDatabaseAccountsSpec(
 	// NetworkAclBypassResourceIds
 	accounts.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(source.NetworkAclBypassResourceIds)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec DatabaseAccountOperatorSpec
+		err := operatorSpec.AssignPropertiesFromDatabaseAccountOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountOperatorSpec() to populate field OperatorSpec")
+		}
+		accounts.OperatorSpec = &operatorSpec
+	} else {
+		accounts.OperatorSpec = nil
+	}
+
 	// Owner
 	accounts.Owner = source.Owner.Copy()
 
@@ -2659,6 +2677,18 @@ func (accounts *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAccountsSpec(de
 
 	// NetworkAclBypassResourceIds
 	destination.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(accounts.NetworkAclBypassResourceIds)
+
+	// OperatorSpec
+	if accounts.OperatorSpec != nil {
+		var operatorSpec v1alpha1api20210515storage.DatabaseAccountOperatorSpec
+		err := accounts.OperatorSpec.AssignPropertiesToDatabaseAccountOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = accounts.OriginalVersion()
@@ -3917,6 +3947,59 @@ type DatabaseAccountOfferType_Status string
 
 const DatabaseAccountOfferType_StatusStandard = DatabaseAccountOfferType_Status("Standard")
 
+//Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type DatabaseAccountOperatorSpec struct {
+	//Secrets: configures where to place Azure generated secrets.
+	Secrets *DatabaseAccountOperatorSecrets `json:"secrets,omitempty"`
+}
+
+// AssignPropertiesFromDatabaseAccountOperatorSpec populates our DatabaseAccountOperatorSpec from the provided source DatabaseAccountOperatorSpec
+func (operator *DatabaseAccountOperatorSpec) AssignPropertiesFromDatabaseAccountOperatorSpec(source *v1alpha1api20210515storage.DatabaseAccountOperatorSpec) error {
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret DatabaseAccountOperatorSecrets
+		err := secret.AssignPropertiesFromDatabaseAccountOperatorSecrets(source.Secrets)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDatabaseAccountOperatorSpec populates the provided destination DatabaseAccountOperatorSpec from our DatabaseAccountOperatorSpec
+func (operator *DatabaseAccountOperatorSpec) AssignPropertiesToDatabaseAccountOperatorSpec(destination *v1alpha1api20210515storage.DatabaseAccountOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret v1alpha1api20210515storage.DatabaseAccountOperatorSecrets
+		err := operator.Secrets.AssignPropertiesToDatabaseAccountOperatorSecrets(&secret)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type FailoverPolicy_Status struct {
 	//FailoverPriority: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum
 	//value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the
@@ -5063,6 +5146,131 @@ func (policy *ContinuousModeBackupPolicy) AssignPropertiesToContinuousModeBackup
 	// Type
 	typeVar := string(policy.Type)
 	destination.Type = &typeVar
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type DatabaseAccountOperatorSecrets struct {
+	//DocumentEndpoint: indicates where the DocumentEndpoint secret should be placed. If omitted, the secret will not be
+	//retrieved from Azure.
+	DocumentEndpoint *genruntime.SecretDestination `json:"documentEndpoint,omitempty"`
+
+	//PrimaryMasterKey: indicates where the PrimaryMasterKey secret should be placed. If omitted, the secret will not be
+	//retrieved from Azure.
+	PrimaryMasterKey *genruntime.SecretDestination `json:"primaryMasterKey,omitempty"`
+
+	//PrimaryReadonlyMasterKey: indicates where the PrimaryReadonlyMasterKey secret should be placed. If omitted, the secret
+	//will not be retrieved from Azure.
+	PrimaryReadonlyMasterKey *genruntime.SecretDestination `json:"primaryReadonlyMasterKey,omitempty"`
+
+	//SecondaryMasterKey: indicates where the SecondaryMasterKey secret should be placed. If omitted, the secret will not be
+	//retrieved from Azure.
+	SecondaryMasterKey *genruntime.SecretDestination `json:"secondaryMasterKey,omitempty"`
+
+	//SecondaryReadonlyMasterKey: indicates where the SecondaryReadonlyMasterKey secret should be placed. If omitted, the
+	//secret will not be retrieved from Azure.
+	SecondaryReadonlyMasterKey *genruntime.SecretDestination `json:"secondaryReadonlyMasterKey,omitempty"`
+}
+
+// AssignPropertiesFromDatabaseAccountOperatorSecrets populates our DatabaseAccountOperatorSecrets from the provided source DatabaseAccountOperatorSecrets
+func (secrets *DatabaseAccountOperatorSecrets) AssignPropertiesFromDatabaseAccountOperatorSecrets(source *v1alpha1api20210515storage.DatabaseAccountOperatorSecrets) error {
+
+	// DocumentEndpoint
+	if source.DocumentEndpoint != nil {
+		documentEndpoint := source.DocumentEndpoint.Copy()
+		secrets.DocumentEndpoint = &documentEndpoint
+	} else {
+		secrets.DocumentEndpoint = nil
+	}
+
+	// PrimaryMasterKey
+	if source.PrimaryMasterKey != nil {
+		primaryMasterKey := source.PrimaryMasterKey.Copy()
+		secrets.PrimaryMasterKey = &primaryMasterKey
+	} else {
+		secrets.PrimaryMasterKey = nil
+	}
+
+	// PrimaryReadonlyMasterKey
+	if source.PrimaryReadonlyMasterKey != nil {
+		primaryReadonlyMasterKey := source.PrimaryReadonlyMasterKey.Copy()
+		secrets.PrimaryReadonlyMasterKey = &primaryReadonlyMasterKey
+	} else {
+		secrets.PrimaryReadonlyMasterKey = nil
+	}
+
+	// SecondaryMasterKey
+	if source.SecondaryMasterKey != nil {
+		secondaryMasterKey := source.SecondaryMasterKey.Copy()
+		secrets.SecondaryMasterKey = &secondaryMasterKey
+	} else {
+		secrets.SecondaryMasterKey = nil
+	}
+
+	// SecondaryReadonlyMasterKey
+	if source.SecondaryReadonlyMasterKey != nil {
+		secondaryReadonlyMasterKey := source.SecondaryReadonlyMasterKey.Copy()
+		secrets.SecondaryReadonlyMasterKey = &secondaryReadonlyMasterKey
+	} else {
+		secrets.SecondaryReadonlyMasterKey = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDatabaseAccountOperatorSecrets populates the provided destination DatabaseAccountOperatorSecrets from our DatabaseAccountOperatorSecrets
+func (secrets *DatabaseAccountOperatorSecrets) AssignPropertiesToDatabaseAccountOperatorSecrets(destination *v1alpha1api20210515storage.DatabaseAccountOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// DocumentEndpoint
+	if secrets.DocumentEndpoint != nil {
+		documentEndpoint := secrets.DocumentEndpoint.Copy()
+		destination.DocumentEndpoint = &documentEndpoint
+	} else {
+		destination.DocumentEndpoint = nil
+	}
+
+	// PrimaryMasterKey
+	if secrets.PrimaryMasterKey != nil {
+		primaryMasterKey := secrets.PrimaryMasterKey.Copy()
+		destination.PrimaryMasterKey = &primaryMasterKey
+	} else {
+		destination.PrimaryMasterKey = nil
+	}
+
+	// PrimaryReadonlyMasterKey
+	if secrets.PrimaryReadonlyMasterKey != nil {
+		primaryReadonlyMasterKey := secrets.PrimaryReadonlyMasterKey.Copy()
+		destination.PrimaryReadonlyMasterKey = &primaryReadonlyMasterKey
+	} else {
+		destination.PrimaryReadonlyMasterKey = nil
+	}
+
+	// SecondaryMasterKey
+	if secrets.SecondaryMasterKey != nil {
+		secondaryMasterKey := secrets.SecondaryMasterKey.Copy()
+		destination.SecondaryMasterKey = &secondaryMasterKey
+	} else {
+		destination.SecondaryMasterKey = nil
+	}
+
+	// SecondaryReadonlyMasterKey
+	if secrets.SecondaryReadonlyMasterKey != nil {
+		secondaryReadonlyMasterKey := secrets.SecondaryReadonlyMasterKey.Copy()
+		destination.SecondaryReadonlyMasterKey = &secondaryReadonlyMasterKey
+	} else {
+		destination.SecondaryReadonlyMasterKey = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

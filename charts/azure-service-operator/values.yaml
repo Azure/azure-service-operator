@@ -1,6 +1,9 @@
 # Create secret or use an existing secret
 createAzureOperatorSecret: true
 
+# api version to use for cert-manager custom resources. Depends on the version of cert-manager which is deployed externally to this chart
+certManagerResourcesAPIVersion: cert-manager.io/v1alpha2
+
 # azureTenantID is the AAD tenant that the subscription is in
 azureTenantID: ""
 # azureSubscriptionID is the Azure Subscription the operator will act against.
