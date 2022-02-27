@@ -1,3 +1,5 @@
+---
+---
 <h2 id="resources.azure.com/v1alpha1api20200601">resources.azure.com/v1alpha1api20200601</h2>
 <div>
 <p>Package v1alpha1api20200601 contains API Schema definitions for the resources v1alpha1api20200601 API group</p>

@@ -46,3 +46,5 @@ do
                 
     fi
 done
+
+find $OUTPUTDIR -type f -exec sed -i '' '1 s/^/---\n---\n/' {} \;

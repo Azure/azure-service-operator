@@ -1,3 +1,5 @@
+---
+---
 <h2 id="managedidentity.azure.com/v1alpha1api20181130">managedidentity.azure.com/v1alpha1api20181130</h2>
 <div>
 <p>Package v1alpha1api20181130 contains API Schema definitions for the managedidentity v1alpha1api20181130 API group</p>

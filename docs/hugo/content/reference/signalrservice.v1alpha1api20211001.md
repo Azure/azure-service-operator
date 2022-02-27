@@ -1,3 +1,5 @@
+---
+---
 <h2 id="signalrservice.azure.com/v1alpha1api20211001">signalrservice.azure.com/v1alpha1api20211001</h2>
 <div>
 <p>Package v1alpha1api20211001 contains API Schema definitions for the signalrservice v1alpha1api20211001 API group</p>

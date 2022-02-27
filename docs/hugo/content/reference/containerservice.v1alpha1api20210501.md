@@ -1,3 +1,5 @@
+---
+---
 <h2 id="containerservice.azure.com/v1alpha1api20210501">containerservice.azure.com/v1alpha1api20210501</h2>
 <div>
 <p>Package v1alpha1api20210501 contains API Schema definitions for the containerservice v1alpha1api20210501 API group</p>

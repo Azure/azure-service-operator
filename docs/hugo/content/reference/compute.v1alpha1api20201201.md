@@ -1,3 +1,5 @@
+---
+---
 <h2 id="compute.azure.com/v1alpha1api20201201">compute.azure.com/v1alpha1api20201201</h2>
 <div>
 <p>Package v1alpha1api20201201 contains API Schema definitions for the compute v1alpha1api20201201 API group</p>

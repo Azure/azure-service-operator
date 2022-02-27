@@ -1,3 +1,5 @@
+---
+---
 <h2 id="containerregistry.azure.com/v1alpha1api20210901">containerregistry.azure.com/v1alpha1api20210901</h2>
 <div>
 <p>Package v1alpha1api20210901 contains API Schema definitions for the containerregistry v1alpha1api20210901 API group</p>

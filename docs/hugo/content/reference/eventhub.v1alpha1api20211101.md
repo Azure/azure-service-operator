@@ -1,3 +1,5 @@
+---
+---
 <h2 id="eventhub.azure.com/v1alpha1api20211101">eventhub.azure.com/v1alpha1api20211101</h2>
 <div>
 <p>Package v1alpha1api20211101 contains API Schema definitions for the eventhub v1alpha1api20211101 API group</p>

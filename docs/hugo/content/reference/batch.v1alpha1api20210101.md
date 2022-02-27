@@ -1,3 +1,5 @@
+---
+---
 <h2 id="batch.azure.com/v1alpha1api20210101">batch.azure.com/v1alpha1api20210101</h2>
 <div>
 <p>Package v1alpha1api20210101 contains API Schema definitions for the batch v1alpha1api20210101 API group</p>
