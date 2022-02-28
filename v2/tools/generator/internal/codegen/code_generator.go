@@ -233,6 +233,11 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 			return errors.Wrapf(err, "failed during pipeline stage %d/%d: %s", i+1, len(generator.pipeline), stage.Description())
 		}
 
+		// Fail fast if something goes awry
+		if len(stateOut.Definitions()) == 0 {
+			return errors.Errorf("All type definitions removed by stage %s", stage.Id())
+		}
+
 		defsAdded := stateOut.Definitions().Except(state.Definitions())
 		defsRemoved := state.Definitions().Except(stateOut.Definitions())
 
