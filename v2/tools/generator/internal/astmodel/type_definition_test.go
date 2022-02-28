@@ -24,7 +24,7 @@ func Test_MakeTypeDefinition_GivenValues_InitializesProperties(t *testing.T) {
 	const name = "demo"
 	const group = "group"
 	const version = "2020-01-01"
-	const pkg = "v1alpha1api20200101"
+	const pkg = "v20200101"
 
 	ref := MakeTypeName(makeTestLocalPackageReference(group, version), name)
 	objectType := NewObjectType().WithProperties(fullName, familyName, knownAs)

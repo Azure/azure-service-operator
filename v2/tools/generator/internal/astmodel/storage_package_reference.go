@@ -69,7 +69,8 @@ func IsStoragePackageReference(reference PackageReference) bool {
 
 // GroupVersion returns the group and version of this local reference.
 func (s StoragePackageReference) GroupVersion() (string, string, bool) {
-	return s.inner.group, s.inner.version + StoragePackageSuffix, true
+	g, v, _ := s.inner.GroupVersion()
+	return g, v + StoragePackageSuffix, true
 }
 
 // Local returns the local package reference wrapped by this reference

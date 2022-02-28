@@ -50,5 +50,5 @@ func TestPropertyReference_String_ReturnsExpectedResult(t *testing.T) {
 	ref := MakePropertyReference(declaringType, property)
 	str := ref.String()
 
-	g.Expect(str).To(Equal("Demo/v1alpha1api1/Person.FullName"))
+	g.Expect(str).To(Equal("Demo/v1/Person.FullName"))
 }

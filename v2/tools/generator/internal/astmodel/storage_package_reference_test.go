@@ -19,8 +19,8 @@ func TestMakeStoragePackageReference(t *testing.T) {
 		version         string
 		expectedVersion string
 	}{
-		{"group", "1", "v1alpha1api1storage"},
-		{"microsoft.network", "2018-05-01", "v1alpha1api20180501storage"},
+		{"group", "1", "v1storage"},
+		{"microsoft.network", "2018-05-01", "v20180501storage"},
 	}
 
 	for _, c := range cases {

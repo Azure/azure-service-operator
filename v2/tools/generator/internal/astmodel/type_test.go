@@ -15,7 +15,7 @@ import (
 func TestWriteDebugDescription(t *testing.T) {
 	t.Parallel()
 
-	here := MakeLocalPackageReference("local", "test", "1")
+	here := MakeLocalPackageReference("local", "test", "v", "1")
 
 	age := MakeTypeName(here, "Age")
 	ageDefinition := MakeTypeDefinition(age, IntType)
@@ -54,15 +54,15 @@ func TestWriteDebugDescription(t *testing.T) {
 		{"ArrayOfOptionalString", NewArrayType(NewOptionalType(StringType)), "Array[Optional[string]]"},
 		{"MapOfStringToInt", NewMapType(StringType, IntType), "Map[string]int"},
 		{"MapOfStringToOptionalString", NewMapType(StringType, NewOptionalType(StringType)), "Map[string]Optional[string]"},
-		{"AliasedType", age, "local/test/v1alpha1api1/Age:int"},
-		{"MapOfStringToAge", NewMapType(StringType, age), "Map[string]local/test/v1alpha1api1/Age:int"},
-		{"MapOfPersonIDToAge", NewMapType(personId, age), "Map[local/test/v1alpha1api1/PersonId:string]local/test/v1alpha1api1/Age:int"},
+		{"AliasedType", age, "local/test/v1/Age:int"},
+		{"MapOfStringToAge", NewMapType(StringType, age), "Map[string]local/test/v1/Age:int"},
+		{"MapOfPersonIDToAge", NewMapType(personId, age), "Map[local/test/v1/PersonId:string]local/test/v1/Age:int"},
 		{"SuitEnum", suitEnum, "Enum[string:clubs|diamonds|hearts|spades]"}, // alphabetical
-		{"SuitName", suit, "local/test/v1alpha1api1/Suit:Enum[string:clubs|diamonds|hearts|spades]"},
-		{"MapOfSuitToAge", NewMapType(suit, age), "Map[local/test/v1alpha1api1/Suit:Enum[string:clubs|diamonds|hearts|spades]]local/test/v1alpha1api1/Age:int"},
-		{"FlaggedAge", armAge, "local/test/v1alpha1api1/Age:int[#arm]"},
-		{"FlaggedSuit", armSuit, "local/test/v1alpha1api1/Suit:Enum[string:clubs|diamonds|hearts|spades][#arm]"},
-		{"ErroredAge", erroredAge, "Error[local/test/v1alpha1api1/Age:int|boom|oh oh]"},
+		{"SuitName", suit, "local/test/v1/Suit:Enum[string:clubs|diamonds|hearts|spades]"},
+		{"MapOfSuitToAge", NewMapType(suit, age), "Map[local/test/v1/Suit:Enum[string:clubs|diamonds|hearts|spades]]local/test/v1/Age:int"},
+		{"FlaggedAge", armAge, "local/test/v1/Age:int[#arm]"},
+		{"FlaggedSuit", armSuit, "local/test/v1/Suit:Enum[string:clubs|diamonds|hearts|spades][#arm]"},
+		{"ErroredAge", erroredAge, "Error[local/test/v1/Age:int|boom|oh oh]"},
 	}
 
 	for _, c := range cases {

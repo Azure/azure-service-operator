@@ -12,7 +12,8 @@ import (
 )
 
 func makeTestLocalPackageReference(group string, version string) LocalPackageReference {
-	return MakeLocalPackageReference("github.com/Azure/azure-service-operator/v2/api", group, version)
+	// We use a fixed path and version prefixes to ensure consistency across testing
+	return MakeLocalPackageReference("github.com/Azure/azure-service-operator/v2/api", group, "v", version)
 }
 
 func TestMakeLocalPackageReference_GivenGroupAndPackage_ReturnsInstanceWithProperties(t *testing.T) {
@@ -24,9 +25,9 @@ func TestMakeLocalPackageReference_GivenGroupAndPackage_ReturnsInstanceWithPrope
 		version string
 		pkg     string
 	}{
-		{"Networking", "microsoft.networking", "2020-09-01", "v1alpha1api20200901"},
-		{"Batch (new)", "microsoft.batch", "2020-09-01", "v1alpha1api20200901"},
-		{"Batch (old)", "microsoft.batch", "2015-01-01", "v1alpha1api20150101"},
+		{"Networking", "microsoft.networking", "2020-09-01", "v20200901"},
+		{"Batch (new)", "microsoft.batch", "2020-09-01", "v20200901"},
+		{"Batch (old)", "microsoft.batch", "2015-01-01", "v20150101"},
 	}
 	for _, c := range cases {
 		c := c
@@ -48,32 +49,32 @@ func TestLocalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 	t.Parallel()
 
 	cases := []struct {
-		name    string
-		group   string
-		version string
-		pkg string
+		name         string
+		group        string
+		version      string
+		pkg          string
 		expectedPath string
 	}{
 		{
 			"Networking",
 			"microsoft.networking",
 			"2020-09-01",
-			"v1alpha1api20200901",
-			"github.com/Azure/azure-service-operator/v2/api/microsoft.networking/v1alpha1api20200901",
+			"v20200901",
+			"github.com/Azure/azure-service-operator/v2/api/microsoft.networking/v20200901",
 		},
 		{
 			"Batch (new)",
 			"microsoft.batch",
 			"2020-09-01",
-			"v1alpha1api20200901",
-			"github.com/Azure/azure-service-operator/v2/api/microsoft.batch/v1alpha1api20200901",
+			"v20200901",
+			"github.com/Azure/azure-service-operator/v2/api/microsoft.batch/v20200901",
 		},
 		{
 			"Batch (old)",
 			"microsoft.batch",
 			"2015-01-01",
-			"v1alpha1api20150101",
-			"github.com/Azure/azure-service-operator/v2/api/microsoft.batch/v1alpha1api20150101",
+			"v20150101",
+			"github.com/Azure/azure-service-operator/v2/api/microsoft.batch/v20150101",
 		},
 	}
 	for _, c := range cases {

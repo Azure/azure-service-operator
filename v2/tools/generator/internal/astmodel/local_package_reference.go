@@ -24,14 +24,14 @@ var (
 	_ fmt.Stringer     = LocalPackageReference{}
 )
 
-const generatorVersionPrefix string = "v1alpha1api"
+const GeneratorVersionPrefix string = "v1alpha1api"
 
 // MakeLocalPackageReference Creates a new local package reference from a group and version
-func MakeLocalPackageReference(prefix string, group string, version string) LocalPackageReference {
+func MakeLocalPackageReference(prefix string, group string, versionPrefix string, version string) LocalPackageReference {
 	return LocalPackageReference{
 		localPathPrefix: prefix,
 		group:           group,
-		versionPrefix:   generatorVersionPrefix,
+		versionPrefix:   versionPrefix,
 		version:         sanitizePackageName(version),
 	}
 }
@@ -84,6 +84,8 @@ func (pr LocalPackageReference) String() string {
 }
 
 // IsPreview returns true if this package reference is a preview
+// We don't check the version prefix (which contains the version of the generator) as that may contain alpha or beta
+// even if the ARM version is not preview.
 func (pr LocalPackageReference) IsPreview() bool {
 	return containsPreviewVersionLabel(strings.ToLower(pr.version))
 }

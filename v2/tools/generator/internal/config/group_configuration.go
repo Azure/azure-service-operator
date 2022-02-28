@@ -46,7 +46,7 @@ func (gc *GroupConfiguration) add(version *VersionConfiguration) {
 	// Convert version.name into a package version
 	// We do this by constructing a local package reference because this avoids replicating the logic here and risking
 	// inconsistency if things are changed in the future.
-	local := astmodel.MakeLocalPackageReference("prefix", "group", version.name)
+	local := astmodel.MakeLocalPackageReference("prefix", "group", astmodel.GeneratorVersionPrefix, version.name)
 	_, lv, _ := local.GroupVersion()
 
 	// Convert version.name into a storage package version
