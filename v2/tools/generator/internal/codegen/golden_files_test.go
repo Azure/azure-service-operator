@@ -28,6 +28,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
+var goldenTestPackageReference = astmodel.MakeLocalPackageReference(test.GoModulePrefix, "test", astmodel.GeneratorVersionPrefix, "20200101")
+
 type GoldenTestConfig struct {
 	HasARMResources      bool                        `yaml:"hasArmResources"`
 	InjectEmbeddedStruct bool                        `yaml:"injectEmbeddedStruct"`
@@ -64,7 +66,7 @@ func loadTestConfig(path string) (GoldenTestConfig, error) {
 }
 
 func makeEmbeddedTestTypeDefinition() astmodel.TypeDefinition {
-	name := astmodel.MakeTypeName(test.MakeLocalPackageReference("test", "v1alpha1api20200101"), "EmbeddedTestType")
+	name := astmodel.MakeTypeName(goldenTestPackageReference, "EmbeddedTestType")
 	t := astmodel.NewObjectType()
 	t = t.WithProperty(astmodel.NewPropertyDefinition("FancyProp", "fancyProp", astmodel.IntType))
 
@@ -305,10 +307,7 @@ func stripUnusedTypesPipelineStage() *pipeline.Stage {
 		func(ctx context.Context, state *pipeline.State) (*pipeline.State, error) {
 			// The golden files always generate a top-level Test type - mark
 			// that as the root.
-			roots := astmodel.NewTypeNameSet(astmodel.MakeTypeName(
-				test.MakeLocalPackageReference("test", "20200101"),
-				"Test",
-			))
+			roots := astmodel.NewTypeNameSet(astmodel.MakeTypeName(goldenTestPackageReference, "Test"))
 			defs, err := pipeline.StripUnusedDefinitions(roots, state.Definitions())
 			if err != nil {
 				return nil, errors.Wrapf(err, "could not strip unused types")
