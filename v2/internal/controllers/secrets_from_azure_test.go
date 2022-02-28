@@ -109,10 +109,9 @@ func Test_TwoObjectsWriteSameSecret_WarningConditionIsSetOnSecond(t *testing.T) 
 }
 
 func makeSimpleStorageAccountWithOperatorSpecSecrets(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, secretName string, secretKey string) *storage.StorageAccount {
-	namer := tc.Namer.WithSeparator("")
 	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
 	acct := &storage.StorageAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("stor")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccounts_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),

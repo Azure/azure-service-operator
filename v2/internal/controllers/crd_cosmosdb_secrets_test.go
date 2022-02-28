@@ -24,12 +24,10 @@ func Test_CosmosDB_DatabaseAccount_SecretsFromAzure(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 	// Custom namer because cosmosdb accounts have stricter name
 	// requirements - no hyphens allowed.
-	namer := tc.Namer.WithSeparator("")
-
 	// Create a Cosmos DB account
 	kind := documentdb.DatabaseAccountsSpecKindGlobalDocumentDB
 	acct := &documentdb.DatabaseAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("sqlacct")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("sqlacct")),
 		Spec: documentdb.DatabaseAccounts_Spec{
 			Location:                 &tc.AzureRegion,
 			Owner:                    testcommon.AsOwner(rg),

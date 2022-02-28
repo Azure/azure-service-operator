@@ -23,12 +23,11 @@ import (
 
 func newStorageAccountWithInvalidKeyExpiration(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
 	// Custom namer because storage accounts have strict names
-	namer := tc.Namer.WithSeparator("")
 
 	// Create a storage account with an invalid key expiration period
 	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
 	return &storage.StorageAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("stor")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccounts_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),

@@ -50,6 +50,7 @@ type PerTestContext struct {
 	AzureSubscription   string
 	AzureMatch          *ARMMatcher
 	Namer               ResourceNamer
+	NoSpaceNamer        ResourceNamer
 	TestName            string
 	Namespace           string
 }
@@ -124,11 +125,14 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 		}
 	})
 
+	namer := tc.NameConfig.NewResourceNamer(t.Name())
+
 	return PerTestContext{
 		TestContext:         tc,
 		T:                   t,
 		logger:              logger,
-		Namer:               tc.NameConfig.NewResourceNamer(t.Name()),
+		Namer:               namer,
+		NoSpaceNamer:        namer.WithSeparator(""),
 		AzureClient:         armClient,
 		AzureSubscription:   subscriptionID,
 		AzureMatch:          NewARMMatcher(armClient),

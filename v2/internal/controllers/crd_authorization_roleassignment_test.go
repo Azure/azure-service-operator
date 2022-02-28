@@ -94,14 +94,10 @@ func Test_Authorization_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 	tc.Expect(mi.Status.TenantId).ToNot(BeNil())
 	tc.Expect(mi.Status.PrincipalId).ToNot(BeNil())
 
-	// Create a storage account which we will put the role assignment on
-	// Custom namer because storage accounts have strict names
-	storageNamer := tc.Namer.WithSeparator("")
-
 	// Create a storage account
 	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
 	acct := &storage.StorageAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(storageNamer.GenerateName("stor")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccounts_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),

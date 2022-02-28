@@ -21,11 +21,8 @@ func Test_Batch_Account_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Custom namer because batch accounts have strict names
-	namer := tc.Namer.WithSeparator("")
-
 	account := &batch.BatchAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("batchacc")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("batchacc")),
 		Spec: batch.BatchAccounts_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
