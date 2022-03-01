@@ -154,6 +154,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.CreateARMTypes(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.ApplyARMConversionInterface(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.ApplyKubernetesResourceInterface(idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.ApplyDefaulterAndValidatorInterfaces(idFactory).UsedFor(pipeline.ARMTarget),
 
 		// Effects the "flatten" property of Properties:
 		pipeline.FlattenProperties(),
