@@ -76,7 +76,9 @@ int
 <td>
 <code>sourceResourceReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -628,7 +630,9 @@ CreationData
 <td>
 <code>diskAccessReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -800,7 +804,9 @@ DiskPropertiesOsType
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -1739,7 +1745,9 @@ disabled by default. Does not apply to Ultra disks.</p>
 <td>
 <code>conditions</code><br/>
 <em>
-[]github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions.Condition
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
 </em>
 </td>
 <td>
@@ -2332,7 +2340,9 @@ CreationData
 <td>
 <code>diskAccessReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -2504,7 +2514,9 @@ DiskPropertiesOsType
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -2690,7 +2702,9 @@ map[string]string
 <td>
 <code>diskEncryptionSetReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -3509,7 +3523,9 @@ image to use. For OS disks, this field is null.</p>
 <td>
 <code>reference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -4371,7 +4387,9 @@ CreationData
 <td>
 <code>diskAccessReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -4508,7 +4526,9 @@ SnapshotPropertiesOsType
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -5263,7 +5283,9 @@ string
 <td>
 <code>conditions</code><br/>
 <em>
-[]github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions.Condition
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
 </em>
 </td>
 <td>
@@ -5723,7 +5745,9 @@ CreationData
 <td>
 <code>diskAccessReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -5860,7 +5884,9 @@ SnapshotPropertiesOsType
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -6014,7 +6040,9 @@ map[string]string
 <td>
 <code>reference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>

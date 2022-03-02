@@ -2877,9 +2877,25 @@ DatabaseAccountCreateUpdatePropertiesNetworkAclBypass
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountOperatorSpec">
+DatabaseAccountOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -3785,7 +3801,9 @@ BackupPolicy_Status
 <td>
 <code>conditions</code><br/>
 <em>
-[]github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions.Condition
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
 </em>
 </td>
 <td>
@@ -4300,6 +4318,124 @@ string
 <td></td>
 </tr></tbody>
 </table>
+<h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountOperatorSecrets">DatabaseAccountOperatorSecrets
+</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountOperatorSpec">DatabaseAccountOperatorSpec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>documentEndpoint</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>DocumentEndpoint: indicates where the DocumentEndpoint secret should be placed. If omitted, the secret will not be
+retrieved from Azure.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>primaryMasterKey</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>PrimaryMasterKey: indicates where the PrimaryMasterKey secret should be placed. If omitted, the secret will not be
+retrieved from Azure.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>primaryReadonlyMasterKey</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>PrimaryReadonlyMasterKey: indicates where the PrimaryReadonlyMasterKey secret should be placed. If omitted, the secret
+will not be retrieved from Azure.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secondaryMasterKey</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>SecondaryMasterKey: indicates where the SecondaryMasterKey secret should be placed. If omitted, the secret will not be
+retrieved from Azure.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secondaryReadonlyMasterKey</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>SecondaryReadonlyMasterKey: indicates where the SecondaryReadonlyMasterKey secret should be placed. If omitted, the
+secret will not be retrieved from Azure.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountOperatorSpec">DatabaseAccountOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccounts_Spec">DatabaseAccounts_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>secrets</code><br/>
+<em>
+<a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountOperatorSecrets">
+DatabaseAccountOperatorSecrets
+</a>
+</em>
+</td>
+<td>
+<p>Secrets: configures where to place Azure generated secrets.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion">DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion
 (<code>string</code> alias)</h3>
 <div>
@@ -4360,7 +4496,9 @@ string
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -4517,7 +4655,9 @@ CreateUpdateOptions
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -4677,7 +4817,9 @@ string
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -4834,7 +4976,9 @@ CreateUpdateOptions
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -5057,7 +5201,9 @@ CreateUpdateOptions
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -5202,7 +5348,9 @@ string
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -5374,7 +5522,9 @@ CreateUpdateOptions
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -5545,7 +5695,9 @@ CreateUpdateOptions
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -5701,7 +5853,9 @@ CreateUpdateOptions
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -5861,7 +6015,9 @@ string
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -6018,7 +6174,9 @@ CreateUpdateOptions
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -6440,9 +6598,25 @@ DatabaseAccountCreateUpdatePropertiesNetworkAclBypass
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountOperatorSpec">
+DatabaseAccountOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -8740,7 +8914,9 @@ float64
 <td>
 <code>conditions</code><br/>
 <em>
-[]github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions.Condition
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
 </em>
 </td>
 <td>
@@ -9263,7 +9439,9 @@ float64
 <td>
 <code>conditions</code><br/>
 <em>
-[]github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions.Condition
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
 </em>
 </td>
 <td>
@@ -10016,7 +10194,9 @@ CreateUpdateOptions
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -10148,7 +10328,9 @@ CreateUpdateOptions
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -10254,7 +10436,9 @@ string
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -10361,7 +10545,9 @@ string
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -11376,7 +11562,9 @@ collection in the Azure Cosmos DB service.</p>
 <td>
 <code>conditions</code><br/>
 <em>
-[]github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions.Condition
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
 </em>
 </td>
 <td>
@@ -11833,7 +12021,9 @@ CreateUpdateOptions
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -11965,7 +12155,9 @@ CreateUpdateOptions
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -12097,7 +12289,9 @@ CreateUpdateOptions
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -12203,7 +12397,9 @@ string
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -12336,7 +12532,9 @@ CreateUpdateOptions
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -12468,7 +12666,9 @@ CreateUpdateOptions
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -12790,7 +12990,9 @@ string
 <td>
 <code>conditions</code><br/>
 <em>
-[]github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions.Condition
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
 </em>
 </td>
 <td>
@@ -13071,7 +13273,9 @@ string
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -13360,7 +13564,9 @@ float64
 <td>
 <code>conditions</code><br/>
 <em>
-[]github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions.Condition
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
 </em>
 </td>
 <td>
@@ -13931,7 +14137,9 @@ float64
 <td>
 <code>conditions</code><br/>
 <em>
-[]github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions.Condition
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
 </em>
 </td>
 <td>
@@ -14502,7 +14710,9 @@ float64
 <td>
 <code>conditions</code><br/>
 <em>
-[]github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions.Condition
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
 </em>
 </td>
 <td>
@@ -15140,7 +15350,9 @@ float64
 <td>
 <code>conditions</code><br/>
 <em>
-[]github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions.Condition
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
 </em>
 </td>
 <td>
@@ -15685,7 +15897,9 @@ bool
 <td>
 <code>reference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>

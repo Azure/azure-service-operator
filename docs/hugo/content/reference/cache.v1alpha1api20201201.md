@@ -170,7 +170,9 @@ passed directly to Azure</p>
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -277,7 +279,9 @@ Network; auto assigned by default.</p>
 <td>
 <code>subnetReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -616,7 +620,9 @@ string
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -759,7 +765,9 @@ string
 <td>
 <code>conditions</code><br/>
 <em>
-[]github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions.Condition
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
 </em>
 </td>
 <td>
@@ -953,7 +961,9 @@ string
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -1276,7 +1286,9 @@ string
 <td>
 <code>linkedRedisCacheReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -1298,7 +1310,9 @@ string
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -1519,7 +1533,9 @@ RedisLinkedServerPropertiesStatusServerRole
 <td>
 <code>conditions</code><br/>
 <em>
-[]github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions.Condition
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
 </em>
 </td>
 <td>
@@ -1782,7 +1798,9 @@ string
 <td>
 <code>linkedRedisCacheReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -1804,7 +1822,9 @@ string
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -1915,7 +1935,9 @@ map[string]string
 <td>
 <code>hostName</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.SecretDestination
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
 </em>
 </td>
 <td>
@@ -1926,7 +1948,9 @@ github.com/Azure/azure-service-operator/v2/pkg/genruntime.SecretDestination
 <td>
 <code>port</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.SecretDestination
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
 </em>
 </td>
 <td>
@@ -1937,7 +1961,9 @@ github.com/Azure/azure-service-operator/v2/pkg/genruntime.SecretDestination
 <td>
 <code>primaryKey</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.SecretDestination
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
 </em>
 </td>
 <td>
@@ -1949,7 +1975,9 @@ Azure.</p>
 <td>
 <code>sslPort</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.SecretDestination
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
 </em>
 </td>
 <td>
@@ -1960,7 +1988,9 @@ github.com/Azure/azure-service-operator/v2/pkg/genruntime.SecretDestination
 <td>
 <code>secondaryKey</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.SecretDestination
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
 </em>
 </td>
 <td>
@@ -2056,7 +2086,9 @@ string
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -2122,7 +2154,9 @@ RedisPatchSchedule_Status
 <td>
 <code>conditions</code><br/>
 <em>
-[]github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions.Condition
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
 </em>
 </td>
 <td>
@@ -2284,7 +2318,9 @@ string
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -2724,7 +2760,9 @@ map[string]string
 <td>
 <code>conditions</code><br/>
 <em>
-[]github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions.Condition
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
 </em>
 </td>
 <td>
@@ -3220,7 +3258,9 @@ passed directly to Azure</p>
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -3327,7 +3367,9 @@ Network; auto assigned by default.</p>
 <td>
 <code>subnetReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>

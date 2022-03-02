@@ -758,7 +758,9 @@ ApplicationInsightsComponentPropertiesStatusApplicationType
 <td>
 <code>conditions</code><br/>
 <em>
-[]github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions.Condition
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
 </em>
 </td>
 <td>
@@ -1065,7 +1067,9 @@ Application Insights telemetry.</p>
 <td>
 <code>tags</code><br/>
 <em>
-k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
+Kubernetes v1.JSON
+</a>
 </em>
 </td>
 <td>
@@ -1193,7 +1197,9 @@ ApplicationInsightsComponentProperties_StatusARM
 <td>
 <code>tags</code><br/>
 <em>
-k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
+Kubernetes v1.JSON
+</a>
 </em>
 </td>
 <td>
@@ -1399,7 +1405,9 @@ string
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -1483,7 +1491,9 @@ map[string]string
 <td>
 <code>workspaceResourceReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -1684,7 +1694,9 @@ string
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -1768,7 +1780,9 @@ map[string]string
 <td>
 <code>workspaceResourceReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>

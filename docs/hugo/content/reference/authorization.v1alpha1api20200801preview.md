@@ -119,7 +119,9 @@ string
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ArbitraryOwnerReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference">
+genruntime.ArbitraryOwnerReference
+</a>
 </em>
 </td>
 <td>
@@ -153,7 +155,9 @@ RoleAssignmentPropertiesPrincipalType
 <td>
 <code>roleDefinitionReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -530,7 +534,9 @@ string
 <td>
 <code>conditions</code><br/>
 <em>
-[]github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions.Condition
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
 </em>
 </td>
 <td>
@@ -847,7 +853,9 @@ string
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ArbitraryOwnerReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference">
+genruntime.ArbitraryOwnerReference
+</a>
 </em>
 </td>
 <td>
@@ -881,7 +889,9 @@ RoleAssignmentPropertiesPrincipalType
 <td>
 <code>roleDefinitionReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>

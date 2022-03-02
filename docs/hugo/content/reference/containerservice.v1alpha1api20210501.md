@@ -203,7 +203,9 @@ property is &lsquo;VirtualMachineScaleSets&rsquo;.</p>
 <td>
 <code>conditions</code><br/>
 <em>
-[]github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions.Condition
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
 </em>
 </td>
 <td>
@@ -773,7 +775,9 @@ string
 <td>
 <code>resourceReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -3263,7 +3267,9 @@ accounts</a>.</p>
 <td>
 <code>diskEncryptionSetIDReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -3434,7 +3440,9 @@ string
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -4489,7 +4497,9 @@ map[string]string
 <td>
 <code>nodePublicIPPrefixIDReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -4575,7 +4585,9 @@ ManagedClusterAgentPoolProfileOsType
 <td>
 <code>podSubnetIDReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -4688,7 +4700,9 @@ might fail to run correctly. For more details on restricted VM sizes, see:
 <td>
 <code>vnetSubnetIDReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -7761,7 +7775,9 @@ AKS</a>.</p>
 <td>
 <code>userAssignedIdentities</code><br/>
 <em>
+<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
 map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+</a>
 </em>
 </td>
 <td>
@@ -7805,7 +7821,9 @@ AKS</a>.</p>
 <td>
 <code>userAssignedIdentities</code><br/>
 <em>
+<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
 map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+</a>
 </em>
 </td>
 <td>
@@ -10766,7 +10784,9 @@ ManagedClusterAADProfile_StatusARM
 <td>
 <code>addonProfiles</code><br/>
 <em>
-k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
+Kubernetes v1.JSON
+</a>
 </em>
 </td>
 <td>
@@ -10936,7 +10956,9 @@ ManagedClusterHTTPProxyConfig_StatusARM
 <td>
 <code>identityProfile</code><br/>
 <em>
-k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
+Kubernetes v1.JSON
+</a>
 </em>
 </td>
 <td>
@@ -12334,7 +12356,9 @@ ManagedClusterAADProfile_Status
 <td>
 <code>addonProfiles</code><br/>
 <em>
-k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
+Kubernetes v1.JSON
+</a>
 </em>
 </td>
 <td>
@@ -12410,7 +12434,9 @@ Portal to function properly.</p>
 <td>
 <code>conditions</code><br/>
 <em>
-[]github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions.Condition
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
 </em>
 </td>
 <td>
@@ -12552,7 +12578,9 @@ ManagedClusterIdentity_Status
 <td>
 <code>identityProfile</code><br/>
 <em>
-k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
+Kubernetes v1.JSON
+</a>
 </em>
 </td>
 <td>
@@ -13152,7 +13180,9 @@ map[string]string
 <td>
 <code>nodePublicIPPrefixIDReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -13238,7 +13268,9 @@ ManagedClusterAgentPoolProfilePropertiesOsType
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -13248,7 +13280,9 @@ github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
 <td>
 <code>podSubnetIDReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -13361,7 +13395,9 @@ might fail to run correctly. For more details on restricted VM sizes, see:
 <td>
 <code>vnetSubnetIDReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -13639,7 +13675,9 @@ map[string]string
 <td>
 <code>nodePublicIPPrefixIDReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -13725,7 +13763,9 @@ ManagedClusterAgentPoolProfilePropertiesOsType
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -13735,7 +13775,9 @@ github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
 <td>
 <code>podSubnetIDReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -13848,7 +13890,9 @@ might fail to run correctly. For more details on restricted VM sizes, see:
 <td>
 <code>vnetSubnetIDReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -14045,7 +14089,9 @@ accounts</a>.</p>
 <td>
 <code>diskEncryptionSetIDReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -14216,7 +14262,9 @@ string
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -14583,7 +14631,9 @@ string
 <td>
 <code>reference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -14872,7 +14922,9 @@ string
 <td>
 <code>reference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -16349,7 +16401,9 @@ string
 <td>
 <code>resourceReference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>

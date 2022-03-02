@@ -483,7 +483,7 @@ tasks:
     deps: [controller:generate-crds]
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
-      - ../{{.SCRIPTS_ROOT}}/gen-api-docs.sh ./api ../docs/hugo/content/reference ../docs/api/v2/template
+      - ../{{.SCRIPTS_ROOT}}/gen-api-docs.sh ./api ../docs/hugo/content/reference ../docs/v2/api/template
 
   ############### Crossplane targets ###############
   crossplane:quick-checks:

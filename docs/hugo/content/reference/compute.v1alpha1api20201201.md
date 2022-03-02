@@ -542,7 +542,9 @@ AutoLogon.</p>
 <td>
 <code>reference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -3207,7 +3209,9 @@ cache disk.</p>
 <td>
 <code>reference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -3825,7 +3829,9 @@ string
 <td>
 <code>settings</code><br/>
 <em>
+<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
 map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+</a>
 </em>
 </td>
 <td>
@@ -4752,7 +4758,9 @@ string
 <td>
 <code>reference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -6631,7 +6639,9 @@ NOTE: The disk encryption set resource id can only be specified for managed disk
 <td>
 <code>reference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -7842,7 +7852,9 @@ bool
 <td>
 <code>adminPassword</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.SecretReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">
+genruntime.SecretReference
+</a>
 </em>
 </td>
 <td>
@@ -10814,7 +10826,9 @@ machines</a>.</p>
 <td>
 <code>reference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -12279,7 +12293,9 @@ VM is provisioned.</p>
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -12853,7 +12869,9 @@ VirtualMachineExtensionInstanceView_StatusARM
 <td>
 <code>protectedSettings</code><br/>
 <em>
+<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
 map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+</a>
 </em>
 </td>
 <td>
@@ -12887,7 +12905,9 @@ string
 <td>
 <code>settings</code><br/>
 <em>
+<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
 map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+</a>
 </em>
 </td>
 <td>
@@ -13030,7 +13050,9 @@ string
 <td>
 <code>protectedSettings</code><br/>
 <em>
+<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
 map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+</a>
 </em>
 </td>
 <td>
@@ -13064,7 +13086,9 @@ string
 <td>
 <code>settings</code><br/>
 <em>
+<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
 map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+</a>
 </em>
 </td>
 <td>
@@ -13285,7 +13309,9 @@ virtual machine.</p>
 <td>
 <code>userAssignedIdentities</code><br/>
 <em>
+<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
 map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+</a>
 </em>
 </td>
 <td>
@@ -13331,7 +13357,9 @@ virtual machine.</p>
 <td>
 <code>userAssignedIdentities</code><br/>
 <em>
+<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
 map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+</a>
 </em>
 </td>
 <td>
@@ -14669,7 +14697,9 @@ bool
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -15548,7 +15578,9 @@ update even if the extension configuration has not changed.</p>
 <td>
 <code>protectedSettings</code><br/>
 <em>
+<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
 map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+</a>
 </em>
 </td>
 <td>
@@ -15593,7 +15625,9 @@ string
 <td>
 <code>settings</code><br/>
 <em>
+<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
 map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+</a>
 </em>
 </td>
 <td>
@@ -15713,7 +15747,9 @@ string
 <td>
 <code>protectedSettings</code><br/>
 <em>
+<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
 map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+</a>
 </em>
 </td>
 <td>
@@ -15758,7 +15794,9 @@ string
 <td>
 <code>settings</code><br/>
 <em>
+<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
 map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+</a>
 </em>
 </td>
 <td>
@@ -18099,7 +18137,9 @@ bool
 <td>
 <code>adminPassword</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.SecretReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">
+genruntime.SecretReference
+</a>
 </em>
 </td>
 <td>
@@ -19926,7 +19966,9 @@ AutomaticRepairsPolicy_Status
 <td>
 <code>conditions</code><br/>
 <em>
-[]github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions.Condition
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
 </em>
 </td>
 <td>
@@ -20606,7 +20648,9 @@ bool
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -21534,7 +21578,9 @@ string
 <td>
 <code>settings</code><br/>
 <em>
+<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
 map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+</a>
 </em>
 </td>
 <td>
@@ -22489,7 +22535,9 @@ Minimum api-version: 2019-03-01.</p>
 <td>
 <code>conditions</code><br/>
 <em>
-[]github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions.Condition
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
 </em>
 </td>
 <td>
@@ -23321,7 +23369,9 @@ VM is provisioned.</p>
 <td>
 <code>owner</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
 </em>
 </td>
 <td>
@@ -23918,7 +23968,9 @@ bool
 <td>
 <code>reference</code><br/>
 <em>
-github.com/Azure/azure-service-operator/v2/pkg/genruntime.ResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
 </em>
 </td>
 <td>
