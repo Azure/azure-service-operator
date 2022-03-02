@@ -72,13 +72,13 @@ func makeEmbeddedTestTypeDefinition() astmodel.TypeDefinition {
 }
 
 func injectEmbeddedStructType() *pipeline.Stage {
-	return pipeline.NewLegacyStage(
+	return pipeline.NewStage(
 		"injectEmbeddedStructType",
 		"Injects an embedded struct into each object",
-		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			results := make(astmodel.TypeDefinitionSet)
+		func(ctx context.Context, state *pipeline.State) (*pipeline.State, error) {
+			defs := make(astmodel.TypeDefinitionSet)
 			embeddedTypeDef := makeEmbeddedTestTypeDefinition()
-			for _, def := range defs {
+			for _, def := range state.Definitions() {
 				if astmodel.IsObjectDefinition(def) {
 					result, err := def.ApplyObjectTransformation(func(objectType *astmodel.ObjectType) (astmodel.Type, error) {
 						prop := astmodel.NewPropertyDefinition(
@@ -90,15 +90,15 @@ func injectEmbeddedStructType() *pipeline.Stage {
 					if err != nil {
 						return nil, err
 					}
-					results.Add(result)
+					defs.Add(result)
 				} else {
-					results.Add(def)
+					defs.Add(def)
 				}
 			}
 
-			results.Add(embeddedTypeDef)
+			defs.Add(embeddedTypeDef)
 
-			return results, nil
+			return state.WithDefinitions(defs), nil
 		})
 }
 
@@ -214,10 +214,10 @@ func loadTestSchemaIntoTypes(
 	path string) *pipeline.Stage {
 	source := configuration.SchemaURL
 
-	return pipeline.NewLegacyStage(
+	return pipeline.NewStage(
 		"loadTestSchema",
 		"Load and walk schema (test)",
-		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, state *pipeline.State) (*pipeline.State, error) {
 			klog.V(0).Infof("Loading JSON schema %q", source)
 
 			inputFile, err := ioutil.ReadFile(path)
@@ -241,18 +241,18 @@ func loadTestSchemaIntoTypes(
 				return nil, errors.Wrapf(err, "failed to walk JSON schema")
 			}
 
-			return scanner.Definitions(), nil
+			return state.WithDefinitions(scanner.Definitions()), nil
 		})
 }
 
 func exportPackagesTestPipelineStage(t *testing.T, testName string) *pipeline.Stage {
 	g := goldie.New(t)
 
-	return pipeline.NewLegacyStage(
+	return pipeline.NewStage(
 		"exportTestPackages",
 		"Export packages for test",
-		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			if len(defs) == 0 {
+		func(ctx context.Context, state *pipeline.State) (*pipeline.State, error) {
+			if len(state.Definitions()) == 0 {
 				t.Fatalf("defs was empty")
 			}
 
@@ -261,7 +261,7 @@ func exportPackagesTestPipelineStage(t *testing.T, testName string) *pipeline.St
 			var version string
 			var found bool
 			var ds []astmodel.TypeDefinition
-			for _, def := range defs {
+			for _, def := range state.Definitions() {
 				ds = append(ds, def)
 				ref := def.Name().PackageReference
 				if !found {
@@ -274,9 +274,10 @@ func exportPackagesTestPipelineStage(t *testing.T, testName string) *pipeline.St
 			pkgs := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
 
 			packageDefinition := astmodel.NewPackageDefinition(group, version)
-			for _, def := range defs {
+			for _, def := range state.Definitions() {
 				packageDefinition.AddDefinition(def)
 			}
+
 			pkgs[pr] = packageDefinition
 
 			// put all definitions in one file, regardless.
@@ -292,27 +293,27 @@ func exportPackagesTestPipelineStage(t *testing.T, testName string) *pipeline.St
 
 			g.Assert(t, testName, buf.Bytes())
 
-			return nil, nil
+			return state, nil
 		})
 }
 
 func stripUnusedTypesPipelineStage() *pipeline.Stage {
-	return pipeline.NewLegacyStage(
+	return pipeline.NewStage(
 		"stripUnused",
 		"Strip unused types for test",
-		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, state *pipeline.State) (*pipeline.State, error) {
 			// The golden files always generate a top-level Test type - mark
 			// that as the root.
 			roots := astmodel.NewTypeNameSet(astmodel.MakeTypeName(
 				test.MakeLocalPackageReference("test", "v1alpha1api20200101"),
 				"Test",
 			))
-			defs, err := pipeline.StripUnusedDefinitions(roots, defs)
+			defs, err := pipeline.StripUnusedDefinitions(roots, state.Definitions())
 			if err != nil {
 				return nil, errors.Wrapf(err, "could not strip unused types")
 			}
 
-			return defs, nil
+			return state.WithDefinitions(defs), nil
 		})
 }
 
@@ -320,21 +321,21 @@ func stripUnusedTypesPipelineStage() *pipeline.Stage {
 // TODO: we're hard-coding references, and even if we were sourcing them from Swagger
 // TODO: we have no way to give Swagger to the golden files tests currently.
 func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) *pipeline.Stage {
-	return pipeline.NewLegacyStage(
+	return pipeline.NewStage(
 		pipeline.AddCrossResourceReferencesStageID,
 		"Add cross resource references for test",
-		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			result := make(astmodel.TypeDefinitionSet)
+		func(ctx context.Context, state *pipeline.State) (*pipeline.State, error) {
+			defs := make(astmodel.TypeDefinitionSet)
 			isCrossResourceReference := func(_ astmodel.TypeName, prop *astmodel.PropertyDefinition) bool {
 				return pipeline.DoesPropertyLookLikeARMReference(prop)
 			}
 			visitor := pipeline.MakeCrossResourceReferenceTypeVisitor(idFactory, isCrossResourceReference)
 
-			for _, def := range defs {
+			for _, def := range state.Definitions() {
 				// Skip Status types
 				// TODO: we need flags
 				if strings.Contains(def.Name().Name(), "_Status") {
-					result.Add(def)
+					defs.Add(def)
 					continue
 				}
 
@@ -342,10 +343,10 @@ func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) *pi
 				if err != nil {
 					return nil, errors.Wrapf(err, "visiting %q", def.Name())
 				}
-				result.Add(def.WithType(t))
+				defs.Add(def.WithType(t))
 			}
 
-			return result, nil
+			return state.WithDefinitions(defs), nil
 		})
 }
 
