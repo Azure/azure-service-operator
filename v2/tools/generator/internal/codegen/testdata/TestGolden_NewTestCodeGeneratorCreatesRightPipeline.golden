@@ -39,9 +39,9 @@ injectOriginalGVKFunction                 azure      Inject the function Origina
 markLatestStorageVariantAsHubVersion      azure      Mark the latest GA storage variant of each resource as the hub version
 injectHubFunction                         azure      Inject the function Hub() into each hub resource
 implementConvertibleInterface             azure      Implement the Convertible interface on each non-hub Resource type
-injectResourceConversionTestCases         azure      Add test cases to verify Resource implementations of conversion.Convertible (funcs ConvertTo & ConvertFrom) behave as expected
 injectJSONTestCases                       azure      Add test cases to verify JSON serialization
 injectPropertyAssignmentTestCases         azure      Add test cases to verify PropertyAssignment functions
+injectResourceConversionTestCases         azure      Add test cases to verify Resource implementations of conversion.Convertible (funcs ConvertTo & ConvertFrom) behave as expected
 simplifyDefinitions                                  Flatten definitions by removing wrapper types
 ensureArmTypeExistsForEveryType           azure      Check that an ARM type exists for both Spec and Status of each resource
 detectSkippingProperties                  azure      Detect properties that skip resource or object versions
