@@ -101,10 +101,9 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 
 func MySQLFlexibleServer_Database_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *mysql.FlexibleServer) {
 	// The RP doesn't like databases with hyphens in the name,
-	// although it doesn't give nice errors to point this out.
-	namer := tc.Namer.WithSeparator("")
+	// although it doesn't give nice errors to point this out
 	database := &mysql.FlexibleServersDatabase{
-		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("db")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("db")),
 		Spec: mysql.FlexibleServersDatabases_Spec{
 			Owner:   testcommon.AsOwner(flexibleServer),
 			Charset: to.StringPtr("utf8mb4"),

@@ -24,13 +24,10 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Custom namer because storage accounts have strict names
-	namer := tc.Namer.WithSeparator("")
-
 	// Create a storage account
 	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
 	acct := &storage.StorageAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("stor")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccounts_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
@@ -149,13 +146,10 @@ func Test_Storage_StorageAccount_SecretsFromAzure(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Custom namer because storage accounts have strict names
-	namer := tc.Namer.WithSeparator("")
-
 	// Create a storage account
 	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
 	acct := &storage.StorageAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("stor")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccounts_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
