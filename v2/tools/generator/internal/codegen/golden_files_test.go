@@ -71,8 +71,8 @@ func makeEmbeddedTestTypeDefinition() astmodel.TypeDefinition {
 	return astmodel.MakeTypeDefinition(name, t)
 }
 
-func injectEmbeddedStructType() pipeline.Stage {
-	return pipeline.MakeLegacyStage(
+func injectEmbeddedStructType() *pipeline.Stage {
+	return pipeline.NewLegacyStage(
 		"injectEmbeddedStructType",
 		"Injects an embedded struct into each object",
 		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
@@ -129,7 +129,12 @@ func runGoldenTest(t *testing.T, path string, testConfig GoldenTestConfig) {
 	}
 }
 
-func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig GoldenTestConfig, genPipeline config.GenerationPipeline) (*CodeGenerator, error) {
+func NewTestCodeGenerator(
+	testName string,
+	path string,
+	t *testing.T,
+	testConfig GoldenTestConfig,
+	genPipeline config.GenerationPipeline) (*CodeGenerator, error) {
 	idFactory := astmodel.NewIdentifierFactory()
 	cfg := config.NewConfiguration()
 	cfg.GoModulePath = test.GoModulePrefix
@@ -196,16 +201,20 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 		pipeline.ApplyExportFiltersStageID, // Don't want any filtering of resources during tests
 	)
 
+	//if err := codegen.verifyPipeline(); err != nil {
+	//	return nil, err
+	//}
+	//
 	return codegen, nil
 }
 
 func loadTestSchemaIntoTypes(
 	idFactory astmodel.IdentifierFactory,
 	configuration *config.Configuration,
-	path string) pipeline.Stage {
+	path string) *pipeline.Stage {
 	source := configuration.SchemaURL
 
-	return pipeline.MakeLegacyStage(
+	return pipeline.NewLegacyStage(
 		"loadTestSchema",
 		"Load and walk schema (test)",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
@@ -236,10 +245,10 @@ func loadTestSchemaIntoTypes(
 		})
 }
 
-func exportPackagesTestPipelineStage(t *testing.T, testName string) pipeline.Stage {
+func exportPackagesTestPipelineStage(t *testing.T, testName string) *pipeline.Stage {
 	g := goldie.New(t)
 
-	return pipeline.MakeLegacyStage(
+	return pipeline.NewLegacyStage(
 		"exportTestPackages",
 		"Export packages for test",
 		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
@@ -287,8 +296,8 @@ func exportPackagesTestPipelineStage(t *testing.T, testName string) pipeline.Sta
 		})
 }
 
-func stripUnusedTypesPipelineStage() pipeline.Stage {
-	return pipeline.MakeLegacyStage(
+func stripUnusedTypesPipelineStage() *pipeline.Stage {
+	return pipeline.NewLegacyStage(
 		"stripUnused",
 		"Strip unused types for test",
 		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
@@ -310,8 +319,8 @@ func stripUnusedTypesPipelineStage() pipeline.Stage {
 // TODO: Ideally we wouldn't need a test specific function here, but currently
 // TODO: we're hard-coding references, and even if we were sourcing them from Swagger
 // TODO: we have no way to give Swagger to the golden files tests currently.
-func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) pipeline.Stage {
-	return pipeline.MakeLegacyStage(
+func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) *pipeline.Stage {
+	return pipeline.NewLegacyStage(
 		pipeline.AddCrossResourceReferencesStageID,
 		"Add cross resource references for test",
 		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {

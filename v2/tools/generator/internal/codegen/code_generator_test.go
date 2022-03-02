@@ -35,7 +35,7 @@ func TestRemoveStages_RemovesSpecifiedStages(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	gen := &CodeGenerator{
-		pipeline: []pipeline.Stage{
+		pipeline: []*pipeline.Stage{
 			fooStage,
 			barStage,
 			bazStage,
@@ -52,7 +52,7 @@ func TestRemoveStages_PanicsForUnknownStage(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	gen := &CodeGenerator{
-		pipeline: []pipeline.Stage{
+		pipeline: []*pipeline.Stage{
 			fooStage,
 			barStage,
 			bazStage,
@@ -67,8 +67,8 @@ func TestRemoveStages_PanicsForUnknownStage(t *testing.T) {
 	gen.RemoveStages("foo", "baz")
 }
 
-func MakeFakePipelineStage(id string) pipeline.Stage {
-	return pipeline.MakeLegacyStage(
+func MakeFakePipelineStage(id string) *pipeline.Stage {
+	return pipeline.NewLegacyStage(
 		id, "Stage "+id, func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			return defs, nil
 		})
@@ -83,7 +83,7 @@ func TestReplaceStage_ReplacesSpecifiedStage(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	gen := &CodeGenerator{
-		pipeline: []pipeline.Stage{
+		pipeline: []*pipeline.Stage{
 			fooStage,
 			barStage,
 			bazStage,
@@ -101,7 +101,7 @@ func TestReplaceStage_PanicsForUnknownStage(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	gen := &CodeGenerator{
-		pipeline: []pipeline.Stage{
+		pipeline: []*pipeline.Stage{
 			fooStage,
 			barStage,
 			bazStage,
@@ -123,7 +123,7 @@ func TestInjectStageAfter_InjectsSpecifiedStage(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	gen := &CodeGenerator{
-		pipeline: []pipeline.Stage{
+		pipeline: []*pipeline.Stage{
 			fooStage,
 			barStage,
 			bazStage,
@@ -141,7 +141,7 @@ func TestInjectStageAfter_PanicsForUnknownStage(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	gen := &CodeGenerator{
-		pipeline: []pipeline.Stage{
+		pipeline: []*pipeline.Stage{
 			fooStage,
 			barStage,
 			bazStage,
@@ -163,7 +163,7 @@ func TestVerifyPipeline_GivenNoPrerequisites_ReturnsNoError(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	gen := &CodeGenerator{
-		pipeline: []pipeline.Stage{
+		pipeline: []*pipeline.Stage{
 			fooStage,
 			barStage,
 			bazStage,
@@ -177,10 +177,10 @@ func TestVerifyPipeline_GivenSatisfiedPrerequisites_ReturnsNoError(t *testing.T)
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	stage := MakeFakePipelineStage("stage").RequiresPrerequisiteStages(barStage.Id())
+	stage := MakeFakePipelineStage("stage").WithRequiredPrerequisites(barStage.Id())
 
 	gen := &CodeGenerator{
-		pipeline: []pipeline.Stage{
+		pipeline: []*pipeline.Stage{
 			fooStage,
 			barStage,
 			stage,
@@ -195,10 +195,10 @@ func TestVerifyPipeline_GivenUnsatisfiedPrerequisites_ReturnsError(t *testing.T)
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	stage := MakeFakePipelineStage("stage").RequiresPrerequisiteStages(barStage.Id())
+	stage := MakeFakePipelineStage("stage").WithRequiredPrerequisites(barStage.Id())
 
 	gen := &CodeGenerator{
-		pipeline: []pipeline.Stage{
+		pipeline: []*pipeline.Stage{
 			fooStage,
 			stage,
 			bazStage,
@@ -215,10 +215,10 @@ func TestVerifyPipeline_GivenOutOfOrderPrerequisites_ReturnsError(t *testing.T) 
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	stage := MakeFakePipelineStage("stage").RequiresPrerequisiteStages(barStage.Id())
+	stage := MakeFakePipelineStage("stage").WithRequiredPrerequisites(barStage.Id())
 
 	gen := &CodeGenerator{
-		pipeline: []pipeline.Stage{
+		pipeline: []*pipeline.Stage{
 			fooStage,
 			stage,
 			barStage,
@@ -236,10 +236,10 @@ func TestVerifyPipeline_GivenSatisfiedPostrequisites_ReturnsNoError(t *testing.T
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	stage := MakeFakePipelineStage("stage").RequiresPostrequisiteStages(barStage.Id())
+	stage := MakeFakePipelineStage("stage").WithRequiredPostrequisites(barStage.Id())
 
 	gen := &CodeGenerator{
-		pipeline: []pipeline.Stage{
+		pipeline: []*pipeline.Stage{
 			fooStage,
 			stage,
 			barStage,
@@ -255,10 +255,10 @@ func TestVerifyPipeline_GivenUnsatisfiedPostrequisites_ReturnsError(t *testing.T
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	stage := MakeFakePipelineStage("stage").RequiresPrerequisiteStages(barStage.Id())
+	stage := MakeFakePipelineStage("stage").WithRequiredPrerequisites(barStage.Id())
 
 	gen := &CodeGenerator{
-		pipeline: []pipeline.Stage{
+		pipeline: []*pipeline.Stage{
 			fooStage,
 			stage,
 			bazStage,
@@ -275,10 +275,10 @@ func TestVerifyPipeline_GivenOutOfOrderPostrequisites_ReturnsError(t *testing.T)
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	stage := MakeFakePipelineStage("stage").RequiresPostrequisiteStages(barStage.Id())
+	stage := MakeFakePipelineStage("stage").WithRequiredPostrequisites(barStage.Id())
 
 	gen := &CodeGenerator{
-		pipeline: []pipeline.Stage{
+		pipeline: []*pipeline.Stage{
 			fooStage,
 			barStage,
 			stage,

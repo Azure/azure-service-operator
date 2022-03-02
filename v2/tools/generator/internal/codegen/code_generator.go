@@ -23,7 +23,7 @@ import (
 // CodeGenerator is a generator of code
 type CodeGenerator struct {
 	configuration *config.Configuration
-	pipeline      []pipeline.Stage
+	pipeline      []*pipeline.Stage
 }
 
 // NewCodeGeneratorFromConfigFile produces a new Generator with the given configuration file
@@ -44,7 +44,9 @@ func NewCodeGeneratorFromConfigFile(configurationFile string) (*CodeGenerator, e
 // NewTargetedCodeGeneratorFromConfig produces a new code generator with the given configuration and
 // only the stages appropriate for the specified target.
 func NewTargetedCodeGeneratorFromConfig(
-	configuration *config.Configuration, idFactory astmodel.IdentifierFactory, target pipeline.Target) (*CodeGenerator, error) {
+	configuration *config.Configuration,
+	idFactory astmodel.IdentifierFactory,
+	target pipeline.Target) (*CodeGenerator, error) {
 
 	result, err := NewCodeGeneratorFromConfig(configuration, idFactory)
 	if err != nil {
@@ -52,7 +54,7 @@ func NewTargetedCodeGeneratorFromConfig(
 	}
 
 	// Filter stages to use only those appropriate for our target
-	var stages []pipeline.Stage
+	var stages []*pipeline.Stage
 	for _, s := range result.pipeline {
 		if s.IsUsedFor(target) {
 			stages = append(stages, s)
@@ -70,7 +72,9 @@ func NewTargetedCodeGeneratorFromConfig(
 }
 
 // NewCodeGeneratorFromConfig produces a new code generator with the given configuration all available stages
-func NewCodeGeneratorFromConfig(configuration *config.Configuration, idFactory astmodel.IdentifierFactory) (*CodeGenerator, error) {
+func NewCodeGeneratorFromConfig(
+	configuration *config.Configuration,
+	idFactory astmodel.IdentifierFactory) (*CodeGenerator, error) {
 	result := &CodeGenerator{
 		configuration: configuration,
 		pipeline:      createAllPipelineStages(idFactory, configuration),
@@ -79,8 +83,8 @@ func NewCodeGeneratorFromConfig(configuration *config.Configuration, idFactory a
 	return result, nil
 }
 
-func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []pipeline.Stage {
-	return []pipeline.Stage{
+func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []*pipeline.Stage {
+	return []*pipeline.Stage{
 
 		pipeline.LoadSchemaIntoTypes(idFactory, configuration, pipeline.DefaultSchemaLoader),
 
@@ -95,7 +99,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.FlattenResources(),
 
 		// Copy additional swagger-derived information from status into spec
-		pipeline.AugmentSpecWithStatus().RequiresPrerequisiteStages("allof-anyof-objects", "addStatusFromSwagger"),
+		pipeline.AugmentSpecWithStatus(),
 
 		pipeline.StripUnreferencedTypeDefinitions(),
 
@@ -105,8 +109,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// Apply property type rewrites from the config file
 		// Must come after NameTypesForCRD ('nameTypes)' and ConvertAllOfAndOneOfToObjects ('allof-anyof-objects') so
 		// that objects are all expanded
-		pipeline.ApplyPropertyRewrites(configuration).
-			RequiresPrerequisiteStages("nameTypes", "allof-anyof-objects"),
+		pipeline.ApplyPropertyRewrites(configuration),
 		pipeline.RemoveResourceScope(),
 
 		pipeline.MakeStatusPropertiesOptional(),
@@ -292,7 +295,7 @@ func (generator *CodeGenerator) RemoveStages(stageIds ...string) {
 		stagesToRemove[s] = false
 	}
 
-	var stages []pipeline.Stage
+	var stages []*pipeline.Stage
 
 	for _, stage := range generator.pipeline {
 		if _, ok := stagesToRemove[stage.Id()]; ok {
@@ -313,9 +316,8 @@ func (generator *CodeGenerator) RemoveStages(stageIds ...string) {
 }
 
 // ReplaceStage replaces all uses of an existing stage with another one.
-// Only available for test builds.
 // Will panic if the existing stage is not found.
-func (generator *CodeGenerator) ReplaceStage(existingStage string, stage pipeline.Stage) {
+func (generator *CodeGenerator) ReplaceStage(existingStage string, stage *pipeline.Stage) {
 	replaced := false
 	for i, s := range generator.pipeline {
 		if s.HasId(existingStage) {
@@ -332,12 +334,12 @@ func (generator *CodeGenerator) ReplaceStage(existingStage string, stage pipelin
 // InjectStageAfter injects a new stage immediately after the first occurrence of an existing stage
 // Only available for test builds.
 // Will panic if the existing stage is not found.
-func (generator *CodeGenerator) InjectStageAfter(existingStage string, stage pipeline.Stage) {
+func (generator *CodeGenerator) InjectStageAfter(existingStage string, stage *pipeline.Stage) {
 	injected := false
 
 	for i, s := range generator.pipeline {
 		if s.HasId(existingStage) {
-			var p []pipeline.Stage
+			var p []*pipeline.Stage
 			p = append(p, generator.pipeline[:i+1]...)
 			p = append(p, stage)
 			p = append(p, generator.pipeline[i+1:]...)

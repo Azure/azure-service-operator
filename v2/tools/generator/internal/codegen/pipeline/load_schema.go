@@ -140,10 +140,10 @@ const LoadSchemaIntoTypesStageID = "loadSchema"
 func LoadSchemaIntoTypes(
 	idFactory astmodel.IdentifierFactory,
 	configuration *config.Configuration,
-	schemaLoader schemaLoader) Stage {
+	schemaLoader schemaLoader) *Stage {
 	source := configuration.SchemaURL
 
-	return MakeLegacyStage(
+	return NewLegacyStage(
 		LoadSchemaIntoTypesStageID,
 		"Load and walk schema",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {

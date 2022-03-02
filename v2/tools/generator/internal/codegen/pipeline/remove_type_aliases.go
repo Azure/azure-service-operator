@@ -21,8 +21,8 @@ import (
 const RemoveTypeAliasesStageID = "removeAliases"
 
 // RemoveTypeAliases creates a pipeline stage removing type aliases
-func RemoveTypeAliases() Stage {
-	return MakeLegacyStage(
+func RemoveTypeAliases() *Stage {
+	return NewLegacyStage(
 		RemoveTypeAliasesStageID,
 		"Remove type aliases",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {

@@ -19,8 +19,8 @@ const InjectHubFunctionStageID = "injectHubFunction"
 
 // InjectHubFunction modifies the nominates storage version (aka hub version) of each resource by injecting a Hub()
 // function so that it satisfies the required interface.
-func InjectHubFunction(idFactory astmodel.IdentifierFactory) Stage {
-	stage := MakeLegacyStage(
+func InjectHubFunction(idFactory astmodel.IdentifierFactory) *Stage {
+	stage := NewLegacyStage(
 		InjectHubFunctionStageID,
 		"Inject the function Hub() into each hub resource",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
@@ -48,6 +48,5 @@ func InjectHubFunction(idFactory astmodel.IdentifierFactory) Stage {
 			return result, nil
 		})
 
-	stage.RequiresPrerequisiteStages(MarkLatestAPIVersionAsStorageVersionId)
-	return stage
+	return stage.WithRequiredPrerequisites(MarkLatestAPIVersionAsStorageVersionId)
 }

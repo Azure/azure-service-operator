@@ -16,8 +16,8 @@ import (
 // RemoveAPIVersionPropertyStageID is the unique identifier for this pipeline stage
 const RemoveAPIVersionPropertyStageID = "removeAPIVersionProperty"
 
-func RemoveAPIVersionProperty() Stage {
-	return MakeStage(
+func RemoveAPIVersionProperty() *Stage {
+	return NewStage(
 		RemoveAPIVersionPropertyStageID,
 		"Remove the ARM API version property and instead augment the ResourceType with it",
 		func(ctx context.Context, state *State) (*State, error) {

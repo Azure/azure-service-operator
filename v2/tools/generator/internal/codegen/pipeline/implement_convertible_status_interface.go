@@ -18,8 +18,8 @@ import (
 // ImplementConvertibleStatusInterfaceStageId is the unique identifier for this pipeline stage
 const ImplementConvertibleStatusInterfaceStageId = "implementConvertibleStatusInterface"
 
-func ImplementConvertibleStatusInterface(idFactory astmodel.IdentifierFactory) Stage {
-	stage := MakeStage(
+func ImplementConvertibleStatusInterface(idFactory astmodel.IdentifierFactory) *Stage {
+	stage := NewStage(
 		ImplementConvertibleStatusInterfaceStageId,
 		"Inject ConvertStatusTo() and ConvertStatusFrom() to implement genruntime.ConvertibleStatus on each Status type",
 		func(ctx context.Context, state *State) (*State, error) {
@@ -41,8 +41,7 @@ func ImplementConvertibleStatusInterface(idFactory astmodel.IdentifierFactory) S
 			return state.WithDefinitions(defs), nil
 		})
 
-	stage.RequiresPrerequisiteStages(InjectPropertyAssignmentFunctionsStageID)
-	return stage
+	return stage.WithRequiredPrerequisites(InjectPropertyAssignmentFunctionsStageID)
 }
 
 // createConvertibleStatusInterfaceImplementation creates both of the funcs required for a given status to implement the

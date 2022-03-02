@@ -18,8 +18,8 @@ import (
 const InjectResourceConversionTestsID = "injectResourceConversionTestCases"
 
 // InjectResourceConversionTestCases is a pipeline stage to inject test cases
-func InjectResourceConversionTestCases(idFactory astmodel.IdentifierFactory) Stage {
-	stage := MakeStage(
+func InjectResourceConversionTestCases(idFactory astmodel.IdentifierFactory) *Stage {
+	stage := NewStage(
 		InjectResourceConversionTestsID,
 		"Add test cases to verify Resource implementations of conversion.Convertible (funcs ConvertTo & ConvertFrom) behave as expected",
 		func(ctx context.Context, state *State) (*State, error) {
@@ -44,13 +44,10 @@ func InjectResourceConversionTestCases(idFactory astmodel.IdentifierFactory) Sta
 			return state.WithDefinitions(state.Definitions().OverlayWith(modifiedDefs)), nil
 		})
 
-	stage.RequiresPrerequisiteStages(
+	return stage.WithRequiredPrerequisites(
 		InjectPropertyAssignmentFunctionsStageID, // Need PropertyAssignmentFunctions to test
 		ImplementConvertibleInterfaceStageId,     // Need the conversions.Convertible interface to be present
-		InjectJsonSerializationTestsID,           // We reuse the generators from the JSON tests
-	)
-
-	return stage
+		InjectJsonSerializationTestsID) // We reuse the generators from the JSON tests
 }
 
 // resourceConversionTestCaseFactory is a factory for injecting test cases where needed

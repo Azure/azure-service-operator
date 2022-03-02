@@ -17,8 +17,8 @@ import (
 // ApplyPropertyRewrites applies any typeTransformers for properties.
 // It is its own pipeline stage so that we can apply it after the allOf/oneOf types have
 // been "lowered" to objects.
-func ApplyPropertyRewrites(config *config.Configuration) Stage {
-	return MakeLegacyStage(
+func ApplyPropertyRewrites(config *config.Configuration) *Stage {
+	stage := NewLegacyStage(
 		"propertyRewrites",
 		"Modify property types using configured transforms",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
@@ -47,4 +47,6 @@ func ApplyPropertyRewrites(config *config.Configuration) Stage {
 
 			return newDefinitions, nil
 		})
+
+	return stage.WithRequiredPrerequisites("nameTypes", "allof-anyof-objects")
 }

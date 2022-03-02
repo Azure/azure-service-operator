@@ -19,8 +19,8 @@ const ImplementConvertibleInterfaceStageId = "implementConvertibleInterface"
 
 // ImplementConvertibleInterface injects the functions ConvertTo() and ConvertFrom() into each non-hub Resource
 // Type, providing the required implementation of the Convertible interface needed by the controller
-func ImplementConvertibleInterface(idFactory astmodel.IdentifierFactory) Stage {
-	stage := MakeStage(
+func ImplementConvertibleInterface(idFactory astmodel.IdentifierFactory) *Stage {
+	stage := NewStage(
 		ImplementConvertibleInterfaceStageId,
 		"Implement the Convertible interface on each non-hub Resource type",
 		func(ctx context.Context, state *State) (*State, error) {
@@ -70,6 +70,5 @@ func ImplementConvertibleInterface(idFactory astmodel.IdentifierFactory) Stage {
 			return state.WithDefinitions(newDefinitions), nil
 		})
 
-	stage.RequiresPrerequisiteStages(InjectPropertyAssignmentFunctionsStageID)
-	return stage
+	return stage.WithRequiredPrerequisites(InjectPropertyAssignmentFunctionsStageID)
 }

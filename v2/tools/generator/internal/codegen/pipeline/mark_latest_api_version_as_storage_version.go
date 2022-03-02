@@ -18,8 +18,8 @@ import (
 const MarkLatestAPIVersionAsStorageVersionId = "markStorageVersion"
 
 // MarkLatestAPIVersionAsStorageVersion creates a Stage to mark a particular version as a storage version
-func MarkLatestAPIVersionAsStorageVersion() Stage {
-	return MakeLegacyStage(
+func MarkLatestAPIVersionAsStorageVersion() *Stage {
+	return NewLegacyStage(
 		MarkLatestAPIVersionAsStorageVersionId,
 		"Mark the latest API version of each resource as the storage version",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {

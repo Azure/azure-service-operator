@@ -18,8 +18,8 @@ import (
 // ImplementConvertibleSpecInterfaceStageId is the unique identifier for this pipeline stage
 const ImplementConvertibleSpecInterfaceStageId = "implementConvertibleSpecInterface"
 
-func ImplementConvertibleSpecInterface(idFactory astmodel.IdentifierFactory) Stage {
-	stage := MakeStage(
+func ImplementConvertibleSpecInterface(idFactory astmodel.IdentifierFactory) *Stage {
+	stage := NewStage(
 		ImplementConvertibleSpecInterfaceStageId,
 		"Inject ConvertSpecTo() and ConvertSpecFrom() to implement genruntime.ConvertibleSpec on each Spec type",
 		func(ctx context.Context, state *State) (*State, error) {
@@ -41,8 +41,7 @@ func ImplementConvertibleSpecInterface(idFactory astmodel.IdentifierFactory) Sta
 			return state.WithDefinitions(defs), nil
 		})
 
-	stage.RequiresPrerequisiteStages(InjectPropertyAssignmentFunctionsStageID)
-	return stage
+	return stage.WithRequiredPrerequisites(InjectPropertyAssignmentFunctionsStageID)
 }
 
 // createConvertibleSpecInterfaceImplementation creates both of the funcs required for a given spec to implement the
