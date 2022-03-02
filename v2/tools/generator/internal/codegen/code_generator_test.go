@@ -177,7 +177,8 @@ func TestVerifyPipeline_GivenSatisfiedPrerequisites_ReturnsNoError(t *testing.T)
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	stage := MakeFakePipelineStage("stage").RequiresPrerequisiteStages(barStage.Id())
+	stage := MakeFakePipelineStage("stage")
+	stage.RequiresPrerequisiteStages(barStage.Id())
 
 	gen := &CodeGenerator{
 		pipeline: []*pipeline.Stage{
@@ -195,7 +196,8 @@ func TestVerifyPipeline_GivenUnsatisfiedPrerequisites_ReturnsError(t *testing.T)
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	stage := MakeFakePipelineStage("stage").RequiresPrerequisiteStages(barStage.Id())
+	stage := MakeFakePipelineStage("stage")
+	stage.RequiresPrerequisiteStages(barStage.Id())
 
 	gen := &CodeGenerator{
 		pipeline: []*pipeline.Stage{
@@ -215,7 +217,8 @@ func TestVerifyPipeline_GivenOutOfOrderPrerequisites_ReturnsError(t *testing.T) 
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	stage := MakeFakePipelineStage("stage").RequiresPrerequisiteStages(barStage.Id())
+	stage := MakeFakePipelineStage("stage")
+	stage.RequiresPrerequisiteStages(barStage.Id())
 
 	gen := &CodeGenerator{
 		pipeline: []*pipeline.Stage{
@@ -236,7 +239,8 @@ func TestVerifyPipeline_GivenSatisfiedPostrequisites_ReturnsNoError(t *testing.T
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	stage := MakeFakePipelineStage("stage").RequiresPostrequisiteStages(barStage.Id())
+	stage := MakeFakePipelineStage("stage")
+	stage.RequiresPostrequisiteStages(barStage.Id())
 
 	gen := &CodeGenerator{
 		pipeline: []*pipeline.Stage{
@@ -255,7 +259,8 @@ func TestVerifyPipeline_GivenUnsatisfiedPostrequisites_ReturnsError(t *testing.T
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	stage := MakeFakePipelineStage("stage").RequiresPrerequisiteStages(barStage.Id())
+	stage := MakeFakePipelineStage("stage")
+	stage.RequiresPrerequisiteStages(barStage.Id())
 
 	gen := &CodeGenerator{
 		pipeline: []*pipeline.Stage{
@@ -275,7 +280,8 @@ func TestVerifyPipeline_GivenOutOfOrderPostrequisites_ReturnsError(t *testing.T)
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	stage := MakeFakePipelineStage("stage").RequiresPostrequisiteStages(barStage.Id())
+	stage := MakeFakePipelineStage("stage")
+	stage.RequiresPostrequisiteStages(barStage.Id())
 
 	gen := &CodeGenerator{
 		pipeline: []*pipeline.Stage{

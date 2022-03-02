@@ -193,11 +193,11 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		pipeline.InjectHubFunction(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.ImplementConvertibleInterface(idFactory).UsedFor(pipeline.ARMTarget),
-		pipeline.InjectResourceConversionTestCases(idFactory).UsedFor(pipeline.ARMTarget),
 
 		// Inject test cases
 		pipeline.InjectJsonSerializationTests(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectPropertyAssignmentTests(idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.InjectResourceConversionTestCases(idFactory).UsedFor(pipeline.ARMTarget),
 
 		pipeline.SimplifyDefinitions(),
 
