@@ -26,9 +26,11 @@ func NewGroupConversionGraphBuilder(group string) *GroupConversionGraphBuilder {
 	}
 }
 
-// Add includes the supplied package reference in the conversion graph for this group
-func (b *GroupConversionGraphBuilder) Add(ref astmodel.PackageReference) {
-	b.references.AddReference(ref)
+// Add includes the supplied package reference(s) in the conversion graph for this group
+func (b *GroupConversionGraphBuilder) Add(refs ...astmodel.PackageReference) {
+	for _, ref := range refs {
+		b.references.AddReference(ref)
+	}
 }
 
 // Build connects all the provided API definitions together into a single conversion graph
