@@ -90,7 +90,7 @@ func AddIndependentPropertyGeneratorsForVirtualNetworksVirtualNetworkPeeringsSpe
 
 // AddRelatedPropertyGeneratorsForVirtualNetworksVirtualNetworkPeeringsSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualNetworksVirtualNetworkPeeringsSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = VirtualNetworkPeeringPropertiesFormatARMGenerator()
+	gens["Properties"] = gen.PtrOf(VirtualNetworkPeeringPropertiesFormatARMGenerator())
 }
 
 func Test_VirtualNetworkPeeringPropertiesFormatARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -170,7 +170,7 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkPeeringPropertiesFormatARM
 func AddRelatedPropertyGeneratorsForVirtualNetworkPeeringPropertiesFormatARM(gens map[string]gopter.Gen) {
 	gens["RemoteAddressSpace"] = gen.PtrOf(AddressSpaceARMGenerator())
 	gens["RemoteBgpCommunities"] = gen.PtrOf(VirtualNetworkBgpCommunitiesARMGenerator())
-	gens["RemoteVirtualNetwork"] = SubResourceARMGenerator()
+	gens["RemoteVirtualNetwork"] = gen.PtrOf(SubResourceARMGenerator())
 }
 
 func Test_VirtualNetworkBgpCommunitiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -230,5 +230,5 @@ func VirtualNetworkBgpCommunitiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunitiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunitiesARM(gens map[string]gopter.Gen) {
-	gens["VirtualNetworkCommunity"] = gen.AlphaString()
+	gens["VirtualNetworkCommunity"] = gen.PtrOf(gen.AlphaString())
 }

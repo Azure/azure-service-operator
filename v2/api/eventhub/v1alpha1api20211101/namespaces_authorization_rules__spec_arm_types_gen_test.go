@@ -90,7 +90,7 @@ func AddIndependentPropertyGeneratorsForNamespacesAuthorizationRulesSpecARM(gens
 
 // AddRelatedPropertyGeneratorsForNamespacesAuthorizationRulesSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesAuthorizationRulesSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = AuthorizationRulePropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(AuthorizationRulePropertiesARMGenerator())
 }
 
 func Test_AuthorizationRulePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

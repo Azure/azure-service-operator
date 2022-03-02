@@ -7,13 +7,13 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type VirtualNetworkGateways_SpecARM struct {
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: Name of the resource
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties of the virtual network gateway.
-	Properties VirtualNetworkGateways_Spec_PropertiesARM `json:"properties"`
+	Properties *VirtualNetworkGateways_Spec_PropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -88,7 +88,7 @@ type VirtualNetworkGateways_Spec_PropertiesARM struct {
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/AddressSpace
 type AddressSpaceARM struct {
 	//AddressPrefixes: A list of address blocks reserved for this virtual network in CIDR notation.
-	AddressPrefixes []string `json:"addressPrefixes"`
+	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/BgpSettings
@@ -176,36 +176,36 @@ type IPConfigurationBgpPeeringAddressARM struct {
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IpsecPolicy
 type IpsecPolicyARM struct {
 	//DhGroup: The DH Group used in IKE Phase 1 for initial SA.
-	DhGroup IpsecPolicyDhGroup `json:"dhGroup"`
+	DhGroup *IpsecPolicyDhGroup `json:"dhGroup,omitempty"`
 
 	//IkeEncryption: The IKE encryption algorithm (IKE phase 2).
-	IkeEncryption IpsecPolicyIkeEncryption `json:"ikeEncryption"`
+	IkeEncryption *IpsecPolicyIkeEncryption `json:"ikeEncryption,omitempty"`
 
 	//IkeIntegrity: The IKE integrity algorithm (IKE phase 2).
-	IkeIntegrity IpsecPolicyIkeIntegrity `json:"ikeIntegrity"`
+	IkeIntegrity *IpsecPolicyIkeIntegrity `json:"ikeIntegrity,omitempty"`
 
 	//IpsecEncryption: The IPSec encryption algorithm (IKE phase 1).
-	IpsecEncryption IpsecPolicyIpsecEncryption `json:"ipsecEncryption"`
+	IpsecEncryption *IpsecPolicyIpsecEncryption `json:"ipsecEncryption,omitempty"`
 
 	//IpsecIntegrity: The IPSec integrity algorithm (IKE phase 1).
-	IpsecIntegrity IpsecPolicyIpsecIntegrity `json:"ipsecIntegrity"`
+	IpsecIntegrity *IpsecPolicyIpsecIntegrity `json:"ipsecIntegrity,omitempty"`
 
 	//PfsGroup: The Pfs Group used in IKE Phase 2 for new child SA.
-	PfsGroup IpsecPolicyPfsGroup `json:"pfsGroup"`
+	PfsGroup *IpsecPolicyPfsGroup `json:"pfsGroup,omitempty"`
 
 	//SaDataSizeKilobytes: The IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for a site
 	//to site VPN tunnel.
-	SaDataSizeKilobytes int `json:"saDataSizeKilobytes"`
+	SaDataSizeKilobytes *int `json:"saDataSizeKilobytes,omitempty"`
 
 	//SaLifeTimeSeconds: The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site
 	//to site VPN tunnel.
-	SaLifeTimeSeconds int `json:"saLifeTimeSeconds"`
+	SaLifeTimeSeconds *int `json:"saLifeTimeSeconds,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/RadiusServer
 type RadiusServerARM struct {
 	//RadiusServerAddress: The address of this radius server.
-	RadiusServerAddress string `json:"radiusServerAddress"`
+	RadiusServerAddress *string `json:"radiusServerAddress,omitempty"`
 
 	//RadiusServerScore: The initial score assigned to this radius server.
 	RadiusServerScore *int `json:"radiusServerScore,omitempty"`
@@ -239,7 +239,7 @@ type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRoot
 	Name *string `json:"name,omitempty"`
 
 	//Properties: Properties of the vpn client root certificate.
-	Properties VpnClientRootCertificatePropertiesFormatARM `json:"properties"`
+	Properties *VpnClientRootCertificatePropertiesFormatARM `json:"properties,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VpnClientRevokedCertificatePropertiesFormat
@@ -251,5 +251,5 @@ type VpnClientRevokedCertificatePropertiesFormatARM struct {
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VpnClientRootCertificatePropertiesFormat
 type VpnClientRootCertificatePropertiesFormatARM struct {
 	//PublicCertData: The certificate public data.
-	PublicCertData string `json:"publicCertData"`
+	PublicCertData *string `json:"publicCertData,omitempty"`
 }

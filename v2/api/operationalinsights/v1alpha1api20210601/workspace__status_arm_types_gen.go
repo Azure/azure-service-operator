@@ -111,5 +111,5 @@ type WorkspaceSku_StatusARM struct {
 	LastSkuUpdate *string `json:"lastSkuUpdate,omitempty"`
 
 	//Name: The name of the SKU.
-	Name WorkspaceSkuStatusName `json:"name"`
+	Name *WorkspaceSkuStatusName `json:"name,omitempty"`
 }

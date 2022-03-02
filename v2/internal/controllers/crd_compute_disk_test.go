@@ -24,6 +24,7 @@ func Test_Compute_Disk_CRUD(t *testing.T) {
 	// Create a disk.
 	standardSkuName := compute.DiskSkuNameStandardLRS
 	sizeInGb := 500
+	createOption := compute.CreationDataCreateOptionEmpty
 	disk := &compute.Disk{
 		ObjectMeta: tc.MakeObjectMeta("disk"),
 		Spec: compute.Disks_Spec{
@@ -32,15 +33,15 @@ func Test_Compute_Disk_CRUD(t *testing.T) {
 			Sku: &compute.DiskSku{
 				Name: &standardSkuName,
 			},
-			CreationData: compute.CreationData{
-				CreateOption: compute.CreationDataCreateOptionEmpty,
+			CreationData: &compute.CreationData{
+				CreateOption: &createOption,
 			},
 			DiskSizeGB: &sizeInGb,
 		},
 	}
 	tc.CreateResourceAndWait(disk)
 
-	tc.Expect(disk.Status.Location).To(Equal(&tc.AzureRegion))
+	tc.Expect(disk.Status.Location).To(Equal(tc.AzureRegion))
 	tc.Expect(disk.Status.Sku.Name).To(BeEquivalentTo(&standardSkuName))
 	tc.Expect(*disk.Status.DiskSizeGB).To(BeNumerically(">=", 500))
 	tc.Expect(disk.Status.Id).ToNot(BeNil())

@@ -1448,7 +1448,7 @@ type VirtualMachines_Spec struct {
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//BillingProfile: Specifies the billing related details of a Azure Spot VM or VMSS.
 	//Minimum api-version: 2019-03-01.
@@ -1496,7 +1496,7 @@ type VirtualMachines_Spec struct {
 	LicenseType *string `json:"licenseType,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//NetworkProfile: Specifies the network interfaces of the virtual machine.
 	NetworkProfile *VirtualMachines_Spec_Properties_NetworkProfile `json:"networkProfile,omitempty"`
@@ -1509,7 +1509,7 @@ type VirtualMachines_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	//Plan: Specifies information about the marketplace image used to create the virtual machine. This element is only used
 	//for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic
@@ -1575,7 +1575,10 @@ func (machines *VirtualMachines_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	}
 
 	// Set property ‘Location’:
-	result.Location = machines.Location
+	if machines.Location != nil {
+		location := *machines.Location
+		result.Location = &location
+	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -1591,6 +1594,26 @@ func (machines *VirtualMachines_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	}
 
 	// Set property ‘Properties’:
+	if machines.AdditionalCapabilities != nil ||
+		machines.AvailabilitySet != nil ||
+		machines.BillingProfile != nil ||
+		machines.DiagnosticsProfile != nil ||
+		machines.EvictionPolicy != nil ||
+		machines.ExtensionsTimeBudget != nil ||
+		machines.HardwareProfile != nil ||
+		machines.Host != nil ||
+		machines.HostGroup != nil ||
+		machines.LicenseType != nil ||
+		machines.NetworkProfile != nil ||
+		machines.OsProfile != nil ||
+		machines.PlatformFaultDomain != nil ||
+		machines.Priority != nil ||
+		machines.ProximityPlacementGroup != nil ||
+		machines.SecurityProfile != nil ||
+		machines.StorageProfile != nil ||
+		machines.VirtualMachineScaleSet != nil {
+		result.Properties = &VirtualMachines_Spec_PropertiesARM{}
+	}
 	if machines.AdditionalCapabilities != nil {
 		additionalCapabilitiesARM, err := (*machines.AdditionalCapabilities).ConvertToARM(resolved)
 		if err != nil {
@@ -1745,26 +1768,30 @@ func (machines *VirtualMachines_Spec) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘AdditionalCapabilities’:
 	// copying flattened property:
-	if typedInput.Properties.AdditionalCapabilities != nil {
-		var additionalCapabilities1 AdditionalCapabilities
-		err := additionalCapabilities1.PopulateFromARM(owner, *typedInput.Properties.AdditionalCapabilities)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AdditionalCapabilities != nil {
+			var additionalCapabilities1 AdditionalCapabilities
+			err := additionalCapabilities1.PopulateFromARM(owner, *typedInput.Properties.AdditionalCapabilities)
+			if err != nil {
+				return err
+			}
+			additionalCapabilities := additionalCapabilities1
+			machines.AdditionalCapabilities = &additionalCapabilities
 		}
-		additionalCapabilities := additionalCapabilities1
-		machines.AdditionalCapabilities = &additionalCapabilities
 	}
 
 	// Set property ‘AvailabilitySet’:
 	// copying flattened property:
-	if typedInput.Properties.AvailabilitySet != nil {
-		var availabilitySet1 SubResource
-		err := availabilitySet1.PopulateFromARM(owner, *typedInput.Properties.AvailabilitySet)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AvailabilitySet != nil {
+			var availabilitySet1 SubResource
+			err := availabilitySet1.PopulateFromARM(owner, *typedInput.Properties.AvailabilitySet)
+			if err != nil {
+				return err
+			}
+			availabilitySet := availabilitySet1
+			machines.AvailabilitySet = &availabilitySet
 		}
-		availabilitySet := availabilitySet1
-		machines.AvailabilitySet = &availabilitySet
 	}
 
 	// Set property ‘AzureName’:
@@ -1772,33 +1799,39 @@ func (machines *VirtualMachines_Spec) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘BillingProfile’:
 	// copying flattened property:
-	if typedInput.Properties.BillingProfile != nil {
-		var billingProfile1 BillingProfile
-		err := billingProfile1.PopulateFromARM(owner, *typedInput.Properties.BillingProfile)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.BillingProfile != nil {
+			var billingProfile1 BillingProfile
+			err := billingProfile1.PopulateFromARM(owner, *typedInput.Properties.BillingProfile)
+			if err != nil {
+				return err
+			}
+			billingProfile := billingProfile1
+			machines.BillingProfile = &billingProfile
 		}
-		billingProfile := billingProfile1
-		machines.BillingProfile = &billingProfile
 	}
 
 	// Set property ‘DiagnosticsProfile’:
 	// copying flattened property:
-	if typedInput.Properties.DiagnosticsProfile != nil {
-		var diagnosticsProfile1 DiagnosticsProfile
-		err := diagnosticsProfile1.PopulateFromARM(owner, *typedInput.Properties.DiagnosticsProfile)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DiagnosticsProfile != nil {
+			var diagnosticsProfile1 DiagnosticsProfile
+			err := diagnosticsProfile1.PopulateFromARM(owner, *typedInput.Properties.DiagnosticsProfile)
+			if err != nil {
+				return err
+			}
+			diagnosticsProfile := diagnosticsProfile1
+			machines.DiagnosticsProfile = &diagnosticsProfile
 		}
-		diagnosticsProfile := diagnosticsProfile1
-		machines.DiagnosticsProfile = &diagnosticsProfile
 	}
 
 	// Set property ‘EvictionPolicy’:
 	// copying flattened property:
-	if typedInput.Properties.EvictionPolicy != nil {
-		evictionPolicy := *typedInput.Properties.EvictionPolicy
-		machines.EvictionPolicy = &evictionPolicy
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EvictionPolicy != nil {
+			evictionPolicy := *typedInput.Properties.EvictionPolicy
+			machines.EvictionPolicy = &evictionPolicy
+		}
 	}
 
 	// Set property ‘ExtendedLocation’:
@@ -1814,45 +1847,53 @@ func (machines *VirtualMachines_Spec) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘ExtensionsTimeBudget’:
 	// copying flattened property:
-	if typedInput.Properties.ExtensionsTimeBudget != nil {
-		extensionsTimeBudget := *typedInput.Properties.ExtensionsTimeBudget
-		machines.ExtensionsTimeBudget = &extensionsTimeBudget
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ExtensionsTimeBudget != nil {
+			extensionsTimeBudget := *typedInput.Properties.ExtensionsTimeBudget
+			machines.ExtensionsTimeBudget = &extensionsTimeBudget
+		}
 	}
 
 	// Set property ‘HardwareProfile’:
 	// copying flattened property:
-	if typedInput.Properties.HardwareProfile != nil {
-		var hardwareProfile1 HardwareProfile
-		err := hardwareProfile1.PopulateFromARM(owner, *typedInput.Properties.HardwareProfile)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HardwareProfile != nil {
+			var hardwareProfile1 HardwareProfile
+			err := hardwareProfile1.PopulateFromARM(owner, *typedInput.Properties.HardwareProfile)
+			if err != nil {
+				return err
+			}
+			hardwareProfile := hardwareProfile1
+			machines.HardwareProfile = &hardwareProfile
 		}
-		hardwareProfile := hardwareProfile1
-		machines.HardwareProfile = &hardwareProfile
 	}
 
 	// Set property ‘Host’:
 	// copying flattened property:
-	if typedInput.Properties.Host != nil {
-		var host1 SubResource
-		err := host1.PopulateFromARM(owner, *typedInput.Properties.Host)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Host != nil {
+			var host1 SubResource
+			err := host1.PopulateFromARM(owner, *typedInput.Properties.Host)
+			if err != nil {
+				return err
+			}
+			host := host1
+			machines.Host = &host
 		}
-		host := host1
-		machines.Host = &host
 	}
 
 	// Set property ‘HostGroup’:
 	// copying flattened property:
-	if typedInput.Properties.HostGroup != nil {
-		var hostGroup1 SubResource
-		err := hostGroup1.PopulateFromARM(owner, *typedInput.Properties.HostGroup)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HostGroup != nil {
+			var hostGroup1 SubResource
+			err := hostGroup1.PopulateFromARM(owner, *typedInput.Properties.HostGroup)
+			if err != nil {
+				return err
+			}
+			hostGroup := hostGroup1
+			machines.HostGroup = &hostGroup
 		}
-		hostGroup := hostGroup1
-		machines.HostGroup = &hostGroup
 	}
 
 	// Set property ‘Identity’:
@@ -1868,40 +1909,49 @@ func (machines *VirtualMachines_Spec) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘LicenseType’:
 	// copying flattened property:
-	if typedInput.Properties.LicenseType != nil {
-		licenseType := *typedInput.Properties.LicenseType
-		machines.LicenseType = &licenseType
+	if typedInput.Properties != nil {
+		if typedInput.Properties.LicenseType != nil {
+			licenseType := *typedInput.Properties.LicenseType
+			machines.LicenseType = &licenseType
+		}
 	}
 
 	// Set property ‘Location’:
-	machines.Location = typedInput.Location
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		machines.Location = &location
+	}
 
 	// Set property ‘NetworkProfile’:
 	// copying flattened property:
-	if typedInput.Properties.NetworkProfile != nil {
-		var networkProfile1 VirtualMachines_Spec_Properties_NetworkProfile
-		err := networkProfile1.PopulateFromARM(owner, *typedInput.Properties.NetworkProfile)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NetworkProfile != nil {
+			var networkProfile1 VirtualMachines_Spec_Properties_NetworkProfile
+			err := networkProfile1.PopulateFromARM(owner, *typedInput.Properties.NetworkProfile)
+			if err != nil {
+				return err
+			}
+			networkProfile := networkProfile1
+			machines.NetworkProfile = &networkProfile
 		}
-		networkProfile := networkProfile1
-		machines.NetworkProfile = &networkProfile
 	}
 
 	// Set property ‘OsProfile’:
 	// copying flattened property:
-	if typedInput.Properties.OsProfile != nil {
-		var osProfile1 OSProfile
-		err := osProfile1.PopulateFromARM(owner, *typedInput.Properties.OsProfile)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.OsProfile != nil {
+			var osProfile1 OSProfile
+			err := osProfile1.PopulateFromARM(owner, *typedInput.Properties.OsProfile)
+			if err != nil {
+				return err
+			}
+			osProfile := osProfile1
+			machines.OsProfile = &osProfile
 		}
-		osProfile := osProfile1
-		machines.OsProfile = &osProfile
 	}
 
 	// Set property ‘Owner’:
-	machines.Owner = genruntime.KnownResourceReference{
+	machines.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -1918,52 +1968,62 @@ func (machines *VirtualMachines_Spec) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘PlatformFaultDomain’:
 	// copying flattened property:
-	if typedInput.Properties.PlatformFaultDomain != nil {
-		platformFaultDomain := *typedInput.Properties.PlatformFaultDomain
-		machines.PlatformFaultDomain = &platformFaultDomain
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PlatformFaultDomain != nil {
+			platformFaultDomain := *typedInput.Properties.PlatformFaultDomain
+			machines.PlatformFaultDomain = &platformFaultDomain
+		}
 	}
 
 	// Set property ‘Priority’:
 	// copying flattened property:
-	if typedInput.Properties.Priority != nil {
-		priority := *typedInput.Properties.Priority
-		machines.Priority = &priority
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Priority != nil {
+			priority := *typedInput.Properties.Priority
+			machines.Priority = &priority
+		}
 	}
 
 	// Set property ‘ProximityPlacementGroup’:
 	// copying flattened property:
-	if typedInput.Properties.ProximityPlacementGroup != nil {
-		var proximityPlacementGroup1 SubResource
-		err := proximityPlacementGroup1.PopulateFromARM(owner, *typedInput.Properties.ProximityPlacementGroup)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProximityPlacementGroup != nil {
+			var proximityPlacementGroup1 SubResource
+			err := proximityPlacementGroup1.PopulateFromARM(owner, *typedInput.Properties.ProximityPlacementGroup)
+			if err != nil {
+				return err
+			}
+			proximityPlacementGroup := proximityPlacementGroup1
+			machines.ProximityPlacementGroup = &proximityPlacementGroup
 		}
-		proximityPlacementGroup := proximityPlacementGroup1
-		machines.ProximityPlacementGroup = &proximityPlacementGroup
 	}
 
 	// Set property ‘SecurityProfile’:
 	// copying flattened property:
-	if typedInput.Properties.SecurityProfile != nil {
-		var securityProfile1 SecurityProfile
-		err := securityProfile1.PopulateFromARM(owner, *typedInput.Properties.SecurityProfile)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.SecurityProfile != nil {
+			var securityProfile1 SecurityProfile
+			err := securityProfile1.PopulateFromARM(owner, *typedInput.Properties.SecurityProfile)
+			if err != nil {
+				return err
+			}
+			securityProfile := securityProfile1
+			machines.SecurityProfile = &securityProfile
 		}
-		securityProfile := securityProfile1
-		machines.SecurityProfile = &securityProfile
 	}
 
 	// Set property ‘StorageProfile’:
 	// copying flattened property:
-	if typedInput.Properties.StorageProfile != nil {
-		var storageProfile1 StorageProfile
-		err := storageProfile1.PopulateFromARM(owner, *typedInput.Properties.StorageProfile)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.StorageProfile != nil {
+			var storageProfile1 StorageProfile
+			err := storageProfile1.PopulateFromARM(owner, *typedInput.Properties.StorageProfile)
+			if err != nil {
+				return err
+			}
+			storageProfile := storageProfile1
+			machines.StorageProfile = &storageProfile
 		}
-		storageProfile := storageProfile1
-		machines.StorageProfile = &storageProfile
 	}
 
 	// Set property ‘Tags’:
@@ -1976,14 +2036,16 @@ func (machines *VirtualMachines_Spec) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘VirtualMachineScaleSet’:
 	// copying flattened property:
-	if typedInput.Properties.VirtualMachineScaleSet != nil {
-		var virtualMachineScaleSet1 SubResource
-		err := virtualMachineScaleSet1.PopulateFromARM(owner, *typedInput.Properties.VirtualMachineScaleSet)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.VirtualMachineScaleSet != nil {
+			var virtualMachineScaleSet1 SubResource
+			err := virtualMachineScaleSet1.PopulateFromARM(owner, *typedInput.Properties.VirtualMachineScaleSet)
+			if err != nil {
+				return err
+			}
+			virtualMachineScaleSet := virtualMachineScaleSet1
+			machines.VirtualMachineScaleSet = &virtualMachineScaleSet
 		}
-		virtualMachineScaleSet := virtualMachineScaleSet1
-		machines.VirtualMachineScaleSet = &virtualMachineScaleSet
 	}
 
 	// Set property ‘Zones’:
@@ -2174,7 +2236,7 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 	machines.LicenseType = genruntime.ClonePointerToString(source.LicenseType)
 
 	// Location
-	machines.Location = genruntime.GetOptionalStringValue(source.Location)
+	machines.Location = genruntime.ClonePointerToString(source.Location)
 
 	// NetworkProfile
 	if source.NetworkProfile != nil {
@@ -2201,7 +2263,12 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 	}
 
 	// Owner
-	machines.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		machines.Owner = &owner
+	} else {
+		machines.Owner = nil
+	}
 
 	// Plan
 	if source.Plan != nil {
@@ -2415,8 +2482,7 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	destination.LicenseType = genruntime.ClonePointerToString(machines.LicenseType)
 
 	// Location
-	location := machines.Location
-	destination.Location = &location
+	destination.Location = genruntime.ClonePointerToString(machines.Location)
 
 	// NetworkProfile
 	if machines.NetworkProfile != nil {
@@ -2446,7 +2512,12 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	}
 
 	// Owner
-	destination.Owner = machines.Owner.Copy()
+	if machines.Owner != nil {
+		owner := machines.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Plan
 	if machines.Plan != nil {
@@ -5359,7 +5430,7 @@ type VirtualMachineExtension_Status struct {
 
 	// +kubebuilder:validation:Required
 	//Location: Resource location
-	Location string `json:"location"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: Resource name
 	Name *string `json:"name,omitempty"`
@@ -5452,7 +5523,10 @@ func (extension *VirtualMachineExtension_Status) PopulateFromARM(owner genruntim
 	}
 
 	// Set property ‘Location’:
-	extension.Location = typedInput.Location
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		extension.Location = &location
+	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
@@ -5574,7 +5648,7 @@ func (extension *VirtualMachineExtension_Status) AssignPropertiesFromVirtualMach
 	}
 
 	// Location
-	extension.Location = genruntime.GetOptionalStringValue(source.Location)
+	extension.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
 	extension.Name = genruntime.ClonePointerToString(source.Name)
@@ -5667,8 +5741,7 @@ func (extension *VirtualMachineExtension_Status) AssignPropertiesToVirtualMachin
 	}
 
 	// Location
-	location := extension.Location
-	destination.Location = &location
+	destination.Location = genruntime.ClonePointerToString(extension.Location)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(extension.Name)
@@ -6980,7 +7053,7 @@ type DataDisk struct {
 	//FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a
 	//platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also
 	//use the plan element previously described.
-	CreateOption DataDiskCreateOption `json:"createOption"`
+	CreateOption *DataDiskCreateOption `json:"createOption,omitempty"`
 
 	//DetachOption: Specifies the detach behavior to be used while detaching a disk or which is already in the process of
 	//detachment from the virtual machine. Supported values: ForceDetach.
@@ -7003,7 +7076,7 @@ type DataDisk struct {
 	// +kubebuilder:validation:Required
 	//Lun: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and
 	//therefore must be unique for each data disk attached to a VM.
-	Lun int `json:"lun"`
+	Lun *int `json:"lun,omitempty"`
 
 	//ManagedDisk: The parameters of a managed disk.
 	ManagedDisk *ManagedDiskParameters `json:"managedDisk,omitempty"`
@@ -7037,7 +7110,10 @@ func (disk *DataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	}
 
 	// Set property ‘CreateOption’:
-	result.CreateOption = disk.CreateOption
+	if disk.CreateOption != nil {
+		createOption := *disk.CreateOption
+		result.CreateOption = &createOption
+	}
 
 	// Set property ‘DetachOption’:
 	if disk.DetachOption != nil {
@@ -7062,7 +7138,10 @@ func (disk *DataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	}
 
 	// Set property ‘Lun’:
-	result.Lun = disk.Lun
+	if disk.Lun != nil {
+		lun := *disk.Lun
+		result.Lun = &lun
+	}
 
 	// Set property ‘ManagedDisk’:
 	if disk.ManagedDisk != nil {
@@ -7123,7 +7202,10 @@ func (disk *DataDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 	}
 
 	// Set property ‘CreateOption’:
-	disk.CreateOption = typedInput.CreateOption
+	if typedInput.CreateOption != nil {
+		createOption := *typedInput.CreateOption
+		disk.CreateOption = &createOption
+	}
 
 	// Set property ‘DetachOption’:
 	if typedInput.DetachOption != nil {
@@ -7149,7 +7231,10 @@ func (disk *DataDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 	}
 
 	// Set property ‘Lun’:
-	disk.Lun = typedInput.Lun
+	if typedInput.Lun != nil {
+		lun := *typedInput.Lun
+		disk.Lun = &lun
+	}
 
 	// Set property ‘ManagedDisk’:
 	if typedInput.ManagedDisk != nil {
@@ -7208,9 +7293,10 @@ func (disk *DataDisk) AssignPropertiesFromDataDisk(source *v1alpha1api20201201st
 
 	// CreateOption
 	if source.CreateOption != nil {
-		disk.CreateOption = DataDiskCreateOption(*source.CreateOption)
+		createOption := DataDiskCreateOption(*source.CreateOption)
+		disk.CreateOption = &createOption
 	} else {
-		disk.CreateOption = ""
+		disk.CreateOption = nil
 	}
 
 	// DetachOption
@@ -7237,7 +7323,7 @@ func (disk *DataDisk) AssignPropertiesFromDataDisk(source *v1alpha1api20201201st
 	}
 
 	// Lun
-	disk.Lun = genruntime.GetOptionalIntValue(source.Lun)
+	disk.Lun = genruntime.ClonePointerToInt(source.Lun)
 
 	// ManagedDisk
 	if source.ManagedDisk != nil {
@@ -7300,8 +7386,12 @@ func (disk *DataDisk) AssignPropertiesToDataDisk(destination *v1alpha1api2020120
 	}
 
 	// CreateOption
-	createOption := string(disk.CreateOption)
-	destination.CreateOption = &createOption
+	if disk.CreateOption != nil {
+		createOption := string(*disk.CreateOption)
+		destination.CreateOption = &createOption
+	} else {
+		destination.CreateOption = nil
+	}
 
 	// DetachOption
 	if disk.DetachOption != nil {
@@ -7327,8 +7417,7 @@ func (disk *DataDisk) AssignPropertiesToDataDisk(destination *v1alpha1api2020120
 	}
 
 	// Lun
-	lun := disk.Lun
-	destination.Lun = &lun
+	destination.Lun = genruntime.ClonePointerToInt(disk.Lun)
 
 	// ManagedDisk
 	if disk.ManagedDisk != nil {
@@ -7400,7 +7489,7 @@ type DataDisk_Status struct {
 	//FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a
 	//platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also
 	//use the plan element previously described.
-	CreateOption CreateOption_Status `json:"createOption"`
+	CreateOption *CreateOption_Status `json:"createOption,omitempty"`
 
 	//DetachOption: Specifies the detach behavior to be used while detaching a disk or which is already in the process of
 	//detachment from the virtual machine. Supported values: ForceDetach.
@@ -7433,7 +7522,7 @@ type DataDisk_Status struct {
 	// +kubebuilder:validation:Required
 	//Lun: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and
 	//therefore must be unique for each data disk attached to a VM.
-	Lun int `json:"lun"`
+	Lun *int `json:"lun,omitempty"`
 
 	//ManagedDisk: The managed disk parameters.
 	ManagedDisk *ManagedDiskParameters_Status `json:"managedDisk,omitempty"`
@@ -7472,7 +7561,10 @@ func (disk *DataDisk_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	}
 
 	// Set property ‘CreateOption’:
-	disk.CreateOption = typedInput.CreateOption
+	if typedInput.CreateOption != nil {
+		createOption := *typedInput.CreateOption
+		disk.CreateOption = &createOption
+	}
 
 	// Set property ‘DetachOption’:
 	if typedInput.DetachOption != nil {
@@ -7510,7 +7602,10 @@ func (disk *DataDisk_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	}
 
 	// Set property ‘Lun’:
-	disk.Lun = typedInput.Lun
+	if typedInput.Lun != nil {
+		lun := *typedInput.Lun
+		disk.Lun = &lun
+	}
 
 	// Set property ‘ManagedDisk’:
 	if typedInput.ManagedDisk != nil {
@@ -7569,9 +7664,10 @@ func (disk *DataDisk_Status) AssignPropertiesFromDataDiskStatus(source *v1alpha1
 
 	// CreateOption
 	if source.CreateOption != nil {
-		disk.CreateOption = CreateOption_Status(*source.CreateOption)
+		createOption := CreateOption_Status(*source.CreateOption)
+		disk.CreateOption = &createOption
 	} else {
-		disk.CreateOption = ""
+		disk.CreateOption = nil
 	}
 
 	// DetachOption
@@ -7604,7 +7700,7 @@ func (disk *DataDisk_Status) AssignPropertiesFromDataDiskStatus(source *v1alpha1
 	}
 
 	// Lun
-	disk.Lun = genruntime.GetOptionalIntValue(source.Lun)
+	disk.Lun = genruntime.ClonePointerToInt(source.Lun)
 
 	// ManagedDisk
 	if source.ManagedDisk != nil {
@@ -7667,8 +7763,12 @@ func (disk *DataDisk_Status) AssignPropertiesToDataDiskStatus(destination *v1alp
 	}
 
 	// CreateOption
-	createOption := string(disk.CreateOption)
-	destination.CreateOption = &createOption
+	if disk.CreateOption != nil {
+		createOption := string(*disk.CreateOption)
+		destination.CreateOption = &createOption
+	} else {
+		destination.CreateOption = nil
+	}
 
 	// DetachOption
 	if disk.DetachOption != nil {
@@ -7700,8 +7800,7 @@ func (disk *DataDisk_Status) AssignPropertiesToDataDiskStatus(destination *v1alp
 	}
 
 	// Lun
-	lun := disk.Lun
-	destination.Lun = &lun
+	destination.Lun = genruntime.ClonePointerToInt(disk.Lun)
 
 	// ManagedDisk
 	if disk.ManagedDisk != nil {
@@ -9348,7 +9447,7 @@ type OSDisk struct {
 	//FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a
 	//platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also
 	//use the plan element previously described.
-	CreateOption OSDiskCreateOption `json:"createOption"`
+	CreateOption *OSDiskCreateOption `json:"createOption,omitempty"`
 
 	//DiffDiskSettings: Describes the parameters of ephemeral disk settings that can be specified for operating system disk.
 	//NOTE: The ephemeral disk settings can only be specified for managed disk.
@@ -9401,7 +9500,10 @@ func (disk *OSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	}
 
 	// Set property ‘CreateOption’:
-	result.CreateOption = disk.CreateOption
+	if disk.CreateOption != nil {
+		createOption := *disk.CreateOption
+		result.CreateOption = &createOption
+	}
 
 	// Set property ‘DiffDiskSettings’:
 	if disk.DiffDiskSettings != nil {
@@ -9498,7 +9600,10 @@ func (disk *OSDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 	}
 
 	// Set property ‘CreateOption’:
-	disk.CreateOption = typedInput.CreateOption
+	if typedInput.CreateOption != nil {
+		createOption := *typedInput.CreateOption
+		disk.CreateOption = &createOption
+	}
 
 	// Set property ‘DiffDiskSettings’:
 	if typedInput.DiffDiskSettings != nil {
@@ -9596,9 +9701,10 @@ func (disk *OSDisk) AssignPropertiesFromOSDisk(source *v1alpha1api20201201storag
 
 	// CreateOption
 	if source.CreateOption != nil {
-		disk.CreateOption = OSDiskCreateOption(*source.CreateOption)
+		createOption := OSDiskCreateOption(*source.CreateOption)
+		disk.CreateOption = &createOption
 	} else {
-		disk.CreateOption = ""
+		disk.CreateOption = nil
 	}
 
 	// DiffDiskSettings
@@ -9701,8 +9807,12 @@ func (disk *OSDisk) AssignPropertiesToOSDisk(destination *v1alpha1api20201201sto
 	}
 
 	// CreateOption
-	createOption := string(disk.CreateOption)
-	destination.CreateOption = &createOption
+	if disk.CreateOption != nil {
+		createOption := string(*disk.CreateOption)
+		destination.CreateOption = &createOption
+	} else {
+		destination.CreateOption = nil
+	}
 
 	// DiffDiskSettings
 	if disk.DiffDiskSettings != nil {
@@ -9813,7 +9923,7 @@ type OSDisk_Status struct {
 	//FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a
 	//platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also
 	//use the plan element previously described.
-	CreateOption CreateOption_Status `json:"createOption"`
+	CreateOption *CreateOption_Status `json:"createOption,omitempty"`
 
 	//DiffDiskSettings: Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine.
 	DiffDiskSettings *DiffDiskSettings_Status `json:"diffDiskSettings,omitempty"`
@@ -9872,7 +9982,10 @@ func (disk *OSDisk_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	}
 
 	// Set property ‘CreateOption’:
-	disk.CreateOption = typedInput.CreateOption
+	if typedInput.CreateOption != nil {
+		createOption := *typedInput.CreateOption
+		disk.CreateOption = &createOption
+	}
 
 	// Set property ‘DiffDiskSettings’:
 	if typedInput.DiffDiskSettings != nil {
@@ -9970,9 +10083,10 @@ func (disk *OSDisk_Status) AssignPropertiesFromOSDiskStatus(source *v1alpha1api2
 
 	// CreateOption
 	if source.CreateOption != nil {
-		disk.CreateOption = CreateOption_Status(*source.CreateOption)
+		createOption := CreateOption_Status(*source.CreateOption)
+		disk.CreateOption = &createOption
 	} else {
-		disk.CreateOption = ""
+		disk.CreateOption = nil
 	}
 
 	// DiffDiskSettings
@@ -10075,8 +10189,12 @@ func (disk *OSDisk_Status) AssignPropertiesToOSDiskStatus(destination *v1alpha1a
 	}
 
 	// CreateOption
-	createOption := string(disk.CreateOption)
-	destination.CreateOption = &createOption
+	if disk.CreateOption != nil {
+		createOption := string(*disk.CreateOption)
+		destination.CreateOption = &createOption
+	} else {
+		destination.CreateOption = nil
+	}
 
 	// DiffDiskSettings
 	if disk.DiffDiskSettings != nil {
@@ -15271,10 +15389,10 @@ func (parameters *DiskEncryptionSetParameters) AssignPropertiesToDiskEncryptionS
 type KeyVaultKeyReference struct {
 	// +kubebuilder:validation:Required
 	//KeyUrl: The URL referencing a key encryption key in Key Vault.
-	KeyUrl string `json:"keyUrl"`
+	KeyUrl *string `json:"keyUrl,omitempty"`
 
 	// +kubebuilder:validation:Required
-	SourceVault SubResource `json:"sourceVault"`
+	SourceVault *SubResource `json:"sourceVault,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &KeyVaultKeyReference{}
@@ -15287,14 +15405,20 @@ func (reference *KeyVaultKeyReference) ConvertToARM(resolved genruntime.ConvertT
 	var result KeyVaultKeyReferenceARM
 
 	// Set property ‘KeyUrl’:
-	result.KeyUrl = reference.KeyUrl
+	if reference.KeyUrl != nil {
+		keyUrl := *reference.KeyUrl
+		result.KeyUrl = &keyUrl
+	}
 
 	// Set property ‘SourceVault’:
-	sourceVaultARM, err := reference.SourceVault.ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if reference.SourceVault != nil {
+		sourceVaultARM, err := (*reference.SourceVault).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		sourceVault := sourceVaultARM.(SubResourceARM)
+		result.SourceVault = &sourceVault
 	}
-	result.SourceVault = sourceVaultARM.(SubResourceARM)
 	return result, nil
 }
 
@@ -15311,15 +15435,21 @@ func (reference *KeyVaultKeyReference) PopulateFromARM(owner genruntime.Arbitrar
 	}
 
 	// Set property ‘KeyUrl’:
-	reference.KeyUrl = typedInput.KeyUrl
+	if typedInput.KeyUrl != nil {
+		keyUrl := *typedInput.KeyUrl
+		reference.KeyUrl = &keyUrl
+	}
 
 	// Set property ‘SourceVault’:
-	var sourceVault SubResource
-	err := sourceVault.PopulateFromARM(owner, typedInput.SourceVault)
-	if err != nil {
-		return err
+	if typedInput.SourceVault != nil {
+		var sourceVault1 SubResource
+		err := sourceVault1.PopulateFromARM(owner, *typedInput.SourceVault)
+		if err != nil {
+			return err
+		}
+		sourceVault := sourceVault1
+		reference.SourceVault = &sourceVault
 	}
-	reference.SourceVault = sourceVault
 
 	// No error
 	return nil
@@ -15329,7 +15459,7 @@ func (reference *KeyVaultKeyReference) PopulateFromARM(owner genruntime.Arbitrar
 func (reference *KeyVaultKeyReference) AssignPropertiesFromKeyVaultKeyReference(source *v1alpha1api20201201storage.KeyVaultKeyReference) error {
 
 	// KeyUrl
-	reference.KeyUrl = genruntime.GetOptionalStringValue(source.KeyUrl)
+	reference.KeyUrl = genruntime.ClonePointerToString(source.KeyUrl)
 
 	// SourceVault
 	if source.SourceVault != nil {
@@ -15338,9 +15468,9 @@ func (reference *KeyVaultKeyReference) AssignPropertiesFromKeyVaultKeyReference(
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SourceVault")
 		}
-		reference.SourceVault = sourceVault
+		reference.SourceVault = &sourceVault
 	} else {
-		reference.SourceVault = SubResource{}
+		reference.SourceVault = nil
 	}
 
 	// No error
@@ -15353,16 +15483,19 @@ func (reference *KeyVaultKeyReference) AssignPropertiesToKeyVaultKeyReference(de
 	propertyBag := genruntime.NewPropertyBag()
 
 	// KeyUrl
-	keyUrl := reference.KeyUrl
-	destination.KeyUrl = &keyUrl
+	destination.KeyUrl = genruntime.ClonePointerToString(reference.KeyUrl)
 
 	// SourceVault
-	var sourceVault v1alpha1api20201201storage.SubResource
-	err := reference.SourceVault.AssignPropertiesToSubResource(&sourceVault)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SourceVault")
+	if reference.SourceVault != nil {
+		var sourceVault v1alpha1api20201201storage.SubResource
+		err := reference.SourceVault.AssignPropertiesToSubResource(&sourceVault)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SourceVault")
+		}
+		destination.SourceVault = &sourceVault
+	} else {
+		destination.SourceVault = nil
 	}
-	destination.SourceVault = &sourceVault
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -15378,11 +15511,11 @@ func (reference *KeyVaultKeyReference) AssignPropertiesToKeyVaultKeyReference(de
 type KeyVaultKeyReference_Status struct {
 	// +kubebuilder:validation:Required
 	//KeyUrl: The URL referencing a key encryption key in Key Vault.
-	KeyUrl string `json:"keyUrl"`
+	KeyUrl *string `json:"keyUrl,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//SourceVault: The relative URL of the Key Vault containing the key.
-	SourceVault SubResource_Status `json:"sourceVault"`
+	SourceVault *SubResource_Status `json:"sourceVault,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &KeyVaultKeyReference_Status{}
@@ -15400,15 +15533,21 @@ func (reference *KeyVaultKeyReference_Status) PopulateFromARM(owner genruntime.A
 	}
 
 	// Set property ‘KeyUrl’:
-	reference.KeyUrl = typedInput.KeyUrl
+	if typedInput.KeyUrl != nil {
+		keyUrl := *typedInput.KeyUrl
+		reference.KeyUrl = &keyUrl
+	}
 
 	// Set property ‘SourceVault’:
-	var sourceVault SubResource_Status
-	err := sourceVault.PopulateFromARM(owner, typedInput.SourceVault)
-	if err != nil {
-		return err
+	if typedInput.SourceVault != nil {
+		var sourceVault1 SubResource_Status
+		err := sourceVault1.PopulateFromARM(owner, *typedInput.SourceVault)
+		if err != nil {
+			return err
+		}
+		sourceVault := sourceVault1
+		reference.SourceVault = &sourceVault
 	}
-	reference.SourceVault = sourceVault
 
 	// No error
 	return nil
@@ -15418,7 +15557,7 @@ func (reference *KeyVaultKeyReference_Status) PopulateFromARM(owner genruntime.A
 func (reference *KeyVaultKeyReference_Status) AssignPropertiesFromKeyVaultKeyReferenceStatus(source *v1alpha1api20201201storage.KeyVaultKeyReference_Status) error {
 
 	// KeyUrl
-	reference.KeyUrl = genruntime.GetOptionalStringValue(source.KeyUrl)
+	reference.KeyUrl = genruntime.ClonePointerToString(source.KeyUrl)
 
 	// SourceVault
 	if source.SourceVault != nil {
@@ -15427,9 +15566,9 @@ func (reference *KeyVaultKeyReference_Status) AssignPropertiesFromKeyVaultKeyRef
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SourceVault")
 		}
-		reference.SourceVault = sourceVault
+		reference.SourceVault = &sourceVault
 	} else {
-		reference.SourceVault = SubResource_Status{}
+		reference.SourceVault = nil
 	}
 
 	// No error
@@ -15442,16 +15581,19 @@ func (reference *KeyVaultKeyReference_Status) AssignPropertiesToKeyVaultKeyRefer
 	propertyBag := genruntime.NewPropertyBag()
 
 	// KeyUrl
-	keyUrl := reference.KeyUrl
-	destination.KeyUrl = &keyUrl
+	destination.KeyUrl = genruntime.ClonePointerToString(reference.KeyUrl)
 
 	// SourceVault
-	var sourceVault v1alpha1api20201201storage.SubResource_Status
-	err := reference.SourceVault.AssignPropertiesToSubResourceStatus(&sourceVault)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SourceVault")
+	if reference.SourceVault != nil {
+		var sourceVault v1alpha1api20201201storage.SubResource_Status
+		err := reference.SourceVault.AssignPropertiesToSubResourceStatus(&sourceVault)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SourceVault")
+		}
+		destination.SourceVault = &sourceVault
+	} else {
+		destination.SourceVault = nil
 	}
-	destination.SourceVault = &sourceVault
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -15468,10 +15610,10 @@ func (reference *KeyVaultKeyReference_Status) AssignPropertiesToKeyVaultKeyRefer
 type KeyVaultSecretReference struct {
 	// +kubebuilder:validation:Required
 	//SecretUrl: The URL referencing a secret in a Key Vault.
-	SecretUrl string `json:"secretUrl"`
+	SecretUrl *string `json:"secretUrl,omitempty"`
 
 	// +kubebuilder:validation:Required
-	SourceVault SubResource `json:"sourceVault"`
+	SourceVault *SubResource `json:"sourceVault,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &KeyVaultSecretReference{}
@@ -15484,14 +15626,20 @@ func (reference *KeyVaultSecretReference) ConvertToARM(resolved genruntime.Conve
 	var result KeyVaultSecretReferenceARM
 
 	// Set property ‘SecretUrl’:
-	result.SecretUrl = reference.SecretUrl
+	if reference.SecretUrl != nil {
+		secretUrl := *reference.SecretUrl
+		result.SecretUrl = &secretUrl
+	}
 
 	// Set property ‘SourceVault’:
-	sourceVaultARM, err := reference.SourceVault.ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if reference.SourceVault != nil {
+		sourceVaultARM, err := (*reference.SourceVault).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		sourceVault := sourceVaultARM.(SubResourceARM)
+		result.SourceVault = &sourceVault
 	}
-	result.SourceVault = sourceVaultARM.(SubResourceARM)
 	return result, nil
 }
 
@@ -15508,15 +15656,21 @@ func (reference *KeyVaultSecretReference) PopulateFromARM(owner genruntime.Arbit
 	}
 
 	// Set property ‘SecretUrl’:
-	reference.SecretUrl = typedInput.SecretUrl
+	if typedInput.SecretUrl != nil {
+		secretUrl := *typedInput.SecretUrl
+		reference.SecretUrl = &secretUrl
+	}
 
 	// Set property ‘SourceVault’:
-	var sourceVault SubResource
-	err := sourceVault.PopulateFromARM(owner, typedInput.SourceVault)
-	if err != nil {
-		return err
+	if typedInput.SourceVault != nil {
+		var sourceVault1 SubResource
+		err := sourceVault1.PopulateFromARM(owner, *typedInput.SourceVault)
+		if err != nil {
+			return err
+		}
+		sourceVault := sourceVault1
+		reference.SourceVault = &sourceVault
 	}
-	reference.SourceVault = sourceVault
 
 	// No error
 	return nil
@@ -15526,7 +15680,7 @@ func (reference *KeyVaultSecretReference) PopulateFromARM(owner genruntime.Arbit
 func (reference *KeyVaultSecretReference) AssignPropertiesFromKeyVaultSecretReference(source *v1alpha1api20201201storage.KeyVaultSecretReference) error {
 
 	// SecretUrl
-	reference.SecretUrl = genruntime.GetOptionalStringValue(source.SecretUrl)
+	reference.SecretUrl = genruntime.ClonePointerToString(source.SecretUrl)
 
 	// SourceVault
 	if source.SourceVault != nil {
@@ -15535,9 +15689,9 @@ func (reference *KeyVaultSecretReference) AssignPropertiesFromKeyVaultSecretRefe
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SourceVault")
 		}
-		reference.SourceVault = sourceVault
+		reference.SourceVault = &sourceVault
 	} else {
-		reference.SourceVault = SubResource{}
+		reference.SourceVault = nil
 	}
 
 	// No error
@@ -15550,16 +15704,19 @@ func (reference *KeyVaultSecretReference) AssignPropertiesToKeyVaultSecretRefere
 	propertyBag := genruntime.NewPropertyBag()
 
 	// SecretUrl
-	secretUrl := reference.SecretUrl
-	destination.SecretUrl = &secretUrl
+	destination.SecretUrl = genruntime.ClonePointerToString(reference.SecretUrl)
 
 	// SourceVault
-	var sourceVault v1alpha1api20201201storage.SubResource
-	err := reference.SourceVault.AssignPropertiesToSubResource(&sourceVault)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SourceVault")
+	if reference.SourceVault != nil {
+		var sourceVault v1alpha1api20201201storage.SubResource
+		err := reference.SourceVault.AssignPropertiesToSubResource(&sourceVault)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SourceVault")
+		}
+		destination.SourceVault = &sourceVault
+	} else {
+		destination.SourceVault = nil
 	}
-	destination.SourceVault = &sourceVault
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -15575,11 +15732,11 @@ func (reference *KeyVaultSecretReference) AssignPropertiesToKeyVaultSecretRefere
 type KeyVaultSecretReference_Status struct {
 	// +kubebuilder:validation:Required
 	//SecretUrl: The URL referencing a secret in a Key Vault.
-	SecretUrl string `json:"secretUrl"`
+	SecretUrl *string `json:"secretUrl,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//SourceVault: The relative URL of the Key Vault containing the secret.
-	SourceVault SubResource_Status `json:"sourceVault"`
+	SourceVault *SubResource_Status `json:"sourceVault,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &KeyVaultSecretReference_Status{}
@@ -15597,15 +15754,21 @@ func (reference *KeyVaultSecretReference_Status) PopulateFromARM(owner genruntim
 	}
 
 	// Set property ‘SecretUrl’:
-	reference.SecretUrl = typedInput.SecretUrl
+	if typedInput.SecretUrl != nil {
+		secretUrl := *typedInput.SecretUrl
+		reference.SecretUrl = &secretUrl
+	}
 
 	// Set property ‘SourceVault’:
-	var sourceVault SubResource_Status
-	err := sourceVault.PopulateFromARM(owner, typedInput.SourceVault)
-	if err != nil {
-		return err
+	if typedInput.SourceVault != nil {
+		var sourceVault1 SubResource_Status
+		err := sourceVault1.PopulateFromARM(owner, *typedInput.SourceVault)
+		if err != nil {
+			return err
+		}
+		sourceVault := sourceVault1
+		reference.SourceVault = &sourceVault
 	}
-	reference.SourceVault = sourceVault
 
 	// No error
 	return nil
@@ -15615,7 +15778,7 @@ func (reference *KeyVaultSecretReference_Status) PopulateFromARM(owner genruntim
 func (reference *KeyVaultSecretReference_Status) AssignPropertiesFromKeyVaultSecretReferenceStatus(source *v1alpha1api20201201storage.KeyVaultSecretReference_Status) error {
 
 	// SecretUrl
-	reference.SecretUrl = genruntime.GetOptionalStringValue(source.SecretUrl)
+	reference.SecretUrl = genruntime.ClonePointerToString(source.SecretUrl)
 
 	// SourceVault
 	if source.SourceVault != nil {
@@ -15624,9 +15787,9 @@ func (reference *KeyVaultSecretReference_Status) AssignPropertiesFromKeyVaultSec
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SourceVault")
 		}
-		reference.SourceVault = sourceVault
+		reference.SourceVault = &sourceVault
 	} else {
-		reference.SourceVault = SubResource_Status{}
+		reference.SourceVault = nil
 	}
 
 	// No error
@@ -15639,16 +15802,19 @@ func (reference *KeyVaultSecretReference_Status) AssignPropertiesToKeyVaultSecre
 	propertyBag := genruntime.NewPropertyBag()
 
 	// SecretUrl
-	secretUrl := reference.SecretUrl
-	destination.SecretUrl = &secretUrl
+	destination.SecretUrl = genruntime.ClonePointerToString(reference.SecretUrl)
 
 	// SourceVault
-	var sourceVault v1alpha1api20201201storage.SubResource_Status
-	err := reference.SourceVault.AssignPropertiesToSubResourceStatus(&sourceVault)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SourceVault")
+	if reference.SourceVault != nil {
+		var sourceVault v1alpha1api20201201storage.SubResource_Status
+		err := reference.SourceVault.AssignPropertiesToSubResourceStatus(&sourceVault)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SourceVault")
+		}
+		destination.SourceVault = &sourceVault
+	} else {
+		destination.SourceVault = nil
 	}
-	destination.SourceVault = &sourceVault
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -194,7 +194,7 @@ type Components_Spec struct {
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName                       string  `json:"azureName"`
+	AzureName                       string  `json:"azureName,omitempty"`
 	DisableIpMasking                *bool   `json:"DisableIpMasking,omitempty"`
 	DisableLocalAuth                *bool   `json:"DisableLocalAuth,omitempty"`
 	Etag                            *string `json:"etag,omitempty"`
@@ -205,20 +205,20 @@ type Components_Spec struct {
 	IngestionMode                   *string `json:"IngestionMode,omitempty"`
 	Kind                            *string `json:"kind,omitempty"`
 	Location                        *string `json:"location,omitempty"`
-	OriginalVersion                 string  `json:"originalVersion"`
+	OriginalVersion                 string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner                           genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PropertyBag                     genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	PublicNetworkAccessForIngestion *string                           `json:"publicNetworkAccessForIngestion,omitempty"`
-	PublicNetworkAccessForQuery     *string                           `json:"publicNetworkAccessForQuery,omitempty"`
-	RequestSource                   *string                           `json:"Request_Source,omitempty"`
-	RetentionInDays                 *int                              `json:"RetentionInDays,omitempty"`
-	SamplingPercentage              *float64                          `json:"SamplingPercentage,omitempty"`
-	Tags                            map[string]string                 `json:"tags,omitempty"`
+	Owner                           *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag                     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PublicNetworkAccessForIngestion *string                            `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForQuery     *string                            `json:"publicNetworkAccessForQuery,omitempty"`
+	RequestSource                   *string                            `json:"Request_Source,omitempty"`
+	RetentionInDays                 *int                               `json:"RetentionInDays,omitempty"`
+	SamplingPercentage              *float64                           `json:"SamplingPercentage,omitempty"`
+	Tags                            map[string]string                  `json:"tags,omitempty"`
 
 	//WorkspaceResourceReference: Resource Id of the log analytics workspace which the data will be ingested to. This property
 	//is required to create an application with this API version. Applications from older versions will not have this property.

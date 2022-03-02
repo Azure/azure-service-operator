@@ -313,12 +313,12 @@ type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a documentdb.azure.com/MongodbDatabaseCollection resource
-	Owner genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner" kind:"MongodbDatabaseCollection"`
+	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"MongodbDatabaseCollection"`
 
 	// +kubebuilder:validation:Required
 	//Resource: Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not
 	//both.
-	Resource ThroughputSettingsResource `json:"resource"`
+	Resource *ThroughputSettingsResource `json:"resource,omitempty"`
 
 	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
 	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
@@ -347,11 +347,17 @@ func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Sp
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	resourceARM, err := settings.Resource.ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if settings.Resource != nil {
+		result.Properties = &ThroughputSettingsUpdatePropertiesARM{}
 	}
-	result.Properties.Resource = resourceARM.(ThroughputSettingsResourceARM)
+	if settings.Resource != nil {
+		resourceARM, err := (*settings.Resource).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		resource := resourceARM.(ThroughputSettingsResourceARM)
+		result.Properties.Resource = &resource
+	}
 
 	// Set property ‘Tags’:
 	if settings.Tags != nil {
@@ -382,18 +388,23 @@ func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Sp
 	}
 
 	// Set property ‘Owner’:
-	settings.Owner = genruntime.KnownResourceReference{
+	settings.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Resource’:
 	// copying flattened property:
-	var resource ThroughputSettingsResource
-	err := resource.PopulateFromARM(owner, typedInput.Properties.Resource)
-	if err != nil {
-		return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Resource != nil {
+			var resource1 ThroughputSettingsResource
+			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
+			if err != nil {
+				return err
+			}
+			resource := resource1
+			settings.Resource = &resource
+		}
 	}
-	settings.Resource = resource
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
@@ -464,7 +475,12 @@ func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Sp
 	settings.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	settings.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		settings.Owner = &owner
+	} else {
+		settings.Owner = nil
+	}
 
 	// Resource
 	if source.Resource != nil {
@@ -473,9 +489,9 @@ func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Sp
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsResource() to populate field Resource")
 		}
-		settings.Resource = resource
+		settings.Resource = &resource
 	} else {
-		settings.Resource = ThroughputSettingsResource{}
+		settings.Resource = nil
 	}
 
 	// Tags
@@ -497,15 +513,24 @@ func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Sp
 	destination.OriginalVersion = settings.OriginalVersion()
 
 	// Owner
-	destination.Owner = settings.Owner.Copy()
+	if settings.Owner != nil {
+		owner := settings.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Resource
-	var resource v1alpha1api20210515storage.ThroughputSettingsResource
-	err := settings.Resource.AssignPropertiesToThroughputSettingsResource(&resource)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsResource() to populate field Resource")
+	if settings.Resource != nil {
+		var resource v1alpha1api20210515storage.ThroughputSettingsResource
+		err := settings.Resource.AssignPropertiesToThroughputSettingsResource(&resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsResource() to populate field Resource")
+		}
+		destination.Resource = &resource
+	} else {
+		destination.Resource = nil
 	}
-	destination.Resource = &resource
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(settings.Tags)
@@ -1057,7 +1082,7 @@ type AutoscaleSettingsResource struct {
 
 	// +kubebuilder:validation:Required
 	//MaxThroughput: Represents maximum throughput container can scale up to.
-	MaxThroughput int `json:"maxThroughput"`
+	MaxThroughput *int `json:"maxThroughput,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &AutoscaleSettingsResource{}
@@ -1080,7 +1105,10 @@ func (resource *AutoscaleSettingsResource) ConvertToARM(resolved genruntime.Conv
 	}
 
 	// Set property ‘MaxThroughput’:
-	result.MaxThroughput = resource.MaxThroughput
+	if resource.MaxThroughput != nil {
+		maxThroughput := *resource.MaxThroughput
+		result.MaxThroughput = &maxThroughput
+	}
 	return result, nil
 }
 
@@ -1108,7 +1136,10 @@ func (resource *AutoscaleSettingsResource) PopulateFromARM(owner genruntime.Arbi
 	}
 
 	// Set property ‘MaxThroughput’:
-	resource.MaxThroughput = typedInput.MaxThroughput
+	if typedInput.MaxThroughput != nil {
+		maxThroughput := *typedInput.MaxThroughput
+		resource.MaxThroughput = &maxThroughput
+	}
 
 	// No error
 	return nil
@@ -1130,7 +1161,7 @@ func (resource *AutoscaleSettingsResource) AssignPropertiesFromAutoscaleSettings
 	}
 
 	// MaxThroughput
-	resource.MaxThroughput = genruntime.GetOptionalIntValue(source.MaxThroughput)
+	resource.MaxThroughput = genruntime.ClonePointerToInt(source.MaxThroughput)
 
 	// No error
 	return nil
@@ -1154,8 +1185,7 @@ func (resource *AutoscaleSettingsResource) AssignPropertiesToAutoscaleSettingsRe
 	}
 
 	// MaxThroughput
-	maxThroughput := resource.MaxThroughput
-	destination.MaxThroughput = &maxThroughput
+	destination.MaxThroughput = genruntime.ClonePointerToInt(resource.MaxThroughput)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1174,7 +1204,7 @@ type AutoscaleSettingsResource_Status struct {
 
 	// +kubebuilder:validation:Required
 	//MaxThroughput: Represents maximum throughput container can scale up to.
-	MaxThroughput int `json:"maxThroughput"`
+	MaxThroughput *int `json:"maxThroughput,omitempty"`
 
 	//TargetMaxThroughput: Represents target maximum throughput container can scale up to once offer is no longer in pending
 	//state.
@@ -1207,7 +1237,10 @@ func (resource *AutoscaleSettingsResource_Status) PopulateFromARM(owner genrunti
 	}
 
 	// Set property ‘MaxThroughput’:
-	resource.MaxThroughput = typedInput.MaxThroughput
+	if typedInput.MaxThroughput != nil {
+		maxThroughput := *typedInput.MaxThroughput
+		resource.MaxThroughput = &maxThroughput
+	}
 
 	// Set property ‘TargetMaxThroughput’:
 	if typedInput.TargetMaxThroughput != nil {
@@ -1235,7 +1268,7 @@ func (resource *AutoscaleSettingsResource_Status) AssignPropertiesFromAutoscaleS
 	}
 
 	// MaxThroughput
-	resource.MaxThroughput = genruntime.GetOptionalIntValue(source.MaxThroughput)
+	resource.MaxThroughput = genruntime.ClonePointerToInt(source.MaxThroughput)
 
 	// TargetMaxThroughput
 	resource.TargetMaxThroughput = genruntime.ClonePointerToInt(source.TargetMaxThroughput)
@@ -1262,8 +1295,7 @@ func (resource *AutoscaleSettingsResource_Status) AssignPropertiesToAutoscaleSet
 	}
 
 	// MaxThroughput
-	maxThroughput := resource.MaxThroughput
-	destination.MaxThroughput = &maxThroughput
+	destination.MaxThroughput = genruntime.ClonePointerToInt(resource.MaxThroughput)
 
 	// TargetMaxThroughput
 	destination.TargetMaxThroughput = genruntime.ClonePointerToInt(resource.TargetMaxThroughput)

@@ -315,7 +315,7 @@ const DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecAPIVersion202105
 type DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
@@ -328,11 +328,11 @@ type DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a documentdb.azure.com/SqlDatabaseContainer resource
-	Owner genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner" kind:"SqlDatabaseContainer"`
+	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabaseContainer"`
 
 	// +kubebuilder:validation:Required
 	//Resource: Cosmos DB SQL storedProcedure resource object
-	Resource SqlStoredProcedureResource `json:"resource"`
+	Resource *SqlStoredProcedureResource `json:"resource,omitempty"`
 
 	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
 	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
@@ -361,6 +361,9 @@ func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) C
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if procedures.Options != nil || procedures.Resource != nil {
+		result.Properties = &SqlStoredProcedureCreateUpdatePropertiesARM{}
+	}
 	if procedures.Options != nil {
 		optionsARM, err := (*procedures.Options).ConvertToARM(resolved)
 		if err != nil {
@@ -369,11 +372,14 @@ func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) C
 		options := optionsARM.(CreateUpdateOptionsARM)
 		result.Properties.Options = &options
 	}
-	resourceARM, err := procedures.Resource.ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if procedures.Resource != nil {
+		resourceARM, err := (*procedures.Resource).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		resource := resourceARM.(SqlStoredProcedureResourceARM)
+		result.Properties.Resource = &resource
 	}
-	result.Properties.Resource = resourceARM.(SqlStoredProcedureResourceARM)
 
 	// Set property ‘Tags’:
 	if procedures.Tags != nil {
@@ -408,29 +414,36 @@ func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) P
 
 	// Set property ‘Options’:
 	// copying flattened property:
-	if typedInput.Properties.Options != nil {
-		var options1 CreateUpdateOptions
-		err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Options != nil {
+			var options1 CreateUpdateOptions
+			err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
+			if err != nil {
+				return err
+			}
+			options := options1
+			procedures.Options = &options
 		}
-		options := options1
-		procedures.Options = &options
 	}
 
 	// Set property ‘Owner’:
-	procedures.Owner = genruntime.KnownResourceReference{
+	procedures.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Resource’:
 	// copying flattened property:
-	var resource SqlStoredProcedureResource
-	err := resource.PopulateFromARM(owner, typedInput.Properties.Resource)
-	if err != nil {
-		return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Resource != nil {
+			var resource1 SqlStoredProcedureResource
+			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
+			if err != nil {
+				return err
+			}
+			resource := resource1
+			procedures.Resource = &resource
+		}
 	}
-	procedures.Resource = resource
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
@@ -516,7 +529,12 @@ func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) A
 	}
 
 	// Owner
-	procedures.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		procedures.Owner = &owner
+	} else {
+		procedures.Owner = nil
+	}
 
 	// Resource
 	if source.Resource != nil {
@@ -525,9 +543,9 @@ func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) A
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureResource() to populate field Resource")
 		}
-		procedures.Resource = resource
+		procedures.Resource = &resource
 	} else {
-		procedures.Resource = SqlStoredProcedureResource{}
+		procedures.Resource = nil
 	}
 
 	// Tags
@@ -564,15 +582,24 @@ func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) A
 	destination.OriginalVersion = procedures.OriginalVersion()
 
 	// Owner
-	destination.Owner = procedures.Owner.Copy()
+	if procedures.Owner != nil {
+		owner := procedures.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Resource
-	var resource v1alpha1api20210515storage.SqlStoredProcedureResource
-	err := procedures.Resource.AssignPropertiesToSqlStoredProcedureResource(&resource)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureResource() to populate field Resource")
+	if procedures.Resource != nil {
+		var resource v1alpha1api20210515storage.SqlStoredProcedureResource
+		err := procedures.Resource.AssignPropertiesToSqlStoredProcedureResource(&resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureResource() to populate field Resource")
+		}
+		destination.Resource = &resource
+	} else {
+		destination.Resource = nil
 	}
-	destination.Resource = &resource
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(procedures.Tags)
@@ -825,7 +852,7 @@ type SqlStoredProcedureGetProperties_Status_Resource struct {
 
 	// +kubebuilder:validation:Required
 	//Id: Name of the Cosmos DB SQL storedProcedure
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 
 	//Rid: A system generated property. A unique identifier.
 	Rid *string `json:"_rid,omitempty"`
@@ -861,7 +888,10 @@ func (resource *SqlStoredProcedureGetProperties_Status_Resource) PopulateFromARM
 	}
 
 	// Set property ‘Id’:
-	resource.Id = typedInput.Id
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		resource.Id = &id
+	}
 
 	// Set property ‘Rid’:
 	if typedInput.Rid != nil {
@@ -889,7 +919,7 @@ func (resource *SqlStoredProcedureGetProperties_Status_Resource) AssignPropertie
 	resource.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Id
-	resource.Id = genruntime.GetOptionalStringValue(source.Id)
+	resource.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Rid
 	resource.Rid = genruntime.ClonePointerToString(source.Rid)
@@ -918,8 +948,7 @@ func (resource *SqlStoredProcedureGetProperties_Status_Resource) AssignPropertie
 	destination.Etag = genruntime.ClonePointerToString(resource.Etag)
 
 	// Id
-	id := resource.Id
-	destination.Id = &id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
 
 	// Rid
 	destination.Rid = genruntime.ClonePointerToString(resource.Rid)
@@ -950,7 +979,7 @@ type SqlStoredProcedureResource struct {
 
 	// +kubebuilder:validation:Required
 	//Id: Name of the Cosmos DB SQL storedProcedure
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SqlStoredProcedureResource{}
@@ -969,7 +998,10 @@ func (resource *SqlStoredProcedureResource) ConvertToARM(resolved genruntime.Con
 	}
 
 	// Set property ‘Id’:
-	result.Id = resource.Id
+	if resource.Id != nil {
+		id := *resource.Id
+		result.Id = &id
+	}
 	return result, nil
 }
 
@@ -992,7 +1024,10 @@ func (resource *SqlStoredProcedureResource) PopulateFromARM(owner genruntime.Arb
 	}
 
 	// Set property ‘Id’:
-	resource.Id = typedInput.Id
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		resource.Id = &id
+	}
 
 	// No error
 	return nil
@@ -1005,7 +1040,7 @@ func (resource *SqlStoredProcedureResource) AssignPropertiesFromSqlStoredProcedu
 	resource.Body = genruntime.ClonePointerToString(source.Body)
 
 	// Id
-	resource.Id = genruntime.GetOptionalStringValue(source.Id)
+	resource.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
@@ -1020,8 +1055,7 @@ func (resource *SqlStoredProcedureResource) AssignPropertiesToSqlStoredProcedure
 	destination.Body = genruntime.ClonePointerToString(resource.Body)
 
 	// Id
-	id := resource.Id
-	destination.Id = &id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

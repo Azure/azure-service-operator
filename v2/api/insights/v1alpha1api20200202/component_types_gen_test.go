@@ -405,7 +405,7 @@ func ComponentsSpecGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForComponentsSpec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForComponentsSpec(gens map[string]gopter.Gen) {
-	gens["ApplicationType"] = gen.OneConstOf(ApplicationInsightsComponentPropertiesApplicationTypeOther, ApplicationInsightsComponentPropertiesApplicationTypeWeb)
+	gens["ApplicationType"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesApplicationTypeOther, ApplicationInsightsComponentPropertiesApplicationTypeWeb))
 	gens["AzureName"] = gen.AlphaString()
 	gens["DisableIpMasking"] = gen.PtrOf(gen.Bool())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
@@ -415,8 +415,8 @@ func AddIndependentPropertyGeneratorsForComponentsSpec(gens map[string]gopter.Ge
 	gens["HockeyAppId"] = gen.PtrOf(gen.AlphaString())
 	gens["ImmediatePurgeDataOn30Days"] = gen.PtrOf(gen.Bool())
 	gens["IngestionMode"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesIngestionModeApplicationInsights, ApplicationInsightsComponentPropertiesIngestionModeApplicationInsightsWithDiagnosticSettings, ApplicationInsightsComponentPropertiesIngestionModeLogAnalytics))
-	gens["Kind"] = gen.AlphaString()
-	gens["Location"] = gen.AlphaString()
+	gens["Kind"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestionDisabled, ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestionEnabled))
 	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesPublicNetworkAccessForQueryDisabled, ApplicationInsightsComponentPropertiesPublicNetworkAccessForQueryEnabled))
 	gens["RequestSource"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesRequestSourceRest))

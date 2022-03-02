@@ -277,5 +277,5 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesThroughputSe
 
 // AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesThroughputSettingsSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesThroughputSettingsSpec(gens map[string]gopter.Gen) {
-	gens["Resource"] = ThroughputSettingsResourceGenerator()
+	gens["Resource"] = gen.PtrOf(ThroughputSettingsResourceGenerator())
 }

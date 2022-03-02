@@ -77,15 +77,17 @@ func Test_Cache_Redis_CRUD(t *testing.T) {
 
 func makeRedis(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, prefix string) *cache.Redis {
 	tls12 := cache.RedisCreatePropertiesMinimumTlsVersion12
+	family := cache.SkuFamilyP
+	sku := cache.SkuNamePremium
 	return &cache.Redis{
 		ObjectMeta: tc.MakeObjectMeta(prefix),
 		Spec: cache.Redis_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			Sku: cache.Sku{
-				Family:   "P",
-				Name:     "Premium",
-				Capacity: 1,
+			Sku: &cache.Sku{
+				Family:   &family,
+				Name:     &sku,
+				Capacity: to.IntPtr(1),
 			},
 			EnableNonSslPort:  to.BoolPtr(false),
 			MinimumTlsVersion: &tls12,
@@ -101,13 +103,14 @@ func makeRedis(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, p
 func Redis_LinkedServer_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, redis1, redis2 *cache.Redis) {
 	// Interesting - the link needs to have the same name as the
 	// secondary server.
+	serverRole := cache.RedisLinkedServerCreatePropertiesServerRoleSecondary
 	linkedServer := cache.RedisLinkedServer{
 		ObjectMeta: tc.MakeObjectMetaWithName(redis2.ObjectMeta.Name),
 		Spec: cache.RedisLinkedServers_Spec{
 			Owner:                     testcommon.AsOwner(redis1),
 			LinkedRedisCacheLocation:  tc.AzureRegion,
 			LinkedRedisCacheReference: tc.MakeReferenceFromResource(redis2),
-			ServerRole:                cache.RedisLinkedServerCreatePropertiesServerRoleSecondary,
+			ServerRole:                &serverRole,
 		},
 	}
 
@@ -119,35 +122,39 @@ func Redis_LinkedServer_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Re
 }
 
 func Redis_PatchSchedule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Redis) {
+	monday := cache.ScheduleEntryDayOfWeekMonday
 	schedule := cache.RedisPatchSchedule{
 		ObjectMeta: tc.MakeObjectMeta("patchsched"),
 		Spec: cache.RedisPatchSchedules_Spec{
 			Owner: testcommon.AsOwner(redis),
 			ScheduleEntries: []cache.ScheduleEntry{{
-				DayOfWeek:         "Monday",
+				DayOfWeek:         &monday,
 				MaintenanceWindow: to.StringPtr("PT6H"),
-				StartHourUtc:      6,
+				StartHourUtc:      to.IntPtr(6),
 			}},
 		},
 	}
 	tc.CreateResourceAndWait(&schedule)
 	tc.Expect(schedule.Status.Id).ToNot(BeNil())
 
+	wednesday := cache.ScheduleEntryDayOfWeekWednesday
 	old := schedule.DeepCopy()
 	schedule.Spec.ScheduleEntries = append(schedule.Spec.ScheduleEntries, cache.ScheduleEntry{
-		DayOfWeek:         "Wednesday",
+		DayOfWeek:         &wednesday,
 		MaintenanceWindow: to.StringPtr("PT6H30S"),
-		StartHourUtc:      7,
+		StartHourUtc:      to.IntPtr(7),
 	})
 	tc.PatchResourceAndWait(old, &schedule)
+	statusMonday := cache.ScheduleEntryStatusDayOfWeekMonday
+	statusWednesday := cache.ScheduleEntryStatusDayOfWeekWednesday
 	tc.Expect(schedule.Status.ScheduleEntries).To(Equal([]cache.ScheduleEntry_Status{{
-		DayOfWeek:         "Monday",
+		DayOfWeek:         &statusMonday,
 		MaintenanceWindow: to.StringPtr("PT6H"),
-		StartHourUtc:      6,
+		StartHourUtc:      to.IntPtr(6),
 	}, {
-		DayOfWeek:         "Wednesday",
+		DayOfWeek:         &statusWednesday,
 		MaintenanceWindow: to.StringPtr("PT6H30S"),
-		StartHourUtc:      7,
+		StartHourUtc:      to.IntPtr(7),
 	}}))
 	// The patch schedule is always named default in Azure whatever we
 	// call it in k8s, and can't be deleted once it's created.
@@ -159,8 +166,8 @@ func Redis_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Red
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("fwrule")),
 		Spec: cache.RedisFirewallRules_Spec{
 			Owner:   testcommon.AsOwner(redis),
-			StartIP: "1.2.3.4",
-			EndIP:   "1.2.3.4",
+			StartIP: to.StringPtr("1.2.3.4"),
+			EndIP:   to.StringPtr("1.2.3.4"),
 		},
 	}
 
@@ -168,7 +175,7 @@ func Redis_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Red
 	defer tc.DeleteResourceAndWait(&rule)
 
 	old := rule.DeepCopy()
-	rule.Spec.EndIP = "1.2.3.5"
+	rule.Spec.EndIP = to.StringPtr("1.2.3.5")
 	tc.PatchResourceAndWait(old, &rule)
 	tc.Expect(rule.Status.EndIP).ToNot(BeNil())
 	tc.Expect(*rule.Status.EndIP).To(Equal("1.2.3.5"))

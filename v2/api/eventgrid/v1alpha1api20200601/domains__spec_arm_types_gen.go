@@ -7,13 +7,13 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Domains_SpecARM struct {
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: Name of the resource
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties of the Domain.
-	Properties DomainPropertiesARM `json:"properties"`
+	Properties *DomainPropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -67,7 +67,7 @@ type InboundIpRuleARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonInputSchemaMapping
 type JsonInputSchemaMappingARM struct {
-	InputSchemaMappingType JsonInputSchemaMappingInputSchemaMappingType `json:"inputSchemaMappingType"`
+	InputSchemaMappingType *JsonInputSchemaMappingInputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
 
 	//Properties: This can be used to map properties of a source schema (or default values, for certain supported properties)
 	//to properties of the EventGridEvent schema.

@@ -34,7 +34,7 @@ type MongoDBCollectionGetProperties_Status_ResourceARM struct {
 	Etag *string `json:"_etag,omitempty"`
 
 	//Id: Name of the Cosmos DB MongoDB collection
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 
 	//Indexes: List of index keys
 	Indexes []MongoIndex_StatusARM `json:"indexes,omitempty"`

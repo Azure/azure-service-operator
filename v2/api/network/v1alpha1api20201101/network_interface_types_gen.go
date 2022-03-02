@@ -1120,7 +1120,7 @@ const NetworkInterfacesSpecAPIVersion20201101 = NetworkInterfacesSpecAPIVersion(
 type NetworkInterfaces_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//DnsSettings: The DNS settings in network interface.
 	DnsSettings *NetworkInterfaceDnsSettings `json:"dnsSettings,omitempty"`
@@ -1136,10 +1136,10 @@ type NetworkInterfaces_Spec struct {
 
 	// +kubebuilder:validation:Required
 	//IpConfigurations: A list of IPConfigurations of the network interface.
-	IpConfigurations []NetworkInterfaces_Spec_Properties_IpConfigurations `json:"ipConfigurations"`
+	IpConfigurations []NetworkInterfaces_Spec_Properties_IpConfigurations `json:"ipConfigurations,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
 	NetworkSecurityGroup *SubResource `json:"networkSecurityGroup,omitempty"`
@@ -1148,7 +1148,7 @@ type NetworkInterfaces_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -1174,12 +1174,22 @@ func (interfaces *NetworkInterfaces_Spec) ConvertToARM(resolved genruntime.Conve
 	}
 
 	// Set property ‘Location’:
-	result.Location = interfaces.Location
+	if interfaces.Location != nil {
+		location := *interfaces.Location
+		result.Location = &location
+	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if interfaces.DnsSettings != nil ||
+		interfaces.EnableAcceleratedNetworking != nil ||
+		interfaces.EnableIPForwarding != nil ||
+		interfaces.IpConfigurations != nil ||
+		interfaces.NetworkSecurityGroup != nil {
+		result.Properties = &NetworkInterfaces_Spec_PropertiesARM{}
+	}
 	if interfaces.DnsSettings != nil {
 		dnsSettingsARM, err := (*interfaces.DnsSettings).ConvertToARM(resolved)
 		if err != nil {
@@ -1239,28 +1249,34 @@ func (interfaces *NetworkInterfaces_Spec) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property ‘DnsSettings’:
 	// copying flattened property:
-	if typedInput.Properties.DnsSettings != nil {
-		var dnsSettings1 NetworkInterfaceDnsSettings
-		err := dnsSettings1.PopulateFromARM(owner, *typedInput.Properties.DnsSettings)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DnsSettings != nil {
+			var dnsSettings1 NetworkInterfaceDnsSettings
+			err := dnsSettings1.PopulateFromARM(owner, *typedInput.Properties.DnsSettings)
+			if err != nil {
+				return err
+			}
+			dnsSettings := dnsSettings1
+			interfaces.DnsSettings = &dnsSettings
 		}
-		dnsSettings := dnsSettings1
-		interfaces.DnsSettings = &dnsSettings
 	}
 
 	// Set property ‘EnableAcceleratedNetworking’:
 	// copying flattened property:
-	if typedInput.Properties.EnableAcceleratedNetworking != nil {
-		enableAcceleratedNetworking := *typedInput.Properties.EnableAcceleratedNetworking
-		interfaces.EnableAcceleratedNetworking = &enableAcceleratedNetworking
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableAcceleratedNetworking != nil {
+			enableAcceleratedNetworking := *typedInput.Properties.EnableAcceleratedNetworking
+			interfaces.EnableAcceleratedNetworking = &enableAcceleratedNetworking
+		}
 	}
 
 	// Set property ‘EnableIPForwarding’:
 	// copying flattened property:
-	if typedInput.Properties.EnableIPForwarding != nil {
-		enableIPForwarding := *typedInput.Properties.EnableIPForwarding
-		interfaces.EnableIPForwarding = &enableIPForwarding
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableIPForwarding != nil {
+			enableIPForwarding := *typedInput.Properties.EnableIPForwarding
+			interfaces.EnableIPForwarding = &enableIPForwarding
+		}
 	}
 
 	// Set property ‘ExtendedLocation’:
@@ -1276,32 +1292,39 @@ func (interfaces *NetworkInterfaces_Spec) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property ‘IpConfigurations’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.IpConfigurations {
-		var item1 NetworkInterfaces_Spec_Properties_IpConfigurations
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.IpConfigurations {
+			var item1 NetworkInterfaces_Spec_Properties_IpConfigurations
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			interfaces.IpConfigurations = append(interfaces.IpConfigurations, item1)
 		}
-		interfaces.IpConfigurations = append(interfaces.IpConfigurations, item1)
 	}
 
 	// Set property ‘Location’:
-	interfaces.Location = typedInput.Location
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		interfaces.Location = &location
+	}
 
 	// Set property ‘NetworkSecurityGroup’:
 	// copying flattened property:
-	if typedInput.Properties.NetworkSecurityGroup != nil {
-		var networkSecurityGroup1 SubResource
-		err := networkSecurityGroup1.PopulateFromARM(owner, *typedInput.Properties.NetworkSecurityGroup)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NetworkSecurityGroup != nil {
+			var networkSecurityGroup1 SubResource
+			err := networkSecurityGroup1.PopulateFromARM(owner, *typedInput.Properties.NetworkSecurityGroup)
+			if err != nil {
+				return err
+			}
+			networkSecurityGroup := networkSecurityGroup1
+			interfaces.NetworkSecurityGroup = &networkSecurityGroup
 		}
-		networkSecurityGroup := networkSecurityGroup1
-		interfaces.NetworkSecurityGroup = &networkSecurityGroup
 	}
 
 	// Set property ‘Owner’:
-	interfaces.Owner = genruntime.KnownResourceReference{
+	interfaces.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -1432,7 +1455,7 @@ func (interfaces *NetworkInterfaces_Spec) AssignPropertiesFromNetworkInterfacesS
 	}
 
 	// Location
-	interfaces.Location = genruntime.GetOptionalStringValue(source.Location)
+	interfaces.Location = genruntime.ClonePointerToString(source.Location)
 
 	// NetworkSecurityGroup
 	if source.NetworkSecurityGroup != nil {
@@ -1447,7 +1470,12 @@ func (interfaces *NetworkInterfaces_Spec) AssignPropertiesFromNetworkInterfacesS
 	}
 
 	// Owner
-	interfaces.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		interfaces.Owner = &owner
+	} else {
+		interfaces.Owner = nil
+	}
 
 	// Tags
 	interfaces.Tags = genruntime.CloneMapOfStringToString(source.Tags)
@@ -1523,8 +1551,7 @@ func (interfaces *NetworkInterfaces_Spec) AssignPropertiesToNetworkInterfacesSpe
 	}
 
 	// Location
-	location := interfaces.Location
-	destination.Location = &location
+	destination.Location = genruntime.ClonePointerToString(interfaces.Location)
 
 	// NetworkSecurityGroup
 	if interfaces.NetworkSecurityGroup != nil {
@@ -1542,7 +1569,12 @@ func (interfaces *NetworkInterfaces_Spec) AssignPropertiesToNetworkInterfacesSpe
 	destination.OriginalVersion = interfaces.OriginalVersion()
 
 	// Owner
-	destination.Owner = interfaces.Owner.Copy()
+	if interfaces.Owner != nil {
+		owner := interfaces.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(interfaces.Tags)
@@ -2490,7 +2522,7 @@ type NetworkInterfaces_Spec_Properties_IpConfigurations struct {
 
 	// +kubebuilder:validation:Required
 	//Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Primary: Whether this is a primary customer address on the network interface.
 	Primary *bool `json:"primary,omitempty"`
@@ -2524,7 +2556,10 @@ func (configurations *NetworkInterfaces_Spec_Properties_IpConfigurations) Conver
 	var result NetworkInterfaces_Spec_Properties_IpConfigurationsARM
 
 	// Set property ‘Name’:
-	result.Name = configurations.Name
+	if configurations.Name != nil {
+		name := *configurations.Name
+		result.Name = &name
+	}
 
 	// Set property ‘Properties’:
 	if configurations.ApplicationGatewayBackendAddressPools != nil ||
@@ -2675,7 +2710,10 @@ func (configurations *NetworkInterfaces_Spec_Properties_IpConfigurations) Popula
 	}
 
 	// Set property ‘Name’:
-	configurations.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		configurations.Name = &name
+	}
 
 	// Set property ‘Primary’:
 	// copying flattened property:
@@ -2834,7 +2872,7 @@ func (configurations *NetworkInterfaces_Spec_Properties_IpConfigurations) Assign
 	}
 
 	// Name
-	configurations.Name = genruntime.GetOptionalStringValue(source.Name)
+	configurations.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Primary
 	if source.Primary != nil {
@@ -2987,8 +3025,7 @@ func (configurations *NetworkInterfaces_Spec_Properties_IpConfigurations) Assign
 	}
 
 	// Name
-	name := configurations.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(configurations.Name)
 
 	// Primary
 	if configurations.Primary != nil {
@@ -3324,7 +3361,7 @@ func (embedded *PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded) 
 type SubResource struct {
 	// +kubebuilder:validation:Required
 	//Reference: Resource ID.
-	Reference genruntime.ResourceReference `armReference:"Id" json:"reference"`
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SubResource{}
@@ -3337,11 +3374,14 @@ func (resource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	var result SubResourceARM
 
 	// Set property ‘Id’:
-	referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(resource.Reference)
-	if err != nil {
-		return nil, err
+	if resource.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*resource.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference := referenceARMID
+		result.Id = &reference
 	}
-	result.Id = referenceARMID
 	return result, nil
 }
 
@@ -3367,7 +3407,12 @@ func (resource *SubResource) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 func (resource *SubResource) AssignPropertiesFromSubResource(source *v1alpha1api20201101storage.SubResource) error {
 
 	// Reference
-	resource.Reference = source.Reference.Copy()
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		resource.Reference = &reference
+	} else {
+		resource.Reference = nil
+	}
 
 	// No error
 	return nil
@@ -3379,7 +3424,12 @@ func (resource *SubResource) AssignPropertiesToSubResource(destination *v1alpha1
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Reference
-	destination.Reference = resource.Reference.Copy()
+	if resource.Reference != nil {
+		reference := resource.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

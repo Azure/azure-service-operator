@@ -95,7 +95,7 @@ type RegistryProperties_StatusARM struct {
 
 type Sku_StatusARM struct {
 	//Name: The SKU name of the container registry. Required for registry creation.
-	Name SkuStatusName `json:"name"`
+	Name *SkuStatusName `json:"name,omitempty"`
 
 	//Tier: The SKU tier based on the SKU name.
 	Tier *SkuStatusTier `json:"tier,omitempty"`
@@ -140,7 +140,7 @@ const (
 
 type NetworkRuleSet_StatusARM struct {
 	//DefaultAction: The default action of allow or deny when no other rules match.
-	DefaultAction NetworkRuleSetStatusDefaultAction `json:"defaultAction"`
+	DefaultAction *NetworkRuleSetStatusDefaultAction `json:"defaultAction,omitempty"`
 
 	//IpRules: The IP ACL rules.
 	IpRules []IPRule_StatusARM `json:"ipRules,omitempty"`
@@ -233,7 +233,7 @@ type IPRule_StatusARM struct {
 	Action *IPRuleStatusAction `json:"action,omitempty"`
 
 	//Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
-	Value string `json:"value"`
+	Value *string `json:"value,omitempty"`
 }
 
 type KeyVaultProperties_StatusARM struct {

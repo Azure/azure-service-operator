@@ -49,10 +49,10 @@ func Test_Authorization_RoleAssignment_OnResourceGroup_CRUD(t *testing.T) {
 	roleAssignment := &authorization.RoleAssignment{
 		ObjectMeta: tc.MakeObjectMetaWithName(roleAssignmentGUID.String()),
 		Spec: authorization.RoleAssignments_Spec{
-			Location:    &tc.AzureRegion,
+			Location:    tc.AzureRegion,
 			Owner:       tc.AsExtensionOwner(rg),
-			PrincipalId: *mi.Status.PrincipalId,
-			RoleDefinitionReference: genruntime.ResourceReference{
+			PrincipalId: mi.Status.PrincipalId,
+			RoleDefinitionReference: &genruntime.ResourceReference{
 				ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription), // This is contributor
 			},
 		},
@@ -96,14 +96,16 @@ func Test_Authorization_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 
 	// Create a storage account
 	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
+	kind := storage.StorageAccountsSpecKindBlobStorage
+	sku := storage.SkuNameStandardLRS
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccounts_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			Kind:     storage.StorageAccountsSpecKindBlobStorage,
-			Sku: storage.Sku{
-				Name: storage.SkuNameStandardLRS,
+			Kind:     &kind,
+			Sku: &storage.Sku{
+				Name: &sku,
 			},
 			AccessTier: &accessTier,
 		},
@@ -118,10 +120,10 @@ func Test_Authorization_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 	roleAssignment := &authorization.RoleAssignment{
 		ObjectMeta: tc.MakeObjectMetaWithName(roleAssignmentGUID.String()),
 		Spec: authorization.RoleAssignments_Spec{
-			Location:    &tc.AzureRegion,
+			Location:    tc.AzureRegion,
 			Owner:       tc.AsExtensionOwner(acct),
-			PrincipalId: *mi.Status.PrincipalId,
-			RoleDefinitionReference: genruntime.ResourceReference{
+			PrincipalId: mi.Status.PrincipalId,
+			RoleDefinitionReference: &genruntime.ResourceReference{
 				ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription), // This is contributor
 			},
 		},

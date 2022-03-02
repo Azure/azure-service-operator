@@ -300,7 +300,7 @@ func AutoscaleSettingsResourceStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAutoscaleSettingsResourceStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAutoscaleSettingsResourceStatusARM(gens map[string]gopter.Gen) {
-	gens["MaxThroughput"] = gen.Int()
+	gens["MaxThroughput"] = gen.PtrOf(gen.Int())
 	gens["TargetMaxThroughput"] = gen.PtrOf(gen.Int())
 }
 

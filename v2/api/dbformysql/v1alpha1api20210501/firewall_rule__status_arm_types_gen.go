@@ -23,8 +23,8 @@ type FirewallRule_StatusARM struct {
 
 type FirewallRuleProperties_StatusARM struct {
 	//EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.
-	EndIpAddress string `json:"endIpAddress"`
+	EndIpAddress *string `json:"endIpAddress,omitempty"`
 
 	//StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.
-	StartIpAddress string `json:"startIpAddress"`
+	StartIpAddress *string `json:"startIpAddress,omitempty"`
 }

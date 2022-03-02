@@ -311,6 +311,7 @@ type Snapshot_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.
 	CreationData *CreationData_Status `json:"creationData,omitempty"`
 
@@ -450,14 +451,15 @@ func (snapshot *Snapshot_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// Set property ‘CreationData’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		var temp CreationData_Status
-		var temp1 CreationData_Status
-		err := temp1.PopulateFromARM(owner, typedInput.Properties.CreationData)
-		if err != nil {
-			return err
+		if typedInput.Properties.CreationData != nil {
+			var creationData1 CreationData_Status
+			err := creationData1.PopulateFromARM(owner, *typedInput.Properties.CreationData)
+			if err != nil {
+				return err
+			}
+			creationData := creationData1
+			snapshot.CreationData = &creationData
 		}
-		temp = temp1
-		snapshot.CreationData = &temp
 	}
 
 	// Set property ‘DiskAccessId’:
@@ -998,11 +1000,11 @@ const SnapshotsSpecAPIVersion20200930 = SnapshotsSpecAPIVersion("2020-09-30")
 type Snapshots_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//CreationData: Data used when creating a disk.
-	CreationData CreationData `json:"creationData"`
+	CreationData *CreationData `json:"creationData,omitempty"`
 
 	//DiskAccessReference: ARM id of the DiskAccess resource for using private endpoints on disks.
 	DiskAccessReference *genruntime.ResourceReference `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
@@ -1032,7 +1034,7 @@ type Snapshots_Spec struct {
 	Incremental *bool `json:"incremental,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location            string                                 `json:"location,omitempty"`
+	Location            *string                                `json:"location,omitempty"`
 	NetworkAccessPolicy *SnapshotPropertiesNetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
 
 	//OsType: The Operating System type.
@@ -1042,7 +1044,7 @@ type Snapshots_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	//PurchasePlan: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
 	PurchasePlan *PurchasePlan `json:"purchasePlan,omitempty"`
@@ -1075,17 +1077,36 @@ func (snapshots *Snapshots_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 
 	// Set property ‘Location’:
-	result.Location = snapshots.Location
+	if snapshots.Location != nil {
+		location := *snapshots.Location
+		result.Location = &location
+	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	creationDataARM, err := snapshots.CreationData.ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if snapshots.CreationData != nil ||
+		snapshots.DiskAccessReference != nil ||
+		snapshots.DiskSizeGB != nil ||
+		snapshots.DiskState != nil ||
+		snapshots.Encryption != nil ||
+		snapshots.EncryptionSettingsCollection != nil ||
+		snapshots.HyperVGeneration != nil ||
+		snapshots.Incremental != nil ||
+		snapshots.NetworkAccessPolicy != nil ||
+		snapshots.OsType != nil ||
+		snapshots.PurchasePlan != nil {
+		result.Properties = &SnapshotPropertiesARM{}
 	}
-	result.Properties.CreationData = creationDataARM.(CreationDataARM)
+	if snapshots.CreationData != nil {
+		creationDataARM, err := (*snapshots.CreationData).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		creationData := creationDataARM.(CreationDataARM)
+		result.Properties.CreationData = &creationData
+	}
 	if snapshots.DiskAccessReference != nil {
 		diskAccessIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*snapshots.DiskAccessReference)
 		if err != nil {
@@ -1180,57 +1201,70 @@ func (snapshots *Snapshots_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property ‘CreationData’:
 	// copying flattened property:
-	var creationData CreationData
-	err := creationData.PopulateFromARM(owner, typedInput.Properties.CreationData)
-	if err != nil {
-		return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.CreationData != nil {
+			var creationData1 CreationData
+			err := creationData1.PopulateFromARM(owner, *typedInput.Properties.CreationData)
+			if err != nil {
+				return err
+			}
+			creationData := creationData1
+			snapshots.CreationData = &creationData
+		}
 	}
-	snapshots.CreationData = creationData
 
 	// no assignment for property ‘DiskAccessReference’
 
 	// Set property ‘DiskSizeGB’:
 	// copying flattened property:
-	if typedInput.Properties.DiskSizeGB != nil {
-		diskSizeGB := *typedInput.Properties.DiskSizeGB
-		snapshots.DiskSizeGB = &diskSizeGB
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DiskSizeGB != nil {
+			diskSizeGB := *typedInput.Properties.DiskSizeGB
+			snapshots.DiskSizeGB = &diskSizeGB
+		}
 	}
 
 	// Set property ‘DiskState’:
 	// copying flattened property:
-	if typedInput.Properties.DiskState != nil {
-		diskState := *typedInput.Properties.DiskState
-		snapshots.DiskState = &diskState
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DiskState != nil {
+			diskState := *typedInput.Properties.DiskState
+			snapshots.DiskState = &diskState
+		}
 	}
 
 	// Set property ‘Encryption’:
 	// copying flattened property:
-	if typedInput.Properties.Encryption != nil {
-		var encryption1 Encryption
-		err = encryption1.PopulateFromARM(owner, *typedInput.Properties.Encryption)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Encryption != nil {
+			var encryption1 Encryption
+			err := encryption1.PopulateFromARM(owner, *typedInput.Properties.Encryption)
+			if err != nil {
+				return err
+			}
+			encryption := encryption1
+			snapshots.Encryption = &encryption
 		}
-		encryption := encryption1
-		snapshots.Encryption = &encryption
 	}
 
 	// Set property ‘EncryptionSettingsCollection’:
 	// copying flattened property:
-	if typedInput.Properties.EncryptionSettingsCollection != nil {
-		var encryptionSettingsCollection1 EncryptionSettingsCollection
-		err = encryptionSettingsCollection1.PopulateFromARM(owner, *typedInput.Properties.EncryptionSettingsCollection)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EncryptionSettingsCollection != nil {
+			var encryptionSettingsCollection1 EncryptionSettingsCollection
+			err := encryptionSettingsCollection1.PopulateFromARM(owner, *typedInput.Properties.EncryptionSettingsCollection)
+			if err != nil {
+				return err
+			}
+			encryptionSettingsCollection := encryptionSettingsCollection1
+			snapshots.EncryptionSettingsCollection = &encryptionSettingsCollection
 		}
-		encryptionSettingsCollection := encryptionSettingsCollection1
-		snapshots.EncryptionSettingsCollection = &encryptionSettingsCollection
 	}
 
 	// Set property ‘ExtendedLocation’:
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation
-		err = extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
+		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
 		if err != nil {
 			return err
 		}
@@ -1240,56 +1274,69 @@ func (snapshots *Snapshots_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property ‘HyperVGeneration’:
 	// copying flattened property:
-	if typedInput.Properties.HyperVGeneration != nil {
-		hyperVGeneration := *typedInput.Properties.HyperVGeneration
-		snapshots.HyperVGeneration = &hyperVGeneration
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HyperVGeneration != nil {
+			hyperVGeneration := *typedInput.Properties.HyperVGeneration
+			snapshots.HyperVGeneration = &hyperVGeneration
+		}
 	}
 
 	// Set property ‘Incremental’:
 	// copying flattened property:
-	if typedInput.Properties.Incremental != nil {
-		incremental := *typedInput.Properties.Incremental
-		snapshots.Incremental = &incremental
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Incremental != nil {
+			incremental := *typedInput.Properties.Incremental
+			snapshots.Incremental = &incremental
+		}
 	}
 
 	// Set property ‘Location’:
-	snapshots.Location = typedInput.Location
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		snapshots.Location = &location
+	}
 
 	// Set property ‘NetworkAccessPolicy’:
 	// copying flattened property:
-	if typedInput.Properties.NetworkAccessPolicy != nil {
-		networkAccessPolicy := *typedInput.Properties.NetworkAccessPolicy
-		snapshots.NetworkAccessPolicy = &networkAccessPolicy
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NetworkAccessPolicy != nil {
+			networkAccessPolicy := *typedInput.Properties.NetworkAccessPolicy
+			snapshots.NetworkAccessPolicy = &networkAccessPolicy
+		}
 	}
 
 	// Set property ‘OsType’:
 	// copying flattened property:
-	if typedInput.Properties.OsType != nil {
-		osType := *typedInput.Properties.OsType
-		snapshots.OsType = &osType
+	if typedInput.Properties != nil {
+		if typedInput.Properties.OsType != nil {
+			osType := *typedInput.Properties.OsType
+			snapshots.OsType = &osType
+		}
 	}
 
 	// Set property ‘Owner’:
-	snapshots.Owner = genruntime.KnownResourceReference{
+	snapshots.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘PurchasePlan’:
 	// copying flattened property:
-	if typedInput.Properties.PurchasePlan != nil {
-		var purchasePlan1 PurchasePlan
-		err = purchasePlan1.PopulateFromARM(owner, *typedInput.Properties.PurchasePlan)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PurchasePlan != nil {
+			var purchasePlan1 PurchasePlan
+			err := purchasePlan1.PopulateFromARM(owner, *typedInput.Properties.PurchasePlan)
+			if err != nil {
+				return err
+			}
+			purchasePlan := purchasePlan1
+			snapshots.PurchasePlan = &purchasePlan
 		}
-		purchasePlan := purchasePlan1
-		snapshots.PurchasePlan = &purchasePlan
 	}
 
 	// Set property ‘Sku’:
 	if typedInput.Sku != nil {
 		var sku1 SnapshotSku
-		err = sku1.PopulateFromARM(owner, *typedInput.Sku)
+		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
 		if err != nil {
 			return err
 		}
@@ -1372,9 +1419,9 @@ func (snapshots *Snapshots_Spec) AssignPropertiesFromSnapshotsSpec(source *v1alp
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromCreationData() to populate field CreationData")
 		}
-		snapshots.CreationData = creationDatum
+		snapshots.CreationData = &creationDatum
 	} else {
-		snapshots.CreationData = CreationData{}
+		snapshots.CreationData = nil
 	}
 
 	// DiskAccessReference
@@ -1449,7 +1496,7 @@ func (snapshots *Snapshots_Spec) AssignPropertiesFromSnapshotsSpec(source *v1alp
 	}
 
 	// Location
-	snapshots.Location = genruntime.GetOptionalStringValue(source.Location)
+	snapshots.Location = genruntime.ClonePointerToString(source.Location)
 
 	// NetworkAccessPolicy
 	if source.NetworkAccessPolicy != nil {
@@ -1468,7 +1515,12 @@ func (snapshots *Snapshots_Spec) AssignPropertiesFromSnapshotsSpec(source *v1alp
 	}
 
 	// Owner
-	snapshots.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		snapshots.Owner = &owner
+	} else {
+		snapshots.Owner = nil
+	}
 
 	// PurchasePlan
 	if source.PurchasePlan != nil {
@@ -1510,12 +1562,16 @@ func (snapshots *Snapshots_Spec) AssignPropertiesToSnapshotsSpec(destination *v1
 	destination.AzureName = snapshots.AzureName
 
 	// CreationData
-	var creationDatum v1alpha1api20200930storage.CreationData
-	err := snapshots.CreationData.AssignPropertiesToCreationData(&creationDatum)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToCreationData() to populate field CreationData")
+	if snapshots.CreationData != nil {
+		var creationDatum v1alpha1api20200930storage.CreationData
+		err := snapshots.CreationData.AssignPropertiesToCreationData(&creationDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToCreationData() to populate field CreationData")
+		}
+		destination.CreationData = &creationDatum
+	} else {
+		destination.CreationData = nil
 	}
-	destination.CreationData = &creationDatum
 
 	// DiskAccessReference
 	if snapshots.DiskAccessReference != nil {
@@ -1539,7 +1595,7 @@ func (snapshots *Snapshots_Spec) AssignPropertiesToSnapshotsSpec(destination *v1
 	// Encryption
 	if snapshots.Encryption != nil {
 		var encryption v1alpha1api20200930storage.Encryption
-		err = snapshots.Encryption.AssignPropertiesToEncryption(&encryption)
+		err := snapshots.Encryption.AssignPropertiesToEncryption(&encryption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToEncryption() to populate field Encryption")
 		}
@@ -1551,7 +1607,7 @@ func (snapshots *Snapshots_Spec) AssignPropertiesToSnapshotsSpec(destination *v1
 	// EncryptionSettingsCollection
 	if snapshots.EncryptionSettingsCollection != nil {
 		var encryptionSettingsCollection v1alpha1api20200930storage.EncryptionSettingsCollection
-		err = snapshots.EncryptionSettingsCollection.AssignPropertiesToEncryptionSettingsCollection(&encryptionSettingsCollection)
+		err := snapshots.EncryptionSettingsCollection.AssignPropertiesToEncryptionSettingsCollection(&encryptionSettingsCollection)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToEncryptionSettingsCollection() to populate field EncryptionSettingsCollection")
 		}
@@ -1563,7 +1619,7 @@ func (snapshots *Snapshots_Spec) AssignPropertiesToSnapshotsSpec(destination *v1
 	// ExtendedLocation
 	if snapshots.ExtendedLocation != nil {
 		var extendedLocation v1alpha1api20200930storage.ExtendedLocation
-		err = snapshots.ExtendedLocation.AssignPropertiesToExtendedLocation(&extendedLocation)
+		err := snapshots.ExtendedLocation.AssignPropertiesToExtendedLocation(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation() to populate field ExtendedLocation")
 		}
@@ -1589,8 +1645,7 @@ func (snapshots *Snapshots_Spec) AssignPropertiesToSnapshotsSpec(destination *v1
 	}
 
 	// Location
-	location := snapshots.Location
-	destination.Location = &location
+	destination.Location = genruntime.ClonePointerToString(snapshots.Location)
 
 	// NetworkAccessPolicy
 	if snapshots.NetworkAccessPolicy != nil {
@@ -1612,12 +1667,17 @@ func (snapshots *Snapshots_Spec) AssignPropertiesToSnapshotsSpec(destination *v1
 	}
 
 	// Owner
-	destination.Owner = snapshots.Owner.Copy()
+	if snapshots.Owner != nil {
+		owner := snapshots.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// PurchasePlan
 	if snapshots.PurchasePlan != nil {
 		var purchasePlan v1alpha1api20200930storage.PurchasePlan
-		err = snapshots.PurchasePlan.AssignPropertiesToPurchasePlan(&purchasePlan)
+		err := snapshots.PurchasePlan.AssignPropertiesToPurchasePlan(&purchasePlan)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToPurchasePlan() to populate field PurchasePlan")
 		}
@@ -1629,7 +1689,7 @@ func (snapshots *Snapshots_Spec) AssignPropertiesToSnapshotsSpec(destination *v1
 	// Sku
 	if snapshots.Sku != nil {
 		var sku v1alpha1api20200930storage.SnapshotSku
-		err = snapshots.Sku.AssignPropertiesToSnapshotSku(&sku)
+		err := snapshots.Sku.AssignPropertiesToSnapshotSku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSnapshotSku() to populate field Sku")
 		}

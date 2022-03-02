@@ -16,13 +16,13 @@ type ManagedClusters_SpecARM struct {
 	Identity *ManagedClusterIdentityARM `json:"identity,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the managed cluster resource.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties of the managed cluster.
-	Properties ManagedClusterPropertiesARM `json:"properties"`
+	Properties *ManagedClusterPropertiesARM `json:"properties,omitempty"`
 
 	//Sku: The SKU of a Managed Cluster.
 	Sku *ManagedClusterSKUARM `json:"sku,omitempty"`
@@ -166,10 +166,10 @@ type Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadd
 //Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceLinuxProfile
 type ContainerServiceLinuxProfileARM struct {
 	//AdminUsername: The administrator username to use for Linux VMs.
-	AdminUsername string `json:"adminUsername"`
+	AdminUsername *string `json:"adminUsername,omitempty"`
 
 	//Ssh: SSH configuration for Linux-based VMs running on Azure.
-	Ssh ContainerServiceSshConfigurationARM `json:"ssh"`
+	Ssh *ContainerServiceSshConfigurationARM `json:"ssh,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceNetworkProfile
@@ -267,7 +267,7 @@ type ManagedClusterAddonProfileARM struct {
 	Config map[string]string `json:"config,omitempty"`
 
 	//Enabled: Whether the add-on is enabled or not.
-	Enabled bool `json:"enabled"`
+	Enabled *bool `json:"enabled,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAgentPoolProfile
@@ -325,7 +325,7 @@ type ManagedClusterAgentPoolProfileARM struct {
 	Mode     *ManagedClusterAgentPoolProfileMode `json:"mode,omitempty"`
 
 	//Name: Windows agent pool names must be 6 characters or less.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//NodeLabels: The node labels to be persisted across all nodes in agent pool.
 	NodeLabels           map[string]string `json:"nodeLabels,omitempty"`
@@ -507,7 +507,7 @@ const (
 //Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterServicePrincipalProfile
 type ManagedClusterServicePrincipalProfileARM struct {
 	//ClientId: The ID for the service principal.
-	ClientId string `json:"clientId"`
+	ClientId *string `json:"clientId,omitempty"`
 
 	//Secret: The secret password associated with the service principal in plain text.
 	Secret *string `json:"secret,omitempty"`
@@ -534,7 +534,7 @@ type ManagedClusterWindowsProfileARM struct {
 	//"sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5".
 	//Minimum-length: 1 character
 	//Max-length: 20 characters
-	AdminUsername string `json:"adminUsername"`
+	AdminUsername *string `json:"adminUsername,omitempty"`
 
 	//EnableCSIProxy: For more details on CSI proxy, see the [CSI proxy GitHub
 	//repo](https://github.com/kubernetes-csi/csi-proxy).
@@ -564,7 +564,7 @@ type PrivateLinkResourceARM struct {
 //Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceSshConfiguration
 type ContainerServiceSshConfigurationARM struct {
 	//PublicKeys: The list of SSH public keys used to authenticate with Linux-based VMs. A maximum of 1 key may be specified.
-	PublicKeys []ContainerServiceSshPublicKeyARM `json:"publicKeys"`
+	PublicKeys []ContainerServiceSshPublicKeyARM `json:"publicKeys,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterLoadBalancerProfile
@@ -596,32 +596,32 @@ type ManagedClusterPodIdentityARM struct {
 	BindingSelector *string `json:"bindingSelector,omitempty"`
 
 	//Identity: Details about a user assigned identity.
-	Identity UserAssignedIdentityARM `json:"identity"`
+	Identity *UserAssignedIdentityARM `json:"identity,omitempty"`
 
 	//Name: The name of the pod identity.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Namespace: The namespace of the pod identity.
-	Namespace string `json:"namespace"`
+	Namespace *string `json:"namespace,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPodIdentityException
 type ManagedClusterPodIdentityExceptionARM struct {
 	//Name: The name of the pod identity exception.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Namespace: The namespace of the pod identity exception.
-	Namespace string `json:"namespace"`
+	Namespace *string `json:"namespace,omitempty"`
 
 	//PodLabels: The pod labels to match.
-	PodLabels map[string]string `json:"podLabels"`
+	PodLabels map[string]string `json:"podLabels,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceSshPublicKey
 type ContainerServiceSshPublicKeyARM struct {
 	//KeyData: Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or
 	//without headers.
-	KeyData string `json:"keyData"`
+	KeyData *string `json:"keyData,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterLoadBalancerProfileManagedOutboundIPs

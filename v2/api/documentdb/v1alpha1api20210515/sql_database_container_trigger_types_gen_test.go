@@ -279,7 +279,7 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTr
 // AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTriggersSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTriggersSpec(gens map[string]gopter.Gen) {
 	gens["Options"] = gen.PtrOf(CreateUpdateOptionsGenerator())
-	gens["Resource"] = SqlTriggerResourceGenerator()
+	gens["Resource"] = gen.PtrOf(SqlTriggerResourceGenerator())
 }
 
 func Test_SqlTriggerGetResults_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -503,7 +503,7 @@ func SqlTriggerGetPropertiesStatusResourceGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSqlTriggerGetPropertiesStatusResource(gens map[string]gopter.Gen) {
 	gens["Body"] = gen.PtrOf(gen.AlphaString())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Rid"] = gen.PtrOf(gen.AlphaString())
 	gens["TriggerOperation"] = gen.PtrOf(gen.OneConstOf(
 		SqlTriggerGetPropertiesStatusResourceTriggerOperationAll,
@@ -614,7 +614,7 @@ func SqlTriggerResourceGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSqlTriggerResource is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSqlTriggerResource(gens map[string]gopter.Gen) {
 	gens["Body"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["TriggerOperation"] = gen.PtrOf(gen.OneConstOf(
 		SqlTriggerResourceTriggerOperationAll,
 		SqlTriggerResourceTriggerOperationCreate,

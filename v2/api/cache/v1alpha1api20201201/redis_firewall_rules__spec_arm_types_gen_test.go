@@ -90,7 +90,7 @@ func AddIndependentPropertyGeneratorsForRedisFirewallRulesSpecARM(gens map[strin
 
 // AddRelatedPropertyGeneratorsForRedisFirewallRulesSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisFirewallRulesSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = RedisFirewallRulePropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(RedisFirewallRulePropertiesARMGenerator())
 }
 
 func Test_RedisFirewallRulePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -150,6 +150,6 @@ func RedisFirewallRulePropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRedisFirewallRulePropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedisFirewallRulePropertiesARM(gens map[string]gopter.Gen) {
-	gens["EndIP"] = gen.AlphaString()
-	gens["StartIP"] = gen.AlphaString()
+	gens["EndIP"] = gen.PtrOf(gen.AlphaString())
+	gens["StartIP"] = gen.PtrOf(gen.AlphaString())
 }

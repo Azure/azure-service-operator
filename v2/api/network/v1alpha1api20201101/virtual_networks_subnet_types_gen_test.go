@@ -412,7 +412,7 @@ func VirtualNetworksSubnetsSpecGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualNetworksSubnetsSpec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworksSubnetsSpec(gens map[string]gopter.Gen) {
-	gens["AddressPrefix"] = gen.AlphaString()
+	gens["AddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["AddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
@@ -1861,7 +1861,7 @@ func VirtualNetworksSubnetsSpecPropertiesDelegationsGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualNetworksSubnetsSpecPropertiesDelegations is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworksSubnetsSpecPropertiesDelegations(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ServiceName"] = gen.PtrOf(gen.AlphaString())
 }
 

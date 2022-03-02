@@ -162,16 +162,16 @@ func (schedule *RedisPatchSchedule_Status) ConvertStatusTo(destination genruntim
 //Storage version of v1alpha1api20201201.RedisPatchSchedules_Spec
 type RedisPatchSchedules_Spec struct {
 	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion"`
+	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a cache.azure.com/Redis resource
-	Owner           genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner" kind:"Redis"`
-	PropertyBag     genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	ScheduleEntries []ScheduleEntry                   `json:"scheduleEntries,omitempty"`
-	Tags            map[string]string                 `json:"tags,omitempty"`
+	Owner           *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"Redis"`
+	PropertyBag     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ScheduleEntries []ScheduleEntry                    `json:"scheduleEntries,omitempty"`
+	Tags            map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &RedisPatchSchedules_Spec{}

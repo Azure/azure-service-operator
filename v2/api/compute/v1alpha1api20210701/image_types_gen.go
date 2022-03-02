@@ -665,7 +665,7 @@ const ImagesSpecAPIVersion20210701 = ImagesSpecAPIVersion("2021-07-01")
 type Images_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//ExtendedLocation: The complex type of the extended location.
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
@@ -677,14 +677,14 @@ type Images_Spec struct {
 	HyperVGeneration *ImagePropertiesHyperVGeneration `json:"hyperVGeneration,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner                genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	SourceVirtualMachine *SubResource                      `json:"sourceVirtualMachine,omitempty"`
+	Owner                *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	SourceVirtualMachine *SubResource                       `json:"sourceVirtualMachine,omitempty"`
 
 	//StorageProfile: Describes a storage profile.
 	StorageProfile *ImageStorageProfile `json:"storageProfile,omitempty"`
@@ -713,12 +713,20 @@ func (images *Images_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 
 	// Set property ‘Location’:
-	result.Location = images.Location
+	if images.Location != nil {
+		location := *images.Location
+		result.Location = &location
+	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if images.HyperVGeneration != nil ||
+		images.SourceVirtualMachine != nil ||
+		images.StorageProfile != nil {
+		result.Properties = &ImagePropertiesARM{}
+	}
 	if images.HyperVGeneration != nil {
 		hyperVGeneration := *images.HyperVGeneration
 		result.Properties.HyperVGeneration = &hyperVGeneration
@@ -778,41 +786,50 @@ func (images *Images_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property ‘HyperVGeneration’:
 	// copying flattened property:
-	if typedInput.Properties.HyperVGeneration != nil {
-		hyperVGeneration := *typedInput.Properties.HyperVGeneration
-		images.HyperVGeneration = &hyperVGeneration
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HyperVGeneration != nil {
+			hyperVGeneration := *typedInput.Properties.HyperVGeneration
+			images.HyperVGeneration = &hyperVGeneration
+		}
 	}
 
 	// Set property ‘Location’:
-	images.Location = typedInput.Location
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		images.Location = &location
+	}
 
 	// Set property ‘Owner’:
-	images.Owner = genruntime.KnownResourceReference{
+	images.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘SourceVirtualMachine’:
 	// copying flattened property:
-	if typedInput.Properties.SourceVirtualMachine != nil {
-		var sourceVirtualMachine1 SubResource
-		err := sourceVirtualMachine1.PopulateFromARM(owner, *typedInput.Properties.SourceVirtualMachine)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.SourceVirtualMachine != nil {
+			var sourceVirtualMachine1 SubResource
+			err := sourceVirtualMachine1.PopulateFromARM(owner, *typedInput.Properties.SourceVirtualMachine)
+			if err != nil {
+				return err
+			}
+			sourceVirtualMachine := sourceVirtualMachine1
+			images.SourceVirtualMachine = &sourceVirtualMachine
 		}
-		sourceVirtualMachine := sourceVirtualMachine1
-		images.SourceVirtualMachine = &sourceVirtualMachine
 	}
 
 	// Set property ‘StorageProfile’:
 	// copying flattened property:
-	if typedInput.Properties.StorageProfile != nil {
-		var storageProfile1 ImageStorageProfile
-		err := storageProfile1.PopulateFromARM(owner, *typedInput.Properties.StorageProfile)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.StorageProfile != nil {
+			var storageProfile1 ImageStorageProfile
+			err := storageProfile1.PopulateFromARM(owner, *typedInput.Properties.StorageProfile)
+			if err != nil {
+				return err
+			}
+			storageProfile := storageProfile1
+			images.StorageProfile = &storageProfile
 		}
-		storageProfile := storageProfile1
-		images.StorageProfile = &storageProfile
 	}
 
 	// Set property ‘Tags’:
@@ -904,10 +921,15 @@ func (images *Images_Spec) AssignPropertiesFromImagesSpec(source *v1alpha1api202
 	}
 
 	// Location
-	images.Location = genruntime.GetOptionalStringValue(source.Location)
+	images.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	images.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		images.Owner = &owner
+	} else {
+		images.Owner = nil
+	}
 
 	// SourceVirtualMachine
 	if source.SourceVirtualMachine != nil {
@@ -969,14 +991,18 @@ func (images *Images_Spec) AssignPropertiesToImagesSpec(destination *v1alpha1api
 	}
 
 	// Location
-	location := images.Location
-	destination.Location = &location
+	destination.Location = genruntime.ClonePointerToString(images.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = images.OriginalVersion()
 
 	// Owner
-	destination.Owner = images.Owner.Copy()
+	if images.Owner != nil {
+		owner := images.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// SourceVirtualMachine
 	if images.SourceVirtualMachine != nil {
@@ -1749,7 +1775,7 @@ type ImageDataDisk struct {
 	// +kubebuilder:validation:Required
 	//Lun: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and
 	//therefore must be unique for each data disk attached to a VM.
-	Lun         int          `json:"lun"`
+	Lun         *int         `json:"lun,omitempty"`
 	ManagedDisk *SubResource `json:"managedDisk,omitempty"`
 	Snapshot    *SubResource `json:"snapshot,omitempty"`
 
@@ -1796,7 +1822,10 @@ func (disk *ImageDataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 
 	// Set property ‘Lun’:
-	result.Lun = disk.Lun
+	if disk.Lun != nil {
+		lun := *disk.Lun
+		result.Lun = &lun
+	}
 
 	// Set property ‘ManagedDisk’:
 	if disk.ManagedDisk != nil {
@@ -1868,7 +1897,10 @@ func (disk *ImageDataDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	}
 
 	// Set property ‘Lun’:
-	disk.Lun = typedInput.Lun
+	if typedInput.Lun != nil {
+		lun := *typedInput.Lun
+		disk.Lun = &lun
+	}
 
 	// Set property ‘ManagedDisk’:
 	if typedInput.ManagedDisk != nil {
@@ -1932,7 +1964,7 @@ func (disk *ImageDataDisk) AssignPropertiesFromImageDataDisk(source *v1alpha1api
 	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
 
 	// Lun
-	disk.Lun = genruntime.GetOptionalIntValue(source.Lun)
+	disk.Lun = genruntime.ClonePointerToInt(source.Lun)
 
 	// ManagedDisk
 	if source.ManagedDisk != nil {
@@ -2002,8 +2034,7 @@ func (disk *ImageDataDisk) AssignPropertiesToImageDataDisk(destination *v1alpha1
 	destination.DiskSizeGB = genruntime.ClonePointerToInt(disk.DiskSizeGB)
 
 	// Lun
-	lun := disk.Lun
-	destination.Lun = &lun
+	destination.Lun = genruntime.ClonePointerToInt(disk.Lun)
 
 	// ManagedDisk
 	if disk.ManagedDisk != nil {
@@ -2071,7 +2102,7 @@ type ImageDataDisk_Status struct {
 	// +kubebuilder:validation:Required
 	//Lun: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and
 	//therefore must be unique for each data disk attached to a VM.
-	Lun int `json:"lun"`
+	Lun *int `json:"lun,omitempty"`
 
 	//ManagedDisk: The managedDisk.
 	ManagedDisk *SubResource_Status `json:"managedDisk,omitempty"`
@@ -2128,7 +2159,10 @@ func (disk *ImageDataDisk_Status) PopulateFromARM(owner genruntime.ArbitraryOwne
 	}
 
 	// Set property ‘Lun’:
-	disk.Lun = typedInput.Lun
+	if typedInput.Lun != nil {
+		lun := *typedInput.Lun
+		disk.Lun = &lun
+	}
 
 	// Set property ‘ManagedDisk’:
 	if typedInput.ManagedDisk != nil {
@@ -2192,7 +2226,7 @@ func (disk *ImageDataDisk_Status) AssignPropertiesFromImageDataDiskStatus(source
 	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
 
 	// Lun
-	disk.Lun = genruntime.GetOptionalIntValue(source.Lun)
+	disk.Lun = genruntime.ClonePointerToInt(source.Lun)
 
 	// ManagedDisk
 	if source.ManagedDisk != nil {
@@ -2262,8 +2296,7 @@ func (disk *ImageDataDisk_Status) AssignPropertiesToImageDataDiskStatus(destinat
 	destination.DiskSizeGB = genruntime.ClonePointerToInt(disk.DiskSizeGB)
 
 	// Lun
-	lun := disk.Lun
-	destination.Lun = &lun
+	destination.Lun = genruntime.ClonePointerToInt(disk.Lun)
 
 	// ManagedDisk
 	if disk.ManagedDisk != nil {
@@ -2335,7 +2368,7 @@ type ImageOSDisk struct {
 
 	// +kubebuilder:validation:Required
 	//OsState: The OS State.
-	OsState ImageOSDiskOsState `json:"osState"`
+	OsState *ImageOSDiskOsState `json:"osState,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//OsType: This property allows you to specify the type of the OS that is included in the disk if creating a VM from a
@@ -2343,8 +2376,8 @@ type ImageOSDisk struct {
 	//Possible values are:
 	//Windows
 	//Linux.
-	OsType   ImageOSDiskOsType `json:"osType"`
-	Snapshot *SubResource      `json:"snapshot,omitempty"`
+	OsType   *ImageOSDiskOsType `json:"osType,omitempty"`
+	Snapshot *SubResource       `json:"snapshot,omitempty"`
 
 	//StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
 	//data disks, it cannot be used with OS Disk.
@@ -2399,10 +2432,16 @@ func (disk *ImageOSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 
 	// Set property ‘OsState’:
-	result.OsState = disk.OsState
+	if disk.OsState != nil {
+		osState := *disk.OsState
+		result.OsState = &osState
+	}
 
 	// Set property ‘OsType’:
-	result.OsType = disk.OsType
+	if disk.OsType != nil {
+		osType := *disk.OsType
+		result.OsType = &osType
+	}
 
 	// Set property ‘Snapshot’:
 	if disk.Snapshot != nil {
@@ -2475,10 +2514,16 @@ func (disk *ImageOSDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	}
 
 	// Set property ‘OsState’:
-	disk.OsState = typedInput.OsState
+	if typedInput.OsState != nil {
+		osState := *typedInput.OsState
+		disk.OsState = &osState
+	}
 
 	// Set property ‘OsType’:
-	disk.OsType = typedInput.OsType
+	if typedInput.OsType != nil {
+		osType := *typedInput.OsType
+		disk.OsType = &osType
+	}
 
 	// Set property ‘Snapshot’:
 	if typedInput.Snapshot != nil {
@@ -2544,16 +2589,18 @@ func (disk *ImageOSDisk) AssignPropertiesFromImageOSDisk(source *v1alpha1api2021
 
 	// OsState
 	if source.OsState != nil {
-		disk.OsState = ImageOSDiskOsState(*source.OsState)
+		osState := ImageOSDiskOsState(*source.OsState)
+		disk.OsState = &osState
 	} else {
-		disk.OsState = ""
+		disk.OsState = nil
 	}
 
 	// OsType
 	if source.OsType != nil {
-		disk.OsType = ImageOSDiskOsType(*source.OsType)
+		osType := ImageOSDiskOsType(*source.OsType)
+		disk.OsType = &osType
 	} else {
-		disk.OsType = ""
+		disk.OsType = nil
 	}
 
 	// Snapshot
@@ -2624,12 +2671,20 @@ func (disk *ImageOSDisk) AssignPropertiesToImageOSDisk(destination *v1alpha1api2
 	}
 
 	// OsState
-	osState := string(disk.OsState)
-	destination.OsState = &osState
+	if disk.OsState != nil {
+		osState := string(*disk.OsState)
+		destination.OsState = &osState
+	} else {
+		destination.OsState = nil
+	}
 
 	// OsType
-	osType := string(disk.OsType)
-	destination.OsType = &osType
+	if disk.OsType != nil {
+		osType := string(*disk.OsType)
+		destination.OsType = &osType
+	} else {
+		destination.OsType = nil
+	}
 
 	// Snapshot
 	if disk.Snapshot != nil {
@@ -2687,7 +2742,7 @@ type ImageOSDisk_Status struct {
 
 	// +kubebuilder:validation:Required
 	//OsState: The OS State.
-	OsState ImageOSDiskStatusOsState `json:"osState"`
+	OsState *ImageOSDiskStatusOsState `json:"osState,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//OsType: This property allows you to specify the type of the OS that is included in the disk if creating a VM from a
@@ -2695,7 +2750,7 @@ type ImageOSDisk_Status struct {
 	//Possible values are:
 	//Windows
 	//Linux
-	OsType ImageOSDiskStatusOsType `json:"osType"`
+	OsType *ImageOSDiskStatusOsType `json:"osType,omitempty"`
 
 	//Snapshot: The snapshot.
 	Snapshot *SubResource_Status `json:"snapshot,omitempty"`
@@ -2760,10 +2815,16 @@ func (disk *ImageOSDisk_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	}
 
 	// Set property ‘OsState’:
-	disk.OsState = typedInput.OsState
+	if typedInput.OsState != nil {
+		osState := *typedInput.OsState
+		disk.OsState = &osState
+	}
 
 	// Set property ‘OsType’:
-	disk.OsType = typedInput.OsType
+	if typedInput.OsType != nil {
+		osType := *typedInput.OsType
+		disk.OsType = &osType
+	}
 
 	// Set property ‘Snapshot’:
 	if typedInput.Snapshot != nil {
@@ -2829,16 +2890,18 @@ func (disk *ImageOSDisk_Status) AssignPropertiesFromImageOSDiskStatus(source *v1
 
 	// OsState
 	if source.OsState != nil {
-		disk.OsState = ImageOSDiskStatusOsState(*source.OsState)
+		osState := ImageOSDiskStatusOsState(*source.OsState)
+		disk.OsState = &osState
 	} else {
-		disk.OsState = ""
+		disk.OsState = nil
 	}
 
 	// OsType
 	if source.OsType != nil {
-		disk.OsType = ImageOSDiskStatusOsType(*source.OsType)
+		osType := ImageOSDiskStatusOsType(*source.OsType)
+		disk.OsType = &osType
 	} else {
-		disk.OsType = ""
+		disk.OsType = nil
 	}
 
 	// Snapshot
@@ -2909,12 +2972,20 @@ func (disk *ImageOSDisk_Status) AssignPropertiesToImageOSDiskStatus(destination 
 	}
 
 	// OsState
-	osState := string(disk.OsState)
-	destination.OsState = &osState
+	if disk.OsState != nil {
+		osState := string(*disk.OsState)
+		destination.OsState = &osState
+	} else {
+		destination.OsState = nil
+	}
 
 	// OsType
-	osType := string(disk.OsType)
-	destination.OsType = &osType
+	if disk.OsType != nil {
+		osType := string(*disk.OsType)
+		destination.OsType = &osType
+	} else {
+		destination.OsType = nil
+	}
 
 	// Snapshot
 	if disk.Snapshot != nil {

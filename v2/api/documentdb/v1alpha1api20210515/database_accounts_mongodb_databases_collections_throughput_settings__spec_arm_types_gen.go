@@ -10,10 +10,10 @@ type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM struc
 	Location *string `json:"location,omitempty"`
 
 	//Name: Name of the resource
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties to update Azure Cosmos DB resource throughput.
-	Properties ThroughputSettingsUpdatePropertiesARM `json:"properties"`
+	Properties *ThroughputSettingsUpdatePropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
 	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
@@ -44,7 +44,7 @@ func (settings DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spe
 type ThroughputSettingsUpdatePropertiesARM struct {
 	//Resource: Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not
 	//both.
-	Resource ThroughputSettingsResourceARM `json:"resource"`
+	Resource *ThroughputSettingsResourceARM `json:"resource,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputSettingsResource
@@ -63,7 +63,7 @@ type AutoscaleSettingsResourceARM struct {
 	AutoUpgradePolicy *AutoUpgradePolicyResourceARM `json:"autoUpgradePolicy,omitempty"`
 
 	//MaxThroughput: Represents maximum throughput container can scale up to.
-	MaxThroughput int `json:"maxThroughput"`
+	MaxThroughput *int `json:"maxThroughput,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoUpgradePolicyResource

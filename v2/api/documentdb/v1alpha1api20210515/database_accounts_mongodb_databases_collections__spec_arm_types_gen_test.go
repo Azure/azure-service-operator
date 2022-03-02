@@ -90,7 +90,7 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollecti
 
 // AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = MongoDBCollectionCreateUpdatePropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(MongoDBCollectionCreateUpdatePropertiesARMGenerator())
 }
 
 func Test_MongoDBCollectionCreateUpdatePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -151,7 +151,7 @@ func MongoDBCollectionCreateUpdatePropertiesARMGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForMongoDBCollectionCreateUpdatePropertiesARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForMongoDBCollectionCreateUpdatePropertiesARM(gens map[string]gopter.Gen) {
 	gens["Options"] = gen.PtrOf(CreateUpdateOptionsARMGenerator())
-	gens["Resource"] = MongoDBCollectionResourceARMGenerator()
+	gens["Resource"] = gen.PtrOf(MongoDBCollectionResourceARMGenerator())
 }
 
 func Test_CreateUpdateOptionsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -295,7 +295,7 @@ func MongoDBCollectionResourceARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForMongoDBCollectionResourceARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForMongoDBCollectionResourceARM(gens map[string]gopter.Gen) {
 	gens["AnalyticalStorageTtl"] = gen.PtrOf(gen.Int())
-	gens["Id"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["ShardKey"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 

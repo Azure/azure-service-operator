@@ -404,7 +404,7 @@ func LoadBalancersSpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForLoadBalancersSpec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLoadBalancersSpec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
@@ -620,8 +620,8 @@ func ExtendedLocationGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForExtendedLocation is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocation(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.OneConstOf(ExtendedLocationTypeEdgeZone)
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationTypeEdgeZone))
 }
 
 func Test_ExtendedLocation_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -723,8 +723,8 @@ func ExtendedLocationStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForExtendedLocationStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocationStatus(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.OneConstOf(ExtendedLocationType_StatusEdgeZone)
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_StatusEdgeZone))
 }
 
 func Test_FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1408,7 +1408,7 @@ func LoadBalancersSpecPropertiesBackendAddressPoolsGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPools is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPools(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPools is a factory method for creating gopter generators
@@ -1524,7 +1524,7 @@ func LoadBalancersSpecPropertiesFrontendIPConfigurationsGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesFrontendIPConfigurations is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesFrontendIPConfigurations(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersionIPv4, FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersionIPv6))
 	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethodDynamic, FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethodStatic))
@@ -1652,7 +1652,7 @@ func AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesInboundNatPoo
 	gens["FrontendPortRangeEnd"] = gen.PtrOf(gen.Int())
 	gens["FrontendPortRangeStart"] = gen.PtrOf(gen.Int())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(InboundNatPoolPropertiesFormatProtocolAll, InboundNatPoolPropertiesFormatProtocolTcp, InboundNatPoolPropertiesFormatProtocolUdp))
 }
 
@@ -1776,7 +1776,7 @@ func AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesLoadBalancing
 	gens["FrontendPort"] = gen.PtrOf(gen.Int())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["LoadDistribution"] = gen.PtrOf(gen.OneConstOf(LoadBalancingRulePropertiesFormatLoadDistributionDefault, LoadBalancingRulePropertiesFormatLoadDistributionSourceIP, LoadBalancingRulePropertiesFormatLoadDistributionSourceIPProtocol))
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(LoadBalancingRulePropertiesFormatProtocolAll, LoadBalancingRulePropertiesFormatProtocolTcp, LoadBalancingRulePropertiesFormatProtocolUdp))
 }
 
@@ -2008,7 +2008,7 @@ func LoadBalancersSpecPropertiesProbesGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesProbes is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesProbes(gens map[string]gopter.Gen) {
 	gens["IntervalInSeconds"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["NumberOfProbes"] = gen.PtrOf(gen.Int())
 	gens["Port"] = gen.PtrOf(gen.Int())
 	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(ProbePropertiesFormatProtocolHttp, ProbePropertiesFormatProtocolHttps, ProbePropertiesFormatProtocolTcp))

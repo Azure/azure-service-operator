@@ -320,7 +320,7 @@ type NamespacesTopics_Spec struct {
 	// +kubebuilder:validation:MinLength=1
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//DefaultMessageTimeToLive: ISO 8601 Default message timespan to live value. This is the duration after which the message
 	//expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
@@ -352,7 +352,7 @@ type NamespacesTopics_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a servicebus.azure.com/Namespace resource
-	Owner genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner" kind:"Namespace"`
+	Owner *genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner,omitempty" kind:"Namespace"`
 
 	//RequiresDuplicateDetection: Value indicating if this topic requires duplicate detection.
 	RequiresDuplicateDetection *bool `json:"requiresDuplicateDetection,omitempty"`
@@ -383,6 +383,17 @@ func (topics *NamespacesTopics_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if topics.AutoDeleteOnIdle != nil ||
+		topics.DefaultMessageTimeToLive != nil ||
+		topics.DuplicateDetectionHistoryTimeWindow != nil ||
+		topics.EnableBatchedOperations != nil ||
+		topics.EnableExpress != nil ||
+		topics.EnablePartitioning != nil ||
+		topics.MaxSizeInMegabytes != nil ||
+		topics.RequiresDuplicateDetection != nil ||
+		topics.SupportOrdering != nil {
+		result.Properties = &SBTopicPropertiesARM{}
+	}
 	if topics.AutoDeleteOnIdle != nil {
 		autoDeleteOnIdle := *topics.AutoDeleteOnIdle
 		result.Properties.AutoDeleteOnIdle = &autoDeleteOnIdle
@@ -444,9 +455,11 @@ func (topics *NamespacesTopics_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘AutoDeleteOnIdle’:
 	// copying flattened property:
-	if typedInput.Properties.AutoDeleteOnIdle != nil {
-		autoDeleteOnIdle := *typedInput.Properties.AutoDeleteOnIdle
-		topics.AutoDeleteOnIdle = &autoDeleteOnIdle
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AutoDeleteOnIdle != nil {
+			autoDeleteOnIdle := *typedInput.Properties.AutoDeleteOnIdle
+			topics.AutoDeleteOnIdle = &autoDeleteOnIdle
+		}
 	}
 
 	// Set property ‘AzureName’:
@@ -454,37 +467,47 @@ func (topics *NamespacesTopics_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘DefaultMessageTimeToLive’:
 	// copying flattened property:
-	if typedInput.Properties.DefaultMessageTimeToLive != nil {
-		defaultMessageTimeToLive := *typedInput.Properties.DefaultMessageTimeToLive
-		topics.DefaultMessageTimeToLive = &defaultMessageTimeToLive
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DefaultMessageTimeToLive != nil {
+			defaultMessageTimeToLive := *typedInput.Properties.DefaultMessageTimeToLive
+			topics.DefaultMessageTimeToLive = &defaultMessageTimeToLive
+		}
 	}
 
 	// Set property ‘DuplicateDetectionHistoryTimeWindow’:
 	// copying flattened property:
-	if typedInput.Properties.DuplicateDetectionHistoryTimeWindow != nil {
-		duplicateDetectionHistoryTimeWindow := *typedInput.Properties.DuplicateDetectionHistoryTimeWindow
-		topics.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DuplicateDetectionHistoryTimeWindow != nil {
+			duplicateDetectionHistoryTimeWindow := *typedInput.Properties.DuplicateDetectionHistoryTimeWindow
+			topics.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
+		}
 	}
 
 	// Set property ‘EnableBatchedOperations’:
 	// copying flattened property:
-	if typedInput.Properties.EnableBatchedOperations != nil {
-		enableBatchedOperations := *typedInput.Properties.EnableBatchedOperations
-		topics.EnableBatchedOperations = &enableBatchedOperations
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableBatchedOperations != nil {
+			enableBatchedOperations := *typedInput.Properties.EnableBatchedOperations
+			topics.EnableBatchedOperations = &enableBatchedOperations
+		}
 	}
 
 	// Set property ‘EnableExpress’:
 	// copying flattened property:
-	if typedInput.Properties.EnableExpress != nil {
-		enableExpress := *typedInput.Properties.EnableExpress
-		topics.EnableExpress = &enableExpress
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableExpress != nil {
+			enableExpress := *typedInput.Properties.EnableExpress
+			topics.EnableExpress = &enableExpress
+		}
 	}
 
 	// Set property ‘EnablePartitioning’:
 	// copying flattened property:
-	if typedInput.Properties.EnablePartitioning != nil {
-		enablePartitioning := *typedInput.Properties.EnablePartitioning
-		topics.EnablePartitioning = &enablePartitioning
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnablePartitioning != nil {
+			enablePartitioning := *typedInput.Properties.EnablePartitioning
+			topics.EnablePartitioning = &enablePartitioning
+		}
 	}
 
 	// Set property ‘Location’:
@@ -495,28 +518,34 @@ func (topics *NamespacesTopics_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘MaxSizeInMegabytes’:
 	// copying flattened property:
-	if typedInput.Properties.MaxSizeInMegabytes != nil {
-		maxSizeInMegabytes := *typedInput.Properties.MaxSizeInMegabytes
-		topics.MaxSizeInMegabytes = &maxSizeInMegabytes
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MaxSizeInMegabytes != nil {
+			maxSizeInMegabytes := *typedInput.Properties.MaxSizeInMegabytes
+			topics.MaxSizeInMegabytes = &maxSizeInMegabytes
+		}
 	}
 
 	// Set property ‘Owner’:
-	topics.Owner = genruntime.KnownResourceReference{
+	topics.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘RequiresDuplicateDetection’:
 	// copying flattened property:
-	if typedInput.Properties.RequiresDuplicateDetection != nil {
-		requiresDuplicateDetection := *typedInput.Properties.RequiresDuplicateDetection
-		topics.RequiresDuplicateDetection = &requiresDuplicateDetection
+	if typedInput.Properties != nil {
+		if typedInput.Properties.RequiresDuplicateDetection != nil {
+			requiresDuplicateDetection := *typedInput.Properties.RequiresDuplicateDetection
+			topics.RequiresDuplicateDetection = &requiresDuplicateDetection
+		}
 	}
 
 	// Set property ‘SupportOrdering’:
 	// copying flattened property:
-	if typedInput.Properties.SupportOrdering != nil {
-		supportOrdering := *typedInput.Properties.SupportOrdering
-		topics.SupportOrdering = &supportOrdering
+	if typedInput.Properties != nil {
+		if typedInput.Properties.SupportOrdering != nil {
+			supportOrdering := *typedInput.Properties.SupportOrdering
+			topics.SupportOrdering = &supportOrdering
+		}
 	}
 
 	// Set property ‘Tags’:
@@ -642,7 +671,12 @@ func (topics *NamespacesTopics_Spec) AssignPropertiesFromNamespacesTopicsSpec(so
 	topics.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
 
 	// Owner
-	topics.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		topics.Owner = &owner
+	} else {
+		topics.Owner = nil
+	}
 
 	// RequiresDuplicateDetection
 	if source.RequiresDuplicateDetection != nil {
@@ -733,7 +767,12 @@ func (topics *NamespacesTopics_Spec) AssignPropertiesToNamespacesTopicsSpec(dest
 	destination.OriginalVersion = topics.OriginalVersion()
 
 	// Owner
-	destination.Owner = topics.Owner.Copy()
+	if topics.Owner != nil {
+		owner := topics.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// RequiresDuplicateDetection
 	if topics.RequiresDuplicateDetection != nil {

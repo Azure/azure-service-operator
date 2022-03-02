@@ -409,7 +409,7 @@ func BatchAccountsSpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForBatchAccountsSpec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBatchAccountsSpec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["PoolAllocationMode"] = gen.PtrOf(gen.OneConstOf(BatchAccountCreatePropertiesPoolAllocationModeBatchService, BatchAccountCreatePropertiesPoolAllocationModeUserSubscription))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(BatchAccountCreatePropertiesPublicNetworkAccessDisabled, BatchAccountCreatePropertiesPublicNetworkAccessEnabled))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
@@ -618,8 +618,8 @@ func AutoStoragePropertiesStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAutoStoragePropertiesStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAutoStoragePropertiesStatus(gens map[string]gopter.Gen) {
-	gens["LastKeySync"] = gen.AlphaString()
-	gens["StorageAccountId"] = gen.AlphaString()
+	gens["LastKeySync"] = gen.PtrOf(gen.AlphaString())
+	gens["StorageAccountId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_BatchAccountIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -721,7 +721,7 @@ func BatchAccountIdentityGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBatchAccountIdentity is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBatchAccountIdentity(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.OneConstOf(BatchAccountIdentityTypeNone, BatchAccountIdentityTypeSystemAssigned, BatchAccountIdentityTypeUserAssigned)
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(BatchAccountIdentityTypeNone, BatchAccountIdentityTypeSystemAssigned, BatchAccountIdentityTypeUserAssigned))
 }
 
 func Test_BatchAccountIdentity_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -834,7 +834,7 @@ func BatchAccountIdentityStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForBatchAccountIdentityStatus(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(BatchAccountIdentityStatusTypeNone, BatchAccountIdentityStatusTypeSystemAssigned, BatchAccountIdentityStatusTypeUserAssigned)
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(BatchAccountIdentityStatusTypeNone, BatchAccountIdentityStatusTypeSystemAssigned, BatchAccountIdentityStatusTypeUserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForBatchAccountIdentityStatus is a factory method for creating gopter generators
@@ -1172,7 +1172,7 @@ func KeyVaultReferenceGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKeyVaultReference is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyVaultReference(gens map[string]gopter.Gen) {
-	gens["Url"] = gen.AlphaString()
+	gens["Url"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_KeyVaultReference_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1274,8 +1274,8 @@ func KeyVaultReferenceStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKeyVaultReferenceStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyVaultReferenceStatus(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.AlphaString()
-	gens["Url"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Url"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_PrivateEndpointConnection_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2011,9 +2011,9 @@ func PrivateLinkServiceConnectionStateStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionStateStatus(gens map[string]gopter.Gen) {
 	gens["ActionRequired"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Status"] = gen.OneConstOf(
+	gens["Status"] = gen.PtrOf(gen.OneConstOf(
 		PrivateLinkServiceConnectionStatus_StatusApproved,
 		PrivateLinkServiceConnectionStatus_StatusDisconnected,
 		PrivateLinkServiceConnectionStatus_StatusPending,
-		PrivateLinkServiceConnectionStatus_StatusRejected)
+		PrivateLinkServiceConnectionStatus_StatusRejected))
 }

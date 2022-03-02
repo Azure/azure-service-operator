@@ -16,10 +16,10 @@ type VirtualMachineScaleSets_SpecARM struct {
 	Identity *VirtualMachineScaleSetIdentityARM `json:"identity,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the VM scale set to create or update.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Plan: Specifies information about the marketplace image used to create the virtual machine. This element is only used
 	//for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic
@@ -28,7 +28,7 @@ type VirtualMachineScaleSets_SpecARM struct {
 	Plan *PlanARM `json:"plan,omitempty"`
 
 	//Properties: Describes the properties of a Virtual Machine Scale Set.
-	Properties VirtualMachineScaleSets_Spec_PropertiesARM `json:"properties"`
+	Properties *VirtualMachineScaleSets_Spec_PropertiesARM `json:"properties,omitempty"`
 
 	//Sku: Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not supported on the hardware the scale set
 	//is currently on, you need to deallocate the VMs in the scale set before you modify the SKU name.
@@ -440,7 +440,7 @@ type VirtualMachineScaleSetDataDiskARM struct {
 	Caching *VirtualMachineScaleSetDataDiskCaching `json:"caching,omitempty"`
 
 	//CreateOption: The create option.
-	CreateOption VirtualMachineScaleSetDataDiskCreateOption `json:"createOption"`
+	CreateOption *VirtualMachineScaleSetDataDiskCreateOption `json:"createOption,omitempty"`
 
 	//DiskIOPSReadWrite: Specifies the Read-Write IOPS for the managed disk. Should be used only when StorageAccountType is
 	//UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
@@ -457,7 +457,7 @@ type VirtualMachineScaleSetDataDiskARM struct {
 
 	//Lun: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and
 	//therefore must be unique for each data disk attached to a VM.
-	Lun int `json:"lun"`
+	Lun *int `json:"lun,omitempty"`
 
 	//ManagedDisk: Describes the parameters of a ScaleSet managed disk.
 	ManagedDisk *VirtualMachineScaleSetManagedDiskParametersARM `json:"managedDisk,omitempty"`
@@ -483,7 +483,7 @@ type VirtualMachineScaleSetOSDiskARM struct {
 	//The only allowed value is: FromImage \u2013 This value is used when you are using an image to create the virtual
 	//machine. If you are using a platform image, you also use the imageReference element described above. If you are using a
 	//marketplace image, you  also use the plan element previously described.
-	CreateOption VirtualMachineScaleSetOSDiskCreateOption `json:"createOption"`
+	CreateOption *VirtualMachineScaleSetOSDiskCreateOption `json:"createOption,omitempty"`
 
 	//DiffDiskSettings: Describes the parameters of ephemeral disk settings that can be specified for operating system disk.
 	//NOTE: The ephemeral disk settings can only be specified for managed disk.
@@ -528,7 +528,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 	Id *string `json:"id,omitempty"`
 
 	//Name: The network configuration name.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Properties: Describes a virtual machine scale set network profile's IP configuration.
 	Properties *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_PropertiesARM `json:"properties,omitempty"`
@@ -537,16 +537,16 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 //Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.Extensions.json#/definitions/genericExtension
 type GenericExtensionARM struct {
 	//Publisher: Microsoft.Compute/extensions - Publisher
-	Publisher string `json:"publisher"`
+	Publisher *string `json:"publisher,omitempty"`
 
 	//Settings: Microsoft.Compute/extensions - Settings
-	Settings map[string]v1.JSON `json:"settings"`
+	Settings map[string]v1.JSON `json:"settings,omitempty"`
 
 	//Type: Microsoft.Compute/extensions - Type
-	Type string `json:"type"`
+	Type *string `json:"type,omitempty"`
 
 	//TypeHandlerVersion: Microsoft.Compute/extensions - Type handler version
-	TypeHandlerVersion string `json:"typeHandlerVersion"`
+	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetManagedDiskParameters
@@ -576,7 +576,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
 
 	//IpConfigurations: Specifies the IP configurations of the network interface.
-	IpConfigurations     []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM `json:"ipConfigurations"`
+	IpConfigurations     []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM `json:"ipConfigurations,omitempty"`
 	NetworkSecurityGroup *SubResourceARM                                                                                                                              `json:"networkSecurityGroup,omitempty"`
 
 	//Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
@@ -594,7 +594,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 	Id *string `json:"id,omitempty"`
 
 	//Name: The IP configuration name.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Properties: Describes a virtual machine scale set network profile's IP configuration properties.
 	Properties *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_PropertiesARM `json:"properties,omitempty"`
@@ -635,7 +635,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM struct {
 	//Name: The publicIP address configuration name.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Properties: Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration
 	Properties *VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesARM `json:"properties,omitempty"`
@@ -671,5 +671,5 @@ type VirtualMachineScaleSetIpTagARM struct {
 type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsARM struct {
 	//DomainNameLabel: The Domain name label.The concatenation of the domain name label and vm index will be the domain name
 	//labels of the PublicIPAddress resources that will be created
-	DomainNameLabel string `json:"domainNameLabel"`
+	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
 }

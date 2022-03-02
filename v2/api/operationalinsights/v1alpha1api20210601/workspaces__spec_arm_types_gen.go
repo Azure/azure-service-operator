@@ -13,13 +13,13 @@ type Workspaces_SpecARM struct {
 	ETag *string `json:"eTag,omitempty"`
 
 	//Location: The geo-location where the resource lives
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the workspace.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Workspace properties.
-	Properties WorkspacePropertiesARM `json:"properties"`
+	Properties *WorkspacePropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -102,5 +102,5 @@ type WorkspaceSkuARM struct {
 	CapacityReservationLevel *int `json:"capacityReservationLevel,omitempty"`
 
 	//Name: The name of the SKU.
-	Name WorkspaceSkuName `json:"name"`
+	Name *WorkspaceSkuName `json:"name,omitempty"`
 }

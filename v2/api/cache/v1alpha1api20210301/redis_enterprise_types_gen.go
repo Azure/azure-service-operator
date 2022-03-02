@@ -721,10 +721,10 @@ const RedisEnterpriseSpecAPIVersion20210301 = RedisEnterpriseSpecAPIVersion("202
 type RedisEnterprise_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//Location: The geo-location where the resource lives
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'.
 	MinimumTlsVersion *ClusterPropertiesMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
@@ -733,11 +733,11 @@ type RedisEnterprise_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// +kubebuilder:validation:Required
 	//Sku: SKU parameters supplied to the create RedisEnterprise operation.
-	Sku Sku `json:"sku"`
+	Sku *Sku `json:"sku,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -756,23 +756,32 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 	var result RedisEnterprise_SpecARM
 
 	// Set property ‘Location’:
-	result.Location = enterprise.Location
+	if enterprise.Location != nil {
+		location := *enterprise.Location
+		result.Location = &location
+	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if enterprise.MinimumTlsVersion != nil {
+		result.Properties = &ClusterPropertiesARM{}
+	}
+	if enterprise.MinimumTlsVersion != nil {
 		minimumTlsVersion := *enterprise.MinimumTlsVersion
 		result.Properties.MinimumTlsVersion = &minimumTlsVersion
 	}
 
 	// Set property ‘Sku’:
-	skuARM, err := enterprise.Sku.ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if enterprise.Sku != nil {
+		skuARM, err := (*enterprise.Sku).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		sku := skuARM.(SkuARM)
+		result.Sku = &sku
 	}
-	result.Sku = skuARM.(SkuARM)
 
 	// Set property ‘Tags’:
 	if enterprise.Tags != nil {
@@ -805,27 +814,35 @@ func (enterprise *RedisEnterprise_Spec) PopulateFromARM(owner genruntime.Arbitra
 	enterprise.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Location’:
-	enterprise.Location = typedInput.Location
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		enterprise.Location = &location
+	}
 
 	// Set property ‘MinimumTlsVersion’:
 	// copying flattened property:
-	if typedInput.Properties.MinimumTlsVersion != nil {
-		minimumTlsVersion := *typedInput.Properties.MinimumTlsVersion
-		enterprise.MinimumTlsVersion = &minimumTlsVersion
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MinimumTlsVersion != nil {
+			minimumTlsVersion := *typedInput.Properties.MinimumTlsVersion
+			enterprise.MinimumTlsVersion = &minimumTlsVersion
+		}
 	}
 
 	// Set property ‘Owner’:
-	enterprise.Owner = genruntime.KnownResourceReference{
+	enterprise.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Sku’:
-	var sku Sku
-	err := sku.PopulateFromARM(owner, typedInput.Sku)
-	if err != nil {
-		return err
+	if typedInput.Sku != nil {
+		var sku1 Sku
+		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
+		if err != nil {
+			return err
+		}
+		sku := sku1
+		enterprise.Sku = &sku
 	}
-	enterprise.Sku = sku
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
@@ -901,7 +918,7 @@ func (enterprise *RedisEnterprise_Spec) AssignPropertiesFromRedisEnterpriseSpec(
 	enterprise.AzureName = source.AzureName
 
 	// Location
-	enterprise.Location = genruntime.GetOptionalStringValue(source.Location)
+	enterprise.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
@@ -912,7 +929,12 @@ func (enterprise *RedisEnterprise_Spec) AssignPropertiesFromRedisEnterpriseSpec(
 	}
 
 	// Owner
-	enterprise.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		enterprise.Owner = &owner
+	} else {
+		enterprise.Owner = nil
+	}
 
 	// Sku
 	if source.Sku != nil {
@@ -921,9 +943,9 @@ func (enterprise *RedisEnterprise_Spec) AssignPropertiesFromRedisEnterpriseSpec(
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSku() to populate field Sku")
 		}
-		enterprise.Sku = sku
+		enterprise.Sku = &sku
 	} else {
-		enterprise.Sku = Sku{}
+		enterprise.Sku = nil
 	}
 
 	// Tags
@@ -945,8 +967,7 @@ func (enterprise *RedisEnterprise_Spec) AssignPropertiesToRedisEnterpriseSpec(de
 	destination.AzureName = enterprise.AzureName
 
 	// Location
-	location := enterprise.Location
-	destination.Location = &location
+	destination.Location = genruntime.ClonePointerToString(enterprise.Location)
 
 	// MinimumTlsVersion
 	if enterprise.MinimumTlsVersion != nil {
@@ -960,15 +981,24 @@ func (enterprise *RedisEnterprise_Spec) AssignPropertiesToRedisEnterpriseSpec(de
 	destination.OriginalVersion = enterprise.OriginalVersion()
 
 	// Owner
-	destination.Owner = enterprise.Owner.Copy()
+	if enterprise.Owner != nil {
+		owner := enterprise.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Sku
-	var sku v1alpha1api20210301storage.Sku
-	err := enterprise.Sku.AssignPropertiesToSku(&sku)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSku() to populate field Sku")
+	if enterprise.Sku != nil {
+		var sku v1alpha1api20210301storage.Sku
+		err := enterprise.Sku.AssignPropertiesToSku(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSku() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
 	}
-	destination.Sku = &sku
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(enterprise.Tags)
@@ -1073,7 +1103,7 @@ type Sku struct {
 
 	// +kubebuilder:validation:Required
 	//Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.).
-	Name SkuName `json:"name"`
+	Name *SkuName `json:"name,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Sku{}
@@ -1092,7 +1122,10 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	}
 
 	// Set property ‘Name’:
-	result.Name = sku.Name
+	if sku.Name != nil {
+		name := *sku.Name
+		result.Name = &name
+	}
 	return result, nil
 }
 
@@ -1115,7 +1148,10 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 	}
 
 	// Set property ‘Name’:
-	sku.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		sku.Name = &name
+	}
 
 	// No error
 	return nil
@@ -1129,9 +1165,10 @@ func (sku *Sku) AssignPropertiesFromSku(source *v1alpha1api20210301storage.Sku) 
 
 	// Name
 	if source.Name != nil {
-		sku.Name = SkuName(*source.Name)
+		name := SkuName(*source.Name)
+		sku.Name = &name
 	} else {
-		sku.Name = ""
+		sku.Name = nil
 	}
 
 	// No error
@@ -1147,8 +1184,12 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20210301storage.Sk
 	destination.Capacity = genruntime.ClonePointerToInt(sku.Capacity)
 
 	// Name
-	name := string(sku.Name)
-	destination.Name = &name
+	if sku.Name != nil {
+		name := string(*sku.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1168,7 +1209,7 @@ type Sku_Status struct {
 
 	// +kubebuilder:validation:Required
 	//Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.)
-	Name SkuStatusName `json:"name"`
+	Name *SkuStatusName `json:"name,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_Status{}
@@ -1192,7 +1233,10 @@ func (sku *Sku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	}
 
 	// Set property ‘Name’:
-	sku.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		sku.Name = &name
+	}
 
 	// No error
 	return nil
@@ -1206,9 +1250,10 @@ func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v1alpha1api20210301
 
 	// Name
 	if source.Name != nil {
-		sku.Name = SkuStatusName(*source.Name)
+		name := SkuStatusName(*source.Name)
+		sku.Name = &name
 	} else {
-		sku.Name = ""
+		sku.Name = nil
 	}
 
 	// No error
@@ -1224,8 +1269,12 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1api20210
 	destination.Capacity = genruntime.ClonePointerToInt(sku.Capacity)
 
 	// Name
-	name := string(sku.Name)
-	destination.Name = &name
+	if sku.Name != nil {
+		name := string(*sku.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

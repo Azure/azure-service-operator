@@ -90,7 +90,7 @@ func AddIndependentPropertyGeneratorsForFlexibleServersConfigurationsSpecARM(gen
 
 // AddRelatedPropertyGeneratorsForFlexibleServersConfigurationsSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFlexibleServersConfigurationsSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = ConfigurationPropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(ConfigurationPropertiesARMGenerator())
 }
 
 func Test_ConfigurationPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

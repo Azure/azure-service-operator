@@ -31,8 +31,8 @@ type ServersDatabaseList struct {
 }
 
 type Database_Status struct {
-	v1alpha1.ResourceStatus `json:",inline"`
-	AtProvider              DatabaseObservation `json:"atProvider"`
+	v1alpha1.ResourceStatus `json:",inline,omitempty"`
+	AtProvider              DatabaseObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"2020-11-01-preview"}
@@ -41,8 +41,8 @@ type ServersDatabasesSpecAPIVersion string
 const ServersDatabasesSpecAPIVersion20201101Preview = ServersDatabasesSpecAPIVersion("2020-11-01-preview")
 
 type ServersDatabases_Spec struct {
-	v1alpha1.ResourceSpec `json:",inline"`
-	ForProvider           ServersDatabasesParameters `json:"forProvider"`
+	v1alpha1.ResourceSpec `json:",inline,omitempty"`
+	ForProvider           ServersDatabasesParameters `json:"forProvider,omitempty"`
 }
 
 type DatabaseObservation struct {
@@ -257,7 +257,7 @@ type ServersDatabasesParameters struct {
 	LicenseType *DatabasePropertiesLicenseType `json:"licenseType,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//LongTermRetentionBackupResourceId: The resource identifier of the long term retention backup associated with create
 	//operation of this database.
@@ -275,7 +275,7 @@ type ServersDatabasesParameters struct {
 
 	// +kubebuilder:validation:Required
 	//Name: The name of the database.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//ReadScale: The state of read-only routing. If enabled, connections that have application intent set to readonly in their
 	//connection string may be routed to a readonly secondary replica in the same region.
@@ -291,7 +291,7 @@ type ServersDatabasesParameters struct {
 
 	//RequestedBackupStorageRedundancy: The storage account type to be used to store backups for this database.
 	RequestedBackupStorageRedundancy *DatabasePropertiesRequestedBackupStorageRedundancy `json:"requestedBackupStorageRedundancy,omitempty"`
-	ResourceGroupName                string                                              `json:"resourceGroupName"`
+	ResourceGroupName                string                                              `json:"resourceGroupName,omitempty"`
 	ResourceGroupNameRef             *v1alpha1.Reference                                 `json:"resourceGroupNameRef,omitempty"`
 	ResourceGroupNameSelector        *v1alpha1.Selector                                  `json:"resourceGroupNameSelector,omitempty"`
 
@@ -308,7 +308,7 @@ type ServersDatabasesParameters struct {
 
 	//SecondaryType: The secondary type of the database if it is a secondary.  Valid values are Geo and Named.
 	SecondaryType      *DatabasePropertiesSecondaryType `json:"secondaryType,omitempty"`
-	ServerName         string                           `json:"serverName"`
+	ServerName         string                           `json:"serverName,omitempty"`
 	ServerNameRef      *v1alpha1.Reference              `json:"serverNameRef,omitempty"`
 	ServerNameSelector *v1alpha1.Selector               `json:"serverNameSelector,omitempty"`
 
@@ -498,7 +498,7 @@ type Sku struct {
 
 	// +kubebuilder:validation:Required
 	//Name: The name of the SKU, typically, a letter + Number code, e.g. P3.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Size: Size of the particular SKU
 	Size *string `json:"size,omitempty"`
@@ -516,7 +516,7 @@ type Sku_Status struct {
 
 	// +kubebuilder:validation:Required
 	//Name: The name of the SKU, typically, a letter + Number code, e.g. P3.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Size: Size of the particular SKU
 	Size *string `json:"size,omitempty"`

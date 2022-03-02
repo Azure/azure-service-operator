@@ -272,7 +272,7 @@ func AddIndependentPropertyGeneratorsForRegistriesSpec(gens map[string]gopter.Ge
 	gens["AdminUserEnabled"] = gen.PtrOf(gen.Bool())
 	gens["AzureName"] = gen.AlphaString()
 	gens["DataEndpointEnabled"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["NetworkRuleBypassOptions"] = gen.PtrOf(gen.OneConstOf(RegistryPropertiesNetworkRuleBypassOptionsAzureServices, RegistryPropertiesNetworkRuleBypassOptionsNone))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RegistryPropertiesPublicNetworkAccessDisabled, RegistryPropertiesPublicNetworkAccessEnabled))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
@@ -285,7 +285,7 @@ func AddRelatedPropertyGeneratorsForRegistriesSpec(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(IdentityPropertiesGenerator())
 	gens["NetworkRuleSet"] = gen.PtrOf(NetworkRuleSetGenerator())
 	gens["Policies"] = gen.PtrOf(PoliciesGenerator())
-	gens["Sku"] = SkuGenerator()
+	gens["Sku"] = gen.PtrOf(SkuGenerator())
 }
 
 func Test_Registry_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1010,7 +1010,7 @@ func NetworkRuleSetGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkRuleSet is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkRuleSet(gens map[string]gopter.Gen) {
-	gens["DefaultAction"] = gen.OneConstOf(NetworkRuleSetDefaultActionAllow, NetworkRuleSetDefaultActionDeny)
+	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetDefaultActionAllow, NetworkRuleSetDefaultActionDeny))
 }
 
 // AddRelatedPropertyGeneratorsForNetworkRuleSet is a factory method for creating gopter generators
@@ -1126,7 +1126,7 @@ func NetworkRuleSetStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkRuleSetStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkRuleSetStatus(gens map[string]gopter.Gen) {
-	gens["DefaultAction"] = gen.OneConstOf(NetworkRuleSetStatusDefaultActionAllow, NetworkRuleSetStatusDefaultActionDeny)
+	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetStatusDefaultActionAllow, NetworkRuleSetStatusDefaultActionDeny))
 }
 
 // AddRelatedPropertyGeneratorsForNetworkRuleSetStatus is a factory method for creating gopter generators
@@ -1556,11 +1556,11 @@ func SkuGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
 		SkuNameBasic,
 		SkuNameClassic,
 		SkuNamePremium,
-		SkuNameStandard)
+		SkuNameStandard))
 }
 
 func Test_Sku_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1661,11 +1661,11 @@ func SkuStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSkuStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuStatus(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
 		SkuStatusNameBasic,
 		SkuStatusNameClassic,
 		SkuStatusNamePremium,
-		SkuStatusNameStandard)
+		SkuStatusNameStandard))
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(
 		SkuStatusTierBasic,
 		SkuStatusTierClassic,
@@ -2191,7 +2191,7 @@ func IPRuleGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIPRule is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIPRule(gens map[string]gopter.Gen) {
 	gens["Action"] = gen.PtrOf(gen.OneConstOf(IPRuleActionAllow))
-	gens["Value"] = gen.AlphaString()
+	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_IPRule_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2293,7 +2293,7 @@ func IPRuleStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIPRuleStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIPRuleStatus(gens map[string]gopter.Gen) {
 	gens["Action"] = gen.PtrOf(gen.OneConstOf(IPRuleStatusActionAllow))
-	gens["Value"] = gen.AlphaString()
+	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_KeyVaultProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

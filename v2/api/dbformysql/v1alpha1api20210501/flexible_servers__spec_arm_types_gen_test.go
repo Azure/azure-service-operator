@@ -83,14 +83,14 @@ func FlexibleServersSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForFlexibleServersSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFlexibleServersSpecARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForFlexibleServersSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFlexibleServersSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = ServerPropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(ServerPropertiesARMGenerator())
 	gens["Sku"] = gen.PtrOf(SkuARMGenerator())
 }
 
@@ -239,8 +239,8 @@ func SkuARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSkuARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-	gens["Tier"] = gen.OneConstOf(SkuTierBurstable, SkuTierGeneralPurpose, SkuTierMemoryOptimized)
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(SkuTierBurstable, SkuTierGeneralPurpose, SkuTierMemoryOptimized))
 }
 
 func Test_BackupARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

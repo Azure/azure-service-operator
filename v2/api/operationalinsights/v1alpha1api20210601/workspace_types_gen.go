@@ -876,7 +876,7 @@ type Workspaces_Spec struct {
 	// +kubebuilder:validation:Pattern="^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//ETag: The ETag of the workspace.
 	ETag *string `json:"eTag,omitempty"`
@@ -888,13 +888,13 @@ type Workspaces_Spec struct {
 	ForceCmkForQuery *bool `json:"forceCmkForQuery,omitempty"`
 
 	//Location: The geo-location where the resource lives
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	//ProvisioningState: The provisioning state of the workspace.
 	ProvisioningState *WorkspacePropertiesProvisioningState `json:"provisioningState,omitempty"`
@@ -935,12 +935,25 @@ func (workspaces *Workspaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 
 	// Set property ‘Location’:
-	result.Location = workspaces.Location
+	if workspaces.Location != nil {
+		location := *workspaces.Location
+		result.Location = &location
+	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if workspaces.Features != nil ||
+		workspaces.ForceCmkForQuery != nil ||
+		workspaces.ProvisioningState != nil ||
+		workspaces.PublicNetworkAccessForIngestion != nil ||
+		workspaces.PublicNetworkAccessForQuery != nil ||
+		workspaces.RetentionInDays != nil ||
+		workspaces.Sku != nil ||
+		workspaces.WorkspaceCapping != nil {
+		result.Properties = &WorkspacePropertiesARM{}
+	}
 	if workspaces.Features != nil {
 		featuresARM, err := (*workspaces.Features).ConvertToARM(resolved)
 		if err != nil {
@@ -1019,69 +1032,86 @@ func (workspaces *Workspaces_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘Features’:
 	// copying flattened property:
-	if typedInput.Properties.Features != nil {
-		var features1 WorkspaceFeatures
-		err := features1.PopulateFromARM(owner, *typedInput.Properties.Features)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Features != nil {
+			var features1 WorkspaceFeatures
+			err := features1.PopulateFromARM(owner, *typedInput.Properties.Features)
+			if err != nil {
+				return err
+			}
+			features := features1
+			workspaces.Features = &features
 		}
-		features := features1
-		workspaces.Features = &features
 	}
 
 	// Set property ‘ForceCmkForQuery’:
 	// copying flattened property:
-	if typedInput.Properties.ForceCmkForQuery != nil {
-		forceCmkForQuery := *typedInput.Properties.ForceCmkForQuery
-		workspaces.ForceCmkForQuery = &forceCmkForQuery
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ForceCmkForQuery != nil {
+			forceCmkForQuery := *typedInput.Properties.ForceCmkForQuery
+			workspaces.ForceCmkForQuery = &forceCmkForQuery
+		}
 	}
 
 	// Set property ‘Location’:
-	workspaces.Location = typedInput.Location
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		workspaces.Location = &location
+	}
 
 	// Set property ‘Owner’:
-	workspaces.Owner = genruntime.KnownResourceReference{
+	workspaces.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘ProvisioningState’:
 	// copying flattened property:
-	if typedInput.Properties.ProvisioningState != nil {
-		provisioningState := *typedInput.Properties.ProvisioningState
-		workspaces.ProvisioningState = &provisioningState
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProvisioningState != nil {
+			provisioningState := *typedInput.Properties.ProvisioningState
+			workspaces.ProvisioningState = &provisioningState
+		}
 	}
 
 	// Set property ‘PublicNetworkAccessForIngestion’:
 	// copying flattened property:
-	if typedInput.Properties.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := *typedInput.Properties.PublicNetworkAccessForIngestion
-		workspaces.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicNetworkAccessForIngestion != nil {
+			publicNetworkAccessForIngestion := *typedInput.Properties.PublicNetworkAccessForIngestion
+			workspaces.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
+		}
 	}
 
 	// Set property ‘PublicNetworkAccessForQuery’:
 	// copying flattened property:
-	if typedInput.Properties.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := *typedInput.Properties.PublicNetworkAccessForQuery
-		workspaces.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicNetworkAccessForQuery != nil {
+			publicNetworkAccessForQuery := *typedInput.Properties.PublicNetworkAccessForQuery
+			workspaces.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
+		}
 	}
 
 	// Set property ‘RetentionInDays’:
 	// copying flattened property:
-	if typedInput.Properties.RetentionInDays != nil {
-		retentionInDays := *typedInput.Properties.RetentionInDays
-		workspaces.RetentionInDays = &retentionInDays
+	if typedInput.Properties != nil {
+		if typedInput.Properties.RetentionInDays != nil {
+			retentionInDays := *typedInput.Properties.RetentionInDays
+			workspaces.RetentionInDays = &retentionInDays
+		}
 	}
 
 	// Set property ‘Sku’:
 	// copying flattened property:
-	if typedInput.Properties.Sku != nil {
-		var sku1 WorkspaceSku
-		err := sku1.PopulateFromARM(owner, *typedInput.Properties.Sku)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Sku != nil {
+			var sku1 WorkspaceSku
+			err := sku1.PopulateFromARM(owner, *typedInput.Properties.Sku)
+			if err != nil {
+				return err
+			}
+			sku := sku1
+			workspaces.Sku = &sku
 		}
-		sku := sku1
-		workspaces.Sku = &sku
 	}
 
 	// Set property ‘Tags’:
@@ -1094,14 +1124,16 @@ func (workspaces *Workspaces_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘WorkspaceCapping’:
 	// copying flattened property:
-	if typedInput.Properties.WorkspaceCapping != nil {
-		var workspaceCapping1 WorkspaceCapping
-		err := workspaceCapping1.PopulateFromARM(owner, *typedInput.Properties.WorkspaceCapping)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.WorkspaceCapping != nil {
+			var workspaceCapping1 WorkspaceCapping
+			err := workspaceCapping1.PopulateFromARM(owner, *typedInput.Properties.WorkspaceCapping)
+			if err != nil {
+				return err
+			}
+			workspaceCapping := workspaceCapping1
+			workspaces.WorkspaceCapping = &workspaceCapping
 		}
-		workspaceCapping := workspaceCapping1
-		workspaces.WorkspaceCapping = &workspaceCapping
 	}
 
 	// No error
@@ -1188,10 +1220,15 @@ func (workspaces *Workspaces_Spec) AssignPropertiesFromWorkspacesSpec(source *v1
 	}
 
 	// Location
-	workspaces.Location = genruntime.GetOptionalStringValue(source.Location)
+	workspaces.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	workspaces.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		workspaces.Owner = &owner
+	} else {
+		workspaces.Owner = nil
+	}
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
@@ -1283,14 +1320,18 @@ func (workspaces *Workspaces_Spec) AssignPropertiesToWorkspacesSpec(destination 
 	}
 
 	// Location
-	location := workspaces.Location
-	destination.Location = &location
+	destination.Location = genruntime.ClonePointerToString(workspaces.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = workspaces.OriginalVersion()
 
 	// Owner
-	destination.Owner = workspaces.Owner.Copy()
+	if workspaces.Owner != nil {
+		owner := workspaces.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// ProvisioningState
 	if workspaces.ProvisioningState != nil {
@@ -2097,7 +2138,7 @@ type WorkspaceSku struct {
 
 	// +kubebuilder:validation:Required
 	//Name: The name of the SKU.
-	Name WorkspaceSkuName `json:"name"`
+	Name *WorkspaceSkuName `json:"name,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &WorkspaceSku{}
@@ -2116,7 +2157,10 @@ func (workspaceSku *WorkspaceSku) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 
 	// Set property ‘Name’:
-	result.Name = workspaceSku.Name
+	if workspaceSku.Name != nil {
+		name := *workspaceSku.Name
+		result.Name = &name
+	}
 	return result, nil
 }
 
@@ -2139,7 +2183,10 @@ func (workspaceSku *WorkspaceSku) PopulateFromARM(owner genruntime.ArbitraryOwne
 	}
 
 	// Set property ‘Name’:
-	workspaceSku.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		workspaceSku.Name = &name
+	}
 
 	// No error
 	return nil
@@ -2153,9 +2200,10 @@ func (workspaceSku *WorkspaceSku) AssignPropertiesFromWorkspaceSku(source *v1alp
 
 	// Name
 	if source.Name != nil {
-		workspaceSku.Name = WorkspaceSkuName(*source.Name)
+		name := WorkspaceSkuName(*source.Name)
+		workspaceSku.Name = &name
 	} else {
-		workspaceSku.Name = ""
+		workspaceSku.Name = nil
 	}
 
 	// No error
@@ -2171,8 +2219,12 @@ func (workspaceSku *WorkspaceSku) AssignPropertiesToWorkspaceSku(destination *v1
 	destination.CapacityReservationLevel = genruntime.ClonePointerToInt(workspaceSku.CapacityReservationLevel)
 
 	// Name
-	name := string(workspaceSku.Name)
-	destination.Name = &name
+	if workspaceSku.Name != nil {
+		name := string(*workspaceSku.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2195,7 +2247,7 @@ type WorkspaceSku_Status struct {
 
 	// +kubebuilder:validation:Required
 	//Name: The name of the SKU.
-	Name WorkspaceSkuStatusName `json:"name"`
+	Name *WorkspaceSkuStatusName `json:"name,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WorkspaceSku_Status{}
@@ -2225,7 +2277,10 @@ func (workspaceSku *WorkspaceSku_Status) PopulateFromARM(owner genruntime.Arbitr
 	}
 
 	// Set property ‘Name’:
-	workspaceSku.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		workspaceSku.Name = &name
+	}
 
 	// No error
 	return nil
@@ -2247,9 +2302,10 @@ func (workspaceSku *WorkspaceSku_Status) AssignPropertiesFromWorkspaceSkuStatus(
 
 	// Name
 	if source.Name != nil {
-		workspaceSku.Name = WorkspaceSkuStatusName(*source.Name)
+		name := WorkspaceSkuStatusName(*source.Name)
+		workspaceSku.Name = &name
 	} else {
-		workspaceSku.Name = ""
+		workspaceSku.Name = nil
 	}
 
 	// No error
@@ -2273,8 +2329,12 @@ func (workspaceSku *WorkspaceSku_Status) AssignPropertiesToWorkspaceSkuStatus(de
 	destination.LastSkuUpdate = genruntime.ClonePointerToString(workspaceSku.LastSkuUpdate)
 
 	// Name
-	name := string(workspaceSku.Name)
-	destination.Name = &name
+	if workspaceSku.Name != nil {
+		name := string(*workspaceSku.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

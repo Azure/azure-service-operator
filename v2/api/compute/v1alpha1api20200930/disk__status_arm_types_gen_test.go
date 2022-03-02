@@ -192,7 +192,7 @@ func AddIndependentPropertyGeneratorsForDiskPropertiesStatusARM(gens map[string]
 
 // AddRelatedPropertyGeneratorsForDiskPropertiesStatusARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDiskPropertiesStatusARM(gens map[string]gopter.Gen) {
-	gens["CreationData"] = CreationDataStatusARMGenerator()
+	gens["CreationData"] = gen.PtrOf(CreationDataStatusARMGenerator())
 	gens["Encryption"] = gen.PtrOf(EncryptionStatusARMGenerator())
 	gens["EncryptionSettingsCollection"] = gen.PtrOf(EncryptionSettingsCollectionStatusARMGenerator())
 	gens["PurchasePlan"] = gen.PtrOf(PurchasePlanStatusARMGenerator())
@@ -390,14 +390,14 @@ func CreationDataStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCreationDataStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCreationDataStatusARM(gens map[string]gopter.Gen) {
-	gens["CreateOption"] = gen.OneConstOf(
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(
 		CreationDataStatusCreateOptionAttach,
 		CreationDataStatusCreateOptionCopy,
 		CreationDataStatusCreateOptionEmpty,
 		CreationDataStatusCreateOptionFromImage,
 		CreationDataStatusCreateOptionImport,
 		CreationDataStatusCreateOptionRestore,
-		CreationDataStatusCreateOptionUpload)
+		CreationDataStatusCreateOptionUpload))
 	gens["LogicalSectorSize"] = gen.PtrOf(gen.Int())
 	gens["SourceResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceUniqueId"] = gen.PtrOf(gen.AlphaString())
@@ -478,7 +478,7 @@ func EncryptionSettingsCollectionStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionSettingsCollectionStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionSettingsCollectionStatusARM(gens map[string]gopter.Gen) {
-	gens["Enabled"] = gen.Bool()
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["EncryptionSettingsVersion"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -605,10 +605,10 @@ func PurchasePlanStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPurchasePlanStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPurchasePlanStatusARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-	gens["Product"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Product"] = gen.PtrOf(gen.AlphaString())
 	gens["PromotionCode"] = gen.PtrOf(gen.AlphaString())
-	gens["Publisher"] = gen.AlphaString()
+	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ShareInfoElement_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -789,7 +789,7 @@ func ImageDiskReferenceStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForImageDiskReferenceStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImageDiskReferenceStatusARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Lun"] = gen.PtrOf(gen.Int())
 }
 
@@ -859,12 +859,12 @@ func KeyVaultAndKeyReferenceStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKeyVaultAndKeyReferenceStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyVaultAndKeyReferenceStatusARM(gens map[string]gopter.Gen) {
-	gens["KeyUrl"] = gen.AlphaString()
+	gens["KeyUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForKeyVaultAndKeyReferenceStatusARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForKeyVaultAndKeyReferenceStatusARM(gens map[string]gopter.Gen) {
-	gens["SourceVault"] = SourceVaultStatusARMGenerator()
+	gens["SourceVault"] = gen.PtrOf(SourceVaultStatusARMGenerator())
 }
 
 func Test_KeyVaultAndSecretReference_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -933,12 +933,12 @@ func KeyVaultAndSecretReferenceStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKeyVaultAndSecretReferenceStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyVaultAndSecretReferenceStatusARM(gens map[string]gopter.Gen) {
-	gens["SecretUrl"] = gen.AlphaString()
+	gens["SecretUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForKeyVaultAndSecretReferenceStatusARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForKeyVaultAndSecretReferenceStatusARM(gens map[string]gopter.Gen) {
-	gens["SourceVault"] = SourceVaultStatusARMGenerator()
+	gens["SourceVault"] = gen.PtrOf(SourceVaultStatusARMGenerator())
 }
 
 func Test_SourceVault_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

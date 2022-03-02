@@ -25,6 +25,7 @@ func Test_Networking_PublicIP_CRUD(t *testing.T) {
 	// TODO: Note the microsoft.networking package also defines a PublicIPAddress type, so
 	// TODO: depluralization of this resource doesn't work because of the collision.
 	sku := network.PublicIPAddressSkuNameStandard
+	allocationMethod := network.PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic
 	publicIPAddress := &network.PublicIPAddress{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("publicip")),
 		Spec: network.PublicIPAddresses_Spec{
@@ -33,7 +34,7 @@ func Test_Networking_PublicIP_CRUD(t *testing.T) {
 			Sku: &network.PublicIPAddressSku{
 				Name: &sku,
 			},
-			PublicIPAllocationMethod: network.PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic,
+			PublicIPAllocationMethod: &allocationMethod,
 		},
 	}
 

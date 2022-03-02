@@ -82,7 +82,7 @@ func SnapshotsSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSnapshotsSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSnapshotsSpecARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
@@ -90,7 +90,7 @@ func AddIndependentPropertyGeneratorsForSnapshotsSpecARM(gens map[string]gopter.
 // AddRelatedPropertyGeneratorsForSnapshotsSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSnapshotsSpecARM(gens map[string]gopter.Gen) {
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationARMGenerator())
-	gens["Properties"] = SnapshotPropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(SnapshotPropertiesARMGenerator())
 	gens["Sku"] = gen.PtrOf(SnapshotSkuARMGenerator())
 }
 
@@ -177,7 +177,7 @@ func AddIndependentPropertyGeneratorsForSnapshotPropertiesARM(gens map[string]go
 
 // AddRelatedPropertyGeneratorsForSnapshotPropertiesARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSnapshotPropertiesARM(gens map[string]gopter.Gen) {
-	gens["CreationData"] = CreationDataARMGenerator()
+	gens["CreationData"] = gen.PtrOf(CreationDataARMGenerator())
 	gens["Encryption"] = gen.PtrOf(EncryptionARMGenerator())
 	gens["EncryptionSettingsCollection"] = gen.PtrOf(EncryptionSettingsCollectionARMGenerator())
 	gens["PurchasePlan"] = gen.PtrOf(PurchasePlanARMGenerator())

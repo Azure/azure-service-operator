@@ -10,10 +10,10 @@ type NamespacesAuthorizationRules_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: The authorization rule name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties supplied to create or update AuthorizationRule
-	Properties AuthorizationRulePropertiesARM `json:"properties"`
+	Properties *AuthorizationRulePropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -39,5 +39,5 @@ func (rules NamespacesAuthorizationRules_SpecARM) GetType() string {
 //Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/AuthorizationRuleProperties
 type AuthorizationRulePropertiesARM struct {
 	//Rights: The rights associated with the rule.
-	Rights []AuthorizationRulePropertiesRights `json:"rights"`
+	Rights []AuthorizationRulePropertiesRights `json:"rights,omitempty"`
 }

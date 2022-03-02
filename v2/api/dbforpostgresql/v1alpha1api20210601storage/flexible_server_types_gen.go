@@ -137,23 +137,23 @@ type FlexibleServers_Spec struct {
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName         string             `json:"azureName"`
+	AzureName         string             `json:"azureName,omitempty"`
 	Backup            *Backup            `json:"backup,omitempty"`
 	CreateMode        *string            `json:"createMode,omitempty"`
 	HighAvailability  *HighAvailability  `json:"highAvailability,omitempty"`
 	Location          *string            `json:"location,omitempty"`
 	MaintenanceWindow *MaintenanceWindow `json:"maintenanceWindow,omitempty"`
 	Network           *Network           `json:"network,omitempty"`
-	OriginalVersion   string             `json:"originalVersion"`
+	OriginalVersion   string             `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner          genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PointInTimeUTC *string                           `json:"pointInTimeUTC,omitempty"`
-	PropertyBag    genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Sku            *Sku                              `json:"sku,omitempty"`
+	Owner          *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PointInTimeUTC *string                            `json:"pointInTimeUTC,omitempty"`
+	PropertyBag    genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Sku            *Sku                               `json:"sku,omitempty"`
 
 	//SourceServerResourceReference: The source server resource ID to restore from. It's required when 'createMode' is
 	//'PointInTimeRestore'.

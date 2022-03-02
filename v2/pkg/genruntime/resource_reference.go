@@ -19,7 +19,7 @@ import (
 type KnownResourceReference struct {
 	// This is the name of the Kubernetes resource to reference.
 	// +kubebuilder:validation:Required
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	// References across namespaces are not supported.
 
@@ -33,15 +33,15 @@ type KnownResourceReference struct {
 type ArbitraryOwnerReference struct {
 	// This is the name of the Kubernetes resource to reference.
 	// +kubebuilder:validation:Required
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Group is the Kubernetes group of the resource.
-	Group string `json:"group"`
+	Group string `json:"group,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Kind is the Kubernetes kind of the resource.
-	Kind string `json:"kind"`
+	Kind string `json:"kind,omitempty"`
 
 	// Ownership across namespaces is not supported.
 }

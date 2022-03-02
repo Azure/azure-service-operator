@@ -10,13 +10,13 @@ type Images_SpecARM struct {
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the image.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Describes the properties of an Image.
-	Properties ImagePropertiesARM `json:"properties"`
+	Properties *ImagePropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -112,7 +112,7 @@ type ImageDataDiskARM struct {
 
 	//Lun: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and
 	//therefore must be unique for each data disk attached to a VM.
-	Lun         int             `json:"lun"`
+	Lun         *int            `json:"lun,omitempty"`
 	ManagedDisk *SubResourceARM `json:"managedDisk,omitempty"`
 	Snapshot    *SubResourceARM `json:"snapshot,omitempty"`
 
@@ -147,15 +147,15 @@ type ImageOSDiskARM struct {
 	ManagedDisk *SubResourceARM `json:"managedDisk,omitempty"`
 
 	//OsState: The OS State.
-	OsState ImageOSDiskOsState `json:"osState"`
+	OsState *ImageOSDiskOsState `json:"osState,omitempty"`
 
 	//OsType: This property allows you to specify the type of the OS that is included in the disk if creating a VM from a
 	//custom image.
 	//Possible values are:
 	//Windows
 	//Linux.
-	OsType   ImageOSDiskOsType `json:"osType"`
-	Snapshot *SubResourceARM   `json:"snapshot,omitempty"`
+	OsType   *ImageOSDiskOsType `json:"osType,omitempty"`
+	Snapshot *SubResourceARM    `json:"snapshot,omitempty"`
 
 	//StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
 	//data disks, it cannot be used with OS Disk.

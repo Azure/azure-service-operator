@@ -155,8 +155,8 @@ func ExtendedLocationStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForExtendedLocationStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocationStatusARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.OneConstOf(ExtendedLocationType_StatusEdgeZone)
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_StatusEdgeZone))
 }
 
 func Test_LoadBalancerPropertiesFormat_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -964,13 +964,13 @@ func InboundNatPoolPropertiesFormatStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInboundNatPoolPropertiesFormatStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInboundNatPoolPropertiesFormatStatusARM(gens map[string]gopter.Gen) {
-	gens["BackendPort"] = gen.Int()
+	gens["BackendPort"] = gen.PtrOf(gen.Int())
 	gens["EnableFloatingIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
-	gens["FrontendPortRangeEnd"] = gen.Int()
-	gens["FrontendPortRangeStart"] = gen.Int()
+	gens["FrontendPortRangeEnd"] = gen.PtrOf(gen.Int())
+	gens["FrontendPortRangeStart"] = gen.PtrOf(gen.Int())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.OneConstOf(TransportProtocol_StatusAll, TransportProtocol_StatusTcp, TransportProtocol_StatusUdp)
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocol_StatusAll, TransportProtocol_StatusTcp, TransportProtocol_StatusUdp))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
 		ProvisioningState_StatusDeleting,
 		ProvisioningState_StatusFailed,
@@ -1053,10 +1053,10 @@ func AddIndependentPropertyGeneratorsForLoadBalancingRulePropertiesFormatStatusA
 	gens["DisableOutboundSnat"] = gen.PtrOf(gen.Bool())
 	gens["EnableFloatingIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
-	gens["FrontendPort"] = gen.Int()
+	gens["FrontendPort"] = gen.PtrOf(gen.Int())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["LoadDistribution"] = gen.PtrOf(gen.OneConstOf(LoadBalancingRulePropertiesFormatStatusLoadDistributionDefault, LoadBalancingRulePropertiesFormatStatusLoadDistributionSourceIP, LoadBalancingRulePropertiesFormatStatusLoadDistributionSourceIPProtocol))
-	gens["Protocol"] = gen.OneConstOf(TransportProtocol_StatusAll, TransportProtocol_StatusTcp, TransportProtocol_StatusUdp)
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocol_StatusAll, TransportProtocol_StatusTcp, TransportProtocol_StatusUdp))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
 		ProvisioningState_StatusDeleting,
 		ProvisioningState_StatusFailed,
@@ -1140,7 +1140,7 @@ func AddIndependentPropertyGeneratorsForOutboundRulePropertiesFormatStatusARM(ge
 	gens["AllocatedOutboundPorts"] = gen.PtrOf(gen.Int())
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.OneConstOf(OutboundRulePropertiesFormatStatusProtocolAll, OutboundRulePropertiesFormatStatusProtocolTcp, OutboundRulePropertiesFormatStatusProtocolUdp)
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(OutboundRulePropertiesFormatStatusProtocolAll, OutboundRulePropertiesFormatStatusProtocolTcp, OutboundRulePropertiesFormatStatusProtocolUdp))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
 		ProvisioningState_StatusDeleting,
 		ProvisioningState_StatusFailed,
@@ -1150,7 +1150,7 @@ func AddIndependentPropertyGeneratorsForOutboundRulePropertiesFormatStatusARM(ge
 
 // AddRelatedPropertyGeneratorsForOutboundRulePropertiesFormatStatusARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForOutboundRulePropertiesFormatStatusARM(gens map[string]gopter.Gen) {
-	gens["BackendAddressPool"] = SubResourceStatusARMGenerator()
+	gens["BackendAddressPool"] = gen.PtrOf(SubResourceStatusARMGenerator())
 	gens["FrontendIPConfigurations"] = gen.SliceOf(SubResourceStatusARMGenerator())
 }
 
@@ -1222,8 +1222,8 @@ func ProbePropertiesFormatStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForProbePropertiesFormatStatusARM(gens map[string]gopter.Gen) {
 	gens["IntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["NumberOfProbes"] = gen.PtrOf(gen.Int())
-	gens["Port"] = gen.Int()
-	gens["Protocol"] = gen.OneConstOf(ProbePropertiesFormatStatusProtocolHttp, ProbePropertiesFormatStatusProtocolHttps, ProbePropertiesFormatStatusProtocolTcp)
+	gens["Port"] = gen.PtrOf(gen.Int())
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(ProbePropertiesFormatStatusProtocolHttp, ProbePropertiesFormatStatusProtocolHttps, ProbePropertiesFormatStatusProtocolTcp))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
 		ProvisioningState_StatusDeleting,
 		ProvisioningState_StatusFailed,

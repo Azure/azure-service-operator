@@ -26,20 +26,21 @@ func Test_Insights_Component_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Create a component
+	applicationType := insights.ApplicationInsightsComponentPropertiesApplicationTypeOther
 	component := &insights.Component{
 		ObjectMeta: tc.MakeObjectMeta("component"),
 		Spec: insights.Components_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			// According to their documentation you can set anything here, it's ignored.
-			ApplicationType: insights.ApplicationInsightsComponentPropertiesApplicationTypeOther,
-			Kind:            "web",
+			ApplicationType: &applicationType,
+			Kind:            to.StringPtr("web"),
 		},
 	}
 
 	tc.CreateResourceAndWait(component)
 
-	tc.Expect(component.Status.Location).To(Equal(&tc.AzureRegion))
+	tc.Expect(component.Status.Location).To(Equal(tc.AzureRegion))
 	tc.Expect(component.Status.Kind).To(Equal(to.StringPtr("web")))
 	tc.Expect(component.Status.Id).ToNot(BeNil())
 	armId := *component.Status.Id
@@ -73,18 +74,21 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 	horribleHiddenLink := fmt.Sprintf("hidden-link:%s", to.String(component.Status.Id))
 
 	// Create a webtest
+	om := tc.MakeObjectMeta("webtest")
+	kind := insightswebtest.WebTestPropertiesKindStandard
 	webtest := &insightswebtest.Webtest{
-		ObjectMeta: tc.MakeObjectMeta("webtest"),
+		ObjectMeta: om,
 		Spec: insightswebtest.Webtests_Spec{
-			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg),
+			Location:           tc.AzureRegion,
+			Owner:              testcommon.AsOwner(rg),
+			SyntheticMonitorId: &om.Name,
 			Tags: map[string]string{
 				horribleHiddenLink: "Resource",
 			},
-			Name:      "mywebtest",
+			Name:      to.StringPtr("mywebtest"),
 			Enabled:   to.BoolPtr(true),
 			Frequency: to.IntPtr(300),
-			Kind:      insightswebtest.WebTestPropertiesKindStandard,
+			Kind:      &kind,
 			Locations: []insightswebtest.WebTestGeolocation{
 				{
 					Id: to.StringPtr("us-ca-sjc-azr"), // This is US west...
@@ -105,7 +109,7 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 	tc.CreateResourceAndWait(webtest)
 
 	expectedKind := insightswebtest.WebTestPropertiesStatusKindStandard
-	tc.Expect(webtest.Status.Location).To(Equal(&tc.AzureRegion))
+	tc.Expect(webtest.Status.Location).To(Equal(tc.AzureRegion))
 	tc.Expect(webtest.Status.Kind).To(Equal(&expectedKind))
 	tc.Expect(webtest.Status.Id).ToNot(BeNil())
 	armId := *webtest.Status.Id

@@ -151,6 +151,6 @@ func FirewallRulePropertiesStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForFirewallRulePropertiesStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFirewallRulePropertiesStatusARM(gens map[string]gopter.Gen) {
-	gens["EndIpAddress"] = gen.AlphaString()
-	gens["StartIpAddress"] = gen.AlphaString()
+	gens["EndIpAddress"] = gen.PtrOf(gen.AlphaString())
+	gens["StartIpAddress"] = gen.PtrOf(gen.AlphaString())
 }

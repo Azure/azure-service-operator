@@ -244,7 +244,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"asotest-topic-aouwry","properties":{}}'
+    body: '{"location":"westus2","name":"asotest-topic-aouwry"}'
     form: {}
     headers:
       Accept:
@@ -284,7 +284,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"asotest-queue-kxegfh","properties":{}}'
+    body: '{"location":"westus2","name":"asotest-queue-kxegfh"}'
     form: {}
     headers:
       Accept:

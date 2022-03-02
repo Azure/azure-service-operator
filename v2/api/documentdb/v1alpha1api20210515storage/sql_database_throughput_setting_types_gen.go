@@ -132,16 +132,16 @@ type SqlDatabaseThroughputSettingList struct {
 //Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesThroughputSettings_Spec
 type DatabaseAccountsSqlDatabasesThroughputSettings_Spec struct {
 	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion"`
+	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a documentdb.azure.com/SqlDatabase resource
-	Owner       genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner" kind:"SqlDatabase"`
-	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Resource    *ThroughputSettingsResource       `json:"resource,omitempty"`
-	Tags        map[string]string                 `json:"tags,omitempty"`
+	Owner       *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabase"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Resource    *ThroughputSettingsResource        `json:"resource,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesThroughputSettings_Spec{}

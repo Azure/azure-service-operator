@@ -1545,7 +1545,11 @@ func (in *NamespacesAuthorizationRules_Spec) DeepCopyInto(out *NamespacesAuthori
 		*out = new(string)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.Rights != nil {
 		in, out := &in.Rights, &out.Rights
 		*out = make([]AuthorizationRulePropertiesRights, len(*in))
@@ -1578,7 +1582,11 @@ func (in *NamespacesAuthorizationRules_SpecARM) DeepCopyInto(out *NamespacesAuth
 		*out = new(string)
 		**out = **in
 	}
-	in.Properties.DeepCopyInto(&out.Properties)
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(AuthorizationRulePropertiesARM)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))
@@ -1724,7 +1732,11 @@ func (in *NamespacesEventhubsAuthorizationRules_Spec) DeepCopyInto(out *Namespac
 		*out = new(string)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.Rights != nil {
 		in, out := &in.Rights, &out.Rights
 		*out = make([]AuthorizationRulePropertiesRights, len(*in))
@@ -1757,7 +1769,11 @@ func (in *NamespacesEventhubsAuthorizationRules_SpecARM) DeepCopyInto(out *Names
 		*out = new(string)
 		**out = **in
 	}
-	in.Properties.DeepCopyInto(&out.Properties)
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(AuthorizationRulePropertiesARM)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))
@@ -1844,7 +1860,11 @@ func (in *NamespacesEventhubsConsumergroups_Spec) DeepCopyInto(out *NamespacesEv
 		*out = new(string)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))
@@ -1877,7 +1897,11 @@ func (in *NamespacesEventhubsConsumergroups_SpecARM) DeepCopyInto(out *Namespace
 		*out = new(string)
 		**out = **in
 	}
-	in.Properties.DeepCopyInto(&out.Properties)
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(ConsumerGroupPropertiesARM)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))
@@ -1915,7 +1939,11 @@ func (in *NamespacesEventhubs_Spec) DeepCopyInto(out *NamespacesEventhubs_Spec) 
 		*out = new(int)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PartitionCount != nil {
 		in, out := &in.PartitionCount, &out.PartitionCount
 		*out = new(int)
@@ -1948,7 +1976,11 @@ func (in *NamespacesEventhubs_SpecARM) DeepCopyInto(out *NamespacesEventhubs_Spe
 		*out = new(string)
 		**out = **in
 	}
-	in.Properties.DeepCopyInto(&out.Properties)
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(NamespacesEventhubs_Spec_PropertiesARM)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))
@@ -2211,7 +2243,11 @@ func (in *Namespaces_Spec) DeepCopyInto(out *Namespaces_Spec) {
 		*out = new(int)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PrivateEndpointConnections != nil {
 		in, out := &in.PrivateEndpointConnections, &out.PrivateEndpointConnections
 		*out = make([]Namespaces_Spec_Properties_PrivateEndpointConnections, len(*in))
@@ -2261,7 +2297,11 @@ func (in *Namespaces_SpecARM) DeepCopyInto(out *Namespaces_SpecARM) {
 		*out = new(string)
 		**out = **in
 	}
-	in.Properties.DeepCopyInto(&out.Properties)
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(Namespaces_Spec_PropertiesARM)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Sku != nil {
 		in, out := &in.Sku, &out.Sku
 		*out = new(SkuARM)
@@ -2506,6 +2546,11 @@ func (in *Sku) DeepCopyInto(out *Sku) {
 		*out = new(int)
 		**out = **in
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(SkuName)
+		**out = **in
+	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
 		*out = new(SkuTier)
@@ -2529,6 +2574,11 @@ func (in *SkuARM) DeepCopyInto(out *SkuARM) {
 	if in.Capacity != nil {
 		in, out := &in.Capacity, &out.Capacity
 		*out = new(int)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(SkuName)
 		**out = **in
 	}
 	if in.Tier != nil {
@@ -2556,6 +2606,11 @@ func (in *Sku_Status) DeepCopyInto(out *Sku_Status) {
 		*out = new(int)
 		**out = **in
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(SkuStatusName)
+		**out = **in
+	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
 		*out = new(SkuStatusTier)
@@ -2579,6 +2634,11 @@ func (in *Sku_StatusARM) DeepCopyInto(out *Sku_StatusARM) {
 	if in.Capacity != nil {
 		in, out := &in.Capacity, &out.Capacity
 		*out = new(int)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(SkuStatusName)
 		**out = **in
 	}
 	if in.Tier != nil {

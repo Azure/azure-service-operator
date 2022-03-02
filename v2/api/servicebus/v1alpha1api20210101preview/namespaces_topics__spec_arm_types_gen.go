@@ -10,10 +10,10 @@ type NamespacesTopics_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: Name of the resource
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: The Topic Properties definition.
-	Properties SBTopicPropertiesARM `json:"properties"`
+	Properties *SBTopicPropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`

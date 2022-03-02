@@ -802,7 +802,7 @@ const DomainsSpecAPIVersion20200601 = DomainsSpecAPIVersion("2020-06-01")
 type Domains_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
 	//only if PublicNetworkAccess is enabled.
@@ -817,13 +817,13 @@ type Domains_Spec struct {
 	InputSchemaMapping *JsonInputSchemaMapping `json:"inputSchemaMapping,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	//PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
 	//You can further restrict to specific IPs by configuring <seealso
@@ -844,12 +844,21 @@ func (domains *Domains_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	var result Domains_SpecARM
 
 	// Set property ‘Location’:
-	result.Location = domains.Location
+	if domains.Location != nil {
+		location := *domains.Location
+		result.Location = &location
+	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if domains.InboundIpRules != nil ||
+		domains.InputSchema != nil ||
+		domains.InputSchemaMapping != nil ||
+		domains.PublicNetworkAccess != nil {
+		result.Properties = &DomainPropertiesARM{}
+	}
 	for _, item := range domains.InboundIpRules {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -901,47 +910,58 @@ func (domains *Domains_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property ‘InboundIpRules’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.InboundIpRules {
-		var item1 InboundIpRule
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.InboundIpRules {
+			var item1 InboundIpRule
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			domains.InboundIpRules = append(domains.InboundIpRules, item1)
 		}
-		domains.InboundIpRules = append(domains.InboundIpRules, item1)
 	}
 
 	// Set property ‘InputSchema’:
 	// copying flattened property:
-	if typedInput.Properties.InputSchema != nil {
-		inputSchema := *typedInput.Properties.InputSchema
-		domains.InputSchema = &inputSchema
+	if typedInput.Properties != nil {
+		if typedInput.Properties.InputSchema != nil {
+			inputSchema := *typedInput.Properties.InputSchema
+			domains.InputSchema = &inputSchema
+		}
 	}
 
 	// Set property ‘InputSchemaMapping’:
 	// copying flattened property:
-	if typedInput.Properties.InputSchemaMapping != nil {
-		var inputSchemaMapping1 JsonInputSchemaMapping
-		err := inputSchemaMapping1.PopulateFromARM(owner, *typedInput.Properties.InputSchemaMapping)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.InputSchemaMapping != nil {
+			var inputSchemaMapping1 JsonInputSchemaMapping
+			err := inputSchemaMapping1.PopulateFromARM(owner, *typedInput.Properties.InputSchemaMapping)
+			if err != nil {
+				return err
+			}
+			inputSchemaMapping := inputSchemaMapping1
+			domains.InputSchemaMapping = &inputSchemaMapping
 		}
-		inputSchemaMapping := inputSchemaMapping1
-		domains.InputSchemaMapping = &inputSchemaMapping
 	}
 
 	// Set property ‘Location’:
-	domains.Location = typedInput.Location
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		domains.Location = &location
+	}
 
 	// Set property ‘Owner’:
-	domains.Owner = genruntime.KnownResourceReference{
+	domains.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘PublicNetworkAccess’:
 	// copying flattened property:
-	if typedInput.Properties.PublicNetworkAccess != nil {
-		publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
-		domains.PublicNetworkAccess = &publicNetworkAccess
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicNetworkAccess != nil {
+			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			domains.PublicNetworkAccess = &publicNetworkAccess
+		}
 	}
 
 	// Set property ‘Tags’:
@@ -1051,10 +1071,15 @@ func (domains *Domains_Spec) AssignPropertiesFromDomainsSpec(source *v1alpha1api
 	}
 
 	// Location
-	domains.Location = genruntime.GetOptionalStringValue(source.Location)
+	domains.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	domains.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		domains.Owner = &owner
+	} else {
+		domains.Owner = nil
+	}
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
@@ -1118,14 +1143,18 @@ func (domains *Domains_Spec) AssignPropertiesToDomainsSpec(destination *v1alpha1
 	}
 
 	// Location
-	location := domains.Location
-	destination.Location = &location
+	destination.Location = genruntime.ClonePointerToString(domains.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = domains.OriginalVersion()
 
 	// Owner
-	destination.Owner = domains.Owner.Copy()
+	if domains.Owner != nil {
+		owner := domains.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// PublicNetworkAccess
 	if domains.PublicNetworkAccess != nil {
@@ -1391,7 +1420,7 @@ func (rule *InboundIpRule_Status) AssignPropertiesToInboundIpRuleStatus(destinat
 type InputSchemaMapping_Status struct {
 	// +kubebuilder:validation:Required
 	//InputSchemaMappingType: Type of the custom mapping
-	InputSchemaMappingType InputSchemaMappingStatusInputSchemaMappingType `json:"inputSchemaMappingType"`
+	InputSchemaMappingType *InputSchemaMappingStatusInputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &InputSchemaMapping_Status{}
@@ -1409,7 +1438,10 @@ func (mapping *InputSchemaMapping_Status) PopulateFromARM(owner genruntime.Arbit
 	}
 
 	// Set property ‘InputSchemaMappingType’:
-	mapping.InputSchemaMappingType = typedInput.InputSchemaMappingType
+	if typedInput.InputSchemaMappingType != nil {
+		inputSchemaMappingType := *typedInput.InputSchemaMappingType
+		mapping.InputSchemaMappingType = &inputSchemaMappingType
+	}
 
 	// No error
 	return nil
@@ -1420,9 +1452,10 @@ func (mapping *InputSchemaMapping_Status) AssignPropertiesFromInputSchemaMapping
 
 	// InputSchemaMappingType
 	if source.InputSchemaMappingType != nil {
-		mapping.InputSchemaMappingType = InputSchemaMappingStatusInputSchemaMappingType(*source.InputSchemaMappingType)
+		inputSchemaMappingType := InputSchemaMappingStatusInputSchemaMappingType(*source.InputSchemaMappingType)
+		mapping.InputSchemaMappingType = &inputSchemaMappingType
 	} else {
-		mapping.InputSchemaMappingType = ""
+		mapping.InputSchemaMappingType = nil
 	}
 
 	// No error
@@ -1435,8 +1468,12 @@ func (mapping *InputSchemaMapping_Status) AssignPropertiesToInputSchemaMappingSt
 	propertyBag := genruntime.NewPropertyBag()
 
 	// InputSchemaMappingType
-	inputSchemaMappingType := string(mapping.InputSchemaMappingType)
-	destination.InputSchemaMappingType = &inputSchemaMappingType
+	if mapping.InputSchemaMappingType != nil {
+		inputSchemaMappingType := string(*mapping.InputSchemaMappingType)
+		destination.InputSchemaMappingType = &inputSchemaMappingType
+	} else {
+		destination.InputSchemaMappingType = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1452,7 +1489,7 @@ func (mapping *InputSchemaMapping_Status) AssignPropertiesToInputSchemaMappingSt
 //Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonInputSchemaMapping
 type JsonInputSchemaMapping struct {
 	// +kubebuilder:validation:Required
-	InputSchemaMappingType JsonInputSchemaMappingInputSchemaMappingType `json:"inputSchemaMappingType"`
+	InputSchemaMappingType *JsonInputSchemaMappingInputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
 
 	//Properties: This can be used to map properties of a source schema (or default values, for certain supported properties)
 	//to properties of the EventGridEvent schema.
@@ -1469,7 +1506,10 @@ func (mapping *JsonInputSchemaMapping) ConvertToARM(resolved genruntime.ConvertT
 	var result JsonInputSchemaMappingARM
 
 	// Set property ‘InputSchemaMappingType’:
-	result.InputSchemaMappingType = mapping.InputSchemaMappingType
+	if mapping.InputSchemaMappingType != nil {
+		inputSchemaMappingType := *mapping.InputSchemaMappingType
+		result.InputSchemaMappingType = &inputSchemaMappingType
+	}
 
 	// Set property ‘Properties’:
 	if mapping.Properties != nil {
@@ -1496,7 +1536,10 @@ func (mapping *JsonInputSchemaMapping) PopulateFromARM(owner genruntime.Arbitrar
 	}
 
 	// Set property ‘InputSchemaMappingType’:
-	mapping.InputSchemaMappingType = typedInput.InputSchemaMappingType
+	if typedInput.InputSchemaMappingType != nil {
+		inputSchemaMappingType := *typedInput.InputSchemaMappingType
+		mapping.InputSchemaMappingType = &inputSchemaMappingType
+	}
 
 	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
@@ -1518,9 +1561,10 @@ func (mapping *JsonInputSchemaMapping) AssignPropertiesFromJsonInputSchemaMappin
 
 	// InputSchemaMappingType
 	if source.InputSchemaMappingType != nil {
-		mapping.InputSchemaMappingType = JsonInputSchemaMappingInputSchemaMappingType(*source.InputSchemaMappingType)
+		inputSchemaMappingType := JsonInputSchemaMappingInputSchemaMappingType(*source.InputSchemaMappingType)
+		mapping.InputSchemaMappingType = &inputSchemaMappingType
 	} else {
-		mapping.InputSchemaMappingType = ""
+		mapping.InputSchemaMappingType = nil
 	}
 
 	// Properties
@@ -1545,8 +1589,12 @@ func (mapping *JsonInputSchemaMapping) AssignPropertiesToJsonInputSchemaMapping(
 	propertyBag := genruntime.NewPropertyBag()
 
 	// InputSchemaMappingType
-	inputSchemaMappingType := string(mapping.InputSchemaMappingType)
-	destination.InputSchemaMappingType = &inputSchemaMappingType
+	if mapping.InputSchemaMappingType != nil {
+		inputSchemaMappingType := string(*mapping.InputSchemaMappingType)
+		destination.InputSchemaMappingType = &inputSchemaMappingType
+	} else {
+		destination.InputSchemaMappingType = nil
+	}
 
 	// Properties
 	if mapping.Properties != nil {

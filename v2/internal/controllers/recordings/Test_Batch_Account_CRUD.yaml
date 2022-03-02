@@ -66,7 +66,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"asotestbatchaccmoznzl","properties":{}}'
+    body: '{"location":"westus2","name":"asotestbatchaccmoznzl"}'
     form: {}
     headers:
       Accept:

@@ -192,7 +192,7 @@ func (disk *Disk_Status) ConvertStatusTo(destination genruntime.ConvertibleStatu
 type Disks_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName       string        `json:"azureName"`
+	AzureName       string        `json:"azureName,omitempty"`
 	BurstingEnabled *bool         `json:"burstingEnabled,omitempty"`
 	CreationData    *CreationData `json:"creationData,omitempty"`
 
@@ -210,20 +210,20 @@ type Disks_Spec struct {
 	Location                     *string                       `json:"location,omitempty"`
 	MaxShares                    *int                          `json:"maxShares,omitempty"`
 	NetworkAccessPolicy          *string                       `json:"networkAccessPolicy,omitempty"`
-	OriginalVersion              string                        `json:"originalVersion"`
+	OriginalVersion              string                        `json:"originalVersion,omitempty"`
 	OsType                       *string                       `json:"osType,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner        genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PropertyBag  genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	PurchasePlan *PurchasePlan                     `json:"purchasePlan,omitempty"`
-	Sku          *DiskSku                          `json:"sku,omitempty"`
-	Tags         map[string]string                 `json:"tags,omitempty"`
-	Tier         *string                           `json:"tier,omitempty"`
-	Zones        []string                          `json:"zones,omitempty"`
+	Owner        *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag  genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PurchasePlan *PurchasePlan                      `json:"purchasePlan,omitempty"`
+	Sku          *DiskSku                           `json:"sku,omitempty"`
+	Tags         map[string]string                  `json:"tags,omitempty"`
+	Tier         *string                            `json:"tier,omitempty"`
+	Zones        []string                           `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Disks_Spec{}
@@ -474,7 +474,7 @@ type ImageDiskReference struct {
 
 	// +kubebuilder:validation:Required
 	//Reference: A relative uri containing either a Platform Image Repository or user image reference.
-	Reference genruntime.ResourceReference `armReference:"Id" json:"reference"`
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 //Storage version of v1alpha1api20200930.ImageDiskReference_Status

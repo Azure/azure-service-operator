@@ -10,10 +10,10 @@ type RedisPatchSchedules_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: Default string modeled as parameter for auto generation to work correctly.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: List of patch schedules for a Redis cache.
-	Properties ScheduleEntriesARM `json:"properties"`
+	Properties *ScheduleEntriesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -39,17 +39,17 @@ func (schedules RedisPatchSchedules_SpecARM) GetType() string {
 //Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/ScheduleEntries
 type ScheduleEntriesARM struct {
 	//ScheduleEntries: List of patch schedules for a Redis cache.
-	ScheduleEntries []ScheduleEntryARM `json:"scheduleEntries"`
+	ScheduleEntries []ScheduleEntryARM `json:"scheduleEntries,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/ScheduleEntry
 type ScheduleEntryARM struct {
 	//DayOfWeek: Day of the week when a cache can be patched.
-	DayOfWeek ScheduleEntryDayOfWeek `json:"dayOfWeek"`
+	DayOfWeek *ScheduleEntryDayOfWeek `json:"dayOfWeek,omitempty"`
 
 	//MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
 	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`
 
 	//StartHourUtc: Start hour after which cache patching can start.
-	StartHourUtc int `json:"startHourUtc"`
+	StartHourUtc *int `json:"startHourUtc,omitempty"`
 }

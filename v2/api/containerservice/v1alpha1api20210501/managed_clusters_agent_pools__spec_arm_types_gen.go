@@ -10,10 +10,10 @@ type ManagedClustersAgentPools_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the agent pool.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties for the container service agent pool profile.
-	Properties ManagedClusterAgentPoolProfilePropertiesARM `json:"properties"`
+	Properties *ManagedClusterAgentPoolProfilePropertiesARM `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &ManagedClustersAgentPools_SpecARM{}

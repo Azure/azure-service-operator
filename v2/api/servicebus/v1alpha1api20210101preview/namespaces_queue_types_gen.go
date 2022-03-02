@@ -320,7 +320,7 @@ type NamespacesQueues_Spec struct {
 	// +kubebuilder:validation:MinLength=1
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//DeadLetteringOnMessageExpiration: A value that indicates whether this queue has dead letter support when a message
 	//expires.
@@ -370,7 +370,7 @@ type NamespacesQueues_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a servicebus.azure.com/Namespace resource
-	Owner genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner" kind:"Namespace"`
+	Owner *genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner,omitempty" kind:"Namespace"`
 
 	//RequiresDuplicateDetection: A value indicating if this queue requires duplicate detection.
 	RequiresDuplicateDetection *bool `json:"requiresDuplicateDetection,omitempty"`
@@ -401,6 +401,22 @@ func (queues *NamespacesQueues_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if queues.AutoDeleteOnIdle != nil ||
+		queues.DeadLetteringOnMessageExpiration != nil ||
+		queues.DefaultMessageTimeToLive != nil ||
+		queues.DuplicateDetectionHistoryTimeWindow != nil ||
+		queues.EnableBatchedOperations != nil ||
+		queues.EnableExpress != nil ||
+		queues.EnablePartitioning != nil ||
+		queues.ForwardDeadLetteredMessagesTo != nil ||
+		queues.ForwardTo != nil ||
+		queues.LockDuration != nil ||
+		queues.MaxDeliveryCount != nil ||
+		queues.MaxSizeInMegabytes != nil ||
+		queues.RequiresDuplicateDetection != nil ||
+		queues.RequiresSession != nil {
+		result.Properties = &SBQueuePropertiesARM{}
+	}
 	if queues.AutoDeleteOnIdle != nil {
 		autoDeleteOnIdle := *queues.AutoDeleteOnIdle
 		result.Properties.AutoDeleteOnIdle = &autoDeleteOnIdle
@@ -482,9 +498,11 @@ func (queues *NamespacesQueues_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘AutoDeleteOnIdle’:
 	// copying flattened property:
-	if typedInput.Properties.AutoDeleteOnIdle != nil {
-		autoDeleteOnIdle := *typedInput.Properties.AutoDeleteOnIdle
-		queues.AutoDeleteOnIdle = &autoDeleteOnIdle
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AutoDeleteOnIdle != nil {
+			autoDeleteOnIdle := *typedInput.Properties.AutoDeleteOnIdle
+			queues.AutoDeleteOnIdle = &autoDeleteOnIdle
+		}
 	}
 
 	// Set property ‘AzureName’:
@@ -492,58 +510,74 @@ func (queues *NamespacesQueues_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘DeadLetteringOnMessageExpiration’:
 	// copying flattened property:
-	if typedInput.Properties.DeadLetteringOnMessageExpiration != nil {
-		deadLetteringOnMessageExpiration := *typedInput.Properties.DeadLetteringOnMessageExpiration
-		queues.DeadLetteringOnMessageExpiration = &deadLetteringOnMessageExpiration
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DeadLetteringOnMessageExpiration != nil {
+			deadLetteringOnMessageExpiration := *typedInput.Properties.DeadLetteringOnMessageExpiration
+			queues.DeadLetteringOnMessageExpiration = &deadLetteringOnMessageExpiration
+		}
 	}
 
 	// Set property ‘DefaultMessageTimeToLive’:
 	// copying flattened property:
-	if typedInput.Properties.DefaultMessageTimeToLive != nil {
-		defaultMessageTimeToLive := *typedInput.Properties.DefaultMessageTimeToLive
-		queues.DefaultMessageTimeToLive = &defaultMessageTimeToLive
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DefaultMessageTimeToLive != nil {
+			defaultMessageTimeToLive := *typedInput.Properties.DefaultMessageTimeToLive
+			queues.DefaultMessageTimeToLive = &defaultMessageTimeToLive
+		}
 	}
 
 	// Set property ‘DuplicateDetectionHistoryTimeWindow’:
 	// copying flattened property:
-	if typedInput.Properties.DuplicateDetectionHistoryTimeWindow != nil {
-		duplicateDetectionHistoryTimeWindow := *typedInput.Properties.DuplicateDetectionHistoryTimeWindow
-		queues.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DuplicateDetectionHistoryTimeWindow != nil {
+			duplicateDetectionHistoryTimeWindow := *typedInput.Properties.DuplicateDetectionHistoryTimeWindow
+			queues.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
+		}
 	}
 
 	// Set property ‘EnableBatchedOperations’:
 	// copying flattened property:
-	if typedInput.Properties.EnableBatchedOperations != nil {
-		enableBatchedOperations := *typedInput.Properties.EnableBatchedOperations
-		queues.EnableBatchedOperations = &enableBatchedOperations
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableBatchedOperations != nil {
+			enableBatchedOperations := *typedInput.Properties.EnableBatchedOperations
+			queues.EnableBatchedOperations = &enableBatchedOperations
+		}
 	}
 
 	// Set property ‘EnableExpress’:
 	// copying flattened property:
-	if typedInput.Properties.EnableExpress != nil {
-		enableExpress := *typedInput.Properties.EnableExpress
-		queues.EnableExpress = &enableExpress
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableExpress != nil {
+			enableExpress := *typedInput.Properties.EnableExpress
+			queues.EnableExpress = &enableExpress
+		}
 	}
 
 	// Set property ‘EnablePartitioning’:
 	// copying flattened property:
-	if typedInput.Properties.EnablePartitioning != nil {
-		enablePartitioning := *typedInput.Properties.EnablePartitioning
-		queues.EnablePartitioning = &enablePartitioning
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnablePartitioning != nil {
+			enablePartitioning := *typedInput.Properties.EnablePartitioning
+			queues.EnablePartitioning = &enablePartitioning
+		}
 	}
 
 	// Set property ‘ForwardDeadLetteredMessagesTo’:
 	// copying flattened property:
-	if typedInput.Properties.ForwardDeadLetteredMessagesTo != nil {
-		forwardDeadLetteredMessagesTo := *typedInput.Properties.ForwardDeadLetteredMessagesTo
-		queues.ForwardDeadLetteredMessagesTo = &forwardDeadLetteredMessagesTo
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ForwardDeadLetteredMessagesTo != nil {
+			forwardDeadLetteredMessagesTo := *typedInput.Properties.ForwardDeadLetteredMessagesTo
+			queues.ForwardDeadLetteredMessagesTo = &forwardDeadLetteredMessagesTo
+		}
 	}
 
 	// Set property ‘ForwardTo’:
 	// copying flattened property:
-	if typedInput.Properties.ForwardTo != nil {
-		forwardTo := *typedInput.Properties.ForwardTo
-		queues.ForwardTo = &forwardTo
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ForwardTo != nil {
+			forwardTo := *typedInput.Properties.ForwardTo
+			queues.ForwardTo = &forwardTo
+		}
 	}
 
 	// Set property ‘Location’:
@@ -554,42 +588,52 @@ func (queues *NamespacesQueues_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘LockDuration’:
 	// copying flattened property:
-	if typedInput.Properties.LockDuration != nil {
-		lockDuration := *typedInput.Properties.LockDuration
-		queues.LockDuration = &lockDuration
+	if typedInput.Properties != nil {
+		if typedInput.Properties.LockDuration != nil {
+			lockDuration := *typedInput.Properties.LockDuration
+			queues.LockDuration = &lockDuration
+		}
 	}
 
 	// Set property ‘MaxDeliveryCount’:
 	// copying flattened property:
-	if typedInput.Properties.MaxDeliveryCount != nil {
-		maxDeliveryCount := *typedInput.Properties.MaxDeliveryCount
-		queues.MaxDeliveryCount = &maxDeliveryCount
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MaxDeliveryCount != nil {
+			maxDeliveryCount := *typedInput.Properties.MaxDeliveryCount
+			queues.MaxDeliveryCount = &maxDeliveryCount
+		}
 	}
 
 	// Set property ‘MaxSizeInMegabytes’:
 	// copying flattened property:
-	if typedInput.Properties.MaxSizeInMegabytes != nil {
-		maxSizeInMegabytes := *typedInput.Properties.MaxSizeInMegabytes
-		queues.MaxSizeInMegabytes = &maxSizeInMegabytes
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MaxSizeInMegabytes != nil {
+			maxSizeInMegabytes := *typedInput.Properties.MaxSizeInMegabytes
+			queues.MaxSizeInMegabytes = &maxSizeInMegabytes
+		}
 	}
 
 	// Set property ‘Owner’:
-	queues.Owner = genruntime.KnownResourceReference{
+	queues.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘RequiresDuplicateDetection’:
 	// copying flattened property:
-	if typedInput.Properties.RequiresDuplicateDetection != nil {
-		requiresDuplicateDetection := *typedInput.Properties.RequiresDuplicateDetection
-		queues.RequiresDuplicateDetection = &requiresDuplicateDetection
+	if typedInput.Properties != nil {
+		if typedInput.Properties.RequiresDuplicateDetection != nil {
+			requiresDuplicateDetection := *typedInput.Properties.RequiresDuplicateDetection
+			queues.RequiresDuplicateDetection = &requiresDuplicateDetection
+		}
 	}
 
 	// Set property ‘RequiresSession’:
 	// copying flattened property:
-	if typedInput.Properties.RequiresSession != nil {
-		requiresSession := *typedInput.Properties.RequiresSession
-		queues.RequiresSession = &requiresSession
+	if typedInput.Properties != nil {
+		if typedInput.Properties.RequiresSession != nil {
+			requiresSession := *typedInput.Properties.RequiresSession
+			queues.RequiresSession = &requiresSession
+		}
 	}
 
 	// Set property ‘Tags’:
@@ -740,7 +784,12 @@ func (queues *NamespacesQueues_Spec) AssignPropertiesFromNamespacesQueuesSpec(so
 	queues.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
 
 	// Owner
-	queues.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		queues.Owner = &owner
+	} else {
+		queues.Owner = nil
+	}
 
 	// RequiresDuplicateDetection
 	if source.RequiresDuplicateDetection != nil {
@@ -856,7 +905,12 @@ func (queues *NamespacesQueues_Spec) AssignPropertiesToNamespacesQueuesSpec(dest
 	destination.OriginalVersion = queues.OriginalVersion()
 
 	// Owner
-	destination.Owner = queues.Owner.Copy()
+	if queues.Owner != nil {
+		owner := queues.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// RequiresDuplicateDetection
 	if queues.RequiresDuplicateDetection != nil {

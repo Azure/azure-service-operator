@@ -10,7 +10,7 @@ type DomainsTopics_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: Name of the domain topic.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`

@@ -224,7 +224,7 @@ func MongoDBCollectionGetPropertiesStatusResourceARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForMongoDBCollectionGetPropertiesStatusResourceARM(gens map[string]gopter.Gen) {
 	gens["AnalyticalStorageTtl"] = gen.PtrOf(gen.Int())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Rid"] = gen.PtrOf(gen.AlphaString())
 	gens["ShardKey"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Ts"] = gen.PtrOf(gen.Float64())

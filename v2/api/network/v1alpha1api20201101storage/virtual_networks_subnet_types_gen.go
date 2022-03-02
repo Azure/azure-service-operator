@@ -185,26 +185,26 @@ type VirtualNetworksSubnets_Spec struct {
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName            string                                               `json:"azureName"`
+	AzureName            string                                               `json:"azureName,omitempty"`
 	Delegations          []VirtualNetworksSubnets_Spec_Properties_Delegations `json:"delegations,omitempty"`
 	IpAllocations        []SubResource                                        `json:"ipAllocations,omitempty"`
 	Location             *string                                              `json:"location,omitempty"`
 	NatGateway           *SubResource                                         `json:"natGateway,omitempty"`
 	NetworkSecurityGroup *SubResource                                         `json:"networkSecurityGroup,omitempty"`
-	OriginalVersion      string                                               `json:"originalVersion"`
+	OriginalVersion      string                                               `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a network.azure.com/VirtualNetwork resource
-	Owner                             genruntime.KnownResourceReference `group:"network.azure.com" json:"owner" kind:"VirtualNetwork"`
-	PrivateEndpointNetworkPolicies    *string                           `json:"privateEndpointNetworkPolicies,omitempty"`
-	PrivateLinkServiceNetworkPolicies *string                           `json:"privateLinkServiceNetworkPolicies,omitempty"`
-	PropertyBag                       genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	RouteTable                        *SubResource                      `json:"routeTable,omitempty"`
-	ServiceEndpointPolicies           []SubResource                     `json:"serviceEndpointPolicies,omitempty"`
-	ServiceEndpoints                  []ServiceEndpointPropertiesFormat `json:"serviceEndpoints,omitempty"`
-	Tags                              map[string]string                 `json:"tags,omitempty"`
+	Owner                             *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"VirtualNetwork"`
+	PrivateEndpointNetworkPolicies    *string                            `json:"privateEndpointNetworkPolicies,omitempty"`
+	PrivateLinkServiceNetworkPolicies *string                            `json:"privateLinkServiceNetworkPolicies,omitempty"`
+	PropertyBag                       genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	RouteTable                        *SubResource                       `json:"routeTable,omitempty"`
+	ServiceEndpointPolicies           []SubResource                      `json:"serviceEndpointPolicies,omitempty"`
+	ServiceEndpoints                  []ServiceEndpointPropertiesFormat  `json:"serviceEndpoints,omitempty"`
+	Tags                              map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &VirtualNetworksSubnets_Spec{}

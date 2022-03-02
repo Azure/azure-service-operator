@@ -46,7 +46,7 @@ type VirtualMachineExtension_StatusARM struct {
 	Id *string `json:"id,omitempty"`
 
 	//Location: Resource location
-	Location string `json:"location"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: Resource name
 	Name       *string                                      `json:"name,omitempty"`
@@ -489,7 +489,7 @@ type DataDisk_StatusARM struct {
 	//FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a
 	//platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also
 	//use the plan element previously described.
-	CreateOption CreateOption_Status `json:"createOption"`
+	CreateOption *CreateOption_Status `json:"createOption,omitempty"`
 
 	//DetachOption: Specifies the detach behavior to be used while detaching a disk or which is already in the process of
 	//detachment from the virtual machine. Supported values: ForceDetach.
@@ -521,7 +521,7 @@ type DataDisk_StatusARM struct {
 
 	//Lun: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and
 	//therefore must be unique for each data disk attached to a VM.
-	Lun int `json:"lun"`
+	Lun *int `json:"lun,omitempty"`
 
 	//ManagedDisk: The managed disk parameters.
 	ManagedDisk *ManagedDiskParameters_StatusARM `json:"managedDisk,omitempty"`
@@ -652,7 +652,7 @@ type OSDisk_StatusARM struct {
 	//FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a
 	//platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also
 	//use the plan element previously described.
-	CreateOption CreateOption_Status `json:"createOption"`
+	CreateOption *CreateOption_Status `json:"createOption,omitempty"`
 
 	//DiffDiskSettings: Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine.
 	DiffDiskSettings *DiffDiskSettings_StatusARM `json:"diffDiskSettings,omitempty"`
@@ -1003,18 +1003,18 @@ type ApiError_StatusARM struct {
 
 type KeyVaultKeyReference_StatusARM struct {
 	//KeyUrl: The URL referencing a key encryption key in Key Vault.
-	KeyUrl string `json:"keyUrl"`
+	KeyUrl *string `json:"keyUrl,omitempty"`
 
 	//SourceVault: The relative URL of the Key Vault containing the key.
-	SourceVault SubResource_StatusARM `json:"sourceVault"`
+	SourceVault *SubResource_StatusARM `json:"sourceVault,omitempty"`
 }
 
 type KeyVaultSecretReference_StatusARM struct {
 	//SecretUrl: The URL referencing a secret in a Key Vault.
-	SecretUrl string `json:"secretUrl"`
+	SecretUrl *string `json:"secretUrl,omitempty"`
 
 	//SourceVault: The relative URL of the Key Vault containing the secret.
-	SourceVault SubResource_StatusARM `json:"sourceVault"`
+	SourceVault *SubResource_StatusARM `json:"sourceVault,omitempty"`
 }
 
 type SshPublicKey_StatusARM struct {

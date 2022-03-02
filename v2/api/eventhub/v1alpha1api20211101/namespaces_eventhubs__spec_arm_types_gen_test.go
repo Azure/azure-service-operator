@@ -90,7 +90,7 @@ func AddIndependentPropertyGeneratorsForNamespacesEventhubsSpecARM(gens map[stri
 
 // AddRelatedPropertyGeneratorsForNamespacesEventhubsSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesEventhubsSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = NamespacesEventhubsSpecPropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(NamespacesEventhubsSpecPropertiesARMGenerator())
 }
 
 func Test_NamespacesEventhubs_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

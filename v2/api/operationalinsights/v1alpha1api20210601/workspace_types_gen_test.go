@@ -410,7 +410,7 @@ func AddIndependentPropertyGeneratorsForWorkspacesSpec(gens map[string]gopter.Ge
 	gens["AzureName"] = gen.AlphaString()
 	gens["ETag"] = gen.PtrOf(gen.AlphaString())
 	gens["ForceCmkForQuery"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
 		WorkspacePropertiesProvisioningStateCanceled,
 		WorkspacePropertiesProvisioningStateCreating,
@@ -1055,7 +1055,7 @@ func WorkspaceSkuGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWorkspaceSku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspaceSku(gens map[string]gopter.Gen) {
 	gens["CapacityReservationLevel"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.OneConstOf(
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
 		WorkspaceSkuNameCapacityReservation,
 		WorkspaceSkuNameFree,
 		WorkspaceSkuNameLACluster,
@@ -1063,7 +1063,7 @@ func AddIndependentPropertyGeneratorsForWorkspaceSku(gens map[string]gopter.Gen)
 		WorkspaceSkuNamePerNode,
 		WorkspaceSkuNamePremium,
 		WorkspaceSkuNameStandalone,
-		WorkspaceSkuNameStandard)
+		WorkspaceSkuNameStandard))
 }
 
 func Test_WorkspaceSku_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1174,7 +1174,7 @@ func AddIndependentPropertyGeneratorsForWorkspaceSkuStatus(gens map[string]gopte
 		WorkspaceSkuStatusCapacityReservationLevel500,
 		WorkspaceSkuStatusCapacityReservationLevel5000))
 	gens["LastSkuUpdate"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.OneConstOf(
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
 		WorkspaceSkuStatusNameCapacityReservation,
 		WorkspaceSkuStatusNameFree,
 		WorkspaceSkuStatusNameLACluster,
@@ -1182,5 +1182,5 @@ func AddIndependentPropertyGeneratorsForWorkspaceSkuStatus(gens map[string]gopte
 		WorkspaceSkuStatusNamePerNode,
 		WorkspaceSkuStatusNamePremium,
 		WorkspaceSkuStatusNameStandalone,
-		WorkspaceSkuStatusNameStandard)
+		WorkspaceSkuStatusNameStandard))
 }

@@ -10,13 +10,13 @@ type Namespaces_SpecARM struct {
 	Identity *IdentityARM `json:"identity,omitempty"`
 
 	//Location: The Geo-location where the resource lives
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: Name of the resource
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties of the namespace.
-	Properties Namespaces_Spec_PropertiesARM `json:"properties"`
+	Properties *Namespaces_Spec_PropertiesARM `json:"properties,omitempty"`
 
 	//Sku: SKU of the namespace.
 	Sku *SBSkuARM `json:"sku,omitempty"`
@@ -62,7 +62,7 @@ type SBSkuARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	//Name: Name of this SKU.
-	Name SBSkuName `json:"name"`
+	Name *SBSkuName `json:"name,omitempty"`
 
 	//Tier: The billing tier of this particular SKU.
 	Tier *SBSkuTier `json:"tier,omitempty"`

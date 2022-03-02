@@ -433,7 +433,11 @@ func (in *FlexibleServersConfigurations_Spec) DeepCopyInto(out *FlexibleServersC
 		*out = new(string)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -547,7 +551,11 @@ func (in *FlexibleServersDatabases_Spec) DeepCopyInto(out *FlexibleServersDataba
 		*out = new(string)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -646,7 +654,11 @@ func (in *FlexibleServersFirewallRules_Spec) DeepCopyInto(out *FlexibleServersFi
 		*out = new(string)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -726,7 +738,11 @@ func (in *FlexibleServers_Spec) DeepCopyInto(out *FlexibleServers_Spec) {
 		*out = new(Network)
 		(*in).DeepCopyInto(*out)
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PointInTimeUTC != nil {
 		in, out := &in.PointInTimeUTC, &out.PointInTimeUTC
 		*out = new(string)

@@ -945,7 +945,7 @@ type StorageAccountsBlobServicesContainers_Spec struct {
 	// +kubebuilder:validation:MinLength=3
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//DefaultEncryptionScope: Default the container to use specified encryption scope for all writes.
 	DefaultEncryptionScope *string `json:"defaultEncryptionScope,omitempty"`
@@ -966,7 +966,7 @@ type StorageAccountsBlobServicesContainers_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a storage.azure.com/StorageAccountsBlobService resource
-	Owner genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner" kind:"StorageAccountsBlobService"`
+	Owner *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccountsBlobService"`
 
 	//PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.
 	PublicAccess *ContainerPropertiesPublicAccess `json:"publicAccess,omitempty"`
@@ -1103,7 +1103,7 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) PopulateFromARM(ow
 	}
 
 	// Set property ‘Owner’:
-	containers.Owner = genruntime.KnownResourceReference{
+	containers.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -1214,7 +1214,12 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) AssignPropertiesFr
 	containers.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
 	// Owner
-	containers.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		containers.Owner = &owner
+	} else {
+		containers.Owner = nil
+	}
 
 	// PublicAccess
 	if source.PublicAccess != nil {
@@ -1272,7 +1277,12 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) AssignPropertiesTo
 	destination.OriginalVersion = containers.OriginalVersion()
 
 	// Owner
-	destination.Owner = containers.Owner.Copy()
+	if containers.Owner != nil {
+		owner := containers.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// PublicAccess
 	if containers.PublicAccess != nil {

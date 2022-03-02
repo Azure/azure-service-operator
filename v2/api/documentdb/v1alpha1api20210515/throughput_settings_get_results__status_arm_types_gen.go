@@ -55,7 +55,7 @@ type AutoscaleSettingsResource_StatusARM struct {
 	AutoUpgradePolicy *AutoUpgradePolicyResource_StatusARM `json:"autoUpgradePolicy,omitempty"`
 
 	//MaxThroughput: Represents maximum throughput container can scale up to.
-	MaxThroughput int `json:"maxThroughput"`
+	MaxThroughput *int `json:"maxThroughput,omitempty"`
 
 	//TargetMaxThroughput: Represents target maximum throughput container can scale up to once offer is no longer in pending
 	//state.

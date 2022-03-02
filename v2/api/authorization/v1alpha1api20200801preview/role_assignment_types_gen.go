@@ -336,12 +336,14 @@ type RoleAssignment_Status struct {
 	//Name: The role assignment name.
 	Name *string `json:"name,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//PrincipalId: The principal ID.
 	PrincipalId *string `json:"principalId,omitempty"`
 
 	//PrincipalType: The principal type of the assigned principal ID.
 	PrincipalType *RoleAssignmentPropertiesStatusPrincipalType `json:"principalType,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//RoleDefinitionId: The role definition ID.
 	RoleDefinitionId *string `json:"roleDefinitionId,omitempty"`
 
@@ -493,7 +495,10 @@ func (assignment *RoleAssignment_Status) PopulateFromARM(owner genruntime.Arbitr
 	// Set property ‘PrincipalId’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		assignment.PrincipalId = &typedInput.Properties.PrincipalId
+		if typedInput.Properties.PrincipalId != nil {
+			principalId := *typedInput.Properties.PrincipalId
+			assignment.PrincipalId = &principalId
+		}
 	}
 
 	// Set property ‘PrincipalType’:
@@ -508,7 +513,10 @@ func (assignment *RoleAssignment_Status) PopulateFromARM(owner genruntime.Arbitr
 	// Set property ‘RoleDefinitionId’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		assignment.RoleDefinitionId = &typedInput.Properties.RoleDefinitionId
+		if typedInput.Properties.RoleDefinitionId != nil {
+			roleDefinitionId := *typedInput.Properties.RoleDefinitionId
+			assignment.RoleDefinitionId = &roleDefinitionId
+		}
 	}
 
 	// Set property ‘Scope’:
@@ -685,7 +693,7 @@ const RoleAssignmentsSpecAPIVersion20200801Preview = RoleAssignmentsSpecAPIVersi
 type RoleAssignments_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
 	//@Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase
@@ -708,18 +716,18 @@ type RoleAssignments_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
 	//extension resource, which means that any other Azure resource can be its owner.
-	Owner genruntime.ArbitraryOwnerReference `json:"owner"`
+	Owner *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//PrincipalId: The principal ID.
-	PrincipalId string `json:"principalId"`
+	PrincipalId *string `json:"principalId,omitempty"`
 
 	//PrincipalType: The principal type of the assigned principal ID.
 	PrincipalType *RoleAssignmentPropertiesPrincipalType `json:"principalType,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//RoleDefinitionReference: The role definition ID.
-	RoleDefinitionReference genruntime.ResourceReference `armReference:"RoleDefinitionId" json:"roleDefinitionReference"`
+	RoleDefinitionReference *genruntime.ResourceReference `armReference:"RoleDefinitionId" json:"roleDefinitionReference,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -744,6 +752,15 @@ func (assignments *RoleAssignments_Spec) ConvertToARM(resolved genruntime.Conver
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if assignments.Condition != nil ||
+		assignments.ConditionVersion != nil ||
+		assignments.DelegatedManagedIdentityResourceId != nil ||
+		assignments.Description != nil ||
+		assignments.PrincipalId != nil ||
+		assignments.PrincipalType != nil ||
+		assignments.RoleDefinitionReference != nil {
+		result.Properties = &RoleAssignmentPropertiesARM{}
+	}
 	if assignments.Condition != nil {
 		condition := *assignments.Condition
 		result.Properties.Condition = &condition
@@ -760,16 +777,22 @@ func (assignments *RoleAssignments_Spec) ConvertToARM(resolved genruntime.Conver
 		description := *assignments.Description
 		result.Properties.Description = &description
 	}
-	result.Properties.PrincipalId = assignments.PrincipalId
+	if assignments.PrincipalId != nil {
+		principalId := *assignments.PrincipalId
+		result.Properties.PrincipalId = &principalId
+	}
 	if assignments.PrincipalType != nil {
 		principalType := *assignments.PrincipalType
 		result.Properties.PrincipalType = &principalType
 	}
-	roleDefinitionIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(assignments.RoleDefinitionReference)
-	if err != nil {
-		return nil, err
+	if assignments.RoleDefinitionReference != nil {
+		roleDefinitionIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*assignments.RoleDefinitionReference)
+		if err != nil {
+			return nil, err
+		}
+		roleDefinitionId := roleDefinitionIdARMID
+		result.Properties.RoleDefinitionId = &roleDefinitionId
 	}
-	result.Properties.RoleDefinitionId = roleDefinitionIdARMID
 
 	// Set property ‘Tags’:
 	if assignments.Tags != nil {
@@ -798,30 +821,38 @@ func (assignments *RoleAssignments_Spec) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property ‘Condition’:
 	// copying flattened property:
-	if typedInput.Properties.Condition != nil {
-		condition := *typedInput.Properties.Condition
-		assignments.Condition = &condition
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Condition != nil {
+			condition := *typedInput.Properties.Condition
+			assignments.Condition = &condition
+		}
 	}
 
 	// Set property ‘ConditionVersion’:
 	// copying flattened property:
-	if typedInput.Properties.ConditionVersion != nil {
-		conditionVersion := *typedInput.Properties.ConditionVersion
-		assignments.ConditionVersion = &conditionVersion
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ConditionVersion != nil {
+			conditionVersion := *typedInput.Properties.ConditionVersion
+			assignments.ConditionVersion = &conditionVersion
+		}
 	}
 
 	// Set property ‘DelegatedManagedIdentityResourceId’:
 	// copying flattened property:
-	if typedInput.Properties.DelegatedManagedIdentityResourceId != nil {
-		delegatedManagedIdentityResourceId := *typedInput.Properties.DelegatedManagedIdentityResourceId
-		assignments.DelegatedManagedIdentityResourceId = &delegatedManagedIdentityResourceId
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DelegatedManagedIdentityResourceId != nil {
+			delegatedManagedIdentityResourceId := *typedInput.Properties.DelegatedManagedIdentityResourceId
+			assignments.DelegatedManagedIdentityResourceId = &delegatedManagedIdentityResourceId
+		}
 	}
 
 	// Set property ‘Description’:
 	// copying flattened property:
-	if typedInput.Properties.Description != nil {
-		description := *typedInput.Properties.Description
-		assignments.Description = &description
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Description != nil {
+			description := *typedInput.Properties.Description
+			assignments.Description = &description
+		}
 	}
 
 	// Set property ‘Location’:
@@ -831,17 +862,24 @@ func (assignments *RoleAssignments_Spec) PopulateFromARM(owner genruntime.Arbitr
 	}
 
 	// Set property ‘Owner’:
-	assignments.Owner = owner
+	assignments.Owner = &owner
 
 	// Set property ‘PrincipalId’:
 	// copying flattened property:
-	assignments.PrincipalId = typedInput.Properties.PrincipalId
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PrincipalId != nil {
+			principalId := *typedInput.Properties.PrincipalId
+			assignments.PrincipalId = &principalId
+		}
+	}
 
 	// Set property ‘PrincipalType’:
 	// copying flattened property:
-	if typedInput.Properties.PrincipalType != nil {
-		principalType := *typedInput.Properties.PrincipalType
-		assignments.PrincipalType = &principalType
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PrincipalType != nil {
+			principalType := *typedInput.Properties.PrincipalType
+			assignments.PrincipalType = &principalType
+		}
 	}
 
 	// no assignment for property ‘RoleDefinitionReference’
@@ -930,10 +968,15 @@ func (assignments *RoleAssignments_Spec) AssignPropertiesFromRoleAssignmentsSpec
 	assignments.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	assignments.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		assignments.Owner = &owner
+	} else {
+		assignments.Owner = nil
+	}
 
 	// PrincipalId
-	assignments.PrincipalId = genruntime.GetOptionalStringValue(source.PrincipalId)
+	assignments.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
 	// PrincipalType
 	if source.PrincipalType != nil {
@@ -944,7 +987,12 @@ func (assignments *RoleAssignments_Spec) AssignPropertiesFromRoleAssignmentsSpec
 	}
 
 	// RoleDefinitionReference
-	assignments.RoleDefinitionReference = source.RoleDefinitionReference.Copy()
+	if source.RoleDefinitionReference != nil {
+		roleDefinitionReference := source.RoleDefinitionReference.Copy()
+		assignments.RoleDefinitionReference = &roleDefinitionReference
+	} else {
+		assignments.RoleDefinitionReference = nil
+	}
 
 	// Tags
 	assignments.Tags = genruntime.CloneMapOfStringToString(source.Tags)
@@ -980,11 +1028,15 @@ func (assignments *RoleAssignments_Spec) AssignPropertiesToRoleAssignmentsSpec(d
 	destination.OriginalVersion = assignments.OriginalVersion()
 
 	// Owner
-	destination.Owner = assignments.Owner.Copy()
+	if assignments.Owner != nil {
+		owner := assignments.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// PrincipalId
-	principalId := assignments.PrincipalId
-	destination.PrincipalId = &principalId
+	destination.PrincipalId = genruntime.ClonePointerToString(assignments.PrincipalId)
 
 	// PrincipalType
 	if assignments.PrincipalType != nil {
@@ -995,7 +1047,12 @@ func (assignments *RoleAssignments_Spec) AssignPropertiesToRoleAssignmentsSpec(d
 	}
 
 	// RoleDefinitionReference
-	destination.RoleDefinitionReference = assignments.RoleDefinitionReference.Copy()
+	if assignments.RoleDefinitionReference != nil {
+		roleDefinitionReference := assignments.RoleDefinitionReference.Copy()
+		destination.RoleDefinitionReference = &roleDefinitionReference
+	} else {
+		destination.RoleDefinitionReference = nil
+	}
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(assignments.Tags)

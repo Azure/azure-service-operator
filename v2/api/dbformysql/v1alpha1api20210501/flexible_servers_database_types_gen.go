@@ -539,7 +539,7 @@ const FlexibleServersDatabasesSpecAPIVersion20210501 = FlexibleServersDatabasesS
 type FlexibleServersDatabases_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//Charset: The charset of the database.
 	Charset *string `json:"charset,omitempty"`
@@ -554,7 +554,7 @@ type FlexibleServersDatabases_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a dbformysql.azure.com/FlexibleServer resource
-	Owner genruntime.KnownResourceReference `group:"dbformysql.azure.com" json:"owner" kind:"FlexibleServer"`
+	Owner *genruntime.KnownResourceReference `group:"dbformysql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -579,6 +579,9 @@ func (databases *FlexibleServersDatabases_Spec) ConvertToARM(resolved genruntime
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if databases.Charset != nil || databases.Collation != nil {
+		result.Properties = &DatabasePropertiesARM{}
+	}
 	if databases.Charset != nil {
 		charset := *databases.Charset
 		result.Properties.Charset = &charset
@@ -615,16 +618,20 @@ func (databases *FlexibleServersDatabases_Spec) PopulateFromARM(owner genruntime
 
 	// Set property ‘Charset’:
 	// copying flattened property:
-	if typedInput.Properties.Charset != nil {
-		charset := *typedInput.Properties.Charset
-		databases.Charset = &charset
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Charset != nil {
+			charset := *typedInput.Properties.Charset
+			databases.Charset = &charset
+		}
 	}
 
 	// Set property ‘Collation’:
 	// copying flattened property:
-	if typedInput.Properties.Collation != nil {
-		collation := *typedInput.Properties.Collation
-		databases.Collation = &collation
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Collation != nil {
+			collation := *typedInput.Properties.Collation
+			databases.Collation = &collation
+		}
 	}
 
 	// Set property ‘Location’:
@@ -634,7 +641,7 @@ func (databases *FlexibleServersDatabases_Spec) PopulateFromARM(owner genruntime
 	}
 
 	// Set property ‘Owner’:
-	databases.Owner = genruntime.KnownResourceReference{
+	databases.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -716,7 +723,12 @@ func (databases *FlexibleServersDatabases_Spec) AssignPropertiesFromFlexibleServ
 	databases.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	databases.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		databases.Owner = &owner
+	} else {
+		databases.Owner = nil
+	}
 
 	// Tags
 	databases.Tags = genruntime.CloneMapOfStringToString(source.Tags)
@@ -746,7 +758,12 @@ func (databases *FlexibleServersDatabases_Spec) AssignPropertiesToFlexibleServer
 	destination.OriginalVersion = databases.OriginalVersion()
 
 	// Owner
-	destination.Owner = databases.Owner.Copy()
+	if databases.Owner != nil {
+		owner := databases.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(databases.Tags)

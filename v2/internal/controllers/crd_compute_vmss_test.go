@@ -21,31 +21,32 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func newVMVirtualNetwork(tc *testcommon.KubePerTestContext, owner genruntime.KnownResourceReference) *network.VirtualNetwork {
+func newVMVirtualNetwork(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network.VirtualNetwork {
 	return &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
 		Spec: network.VirtualNetworks_Spec{
 			Owner:    owner,
 			Location: tc.AzureRegion,
-			AddressSpace: network.AddressSpace{
+			AddressSpace: &network.AddressSpace{
 				AddressPrefixes: []string{"10.0.0.0/16"},
 			},
 		},
 	}
 }
 
-func newVMSubnet(tc *testcommon.KubePerTestContext, owner genruntime.KnownResourceReference) *network.VirtualNetworksSubnet {
+func newVMSubnet(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network.VirtualNetworksSubnet {
 	return &network.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
 		Spec: network.VirtualNetworksSubnets_Spec{
 			Owner:         owner,
-			AddressPrefix: "10.0.0.0/24",
+			AddressPrefix: to.StringPtr("10.0.0.0/24"),
 		},
 	}
 }
 
-func newPublicIPAddressForVMSS(tc *testcommon.KubePerTestContext, owner genruntime.KnownResourceReference) *network.PublicIPAddress {
+func newPublicIPAddressForVMSS(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network.PublicIPAddress {
 	publicIPAddressSku := network.PublicIPAddressSkuNameStandard
+	allocationMethod := network.PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic
 	return &network.PublicIPAddress{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("publicip")),
 		Spec: network.PublicIPAddresses_Spec{
@@ -54,7 +55,7 @@ func newPublicIPAddressForVMSS(tc *testcommon.KubePerTestContext, owner genrunti
 			Sku: &network.PublicIPAddressSku{
 				Name: &publicIPAddressSku,
 			},
-			PublicIPAllocationMethod: network.PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic,
+			PublicIPAllocationMethod: &allocationMethod,
 		},
 	}
 }
@@ -88,7 +89,7 @@ func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.Res
 			},
 			FrontendIPConfigurations: []network.LoadBalancers_Spec_Properties_FrontendIPConfigurations{
 				{
-					Name: lbFrontendName,
+					Name: &lbFrontendName,
 					PublicIPAddress: &network.SubResource{
 						Reference: tc.MakeReferenceFromResource(publicIPAddress),
 					},
@@ -96,9 +97,9 @@ func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.Res
 			},
 			InboundNatPools: []network.LoadBalancers_Spec_Properties_InboundNatPools{
 				{
-					Name: "MyFancyNatPool",
+					Name: to.StringPtr("MyFancyNatPool"),
 					FrontendIPConfiguration: &network.SubResource{
-						Reference: genruntime.ResourceReference{
+						Reference: &genruntime.ResourceReference{
 							ARMID: frontIPConfigurationARMID,
 						},
 					},
@@ -170,13 +171,13 @@ func newVMSS(
 				NetworkProfile: &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile{
 					NetworkInterfaceConfigurations: []compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations{
 						{
-							Name:    "mynicconfig",
+							Name:    to.StringPtr("mynicconfig"),
 							Primary: to.BoolPtr(true),
 							IpConfigurations: []compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations{
 								{
-									Name: "myipconfiguration",
+									Name: to.StringPtr("myipconfiguration"),
 									Subnet: &compute.ApiEntityReference{
-										Reference: tc.MakeReferencePtrFromResource(subnet),
+										Reference: tc.MakeReferenceFromResource(subnet),
 									},
 									LoadBalancerInboundNatPools: []compute.SubResource{
 										{

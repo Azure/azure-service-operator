@@ -1127,7 +1127,7 @@ func LastAccessTimeTrackingPolicyGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForLastAccessTimeTrackingPolicy is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLastAccessTimeTrackingPolicy(gens map[string]gopter.Gen) {
 	gens["BlobType"] = gen.SliceOf(gen.AlphaString())
-	gens["Enable"] = gen.Bool()
+	gens["Enable"] = gen.PtrOf(gen.Bool())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(LastAccessTimeTrackingPolicyNameAccessTimeTracking))
 	gens["TrackingGranularityInDays"] = gen.PtrOf(gen.Int())
 }
@@ -1232,7 +1232,7 @@ func LastAccessTimeTrackingPolicyStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForLastAccessTimeTrackingPolicyStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLastAccessTimeTrackingPolicyStatus(gens map[string]gopter.Gen) {
 	gens["BlobType"] = gen.SliceOf(gen.AlphaString())
-	gens["Enable"] = gen.Bool()
+	gens["Enable"] = gen.PtrOf(gen.Bool())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(LastAccessTimeTrackingPolicyStatusNameAccessTimeTracking))
 	gens["TrackingGranularityInDays"] = gen.PtrOf(gen.Int())
 }
@@ -1337,7 +1337,7 @@ func RestorePolicyPropertiesGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRestorePolicyProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRestorePolicyProperties(gens map[string]gopter.Gen) {
 	gens["Days"] = gen.PtrOf(gen.Int())
-	gens["Enabled"] = gen.Bool()
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
 func Test_RestorePolicyProperties_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1440,7 +1440,7 @@ func RestorePolicyPropertiesStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRestorePolicyPropertiesStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRestorePolicyPropertiesStatus(gens map[string]gopter.Gen) {
 	gens["Days"] = gen.PtrOf(gen.Int())
-	gens["Enabled"] = gen.Bool()
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["LastEnabledTime"] = gen.PtrOf(gen.AlphaString())
 	gens["MinRestoreTime"] = gen.PtrOf(gen.AlphaString())
 }
@@ -1554,7 +1554,7 @@ func AddIndependentPropertyGeneratorsForCorsRule(gens map[string]gopter.Gen) {
 		CorsRuleAllowedMethodsPUT))
 	gens["AllowedOrigins"] = gen.SliceOf(gen.AlphaString())
 	gens["ExposedHeaders"] = gen.SliceOf(gen.AlphaString())
-	gens["MaxAgeInSeconds"] = gen.Int()
+	gens["MaxAgeInSeconds"] = gen.PtrOf(gen.Int())
 }
 
 func Test_CorsRule_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1666,5 +1666,5 @@ func AddIndependentPropertyGeneratorsForCorsRuleStatus(gens map[string]gopter.Ge
 		CorsRuleStatusAllowedMethodsPUT))
 	gens["AllowedOrigins"] = gen.SliceOf(gen.AlphaString())
 	gens["ExposedHeaders"] = gen.SliceOf(gen.AlphaString())
-	gens["MaxAgeInSeconds"] = gen.Int()
+	gens["MaxAgeInSeconds"] = gen.PtrOf(gen.Int())
 }

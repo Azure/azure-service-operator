@@ -678,7 +678,7 @@ type NamespacesEventhubs_Spec struct {
 	// +kubebuilder:validation:MinLength=1
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//CaptureDescription: Properties to configure capture description for eventhub
 	CaptureDescription *NamespacesEventhubs_Spec_Properties_CaptureDescription `json:"captureDescription,omitempty"`
@@ -694,7 +694,7 @@ type NamespacesEventhubs_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a eventhub.azure.com/Namespace resource
-	Owner genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner" kind:"Namespace"`
+	Owner *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"Namespace"`
 
 	// +kubebuilder:validation:Minimum=1
 	//PartitionCount: Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
@@ -723,6 +723,11 @@ func (eventhubs *NamespacesEventhubs_Spec) ConvertToARM(resolved genruntime.Conv
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if eventhubs.CaptureDescription != nil ||
+		eventhubs.MessageRetentionInDays != nil ||
+		eventhubs.PartitionCount != nil {
+		result.Properties = &NamespacesEventhubs_Spec_PropertiesARM{}
+	}
 	if eventhubs.CaptureDescription != nil {
 		captureDescriptionARM, err := (*eventhubs.CaptureDescription).ConvertToARM(resolved)
 		if err != nil {
@@ -767,14 +772,16 @@ func (eventhubs *NamespacesEventhubs_Spec) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property ‘CaptureDescription’:
 	// copying flattened property:
-	if typedInput.Properties.CaptureDescription != nil {
-		var captureDescription1 NamespacesEventhubs_Spec_Properties_CaptureDescription
-		err := captureDescription1.PopulateFromARM(owner, *typedInput.Properties.CaptureDescription)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.CaptureDescription != nil {
+			var captureDescription1 NamespacesEventhubs_Spec_Properties_CaptureDescription
+			err := captureDescription1.PopulateFromARM(owner, *typedInput.Properties.CaptureDescription)
+			if err != nil {
+				return err
+			}
+			captureDescription := captureDescription1
+			eventhubs.CaptureDescription = &captureDescription
 		}
-		captureDescription := captureDescription1
-		eventhubs.CaptureDescription = &captureDescription
 	}
 
 	// Set property ‘Location’:
@@ -785,21 +792,25 @@ func (eventhubs *NamespacesEventhubs_Spec) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property ‘MessageRetentionInDays’:
 	// copying flattened property:
-	if typedInput.Properties.MessageRetentionInDays != nil {
-		messageRetentionInDays := *typedInput.Properties.MessageRetentionInDays
-		eventhubs.MessageRetentionInDays = &messageRetentionInDays
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MessageRetentionInDays != nil {
+			messageRetentionInDays := *typedInput.Properties.MessageRetentionInDays
+			eventhubs.MessageRetentionInDays = &messageRetentionInDays
+		}
 	}
 
 	// Set property ‘Owner’:
-	eventhubs.Owner = genruntime.KnownResourceReference{
+	eventhubs.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘PartitionCount’:
 	// copying flattened property:
-	if typedInput.Properties.PartitionCount != nil {
-		partitionCount := *typedInput.Properties.PartitionCount
-		eventhubs.PartitionCount = &partitionCount
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PartitionCount != nil {
+			partitionCount := *typedInput.Properties.PartitionCount
+			eventhubs.PartitionCount = &partitionCount
+		}
 	}
 
 	// Set property ‘Tags’:
@@ -894,7 +905,12 @@ func (eventhubs *NamespacesEventhubs_Spec) AssignPropertiesFromNamespacesEventhu
 	}
 
 	// Owner
-	eventhubs.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		eventhubs.Owner = &owner
+	} else {
+		eventhubs.Owner = nil
+	}
 
 	// PartitionCount
 	if source.PartitionCount != nil {
@@ -946,7 +962,12 @@ func (eventhubs *NamespacesEventhubs_Spec) AssignPropertiesToNamespacesEventhubs
 	destination.OriginalVersion = eventhubs.OriginalVersion()
 
 	// Owner
-	destination.Owner = eventhubs.Owner.Copy()
+	if eventhubs.Owner != nil {
+		owner := eventhubs.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// PartitionCount
 	if eventhubs.PartitionCount != nil {

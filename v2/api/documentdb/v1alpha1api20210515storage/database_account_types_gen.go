@@ -201,7 +201,7 @@ type DatabaseAccounts_Spec struct {
 	// +kubebuilder:validation:Pattern="^[a-z0-9]+(-[a-z0-9]+)*"
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName                          string                       `json:"azureName"`
+	AzureName                          string                       `json:"azureName,omitempty"`
 	BackupPolicy                       *BackupPolicy                `json:"backupPolicy,omitempty"`
 	Capabilities                       []Capability                 `json:"capabilities,omitempty"`
 	ConnectorOffer                     *string                      `json:"connectorOffer,omitempty"`
@@ -225,17 +225,17 @@ type DatabaseAccounts_Spec struct {
 	NetworkAclBypass                   *string                      `json:"networkAclBypass,omitempty"`
 	NetworkAclBypassResourceIds        []string                     `json:"networkAclBypassResourceIds,omitempty"`
 	OperatorSpec                       *DatabaseAccountOperatorSpec `json:"operatorSpec,omitempty"`
-	OriginalVersion                    string                       `json:"originalVersion"`
+	OriginalVersion                    string                       `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner               genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PropertyBag         genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                           `json:"publicNetworkAccess,omitempty"`
-	Tags                map[string]string                 `json:"tags,omitempty"`
-	VirtualNetworkRules []VirtualNetworkRule              `json:"virtualNetworkRules,omitempty"`
+	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
+	Tags                map[string]string                  `json:"tags,omitempty"`
+	VirtualNetworkRules []VirtualNetworkRule               `json:"virtualNetworkRules,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &DatabaseAccounts_Spec{}

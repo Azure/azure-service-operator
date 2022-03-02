@@ -418,9 +418,9 @@ func AddIndependentPropertyGeneratorsForPublicIPAddressesSpec(gens map[string]go
 	gens["AzureName"] = gen.AlphaString()
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["IpAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressPropertiesFormatPublicIPAddressVersionIPv4, PublicIPAddressPropertiesFormatPublicIPAddressVersionIPv6))
-	gens["PublicIPAllocationMethod"] = gen.OneConstOf(PublicIPAddressPropertiesFormatPublicIPAllocationMethodDynamic, PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic)
+	gens["PublicIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressPropertiesFormatPublicIPAllocationMethodDynamic, PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
@@ -1212,7 +1212,7 @@ func PublicIPAddressDnsSettingsGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPublicIPAddressDnsSettings is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPublicIPAddressDnsSettings(gens map[string]gopter.Gen) {
-	gens["DomainNameLabel"] = gen.AlphaString()
+	gens["DomainNameLabel"] = gen.PtrOf(gen.AlphaString())
 	gens["Fqdn"] = gen.PtrOf(gen.AlphaString())
 	gens["ReverseFqdn"] = gen.PtrOf(gen.AlphaString())
 }
