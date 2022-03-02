@@ -74,6 +74,6 @@ func (s StoragePackageReference) GroupVersion() (string, string, bool) {
 }
 
 // Local returns the local package reference wrapped by this reference
-func (s StoragePackageReference) Local() *LocalPackageReference {
-	return &s.inner
+func (s StoragePackageReference) Local() LocalPackageReference {
+	return s.inner
 }
