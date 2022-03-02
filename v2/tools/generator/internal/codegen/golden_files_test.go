@@ -201,10 +201,11 @@ func NewTestCodeGenerator(
 		pipeline.ApplyExportFiltersStageID, // Don't want any filtering of resources during tests
 	)
 
+	//TODO: Enable this check once we fix up the test pipeline so that all the dependencies pass
 	//if err := codegen.verifyPipeline(); err != nil {
 	//	return nil, err
 	//}
-	//
+
 	return codegen, nil
 }
 

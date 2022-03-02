@@ -110,9 +110,6 @@ var knownLegacyStages = astmodel.MakeStringSet(
 	"reportTypesAndVersions",
 	"rogueCheck",
 	"simplifyDefinitions",
-	"stripUnreferenced",
-	"stripUnreferenced",
-	"stripUnreferenced",
 	"stripUnreferenced")
 
 // HasId returns true if this stage has the specified id, false otherwise
