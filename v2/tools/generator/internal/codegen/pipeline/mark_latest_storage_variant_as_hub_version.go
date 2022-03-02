@@ -48,5 +48,6 @@ func MarkLatestStorageVariantAsHubVersion() *Stage {
 			return state.WithDefinitions(defs), nil
 		})
 
-	return stage.WithRequiredPrerequisites(CreateConversionGraphStageId)
+	stage.RequiresPrerequisiteStages(CreateConversionGraphStageId)
+	return stage
 }

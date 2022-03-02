@@ -26,7 +26,8 @@ func ApplyExportFilters(configuration *config.Configuration) *Stage {
 			return filterTypes(configuration, state)
 		})
 
-	return stage.WithRequiredPostrequisites(VerifyNoErroredTypesStageID)
+	stage.RequiresPostrequisiteStages(VerifyNoErroredTypesStageID)
+	return stage
 }
 
 // filterTypes applies the configuration include/exclude filters to the generated definitions

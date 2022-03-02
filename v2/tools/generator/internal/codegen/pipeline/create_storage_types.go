@@ -58,6 +58,8 @@ func CreateStorageTypes() *Stage {
 			return state.WithDefinitions(defs), nil
 		})
 
-	return stage.WithRequiredPrerequisites(InjectOriginalVersionFunctionStageID).
-		WithRequiredPostrequisites(CreateConversionGraphStageId)
+	stage.RequiresPrerequisiteStages(InjectOriginalVersionFunctionStageID)
+	stage.RequiresPostrequisiteStages(CreateConversionGraphStageId)
+
+	return stage
 }

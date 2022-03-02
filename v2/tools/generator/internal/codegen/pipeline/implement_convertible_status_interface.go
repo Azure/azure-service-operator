@@ -41,7 +41,8 @@ func ImplementConvertibleStatusInterface(idFactory astmodel.IdentifierFactory) *
 			return state.WithDefinitions(defs), nil
 		})
 
-	return stage.WithRequiredPrerequisites(InjectPropertyAssignmentFunctionsStageID)
+	stage.RequiresPrerequisiteStages(InjectPropertyAssignmentFunctionsStageID)
+	return stage
 }
 
 // createConvertibleStatusInterfaceImplementation creates both of the funcs required for a given status to implement the

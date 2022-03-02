@@ -44,10 +44,12 @@ func InjectResourceConversionTestCases(idFactory astmodel.IdentifierFactory) *St
 			return state.WithDefinitions(state.Definitions().OverlayWith(modifiedDefs)), nil
 		})
 
-	return stage.WithRequiredPrerequisites(
+	stage.RequiresPrerequisiteStages(
 		InjectPropertyAssignmentFunctionsStageID, // Need PropertyAssignmentFunctions to test
 		ImplementConvertibleInterfaceStageId,     // Need the conversions.Convertible interface to be present
-		InjectJsonSerializationTestsID) // We reuse the generators from the JSON tests
+		InjectJsonSerializationTestsID)           // We reuse the generators from the JSON tests
+
+	return stage
 }
 
 // resourceConversionTestCaseFactory is a factory for injecting test cases where needed

@@ -44,9 +44,11 @@ func InjectPropertyAssignmentTests(idFactory astmodel.IdentifierFactory) *Stage 
 			return state.WithDefinitions(state.Definitions().OverlayWith(modifiedDefs)), nil
 		})
 
-	return stage.WithRequiredPrerequisites(
+	stage.RequiresPrerequisiteStages(
 		InjectPropertyAssignmentFunctionsStageID, // Need PropertyAssignmentFunctions to test
 		InjectJsonSerializationTestsID)           // We reuse the generators from the JSON tests
+
+	return stage
 }
 
 type propertyAssignmentTestCaseFactory struct {

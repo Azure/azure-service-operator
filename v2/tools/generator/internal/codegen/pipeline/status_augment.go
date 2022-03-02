@@ -44,7 +44,8 @@ func AugmentSpecWithStatus() *Stage {
 			return defs, nil
 		})
 
-	return stage.WithRequiredPrerequisites("allof-anyof-objects", "addStatusFromSwagger")
+	stage.RequiresPrerequisiteStages("allof-anyof-objects", "addStatusFromSwagger")
+	return stage
 }
 
 // an augmenter adds information from the Swagger-derived type to

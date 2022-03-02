@@ -50,5 +50,6 @@ func ImproveResourcePluralization() *Stage {
 			return renamingVisitor.RenameAll(result)
 		})
 
-	return stage.WithRequiredPrerequisites(RemoveTypeAliasesStageID)
+	stage.RequiresPrerequisiteStages(RemoveTypeAliasesStageID)
+	return stage
 }

@@ -75,7 +75,8 @@ func InjectPropertyAssignmentFunctions(
 		})
 
 	// Needed to populate the conversion graph
-	return stage.WithRequiredPrerequisites(CreateStorageTypesStageID)
+	stage.RequiresPrerequisiteStages(CreateStorageTypesStageID)
+	return stage
 }
 
 type propertyAssignmentFunctionsFactory struct {

@@ -56,5 +56,7 @@ func CreateResourceExtensions(localPath string, idFactory astmodel.IdentifierFac
 	// We don't want tests to be generated for resourceExtensions, since these are not the actual resource types.
 	// Therefore, we want to make sure that 'createResourceExtensions' stage only runs when these prerequisite
 	// stages have completed.
-	return stage.WithRequiredPrerequisites(InjectJsonSerializationTestsID, InjectPropertyAssignmentTestsID)
+	stage.RequiresPrerequisiteStages(InjectJsonSerializationTestsID, InjectPropertyAssignmentTestsID)
+
+	return stage
 }

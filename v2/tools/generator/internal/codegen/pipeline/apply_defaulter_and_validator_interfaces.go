@@ -15,8 +15,8 @@ import (
 const ApplyDefaulterAndValidatorInterfaceStageID = "applyDefaulterAndValidatorInterfaces"
 
 // ApplyDefaulterAndValidatorInterfaces add the admission.Defaulter and admission.Validator interfaces to each resource that requires them
-func ApplyDefaulterAndValidatorInterfaces(idFactory astmodel.IdentifierFactory) Stage {
-	stage := MakeStage(
+func ApplyDefaulterAndValidatorInterfaces(idFactory astmodel.IdentifierFactory) *Stage {
+	stage := NewStage(
 		ApplyDefaulterAndValidatorInterfaceStageID,
 		"Add the admission.Defaulter and admission.Validator interfaces to each resource that requires them",
 		func(ctx context.Context, state *State) (*State, error) {
@@ -40,5 +40,6 @@ func ApplyDefaulterAndValidatorInterfaces(idFactory astmodel.IdentifierFactory) 
 			return state.WithDefinitions(defs.OverlayWith(updatedDefs)), nil
 		})
 
-	return stage.RequiresPrerequisiteStages(ApplyKubernetesResourceInterfaceStageID)
+	stage.RequiresPrerequisiteStages(ApplyKubernetesResourceInterfaceStageID)
+	return stage
 }

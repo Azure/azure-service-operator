@@ -41,7 +41,8 @@ func ImplementConvertibleSpecInterface(idFactory astmodel.IdentifierFactory) *St
 			return state.WithDefinitions(defs), nil
 		})
 
-	return stage.WithRequiredPrerequisites(InjectPropertyAssignmentFunctionsStageID)
+	stage.RequiresPrerequisiteStages(InjectPropertyAssignmentFunctionsStageID)
+	return stage
 }
 
 // createConvertibleSpecInterfaceImplementation creates both of the funcs required for a given spec to implement the

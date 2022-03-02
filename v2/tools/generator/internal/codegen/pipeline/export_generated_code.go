@@ -44,7 +44,9 @@ func ExportPackages(outputPath string) *Stage {
 			return definitions, nil
 		})
 
-	return stage.WithRequiredPrerequisites(DeleteGeneratedCodeStageID)
+	stage.RequiresPrerequisiteStages(DeleteGeneratedCodeStageID)
+
+	return stage
 }
 
 // CreatePackagesForDefinitions groups type definitions into packages

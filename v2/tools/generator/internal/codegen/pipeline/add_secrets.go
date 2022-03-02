@@ -43,8 +43,10 @@ func AddSecrets(config *config.Configuration) *Stage {
 			return state.WithDefinitions(result), nil
 		})
 
-	return stage.WithRequiredPrerequisites(AugmentSpecWithStatusStageID).
-		WithRequiredPostrequisites(CreateARMTypesStageID)
+	stage.RequiresPrerequisiteStages(AugmentSpecWithStatusStageID)
+	stage.RequiresPostrequisiteStages(CreateARMTypesStageID)
+
+	return stage
 }
 
 func applyConfigSecretOverrides(config *config.Configuration, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {

@@ -42,6 +42,8 @@ func CreateConversionGraph(configuration *config.Configuration) *Stage {
 			return state.WithConversionGraph(graph), nil
 		})
 
-	return stage.WithRequiredPrerequisites(
+	stage.RequiresPrerequisiteStages(
 		CreateStorageTypesStageID) // We need storage types created before we construct the graph
+
+	return stage
 }

@@ -74,8 +74,8 @@ func (stage *Stage) HasId(id string) bool {
 	return stage.id == id
 }
 
-// WithRequiredPrerequisites declares which stages must have completed before this one is executed
-func (stage *Stage) WithRequiredPrerequisites(prerequisites ...string) *Stage {
+// RequiresPrerequisiteStages declares which stages must have completed before this one is executed
+func (stage *Stage) RequiresPrerequisiteStages(prerequisites ...string) {
 	if len(stage.prerequisites) > 0 {
 		panic(fmt.Sprintf(
 			"Prerequisites of stage '%s' already set to '%s'; cannot modify to '%s'.",
@@ -85,15 +85,13 @@ func (stage *Stage) WithRequiredPrerequisites(prerequisites ...string) *Stage {
 	}
 
 	stage.prerequisites = prerequisites
-
-	return stage
 }
 
-// WithRequiredPostrequisites declares which stages must be executed after this one has completed
-// This is not completely isomorphic with WithRequiredPrerequisites as there may be supporting stages that are
+// RequiresPostrequisiteStages declares which stages must be executed after this one has completed
+// This is not completely isomorphic with RequiresPrerequisiteStages as there may be supporting stages that are
 // sometimes omitted from execution when targeting different outcomes. Having both pre- and post-requisites allows the
 // dependencies to drop out cleanly when different stages are present.
-func (stage *Stage) WithRequiredPostrequisites(postrequisites ...string) *Stage {
+func (stage *Stage) RequiresPostrequisiteStages(postrequisites ...string) {
 	if len(stage.postrequisites) > 0 {
 		panic(fmt.Sprintf(
 			"Postrequisites of stage '%s' already set to '%s'; cannot modify to '%s'.",
@@ -103,8 +101,6 @@ func (stage *Stage) WithRequiredPostrequisites(postrequisites ...string) *Stage 
 	}
 
 	stage.postrequisites = postrequisites
-
-	return stage
 }
 
 // UsedFor specifies that this stage should be used for only the specified targets
