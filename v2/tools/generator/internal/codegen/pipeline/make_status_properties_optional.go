@@ -65,10 +65,10 @@ func makeStatusPropertiesOptional(statusDef astmodel.TypeDefinition) (astmodel.T
 func makeObjectPropertiesOptional(this *astmodel.TypeVisitor, ot *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 	typeName := ctx.(astmodel.TypeName)
 	for _, property := range ot.Properties() {
-		if property.HasKubebuilderRequiredValidation() {
+		if property.IsRequired() {
 			klog.V(4).Infof("\"%s.%s\" was required, changing it to optional", typeName.String(), property.PropertyName())
 		}
-		ot = ot.WithProperty(property.MakeOptional())
+		ot = ot.WithProperty(property.MakeOptional().MakeTypeOptional())
 	}
 
 	return astmodel.IdentityVisitOfObjectType(this, ot, ctx)

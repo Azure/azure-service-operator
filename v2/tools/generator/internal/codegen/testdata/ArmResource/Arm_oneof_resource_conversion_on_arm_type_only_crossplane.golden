@@ -34,15 +34,15 @@ type FakeResourceSpecAPIVersion string
 const FakeResourceSpecAPIVersion20200601 = FakeResourceSpecAPIVersion("2020-06-01")
 
 type FakeResource_Spec struct {
-	v1alpha1.ResourceSpec `json:",inline"`
-	ForProvider           FakeResourceParameters `json:"forProvider"`
+	v1alpha1.ResourceSpec `json:",inline,omitempty"`
+	ForProvider           FakeResourceParameters `json:"forProvider,omitempty"`
 }
 
 type FakeResourceParameters struct {
 	// +kubebuilder:validation:Required
-	Name                      string              `json:"name"`
+	Name                      string              `json:"name,omitempty"`
 	Properties                *Properties         `json:"properties,omitempty"`
-	ResourceGroupName         string              `json:"resourceGroupName"`
+	ResourceGroupName         string              `json:"resourceGroupName,omitempty"`
 	ResourceGroupNameRef      *v1alpha1.Reference `json:"resourceGroupNameRef,omitempty"`
 	ResourceGroupNameSelector *v1alpha1.Selector  `json:"resourceGroupNameSelector,omitempty"`
 }
@@ -62,26 +62,26 @@ type Properties struct {
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
 type Bar struct {
 	// +kubebuilder:validation:Required
-	Discrim BarDiscrim `json:"discrim"`
+	Discrim *BarDiscrim `json:"discrim,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Size int `json:"size"`
+	Size *int `json:"size,omitempty"`
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
 type Baz struct {
 	// +kubebuilder:validation:Required
-	Discrim BazDiscrim `json:"discrim"`
+	Discrim *BazDiscrim `json:"discrim,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Enabled bool `json:"enabled"`
+	Enabled *bool `json:"enabled,omitempty"`
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
 	// +kubebuilder:validation:Required
-	Discrim FooDiscrim `json:"discrim"`
-	Name    *string    `json:"name,omitempty"`
+	Discrim *FooDiscrim `json:"discrim,omitempty"`
+	Name    *string     `json:"name,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"bar"}

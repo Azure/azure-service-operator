@@ -199,8 +199,12 @@ func (c *armConversionApplier) transformSpec(resourceType *astmodel.ResourceType
 			return t, nil
 		}
 
-		// rename Name to AzureName
-		azureNameProp := armconversion.GetAzureNameProperty(c.idFactory).WithType(nameProp.PropertyType())
+		// rename Name to AzureName and promote type if needed
+		namePropType := nameProp.PropertyType()
+		if optional, ok := namePropType.(*astmodel.OptionalType); ok {
+			namePropType = optional.Element()
+		}
+		azureNameProp := armconversion.GetAzureNameProperty(c.idFactory).WithType(namePropType)
 		return t.WithoutProperty(astmodel.NameProperty).WithProperty(azureNameProp), nil
 	}
 
@@ -256,7 +260,7 @@ func (c *armConversionApplier) createOwnerProperty(ownerTypeName *astmodel.TypeN
 	prop := astmodel.NewPropertyDefinition(
 		c.idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported),
 		c.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
-		astmodel.KnownResourceReferenceType)
+		astmodel.NewOptionalType(astmodel.KnownResourceReferenceType))
 	prop = prop.WithDescription(
 		fmt.Sprintf("The owner of the resource. The owner controls where the resource goes when it is deployed. "+
 			"The owner also controls the resources lifecycle. "+
@@ -273,7 +277,7 @@ func (c *armConversionApplier) createExtensionResourceOwnerProperty() *astmodel.
 	prop := astmodel.NewPropertyDefinition(
 		c.idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported),
 		c.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
-		astmodel.ArbitraryOwnerReference).MakeRequired()
+		astmodel.NewOptionalType(astmodel.ArbitraryOwnerReference)).MakeRequired()
 	prop = prop.WithDescription(
 		"The owner of the resource. The owner controls where the resource goes when it is deployed. " +
 			"The owner also controls the resources lifecycle. " +

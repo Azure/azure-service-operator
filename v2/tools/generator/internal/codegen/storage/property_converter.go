@@ -180,6 +180,7 @@ func (p *PropertyConverter) defaultPropertyConversion(
 
 	newProperty := property.WithType(propertyType).
 		MakeOptional().
+		MakeTypeOptional().
 		WithDescription("")
 
 	return newProperty, nil

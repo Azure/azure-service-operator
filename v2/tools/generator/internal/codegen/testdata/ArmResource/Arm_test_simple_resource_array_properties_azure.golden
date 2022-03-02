@@ -208,12 +208,12 @@ type FakeResourceList struct {
 }
 
 type FakeResource_SpecARM struct {
-	ArrayFoo              []FooARM            `json:"arrayFoo"`
+	ArrayFoo              []FooARM            `json:"arrayFoo,omitempty"`
 	ArrayOfArrays         [][]FooARM          `json:"arrayOfArrays,omitempty"`
 	ArrayOfArraysOfArrays [][][]FooARM        `json:"arrayOfArraysOfArrays,omitempty"`
 	ArrayOfEnums          []Color             `json:"arrayOfEnums,omitempty"`
 	ArrayOfMaps           []map[string]FooARM `json:"arrayOfMaps,omitempty"`
-	Name                  string              `json:"name"`
+	Name                  string              `json:"name,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
@@ -250,7 +250,7 @@ const FakeResourceSpecAPIVersion20200601 = FakeResourceSpecAPIVersion("2020-06-0
 
 type FakeResource_Spec struct {
 	// +kubebuilder:validation:Required
-	ArrayFoo              []Foo            `json:"arrayFoo"`
+	ArrayFoo              []Foo            `json:"arrayFoo,omitempty"`
 	ArrayOfArrays         [][]Foo          `json:"arrayOfArrays,omitempty"`
 	ArrayOfArraysOfArrays [][][]Foo        `json:"arrayOfArraysOfArrays,omitempty"`
 	ArrayOfEnums          []Color          `json:"arrayOfEnums,omitempty"`
@@ -258,13 +258,13 @@ type FakeResource_Spec struct {
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 }
 
 var _ genruntime.ARMTransformer = &FakeResource_Spec{}
@@ -419,7 +419,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	resource.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	resource.Owner = genruntime.KnownResourceReference{
+	resource.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 

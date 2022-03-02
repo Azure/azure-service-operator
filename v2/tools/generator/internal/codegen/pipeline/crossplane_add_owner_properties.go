@@ -65,11 +65,11 @@ func AddCrossplaneOwnerProperties(idFactory astmodel.IdentifierFactory) *Stage {
 							nameRefProperty := astmodel.NewPropertyDefinition(
 								nameRef,
 								idFactory.CreateIdentifier(string(nameRef), astmodel.NotExported),
-								referenceTypeName).MakeOptional()
+								referenceTypeName).MakeTypeOptional()
 							nameSelectorProperty := astmodel.NewPropertyDefinition(
 								nameSelector,
 								idFactory.CreateIdentifier(string(nameSelector), astmodel.NotExported),
-								selectorTypeName).MakeOptional()
+								selectorTypeName).MakeTypeOptional()
 
 							result := o.WithProperty(nameProperty).WithProperty(nameRefProperty).WithProperty(nameSelectorProperty)
 							return result, nil

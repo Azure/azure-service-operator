@@ -126,7 +126,7 @@ func removeValidations(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
 	for _, p := range t.Properties() {
 
 		// set all properties as not-required
-		p = p.WithKubebuilderRequiredValidation(false)
+		p = p.MakeOptional()
 
 		// remove all validation types by promoting inner type
 		if validated, ok := p.PropertyType().(*astmodel.ValidatedType); ok {
@@ -243,8 +243,6 @@ func (c *armTypeCreator) createResourceReferenceProperty(prop *astmodel.Property
 		return nil, nil
 	}
 
-	isRequired := astmodel.TypeEquals(prop.PropertyType(), astmodel.ResourceReferenceType)
-
 	// Extract expected property name
 	values, ok := prop.Tag(astmodel.ARMReferenceTag)
 	if !ok {
@@ -259,14 +257,7 @@ func (c *armTypeCreator) createResourceReferenceProperty(prop *astmodel.Property
 	newProp := astmodel.NewPropertyDefinition(
 		c.idFactory.CreatePropertyName(armPropName, astmodel.Exported),
 		c.idFactory.CreateIdentifier(armPropName, astmodel.NotExported),
-		astmodel.StringType)
-
-	if isRequired {
-		// We want to be required but don't need any kubebuidler annotations on this type because it's an ARM type
-		newProp = newProp.MakeRequired().WithKubebuilderRequiredValidation(false)
-	} else {
-		newProp = newProp.MakeOptional()
-	}
+		astmodel.StringType).MakeTypeOptional()
 
 	return newProp, nil
 }

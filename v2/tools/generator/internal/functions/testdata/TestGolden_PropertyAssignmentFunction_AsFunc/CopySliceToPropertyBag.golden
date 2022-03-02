@@ -10,7 +10,7 @@ import (
 )
 
 type Person struct {
-	Scores []int `json:"scores"`
+	Scores []int `json:"scores,omitempty"`
 }
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person

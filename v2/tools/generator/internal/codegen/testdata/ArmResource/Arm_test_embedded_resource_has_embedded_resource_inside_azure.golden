@@ -206,7 +206,7 @@ type AList struct {
 }
 
 type A_SpecARM struct {
-	Name       string          `json:"name"`
+	Name       string          `json:"name,omitempty"`
 	Properties *APropertiesARM `json:"properties,omitempty"`
 }
 
@@ -417,7 +417,7 @@ type BList struct {
 }
 
 type B_SpecARM struct {
-	Name       string          `json:"name"`
+	Name       string          `json:"name,omitempty"`
 	Properties *BPropertiesARM `json:"properties,omitempty"`
 }
 
@@ -628,7 +628,7 @@ type CList struct {
 }
 
 type C_SpecARM struct {
-	Name       string          `json:"name"`
+	Name       string          `json:"name,omitempty"`
 	Properties *CPropertiesARM `json:"properties,omitempty"`
 }
 
@@ -664,14 +664,14 @@ const ASpecAPIVersion20200601 = ASpecAPIVersion("2020-06-01")
 type A_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner      genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	Properties *AProperties                      `json:"properties,omitempty"`
+	Owner      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Properties *AProperties                       `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &A_Spec{}
@@ -714,7 +714,7 @@ func (a *A_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	a.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	a.Owner = genruntime.KnownResourceReference{
+	a.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -775,14 +775,14 @@ const BSpecAPIVersion20200601 = BSpecAPIVersion("2020-06-01")
 type B_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner      genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	Properties *BProperties                      `json:"properties,omitempty"`
+	Owner      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Properties *BProperties                       `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &B_Spec{}
@@ -825,7 +825,7 @@ func (b *B_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	b.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	b.Owner = genruntime.KnownResourceReference{
+	b.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -886,14 +886,14 @@ const CSpecAPIVersion20200601 = CSpecAPIVersion("2020-06-01")
 type C_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner      genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	Properties *CProperties                      `json:"properties,omitempty"`
+	Owner      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Properties *CProperties                       `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &C_Spec{}
@@ -936,7 +936,7 @@ func (c *C_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	c.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	c.Owner = genruntime.KnownResourceReference{
+	c.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 

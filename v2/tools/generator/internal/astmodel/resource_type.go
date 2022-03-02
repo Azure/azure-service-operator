@@ -86,12 +86,12 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName, kin
 			switch string(property.PropertyName()) {
 			case NameProperty:
 				nameProperty = property
-				if _, ok := property.PropertyType().(*OptionalType); ok {
+				if _, ok := AsOptionalType(property.PropertyType()); ok {
 					isNameOptional = true
 				}
 			case TypeProperty:
 				typeProperty = property
-				if _, ok := property.PropertyType().(*OptionalType); ok {
+				if _, ok := AsOptionalType(property.PropertyType()); ok {
 					isTypeOptional = true
 				}
 			case APIVersionProperty:
@@ -117,7 +117,7 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName, kin
 
 		if isNameOptional {
 			// Fix name to be required -- again this is an artifact of bad spec more than anything
-			nameProperty = nameProperty.MakeRequired()
+			nameProperty = nameProperty.MakeRequired().MakeTypeRequired()
 			objectType = objectType.WithProperty(nameProperty)
 		}
 
@@ -125,11 +125,11 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName, kin
 		// case forcing it to required makes our lives simpler (and the vast majority of resources specify
 		// it as required anyway). The only time it's allowed to be optional is if you set apiProfile on
 		// the ARM template instead, which we never do.
-		apiVersionProperty = apiVersionProperty.MakeRequired()
+		apiVersionProperty = apiVersionProperty.MakeRequired().MakeTypeRequired()
 		objectType = objectType.WithProperty(apiVersionProperty)
 
 		if isTypeOptional {
-			typeProperty = typeProperty.MakeRequired()
+			typeProperty = typeProperty.MakeRequired().MakeTypeRequired()
 			objectType = objectType.WithProperty(typeProperty)
 		}
 
@@ -347,7 +347,7 @@ func (resource *ResourceType) Equals(other Type, override EqualityOverrides) boo
 func (resource *ResourceType) EmbeddedProperties() []*PropertyDefinition {
 	typeMetaType := MakeTypeName(MetaV1Reference, "TypeMeta")
 	typeMetaProperty := NewPropertyDefinition("", "", typeMetaType).
-		WithTag("json", "inline")
+		WithTag("json", "inline").WithoutTag("json", "omitempty")
 
 	objectMetaProperty := NewPropertyDefinition("", "metadata", ObjectMetaType).
 		WithTag("json", "omitempty")

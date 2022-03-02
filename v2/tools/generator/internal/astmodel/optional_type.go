@@ -48,16 +48,33 @@ func NewOptionalType(element Type) Type {
 	return &OptionalType{element}
 }
 
+func canTypeBeMadeRequired(t Type) bool {
+	switch typ := t.(type) {
+	case *ArrayType:
+		return false
+	case *MapType:
+		return false
+	case *OptionalType:
+		return true
+	case *ValidatedType:
+		return canTypeBeMadeRequired(typ.ElementType())
+	default:
+		return false
+	}
+}
+
 func isTypeOptional(t Type) bool {
 	// Arrays and Maps are already "optional" as far as Go is concerned,
 	// so don't wrap them. Optional is also obviously already optional.
-	switch t.(type) {
+	switch typ := t.(type) {
 	case *ArrayType:
 		return true
 	case *MapType:
 		return true
 	case *OptionalType:
 		return true
+	case *ValidatedType:
+		return isTypeOptional(typ.ElementType())
 	default:
 		return false
 	}

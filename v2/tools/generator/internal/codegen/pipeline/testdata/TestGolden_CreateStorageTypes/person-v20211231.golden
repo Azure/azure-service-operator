@@ -23,27 +23,27 @@ type PersonList struct {
 
 type Person_Spec struct {
 	//FamilyName: Shared name of the family
-	FamilyName string `json:"familyName"`
+	FamilyName string `json:"familyName,omitempty"`
 
 	//FullName: As would be used to address mail
-	FullName string `json:"fullName"`
+	FullName string `json:"fullName,omitempty"`
 
 	//KnownAs: How the person is generally known
-	KnownAs            string  `json:"knownAs"`
-	PostalAddress      Address `json:"postalAddress"`
-	ResidentialAddress Address `json:"residentialAddress"`
+	KnownAs            string  `json:"knownAs,omitempty"`
+	PostalAddress      Address `json:"postalAddress,omitempty"`
+	ResidentialAddress Address `json:"residentialAddress,omitempty"`
 }
 
 type Person_Status struct {
-	Status string `json:"status"`
+	Status string `json:"status,omitempty"`
 }
 
 type Address struct {
 	//City: City or town (or nearest)
-	City string `json:"city"`
+	City string `json:"city,omitempty"`
 
 	//FullAddress: Full written address for map or postal use
-	FullAddress string `json:"fullAddress"`
+	FullAddress string `json:"fullAddress,omitempty"`
 }
 
 func init() {

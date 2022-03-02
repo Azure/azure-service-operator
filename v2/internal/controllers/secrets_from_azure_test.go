@@ -123,7 +123,7 @@ func Test_SameObjectHasTwoSecretsWritingToSameDestination_RejectedByWebhook(t *t
 		Key:  "key1",
 	}
 
-	err := tc.CreateResourceExpectFailure(acct1)
+	err := tc.CreateResourceExpectRequestFailure(acct1)
 	tc.Expect(err.Error()).To(ContainSubstring("cannot write more than one secret to destination Name: %q, Key: %q", storageKeysSecret, "key1"))
 }
 

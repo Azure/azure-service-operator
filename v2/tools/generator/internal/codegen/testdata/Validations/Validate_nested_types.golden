@@ -6,7 +6,7 @@ package v1alpha1api20200101
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	// +kubebuilder:validation:Required
-	Ducks []Test_Ducks `json:"ducks"`
+	Ducks []Test_Ducks `json:"ducks,omitempty"`
 }
 
 // +kubebuilder:validation:MaxLength=20
