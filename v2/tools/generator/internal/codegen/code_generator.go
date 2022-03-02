@@ -259,7 +259,8 @@ func (generator *CodeGenerator) verifyPipeline() error {
 	// Set of stages we expect to see, each associated with a slice containing the earlier stages that expected each
 	stagesExpected := make(map[string][]string)
 
-	for _, stage := range generator.pipeline {
+	for index, stage := range generator.pipeline {
+		klog.V(3).Infof("Checking requisites of %d/%d %s", index, len(generator.pipeline), stage.Id())
 		err := stage.CheckPrerequisites(stagesSeen)
 		if err != nil {
 			errs = append(errs, err)
@@ -267,13 +268,20 @@ func (generator *CodeGenerator) verifyPipeline() error {
 
 		for _, postreq := range stage.Postrequisites() {
 			if stagesSeen.Contains(postreq) {
+				klog.V(3).Infof("[✗] Postrequisite %s satisfied EARLY", postreq)
 				errs = append(errs, errors.Errorf("postrequisite %q of stage %q satisfied too early", postreq, stage.Id()))
 			} else {
+				klog.V(3).Infof("[?] Postrequisite %s expected", postreq)
 				stagesExpected[postreq] = append(stagesExpected[postreq], stage.Id())
 			}
 		}
 
 		stagesSeen.Add(stage.Id())
+
+		for _, req := range stagesExpected[stage.Id()] {
+			klog.V(3).Infof("[✓] Postrequisite of %s satisfied", req)
+		}
+
 		delete(stagesExpected, stage.Id())
 	}
 
