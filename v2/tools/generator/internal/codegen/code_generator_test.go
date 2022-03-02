@@ -9,7 +9,6 @@ import (
 	"context"
 	"testing"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/pipeline"
 
 	. "github.com/onsi/gomega"
@@ -68,9 +67,11 @@ func TestRemoveStages_PanicsForUnknownStage(t *testing.T) {
 }
 
 func MakeFakePipelineStage(id string) *pipeline.Stage {
-	return pipeline.NewLegacyStage(
-		id, "Stage "+id, func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			return defs, nil
+	return pipeline.NewStage(
+		id,
+		"Stage "+id,
+		func(ctx context.Context, state *pipeline.State) (*pipeline.State, error) {
+			return state, nil
 		})
 }
 
