@@ -46,7 +46,8 @@ var (
 	Pkg2020s = astmodel.MakeStoragePackageReference(Pkg2020)
 
 	// Reference Package 2021 preview
-	Pkg2021Preview = MakeLocalPackageReference(Group, "v20211231preview")
+	Pkg2021Preview        = MakeLocalPackageReference(Group, "v20211231preview")
+	Pkg2021PreviewStorage = astmodel.MakeStoragePackageReference(Pkg2021Preview)
 
 	// Reference Packages for 2021
 	Pkg2021  = MakeLocalPackageReference(Group, "v20211231")
@@ -58,9 +59,11 @@ var (
 
 	// Reference Package Batch 2020
 	BatchPkg2020 = MakeLocalPackageReference(BatchGroup, "v20200101")
+	BatchPkg2020s = astmodel.MakeStoragePackageReference(BatchPkg2020)
 
 	// Reference Package Batch 2021
 	BatchPkg2021 = MakeLocalPackageReference(BatchGroup, "v20210630")
+	BatchPkg2021s = astmodel.MakeStoragePackageReference(BatchPkg2021)
 
 	// Objects in Pkg2021
 
