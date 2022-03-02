@@ -193,9 +193,9 @@ func (stage *Stage) CheckPrerequisites(priorStages astmodel.StringSet) error {
 	for _, prereq := range stage.prerequisites {
 		satisfied := priorStages.Contains(prereq)
 		if satisfied {
-			klog.V(0).Infof("[✓] Required prerequisite %s satisfied", prereq)
+			klog.V(3).Infof("[✓] Required prerequisite %s satisfied", prereq)
 		} else {
-			klog.V(0).Infof("[✗] Required prerequisite %s NOT satisfied", prereq)
+			klog.V(3).Infof("[✗] Required prerequisite %s NOT satisfied", prereq)
 		}
 
 		if !satisfied {
