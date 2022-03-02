@@ -49,6 +49,6 @@ func ApplyPropertyRewrites(config *config.Configuration) *Stage {
 		})
 
 	stage.RequiresPrerequisiteStages("nameTypes", "allof-anyof-objects")
-	
+
 	return stage
 }
