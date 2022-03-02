@@ -62,6 +62,9 @@ go get \
 go install -tags extended github.com/gohugoio/hugo@v0.88.1
 go install github.com/wjdp/htmltest@v0.15.0
 
+# for api docs 
+go install github.com/ahmetb/gen-crd-api-reference-docs@v0.3.1-0.20220223025230-af7c5e0048a3
+
 if [ "$1" != "devcontainer" ]; then 
     echo "Installing golangci-lint…"
     # golangci-lint is provided by base image if in devcontainer
