@@ -54,7 +54,12 @@ func NewLegacyStage(
 	description string,
 	action func(context.Context, astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error)) *Stage {
 
-	klog.Warning(id)
+	if !knownLegacyStages.Contains(id) {
+		msg := fmt.Sprintf(
+			"No new legacy stages (use NewStage instead): %s is not the id of a known legacy stage",
+			id)
+		panic(msg)
+	}
 
 	return NewStage(
 		id,
@@ -68,6 +73,47 @@ func NewLegacyStage(
 			return state.WithDefinitions(types), nil
 		})
 }
+
+var knownLegacyStages = astmodel.MakeStringSet(
+	"addCrossResourceReferences",
+	"addCrossplaneAtProviderProperty",
+	"addCrossplaneEmbeddedResourceSpec",
+	"addCrossplaneEmbeddedResourceStatus",
+	"addCrossplaneForProviderProperty",
+	"addCrossplaneOwnerProperties",
+	"addStatusFromSwagger",
+	"allof-anyof-objects",
+	"applyArmConversionInterface",
+	"assertTypesStructureValid",
+	"augmentSpecWithStatus",
+	"collapseCrossGroupReferences",
+	"createArmTypes",
+	"deleteGenerated",
+	"determineResourceOwnership",
+	"ensureArmTypeExistsForEveryType",
+	"exportControllerResourceRegistrations",
+	"exportPackages",
+	"flattenProperties",
+	"flattenResources",
+	"injectHubFunction",
+	"injectOriginalGVKFunction",
+	"injectOriginalVersionFunction",
+	"injectOriginalVersionProperty",
+	"loadSchema",
+	"markStorageVersion",
+	"nameTypes",
+	"pluralizeNames",
+	"propertyRewrites",
+	"removeAliases",
+	"removeEmbeddedResources",
+	"replaceAnyTypeWithJSON",
+	"reportTypesAndVersions",
+	"rogueCheck",
+	"simplifyDefinitions",
+	"stripUnreferenced",
+	"stripUnreferenced",
+	"stripUnreferenced",
+	"stripUnreferenced")
 
 // HasId returns true if this stage has the specified id, false otherwise
 func (stage *Stage) HasId(id string) bool {
