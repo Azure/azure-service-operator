@@ -383,15 +383,13 @@ func (r *azureDeploymentReconcilerInstance) handlePollerSuccess(ctx context.Cont
 		return ctrl.Result{}, errors.Wrapf(err, "error updating status")
 	}
 
-	if retrieveSecrets, ok := r.Extension.(extensions.SecretsRetriever); ok {
-		err = r.writeSecrets(ctx, retrieveSecrets)
-		if err != nil {
-			if _, ok := secrets.AsSecretNotOwnedError(err); ok {
-				err = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonSecretWriteFailure)
-			}
-
-			return ctrl.Result{}, err
+	err = r.saveAzureSecrets(ctx)
+	if err != nil {
+		if _, ok := secrets.AsSecretNotOwnedError(err); ok {
+			err = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonSecretWriteFailure)
 		}
+
+		return ctrl.Result{}, err
 	}
 
 	ClearPollerResumeToken(r.Obj)
@@ -632,8 +630,11 @@ func (r *azureDeploymentReconcilerInstance) deleteResourceSucceeded(ctx context.
 	return nil
 }
 
-func (r *azureDeploymentReconcilerInstance) writeSecrets(ctx context.Context, extension extensions.SecretsRetriever) error {
-	secretSlice, err := extension.RetrieveSecrets(ctx, r.Obj, r.ARMClient, r.Log)
+// saveAzureSecrets retrieves secrets from Azure and saves them to Kubernetes.
+// If there are no secrets to save this method is a no-op.
+func (r *azureDeploymentReconcilerInstance) saveAzureSecrets(ctx context.Context) error {
+	retriever := extensions.CreateSecretRetriever(ctx, r.Extension, r.ARMClient, r.Log)
+	secretSlice, err := retriever(r.Obj)
 	if err != nil {
 		return err
 	}
