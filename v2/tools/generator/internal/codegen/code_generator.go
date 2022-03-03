@@ -206,7 +206,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.DetectSkippingProperties().UsedFor(pipeline.ARMTarget),
 
 		pipeline.DeleteGeneratedCode(configuration.FullTypesOutputPath()),
-		pipeline.ExportPackages(configuration.FullTypesOutputPath()),
+		pipeline.ExportPackages(configuration.FullTypesOutputPath(), configuration.EmitDocFiles),
 
 		pipeline.ExportControllerResourceRegistrations(idFactory, configuration.FullTypesRegistrationOutputFilePath()).UsedFor(pipeline.ARMTarget),
 

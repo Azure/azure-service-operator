@@ -51,7 +51,7 @@ func (p *PackageDefinition) AddDefinition(def TypeDefinition) {
 }
 
 // EmitDefinitions emits the PackageDefinition to an output directory
-func (p *PackageDefinition) EmitDefinitions(outputDir string, generatedPackages map[PackageReference]*PackageDefinition) (int, error) {
+func (p *PackageDefinition) EmitDefinitions(outputDir string, generatedPackages map[PackageReference]*PackageDefinition, emitDocFiles bool) (int, error) {
 	filesToGenerate := allocateTypesToFiles(p.definitions)
 
 	err := p.emitFiles(filesToGenerate, outputDir, generatedPackages)
@@ -69,7 +69,7 @@ func (p *PackageDefinition) EmitDefinitions(outputDir string, generatedPackages 
 		}
 
 		// If package path does not include crossplane api dir and is not Storage package, then we generate doc file for the package
-		if !strings.HasSuffix(p.PackageName, StoragePackageSuffix) && !strings.Contains(outputDir, "apis") {
+		if !strings.HasSuffix(p.PackageName, StoragePackageSuffix) && emitDocFiles {
 			if err = emitDocFile(p, outputDir); err != nil {
 				return 0, err
 			}

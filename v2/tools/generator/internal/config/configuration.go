@@ -53,6 +53,8 @@ type Configuration struct {
 	// SamplesURL is the URL the samples are accessible at. Paths will be appended to the end of this to
 	// build full sample links. If this is not specified, no samples links are generated.
 	SamplesURL string `yaml:"samplesUrl"`
+	// EmitDocFiles is used as a signal to create doc.go files for packages
+	EmitDocFiles bool `yaml:"emitDocFiles"`
 
 	// Additional information about our object model
 	ObjectModelConfiguration *ObjectModelConfiguration `yaml:"objectModelConfiguration"`
