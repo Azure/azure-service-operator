@@ -212,7 +212,7 @@ func (account *StorageAccount) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (account *StorageAccount) createValidations() []func() error {
-	return []func() error{account.validateResourceReferences}
+	return []func() error{account.validateResourceReferences, account.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,6 +226,9 @@ func (account *StorageAccount) updateValidations() []func(old runtime.Object) er
 		func(old runtime.Object) error {
 			return account.validateResourceReferences()
 		},
+		func(old runtime.Object) error {
+			return account.validateSecretDestinations()
+		},
 	}
 }
 
@@ -236,6 +239,27 @@ func (account *StorageAccount) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (account *StorageAccount) validateSecretDestinations() error {
+	if account.Spec.OperatorSpec == nil {
+		return nil
+	}
+	if account.Spec.OperatorSpec.Secrets == nil {
+		return nil
+	}
+	secrets := []*genruntime.SecretDestination{
+		account.Spec.OperatorSpec.Secrets.BlobEndpoint,
+		account.Spec.OperatorSpec.Secrets.DfsEndpoint,
+		account.Spec.OperatorSpec.Secrets.FileEndpoint,
+		account.Spec.OperatorSpec.Secrets.Key1,
+		account.Spec.OperatorSpec.Secrets.Key2,
+		account.Spec.OperatorSpec.Secrets.QueueEndpoint,
+		account.Spec.OperatorSpec.Secrets.TableEndpoint,
+		account.Spec.OperatorSpec.Secrets.WebEndpoint,
+	}
+	return genruntime.ValidateSecretDestinations(secrets)
 }
 
 // AssignPropertiesFromStorageAccount populates our StorageAccount from the provided source StorageAccount

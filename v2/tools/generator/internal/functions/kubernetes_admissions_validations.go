@@ -52,15 +52,9 @@ func validateResourceReferences(k *ResourceFunction, codeGenerationContext *astm
 //	}
 //	return genruntime.ValidateResourceReferences(refs)
 func validateResourceReferencesBody(codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string) []dst.Stmt {
-	reflectHelpers, err := codeGenerationContext.GetImportedPackageName(astmodel.ReflectHelpersReference)
-	if err != nil {
-		panic(err)
-	}
+	reflectHelpers := codeGenerationContext.MustGetImportedPackageName(astmodel.ReflectHelpersReference)
+	genRuntime := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 
-	genRuntime, err := codeGenerationContext.GetImportedPackageName(astmodel.GenRuntimeReference)
-	if err != nil {
-		panic(err)
-	}
 	var body []dst.Stmt
 
 	body = append(

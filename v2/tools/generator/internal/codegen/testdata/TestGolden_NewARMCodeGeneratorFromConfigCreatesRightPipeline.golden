@@ -31,11 +31,11 @@ reportTypesAndVersions                    azure      Generate reports on types a
 createArmTypes                            azure      Create types for interaction with ARM
 applyArmConversionInterface               azure      Add ARM conversion interfaces to Kubernetes types
 applyKubernetesResourceInterface          azure      Add the KubernetesResource interface to every resource
-applyDefaulterAndValidatorInterfaces      azure      Add the admission.Defaulter and admission.Validator interfaces to each resource that requires them
 flattenProperties                                    Apply flattening to properties marked for flattening
 stripUnreferenced                                    Strip unreferenced types
 addStatusConditions                       azure      Add the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources
 addOperatorSpec                           azure      Adds the property 'OperatorSpec' to all Spec types that require it
+applyDefaulterAndValidatorInterfaces      azure      Add the admission.Defaulter and admission.Validator interfaces to each resource that requires them
 createConversionGraph                     azure      Create the graph of conversions between versions of each resource group
 injectOriginalVersionFunction             azure      Inject the function OriginalVersion() into each Spec type
 createStorageTypes                        azure      Create storage versions of CRD types
