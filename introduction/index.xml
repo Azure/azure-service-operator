@@ -40,11 +40,11 @@ $ kubectl get resourcegroups.resources.azure.com NAME READY SEVERITY REASON MESS
     
     <item>
       <title></title>
-      <link>https://azure.github.io/azure-service-operator/introduction/diagnosing-problems-with-aso/</link>
+      <link>https://azure.github.io/azure-service-operator/introduction/diagnosing-problems/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://azure.github.io/azure-service-operator/introduction/diagnosing-problems-with-aso/</guid>
-      <description>Diagnosing problems with ASO #  Common mistakes #  ASO controller pod in Status CreateContainerConfigError #  $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
+      <guid>https://azure.github.io/azure-service-operator/introduction/diagnosing-problems/</guid>
+      <description>Diagnosing problems #  Common mistakes #  ASO controller pod in Status CreateContainerConfigError #  $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
 You can confirm this with kubectl describe pod -n azureserviceoperator-system --selector control-plane=controller-manager. Look for the &amp;ldquo;Error: secret &amp;ldquo;aso-controller-settings&amp;rdquo; not found&amp;rdquo; event in the describe output:</description>
     </item>
     
