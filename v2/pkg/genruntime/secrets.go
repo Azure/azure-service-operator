@@ -5,7 +5,11 @@
 
 package genruntime
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/pkg/errors"
+)
 
 // SecretReference is a reference to a Kubernetes secret and key in the same namespace as
 // the resource it is on.
@@ -75,4 +79,42 @@ type SecretDestination struct {
 // Copy makes an independent copy of the SecretDestination
 func (s SecretDestination) Copy() SecretDestination {
 	return s
+}
+
+func (s SecretDestination) String() string {
+	return fmt.Sprintf("Name: %q, Key: %q", s.Name, s.Key)
+}
+
+type secretKeyPair struct {
+	secret string
+	key    string
+}
+
+func makeKeyPair(dest *SecretDestination) secretKeyPair {
+	return secretKeyPair{
+		secret: dest.Name,
+		key:    dest.Key,
+	}
+}
+
+// ValidateSecretDestinations checks that no destination is writing to the same secret/key, as that could cause
+// those secrets to overwrite one another.
+func ValidateSecretDestinations(destinations []*SecretDestination) error {
+	// Map of secret -> keys
+	//locations := make(map[string]map[string]struct{})
+	locations := make(map[secretKeyPair]struct{})
+
+	for _, dest := range destinations {
+		if dest == nil {
+			continue
+		}
+		pair := makeKeyPair(dest)
+		if _, ok := locations[pair]; ok {
+			return errors.Errorf("cannot write more than one secret to destination %s", dest.String())
+		}
+
+		locations[pair] = struct{}{}
+	}
+
+	return nil
 }

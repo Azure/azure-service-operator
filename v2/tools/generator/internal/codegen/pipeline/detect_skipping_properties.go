@@ -47,8 +47,8 @@ const DetectSkippingPropertiesStageID = "detectSkippingProperties"
 // - We need to handle type renaming between versions.
 // - When introduced, we will also need to handle property renaming between versions
 //
-func DetectSkippingProperties() Stage {
-	return MakeStage(
+func DetectSkippingProperties() *Stage {
+	return NewStage(
 		DetectSkippingPropertiesStageID,
 		"Detect properties that skip resource or object versions",
 		func(ctx context.Context, state *State) (*State, error) {

@@ -346,6 +346,16 @@ func (tc *KubePerTestContext) CreateResourceUntracked(obj client.Object) {
 	tc.G.Expect(tc.kubeClient.Create(tc.Ctx, obj)).To(gomega.Succeed())
 }
 
+// CreateResourceExpectFailure attempts to create a resource an asserts that the resource
+// was NOT created (an error was returned). That error is returned for further assertions.
+// This can be used to perform negative tests
+func (tc *KubePerTestContext) CreateResourceExpectFailure(obj client.Object) error {
+	err := tc.kubeClient.Create(tc.Ctx, obj)
+	tc.G.Expect(err).ToNot(gomega.BeNil())
+
+	return err
+}
+
 // CreateResourceAndWait creates the resource in K8s and waits for it to
 // change into the Provisioned state.
 func (tc *KubePerTestContext) CreateResourceAndWait(obj client.Object) {

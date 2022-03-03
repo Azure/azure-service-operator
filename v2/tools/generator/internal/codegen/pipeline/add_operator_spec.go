@@ -17,8 +17,8 @@ import (
 
 const AddOperatorSpecStageID = "addOperatorSpec"
 
-func AddOperatorSpec(configuration *config.Configuration, idFactory astmodel.IdentifierFactory) Stage {
-	return MakeStage(
+func AddOperatorSpec(configuration *config.Configuration, idFactory astmodel.IdentifierFactory) *Stage {
+	return NewStage(
 		AddOperatorSpecStageID,
 		"Adds the property 'OperatorSpec' to all Spec types that require it",
 		func(ctx context.Context, state *State) (*State, error) {

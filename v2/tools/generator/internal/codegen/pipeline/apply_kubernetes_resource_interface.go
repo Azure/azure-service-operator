@@ -17,8 +17,8 @@ import (
 const ApplyKubernetesResourceInterfaceStageID = "applyKubernetesResourceInterface"
 
 // ApplyKubernetesResourceInterface ensures that every Resource implements the KubernetesResource interface
-func ApplyKubernetesResourceInterface(idFactory astmodel.IdentifierFactory) Stage {
-	return MakeStage(
+func ApplyKubernetesResourceInterface(idFactory astmodel.IdentifierFactory) *Stage {
+	return NewStage(
 		ApplyKubernetesResourceInterfaceStageID,
 		"Add the KubernetesResource interface to every resource",
 		func(ctx context.Context, state *State) (*State, error) {

@@ -27,8 +27,8 @@ import (
 const DeleteGeneratedCodeStageID = "deleteGenerated"
 
 // DeleteGeneratedCode creates a pipeline stage for cleanup of our output folder prior to generating files
-func DeleteGeneratedCode(outputFolder string) Stage {
-	return MakeLegacyStage(
+func DeleteGeneratedCode(outputFolder string) *Stage {
+	return NewLegacyStage(
 		DeleteGeneratedCodeStageID,
 		"Delete generated code from "+outputFolder,
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {

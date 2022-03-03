@@ -16,8 +16,8 @@ import (
 
 const AddStatusConditionsStageID = "addStatusConditions"
 
-func AddStatusConditions(idFactory astmodel.IdentifierFactory) Stage {
-	return MakeStage(
+func AddStatusConditions(idFactory astmodel.IdentifierFactory) *Stage {
+	return NewStage(
 		AddStatusConditionsStageID,
 		"Add the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources",
 		func(ctx context.Context, state *State) (*State, error) {

@@ -14,8 +14,8 @@ import (
 // AssertTypesCollectionValid creates a Stage that ensures that each reachable type in the types collection
 // has TypeName's that are all reachable as well. This check fails if there is any TypeName that refers to a type that doesn't
 // exist.
-func AssertTypesCollectionValid() Stage {
-	return MakeLegacyStage(
+func AssertTypesCollectionValid() *Stage {
+	return NewLegacyStage(
 		"assertTypesStructureValid",
 		"Verify that all local TypeNames refer to a type",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
