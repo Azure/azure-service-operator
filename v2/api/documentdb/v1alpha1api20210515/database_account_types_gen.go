@@ -212,7 +212,7 @@ func (account *DatabaseAccount) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (account *DatabaseAccount) createValidations() []func() error {
-	return []func() error{account.validateResourceReferences}
+	return []func() error{account.validateResourceReferences, account.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,6 +226,9 @@ func (account *DatabaseAccount) updateValidations() []func(old runtime.Object) e
 		func(old runtime.Object) error {
 			return account.validateResourceReferences()
 		},
+		func(old runtime.Object) error {
+			return account.validateSecretDestinations()
+		},
 	}
 }
 
@@ -236,6 +239,24 @@ func (account *DatabaseAccount) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (account *DatabaseAccount) validateSecretDestinations() error {
+	if account.Spec.OperatorSpec == nil {
+		return nil
+	}
+	if account.Spec.OperatorSpec.Secrets == nil {
+		return nil
+	}
+	secrets := []*genruntime.SecretDestination{
+		account.Spec.OperatorSpec.Secrets.DocumentEndpoint,
+		account.Spec.OperatorSpec.Secrets.PrimaryMasterKey,
+		account.Spec.OperatorSpec.Secrets.PrimaryReadonlyMasterKey,
+		account.Spec.OperatorSpec.Secrets.SecondaryMasterKey,
+		account.Spec.OperatorSpec.Secrets.SecondaryReadonlyMasterKey,
+	}
+	return genruntime.ValidateSecretDestinations(secrets)
 }
 
 // AssignPropertiesFromDatabaseAccount populates our DatabaseAccount from the provided source DatabaseAccount

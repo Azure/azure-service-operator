@@ -155,9 +155,8 @@ func Redis_PatchSchedule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Re
 
 func Redis_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Redis) {
 	// The RP doesn't like rules with hyphens in the name.
-	namer := tc.Namer.WithSeparator("")
 	rule := cache.RedisFirewallRule{
-		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("fwrule")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("fwrule")),
 		Spec: cache.RedisFirewallRules_Spec{
 			Owner:   testcommon.AsOwner(redis),
 			StartIP: "1.2.3.4",

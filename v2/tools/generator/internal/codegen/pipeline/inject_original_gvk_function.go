@@ -20,8 +20,8 @@ const InjectOriginalGVKFunctionStageID = "injectOriginalGVKFunction"
 // InjectOriginalGVKFunction injects the function OriginalGVK() into each Resource type
 // This function allows us to recover the original version used to create each custom resource, giving the operator the
 // information needed to interact with ARM using the correct API version.
-func InjectOriginalGVKFunction(idFactory astmodel.IdentifierFactory) Stage {
-	stage := MakeLegacyStage(
+func InjectOriginalGVKFunction(idFactory astmodel.IdentifierFactory) *Stage {
+	stage := NewLegacyStage(
 		InjectOriginalGVKFunctionStageID,
 		"Inject the function OriginalGVK() into each Resource type",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {

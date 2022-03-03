@@ -12,6 +12,7 @@ import (
 
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -33,26 +34,34 @@ type Stage struct {
 	postrequisites []string
 }
 
-// MakeStage creates a new pipeline stage that's ready for execution
-func MakeStage(
+// NewStage creates a new pipeline stage that's ready for execution
+func NewStage(
 	id string,
 	description string,
-	action func(context.Context, *State) (*State, error)) Stage {
-	return Stage{
+	action func(context.Context, *State) (*State, error)) *Stage {
+	return &Stage{
 		id:          id,
 		description: description,
 		action:      action,
 	}
 }
 
-// MakeLegacyStage is a legacy constructor for creating a new pipeline stage that's ready for execution
+// NewLegacyStage is a legacy constructor for creating a new pipeline stage that's ready for execution
 // DO NOT USE THIS FOR ANY NEW STAGES - it's kept for compatibility with an older style of pipeline stages that will be
 // migrated to the new style over time.
-func MakeLegacyStage(
+func NewLegacyStage(
 	id string,
 	description string,
-	action func(context.Context, astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error)) Stage {
-	return MakeStage(
+	action func(context.Context, astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error)) *Stage {
+
+	if !knownLegacyStages.Contains(id) {
+		msg := fmt.Sprintf(
+			"No new legacy stages (use NewStage instead): %s is not the id of a known legacy stage",
+			id)
+		panic(msg)
+	}
+
+	return NewStage(
 		id,
 		description,
 		func(ctx context.Context, state *State) (*State, error) {
@@ -65,13 +74,51 @@ func MakeLegacyStage(
 		})
 }
 
+var knownLegacyStages = astmodel.MakeStringSet(
+	"addCrossResourceReferences",
+	"addCrossplaneAtProviderProperty",
+	"addCrossplaneEmbeddedResourceSpec",
+	"addCrossplaneEmbeddedResourceStatus",
+	"addCrossplaneForProviderProperty",
+	"addCrossplaneOwnerProperties",
+	"addStatusFromSwagger",
+	"allof-anyof-objects",
+	"applyArmConversionInterface",
+	"assertTypesStructureValid",
+	"augmentSpecWithStatus",
+	"collapseCrossGroupReferences",
+	"createArmTypes",
+	"deleteGenerated",
+	"determineResourceOwnership",
+	"ensureArmTypeExistsForEveryType",
+	"exportControllerResourceRegistrations",
+	"exportPackages",
+	"flattenProperties",
+	"flattenResources",
+	"injectHubFunction",
+	"injectOriginalGVKFunction",
+	"injectOriginalVersionFunction",
+	"injectOriginalVersionProperty",
+	"loadSchema",
+	"markStorageVersion",
+	"nameTypes",
+	"pluralizeNames",
+	"propertyRewrites",
+	"removeAliases",
+	"removeEmbeddedResources",
+	"replaceAnyTypeWithJSON",
+	"reportTypesAndVersions",
+	"rogueCheck",
+	"simplifyDefinitions",
+	"stripUnreferenced")
+
 // HasId returns true if this stage has the specified id, false otherwise
 func (stage *Stage) HasId(id string) bool {
 	return stage.id == id
 }
 
 // RequiresPrerequisiteStages declares which stages must have completed before this one is executed
-func (stage Stage) RequiresPrerequisiteStages(prerequisites ...string) Stage {
+func (stage *Stage) RequiresPrerequisiteStages(prerequisites ...string) {
 	if len(stage.prerequisites) > 0 {
 		panic(fmt.Sprintf(
 			"Prerequisites of stage '%s' already set to '%s'; cannot modify to '%s'.",
@@ -81,15 +128,13 @@ func (stage Stage) RequiresPrerequisiteStages(prerequisites ...string) Stage {
 	}
 
 	stage.prerequisites = prerequisites
-
-	return stage
 }
 
 // RequiresPostrequisiteStages declares which stages must be executed after this one has completed
 // This is not completely isomorphic with RequiresPrerequisiteStages as there may be supporting stages that are
 // sometimes omitted from execution when targeting different outcomes. Having both pre- and post-requisites allows the
 // dependencies to drop out cleanly when different stages are present.
-func (stage Stage) RequiresPostrequisiteStages(postrequisites ...string) Stage {
+func (stage *Stage) RequiresPostrequisiteStages(postrequisites ...string) {
 	if len(stage.postrequisites) > 0 {
 		panic(fmt.Sprintf(
 			"Postrequisites of stage '%s' already set to '%s'; cannot modify to '%s'.",
@@ -99,12 +144,10 @@ func (stage Stage) RequiresPostrequisiteStages(postrequisites ...string) Stage {
 	}
 
 	stage.postrequisites = postrequisites
-
-	return stage
 }
 
 // UsedFor specifies that this stage should be used for only the specified targets
-func (stage Stage) UsedFor(targets ...Target) Stage {
+func (stage *Stage) UsedFor(targets ...Target) *Stage {
 	stage.targets = targets
 	return stage
 }
@@ -131,7 +174,7 @@ func (stage *Stage) Id() string {
 	return stage.id
 }
 
-// Description returns a human readable description of this stage
+// Description returns a human-readable description of this stage
 func (stage *Stage) Description() string {
 	return stage.description
 }
@@ -145,7 +188,14 @@ func (stage *Stage) Run(ctx context.Context, state *State) (*State, error) {
 func (stage *Stage) CheckPrerequisites(priorStages astmodel.StringSet) error {
 	var errs []error
 	for _, prereq := range stage.prerequisites {
-		if !priorStages.Contains(prereq) {
+		satisfied := priorStages.Contains(prereq)
+		if satisfied {
+			klog.V(3).Infof("[✓] Required prerequisite %s satisfied", prereq)
+		} else {
+			klog.V(3).Infof("[✗] Required prerequisite %s NOT satisfied", prereq)
+		}
+
+		if !satisfied {
 			errs = append(errs, errors.Errorf("prerequisite %q of stage %q not satisfied.", prereq, stage.id))
 		}
 	}

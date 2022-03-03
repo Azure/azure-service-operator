@@ -14,43 +14,36 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/interfaces"
 )
 
+const ApplyKubernetesResourceInterfaceStageID = "applyKubernetesResourceInterface"
+
 // ApplyKubernetesResourceInterface ensures that every Resource implements the KubernetesResource interface
-func ApplyKubernetesResourceInterface(idFactory astmodel.IdentifierFactory) Stage {
-	return MakeLegacyStage(
-		"applyKubernetesResourceInterface",
+func ApplyKubernetesResourceInterface(idFactory astmodel.IdentifierFactory) *Stage {
+	return NewStage(
+		ApplyKubernetesResourceInterfaceStageID,
 		"Add the KubernetesResource interface to every resource",
-		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			skip := make(map[astmodel.TypeName]struct{})
+		func(ctx context.Context, state *State) (*State, error) {
+			updatedDefs := make(astmodel.TypeDefinitionSet)
 
-			result := make(astmodel.TypeDefinitionSet)
-			for typeName, typeDef := range definitions {
-				if _, ok := skip[typeName]; ok {
-					continue
+			for typeName, typeDef := range astmodel.FindResourceDefinitions(state.Definitions()) {
+				resource := typeDef.Type().(*astmodel.ResourceType)
+				newResource, err := interfaces.AddKubernetesResourceInterfaceImpls(typeDef, idFactory, state.Definitions())
+				if err != nil {
+					return nil, errors.Wrapf(err, "couldn't implement Kubernetes resource interface for %q", typeName)
 				}
 
-				if resource, ok := typeDef.Type().(*astmodel.ResourceType); ok {
-					newResource, err := interfaces.AddKubernetesResourceInterfaceImpls(typeName, resource, idFactory, definitions)
-					if err != nil {
-						return nil, errors.Wrapf(err, "couldn't implement Kubernetes resource interface for %q", typeName)
-					}
-
-					// this is really very ugly; a better way?
-					if _, ok := newResource.SpecType().(astmodel.TypeName); !ok {
-						// the resource Spec was replaced with a new definition; update it
-						// by replacing the named definition:
-						specName := resource.SpecType().(astmodel.TypeName)
-						result[specName] = astmodel.MakeTypeDefinition(specName, newResource.SpecType())
-						skip[specName] = struct{}{}
-						newResource = newResource.WithSpec(specName)
-					}
-
-					newDef := typeDef.WithType(newResource)
-					result.Add(newDef)
-				} else {
-					result.Add(typeDef)
+				// this is really very ugly; a better way?
+				if _, ok := newResource.SpecType().(astmodel.TypeName); !ok {
+					// the resource Spec was replaced with a new definition; update it
+					// by replacing the named definition:
+					specName := resource.SpecType().(astmodel.TypeName)
+					updatedDefs.Add(astmodel.MakeTypeDefinition(specName, newResource.SpecType()))
+					newResource = newResource.WithSpec(specName)
 				}
+
+				newDef := typeDef.WithType(newResource)
+				updatedDefs.Add(newDef)
 			}
 
-			return result, nil
+			return state.WithDefinitions(state.Definitions().OverlayWith(updatedDefs)), nil
 		})
 }

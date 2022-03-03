@@ -21,13 +21,10 @@ func Test_ContainerRegistry_Registry_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Custom namer because ContainerRegistry accounts have strict names
-	namer := tc.Namer.WithSeparator("")
-
 	publicNetworkAccess := containerregistry.RegistryPropertiesPublicNetworkAccessEnabled
 	zoneRedundancy := containerregistry.RegistryPropertiesZoneRedundancyDisabled
 	adminUserEnabled := false
-	name := namer.GenerateName("registry")
+	name := tc.NoSpaceNamer.GenerateName("registry")
 
 	// Create a ContainerRegistry
 	acct := containerregistry.Registry{

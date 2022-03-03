@@ -48,8 +48,7 @@ func Test_EventGrid_Topic(t *testing.T) {
 			Test: func(tc *testcommon.KubePerTestContext) {
 				// First create a queue to use as destination
 
-				namer := tc.Namer.WithSeparator("") // storage account rules are different
-				acctName := namer.GenerateName("stor")
+				acctName := tc.NoSpaceNamer.GenerateName("stor")
 				tier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
 				acct := &storage.StorageAccount{
 					ObjectMeta: tc.MakeObjectMetaWithName(acctName),

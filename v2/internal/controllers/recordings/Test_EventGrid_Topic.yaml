@@ -83,7 +83,7 @@ interactions:
     body: '{"properties":{"provisioningState":"Creating","endpoint":null},"location":"westus2","tags":{"cheese":"blue"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr","name":"asotest-topic-fnrbdr","type":"Microsoft.EventGrid/topics"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/A22D074F-4F70-4614-90AD-920DF10D0568?api-version=2020-06-01
+      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/74F7E1AF-CBCA-4F7B-8748-9E3E41DCC570?api-version=2020-06-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -111,10 +111,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/A22D074F-4F70-4614-90AD-920DF10D0568?api-version=2020-06-01
+    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/74F7E1AF-CBCA-4F7B-8748-9E3E41DCC570?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/A22D074F-4F70-4614-90AD-920DF10D0568?api-version=2020-06-01","name":"a22d074f-4f70-4614-90ad-920df10d0568","status":"Succeeded"}'
+    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/74F7E1AF-CBCA-4F7B-8748-9E3E41DCC570?api-version=2020-06-01","name":"74f7e1af-cbca-4f7b-8748-9e3e41dcc570","status":"Succeeded"}'
     headers:
       Cache-Control:
       - no-cache
@@ -146,7 +146,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr?api-version=2020-06-01
     method: GET
   response:
-    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotest-topic-fnrbdr.westus2-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"1d12a164-cb42-42c3-8b89-28db4f40b3d4","publicNetworkAccess":"Enabled"},"location":"westus2","tags":{"cheese":"blue"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr","name":"asotest-topic-fnrbdr","type":"Microsoft.EventGrid/topics"}'
+    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotest-topic-fnrbdr.westus2-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"650230b0-aa5c-4bae-9e7e-a63ae7f5be9b","publicNetworkAccess":"Enabled"},"location":"westus2","tags":{"cheese":"blue"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr","name":"asotest-topic-fnrbdr","type":"Microsoft.EventGrid/topics"}'
     headers:
       Cache-Control:
       - no-cache
@@ -185,7 +185,7 @@ interactions:
     body: '{"properties":{"provisioningState":"Updating","endpoint":null},"location":"westus2","tags":{"cheese":"époisses"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr","name":"asotest-topic-fnrbdr","type":"Microsoft.EventGrid/topics"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/D15EC817-B80F-4E8A-885F-090769E00641?api-version=2020-06-01
+      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/AECD1EB8-37E0-46EE-AEDD-BE170F0F7CF6?api-version=2020-06-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -213,10 +213,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/D15EC817-B80F-4E8A-885F-090769E00641?api-version=2020-06-01
+    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/AECD1EB8-37E0-46EE-AEDD-BE170F0F7CF6?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/D15EC817-B80F-4E8A-885F-090769E00641?api-version=2020-06-01","name":"d15ec817-b80f-4e8a-885f-090769e00641","status":"Succeeded"}'
+    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/AECD1EB8-37E0-46EE-AEDD-BE170F0F7CF6?api-version=2020-06-01","name":"aecd1eb8-37e0-46ee-aedd-be170f0f7cf6","status":"Succeeded"}'
     headers:
       Cache-Control:
       - no-cache
@@ -248,7 +248,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr?api-version=2020-06-01
     method: GET
   response:
-    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotest-topic-fnrbdr.westus2-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"1d12a164-cb42-42c3-8b89-28db4f40b3d4","publicNetworkAccess":"Enabled"},"location":"westus2","tags":{"cheese":"époisses"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr","name":"asotest-topic-fnrbdr","type":"Microsoft.EventGrid/topics"}'
+    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotest-topic-fnrbdr.westus2-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"650230b0-aa5c-4bae-9e7e-a63ae7f5be9b","publicNetworkAccess":"Enabled"},"location":"westus2","tags":{"cheese":"époisses"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr","name":"asotest-topic-fnrbdr","type":"Microsoft.EventGrid/topics"}'
     headers:
       Cache-Control:
       - no-cache
@@ -270,7 +270,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"kind":"StorageV2","location":"westus2","name":"asoteststorhycqcd","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"}}'
+    body: '{"kind":"StorageV2","location":"westus2","name":"asoteststoryiramq","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"}}'
     form: {}
     headers:
       Accept:
@@ -281,7 +281,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststoryiramq?api-version=2021-04-01
     method: PUT
   response:
     body: ""
@@ -295,7 +295,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/25b6f1b2-69a9-4d22-99d4-a82424ad7cb9?monitor=true&api-version=2021-04-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/b2932941-6c52-4d18-a175-c8e3b7324e33?monitor=true&api-version=2021-04-01
       Pragma:
       - no-cache
       Retry-After:
@@ -315,7 +315,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/25b6f1b2-69a9-4d22-99d4-a82424ad7cb9?monitor=true&api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/b2932941-6c52-4d18-a175-c8e3b7324e33?monitor=true&api-version=2021-04-01
     method: GET
   response:
     body: ""
@@ -329,7 +329,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/25b6f1b2-69a9-4d22-99d4-a82424ad7cb9?monitor=true&api-version=2021-04-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/b2932941-6c52-4d18-a175-c8e3b7324e33?monitor=true&api-version=2021-04-01
       Pragma:
       - no-cache
       Retry-After:
@@ -349,10 +349,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/25b6f1b2-69a9-4d22-99d4-a82424ad7cb9?monitor=true&api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/b2932941-6c52-4d18-a175-c8e3b7324e33?monitor=true&api-version=2021-04-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd","name":"asoteststorhycqcd","type":"Microsoft.Storage/storageAccounts","location":"westus2","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asoteststorhycqcd.dfs.core.windows.net/","web":"https://asoteststorhycqcd.z5.web.core.windows.net/","blob":"https://asoteststorhycqcd.blob.core.windows.net/","queue":"https://asoteststorhycqcd.queue.core.windows.net/","table":"https://asoteststorhycqcd.table.core.windows.net/","file":"https://asoteststorhycqcd.file.core.windows.net/"},"primaryLocation":"westus2","statusOfPrimary":"available"}}'
+    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststoryiramq","name":"asoteststoryiramq","type":"Microsoft.Storage/storageAccounts","location":"westus2","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asoteststoryiramq.dfs.core.windows.net/","web":"https://asoteststoryiramq.z5.web.core.windows.net/","blob":"https://asoteststoryiramq.blob.core.windows.net/","queue":"https://asoteststoryiramq.queue.core.windows.net/","table":"https://asoteststoryiramq.table.core.windows.net/","file":"https://asoteststoryiramq.file.core.windows.net/"},"primaryLocation":"westus2","statusOfPrimary":"available"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -381,10 +381,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststoryiramq?api-version=2021-04-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd","name":"asoteststorhycqcd","type":"Microsoft.Storage/storageAccounts","location":"westus2","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asoteststorhycqcd.dfs.core.windows.net/","web":"https://asoteststorhycqcd.z5.web.core.windows.net/","blob":"https://asoteststorhycqcd.blob.core.windows.net/","queue":"https://asoteststorhycqcd.queue.core.windows.net/","table":"https://asoteststorhycqcd.table.core.windows.net/","file":"https://asoteststorhycqcd.file.core.windows.net/"},"primaryLocation":"westus2","statusOfPrimary":"available"}}'
+    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststoryiramq","name":"asoteststoryiramq","type":"Microsoft.Storage/storageAccounts","location":"westus2","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asoteststoryiramq.dfs.core.windows.net/","web":"https://asoteststoryiramq.z5.web.core.windows.net/","blob":"https://asoteststoryiramq.blob.core.windows.net/","queue":"https://asoteststoryiramq.queue.core.windows.net/","table":"https://asoteststoryiramq.table.core.windows.net/","file":"https://asoteststoryiramq.file.core.windows.net/"},"primaryLocation":"westus2","statusOfPrimary":"available"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -417,7 +417,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd/queueServices/default?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststoryiramq/queueServices/default?api-version=2021-04-01
     method: PUT
   response:
     body: '{"name":"default"}'
@@ -449,10 +449,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd/queueServices/default?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststoryiramq/queueServices/default?api-version=2021-04-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd/queueServices/default","name":"default","type":"Microsoft.Storage/storageAccounts/queueServices","properties":{"cors":{"corsRules":[]}}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststoryiramq/queueServices/default","name":"default","type":"Microsoft.Storage/storageAccounts/queueServices","properties":{"cors":{"corsRules":[]}}}'
     headers:
       Cache-Control:
       - no-cache
@@ -474,7 +474,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"asotest-queue-ffibbc"}'
+    body: '{"name":"asotest-queue-vzixbs"}'
     form: {}
     headers:
       Accept:
@@ -485,10 +485,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd/queueServices/default/queues/asotest-queue-ffibbc?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststoryiramq/queueServices/default/queues/asotest-queue-vzixbs?api-version=2021-04-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd/queueServices/default/queues/asotest-queue-ffibbc","name":"asotest-queue-ffibbc","type":"Microsoft.Storage/storageAccounts/queueServices/queues","properties":{"metadata":{}}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststoryiramq/queueServices/default/queues/asotest-queue-vzixbs","name":"asotest-queue-vzixbs","type":"Microsoft.Storage/storageAccounts/queueServices/queues","properties":{"metadata":{}}}'
     headers:
       Cache-Control:
       - no-cache
@@ -517,10 +517,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd/queueServices/default/queues/asotest-queue-ffibbc?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststoryiramq/queueServices/default/queues/asotest-queue-vzixbs?api-version=2021-04-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd/queueServices/default/queues/asotest-queue-ffibbc","name":"asotest-queue-ffibbc","type":"Microsoft.Storage/storageAccounts/queueServices/queues","properties":{"metadata":{},"approximateMessageCount":0}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststoryiramq/queueServices/default/queues/asotest-queue-vzixbs","name":"asotest-queue-vzixbs","type":"Microsoft.Storage/storageAccounts/queueServices/queues","properties":{"metadata":{},"approximateMessageCount":0}}'
     headers:
       Cache-Control:
       - no-cache
@@ -542,7 +542,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"asotest-sub-jrvntx","properties":{"destination":{"endpointType":"StorageQueue","properties":{"queueName":"asotest-queue-ffibbc","resourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd"}}}}'
+    body: '{"name":"asotest-sub-ffibbc","properties":{"destination":{"endpointType":"StorageQueue","properties":{"queueName":"asotest-queue-vzixbs","resourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststoryiramq"}}}}'
     form: {}
     headers:
       Accept:
@@ -553,13 +553,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr/providers/Microsoft.EventGrid/eventSubscriptions/asotest-sub-jrvntx?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr/providers/Microsoft.EventGrid/eventSubscriptions/asotest-sub-ffibbc?api-version=2020-06-01
     method: PUT
   response:
-    body: '{"properties":{"topic":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/microsoft.eventgrid/topics/asotest-topic-fnrbdr","provisioningState":"Creating","destination":{"properties":{"resourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd","queueName":"asotest-queue-ffibbc"},"endpointType":"StorageQueue"},"filter":{"subjectBeginsWith":"","subjectEndsWith":""},"labels":null,"retryPolicy":{"maxDeliveryAttempts":30,"eventTimeToLiveInMinutes":1440}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr/providers/Microsoft.EventGrid/eventSubscriptions/asotest-sub-jrvntx","name":"asotest-sub-jrvntx","type":"Microsoft.EventGrid/eventSubscriptions"}'
+    body: '{"properties":{"topic":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/microsoft.eventgrid/topics/asotest-topic-fnrbdr","provisioningState":"Creating","destination":{"properties":{"resourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststoryiramq","queueName":"asotest-queue-vzixbs"},"endpointType":"StorageQueue"},"filter":{"subjectBeginsWith":"","subjectEndsWith":""},"labels":null,"retryPolicy":{"maxDeliveryAttempts":30,"eventTimeToLiveInMinutes":1440}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr/providers/Microsoft.EventGrid/eventSubscriptions/asotest-sub-ffibbc","name":"asotest-sub-ffibbc","type":"Microsoft.EventGrid/eventSubscriptions"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/2BF82B5F-9638-4524-8D89-46B647AC0A0A?api-version=2020-06-01
+      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/C477EDF4-E548-40B4-8D41-480E78B08B00?api-version=2020-06-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -579,7 +579,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "897"
+      - "899"
     status: 201 Created
     code: 201
     duration: ""
@@ -589,10 +589,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/2BF82B5F-9638-4524-8D89-46B647AC0A0A?api-version=2020-06-01
+    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/C477EDF4-E548-40B4-8D41-480E78B08B00?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/2BF82B5F-9638-4524-8D89-46B647AC0A0A?api-version=2020-06-01","name":"2bf82b5f-9638-4524-8d89-46b647ac0a0a","status":"Succeeded"}'
+    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/C477EDF4-E548-40B4-8D41-480E78B08B00?api-version=2020-06-01","name":"c477edf4-e548-40b4-8d41-480e78b08b00","status":"Succeeded"}'
     headers:
       Cache-Control:
       - no-cache
@@ -621,10 +621,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr/providers/Microsoft.EventGrid/eventSubscriptions/asotest-sub-jrvntx?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr/providers/Microsoft.EventGrid/eventSubscriptions/asotest-sub-ffibbc?api-version=2020-06-01
     method: GET
   response:
-    body: '{"properties":{"topic":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/microsoft.eventgrid/topics/asotest-topic-fnrbdr","provisioningState":"Succeeded","destination":{"properties":{"resourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd","queueName":"asotest-queue-ffibbc"},"endpointType":"StorageQueue"},"filter":{"subjectBeginsWith":"","subjectEndsWith":""},"labels":null,"eventDeliverySchema":"EventGridSchema","retryPolicy":{"maxDeliveryAttempts":30,"eventTimeToLiveInMinutes":1440}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr/providers/Microsoft.EventGrid/eventSubscriptions/asotest-sub-jrvntx","name":"asotest-sub-jrvntx","type":"Microsoft.EventGrid/eventSubscriptions"}'
+    body: '{"properties":{"topic":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/microsoft.eventgrid/topics/asotest-topic-fnrbdr","provisioningState":"Succeeded","destination":{"properties":{"resourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststoryiramq","queueName":"asotest-queue-vzixbs"},"endpointType":"StorageQueue"},"filter":{"subjectBeginsWith":"","subjectEndsWith":""},"labels":null,"eventDeliverySchema":"EventGridSchema","retryPolicy":{"maxDeliveryAttempts":30,"eventTimeToLiveInMinutes":1440}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr/providers/Microsoft.EventGrid/eventSubscriptions/asotest-sub-ffibbc","name":"asotest-sub-ffibbc","type":"Microsoft.EventGrid/eventSubscriptions"}'
     headers:
       Cache-Control:
       - no-cache
@@ -659,7 +659,7 @@ interactions:
     body: ""
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/515D4808-5DCD-4193-BCC8-B3D59A8EDB51?api-version=2020-06-01
+      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/BEFC9B0A-ECA2-400E-AE6B-6CABFE8B8AA1?api-version=2020-06-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -667,7 +667,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationResults/515D4808-5DCD-4193-BCC8-B3D59A8EDB51?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationResults/BEFC9B0A-ECA2-400E-AE6B-6CABFE8B8AA1?api-version=2020-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -725,25 +725,26 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr?api-version=2020-06-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceNotFound","message":"Topic asotest-topic-fnrbdr
-      is not found."}}'
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.EventGrid/topics/asotest-topic-fnrbdr''
+      under resource group ''asotest-rg-cyoshn'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "90"
+      - "236"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Pragma:
       - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
     status: 404 Not Found
     code: 404
     duration: ""
@@ -755,40 +756,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd/queueServices/default/queues/asotest-queue-ffibbc?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststoryiramq/queueServices/default?api-version=2021-04-01
     method: DELETE
   response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - text/plain; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 204 No Content
-    code: 204
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd/queueServices/default?api-version=2021-04-01
-    method: DELETE
-  response:
-    body: '{"error":{"code":"HttpResourceNotFound","message":"The request url http://10.0.90.103:30012/011cccb4-baf2-4564-896e-d911f333590c/132834603541865769/0e5dbb30-81b4-436d-b7fe-cd819bcca12d/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd/queueServices/default?api-version=2021-04-01
+    body: '{"error":{"code":"HttpResourceNotFound","message":"The request url http://10.0.90.144:30020/011cccb4-baf2-4564-896e-d911f333590c/132834683354622541/76be6d5e-38f3-418d-b226-b1b982f72fd9/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststoryiramq/queueServices/default?api-version=2021-04-01
       is not found."}}'
     headers:
       Cache-Control:
@@ -809,6 +780,36 @@ interactions:
       - nosniff
     status: 404 Not Found
     code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststoryiramq/queueServices/default/queues/asotest-queue-vzixbs?api-version=2021-04-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - text/plain; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 204 No Content
+    code: 204
     duration: ""
 - request:
     body: ""
@@ -850,7 +851,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststoryiramq?api-version=2021-04-01
     method: DELETE
   response:
     body: ""
@@ -882,11 +883,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd/queueServices/default/queues/asotest-queue-ffibbc?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststoryiramq/queueServices/default?api-version=2021-04-01
     method: GET
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''asoteststorhycqcd'' not found."}}'
+      operation on nested resource. Parent resource ''asoteststoryiramq'' not found."}}'
     headers:
       Cache-Control:
       - no-cache
@@ -915,11 +916,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd/queueServices/default?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststoryiramq/queueServices/default/queues/asotest-queue-vzixbs?api-version=2021-04-01
     method: GET
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''asoteststorhycqcd'' not found."}}'
+      operation on nested resource. Parent resource ''asoteststoryiramq'' not found."}}'
     headers:
       Cache-Control:
       - no-cache
@@ -948,17 +949,16 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststoryiramq?api-version=2021-04-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Storage/storageAccounts/asoteststorhycqcd''
-      under resource group ''asotest-rg-cyoshn'' was not found. For more details please
-      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-cyoshn''
+      could not be found."}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "240"
+      - "109"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -982,126 +982,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn","name":"asotest-rg-cyoshn","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn","name":"asotest-rg-cyoshn","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn","name":"asotest-rg-cyoshn","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn","name":"asotest-rg-cyoshn","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "5"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn?api-version=2020-06-01
     method: GET
   response:

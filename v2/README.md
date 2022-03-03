@@ -23,7 +23,7 @@ See the list of supported resources [here](https://azure.github.io/azure-service
 1. Install [cert-manager](https://cert-manager.io/docs/installation/kubernetes/) on the cluster using the following command.
 
     ```bash
-    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.yaml
+    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.7.1/cert-manager.yaml
     ```
    Check that the cert-manager pods have started successfully before continuing.
 
@@ -68,9 +68,9 @@ See the list of supported resources [here](https://azure.github.io/azure-service
    AZURE_CLIENT_ID=<your-client-id> # This is the appID from the service principal we created.
    AZURE_CLIENT_SECRET=<your-client-secret> # This is the password from the service principal we created.
    ```
-3. Download [the latest **v2+** release](https://github.com/Azure/azure-service-operator/releases) of Azure Service Operator and install it into your cluster.
+3. Install [the latest **v2+** release](https://github.com/Azure/azure-service-operator/releases) of Azure Service Operator:
    ```bash
-   kubectl apply --server-side=true -f azureserviceoperator_v2.0.0-alpha.3.yaml
+   kubectl apply --server-side=true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0-alpha.6/azureserviceoperator_v2.0.0-alpha.6.yaml
    ```
 4. Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as. Make sure that you have the 4 environment variables from step 2 set before running this command. 
    To learn more about other authentication options, see the [authentication documentation](https://azure.github.io/azure-service-operator/introduction/authentication/):

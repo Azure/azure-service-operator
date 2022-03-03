@@ -108,11 +108,29 @@ func Test_TwoObjectsWriteSameSecret_WarningConditionIsSetOnSecond(t *testing.T) 
 	tc.Expect(acct2.Status.Conditions[0].Message).To(MatchRegexp("cannot overwrite secret.*which is not owned by"))
 }
 
+func Test_SameObjectHasTwoSecretsWritingToSameDestination_RejectedByWebhook(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.NewTestResourceGroup()
+
+	// Create a storage account
+	storageKeysSecret := "k1"
+	acct1 := makeSimpleStorageAccountWithOperatorSpecSecrets(tc, rg, storageKeysSecret, "key1")
+	// Add a second, colliding secret
+	acct1.Spec.OperatorSpec.Secrets.Key2 = &genruntime.SecretDestination{
+		Name: storageKeysSecret,
+		Key:  "key1",
+	}
+
+	err := tc.CreateResourceExpectFailure(acct1)
+	tc.Expect(err.Error()).To(ContainSubstring("cannot write more than one secret to destination Name: %q, Key: %q", storageKeysSecret, "key1"))
+}
+
 func makeSimpleStorageAccountWithOperatorSpecSecrets(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, secretName string, secretKey string) *storage.StorageAccount {
-	namer := tc.Namer.WithSeparator("")
 	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
 	acct := &storage.StorageAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("stor")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccounts_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),

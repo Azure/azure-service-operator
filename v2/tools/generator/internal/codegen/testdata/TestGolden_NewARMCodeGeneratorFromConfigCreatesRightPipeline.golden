@@ -35,6 +35,7 @@ flattenProperties                                    Apply flattening to propert
 stripUnreferenced                                    Strip unreferenced types
 addStatusConditions                       azure      Add the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources
 addOperatorSpec                           azure      Adds the property 'OperatorSpec' to all Spec types that require it
+applyDefaulterAndValidatorInterfaces      azure      Add the admission.Defaulter and admission.Validator interfaces to each resource that requires them
 createConversionGraph                     azure      Create the graph of conversions between versions of each resource group
 injectOriginalVersionFunction             azure      Inject the function OriginalVersion() into each Spec type
 createStorageTypes                        azure      Create storage versions of CRD types
@@ -46,9 +47,9 @@ injectOriginalGVKFunction                 azure      Inject the function Origina
 markLatestStorageVariantAsHubVersion      azure      Mark the latest GA storage variant of each resource as the hub version
 injectHubFunction                         azure      Inject the function Hub() into each hub resource
 implementConvertibleInterface             azure      Implement the Convertible interface on each non-hub Resource type
-injectResourceConversionTestCases         azure      Add test cases to verify Resource implementations of conversion.Convertible (funcs ConvertTo & ConvertFrom) behave as expected
 injectJSONTestCases                       azure      Add test cases to verify JSON serialization
 injectPropertyAssignmentTestCases         azure      Add test cases to verify PropertyAssignment functions
+injectResourceConversionTestCases         azure      Add test cases to verify Resource implementations of conversion.Convertible (funcs ConvertTo & ConvertFrom) behave as expected
 simplifyDefinitions                                  Flatten definitions by removing wrapper types
 createResourceExtensions                  azure      Create Resource Extensions for each resource type
 rogueCheck                                           Check for rogue definitions using AnyTypes

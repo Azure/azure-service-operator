@@ -23,13 +23,10 @@ func Test_CosmosDB_MongoDatabase_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Custom namer because cosmos DB accounts have strict names
-	namer := tc.Namer.WithSeparator("")
-
 	// Create a Cosmos DB account
 	kind := documentdb.DatabaseAccountsSpecKindMongoDB
 	acct := documentdb.DatabaseAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("db")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("db")),
 		Spec: documentdb.DatabaseAccounts_Spec{
 			Location: &tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),

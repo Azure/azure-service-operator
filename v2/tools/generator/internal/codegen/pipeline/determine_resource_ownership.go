@@ -17,8 +17,8 @@ import (
 
 const resourcesPropertyName = astmodel.PropertyName("Resources")
 
-func DetermineResourceOwnership(configuration *config.Configuration) Stage {
-	return MakeLegacyStage(
+func DetermineResourceOwnership(configuration *config.Configuration) *Stage {
+	return NewLegacyStage(
 		"determineResourceOwnership",
 		"Determine ARM resource relationships",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {

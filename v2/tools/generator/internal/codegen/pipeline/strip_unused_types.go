@@ -14,8 +14,8 @@ import (
 // StripUnreferencedTypeDefinitionsStageID is the unique identifier for this pipeline stage
 const StripUnreferencedTypeDefinitionsStageID = "stripUnreferenced"
 
-func StripUnreferencedTypeDefinitions() Stage {
-	return MakeLegacyStage(
+func StripUnreferencedTypeDefinitions() *Stage {
+	return NewLegacyStage(
 		StripUnreferencedTypeDefinitionsStageID,
 		"Strip unreferenced types",
 		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {

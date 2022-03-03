@@ -19,8 +19,8 @@ const CreateStorageTypesStageID = "createStorageTypes"
 // CreateStorageTypes returns a pipeline stage that creates dedicated storage types for each resource and nested object.
 // Storage versions are created for *all* API versions to allow users of older versions of the operator to easily
 // upgrade. This is of course a bit odd for the first release, but defining the approach from day one is useful.
-func CreateStorageTypes() Stage {
-	stage := MakeStage(
+func CreateStorageTypes() *Stage {
+	stage := NewStage(
 		CreateStorageTypesStageID,
 		"Create storage versions of CRD types",
 		func(ctx context.Context, state *State) (*State, error) {
@@ -59,5 +59,6 @@ func CreateStorageTypes() Stage {
 		})
 
 	stage.RequiresPrerequisiteStages(InjectOriginalVersionFunctionStageID, CreateConversionGraphStageId)
+
 	return stage
 }

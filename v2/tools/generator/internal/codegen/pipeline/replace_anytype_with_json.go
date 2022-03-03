@@ -30,8 +30,8 @@ var (
 	mapOfJSON = astmodel.NewMapType(astmodel.StringType, astmodel.JSONType)
 )
 
-func ReplaceAnyTypeWithJSON() Stage {
-	return MakeLegacyStage(
+func ReplaceAnyTypeWithJSON() *Stage {
+	return NewLegacyStage(
 		"replaceAnyTypeWithJSON",
 		"Replace properties using interface{} with arbitrary JSON",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {

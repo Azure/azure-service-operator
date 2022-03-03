@@ -18,13 +18,16 @@ import (
 const ApplyExportFiltersStageID = "filterTypes"
 
 // ApplyExportFilters creates a Stage to reduce our set of types for export
-func ApplyExportFilters(configuration *config.Configuration) Stage {
-	return MakeStage(
+func ApplyExportFilters(configuration *config.Configuration) *Stage {
+	stage := NewStage(
 		ApplyExportFiltersStageID,
 		"Apply export filters to reduce the number of generated types",
 		func(ctx context.Context, state *State) (*State, error) {
 			return filterTypes(configuration, state)
 		})
+
+	stage.RequiresPostrequisiteStages(VerifyNoErroredTypesStageID)
+	return stage
 }
 
 // filterTypes applies the configuration include/exclude filters to the generated definitions

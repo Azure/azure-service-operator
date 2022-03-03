@@ -18,8 +18,8 @@ import (
 // ImplementConvertibleSpecInterfaceStageId is the unique identifier for this pipeline stage
 const ImplementConvertibleSpecInterfaceStageId = "implementConvertibleSpecInterface"
 
-func ImplementConvertibleSpecInterface(idFactory astmodel.IdentifierFactory) Stage {
-	stage := MakeStage(
+func ImplementConvertibleSpecInterface(idFactory astmodel.IdentifierFactory) *Stage {
+	stage := NewStage(
 		ImplementConvertibleSpecInterfaceStageId,
 		"Inject ConvertSpecTo() and ConvertSpecFrom() to implement genruntime.ConvertibleSpec on each Spec type",
 		func(ctx context.Context, state *State) (*State, error) {

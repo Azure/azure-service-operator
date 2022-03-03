@@ -21,24 +21,21 @@ import (
 // AddKubernetesResourceInterfaceImpls adds the required interfaces for
 // the resource to be a Kubernetes resource
 func AddKubernetesResourceInterfaceImpls(
-	resourceName astmodel.TypeName,
-	r *astmodel.ResourceType,
+	resourceDef astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
 	definitions astmodel.TypeDefinitionSet) (*astmodel.ResourceType, error) {
 
-	resolvedSpec, err := definitions.FullyResolve(r.SpecType())
+	resolved, err := definitions.ResolveResourceSpecAndStatus(resourceDef)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to resolve resource spec type")
+		return nil, errors.Wrapf(err, "unable to resolve resource %s", resourceDef.Name())
 	}
 
-	spec, ok := astmodel.AsObjectType(resolvedSpec)
-	if !ok {
-		return nil, errors.Errorf("resource spec %q did not contain an object", r.SpecType().String())
-	}
+	spec := resolved.SpecType
+	r := resolved.ResourceType
 
 	// Check the spec first to ensure it looks how we expect
 	ownerProperty := idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported)
-	_, ok = spec.Property(ownerProperty)
+	_, ok := spec.Property(ownerProperty)
 	if !ok {
 		return nil, errors.Errorf("resource spec doesn't have %q property", ownerProperty)
 	}
@@ -83,7 +80,7 @@ func AddKubernetesResourceInterfaceImpls(
 		if !ok {
 			msg := fmt.Sprintf(
 				"Unable to create NewEmptyStatus() for resource %s (expected Status to be a TypeName but had %T)",
-				resourceName,
+				resourceDef.Name(),
 				r.StatusType())
 			return nil, errors.New(msg)
 		}
@@ -116,20 +113,6 @@ func AddKubernetesResourceInterfaceImpls(
 
 		r = r.WithSpec(specObj.WithFunction(setFn))
 	}
-
-	// Add defaults
-	defaulterBuilder := functions.NewDefaulterBuilder(resourceName, r, idFactory)
-	if setNameFunction != nil {
-		defaulterBuilder.AddDefault(functions.NewDefaultAzureNameFunction(r, idFactory))
-	}
-	r = r.WithInterface(defaulterBuilder.ToInterfaceImplementation())
-
-	// Add validations
-	validatorBuilder := functions.NewValidatorBuilder(resourceName, r, idFactory)
-	validatorBuilder.AddValidation(functions.ValidationKindCreate, functions.NewValidateResourceReferencesFunction(r, idFactory))
-	validatorBuilder.AddValidation(functions.ValidationKindUpdate, functions.NewValidateResourceReferencesFunction(r, idFactory))
-
-	r = r.WithInterface(validatorBuilder.ToInterfaceImplementation())
 
 	return r, nil
 }

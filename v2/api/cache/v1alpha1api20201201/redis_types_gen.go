@@ -212,7 +212,7 @@ func (redis *Redis) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (redis *Redis) createValidations() []func() error {
-	return []func() error{redis.validateResourceReferences}
+	return []func() error{redis.validateResourceReferences, redis.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,6 +226,9 @@ func (redis *Redis) updateValidations() []func(old runtime.Object) error {
 		func(old runtime.Object) error {
 			return redis.validateResourceReferences()
 		},
+		func(old runtime.Object) error {
+			return redis.validateSecretDestinations()
+		},
 	}
 }
 
@@ -236,6 +239,24 @@ func (redis *Redis) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (redis *Redis) validateSecretDestinations() error {
+	if redis.Spec.OperatorSpec == nil {
+		return nil
+	}
+	if redis.Spec.OperatorSpec.Secrets == nil {
+		return nil
+	}
+	secrets := []*genruntime.SecretDestination{
+		redis.Spec.OperatorSpec.Secrets.HostName,
+		redis.Spec.OperatorSpec.Secrets.Port,
+		redis.Spec.OperatorSpec.Secrets.PrimaryKey,
+		redis.Spec.OperatorSpec.Secrets.SSLPort,
+		redis.Spec.OperatorSpec.Secrets.SecondaryKey,
+	}
+	return genruntime.ValidateSecretDestinations(secrets)
 }
 
 // AssignPropertiesFromRedis populates our Redis from the provided source Redis
