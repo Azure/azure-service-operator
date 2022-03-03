@@ -157,7 +157,6 @@ func NewTestCodeGenerator(
 		codegen.RemoveStages(
 			pipeline.DeleteGeneratedCodeStageID,
 			pipeline.CheckForAnyTypeStageID,
-			pipeline.CreateStorageTypesStageID,
 			pipeline.CreateResourceExtensionsStageID,
 			// TODO: Once the stage is enabled in the pipeline, we may need to remove it here for testing
 			// pipeline.InjectHubFunctionStageID,

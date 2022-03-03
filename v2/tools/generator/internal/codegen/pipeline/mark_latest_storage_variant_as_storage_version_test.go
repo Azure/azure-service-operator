@@ -35,8 +35,8 @@ func TestMarkLatestStorageVariantAsStorageVersion(t *testing.T) {
 	cfg := config.NewConfiguration()
 	initialState, err := RunTestPipeline(
 		NewState(defs),
-		CreateConversionGraph(cfg), // First create the conversion graph showing relationships
-		CreateStorageTypes(),       // Then create the storage types
+		CreateStorageTypes(),       // First create the storage types
+		CreateConversionGraph(cfg), // Then, create the conversion graph showing relationships
 	)
 	g.Expect(err).To(Succeed())
 

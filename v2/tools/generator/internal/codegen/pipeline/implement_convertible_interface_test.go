@@ -22,6 +22,7 @@ func TestGolden_InjectConvertibleInterface(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
+	
 	// Test Resource V1
 
 	specV1 := test.CreateSpec(test.Pkg2020, "Person", test.FullNameProperty)
@@ -40,8 +41,8 @@ func TestGolden_InjectConvertibleInterface(t *testing.T) {
 	cfg := config.NewConfiguration()
 	initialState, err := RunTestPipeline(
 		NewState().WithDefinitions(defs),
-		CreateConversionGraph(cfg),                        // First create the conversion graph showing relationships
-		CreateStorageTypes(),                              // Then create the storage types
+		CreateStorageTypes(),                              // First create the storage types
+		CreateConversionGraph(cfg),                        // Then, create the conversion graph showing relationships
 		InjectPropertyAssignmentFunctions(cfg, idFactory), // After which we inject property assignment functions
 	)
 	g.Expect(err).To(Succeed())
