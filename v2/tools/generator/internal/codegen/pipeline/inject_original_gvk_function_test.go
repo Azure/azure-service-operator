@@ -6,7 +6,6 @@
 package pipeline
 
 import (
-	"context"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -29,13 +28,15 @@ func TestInjectOriginalGVKFunction(t *testing.T) {
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(resource, status, spec)
 
-	injectOriginalVersion := InjectOriginalGVKFunction(idFactory)
-
-	// Don't need a context when testing
-	state := NewState().WithDefinitions(defs)
-	finalState, err := injectOriginalVersion.Run(context.TODO(), state)
-
+	initialState, err := RunTestPipeline(
+		NewState().WithDefinitions(defs),
+		InjectOriginalVersionFunction(idFactory))
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions())
+	finalState, err := RunTestPipeline(
+		initialState,
+		InjectOriginalGVKFunction(idFactory))
+	g.Expect(err).To(Succeed())
+
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions(), test.DiffWithTypes(initialState.Definitions()))
 }

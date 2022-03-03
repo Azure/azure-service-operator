@@ -6,7 +6,6 @@
 package pipeline
 
 import (
-	"context"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -28,15 +27,14 @@ func TestInjectOriginalVersionProperty_InjectsIntoSpec(t *testing.T) {
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(resource, status, spec)
 
-	injectOriginalProperty := InjectOriginalVersionProperty()
+	initialState := NewState().WithDefinitions(defs)
 
-	// Don't need a context when testing
-	state := NewState().WithDefinitions(defs)
-	finalState, err := injectOriginalProperty.Run(context.TODO(), state)
-
+	finalState, err := RunTestPipeline(
+		initialState,
+		InjectOriginalVersionProperty())
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions(), test.DiffWithTypes(initialState.Definitions()))
 }
 
 func TestInjectOriginalVersionProperty_WhenOriginalVersionFunctionFound_DoesNotInjectIntoSpec(t *testing.T) {
@@ -57,13 +55,15 @@ func TestInjectOriginalVersionProperty_WhenOriginalVersionFunctionFound_DoesNotI
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(resource, status, spec)
 
-	injectOriginalProperty := InjectOriginalVersionProperty()
-
-	// Don't need a context when testing
-	state := NewState().WithDefinitions(defs)
-	finalState, err := injectOriginalProperty.Run(context.TODO(), state)
-
+	initialState, err := RunTestPipeline(
+		NewState(defs),
+		InjectOriginalVersionFunction(idFactory))
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions())
+	finalState, err := RunTestPipeline(
+		initialState,
+		InjectOriginalVersionProperty())
+	g.Expect(err).To(Succeed())
+
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions(), test.DiffWithTypes(initialState.Definitions()))
 }

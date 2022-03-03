@@ -6,7 +6,6 @@
 package pipeline
 
 import (
-	"context"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -20,24 +19,26 @@ func TestCreateConversionGraph(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	cfg := config.NewConfiguration()
+
 	person2020 := test.CreateSpec(test.Pkg2020, "Person", test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty)
 	person2021 := test.CreateSpec(test.Pkg2021, "Person", test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty)
 	person2022 := test.CreateSpec(test.Pkg2022, "Person", test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty)
 
-	person2020s := test.CreateSpec(test.Pkg2020s, "Person", test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty)
-	person2021s := test.CreateSpec(test.Pkg2021s, "Person", test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty)
-	person2022s := test.CreateSpec(test.Pkg2022s, "Person", test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty)
-
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(person2020, person2021, person2022)
-	defs.AddAll(person2020s, person2021s, person2022s)
 
-	initialState := NewState().WithDefinitions(defs)
-	cfg := config.NewConfiguration()
-	stage := CreateConversionGraph(cfg)
-	finalState, err := stage.Run(context.TODO(), initialState)
+	initialState, err := RunTestPipeline(
+		NewState(defs),
+		CreateStorageTypes())
 	g.Expect(err).To(Succeed())
-	g.Expect(finalState.Definitions()).To(Equal(defs))
+
+	finalState, err := RunTestPipeline(
+		initialState,
+		CreateConversionGraph(cfg))
+	g.Expect(err).To(Succeed())
+
+	g.Expect(finalState.Definitions()).To(HaveLen(6))
 	g.Expect(finalState.ConversionGraph()).NotTo(BeNil())
 
 	graph := finalState.ConversionGraph()

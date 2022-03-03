@@ -58,6 +58,5 @@ func CreateStorageTypes() *Stage {
 			return state.WithDefinitions(defs), nil
 		})
 
-	stage.RequiresPrerequisiteStages(InjectOriginalVersionFunctionStageID)
 	return stage
 }
