@@ -4,7 +4,3 @@ config/crd/out
 config/crd/kustomization.yaml
 config/webhook/manifests.yaml
 config/rbac/role.yaml
-
-# Helm chart manifest
-charts/azure-service-operator/templates/generated
-charts/azure-service-operator/crds
