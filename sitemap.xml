@@ -58,6 +58,10 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/authentication/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/introduction/conditions/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/introduction/diagnosing-problems-with-aso/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/resources/</loc>

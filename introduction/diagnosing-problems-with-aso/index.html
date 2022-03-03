@@ -3,22 +3,18 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Abstract Syntax Tree Library Choice #  Context #  When we first started working on the Azure Service Operator Code Generator, we used the standard go ast library to create the final Go code.
-Unfortunately, we have run into a number of significant limitations with this library.
-  Comments are often emitted in unexpected places.
-They would often appear at the end of the previous line, which conveys an incorrect meaning to a casual reader of the code.">
+<meta name="description" content="Diagnosing problems with ASO #  Common mistakes #  ASO controller pod in Status CreateContainerConfigError #  $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
+You can confirm this with kubectl describe pod -n azureserviceoperator-system --selector control-plane=controller-manager. Look for the &ldquo;Error: secret &ldquo;aso-controller-settings&rdquo; not found&rdquo; event in the describe output:">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="2020-11: AST Library Choice" />
-<meta property="og:description" content="Abstract Syntax Tree Library Choice #  Context #  When we first started working on the Azure Service Operator Code Generator, we used the standard go ast library to create the final Go code.
-Unfortunately, we have run into a number of significant limitations with this library.
-  Comments are often emitted in unexpected places.
-They would often appear at the end of the previous line, which conveys an incorrect meaning to a casual reader of the code." />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="Diagnosing problems with ASO #  Common mistakes #  ASO controller pod in Status CreateContainerConfigError #  $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
+You can confirm this with kubectl describe pod -n azureserviceoperator-system --selector control-plane=controller-manager. Look for the &ldquo;Error: secret &ldquo;aso-controller-settings&rdquo; not found&rdquo; event in the describe output:" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" /><meta property="article:section" content="architecture-decision-records" />
-<meta property="article:published_time" content="2020-11-01T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-11-01T00:00:00+00:00" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/introduction/diagnosing-problems-with-aso/" /><meta property="article:section" content="introduction" />
 
-<title>2020-11: AST Library Choice | Azure Service Operator</title>
+
+
+<title>Diagnosing Problems With Aso | Azure Service Operator</title>
 <link rel="manifest" href="/azure-service-operator/manifest.json">
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
@@ -129,7 +125,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/introduction/diagnosing-problems-with-aso/" class="">Diagnosing Problems With Aso</a>
+    <a href="https://azure.github.io/azure-service-operator/introduction/diagnosing-problems-with-aso/" class=" active">Diagnosing Problems With Aso</a>
   
 
         </li>
@@ -466,7 +462,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" class=" active">2020-11: AST Library Choice</a>
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" class="">2020-11: AST Library Choice</a>
   
 
         </li>
@@ -565,7 +561,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/azure-service-operator/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>2020-11: AST Library Choice</strong>
+  <strong>Diagnosing Problems With Aso</strong>
 
   <label for="toc-control">
     
@@ -581,12 +577,22 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#context">Context</a></li>
-    <li><a href="#decision">Decision</a></li>
-    <li><a href="#status">Status</a></li>
-    <li><a href="#consequences">Consequences</a></li>
-    <li><a href="#experience-report">Experience Report</a></li>
-    <li><a href="#references">References</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a>
+      <ul>
+        <li><a href="#aso-controller-pod-in-status-createcontainerconfigerror">ASO controller pod in Status CreateContainerConfigError</a></li>
+      </ul>
+    </li>
+    <li><a href="#problems-with-resources">Problems with resources</a>
+      <ul>
+        <li><a href="#resource-with-no-ready-condition-set">Resource with no Ready condition set</a></li>
+      </ul>
+    </li>
+    <li><a href="#getting-aso-controller-pod-logs">Getting ASO controller pod logs</a>
+      <ul>
+        <li><a href="#log-levels">Log levels</a></li>
+        <li><a href="#logging-aggregator">Logging aggregator</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 
@@ -599,64 +605,73 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><h1 id="abstract-syntax-tree-library-choice">
-  Abstract Syntax Tree Library Choice
-  <a class="anchor" href="#abstract-syntax-tree-library-choice">#</a>
+  <article class="markdown"><h1 id="diagnosing-problems-with-aso">
+  Diagnosing problems with ASO
+  <a class="anchor" href="#diagnosing-problems-with-aso">#</a>
 </h1>
-<h2 id="context">
-  Context
-  <a class="anchor" href="#context">#</a>
+<h2 id="common-mistakes">
+  Common mistakes
+  <a class="anchor" href="#common-mistakes">#</a>
 </h2>
-<p>When we first started working on the Azure Service Operator Code Generator, we used the standard go <a href="https://pkg.go.dev/go/ast"><code>ast</code></a> library to create the final Go code.</p>
-<p>Unfortunately, we have run into a number of significant limitations with this library.</p>
-<ul>
-<li>
-<p><strong>Comments are often emitted in unexpected places.</strong><br>
-They would often appear at the end of the previous line, which conveys an incorrect meaning to a casual reader of the code. As a workaround, we found that prefacing some comments with newline characters would force them onto the next line. While hacking the library in this function worked, we are concerned that it&rsquo;s a fragile technique that would break in a future version of Go. We also found situations where this technique did not work.</p>
-</li>
-<li>
-<p><strong>Generated code does not always comply with <code>go fmt</code> standards.</strong><br>
-For some constructs, the generated code would fail the <code>go fmt</code> check included in our continuous integration (CI) builds. We found a workaround that involved using <code>ast</code> to read in a generated file and immediately rewrite it back out again, immitating the results of <code>go fmt</code>.</p>
-</li>
-<li>
-<p><strong>Generated code does not always compile.</strong><br>
-For some constructs, we found the comments were emitted at the start of the line of code (not on the previous line), resulting in the code being commented out. We found no workaround for this.</p>
-</li>
-<li>
-<p><strong>Poor control over whitespace</strong><br>
-We were unable to find a reliable technique within <code>ast</code> to introduce blank lines betweens stanza of code, or before comment blocks. As a workaround, we would read in the formatted code, scan it for comments and manually inject blank lines before each comment block.</p>
-</li>
-</ul>
-<p>We have come to the conclusions that the <code>ast</code> library is intended as a way to make minor modifications to <em>existing</em> well formatted Go files, not for the creation of entirely new Go files from scratch.</p>
-<p>A potential alternative is the <a href="https://github.com/dave/dst"><code>dst</code></a> (Decorated Syntax Tree) package. This package was specifically created to address the kinds of issues described above.</p>
-<h2 id="decision">
-  Decision
-  <a class="anchor" href="#decision">#</a>
+<h3 id="aso-controller-pod-in-status-createcontainerconfigerror">
+  ASO controller pod in Status CreateContainerConfigError
+  <a class="anchor" href="#aso-controller-pod-in-status-createcontainerconfigerror">#</a>
+</h3>
+<pre tabindex="0"><code>$ kubectl get pods -n azureserviceoperator-system
+NAME                                                       READY   STATUS                       RESTARTS   AGE
+azureserviceoperator-controller-manager-69cbccd645-4s5wz   1/2     CreateContainerConfigError   0          7m49s
+</code></pre><p>Very likely that you forgot to create the <code>aso-controller-settings</code> secret. This secret must be in
+the same namespace as the pod.</p>
+<p>You can confirm this with <code>kubectl describe pod -n azureserviceoperator-system --selector control-plane=controller-manager</code>.
+Look for the &ldquo;Error: secret &ldquo;aso-controller-settings&rdquo; not found&rdquo; event in the <code>describe</code> output:</p>
+<pre tabindex="0"><code>Events:
+  Type     Reason     Age                From               Message
+  ----     ------     ----               ----               -------
+  ...
+  Warning  Failed     36s (x7 over 99s)  kubelet            Error: secret &quot;aso-controller-settings&quot; not found
+  ...
+</code></pre><h2 id="problems-with-resources">
+  Problems with resources
+  <a class="anchor" href="#problems-with-resources">#</a>
 </h2>
-<p>After some informative trials, we have decided to adopt the <code>dst</code> library.</p>
-<h2 id="status">
-  Status
-  <a class="anchor" href="#status">#</a>
+<h3 id="resource-with-no-ready-condition-set">
+  Resource with no Ready condition set
+  <a class="anchor" href="#resource-with-no-ready-condition-set">#</a>
+</h3>
+<p>When resources are first created a ready condition should appear quickly, indicating that the resource is being reconciled:</p>
+<pre tabindex="0"><code>$ kubectl get resourcegroups.resources.azure.com 
+NAME            READY     SEVERITY   REASON          MESSAGE
+aso-sample-rg   False     Info       Reconciling     The resource is in the process of being reconciled by the operator   
+</code></pre><p>if this isn&rsquo;t happening then check the <a href="#getting-aso-controller-pod-logs">controller logs</a>.</p>
+<h2 id="getting-aso-controller-pod-logs">
+  Getting ASO controller pod logs
+  <a class="anchor" href="#getting-aso-controller-pod-logs">#</a>
 </h2>
-<p>Adopted.</p>
-<p>Initial change committed in <a href="https://github.com/Azure/k8s-infra/pull/336">PR#366</a>.</p>
-<h2 id="consequences">
-  Consequences
-  <a class="anchor" href="#consequences">#</a>
-</h2>
-<p>With a very high level of API compatibility, we were able to introduce <code>dst</code> with a low level of code churn by aliasing the import as <code>ast</code> in most files. Future changes should remove this aliasing as files are modified.</p>
-<p>The DST library requires that any node be used exactly once, and will panic if a node is reused in mulitiple locations. We&rsquo;ve mitigated this by liberally cloning nodes as we build the desired final syntax tree. (See <code>astbuilder.Expressions()</code>, introduced in <a href="https://github.com/Azure/azure-service-operator/pull/1613">PR#1613</a> and <code>astbuilder.Statements()</code>, introduced in <a href="https://github.com/Azure/k8s-infra/pull/427">PR#427</a>).</p>
-<h2 id="experience-report">
-  Experience Report
-  <a class="anchor" href="#experience-report">#</a>
-</h2>
-<p>TBC</p>
-<h2 id="references">
-  References
-  <a class="anchor" href="#references">#</a>
-</h2>
-<p><a href="https://pkg.go.dev/go/ast">Go AST</a> (Abstract Syntax Tree) library</p>
-<p><a href="https://github.com/dave/dst">DST</a> (Decorated Syntax Tree) library</p>
+<p>The last stop when investigating most issues is to look at the ASO pod logs. We expect that
+most resource issues can be resolved using the resources .status.conditions without resorting to
+pod logs. Setup issues on the other hand may requiring digging into the ASO controller pod logs.</p>
+<p>Assuming that ASO is installed into the default namespace, you can look at the logs for the controller
+with the following command:
+<code>kubectl logs -n azureserviceoperator-system --selector control-plane=controller-manager --container manager</code></p>
+<p>For example, here&rsquo;s the log from an ASO controller that was launched with some required CRDs missing:</p>
+<blockquote>
+<p>E0302 21:54:54.260693       1 deleg.go:144] setup &ldquo;msg&rdquo;=&ldquo;problem running manager&rdquo; &ldquo;error&rdquo;=&ldquo;failed to wait for registry caches to sync: no matches for kind &quot;Registry&quot; in version &quot;containerregistry.azure.com/v1alpha1api20210901storage&quot;&rdquo;</p>
+</blockquote>
+<h3 id="log-levels">
+  Log levels
+  <a class="anchor" href="#log-levels">#</a>
+</h3>
+<p>To configure the log level for ASO, edit the <code>azureserviceoperator-controller-manager</code> deployment and
+set the <code>--v=2</code> parameter to a different log level.</p>
+<p>See <a href="/v2/internal/logging/levels.go">levels.go</a> for a list of levels that we log at. Other components used
+by ASO (such as controller-runtime) may log at different levels, so there may be value in raising the log level
+above the highest level we use. Be aware that this might produce a <strong>lot</strong> of logs.</p>
+<h3 id="logging-aggregator">
+  Logging aggregator
+  <a class="anchor" href="#logging-aggregator">#</a>
+</h3>
+<p>You may want to consider using a cluster wide logging aggregator such as <a href="https://www.fluentd.org/">fluentd</a> (there are many other options).
+Without one it may be difficult to diagnose past failures.</p>
 </article>
  
       
@@ -698,12 +713,22 @@ We were unable to find a reliable technique within <code>ast</code> to introduce
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#context">Context</a></li>
-    <li><a href="#decision">Decision</a></li>
-    <li><a href="#status">Status</a></li>
-    <li><a href="#consequences">Consequences</a></li>
-    <li><a href="#experience-report">Experience Report</a></li>
-    <li><a href="#references">References</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a>
+      <ul>
+        <li><a href="#aso-controller-pod-in-status-createcontainerconfigerror">ASO controller pod in Status CreateContainerConfigError</a></li>
+      </ul>
+    </li>
+    <li><a href="#problems-with-resources">Problems with resources</a>
+      <ul>
+        <li><a href="#resource-with-no-ready-condition-set">Resource with no Ready condition set</a></li>
+      </ul>
+    </li>
+    <li><a href="#getting-aso-controller-pod-logs">Getting ASO controller pod logs</a>
+      <ul>
+        <li><a href="#log-levels">Log levels</a></li>
+        <li><a href="#logging-aggregator">Logging aggregator</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 
