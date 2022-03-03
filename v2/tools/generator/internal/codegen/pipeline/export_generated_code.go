@@ -25,9 +25,9 @@ import (
 const ExportPackagesStageID = "exportPackages"
 
 // ExportPackages creates a Stage to export our generated code as a set of packages
-func ExportPackages(outputPath string) Stage {
+func ExportPackages(outputPath string) *Stage {
 	description := fmt.Sprintf("Export packages to %q", outputPath)
-	stage := MakeLegacyStage(
+	stage := NewLegacyStage(
 		ExportPackagesStageID,
 		description,
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
@@ -43,7 +43,9 @@ func ExportPackages(outputPath string) Stage {
 
 			return definitions, nil
 		})
+
 	stage.RequiresPrerequisiteStages(DeleteGeneratedCodeStageID)
+
 	return stage
 }
 

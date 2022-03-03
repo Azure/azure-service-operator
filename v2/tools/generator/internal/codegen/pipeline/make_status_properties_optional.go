@@ -22,8 +22,8 @@ const MakeStatusPropertiesOptionalStageID = "makeStatusPropertiesOptional"
 // has implications for updating or patching the CRD resource as patching something in the spec or changing an annotation
 // will deserialize the response from apiserver into the object passed in. If there are any spurious empty properties in Status
 // included they will end up getting overwritten (possibly before the client.Status().Update() call can be made).
-func MakeStatusPropertiesOptional() Stage {
-	return MakeStage(
+func MakeStatusPropertiesOptional() *Stage {
+	return NewStage(
 		MakeStatusPropertiesOptionalStageID,
 		"Force all status properties to be optional",
 		func(ctx context.Context, state *State) (*State, error) {

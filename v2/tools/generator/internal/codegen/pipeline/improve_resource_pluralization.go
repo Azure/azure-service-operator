@@ -12,8 +12,8 @@ import (
 )
 
 // ImproveResourcePluralization improves pluralization for resources
-func ImproveResourcePluralization() Stage {
-	stage := MakeLegacyStage(
+func ImproveResourcePluralization() *Stage {
+	stage := NewLegacyStage(
 		"pluralizeNames",
 		"Improve resource pluralization",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {

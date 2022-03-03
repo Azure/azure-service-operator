@@ -17,8 +17,8 @@ const RemoveResourceScopeStageID = "removeResourceScope"
 
 // RemoveResourceScope removes the "Scope" property from resource Specs, as it only applies in the URL
 // of requests, not in the body.
-func RemoveResourceScope() Stage {
-	return MakeStage(
+func RemoveResourceScope() *Stage {
+	return NewStage(
 		RemoveResourceScopeStageID,
 		"Remove scope from all resources",
 		func(ctx context.Context, state *State) (*State, error) {

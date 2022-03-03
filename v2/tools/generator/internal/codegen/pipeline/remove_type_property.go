@@ -16,8 +16,8 @@ import (
 // RemoveTypePropertyStageID is the unique identifier for this pipeline stage
 const RemoveTypePropertyStageID = "removeTypeProperty"
 
-func RemoveTypeProperty() Stage {
-	return MakeStage(
+func RemoveTypeProperty() *Stage {
+	return NewStage(
 		RemoveTypePropertyStageID,
 		"Remove the ARM type property and instead augment the ResourceType with it",
 		func(ctx context.Context, state *State) (*State, error) {

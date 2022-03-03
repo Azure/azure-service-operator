@@ -26,24 +26,24 @@ const CheckForAnyTypeStageID = "rogueCheck"
 // error. The stage will also return an error if there are packages that we expect
 // to have AnyTypes but turn out not to, ensuring that we clean up our configuration
 // as the schemas are fixed and our handling improves.
-func FilterOutDefinitionsUsingAnyType(packages []string) Stage {
+func FilterOutDefinitionsUsingAnyType(packages []string) *Stage {
 	return checkForAnyType("Filter out rogue definitions using AnyTypes", packages)
 }
 
 // ensureDefinitionsDoNotUseAnyTypes returns a stage that will check for any
 // definitions containing AnyTypes. The stage will return errors for each type
 // found that uses an AnyType.
-func EnsureDefinitionsDoNotUseAnyTypes() Stage {
+func EnsureDefinitionsDoNotUseAnyTypes() *Stage {
 	return checkForAnyType("Check for rogue definitions using AnyTypes", []string{})
 }
 
-func checkForAnyType(description string, packages []string) Stage {
+func checkForAnyType(description string, packages []string) *Stage {
 	expectedPackages := astmodel.MakeStringSet()
 	for _, p := range packages {
 		expectedPackages.Add(p)
 	}
 
-	return MakeLegacyStage(
+	return NewLegacyStage(
 		CheckForAnyTypeStageID,
 		description,
 		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {

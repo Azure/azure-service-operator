@@ -14,8 +14,8 @@ import (
 
 const AugmentSpecWithStatusStageID = "augmentSpecWithStatus"
 
-func AugmentSpecWithStatus() Stage {
-	return MakeLegacyStage(
+func AugmentSpecWithStatus() *Stage {
+	stage := NewLegacyStage(
 		AugmentSpecWithStatusStageID,
 		"Merge information from Status into Spec",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
@@ -43,6 +43,9 @@ func AugmentSpecWithStatus() Stage {
 
 			return defs, nil
 		})
+
+	stage.RequiresPrerequisiteStages("allof-anyof-objects", "addStatusFromSwagger")
+	return stage
 }
 
 // an augmenter adds information from the Swagger-derived type to

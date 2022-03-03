@@ -18,8 +18,8 @@ import (
 const VerifyNoErroredTypesStageID = "verifyNoErroredTypes"
 
 // VerifyNoErroredTypes creates a Stage that verifies that no types contain an ErroredType with errors
-func VerifyNoErroredTypes() Stage {
-	return MakeStage(
+func VerifyNoErroredTypes() *Stage {
+	stage := NewStage(
 		VerifyNoErroredTypesStageID,
 		"Verify there are no ErroredType's containing errors",
 		func(ctx context.Context, state *State) (*State, error) {
@@ -40,7 +40,9 @@ func VerifyNoErroredTypes() Stage {
 			// This stage doesn't change the generated types at all - if the verification
 			// has passed, just return the same defs we started with
 			return state, nil
-		}).RequiresPrerequisiteStages(ApplyExportFiltersStageID)
+		})
+
+	return stage
 }
 
 type errorCollectingVisitor struct {
