@@ -1,4 +1,4 @@
-# Diagnosing problems with ASO
+# Diagnosing problems
 
 ## Common mistakes
 
