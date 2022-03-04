@@ -596,12 +596,31 @@ func (resource *ResourceType) generateMethodDecls(codeGenerationContext *CodeGen
 	var result []dst.Decl
 
 	for _, f := range resource.Functions() {
-		funcDef := f.AsFunc(codeGenerationContext, typeName)
+		funcDef := resource.generateMethodDeclForFunction(codeGenerationContext, typeName, f)
 		result = append(result, funcDef)
 	}
 
 	return result
 }
+
+func (resource *ResourceType) generateMethodDeclForFunction(
+	codeGenerationContext *CodeGenerationContext,
+	typeName TypeName,
+	f Function) *dst.FuncDecl {
+
+	defer func() {
+		if err := recover(); err != nil {
+			panic(fmt.Sprintf(
+				"generating method declaration for %s.%s: %s",
+				typeName.Name(),
+				f.Name(),
+				err))
+		}
+	}()
+
+	return f.AsFunc(codeGenerationContext, typeName)
+}
+
 
 func (resource *ResourceType) makeResourceListTypeName(name TypeName) TypeName {
 	return MakeTypeName(
