@@ -5,7 +5,9 @@
 
 package genruntime
 
-import "github.com/pkg/errors"
+import (
+	"github.com/pkg/errors"
+)
 
 // ResolvedReferences is a set of references which have been resolved for a particular resource.
 // The special self field is the fully qualified ARM ID of the resource that this ResolvedReferences applies to.

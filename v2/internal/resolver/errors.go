@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package genruntime
+package resolver
 
 import (
 	"fmt"
@@ -12,6 +12,11 @@ import (
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/types"
 )
+
+type causer interface {
+	error
+	Cause() error
+}
 
 type ReferenceNotFound struct {
 	NamespacedName types.NamespacedName
@@ -26,6 +31,7 @@ func NewReferenceNotFoundError(name types.NamespacedName, cause error) *Referenc
 }
 
 var _ error = &ReferenceNotFound{}
+var _ causer = &ReferenceNotFound{}
 
 func (e *ReferenceNotFound) Error() string {
 	return fmt.Sprintf("%s does not exist (%s)", e.NamespacedName, e.cause)
@@ -43,8 +49,47 @@ func (e *ReferenceNotFound) Cause() error {
 	return e.cause
 }
 
-// This was adapted from the function in errors
 func (e *ReferenceNotFound) Format(s fmt.State, verb rune) {
+	format(e, s, verb)
+}
+
+type SecretNotFound struct {
+	NamespacedName types.NamespacedName
+	cause          error
+}
+
+func NewSecretNotFoundError(name types.NamespacedName, cause error) *SecretNotFound {
+	return &SecretNotFound{
+		NamespacedName: name,
+		cause:          cause,
+	}
+}
+
+var _ error = &SecretNotFound{}
+var _ causer = &SecretNotFound{}
+
+func (e *SecretNotFound) Error() string {
+	return fmt.Sprintf("%s does not exist (%s)", e.NamespacedName, e.cause)
+}
+
+func (e *SecretNotFound) Is(err error) bool {
+	var typedErr *SecretNotFound
+	if errors.As(err, &typedErr) {
+		return e.NamespacedName == typedErr.NamespacedName
+	}
+	return false
+}
+
+func (e *SecretNotFound) Cause() error {
+	return e.cause
+}
+
+func (e *SecretNotFound) Format(s fmt.State, verb rune) {
+	format(e, s, verb)
+}
+
+// This was adapted from the function in errors
+func format(e causer, s fmt.State, verb rune) {
 	switch verb {
 	case 'v':
 		if s.Flag('+') {

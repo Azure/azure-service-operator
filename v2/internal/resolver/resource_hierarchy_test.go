@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package genruntime_test
+package resolver_test
 
 import (
 	"fmt"
@@ -12,7 +12,7 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 )
 
 func Test_ResourceHierarchy_ResourceGroupOnly(t *testing.T) {
@@ -22,7 +22,7 @@ func Test_ResourceHierarchy_ResourceGroupOnly(t *testing.T) {
 	resourceGroupName := "myrg"
 
 	a := createResourceGroup(resourceGroupName)
-	hierarchy := genruntime.ResourceHierarchy{a}
+	hierarchy := resolver.ResourceHierarchy{a}
 
 	// This is expected to fail
 	_, err := hierarchy.ResourceGroup()
@@ -45,7 +45,7 @@ func Test_ResourceHierarchy_ResourceGroup_TopLevelResource(t *testing.T) {
 	name := "myresource"
 
 	a, b := createResourceGroupRootedResource(resourceGroupName, name)
-	hierarchy := genruntime.ResourceHierarchy{a, b}
+	hierarchy := resolver.ResourceHierarchy{a, b}
 
 	expectedARMID := fmt.Sprintf("/subscriptions/1234/resourceGroups/%s/providers/Microsoft.Batch/batchAccounts/%s", resourceGroupName, name)
 
@@ -87,7 +87,7 @@ func Test_ResourceHierarchy_ExtensionOnResourceGroup(t *testing.T) {
 	extensionName := "myextension"
 
 	a, b := createExtensionResourceOnResourceGroup(resourceGroupName, extensionName)
-	hierarchy := genruntime.ResourceHierarchy{a, b}
+	hierarchy := resolver.ResourceHierarchy{a, b}
 
 	expectedARMID := fmt.Sprintf(
 		"/subscriptions/1234/resourceGroups/%s/providers/Microsoft.SimpleExtension/simpleExtensions/%s",
