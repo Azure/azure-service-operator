@@ -15,13 +15,13 @@ PATTERN='^v[0-9]((alpha|beta)[a-z0-9]+)?$'
 rm -rf $OUTPUTDIR
 mkdir $OUTPUTDIR
 
-#Iterate through the directories
+# Iterate through the directories
 for package in $(find "$APIROOT" -type d); 
 do
     PACKAGE_VERSION=$(basename $package)
     GROUPNAME=$(basename $(dirname $package))
 
-    #Filter the main CRD packages
+    # Filter the main CRD packages matching the pattern and ignore the storage packages
     if [[ $PACKAGE_VERSION =~ $PATTERN ]] && [[ "$PACKAGE_VERSION" != *"storage" ]] 
     then
 

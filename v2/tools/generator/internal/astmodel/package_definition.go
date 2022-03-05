@@ -68,7 +68,7 @@ func (p *PackageDefinition) EmitDefinitions(outputDir string, generatedPackages 
 			return 0, err
 		}
 
-		// If package path does not include crossplane api dir and is not Storage package, then we generate doc file for the package
+		// If emitDocFiles is true from config and is not Storage package, then we generate doc file for the package
 		if !strings.HasSuffix(p.PackageName, StoragePackageSuffix) && emitDocFiles {
 			if err = emitDocFile(p, outputDir); err != nil {
 				return 0, err
@@ -266,7 +266,6 @@ func emitDocFile(pkgDef *PackageDefinition, outputDir string) error {
 
 func emitTemplateFile(pkgDef *PackageDefinition, template *template.Template, fileRef string) error {
 	buf := &bytes.Buffer{}
-	defer buf.Reset()
 	err := template.Execute(buf, pkgDef)
 	if err != nil {
 		return err
