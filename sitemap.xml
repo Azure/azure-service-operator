@@ -64,6 +64,52 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/authorization.v1alpha1api20200801preview/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/batch.v1alpha1api20210101/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/cache.v1alpha1api20201201/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/cache.v1alpha1api20210301/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/compute.v1alpha1api20200930/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/compute.v1alpha1api20201201/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/compute.v1alpha1api20210701/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/containerregistry.v1alpha1api20210901/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/containerservice.v1alpha1api20210501/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/dbformysql.v1alpha1api20210501/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql.v1alpha1api20210601/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/documentdb.v1alpha1api20210515/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/eventgrid.v1alpha1api20200601/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/eventhub.v1alpha1api20211101/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/insights.v1alpha1api20180501preview/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/insights.v1alpha1api20200202/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/managedidentity.v1alpha1api20181130/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/network.v1alpha1api20201101/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/operationalinsights.v1alpha1api20210601/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/resources.v1alpha1api20200601/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/servicebus.v1alpha1api20210101preview/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/signalrservice.v1alpha1api20211001/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/storage.v1alpha1api20210401/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/resources/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/</loc>
@@ -73,6 +119,8 @@
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/chained-storage-versions/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/fixed-storage-version/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/rolling-storage-versions/</loc>
   </url><url>
