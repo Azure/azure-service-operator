@@ -478,6 +478,13 @@ tasks:
       - task: controller:make-aadpodidentity-secret
       - "kubectl wait --for=condition=ready --timeout=2m pod -n azureserviceoperator-system -l control-plane=controller-manager"
 
+  controller:gen-crd-docs:
+    desc: Generates API docs for CRDs
+    deps: [controller:generate-crds]
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+      - ../{{.SCRIPTS_ROOT}}/gen-api-docs.sh ./api ../docs/hugo/content/reference ../docs/v2/api/template
+
   ############### Crossplane targets ###############
   crossplane:quick-checks:
     cmds:
