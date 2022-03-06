@@ -63,7 +63,7 @@ One reason for this is to allow the creation of multiple pipelines (currently we
 
 Pipeline stages are instances of `pipeline.Stage`. Each has a factory method that returns a `pipeline.Stage` instance. In operation, each accepts a `pipeline.State` containing the current object model and transforms it into a new state, that is passed to the next stage in turn. If a stage returns an error, the pipeline run is aborted.
 
-New stages should use the `MakeStage()` function. You'll see some older stages that predate a structural change use the deprecated `MakeLegacyStage()` factory instead; these older stages are slowly being migrated and `MakeLegacyStage()` will be deleted when this is complete.
+New stages should use the `NewStage()` function. You'll see some older stages that predate a structural change use the deprecated `NewLegacyStage()` factory instead; these older stages are slowly being migrated and `NewLegacyStage()` will be deleted when this is complete.
 
 ## Code Generation
 
