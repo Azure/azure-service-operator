@@ -8,19 +8,13 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=test.azure.com,resources=as,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=test.azure.com,resources={as/status,as/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -185,18 +179,6 @@ func (a *A) validateResourceReferences() error {
 	return genruntime.ValidateResourceReferences(refs)
 }
 
-// Hub marks that this A is the hub type for conversion
-func (a *A) Hub() {}
-
-// OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (a *A) OriginalGVK() *schema.GroupVersionKind {
-	return &schema.GroupVersionKind{
-		Group:   GroupVersion.Group,
-		Version: a.Spec.OriginalVersion(),
-		Kind:    "A",
-	}
-}
-
 // +kubebuilder:object:root=true
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
 type AList struct {
@@ -226,11 +208,7 @@ func (a A_SpecARM) GetType() string {
 	return "Microsoft.Azure/A"
 }
 
-// +kubebuilder:rbac:groups=test.azure.com,resources=bs,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=test.azure.com,resources={bs/status,bs/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -395,18 +373,6 @@ func (b *B) validateResourceReferences() error {
 	return genruntime.ValidateResourceReferences(refs)
 }
 
-// Hub marks that this B is the hub type for conversion
-func (b *B) Hub() {}
-
-// OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (b *B) OriginalGVK() *schema.GroupVersionKind {
-	return &schema.GroupVersionKind{
-		Group:   GroupVersion.Group,
-		Version: b.Spec.OriginalVersion(),
-		Kind:    "B",
-	}
-}
-
 // +kubebuilder:object:root=true
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/B
 type BList struct {
@@ -436,11 +402,7 @@ func (b B_SpecARM) GetType() string {
 	return "Microsoft.Azure/B"
 }
 
-// +kubebuilder:rbac:groups=test.azure.com,resources=cs,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=test.azure.com,resources={cs/status,cs/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -605,18 +567,6 @@ func (c *C) validateResourceReferences() error {
 	return genruntime.ValidateResourceReferences(refs)
 }
 
-// Hub marks that this C is the hub type for conversion
-func (c *C) Hub() {}
-
-// OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (c *C) OriginalGVK() *schema.GroupVersionKind {
-	return &schema.GroupVersionKind{
-		Group:   GroupVersion.Group,
-		Version: c.Spec.OriginalVersion(),
-		Kind:    "C",
-	}
-}
-
 // +kubebuilder:object:root=true
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/C
 type CList struct {
@@ -646,11 +596,7 @@ func (c C_SpecARM) GetType() string {
 	return "Microsoft.Azure/C"
 }
 
-// +kubebuilder:rbac:groups=test.azure.com,resources=ds,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=test.azure.com,resources={ds/status,ds/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -815,18 +761,6 @@ func (d *D) validateResourceReferences() error {
 	return genruntime.ValidateResourceReferences(refs)
 }
 
-// Hub marks that this D is the hub type for conversion
-func (d *D) Hub() {}
-
-// OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (d *D) OriginalGVK() *schema.GroupVersionKind {
-	return &schema.GroupVersionKind{
-		Group:   GroupVersion.Group,
-		Version: d.Spec.OriginalVersion(),
-		Kind:    "D",
-	}
-}
-
 // +kubebuilder:object:root=true
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/D
 type DList struct {
@@ -911,34 +845,6 @@ func (a *A_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &A_Spec{}
-
-// ConvertSpecFrom populates our A_Spec from the provided source
-func (a *A_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == a {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(a)
-}
-
-// ConvertSpecTo populates the provided destination from our A_Spec
-func (a *A_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == a {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(a)
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (a *A_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (a *A_Spec) SetAzureName(azureName string) { a.AzureName = azureName }
-
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type BSpecAPIVersion string
 
@@ -993,34 +899,6 @@ func (b *B_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	// No error
 	return nil
 }
-
-var _ genruntime.ConvertibleSpec = &B_Spec{}
-
-// ConvertSpecFrom populates our B_Spec from the provided source
-func (b *B_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == b {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(b)
-}
-
-// ConvertSpecTo populates the provided destination from our B_Spec
-func (b *B_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == b {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(b)
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (b *B_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (b *B_Spec) SetAzureName(azureName string) { b.AzureName = azureName }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type CSpecAPIVersion string
@@ -1077,34 +955,6 @@ func (c *C_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &C_Spec{}
-
-// ConvertSpecFrom populates our C_Spec from the provided source
-func (c *C_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == c {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(c)
-}
-
-// ConvertSpecTo populates the provided destination from our C_Spec
-func (c *C_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == c {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(c)
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (c *C_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (c *C_Spec) SetAzureName(azureName string) { c.AzureName = azureName }
-
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type DSpecAPIVersion string
 
@@ -1159,34 +1009,6 @@ func (d *D_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	// No error
 	return nil
 }
-
-var _ genruntime.ConvertibleSpec = &D_Spec{}
-
-// ConvertSpecFrom populates our D_Spec from the provided source
-func (d *D_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == d {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(d)
-}
-
-// ConvertSpecTo populates the provided destination from our D_Spec
-func (d *D_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == d {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(d)
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (d *D_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (d *D_Spec) SetAzureName(azureName string) { d.AzureName = azureName }
 
 func init() {
 	SchemeBuilder.Register(&A{}, &AList{}, &B{}, &BList{}, &C{}, &CList{}, &D{}, &DList{})

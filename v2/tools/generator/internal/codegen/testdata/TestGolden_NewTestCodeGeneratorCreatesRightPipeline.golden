@@ -45,6 +45,7 @@ injectJSONTestCases                       azure      Add test cases to verify JS
 injectPropertyAssignmentTestCases         azure      Add test cases to verify PropertyAssignment functions
 injectResourceConversionTestCases         azure      Add test cases to verify Resource implementations of conversion.Convertible (funcs ConvertTo & ConvertFrom) behave as expected
 simplifyDefinitions                                  Flatten definitions by removing wrapper types
+stripFunctions                                       Strip functions to remove noise
 ensureArmTypeExistsForEveryType           azure      Check that an ARM type exists for both Spec and Status of each resource
 detectSkippingProperties                  azure      Detect properties that skip resource or object versions
 exportTestPackages                                   Export packages for test

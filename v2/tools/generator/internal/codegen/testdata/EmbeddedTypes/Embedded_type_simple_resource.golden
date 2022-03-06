@@ -8,19 +8,13 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=test.azure.com,resources=fakeresources,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=test.azure.com,resources={fakeresources/status,fakeresources/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -187,18 +181,6 @@ func (resource *FakeResource) validateResourceReferences() error {
 	return genruntime.ValidateResourceReferences(refs)
 }
 
-// Hub marks that this FakeResource is the hub type for conversion
-func (resource *FakeResource) Hub() {}
-
-// OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (resource *FakeResource) OriginalGVK() *schema.GroupVersionKind {
-	return &schema.GroupVersionKind{
-		Group:   GroupVersion.Group,
-		Version: resource.Spec.OriginalVersion(),
-		Kind:    "FakeResource",
-	}
-}
-
 // +kubebuilder:object:root=true
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
 type FakeResourceList struct {
@@ -360,34 +342,6 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// No error
 	return nil
 }
-
-var _ genruntime.ConvertibleSpec = &FakeResource_Spec{}
-
-// ConvertSpecFrom populates our FakeResource_Spec from the provided source
-func (resource *FakeResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == resource {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(resource)
-}
-
-// ConvertSpecTo populates the provided destination from our FakeResource_Spec
-func (resource *FakeResource_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == resource {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(resource)
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (resource *FakeResource_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (resource *FakeResource_Spec) SetAzureName(azureName string) { resource.AzureName = azureName }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type FooARM struct {

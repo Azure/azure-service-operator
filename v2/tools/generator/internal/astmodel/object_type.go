@@ -472,6 +472,15 @@ func (objectType *ObjectType) WithFunction(function Function) *ObjectType {
 	return result
 }
 
+// WithoutFunctions creates a new ObjectType with no functions (useful for testing)
+func (objectType *ObjectType) WithoutFunctions() *ObjectType {
+	// Create a copy to preserve immutability
+	result := objectType.copy()
+	result.functions = make(map[string]Function)
+
+	return result
+}
+
 // WithInterface creates a new ObjectType that's a copy with an interface implementation attached
 func (objectType *ObjectType) WithInterface(iface *InterfaceImplementation) *ObjectType {
 	// Create a copy of objectType to preserve immutability

@@ -14,7 +14,11 @@ import "fmt"
 // func(it TypeName) (Type, error)
 // func(it TypeName) Type
 //
-// These examples assume TypeName but can be generalized across any of the supported types.
+// These examples assume TypeName but can be generalized across any of the supported types, e.g. ResourceType:
+//
+// func(this *TypeVisitor, it *ResourceType, ctx interface{}) (Type, error)
+// func(it *ResourceType) (Type, error)
+// func(it *ResourceType) Type
 //
 type TypeVisitorBuilder struct {
 	VisitTypeName      interface{}

@@ -225,6 +225,15 @@ func (resource *ResourceType) WithFunction(function Function) *ResourceType {
 	return result
 }
 
+// WithoutFunctions creates a new Resource with no functions (useful for testing)
+func (resource *ResourceType) WithoutFunctions() *ResourceType {
+	// Create a copy to preserve immutability
+	result := resource.copy()
+	result.functions = make(map[string]Function)
+
+	return result
+}
+
 // WithTestCase creates a new Resource that's a copy with an additional test case included
 func (resource *ResourceType) WithTestCase(testcase TestCase) *ResourceType {
 	result := resource.copy()
@@ -620,7 +629,6 @@ func (resource *ResourceType) generateMethodDeclForFunction(
 
 	return f.AsFunc(codeGenerationContext, typeName)
 }
-
 
 func (resource *ResourceType) makeResourceListTypeName(name TypeName) TypeName {
 	return MakeTypeName(
