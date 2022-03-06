@@ -258,42 +258,50 @@ func exportPackagesTestPipelineStage(t *testing.T, testName string) *pipeline.St
 				t.Fatalf("defs was empty")
 			}
 
-			var pr astmodel.PackageReference
-			var group string
-			var version string
-			var found bool
-			var ds []astmodel.TypeDefinition
-			for _, def := range state.Definitions() {
-				ds = append(ds, def)
-				ref := def.Name().PackageReference
-				if !found {
-					pr = ref
-					group, version, found = ref.GroupVersion()
-				}
-			}
-
-			// Fabricate a single package definition
+			// Create package definitions
 			pkgs := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
-
-			packageDefinition := astmodel.NewPackageDefinition(group, version)
+			nonStoragePackageCount := 0
 			for _, def := range state.Definitions() {
-				packageDefinition.AddDefinition(def)
+				ref := def.Name().PackageReference
+				pkg, ok := pkgs[ref]
+				if !ok {
+					// expected to always be ok because we don't use external package references for type definitions
+					g, v, _ := ref.GroupVersion()
+					pkg = astmodel.NewPackageDefinition(g, v)
+					pkgs[ref] = pkg
+
+					if !astmodel.IsStoragePackageReference(ref) {
+						nonStoragePackageCount++
+					}
+				}
+
+				pkg.AddDefinition(def)
 			}
 
-			pkgs[pr] = packageDefinition
+			// Export each package definition
+			// We don't export storage packages as they're tested elsewhere
+			// If there's more than one package to export, we suffix with the package name
+			for ref, pkg := range pkgs {
+				if astmodel.IsStoragePackageReference(ref) {
+					continue
+				}
 
-			// put all definitions in one file, regardless.
-			// the package reference isn't really used here.
-			fileDef := astmodel.NewFileDefinition(pr, ds, pkgs)
+				fileDef := astmodel.NewFileDefinition(ref, pkg.Definitions().AsSlice(), pkgs)
 
-			buf := &bytes.Buffer{}
-			fileWriter := astmodel.NewGoSourceFileWriter(fileDef)
-			err := fileWriter.SaveToWriter(buf)
-			if err != nil {
-				t.Fatalf("could not generate file: %s", err)
+				buf := &bytes.Buffer{}
+				fileWriter := astmodel.NewGoSourceFileWriter(fileDef)
+				err := fileWriter.SaveToWriter(buf)
+				if err != nil {
+					t.Fatalf("could not generate file: %s", err)
+				}
+
+				fileName := testName
+				if nonStoragePackageCount > 1 {
+					fileName = fileName + "_" + ref.PackageName()
+				}
+
+				g.Assert(t, fileName, buf.Bytes())
 			}
-
-			g.Assert(t, testName, buf.Bytes())
 
 			return state, nil
 		})
