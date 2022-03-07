@@ -201,8 +201,15 @@ func (detector *skippingPropertyDetector) checkChain(start astmodel.PropertyRefe
 		return nil
 	}
 
+	// If the properties have the same type, we don't have a break here - so we check the remainder of the chain
+	// (This is Ok because the value serialized into the property bag from lastObserved will deserialize into the
+	// reintroduced property intact.)
+	if detector.propertiesHaveSameType(lastObserved, reintroduced) {
+		return detector.checkChain(reintroduced)
+	}
+
 	return errors.Errorf(
-		"property %s was discontinued but later reintroduced as %s; "+
+		"property %s was discontinued but later reintroduced as %s with a different type; "+
 			"see https://github.com/Azure/azure-service-operator/issues/1776 for why this is a problem",
 		lastObserved,
 		reintroduced)
@@ -239,4 +246,37 @@ func (detector *skippingPropertyDetector) lookupNext(ref astmodel.PropertyRefere
 	}
 
 	return astmodel.EmptyPropertyReference
+}
+
+// propertiesHaveSameType returns true if both the passed property references exist and have the same underlying type
+func (detector *skippingPropertyDetector) propertiesHaveSameType(
+	left astmodel.PropertyReference,
+	right astmodel.PropertyReference) bool {
+	leftType, leftOk := detector.lookupPropertyType(left)
+	rightType, rightOk := detector.lookupPropertyType(right)
+
+	return leftOk && rightOk && leftType.Equals(rightType, astmodel.EqualityOverrides{})
+}
+
+// lookupPropertyType accepts a PropertyReference and looks up the actual type of the property
+func (detector *skippingPropertyDetector) lookupPropertyType(ref astmodel.PropertyReference) (astmodel.Type, bool) {
+	def, ok := detector.definitions[ref.DeclaringType()]
+	if !ok {
+		// Type not found
+		return nil, false
+	}
+
+	container, ok := astmodel.AsPropertyContainer(def.Type())
+	if !ok {
+		// Not a property container
+		return nil, false
+	}
+
+	prop, ok := container.Property(ref.Property())
+	if !ok {
+		// Not a known property
+		return nil, false
+	}
+
+	return prop.PropertyType(), true
 }
