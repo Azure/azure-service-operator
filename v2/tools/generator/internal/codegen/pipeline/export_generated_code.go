@@ -25,7 +25,7 @@ import (
 const ExportPackagesStageID = "exportPackages"
 
 // ExportPackages creates a Stage to export our generated code as a set of packages
-func ExportPackages(outputPath string) *Stage {
+func ExportPackages(outputPath string, emitDocFiles bool) *Stage {
 	description := fmt.Sprintf("Export packages to %q", outputPath)
 	stage := NewLegacyStage(
 		ExportPackagesStageID,
@@ -36,7 +36,7 @@ func ExportPackages(outputPath string) *Stage {
 				return nil, errors.Wrapf(err, "failed to assign generated definitions to packages")
 			}
 
-			err = writeFiles(ctx, packages, outputPath)
+			err = writeFiles(ctx, packages, outputPath, emitDocFiles)
 			if err != nil {
 				return nil, errors.Wrapf(err, "unable to write files into %q", outputPath)
 			}
@@ -73,7 +73,7 @@ func CreatePackagesForDefinitions(definitions astmodel.TypeDefinitionSet) (map[a
 	return packages, nil
 }
 
-func writeFiles(ctx context.Context, packages map[astmodel.PackageReference]*astmodel.PackageDefinition, outputPath string) error {
+func writeFiles(ctx context.Context, packages map[astmodel.PackageReference]*astmodel.PackageDefinition, outputPath string, emitDocFiles bool) error {
 	var pkgs []*astmodel.PackageDefinition
 	for _, pkg := range packages {
 		pkgs = append(pkgs, pkg)
@@ -124,7 +124,7 @@ func writeFiles(ctx context.Context, packages map[astmodel.PackageReference]*ast
 					}
 				}
 
-				count, err := pkg.EmitDefinitions(outputDir, packages)
+				count, err := pkg.EmitDefinitions(outputDir, packages, emitDocFiles)
 				if err != nil {
 					select { // try to write to errs, ignore if buffer full
 					case errs <- errors.Wrapf(err, "error writing definitions into %q", outputDir):
