@@ -512,6 +512,9 @@ type RedisPatchSchedules_Spec struct {
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a cache.azure.com/Redis resource
 	Owner genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner" kind:"Redis"`
 
 	// +kubebuilder:validation:Required

@@ -7,6 +7,7 @@ package pipeline
 
 import (
 	"context"
+	"fmt"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -242,26 +243,41 @@ func (c *armConversionApplier) addARMConversionInterface(
 }
 
 func (c *armConversionApplier) createOwnerProperty(ownerTypeName *astmodel.TypeName) (*astmodel.PropertyDefinition, error) {
+	ref := ownerTypeName.PackageReference
+	var group string
+	var kind string
+	if grp, _, ok := ref.GroupVersion(); ok {
+		group = grp + astmodel.GroupSuffix
+		kind = ownerTypeName.Name()
+	} else {
+		return nil, errors.Errorf("owners from external package %s not currently supported", ref)
+	}
+
 	prop := astmodel.NewPropertyDefinition(
 		c.idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported),
 		c.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
 		astmodel.KnownResourceReferenceType)
-
-	ref := ownerTypeName.PackageReference
-	if group, _, ok := ref.GroupVersion(); ok {
-		prop = prop.WithTag("group", group+astmodel.GroupSuffix)
-		prop = prop.WithTag("kind", ownerTypeName.Name())
-		prop = prop.MakeRequired() // Owner is always required
-	} else {
-		return nil, errors.Errorf("owners from external package %s not currently supported", ref)
-	}
+	prop = prop.WithDescription(
+		fmt.Sprintf("The owner of the resource. The owner controls where the resource goes when it is deployed. "+
+			"The owner also controls the resources lifecycle. "+
+			"When the owner is deleted the resource will also be deleted. Owner is expected to "+
+			"be a reference to a %s/%s resource", group, kind))
+	prop = prop.WithTag("group", group)
+	prop = prop.WithTag("kind", kind)
+	prop = prop.MakeRequired() // Owner is always required
 
 	return prop, nil
 }
 
 func (c *armConversionApplier) createExtensionResourceOwnerProperty() *astmodel.PropertyDefinition {
-	return astmodel.NewPropertyDefinition(
+	prop := astmodel.NewPropertyDefinition(
 		c.idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported),
 		c.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
 		astmodel.ArbitraryOwnerReference).MakeRequired()
+	prop = prop.WithDescription(
+		"The owner of the resource. The owner controls where the resource goes when it is deployed. " +
+			"The owner also controls the resources lifecycle. " +
+			"When the owner is deleted the resource will also be deleted. " +
+			"This resource is an extension resource, which means that any other Azure resource can be its owner.")
+	return prop
 }
