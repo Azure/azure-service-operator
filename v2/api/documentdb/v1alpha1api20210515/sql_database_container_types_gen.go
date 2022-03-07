@@ -325,6 +325,9 @@ type DatabaseAccountsSqlDatabasesContainers_Spec struct {
 	Options *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a documentdb.azure.com/SqlDatabase resource
 	Owner genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner" kind:"SqlDatabase"`
 
 	// +kubebuilder:validation:Required

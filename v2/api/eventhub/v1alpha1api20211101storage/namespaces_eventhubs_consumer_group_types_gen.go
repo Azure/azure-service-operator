@@ -174,6 +174,9 @@ type NamespacesEventhubsConsumergroups_Spec struct {
 	OriginalVersion string  `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a eventhub.azure.com/NamespacesEventhub resource
 	Owner        genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner" kind:"NamespacesEventhub"`
 	PropertyBag  genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 	Tags         map[string]string                 `json:"tags,omitempty"`

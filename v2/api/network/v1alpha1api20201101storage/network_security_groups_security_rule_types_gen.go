@@ -147,6 +147,9 @@ type NetworkSecurityGroupsSecurityRules_Spec struct {
 	OriginalVersion                      string        `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a network.azure.com/NetworkSecurityGroup resource
 	Owner                           genruntime.KnownResourceReference `group:"network.azure.com" json:"owner" kind:"NetworkSecurityGroup"`
 	Priority                        *int                              `json:"priority,omitempty"`
 	PropertyBag                     genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
