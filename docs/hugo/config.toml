@@ -6,3 +6,9 @@ theme = 'book'
 # theme-specific settings
 [params]
 BookSection = "*"
+
+# for API docs rendering
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
