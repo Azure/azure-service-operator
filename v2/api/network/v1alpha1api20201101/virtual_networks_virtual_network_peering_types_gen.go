@@ -840,6 +840,9 @@ type VirtualNetworksVirtualNetworkPeerings_Spec struct {
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a network.azure.com/VirtualNetwork resource
 	Owner genruntime.KnownResourceReference `group:"network.azure.com" json:"owner" kind:"VirtualNetwork"`
 
 	//PeeringState: The status of the virtual network peering.

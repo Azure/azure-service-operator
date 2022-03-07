@@ -182,6 +182,9 @@ type EventSubscriptions_Spec struct {
 	OriginalVersion       string                            `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
+	//extension resource, which means that any other Azure resource can be its owner.
 	Owner       genruntime.ArbitraryOwnerReference `json:"owner"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	RetryPolicy *RetryPolicy                       `json:"retryPolicy,omitempty"`

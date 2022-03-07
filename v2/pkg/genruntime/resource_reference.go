@@ -63,6 +63,7 @@ type ResourceReference struct {
 	// name - the versions are just giving a different view on the same resource
 
 	// TODO: The below regex may be overly restrictive
+
 	// +kubebuilder:validation:Pattern="(?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$"
 	// ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
 	// The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
