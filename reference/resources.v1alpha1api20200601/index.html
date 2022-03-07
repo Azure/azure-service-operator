@@ -3,10 +3,12 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
+<meta name="description" content="resources.azure.com/v1alpha1api20200601  Package v1alpha1api20200601 contains API Schema definitions for the resources v1alpha1api20200601 API group
+ Resource Types:  ResourceGroup       Field Description      metadata  Kubernetes meta/v1.ObjectMeta     Refer to the Kubernetes API documentation for the fields of the metadata field.     spec  ResourceGroupSpec          azureName  string    AzureName: The name of the resource in Azure.">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
-<meta property="og:description" content="" />
+<meta property="og:description" content="resources.azure.com/v1alpha1api20200601  Package v1alpha1api20200601 contains API Schema definitions for the resources v1alpha1api20200601 API group
+ Resource Types:  ResourceGroup       Field Description      metadata  Kubernetes meta/v1.ObjectMeta     Refer to the Kubernetes API documentation for the fields of the metadata field.     spec  ResourceGroupSpec          azureName  string    AzureName: The name of the resource in Azure." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/resources.v1alpha1api20200601/" /><meta property="article:section" content="reference" />
 
@@ -17,7 +19,7 @@
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.bbcce257e86d22453a54ce29650b099e50c21d3927eb8ef67c5eeb0172d0f6fc.js" integrity="sha256-u8ziV&#43;htIkU6VM4pZQsJnlDCHTkn6472fF7rAXLQ9vw=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.730ef647b191fbd3811d8687436ee15baaeacb79891d5f6562453d3055142a41.js" integrity="sha256-cw72R7GR&#43;9OBHYaHQ27hW6rqy3mJHV9lYkU9MFUUKkE=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -901,7 +903,446 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><!-- raw HTML omitted -->
+  <article class="markdown"><h2 id="resources.azure.com/v1alpha1api20200601">resources.azure.com/v1alpha1api20200601</h2>
+<div>
+<p>Package v1alpha1api20200601 contains API Schema definitions for the resources v1alpha1api20200601 API group</p>
+</div>
+Resource Types:
+<ul></ul>
+<h3 id="resources.azure.com/v1alpha1api20200601.ResourceGroup">ResourceGroup
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#resources.azure.com/v1alpha1api20200601.ResourceGroupSpec">
+ResourceGroupSpec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name
+of the resource in Kubernetes but it doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location is the Azure location for the group (eg westus2, southcentralus, etc&hellip;)</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>managedBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ManagedBy is the management group responsible for managing this group</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags are user defined key value pairs</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#resources.azure.com/v1alpha1api20200601.ResourceGroupStatus">
+ResourceGroupStatus
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="resources.azure.com/v1alpha1api20200601.ResourceGroupSpec">ResourceGroupSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#resources.azure.com/v1alpha1api20200601.ResourceGroup">ResourceGroup</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name
+of the resource in Kubernetes but it doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location is the Azure location for the group (eg westus2, southcentralus, etc&hellip;)</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>managedBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ManagedBy is the management group responsible for managing this group</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags are user defined key value pairs</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="resources.azure.com/v1alpha1api20200601.ResourceGroupSpecARM">ResourceGroupSpecARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: Name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location is the Azure location for the group (eg westus2, southcentralus, etc&hellip;)</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>managedBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ManagedBy is the management group responsible for managing this group</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags are user defined key value pairs</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="resources.azure.com/v1alpha1api20200601.ResourceGroupStatus">ResourceGroupStatus
+</h3>
+<p>
+(<em>Appears on:</em><a href="#resources.azure.com/v1alpha1api20200601.ResourceGroup">ResourceGroup</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>managedBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ManagedBy is the management group responsible for managing this group</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags are user defined key value pairs</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>provisioningState</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions describe the observed state of the resource</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="resources.azure.com/v1alpha1api20200601.ResourceGroupStatusARM">ResourceGroupStatusARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>managedBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ManagedBy is the management group responsible for managing this group</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags are user defined key value pairs</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#resources.azure.com/v1alpha1api20200601.ResourceGroupStatusPropertiesARM">
+ResourceGroupStatusPropertiesARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="resources.azure.com/v1alpha1api20200601.ResourceGroupStatusPropertiesARM">ResourceGroupStatusPropertiesARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#resources.azure.com/v1alpha1api20200601.ResourceGroupStatusARM">ResourceGroupStatusARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>provisioningState</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="resources.azure.com/v1alpha1api20200601.ResourceGroupType">ResourceGroupType
+(<code>string</code> alias)</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Microsoft.Resources/resourceGroups&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<hr/>
 </article>
  
       
