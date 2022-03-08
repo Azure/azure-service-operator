@@ -321,12 +321,17 @@ func (property *PropertyDefinition) MakeTypeOptional() *PropertyDefinition {
 }
 
 func makePropertyTypeRequired(t Type) Type {
-	if vType, ok := t.(*ValidatedType); ok {
-		if optionalType, ok := t.(*OptionalType); ok {
-			return vType.WithType(optionalType.Element())
-		}
-	} else if optionalType, ok := t.(*OptionalType); ok {
-		return optionalType.Element()
+	switch typ := t.(type) {
+	case *OptionalType:
+		return typ.Element()
+	case *ValidatedType:
+		return typ.WithType(makePropertyTypeRequired(typ.ElementType()))
+	case MetaType:
+		// We didn't use a visitor here for two reasons: Reason 1 is that visitor has an err case that we don't want.
+		// Reason 2 is that visitor by default visits types inside Maps and Lists, which we also do not want. We could
+		// have overridden those visit methods but this is cleaner than that and fails in a safe way if new types
+		// are ever added.
+		panic(fmt.Sprintf("cannot make %T required", t))
 	}
 
 	return t

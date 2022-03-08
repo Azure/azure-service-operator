@@ -56,8 +56,8 @@ func canTypeBeMadeRequired(t Type) bool {
 		return false
 	case *OptionalType:
 		return true
-	case *ValidatedType:
-		return canTypeBeMadeRequired(typ.ElementType())
+	case MetaType:
+		return canTypeBeMadeRequired(typ.Unwrap())
 	default:
 		return false
 	}
@@ -73,8 +73,8 @@ func isTypeOptional(t Type) bool {
 		return true
 	case *OptionalType:
 		return true
-	case *ValidatedType:
-		return isTypeOptional(typ.ElementType())
+	case MetaType:
+		return isTypeOptional(typ.Unwrap())
 	default:
 		return false
 	}

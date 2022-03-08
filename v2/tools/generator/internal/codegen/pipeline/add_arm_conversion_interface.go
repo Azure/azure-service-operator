@@ -200,6 +200,8 @@ func (c *armConversionApplier) transformSpec(resourceType *astmodel.ResourceType
 		}
 
 		// rename Name to AzureName and promote type if needed
+		// Note: if this type ends up wrapped in another type we may need to use a visitor to do this instead of
+		// doing it manually.
 		namePropType := nameProp.PropertyType()
 		if optional, ok := namePropType.(*astmodel.OptionalType); ok {
 			namePropType = optional.Element()

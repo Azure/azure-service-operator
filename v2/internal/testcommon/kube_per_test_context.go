@@ -341,7 +341,7 @@ func (tc *KubePerTestContext) CreateResourceUntracked(obj client.Object) {
 	tc.G.Expect(tc.kubeClient.Create(tc.Ctx, obj)).To(gomega.Succeed())
 }
 
-// CreateResourceExpectRequestFailure attempts to create a resource an asserts that the resource
+// CreateResourceExpectRequestFailure attempts to create a resource and asserts that the resource
 // was NOT created (an error was returned). That error is returned for further assertions.
 // This can be used to perform negative tests
 func (tc *KubePerTestContext) CreateResourceExpectRequestFailure(obj client.Object) error {
