@@ -120,6 +120,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/fixed-storage-version/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/introduction/installing-from-yaml/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/rolling-storage-versions/</loc>

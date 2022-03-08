@@ -70,6 +70,15 @@ batch #  ARM version 2021-01-01 #   BatchAccount (sample)  Use CRD version v1alp
     </item>
     
     <item>
+      <title>Installation: From YAML</title>
+      <link>https://azure.github.io/azure-service-operator/introduction/installing-from-yaml/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/introduction/installing-from-yaml/</guid>
+      <description>Prerequisites #   You have installed Cert Manager as per the installation instructions up to the &amp;ldquo;install from Helm&amp;rdquo; step. You have the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET environment variables set from the installation instructions.  Installation #   Install the latest v2+ release of Azure Service Operator. kubectl apply --server-side=true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0-alpha.6/azureserviceoperator_v2.0.0-alpha.6.yaml  Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as.</description>
+    </item>
+    
+    <item>
       <title>Tutorial: CosmosDB to-do List</title>
       <link>https://azure.github.io/azure-service-operator/introduction/tutorial-cosmosdb/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
