@@ -82,7 +82,7 @@ func RedisSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRedisSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedisSpecARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
@@ -90,7 +90,7 @@ func AddIndependentPropertyGeneratorsForRedisSpecARM(gens map[string]gopter.Gen)
 
 // AddRelatedPropertyGeneratorsForRedisSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = RedisCreatePropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(RedisCreatePropertiesARMGenerator())
 }
 
 func Test_RedisCreatePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -174,7 +174,7 @@ func AddIndependentPropertyGeneratorsForRedisCreatePropertiesARM(gens map[string
 
 // AddRelatedPropertyGeneratorsForRedisCreatePropertiesARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisCreatePropertiesARM(gens map[string]gopter.Gen) {
-	gens["Sku"] = SkuARMGenerator()
+	gens["Sku"] = gen.PtrOf(SkuARMGenerator())
 }
 
 func Test_SkuARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -233,7 +233,7 @@ func SkuARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSkuARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuARM(gens map[string]gopter.Gen) {
-	gens["Capacity"] = gen.Int()
-	gens["Family"] = gen.OneConstOf(SkuFamilyC, SkuFamilyP)
-	gens["Name"] = gen.OneConstOf(SkuNameBasic, SkuNamePremium, SkuNameStandard)
+	gens["Capacity"] = gen.PtrOf(gen.Int())
+	gens["Family"] = gen.PtrOf(gen.OneConstOf(SkuFamilyC, SkuFamilyP))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SkuNameBasic, SkuNamePremium, SkuNameStandard))
 }

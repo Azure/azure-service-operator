@@ -322,7 +322,7 @@ func (s synthesizer) oneOfObject(oneOf *astmodel.OneOfType, propNames []property
 	oneOf.Types().ForEach(func(t astmodel.Type, ix int) {
 		names := propNames[ix]
 		prop := astmodel.NewPropertyDefinition(names.golang, names.json, t)
-		prop = prop.MakeOptional()
+		prop = prop.MakeTypeOptional()
 		prop = prop.WithDescription(propertyDescription)
 		properties = append(properties, prop)
 	})

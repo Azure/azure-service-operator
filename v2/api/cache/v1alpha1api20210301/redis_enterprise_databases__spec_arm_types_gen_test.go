@@ -90,7 +90,7 @@ func AddIndependentPropertyGeneratorsForRedisEnterpriseDatabasesSpecARM(gens map
 
 // AddRelatedPropertyGeneratorsForRedisEnterpriseDatabasesSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabasesSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = DatabasePropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(DatabasePropertiesARMGenerator())
 }
 
 func Test_DatabasePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -236,7 +236,7 @@ func ModuleARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForModuleARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForModuleARM(gens map[string]gopter.Gen) {
 	gens["Args"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_PersistenceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

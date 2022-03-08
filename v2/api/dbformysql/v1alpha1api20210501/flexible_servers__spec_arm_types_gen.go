@@ -7,13 +7,13 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type FlexibleServers_SpecARM struct {
 	//Location: The geo-location where the resource lives
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the server.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: The properties of a server.
-	Properties ServerPropertiesARM `json:"properties"`
+	Properties *ServerPropertiesARM `json:"properties,omitempty"`
 
 	//Sku: Billing information related properties of a server.
 	Sku *SkuARM `json:"sku,omitempty"`
@@ -85,10 +85,10 @@ type ServerPropertiesARM struct {
 //Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Sku
 type SkuARM struct {
 	//Name: The name of the sku, e.g. Standard_D32s_v3.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Tier: The tier of the particular SKU, e.g. GeneralPurpose.
-	Tier SkuTier `json:"tier"`
+	Tier *SkuTier `json:"tier,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup

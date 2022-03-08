@@ -8,6 +8,7 @@ package controllers_test
 import (
 	"testing"
 
+	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -43,14 +44,16 @@ func storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t *testing.T, wai
 
 	// Create a storage account
 	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
+	kind := storage.StorageAccountsSpecKindBlobStorage
+	sku := storage.SkuNameStandardLRS
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccounts_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			Kind:     storage.StorageAccountsSpecKindBlobStorage,
-			Sku: storage.Sku{
-				Name: storage.SkuNameStandardLRS,
+			Kind:     &kind,
+			Sku: &storage.Sku{
+				Name: &sku,
 			},
 			AccessTier: &accessTier,
 		},
@@ -77,8 +80,8 @@ func subnetAndVNETCreatedProvisionedOutOfOrder(t *testing.T, waitHelper func(tc 
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
 		Spec: network.VirtualNetworks_Spec{
 			Owner:    testcommon.AsOwner(rg),
-			Location: testcommon.DefaultTestRegion,
-			AddressSpace: network.AddressSpace{
+			Location: tc.AzureRegion,
+			AddressSpace: &network.AddressSpace{
 				AddressPrefixes: []string{"10.0.0.0/16"},
 			},
 		},
@@ -88,7 +91,7 @@ func subnetAndVNETCreatedProvisionedOutOfOrder(t *testing.T, waitHelper func(tc 
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
 		Spec: network.VirtualNetworksSubnets_Spec{
 			Owner:         testcommon.AsOwner(vnet),
-			AddressPrefix: "10.0.0.0/24",
+			AddressPrefix: to.StringPtr("10.0.0.0/24"),
 		},
 	}
 
@@ -155,14 +158,56 @@ func Test_CreateStorageAccountThatAlreadyExists_ReconcilesSuccessfully(t *testin
 
 	// Create a storage account
 	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
+	kind := storage.StorageAccountsSpecKindBlobStorage
+	sku := storage.SkuNameStandardLRS
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccounts_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			Kind:     storage.StorageAccountsSpecKindBlobStorage,
-			Sku: storage.Sku{
-				Name: storage.SkuNameStandardLRS,
+			Kind:     &kind,
+			Sku: &storage.Sku{
+				Name: &sku,
+			},
+			AccessTier: &accessTier,
+		},
+	}
+
+	acctCopy := acct.DeepCopy()
+
+	tc.CreateResourcesAndWait(acct)
+
+	// Patch the account to remove the finalizer
+	old := acct.DeepCopy()
+	controllerutil.RemoveFinalizer(acct, "serviceoperator.azure.com/finalizer")
+	tc.Patch(old, acct)
+
+	// Delete the account
+	tc.DeleteResourceAndWait(acct)
+
+	// Create it again
+	tc.CreateResourcesAndWait(acctCopy)
+}
+
+func Test_CreateStorageAccountWithoutRequiredProperties_Rejected(t *testing.T) {
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	// Create a storage account
+	kind := storage.StorageAccountsSpecKindBlobStorage
+	sku := storage.SkuNameStandardLRS
+	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
+	acct := &storage.StorageAccount{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
+		Spec: storage.StorageAccounts_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+			Kind:     &kind,
+			Sku: &storage.Sku{
+				Name: &sku,
 			},
 			AccessTier: &accessTier,
 		},

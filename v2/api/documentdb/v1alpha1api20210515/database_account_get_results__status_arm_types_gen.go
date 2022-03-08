@@ -151,7 +151,7 @@ type ApiProperties_StatusARM struct {
 }
 
 type BackupPolicy_StatusARM struct {
-	Type BackupPolicyType_Status `json:"type"`
+	Type *BackupPolicyType_Status `json:"type,omitempty"`
 }
 
 type Capability_StatusARM struct {
@@ -162,7 +162,7 @@ type Capability_StatusARM struct {
 
 type ConsistencyPolicy_StatusARM struct {
 	//DefaultConsistencyLevel: The default consistency level and configuration settings of the Cosmos DB account.
-	DefaultConsistencyLevel ConsistencyPolicyStatusDefaultConsistencyLevel `json:"defaultConsistencyLevel"`
+	DefaultConsistencyLevel *ConsistencyPolicyStatusDefaultConsistencyLevel `json:"defaultConsistencyLevel,omitempty"`
 
 	//MaxIntervalInSeconds: When used with the Bounded Staleness consistency level, this value represents the time amount of
 	//staleness (in seconds) tolerated. Accepted range for this value is 5 - 86400. Required when defaultConsistencyPolicy is
@@ -183,7 +183,7 @@ type CorsPolicy_StatusARM struct {
 	AllowedMethods *string `json:"allowedMethods,omitempty"`
 
 	//AllowedOrigins: The origin domains that are permitted to make a request against the service via CORS.
-	AllowedOrigins string `json:"allowedOrigins"`
+	AllowedOrigins *string `json:"allowedOrigins,omitempty"`
 
 	//ExposedHeaders: The response headers that may be sent in the response to the CORS request and exposed by the browser to
 	//the request issuer.

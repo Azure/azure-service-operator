@@ -123,20 +123,22 @@ func Test_SameObjectHasTwoSecretsWritingToSameDestination_RejectedByWebhook(t *t
 		Key:  "key1",
 	}
 
-	err := tc.CreateResourceExpectFailure(acct1)
+	err := tc.CreateResourceExpectRequestFailure(acct1)
 	tc.Expect(err.Error()).To(ContainSubstring("cannot write more than one secret to destination Name: %q, Key: %q", storageKeysSecret, "key1"))
 }
 
 func makeSimpleStorageAccountWithOperatorSpecSecrets(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, secretName string, secretKey string) *storage.StorageAccount {
 	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
+	kind := storage.StorageAccountsSpecKindStorageV2
+	sku := storage.SkuNameStandardLRS
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccounts_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			Kind:     storage.StorageAccountsSpecKindStorageV2,
-			Sku: storage.Sku{
-				Name: storage.SkuNameStandardLRS,
+			Kind:     &kind,
+			Sku: &storage.Sku{
+				Name: &sku,
 			},
 			AccessTier: &accessTier,
 			OperatorSpec: &storage.StorageAccountOperatorSpec{

@@ -83,13 +83,13 @@ func StorageAccountsSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForStorageAccountsSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageAccountsSpecARM(gens map[string]gopter.Gen) {
-	gens["Kind"] = gen.OneConstOf(
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(
 		StorageAccountsSpecKindBlobStorage,
 		StorageAccountsSpecKindBlockBlobStorage,
 		StorageAccountsSpecKindFileStorage,
 		StorageAccountsSpecKindStorage,
-		StorageAccountsSpecKindStorageV2)
-	gens["Location"] = gen.AlphaString()
+		StorageAccountsSpecKindStorageV2))
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
@@ -99,7 +99,7 @@ func AddRelatedPropertyGeneratorsForStorageAccountsSpecARM(gens map[string]gopte
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationARMGenerator())
 	gens["Identity"] = gen.PtrOf(IdentityARMGenerator())
 	gens["Properties"] = gen.PtrOf(StorageAccountPropertiesCreateParametersARMGenerator())
-	gens["Sku"] = SkuARMGenerator()
+	gens["Sku"] = gen.PtrOf(SkuARMGenerator())
 }
 
 func Test_ExtendedLocationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -219,11 +219,11 @@ func IdentityARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForIdentityARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIdentityARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.OneConstOf(
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(
 		IdentityTypeNone,
 		IdentityTypeSystemAssigned,
 		IdentityTypeSystemAssignedUserAssigned,
-		IdentityTypeUserAssigned)
+		IdentityTypeUserAssigned))
 }
 
 func Test_SkuARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -282,7 +282,7 @@ func SkuARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSkuARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
 		SkuNamePremiumLRS,
 		SkuNamePremiumZRS,
 		SkuNameStandardGRS,
@@ -290,7 +290,7 @@ func AddIndependentPropertyGeneratorsForSkuARM(gens map[string]gopter.Gen) {
 		SkuNameStandardLRS,
 		SkuNameStandardRAGRS,
 		SkuNameStandardRAGZRS,
-		SkuNameStandardZRS)
+		SkuNameStandardZRS))
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(SkuTierPremium, SkuTierStandard))
 }
 
@@ -454,7 +454,7 @@ func AddIndependentPropertyGeneratorsForAzureFilesIdentityBasedAuthenticationARM
 		AzureFilesIdentityBasedAuthenticationDefaultSharePermissionStorageFileDataSmbShareElevatedContributor,
 		AzureFilesIdentityBasedAuthenticationDefaultSharePermissionStorageFileDataSmbShareOwner,
 		AzureFilesIdentityBasedAuthenticationDefaultSharePermissionStorageFileDataSmbShareReader))
-	gens["DirectoryServiceOptions"] = gen.OneConstOf(AzureFilesIdentityBasedAuthenticationDirectoryServiceOptionsAADDS, AzureFilesIdentityBasedAuthenticationDirectoryServiceOptionsAD, AzureFilesIdentityBasedAuthenticationDirectoryServiceOptionsNone)
+	gens["DirectoryServiceOptions"] = gen.PtrOf(gen.OneConstOf(AzureFilesIdentityBasedAuthenticationDirectoryServiceOptionsAADDS, AzureFilesIdentityBasedAuthenticationDirectoryServiceOptionsAD, AzureFilesIdentityBasedAuthenticationDirectoryServiceOptionsNone))
 }
 
 // AddRelatedPropertyGeneratorsForAzureFilesIdentityBasedAuthenticationARM is a factory method for creating gopter generators
@@ -518,7 +518,7 @@ func CustomDomainARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCustomDomainARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCustomDomainARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["UseSubDomainName"] = gen.PtrOf(gen.Bool())
 }
 
@@ -587,7 +587,7 @@ func EncryptionARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionARM(gens map[string]gopter.Gen) {
-	gens["KeySource"] = gen.OneConstOf(EncryptionKeySourceMicrosoftKeyvault, EncryptionKeySourceMicrosoftStorage)
+	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(EncryptionKeySourceMicrosoftKeyvault, EncryptionKeySourceMicrosoftStorage))
 	gens["RequireInfrastructureEncryption"] = gen.PtrOf(gen.Bool())
 }
 
@@ -654,7 +654,7 @@ func KeyPolicyARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKeyPolicyARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyPolicyARM(gens map[string]gopter.Gen) {
-	gens["KeyExpirationPeriodInDays"] = gen.Int()
+	gens["KeyExpirationPeriodInDays"] = gen.PtrOf(gen.Int())
 }
 
 func Test_NetworkRuleSetARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -727,7 +727,7 @@ func AddIndependentPropertyGeneratorsForNetworkRuleSetARM(gens map[string]gopter
 		NetworkRuleSetBypassLogging,
 		NetworkRuleSetBypassMetrics,
 		NetworkRuleSetBypassNone))
-	gens["DefaultAction"] = gen.OneConstOf(NetworkRuleSetDefaultActionAllow, NetworkRuleSetDefaultActionDeny)
+	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetDefaultActionAllow, NetworkRuleSetDefaultActionDeny))
 }
 
 // AddRelatedPropertyGeneratorsForNetworkRuleSetARM is a factory method for creating gopter generators
@@ -855,8 +855,8 @@ func SasPolicyARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSasPolicyARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSasPolicyARM(gens map[string]gopter.Gen) {
-	gens["ExpirationAction"] = gen.OneConstOf(SasPolicyExpirationActionLog)
-	gens["SasExpirationPeriod"] = gen.AlphaString()
+	gens["ExpirationAction"] = gen.PtrOf(gen.OneConstOf(SasPolicyExpirationActionLog))
+	gens["SasExpirationPeriod"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ActiveDirectoryPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -916,12 +916,12 @@ func ActiveDirectoryPropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForActiveDirectoryPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForActiveDirectoryPropertiesARM(gens map[string]gopter.Gen) {
-	gens["AzureStorageSid"] = gen.AlphaString()
-	gens["DomainGuid"] = gen.AlphaString()
-	gens["DomainName"] = gen.AlphaString()
-	gens["DomainSid"] = gen.AlphaString()
-	gens["ForestName"] = gen.AlphaString()
-	gens["NetBiosDomainName"] = gen.AlphaString()
+	gens["AzureStorageSid"] = gen.PtrOf(gen.AlphaString())
+	gens["DomainGuid"] = gen.PtrOf(gen.AlphaString())
+	gens["DomainName"] = gen.PtrOf(gen.AlphaString())
+	gens["DomainSid"] = gen.PtrOf(gen.AlphaString())
+	gens["ForestName"] = gen.PtrOf(gen.AlphaString())
+	gens["NetBiosDomainName"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_EncryptionIdentityARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1104,7 +1104,7 @@ func IPRuleARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIPRuleARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIPRuleARM(gens map[string]gopter.Gen) {
 	gens["Action"] = gen.PtrOf(gen.OneConstOf(IPRuleActionAllow))
-	gens["Value"] = gen.AlphaString()
+	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_KeyVaultPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1288,7 +1288,7 @@ func VirtualNetworkRuleARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualNetworkRuleARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkRuleARM(gens map[string]gopter.Gen) {
 	gens["Action"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkRuleActionAllow))
-	gens["Id"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.OneConstOf(
 		VirtualNetworkRuleStateDeprovisioning,
 		VirtualNetworkRuleStateFailed,

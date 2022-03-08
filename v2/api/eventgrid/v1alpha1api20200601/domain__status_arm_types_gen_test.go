@@ -299,7 +299,7 @@ func InputSchemaMappingStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInputSchemaMappingStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInputSchemaMappingStatusARM(gens map[string]gopter.Gen) {
-	gens["InputSchemaMappingType"] = gen.OneConstOf(InputSchemaMappingStatusInputSchemaMappingTypeJson)
+	gens["InputSchemaMappingType"] = gen.PtrOf(gen.OneConstOf(InputSchemaMappingStatusInputSchemaMappingTypeJson))
 }
 
 func Test_PrivateEndpointConnection_Status_Domain_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

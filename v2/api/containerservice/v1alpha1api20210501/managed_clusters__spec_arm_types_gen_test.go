@@ -83,7 +83,7 @@ func ManagedClustersSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClustersSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClustersSpecARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
@@ -92,7 +92,7 @@ func AddIndependentPropertyGeneratorsForManagedClustersSpecARM(gens map[string]g
 func AddRelatedPropertyGeneratorsForManagedClustersSpecARM(gens map[string]gopter.Gen) {
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationARMGenerator())
 	gens["Identity"] = gen.PtrOf(ManagedClusterIdentityARMGenerator())
-	gens["Properties"] = ManagedClusterPropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(ManagedClusterPropertiesARMGenerator())
 	gens["Sku"] = gen.PtrOf(ManagedClusterSKUARMGenerator())
 }
 
@@ -501,12 +501,12 @@ func ContainerServiceLinuxProfileARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForContainerServiceLinuxProfileARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForContainerServiceLinuxProfileARM(gens map[string]gopter.Gen) {
-	gens["AdminUsername"] = gen.AlphaString()
+	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForContainerServiceLinuxProfileARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForContainerServiceLinuxProfileARM(gens map[string]gopter.Gen) {
-	gens["Ssh"] = ContainerServiceSshConfigurationARMGenerator()
+	gens["Ssh"] = gen.PtrOf(ContainerServiceSshConfigurationARMGenerator())
 }
 
 func Test_ContainerServiceNetworkProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -778,7 +778,7 @@ func ManagedClusterAddonProfileARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedClusterAddonProfileARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterAddonProfileARM(gens map[string]gopter.Gen) {
 	gens["Config"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Enabled"] = gen.Bool()
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
 func Test_ManagedClusterAgentPoolProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -865,7 +865,7 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileARM(gens m
 	gens["MaxPods"] = gen.PtrOf(gen.Int())
 	gens["MinCount"] = gen.PtrOf(gen.Int())
 	gens["Mode"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileModeSystem, ManagedClusterAgentPoolProfileModeUser))
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["NodePublicIPPrefixID"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeTaints"] = gen.SliceOf(gen.AlphaString())
@@ -1233,7 +1233,7 @@ func ManagedClusterServicePrincipalProfileARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusterServicePrincipalProfileARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterServicePrincipalProfileARM(gens map[string]gopter.Gen) {
-	gens["ClientId"] = gen.AlphaString()
+	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["Secret"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1295,7 +1295,7 @@ func ManagedClusterWindowsProfileARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedClusterWindowsProfileARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterWindowsProfileARM(gens map[string]gopter.Gen) {
 	gens["AdminPassword"] = gen.PtrOf(gen.AlphaString())
-	gens["AdminUsername"] = gen.AlphaString()
+	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
 	gens["EnableCSIProxy"] = gen.PtrOf(gen.Bool())
 	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterWindowsProfileLicenseTypeNone, ManagedClusterWindowsProfileLicenseTypeWindowsServer))
 }
@@ -1569,13 +1569,13 @@ func ManagedClusterPodIdentityARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedClusterPodIdentityARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityARM(gens map[string]gopter.Gen) {
 	gens["BindingSelector"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Namespace"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Namespace"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForManagedClusterPodIdentityARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClusterPodIdentityARM(gens map[string]gopter.Gen) {
-	gens["Identity"] = UserAssignedIdentityARMGenerator()
+	gens["Identity"] = gen.PtrOf(UserAssignedIdentityARMGenerator())
 }
 
 func Test_ManagedClusterPodIdentityExceptionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1635,8 +1635,8 @@ func ManagedClusterPodIdentityExceptionARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusterPodIdentityExceptionARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityExceptionARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-	gens["Namespace"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Namespace"] = gen.PtrOf(gen.AlphaString())
 	gens["PodLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
@@ -1697,7 +1697,7 @@ func ContainerServiceSshPublicKeyARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForContainerServiceSshPublicKeyARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForContainerServiceSshPublicKeyARM(gens map[string]gopter.Gen) {
-	gens["KeyData"] = gen.AlphaString()
+	gens["KeyData"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ManagedClusterLoadBalancerProfileManagedOutboundIPsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

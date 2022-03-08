@@ -164,7 +164,7 @@ func ApplicationInsightsComponentPropertiesStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForApplicationInsightsComponentPropertiesStatusARM(gens map[string]gopter.Gen) {
 	gens["AppId"] = gen.PtrOf(gen.AlphaString())
 	gens["ApplicationId"] = gen.PtrOf(gen.AlphaString())
-	gens["ApplicationType"] = gen.OneConstOf(ApplicationInsightsComponentPropertiesStatusApplicationTypeOther, ApplicationInsightsComponentPropertiesStatusApplicationTypeWeb)
+	gens["ApplicationType"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesStatusApplicationTypeOther, ApplicationInsightsComponentPropertiesStatusApplicationTypeWeb))
 	gens["ConnectionString"] = gen.PtrOf(gen.AlphaString())
 	gens["CreationDate"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableIpMasking"] = gen.PtrOf(gen.Bool())

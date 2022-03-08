@@ -40,7 +40,7 @@ type SqlContainerGetProperties_Status_ResourceARM struct {
 	Etag *string `json:"_etag,omitempty"`
 
 	//Id: Name of the Cosmos DB SQL container
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 
 	//IndexingPolicy: The configuration of the indexing policy. By default, the indexing is automatic for all document paths
 	//within the container

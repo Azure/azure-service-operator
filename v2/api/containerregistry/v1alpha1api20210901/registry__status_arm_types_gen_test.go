@@ -325,11 +325,11 @@ func SkuStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSkuStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuStatusARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
 		SkuStatusNameBasic,
 		SkuStatusNameClassic,
 		SkuStatusNamePremium,
-		SkuStatusNameStandard)
+		SkuStatusNameStandard))
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(
 		SkuStatusTierBasic,
 		SkuStatusTierClassic,
@@ -550,7 +550,7 @@ func NetworkRuleSetStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkRuleSetStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkRuleSetStatusARM(gens map[string]gopter.Gen) {
-	gens["DefaultAction"] = gen.OneConstOf(NetworkRuleSetStatusDefaultActionAllow, NetworkRuleSetStatusDefaultActionDeny)
+	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetStatusDefaultActionAllow, NetworkRuleSetStatusDefaultActionDeny))
 }
 
 // AddRelatedPropertyGeneratorsForNetworkRuleSetStatusARM is a factory method for creating gopter generators
@@ -933,7 +933,7 @@ func IPRuleStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIPRuleStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIPRuleStatusARM(gens map[string]gopter.Gen) {
 	gens["Action"] = gen.PtrOf(gen.OneConstOf(IPRuleStatusActionAllow))
-	gens["Value"] = gen.AlphaString()
+	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_KeyVaultProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

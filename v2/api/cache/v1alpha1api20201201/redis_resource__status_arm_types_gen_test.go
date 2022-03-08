@@ -196,7 +196,7 @@ func AddRelatedPropertyGeneratorsForRedisPropertiesStatusARM(gens map[string]gop
 	gens["Instances"] = gen.SliceOf(RedisInstanceDetailsStatusARMGenerator())
 	gens["LinkedServers"] = gen.SliceOf(RedisLinkedServerStatusARMGenerator())
 	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnectionStatusSubResourceEmbeddedARMGenerator())
-	gens["Sku"] = SkuStatusARMGenerator()
+	gens["Sku"] = gen.PtrOf(SkuStatusARMGenerator())
 }
 
 func Test_PrivateEndpointConnection_Status_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -440,7 +440,7 @@ func SkuStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSkuStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuStatusARM(gens map[string]gopter.Gen) {
-	gens["Capacity"] = gen.Int()
-	gens["Family"] = gen.OneConstOf(SkuStatusFamilyC, SkuStatusFamilyP)
-	gens["Name"] = gen.OneConstOf(SkuStatusNameBasic, SkuStatusNamePremium, SkuStatusNameStandard)
+	gens["Capacity"] = gen.PtrOf(gen.Int())
+	gens["Family"] = gen.PtrOf(gen.OneConstOf(SkuStatusFamilyC, SkuStatusFamilyP))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SkuStatusNameBasic, SkuStatusNamePremium, SkuStatusNameStandard))
 }

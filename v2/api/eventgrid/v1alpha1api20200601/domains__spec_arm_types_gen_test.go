@@ -82,14 +82,14 @@ func DomainsSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDomainsSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDomainsSpecARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForDomainsSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDomainsSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = DomainPropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(DomainPropertiesARMGenerator())
 }
 
 func Test_DomainPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -294,7 +294,7 @@ func JsonInputSchemaMappingARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForJsonInputSchemaMappingARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForJsonInputSchemaMappingARM(gens map[string]gopter.Gen) {
-	gens["InputSchemaMappingType"] = gen.OneConstOf(JsonInputSchemaMappingInputSchemaMappingTypeJson)
+	gens["InputSchemaMappingType"] = gen.PtrOf(gen.OneConstOf(JsonInputSchemaMappingInputSchemaMappingTypeJson))
 }
 
 // AddRelatedPropertyGeneratorsForJsonInputSchemaMappingARM is a factory method for creating gopter generators

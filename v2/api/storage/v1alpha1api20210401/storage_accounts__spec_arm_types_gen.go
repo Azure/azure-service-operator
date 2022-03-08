@@ -13,22 +13,22 @@ type StorageAccounts_SpecARM struct {
 	Identity *IdentityARM `json:"identity,omitempty"`
 
 	//Kind: Required. Indicates the type of storage account.
-	Kind StorageAccountsSpecKind `json:"kind"`
+	Kind *StorageAccountsSpecKind `json:"kind,omitempty"`
 
 	//Location: Required. Gets or sets the location of the resource. This will be one of the supported and registered Azure
 	//Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The geo region of a resource cannot be changed once it is
 	//created, but if an identical geo region is specified on update, the request will succeed.
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the storage account within the specified resource group. Storage account names must be between 3 and
 	//24 characters in length and use numbers and lower-case letters only.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: The parameters used to create the storage account.
 	Properties *StorageAccountPropertiesCreateParametersARM `json:"properties,omitempty"`
 
 	//Sku: The SKU of the storage account.
-	Sku SkuARM `json:"sku"`
+	Sku *SkuARM `json:"sku,omitempty"`
 
 	//Tags: Gets or sets a list of key value pairs that describe the resource. These tags can be used for viewing and grouping
 	//this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key
@@ -65,12 +65,12 @@ type ExtendedLocationARM struct {
 //Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Identity
 type IdentityARM struct {
 	//Type: The identity type.
-	Type IdentityType `json:"type"`
+	Type *IdentityType `json:"type,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Sku
 type SkuARM struct {
-	Name SkuName  `json:"name"`
+	Name *SkuName `json:"name,omitempty"`
 	Tier *SkuTier `json:"tier,omitempty"`
 }
 
@@ -152,13 +152,13 @@ type AzureFilesIdentityBasedAuthenticationARM struct {
 	DefaultSharePermission *AzureFilesIdentityBasedAuthenticationDefaultSharePermission `json:"defaultSharePermission,omitempty"`
 
 	//DirectoryServiceOptions: Indicates the directory service used.
-	DirectoryServiceOptions AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions `json:"directoryServiceOptions"`
+	DirectoryServiceOptions *AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions `json:"directoryServiceOptions,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CustomDomain
 type CustomDomainARM struct {
 	//Name: Gets or sets the custom domain name assigned to the storage account. Name is the CNAME source.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//UseSubDomainName: Indicates whether indirect CName validation is enabled. Default value is false. This should only be
 	//set on updates.
@@ -172,7 +172,7 @@ type EncryptionARM struct {
 
 	//KeySource: The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Storage,
 	//Microsoft.Keyvault.
-	KeySource EncryptionKeySource `json:"keySource"`
+	KeySource *EncryptionKeySource `json:"keySource,omitempty"`
 
 	//Keyvaultproperties: Properties of key vault.
 	Keyvaultproperties *KeyVaultPropertiesARM `json:"keyvaultproperties,omitempty"`
@@ -203,7 +203,7 @@ const (
 //Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/KeyPolicy
 type KeyPolicyARM struct {
 	//KeyExpirationPeriodInDays: The key expiration period in days.
-	KeyExpirationPeriodInDays int `json:"keyExpirationPeriodInDays"`
+	KeyExpirationPeriodInDays *int `json:"keyExpirationPeriodInDays,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/NetworkRuleSet
@@ -213,7 +213,7 @@ type NetworkRuleSetARM struct {
 	Bypass *NetworkRuleSetBypass `json:"bypass,omitempty"`
 
 	//DefaultAction: Specifies the default action of allow or deny when no other rules match.
-	DefaultAction NetworkRuleSetDefaultAction `json:"defaultAction"`
+	DefaultAction *NetworkRuleSetDefaultAction `json:"defaultAction,omitempty"`
 
 	//IpRules: Sets the IP ACL rules
 	IpRules []IPRuleARM `json:"ipRules,omitempty"`
@@ -240,10 +240,10 @@ type RoutingPreferenceARM struct {
 //Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/SasPolicy
 type SasPolicyARM struct {
 	//ExpirationAction: The SAS expiration action. Can only be Log.
-	ExpirationAction SasPolicyExpirationAction `json:"expirationAction"`
+	ExpirationAction *SasPolicyExpirationAction `json:"expirationAction,omitempty"`
 
 	//SasExpirationPeriod: The SAS expiration period, DD.HH:MM:SS.
-	SasExpirationPeriod string `json:"sasExpirationPeriod"`
+	SasExpirationPeriod *string `json:"sasExpirationPeriod,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","Standard_GRS","Standard_GZRS","Standard_LRS","Standard_RAGRS","Standard_RAGZRS","Standard_ZRS"}
@@ -271,22 +271,22 @@ const (
 //Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ActiveDirectoryProperties
 type ActiveDirectoryPropertiesARM struct {
 	//AzureStorageSid: Specifies the security identifier (SID) for Azure Storage.
-	AzureStorageSid string `json:"azureStorageSid"`
+	AzureStorageSid *string `json:"azureStorageSid,omitempty"`
 
 	//DomainGuid: Specifies the domain GUID.
-	DomainGuid string `json:"domainGuid"`
+	DomainGuid *string `json:"domainGuid,omitempty"`
 
 	//DomainName: Specifies the primary domain that the AD DNS server is authoritative for.
-	DomainName string `json:"domainName"`
+	DomainName *string `json:"domainName,omitempty"`
 
 	//DomainSid: Specifies the security identifier (SID).
-	DomainSid string `json:"domainSid"`
+	DomainSid *string `json:"domainSid,omitempty"`
 
 	//ForestName: Specifies the Active Directory forest to get.
-	ForestName string `json:"forestName"`
+	ForestName *string `json:"forestName,omitempty"`
 
 	//NetBiosDomainName: Specifies the NetBIOS domain name.
-	NetBiosDomainName string `json:"netBiosDomainName"`
+	NetBiosDomainName *string `json:"netBiosDomainName,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionIdentity
@@ -315,7 +315,7 @@ type IPRuleARM struct {
 	Action *IPRuleAction `json:"action,omitempty"`
 
 	//Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
-	Value string `json:"value"`
+	Value *string `json:"value,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/KeyVaultProperties
@@ -342,7 +342,7 @@ type ResourceAccessRuleARM struct {
 type VirtualNetworkRuleARM struct {
 	//Action: The action of virtual network rule.
 	Action *VirtualNetworkRuleAction `json:"action,omitempty"`
-	Id     string                    `json:"id"`
+	Id     *string                   `json:"id,omitempty"`
 
 	//State: Gets the state of virtual network rule.
 	State *VirtualNetworkRuleState `json:"state,omitempty"`

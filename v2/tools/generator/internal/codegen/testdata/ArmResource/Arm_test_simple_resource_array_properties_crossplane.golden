@@ -34,21 +34,21 @@ type FakeResourceSpecAPIVersion string
 const FakeResourceSpecAPIVersion20200601 = FakeResourceSpecAPIVersion("2020-06-01")
 
 type FakeResource_Spec struct {
-	v1alpha1.ResourceSpec `json:",inline"`
-	ForProvider           FakeResourceParameters `json:"forProvider"`
+	v1alpha1.ResourceSpec `json:",inline,omitempty"`
+	ForProvider           FakeResourceParameters `json:"forProvider,omitempty"`
 }
 
 type FakeResourceParameters struct {
 	// +kubebuilder:validation:Required
-	ArrayFoo              []Foo            `json:"arrayFoo"`
+	ArrayFoo              []Foo            `json:"arrayFoo,omitempty"`
 	ArrayOfArrays         [][]Foo          `json:"arrayOfArrays,omitempty"`
 	ArrayOfArraysOfArrays [][][]Foo        `json:"arrayOfArraysOfArrays,omitempty"`
 	ArrayOfEnums          []Color          `json:"arrayOfEnums,omitempty"`
 	ArrayOfMaps           []map[string]Foo `json:"arrayOfMaps,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Name                      string              `json:"name"`
-	ResourceGroupName         string              `json:"resourceGroupName"`
+	Name                      string              `json:"name,omitempty"`
+	ResourceGroupName         string              `json:"resourceGroupName,omitempty"`
 	ResourceGroupNameRef      *v1alpha1.Reference `json:"resourceGroupNameRef,omitempty"`
 	ResourceGroupNameSelector *v1alpha1.Selector  `json:"resourceGroupNameSelector,omitempty"`
 }

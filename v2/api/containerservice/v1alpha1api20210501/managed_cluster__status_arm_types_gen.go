@@ -166,10 +166,10 @@ type ManagedClusterSKU_StatusARM struct {
 
 type ContainerServiceLinuxProfile_StatusARM struct {
 	//AdminUsername: The administrator username to use for Linux VMs.
-	AdminUsername string `json:"adminUsername"`
+	AdminUsername *string `json:"adminUsername,omitempty"`
 
 	//Ssh: The SSH configuration for Linux-based VMs running on Azure.
-	Ssh ContainerServiceSshConfiguration_StatusARM `json:"ssh"`
+	Ssh *ContainerServiceSshConfiguration_StatusARM `json:"ssh,omitempty"`
 }
 
 type ContainerServiceNetworkProfile_StatusARM struct {
@@ -508,7 +508,7 @@ const (
 
 type ManagedClusterServicePrincipalProfile_StatusARM struct {
 	//ClientId: The ID for the service principal.
-	ClientId string `json:"clientId"`
+	ClientId *string `json:"clientId,omitempty"`
 
 	//Secret: The secret password associated with the service principal in plain text.
 	Secret *string `json:"secret,omitempty"`
@@ -534,7 +534,7 @@ type ManagedClusterWindowsProfile_StatusARM struct {
 	//"sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5".
 	//Minimum-length: 1 character
 	//Max-length: 20 characters
-	AdminUsername string `json:"adminUsername"`
+	AdminUsername *string `json:"adminUsername,omitempty"`
 
 	//EnableCSIProxy: For more details on CSI proxy, see the [CSI proxy GitHub
 	//repo](https://github.com/kubernetes-csi/csi-proxy).
@@ -567,7 +567,7 @@ type PrivateLinkResource_StatusARM struct {
 
 type ContainerServiceSshConfiguration_StatusARM struct {
 	//PublicKeys: The list of SSH public keys used to authenticate with Linux-based VMs. A maximum of 1 key may be specified.
-	PublicKeys []ContainerServiceSshPublicKey_StatusARM `json:"publicKeys"`
+	PublicKeys []ContainerServiceSshPublicKey_StatusARM `json:"publicKeys,omitempty"`
 }
 
 type ManagedClusterLoadBalancerProfile_StatusARM struct {
@@ -594,13 +594,13 @@ type ManagedClusterLoadBalancerProfile_StatusARM struct {
 
 type ManagedClusterPodIdentityException_StatusARM struct {
 	//Name: The name of the pod identity exception.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Namespace: The namespace of the pod identity exception.
-	Namespace string `json:"namespace"`
+	Namespace *string `json:"namespace,omitempty"`
 
 	//PodLabels: The pod labels to match.
-	PodLabels map[string]string `json:"podLabels"`
+	PodLabels map[string]string `json:"podLabels,omitempty"`
 }
 
 type ManagedClusterPodIdentity_StatusARM struct {
@@ -608,13 +608,13 @@ type ManagedClusterPodIdentity_StatusARM struct {
 	BindingSelector *string `json:"bindingSelector,omitempty"`
 
 	//Identity: The user assigned identity details.
-	Identity UserAssignedIdentity_StatusARM `json:"identity"`
+	Identity *UserAssignedIdentity_StatusARM `json:"identity,omitempty"`
 
 	//Name: The name of the pod identity.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Namespace: The namespace of the pod identity.
-	Namespace        string                                                `json:"namespace"`
+	Namespace        *string                                               `json:"namespace,omitempty"`
 	ProvisioningInfo *ManagedClusterPodIdentity_Status_ProvisioningInfoARM `json:"provisioningInfo,omitempty"`
 
 	//ProvisioningState: The current provisioning state of the pod identity.
@@ -624,7 +624,7 @@ type ManagedClusterPodIdentity_StatusARM struct {
 type ContainerServiceSshPublicKey_StatusARM struct {
 	//KeyData: Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or
 	//without headers.
-	KeyData string `json:"keyData"`
+	KeyData *string `json:"keyData,omitempty"`
 }
 
 type ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPsARM struct {

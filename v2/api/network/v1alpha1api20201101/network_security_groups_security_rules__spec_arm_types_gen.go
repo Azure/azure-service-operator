@@ -10,10 +10,10 @@ type NetworkSecurityGroupsSecurityRules_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: Name of the resource
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties of the security rule.
-	Properties SecurityRulePropertiesFormatARM `json:"properties"`
+	Properties *SecurityRulePropertiesFormatARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -39,7 +39,7 @@ func (rules NetworkSecurityGroupsSecurityRules_SpecARM) GetType() string {
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/SecurityRulePropertiesFormat
 type SecurityRulePropertiesFormatARM struct {
 	//Access: The network traffic is allowed or denied.
-	Access SecurityRulePropertiesFormatAccess `json:"access"`
+	Access *SecurityRulePropertiesFormatAccess `json:"access,omitempty"`
 
 	//Description: A description for this rule. Restricted to 140 chars.
 	Description *string `json:"description,omitempty"`
@@ -62,14 +62,14 @@ type SecurityRulePropertiesFormatARM struct {
 	DestinationPortRanges []string `json:"destinationPortRanges,omitempty"`
 
 	//Direction: The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.
-	Direction SecurityRulePropertiesFormatDirection `json:"direction"`
+	Direction *SecurityRulePropertiesFormatDirection `json:"direction,omitempty"`
 
 	//Priority: The priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each
 	//rule in the collection. The lower the priority number, the higher the priority of the rule.
-	Priority int `json:"priority"`
+	Priority *int `json:"priority,omitempty"`
 
 	//Protocol: Network protocol this rule applies to.
-	Protocol SecurityRulePropertiesFormatProtocol `json:"protocol"`
+	Protocol *SecurityRulePropertiesFormatProtocol `json:"protocol,omitempty"`
 
 	//SourceAddressPrefix: The CIDR or source IP range. Asterisk '*' can also be used to match all source IPs. Default tags
 	//such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies

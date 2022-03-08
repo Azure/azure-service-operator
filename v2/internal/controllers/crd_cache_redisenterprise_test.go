@@ -21,15 +21,16 @@ func Test_Cache_RedisEnterprise_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 	tls12 := cache.ClusterPropertiesMinimumTlsVersion12
+	sku := cache.SkuNameEnterpriseE10
 	redis := cache.RedisEnterprise{
 		ObjectMeta: tc.MakeObjectMeta("redisent"),
 		Spec: cache.RedisEnterprise_Spec{
 			Location:          tc.AzureRegion,
 			Owner:             testcommon.AsOwner(rg),
 			MinimumTlsVersion: &tls12,
-			Sku: cache.Sku{
+			Sku: &cache.Sku{
 				Capacity: to.IntPtr(2),
-				Name:     "Enterprise_E10",
+				Name:     &sku,
 			},
 			Tags: map[string]string{
 				"elks": "stranger",
@@ -94,7 +95,7 @@ func RedisEnterprise_Database_CRUD(tc *testcommon.KubePerTestContext, redis *cac
 			ClusteringPolicy: &enterpriseCluster,
 			EvictionPolicy:   &allKeysLRU,
 			Modules: []cache.Module{{
-				Name: "RedisBloom",
+				Name: to.StringPtr("RedisBloom"),
 				Args: to.StringPtr("ERROR_RATE 0.1 INITIAL_SIZE 400"),
 			}},
 			Persistence: &cache.Persistence{

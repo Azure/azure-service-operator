@@ -509,7 +509,7 @@ type StorageAccountsQueueServices_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a storage.azure.com/StorageAccount resource
-	Owner genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner" kind:"StorageAccount"`
+	Owner *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccount"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -589,7 +589,7 @@ func (services *StorageAccountsQueueServices_Spec) PopulateFromARM(owner genrunt
 	}
 
 	// Set property ‘Owner’:
-	services.Owner = genruntime.KnownResourceReference{
+	services.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -674,7 +674,12 @@ func (services *StorageAccountsQueueServices_Spec) AssignPropertiesFromStorageAc
 	services.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	services.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		services.Owner = &owner
+	} else {
+		services.Owner = nil
+	}
 
 	// Tags
 	services.Tags = genruntime.CloneMapOfStringToString(source.Tags)
@@ -707,7 +712,12 @@ func (services *StorageAccountsQueueServices_Spec) AssignPropertiesToStorageAcco
 	destination.OriginalVersion = services.OriginalVersion()
 
 	// Owner
-	destination.Owner = services.Owner.Copy()
+	if services.Owner != nil {
+		owner := services.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(services.Tags)

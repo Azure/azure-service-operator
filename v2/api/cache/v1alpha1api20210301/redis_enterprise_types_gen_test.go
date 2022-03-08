@@ -415,7 +415,7 @@ func RedisEnterpriseSpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRedisEnterpriseSpec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedisEnterpriseSpec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(ClusterPropertiesMinimumTlsVersion10, ClusterPropertiesMinimumTlsVersion11, ClusterPropertiesMinimumTlsVersion12))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
@@ -423,7 +423,7 @@ func AddIndependentPropertyGeneratorsForRedisEnterpriseSpec(gens map[string]gopt
 
 // AddRelatedPropertyGeneratorsForRedisEnterpriseSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisEnterpriseSpec(gens map[string]gopter.Gen) {
-	gens["Sku"] = SkuGenerator()
+	gens["Sku"] = gen.PtrOf(SkuGenerator())
 }
 
 func Test_PrivateEndpointConnection_Status_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -627,14 +627,14 @@ func SkuGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.OneConstOf(
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
 		SkuNameEnterpriseE10,
 		SkuNameEnterpriseE100,
 		SkuNameEnterpriseE20,
 		SkuNameEnterpriseE50,
 		SkuNameEnterpriseFlashF1500,
 		SkuNameEnterpriseFlashF300,
-		SkuNameEnterpriseFlashF700)
+		SkuNameEnterpriseFlashF700))
 }
 
 func Test_Sku_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -736,12 +736,12 @@ func SkuStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSkuStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuStatus(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.OneConstOf(
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
 		SkuStatusNameEnterpriseE10,
 		SkuStatusNameEnterpriseE100,
 		SkuStatusNameEnterpriseE20,
 		SkuStatusNameEnterpriseE50,
 		SkuStatusNameEnterpriseFlashF1500,
 		SkuStatusNameEnterpriseFlashF300,
-		SkuStatusNameEnterpriseFlashF700)
+		SkuStatusNameEnterpriseFlashF700))
 }

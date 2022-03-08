@@ -171,7 +171,7 @@ func (subscription *EventSubscription_Status) ConvertStatusTo(destination genrun
 type EventSubscriptions_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName             string                            `json:"azureName"`
+	AzureName             string                            `json:"azureName,omitempty"`
 	DeadLetterDestination *StorageBlobDeadLetterDestination `json:"deadLetterDestination,omitempty"`
 	Destination           *EventSubscriptionDestination     `json:"destination,omitempty"`
 	EventDeliverySchema   *string                           `json:"eventDeliverySchema,omitempty"`
@@ -179,16 +179,16 @@ type EventSubscriptions_Spec struct {
 	Filter                *EventSubscriptionFilter          `json:"filter,omitempty"`
 	Labels                []string                          `json:"labels,omitempty"`
 	Location              *string                           `json:"location,omitempty"`
-	OriginalVersion       string                            `json:"originalVersion"`
+	OriginalVersion       string                            `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
 	//extension resource, which means that any other Azure resource can be its owner.
-	Owner       genruntime.ArbitraryOwnerReference `json:"owner"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	RetryPolicy *RetryPolicy                       `json:"retryPolicy,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
+	Owner       *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
+	PropertyBag genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
+	RetryPolicy *RetryPolicy                        `json:"retryPolicy,omitempty"`
+	Tags        map[string]string                   `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &EventSubscriptions_Spec{}

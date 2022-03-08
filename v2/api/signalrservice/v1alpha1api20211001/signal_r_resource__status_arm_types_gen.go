@@ -63,7 +63,7 @@ type ResourceSku_StatusARM struct {
 
 	//Name: The name of the SKU. Required.
 	//Allowed values: Standard_S1, Free_F1
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Size: Not used. Retained for future use.
 	Size *string `json:"size,omitempty"`
@@ -220,14 +220,14 @@ type SignalRFeature_StatusARM struct {
 	//traces in real time, it will be helpful when you developing your own Azure SignalR based web application or
 	//self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged.
 	//Values allowed: "true"/"false", to enable/disable live trace feature.
-	Flag FeatureFlags_Status `json:"flag"`
+	Flag *FeatureFlags_Status `json:"flag,omitempty"`
 
 	//Properties: Optional properties related to this feature.
 	Properties map[string]string `json:"properties,omitempty"`
 
 	//Value: Value of the feature flag. See Azure SignalR service document https://docs.microsoft.com/azure/azure-signalr/ for
 	//allowed values.
-	Value string `json:"value"`
+	Value *string `json:"value,omitempty"`
 }
 
 type SignalRNetworkACLs_StatusARM struct {
@@ -297,7 +297,7 @@ type PrivateEndpointACL_StatusARM struct {
 	Deny []SignalRRequestType_Status `json:"deny,omitempty"`
 
 	//Name: Name of the private endpoint connection
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 }
 
 type ResourceLogCategory_StatusARM struct {
@@ -342,7 +342,7 @@ type UpstreamTemplate_StatusARM struct {
 	//inside the template, the value of the Upstream URL is dynamically calculated when the client request comes in.
 	//For example, if the urlTemplate is `http://example.com/{hub}/api/{event}`, with a client request from hub `chat`
 	//connects, it will first POST to this URL: `http://example.com/chat/api/connect`.
-	UrlTemplate string `json:"urlTemplate"`
+	UrlTemplate *string `json:"urlTemplate,omitempty"`
 }
 
 type UpstreamAuthSettings_StatusARM struct {

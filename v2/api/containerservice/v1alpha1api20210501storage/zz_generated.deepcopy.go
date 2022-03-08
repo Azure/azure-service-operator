@@ -3406,7 +3406,11 @@ func (in *ManagedClustersAgentPools_Spec) DeepCopyInto(out *ManagedClustersAgent
 		*out = new(string)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PodSubnetIDReference != nil {
 		in, out := &in.PodSubnetIDReference, &out.PodSubnetIDReference
 		*out = new(genruntime.ResourceReference)
@@ -3592,7 +3596,11 @@ func (in *ManagedClusters_Spec) DeepCopyInto(out *ManagedClusters_Spec) {
 		*out = new(string)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PodIdentityProfile != nil {
 		in, out := &in.PodIdentityProfile, &out.PodIdentityProfile
 		*out = new(ManagedClusterPodIdentityProfile)

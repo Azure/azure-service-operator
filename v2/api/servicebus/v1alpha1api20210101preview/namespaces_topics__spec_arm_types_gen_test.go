@@ -90,7 +90,7 @@ func AddIndependentPropertyGeneratorsForNamespacesTopicsSpecARM(gens map[string]
 
 // AddRelatedPropertyGeneratorsForNamespacesTopicsSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesTopicsSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = SBTopicPropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(SBTopicPropertiesARMGenerator())
 }
 
 func Test_SBTopicPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

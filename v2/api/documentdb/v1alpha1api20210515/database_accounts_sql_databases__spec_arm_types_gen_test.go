@@ -90,7 +90,7 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesSpecARM(gens
 
 // AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = SqlDatabaseCreateUpdatePropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(SqlDatabaseCreateUpdatePropertiesARMGenerator())
 }
 
 func Test_SqlDatabaseCreateUpdatePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -151,7 +151,7 @@ func SqlDatabaseCreateUpdatePropertiesARMGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForSqlDatabaseCreateUpdatePropertiesARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSqlDatabaseCreateUpdatePropertiesARM(gens map[string]gopter.Gen) {
 	gens["Options"] = gen.PtrOf(CreateUpdateOptionsARMGenerator())
-	gens["Resource"] = SqlDatabaseResourceARMGenerator()
+	gens["Resource"] = gen.PtrOf(SqlDatabaseResourceARMGenerator())
 }
 
 func Test_SqlDatabaseResourceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -211,5 +211,5 @@ func SqlDatabaseResourceARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSqlDatabaseResourceARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSqlDatabaseResourceARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }

@@ -315,7 +315,7 @@ const DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecAPIVersion20
 type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
@@ -328,11 +328,11 @@ type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a documentdb.azure.com/SqlDatabaseContainer resource
-	Owner genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner" kind:"SqlDatabaseContainer"`
+	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabaseContainer"`
 
 	// +kubebuilder:validation:Required
 	//Resource: Cosmos DB SQL userDefinedFunction resource object
-	Resource SqlUserDefinedFunctionResource `json:"resource"`
+	Resource *SqlUserDefinedFunctionResource `json:"resource,omitempty"`
 
 	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
 	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
@@ -361,6 +361,9 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if functions.Options != nil || functions.Resource != nil {
+		result.Properties = &SqlUserDefinedFunctionCreateUpdatePropertiesARM{}
+	}
 	if functions.Options != nil {
 		optionsARM, err := (*functions.Options).ConvertToARM(resolved)
 		if err != nil {
@@ -369,11 +372,14 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 		options := optionsARM.(CreateUpdateOptionsARM)
 		result.Properties.Options = &options
 	}
-	resourceARM, err := functions.Resource.ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if functions.Resource != nil {
+		resourceARM, err := (*functions.Resource).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		resource := resourceARM.(SqlUserDefinedFunctionResourceARM)
+		result.Properties.Resource = &resource
 	}
-	result.Properties.Resource = resourceARM.(SqlUserDefinedFunctionResourceARM)
 
 	// Set property ‘Tags’:
 	if functions.Tags != nil {
@@ -408,29 +414,36 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 
 	// Set property ‘Options’:
 	// copying flattened property:
-	if typedInput.Properties.Options != nil {
-		var options1 CreateUpdateOptions
-		err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Options != nil {
+			var options1 CreateUpdateOptions
+			err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
+			if err != nil {
+				return err
+			}
+			options := options1
+			functions.Options = &options
 		}
-		options := options1
-		functions.Options = &options
 	}
 
 	// Set property ‘Owner’:
-	functions.Owner = genruntime.KnownResourceReference{
+	functions.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Resource’:
 	// copying flattened property:
-	var resource SqlUserDefinedFunctionResource
-	err := resource.PopulateFromARM(owner, typedInput.Properties.Resource)
-	if err != nil {
-		return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Resource != nil {
+			var resource1 SqlUserDefinedFunctionResource
+			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
+			if err != nil {
+				return err
+			}
+			resource := resource1
+			functions.Resource = &resource
+		}
 	}
-	functions.Resource = resource
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
@@ -516,7 +529,12 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 	}
 
 	// Owner
-	functions.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		functions.Owner = &owner
+	} else {
+		functions.Owner = nil
+	}
 
 	// Resource
 	if source.Resource != nil {
@@ -525,9 +543,9 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSqlUserDefinedFunctionResource() to populate field Resource")
 		}
-		functions.Resource = resource
+		functions.Resource = &resource
 	} else {
-		functions.Resource = SqlUserDefinedFunctionResource{}
+		functions.Resource = nil
 	}
 
 	// Tags
@@ -564,15 +582,24 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 	destination.OriginalVersion = functions.OriginalVersion()
 
 	// Owner
-	destination.Owner = functions.Owner.Copy()
+	if functions.Owner != nil {
+		owner := functions.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Resource
-	var resource v1alpha1api20210515storage.SqlUserDefinedFunctionResource
-	err := functions.Resource.AssignPropertiesToSqlUserDefinedFunctionResource(&resource)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSqlUserDefinedFunctionResource() to populate field Resource")
+	if functions.Resource != nil {
+		var resource v1alpha1api20210515storage.SqlUserDefinedFunctionResource
+		err := functions.Resource.AssignPropertiesToSqlUserDefinedFunctionResource(&resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSqlUserDefinedFunctionResource() to populate field Resource")
+		}
+		destination.Resource = &resource
+	} else {
+		destination.Resource = nil
 	}
-	destination.Resource = &resource
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(functions.Tags)
@@ -825,7 +852,7 @@ type SqlUserDefinedFunctionGetProperties_Status_Resource struct {
 
 	// +kubebuilder:validation:Required
 	//Id: Name of the Cosmos DB SQL userDefinedFunction
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 
 	//Rid: A system generated property. A unique identifier.
 	Rid *string `json:"_rid,omitempty"`
@@ -861,7 +888,10 @@ func (resource *SqlUserDefinedFunctionGetProperties_Status_Resource) PopulateFro
 	}
 
 	// Set property ‘Id’:
-	resource.Id = typedInput.Id
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		resource.Id = &id
+	}
 
 	// Set property ‘Rid’:
 	if typedInput.Rid != nil {
@@ -889,7 +919,7 @@ func (resource *SqlUserDefinedFunctionGetProperties_Status_Resource) AssignPrope
 	resource.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Id
-	resource.Id = genruntime.GetOptionalStringValue(source.Id)
+	resource.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Rid
 	resource.Rid = genruntime.ClonePointerToString(source.Rid)
@@ -918,8 +948,7 @@ func (resource *SqlUserDefinedFunctionGetProperties_Status_Resource) AssignPrope
 	destination.Etag = genruntime.ClonePointerToString(resource.Etag)
 
 	// Id
-	id := resource.Id
-	destination.Id = &id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
 
 	// Rid
 	destination.Rid = genruntime.ClonePointerToString(resource.Rid)
@@ -950,7 +979,7 @@ type SqlUserDefinedFunctionResource struct {
 
 	// +kubebuilder:validation:Required
 	//Id: Name of the Cosmos DB SQL userDefinedFunction
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SqlUserDefinedFunctionResource{}
@@ -969,7 +998,10 @@ func (resource *SqlUserDefinedFunctionResource) ConvertToARM(resolved genruntime
 	}
 
 	// Set property ‘Id’:
-	result.Id = resource.Id
+	if resource.Id != nil {
+		id := *resource.Id
+		result.Id = &id
+	}
 	return result, nil
 }
 
@@ -992,7 +1024,10 @@ func (resource *SqlUserDefinedFunctionResource) PopulateFromARM(owner genruntime
 	}
 
 	// Set property ‘Id’:
-	resource.Id = typedInput.Id
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		resource.Id = &id
+	}
 
 	// No error
 	return nil
@@ -1005,7 +1040,7 @@ func (resource *SqlUserDefinedFunctionResource) AssignPropertiesFromSqlUserDefin
 	resource.Body = genruntime.ClonePointerToString(source.Body)
 
 	// Id
-	resource.Id = genruntime.GetOptionalStringValue(source.Id)
+	resource.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
@@ -1020,8 +1055,7 @@ func (resource *SqlUserDefinedFunctionResource) AssignPropertiesToSqlUserDefined
 	destination.Body = genruntime.ClonePointerToString(resource.Body)
 
 	// Id
-	id := resource.Id
-	destination.Id = &id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

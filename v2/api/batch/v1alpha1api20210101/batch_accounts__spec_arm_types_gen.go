@@ -11,16 +11,16 @@ type BatchAccounts_SpecARM struct {
 	Identity *BatchAccountIdentityARM `json:"identity,omitempty"`
 
 	//Location: The region in which to create the account.
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: A name for the Batch account which must be unique within the region. Batch account names must be between 3 and 24
 	//characters in length and must use only numbers and lowercase letters. This name is used as part of the DNS name that is
 	//used to access the Batch service in the region in which the account is created. For example:
 	//http://accountname.region.batch.azure.com/.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: The properties of a Batch account.
-	Properties BatchAccountCreatePropertiesARM `json:"properties"`
+	Properties *BatchAccountCreatePropertiesARM `json:"properties,omitempty"`
 
 	//Tags: The user-specified tags associated with the account.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -67,12 +67,12 @@ type BatchAccountCreatePropertiesARM struct {
 //Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/BatchAccountIdentity
 type BatchAccountIdentityARM struct {
 	//Type: The type of identity used for the Batch account.
-	Type BatchAccountIdentityType `json:"type"`
+	Type *BatchAccountIdentityType `json:"type,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/AutoStorageBaseProperties
 type AutoStorageBasePropertiesARM struct {
-	StorageAccountId string `json:"storageAccountId"`
+	StorageAccountId *string `json:"storageAccountId,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
@@ -95,10 +95,10 @@ type EncryptionPropertiesARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/KeyVaultReference
 type KeyVaultReferenceARM struct {
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 
 	//Url: The URL of the Azure key vault associated with the Batch account.
-	Url string `json:"url"`
+	Url *string `json:"url,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/KeyVaultProperties

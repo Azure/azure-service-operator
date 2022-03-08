@@ -455,7 +455,7 @@ func BackupPolicyStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBackupPolicyStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBackupPolicyStatusARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.OneConstOf(BackupPolicyType_StatusContinuous, BackupPolicyType_StatusPeriodic)
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(BackupPolicyType_StatusContinuous, BackupPolicyType_StatusPeriodic))
 }
 
 func Test_Capability_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -575,12 +575,12 @@ func ConsistencyPolicyStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForConsistencyPolicyStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForConsistencyPolicyStatusARM(gens map[string]gopter.Gen) {
-	gens["DefaultConsistencyLevel"] = gen.OneConstOf(
+	gens["DefaultConsistencyLevel"] = gen.PtrOf(gen.OneConstOf(
 		ConsistencyPolicyStatusDefaultConsistencyLevelBoundedStaleness,
 		ConsistencyPolicyStatusDefaultConsistencyLevelConsistentPrefix,
 		ConsistencyPolicyStatusDefaultConsistencyLevelEventual,
 		ConsistencyPolicyStatusDefaultConsistencyLevelSession,
-		ConsistencyPolicyStatusDefaultConsistencyLevelStrong)
+		ConsistencyPolicyStatusDefaultConsistencyLevelStrong))
 	gens["MaxIntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["MaxStalenessPrefix"] = gen.PtrOf(gen.Int())
 }
@@ -644,7 +644,7 @@ func CorsPolicyStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForCorsPolicyStatusARM(gens map[string]gopter.Gen) {
 	gens["AllowedHeaders"] = gen.PtrOf(gen.AlphaString())
 	gens["AllowedMethods"] = gen.PtrOf(gen.AlphaString())
-	gens["AllowedOrigins"] = gen.AlphaString()
+	gens["AllowedOrigins"] = gen.PtrOf(gen.AlphaString())
 	gens["ExposedHeaders"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxAgeInSeconds"] = gen.PtrOf(gen.Int())
 }

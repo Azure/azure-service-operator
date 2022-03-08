@@ -10,10 +10,10 @@ type NamespacesEventhubsConsumergroups_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: The consumer group name
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Single item in List or Get Consumer group operation
-	Properties ConsumerGroupPropertiesARM `json:"properties"`
+	Properties *ConsumerGroupPropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`

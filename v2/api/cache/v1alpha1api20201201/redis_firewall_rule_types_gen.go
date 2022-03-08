@@ -311,6 +311,7 @@ type RedisFirewallRule_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//EndIP: highest IP address included in the range
 	EndIP *string `json:"endIP,omitempty"`
 
@@ -321,6 +322,7 @@ type RedisFirewallRule_Status struct {
 	//Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//StartIP: lowest IP address included in the range
 	StartIP *string `json:"startIP,omitempty"`
 
@@ -397,7 +399,10 @@ func (rule *RedisFirewallRule_Status) PopulateFromARM(owner genruntime.Arbitrary
 	// Set property ‘EndIP’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		rule.EndIP = &typedInput.Properties.EndIP
+		if typedInput.Properties.EndIP != nil {
+			endIP := *typedInput.Properties.EndIP
+			rule.EndIP = &endIP
+		}
 	}
 
 	// Set property ‘Id’:
@@ -415,7 +420,10 @@ func (rule *RedisFirewallRule_Status) PopulateFromARM(owner genruntime.Arbitrary
 	// Set property ‘StartIP’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		rule.StartIP = &typedInput.Properties.StartIP
+		if typedInput.Properties.StartIP != nil {
+			startIP := *typedInput.Properties.StartIP
+			rule.StartIP = &startIP
+		}
 	}
 
 	// Set property ‘Type’:
@@ -495,11 +503,11 @@ const RedisFirewallRulesSpecAPIVersion20201201 = RedisFirewallRulesSpecAPIVersio
 type RedisFirewallRules_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//EndIP: highest IP address included in the range
-	EndIP string `json:"endIP"`
+	EndIP *string `json:"endIP,omitempty"`
 
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
@@ -508,11 +516,11 @@ type RedisFirewallRules_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a cache.azure.com/Redis resource
-	Owner genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner" kind:"Redis"`
+	Owner *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"Redis"`
 
 	// +kubebuilder:validation:Required
 	//StartIP: lowest IP address included in the range
-	StartIP string `json:"startIP"`
+	StartIP *string `json:"startIP,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -537,8 +545,17 @@ func (rules *RedisFirewallRules_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	result.Properties.EndIP = rules.EndIP
-	result.Properties.StartIP = rules.StartIP
+	if rules.EndIP != nil || rules.StartIP != nil {
+		result.Properties = &RedisFirewallRulePropertiesARM{}
+	}
+	if rules.EndIP != nil {
+		endIP := *rules.EndIP
+		result.Properties.EndIP = &endIP
+	}
+	if rules.StartIP != nil {
+		startIP := *rules.StartIP
+		result.Properties.StartIP = &startIP
+	}
 
 	// Set property ‘Tags’:
 	if rules.Tags != nil {
@@ -567,7 +584,12 @@ func (rules *RedisFirewallRules_Spec) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘EndIP’:
 	// copying flattened property:
-	rules.EndIP = typedInput.Properties.EndIP
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EndIP != nil {
+			endIP := *typedInput.Properties.EndIP
+			rules.EndIP = &endIP
+		}
+	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
@@ -576,13 +598,18 @@ func (rules *RedisFirewallRules_Spec) PopulateFromARM(owner genruntime.Arbitrary
 	}
 
 	// Set property ‘Owner’:
-	rules.Owner = genruntime.KnownResourceReference{
+	rules.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘StartIP’:
 	// copying flattened property:
-	rules.StartIP = typedInput.Properties.StartIP
+	if typedInput.Properties != nil {
+		if typedInput.Properties.StartIP != nil {
+			startIP := *typedInput.Properties.StartIP
+			rules.StartIP = &startIP
+		}
+	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
@@ -653,16 +680,21 @@ func (rules *RedisFirewallRules_Spec) AssignPropertiesFromRedisFirewallRulesSpec
 	rules.AzureName = source.AzureName
 
 	// EndIP
-	rules.EndIP = genruntime.GetOptionalStringValue(source.EndIP)
+	rules.EndIP = genruntime.ClonePointerToString(source.EndIP)
 
 	// Location
 	rules.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	rules.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		rules.Owner = &owner
+	} else {
+		rules.Owner = nil
+	}
 
 	// StartIP
-	rules.StartIP = genruntime.GetOptionalStringValue(source.StartIP)
+	rules.StartIP = genruntime.ClonePointerToString(source.StartIP)
 
 	// Tags
 	rules.Tags = genruntime.CloneMapOfStringToString(source.Tags)
@@ -680,8 +712,7 @@ func (rules *RedisFirewallRules_Spec) AssignPropertiesToRedisFirewallRulesSpec(d
 	destination.AzureName = rules.AzureName
 
 	// EndIP
-	endIP := rules.EndIP
-	destination.EndIP = &endIP
+	destination.EndIP = genruntime.ClonePointerToString(rules.EndIP)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(rules.Location)
@@ -690,11 +721,15 @@ func (rules *RedisFirewallRules_Spec) AssignPropertiesToRedisFirewallRulesSpec(d
 	destination.OriginalVersion = rules.OriginalVersion()
 
 	// Owner
-	destination.Owner = rules.Owner.Copy()
+	if rules.Owner != nil {
+		owner := rules.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// StartIP
-	startIP := rules.StartIP
-	destination.StartIP = &startIP
+	destination.StartIP = genruntime.ClonePointerToString(rules.StartIP)
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(rules.Tags)

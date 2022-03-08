@@ -10,10 +10,10 @@ type NamespacesEventhubs_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: Name of the resource
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties supplied to the Create Or Update Event Hub operation.
-	Properties NamespacesEventhubs_Spec_PropertiesARM `json:"properties"`
+	Properties *NamespacesEventhubs_Spec_PropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`

@@ -311,6 +311,7 @@ type FirewallRule_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.
 	EndIpAddress *string `json:"endIpAddress,omitempty"`
 
@@ -321,6 +322,7 @@ type FirewallRule_Status struct {
 	//Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.
 	StartIpAddress *string `json:"startIpAddress,omitempty"`
 
@@ -400,7 +402,10 @@ func (rule *FirewallRule_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// Set property ‘EndIpAddress’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		rule.EndIpAddress = &typedInput.Properties.EndIpAddress
+		if typedInput.Properties.EndIpAddress != nil {
+			endIpAddress := *typedInput.Properties.EndIpAddress
+			rule.EndIpAddress = &endIpAddress
+		}
 	}
 
 	// Set property ‘Id’:
@@ -418,7 +423,10 @@ func (rule *FirewallRule_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// Set property ‘StartIpAddress’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		rule.StartIpAddress = &typedInput.Properties.StartIpAddress
+		if typedInput.Properties.StartIpAddress != nil {
+			startIpAddress := *typedInput.Properties.StartIpAddress
+			rule.StartIpAddress = &startIpAddress
+		}
 	}
 
 	// Set property ‘SystemData’:
@@ -533,12 +541,12 @@ const FlexibleServersFirewallRulesSpecAPIVersion20210601 = FlexibleServersFirewa
 type FlexibleServersFirewallRules_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
 	//EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.
-	EndIpAddress string `json:"endIpAddress"`
+	EndIpAddress *string `json:"endIpAddress,omitempty"`
 
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
@@ -547,12 +555,12 @@ type FlexibleServersFirewallRules_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a dbforpostgresql.azure.com/FlexibleServer resource
-	Owner genruntime.KnownResourceReference `group:"dbforpostgresql.azure.com" json:"owner" kind:"FlexibleServer"`
+	Owner *genruntime.KnownResourceReference `group:"dbforpostgresql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
 	//StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.
-	StartIpAddress string `json:"startIpAddress"`
+	StartIpAddress *string `json:"startIpAddress,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -577,8 +585,17 @@ func (rules *FlexibleServersFirewallRules_Spec) ConvertToARM(resolved genruntime
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	result.Properties.EndIpAddress = rules.EndIpAddress
-	result.Properties.StartIpAddress = rules.StartIpAddress
+	if rules.EndIpAddress != nil || rules.StartIpAddress != nil {
+		result.Properties = &FirewallRulePropertiesARM{}
+	}
+	if rules.EndIpAddress != nil {
+		endIpAddress := *rules.EndIpAddress
+		result.Properties.EndIpAddress = &endIpAddress
+	}
+	if rules.StartIpAddress != nil {
+		startIpAddress := *rules.StartIpAddress
+		result.Properties.StartIpAddress = &startIpAddress
+	}
 
 	// Set property ‘Tags’:
 	if rules.Tags != nil {
@@ -607,7 +624,12 @@ func (rules *FlexibleServersFirewallRules_Spec) PopulateFromARM(owner genruntime
 
 	// Set property ‘EndIpAddress’:
 	// copying flattened property:
-	rules.EndIpAddress = typedInput.Properties.EndIpAddress
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EndIpAddress != nil {
+			endIpAddress := *typedInput.Properties.EndIpAddress
+			rules.EndIpAddress = &endIpAddress
+		}
+	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
@@ -616,13 +638,18 @@ func (rules *FlexibleServersFirewallRules_Spec) PopulateFromARM(owner genruntime
 	}
 
 	// Set property ‘Owner’:
-	rules.Owner = genruntime.KnownResourceReference{
+	rules.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘StartIpAddress’:
 	// copying flattened property:
-	rules.StartIpAddress = typedInput.Properties.StartIpAddress
+	if typedInput.Properties != nil {
+		if typedInput.Properties.StartIpAddress != nil {
+			startIpAddress := *typedInput.Properties.StartIpAddress
+			rules.StartIpAddress = &startIpAddress
+		}
+	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
@@ -694,22 +721,29 @@ func (rules *FlexibleServersFirewallRules_Spec) AssignPropertiesFromFlexibleServ
 
 	// EndIpAddress
 	if source.EndIpAddress != nil {
-		rules.EndIpAddress = *source.EndIpAddress
+		endIpAddress := *source.EndIpAddress
+		rules.EndIpAddress = &endIpAddress
 	} else {
-		rules.EndIpAddress = ""
+		rules.EndIpAddress = nil
 	}
 
 	// Location
 	rules.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	rules.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		rules.Owner = &owner
+	} else {
+		rules.Owner = nil
+	}
 
 	// StartIpAddress
 	if source.StartIpAddress != nil {
-		rules.StartIpAddress = *source.StartIpAddress
+		startIpAddress := *source.StartIpAddress
+		rules.StartIpAddress = &startIpAddress
 	} else {
-		rules.StartIpAddress = ""
+		rules.StartIpAddress = nil
 	}
 
 	// Tags
@@ -728,8 +762,12 @@ func (rules *FlexibleServersFirewallRules_Spec) AssignPropertiesToFlexibleServer
 	destination.AzureName = rules.AzureName
 
 	// EndIpAddress
-	endIpAddress := rules.EndIpAddress
-	destination.EndIpAddress = &endIpAddress
+	if rules.EndIpAddress != nil {
+		endIpAddress := *rules.EndIpAddress
+		destination.EndIpAddress = &endIpAddress
+	} else {
+		destination.EndIpAddress = nil
+	}
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(rules.Location)
@@ -738,11 +776,20 @@ func (rules *FlexibleServersFirewallRules_Spec) AssignPropertiesToFlexibleServer
 	destination.OriginalVersion = rules.OriginalVersion()
 
 	// Owner
-	destination.Owner = rules.Owner.Copy()
+	if rules.Owner != nil {
+		owner := rules.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// StartIpAddress
-	startIpAddress := rules.StartIpAddress
-	destination.StartIpAddress = &startIpAddress
+	if rules.StartIpAddress != nil {
+		startIpAddress := *rules.StartIpAddress
+		destination.StartIpAddress = &startIpAddress
+	} else {
+		destination.StartIpAddress = nil
+	}
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(rules.Tags)

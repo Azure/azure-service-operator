@@ -420,7 +420,7 @@ func AddIndependentPropertyGeneratorsForNetworkInterfacesSpec(gens map[string]go
 	gens["AzureName"] = gen.AlphaString()
 	gens["EnableAcceleratedNetworking"] = gen.PtrOf(gen.Bool())
 	gens["EnableIPForwarding"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
@@ -986,7 +986,7 @@ func NetworkInterfacesSpecPropertiesIpConfigurationsGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkInterfacesSpecPropertiesIpConfigurations is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkInterfacesSpecPropertiesIpConfigurations(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Primary"] = gen.PtrOf(gen.Bool())
 	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAddressVersionIPv4, NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAddressVersionIPv6))

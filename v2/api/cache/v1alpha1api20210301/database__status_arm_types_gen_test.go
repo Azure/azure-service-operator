@@ -255,7 +255,7 @@ func ModuleStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForModuleStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForModuleStatusARM(gens map[string]gopter.Gen) {
 	gens["Args"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
 

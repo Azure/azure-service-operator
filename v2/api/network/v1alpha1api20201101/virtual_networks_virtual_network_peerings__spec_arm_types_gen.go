@@ -10,10 +10,10 @@ type VirtualNetworksVirtualNetworkPeerings_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: Name of the resource
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties of the virtual network peering.
-	Properties VirtualNetworkPeeringPropertiesFormatARM `json:"properties"`
+	Properties *VirtualNetworkPeeringPropertiesFormatARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -61,7 +61,7 @@ type VirtualNetworkPeeringPropertiesFormatARM struct {
 	//RemoteVirtualNetwork: The reference to the remote virtual network. The remote virtual network can be in the same or
 	//different region (preview). See here to register for the preview and learn more
 	//(https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
-	RemoteVirtualNetwork SubResourceARM `json:"remoteVirtualNetwork"`
+	RemoteVirtualNetwork *SubResourceARM `json:"remoteVirtualNetwork,omitempty"`
 
 	//UseRemoteGateways: If remote gateways can be used on this virtual network. If the flag is set to true, and
 	//allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for
@@ -73,5 +73,5 @@ type VirtualNetworkPeeringPropertiesFormatARM struct {
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkBgpCommunities
 type VirtualNetworkBgpCommunitiesARM struct {
 	//VirtualNetworkCommunity: The BGP community associated with the virtual network.
-	VirtualNetworkCommunity string `json:"virtualNetworkCommunity"`
+	VirtualNetworkCommunity *string `json:"virtualNetworkCommunity,omitempty"`
 }

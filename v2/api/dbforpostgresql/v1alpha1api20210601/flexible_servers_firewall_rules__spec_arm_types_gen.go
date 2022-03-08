@@ -10,10 +10,10 @@ type FlexibleServersFirewallRules_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the server firewall rule.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: The properties of a server firewall rule.
-	Properties FirewallRulePropertiesARM `json:"properties"`
+	Properties *FirewallRulePropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -39,8 +39,8 @@ func (rules FlexibleServersFirewallRules_SpecARM) GetType() string {
 //Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/FirewallRuleProperties
 type FirewallRulePropertiesARM struct {
 	//EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.
-	EndIpAddress string `json:"endIpAddress"`
+	EndIpAddress *string `json:"endIpAddress,omitempty"`
 
 	//StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.
-	StartIpAddress string `json:"startIpAddress"`
+	StartIpAddress *string `json:"startIpAddress,omitempty"`
 }

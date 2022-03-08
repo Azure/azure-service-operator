@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -31,7 +32,7 @@ func Test_ResourceHierarchy_ResourceGroupOnly(t *testing.T) {
 
 	location, err := hierarchy.Location()
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(a.Spec.Location).To(Equal(location))
+	g.Expect(a.Spec.Location).To(Equal(to.StringPtr(location)))
 	g.Expect(hierarchy.AzureName()).To(Equal(resourceGroupName))
 	g.Expect(hierarchy.FullyQualifiedARMID("1234")).To(Equal(expectedARMID))
 }

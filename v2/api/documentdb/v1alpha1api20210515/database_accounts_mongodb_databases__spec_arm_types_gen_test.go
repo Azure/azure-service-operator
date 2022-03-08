@@ -90,7 +90,7 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesSpecARM(
 
 // AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = MongoDBDatabaseCreateUpdatePropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(MongoDBDatabaseCreateUpdatePropertiesARMGenerator())
 }
 
 func Test_MongoDBDatabaseCreateUpdatePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -151,7 +151,7 @@ func MongoDBDatabaseCreateUpdatePropertiesARMGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForMongoDBDatabaseCreateUpdatePropertiesARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForMongoDBDatabaseCreateUpdatePropertiesARM(gens map[string]gopter.Gen) {
 	gens["Options"] = gen.PtrOf(CreateUpdateOptionsARMGenerator())
-	gens["Resource"] = MongoDBDatabaseResourceARMGenerator()
+	gens["Resource"] = gen.PtrOf(MongoDBDatabaseResourceARMGenerator())
 }
 
 func Test_MongoDBDatabaseResourceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -211,5 +211,5 @@ func MongoDBDatabaseResourceARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForMongoDBDatabaseResourceARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForMongoDBDatabaseResourceARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }

@@ -83,7 +83,7 @@ func NetworkInterfacesSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkInterfacesSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkInterfacesSpecARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
@@ -91,7 +91,7 @@ func AddIndependentPropertyGeneratorsForNetworkInterfacesSpecARM(gens map[string
 // AddRelatedPropertyGeneratorsForNetworkInterfacesSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNetworkInterfacesSpecARM(gens map[string]gopter.Gen) {
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationARMGenerator())
-	gens["Properties"] = NetworkInterfacesSpecPropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(NetworkInterfacesSpecPropertiesARMGenerator())
 }
 
 func Test_NetworkInterfaces_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -298,7 +298,7 @@ func NetworkInterfacesSpecPropertiesIpConfigurationsARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkInterfacesSpecPropertiesIpConfigurationsARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkInterfacesSpecPropertiesIpConfigurationsARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForNetworkInterfacesSpecPropertiesIpConfigurationsARM is a factory method for creating gopter generators
@@ -362,7 +362,7 @@ func SubResourceARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSubResourceARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSubResourceARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_NetworkInterfaceIPConfigurationPropertiesFormatARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

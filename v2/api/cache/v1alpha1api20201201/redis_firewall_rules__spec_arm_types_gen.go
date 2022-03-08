@@ -10,10 +10,10 @@ type RedisFirewallRules_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the firewall rule.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Specifies a range of IP addresses permitted to connect to the cache
-	Properties RedisFirewallRulePropertiesARM `json:"properties"`
+	Properties *RedisFirewallRulePropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -39,8 +39,8 @@ func (rules RedisFirewallRules_SpecARM) GetType() string {
 //Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/RedisFirewallRuleProperties
 type RedisFirewallRulePropertiesARM struct {
 	//EndIP: highest IP address included in the range
-	EndIP string `json:"endIP"`
+	EndIP *string `json:"endIP,omitempty"`
 
 	//StartIP: lowest IP address included in the range
-	StartIP string `json:"startIP"`
+	StartIP *string `json:"startIP,omitempty"`
 }

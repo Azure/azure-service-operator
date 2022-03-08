@@ -20,16 +20,16 @@ type RedisPatchSchedule_StatusARM struct {
 
 type ScheduleEntries_StatusARM struct {
 	//ScheduleEntries: List of patch schedules for a Redis cache.
-	ScheduleEntries []ScheduleEntry_StatusARM `json:"scheduleEntries"`
+	ScheduleEntries []ScheduleEntry_StatusARM `json:"scheduleEntries,omitempty"`
 }
 
 type ScheduleEntry_StatusARM struct {
 	//DayOfWeek: Day of the week when a cache can be patched.
-	DayOfWeek ScheduleEntryStatusDayOfWeek `json:"dayOfWeek"`
+	DayOfWeek *ScheduleEntryStatusDayOfWeek `json:"dayOfWeek,omitempty"`
 
 	//MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
 	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`
 
 	//StartHourUtc: Start hour after which cache patching can start.
-	StartHourUtc int `json:"startHourUtc"`
+	StartHourUtc *int `json:"startHourUtc,omitempty"`
 }

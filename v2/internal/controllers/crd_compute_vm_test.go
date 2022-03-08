@@ -73,14 +73,14 @@ func newVM(
 			},
 			NetworkProfile: &compute.VirtualMachines_Spec_Properties_NetworkProfile{
 				NetworkInterfaces: []compute.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces{{
-					Reference: tc.MakeReferencePtrFromResource(networkInterface),
+					Reference: tc.MakeReferenceFromResource(networkInterface),
 				}},
 			},
 		},
 	}
 }
 
-func newVMNetworkInterface(tc *testcommon.KubePerTestContext, owner genruntime.KnownResourceReference, subnet *network.VirtualNetworksSubnet) *network.NetworkInterface {
+func newVMNetworkInterface(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, subnet *network.VirtualNetworksSubnet) *network.NetworkInterface {
 	dynamic := network.NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethodDynamic
 	return &network.NetworkInterface{
 		ObjectMeta: tc.MakeObjectMeta("nic"),
@@ -88,7 +88,7 @@ func newVMNetworkInterface(tc *testcommon.KubePerTestContext, owner genruntime.K
 			Owner:    owner,
 			Location: tc.AzureRegion,
 			IpConfigurations: []network.NetworkInterfaces_Spec_Properties_IpConfigurations{{
-				Name:                      "ipconfig1",
+				Name:                      to.StringPtr("ipconfig1"),
 				PrivateIPAllocationMethod: &dynamic,
 				Subnet: &network.SubResource{
 					Reference: tc.MakeReferenceFromResource(subnet),

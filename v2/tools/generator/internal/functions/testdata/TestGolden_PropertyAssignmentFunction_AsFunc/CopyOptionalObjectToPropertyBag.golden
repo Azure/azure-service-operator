@@ -10,7 +10,7 @@ import (
 )
 
 type Person struct {
-	Role *Release `json:"role"`
+	Role *Release `json:"role,omitempty"`
 }
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person

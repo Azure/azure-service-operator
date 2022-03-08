@@ -1369,7 +1369,7 @@ type ManagedClustersAgentPools_Spec struct {
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//Count: Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive)
 	//for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1.
@@ -1452,7 +1452,7 @@ type ManagedClustersAgentPools_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a containerservice.azure.com/ManagedCluster resource
-	Owner genruntime.KnownResourceReference `group:"containerservice.azure.com" json:"owner" kind:"ManagedCluster"`
+	Owner *genruntime.KnownResourceReference `group:"containerservice.azure.com" json:"owner,omitempty" kind:"ManagedCluster"`
 
 	//PodSubnetIDReference: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more
 	//details). This is of the form:
@@ -1511,6 +1511,41 @@ func (pools *ManagedClustersAgentPools_Spec) ConvertToARM(resolved genruntime.Co
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if pools.AvailabilityZones != nil ||
+		pools.Count != nil ||
+		pools.EnableAutoScaling != nil ||
+		pools.EnableEncryptionAtHost != nil ||
+		pools.EnableFIPS != nil ||
+		pools.EnableNodePublicIP != nil ||
+		pools.EnableUltraSSD != nil ||
+		pools.GpuInstanceProfile != nil ||
+		pools.KubeletConfig != nil ||
+		pools.KubeletDiskType != nil ||
+		pools.LinuxOSConfig != nil ||
+		pools.MaxCount != nil ||
+		pools.MaxPods != nil ||
+		pools.MinCount != nil ||
+		pools.Mode != nil ||
+		pools.NodeLabels != nil ||
+		pools.NodePublicIPPrefixIDReference != nil ||
+		pools.NodeTaints != nil ||
+		pools.OrchestratorVersion != nil ||
+		pools.OsDiskSizeGB != nil ||
+		pools.OsDiskType != nil ||
+		pools.OsSKU != nil ||
+		pools.OsType != nil ||
+		pools.PodSubnetIDReference != nil ||
+		pools.ProximityPlacementGroupID != nil ||
+		pools.ScaleSetEvictionPolicy != nil ||
+		pools.ScaleSetPriority != nil ||
+		pools.SpotMaxPrice != nil ||
+		pools.Tags != nil ||
+		pools.Type != nil ||
+		pools.UpgradeSettings != nil ||
+		pools.VmSize != nil ||
+		pools.VnetSubnetIDReference != nil {
+		result.Properties = &ManagedClusterAgentPoolProfilePropertiesARM{}
+	}
 	for _, item := range pools.AvailabilityZones {
 		result.Properties.AvailabilityZones = append(result.Properties.AvailabilityZones, item)
 	}
@@ -1686,8 +1721,10 @@ func (pools *ManagedClustersAgentPools_Spec) PopulateFromARM(owner genruntime.Ar
 
 	// Set property ‘AvailabilityZones’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.AvailabilityZones {
-		pools.AvailabilityZones = append(pools.AvailabilityZones, item)
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.AvailabilityZones {
+			pools.AvailabilityZones = append(pools.AvailabilityZones, item)
+		}
 	}
 
 	// Set property ‘AzureName’:
@@ -1695,82 +1732,102 @@ func (pools *ManagedClustersAgentPools_Spec) PopulateFromARM(owner genruntime.Ar
 
 	// Set property ‘Count’:
 	// copying flattened property:
-	if typedInput.Properties.Count != nil {
-		count := *typedInput.Properties.Count
-		pools.Count = &count
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Count != nil {
+			count := *typedInput.Properties.Count
+			pools.Count = &count
+		}
 	}
 
 	// Set property ‘EnableAutoScaling’:
 	// copying flattened property:
-	if typedInput.Properties.EnableAutoScaling != nil {
-		enableAutoScaling := *typedInput.Properties.EnableAutoScaling
-		pools.EnableAutoScaling = &enableAutoScaling
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableAutoScaling != nil {
+			enableAutoScaling := *typedInput.Properties.EnableAutoScaling
+			pools.EnableAutoScaling = &enableAutoScaling
+		}
 	}
 
 	// Set property ‘EnableEncryptionAtHost’:
 	// copying flattened property:
-	if typedInput.Properties.EnableEncryptionAtHost != nil {
-		enableEncryptionAtHost := *typedInput.Properties.EnableEncryptionAtHost
-		pools.EnableEncryptionAtHost = &enableEncryptionAtHost
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableEncryptionAtHost != nil {
+			enableEncryptionAtHost := *typedInput.Properties.EnableEncryptionAtHost
+			pools.EnableEncryptionAtHost = &enableEncryptionAtHost
+		}
 	}
 
 	// Set property ‘EnableFIPS’:
 	// copying flattened property:
-	if typedInput.Properties.EnableFIPS != nil {
-		enableFIPS := *typedInput.Properties.EnableFIPS
-		pools.EnableFIPS = &enableFIPS
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableFIPS != nil {
+			enableFIPS := *typedInput.Properties.EnableFIPS
+			pools.EnableFIPS = &enableFIPS
+		}
 	}
 
 	// Set property ‘EnableNodePublicIP’:
 	// copying flattened property:
-	if typedInput.Properties.EnableNodePublicIP != nil {
-		enableNodePublicIP := *typedInput.Properties.EnableNodePublicIP
-		pools.EnableNodePublicIP = &enableNodePublicIP
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableNodePublicIP != nil {
+			enableNodePublicIP := *typedInput.Properties.EnableNodePublicIP
+			pools.EnableNodePublicIP = &enableNodePublicIP
+		}
 	}
 
 	// Set property ‘EnableUltraSSD’:
 	// copying flattened property:
-	if typedInput.Properties.EnableUltraSSD != nil {
-		enableUltraSSD := *typedInput.Properties.EnableUltraSSD
-		pools.EnableUltraSSD = &enableUltraSSD
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableUltraSSD != nil {
+			enableUltraSSD := *typedInput.Properties.EnableUltraSSD
+			pools.EnableUltraSSD = &enableUltraSSD
+		}
 	}
 
 	// Set property ‘GpuInstanceProfile’:
 	// copying flattened property:
-	if typedInput.Properties.GpuInstanceProfile != nil {
-		gpuInstanceProfile := *typedInput.Properties.GpuInstanceProfile
-		pools.GpuInstanceProfile = &gpuInstanceProfile
+	if typedInput.Properties != nil {
+		if typedInput.Properties.GpuInstanceProfile != nil {
+			gpuInstanceProfile := *typedInput.Properties.GpuInstanceProfile
+			pools.GpuInstanceProfile = &gpuInstanceProfile
+		}
 	}
 
 	// Set property ‘KubeletConfig’:
 	// copying flattened property:
-	if typedInput.Properties.KubeletConfig != nil {
-		var kubeletConfig1 KubeletConfig
-		err := kubeletConfig1.PopulateFromARM(owner, *typedInput.Properties.KubeletConfig)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.KubeletConfig != nil {
+			var kubeletConfig1 KubeletConfig
+			err := kubeletConfig1.PopulateFromARM(owner, *typedInput.Properties.KubeletConfig)
+			if err != nil {
+				return err
+			}
+			kubeletConfig := kubeletConfig1
+			pools.KubeletConfig = &kubeletConfig
 		}
-		kubeletConfig := kubeletConfig1
-		pools.KubeletConfig = &kubeletConfig
 	}
 
 	// Set property ‘KubeletDiskType’:
 	// copying flattened property:
-	if typedInput.Properties.KubeletDiskType != nil {
-		kubeletDiskType := *typedInput.Properties.KubeletDiskType
-		pools.KubeletDiskType = &kubeletDiskType
+	if typedInput.Properties != nil {
+		if typedInput.Properties.KubeletDiskType != nil {
+			kubeletDiskType := *typedInput.Properties.KubeletDiskType
+			pools.KubeletDiskType = &kubeletDiskType
+		}
 	}
 
 	// Set property ‘LinuxOSConfig’:
 	// copying flattened property:
-	if typedInput.Properties.LinuxOSConfig != nil {
-		var linuxOSConfig1 LinuxOSConfig
-		err := linuxOSConfig1.PopulateFromARM(owner, *typedInput.Properties.LinuxOSConfig)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.LinuxOSConfig != nil {
+			var linuxOSConfig1 LinuxOSConfig
+			err := linuxOSConfig1.PopulateFromARM(owner, *typedInput.Properties.LinuxOSConfig)
+			if err != nil {
+				return err
+			}
+			linuxOSConfig := linuxOSConfig1
+			pools.LinuxOSConfig = &linuxOSConfig
 		}
-		linuxOSConfig := linuxOSConfig1
-		pools.LinuxOSConfig = &linuxOSConfig
 	}
 
 	// Set property ‘Location’:
@@ -1781,38 +1838,48 @@ func (pools *ManagedClustersAgentPools_Spec) PopulateFromARM(owner genruntime.Ar
 
 	// Set property ‘MaxCount’:
 	// copying flattened property:
-	if typedInput.Properties.MaxCount != nil {
-		maxCount := *typedInput.Properties.MaxCount
-		pools.MaxCount = &maxCount
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MaxCount != nil {
+			maxCount := *typedInput.Properties.MaxCount
+			pools.MaxCount = &maxCount
+		}
 	}
 
 	// Set property ‘MaxPods’:
 	// copying flattened property:
-	if typedInput.Properties.MaxPods != nil {
-		maxPods := *typedInput.Properties.MaxPods
-		pools.MaxPods = &maxPods
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MaxPods != nil {
+			maxPods := *typedInput.Properties.MaxPods
+			pools.MaxPods = &maxPods
+		}
 	}
 
 	// Set property ‘MinCount’:
 	// copying flattened property:
-	if typedInput.Properties.MinCount != nil {
-		minCount := *typedInput.Properties.MinCount
-		pools.MinCount = &minCount
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MinCount != nil {
+			minCount := *typedInput.Properties.MinCount
+			pools.MinCount = &minCount
+		}
 	}
 
 	// Set property ‘Mode’:
 	// copying flattened property:
-	if typedInput.Properties.Mode != nil {
-		mode := *typedInput.Properties.Mode
-		pools.Mode = &mode
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Mode != nil {
+			mode := *typedInput.Properties.Mode
+			pools.Mode = &mode
+		}
 	}
 
 	// Set property ‘NodeLabels’:
 	// copying flattened property:
-	if typedInput.Properties.NodeLabels != nil {
-		pools.NodeLabels = make(map[string]string)
-		for key, value := range typedInput.Properties.NodeLabels {
-			pools.NodeLabels[key] = value
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NodeLabels != nil {
+			pools.NodeLabels = make(map[string]string)
+			for key, value := range typedInput.Properties.NodeLabels {
+				pools.NodeLabels[key] = value
+			}
 		}
 	}
 
@@ -1820,47 +1887,59 @@ func (pools *ManagedClustersAgentPools_Spec) PopulateFromARM(owner genruntime.Ar
 
 	// Set property ‘NodeTaints’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.NodeTaints {
-		pools.NodeTaints = append(pools.NodeTaints, item)
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.NodeTaints {
+			pools.NodeTaints = append(pools.NodeTaints, item)
+		}
 	}
 
 	// Set property ‘OrchestratorVersion’:
 	// copying flattened property:
-	if typedInput.Properties.OrchestratorVersion != nil {
-		orchestratorVersion := *typedInput.Properties.OrchestratorVersion
-		pools.OrchestratorVersion = &orchestratorVersion
+	if typedInput.Properties != nil {
+		if typedInput.Properties.OrchestratorVersion != nil {
+			orchestratorVersion := *typedInput.Properties.OrchestratorVersion
+			pools.OrchestratorVersion = &orchestratorVersion
+		}
 	}
 
 	// Set property ‘OsDiskSizeGB’:
 	// copying flattened property:
-	if typedInput.Properties.OsDiskSizeGB != nil {
-		osDiskSizeGB := *typedInput.Properties.OsDiskSizeGB
-		pools.OsDiskSizeGB = &osDiskSizeGB
+	if typedInput.Properties != nil {
+		if typedInput.Properties.OsDiskSizeGB != nil {
+			osDiskSizeGB := *typedInput.Properties.OsDiskSizeGB
+			pools.OsDiskSizeGB = &osDiskSizeGB
+		}
 	}
 
 	// Set property ‘OsDiskType’:
 	// copying flattened property:
-	if typedInput.Properties.OsDiskType != nil {
-		osDiskType := *typedInput.Properties.OsDiskType
-		pools.OsDiskType = &osDiskType
+	if typedInput.Properties != nil {
+		if typedInput.Properties.OsDiskType != nil {
+			osDiskType := *typedInput.Properties.OsDiskType
+			pools.OsDiskType = &osDiskType
+		}
 	}
 
 	// Set property ‘OsSKU’:
 	// copying flattened property:
-	if typedInput.Properties.OsSKU != nil {
-		osSKU := *typedInput.Properties.OsSKU
-		pools.OsSKU = &osSKU
+	if typedInput.Properties != nil {
+		if typedInput.Properties.OsSKU != nil {
+			osSKU := *typedInput.Properties.OsSKU
+			pools.OsSKU = &osSKU
+		}
 	}
 
 	// Set property ‘OsType’:
 	// copying flattened property:
-	if typedInput.Properties.OsType != nil {
-		osType := *typedInput.Properties.OsType
-		pools.OsType = &osType
+	if typedInput.Properties != nil {
+		if typedInput.Properties.OsType != nil {
+			osType := *typedInput.Properties.OsType
+			pools.OsType = &osType
+		}
 	}
 
 	// Set property ‘Owner’:
-	pools.Owner = genruntime.KnownResourceReference{
+	pools.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -1868,65 +1947,81 @@ func (pools *ManagedClustersAgentPools_Spec) PopulateFromARM(owner genruntime.Ar
 
 	// Set property ‘ProximityPlacementGroupID’:
 	// copying flattened property:
-	if typedInput.Properties.ProximityPlacementGroupID != nil {
-		proximityPlacementGroupID := *typedInput.Properties.ProximityPlacementGroupID
-		pools.ProximityPlacementGroupID = &proximityPlacementGroupID
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProximityPlacementGroupID != nil {
+			proximityPlacementGroupID := *typedInput.Properties.ProximityPlacementGroupID
+			pools.ProximityPlacementGroupID = &proximityPlacementGroupID
+		}
 	}
 
 	// Set property ‘ScaleSetEvictionPolicy’:
 	// copying flattened property:
-	if typedInput.Properties.ScaleSetEvictionPolicy != nil {
-		scaleSetEvictionPolicy := *typedInput.Properties.ScaleSetEvictionPolicy
-		pools.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ScaleSetEvictionPolicy != nil {
+			scaleSetEvictionPolicy := *typedInput.Properties.ScaleSetEvictionPolicy
+			pools.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
+		}
 	}
 
 	// Set property ‘ScaleSetPriority’:
 	// copying flattened property:
-	if typedInput.Properties.ScaleSetPriority != nil {
-		scaleSetPriority := *typedInput.Properties.ScaleSetPriority
-		pools.ScaleSetPriority = &scaleSetPriority
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ScaleSetPriority != nil {
+			scaleSetPriority := *typedInput.Properties.ScaleSetPriority
+			pools.ScaleSetPriority = &scaleSetPriority
+		}
 	}
 
 	// Set property ‘SpotMaxPrice’:
 	// copying flattened property:
-	if typedInput.Properties.SpotMaxPrice != nil {
-		spotMaxPrice := *typedInput.Properties.SpotMaxPrice
-		pools.SpotMaxPrice = &spotMaxPrice
+	if typedInput.Properties != nil {
+		if typedInput.Properties.SpotMaxPrice != nil {
+			spotMaxPrice := *typedInput.Properties.SpotMaxPrice
+			pools.SpotMaxPrice = &spotMaxPrice
+		}
 	}
 
 	// Set property ‘Tags’:
 	// copying flattened property:
-	if typedInput.Properties.Tags != nil {
-		pools.Tags = make(map[string]string)
-		for key, value := range typedInput.Properties.Tags {
-			pools.Tags[key] = value
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Tags != nil {
+			pools.Tags = make(map[string]string)
+			for key, value := range typedInput.Properties.Tags {
+				pools.Tags[key] = value
+			}
 		}
 	}
 
 	// Set property ‘Type’:
 	// copying flattened property:
-	if typedInput.Properties.Type != nil {
-		typeVar := *typedInput.Properties.Type
-		pools.Type = &typeVar
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Type != nil {
+			typeVar := *typedInput.Properties.Type
+			pools.Type = &typeVar
+		}
 	}
 
 	// Set property ‘UpgradeSettings’:
 	// copying flattened property:
-	if typedInput.Properties.UpgradeSettings != nil {
-		var upgradeSettings1 AgentPoolUpgradeSettings
-		err := upgradeSettings1.PopulateFromARM(owner, *typedInput.Properties.UpgradeSettings)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.UpgradeSettings != nil {
+			var upgradeSettings1 AgentPoolUpgradeSettings
+			err := upgradeSettings1.PopulateFromARM(owner, *typedInput.Properties.UpgradeSettings)
+			if err != nil {
+				return err
+			}
+			upgradeSettings := upgradeSettings1
+			pools.UpgradeSettings = &upgradeSettings
 		}
-		upgradeSettings := upgradeSettings1
-		pools.UpgradeSettings = &upgradeSettings
 	}
 
 	// Set property ‘VmSize’:
 	// copying flattened property:
-	if typedInput.Properties.VmSize != nil {
-		vmSize := *typedInput.Properties.VmSize
-		pools.VmSize = &vmSize
+	if typedInput.Properties != nil {
+		if typedInput.Properties.VmSize != nil {
+			vmSize := *typedInput.Properties.VmSize
+			pools.VmSize = &vmSize
+		}
 	}
 
 	// no assignment for property ‘VnetSubnetIDReference’
@@ -2147,7 +2242,12 @@ func (pools *ManagedClustersAgentPools_Spec) AssignPropertiesFromManagedClusters
 	}
 
 	// Owner
-	pools.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		pools.Owner = &owner
+	} else {
+		pools.Owner = nil
+	}
 
 	// PodSubnetIDReference
 	if source.PodSubnetIDReference != nil {
@@ -2389,7 +2489,12 @@ func (pools *ManagedClustersAgentPools_Spec) AssignPropertiesToManagedClustersAg
 	}
 
 	// Owner
-	destination.Owner = pools.Owner.Copy()
+	if pools.Owner != nil {
+		owner := pools.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// PodSubnetIDReference
 	if pools.PodSubnetIDReference != nil {

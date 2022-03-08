@@ -271,23 +271,23 @@ func NetworkSecurityGroupsSecurityRulesSpecGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRulesSpec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRulesSpec(gens map[string]gopter.Gen) {
-	gens["Access"] = gen.OneConstOf(SecurityRulePropertiesFormatAccessAllow, SecurityRulePropertiesFormatAccessDeny)
+	gens["Access"] = gen.PtrOf(gen.OneConstOf(SecurityRulePropertiesFormatAccessAllow, SecurityRulePropertiesFormatAccessDeny))
 	gens["AzureName"] = gen.AlphaString()
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationAddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["DestinationPortRange"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationPortRanges"] = gen.SliceOf(gen.AlphaString())
-	gens["Direction"] = gen.OneConstOf(SecurityRulePropertiesFormatDirectionInbound, SecurityRulePropertiesFormatDirectionOutbound)
+	gens["Direction"] = gen.PtrOf(gen.OneConstOf(SecurityRulePropertiesFormatDirectionInbound, SecurityRulePropertiesFormatDirectionOutbound))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Priority"] = gen.Int()
-	gens["Protocol"] = gen.OneConstOf(
+	gens["Priority"] = gen.PtrOf(gen.Int())
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(
 		SecurityRulePropertiesFormatProtocolAh,
 		SecurityRulePropertiesFormatProtocolEsp,
 		SecurityRulePropertiesFormatProtocolIcmp,
 		SecurityRulePropertiesFormatProtocolStar,
 		SecurityRulePropertiesFormatProtocolTcp,
-		SecurityRulePropertiesFormatProtocolUdp)
+		SecurityRulePropertiesFormatProtocolUdp))
 	gens["SourceAddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["SourcePortRange"] = gen.PtrOf(gen.AlphaString())

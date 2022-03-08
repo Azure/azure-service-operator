@@ -31,8 +31,8 @@ type RedisList struct {
 }
 
 type RedisResource_Status struct {
-	v1alpha1.ResourceStatus `json:",inline"`
-	AtProvider              RedisResourceObservation `json:"atProvider"`
+	v1alpha1.ResourceStatus `json:",inline,omitempty"`
+	AtProvider              RedisResourceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
@@ -41,8 +41,8 @@ type RedisSpecAPIVersion string
 const RedisSpecAPIVersion20200601 = RedisSpecAPIVersion("2020-06-01")
 
 type Redis_Spec struct {
-	v1alpha1.ResourceSpec `json:",inline"`
-	ForProvider           RedisParameters `json:"forProvider"`
+	v1alpha1.ResourceSpec `json:",inline,omitempty"`
+	ForProvider           RedisParameters `json:"forProvider,omitempty"`
 }
 
 type RedisParameters struct {
@@ -50,7 +50,7 @@ type RedisParameters struct {
 	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
 
 	//Location: The geo-location where the resource lives
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
 	//'1.2').
@@ -58,7 +58,7 @@ type RedisParameters struct {
 
 	// +kubebuilder:validation:Required
 	//Name: The name of the Redis cache.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
 	//in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
@@ -72,7 +72,7 @@ type RedisParameters struct {
 
 	//ReplicasPerMaster: The number of replicas to be created per master.
 	ReplicasPerMaster         *int                `json:"replicasPerMaster,omitempty"`
-	ResourceGroupName         string              `json:"resourceGroupName"`
+	ResourceGroupName         string              `json:"resourceGroupName,omitempty"`
 	ResourceGroupNameRef      *v1alpha1.Reference `json:"resourceGroupNameRef,omitempty"`
 	ResourceGroupNameSelector *v1alpha1.Selector  `json:"resourceGroupNameSelector,omitempty"`
 
@@ -81,7 +81,7 @@ type RedisParameters struct {
 
 	// +kubebuilder:validation:Required
 	//Sku: SKU parameters supplied to the create Redis operation.
-	Sku Sku `json:"sku"`
+	Sku *Sku `json:"sku,omitempty"`
 
 	// +kubebuilder:validation:Pattern="^\\d+\\.\\d+\\.\\d+\\.\\d+$"
 	//StaticIP: Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual
@@ -160,6 +160,7 @@ type RedisResourceObservation struct {
 	//ShardCount: The number of shards to be created on a Premium Cluster Cache.
 	ShardCount *int `json:"shardCount,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//Sku: The SKU of the Redis cache to deploy.
 	Sku *Sku_Status `json:"sku,omitempty"`
 
@@ -198,6 +199,7 @@ type PrivateEndpointConnection_Status struct {
 	//PrivateEndpoint: The resource of private end point.
 	PrivateEndpoint *PrivateEndpoint_Status `json:"privateEndpoint,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//PrivateLinkServiceConnectionState: A collection of information about the state of the connection between service
 	//consumer and provider.
 	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_Status `json:"privateLinkServiceConnectionState,omitempty"`
@@ -357,7 +359,7 @@ type RedisProperties_Status_RedisConfiguration struct {
 
 	//RdbStorageConnectionString: The storage account connection string for storing rdb file
 	RdbStorageConnectionString *string           `json:"rdb-storage-connection-string,omitempty"`
-	additionalProperties       map[string]string `json:"additionalProperties"`
+	additionalProperties       map[string]string `json:"additionalProperties,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.Cache.json#/definitions/Sku
@@ -365,30 +367,30 @@ type Sku struct {
 	// +kubebuilder:validation:Required
 	//Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
 	//P (Premium) family (1, 2, 3, 4).
-	Capacity int `json:"capacity"`
+	Capacity *int `json:"capacity,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
-	Family SkuFamily `json:"family"`
+	Family *SkuFamily `json:"family,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium).
-	Name SkuName `json:"name"`
+	Name *SkuName `json:"name,omitempty"`
 }
 
 type Sku_Status struct {
 	// +kubebuilder:validation:Required
 	//Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
 	//P (Premium) family (1, 2, 3, 4).
-	Capacity int `json:"capacity"`
+	Capacity *int `json:"capacity,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
-	Family SkuStatusFamily `json:"family"`
+	Family *SkuStatusFamily `json:"family,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
-	Name SkuStatusName `json:"name"`
+	Name *SkuStatusName `json:"name,omitempty"`
 }
 
 type PrivateEndpointConnectionProvisioningState_Status string

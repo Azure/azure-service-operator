@@ -74,7 +74,7 @@ var _ fmt.Stringer = &PropertyDefinition{}
 // propertyType is the type for the new property (mandatory)
 func NewPropertyDefinition(propertyName PropertyName, jsonName string, propertyType Type) *PropertyDefinition {
 	tags := make(map[string][]string)
-	tags["json"] = []string{jsonName}
+	tags["json"] = []string{jsonName, "omitempty"}
 
 	return &PropertyDefinition{
 		propertyName:  propertyName,
@@ -132,19 +132,6 @@ func (property *PropertyDefinition) PropertyName() PropertyName {
 // PropertyType returns the data type of the property
 func (property *PropertyDefinition) PropertyType() Type {
 	return property.propertyType
-}
-
-// WithKubebuilderRequiredValidation returns a new PropertyDefinition with the given Kubebuilder required annotation.
-// Note that this does not in any way change the underlying type that this PropertyDefinition points to, unlike
-// MakeRequired and MakeOptional.
-func (property *PropertyDefinition) WithKubebuilderRequiredValidation(required bool) *PropertyDefinition {
-	if required == property.hasKubebuilderRequiredValidation {
-		return property
-	}
-
-	result := *property
-	result.hasKubebuilderRequiredValidation = required
-	return &result
 }
 
 // SetFlatten sets if the property should be flattened or not
@@ -283,70 +270,94 @@ func (property *PropertyDefinition) JSONName() (string, bool) {
 	return jsonTag[0], true
 }
 
-func (property *PropertyDefinition) hasJsonOmitEmpty() bool {
-	return property.HasTagValue("json", "omitempty")
-}
-
-func (property *PropertyDefinition) withJsonOmitEmpty() *PropertyDefinition {
-	return property.WithTag("json", "omitempty")
-}
-
-func (property *PropertyDefinition) withoutJsonOmitEmpty() *PropertyDefinition {
-	return property.WithoutTag("json", "omitempty")
-}
-
 // MakeRequired returns a new PropertyDefinition that is marked as required
 func (property *PropertyDefinition) MakeRequired() *PropertyDefinition {
-	if !property.hasOptionalType() && property.HasKubebuilderRequiredValidation() && !property.hasJsonOmitEmpty() {
+	if property.IsRequired() {
 		return property
 	}
-	result := property.copy()
 
-	if property.hasOptionalType() {
-		// Need to remove the optionality
-		ot := property.propertyType.(*OptionalType)
-		result.propertyType = ot.BaseType()
+	if !isTypeOptional(property.PropertyType()) {
+		panic(fmt.Sprintf(
+			"property %s with non-optional type %T cannot be marked kubebuilder:validation:Required.",
+			property.PropertyName(),
+			property.PropertyType()))
 	}
 
+	result := property.copy()
 	result.hasKubebuilderRequiredValidation = true
-	result = result.withoutJsonOmitEmpty()
 
 	return result
 }
 
 // MakeOptional returns a new PropertyDefinition that has an optional value
 func (property *PropertyDefinition) MakeOptional() *PropertyDefinition {
-	if isTypeOptional(property.propertyType) && !property.HasKubebuilderRequiredValidation() && property.hasJsonOmitEmpty() {
+	if !property.IsRequired() {
 		// No change required
 		return property
 	}
 
 	result := property.copy()
-
-	// Note that this function uses isTypeOptional while MakeRequired uses property.hasOptionalType
-	// because in this direction we care if the type behaves optionally already (Map, Array included),
-	// whereas in the MakeRequired direction we only care if the type is specifically *astmodel.Optional
-	if !isTypeOptional(property.propertyType) {
-		// Need to make the type optional
-
-		// we must check if the type is validated to preserve the validation invariant
-		// that all validations are *directly* under either a named type or a property
-		if vType, ok := result.propertyType.(*ValidatedType); ok {
-			result.propertyType = NewValidatedType(NewOptionalType(vType.ElementType()), vType.validations)
-		} else {
-			result.propertyType = NewOptionalType(result.propertyType)
-		}
-	}
-
 	result.hasKubebuilderRequiredValidation = false
-	result = result.withJsonOmitEmpty()
 
 	return result
 }
 
-// HasKubebuilderRequiredValidation returns true if the property is required;
+// MakeTypeRequired makes this properties Type required (non-optional). Note that this does
+// NOT impact the kubebuilder:validation:Required annotation. For that, see MakeRequired.
+func (property *PropertyDefinition) MakeTypeRequired() *PropertyDefinition {
+	if !canTypeBeMadeRequired(property.propertyType) {
+		return property
+	}
+
+	result := property.copy()
+	result.propertyType = makePropertyTypeRequired(property.PropertyType())
+
+	return result
+}
+
+// MakeTypeOptional makes this properties Type optional. Note that this does
+// NOT impact the kubebuilder:validation:Required annotation. For that, see MakeOptional.
+func (property *PropertyDefinition) MakeTypeOptional() *PropertyDefinition {
+	if isTypeOptional(property.propertyType) {
+		return property
+	}
+
+	result := property.copy()
+	result.propertyType = makePropertyTypeOptional(property.PropertyType())
+
+	return result
+}
+
+func makePropertyTypeRequired(t Type) Type {
+	switch typ := t.(type) {
+	case *OptionalType:
+		return typ.Element()
+	case *ValidatedType:
+		return typ.WithType(makePropertyTypeRequired(typ.ElementType()))
+	case MetaType:
+		// We didn't use a visitor here for two reasons: Reason 1 is that visitor has an err case that we don't want.
+		// Reason 2 is that visitor by default visits types inside Maps and Lists, which we also do not want. We could
+		// have overridden those visit methods but this is cleaner than that and fails in a safe way if new types
+		// are ever added.
+		panic(fmt.Sprintf("cannot make %T required", t))
+	}
+
+	return t
+}
+
+func makePropertyTypeOptional(t Type) Type {
+	// we must check if the type is validated to preserve the validation invariant
+	// that all validations are *directly* under either a named type or a property
+	if vType, ok := t.(*ValidatedType); ok {
+		return NewValidatedType(NewOptionalType(vType.ElementType()), vType.validations)
+	} else {
+		return NewOptionalType(t)
+	}
+}
+
+// IsRequired returns true if the property is required;
 // returns false otherwise.
-func (property *PropertyDefinition) HasKubebuilderRequiredValidation() bool {
+func (property *PropertyDefinition) IsRequired() bool {
 	return property.hasKubebuilderRequiredValidation
 }
 
@@ -358,13 +369,6 @@ func (property *PropertyDefinition) Flatten() bool {
 // IsSecret returns true iff the property is a secret.
 func (property *PropertyDefinition) IsSecret() bool {
 	return property.isSecret
-}
-
-// hasOptionalType returns true if the type of this property is an optional reference to a value
-// (and might therefore be nil).
-func (property *PropertyDefinition) hasOptionalType() bool {
-	_, ok := property.propertyType.(*OptionalType)
-	return ok
 }
 
 func (property *PropertyDefinition) renderedTags() string {
@@ -400,7 +404,7 @@ func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGeneratio
 	}
 
 	var doc dst.Decorations
-	if property.HasKubebuilderRequiredValidation() {
+	if property.IsRequired() {
 		AddValidationComments(&doc, []KubeBuilderValidation{MakeRequiredValidation()})
 	}
 

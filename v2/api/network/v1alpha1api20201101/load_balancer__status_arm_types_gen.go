@@ -34,10 +34,10 @@ type LoadBalancer_StatusARM struct {
 
 type ExtendedLocation_StatusARM struct {
 	//Name: The name of the extended location.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Type: The type of the extended location.
-	Type ExtendedLocationType_Status `json:"type"`
+	Type *ExtendedLocationType_Status `json:"type,omitempty"`
 }
 
 type LoadBalancerPropertiesFormat_StatusARM struct {
@@ -242,7 +242,7 @@ type FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourceEmbe
 
 type InboundNatPoolPropertiesFormat_StatusARM struct {
 	//BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.
-	BackendPort int `json:"backendPort"`
+	BackendPort *int `json:"backendPort,omitempty"`
 
 	//EnableFloatingIP: Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL
 	//AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
@@ -258,18 +258,18 @@ type InboundNatPoolPropertiesFormat_StatusARM struct {
 
 	//FrontendPortRangeEnd: The last port number in the range of external ports that will be used to provide Inbound Nat to
 	//NICs associated with a load balancer. Acceptable values range between 1 and 65535.
-	FrontendPortRangeEnd int `json:"frontendPortRangeEnd"`
+	FrontendPortRangeEnd *int `json:"frontendPortRangeEnd,omitempty"`
 
 	//FrontendPortRangeStart: The first port number in the range of external ports that will be used to provide Inbound Nat to
 	//NICs associated with a load balancer. Acceptable values range between 1 and 65534.
-	FrontendPortRangeStart int `json:"frontendPortRangeStart"`
+	FrontendPortRangeStart *int `json:"frontendPortRangeStart,omitempty"`
 
 	//IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
 	//default value is 4 minutes. This element is only used when the protocol is set to TCP.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	//Protocol: The reference to the transport protocol used by the inbound NAT pool.
-	Protocol TransportProtocol_Status `json:"protocol"`
+	Protocol *TransportProtocol_Status `json:"protocol,omitempty"`
 
 	//ProvisioningState: The provisioning state of the inbound NAT pool resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
@@ -302,7 +302,7 @@ type LoadBalancingRulePropertiesFormat_StatusARM struct {
 
 	//FrontendPort: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer.
 	//Acceptable values are between 0 and 65534. Note that value 0 enables "Any Port".
-	FrontendPort int `json:"frontendPort"`
+	FrontendPort *int `json:"frontendPort,omitempty"`
 
 	//IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
 	//default value is 4 minutes. This element is only used when the protocol is set to TCP.
@@ -315,7 +315,7 @@ type LoadBalancingRulePropertiesFormat_StatusARM struct {
 	Probe *SubResource_StatusARM `json:"probe,omitempty"`
 
 	//Protocol: The reference to the transport protocol used by the load balancing rule.
-	Protocol TransportProtocol_Status `json:"protocol"`
+	Protocol *TransportProtocol_Status `json:"protocol,omitempty"`
 
 	//ProvisioningState: The provisioning state of the load balancing rule resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
@@ -327,20 +327,20 @@ type OutboundRulePropertiesFormat_StatusARM struct {
 
 	//BackendAddressPool: A reference to a pool of DIPs. Outbound traffic is randomly load balanced across IPs in the backend
 	//IPs.
-	BackendAddressPool SubResource_StatusARM `json:"backendAddressPool"`
+	BackendAddressPool *SubResource_StatusARM `json:"backendAddressPool,omitempty"`
 
 	//EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
 	//element is only used when the protocol is set to TCP.
 	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
 
 	//FrontendIPConfigurations: The Frontend IP addresses of the load balancer.
-	FrontendIPConfigurations []SubResource_StatusARM `json:"frontendIPConfigurations"`
+	FrontendIPConfigurations []SubResource_StatusARM `json:"frontendIPConfigurations,omitempty"`
 
 	//IdleTimeoutInMinutes: The timeout for the TCP idle connection.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	//Protocol: The protocol for the outbound rule in load balancer.
-	Protocol OutboundRulePropertiesFormatStatusProtocol `json:"protocol"`
+	Protocol *OutboundRulePropertiesFormatStatusProtocol `json:"protocol,omitempty"`
 
 	//ProvisioningState: The provisioning state of the outbound rule resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
@@ -361,12 +361,12 @@ type ProbePropertiesFormat_StatusARM struct {
 	NumberOfProbes *int `json:"numberOfProbes,omitempty"`
 
 	//Port: The port for communicating the probe. Possible values range from 1 to 65535, inclusive.
-	Port int `json:"port"`
+	Port *int `json:"port,omitempty"`
 
 	//Protocol: The protocol of the end point. If 'Tcp' is specified, a received ACK is required for the probe to be
 	//successful. If 'Http' or 'Https' is specified, a 200 OK response from the specifies URI is required for the probe to be
 	//successful.
-	Protocol ProbePropertiesFormatStatusProtocol `json:"protocol"`
+	Protocol *ProbePropertiesFormatStatusProtocol `json:"protocol,omitempty"`
 
 	//ProvisioningState: The provisioning state of the probe resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`

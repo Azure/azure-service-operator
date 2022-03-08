@@ -315,7 +315,7 @@ const DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion20210515 = Dat
 type DatabaseAccountsSqlDatabasesContainersTriggers_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
@@ -328,11 +328,11 @@ type DatabaseAccountsSqlDatabasesContainersTriggers_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a documentdb.azure.com/SqlDatabaseContainer resource
-	Owner genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner" kind:"SqlDatabaseContainer"`
+	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabaseContainer"`
 
 	// +kubebuilder:validation:Required
 	//Resource: Cosmos DB SQL trigger resource object
-	Resource SqlTriggerResource `json:"resource"`
+	Resource *SqlTriggerResource `json:"resource,omitempty"`
 
 	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
 	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
@@ -361,6 +361,9 @@ func (triggers *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) ConvertToAR
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if triggers.Options != nil || triggers.Resource != nil {
+		result.Properties = &SqlTriggerCreateUpdatePropertiesARM{}
+	}
 	if triggers.Options != nil {
 		optionsARM, err := (*triggers.Options).ConvertToARM(resolved)
 		if err != nil {
@@ -369,11 +372,14 @@ func (triggers *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) ConvertToAR
 		options := optionsARM.(CreateUpdateOptionsARM)
 		result.Properties.Options = &options
 	}
-	resourceARM, err := triggers.Resource.ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if triggers.Resource != nil {
+		resourceARM, err := (*triggers.Resource).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		resource := resourceARM.(SqlTriggerResourceARM)
+		result.Properties.Resource = &resource
 	}
-	result.Properties.Resource = resourceARM.(SqlTriggerResourceARM)
 
 	// Set property ‘Tags’:
 	if triggers.Tags != nil {
@@ -408,29 +414,36 @@ func (triggers *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) PopulateFro
 
 	// Set property ‘Options’:
 	// copying flattened property:
-	if typedInput.Properties.Options != nil {
-		var options1 CreateUpdateOptions
-		err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Options != nil {
+			var options1 CreateUpdateOptions
+			err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
+			if err != nil {
+				return err
+			}
+			options := options1
+			triggers.Options = &options
 		}
-		options := options1
-		triggers.Options = &options
 	}
 
 	// Set property ‘Owner’:
-	triggers.Owner = genruntime.KnownResourceReference{
+	triggers.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Resource’:
 	// copying flattened property:
-	var resource SqlTriggerResource
-	err := resource.PopulateFromARM(owner, typedInput.Properties.Resource)
-	if err != nil {
-		return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Resource != nil {
+			var resource1 SqlTriggerResource
+			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
+			if err != nil {
+				return err
+			}
+			resource := resource1
+			triggers.Resource = &resource
+		}
 	}
-	triggers.Resource = resource
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
@@ -516,7 +529,12 @@ func (triggers *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) AssignPrope
 	}
 
 	// Owner
-	triggers.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		triggers.Owner = &owner
+	} else {
+		triggers.Owner = nil
+	}
 
 	// Resource
 	if source.Resource != nil {
@@ -525,9 +543,9 @@ func (triggers *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) AssignPrope
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSqlTriggerResource() to populate field Resource")
 		}
-		triggers.Resource = resource
+		triggers.Resource = &resource
 	} else {
-		triggers.Resource = SqlTriggerResource{}
+		triggers.Resource = nil
 	}
 
 	// Tags
@@ -564,15 +582,24 @@ func (triggers *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) AssignPrope
 	destination.OriginalVersion = triggers.OriginalVersion()
 
 	// Owner
-	destination.Owner = triggers.Owner.Copy()
+	if triggers.Owner != nil {
+		owner := triggers.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Resource
-	var resource v1alpha1api20210515storage.SqlTriggerResource
-	err := triggers.Resource.AssignPropertiesToSqlTriggerResource(&resource)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSqlTriggerResource() to populate field Resource")
+	if triggers.Resource != nil {
+		var resource v1alpha1api20210515storage.SqlTriggerResource
+		err := triggers.Resource.AssignPropertiesToSqlTriggerResource(&resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSqlTriggerResource() to populate field Resource")
+		}
+		destination.Resource = &resource
+	} else {
+		destination.Resource = nil
 	}
-	destination.Resource = &resource
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(triggers.Tags)
@@ -825,7 +852,7 @@ type SqlTriggerGetProperties_Status_Resource struct {
 
 	// +kubebuilder:validation:Required
 	//Id: Name of the Cosmos DB SQL trigger
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 
 	//Rid: A system generated property. A unique identifier.
 	Rid *string `json:"_rid,omitempty"`
@@ -867,7 +894,10 @@ func (resource *SqlTriggerGetProperties_Status_Resource) PopulateFromARM(owner g
 	}
 
 	// Set property ‘Id’:
-	resource.Id = typedInput.Id
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		resource.Id = &id
+	}
 
 	// Set property ‘Rid’:
 	if typedInput.Rid != nil {
@@ -907,7 +937,7 @@ func (resource *SqlTriggerGetProperties_Status_Resource) AssignPropertiesFromSql
 	resource.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Id
-	resource.Id = genruntime.GetOptionalStringValue(source.Id)
+	resource.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Rid
 	resource.Rid = genruntime.ClonePointerToString(source.Rid)
@@ -952,8 +982,7 @@ func (resource *SqlTriggerGetProperties_Status_Resource) AssignPropertiesToSqlTr
 	destination.Etag = genruntime.ClonePointerToString(resource.Etag)
 
 	// Id
-	id := resource.Id
-	destination.Id = &id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
 
 	// Rid
 	destination.Rid = genruntime.ClonePointerToString(resource.Rid)
@@ -1000,7 +1029,7 @@ type SqlTriggerResource struct {
 
 	// +kubebuilder:validation:Required
 	//Id: Name of the Cosmos DB SQL trigger
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 
 	//TriggerOperation: The operation the trigger is associated with.
 	TriggerOperation *SqlTriggerResourceTriggerOperation `json:"triggerOperation,omitempty"`
@@ -1025,7 +1054,10 @@ func (resource *SqlTriggerResource) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 
 	// Set property ‘Id’:
-	result.Id = resource.Id
+	if resource.Id != nil {
+		id := *resource.Id
+		result.Id = &id
+	}
 
 	// Set property ‘TriggerOperation’:
 	if resource.TriggerOperation != nil {
@@ -1060,7 +1092,10 @@ func (resource *SqlTriggerResource) PopulateFromARM(owner genruntime.ArbitraryOw
 	}
 
 	// Set property ‘Id’:
-	resource.Id = typedInput.Id
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		resource.Id = &id
+	}
 
 	// Set property ‘TriggerOperation’:
 	if typedInput.TriggerOperation != nil {
@@ -1085,7 +1120,7 @@ func (resource *SqlTriggerResource) AssignPropertiesFromSqlTriggerResource(sourc
 	resource.Body = genruntime.ClonePointerToString(source.Body)
 
 	// Id
-	resource.Id = genruntime.GetOptionalStringValue(source.Id)
+	resource.Id = genruntime.ClonePointerToString(source.Id)
 
 	// TriggerOperation
 	if source.TriggerOperation != nil {
@@ -1116,8 +1151,7 @@ func (resource *SqlTriggerResource) AssignPropertiesToSqlTriggerResource(destina
 	destination.Body = genruntime.ClonePointerToString(resource.Body)
 
 	// Id
-	id := resource.Id
-	destination.Id = &id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
 
 	// TriggerOperation
 	if resource.TriggerOperation != nil {

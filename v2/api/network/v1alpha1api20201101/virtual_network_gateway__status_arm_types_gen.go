@@ -188,35 +188,35 @@ type IPConfigurationBgpPeeringAddress_StatusARM struct {
 
 type IpsecPolicy_StatusARM struct {
 	//DhGroup: The DH Group used in IKE Phase 1 for initial SA.
-	DhGroup DhGroup_Status `json:"dhGroup"`
+	DhGroup *DhGroup_Status `json:"dhGroup,omitempty"`
 
 	//IkeEncryption: The IKE encryption algorithm (IKE phase 2).
-	IkeEncryption IkeEncryption_Status `json:"ikeEncryption"`
+	IkeEncryption *IkeEncryption_Status `json:"ikeEncryption,omitempty"`
 
 	//IkeIntegrity: The IKE integrity algorithm (IKE phase 2).
-	IkeIntegrity IkeIntegrity_Status `json:"ikeIntegrity"`
+	IkeIntegrity *IkeIntegrity_Status `json:"ikeIntegrity,omitempty"`
 
 	//IpsecEncryption: The IPSec encryption algorithm (IKE phase 1).
-	IpsecEncryption IpsecEncryption_Status `json:"ipsecEncryption"`
+	IpsecEncryption *IpsecEncryption_Status `json:"ipsecEncryption,omitempty"`
 
 	//IpsecIntegrity: The IPSec integrity algorithm (IKE phase 1).
-	IpsecIntegrity IpsecIntegrity_Status `json:"ipsecIntegrity"`
+	IpsecIntegrity *IpsecIntegrity_Status `json:"ipsecIntegrity,omitempty"`
 
 	//PfsGroup: The Pfs Group used in IKE Phase 2 for new child SA.
-	PfsGroup PfsGroup_Status `json:"pfsGroup"`
+	PfsGroup *PfsGroup_Status `json:"pfsGroup,omitempty"`
 
 	//SaDataSizeKilobytes: The IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for a site
 	//to site VPN tunnel.
-	SaDataSizeKilobytes int `json:"saDataSizeKilobytes"`
+	SaDataSizeKilobytes *int `json:"saDataSizeKilobytes,omitempty"`
 
 	//SaLifeTimeSeconds: The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site
 	//to site VPN tunnel.
-	SaLifeTimeSeconds int `json:"saLifeTimeSeconds"`
+	SaLifeTimeSeconds *int `json:"saLifeTimeSeconds,omitempty"`
 }
 
 type RadiusServer_StatusARM struct {
 	//RadiusServerAddress: The address of this radius server.
-	RadiusServerAddress string `json:"radiusServerAddress"`
+	RadiusServerAddress *string `json:"radiusServerAddress,omitempty"`
 
 	//RadiusServerScore: The initial score assigned to this radius server.
 	RadiusServerScore *int `json:"radiusServerScore,omitempty"`
@@ -267,7 +267,7 @@ type VpnClientRootCertificate_StatusARM struct {
 	Name *string `json:"name,omitempty"`
 
 	//Properties: Properties of the vpn client root certificate.
-	Properties VpnClientRootCertificatePropertiesFormat_StatusARM `json:"properties"`
+	Properties *VpnClientRootCertificatePropertiesFormat_StatusARM `json:"properties,omitempty"`
 }
 
 type VpnClientRevokedCertificatePropertiesFormat_StatusARM struct {
@@ -283,5 +283,5 @@ type VpnClientRootCertificatePropertiesFormat_StatusARM struct {
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 
 	//PublicCertData: The certificate public data.
-	PublicCertData string `json:"publicCertData"`
+	PublicCertData *string `json:"publicCertData,omitempty"`
 }

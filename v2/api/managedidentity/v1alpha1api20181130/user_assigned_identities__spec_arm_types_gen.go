@@ -7,10 +7,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type UserAssignedIdentities_SpecARM struct {
 	//Location: The Azure region where the identity lives.
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the identity resource.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`

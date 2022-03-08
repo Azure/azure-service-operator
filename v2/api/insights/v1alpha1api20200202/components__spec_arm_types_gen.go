@@ -11,16 +11,16 @@ type Components_SpecARM struct {
 
 	//Kind: The kind of application that this component refers to, used to customize UI. This value is a freeform string,
 	//values should typically be one of the following: web, ios, other, store, java, phone.
-	Kind string `json:"kind"`
+	Kind *string `json:"kind,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the Application Insights component resource.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties that define an Application Insights component resource.
-	Properties ApplicationInsightsComponentPropertiesARM `json:"properties"`
+	Properties *ApplicationInsightsComponentPropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -46,7 +46,7 @@ func (components Components_SpecARM) GetType() string {
 //Generated from: https://schema.management.azure.com/schemas/2020-02-02/Microsoft.Insights.Application.json#/definitions/ApplicationInsightsComponentProperties
 type ApplicationInsightsComponentPropertiesARM struct {
 	//ApplicationType: Type of application being monitored.
-	ApplicationType ApplicationInsightsComponentPropertiesApplicationType `json:"Application_Type"`
+	ApplicationType *ApplicationInsightsComponentPropertiesApplicationType `json:"Application_Type,omitempty"`
 
 	//DisableIpMasking: Disable IP masking.
 	DisableIpMasking *bool `json:"DisableIpMasking,omitempty"`

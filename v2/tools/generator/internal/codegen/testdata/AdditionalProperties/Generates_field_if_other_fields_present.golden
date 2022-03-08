@@ -10,5 +10,5 @@ type Test struct {
 
 type Test_Tags struct {
 	OtherField           *string            `json:"otherField,omitempty"`
-	additionalProperties map[string]float64 `json:"additionalProperties"`
+	additionalProperties map[string]float64 `json:"additionalProperties,omitempty"`
 }

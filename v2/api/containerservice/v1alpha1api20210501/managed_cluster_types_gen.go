@@ -1518,7 +1518,7 @@ type ManagedClusters_Spec struct {
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//DisableLocalAccounts: If set to true, getting static credentials will be disabled for this cluster. This must only be
 	//used on Managed Clusters that are AAD enabled. For more details see [disable local
@@ -1564,7 +1564,7 @@ type ManagedClusters_Spec struct {
 	LinuxProfile *ContainerServiceLinuxProfile `json:"linuxProfile,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//NetworkProfile: Profile of network configuration.
 	NetworkProfile *ContainerServiceNetworkProfile `json:"networkProfile,omitempty"`
@@ -1576,7 +1576,7 @@ type ManagedClusters_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	//PodIdentityProfile: See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more
 	//details on pod identity integration.
@@ -1629,12 +1629,39 @@ func (clusters *ManagedClusters_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	}
 
 	// Set property ‘Location’:
-	result.Location = clusters.Location
+	if clusters.Location != nil {
+		location := *clusters.Location
+		result.Location = &location
+	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if clusters.AadProfile != nil ||
+		clusters.AddonProfiles != nil ||
+		clusters.AgentPoolProfiles != nil ||
+		clusters.ApiServerAccessProfile != nil ||
+		clusters.AutoScalerProfile != nil ||
+		clusters.AutoUpgradeProfile != nil ||
+		clusters.DisableLocalAccounts != nil ||
+		clusters.DiskEncryptionSetIDReference != nil ||
+		clusters.DnsPrefix != nil ||
+		clusters.EnablePodSecurityPolicy != nil ||
+		clusters.EnableRBAC != nil ||
+		clusters.FqdnSubdomain != nil ||
+		clusters.HttpProxyConfig != nil ||
+		clusters.IdentityProfile != nil ||
+		clusters.KubernetesVersion != nil ||
+		clusters.LinuxProfile != nil ||
+		clusters.NetworkProfile != nil ||
+		clusters.NodeResourceGroup != nil ||
+		clusters.PodIdentityProfile != nil ||
+		clusters.PrivateLinkResources != nil ||
+		clusters.ServicePrincipalProfile != nil ||
+		clusters.WindowsProfile != nil {
+		result.Properties = &ManagedClusterPropertiesARM{}
+	}
 	if clusters.AadProfile != nil {
 		aadProfileARM, err := (*clusters.AadProfile).ConvertToARM(resolved)
 		if err != nil {
@@ -1820,75 +1847,87 @@ func (clusters *ManagedClusters_Spec) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘AadProfile’:
 	// copying flattened property:
-	if typedInput.Properties.AadProfile != nil {
-		var aadProfile1 ManagedClusterAADProfile
-		err := aadProfile1.PopulateFromARM(owner, *typedInput.Properties.AadProfile)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AadProfile != nil {
+			var aadProfile1 ManagedClusterAADProfile
+			err := aadProfile1.PopulateFromARM(owner, *typedInput.Properties.AadProfile)
+			if err != nil {
+				return err
+			}
+			aadProfile := aadProfile1
+			clusters.AadProfile = &aadProfile
 		}
-		aadProfile := aadProfile1
-		clusters.AadProfile = &aadProfile
 	}
 
 	// Set property ‘AddonProfiles’:
 	// copying flattened property:
-	if typedInput.Properties.AddonProfiles != nil {
-		clusters.AddonProfiles = make(map[string]ManagedClusterAddonProfile)
-		for key, value := range typedInput.Properties.AddonProfiles {
-			var value1 ManagedClusterAddonProfile
-			err := value1.PopulateFromARM(owner, value)
-			if err != nil {
-				return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AddonProfiles != nil {
+			clusters.AddonProfiles = make(map[string]ManagedClusterAddonProfile)
+			for key, value := range typedInput.Properties.AddonProfiles {
+				var value1 ManagedClusterAddonProfile
+				err := value1.PopulateFromARM(owner, value)
+				if err != nil {
+					return err
+				}
+				clusters.AddonProfiles[key] = value1
 			}
-			clusters.AddonProfiles[key] = value1
 		}
 	}
 
 	// Set property ‘AgentPoolProfiles’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.AgentPoolProfiles {
-		var item1 ManagedClusterAgentPoolProfile
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.AgentPoolProfiles {
+			var item1 ManagedClusterAgentPoolProfile
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			clusters.AgentPoolProfiles = append(clusters.AgentPoolProfiles, item1)
 		}
-		clusters.AgentPoolProfiles = append(clusters.AgentPoolProfiles, item1)
 	}
 
 	// Set property ‘ApiServerAccessProfile’:
 	// copying flattened property:
-	if typedInput.Properties.ApiServerAccessProfile != nil {
-		var apiServerAccessProfile1 ManagedClusterAPIServerAccessProfile
-		err := apiServerAccessProfile1.PopulateFromARM(owner, *typedInput.Properties.ApiServerAccessProfile)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ApiServerAccessProfile != nil {
+			var apiServerAccessProfile1 ManagedClusterAPIServerAccessProfile
+			err := apiServerAccessProfile1.PopulateFromARM(owner, *typedInput.Properties.ApiServerAccessProfile)
+			if err != nil {
+				return err
+			}
+			apiServerAccessProfile := apiServerAccessProfile1
+			clusters.ApiServerAccessProfile = &apiServerAccessProfile
 		}
-		apiServerAccessProfile := apiServerAccessProfile1
-		clusters.ApiServerAccessProfile = &apiServerAccessProfile
 	}
 
 	// Set property ‘AutoScalerProfile’:
 	// copying flattened property:
-	if typedInput.Properties.AutoScalerProfile != nil {
-		var autoScalerProfile1 ManagedClusterPropertiesAutoScalerProfile
-		err := autoScalerProfile1.PopulateFromARM(owner, *typedInput.Properties.AutoScalerProfile)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AutoScalerProfile != nil {
+			var autoScalerProfile1 ManagedClusterPropertiesAutoScalerProfile
+			err := autoScalerProfile1.PopulateFromARM(owner, *typedInput.Properties.AutoScalerProfile)
+			if err != nil {
+				return err
+			}
+			autoScalerProfile := autoScalerProfile1
+			clusters.AutoScalerProfile = &autoScalerProfile
 		}
-		autoScalerProfile := autoScalerProfile1
-		clusters.AutoScalerProfile = &autoScalerProfile
 	}
 
 	// Set property ‘AutoUpgradeProfile’:
 	// copying flattened property:
-	if typedInput.Properties.AutoUpgradeProfile != nil {
-		var autoUpgradeProfile1 ManagedClusterAutoUpgradeProfile
-		err := autoUpgradeProfile1.PopulateFromARM(owner, *typedInput.Properties.AutoUpgradeProfile)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AutoUpgradeProfile != nil {
+			var autoUpgradeProfile1 ManagedClusterAutoUpgradeProfile
+			err := autoUpgradeProfile1.PopulateFromARM(owner, *typedInput.Properties.AutoUpgradeProfile)
+			if err != nil {
+				return err
+			}
+			autoUpgradeProfile := autoUpgradeProfile1
+			clusters.AutoUpgradeProfile = &autoUpgradeProfile
 		}
-		autoUpgradeProfile := autoUpgradeProfile1
-		clusters.AutoUpgradeProfile = &autoUpgradeProfile
 	}
 
 	// Set property ‘AzureName’:
@@ -1896,32 +1935,40 @@ func (clusters *ManagedClusters_Spec) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘DisableLocalAccounts’:
 	// copying flattened property:
-	if typedInput.Properties.DisableLocalAccounts != nil {
-		disableLocalAccounts := *typedInput.Properties.DisableLocalAccounts
-		clusters.DisableLocalAccounts = &disableLocalAccounts
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DisableLocalAccounts != nil {
+			disableLocalAccounts := *typedInput.Properties.DisableLocalAccounts
+			clusters.DisableLocalAccounts = &disableLocalAccounts
+		}
 	}
 
 	// no assignment for property ‘DiskEncryptionSetIDReference’
 
 	// Set property ‘DnsPrefix’:
 	// copying flattened property:
-	if typedInput.Properties.DnsPrefix != nil {
-		dnsPrefix := *typedInput.Properties.DnsPrefix
-		clusters.DnsPrefix = &dnsPrefix
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DnsPrefix != nil {
+			dnsPrefix := *typedInput.Properties.DnsPrefix
+			clusters.DnsPrefix = &dnsPrefix
+		}
 	}
 
 	// Set property ‘EnablePodSecurityPolicy’:
 	// copying flattened property:
-	if typedInput.Properties.EnablePodSecurityPolicy != nil {
-		enablePodSecurityPolicy := *typedInput.Properties.EnablePodSecurityPolicy
-		clusters.EnablePodSecurityPolicy = &enablePodSecurityPolicy
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnablePodSecurityPolicy != nil {
+			enablePodSecurityPolicy := *typedInput.Properties.EnablePodSecurityPolicy
+			clusters.EnablePodSecurityPolicy = &enablePodSecurityPolicy
+		}
 	}
 
 	// Set property ‘EnableRBAC’:
 	// copying flattened property:
-	if typedInput.Properties.EnableRBAC != nil {
-		enableRBAC := *typedInput.Properties.EnableRBAC
-		clusters.EnableRBAC = &enableRBAC
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableRBAC != nil {
+			enableRBAC := *typedInput.Properties.EnableRBAC
+			clusters.EnableRBAC = &enableRBAC
+		}
 	}
 
 	// Set property ‘ExtendedLocation’:
@@ -1937,21 +1984,25 @@ func (clusters *ManagedClusters_Spec) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘FqdnSubdomain’:
 	// copying flattened property:
-	if typedInput.Properties.FqdnSubdomain != nil {
-		fqdnSubdomain := *typedInput.Properties.FqdnSubdomain
-		clusters.FqdnSubdomain = &fqdnSubdomain
+	if typedInput.Properties != nil {
+		if typedInput.Properties.FqdnSubdomain != nil {
+			fqdnSubdomain := *typedInput.Properties.FqdnSubdomain
+			clusters.FqdnSubdomain = &fqdnSubdomain
+		}
 	}
 
 	// Set property ‘HttpProxyConfig’:
 	// copying flattened property:
-	if typedInput.Properties.HttpProxyConfig != nil {
-		var httpProxyConfig1 ManagedClusterHTTPProxyConfig
-		err := httpProxyConfig1.PopulateFromARM(owner, *typedInput.Properties.HttpProxyConfig)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HttpProxyConfig != nil {
+			var httpProxyConfig1 ManagedClusterHTTPProxyConfig
+			err := httpProxyConfig1.PopulateFromARM(owner, *typedInput.Properties.HttpProxyConfig)
+			if err != nil {
+				return err
+			}
+			httpProxyConfig := httpProxyConfig1
+			clusters.HttpProxyConfig = &httpProxyConfig
 		}
-		httpProxyConfig := httpProxyConfig1
-		clusters.HttpProxyConfig = &httpProxyConfig
 	}
 
 	// Set property ‘Identity’:
@@ -1967,97 +2018,116 @@ func (clusters *ManagedClusters_Spec) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘IdentityProfile’:
 	// copying flattened property:
-	if typedInput.Properties.IdentityProfile != nil {
-		clusters.IdentityProfile = make(map[string]Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties)
-		for key, value := range typedInput.Properties.IdentityProfile {
-			var value1 Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
-			err := value1.PopulateFromARM(owner, value)
-			if err != nil {
-				return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.IdentityProfile != nil {
+			clusters.IdentityProfile = make(map[string]Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties)
+			for key, value := range typedInput.Properties.IdentityProfile {
+				var value1 Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
+				err := value1.PopulateFromARM(owner, value)
+				if err != nil {
+					return err
+				}
+				clusters.IdentityProfile[key] = value1
 			}
-			clusters.IdentityProfile[key] = value1
 		}
 	}
 
 	// Set property ‘KubernetesVersion’:
 	// copying flattened property:
-	if typedInput.Properties.KubernetesVersion != nil {
-		kubernetesVersion := *typedInput.Properties.KubernetesVersion
-		clusters.KubernetesVersion = &kubernetesVersion
+	if typedInput.Properties != nil {
+		if typedInput.Properties.KubernetesVersion != nil {
+			kubernetesVersion := *typedInput.Properties.KubernetesVersion
+			clusters.KubernetesVersion = &kubernetesVersion
+		}
 	}
 
 	// Set property ‘LinuxProfile’:
 	// copying flattened property:
-	if typedInput.Properties.LinuxProfile != nil {
-		var linuxProfile1 ContainerServiceLinuxProfile
-		err := linuxProfile1.PopulateFromARM(owner, *typedInput.Properties.LinuxProfile)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.LinuxProfile != nil {
+			var linuxProfile1 ContainerServiceLinuxProfile
+			err := linuxProfile1.PopulateFromARM(owner, *typedInput.Properties.LinuxProfile)
+			if err != nil {
+				return err
+			}
+			linuxProfile := linuxProfile1
+			clusters.LinuxProfile = &linuxProfile
 		}
-		linuxProfile := linuxProfile1
-		clusters.LinuxProfile = &linuxProfile
 	}
 
 	// Set property ‘Location’:
-	clusters.Location = typedInput.Location
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		clusters.Location = &location
+	}
 
 	// Set property ‘NetworkProfile’:
 	// copying flattened property:
-	if typedInput.Properties.NetworkProfile != nil {
-		var networkProfile1 ContainerServiceNetworkProfile
-		err := networkProfile1.PopulateFromARM(owner, *typedInput.Properties.NetworkProfile)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NetworkProfile != nil {
+			var networkProfile1 ContainerServiceNetworkProfile
+			err := networkProfile1.PopulateFromARM(owner, *typedInput.Properties.NetworkProfile)
+			if err != nil {
+				return err
+			}
+			networkProfile := networkProfile1
+			clusters.NetworkProfile = &networkProfile
 		}
-		networkProfile := networkProfile1
-		clusters.NetworkProfile = &networkProfile
 	}
 
 	// Set property ‘NodeResourceGroup’:
 	// copying flattened property:
-	if typedInput.Properties.NodeResourceGroup != nil {
-		nodeResourceGroup := *typedInput.Properties.NodeResourceGroup
-		clusters.NodeResourceGroup = &nodeResourceGroup
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NodeResourceGroup != nil {
+			nodeResourceGroup := *typedInput.Properties.NodeResourceGroup
+			clusters.NodeResourceGroup = &nodeResourceGroup
+		}
 	}
 
 	// Set property ‘Owner’:
-	clusters.Owner = genruntime.KnownResourceReference{
+	clusters.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘PodIdentityProfile’:
 	// copying flattened property:
-	if typedInput.Properties.PodIdentityProfile != nil {
-		var podIdentityProfile1 ManagedClusterPodIdentityProfile
-		err := podIdentityProfile1.PopulateFromARM(owner, *typedInput.Properties.PodIdentityProfile)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PodIdentityProfile != nil {
+			var podIdentityProfile1 ManagedClusterPodIdentityProfile
+			err := podIdentityProfile1.PopulateFromARM(owner, *typedInput.Properties.PodIdentityProfile)
+			if err != nil {
+				return err
+			}
+			podIdentityProfile := podIdentityProfile1
+			clusters.PodIdentityProfile = &podIdentityProfile
 		}
-		podIdentityProfile := podIdentityProfile1
-		clusters.PodIdentityProfile = &podIdentityProfile
 	}
 
 	// Set property ‘PrivateLinkResources’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.PrivateLinkResources {
-		var item1 PrivateLinkResource
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.PrivateLinkResources {
+			var item1 PrivateLinkResource
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			clusters.PrivateLinkResources = append(clusters.PrivateLinkResources, item1)
 		}
-		clusters.PrivateLinkResources = append(clusters.PrivateLinkResources, item1)
 	}
 
 	// Set property ‘ServicePrincipalProfile’:
 	// copying flattened property:
-	if typedInput.Properties.ServicePrincipalProfile != nil {
-		var servicePrincipalProfile1 ManagedClusterServicePrincipalProfile
-		err := servicePrincipalProfile1.PopulateFromARM(owner, *typedInput.Properties.ServicePrincipalProfile)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ServicePrincipalProfile != nil {
+			var servicePrincipalProfile1 ManagedClusterServicePrincipalProfile
+			err := servicePrincipalProfile1.PopulateFromARM(owner, *typedInput.Properties.ServicePrincipalProfile)
+			if err != nil {
+				return err
+			}
+			servicePrincipalProfile := servicePrincipalProfile1
+			clusters.ServicePrincipalProfile = &servicePrincipalProfile
 		}
-		servicePrincipalProfile := servicePrincipalProfile1
-		clusters.ServicePrincipalProfile = &servicePrincipalProfile
 	}
 
 	// Set property ‘Sku’:
@@ -2081,14 +2151,16 @@ func (clusters *ManagedClusters_Spec) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘WindowsProfile’:
 	// copying flattened property:
-	if typedInput.Properties.WindowsProfile != nil {
-		var windowsProfile1 ManagedClusterWindowsProfile
-		err := windowsProfile1.PopulateFromARM(owner, *typedInput.Properties.WindowsProfile)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.WindowsProfile != nil {
+			var windowsProfile1 ManagedClusterWindowsProfile
+			err := windowsProfile1.PopulateFromARM(owner, *typedInput.Properties.WindowsProfile)
+			if err != nil {
+				return err
+			}
+			windowsProfile := windowsProfile1
+			clusters.WindowsProfile = &windowsProfile
 		}
-		windowsProfile := windowsProfile1
-		clusters.WindowsProfile = &windowsProfile
 	}
 
 	// No error
@@ -2343,7 +2415,7 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesFromManagedClustersSpec(so
 	}
 
 	// Location
-	clusters.Location = genruntime.GetOptionalStringValue(source.Location)
+	clusters.Location = genruntime.ClonePointerToString(source.Location)
 
 	// NetworkProfile
 	if source.NetworkProfile != nil {
@@ -2361,7 +2433,12 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesFromManagedClustersSpec(so
 	clusters.NodeResourceGroup = genruntime.ClonePointerToString(source.NodeResourceGroup)
 
 	// Owner
-	clusters.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		clusters.Owner = &owner
+	} else {
+		clusters.Owner = nil
+	}
 
 	// PodIdentityProfile
 	if source.PodIdentityProfile != nil {
@@ -2636,8 +2713,7 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesToManagedClustersSpec(dest
 	}
 
 	// Location
-	location := clusters.Location
-	destination.Location = &location
+	destination.Location = genruntime.ClonePointerToString(clusters.Location)
 
 	// NetworkProfile
 	if clusters.NetworkProfile != nil {
@@ -2658,7 +2734,12 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesToManagedClustersSpec(dest
 	destination.OriginalVersion = clusters.OriginalVersion()
 
 	// Owner
-	destination.Owner = clusters.Owner.Copy()
+	if clusters.Owner != nil {
+		owner := clusters.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// PodIdentityProfile
 	if clusters.PodIdentityProfile != nil {
@@ -2879,11 +2960,11 @@ type ContainerServiceLinuxProfile struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^[A-Za-z][-A-Za-z0-9_]*$"
 	//AdminUsername: The administrator username to use for Linux VMs.
-	AdminUsername string `json:"adminUsername"`
+	AdminUsername *string `json:"adminUsername,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Ssh: SSH configuration for Linux-based VMs running on Azure.
-	Ssh ContainerServiceSshConfiguration `json:"ssh"`
+	Ssh *ContainerServiceSshConfiguration `json:"ssh,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ContainerServiceLinuxProfile{}
@@ -2896,14 +2977,20 @@ func (profile *ContainerServiceLinuxProfile) ConvertToARM(resolved genruntime.Co
 	var result ContainerServiceLinuxProfileARM
 
 	// Set property ‘AdminUsername’:
-	result.AdminUsername = profile.AdminUsername
+	if profile.AdminUsername != nil {
+		adminUsername := *profile.AdminUsername
+		result.AdminUsername = &adminUsername
+	}
 
 	// Set property ‘Ssh’:
-	sshARM, err := profile.Ssh.ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if profile.Ssh != nil {
+		sshARM, err := (*profile.Ssh).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		ssh := sshARM.(ContainerServiceSshConfigurationARM)
+		result.Ssh = &ssh
 	}
-	result.Ssh = sshARM.(ContainerServiceSshConfigurationARM)
 	return result, nil
 }
 
@@ -2920,15 +3007,21 @@ func (profile *ContainerServiceLinuxProfile) PopulateFromARM(owner genruntime.Ar
 	}
 
 	// Set property ‘AdminUsername’:
-	profile.AdminUsername = typedInput.AdminUsername
+	if typedInput.AdminUsername != nil {
+		adminUsername := *typedInput.AdminUsername
+		profile.AdminUsername = &adminUsername
+	}
 
 	// Set property ‘Ssh’:
-	var ssh ContainerServiceSshConfiguration
-	err := ssh.PopulateFromARM(owner, typedInput.Ssh)
-	if err != nil {
-		return err
+	if typedInput.Ssh != nil {
+		var ssh1 ContainerServiceSshConfiguration
+		err := ssh1.PopulateFromARM(owner, *typedInput.Ssh)
+		if err != nil {
+			return err
+		}
+		ssh := ssh1
+		profile.Ssh = &ssh
 	}
-	profile.Ssh = ssh
 
 	// No error
 	return nil
@@ -2939,9 +3032,10 @@ func (profile *ContainerServiceLinuxProfile) AssignPropertiesFromContainerServic
 
 	// AdminUsername
 	if source.AdminUsername != nil {
-		profile.AdminUsername = *source.AdminUsername
+		adminUsername := *source.AdminUsername
+		profile.AdminUsername = &adminUsername
 	} else {
-		profile.AdminUsername = ""
+		profile.AdminUsername = nil
 	}
 
 	// Ssh
@@ -2951,9 +3045,9 @@ func (profile *ContainerServiceLinuxProfile) AssignPropertiesFromContainerServic
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromContainerServiceSshConfiguration() to populate field Ssh")
 		}
-		profile.Ssh = ssh
+		profile.Ssh = &ssh
 	} else {
-		profile.Ssh = ContainerServiceSshConfiguration{}
+		profile.Ssh = nil
 	}
 
 	// No error
@@ -2966,16 +3060,24 @@ func (profile *ContainerServiceLinuxProfile) AssignPropertiesToContainerServiceL
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AdminUsername
-	adminUsername := profile.AdminUsername
-	destination.AdminUsername = &adminUsername
+	if profile.AdminUsername != nil {
+		adminUsername := *profile.AdminUsername
+		destination.AdminUsername = &adminUsername
+	} else {
+		destination.AdminUsername = nil
+	}
 
 	// Ssh
-	var ssh v1alpha1api20210501storage.ContainerServiceSshConfiguration
-	err := profile.Ssh.AssignPropertiesToContainerServiceSshConfiguration(&ssh)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToContainerServiceSshConfiguration() to populate field Ssh")
+	if profile.Ssh != nil {
+		var ssh v1alpha1api20210501storage.ContainerServiceSshConfiguration
+		err := profile.Ssh.AssignPropertiesToContainerServiceSshConfiguration(&ssh)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToContainerServiceSshConfiguration() to populate field Ssh")
+		}
+		destination.Ssh = &ssh
+	} else {
+		destination.Ssh = nil
 	}
-	destination.Ssh = &ssh
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2991,11 +3093,11 @@ func (profile *ContainerServiceLinuxProfile) AssignPropertiesToContainerServiceL
 type ContainerServiceLinuxProfile_Status struct {
 	// +kubebuilder:validation:Required
 	//AdminUsername: The administrator username to use for Linux VMs.
-	AdminUsername string `json:"adminUsername"`
+	AdminUsername *string `json:"adminUsername,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Ssh: The SSH configuration for Linux-based VMs running on Azure.
-	Ssh ContainerServiceSshConfiguration_Status `json:"ssh"`
+	Ssh *ContainerServiceSshConfiguration_Status `json:"ssh,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ContainerServiceLinuxProfile_Status{}
@@ -3013,15 +3115,21 @@ func (profile *ContainerServiceLinuxProfile_Status) PopulateFromARM(owner genrun
 	}
 
 	// Set property ‘AdminUsername’:
-	profile.AdminUsername = typedInput.AdminUsername
+	if typedInput.AdminUsername != nil {
+		adminUsername := *typedInput.AdminUsername
+		profile.AdminUsername = &adminUsername
+	}
 
 	// Set property ‘Ssh’:
-	var ssh ContainerServiceSshConfiguration_Status
-	err := ssh.PopulateFromARM(owner, typedInput.Ssh)
-	if err != nil {
-		return err
+	if typedInput.Ssh != nil {
+		var ssh1 ContainerServiceSshConfiguration_Status
+		err := ssh1.PopulateFromARM(owner, *typedInput.Ssh)
+		if err != nil {
+			return err
+		}
+		ssh := ssh1
+		profile.Ssh = &ssh
 	}
-	profile.Ssh = ssh
 
 	// No error
 	return nil
@@ -3031,7 +3139,7 @@ func (profile *ContainerServiceLinuxProfile_Status) PopulateFromARM(owner genrun
 func (profile *ContainerServiceLinuxProfile_Status) AssignPropertiesFromContainerServiceLinuxProfileStatus(source *v1alpha1api20210501storage.ContainerServiceLinuxProfile_Status) error {
 
 	// AdminUsername
-	profile.AdminUsername = genruntime.GetOptionalStringValue(source.AdminUsername)
+	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
 
 	// Ssh
 	if source.Ssh != nil {
@@ -3040,9 +3148,9 @@ func (profile *ContainerServiceLinuxProfile_Status) AssignPropertiesFromContaine
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromContainerServiceSshConfigurationStatus() to populate field Ssh")
 		}
-		profile.Ssh = ssh
+		profile.Ssh = &ssh
 	} else {
-		profile.Ssh = ContainerServiceSshConfiguration_Status{}
+		profile.Ssh = nil
 	}
 
 	// No error
@@ -3055,16 +3163,19 @@ func (profile *ContainerServiceLinuxProfile_Status) AssignPropertiesToContainerS
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AdminUsername
-	adminUsername := profile.AdminUsername
-	destination.AdminUsername = &adminUsername
+	destination.AdminUsername = genruntime.ClonePointerToString(profile.AdminUsername)
 
 	// Ssh
-	var ssh v1alpha1api20210501storage.ContainerServiceSshConfiguration_Status
-	err := profile.Ssh.AssignPropertiesToContainerServiceSshConfigurationStatus(&ssh)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToContainerServiceSshConfigurationStatus() to populate field Ssh")
+	if profile.Ssh != nil {
+		var ssh v1alpha1api20210501storage.ContainerServiceSshConfiguration_Status
+		err := profile.Ssh.AssignPropertiesToContainerServiceSshConfigurationStatus(&ssh)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToContainerServiceSshConfigurationStatus() to populate field Ssh")
+		}
+		destination.Ssh = &ssh
+	} else {
+		destination.Ssh = nil
 	}
-	destination.Ssh = &ssh
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4608,7 +4719,7 @@ type ManagedClusterAddonProfile struct {
 
 	// +kubebuilder:validation:Required
 	//Enabled: Whether the add-on is enabled or not.
-	Enabled bool `json:"enabled"`
+	Enabled *bool `json:"enabled,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagedClusterAddonProfile{}
@@ -4629,7 +4740,10 @@ func (profile *ManagedClusterAddonProfile) ConvertToARM(resolved genruntime.Conv
 	}
 
 	// Set property ‘Enabled’:
-	result.Enabled = profile.Enabled
+	if profile.Enabled != nil {
+		enabled := *profile.Enabled
+		result.Enabled = &enabled
+	}
 	return result, nil
 }
 
@@ -4654,7 +4768,10 @@ func (profile *ManagedClusterAddonProfile) PopulateFromARM(owner genruntime.Arbi
 	}
 
 	// Set property ‘Enabled’:
-	profile.Enabled = typedInput.Enabled
+	if typedInput.Enabled != nil {
+		enabled := *typedInput.Enabled
+		profile.Enabled = &enabled
+	}
 
 	// No error
 	return nil
@@ -4668,9 +4785,10 @@ func (profile *ManagedClusterAddonProfile) AssignPropertiesFromManagedClusterAdd
 
 	// Enabled
 	if source.Enabled != nil {
-		profile.Enabled = *source.Enabled
+		enabled := *source.Enabled
+		profile.Enabled = &enabled
 	} else {
-		profile.Enabled = false
+		profile.Enabled = nil
 	}
 
 	// No error
@@ -4686,8 +4804,12 @@ func (profile *ManagedClusterAddonProfile) AssignPropertiesToManagedClusterAddon
 	destination.Config = genruntime.CloneMapOfStringToString(profile.Config)
 
 	// Enabled
-	enabled := profile.Enabled
-	destination.Enabled = &enabled
+	if profile.Enabled != nil {
+		enabled := *profile.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4757,7 +4879,7 @@ type ManagedClusterAgentPoolProfile struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^[a-z][a-z0-9]{0,11}$"
 	//Name: Windows agent pool names must be 6 characters or less.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//NodeLabels: The node labels to be persisted across all nodes in agent pool.
 	NodeLabels map[string]string `json:"nodeLabels,omitempty"`
@@ -4930,7 +5052,10 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 	}
 
 	// Set property ‘Name’:
-	result.Name = profile.Name
+	if profile.Name != nil {
+		name := *profile.Name
+		result.Name = &name
+	}
 
 	// Set property ‘NodeLabels’:
 	if profile.NodeLabels != nil {
@@ -5173,7 +5298,10 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 	}
 
 	// Set property ‘Name’:
-	profile.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		profile.Name = &name
+	}
 
 	// Set property ‘NodeLabels’:
 	if typedInput.NodeLabels != nil {
@@ -5391,9 +5519,10 @@ func (profile *ManagedClusterAgentPoolProfile) AssignPropertiesFromManagedCluste
 
 	// Name
 	if source.Name != nil {
-		profile.Name = *source.Name
+		name := *source.Name
+		profile.Name = &name
 	} else {
-		profile.Name = ""
+		profile.Name = nil
 	}
 
 	// NodeLabels
@@ -5627,8 +5756,12 @@ func (profile *ManagedClusterAgentPoolProfile) AssignPropertiesToManagedClusterA
 	}
 
 	// Name
-	name := profile.Name
-	destination.Name = &name
+	if profile.Name != nil {
+		name := *profile.Name
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// NodeLabels
 	destination.NodeLabels = genruntime.CloneMapOfStringToString(profile.NodeLabels)
@@ -8674,7 +8807,7 @@ func (clusterSKU *ManagedClusterSKU_Status) AssignPropertiesToManagedClusterSKUS
 type ManagedClusterServicePrincipalProfile struct {
 	// +kubebuilder:validation:Required
 	//ClientId: The ID for the service principal.
-	ClientId string `json:"clientId"`
+	ClientId *string `json:"clientId,omitempty"`
 
 	//Secret: The secret password associated with the service principal in plain text.
 	Secret *string `json:"secret,omitempty"`
@@ -8690,7 +8823,10 @@ func (profile *ManagedClusterServicePrincipalProfile) ConvertToARM(resolved genr
 	var result ManagedClusterServicePrincipalProfileARM
 
 	// Set property ‘ClientId’:
-	result.ClientId = profile.ClientId
+	if profile.ClientId != nil {
+		clientId := *profile.ClientId
+		result.ClientId = &clientId
+	}
 
 	// Set property ‘Secret’:
 	if profile.Secret != nil {
@@ -8713,7 +8849,10 @@ func (profile *ManagedClusterServicePrincipalProfile) PopulateFromARM(owner genr
 	}
 
 	// Set property ‘ClientId’:
-	profile.ClientId = typedInput.ClientId
+	if typedInput.ClientId != nil {
+		clientId := *typedInput.ClientId
+		profile.ClientId = &clientId
+	}
 
 	// Set property ‘Secret’:
 	if typedInput.Secret != nil {
@@ -8729,7 +8868,7 @@ func (profile *ManagedClusterServicePrincipalProfile) PopulateFromARM(owner genr
 func (profile *ManagedClusterServicePrincipalProfile) AssignPropertiesFromManagedClusterServicePrincipalProfile(source *v1alpha1api20210501storage.ManagedClusterServicePrincipalProfile) error {
 
 	// ClientId
-	profile.ClientId = genruntime.GetOptionalStringValue(source.ClientId)
+	profile.ClientId = genruntime.ClonePointerToString(source.ClientId)
 
 	// Secret
 	profile.Secret = genruntime.ClonePointerToString(source.Secret)
@@ -8744,8 +8883,7 @@ func (profile *ManagedClusterServicePrincipalProfile) AssignPropertiesToManagedC
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ClientId
-	clientId := profile.ClientId
-	destination.ClientId = &clientId
+	destination.ClientId = genruntime.ClonePointerToString(profile.ClientId)
 
 	// Secret
 	destination.Secret = genruntime.ClonePointerToString(profile.Secret)
@@ -8764,7 +8902,7 @@ func (profile *ManagedClusterServicePrincipalProfile) AssignPropertiesToManagedC
 type ManagedClusterServicePrincipalProfile_Status struct {
 	// +kubebuilder:validation:Required
 	//ClientId: The ID for the service principal.
-	ClientId string `json:"clientId"`
+	ClientId *string `json:"clientId,omitempty"`
 
 	//Secret: The secret password associated with the service principal in plain text.
 	Secret *string `json:"secret,omitempty"`
@@ -8785,7 +8923,10 @@ func (profile *ManagedClusterServicePrincipalProfile_Status) PopulateFromARM(own
 	}
 
 	// Set property ‘ClientId’:
-	profile.ClientId = typedInput.ClientId
+	if typedInput.ClientId != nil {
+		clientId := *typedInput.ClientId
+		profile.ClientId = &clientId
+	}
 
 	// Set property ‘Secret’:
 	if typedInput.Secret != nil {
@@ -8801,7 +8942,7 @@ func (profile *ManagedClusterServicePrincipalProfile_Status) PopulateFromARM(own
 func (profile *ManagedClusterServicePrincipalProfile_Status) AssignPropertiesFromManagedClusterServicePrincipalProfileStatus(source *v1alpha1api20210501storage.ManagedClusterServicePrincipalProfile_Status) error {
 
 	// ClientId
-	profile.ClientId = genruntime.GetOptionalStringValue(source.ClientId)
+	profile.ClientId = genruntime.ClonePointerToString(source.ClientId)
 
 	// Secret
 	profile.Secret = genruntime.ClonePointerToString(source.Secret)
@@ -8816,8 +8957,7 @@ func (profile *ManagedClusterServicePrincipalProfile_Status) AssignPropertiesToM
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ClientId
-	clientId := profile.ClientId
-	destination.ClientId = &clientId
+	destination.ClientId = genruntime.ClonePointerToString(profile.ClientId)
 
 	// Secret
 	destination.Secret = genruntime.ClonePointerToString(profile.Secret)
@@ -8855,7 +8995,7 @@ type ManagedClusterWindowsProfile struct {
 	//"sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5".
 	//Minimum-length: 1 character
 	//Max-length: 20 characters
-	AdminUsername string `json:"adminUsername"`
+	AdminUsername *string `json:"adminUsername,omitempty"`
 
 	//EnableCSIProxy: For more details on CSI proxy, see the [CSI proxy GitHub
 	//repo](https://github.com/kubernetes-csi/csi-proxy).
@@ -8882,7 +9022,10 @@ func (profile *ManagedClusterWindowsProfile) ConvertToARM(resolved genruntime.Co
 	}
 
 	// Set property ‘AdminUsername’:
-	result.AdminUsername = profile.AdminUsername
+	if profile.AdminUsername != nil {
+		adminUsername := *profile.AdminUsername
+		result.AdminUsername = &adminUsername
+	}
 
 	// Set property ‘EnableCSIProxy’:
 	if profile.EnableCSIProxy != nil {
@@ -8917,7 +9060,10 @@ func (profile *ManagedClusterWindowsProfile) PopulateFromARM(owner genruntime.Ar
 	}
 
 	// Set property ‘AdminUsername’:
-	profile.AdminUsername = typedInput.AdminUsername
+	if typedInput.AdminUsername != nil {
+		adminUsername := *typedInput.AdminUsername
+		profile.AdminUsername = &adminUsername
+	}
 
 	// Set property ‘EnableCSIProxy’:
 	if typedInput.EnableCSIProxy != nil {
@@ -8942,7 +9088,7 @@ func (profile *ManagedClusterWindowsProfile) AssignPropertiesFromManagedClusterW
 	profile.AdminPassword = genruntime.ClonePointerToString(source.AdminPassword)
 
 	// AdminUsername
-	profile.AdminUsername = genruntime.GetOptionalStringValue(source.AdminUsername)
+	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
 
 	// EnableCSIProxy
 	if source.EnableCSIProxy != nil {
@@ -8973,8 +9119,7 @@ func (profile *ManagedClusterWindowsProfile) AssignPropertiesToManagedClusterWin
 	destination.AdminPassword = genruntime.ClonePointerToString(profile.AdminPassword)
 
 	// AdminUsername
-	adminUsername := profile.AdminUsername
-	destination.AdminUsername = &adminUsername
+	destination.AdminUsername = genruntime.ClonePointerToString(profile.AdminUsername)
 
 	// EnableCSIProxy
 	if profile.EnableCSIProxy != nil {
@@ -9024,7 +9169,7 @@ type ManagedClusterWindowsProfile_Status struct {
 	//"sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5".
 	//Minimum-length: 1 character
 	//Max-length: 20 characters
-	AdminUsername string `json:"adminUsername"`
+	AdminUsername *string `json:"adminUsername,omitempty"`
 
 	//EnableCSIProxy: For more details on CSI proxy, see the [CSI proxy GitHub
 	//repo](https://github.com/kubernetes-csi/csi-proxy).
@@ -9056,7 +9201,10 @@ func (profile *ManagedClusterWindowsProfile_Status) PopulateFromARM(owner genrun
 	}
 
 	// Set property ‘AdminUsername’:
-	profile.AdminUsername = typedInput.AdminUsername
+	if typedInput.AdminUsername != nil {
+		adminUsername := *typedInput.AdminUsername
+		profile.AdminUsername = &adminUsername
+	}
 
 	// Set property ‘EnableCSIProxy’:
 	if typedInput.EnableCSIProxy != nil {
@@ -9081,7 +9229,7 @@ func (profile *ManagedClusterWindowsProfile_Status) AssignPropertiesFromManagedC
 	profile.AdminPassword = genruntime.ClonePointerToString(source.AdminPassword)
 
 	// AdminUsername
-	profile.AdminUsername = genruntime.GetOptionalStringValue(source.AdminUsername)
+	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
 
 	// EnableCSIProxy
 	if source.EnableCSIProxy != nil {
@@ -9112,8 +9260,7 @@ func (profile *ManagedClusterWindowsProfile_Status) AssignPropertiesToManagedClu
 	destination.AdminPassword = genruntime.ClonePointerToString(profile.AdminPassword)
 
 	// AdminUsername
-	adminUsername := profile.AdminUsername
-	destination.AdminUsername = &adminUsername
+	destination.AdminUsername = genruntime.ClonePointerToString(profile.AdminUsername)
 
 	// EnableCSIProxy
 	if profile.EnableCSIProxy != nil {
@@ -9587,7 +9734,7 @@ const (
 type ContainerServiceSshConfiguration struct {
 	// +kubebuilder:validation:Required
 	//PublicKeys: The list of SSH public keys used to authenticate with Linux-based VMs. A maximum of 1 key may be specified.
-	PublicKeys []ContainerServiceSshPublicKey `json:"publicKeys"`
+	PublicKeys []ContainerServiceSshPublicKey `json:"publicKeys,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ContainerServiceSshConfiguration{}
@@ -9698,7 +9845,7 @@ func (configuration *ContainerServiceSshConfiguration) AssignPropertiesToContain
 type ContainerServiceSshConfiguration_Status struct {
 	// +kubebuilder:validation:Required
 	//PublicKeys: The list of SSH public keys used to authenticate with Linux-based VMs. A maximum of 1 key may be specified.
-	PublicKeys []ContainerServiceSshPublicKey_Status `json:"publicKeys"`
+	PublicKeys []ContainerServiceSshPublicKey_Status `json:"publicKeys,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ContainerServiceSshConfiguration_Status{}
@@ -10525,15 +10672,15 @@ type ManagedClusterPodIdentity struct {
 
 	// +kubebuilder:validation:Required
 	//Identity: Details about a user assigned identity.
-	Identity UserAssignedIdentity `json:"identity"`
+	Identity *UserAssignedIdentity `json:"identity,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Name: The name of the pod identity.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Namespace: The namespace of the pod identity.
-	Namespace string `json:"namespace"`
+	Namespace *string `json:"namespace,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagedClusterPodIdentity{}
@@ -10552,17 +10699,26 @@ func (identity *ManagedClusterPodIdentity) ConvertToARM(resolved genruntime.Conv
 	}
 
 	// Set property ‘Identity’:
-	identityARM, err := identity.Identity.ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if identity.Identity != nil {
+		identityARM, err := (*identity.Identity).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		identity1 := identityARM.(UserAssignedIdentityARM)
+		result.Identity = &identity1
 	}
-	result.Identity = identityARM.(UserAssignedIdentityARM)
 
 	// Set property ‘Name’:
-	result.Name = identity.Name
+	if identity.Name != nil {
+		name := *identity.Name
+		result.Name = &name
+	}
 
 	// Set property ‘Namespace’:
-	result.Namespace = identity.Namespace
+	if identity.Namespace != nil {
+		namespace := *identity.Namespace
+		result.Namespace = &namespace
+	}
 	return result, nil
 }
 
@@ -10585,18 +10741,27 @@ func (identity *ManagedClusterPodIdentity) PopulateFromARM(owner genruntime.Arbi
 	}
 
 	// Set property ‘Identity’:
-	var identity1 UserAssignedIdentity
-	err := identity1.PopulateFromARM(owner, typedInput.Identity)
-	if err != nil {
-		return err
+	if typedInput.Identity != nil {
+		var identity2 UserAssignedIdentity
+		err := identity2.PopulateFromARM(owner, *typedInput.Identity)
+		if err != nil {
+			return err
+		}
+		identity1 := identity2
+		identity.Identity = &identity1
 	}
-	identity.Identity = identity1
 
 	// Set property ‘Name’:
-	identity.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		identity.Name = &name
+	}
 
 	// Set property ‘Namespace’:
-	identity.Namespace = typedInput.Namespace
+	if typedInput.Namespace != nil {
+		namespace := *typedInput.Namespace
+		identity.Namespace = &namespace
+	}
 
 	// No error
 	return nil
@@ -10615,16 +10780,16 @@ func (identity *ManagedClusterPodIdentity) AssignPropertiesFromManagedClusterPod
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromUserAssignedIdentity() to populate field Identity")
 		}
-		identity.Identity = identityLocal
+		identity.Identity = &identityLocal
 	} else {
-		identity.Identity = UserAssignedIdentity{}
+		identity.Identity = nil
 	}
 
 	// Name
-	identity.Name = genruntime.GetOptionalStringValue(source.Name)
+	identity.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Namespace
-	identity.Namespace = genruntime.GetOptionalStringValue(source.Namespace)
+	identity.Namespace = genruntime.ClonePointerToString(source.Namespace)
 
 	// No error
 	return nil
@@ -10639,20 +10804,22 @@ func (identity *ManagedClusterPodIdentity) AssignPropertiesToManagedClusterPodId
 	destination.BindingSelector = genruntime.ClonePointerToString(identity.BindingSelector)
 
 	// Identity
-	var identityLocal v1alpha1api20210501storage.UserAssignedIdentity
-	err := identity.Identity.AssignPropertiesToUserAssignedIdentity(&identityLocal)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentity() to populate field Identity")
+	if identity.Identity != nil {
+		var identityLocal v1alpha1api20210501storage.UserAssignedIdentity
+		err := identity.Identity.AssignPropertiesToUserAssignedIdentity(&identityLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentity() to populate field Identity")
+		}
+		destination.Identity = &identityLocal
+	} else {
+		destination.Identity = nil
 	}
-	destination.Identity = &identityLocal
 
 	// Name
-	name := identity.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(identity.Name)
 
 	// Namespace
-	namespace := identity.Namespace
-	destination.Namespace = &namespace
+	destination.Namespace = genruntime.ClonePointerToString(identity.Namespace)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -10669,15 +10836,15 @@ func (identity *ManagedClusterPodIdentity) AssignPropertiesToManagedClusterPodId
 type ManagedClusterPodIdentityException struct {
 	// +kubebuilder:validation:Required
 	//Name: The name of the pod identity exception.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Namespace: The namespace of the pod identity exception.
-	Namespace string `json:"namespace"`
+	Namespace *string `json:"namespace,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//PodLabels: The pod labels to match.
-	PodLabels map[string]string `json:"podLabels"`
+	PodLabels map[string]string `json:"podLabels,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagedClusterPodIdentityException{}
@@ -10690,10 +10857,16 @@ func (exception *ManagedClusterPodIdentityException) ConvertToARM(resolved genru
 	var result ManagedClusterPodIdentityExceptionARM
 
 	// Set property ‘Name’:
-	result.Name = exception.Name
+	if exception.Name != nil {
+		name := *exception.Name
+		result.Name = &name
+	}
 
 	// Set property ‘Namespace’:
-	result.Namespace = exception.Namespace
+	if exception.Namespace != nil {
+		namespace := *exception.Namespace
+		result.Namespace = &namespace
+	}
 
 	// Set property ‘PodLabels’:
 	if exception.PodLabels != nil {
@@ -10718,10 +10891,16 @@ func (exception *ManagedClusterPodIdentityException) PopulateFromARM(owner genru
 	}
 
 	// Set property ‘Name’:
-	exception.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		exception.Name = &name
+	}
 
 	// Set property ‘Namespace’:
-	exception.Namespace = typedInput.Namespace
+	if typedInput.Namespace != nil {
+		namespace := *typedInput.Namespace
+		exception.Namespace = &namespace
+	}
 
 	// Set property ‘PodLabels’:
 	if typedInput.PodLabels != nil {
@@ -10739,10 +10918,10 @@ func (exception *ManagedClusterPodIdentityException) PopulateFromARM(owner genru
 func (exception *ManagedClusterPodIdentityException) AssignPropertiesFromManagedClusterPodIdentityException(source *v1alpha1api20210501storage.ManagedClusterPodIdentityException) error {
 
 	// Name
-	exception.Name = genruntime.GetOptionalStringValue(source.Name)
+	exception.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Namespace
-	exception.Namespace = genruntime.GetOptionalStringValue(source.Namespace)
+	exception.Namespace = genruntime.ClonePointerToString(source.Namespace)
 
 	// PodLabels
 	exception.PodLabels = genruntime.CloneMapOfStringToString(source.PodLabels)
@@ -10757,12 +10936,10 @@ func (exception *ManagedClusterPodIdentityException) AssignPropertiesToManagedCl
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := exception.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(exception.Name)
 
 	// Namespace
-	namespace := exception.Namespace
-	destination.Namespace = &namespace
+	destination.Namespace = genruntime.ClonePointerToString(exception.Namespace)
 
 	// PodLabels
 	destination.PodLabels = genruntime.CloneMapOfStringToString(exception.PodLabels)
@@ -10781,15 +10958,15 @@ func (exception *ManagedClusterPodIdentityException) AssignPropertiesToManagedCl
 type ManagedClusterPodIdentityException_Status struct {
 	// +kubebuilder:validation:Required
 	//Name: The name of the pod identity exception.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Namespace: The namespace of the pod identity exception.
-	Namespace string `json:"namespace"`
+	Namespace *string `json:"namespace,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//PodLabels: The pod labels to match.
-	PodLabels map[string]string `json:"podLabels"`
+	PodLabels map[string]string `json:"podLabels,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagedClusterPodIdentityException_Status{}
@@ -10807,10 +10984,16 @@ func (exception *ManagedClusterPodIdentityException_Status) PopulateFromARM(owne
 	}
 
 	// Set property ‘Name’:
-	exception.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		exception.Name = &name
+	}
 
 	// Set property ‘Namespace’:
-	exception.Namespace = typedInput.Namespace
+	if typedInput.Namespace != nil {
+		namespace := *typedInput.Namespace
+		exception.Namespace = &namespace
+	}
 
 	// Set property ‘PodLabels’:
 	if typedInput.PodLabels != nil {
@@ -10828,10 +11011,10 @@ func (exception *ManagedClusterPodIdentityException_Status) PopulateFromARM(owne
 func (exception *ManagedClusterPodIdentityException_Status) AssignPropertiesFromManagedClusterPodIdentityExceptionStatus(source *v1alpha1api20210501storage.ManagedClusterPodIdentityException_Status) error {
 
 	// Name
-	exception.Name = genruntime.GetOptionalStringValue(source.Name)
+	exception.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Namespace
-	exception.Namespace = genruntime.GetOptionalStringValue(source.Namespace)
+	exception.Namespace = genruntime.ClonePointerToString(source.Namespace)
 
 	// PodLabels
 	exception.PodLabels = genruntime.CloneMapOfStringToString(source.PodLabels)
@@ -10846,12 +11029,10 @@ func (exception *ManagedClusterPodIdentityException_Status) AssignPropertiesToMa
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := exception.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(exception.Name)
 
 	// Namespace
-	namespace := exception.Namespace
-	destination.Namespace = &namespace
+	destination.Namespace = genruntime.ClonePointerToString(exception.Namespace)
 
 	// PodLabels
 	destination.PodLabels = genruntime.CloneMapOfStringToString(exception.PodLabels)
@@ -10873,15 +11054,15 @@ type ManagedClusterPodIdentity_Status struct {
 
 	// +kubebuilder:validation:Required
 	//Identity: The user assigned identity details.
-	Identity UserAssignedIdentity_Status `json:"identity"`
+	Identity *UserAssignedIdentity_Status `json:"identity,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Name: The name of the pod identity.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Namespace: The namespace of the pod identity.
-	Namespace        string                                             `json:"namespace"`
+	Namespace        *string                                            `json:"namespace,omitempty"`
 	ProvisioningInfo *ManagedClusterPodIdentity_Status_ProvisioningInfo `json:"provisioningInfo,omitempty"`
 
 	//ProvisioningState: The current provisioning state of the pod identity.
@@ -10909,23 +11090,32 @@ func (identity *ManagedClusterPodIdentity_Status) PopulateFromARM(owner genrunti
 	}
 
 	// Set property ‘Identity’:
-	var identity1 UserAssignedIdentity_Status
-	err := identity1.PopulateFromARM(owner, typedInput.Identity)
-	if err != nil {
-		return err
+	if typedInput.Identity != nil {
+		var identity2 UserAssignedIdentity_Status
+		err := identity2.PopulateFromARM(owner, *typedInput.Identity)
+		if err != nil {
+			return err
+		}
+		identity1 := identity2
+		identity.Identity = &identity1
 	}
-	identity.Identity = identity1
 
 	// Set property ‘Name’:
-	identity.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		identity.Name = &name
+	}
 
 	// Set property ‘Namespace’:
-	identity.Namespace = typedInput.Namespace
+	if typedInput.Namespace != nil {
+		namespace := *typedInput.Namespace
+		identity.Namespace = &namespace
+	}
 
 	// Set property ‘ProvisioningInfo’:
 	if typedInput.ProvisioningInfo != nil {
 		var provisioningInfo1 ManagedClusterPodIdentity_Status_ProvisioningInfo
-		err = provisioningInfo1.PopulateFromARM(owner, *typedInput.ProvisioningInfo)
+		err := provisioningInfo1.PopulateFromARM(owner, *typedInput.ProvisioningInfo)
 		if err != nil {
 			return err
 		}
@@ -10956,16 +11146,16 @@ func (identity *ManagedClusterPodIdentity_Status) AssignPropertiesFromManagedClu
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromUserAssignedIdentityStatus() to populate field Identity")
 		}
-		identity.Identity = identityLocal
+		identity.Identity = &identityLocal
 	} else {
-		identity.Identity = UserAssignedIdentity_Status{}
+		identity.Identity = nil
 	}
 
 	// Name
-	identity.Name = genruntime.GetOptionalStringValue(source.Name)
+	identity.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Namespace
-	identity.Namespace = genruntime.GetOptionalStringValue(source.Namespace)
+	identity.Namespace = genruntime.ClonePointerToString(source.Namespace)
 
 	// ProvisioningInfo
 	if source.ProvisioningInfo != nil {
@@ -11000,25 +11190,27 @@ func (identity *ManagedClusterPodIdentity_Status) AssignPropertiesToManagedClust
 	destination.BindingSelector = genruntime.ClonePointerToString(identity.BindingSelector)
 
 	// Identity
-	var identityLocal v1alpha1api20210501storage.UserAssignedIdentity_Status
-	err := identity.Identity.AssignPropertiesToUserAssignedIdentityStatus(&identityLocal)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentityStatus() to populate field Identity")
+	if identity.Identity != nil {
+		var identityLocal v1alpha1api20210501storage.UserAssignedIdentity_Status
+		err := identity.Identity.AssignPropertiesToUserAssignedIdentityStatus(&identityLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentityStatus() to populate field Identity")
+		}
+		destination.Identity = &identityLocal
+	} else {
+		destination.Identity = nil
 	}
-	destination.Identity = &identityLocal
 
 	// Name
-	name := identity.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(identity.Name)
 
 	// Namespace
-	namespace := identity.Namespace
-	destination.Namespace = &namespace
+	destination.Namespace = genruntime.ClonePointerToString(identity.Namespace)
 
 	// ProvisioningInfo
 	if identity.ProvisioningInfo != nil {
 		var provisioningInfo v1alpha1api20210501storage.ManagedClusterPodIdentity_Status_ProvisioningInfo
-		err = identity.ProvisioningInfo.AssignPropertiesToManagedClusterPodIdentityStatusProvisioningInfo(&provisioningInfo)
+		err := identity.ProvisioningInfo.AssignPropertiesToManagedClusterPodIdentityStatusProvisioningInfo(&provisioningInfo)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterPodIdentityStatusProvisioningInfo() to populate field ProvisioningInfo")
 		}
@@ -11085,7 +11277,7 @@ type ContainerServiceSshPublicKey struct {
 	// +kubebuilder:validation:Required
 	//KeyData: Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or
 	//without headers.
-	KeyData string `json:"keyData"`
+	KeyData *string `json:"keyData,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ContainerServiceSshPublicKey{}
@@ -11098,7 +11290,10 @@ func (publicKey *ContainerServiceSshPublicKey) ConvertToARM(resolved genruntime.
 	var result ContainerServiceSshPublicKeyARM
 
 	// Set property ‘KeyData’:
-	result.KeyData = publicKey.KeyData
+	if publicKey.KeyData != nil {
+		keyData := *publicKey.KeyData
+		result.KeyData = &keyData
+	}
 	return result, nil
 }
 
@@ -11115,7 +11310,10 @@ func (publicKey *ContainerServiceSshPublicKey) PopulateFromARM(owner genruntime.
 	}
 
 	// Set property ‘KeyData’:
-	publicKey.KeyData = typedInput.KeyData
+	if typedInput.KeyData != nil {
+		keyData := *typedInput.KeyData
+		publicKey.KeyData = &keyData
+	}
 
 	// No error
 	return nil
@@ -11125,7 +11323,7 @@ func (publicKey *ContainerServiceSshPublicKey) PopulateFromARM(owner genruntime.
 func (publicKey *ContainerServiceSshPublicKey) AssignPropertiesFromContainerServiceSshPublicKey(source *v1alpha1api20210501storage.ContainerServiceSshPublicKey) error {
 
 	// KeyData
-	publicKey.KeyData = genruntime.GetOptionalStringValue(source.KeyData)
+	publicKey.KeyData = genruntime.ClonePointerToString(source.KeyData)
 
 	// No error
 	return nil
@@ -11137,8 +11335,7 @@ func (publicKey *ContainerServiceSshPublicKey) AssignPropertiesToContainerServic
 	propertyBag := genruntime.NewPropertyBag()
 
 	// KeyData
-	keyDatum := publicKey.KeyData
-	destination.KeyData = &keyDatum
+	destination.KeyData = genruntime.ClonePointerToString(publicKey.KeyData)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -11155,7 +11352,7 @@ type ContainerServiceSshPublicKey_Status struct {
 	// +kubebuilder:validation:Required
 	//KeyData: Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or
 	//without headers.
-	KeyData string `json:"keyData"`
+	KeyData *string `json:"keyData,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ContainerServiceSshPublicKey_Status{}
@@ -11173,7 +11370,10 @@ func (publicKey *ContainerServiceSshPublicKey_Status) PopulateFromARM(owner genr
 	}
 
 	// Set property ‘KeyData’:
-	publicKey.KeyData = typedInput.KeyData
+	if typedInput.KeyData != nil {
+		keyData := *typedInput.KeyData
+		publicKey.KeyData = &keyData
+	}
 
 	// No error
 	return nil
@@ -11183,7 +11383,7 @@ func (publicKey *ContainerServiceSshPublicKey_Status) PopulateFromARM(owner genr
 func (publicKey *ContainerServiceSshPublicKey_Status) AssignPropertiesFromContainerServiceSshPublicKeyStatus(source *v1alpha1api20210501storage.ContainerServiceSshPublicKey_Status) error {
 
 	// KeyData
-	publicKey.KeyData = genruntime.GetOptionalStringValue(source.KeyData)
+	publicKey.KeyData = genruntime.ClonePointerToString(source.KeyData)
 
 	// No error
 	return nil
@@ -11195,8 +11395,7 @@ func (publicKey *ContainerServiceSshPublicKey_Status) AssignPropertiesToContaine
 	propertyBag := genruntime.NewPropertyBag()
 
 	// KeyData
-	keyDatum := publicKey.KeyData
-	destination.KeyData = &keyDatum
+	destination.KeyData = genruntime.ClonePointerToString(publicKey.KeyData)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

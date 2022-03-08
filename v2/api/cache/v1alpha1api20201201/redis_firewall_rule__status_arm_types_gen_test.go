@@ -150,6 +150,6 @@ func RedisFirewallRulePropertiesStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRedisFirewallRulePropertiesStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedisFirewallRulePropertiesStatusARM(gens map[string]gopter.Gen) {
-	gens["EndIP"] = gen.AlphaString()
-	gens["StartIP"] = gen.AlphaString()
+	gens["EndIP"] = gen.PtrOf(gen.AlphaString())
+	gens["StartIP"] = gen.PtrOf(gen.AlphaString())
 }

@@ -50,6 +50,7 @@ func Test_MySQL_Secret_Updated(t *testing.T) {
 		Name: secret.Name,
 		Key:  adminPasswordKey,
 	}
+	tier := mysql.SkuTierGeneralPurpose
 	flexibleServer := &mysql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("mysql"),
 		Spec: mysql.FlexibleServers_Spec{
@@ -57,8 +58,8 @@ func Test_MySQL_Secret_Updated(t *testing.T) {
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
 			Sku: &mysql.Sku{
-				Name: "Standard_D4ds_v4",
-				Tier: mysql.SkuTierGeneralPurpose,
+				Name: to.StringPtr("Standard_D4ds_v4"),
+				Tier: &tier,
 			},
 			AdministratorLogin:         to.StringPtr(adminUsername),
 			AdministratorLoginPassword: &secretRef,
@@ -76,8 +77,8 @@ func Test_MySQL_Secret_Updated(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMeta("firewall"),
 		Spec: mysql.FlexibleServersFirewallRules_Spec{
 			Owner:          testcommon.AsOwner(flexibleServer),
-			StartIpAddress: "0.0.0.0",
-			EndIpAddress:   "255.255.255.255",
+			StartIpAddress: to.StringPtr("0.0.0.0"),
+			EndIpAddress:   to.StringPtr("255.255.255.255"),
 		},
 	}
 

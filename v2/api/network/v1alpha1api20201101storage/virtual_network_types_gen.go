@@ -179,7 +179,7 @@ type VirtualNetworks_Spec struct {
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName            string                        `json:"azureName"`
+	AzureName            string                        `json:"azureName,omitempty"`
 	BgpCommunities       *VirtualNetworkBgpCommunities `json:"bgpCommunities,omitempty"`
 	DdosProtectionPlan   *SubResource                  `json:"ddosProtectionPlan,omitempty"`
 	DhcpOptions          *DhcpOptions                  `json:"dhcpOptions,omitempty"`
@@ -188,13 +188,13 @@ type VirtualNetworks_Spec struct {
 	ExtendedLocation     *ExtendedLocation             `json:"extendedLocation,omitempty"`
 	IpAllocations        []SubResource                 `json:"ipAllocations,omitempty"`
 	Location             *string                       `json:"location,omitempty"`
-	OriginalVersion      string                        `json:"originalVersion"`
+	OriginalVersion      string                        `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner       genruntime.KnownResourceReference         `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner       *genruntime.KnownResourceReference        `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
 	Subnets     []VirtualNetworks_Spec_Properties_Subnets `json:"subnets,omitempty"`
 	Tags        map[string]string                         `json:"tags,omitempty"`

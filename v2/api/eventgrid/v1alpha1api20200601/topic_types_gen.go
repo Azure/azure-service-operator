@@ -801,16 +801,16 @@ const TopicsSpecAPIVersion20200601 = TopicsSpecAPIVersion("2020-06-01")
 type Topics_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -826,7 +826,10 @@ func (topics *Topics_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	var result Topics_SpecARM
 
 	// Set property ‘Location’:
-	result.Location = topics.Location
+	if topics.Location != nil {
+		location := *topics.Location
+		result.Location = &location
+	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -857,10 +860,13 @@ func (topics *Topics_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	topics.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Location’:
-	topics.Location = typedInput.Location
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		topics.Location = &location
+	}
 
 	// Set property ‘Owner’:
-	topics.Owner = genruntime.KnownResourceReference{
+	topics.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -933,10 +939,15 @@ func (topics *Topics_Spec) AssignPropertiesFromTopicsSpec(source *v1alpha1api202
 	topics.AzureName = source.AzureName
 
 	// Location
-	topics.Location = genruntime.GetOptionalStringValue(source.Location)
+	topics.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	topics.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		topics.Owner = &owner
+	} else {
+		topics.Owner = nil
+	}
 
 	// Tags
 	topics.Tags = genruntime.CloneMapOfStringToString(source.Tags)
@@ -954,14 +965,18 @@ func (topics *Topics_Spec) AssignPropertiesToTopicsSpec(destination *v1alpha1api
 	destination.AzureName = topics.AzureName
 
 	// Location
-	location := topics.Location
-	destination.Location = &location
+	destination.Location = genruntime.ClonePointerToString(topics.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = topics.OriginalVersion()
 
 	// Owner
-	destination.Owner = topics.Owner.Copy()
+	if topics.Owner != nil {
+		owner := topics.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(topics.Tags)

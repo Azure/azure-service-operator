@@ -121,7 +121,7 @@ func (b *operatorSpecBuilder) newOperatorSpecProperty(operatorSpec astmodel.Type
 	prop := astmodel.NewPropertyDefinition(
 		astmodel.OperatorSpecProperty,
 		b.idFactory.CreateIdentifier(astmodel.OperatorSpecProperty, astmodel.NotExported),
-		operatorSpec.Name()).MakeOptional()
+		operatorSpec.Name()).MakeTypeOptional()
 	desc := "The specification for configuring operator behavior. " +
 		"This field is interpreted by the operator and not passed directly to Azure"
 	prop = prop.WithDescription(desc)
@@ -135,7 +135,7 @@ func (b *operatorSpecBuilder) newSecretsProperty(secretsTypeName astmodel.TypeNa
 		b.idFactory.CreateIdentifier(astmodel.OperatorSpecSecretsProperty, astmodel.NotExported),
 		secretsTypeName)
 	secretProp = secretProp.WithDescription("configures where to place Azure generated secrets.")
-	secretProp = secretProp.MakeOptional()
+	secretProp = secretProp.MakeTypeOptional()
 
 	return secretProp
 }
@@ -165,7 +165,7 @@ func (b *operatorSpecBuilder) addSecretsToOperatorSpec(
 		prop := astmodel.NewPropertyDefinition(
 			b.idFactory.CreatePropertyName(secret, astmodel.Exported),
 			b.idFactory.CreateIdentifier(secret, astmodel.NotExported),
-			astmodel.SecretDestinationType)
+			astmodel.SecretDestinationType).MakeTypeOptional()
 		desc := fmt.Sprintf(
 			"indicates where the %s secret should be placed. If omitted, the secret will not be retrieved from Azure.",
 			secret)

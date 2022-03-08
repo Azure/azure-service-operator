@@ -176,21 +176,21 @@ func (balancer *LoadBalancer_Status) ConvertStatusTo(destination genruntime.Conv
 type LoadBalancers_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName                string                                                   `json:"azureName"`
+	AzureName                string                                                   `json:"azureName,omitempty"`
 	BackendAddressPools      []LoadBalancers_Spec_Properties_BackendAddressPools      `json:"backendAddressPools,omitempty"`
 	ExtendedLocation         *ExtendedLocation                                        `json:"extendedLocation,omitempty"`
 	FrontendIPConfigurations []LoadBalancers_Spec_Properties_FrontendIPConfigurations `json:"frontendIPConfigurations,omitempty"`
 	InboundNatPools          []LoadBalancers_Spec_Properties_InboundNatPools          `json:"inboundNatPools,omitempty"`
 	LoadBalancingRules       []LoadBalancers_Spec_Properties_LoadBalancingRules       `json:"loadBalancingRules,omitempty"`
 	Location                 *string                                                  `json:"location,omitempty"`
-	OriginalVersion          string                                                   `json:"originalVersion"`
+	OriginalVersion          string                                                   `json:"originalVersion,omitempty"`
 	OutboundRules            []LoadBalancers_Spec_Properties_OutboundRules            `json:"outboundRules,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner       genruntime.KnownResourceReference      `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner       *genruntime.KnownResourceReference     `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Probes      []LoadBalancers_Spec_Properties_Probes `json:"probes,omitempty"`
 	PropertyBag genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 	Sku         *LoadBalancerSku                       `json:"sku,omitempty"`

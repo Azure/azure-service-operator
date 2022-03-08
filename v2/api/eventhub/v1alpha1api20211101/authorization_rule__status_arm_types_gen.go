@@ -26,7 +26,7 @@ type AuthorizationRule_StatusARM struct {
 
 type AuthorizationRule_Status_PropertiesARM struct {
 	//Rights: The rights associated with the rule.
-	Rights []AuthorizationRuleStatusPropertiesRights `json:"rights"`
+	Rights []AuthorizationRuleStatusPropertiesRights `json:"rights,omitempty"`
 }
 
 type SystemData_StatusARM struct {

@@ -231,7 +231,7 @@ func SkuStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSkuStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuStatusARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
 		SkuName_StatusPremiumLRS,
 		SkuName_StatusPremiumZRS,
 		SkuName_StatusStandardGRS,
@@ -239,7 +239,7 @@ func AddIndependentPropertyGeneratorsForSkuStatusARM(gens map[string]gopter.Gen)
 		SkuName_StatusStandardLRS,
 		SkuName_StatusStandardRAGRS,
 		SkuName_StatusStandardRAGZRS,
-		SkuName_StatusStandardZRS)
+		SkuName_StatusStandardZRS))
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Tier_StatusPremium, Tier_StatusStandard))
 }
 
@@ -482,7 +482,7 @@ func LastAccessTimeTrackingPolicyStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForLastAccessTimeTrackingPolicyStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLastAccessTimeTrackingPolicyStatusARM(gens map[string]gopter.Gen) {
 	gens["BlobType"] = gen.SliceOf(gen.AlphaString())
-	gens["Enable"] = gen.Bool()
+	gens["Enable"] = gen.PtrOf(gen.Bool())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(LastAccessTimeTrackingPolicyStatusNameAccessTimeTracking))
 	gens["TrackingGranularityInDays"] = gen.PtrOf(gen.Int())
 }
@@ -545,7 +545,7 @@ func RestorePolicyPropertiesStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRestorePolicyPropertiesStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRestorePolicyPropertiesStatusARM(gens map[string]gopter.Gen) {
 	gens["Days"] = gen.PtrOf(gen.Int())
-	gens["Enabled"] = gen.Bool()
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["LastEnabledTime"] = gen.PtrOf(gen.AlphaString())
 	gens["MinRestoreTime"] = gen.PtrOf(gen.AlphaString())
 }
@@ -617,5 +617,5 @@ func AddIndependentPropertyGeneratorsForCorsRuleStatusARM(gens map[string]gopter
 		CorsRuleStatusAllowedMethodsPUT))
 	gens["AllowedOrigins"] = gen.SliceOf(gen.AlphaString())
 	gens["ExposedHeaders"] = gen.SliceOf(gen.AlphaString())
-	gens["MaxAgeInSeconds"] = gen.Int()
+	gens["MaxAgeInSeconds"] = gen.PtrOf(gen.Int())
 }

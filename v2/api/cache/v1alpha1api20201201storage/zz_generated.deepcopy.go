@@ -196,7 +196,11 @@ func (in *RedisFirewallRules_Spec) DeepCopyInto(out *RedisFirewallRules_Spec) {
 		*out = new(string)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -438,13 +442,21 @@ func (in *RedisLinkedServers_Spec) DeepCopyInto(out *RedisLinkedServers_Spec) {
 		*out = new(string)
 		**out = **in
 	}
-	out.LinkedRedisCacheReference = in.LinkedRedisCacheReference
+	if in.LinkedRedisCacheReference != nil {
+		in, out := &in.LinkedRedisCacheReference, &out.LinkedRedisCacheReference
+		*out = new(genruntime.ResourceReference)
+		**out = **in
+	}
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
 		*out = new(string)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -700,7 +712,11 @@ func (in *RedisPatchSchedules_Spec) DeepCopyInto(out *RedisPatchSchedules_Spec) 
 		*out = new(string)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -923,7 +939,11 @@ func (in *Redis_Spec) DeepCopyInto(out *Redis_Spec) {
 		*out = new(RedisOperatorSpec)
 		(*in).DeepCopyInto(*out)
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))

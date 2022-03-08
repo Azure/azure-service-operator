@@ -1614,7 +1614,7 @@ type DatabaseAccounts_Spec struct {
 	// +kubebuilder:validation:Pattern="^[a-z0-9]+(-[a-z0-9]+)*"
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//BackupPolicy: The object representing the policy for taking backups on an account.
 	BackupPolicy *BackupPolicy `json:"backupPolicy,omitempty"`
@@ -1633,7 +1633,7 @@ type DatabaseAccounts_Spec struct {
 
 	// +kubebuilder:validation:Required
 	//DatabaseAccountOfferType: The offer type for the database
-	DatabaseAccountOfferType DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType `json:"databaseAccountOfferType"`
+	DatabaseAccountOfferType *DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType `json:"databaseAccountOfferType,omitempty"`
 
 	//DefaultIdentity: The default identity for accessing key vault used in features like customer managed keys. The default
 	//identity needs to be explicitly set by the users. It can be "FirstPartyIdentity", "SystemAssignedIdentity" and more.
@@ -1680,7 +1680,7 @@ type DatabaseAccounts_Spec struct {
 
 	// +kubebuilder:validation:Required
 	//Locations: An array that contains the georeplication locations enabled for the Cosmos DB account.
-	Locations []Location `json:"locations"`
+	Locations []Location `json:"locations,omitempty"`
 
 	//NetworkAclBypass: Indicates what services are allowed to bypass firewall checks.
 	NetworkAclBypass *DatabaseAccountCreateUpdatePropertiesNetworkAclBypass `json:"networkAclBypass,omitempty"`
@@ -1696,7 +1696,7 @@ type DatabaseAccounts_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	//PublicNetworkAccess: Whether requests from Public Network are allowed.
 	PublicNetworkAccess *DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
@@ -1747,6 +1747,31 @@ func (accounts *DatabaseAccounts_Spec) ConvertToARM(resolved genruntime.ConvertT
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if accounts.AnalyticalStorageConfiguration != nil ||
+		accounts.ApiProperties != nil ||
+		accounts.BackupPolicy != nil ||
+		accounts.Capabilities != nil ||
+		accounts.ConnectorOffer != nil ||
+		accounts.ConsistencyPolicy != nil ||
+		accounts.Cors != nil ||
+		accounts.DatabaseAccountOfferType != nil ||
+		accounts.DefaultIdentity != nil ||
+		accounts.DisableKeyBasedMetadataWriteAccess != nil ||
+		accounts.EnableAnalyticalStorage != nil ||
+		accounts.EnableAutomaticFailover != nil ||
+		accounts.EnableCassandraConnector != nil ||
+		accounts.EnableFreeTier != nil ||
+		accounts.EnableMultipleWriteLocations != nil ||
+		accounts.IpRules != nil ||
+		accounts.IsVirtualNetworkFilterEnabled != nil ||
+		accounts.KeyVaultKeyUri != nil ||
+		accounts.Locations != nil ||
+		accounts.NetworkAclBypass != nil ||
+		accounts.NetworkAclBypassResourceIds != nil ||
+		accounts.PublicNetworkAccess != nil ||
+		accounts.VirtualNetworkRules != nil {
+		result.Properties = &DatabaseAccountCreateUpdatePropertiesARM{}
+	}
 	if accounts.AnalyticalStorageConfiguration != nil {
 		analyticalStorageConfigurationARM, err := (*accounts.AnalyticalStorageConfiguration).ConvertToARM(resolved)
 		if err != nil {
@@ -1797,7 +1822,10 @@ func (accounts *DatabaseAccounts_Spec) ConvertToARM(resolved genruntime.ConvertT
 		}
 		result.Properties.Cors = append(result.Properties.Cors, itemARM.(CorsPolicyARM))
 	}
-	result.Properties.DatabaseAccountOfferType = accounts.DatabaseAccountOfferType
+	if accounts.DatabaseAccountOfferType != nil {
+		databaseAccountOfferType := *accounts.DatabaseAccountOfferType
+		result.Properties.DatabaseAccountOfferType = &databaseAccountOfferType
+	}
 	if accounts.DefaultIdentity != nil {
 		defaultIdentity := *accounts.DefaultIdentity
 		result.Properties.DefaultIdentity = &defaultIdentity
@@ -1891,26 +1919,30 @@ func (accounts *DatabaseAccounts_Spec) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property ‘AnalyticalStorageConfiguration’:
 	// copying flattened property:
-	if typedInput.Properties.AnalyticalStorageConfiguration != nil {
-		var analyticalStorageConfiguration1 AnalyticalStorageConfiguration
-		err := analyticalStorageConfiguration1.PopulateFromARM(owner, *typedInput.Properties.AnalyticalStorageConfiguration)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AnalyticalStorageConfiguration != nil {
+			var analyticalStorageConfiguration1 AnalyticalStorageConfiguration
+			err := analyticalStorageConfiguration1.PopulateFromARM(owner, *typedInput.Properties.AnalyticalStorageConfiguration)
+			if err != nil {
+				return err
+			}
+			analyticalStorageConfiguration := analyticalStorageConfiguration1
+			accounts.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
 		}
-		analyticalStorageConfiguration := analyticalStorageConfiguration1
-		accounts.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
 	}
 
 	// Set property ‘ApiProperties’:
 	// copying flattened property:
-	if typedInput.Properties.ApiProperties != nil {
-		var apiProperties1 ApiProperties
-		err := apiProperties1.PopulateFromARM(owner, *typedInput.Properties.ApiProperties)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ApiProperties != nil {
+			var apiProperties1 ApiProperties
+			err := apiProperties1.PopulateFromARM(owner, *typedInput.Properties.ApiProperties)
+			if err != nil {
+				return err
+			}
+			apiProperties := apiProperties1
+			accounts.ApiProperties = &apiProperties
 		}
-		apiProperties := apiProperties1
-		accounts.ApiProperties = &apiProperties
 	}
 
 	// Set property ‘AzureName’:
@@ -1918,108 +1950,137 @@ func (accounts *DatabaseAccounts_Spec) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property ‘BackupPolicy’:
 	// copying flattened property:
-	if typedInput.Properties.BackupPolicy != nil {
-		var backupPolicy1 BackupPolicy
-		err := backupPolicy1.PopulateFromARM(owner, *typedInput.Properties.BackupPolicy)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.BackupPolicy != nil {
+			var backupPolicy1 BackupPolicy
+			err := backupPolicy1.PopulateFromARM(owner, *typedInput.Properties.BackupPolicy)
+			if err != nil {
+				return err
+			}
+			backupPolicy := backupPolicy1
+			accounts.BackupPolicy = &backupPolicy
 		}
-		backupPolicy := backupPolicy1
-		accounts.BackupPolicy = &backupPolicy
 	}
 
 	// Set property ‘Capabilities’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.Capabilities {
-		var item1 Capability
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.Capabilities {
+			var item1 Capability
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			accounts.Capabilities = append(accounts.Capabilities, item1)
 		}
-		accounts.Capabilities = append(accounts.Capabilities, item1)
 	}
 
 	// Set property ‘ConnectorOffer’:
 	// copying flattened property:
-	if typedInput.Properties.ConnectorOffer != nil {
-		connectorOffer := *typedInput.Properties.ConnectorOffer
-		accounts.ConnectorOffer = &connectorOffer
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ConnectorOffer != nil {
+			connectorOffer := *typedInput.Properties.ConnectorOffer
+			accounts.ConnectorOffer = &connectorOffer
+		}
 	}
 
 	// Set property ‘ConsistencyPolicy’:
 	// copying flattened property:
-	if typedInput.Properties.ConsistencyPolicy != nil {
-		var consistencyPolicy1 ConsistencyPolicy
-		err := consistencyPolicy1.PopulateFromARM(owner, *typedInput.Properties.ConsistencyPolicy)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ConsistencyPolicy != nil {
+			var consistencyPolicy1 ConsistencyPolicy
+			err := consistencyPolicy1.PopulateFromARM(owner, *typedInput.Properties.ConsistencyPolicy)
+			if err != nil {
+				return err
+			}
+			consistencyPolicy := consistencyPolicy1
+			accounts.ConsistencyPolicy = &consistencyPolicy
 		}
-		consistencyPolicy := consistencyPolicy1
-		accounts.ConsistencyPolicy = &consistencyPolicy
 	}
 
 	// Set property ‘Cors’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.Cors {
-		var item1 CorsPolicy
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.Cors {
+			var item1 CorsPolicy
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			accounts.Cors = append(accounts.Cors, item1)
 		}
-		accounts.Cors = append(accounts.Cors, item1)
 	}
 
 	// Set property ‘DatabaseAccountOfferType’:
 	// copying flattened property:
-	accounts.DatabaseAccountOfferType = typedInput.Properties.DatabaseAccountOfferType
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DatabaseAccountOfferType != nil {
+			databaseAccountOfferType := *typedInput.Properties.DatabaseAccountOfferType
+			accounts.DatabaseAccountOfferType = &databaseAccountOfferType
+		}
+	}
 
 	// Set property ‘DefaultIdentity’:
 	// copying flattened property:
-	if typedInput.Properties.DefaultIdentity != nil {
-		defaultIdentity := *typedInput.Properties.DefaultIdentity
-		accounts.DefaultIdentity = &defaultIdentity
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DefaultIdentity != nil {
+			defaultIdentity := *typedInput.Properties.DefaultIdentity
+			accounts.DefaultIdentity = &defaultIdentity
+		}
 	}
 
 	// Set property ‘DisableKeyBasedMetadataWriteAccess’:
 	// copying flattened property:
-	if typedInput.Properties.DisableKeyBasedMetadataWriteAccess != nil {
-		disableKeyBasedMetadataWriteAccess := *typedInput.Properties.DisableKeyBasedMetadataWriteAccess
-		accounts.DisableKeyBasedMetadataWriteAccess = &disableKeyBasedMetadataWriteAccess
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DisableKeyBasedMetadataWriteAccess != nil {
+			disableKeyBasedMetadataWriteAccess := *typedInput.Properties.DisableKeyBasedMetadataWriteAccess
+			accounts.DisableKeyBasedMetadataWriteAccess = &disableKeyBasedMetadataWriteAccess
+		}
 	}
 
 	// Set property ‘EnableAnalyticalStorage’:
 	// copying flattened property:
-	if typedInput.Properties.EnableAnalyticalStorage != nil {
-		enableAnalyticalStorage := *typedInput.Properties.EnableAnalyticalStorage
-		accounts.EnableAnalyticalStorage = &enableAnalyticalStorage
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableAnalyticalStorage != nil {
+			enableAnalyticalStorage := *typedInput.Properties.EnableAnalyticalStorage
+			accounts.EnableAnalyticalStorage = &enableAnalyticalStorage
+		}
 	}
 
 	// Set property ‘EnableAutomaticFailover’:
 	// copying flattened property:
-	if typedInput.Properties.EnableAutomaticFailover != nil {
-		enableAutomaticFailover := *typedInput.Properties.EnableAutomaticFailover
-		accounts.EnableAutomaticFailover = &enableAutomaticFailover
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableAutomaticFailover != nil {
+			enableAutomaticFailover := *typedInput.Properties.EnableAutomaticFailover
+			accounts.EnableAutomaticFailover = &enableAutomaticFailover
+		}
 	}
 
 	// Set property ‘EnableCassandraConnector’:
 	// copying flattened property:
-	if typedInput.Properties.EnableCassandraConnector != nil {
-		enableCassandraConnector := *typedInput.Properties.EnableCassandraConnector
-		accounts.EnableCassandraConnector = &enableCassandraConnector
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableCassandraConnector != nil {
+			enableCassandraConnector := *typedInput.Properties.EnableCassandraConnector
+			accounts.EnableCassandraConnector = &enableCassandraConnector
+		}
 	}
 
 	// Set property ‘EnableFreeTier’:
 	// copying flattened property:
-	if typedInput.Properties.EnableFreeTier != nil {
-		enableFreeTier := *typedInput.Properties.EnableFreeTier
-		accounts.EnableFreeTier = &enableFreeTier
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableFreeTier != nil {
+			enableFreeTier := *typedInput.Properties.EnableFreeTier
+			accounts.EnableFreeTier = &enableFreeTier
+		}
 	}
 
 	// Set property ‘EnableMultipleWriteLocations’:
 	// copying flattened property:
-	if typedInput.Properties.EnableMultipleWriteLocations != nil {
-		enableMultipleWriteLocations := *typedInput.Properties.EnableMultipleWriteLocations
-		accounts.EnableMultipleWriteLocations = &enableMultipleWriteLocations
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableMultipleWriteLocations != nil {
+			enableMultipleWriteLocations := *typedInput.Properties.EnableMultipleWriteLocations
+			accounts.EnableMultipleWriteLocations = &enableMultipleWriteLocations
+		}
 	}
 
 	// Set property ‘Identity’:
@@ -2035,27 +2096,33 @@ func (accounts *DatabaseAccounts_Spec) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property ‘IpRules’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.IpRules {
-		var item1 IpAddressOrRange
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.IpRules {
+			var item1 IpAddressOrRange
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			accounts.IpRules = append(accounts.IpRules, item1)
 		}
-		accounts.IpRules = append(accounts.IpRules, item1)
 	}
 
 	// Set property ‘IsVirtualNetworkFilterEnabled’:
 	// copying flattened property:
-	if typedInput.Properties.IsVirtualNetworkFilterEnabled != nil {
-		isVirtualNetworkFilterEnabled := *typedInput.Properties.IsVirtualNetworkFilterEnabled
-		accounts.IsVirtualNetworkFilterEnabled = &isVirtualNetworkFilterEnabled
+	if typedInput.Properties != nil {
+		if typedInput.Properties.IsVirtualNetworkFilterEnabled != nil {
+			isVirtualNetworkFilterEnabled := *typedInput.Properties.IsVirtualNetworkFilterEnabled
+			accounts.IsVirtualNetworkFilterEnabled = &isVirtualNetworkFilterEnabled
+		}
 	}
 
 	// Set property ‘KeyVaultKeyUri’:
 	// copying flattened property:
-	if typedInput.Properties.KeyVaultKeyUri != nil {
-		keyVaultKeyUri := *typedInput.Properties.KeyVaultKeyUri
-		accounts.KeyVaultKeyUri = &keyVaultKeyUri
+	if typedInput.Properties != nil {
+		if typedInput.Properties.KeyVaultKeyUri != nil {
+			keyVaultKeyUri := *typedInput.Properties.KeyVaultKeyUri
+			accounts.KeyVaultKeyUri = &keyVaultKeyUri
+		}
 	}
 
 	// Set property ‘Kind’:
@@ -2072,40 +2139,48 @@ func (accounts *DatabaseAccounts_Spec) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property ‘Locations’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.Locations {
-		var item1 Location
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.Locations {
+			var item1 Location
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			accounts.Locations = append(accounts.Locations, item1)
 		}
-		accounts.Locations = append(accounts.Locations, item1)
 	}
 
 	// Set property ‘NetworkAclBypass’:
 	// copying flattened property:
-	if typedInput.Properties.NetworkAclBypass != nil {
-		networkAclBypass := *typedInput.Properties.NetworkAclBypass
-		accounts.NetworkAclBypass = &networkAclBypass
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NetworkAclBypass != nil {
+			networkAclBypass := *typedInput.Properties.NetworkAclBypass
+			accounts.NetworkAclBypass = &networkAclBypass
+		}
 	}
 
 	// Set property ‘NetworkAclBypassResourceIds’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.NetworkAclBypassResourceIds {
-		accounts.NetworkAclBypassResourceIds = append(accounts.NetworkAclBypassResourceIds, item)
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.NetworkAclBypassResourceIds {
+			accounts.NetworkAclBypassResourceIds = append(accounts.NetworkAclBypassResourceIds, item)
+		}
 	}
 
 	// no assignment for property ‘OperatorSpec’
 
 	// Set property ‘Owner’:
-	accounts.Owner = genruntime.KnownResourceReference{
+	accounts.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘PublicNetworkAccess’:
 	// copying flattened property:
-	if typedInput.Properties.PublicNetworkAccess != nil {
-		publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
-		accounts.PublicNetworkAccess = &publicNetworkAccess
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicNetworkAccess != nil {
+			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			accounts.PublicNetworkAccess = &publicNetworkAccess
+		}
 	}
 
 	// Set property ‘Tags’:
@@ -2118,13 +2193,15 @@ func (accounts *DatabaseAccounts_Spec) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property ‘VirtualNetworkRules’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.VirtualNetworkRules {
-		var item1 VirtualNetworkRule
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.VirtualNetworkRules {
+			var item1 VirtualNetworkRule
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			accounts.VirtualNetworkRules = append(accounts.VirtualNetworkRules, item1)
 		}
-		accounts.VirtualNetworkRules = append(accounts.VirtualNetworkRules, item1)
 	}
 
 	// No error
@@ -2281,9 +2358,10 @@ func (accounts *DatabaseAccounts_Spec) AssignPropertiesFromDatabaseAccountsSpec(
 
 	// DatabaseAccountOfferType
 	if source.DatabaseAccountOfferType != nil {
-		accounts.DatabaseAccountOfferType = DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType(*source.DatabaseAccountOfferType)
+		databaseAccountOfferType := DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType(*source.DatabaseAccountOfferType)
+		accounts.DatabaseAccountOfferType = &databaseAccountOfferType
 	} else {
-		accounts.DatabaseAccountOfferType = ""
+		accounts.DatabaseAccountOfferType = nil
 	}
 
 	// DefaultIdentity
@@ -2431,7 +2509,12 @@ func (accounts *DatabaseAccounts_Spec) AssignPropertiesFromDatabaseAccountsSpec(
 	}
 
 	// Owner
-	accounts.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		accounts.Owner = &owner
+	} else {
+		accounts.Owner = nil
+	}
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
@@ -2567,8 +2650,12 @@ func (accounts *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAccountsSpec(de
 	}
 
 	// DatabaseAccountOfferType
-	databaseAccountOfferType := string(accounts.DatabaseAccountOfferType)
-	destination.DatabaseAccountOfferType = &databaseAccountOfferType
+	if accounts.DatabaseAccountOfferType != nil {
+		databaseAccountOfferType := string(*accounts.DatabaseAccountOfferType)
+		destination.DatabaseAccountOfferType = &databaseAccountOfferType
+	} else {
+		destination.DatabaseAccountOfferType = nil
+	}
 
 	// DefaultIdentity
 	destination.DefaultIdentity = genruntime.ClonePointerToString(accounts.DefaultIdentity)
@@ -2718,7 +2805,12 @@ func (accounts *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAccountsSpec(de
 	destination.OriginalVersion = accounts.OriginalVersion()
 
 	// Owner
-	destination.Owner = accounts.Owner.Copy()
+	if accounts.Owner != nil {
+		owner := accounts.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// PublicNetworkAccess
 	if accounts.PublicNetworkAccess != nil {
@@ -3221,7 +3313,7 @@ func (policy *BackupPolicy) AssignPropertiesToBackupPolicy(destination *v1alpha1
 
 type BackupPolicy_Status struct {
 	// +kubebuilder:validation:Required
-	Type BackupPolicyType_Status `json:"type"`
+	Type *BackupPolicyType_Status `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &BackupPolicy_Status{}
@@ -3239,7 +3331,10 @@ func (policy *BackupPolicy_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 	}
 
 	// Set property ‘Type’:
-	policy.Type = typedInput.Type
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		policy.Type = &typeVar
+	}
 
 	// No error
 	return nil
@@ -3250,9 +3345,10 @@ func (policy *BackupPolicy_Status) AssignPropertiesFromBackupPolicyStatus(source
 
 	// Type
 	if source.Type != nil {
-		policy.Type = BackupPolicyType_Status(*source.Type)
+		typeVar := BackupPolicyType_Status(*source.Type)
+		policy.Type = &typeVar
 	} else {
-		policy.Type = ""
+		policy.Type = nil
 	}
 
 	// No error
@@ -3265,8 +3361,12 @@ func (policy *BackupPolicy_Status) AssignPropertiesToBackupPolicyStatus(destinat
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Type
-	typeVar := string(policy.Type)
-	destination.Type = &typeVar
+	if policy.Type != nil {
+		typeVar := string(*policy.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3421,7 +3521,7 @@ const ConnectorOffer_StatusSmall = ConnectorOffer_Status("Small")
 type ConsistencyPolicy struct {
 	// +kubebuilder:validation:Required
 	//DefaultConsistencyLevel: The default consistency level and configuration settings of the Cosmos DB account.
-	DefaultConsistencyLevel ConsistencyPolicyDefaultConsistencyLevel `json:"defaultConsistencyLevel"`
+	DefaultConsistencyLevel *ConsistencyPolicyDefaultConsistencyLevel `json:"defaultConsistencyLevel,omitempty"`
 
 	// +kubebuilder:validation:Maximum=86400
 	// +kubebuilder:validation:Minimum=5
@@ -3448,7 +3548,10 @@ func (policy *ConsistencyPolicy) ConvertToARM(resolved genruntime.ConvertToARMRe
 	var result ConsistencyPolicyARM
 
 	// Set property ‘DefaultConsistencyLevel’:
-	result.DefaultConsistencyLevel = policy.DefaultConsistencyLevel
+	if policy.DefaultConsistencyLevel != nil {
+		defaultConsistencyLevel := *policy.DefaultConsistencyLevel
+		result.DefaultConsistencyLevel = &defaultConsistencyLevel
+	}
 
 	// Set property ‘MaxIntervalInSeconds’:
 	if policy.MaxIntervalInSeconds != nil {
@@ -3477,7 +3580,10 @@ func (policy *ConsistencyPolicy) PopulateFromARM(owner genruntime.ArbitraryOwner
 	}
 
 	// Set property ‘DefaultConsistencyLevel’:
-	policy.DefaultConsistencyLevel = typedInput.DefaultConsistencyLevel
+	if typedInput.DefaultConsistencyLevel != nil {
+		defaultConsistencyLevel := *typedInput.DefaultConsistencyLevel
+		policy.DefaultConsistencyLevel = &defaultConsistencyLevel
+	}
 
 	// Set property ‘MaxIntervalInSeconds’:
 	if typedInput.MaxIntervalInSeconds != nil {
@@ -3500,9 +3606,10 @@ func (policy *ConsistencyPolicy) AssignPropertiesFromConsistencyPolicy(source *v
 
 	// DefaultConsistencyLevel
 	if source.DefaultConsistencyLevel != nil {
-		policy.DefaultConsistencyLevel = ConsistencyPolicyDefaultConsistencyLevel(*source.DefaultConsistencyLevel)
+		defaultConsistencyLevel := ConsistencyPolicyDefaultConsistencyLevel(*source.DefaultConsistencyLevel)
+		policy.DefaultConsistencyLevel = &defaultConsistencyLevel
 	} else {
-		policy.DefaultConsistencyLevel = ""
+		policy.DefaultConsistencyLevel = nil
 	}
 
 	// MaxIntervalInSeconds
@@ -3531,8 +3638,12 @@ func (policy *ConsistencyPolicy) AssignPropertiesToConsistencyPolicy(destination
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DefaultConsistencyLevel
-	defaultConsistencyLevel := string(policy.DefaultConsistencyLevel)
-	destination.DefaultConsistencyLevel = &defaultConsistencyLevel
+	if policy.DefaultConsistencyLevel != nil {
+		defaultConsistencyLevel := string(*policy.DefaultConsistencyLevel)
+		destination.DefaultConsistencyLevel = &defaultConsistencyLevel
+	} else {
+		destination.DefaultConsistencyLevel = nil
+	}
 
 	// MaxIntervalInSeconds
 	if policy.MaxIntervalInSeconds != nil {
@@ -3564,7 +3675,7 @@ func (policy *ConsistencyPolicy) AssignPropertiesToConsistencyPolicy(destination
 type ConsistencyPolicy_Status struct {
 	// +kubebuilder:validation:Required
 	//DefaultConsistencyLevel: The default consistency level and configuration settings of the Cosmos DB account.
-	DefaultConsistencyLevel ConsistencyPolicyStatusDefaultConsistencyLevel `json:"defaultConsistencyLevel"`
+	DefaultConsistencyLevel *ConsistencyPolicyStatusDefaultConsistencyLevel `json:"defaultConsistencyLevel,omitempty"`
 
 	//MaxIntervalInSeconds: When used with the Bounded Staleness consistency level, this value represents the time amount of
 	//staleness (in seconds) tolerated. Accepted range for this value is 5 - 86400. Required when defaultConsistencyPolicy is
@@ -3592,7 +3703,10 @@ func (policy *ConsistencyPolicy_Status) PopulateFromARM(owner genruntime.Arbitra
 	}
 
 	// Set property ‘DefaultConsistencyLevel’:
-	policy.DefaultConsistencyLevel = typedInput.DefaultConsistencyLevel
+	if typedInput.DefaultConsistencyLevel != nil {
+		defaultConsistencyLevel := *typedInput.DefaultConsistencyLevel
+		policy.DefaultConsistencyLevel = &defaultConsistencyLevel
+	}
 
 	// Set property ‘MaxIntervalInSeconds’:
 	if typedInput.MaxIntervalInSeconds != nil {
@@ -3615,9 +3729,10 @@ func (policy *ConsistencyPolicy_Status) AssignPropertiesFromConsistencyPolicySta
 
 	// DefaultConsistencyLevel
 	if source.DefaultConsistencyLevel != nil {
-		policy.DefaultConsistencyLevel = ConsistencyPolicyStatusDefaultConsistencyLevel(*source.DefaultConsistencyLevel)
+		defaultConsistencyLevel := ConsistencyPolicyStatusDefaultConsistencyLevel(*source.DefaultConsistencyLevel)
+		policy.DefaultConsistencyLevel = &defaultConsistencyLevel
 	} else {
-		policy.DefaultConsistencyLevel = ""
+		policy.DefaultConsistencyLevel = nil
 	}
 
 	// MaxIntervalInSeconds
@@ -3636,8 +3751,12 @@ func (policy *ConsistencyPolicy_Status) AssignPropertiesToConsistencyPolicyStatu
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DefaultConsistencyLevel
-	defaultConsistencyLevel := string(policy.DefaultConsistencyLevel)
-	destination.DefaultConsistencyLevel = &defaultConsistencyLevel
+	if policy.DefaultConsistencyLevel != nil {
+		defaultConsistencyLevel := string(*policy.DefaultConsistencyLevel)
+		destination.DefaultConsistencyLevel = &defaultConsistencyLevel
+	} else {
+		destination.DefaultConsistencyLevel = nil
+	}
 
 	// MaxIntervalInSeconds
 	destination.MaxIntervalInSeconds = genruntime.ClonePointerToInt(policy.MaxIntervalInSeconds)
@@ -3666,7 +3785,7 @@ type CorsPolicy struct {
 
 	// +kubebuilder:validation:Required
 	//AllowedOrigins: The origin domains that are permitted to make a request against the service via CORS.
-	AllowedOrigins string `json:"allowedOrigins"`
+	AllowedOrigins *string `json:"allowedOrigins,omitempty"`
 
 	//ExposedHeaders: The response headers that may be sent in the response to the CORS request and exposed by the browser to
 	//the request issuer.
@@ -3700,7 +3819,10 @@ func (policy *CorsPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	}
 
 	// Set property ‘AllowedOrigins’:
-	result.AllowedOrigins = policy.AllowedOrigins
+	if policy.AllowedOrigins != nil {
+		allowedOrigins := *policy.AllowedOrigins
+		result.AllowedOrigins = &allowedOrigins
+	}
 
 	// Set property ‘ExposedHeaders’:
 	if policy.ExposedHeaders != nil {
@@ -3741,7 +3863,10 @@ func (policy *CorsPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 	}
 
 	// Set property ‘AllowedOrigins’:
-	policy.AllowedOrigins = typedInput.AllowedOrigins
+	if typedInput.AllowedOrigins != nil {
+		allowedOrigins := *typedInput.AllowedOrigins
+		policy.AllowedOrigins = &allowedOrigins
+	}
 
 	// Set property ‘ExposedHeaders’:
 	if typedInput.ExposedHeaders != nil {
@@ -3769,7 +3894,7 @@ func (policy *CorsPolicy) AssignPropertiesFromCorsPolicy(source *v1alpha1api2021
 	policy.AllowedMethods = genruntime.ClonePointerToString(source.AllowedMethods)
 
 	// AllowedOrigins
-	policy.AllowedOrigins = genruntime.GetOptionalStringValue(source.AllowedOrigins)
+	policy.AllowedOrigins = genruntime.ClonePointerToString(source.AllowedOrigins)
 
 	// ExposedHeaders
 	policy.ExposedHeaders = genruntime.ClonePointerToString(source.ExposedHeaders)
@@ -3798,8 +3923,7 @@ func (policy *CorsPolicy) AssignPropertiesToCorsPolicy(destination *v1alpha1api2
 	destination.AllowedMethods = genruntime.ClonePointerToString(policy.AllowedMethods)
 
 	// AllowedOrigins
-	allowedOrigin := policy.AllowedOrigins
-	destination.AllowedOrigins = &allowedOrigin
+	destination.AllowedOrigins = genruntime.ClonePointerToString(policy.AllowedOrigins)
 
 	// ExposedHeaders
 	destination.ExposedHeaders = genruntime.ClonePointerToString(policy.ExposedHeaders)
@@ -3832,7 +3956,7 @@ type CorsPolicy_Status struct {
 
 	// +kubebuilder:validation:Required
 	//AllowedOrigins: The origin domains that are permitted to make a request against the service via CORS.
-	AllowedOrigins string `json:"allowedOrigins"`
+	AllowedOrigins *string `json:"allowedOrigins,omitempty"`
 
 	//ExposedHeaders: The response headers that may be sent in the response to the CORS request and exposed by the browser to
 	//the request issuer.
@@ -3869,7 +3993,10 @@ func (policy *CorsPolicy_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	}
 
 	// Set property ‘AllowedOrigins’:
-	policy.AllowedOrigins = typedInput.AllowedOrigins
+	if typedInput.AllowedOrigins != nil {
+		allowedOrigins := *typedInput.AllowedOrigins
+		policy.AllowedOrigins = &allowedOrigins
+	}
 
 	// Set property ‘ExposedHeaders’:
 	if typedInput.ExposedHeaders != nil {
@@ -3897,7 +4024,7 @@ func (policy *CorsPolicy_Status) AssignPropertiesFromCorsPolicyStatus(source *v1
 	policy.AllowedMethods = genruntime.ClonePointerToString(source.AllowedMethods)
 
 	// AllowedOrigins
-	policy.AllowedOrigins = genruntime.GetOptionalStringValue(source.AllowedOrigins)
+	policy.AllowedOrigins = genruntime.ClonePointerToString(source.AllowedOrigins)
 
 	// ExposedHeaders
 	policy.ExposedHeaders = genruntime.ClonePointerToString(source.ExposedHeaders)
@@ -3921,8 +4048,7 @@ func (policy *CorsPolicy_Status) AssignPropertiesToCorsPolicyStatus(destination 
 	destination.AllowedMethods = genruntime.ClonePointerToString(policy.AllowedMethods)
 
 	// AllowedOrigins
-	allowedOrigin := policy.AllowedOrigins
-	destination.AllowedOrigins = &allowedOrigin
+	destination.AllowedOrigins = genruntime.ClonePointerToString(policy.AllowedOrigins)
 
 	// ExposedHeaders
 	destination.ExposedHeaders = genruntime.ClonePointerToString(policy.ExposedHeaders)
@@ -5112,7 +5238,7 @@ const (
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContinuousModeBackupPolicy
 type ContinuousModeBackupPolicy struct {
 	// +kubebuilder:validation:Required
-	Type ContinuousModeBackupPolicyType `json:"type"`
+	Type *ContinuousModeBackupPolicyType `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ContinuousModeBackupPolicy{}
@@ -5125,7 +5251,9 @@ func (policy *ContinuousModeBackupPolicy) ConvertToARM(resolved genruntime.Conve
 	var result ContinuousModeBackupPolicyARM
 
 	// Set property ‘Type’:
-	result.Type = policy.Type
+	if policy.Type != nil {
+		result.Type = *policy.Type
+	}
 	return result, nil
 }
 
@@ -5142,7 +5270,7 @@ func (policy *ContinuousModeBackupPolicy) PopulateFromARM(owner genruntime.Arbit
 	}
 
 	// Set property ‘Type’:
-	policy.Type = typedInput.Type
+	policy.Type = &typedInput.Type
 
 	// No error
 	return nil
@@ -5153,9 +5281,10 @@ func (policy *ContinuousModeBackupPolicy) AssignPropertiesFromContinuousModeBack
 
 	// Type
 	if source.Type != nil {
-		policy.Type = ContinuousModeBackupPolicyType(*source.Type)
+		typeVar := ContinuousModeBackupPolicyType(*source.Type)
+		policy.Type = &typeVar
 	} else {
-		policy.Type = ""
+		policy.Type = nil
 	}
 
 	// No error
@@ -5168,8 +5297,12 @@ func (policy *ContinuousModeBackupPolicy) AssignPropertiesToContinuousModeBackup
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Type
-	typeVar := string(policy.Type)
-	destination.Type = &typeVar
+	if policy.Type != nil {
+		typeVar := string(*policy.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5386,7 +5519,7 @@ type PeriodicModeBackupPolicy struct {
 	PeriodicModeProperties *PeriodicModeProperties `json:"periodicModeProperties,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Type PeriodicModeBackupPolicyType `json:"type"`
+	Type *PeriodicModeBackupPolicyType `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &PeriodicModeBackupPolicy{}
@@ -5409,7 +5542,9 @@ func (policy *PeriodicModeBackupPolicy) ConvertToARM(resolved genruntime.Convert
 	}
 
 	// Set property ‘Type’:
-	result.Type = policy.Type
+	if policy.Type != nil {
+		result.Type = *policy.Type
+	}
 	return result, nil
 }
 
@@ -5437,7 +5572,7 @@ func (policy *PeriodicModeBackupPolicy) PopulateFromARM(owner genruntime.Arbitra
 	}
 
 	// Set property ‘Type’:
-	policy.Type = typedInput.Type
+	policy.Type = &typedInput.Type
 
 	// No error
 	return nil
@@ -5460,9 +5595,10 @@ func (policy *PeriodicModeBackupPolicy) AssignPropertiesFromPeriodicModeBackupPo
 
 	// Type
 	if source.Type != nil {
-		policy.Type = PeriodicModeBackupPolicyType(*source.Type)
+		typeVar := PeriodicModeBackupPolicyType(*source.Type)
+		policy.Type = &typeVar
 	} else {
-		policy.Type = ""
+		policy.Type = nil
 	}
 
 	// No error
@@ -5487,8 +5623,12 @@ func (policy *PeriodicModeBackupPolicy) AssignPropertiesToPeriodicModeBackupPoli
 	}
 
 	// Type
-	typeVar := string(policy.Type)
-	destination.Type = &typeVar
+	if policy.Type != nil {
+		typeVar := string(*policy.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

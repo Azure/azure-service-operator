@@ -419,7 +419,7 @@ func AddIndependentPropertyGeneratorsForVirtualMachinesSpec(gens map[string]gopt
 	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(VirtualMachinesSpecPropertiesEvictionPolicyDeallocate, VirtualMachinesSpecPropertiesEvictionPolicyDelete))
 	gens["ExtensionsTimeBudget"] = gen.PtrOf(gen.AlphaString())
 	gens["LicenseType"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["PlatformFaultDomain"] = gen.PtrOf(gen.Int())
 	gens["Priority"] = gen.PtrOf(gen.OneConstOf(VirtualMachinesSpecPropertiesPriorityLow, VirtualMachinesSpecPropertiesPriorityRegular, VirtualMachinesSpecPropertiesPrioritySpot))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
@@ -3097,7 +3097,7 @@ func AddIndependentPropertyGeneratorsForVirtualMachineExtensionStatus(gens map[s
 	gens["EnableAutomaticUpgrade"] = gen.PtrOf(gen.Bool())
 	gens["ForceUpdateTag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PropertiesType"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
@@ -4002,10 +4002,10 @@ func DataDiskGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDataDisk is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDataDisk(gens map[string]gopter.Gen) {
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(DataDiskCachingNone, DataDiskCachingReadOnly, DataDiskCachingReadWrite))
-	gens["CreateOption"] = gen.OneConstOf(DataDiskCreateOptionAttach, DataDiskCreateOptionEmpty, DataDiskCreateOptionFromImage)
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(DataDiskCreateOptionAttach, DataDiskCreateOptionEmpty, DataDiskCreateOptionFromImage))
 	gens["DetachOption"] = gen.PtrOf(gen.OneConstOf(DataDiskDetachOptionForceDetach))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["Lun"] = gen.Int()
+	gens["Lun"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ToBeDetached"] = gen.PtrOf(gen.Bool())
 	gens["WriteAcceleratorEnabled"] = gen.PtrOf(gen.Bool())
@@ -4126,12 +4126,12 @@ func DataDiskStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDataDiskStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDataDiskStatus(gens map[string]gopter.Gen) {
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(Caching_StatusNone, Caching_StatusReadOnly, Caching_StatusReadWrite))
-	gens["CreateOption"] = gen.OneConstOf(CreateOption_StatusAttach, CreateOption_StatusEmpty, CreateOption_StatusFromImage)
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(CreateOption_StatusAttach, CreateOption_StatusEmpty, CreateOption_StatusFromImage))
 	gens["DetachOption"] = gen.PtrOf(gen.OneConstOf(DetachOption_StatusForceDetach))
 	gens["DiskIOPSReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskMBpsReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["Lun"] = gen.Int()
+	gens["Lun"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ToBeDetached"] = gen.PtrOf(gen.Bool())
 	gens["WriteAcceleratorEnabled"] = gen.PtrOf(gen.Bool())
@@ -5136,7 +5136,7 @@ func OSDiskGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForOSDisk is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForOSDisk(gens map[string]gopter.Gen) {
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(OSDiskCachingNone, OSDiskCachingReadOnly, OSDiskCachingReadWrite))
-	gens["CreateOption"] = gen.OneConstOf(OSDiskCreateOptionAttach, OSDiskCreateOptionEmpty, OSDiskCreateOptionFromImage)
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(OSDiskCreateOptionAttach, OSDiskCreateOptionEmpty, OSDiskCreateOptionFromImage))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OSDiskOsTypeLinux, OSDiskOsTypeWindows))
@@ -5260,7 +5260,7 @@ func OSDiskStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForOSDiskStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForOSDiskStatus(gens map[string]gopter.Gen) {
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(Caching_StatusNone, Caching_StatusReadOnly, Caching_StatusReadWrite))
-	gens["CreateOption"] = gen.OneConstOf(CreateOption_StatusAttach, CreateOption_StatusEmpty, CreateOption_StatusFromImage)
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(CreateOption_StatusAttach, CreateOption_StatusEmpty, CreateOption_StatusFromImage))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OSDiskStatusOsTypeLinux, OSDiskStatusOsTypeWindows))
@@ -9384,12 +9384,12 @@ func KeyVaultKeyReferenceGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKeyVaultKeyReference is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyVaultKeyReference(gens map[string]gopter.Gen) {
-	gens["KeyUrl"] = gen.AlphaString()
+	gens["KeyUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForKeyVaultKeyReference is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForKeyVaultKeyReference(gens map[string]gopter.Gen) {
-	gens["SourceVault"] = SubResourceGenerator()
+	gens["SourceVault"] = gen.PtrOf(SubResourceGenerator())
 }
 
 func Test_KeyVaultKeyReference_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -9500,12 +9500,12 @@ func KeyVaultKeyReferenceStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKeyVaultKeyReferenceStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyVaultKeyReferenceStatus(gens map[string]gopter.Gen) {
-	gens["KeyUrl"] = gen.AlphaString()
+	gens["KeyUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForKeyVaultKeyReferenceStatus is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForKeyVaultKeyReferenceStatus(gens map[string]gopter.Gen) {
-	gens["SourceVault"] = SubResourceStatusGenerator()
+	gens["SourceVault"] = gen.PtrOf(SubResourceStatusGenerator())
 }
 
 func Test_KeyVaultSecretReference_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -9616,12 +9616,12 @@ func KeyVaultSecretReferenceGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKeyVaultSecretReference is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyVaultSecretReference(gens map[string]gopter.Gen) {
-	gens["SecretUrl"] = gen.AlphaString()
+	gens["SecretUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForKeyVaultSecretReference is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForKeyVaultSecretReference(gens map[string]gopter.Gen) {
-	gens["SourceVault"] = SubResourceGenerator()
+	gens["SourceVault"] = gen.PtrOf(SubResourceGenerator())
 }
 
 func Test_KeyVaultSecretReference_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -9732,12 +9732,12 @@ func KeyVaultSecretReferenceStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKeyVaultSecretReferenceStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyVaultSecretReferenceStatus(gens map[string]gopter.Gen) {
-	gens["SecretUrl"] = gen.AlphaString()
+	gens["SecretUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForKeyVaultSecretReferenceStatus is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForKeyVaultSecretReferenceStatus(gens map[string]gopter.Gen) {
-	gens["SourceVault"] = SubResourceStatusGenerator()
+	gens["SourceVault"] = gen.PtrOf(SubResourceStatusGenerator())
 }
 
 func Test_SshPublicKey_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

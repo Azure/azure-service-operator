@@ -29,6 +29,7 @@ addCrossResourceReferences                azure      Replace cross-resource refe
 addSecrets                                azure      Replace properties flagged as secret with genruntime.SecretReference
 reportTypesAndVersions                    azure      Generate reports on types and versions in each package
 createArmTypes                            azure      Create types for interaction with ARM
+makeOneOfDiscriminantRequired             azure      Fix one of types to a discriminator which is not omitempty/optional
 applyArmConversionInterface               azure      Add ARM conversion interfaces to Kubernetes types
 applyKubernetesResourceInterface          azure      Add the KubernetesResource interface to every resource
 flattenProperties                                    Apply flattening to properties marked for flattening

@@ -10,10 +10,10 @@ type RoleAssignments_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the role assignment. It can be any valid GUID.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Role assignment properties.
-	Properties RoleAssignmentPropertiesARM `json:"properties"`
+	Properties *RoleAssignmentPropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -53,9 +53,9 @@ type RoleAssignmentPropertiesARM struct {
 	Description *string `json:"description,omitempty"`
 
 	//PrincipalId: The principal ID.
-	PrincipalId string `json:"principalId"`
+	PrincipalId *string `json:"principalId,omitempty"`
 
 	//PrincipalType: The principal type of the assigned principal ID.
 	PrincipalType    *RoleAssignmentPropertiesPrincipalType `json:"principalType,omitempty"`
-	RoleDefinitionId string                                 `json:"roleDefinitionId"`
+	RoleDefinitionId *string                                `json:"roleDefinitionId,omitempty"`
 }

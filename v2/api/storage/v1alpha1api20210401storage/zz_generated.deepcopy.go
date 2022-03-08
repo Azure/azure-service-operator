@@ -3016,7 +3016,11 @@ func (in *StorageAccountsBlobServicesContainers_Spec) DeepCopyInto(out *StorageA
 			(*out)[key] = val
 		}
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -3096,7 +3100,11 @@ func (in *StorageAccountsBlobServices_Spec) DeepCopyInto(out *StorageAccountsBlo
 		*out = new(string)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -3261,7 +3269,11 @@ func (in *StorageAccountsQueueServicesQueues_Spec) DeepCopyInto(out *StorageAcco
 			(*out)[key] = val
 		}
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -3301,7 +3313,11 @@ func (in *StorageAccountsQueueServices_Spec) DeepCopyInto(out *StorageAccountsQu
 		*out = new(string)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -3421,7 +3437,11 @@ func (in *StorageAccounts_Spec) DeepCopyInto(out *StorageAccounts_Spec) {
 		*out = new(StorageAccountOperatorSpec)
 		(*in).DeepCopyInto(*out)
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -3670,7 +3690,11 @@ func (in *VirtualNetworkRule) DeepCopyInto(out *VirtualNetworkRule) {
 			(*out)[key] = val
 		}
 	}
-	out.Reference = in.Reference
+	if in.Reference != nil {
+		in, out := &in.Reference, &out.Reference
+		*out = new(genruntime.ResourceReference)
+		**out = **in
+	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
 		*out = new(string)

@@ -249,14 +249,14 @@ func SkuStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSkuStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuStatusARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.OneConstOf(
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
 		SkuStatusNameEnterpriseE10,
 		SkuStatusNameEnterpriseE100,
 		SkuStatusNameEnterpriseE20,
 		SkuStatusNameEnterpriseE50,
 		SkuStatusNameEnterpriseFlashF1500,
 		SkuStatusNameEnterpriseFlashF300,
-		SkuStatusNameEnterpriseFlashF700)
+		SkuStatusNameEnterpriseFlashF700))
 }
 
 func Test_PrivateEndpointConnection_Status_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

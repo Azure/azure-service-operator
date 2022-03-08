@@ -80,7 +80,7 @@ type PersonList struct {
 
 type Person_Spec struct {
 	//FullName: As would be used to address mail
-	FullName string `json:"fullName"`
+	FullName string `json:"fullName,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Person_Spec{}
@@ -164,7 +164,7 @@ func (person *Person_Spec) AssignPropertiesToPersonSpec(destination *v20200101st
 }
 
 type Person_Status struct {
-	Status string `json:"status"`
+	Status string `json:"status,omitempty"`
 }
 
 // AssignPropertiesFromPersonStatus populates our Person_Status from the provided source Person_Status

@@ -10,10 +10,10 @@ type DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: Cosmos DB trigger name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties to create and update Azure Cosmos DB trigger.
-	Properties SqlTriggerCreateUpdatePropertiesARM `json:"properties"`
+	Properties *SqlTriggerCreateUpdatePropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
 	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
@@ -47,7 +47,7 @@ type SqlTriggerCreateUpdatePropertiesARM struct {
 	Options *CreateUpdateOptionsARM `json:"options,omitempty"`
 
 	//Resource: Cosmos DB SQL trigger resource object
-	Resource SqlTriggerResourceARM `json:"resource"`
+	Resource *SqlTriggerResourceARM `json:"resource,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlTriggerResource
@@ -56,7 +56,7 @@ type SqlTriggerResourceARM struct {
 	Body *string `json:"body,omitempty"`
 
 	//Id: Name of the Cosmos DB SQL trigger
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 
 	//TriggerOperation: The operation the trigger is associated with.
 	TriggerOperation *SqlTriggerResourceTriggerOperation `json:"triggerOperation,omitempty"`

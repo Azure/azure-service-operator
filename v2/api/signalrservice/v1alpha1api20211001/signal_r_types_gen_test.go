@@ -1078,7 +1078,7 @@ func ResourceSkuGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForResourceSku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForResourceSku(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(
 		ResourceSkuTierBasic,
 		ResourceSkuTierFree,
@@ -1186,7 +1186,7 @@ func ResourceSkuStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForResourceSkuStatus(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Family"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Size"] = gen.PtrOf(gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(
 		SignalRSkuTier_StatusBasic,
@@ -1817,13 +1817,13 @@ func SignalRFeatureGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSignalRFeature is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSignalRFeature(gens map[string]gopter.Gen) {
-	gens["Flag"] = gen.OneConstOf(
+	gens["Flag"] = gen.PtrOf(gen.OneConstOf(
 		SignalRFeatureFlagEnableConnectivityLogs,
 		SignalRFeatureFlagEnableLiveTrace,
 		SignalRFeatureFlagEnableMessagingLogs,
-		SignalRFeatureFlagServiceMode)
+		SignalRFeatureFlagServiceMode))
 	gens["Properties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Value"] = gen.AlphaString()
+	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_SignalRFeature_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1925,13 +1925,13 @@ func SignalRFeatureStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSignalRFeatureStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSignalRFeatureStatus(gens map[string]gopter.Gen) {
-	gens["Flag"] = gen.OneConstOf(
+	gens["Flag"] = gen.PtrOf(gen.OneConstOf(
 		FeatureFlags_StatusEnableConnectivityLogs,
 		FeatureFlags_StatusEnableLiveTrace,
 		FeatureFlags_StatusEnableMessagingLogs,
-		FeatureFlags_StatusServiceMode)
+		FeatureFlags_StatusServiceMode))
 	gens["Properties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Value"] = gen.AlphaString()
+	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_SignalRNetworkACLs_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2812,7 +2812,7 @@ func AddIndependentPropertyGeneratorsForPrivateEndpointACL(gens map[string]gopte
 		PrivateEndpointACLDenyRESTAPI,
 		PrivateEndpointACLDenyServerConnection,
 		PrivateEndpointACLDenyTrace))
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_PrivateEndpointACL_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2924,7 +2924,7 @@ func AddIndependentPropertyGeneratorsForPrivateEndpointACLStatus(gens map[string
 		SignalRRequestType_StatusRESTAPI,
 		SignalRRequestType_StatusServerConnection,
 		SignalRRequestType_StatusTrace))
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ResourceLogCategory_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -3243,7 +3243,7 @@ func AddIndependentPropertyGeneratorsForUpstreamTemplate(gens map[string]gopter.
 	gens["CategoryPattern"] = gen.PtrOf(gen.AlphaString())
 	gens["EventPattern"] = gen.PtrOf(gen.AlphaString())
 	gens["HubPattern"] = gen.PtrOf(gen.AlphaString())
-	gens["UrlTemplate"] = gen.AlphaString()
+	gens["UrlTemplate"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForUpstreamTemplate is a factory method for creating gopter generators
@@ -3362,7 +3362,7 @@ func AddIndependentPropertyGeneratorsForUpstreamTemplateStatus(gens map[string]g
 	gens["CategoryPattern"] = gen.PtrOf(gen.AlphaString())
 	gens["EventPattern"] = gen.PtrOf(gen.AlphaString())
 	gens["HubPattern"] = gen.PtrOf(gen.AlphaString())
-	gens["UrlTemplate"] = gen.AlphaString()
+	gens["UrlTemplate"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForUpstreamTemplateStatus is a factory method for creating gopter generators

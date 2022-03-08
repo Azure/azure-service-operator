@@ -1004,7 +1004,7 @@ const LoadBalancersSpecAPIVersion20201101 = LoadBalancersSpecAPIVersion("2020-11
 type LoadBalancers_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//BackendAddressPools: Collection of backend address pools used by a load balancer.
 	BackendAddressPools []LoadBalancers_Spec_Properties_BackendAddressPools `json:"backendAddressPools,omitempty"`
@@ -1026,7 +1026,7 @@ type LoadBalancers_Spec struct {
 	LoadBalancingRules []LoadBalancers_Spec_Properties_LoadBalancingRules `json:"loadBalancingRules,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//OutboundRules: The outbound rules.
 	OutboundRules []LoadBalancers_Spec_Properties_OutboundRules `json:"outboundRules,omitempty"`
@@ -1035,7 +1035,7 @@ type LoadBalancers_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	//Probes: Collection of probe objects used in the load balancer.
 	Probes []LoadBalancers_Spec_Properties_Probes `json:"probes,omitempty"`
@@ -1067,12 +1067,23 @@ func (balancers *LoadBalancers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	}
 
 	// Set property ‘Location’:
-	result.Location = balancers.Location
+	if balancers.Location != nil {
+		location := *balancers.Location
+		result.Location = &location
+	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if balancers.BackendAddressPools != nil ||
+		balancers.FrontendIPConfigurations != nil ||
+		balancers.InboundNatPools != nil ||
+		balancers.LoadBalancingRules != nil ||
+		balancers.OutboundRules != nil ||
+		balancers.Probes != nil {
+		result.Properties = &LoadBalancers_Spec_PropertiesARM{}
+	}
 	for _, item := range balancers.BackendAddressPools {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -1153,13 +1164,15 @@ func (balancers *LoadBalancers_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘BackendAddressPools’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.BackendAddressPools {
-		var item1 LoadBalancers_Spec_Properties_BackendAddressPools
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.BackendAddressPools {
+			var item1 LoadBalancers_Spec_Properties_BackendAddressPools
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			balancers.BackendAddressPools = append(balancers.BackendAddressPools, item1)
 		}
-		balancers.BackendAddressPools = append(balancers.BackendAddressPools, item1)
 	}
 
 	// Set property ‘ExtendedLocation’:
@@ -1175,65 +1188,78 @@ func (balancers *LoadBalancers_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘FrontendIPConfigurations’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.FrontendIPConfigurations {
-		var item1 LoadBalancers_Spec_Properties_FrontendIPConfigurations
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.FrontendIPConfigurations {
+			var item1 LoadBalancers_Spec_Properties_FrontendIPConfigurations
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			balancers.FrontendIPConfigurations = append(balancers.FrontendIPConfigurations, item1)
 		}
-		balancers.FrontendIPConfigurations = append(balancers.FrontendIPConfigurations, item1)
 	}
 
 	// Set property ‘InboundNatPools’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.InboundNatPools {
-		var item1 LoadBalancers_Spec_Properties_InboundNatPools
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.InboundNatPools {
+			var item1 LoadBalancers_Spec_Properties_InboundNatPools
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			balancers.InboundNatPools = append(balancers.InboundNatPools, item1)
 		}
-		balancers.InboundNatPools = append(balancers.InboundNatPools, item1)
 	}
 
 	// Set property ‘LoadBalancingRules’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.LoadBalancingRules {
-		var item1 LoadBalancers_Spec_Properties_LoadBalancingRules
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.LoadBalancingRules {
+			var item1 LoadBalancers_Spec_Properties_LoadBalancingRules
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			balancers.LoadBalancingRules = append(balancers.LoadBalancingRules, item1)
 		}
-		balancers.LoadBalancingRules = append(balancers.LoadBalancingRules, item1)
 	}
 
 	// Set property ‘Location’:
-	balancers.Location = typedInput.Location
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		balancers.Location = &location
+	}
 
 	// Set property ‘OutboundRules’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.OutboundRules {
-		var item1 LoadBalancers_Spec_Properties_OutboundRules
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.OutboundRules {
+			var item1 LoadBalancers_Spec_Properties_OutboundRules
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			balancers.OutboundRules = append(balancers.OutboundRules, item1)
 		}
-		balancers.OutboundRules = append(balancers.OutboundRules, item1)
 	}
 
 	// Set property ‘Owner’:
-	balancers.Owner = genruntime.KnownResourceReference{
+	balancers.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Probes’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.Probes {
-		var item1 LoadBalancers_Spec_Properties_Probes
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.Probes {
+			var item1 LoadBalancers_Spec_Properties_Probes
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			balancers.Probes = append(balancers.Probes, item1)
 		}
-		balancers.Probes = append(balancers.Probes, item1)
 	}
 
 	// Set property ‘Sku’:
@@ -1400,7 +1426,7 @@ func (balancers *LoadBalancers_Spec) AssignPropertiesFromLoadBalancersSpec(sourc
 	}
 
 	// Location
-	balancers.Location = genruntime.GetOptionalStringValue(source.Location)
+	balancers.Location = genruntime.ClonePointerToString(source.Location)
 
 	// OutboundRules
 	if source.OutboundRules != nil {
@@ -1421,7 +1447,12 @@ func (balancers *LoadBalancers_Spec) AssignPropertiesFromLoadBalancersSpec(sourc
 	}
 
 	// Owner
-	balancers.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		balancers.Owner = &owner
+	} else {
+		balancers.Owner = nil
+	}
 
 	// Probes
 	if source.Probes != nil {
@@ -1553,8 +1584,7 @@ func (balancers *LoadBalancers_Spec) AssignPropertiesToLoadBalancersSpec(destina
 	}
 
 	// Location
-	location := balancers.Location
-	destination.Location = &location
+	destination.Location = genruntime.ClonePointerToString(balancers.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = balancers.OriginalVersion()
@@ -1578,7 +1608,12 @@ func (balancers *LoadBalancers_Spec) AssignPropertiesToLoadBalancersSpec(destina
 	}
 
 	// Owner
-	destination.Owner = balancers.Owner.Copy()
+	if balancers.Owner != nil {
+		owner := balancers.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Probes
 	if balancers.Probes != nil {
@@ -1694,11 +1729,11 @@ func (embedded *BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded) Assi
 type ExtendedLocation struct {
 	// +kubebuilder:validation:Required
 	//Name: The name of the extended location.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Type: The type of the extended location.
-	Type ExtendedLocationType `json:"type"`
+	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ExtendedLocation{}
@@ -1711,10 +1746,16 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 	var result ExtendedLocationARM
 
 	// Set property ‘Name’:
-	result.Name = location.Name
+	if location.Name != nil {
+		name := *location.Name
+		result.Name = &name
+	}
 
 	// Set property ‘Type’:
-	result.Type = location.Type
+	if location.Type != nil {
+		typeVar := *location.Type
+		result.Type = &typeVar
+	}
 	return result, nil
 }
 
@@ -1731,10 +1772,16 @@ func (location *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwne
 	}
 
 	// Set property ‘Name’:
-	location.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		location.Name = &name
+	}
 
 	// Set property ‘Type’:
-	location.Type = typedInput.Type
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		location.Type = &typeVar
+	}
 
 	// No error
 	return nil
@@ -1744,13 +1791,14 @@ func (location *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwne
 func (location *ExtendedLocation) AssignPropertiesFromExtendedLocation(source *v1alpha1api20201101storage.ExtendedLocation) error {
 
 	// Name
-	location.Name = genruntime.GetOptionalStringValue(source.Name)
+	location.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
 	if source.Type != nil {
-		location.Type = ExtendedLocationType(*source.Type)
+		typeVar := ExtendedLocationType(*source.Type)
+		location.Type = &typeVar
 	} else {
-		location.Type = ""
+		location.Type = nil
 	}
 
 	// No error
@@ -1763,12 +1811,15 @@ func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := location.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(location.Name)
 
 	// Type
-	typeVar := string(location.Type)
-	destination.Type = &typeVar
+	if location.Type != nil {
+		typeVar := string(*location.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1784,11 +1835,11 @@ func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination
 type ExtendedLocation_Status struct {
 	// +kubebuilder:validation:Required
 	//Name: The name of the extended location.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Type: The type of the extended location.
-	Type ExtendedLocationType_Status `json:"type"`
+	Type *ExtendedLocationType_Status `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ExtendedLocation_Status{}
@@ -1806,10 +1857,16 @@ func (location *ExtendedLocation_Status) PopulateFromARM(owner genruntime.Arbitr
 	}
 
 	// Set property ‘Name’:
-	location.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		location.Name = &name
+	}
 
 	// Set property ‘Type’:
-	location.Type = typedInput.Type
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		location.Type = &typeVar
+	}
 
 	// No error
 	return nil
@@ -1819,13 +1876,14 @@ func (location *ExtendedLocation_Status) PopulateFromARM(owner genruntime.Arbitr
 func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationStatus(source *v1alpha1api20201101storage.ExtendedLocation_Status) error {
 
 	// Name
-	location.Name = genruntime.GetOptionalStringValue(source.Name)
+	location.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
 	if source.Type != nil {
-		location.Type = ExtendedLocationType_Status(*source.Type)
+		typeVar := ExtendedLocationType_Status(*source.Type)
+		location.Type = &typeVar
 	} else {
-		location.Type = ""
+		location.Type = nil
 	}
 
 	// No error
@@ -1838,12 +1896,15 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := location.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(location.Name)
 
 	// Type
-	typeVar := string(location.Type)
-	destination.Type = &typeVar
+	if location.Type != nil {
+		typeVar := string(*location.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2408,6 +2469,7 @@ func (embedded *FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded)
 }
 
 type InboundNatPool_Status struct {
+	// +kubebuilder:validation:Required
 	//BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.
 	BackendPort *int `json:"backendPort,omitempty"`
 
@@ -2426,10 +2488,12 @@ type InboundNatPool_Status struct {
 	//FrontendIPConfiguration: A reference to frontend IP addresses.
 	FrontendIPConfiguration *SubResource_Status `json:"frontendIPConfiguration,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//FrontendPortRangeEnd: The last port number in the range of external ports that will be used to provide Inbound Nat to
 	//NICs associated with a load balancer. Acceptable values range between 1 and 65535.
 	FrontendPortRangeEnd *int `json:"frontendPortRangeEnd,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//FrontendPortRangeStart: The first port number in the range of external ports that will be used to provide Inbound Nat to
 	//NICs associated with a load balancer. Acceptable values range between 1 and 65534.
 	FrontendPortRangeStart *int `json:"frontendPortRangeStart,omitempty"`
@@ -2445,6 +2509,7 @@ type InboundNatPool_Status struct {
 	//can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//Protocol: The reference to the transport protocol used by the inbound NAT pool.
 	Protocol *TransportProtocol_Status `json:"protocol,omitempty"`
 
@@ -2472,7 +2537,10 @@ func (pool *InboundNatPool_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// Set property ‘BackendPort’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		pool.BackendPort = &typedInput.Properties.BackendPort
+		if typedInput.Properties.BackendPort != nil {
+			backendPort := *typedInput.Properties.BackendPort
+			pool.BackendPort = &backendPort
+		}
 	}
 
 	// Set property ‘EnableFloatingIP’:
@@ -2516,13 +2584,19 @@ func (pool *InboundNatPool_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// Set property ‘FrontendPortRangeEnd’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		pool.FrontendPortRangeEnd = &typedInput.Properties.FrontendPortRangeEnd
+		if typedInput.Properties.FrontendPortRangeEnd != nil {
+			frontendPortRangeEnd := *typedInput.Properties.FrontendPortRangeEnd
+			pool.FrontendPortRangeEnd = &frontendPortRangeEnd
+		}
 	}
 
 	// Set property ‘FrontendPortRangeStart’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		pool.FrontendPortRangeStart = &typedInput.Properties.FrontendPortRangeStart
+		if typedInput.Properties.FrontendPortRangeStart != nil {
+			frontendPortRangeStart := *typedInput.Properties.FrontendPortRangeStart
+			pool.FrontendPortRangeStart = &frontendPortRangeStart
+		}
 	}
 
 	// Set property ‘Id’:
@@ -2549,7 +2623,10 @@ func (pool *InboundNatPool_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// Set property ‘Protocol’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		pool.Protocol = &typedInput.Properties.Protocol
+		if typedInput.Properties.Protocol != nil {
+			protocol := *typedInput.Properties.Protocol
+			pool.Protocol = &protocol
+		}
 	}
 
 	// Set property ‘ProvisioningState’:
@@ -3006,7 +3083,7 @@ type LoadBalancers_Spec_Properties_BackendAddressPools struct {
 	// +kubebuilder:validation:Required
 	//Name: The name of the resource that is unique within the set of backend address pools used by the load balancer. This
 	//name can be used to access the resource.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &LoadBalancers_Spec_Properties_BackendAddressPools{}
@@ -3019,7 +3096,10 @@ func (pools *LoadBalancers_Spec_Properties_BackendAddressPools) ConvertToARM(res
 	var result LoadBalancers_Spec_Properties_BackendAddressPoolsARM
 
 	// Set property ‘Name’:
-	result.Name = pools.Name
+	if pools.Name != nil {
+		name := *pools.Name
+		result.Name = &name
+	}
 
 	// Set property ‘Properties’:
 	if pools.LoadBalancerBackendAddresses != nil || pools.Location != nil {
@@ -3074,7 +3154,10 @@ func (pools *LoadBalancers_Spec_Properties_BackendAddressPools) PopulateFromARM(
 	}
 
 	// Set property ‘Name’:
-	pools.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		pools.Name = &name
+	}
 
 	// No error
 	return nil
@@ -3105,7 +3188,7 @@ func (pools *LoadBalancers_Spec_Properties_BackendAddressPools) AssignProperties
 	pools.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	pools.Name = genruntime.GetOptionalStringValue(source.Name)
+	pools.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -3138,8 +3221,7 @@ func (pools *LoadBalancers_Spec_Properties_BackendAddressPools) AssignProperties
 	destination.Location = genruntime.ClonePointerToString(pools.Location)
 
 	// Name
-	name := pools.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(pools.Name)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3156,7 +3238,7 @@ type LoadBalancers_Spec_Properties_FrontendIPConfigurations struct {
 	// +kubebuilder:validation:Required
 	//Name: The name of the resource that is unique within the set of frontend IP configurations used by the load balancer.
 	//This name can be used to access the resource.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//PrivateIPAddress: The private IP address of the IP configuration.
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
@@ -3190,7 +3272,10 @@ func (configurations *LoadBalancers_Spec_Properties_FrontendIPConfigurations) Co
 	var result LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM
 
 	// Set property ‘Name’:
-	result.Name = configurations.Name
+	if configurations.Name != nil {
+		name := *configurations.Name
+		result.Name = &name
+	}
 
 	// Set property ‘Properties’:
 	if configurations.PrivateIPAddress != nil ||
@@ -3258,7 +3343,10 @@ func (configurations *LoadBalancers_Spec_Properties_FrontendIPConfigurations) Po
 	}
 
 	// Set property ‘Name’:
-	configurations.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		configurations.Name = &name
+	}
 
 	// Set property ‘PrivateIPAddress’:
 	// copying flattened property:
@@ -3342,7 +3430,7 @@ func (configurations *LoadBalancers_Spec_Properties_FrontendIPConfigurations) Po
 func (configurations *LoadBalancers_Spec_Properties_FrontendIPConfigurations) AssignPropertiesFromLoadBalancersSpecPropertiesFrontendIPConfigurations(source *v1alpha1api20201101storage.LoadBalancers_Spec_Properties_FrontendIPConfigurations) error {
 
 	// Name
-	configurations.Name = genruntime.GetOptionalStringValue(source.Name)
+	configurations.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PrivateIPAddress
 	configurations.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
@@ -3412,8 +3500,7 @@ func (configurations *LoadBalancers_Spec_Properties_FrontendIPConfigurations) As
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := configurations.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(configurations.Name)
 
 	// PrivateIPAddress
 	destination.PrivateIPAddress = genruntime.ClonePointerToString(configurations.PrivateIPAddress)
@@ -3485,6 +3572,7 @@ func (configurations *LoadBalancers_Spec_Properties_FrontendIPConfigurations) As
 }
 
 type LoadBalancers_Spec_Properties_InboundNatPools struct {
+	// +kubebuilder:validation:Required
 	//BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.
 	BackendPort *int `json:"backendPort,omitempty"`
 
@@ -3497,13 +3585,16 @@ type LoadBalancers_Spec_Properties_InboundNatPools struct {
 	//element is only used when the protocol is set to TCP.
 	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//FrontendIPConfiguration: A reference to frontend IP addresses.
 	FrontendIPConfiguration *SubResource `json:"frontendIPConfiguration,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//FrontendPortRangeEnd: The last port number in the range of external ports that will be used to provide Inbound Nat to
 	//NICs associated with a load balancer. Acceptable values range between 1 and 65535.
 	FrontendPortRangeEnd *int `json:"frontendPortRangeEnd,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//FrontendPortRangeStart: The first port number in the range of external ports that will be used to provide Inbound Nat to
 	//NICs associated with a load balancer. Acceptable values range between 1 and 65534.
 	FrontendPortRangeStart *int `json:"frontendPortRangeStart,omitempty"`
@@ -3515,8 +3606,9 @@ type LoadBalancers_Spec_Properties_InboundNatPools struct {
 	// +kubebuilder:validation:Required
 	//Name: The name of the resource that is unique within the set of inbound NAT pools used by the load balancer. This name
 	//can be used to access the resource.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//Protocol: The reference to the transport protocol used by the inbound NAT pool.
 	Protocol *InboundNatPoolPropertiesFormatProtocol `json:"protocol,omitempty"`
 }
@@ -3531,7 +3623,10 @@ func (pools *LoadBalancers_Spec_Properties_InboundNatPools) ConvertToARM(resolve
 	var result LoadBalancers_Spec_Properties_InboundNatPoolsARM
 
 	// Set property ‘Name’:
-	result.Name = pools.Name
+	if pools.Name != nil {
+		name := *pools.Name
+		result.Name = &name
+	}
 
 	// Set property ‘Properties’:
 	if pools.BackendPort != nil ||
@@ -3545,7 +3640,8 @@ func (pools *LoadBalancers_Spec_Properties_InboundNatPools) ConvertToARM(resolve
 		result.Properties = &InboundNatPoolPropertiesFormatARM{}
 	}
 	if pools.BackendPort != nil {
-		result.Properties.BackendPort = *pools.BackendPort
+		backendPort := *pools.BackendPort
+		result.Properties.BackendPort = &backendPort
 	}
 	if pools.EnableFloatingIP != nil {
 		enableFloatingIP := *pools.EnableFloatingIP
@@ -3555,25 +3651,29 @@ func (pools *LoadBalancers_Spec_Properties_InboundNatPools) ConvertToARM(resolve
 		enableTcpReset := *pools.EnableTcpReset
 		result.Properties.EnableTcpReset = &enableTcpReset
 	}
-	var temp SubResourceARM
-	tempARM, err := (*pools.FrontendIPConfiguration).ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if pools.FrontendIPConfiguration != nil {
+		frontendIPConfigurationARM, err := (*pools.FrontendIPConfiguration).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		frontendIPConfiguration := frontendIPConfigurationARM.(SubResourceARM)
+		result.Properties.FrontendIPConfiguration = &frontendIPConfiguration
 	}
-	temp = tempARM.(SubResourceARM)
-	result.Properties.FrontendIPConfiguration = temp
 	if pools.FrontendPortRangeEnd != nil {
-		result.Properties.FrontendPortRangeEnd = *pools.FrontendPortRangeEnd
+		frontendPortRangeEnd := *pools.FrontendPortRangeEnd
+		result.Properties.FrontendPortRangeEnd = &frontendPortRangeEnd
 	}
 	if pools.FrontendPortRangeStart != nil {
-		result.Properties.FrontendPortRangeStart = *pools.FrontendPortRangeStart
+		frontendPortRangeStart := *pools.FrontendPortRangeStart
+		result.Properties.FrontendPortRangeStart = &frontendPortRangeStart
 	}
 	if pools.IdleTimeoutInMinutes != nil {
 		idleTimeoutInMinutes := *pools.IdleTimeoutInMinutes
 		result.Properties.IdleTimeoutInMinutes = &idleTimeoutInMinutes
 	}
 	if pools.Protocol != nil {
-		result.Properties.Protocol = *pools.Protocol
+		protocol := *pools.Protocol
+		result.Properties.Protocol = &protocol
 	}
 	return result, nil
 }
@@ -3593,7 +3693,10 @@ func (pools *LoadBalancers_Spec_Properties_InboundNatPools) PopulateFromARM(owne
 	// Set property ‘BackendPort’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		pools.BackendPort = &typedInput.Properties.BackendPort
+		if typedInput.Properties.BackendPort != nil {
+			backendPort := *typedInput.Properties.BackendPort
+			pools.BackendPort = &backendPort
+		}
 	}
 
 	// Set property ‘EnableFloatingIP’:
@@ -3617,26 +3720,33 @@ func (pools *LoadBalancers_Spec_Properties_InboundNatPools) PopulateFromARM(owne
 	// Set property ‘FrontendIPConfiguration’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		var temp SubResource
-		var temp1 SubResource
-		err := temp1.PopulateFromARM(owner, typedInput.Properties.FrontendIPConfiguration)
-		if err != nil {
-			return err
+		if typedInput.Properties.FrontendIPConfiguration != nil {
+			var frontendIPConfiguration1 SubResource
+			err := frontendIPConfiguration1.PopulateFromARM(owner, *typedInput.Properties.FrontendIPConfiguration)
+			if err != nil {
+				return err
+			}
+			frontendIPConfiguration := frontendIPConfiguration1
+			pools.FrontendIPConfiguration = &frontendIPConfiguration
 		}
-		temp = temp1
-		pools.FrontendIPConfiguration = &temp
 	}
 
 	// Set property ‘FrontendPortRangeEnd’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		pools.FrontendPortRangeEnd = &typedInput.Properties.FrontendPortRangeEnd
+		if typedInput.Properties.FrontendPortRangeEnd != nil {
+			frontendPortRangeEnd := *typedInput.Properties.FrontendPortRangeEnd
+			pools.FrontendPortRangeEnd = &frontendPortRangeEnd
+		}
 	}
 
 	// Set property ‘FrontendPortRangeStart’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		pools.FrontendPortRangeStart = &typedInput.Properties.FrontendPortRangeStart
+		if typedInput.Properties.FrontendPortRangeStart != nil {
+			frontendPortRangeStart := *typedInput.Properties.FrontendPortRangeStart
+			pools.FrontendPortRangeStart = &frontendPortRangeStart
+		}
 	}
 
 	// Set property ‘IdleTimeoutInMinutes’:
@@ -3649,12 +3759,18 @@ func (pools *LoadBalancers_Spec_Properties_InboundNatPools) PopulateFromARM(owne
 	}
 
 	// Set property ‘Name’:
-	pools.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		pools.Name = &name
+	}
 
 	// Set property ‘Protocol’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		pools.Protocol = &typedInput.Properties.Protocol
+		if typedInput.Properties.Protocol != nil {
+			protocol := *typedInput.Properties.Protocol
+			pools.Protocol = &protocol
+		}
 	}
 
 	// No error
@@ -3705,7 +3821,7 @@ func (pools *LoadBalancers_Spec_Properties_InboundNatPools) AssignPropertiesFrom
 	pools.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
 
 	// Name
-	pools.Name = genruntime.GetOptionalStringValue(source.Name)
+	pools.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Protocol
 	if source.Protocol != nil {
@@ -3765,8 +3881,7 @@ func (pools *LoadBalancers_Spec_Properties_InboundNatPools) AssignPropertiesToLo
 	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(pools.IdleTimeoutInMinutes)
 
 	// Name
-	name := pools.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(pools.Name)
 
 	// Protocol
 	if pools.Protocol != nil {
@@ -3792,6 +3907,7 @@ type LoadBalancers_Spec_Properties_LoadBalancingRules struct {
 	//IPs.
 	BackendAddressPool *SubResource `json:"backendAddressPool,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note
 	//that value 0 enables "Any Port".
 	BackendPort *int `json:"backendPort,omitempty"`
@@ -3809,9 +3925,11 @@ type LoadBalancers_Spec_Properties_LoadBalancingRules struct {
 	//element is only used when the protocol is set to TCP.
 	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//FrontendIPConfiguration: A reference to frontend IP addresses.
 	FrontendIPConfiguration *SubResource `json:"frontendIPConfiguration,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//FrontendPort: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer.
 	//Acceptable values are between 0 and 65534. Note that value 0 enables "Any Port".
 	FrontendPort *int `json:"frontendPort,omitempty"`
@@ -3826,11 +3944,12 @@ type LoadBalancers_Spec_Properties_LoadBalancingRules struct {
 	// +kubebuilder:validation:Required
 	//Name: The name of the resource that is unique within the set of load balancing rules used by the load balancer. This
 	//name can be used to access the resource.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Probe: The reference to the load balancer probe used by the load balancing rule.
 	Probe *SubResource `json:"probe,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//Protocol: The reference to the transport protocol used by the load balancing rule.
 	Protocol *LoadBalancingRulePropertiesFormatProtocol `json:"protocol,omitempty"`
 }
@@ -3845,7 +3964,10 @@ func (rules *LoadBalancers_Spec_Properties_LoadBalancingRules) ConvertToARM(reso
 	var result LoadBalancers_Spec_Properties_LoadBalancingRulesARM
 
 	// Set property ‘Name’:
-	result.Name = rules.Name
+	if rules.Name != nil {
+		name := *rules.Name
+		result.Name = &name
+	}
 
 	// Set property ‘Properties’:
 	if rules.BackendAddressPool != nil ||
@@ -3870,7 +3992,8 @@ func (rules *LoadBalancers_Spec_Properties_LoadBalancingRules) ConvertToARM(reso
 		result.Properties.BackendAddressPool = &backendAddressPool
 	}
 	if rules.BackendPort != nil {
-		result.Properties.BackendPort = *rules.BackendPort
+		backendPort := *rules.BackendPort
+		result.Properties.BackendPort = &backendPort
 	}
 	if rules.DisableOutboundSnat != nil {
 		disableOutboundSnat := *rules.DisableOutboundSnat
@@ -3884,15 +4007,17 @@ func (rules *LoadBalancers_Spec_Properties_LoadBalancingRules) ConvertToARM(reso
 		enableTcpReset := *rules.EnableTcpReset
 		result.Properties.EnableTcpReset = &enableTcpReset
 	}
-	var temp SubResourceARM
-	tempARM, err := (*rules.FrontendIPConfiguration).ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if rules.FrontendIPConfiguration != nil {
+		frontendIPConfigurationARM, err := (*rules.FrontendIPConfiguration).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		frontendIPConfiguration := frontendIPConfigurationARM.(SubResourceARM)
+		result.Properties.FrontendIPConfiguration = &frontendIPConfiguration
 	}
-	temp = tempARM.(SubResourceARM)
-	result.Properties.FrontendIPConfiguration = temp
 	if rules.FrontendPort != nil {
-		result.Properties.FrontendPort = *rules.FrontendPort
+		frontendPort := *rules.FrontendPort
+		result.Properties.FrontendPort = &frontendPort
 	}
 	if rules.IdleTimeoutInMinutes != nil {
 		idleTimeoutInMinutes := *rules.IdleTimeoutInMinutes
@@ -3911,7 +4036,8 @@ func (rules *LoadBalancers_Spec_Properties_LoadBalancingRules) ConvertToARM(reso
 		result.Properties.Probe = &probe
 	}
 	if rules.Protocol != nil {
-		result.Properties.Protocol = *rules.Protocol
+		protocol := *rules.Protocol
+		result.Properties.Protocol = &protocol
 	}
 	return result, nil
 }
@@ -3945,7 +4071,10 @@ func (rules *LoadBalancers_Spec_Properties_LoadBalancingRules) PopulateFromARM(o
 	// Set property ‘BackendPort’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		rules.BackendPort = &typedInput.Properties.BackendPort
+		if typedInput.Properties.BackendPort != nil {
+			backendPort := *typedInput.Properties.BackendPort
+			rules.BackendPort = &backendPort
+		}
 	}
 
 	// Set property ‘DisableOutboundSnat’:
@@ -3978,20 +4107,24 @@ func (rules *LoadBalancers_Spec_Properties_LoadBalancingRules) PopulateFromARM(o
 	// Set property ‘FrontendIPConfiguration’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		var temp SubResource
-		var temp1 SubResource
-		err := temp1.PopulateFromARM(owner, typedInput.Properties.FrontendIPConfiguration)
-		if err != nil {
-			return err
+		if typedInput.Properties.FrontendIPConfiguration != nil {
+			var frontendIPConfiguration1 SubResource
+			err := frontendIPConfiguration1.PopulateFromARM(owner, *typedInput.Properties.FrontendIPConfiguration)
+			if err != nil {
+				return err
+			}
+			frontendIPConfiguration := frontendIPConfiguration1
+			rules.FrontendIPConfiguration = &frontendIPConfiguration
 		}
-		temp = temp1
-		rules.FrontendIPConfiguration = &temp
 	}
 
 	// Set property ‘FrontendPort’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		rules.FrontendPort = &typedInput.Properties.FrontendPort
+		if typedInput.Properties.FrontendPort != nil {
+			frontendPort := *typedInput.Properties.FrontendPort
+			rules.FrontendPort = &frontendPort
+		}
 	}
 
 	// Set property ‘IdleTimeoutInMinutes’:
@@ -4013,7 +4146,10 @@ func (rules *LoadBalancers_Spec_Properties_LoadBalancingRules) PopulateFromARM(o
 	}
 
 	// Set property ‘Name’:
-	rules.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		rules.Name = &name
+	}
 
 	// Set property ‘Probe’:
 	// copying flattened property:
@@ -4032,7 +4168,10 @@ func (rules *LoadBalancers_Spec_Properties_LoadBalancingRules) PopulateFromARM(o
 	// Set property ‘Protocol’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		rules.Protocol = &typedInput.Properties.Protocol
+		if typedInput.Properties.Protocol != nil {
+			protocol := *typedInput.Properties.Protocol
+			rules.Protocol = &protocol
+		}
 	}
 
 	// No error
@@ -4108,7 +4247,7 @@ func (rules *LoadBalancers_Spec_Properties_LoadBalancingRules) AssignPropertiesF
 	}
 
 	// Name
-	rules.Name = genruntime.GetOptionalStringValue(source.Name)
+	rules.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Probe
 	if source.Probe != nil {
@@ -4205,8 +4344,7 @@ func (rules *LoadBalancers_Spec_Properties_LoadBalancingRules) AssignPropertiesT
 	}
 
 	// Name
-	name := rules.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(rules.Name)
 
 	// Probe
 	if rules.Probe != nil {
@@ -4243,6 +4381,7 @@ type LoadBalancers_Spec_Properties_OutboundRules struct {
 	//AllocatedOutboundPorts: The number of outbound ports to be used for NAT.
 	AllocatedOutboundPorts *int `json:"allocatedOutboundPorts,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//BackendAddressPool: A reference to a pool of DIPs. Outbound traffic is randomly load balanced across IPs in the backend
 	//IPs.
 	BackendAddressPool *SubResource `json:"backendAddressPool,omitempty"`
@@ -4251,6 +4390,7 @@ type LoadBalancers_Spec_Properties_OutboundRules struct {
 	//element is only used when the protocol is set to TCP.
 	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//FrontendIPConfigurations: The Frontend IP addresses of the load balancer.
 	FrontendIPConfigurations []SubResource `json:"frontendIPConfigurations,omitempty"`
 
@@ -4261,6 +4401,7 @@ type LoadBalancers_Spec_Properties_OutboundRules struct {
 	//be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//Protocol: The protocol for the outbound rule in load balancer.
 	Protocol *OutboundRulePropertiesFormatProtocol `json:"protocol,omitempty"`
 }
@@ -4293,13 +4434,14 @@ func (rules *LoadBalancers_Spec_Properties_OutboundRules) ConvertToARM(resolved 
 		allocatedOutboundPorts := *rules.AllocatedOutboundPorts
 		result.Properties.AllocatedOutboundPorts = &allocatedOutboundPorts
 	}
-	var temp SubResourceARM
-	tempARM, err := (*rules.BackendAddressPool).ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if rules.BackendAddressPool != nil {
+		backendAddressPoolARM, err := (*rules.BackendAddressPool).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		backendAddressPool := backendAddressPoolARM.(SubResourceARM)
+		result.Properties.BackendAddressPool = &backendAddressPool
 	}
-	temp = tempARM.(SubResourceARM)
-	result.Properties.BackendAddressPool = temp
 	if rules.EnableTcpReset != nil {
 		enableTcpReset := *rules.EnableTcpReset
 		result.Properties.EnableTcpReset = &enableTcpReset
@@ -4316,7 +4458,8 @@ func (rules *LoadBalancers_Spec_Properties_OutboundRules) ConvertToARM(resolved 
 		result.Properties.IdleTimeoutInMinutes = &idleTimeoutInMinutes
 	}
 	if rules.Protocol != nil {
-		result.Properties.Protocol = *rules.Protocol
+		protocol := *rules.Protocol
+		result.Properties.Protocol = &protocol
 	}
 	return result, nil
 }
@@ -4345,14 +4488,15 @@ func (rules *LoadBalancers_Spec_Properties_OutboundRules) PopulateFromARM(owner 
 	// Set property ‘BackendAddressPool’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		var temp SubResource
-		var temp1 SubResource
-		err := temp1.PopulateFromARM(owner, typedInput.Properties.BackendAddressPool)
-		if err != nil {
-			return err
+		if typedInput.Properties.BackendAddressPool != nil {
+			var backendAddressPool1 SubResource
+			err := backendAddressPool1.PopulateFromARM(owner, *typedInput.Properties.BackendAddressPool)
+			if err != nil {
+				return err
+			}
+			backendAddressPool := backendAddressPool1
+			rules.BackendAddressPool = &backendAddressPool
 		}
-		temp = temp1
-		rules.BackendAddressPool = &temp
 	}
 
 	// Set property ‘EnableTcpReset’:
@@ -4395,7 +4539,10 @@ func (rules *LoadBalancers_Spec_Properties_OutboundRules) PopulateFromARM(owner 
 	// Set property ‘Protocol’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		rules.Protocol = &typedInput.Properties.Protocol
+		if typedInput.Properties.Protocol != nil {
+			protocol := *typedInput.Properties.Protocol
+			rules.Protocol = &protocol
+		}
 	}
 
 	// No error
@@ -4544,16 +4691,19 @@ type LoadBalancers_Spec_Properties_Probes struct {
 	// +kubebuilder:validation:Required
 	//Name: The name of the resource that is unique within the set of probes used by the load balancer. This name can be used
 	//to access the resource.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//NumberOfProbes: The number of probes where if no response, will result in stopping further traffic from being delivered
 	//to the endpoint. This values allows endpoints to be taken out of rotation faster or slower than the typical times used
 	//in Azure.
 	NumberOfProbes *int `json:"numberOfProbes,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//Port: The port for communicating the probe. Possible values range from 1 to 65535, inclusive.
 	Port *int `json:"port,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//Protocol: The protocol of the end point. If 'Tcp' is specified, a received ACK is required for the probe to be
 	//successful. If 'Http' or 'Https' is specified, a 200 OK response from the specifies URI is required for the probe to be
 	//successful.
@@ -4574,7 +4724,10 @@ func (probes *LoadBalancers_Spec_Properties_Probes) ConvertToARM(resolved genrun
 	var result LoadBalancers_Spec_Properties_ProbesARM
 
 	// Set property ‘Name’:
-	result.Name = probes.Name
+	if probes.Name != nil {
+		name := *probes.Name
+		result.Name = &name
+	}
 
 	// Set property ‘Properties’:
 	if probes.IntervalInSeconds != nil ||
@@ -4589,13 +4742,16 @@ func (probes *LoadBalancers_Spec_Properties_Probes) ConvertToARM(resolved genrun
 		result.Properties.IntervalInSeconds = &intervalInSeconds
 	}
 	if probes.NumberOfProbes != nil {
-		result.Properties.NumberOfProbes = *probes.NumberOfProbes
+		numberOfProbes := *probes.NumberOfProbes
+		result.Properties.NumberOfProbes = &numberOfProbes
 	}
 	if probes.Port != nil {
-		result.Properties.Port = *probes.Port
+		port := *probes.Port
+		result.Properties.Port = &port
 	}
 	if probes.Protocol != nil {
-		result.Properties.Protocol = *probes.Protocol
+		protocol := *probes.Protocol
+		result.Properties.Protocol = &protocol
 	}
 	if probes.RequestPath != nil {
 		requestPath := *probes.RequestPath
@@ -4626,24 +4782,36 @@ func (probes *LoadBalancers_Spec_Properties_Probes) PopulateFromARM(owner genrun
 	}
 
 	// Set property ‘Name’:
-	probes.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		probes.Name = &name
+	}
 
 	// Set property ‘NumberOfProbes’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		probes.NumberOfProbes = &typedInput.Properties.NumberOfProbes
+		if typedInput.Properties.NumberOfProbes != nil {
+			numberOfProbes := *typedInput.Properties.NumberOfProbes
+			probes.NumberOfProbes = &numberOfProbes
+		}
 	}
 
 	// Set property ‘Port’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		probes.Port = &typedInput.Properties.Port
+		if typedInput.Properties.Port != nil {
+			port := *typedInput.Properties.Port
+			probes.Port = &port
+		}
 	}
 
 	// Set property ‘Protocol’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		probes.Protocol = &typedInput.Properties.Protocol
+		if typedInput.Properties.Protocol != nil {
+			protocol := *typedInput.Properties.Protocol
+			probes.Protocol = &protocol
+		}
 	}
 
 	// Set property ‘RequestPath’:
@@ -4666,7 +4834,7 @@ func (probes *LoadBalancers_Spec_Properties_Probes) AssignPropertiesFromLoadBala
 	probes.IntervalInSeconds = genruntime.ClonePointerToInt(source.IntervalInSeconds)
 
 	// Name
-	probes.Name = genruntime.GetOptionalStringValue(source.Name)
+	probes.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NumberOfProbes
 	probes.NumberOfProbes = genruntime.ClonePointerToInt(source.NumberOfProbes)
@@ -4698,8 +4866,7 @@ func (probes *LoadBalancers_Spec_Properties_Probes) AssignPropertiesToLoadBalanc
 	destination.IntervalInSeconds = genruntime.ClonePointerToInt(probes.IntervalInSeconds)
 
 	// Name
-	name := probes.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(probes.Name)
 
 	// NumberOfProbes
 	destination.NumberOfProbes = genruntime.ClonePointerToInt(probes.NumberOfProbes)
@@ -4757,6 +4924,7 @@ type LoadBalancingRule_Status struct {
 	//FrontendIPConfiguration: A reference to frontend IP addresses.
 	FrontendIPConfiguration *SubResource_Status `json:"frontendIPConfiguration,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//FrontendPort: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer.
 	//Acceptable values are between 0 and 65534. Note that value 0 enables "Any Port".
 	FrontendPort *int `json:"frontendPort,omitempty"`
@@ -4778,6 +4946,7 @@ type LoadBalancingRule_Status struct {
 	//Probe: The reference to the load balancer probe used by the load balancing rule.
 	Probe *SubResource_Status `json:"probe,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//Protocol: The reference to the transport protocol used by the load balancing rule.
 	Protocol *TransportProtocol_Status `json:"protocol,omitempty"`
 
@@ -4875,7 +5044,10 @@ func (rule *LoadBalancingRule_Status) PopulateFromARM(owner genruntime.Arbitrary
 	// Set property ‘FrontendPort’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		rule.FrontendPort = &typedInput.Properties.FrontendPort
+		if typedInput.Properties.FrontendPort != nil {
+			frontendPort := *typedInput.Properties.FrontendPort
+			rule.FrontendPort = &frontendPort
+		}
 	}
 
 	// Set property ‘Id’:
@@ -4925,7 +5097,10 @@ func (rule *LoadBalancingRule_Status) PopulateFromARM(owner genruntime.Arbitrary
 	// Set property ‘Protocol’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		rule.Protocol = &typedInput.Properties.Protocol
+		if typedInput.Properties.Protocol != nil {
+			protocol := *typedInput.Properties.Protocol
+			rule.Protocol = &protocol
+		}
 	}
 
 	// Set property ‘ProvisioningState’:
@@ -5184,6 +5359,7 @@ type OutboundRule_Status struct {
 	//AllocatedOutboundPorts: The number of outbound ports to be used for NAT.
 	AllocatedOutboundPorts *int `json:"allocatedOutboundPorts,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//BackendAddressPool: A reference to a pool of DIPs. Outbound traffic is randomly load balanced across IPs in the backend
 	//IPs.
 	BackendAddressPool *SubResource_Status `json:"backendAddressPool,omitempty"`
@@ -5195,6 +5371,7 @@ type OutboundRule_Status struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//FrontendIPConfigurations: The Frontend IP addresses of the load balancer.
 	FrontendIPConfigurations []SubResource_Status `json:"frontendIPConfigurations,omitempty"`
 
@@ -5208,6 +5385,7 @@ type OutboundRule_Status struct {
 	//be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//Protocol: The protocol for the outbound rule in load balancer.
 	Protocol *OutboundRulePropertiesFormatStatusProtocol `json:"protocol,omitempty"`
 
@@ -5244,14 +5422,15 @@ func (rule *OutboundRule_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// Set property ‘BackendAddressPool’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		var temp SubResource_Status
-		var temp1 SubResource_Status
-		err := temp1.PopulateFromARM(owner, typedInput.Properties.BackendAddressPool)
-		if err != nil {
-			return err
+		if typedInput.Properties.BackendAddressPool != nil {
+			var backendAddressPool1 SubResource_Status
+			err := backendAddressPool1.PopulateFromARM(owner, *typedInput.Properties.BackendAddressPool)
+			if err != nil {
+				return err
+			}
+			backendAddressPool := backendAddressPool1
+			rule.BackendAddressPool = &backendAddressPool
 		}
-		temp = temp1
-		rule.BackendAddressPool = &temp
 	}
 
 	// Set property ‘EnableTcpReset’:
@@ -5306,7 +5485,10 @@ func (rule *OutboundRule_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// Set property ‘Protocol’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		rule.Protocol = &typedInput.Properties.Protocol
+		if typedInput.Properties.Protocol != nil {
+			protocol := *typedInput.Properties.Protocol
+			rule.Protocol = &protocol
+		}
 	}
 
 	// Set property ‘ProvisioningState’:
@@ -5519,9 +5701,11 @@ type Probe_Status struct {
 	//in Azure.
 	NumberOfProbes *int `json:"numberOfProbes,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//Port: The port for communicating the probe. Possible values range from 1 to 65535, inclusive.
 	Port *int `json:"port,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//Protocol: The protocol of the end point. If 'Tcp' is specified, a received ACK is required for the probe to be
 	//successful. If 'Http' or 'Https' is specified, a 200 OK response from the specifies URI is required for the probe to be
 	//successful.
@@ -5604,13 +5788,19 @@ func (probe *Probe_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// Set property ‘Port’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		probe.Port = &typedInput.Properties.Port
+		if typedInput.Properties.Port != nil {
+			port := *typedInput.Properties.Port
+			probe.Port = &port
+		}
 	}
 
 	// Set property ‘Protocol’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		probe.Protocol = &typedInput.Properties.Protocol
+		if typedInput.Properties.Protocol != nil {
+			protocol := *typedInput.Properties.Protocol
+			probe.Protocol = &protocol
+		}
 	}
 
 	// Set property ‘ProvisioningState’:

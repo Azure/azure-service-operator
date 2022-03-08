@@ -315,11 +315,11 @@ const NetworkSecurityGroupsSecurityRulesSpecAPIVersion20201101 = NetworkSecurity
 type NetworkSecurityGroupsSecurityRules_Spec struct {
 	// +kubebuilder:validation:Required
 	//Access: The network traffic is allowed or denied.
-	Access SecurityRulePropertiesFormatAccess `json:"access"`
+	Access *SecurityRulePropertiesFormatAccess `json:"access,omitempty"`
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//Description: A description for this rule. Restricted to 140 chars.
 	Description *string `json:"description,omitempty"`
@@ -343,7 +343,7 @@ type NetworkSecurityGroupsSecurityRules_Spec struct {
 
 	// +kubebuilder:validation:Required
 	//Direction: The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.
-	Direction SecurityRulePropertiesFormatDirection `json:"direction"`
+	Direction *SecurityRulePropertiesFormatDirection `json:"direction,omitempty"`
 
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
@@ -352,16 +352,16 @@ type NetworkSecurityGroupsSecurityRules_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a network.azure.com/NetworkSecurityGroup resource
-	Owner genruntime.KnownResourceReference `group:"network.azure.com" json:"owner" kind:"NetworkSecurityGroup"`
+	Owner *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"NetworkSecurityGroup"`
 
 	// +kubebuilder:validation:Required
 	//Priority: The priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each
 	//rule in the collection. The lower the priority number, the higher the priority of the rule.
-	Priority int `json:"priority"`
+	Priority *int `json:"priority,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Protocol: Network protocol this rule applies to.
-	Protocol SecurityRulePropertiesFormatProtocol `json:"protocol"`
+	Protocol *SecurityRulePropertiesFormatProtocol `json:"protocol,omitempty"`
 
 	//SourceAddressPrefix: The CIDR or source IP range. Asterisk '*' can also be used to match all source IPs. Default tags
 	//such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies
@@ -404,7 +404,27 @@ func (rules *NetworkSecurityGroupsSecurityRules_Spec) ConvertToARM(resolved genr
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	result.Properties.Access = rules.Access
+	if rules.Access != nil ||
+		rules.Description != nil ||
+		rules.DestinationAddressPrefix != nil ||
+		rules.DestinationAddressPrefixes != nil ||
+		rules.DestinationApplicationSecurityGroups != nil ||
+		rules.DestinationPortRange != nil ||
+		rules.DestinationPortRanges != nil ||
+		rules.Direction != nil ||
+		rules.Priority != nil ||
+		rules.Protocol != nil ||
+		rules.SourceAddressPrefix != nil ||
+		rules.SourceAddressPrefixes != nil ||
+		rules.SourceApplicationSecurityGroups != nil ||
+		rules.SourcePortRange != nil ||
+		rules.SourcePortRanges != nil {
+		result.Properties = &SecurityRulePropertiesFormatARM{}
+	}
+	if rules.Access != nil {
+		access := *rules.Access
+		result.Properties.Access = &access
+	}
 	if rules.Description != nil {
 		description := *rules.Description
 		result.Properties.Description = &description
@@ -430,9 +450,18 @@ func (rules *NetworkSecurityGroupsSecurityRules_Spec) ConvertToARM(resolved genr
 	for _, item := range rules.DestinationPortRanges {
 		result.Properties.DestinationPortRanges = append(result.Properties.DestinationPortRanges, item)
 	}
-	result.Properties.Direction = rules.Direction
-	result.Properties.Priority = rules.Priority
-	result.Properties.Protocol = rules.Protocol
+	if rules.Direction != nil {
+		direction := *rules.Direction
+		result.Properties.Direction = &direction
+	}
+	if rules.Priority != nil {
+		priority := *rules.Priority
+		result.Properties.Priority = &priority
+	}
+	if rules.Protocol != nil {
+		protocol := *rules.Protocol
+		result.Properties.Protocol = &protocol
+	}
 	if rules.SourceAddressPrefix != nil {
 		sourceAddressPrefix := *rules.SourceAddressPrefix
 		result.Properties.SourceAddressPrefix = &sourceAddressPrefix
@@ -479,58 +508,80 @@ func (rules *NetworkSecurityGroupsSecurityRules_Spec) PopulateFromARM(owner genr
 
 	// Set property ‘Access’:
 	// copying flattened property:
-	rules.Access = typedInput.Properties.Access
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Access != nil {
+			access := *typedInput.Properties.Access
+			rules.Access = &access
+		}
+	}
 
 	// Set property ‘AzureName’:
 	rules.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Description’:
 	// copying flattened property:
-	if typedInput.Properties.Description != nil {
-		description := *typedInput.Properties.Description
-		rules.Description = &description
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Description != nil {
+			description := *typedInput.Properties.Description
+			rules.Description = &description
+		}
 	}
 
 	// Set property ‘DestinationAddressPrefix’:
 	// copying flattened property:
-	if typedInput.Properties.DestinationAddressPrefix != nil {
-		destinationAddressPrefix := *typedInput.Properties.DestinationAddressPrefix
-		rules.DestinationAddressPrefix = &destinationAddressPrefix
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DestinationAddressPrefix != nil {
+			destinationAddressPrefix := *typedInput.Properties.DestinationAddressPrefix
+			rules.DestinationAddressPrefix = &destinationAddressPrefix
+		}
 	}
 
 	// Set property ‘DestinationAddressPrefixes’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.DestinationAddressPrefixes {
-		rules.DestinationAddressPrefixes = append(rules.DestinationAddressPrefixes, item)
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.DestinationAddressPrefixes {
+			rules.DestinationAddressPrefixes = append(rules.DestinationAddressPrefixes, item)
+		}
 	}
 
 	// Set property ‘DestinationApplicationSecurityGroups’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.DestinationApplicationSecurityGroups {
-		var item1 SubResource
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.DestinationApplicationSecurityGroups {
+			var item1 SubResource
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			rules.DestinationApplicationSecurityGroups = append(rules.DestinationApplicationSecurityGroups, item1)
 		}
-		rules.DestinationApplicationSecurityGroups = append(rules.DestinationApplicationSecurityGroups, item1)
 	}
 
 	// Set property ‘DestinationPortRange’:
 	// copying flattened property:
-	if typedInput.Properties.DestinationPortRange != nil {
-		destinationPortRange := *typedInput.Properties.DestinationPortRange
-		rules.DestinationPortRange = &destinationPortRange
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DestinationPortRange != nil {
+			destinationPortRange := *typedInput.Properties.DestinationPortRange
+			rules.DestinationPortRange = &destinationPortRange
+		}
 	}
 
 	// Set property ‘DestinationPortRanges’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.DestinationPortRanges {
-		rules.DestinationPortRanges = append(rules.DestinationPortRanges, item)
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.DestinationPortRanges {
+			rules.DestinationPortRanges = append(rules.DestinationPortRanges, item)
+		}
 	}
 
 	// Set property ‘Direction’:
 	// copying flattened property:
-	rules.Direction = typedInput.Properties.Direction
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Direction != nil {
+			direction := *typedInput.Properties.Direction
+			rules.Direction = &direction
+		}
+	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
@@ -539,53 +590,73 @@ func (rules *NetworkSecurityGroupsSecurityRules_Spec) PopulateFromARM(owner genr
 	}
 
 	// Set property ‘Owner’:
-	rules.Owner = genruntime.KnownResourceReference{
+	rules.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Priority’:
 	// copying flattened property:
-	rules.Priority = typedInput.Properties.Priority
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Priority != nil {
+			priority := *typedInput.Properties.Priority
+			rules.Priority = &priority
+		}
+	}
 
 	// Set property ‘Protocol’:
 	// copying flattened property:
-	rules.Protocol = typedInput.Properties.Protocol
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Protocol != nil {
+			protocol := *typedInput.Properties.Protocol
+			rules.Protocol = &protocol
+		}
+	}
 
 	// Set property ‘SourceAddressPrefix’:
 	// copying flattened property:
-	if typedInput.Properties.SourceAddressPrefix != nil {
-		sourceAddressPrefix := *typedInput.Properties.SourceAddressPrefix
-		rules.SourceAddressPrefix = &sourceAddressPrefix
+	if typedInput.Properties != nil {
+		if typedInput.Properties.SourceAddressPrefix != nil {
+			sourceAddressPrefix := *typedInput.Properties.SourceAddressPrefix
+			rules.SourceAddressPrefix = &sourceAddressPrefix
+		}
 	}
 
 	// Set property ‘SourceAddressPrefixes’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.SourceAddressPrefixes {
-		rules.SourceAddressPrefixes = append(rules.SourceAddressPrefixes, item)
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.SourceAddressPrefixes {
+			rules.SourceAddressPrefixes = append(rules.SourceAddressPrefixes, item)
+		}
 	}
 
 	// Set property ‘SourceApplicationSecurityGroups’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.SourceApplicationSecurityGroups {
-		var item1 SubResource
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.SourceApplicationSecurityGroups {
+			var item1 SubResource
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			rules.SourceApplicationSecurityGroups = append(rules.SourceApplicationSecurityGroups, item1)
 		}
-		rules.SourceApplicationSecurityGroups = append(rules.SourceApplicationSecurityGroups, item1)
 	}
 
 	// Set property ‘SourcePortRange’:
 	// copying flattened property:
-	if typedInput.Properties.SourcePortRange != nil {
-		sourcePortRange := *typedInput.Properties.SourcePortRange
-		rules.SourcePortRange = &sourcePortRange
+	if typedInput.Properties != nil {
+		if typedInput.Properties.SourcePortRange != nil {
+			sourcePortRange := *typedInput.Properties.SourcePortRange
+			rules.SourcePortRange = &sourcePortRange
+		}
 	}
 
 	// Set property ‘SourcePortRanges’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.SourcePortRanges {
-		rules.SourcePortRanges = append(rules.SourcePortRanges, item)
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.SourcePortRanges {
+			rules.SourcePortRanges = append(rules.SourcePortRanges, item)
+		}
 	}
 
 	// Set property ‘Tags’:
@@ -655,9 +726,10 @@ func (rules *NetworkSecurityGroupsSecurityRules_Spec) AssignPropertiesFromNetwor
 
 	// Access
 	if source.Access != nil {
-		rules.Access = SecurityRulePropertiesFormatAccess(*source.Access)
+		access := SecurityRulePropertiesFormatAccess(*source.Access)
+		rules.Access = &access
 	} else {
-		rules.Access = ""
+		rules.Access = nil
 	}
 
 	// AzureName
@@ -698,25 +770,32 @@ func (rules *NetworkSecurityGroupsSecurityRules_Spec) AssignPropertiesFromNetwor
 
 	// Direction
 	if source.Direction != nil {
-		rules.Direction = SecurityRulePropertiesFormatDirection(*source.Direction)
+		direction := SecurityRulePropertiesFormatDirection(*source.Direction)
+		rules.Direction = &direction
 	} else {
-		rules.Direction = ""
+		rules.Direction = nil
 	}
 
 	// Location
 	rules.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	rules.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		rules.Owner = &owner
+	} else {
+		rules.Owner = nil
+	}
 
 	// Priority
-	rules.Priority = genruntime.GetOptionalIntValue(source.Priority)
+	rules.Priority = genruntime.ClonePointerToInt(source.Priority)
 
 	// Protocol
 	if source.Protocol != nil {
-		rules.Protocol = SecurityRulePropertiesFormatProtocol(*source.Protocol)
+		protocol := SecurityRulePropertiesFormatProtocol(*source.Protocol)
+		rules.Protocol = &protocol
 	} else {
-		rules.Protocol = ""
+		rules.Protocol = nil
 	}
 
 	// SourceAddressPrefix
@@ -762,8 +841,12 @@ func (rules *NetworkSecurityGroupsSecurityRules_Spec) AssignPropertiesToNetworkS
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Access
-	access := string(rules.Access)
-	destination.Access = &access
+	if rules.Access != nil {
+		access := string(*rules.Access)
+		destination.Access = &access
+	} else {
+		destination.Access = nil
+	}
 
 	// AzureName
 	destination.AzureName = rules.AzureName
@@ -802,8 +885,12 @@ func (rules *NetworkSecurityGroupsSecurityRules_Spec) AssignPropertiesToNetworkS
 	destination.DestinationPortRanges = genruntime.CloneSliceOfString(rules.DestinationPortRanges)
 
 	// Direction
-	direction := string(rules.Direction)
-	destination.Direction = &direction
+	if rules.Direction != nil {
+		direction := string(*rules.Direction)
+		destination.Direction = &direction
+	} else {
+		destination.Direction = nil
+	}
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(rules.Location)
@@ -812,15 +899,23 @@ func (rules *NetworkSecurityGroupsSecurityRules_Spec) AssignPropertiesToNetworkS
 	destination.OriginalVersion = rules.OriginalVersion()
 
 	// Owner
-	destination.Owner = rules.Owner.Copy()
+	if rules.Owner != nil {
+		owner := rules.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Priority
-	priority := rules.Priority
-	destination.Priority = &priority
+	destination.Priority = genruntime.ClonePointerToInt(rules.Priority)
 
 	// Protocol
-	protocol := string(rules.Protocol)
-	destination.Protocol = &protocol
+	if rules.Protocol != nil {
+		protocol := string(*rules.Protocol)
+		destination.Protocol = &protocol
+	} else {
+		destination.Protocol = nil
+	}
 
 	// SourceAddressPrefix
 	destination.SourceAddressPrefix = genruntime.ClonePointerToString(rules.SourceAddressPrefix)
@@ -877,6 +972,7 @@ func (rules *NetworkSecurityGroupsSecurityRules_Spec) SetAzureName(azureName str
 }
 
 type SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded struct {
+	// +kubebuilder:validation:Required
 	//Access: The network traffic is allowed or denied.
 	Access *SecurityRuleAccess_Status `json:"access,omitempty"`
 
@@ -903,6 +999,7 @@ type SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded s
 	//DestinationPortRanges: The destination port ranges.
 	DestinationPortRanges []string `json:"destinationPortRanges,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//Direction: The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.
 	Direction *SecurityRuleDirection_Status `json:"direction,omitempty"`
 
@@ -919,6 +1016,7 @@ type SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded s
 	//rule in the collection. The lower the priority number, the higher the priority of the rule.
 	Priority *int `json:"priority,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//Protocol: Network protocol this rule applies to.
 	Protocol *SecurityRulePropertiesFormatStatusProtocol `json:"protocol,omitempty"`
 
@@ -1014,7 +1112,10 @@ func (embedded *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourc
 	// Set property ‘Access’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		embedded.Access = &typedInput.Properties.Access
+		if typedInput.Properties.Access != nil {
+			access := *typedInput.Properties.Access
+			embedded.Access = &access
+		}
 	}
 
 	// no assignment for property ‘Conditions’
@@ -1078,7 +1179,10 @@ func (embedded *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourc
 	// Set property ‘Direction’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		embedded.Direction = &typedInput.Properties.Direction
+		if typedInput.Properties.Direction != nil {
+			direction := *typedInput.Properties.Direction
+			embedded.Direction = &direction
+		}
 	}
 
 	// Set property ‘Etag’:
@@ -1111,7 +1215,10 @@ func (embedded *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourc
 	// Set property ‘Protocol’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		embedded.Protocol = &typedInput.Properties.Protocol
+		if typedInput.Properties.Protocol != nil {
+			protocol := *typedInput.Properties.Protocol
+			embedded.Protocol = &protocol
+		}
 	}
 
 	// Set property ‘ProvisioningState’:

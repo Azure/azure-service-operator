@@ -277,5 +277,5 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughp
 
 // AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSettingsSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSettingsSpec(gens map[string]gopter.Gen) {
-	gens["Resource"] = ThroughputSettingsResourceGenerator()
+	gens["Resource"] = gen.PtrOf(ThroughputSettingsResourceGenerator())
 }

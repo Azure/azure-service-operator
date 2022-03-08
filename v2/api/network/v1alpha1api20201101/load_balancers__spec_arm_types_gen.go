@@ -10,13 +10,13 @@ type LoadBalancers_SpecARM struct {
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: Name of the resource
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties of load balancer.
-	Properties LoadBalancers_Spec_PropertiesARM `json:"properties"`
+	Properties *LoadBalancers_Spec_PropertiesARM `json:"properties,omitempty"`
 
 	//Sku: The load balancer SKU.
 	Sku *LoadBalancerSkuARM `json:"sku,omitempty"`
@@ -45,10 +45,10 @@ func (balancers LoadBalancers_SpecARM) GetType() string {
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ExtendedLocation
 type ExtendedLocationARM struct {
 	//Name: The name of the extended location.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Type: The type of the extended location.
-	Type ExtendedLocationType `json:"type"`
+	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/LoadBalancerSku
@@ -108,7 +108,7 @@ const (
 type LoadBalancers_Spec_Properties_BackendAddressPoolsARM struct {
 	//Name: The name of the resource that is unique within the set of backend address pools used by the load balancer. This
 	//name can be used to access the resource.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Properties: Properties of load balancer backend address pool.
 	Properties *LoadBalancers_Spec_Properties_BackendAddressPools_PropertiesARM `json:"properties,omitempty"`
@@ -117,7 +117,7 @@ type LoadBalancers_Spec_Properties_BackendAddressPoolsARM struct {
 type LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM struct {
 	//Name: The name of the resource that is unique within the set of frontend IP configurations used by the load balancer.
 	//This name can be used to access the resource.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Properties: Properties of the load balancer probe.
 	Properties *FrontendIPConfigurationPropertiesFormatARM `json:"properties,omitempty"`
@@ -129,7 +129,7 @@ type LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM struct {
 type LoadBalancers_Spec_Properties_InboundNatPoolsARM struct {
 	//Name: The name of the resource that is unique within the set of inbound NAT pools used by the load balancer. This name
 	//can be used to access the resource.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Properties: Properties of load balancer inbound nat pool.
 	Properties *InboundNatPoolPropertiesFormatARM `json:"properties,omitempty"`
@@ -138,7 +138,7 @@ type LoadBalancers_Spec_Properties_InboundNatPoolsARM struct {
 type LoadBalancers_Spec_Properties_LoadBalancingRulesARM struct {
 	//Name: The name of the resource that is unique within the set of load balancing rules used by the load balancer. This
 	//name can be used to access the resource.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Properties: Properties of load balancer load balancing rule.
 	Properties *LoadBalancingRulePropertiesFormatARM `json:"properties,omitempty"`
@@ -156,7 +156,7 @@ type LoadBalancers_Spec_Properties_OutboundRulesARM struct {
 type LoadBalancers_Spec_Properties_ProbesARM struct {
 	//Name: The name of the resource that is unique within the set of probes used by the load balancer. This name can be used
 	//to access the resource.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Properties: Properties of load balancer probe.
 	Properties *ProbePropertiesFormatARM `json:"properties,omitempty"`
@@ -186,7 +186,7 @@ type FrontendIPConfigurationPropertiesFormatARM struct {
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/InboundNatPoolPropertiesFormat
 type InboundNatPoolPropertiesFormatARM struct {
 	//BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.
-	BackendPort int `json:"backendPort"`
+	BackendPort *int `json:"backendPort,omitempty"`
 
 	//EnableFloatingIP: Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL
 	//AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
@@ -198,22 +198,22 @@ type InboundNatPoolPropertiesFormatARM struct {
 	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
 
 	//FrontendIPConfiguration: A reference to frontend IP addresses.
-	FrontendIPConfiguration SubResourceARM `json:"frontendIPConfiguration"`
+	FrontendIPConfiguration *SubResourceARM `json:"frontendIPConfiguration,omitempty"`
 
 	//FrontendPortRangeEnd: The last port number in the range of external ports that will be used to provide Inbound Nat to
 	//NICs associated with a load balancer. Acceptable values range between 1 and 65535.
-	FrontendPortRangeEnd int `json:"frontendPortRangeEnd"`
+	FrontendPortRangeEnd *int `json:"frontendPortRangeEnd,omitempty"`
 
 	//FrontendPortRangeStart: The first port number in the range of external ports that will be used to provide Inbound Nat to
 	//NICs associated with a load balancer. Acceptable values range between 1 and 65534.
-	FrontendPortRangeStart int `json:"frontendPortRangeStart"`
+	FrontendPortRangeStart *int `json:"frontendPortRangeStart,omitempty"`
 
 	//IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
 	//default value is 4 minutes. This element is only used when the protocol is set to TCP.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	//Protocol: The reference to the transport protocol used by the inbound NAT pool.
-	Protocol InboundNatPoolPropertiesFormatProtocol `json:"protocol"`
+	Protocol *InboundNatPoolPropertiesFormatProtocol `json:"protocol,omitempty"`
 }
 
 type LoadBalancers_Spec_Properties_BackendAddressPools_PropertiesARM struct {
@@ -232,7 +232,7 @@ type LoadBalancingRulePropertiesFormatARM struct {
 
 	//BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note
 	//that value 0 enables "Any Port".
-	BackendPort int `json:"backendPort"`
+	BackendPort *int `json:"backendPort,omitempty"`
 
 	//DisableOutboundSnat: Configures SNAT for the VMs in the backend pool to use the publicIP address specified in the
 	//frontend of the load balancing rule.
@@ -248,11 +248,11 @@ type LoadBalancingRulePropertiesFormatARM struct {
 	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
 
 	//FrontendIPConfiguration: A reference to frontend IP addresses.
-	FrontendIPConfiguration SubResourceARM `json:"frontendIPConfiguration"`
+	FrontendIPConfiguration *SubResourceARM `json:"frontendIPConfiguration,omitempty"`
 
 	//FrontendPort: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer.
 	//Acceptable values are between 0 and 65534. Note that value 0 enables "Any Port".
-	FrontendPort int `json:"frontendPort"`
+	FrontendPort *int `json:"frontendPort,omitempty"`
 
 	//IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
 	//default value is 4 minutes. This element is only used when the protocol is set to TCP.
@@ -265,7 +265,7 @@ type LoadBalancingRulePropertiesFormatARM struct {
 	Probe *SubResourceARM `json:"probe,omitempty"`
 
 	//Protocol: The reference to the transport protocol used by the load balancing rule.
-	Protocol LoadBalancingRulePropertiesFormatProtocol `json:"protocol"`
+	Protocol *LoadBalancingRulePropertiesFormatProtocol `json:"protocol,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/OutboundRulePropertiesFormat
@@ -275,20 +275,20 @@ type OutboundRulePropertiesFormatARM struct {
 
 	//BackendAddressPool: A reference to a pool of DIPs. Outbound traffic is randomly load balanced across IPs in the backend
 	//IPs.
-	BackendAddressPool SubResourceARM `json:"backendAddressPool"`
+	BackendAddressPool *SubResourceARM `json:"backendAddressPool,omitempty"`
 
 	//EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
 	//element is only used when the protocol is set to TCP.
 	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
 
 	//FrontendIPConfigurations: The Frontend IP addresses of the load balancer.
-	FrontendIPConfigurations []SubResourceARM `json:"frontendIPConfigurations"`
+	FrontendIPConfigurations []SubResourceARM `json:"frontendIPConfigurations,omitempty"`
 
 	//IdleTimeoutInMinutes: The timeout for the TCP idle connection.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	//Protocol: The protocol for the outbound rule in load balancer.
-	Protocol OutboundRulePropertiesFormatProtocol `json:"protocol"`
+	Protocol *OutboundRulePropertiesFormatProtocol `json:"protocol,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ProbePropertiesFormat
@@ -301,15 +301,15 @@ type ProbePropertiesFormatARM struct {
 	//NumberOfProbes: The number of probes where if no response, will result in stopping further traffic from being delivered
 	//to the endpoint. This values allows endpoints to be taken out of rotation faster or slower than the typical times used
 	//in Azure.
-	NumberOfProbes int `json:"numberOfProbes"`
+	NumberOfProbes *int `json:"numberOfProbes,omitempty"`
 
 	//Port: The port for communicating the probe. Possible values range from 1 to 65535, inclusive.
-	Port int `json:"port"`
+	Port *int `json:"port,omitempty"`
 
 	//Protocol: The protocol of the end point. If 'Tcp' is specified, a received ACK is required for the probe to be
 	//successful. If 'Http' or 'Https' is specified, a 200 OK response from the specifies URI is required for the probe to be
 	//successful.
-	Protocol ProbePropertiesFormatProtocol `json:"protocol"`
+	Protocol *ProbePropertiesFormatProtocol `json:"protocol,omitempty"`
 
 	//RequestPath: The URI used for requesting health status from the VM. Path is required if a protocol is set to http.
 	//Otherwise, it is not allowed. There is no default value.

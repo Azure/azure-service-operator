@@ -20,14 +20,14 @@ type RedisLinkedServerWithProperties_StatusARM struct {
 
 type RedisLinkedServerProperties_StatusARM struct {
 	//LinkedRedisCacheId: Fully qualified resourceId of the linked redis cache.
-	LinkedRedisCacheId string `json:"linkedRedisCacheId"`
+	LinkedRedisCacheId *string `json:"linkedRedisCacheId,omitempty"`
 
 	//LinkedRedisCacheLocation: Location of the linked redis cache.
-	LinkedRedisCacheLocation string `json:"linkedRedisCacheLocation"`
+	LinkedRedisCacheLocation *string `json:"linkedRedisCacheLocation,omitempty"`
 
 	//ProvisioningState: Terminal state of the link between primary and secondary redis cache.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	//ServerRole: Role of the linked server.
-	ServerRole RedisLinkedServerPropertiesStatusServerRole `json:"serverRole"`
+	ServerRole *RedisLinkedServerPropertiesStatusServerRole `json:"serverRole,omitempty"`
 }

@@ -551,16 +551,16 @@ const UserAssignedIdentitiesSpecAPIVersion20181130 = UserAssignedIdentitiesSpecA
 type UserAssignedIdentities_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//Location: The Azure region where the identity lives.
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -576,7 +576,10 @@ func (identities *UserAssignedIdentities_Spec) ConvertToARM(resolved genruntime.
 	var result UserAssignedIdentities_SpecARM
 
 	// Set property ‘Location’:
-	result.Location = identities.Location
+	if identities.Location != nil {
+		location := *identities.Location
+		result.Location = &location
+	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -607,10 +610,13 @@ func (identities *UserAssignedIdentities_Spec) PopulateFromARM(owner genruntime.
 	identities.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Location’:
-	identities.Location = typedInput.Location
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		identities.Location = &location
+	}
 
 	// Set property ‘Owner’:
-	identities.Owner = genruntime.KnownResourceReference{
+	identities.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -683,10 +689,15 @@ func (identities *UserAssignedIdentities_Spec) AssignPropertiesFromUserAssignedI
 	identities.AzureName = source.AzureName
 
 	// Location
-	identities.Location = genruntime.GetOptionalStringValue(source.Location)
+	identities.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	identities.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		identities.Owner = &owner
+	} else {
+		identities.Owner = nil
+	}
 
 	// Tags
 	identities.Tags = genruntime.CloneMapOfStringToString(source.Tags)
@@ -704,14 +715,18 @@ func (identities *UserAssignedIdentities_Spec) AssignPropertiesToUserAssignedIde
 	destination.AzureName = identities.AzureName
 
 	// Location
-	location := identities.Location
-	destination.Location = &location
+	destination.Location = genruntime.ClonePointerToString(identities.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = identities.OriginalVersion()
 
 	// Owner
-	destination.Owner = identities.Owner.Copy()
+	if identities.Owner != nil {
+		owner := identities.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(identities.Tags)

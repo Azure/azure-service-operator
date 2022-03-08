@@ -101,7 +101,7 @@ type Sku_StatusARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	//Name: Name of this SKU.
-	Name SkuStatusName `json:"name"`
+	Name *SkuStatusName `json:"name,omitempty"`
 
 	//Tier: The billing tier of this particular SKU.
 	Tier *SkuStatusTier `json:"tier,omitempty"`

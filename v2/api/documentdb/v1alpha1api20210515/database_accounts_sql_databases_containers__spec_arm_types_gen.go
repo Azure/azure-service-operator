@@ -10,10 +10,10 @@ type DatabaseAccountsSqlDatabasesContainers_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: Cosmos DB container name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties to create and update Azure Cosmos DB container.
-	Properties SqlContainerCreateUpdatePropertiesARM `json:"properties"`
+	Properties *SqlContainerCreateUpdatePropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
 	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
@@ -47,7 +47,7 @@ type SqlContainerCreateUpdatePropertiesARM struct {
 	Options *CreateUpdateOptionsARM `json:"options,omitempty"`
 
 	//Resource: Cosmos DB SQL container resource object
-	Resource SqlContainerResourceARM `json:"resource"`
+	Resource *SqlContainerResourceARM `json:"resource,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlContainerResource
@@ -62,7 +62,7 @@ type SqlContainerResourceARM struct {
 	DefaultTtl *int `json:"defaultTtl,omitempty"`
 
 	//Id: Name of the Cosmos DB SQL container
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 
 	//IndexingPolicy: Cosmos DB indexing policy
 	IndexingPolicy *IndexingPolicyARM `json:"indexingPolicy,omitempty"`

@@ -26,11 +26,12 @@ func Test_Compute_Image_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	tc.LogSection("Create Snapshot")
+	createOption := compute2020.CreationDataCreateOptionEmpty
 	snapshot := &compute2020.Snapshot{
 		ObjectMeta: tc.MakeObjectMeta("snapshot"),
 		Spec: compute2020.Snapshots_Spec{
-			CreationData: compute2020.CreationData{
-				CreateOption: compute2020.CreationDataCreateOptionEmpty,
+			CreationData: &compute2020.CreationData{
+				CreateOption: &createOption,
 			},
 			DiskSizeGB: to.IntPtr(32),
 			Location:   tc.AzureRegion,
@@ -44,6 +45,8 @@ func Test_Compute_Image_CRUD(t *testing.T) {
 
 	tc.LogSection("Create Image")
 	v2 := compute2021.ImagePropertiesHyperVGenerationV2
+	linuxOS := compute2021.ImageOSDiskOsTypeLinux
+	linuxOSState := compute2021.ImageOSDiskOsStateGeneralized
 	image := &compute2021.Image{
 		ObjectMeta: tc.MakeObjectMeta("image"),
 		Spec: compute2021.Images_Spec{
@@ -53,8 +56,8 @@ func Test_Compute_Image_CRUD(t *testing.T) {
 			StorageProfile: &compute2021.ImageStorageProfile{
 				OsDisk: &compute2021.ImageOSDisk{
 					DiskSizeGB: to.IntPtr(32),
-					OsType:     compute2021.ImageOSDiskOsTypeLinux,
-					OsState:    compute2021.ImageOSDiskOsStateGeneralized,
+					OsType:     &linuxOS,
+					OsState:    &linuxOSState,
 					Snapshot: &compute2021.SubResource{
 						Reference: &genruntime.ResourceReference{
 							ARMID: snapshotARMId,
@@ -70,8 +73,8 @@ func Test_Compute_Image_CRUD(t *testing.T) {
 	tc.Expect(image.Status.StorageProfile).ToNot(BeNil())
 	tc.Expect(image.Status.StorageProfile.OsDisk).ToNot(BeNil())
 	tc.Expect(*image.Status.StorageProfile.OsDisk.DiskSizeGB).To(Equal(*image.Spec.StorageProfile.OsDisk.DiskSizeGB))
-	tc.Expect(string(image.Status.StorageProfile.OsDisk.OsType)).To(Equal(string(image.Spec.StorageProfile.OsDisk.OsType)))
-	tc.Expect(string(image.Status.StorageProfile.OsDisk.OsState)).To(Equal(string(image.Spec.StorageProfile.OsDisk.OsState)))
+	tc.Expect(string(*image.Status.StorageProfile.OsDisk.OsType)).To(Equal(string(*image.Spec.StorageProfile.OsDisk.OsType)))
+	tc.Expect(string(*image.Status.StorageProfile.OsDisk.OsState)).To(Equal(string(*image.Spec.StorageProfile.OsDisk.OsState)))
 	imageARMId := *image.Status.Id
 
 	tc.LogSection("Clean up")

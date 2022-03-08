@@ -82,7 +82,7 @@ func ImagesSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForImagesSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImagesSpecARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
@@ -90,7 +90,7 @@ func AddIndependentPropertyGeneratorsForImagesSpecARM(gens map[string]gopter.Gen
 // AddRelatedPropertyGeneratorsForImagesSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForImagesSpecARM(gens map[string]gopter.Gen) {
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationARMGenerator())
-	gens["Properties"] = ImagePropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(ImagePropertiesARMGenerator())
 }
 
 func Test_ExtendedLocationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -430,7 +430,7 @@ func AddIndependentPropertyGeneratorsForImageDataDiskARM(gens map[string]gopter.
 	gens["BlobUri"] = gen.PtrOf(gen.AlphaString())
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageDataDiskCachingNone, ImageDataDiskCachingReadOnly, ImageDataDiskCachingReadWrite))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["Lun"] = gen.Int()
+	gens["Lun"] = gen.PtrOf(gen.Int())
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
 		ImageDataDiskStorageAccountTypePremiumLRS,
 		ImageDataDiskStorageAccountTypePremiumZRS,
@@ -515,8 +515,8 @@ func AddIndependentPropertyGeneratorsForImageOSDiskARM(gens map[string]gopter.Ge
 	gens["BlobUri"] = gen.PtrOf(gen.AlphaString())
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskCachingNone, ImageOSDiskCachingReadOnly, ImageOSDiskCachingReadWrite))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["OsState"] = gen.OneConstOf(ImageOSDiskOsStateGeneralized, ImageOSDiskOsStateSpecialized)
-	gens["OsType"] = gen.OneConstOf(ImageOSDiskOsTypeLinux, ImageOSDiskOsTypeWindows)
+	gens["OsState"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskOsStateGeneralized, ImageOSDiskOsStateSpecialized))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskOsTypeLinux, ImageOSDiskOsTypeWindows))
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
 		ImageOSDiskStorageAccountTypePremiumLRS,
 		ImageOSDiskStorageAccountTypePremiumZRS,

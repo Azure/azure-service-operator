@@ -543,7 +543,7 @@ func ModuleGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForModule is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForModule(gens map[string]gopter.Gen) {
 	gens["Args"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Module_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -645,7 +645,7 @@ func ModuleStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForModuleStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForModuleStatus(gens map[string]gopter.Gen) {
 	gens["Args"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
 

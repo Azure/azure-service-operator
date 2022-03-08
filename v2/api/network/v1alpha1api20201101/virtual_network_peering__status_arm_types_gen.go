@@ -67,7 +67,7 @@ type VirtualNetworkBgpCommunities_StatusARM struct {
 	RegionalCommunity *string `json:"regionalCommunity,omitempty"`
 
 	//VirtualNetworkCommunity: The BGP community associated with the virtual network.
-	VirtualNetworkCommunity string `json:"virtualNetworkCommunity"`
+	VirtualNetworkCommunity *string `json:"virtualNetworkCommunity,omitempty"`
 }
 
 type VirtualNetworkPeeringPropertiesFormatStatusPeeringState string

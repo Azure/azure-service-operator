@@ -10,13 +10,13 @@ type NetworkInterfaces_SpecARM struct {
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: Name of the resource
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties of the network interface.
-	Properties NetworkInterfaces_Spec_PropertiesARM `json:"properties"`
+	Properties *NetworkInterfaces_Spec_PropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -50,7 +50,7 @@ type NetworkInterfaces_Spec_PropertiesARM struct {
 	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
 
 	//IpConfigurations: A list of IPConfigurations of the network interface.
-	IpConfigurations []NetworkInterfaces_Spec_Properties_IpConfigurationsARM `json:"ipConfigurations"`
+	IpConfigurations []NetworkInterfaces_Spec_Properties_IpConfigurationsARM `json:"ipConfigurations,omitempty"`
 
 	//NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
 	NetworkSecurityGroup *SubResourceARM `json:"networkSecurityGroup,omitempty"`
@@ -69,7 +69,7 @@ type NetworkInterfaceDnsSettingsARM struct {
 
 type NetworkInterfaces_Spec_Properties_IpConfigurationsARM struct {
 	//Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Properties: Network interface IP configuration properties.
 	Properties *NetworkInterfaceIPConfigurationPropertiesFormatARM `json:"properties,omitempty"`
@@ -77,7 +77,7 @@ type NetworkInterfaces_Spec_Properties_IpConfigurationsARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/SubResource
 type SubResourceARM struct {
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/NetworkInterfaceIPConfigurationPropertiesFormat
