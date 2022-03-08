@@ -275,6 +275,14 @@ func (property *PropertyDefinition) MakeRequired() *PropertyDefinition {
 	if property.IsRequired() {
 		return property
 	}
+
+	if !isTypeOptional(property.PropertyType()) {
+		panic(fmt.Sprintf(
+			"property %s with non-optional type %T cannot be marked kubebuilder:validation:Required.",
+			property.PropertyName(),
+			property.PropertyType()))
+	}
+
 	result := property.copy()
 	result.hasKubebuilderRequiredValidation = true
 

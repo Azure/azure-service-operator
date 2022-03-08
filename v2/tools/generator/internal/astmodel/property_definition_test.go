@@ -279,7 +279,7 @@ func Test_PropertyDefinitionMakeRequired_WhenOptional_ReturnsDifferentReference(
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeOptional()
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional().MakeOptional()
 	updated := original.MakeRequired()
 
 	g.Expect(updated).NotTo(BeIdenticalTo(original))
@@ -290,7 +290,7 @@ func TestPropertyDefinitionMakeRequired_WhenOptional_ReturnsTypeWithIsRequiredTr
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeOptional()
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional().MakeOptional()
 	updated := original.MakeRequired()
 
 	g.Expect(updated.IsRequired()).To(BeTrue())
@@ -300,10 +300,20 @@ func Test_PropertyDefinitionMakeRequired_WhenRequired_ReturnsExistingReference(t
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeRequired()
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional().MakeRequired()
 	updated := original.MakeRequired()
 
 	g.Expect(updated).To(BeIdenticalTo(original))
+}
+
+func Test_PropertyDefinitionMakeRequired_WhenTypeIsOptional_Panics(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeRequired()
+	g.Expect(func() { original.MakeRequired() }).To(
+		PanicWith(fmt.Sprintf("property %s with non-optional type *astmodel.PrimitiveType cannot be marked kubebuilder:validation:Required.",
+			propertyName)))
 }
 
 /*
@@ -314,7 +324,7 @@ func TestPropertyDefinitionMakeOptional_WhenRequired_ReturnsDifferentReference(t
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeRequired()
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional().MakeRequired()
 	updated := original.MakeOptional()
 
 	g.Expect(updated).NotTo(BeIdenticalTo(original))
@@ -325,7 +335,7 @@ func TestPropertyDefinitionMakeOptional_WhenRequired_ReturnsTypeWithIsRequiredFa
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeRequired()
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional().MakeRequired()
 	updated := original.MakeOptional()
 
 	g.Expect(updated.IsRequired()).NotTo(BeTrue())
@@ -335,7 +345,7 @@ func Test_PropertyDefinitionMakeOptional_WhenOptional_ReturnsExistingReference(t
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeOptional()
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional().MakeOptional()
 	updated := original.MakeOptional()
 
 	g.Expect(updated).To(BeIdenticalTo(original))
@@ -499,6 +509,7 @@ func Test_PropertyDefinitionAsAst_GivenValidField_ReturnsNonNilResult(t *testing
 	g := NewGomegaWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).
+		MakeTypeOptional().
 		MakeRequired().
 		WithDescription(propertyDescription)
 
@@ -523,7 +534,6 @@ func TestPropertyDefinition_Equals_WhenGivenPropertyDefinition_ReturnsExpectedRe
 	differentType := createIntProperty("FullName", "Full Legal Name")
 	differentTags := createStringProperty("FullName", "Full Legal Name").WithTag("a", "b")
 	differentDescription := createStringProperty("FullName", "The whole thing")
-	differentValidation := createStringProperty("FullName", "Full Legal Name").MakeRequired()
 
 	cases := []struct {
 		name          string
@@ -542,7 +552,6 @@ func TestPropertyDefinition_Equals_WhenGivenPropertyDefinition_ReturnsExpectedRe
 		{"Not-equal if types are different", strProperty, differentType, false},
 		{"Not-equal if descriptions are different", strProperty, differentDescription, false},
 		{"Not-equal if tags are different", strProperty, differentTags, false},
-		{"Not-equal if validations are different", strProperty, differentValidation, false},
 	}
 
 	for _, c := range cases {

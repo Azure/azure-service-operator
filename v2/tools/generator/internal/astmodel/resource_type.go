@@ -117,7 +117,7 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName, kin
 
 		if isNameOptional {
 			// Fix name to be required -- again this is an artifact of bad spec more than anything
-			nameProperty = nameProperty.MakeRequired().MakeTypeRequired()
+			nameProperty = nameProperty.MakeTypeRequired()
 			objectType = objectType.WithProperty(nameProperty)
 		}
 
@@ -125,11 +125,11 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName, kin
 		// case forcing it to required makes our lives simpler (and the vast majority of resources specify
 		// it as required anyway). The only time it's allowed to be optional is if you set apiProfile on
 		// the ARM template instead, which we never do.
-		apiVersionProperty = apiVersionProperty.MakeRequired().MakeTypeRequired()
+		apiVersionProperty = apiVersionProperty.MakeTypeRequired()
 		objectType = objectType.WithProperty(apiVersionProperty)
 
 		if isTypeOptional {
-			typeProperty = typeProperty.MakeRequired().MakeTypeRequired()
+			typeProperty = typeProperty.MakeTypeRequired()
 			objectType = objectType.WithProperty(typeProperty)
 		}
 
