@@ -315,11 +315,9 @@ type RedisLinkedServerWithProperties_Status struct {
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//LinkedRedisCacheId: Fully qualified resourceId of the linked redis cache.
 	LinkedRedisCacheId *string `json:"linkedRedisCacheId,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//LinkedRedisCacheLocation: Location of the linked redis cache.
 	LinkedRedisCacheLocation *string `json:"linkedRedisCacheLocation,omitempty"`
 
@@ -329,7 +327,6 @@ type RedisLinkedServerWithProperties_Status struct {
 	//ProvisioningState: Terminal state of the link between primary and secondary redis cache.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//ServerRole: Role of the linked server.
 	ServerRole *RedisLinkedServerPropertiesStatusServerRole `json:"serverRole,omitempty"`
 

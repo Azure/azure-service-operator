@@ -2008,7 +2008,6 @@ type VirtualNetworkBgpCommunities_Status struct {
 	//RegionalCommunity: The BGP community associated with the region of the virtual network.
 	RegionalCommunity *string `json:"regionalCommunity,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//VirtualNetworkCommunity: The BGP community associated with the virtual network.
 	VirtualNetworkCommunity *string `json:"virtualNetworkCommunity,omitempty"`
 }

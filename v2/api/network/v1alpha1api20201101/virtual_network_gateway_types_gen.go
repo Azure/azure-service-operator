@@ -4404,36 +4404,28 @@ func (policy *IpsecPolicy) AssignPropertiesToIpsecPolicy(destination *v1alpha1ap
 }
 
 type IpsecPolicy_Status struct {
-	// +kubebuilder:validation:Required
 	//DhGroup: The DH Group used in IKE Phase 1 for initial SA.
 	DhGroup *DhGroup_Status `json:"dhGroup,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//IkeEncryption: The IKE encryption algorithm (IKE phase 2).
 	IkeEncryption *IkeEncryption_Status `json:"ikeEncryption,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//IkeIntegrity: The IKE integrity algorithm (IKE phase 2).
 	IkeIntegrity *IkeIntegrity_Status `json:"ikeIntegrity,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//IpsecEncryption: The IPSec encryption algorithm (IKE phase 1).
 	IpsecEncryption *IpsecEncryption_Status `json:"ipsecEncryption,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//IpsecIntegrity: The IPSec integrity algorithm (IKE phase 1).
 	IpsecIntegrity *IpsecIntegrity_Status `json:"ipsecIntegrity,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//PfsGroup: The Pfs Group used in IKE Phase 2 for new child SA.
 	PfsGroup *PfsGroup_Status `json:"pfsGroup,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//SaDataSizeKilobytes: The IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for a site
 	//to site VPN tunnel.
 	SaDataSizeKilobytes *int `json:"saDataSizeKilobytes,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//SaLifeTimeSeconds: The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site
 	//to site VPN tunnel.
 	SaLifeTimeSeconds *int `json:"saLifeTimeSeconds,omitempty"`
@@ -4754,7 +4746,6 @@ func (server *RadiusServer) AssignPropertiesToRadiusServer(destination *v1alpha1
 }
 
 type RadiusServer_Status struct {
-	// +kubebuilder:validation:Required
 	//RadiusServerAddress: The address of this radius server.
 	RadiusServerAddress *string `json:"radiusServerAddress,omitempty"`
 
@@ -5322,7 +5313,6 @@ type VpnClientRootCertificate_Status struct {
 	//ProvisioningState: The provisioning state of the VPN client root certificate resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//PublicCertData: The certificate public data.
 	PublicCertData *string `json:"publicCertData,omitempty"`
 }

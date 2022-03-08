@@ -3312,7 +3312,6 @@ func (policy *BackupPolicy) AssignPropertiesToBackupPolicy(destination *v1alpha1
 }
 
 type BackupPolicy_Status struct {
-	// +kubebuilder:validation:Required
 	Type *BackupPolicyType_Status `json:"type,omitempty"`
 }
 
@@ -3673,7 +3672,6 @@ func (policy *ConsistencyPolicy) AssignPropertiesToConsistencyPolicy(destination
 }
 
 type ConsistencyPolicy_Status struct {
-	// +kubebuilder:validation:Required
 	//DefaultConsistencyLevel: The default consistency level and configuration settings of the Cosmos DB account.
 	DefaultConsistencyLevel *ConsistencyPolicyStatusDefaultConsistencyLevel `json:"defaultConsistencyLevel,omitempty"`
 
@@ -3954,7 +3952,6 @@ type CorsPolicy_Status struct {
 	//AllowedMethods: The methods (HTTP request verbs) that the origin domain may use for a CORS request.
 	AllowedMethods *string `json:"allowedMethods,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//AllowedOrigins: The origin domains that are permitted to make a request against the service via CORS.
 	AllowedOrigins *string `json:"allowedOrigins,omitempty"`
 

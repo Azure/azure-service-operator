@@ -311,7 +311,6 @@ type Snapshot_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.
 	CreationData *CreationData_Status `json:"creationData,omitempty"`
 

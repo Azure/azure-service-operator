@@ -3091,11 +3091,9 @@ func (profile *ContainerServiceLinuxProfile) AssignPropertiesToContainerServiceL
 }
 
 type ContainerServiceLinuxProfile_Status struct {
-	// +kubebuilder:validation:Required
 	//AdminUsername: The administrator username to use for Linux VMs.
 	AdminUsername *string `json:"adminUsername,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Ssh: The SSH configuration for Linux-based VMs running on Azure.
 	Ssh *ContainerServiceSshConfiguration_Status `json:"ssh,omitempty"`
 }
@@ -8900,7 +8898,6 @@ func (profile *ManagedClusterServicePrincipalProfile) AssignPropertiesToManagedC
 }
 
 type ManagedClusterServicePrincipalProfile_Status struct {
-	// +kubebuilder:validation:Required
 	//ClientId: The ID for the service principal.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -9161,7 +9158,6 @@ type ManagedClusterWindowsProfile_Status struct {
 	//"Password22", "iloveyou!"
 	AdminPassword *string `json:"adminPassword,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//AdminUsername: Specifies the name of the administrator account.
 	//Restriction: Cannot end in "."
 	//Disallowed values: "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123",
@@ -9843,7 +9839,6 @@ func (configuration *ContainerServiceSshConfiguration) AssignPropertiesToContain
 }
 
 type ContainerServiceSshConfiguration_Status struct {
-	// +kubebuilder:validation:Required
 	//PublicKeys: The list of SSH public keys used to authenticate with Linux-based VMs. A maximum of 1 key may be specified.
 	PublicKeys []ContainerServiceSshPublicKey_Status `json:"publicKeys,omitempty"`
 }
@@ -10956,15 +10951,12 @@ func (exception *ManagedClusterPodIdentityException) AssignPropertiesToManagedCl
 }
 
 type ManagedClusterPodIdentityException_Status struct {
-	// +kubebuilder:validation:Required
 	//Name: The name of the pod identity exception.
 	Name *string `json:"name,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Namespace: The namespace of the pod identity exception.
 	Namespace *string `json:"namespace,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//PodLabels: The pod labels to match.
 	PodLabels map[string]string `json:"podLabels,omitempty"`
 }
@@ -11052,15 +11044,12 @@ type ManagedClusterPodIdentity_Status struct {
 	//BindingSelector: The binding selector to use for the AzureIdentityBinding resource.
 	BindingSelector *string `json:"bindingSelector,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Identity: The user assigned identity details.
 	Identity *UserAssignedIdentity_Status `json:"identity,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Name: The name of the pod identity.
 	Name *string `json:"name,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Namespace: The namespace of the pod identity.
 	Namespace        *string                                            `json:"namespace,omitempty"`
 	ProvisioningInfo *ManagedClusterPodIdentity_Status_ProvisioningInfo `json:"provisioningInfo,omitempty"`
@@ -11349,7 +11338,6 @@ func (publicKey *ContainerServiceSshPublicKey) AssignPropertiesToContainerServic
 }
 
 type ContainerServiceSshPublicKey_Status struct {
-	// +kubebuilder:validation:Required
 	//KeyData: Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or
 	//without headers.
 	KeyData *string `json:"keyData,omitempty"`

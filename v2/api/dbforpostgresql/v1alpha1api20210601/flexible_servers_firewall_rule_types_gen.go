@@ -311,7 +311,6 @@ type FirewallRule_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.
 	EndIpAddress *string `json:"endIpAddress,omitempty"`
 
@@ -322,7 +321,6 @@ type FirewallRule_Status struct {
 	//Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.
 	StartIpAddress *string `json:"startIpAddress,omitempty"`
 

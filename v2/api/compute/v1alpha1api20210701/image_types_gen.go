@@ -2099,7 +2099,6 @@ type ImageDataDisk_Status struct {
 	//This value cannot be larger than 1023 GB
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Lun: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and
 	//therefore must be unique for each data disk attached to a VM.
 	Lun *int `json:"lun,omitempty"`
@@ -2740,11 +2739,9 @@ type ImageOSDisk_Status struct {
 	//ManagedDisk: The managedDisk.
 	ManagedDisk *SubResource_Status `json:"managedDisk,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//OsState: The OS State.
 	OsState *ImageOSDiskStatusOsState `json:"osState,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//OsType: This property allows you to specify the type of the OS that is included in the disk if creating a VM from a
 	//custom image.
 	//Possible values are:

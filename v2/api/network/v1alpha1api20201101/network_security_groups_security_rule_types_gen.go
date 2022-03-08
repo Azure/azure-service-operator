@@ -972,7 +972,6 @@ func (rules *NetworkSecurityGroupsSecurityRules_Spec) SetAzureName(azureName str
 }
 
 type SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded struct {
-	// +kubebuilder:validation:Required
 	//Access: The network traffic is allowed or denied.
 	Access *SecurityRuleAccess_Status `json:"access,omitempty"`
 
@@ -999,7 +998,6 @@ type SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded s
 	//DestinationPortRanges: The destination port ranges.
 	DestinationPortRanges []string `json:"destinationPortRanges,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Direction: The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.
 	Direction *SecurityRuleDirection_Status `json:"direction,omitempty"`
 
@@ -1016,7 +1014,6 @@ type SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded s
 	//rule in the collection. The lower the priority number, the higher the priority of the rule.
 	Priority *int `json:"priority,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Protocol: Network protocol this rule applies to.
 	Protocol *SecurityRulePropertiesFormatStatusProtocol `json:"protocol,omitempty"`
 

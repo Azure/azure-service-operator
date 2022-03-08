@@ -2689,7 +2689,6 @@ type ResourceSku_Status struct {
 	//Family: Not used. Retained for future use.
 	Family *string `json:"family,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Name: The name of the SKU. Required.
 	//Allowed values: Standard_S1, Free_F1
 	Name *string `json:"name,omitempty"`
@@ -3388,7 +3387,6 @@ func (feature *SignalRFeature) AssignPropertiesToSignalRFeature(destination *v1a
 }
 
 type SignalRFeature_Status struct {
-	// +kubebuilder:validation:Required
 	//Flag: FeatureFlags is the supported features of Azure SignalR service.
 	//- ServiceMode: Flag for backend server for SignalR service. Values allowed: "Default": have your own backend server;
 	//"Serverless": your application doesn't have a backend server; "Classic": for backward compatibility. Support both
@@ -3404,7 +3402,6 @@ type SignalRFeature_Status struct {
 	//Properties: Optional properties related to this feature.
 	Properties map[string]string `json:"properties,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Value: Value of the feature flag. See Azure SignalR service document https://docs.microsoft.com/azure/azure-signalr/ for
 	//allowed values.
 	Value *string `json:"value,omitempty"`
@@ -4566,7 +4563,6 @@ type PrivateEndpointACL_Status struct {
 	//Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Deny []SignalRRequestType_Status `json:"deny,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Name: Name of the private endpoint connection
 	Name *string `json:"name,omitempty"`
 }
@@ -5108,7 +5104,6 @@ type UpstreamTemplate_Status struct {
 	//3. The single hub name, for example, "hub1", it matches "hub1"
 	HubPattern *string `json:"hubPattern,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//UrlTemplate: Gets or sets the Upstream URL template. You can use 3 predefined parameters {hub}, {category} {event}
 	//inside the template, the value of the Upstream URL is dynamically calculated when the client request comes in.
 	//For example, if the urlTemplate is `http://example.com/{hub}/api/{event}`, with a client request from hub `chat`

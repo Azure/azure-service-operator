@@ -327,14 +327,12 @@ type WebTest_Status struct {
 	//Id: Azure resource Id
 	Id *string `json:"id,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Kind: The kind of web test this is, valid choices are ping, multistep, basic, and standard.
 	Kind *WebTestPropertiesStatusKind `json:"Kind,omitempty"`
 
 	//Location: Resource location
 	Location *string `json:"location,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
 	//application.
 	Locations []WebTestGeolocation_Status `json:"Locations,omitempty"`
@@ -342,7 +340,6 @@ type WebTest_Status struct {
 	//Name: Azure resource name
 	Name *string `json:"name,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//PropertiesName: User defined name if this WebTest.
 	PropertiesName *string `json:"properties_name,omitempty"`
 
@@ -357,7 +354,6 @@ type WebTest_Status struct {
 	//RetryEnabled: Allow for retries should this WebTest fail.
 	RetryEnabled *bool `json:"RetryEnabled,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//SyntheticMonitorId: Unique ID of this WebTest. This is typically the same value as the Name field.
 	SyntheticMonitorId *string `json:"SyntheticMonitorId,omitempty"`
 

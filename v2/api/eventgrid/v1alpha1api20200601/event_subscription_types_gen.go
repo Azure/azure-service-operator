@@ -1268,7 +1268,6 @@ func (subscriptions *EventSubscriptions_Spec) SetAzureName(azureName string) {
 }
 
 type DeadLetterDestination_Status struct {
-	// +kubebuilder:validation:Required
 	//EndpointType: Type of the endpoint for the dead letter destination
 	EndpointType *DeadLetterDestinationStatusEndpointType `json:"endpointType,omitempty"`
 }
@@ -1726,7 +1725,6 @@ func (destination *EventSubscriptionDestination) AssignPropertiesToEventSubscrip
 }
 
 type EventSubscriptionDestination_Status struct {
-	// +kubebuilder:validation:Required
 	//EndpointType: Type of the endpoint for the event subscription destination.
 	EndpointType *EventSubscriptionDestinationStatusEndpointType `json:"endpointType,omitempty"`
 }
@@ -3130,7 +3128,6 @@ type AdvancedFilter_Status struct {
 	//Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
 	OperatorType *AdvancedFilterStatusOperatorType `json:"operatorType,omitempty"`
 }

@@ -2006,7 +2006,6 @@ type SBSku_Status struct {
 	//Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
 	Capacity *int `json:"capacity,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Name: Name of this SKU.
 	Name *SBSkuStatusName `json:"name,omitempty"`
 

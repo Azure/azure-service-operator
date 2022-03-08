@@ -1833,11 +1833,9 @@ func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination
 }
 
 type ExtendedLocation_Status struct {
-	// +kubebuilder:validation:Required
 	//Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Type: The type of the extended location.
 	Type *ExtendedLocationType_Status `json:"type,omitempty"`
 }
@@ -2469,7 +2467,6 @@ func (embedded *FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded)
 }
 
 type InboundNatPool_Status struct {
-	// +kubebuilder:validation:Required
 	//BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.
 	BackendPort *int `json:"backendPort,omitempty"`
 
@@ -2488,12 +2485,10 @@ type InboundNatPool_Status struct {
 	//FrontendIPConfiguration: A reference to frontend IP addresses.
 	FrontendIPConfiguration *SubResource_Status `json:"frontendIPConfiguration,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//FrontendPortRangeEnd: The last port number in the range of external ports that will be used to provide Inbound Nat to
 	//NICs associated with a load balancer. Acceptable values range between 1 and 65535.
 	FrontendPortRangeEnd *int `json:"frontendPortRangeEnd,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//FrontendPortRangeStart: The first port number in the range of external ports that will be used to provide Inbound Nat to
 	//NICs associated with a load balancer. Acceptable values range between 1 and 65534.
 	FrontendPortRangeStart *int `json:"frontendPortRangeStart,omitempty"`
@@ -2509,7 +2504,6 @@ type InboundNatPool_Status struct {
 	//can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Protocol: The reference to the transport protocol used by the inbound NAT pool.
 	Protocol *TransportProtocol_Status `json:"protocol,omitempty"`
 
@@ -4924,7 +4918,6 @@ type LoadBalancingRule_Status struct {
 	//FrontendIPConfiguration: A reference to frontend IP addresses.
 	FrontendIPConfiguration *SubResource_Status `json:"frontendIPConfiguration,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//FrontendPort: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer.
 	//Acceptable values are between 0 and 65534. Note that value 0 enables "Any Port".
 	FrontendPort *int `json:"frontendPort,omitempty"`
@@ -4946,7 +4939,6 @@ type LoadBalancingRule_Status struct {
 	//Probe: The reference to the load balancer probe used by the load balancing rule.
 	Probe *SubResource_Status `json:"probe,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Protocol: The reference to the transport protocol used by the load balancing rule.
 	Protocol *TransportProtocol_Status `json:"protocol,omitempty"`
 
@@ -5359,7 +5351,6 @@ type OutboundRule_Status struct {
 	//AllocatedOutboundPorts: The number of outbound ports to be used for NAT.
 	AllocatedOutboundPorts *int `json:"allocatedOutboundPorts,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//BackendAddressPool: A reference to a pool of DIPs. Outbound traffic is randomly load balanced across IPs in the backend
 	//IPs.
 	BackendAddressPool *SubResource_Status `json:"backendAddressPool,omitempty"`
@@ -5371,7 +5362,6 @@ type OutboundRule_Status struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//FrontendIPConfigurations: The Frontend IP addresses of the load balancer.
 	FrontendIPConfigurations []SubResource_Status `json:"frontendIPConfigurations,omitempty"`
 
@@ -5385,7 +5375,6 @@ type OutboundRule_Status struct {
 	//be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Protocol: The protocol for the outbound rule in load balancer.
 	Protocol *OutboundRulePropertiesFormatStatusProtocol `json:"protocol,omitempty"`
 
@@ -5701,11 +5690,9 @@ type Probe_Status struct {
 	//in Azure.
 	NumberOfProbes *int `json:"numberOfProbes,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Port: The port for communicating the probe. Possible values range from 1 to 65535, inclusive.
 	Port *int `json:"port,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Protocol: The protocol of the end point. If 'Tcp' is specified, a received ACK is required for the probe to be
 	//successful. If 'Http' or 'Https' is specified, a 200 OK response from the specifies URI is required for the probe to be
 	//successful.

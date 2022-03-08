@@ -1418,7 +1418,6 @@ func (rule *InboundIpRule_Status) AssignPropertiesToInboundIpRuleStatus(destinat
 }
 
 type InputSchemaMapping_Status struct {
-	// +kubebuilder:validation:Required
 	//InputSchemaMappingType: Type of the custom mapping
 	InputSchemaMappingType *InputSchemaMappingStatusInputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
 }

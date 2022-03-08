@@ -2893,7 +2893,6 @@ type AzureFilesIdentityBasedAuthentication_Status struct {
 	//DefaultSharePermission: Default share permission for users using Kerberos authentication if RBAC role is not assigned.
 	DefaultSharePermission *AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission `json:"defaultSharePermission,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//DirectoryServiceOptions: Indicates the directory service used.
 	DirectoryServiceOptions *AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions `json:"directoryServiceOptions,omitempty"`
 }
@@ -3263,7 +3262,6 @@ func (domain *CustomDomain) AssignPropertiesToCustomDomain(destination *v1alpha1
 }
 
 type CustomDomain_Status struct {
-	// +kubebuilder:validation:Required
 	//Name: Gets or sets the custom domain name assigned to the storage account. Name is the CNAME source.
 	Name *string `json:"name,omitempty"`
 
@@ -3613,7 +3611,6 @@ type Encryption_Status struct {
 	//Identity: The identity to be used with service-side encryption at rest.
 	Identity *EncryptionIdentity_Status `json:"identity,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//KeySource: The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Storage,
 	//Microsoft.Keyvault
 	KeySource *EncryptionStatusKeySource `json:"keySource,omitempty"`
@@ -4421,7 +4418,6 @@ type Identity_Status struct {
 	//TenantId: The tenant ID of resource.
 	TenantId *string `json:"tenantId,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Type: The identity type.
 	Type *IdentityStatusType `json:"type,omitempty"`
 
@@ -4713,7 +4709,6 @@ func (policy *KeyPolicy) AssignPropertiesToKeyPolicy(destination *v1alpha1api202
 }
 
 type KeyPolicy_Status struct {
-	// +kubebuilder:validation:Required
 	//KeyExpirationPeriodInDays: The key expiration period in days.
 	KeyExpirationPeriodInDays *int `json:"keyExpirationPeriodInDays,omitempty"`
 }
@@ -5067,7 +5062,6 @@ type NetworkRuleSet_Status struct {
 	//Logging|Metrics|AzureServices (For example, "Logging, Metrics"), or None to bypass none of those traffics.
 	Bypass *NetworkRuleSetStatusBypass `json:"bypass,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//DefaultAction: Specifies the default action of allow or deny when no other rules match.
 	DefaultAction *NetworkRuleSetStatusDefaultAction `json:"defaultAction,omitempty"`
 
@@ -5735,11 +5729,9 @@ func (policy *SasPolicy) AssignPropertiesToSasPolicy(destination *v1alpha1api202
 }
 
 type SasPolicy_Status struct {
-	// +kubebuilder:validation:Required
 	//ExpirationAction: The SAS expiration action. Can only be Log.
 	ExpirationAction *SasPolicyStatusExpirationAction `json:"expirationAction,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//SasExpirationPeriod: The SAS expiration period, DD.HH:MM:SS.
 	SasExpirationPeriod *string `json:"sasExpirationPeriod,omitempty"`
 }
@@ -5933,7 +5925,6 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20210401storage.Sk
 }
 
 type Sku_Status struct {
-	// +kubebuilder:validation:Required
 	Name *SkuName_Status `json:"name,omitempty"`
 	Tier *Tier_Status    `json:"tier,omitempty"`
 }
@@ -6331,27 +6322,21 @@ func (properties *ActiveDirectoryProperties) AssignPropertiesToActiveDirectoryPr
 }
 
 type ActiveDirectoryProperties_Status struct {
-	// +kubebuilder:validation:Required
 	//AzureStorageSid: Specifies the security identifier (SID) for Azure Storage.
 	AzureStorageSid *string `json:"azureStorageSid,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//DomainGuid: Specifies the domain GUID.
 	DomainGuid *string `json:"domainGuid,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//DomainName: Specifies the primary domain that the AD DNS server is authoritative for.
 	DomainName *string `json:"domainName,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//DomainSid: Specifies the security identifier (SID).
 	DomainSid *string `json:"domainSid,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//ForestName: Specifies the Active Directory forest to get.
 	ForestName *string `json:"forestName,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//NetBiosDomainName: Specifies the NetBIOS domain name.
 	NetBiosDomainName *string `json:"netBiosDomainName,omitempty"`
 }
@@ -6508,11 +6493,9 @@ const (
 )
 
 type BlobRestoreParameters_Status struct {
-	// +kubebuilder:validation:Required
 	//BlobRanges: Blob ranges to restore.
 	BlobRanges []BlobRestoreRange_Status `json:"blobRanges,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//TimeToRestore: Restore blob to the specified time.
 	TimeToRestore *string `json:"timeToRestore,omitempty"`
 }
@@ -7341,7 +7324,6 @@ type IPRule_Status struct {
 	//Action: The action of IP ACL rule.
 	Action *IPRuleStatusAction `json:"action,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
 	Value *string `json:"value,omitempty"`
 }
@@ -8535,7 +8517,6 @@ type VirtualNetworkRule_Status struct {
 	//Action: The action of virtual network rule.
 	Action *VirtualNetworkRuleStatusAction `json:"action,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Id: Resource ID of a subnet, for example:
 	///subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
 	Id *string `json:"id,omitempty"`
@@ -8642,11 +8623,9 @@ func (rule *VirtualNetworkRule_Status) AssignPropertiesToVirtualNetworkRuleStatu
 }
 
 type BlobRestoreRange_Status struct {
-	// +kubebuilder:validation:Required
 	//EndRange: Blob end range. This is exclusive. Empty means account end.
 	EndRange *string `json:"endRange,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//StartRange: Blob start range. This is inclusive. Empty means account start.
 	StartRange *string `json:"startRange,omitempty"`
 }

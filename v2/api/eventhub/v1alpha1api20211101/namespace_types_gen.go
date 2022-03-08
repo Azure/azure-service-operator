@@ -2505,7 +2505,6 @@ type Sku_Status struct {
 	//The Event Hubs premium units for Premium tier, where value should be 0 to 10 premium units.
 	Capacity *int `json:"capacity,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Name: Name of this SKU.
 	Name *SkuStatusName `json:"name,omitempty"`
 
