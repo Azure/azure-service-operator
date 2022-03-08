@@ -931,6 +931,8 @@ objectModelConfiguration:
         $export: true
       StorageAccountsQueueServicesQueue:
         $export: true
+      StorageAccountsManagementPolicy:
+        $export: true
       VirtualNetworkRule:
         Id:
           $armReference: true

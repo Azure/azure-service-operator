@@ -62,6 +62,12 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 				StorageAccount_QueueServices_CRUD(tc, acct)
 			},
 		},
+		testcommon.Subtest{
+			Name: "Management Policies CRUD",
+			Test: func(testContext *testcommon.KubePerTestContext) {
+				StorageAccount_ManagementPolicy_CRUD(tc, acct)
+			},
+		},
 	)
 
 	tc.DeleteResourceAndWait(acct)
@@ -239,4 +245,48 @@ func StorageAccount_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerT
 	tc.ExpectSecretHasKeys(fileSecret, "file")
 	tc.ExpectSecretHasKeys(webSecret, "web")
 	tc.ExpectSecretHasKeys(dfsSecret, "dfs")
+}
+
+func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blobService client.Object) {
+	ruleEnable := true
+	daysAfterLastAccessTimeGreaterThan := 90
+	daysAfterCreationGreaterThan := 30
+
+	managementPolicy := &storage.StorageAccountsManagementPolicy{
+		ObjectMeta: tc.MakeObjectMeta("policy"),
+		Spec: storage.StorageAccountsManagementPolicies_Spec{
+			Location: &tc.AzureRegion,
+			Owner:    testcommon.AsOwner(blobService),
+			Policy: &storage.ManagementPolicySchema{
+				Rules: []storage.ManagementPolicyRule{
+					{
+						Definition: storage.ManagementPolicyDefinition{
+							Actions: storage.ManagementPolicyAction{
+								BaseBlob: &storage.ManagementPolicyBaseBlob{
+									Delete: &storage.DateAfterModification{
+										DaysAfterLastAccessTimeGreaterThan: &daysAfterLastAccessTimeGreaterThan,
+									},
+								},
+								Version: &storage.ManagementPolicyVersion{
+									Delete: &storage.DateAfterCreation{
+										DaysAfterCreationGreaterThan: daysAfterCreationGreaterThan,
+									},
+								},
+							},
+							Filters: &storage.ManagementPolicyFilter{
+								BlobTypes:   []string{"blockBlob"},
+								PrefixMatch: []string{"sample-container/blob1"},
+							},
+						},
+						Enabled: &ruleEnable,
+						Name:    "test-rule",
+						Type:    storage.ManagementPolicyRuleTypeLifecycle,
+					},
+				},
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(managementPolicy)
+	defer tc.DeleteResourceAndWait(managementPolicy)
 }
