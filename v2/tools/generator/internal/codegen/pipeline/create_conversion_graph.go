@@ -31,7 +31,8 @@ func CreateConversionGraph(configuration *config.Configuration) *Stage {
 				allReferences.AddReference(def.Name().PackageReference)
 			}
 
-			builder := storage.NewConversionGraphBuilder(configuration.ObjectModelConfiguration)
+			builder := storage.NewConversionGraphBuilder(
+				configuration.ObjectModelConfiguration, astmodel.GeneratorVersionPrefix)
 			builder.AddAll(allReferences)
 			graph, err := builder.Build()
 			if err != nil {
