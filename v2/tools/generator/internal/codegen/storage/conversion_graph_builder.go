@@ -18,13 +18,17 @@ import (
 // the storage variants of the packages. It uses a separate GroupConversionGraphBuilder for each distinct group
 type ConversionGraphBuilder struct {
 	configuration *config.ObjectModelConfiguration
+	versionPrefix string
 	subBuilders   map[string]*GroupConversionGraphBuilder
 }
 
 // NewConversionGraphBuilder creates a new builder for all our required conversion graphs
-func NewConversionGraphBuilder(configuration *config.ObjectModelConfiguration) *ConversionGraphBuilder {
+func NewConversionGraphBuilder(
+	configuration *config.ObjectModelConfiguration,
+	versionPrefix string) *ConversionGraphBuilder {
 	return &ConversionGraphBuilder{
 		configuration: configuration,
+		versionPrefix: versionPrefix,
 		subBuilders:   make(map[string]*GroupConversionGraphBuilder),
 	}
 }
@@ -74,7 +78,7 @@ func (b *ConversionGraphBuilder) getSubBuilder(ref astmodel.PackageReference) *G
 
 	subBuilder, ok := b.subBuilders[group]
 	if !ok {
-		subBuilder = NewGroupConversionGraphBuilder(group)
+		subBuilder = NewGroupConversionGraphBuilder(group, b.versionPrefix)
 		b.subBuilders[group] = subBuilder
 	}
 

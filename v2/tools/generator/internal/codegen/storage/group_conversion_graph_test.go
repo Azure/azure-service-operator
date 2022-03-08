@@ -22,7 +22,7 @@ func TestGroupConversionGraph_WithSingleReference_HasExpectedTransition(t *testi
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	builder := NewGroupConversionGraphBuilder("demo")
+	builder := NewGroupConversionGraphBuilder("demo", "v")
 	builder.Add(test.Pkg2020, test.Pkg2020s)
 	graph, err := builder.Build()
 
@@ -46,7 +46,7 @@ func TestGroupConversionGraph_WithTwoGAReferences_HasExpectedTransitions(t *test
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	builder := NewGroupConversionGraphBuilder("demo")
+	builder := NewGroupConversionGraphBuilder("demo", "v")
 	builder.Add(test.Pkg2020, test.Pkg2020s)
 	builder.Add(test.Pkg2021, test.Pkg2021s)
 	graph, err := builder.Build()
@@ -81,7 +81,7 @@ func TestGroupConversionGraph_WithGAAndPreviewReferences_HasExpectedTransitions(
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	builder := NewGroupConversionGraphBuilder("demo")
+	builder := NewGroupConversionGraphBuilder("demo", "v")
 	builder.Add(test.Pkg2020, test.Pkg2020s)
 	builder.Add(test.Pkg2021Preview, test.Pkg2021PreviewStorage)
 	builder.Add(test.Pkg2021, test.Pkg2021s)
@@ -105,4 +105,40 @@ func TestGroupConversionGraph_WithGAAndPreviewReferences_HasExpectedTransitions(
 	ref, ok := graph.LookupTransition(pkg2021previewStorage)
 	g.Expect(ok).To(BeTrue())
 	g.Expect(ref).To(Equal(pkg2020storage))
+}
+
+func TestGroupConversionGraph_WithCompatibilityReferences_HasExpectedTransitions(t *testing.T) {
+	/*
+	 * Test that a group containing two GA versions and one *backward compatibility* version ends up with
+	 * five transitions. Each API version should have a transition to a matching storage variant, and there should be a
+	 * transition from the compatibility storage variant *forward* to the earlier GA storage variant. There will also
+	 * be a spirious (unused) transition from the API type underlying the compatibility storage variant.
+	 * This test only checks for cases not already covered by other tests, above.
+	 */
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	compatApi := test.Pkg2022.WithVersionPrefix("c")
+	compatStorage := astmodel.MakeStoragePackageReference(compatApi)
+
+	builder := NewGroupConversionGraphBuilder("demo", "v")
+	builder.Add(compatApi, compatStorage)
+	builder.Add(test.Pkg2020, test.Pkg2020s)
+	builder.Add(test.Pkg2021, test.Pkg2021s)
+
+	graph, err := builder.Build()
+
+	// Check size of graph
+	g.Expect(err).To(Succeed())
+	g.Expect(graph.TransitionCount()).To(Equal(5))
+
+	// Check for expected transition for compatApi
+	lookupApi, ok := graph.LookupTransition(compatApi)
+	g.Expect(ok).To(BeTrue())
+	g.Expect(lookupApi).To(Equal(compatStorage))
+
+	// Check for expected transition for compatStorage
+	lookupStorage, ok := graph.LookupTransition(compatStorage)
+	g.Expect(ok).To(BeTrue())
+	g.Expect(lookupStorage).To(Equal(test.Pkg2020s))
 }
