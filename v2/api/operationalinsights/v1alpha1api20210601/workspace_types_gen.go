@@ -2245,7 +2245,6 @@ type WorkspaceSku_Status struct {
 	//LastSkuUpdate: The last time when the sku was updated.
 	LastSkuUpdate *string `json:"lastSkuUpdate,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Name: The name of the SKU.
 	Name *WorkspaceSkuStatusName `json:"name,omitempty"`
 }

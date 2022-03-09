@@ -326,11 +326,9 @@ type PrivateLinkServiceConnectionStateProperty_Status struct {
 	//ActionsRequired: The actions required for private link service connection.
 	ActionsRequired *PrivateLinkServiceConnectionStatePropertyStatusActionsRequired `json:"actionsRequired,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Description: The private link service connection description.
 	Description *string `json:"description,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Status: The private link service connection status.
 	Status *PrivateLinkServiceConnectionStatePropertyStatusStatus `json:"status,omitempty"`
 }

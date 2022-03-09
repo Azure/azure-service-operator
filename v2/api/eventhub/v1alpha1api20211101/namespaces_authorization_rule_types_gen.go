@@ -321,7 +321,6 @@ type AuthorizationRule_Status struct {
 	//Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Rights: The rights associated with the rule.
 	Rights []AuthorizationRuleStatusPropertiesRights `json:"rights,omitempty"`
 

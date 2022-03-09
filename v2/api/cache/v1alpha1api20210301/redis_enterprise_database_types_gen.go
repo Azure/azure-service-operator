@@ -1285,7 +1285,6 @@ type Module_Status struct {
 	//Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
 	Args *string `json:"args,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Name: The name of the module, e.g. 'RedisBloom', 'RediSearch', 'RedisTimeSeries'
 	Name *string `json:"name,omitempty"`
 

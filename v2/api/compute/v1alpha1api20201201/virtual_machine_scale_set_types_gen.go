@@ -7360,7 +7360,6 @@ type VirtualMachineScaleSetDataDisk_Status struct {
 	//Default: None for Standard storage. ReadOnly for Premium storage
 	Caching *Caching_Status `json:"caching,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//CreateOption: The create option.
 	CreateOption *CreateOption_Status `json:"createOption,omitempty"`
 
@@ -7377,7 +7376,6 @@ type VirtualMachineScaleSetDataDisk_Status struct {
 	//This value cannot be larger than 1023 GB
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Lun: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and
 	//therefore must be unique for each data disk attached to a VM.
 	Lun *int `json:"lun,omitempty"`
@@ -7946,11 +7944,9 @@ type VirtualMachineScaleSetNetworkConfiguration_Status struct {
 	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//IpConfigurations: Specifies the IP configurations of the network interface.
 	IpConfigurations []VirtualMachineScaleSetIPConfiguration_Status `json:"ipConfigurations,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Name: The network configuration name.
 	Name *string `json:"name,omitempty"`
 
@@ -8658,7 +8654,6 @@ type VirtualMachineScaleSetOSDisk_Status struct {
 	//Default: None for Standard storage. ReadOnly for Premium storage
 	Caching *Caching_Status `json:"caching,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//CreateOption: Specifies how the virtual machines in the scale set should be created.
 	//The only allowed value is: FromImage \u2013 This value is used when you are using an image to create the virtual
 	//machine. If you are using a platform image, you also use the imageReference element described above. If you are using a
@@ -9626,7 +9621,6 @@ type VirtualMachineScaleSetIPConfiguration_Status struct {
 	//basic sku load balancer.
 	LoadBalancerInboundNatPools []SubResource_Status `json:"loadBalancerInboundNatPools,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Name: The IP configuration name.
 	Name *string `json:"name,omitempty"`
 
@@ -10977,7 +10971,6 @@ type VirtualMachineScaleSetPublicIPAddressConfiguration_Status struct {
 	//IpTags: The list of IP tags associated with the public IP address.
 	IpTags []VirtualMachineScaleSetIpTag_Status `json:"ipTags,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Name: The publicIP address configuration name.
 	Name *string `json:"name,omitempty"`
 
@@ -11753,7 +11746,6 @@ func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) A
 }
 
 type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status struct {
-	// +kubebuilder:validation:Required
 	//DomainNameLabel: The Domain name label.The concatenation of the domain name label and vm index will be the domain name
 	//labels of the PublicIPAddress resources that will be created
 	DomainNameLabel *string `json:"domainNameLabel,omitempty"`

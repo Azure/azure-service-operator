@@ -2390,7 +2390,6 @@ func (ruleSet *NetworkRuleSet) AssignPropertiesToNetworkRuleSet(destination *v1a
 }
 
 type NetworkRuleSet_Status struct {
-	// +kubebuilder:validation:Required
 	//DefaultAction: The default action of allow or deny when no other rules match.
 	DefaultAction *NetworkRuleSetStatusDefaultAction `json:"defaultAction,omitempty"`
 
@@ -3161,7 +3160,6 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20210901storage.Sk
 }
 
 type Sku_Status struct {
-	// +kubebuilder:validation:Required
 	//Name: The SKU name of the container registry. Required for registry creation.
 	Name *SkuStatusName `json:"name,omitempty"`
 
@@ -3764,7 +3762,6 @@ type IPRule_Status struct {
 	//Action: The action of IP ACL rule.
 	Action *IPRuleStatusAction `json:"action,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
 	Value *string `json:"value,omitempty"`
 }

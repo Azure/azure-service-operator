@@ -311,7 +311,6 @@ type RedisFirewallRule_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//EndIP: highest IP address included in the range
 	EndIP *string `json:"endIP,omitempty"`
 
@@ -322,7 +321,6 @@ type RedisFirewallRule_Status struct {
 	//Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//StartIP: lowest IP address included in the range
 	StartIP *string `json:"startIP,omitempty"`
 

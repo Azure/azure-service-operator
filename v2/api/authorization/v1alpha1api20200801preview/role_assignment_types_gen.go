@@ -336,14 +336,12 @@ type RoleAssignment_Status struct {
 	//Name: The role assignment name.
 	Name *string `json:"name,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//PrincipalId: The principal ID.
 	PrincipalId *string `json:"principalId,omitempty"`
 
 	//PrincipalType: The principal type of the assigned principal ID.
 	PrincipalType *RoleAssignmentPropertiesStatusPrincipalType `json:"principalType,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//RoleDefinitionId: The role definition ID.
 	RoleDefinitionId *string `json:"roleDefinitionId,omitempty"`
 

@@ -850,7 +850,6 @@ type SqlStoredProcedureGetProperties_Status_Resource struct {
 	//Etag: A system generated property representing the resource etag required for optimistic concurrency control.
 	Etag *string `json:"_etag,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Id: Name of the Cosmos DB SQL storedProcedure
 	Id *string `json:"id,omitempty"`
 

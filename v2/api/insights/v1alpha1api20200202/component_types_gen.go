@@ -315,7 +315,6 @@ type ApplicationInsightsComponent_Status struct {
 	//ApplicationId: The unique ID of your application. This field mirrors the 'Name' field and cannot be changed.
 	ApplicationId *string `json:"ApplicationId,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//ApplicationType: Type of application being monitored.
 	ApplicationType *ApplicationInsightsComponentPropertiesStatusApplicationType `json:"Application_Type,omitempty"`
 

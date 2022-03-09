@@ -311,7 +311,6 @@ type RedisPatchSchedule_Status struct {
 	//Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//ScheduleEntries: List of patch schedules for a Redis cache.
 	ScheduleEntries []ScheduleEntry_Status `json:"scheduleEntries,omitempty"`
 
@@ -898,14 +897,12 @@ func (entry *ScheduleEntry) AssignPropertiesToScheduleEntry(destination *v1alpha
 }
 
 type ScheduleEntry_Status struct {
-	// +kubebuilder:validation:Required
 	//DayOfWeek: Day of the week when a cache can be patched.
 	DayOfWeek *ScheduleEntryStatusDayOfWeek `json:"dayOfWeek,omitempty"`
 
 	//MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
 	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//StartHourUtc: Start hour after which cache patching can start.
 	StartHourUtc *int `json:"startHourUtc,omitempty"`
 }

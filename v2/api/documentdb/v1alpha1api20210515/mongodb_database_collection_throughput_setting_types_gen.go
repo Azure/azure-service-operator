@@ -1202,7 +1202,6 @@ type AutoscaleSettingsResource_Status struct {
 	//AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy
 	AutoUpgradePolicy *AutoUpgradePolicyResource_Status `json:"autoUpgradePolicy,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//MaxThroughput: Represents maximum throughput container can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
 

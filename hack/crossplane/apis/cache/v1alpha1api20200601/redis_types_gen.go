@@ -160,7 +160,6 @@ type RedisResourceObservation struct {
 	//ShardCount: The number of shards to be created on a Premium Cluster Cache.
 	ShardCount *int `json:"shardCount,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Sku: The SKU of the Redis cache to deploy.
 	Sku *Sku_Status `json:"sku,omitempty"`
 
@@ -199,7 +198,6 @@ type PrivateEndpointConnection_Status struct {
 	//PrivateEndpoint: The resource of private end point.
 	PrivateEndpoint *PrivateEndpoint_Status `json:"privateEndpoint,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//PrivateLinkServiceConnectionState: A collection of information about the state of the connection between service
 	//consumer and provider.
 	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_Status `json:"privateLinkServiceConnectionState,omitempty"`
@@ -379,16 +377,13 @@ type Sku struct {
 }
 
 type Sku_Status struct {
-	// +kubebuilder:validation:Required
 	//Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
 	//P (Premium) family (1, 2, 3, 4).
 	Capacity *int `json:"capacity,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
 	Family *SkuStatusFamily `json:"family,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
 	Name *SkuStatusName `json:"name,omitempty"`
 }

@@ -2166,7 +2166,6 @@ type LastAccessTimeTrackingPolicy_Status struct {
 	//read only
 	BlobType []string `json:"blobType,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Enable: When set to true last access time based tracking is enabled.
 	Enable *bool `json:"enable,omitempty"`
 
@@ -2408,7 +2407,6 @@ type RestorePolicyProperties_Status struct {
 	//Days: how long this blob can be restored. It should be great than zero and less than DeleteRetentionPolicy.days.
 	Days *int `json:"days,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Enabled: Blob restore is enabled if set to true.
 	Enabled *bool `json:"enabled,omitempty"`
 
@@ -2698,26 +2696,21 @@ func (rule *CorsRule) AssignPropertiesToCorsRule(destination *v1alpha1api2021040
 }
 
 type CorsRule_Status struct {
-	// +kubebuilder:validation:Required
 	//AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
 	//request.
 	AllowedHeaders []string `json:"allowedHeaders,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
 	//origin.
 	AllowedMethods []CorsRuleStatusAllowedMethods `json:"allowedMethods,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*"
 	//to allow all domains
 	AllowedOrigins []string `json:"allowedOrigins,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//ExposedHeaders: Required if CorsRule element is present. A list of response headers to expose to CORS clients.
 	ExposedHeaders []string `json:"exposedHeaders,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//MaxAgeInSeconds: Required if CorsRule element is present. The number of seconds that the client/browser should cache a
 	//preflight response.
 	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`

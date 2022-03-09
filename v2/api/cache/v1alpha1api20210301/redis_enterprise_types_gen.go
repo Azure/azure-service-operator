@@ -1207,7 +1207,6 @@ type Sku_Status struct {
 	//for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
 	Capacity *int `json:"capacity,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.)
 	Name *SkuStatusName `json:"name,omitempty"`
 }

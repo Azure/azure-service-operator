@@ -2773,11 +2773,9 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20210501storage.Sk
 }
 
 type Sku_Status struct {
-	// +kubebuilder:validation:Required
 	//Name: The name of the sku, e.g. Standard_D32s_v3.
 	Name *string `json:"name,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Tier: The tier of the particular SKU, e.g. GeneralPurpose.
 	Tier *SkuStatusTier `json:"tier,omitempty"`
 }

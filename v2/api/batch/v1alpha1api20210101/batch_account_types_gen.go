@@ -1522,11 +1522,9 @@ func (properties *AutoStorageBaseProperties) AssignPropertiesToAutoStorageBasePr
 }
 
 type AutoStorageProperties_Status struct {
-	// +kubebuilder:validation:Required
 	//LastKeySync: The UTC time at which storage keys were last synchronized with the Batch account.
 	LastKeySync *string `json:"lastKeySync,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//StorageAccountId: The resource ID of the storage account to be used for auto-storage account.
 	StorageAccountId *string `json:"storageAccountId,omitempty"`
 }
@@ -1705,7 +1703,6 @@ type BatchAccountIdentity_Status struct {
 	//identity.
 	TenantId *string `json:"tenantId,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Type: The type of identity used for the Batch account.
 	Type *BatchAccountIdentityStatusType `json:"type,omitempty"`
 
@@ -2208,11 +2205,9 @@ func (reference *KeyVaultReference) AssignPropertiesToKeyVaultReference(destinat
 }
 
 type KeyVaultReference_Status struct {
-	// +kubebuilder:validation:Required
 	//Id: The resource ID of the Azure key vault associated with the Batch account.
 	Id *string `json:"id,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Url: The URL of the Azure key vault associated with the Batch account.
 	Url *string `json:"url,omitempty"`
 }
@@ -2872,11 +2867,9 @@ func (endpoint *PrivateEndpoint_Status) AssignPropertiesToPrivateEndpointStatus(
 }
 
 type PrivateLinkServiceConnectionState_Status struct {
-	ActionRequired *string `json:"actionRequired,omitempty"`
-	Description    *string `json:"description,omitempty"`
-
-	// +kubebuilder:validation:Required
-	Status *PrivateLinkServiceConnectionStatus_Status `json:"status,omitempty"`
+	ActionRequired *string                                    `json:"actionRequired,omitempty"`
+	Description    *string                                    `json:"description,omitempty"`
+	Status         *PrivateLinkServiceConnectionStatus_Status `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PrivateLinkServiceConnectionState_Status{}

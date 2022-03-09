@@ -5428,7 +5428,6 @@ type VirtualMachineExtension_Status struct {
 	//InstanceView: The virtual machine extension instance view.
 	InstanceView *VirtualMachineExtensionInstanceView_Status `json:"instanceView,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Location: Resource location
 	Location *string `json:"location,omitempty"`
 
@@ -7482,7 +7481,6 @@ type DataDisk_Status struct {
 	//Default: None for Standard storage. ReadOnly for Premium storage
 	Caching *Caching_Status `json:"caching,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//CreateOption: Specifies how the virtual machine should be created.
 	//Possible values are:
 	//Attach \u2013 This value is used when you are using a specialized disk to create the virtual machine.
@@ -7519,7 +7517,6 @@ type DataDisk_Status struct {
 	//virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist.
 	Image *VirtualHardDisk_Status `json:"image,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Lun: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and
 	//therefore must be unique for each data disk attached to a VM.
 	Lun *int `json:"lun,omitempty"`
@@ -9916,7 +9913,6 @@ type OSDisk_Status struct {
 	//Default: None for Standard storage. ReadOnly for Premium storage.
 	Caching *Caching_Status `json:"caching,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//CreateOption: Specifies how the virtual machine should be created.
 	//Possible values are:
 	//Attach \u2013 This value is used when you are using a specialized disk to create the virtual machine.
@@ -15509,11 +15505,9 @@ func (reference *KeyVaultKeyReference) AssignPropertiesToKeyVaultKeyReference(de
 }
 
 type KeyVaultKeyReference_Status struct {
-	// +kubebuilder:validation:Required
 	//KeyUrl: The URL referencing a key encryption key in Key Vault.
 	KeyUrl *string `json:"keyUrl,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//SourceVault: The relative URL of the Key Vault containing the key.
 	SourceVault *SubResource_Status `json:"sourceVault,omitempty"`
 }
@@ -15730,11 +15724,9 @@ func (reference *KeyVaultSecretReference) AssignPropertiesToKeyVaultSecretRefere
 }
 
 type KeyVaultSecretReference_Status struct {
-	// +kubebuilder:validation:Required
 	//SecretUrl: The URL referencing a secret in a Key Vault.
 	SecretUrl *string `json:"secretUrl,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//SourceVault: The relative URL of the Key Vault containing the secret.
 	SourceVault *SubResource_Status `json:"sourceVault,omitempty"`
 }

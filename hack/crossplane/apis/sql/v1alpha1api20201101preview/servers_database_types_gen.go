@@ -514,7 +514,6 @@ type Sku_Status struct {
 	//Family: If the service has different generations of hardware, for the same SKU, then that can be captured here.
 	Family *string `json:"family,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Name: The name of the SKU, typically, a letter + Number code, e.g. P3.
 	Name *string `json:"name,omitempty"`
 

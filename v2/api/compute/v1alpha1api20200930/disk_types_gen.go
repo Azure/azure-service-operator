@@ -315,7 +315,6 @@ type Disk_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.
 	CreationData *CreationData_Status `json:"creationData,omitempty"`
 
@@ -2346,7 +2345,6 @@ func (data *CreationData) AssignPropertiesToCreationData(destination *v1alpha1ap
 }
 
 type CreationData_Status struct {
-	// +kubebuilder:validation:Required
 	//CreateOption: This enumerates the possible sources of a disk's creation.
 	CreateOption *CreationDataStatusCreateOption `json:"createOption,omitempty"`
 
@@ -3082,7 +3080,6 @@ func (collection *EncryptionSettingsCollection) AssignPropertiesToEncryptionSett
 }
 
 type EncryptionSettingsCollection_Status struct {
-	// +kubebuilder:validation:Required
 	//Enabled: Set this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set
 	//this flag to false and remove DiskEncryptionKey and KeyEncryptionKey to disable encryption. If EncryptionSettings is
 	//null in the request object, the existing settings remain unchanged.
@@ -3636,11 +3633,9 @@ func (plan *PurchasePlan) AssignPropertiesToPurchasePlan(destination *v1alpha1ap
 }
 
 type PurchasePlan_Status struct {
-	// +kubebuilder:validation:Required
 	//Name: The plan ID.
 	Name *string `json:"name,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Product: Specifies the product of the image from the marketplace. This is the same value as Offer under the
 	//imageReference element.
 	Product *string `json:"product,omitempty"`
@@ -3648,7 +3643,6 @@ type PurchasePlan_Status struct {
 	//PromotionCode: The Offer Promotion Code.
 	PromotionCode *string `json:"promotionCode,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Publisher: The publisher ID.
 	Publisher *string `json:"publisher,omitempty"`
 }
@@ -4220,7 +4214,6 @@ func (reference *ImageDiskReference) AssignPropertiesToImageDiskReference(destin
 }
 
 type ImageDiskReference_Status struct {
-	// +kubebuilder:validation:Required
 	//Id: A relative uri containing either a Platform Image Repository or user image reference.
 	Id *string `json:"id,omitempty"`
 
@@ -4420,11 +4413,9 @@ func (reference *KeyVaultAndKeyReference) AssignPropertiesToKeyVaultAndKeyRefere
 }
 
 type KeyVaultAndKeyReference_Status struct {
-	// +kubebuilder:validation:Required
 	//KeyUrl: Url pointing to a key or secret in KeyVault
 	KeyUrl *string `json:"keyUrl,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//SourceVault: Resource id of the KeyVault containing the key or secret
 	SourceVault *SourceVault_Status `json:"sourceVault,omitempty"`
 }
@@ -4643,11 +4634,9 @@ func (reference *KeyVaultAndSecretReference) AssignPropertiesToKeyVaultAndSecret
 }
 
 type KeyVaultAndSecretReference_Status struct {
-	// +kubebuilder:validation:Required
 	//SecretUrl: Url pointing to a key or secret in KeyVault
 	SecretUrl *string `json:"secretUrl,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//SourceVault: Resource id of the KeyVault containing the key or secret
 	SourceVault *SourceVault_Status `json:"sourceVault,omitempty"`
 }
