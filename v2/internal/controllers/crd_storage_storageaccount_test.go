@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
+	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -25,7 +26,7 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	acct := createStorgeAccount(tc, rg)
+	acct := createStorageAccount(tc, rg)
 
 	tc.CreateResourceAndWait(acct)
 
@@ -134,7 +135,7 @@ func Test_Storage_StorageAccount_SecretsFromAzure(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Initially with no OperatorSpec.Secrets, to ensure no secrets are created
-	acct := createStorgeAccount(tc, rg)
+	acct := createStorageAccount(tc, rg)
 
 	tc.CreateResourceAndWait(acct)
 
@@ -221,13 +222,13 @@ func Test_Storage_StorageAccount_ManagementPolicies(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	acct := createStorgeAccount(tc, rg)
+	acct := createStorageAccount(tc, rg)
 
 	tc.CreateResourceAndWait(acct)
 
-	tc.Expect(acct.Status.Location).To(Equal(&tc.AzureRegion))
-	expectedKind := storage.StorageAccountStatusKindStorageV2
-	tc.Expect(acct.Status.Kind).To(Equal(&expectedKind))
+	//tc.Expect(acct.Status.Location).To(Equal(&tc.AzureRegion))
+	//expectedKind := storage.StorageAccountStatusKindStorageV2
+	//tc.Expect(acct.Status.Kind).To(Equal(&expectedKind))
 
 	// Run sub-tests on storage account
 	tc.RunSubtests(
@@ -240,30 +241,20 @@ func Test_Storage_StorageAccount_ManagementPolicies(t *testing.T) {
 }
 
 func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blobService client.Object) {
-	ruleEnable := true
-	daysAfterLastAccessTimeGreaterThan := 90
-	daysAfterCreationGreaterThan := 30
 	ruleType := storage.ManagementPolicyRuleTypeLifecycle
-	ruleName := "test-rule"
 
 	managementPolicy := &storage.StorageAccountsManagementPolicy{
 		ObjectMeta: tc.MakeObjectMeta("policy"),
 		Spec: storage.StorageAccountsManagementPolicies_Spec{
-			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(blobService),
+			Owner: testcommon.AsOwner(blobService),
 			Policy: &storage.ManagementPolicySchema{
 				Rules: []storage.ManagementPolicyRule{
 					{
 						Definition: &storage.ManagementPolicyDefinition{
 							Actions: &storage.ManagementPolicyAction{
-								BaseBlob: &storage.ManagementPolicyBaseBlob{
-									Delete: &storage.DateAfterModification{
-										DaysAfterLastAccessTimeGreaterThan: &daysAfterLastAccessTimeGreaterThan,
-									},
-								},
 								Version: &storage.ManagementPolicyVersion{
 									Delete: &storage.DateAfterCreation{
-										DaysAfterCreationGreaterThan: &daysAfterCreationGreaterThan,
+										DaysAfterCreationGreaterThan: to.IntPtr(30),
 									},
 								},
 							},
@@ -272,8 +263,8 @@ func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blo
 								PrefixMatch: []string{"sample-container/blob1"},
 							},
 						},
-						Enabled: &ruleEnable,
-						Name:    &ruleName,
+						Enabled: to.BoolPtr(true),
+						Name:    to.StringPtr("test-rule"),
 						Type:    &ruleType,
 					},
 				},
@@ -285,7 +276,7 @@ func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blo
 	defer tc.DeleteResourceAndWait(managementPolicy)
 }
 
-func createStorgeAccount(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
+func createStorageAccount(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
 	// Create a storage account
 	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
 	kind := storage.StorageAccountsSpecKindStorageV2
