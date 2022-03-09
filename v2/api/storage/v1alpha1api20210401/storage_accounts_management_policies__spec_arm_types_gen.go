@@ -6,9 +6,6 @@ package v1alpha1api20210401
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type StorageAccountsManagementPolicies_SpecARM struct {
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
 	//Name: The name of the Storage Account Management Policy. It should always be 'default'
 	Name string `json:"name,omitempty"`
 

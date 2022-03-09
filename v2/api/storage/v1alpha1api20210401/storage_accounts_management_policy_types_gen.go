@@ -516,9 +516,6 @@ type StorageAccountsManagementPoliciesSpecAPIVersion string
 const StorageAccountsManagementPoliciesSpecAPIVersion20210401 = StorageAccountsManagementPoliciesSpecAPIVersion("2021-04-01")
 
 type StorageAccountsManagementPolicies_Spec struct {
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -542,12 +539,6 @@ func (policies *StorageAccountsManagementPolicies_Spec) ConvertToARM(resolved ge
 		return nil, nil
 	}
 	var result StorageAccountsManagementPolicies_SpecARM
-
-	// Set property ‘Location’:
-	if policies.Location != nil {
-		location := *policies.Location
-		result.Location = &location
-	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -585,12 +576,6 @@ func (policies *StorageAccountsManagementPolicies_Spec) PopulateFromARM(owner ge
 	typedInput, ok := armInput.(StorageAccountsManagementPolicies_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsManagementPolicies_SpecARM, got %T", armInput)
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		policies.Location = &location
 	}
 
 	// Set property ‘Owner’:
@@ -677,9 +662,6 @@ func (policies *StorageAccountsManagementPolicies_Spec) ConvertSpecTo(destinatio
 // AssignPropertiesFromStorageAccountsManagementPoliciesSpec populates our StorageAccountsManagementPolicies_Spec from the provided source StorageAccountsManagementPolicies_Spec
 func (policies *StorageAccountsManagementPolicies_Spec) AssignPropertiesFromStorageAccountsManagementPoliciesSpec(source *v1alpha1api20210401storage.StorageAccountsManagementPolicies_Spec) error {
 
-	// Location
-	policies.Location = genruntime.ClonePointerToString(source.Location)
-
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -711,9 +693,6 @@ func (policies *StorageAccountsManagementPolicies_Spec) AssignPropertiesFromStor
 func (policies *StorageAccountsManagementPolicies_Spec) AssignPropertiesToStorageAccountsManagementPoliciesSpec(destination *v1alpha1api20210401storage.StorageAccountsManagementPolicies_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(policies.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = policies.OriginalVersion()

@@ -83,7 +83,6 @@ func StorageAccountsManagementPoliciesSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForStorageAccountsManagementPoliciesSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageAccountsManagementPoliciesSpecARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }

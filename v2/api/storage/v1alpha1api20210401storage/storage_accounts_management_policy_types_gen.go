@@ -162,8 +162,7 @@ func (policy *ManagementPolicy_Status) ConvertStatusTo(destination genruntime.Co
 
 //Storage version of v1alpha1api20210401.StorageAccountsManagementPolicies_Spec
 type StorageAccountsManagementPolicies_Spec struct {
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	OriginalVersion string `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also

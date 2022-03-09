@@ -4,7 +4,6 @@ metadata:
   name: samplepolicy
   namespace: default
 spec:
-  location: westcentralus
   owner:
     name: samplekubestorage
   policy:
