@@ -243,17 +243,19 @@ func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blo
 	ruleEnable := true
 	daysAfterLastAccessTimeGreaterThan := 90
 	daysAfterCreationGreaterThan := 30
+	ruleType := storage.ManagementPolicyRuleTypeLifecycle
+	ruleName := "test-rule"
 
 	managementPolicy := &storage.StorageAccountsManagementPolicy{
 		ObjectMeta: tc.MakeObjectMeta("policy"),
 		Spec: storage.StorageAccountsManagementPolicies_Spec{
-			Location: &tc.AzureRegion,
+			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(blobService),
 			Policy: &storage.ManagementPolicySchema{
 				Rules: []storage.ManagementPolicyRule{
 					{
-						Definition: storage.ManagementPolicyDefinition{
-							Actions: storage.ManagementPolicyAction{
+						Definition: &storage.ManagementPolicyDefinition{
+							Actions: &storage.ManagementPolicyAction{
 								BaseBlob: &storage.ManagementPolicyBaseBlob{
 									Delete: &storage.DateAfterModification{
 										DaysAfterLastAccessTimeGreaterThan: &daysAfterLastAccessTimeGreaterThan,
@@ -261,7 +263,7 @@ func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blo
 								},
 								Version: &storage.ManagementPolicyVersion{
 									Delete: &storage.DateAfterCreation{
-										DaysAfterCreationGreaterThan: daysAfterCreationGreaterThan,
+										DaysAfterCreationGreaterThan: &daysAfterCreationGreaterThan,
 									},
 								},
 							},
@@ -271,8 +273,8 @@ func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blo
 							},
 						},
 						Enabled: &ruleEnable,
-						Name:    "test-rule",
-						Type:    storage.ManagementPolicyRuleTypeLifecycle,
+						Name:    &ruleName,
+						Type:    &ruleType,
 					},
 				},
 			},
@@ -285,7 +287,7 @@ func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blo
 
 func createStorgeAccount(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
 	// Create a storage account
-	aaccessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
+	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
 	kind := storage.StorageAccountsSpecKindStorageV2
 	sku := storage.SkuNameStandardLRS
 	acct := &storage.StorageAccount{
