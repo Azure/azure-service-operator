@@ -90,7 +90,8 @@ func (i InterfaceImplementer) AsDeclarations(
 		})
 
 		for _, f := range functions {
-			result = append(result, f.AsFunc(codeGenerationContext, typeName))
+			decl := generateMethodDeclForFunction(typeName, f, codeGenerationContext)
+			result = append(result, decl)
 		}
 	}
 

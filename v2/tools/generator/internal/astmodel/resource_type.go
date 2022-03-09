@@ -605,29 +605,11 @@ func (resource *ResourceType) generateMethodDecls(codeGenerationContext *CodeGen
 	var result []dst.Decl
 
 	for _, f := range resource.Functions() {
-		funcDef := resource.generateMethodDeclForFunction(codeGenerationContext, typeName, f)
+		funcDef := generateMethodDeclForFunction(typeName, f, codeGenerationContext)
 		result = append(result, funcDef)
 	}
 
 	return result
-}
-
-func (resource *ResourceType) generateMethodDeclForFunction(
-	codeGenerationContext *CodeGenerationContext,
-	typeName TypeName,
-	f Function) *dst.FuncDecl {
-
-	defer func() {
-		if err := recover(); err != nil {
-			panic(fmt.Sprintf(
-				"generating method declaration for %s.%s: %s",
-				typeName.Name(),
-				f.Name(),
-				err))
-		}
-	}()
-
-	return f.AsFunc(codeGenerationContext, typeName)
 }
 
 func (resource *ResourceType) makeResourceListTypeName(name TypeName) TypeName {
@@ -744,3 +726,24 @@ func (resource *ResourceType) WriteDebugDescription(builder *strings.Builder, de
 	resource.status.WriteDebugDescription(builder, definitions)
 	builder.WriteString("]")
 }
+
+// generateMethodDeclForFunction generates the AST for a function; if a panic occurs, the identity of the type and
+// function being generated will be wrapped around the existing panic details to aid in debugging.
+func generateMethodDeclForFunction(
+	typeName TypeName,
+	f Function,
+	codeGenerationContext *CodeGenerationContext) *dst.FuncDecl {
+
+	defer func() {
+		if err := recover(); err != nil {
+			panic(fmt.Sprintf(
+				"generating method declaration for %s.%s: %s",
+				typeName.Name(),
+				f.Name(),
+				err))
+		}
+	}()
+
+	return f.AsFunc(codeGenerationContext, typeName)
+}
+

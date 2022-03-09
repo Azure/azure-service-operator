@@ -6,7 +6,6 @@
 package astmodel
 
 import (
-	"fmt"
 	"go/token"
 	"sort"
 	"strings"
@@ -82,29 +81,11 @@ func (objectType *ObjectType) generateMethodDecls(codeGenerationContext *CodeGen
 	var result []dst.Decl
 
 	for _, f := range objectType.Functions() {
-		funcDef := objectType.generateMethodDeclForFunction(codeGenerationContext, typeName, f)
+		funcDef := generateMethodDeclForFunction(typeName, f, codeGenerationContext)
 		result = append(result, funcDef)
 	}
 
 	return result
-}
-
-func (objectType *ObjectType) generateMethodDeclForFunction(
-	codeGenerationContext *CodeGenerationContext,
-	typeName TypeName,
-	f Function) *dst.FuncDecl {
-
-	defer func() {
-		if err := recover(); err != nil {
-			panic(fmt.Sprintf(
-				"generating method declaration for %s.%s: %s",
-				typeName.Name(),
-				f.Name(),
-				err))
-		}
-	}()
-
-	return f.AsFunc(codeGenerationContext, typeName)
 }
 
 func defineField(fieldName string, fieldType dst.Expr, tag string) *dst.Field {
