@@ -146,19 +146,17 @@ type VirtualNetwork_Spec struct {
 	EnableDdosProtection *bool                         `json:"enableDdosProtection,omitempty"`
 	EnableVmProtection   *bool                         `json:"enableVmProtection,omitempty"`
 	ExtendedLocation     *ExtendedLocation             `json:"extendedLocation,omitempty"`
+	Id                   *string                       `json:"id,omitempty"`
 	IpAllocations        []SubResource                 `json:"ipAllocations,omitempty"`
 	Location             *string                       `json:"location,omitempty"`
 	OriginalVersion      string                        `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
-	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-
-	//Reference: Resource ID.
-	Reference              *genruntime.ResourceReference  `armReference:"Id" json:"reference,omitempty"`
-	Subnets                []genruntime.ResourceReference `json:"subnets,omitempty"`
-	Tags                   map[string]string              `json:"tags,omitempty"`
-	VirtualNetworkPeerings []genruntime.ResourceReference `json:"virtualNetworkPeerings,omitempty"`
+	Owner                  genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	PropertyBag            genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	Subnets                []genruntime.ResourceReference    `json:"subnets,omitempty"`
+	Tags                   map[string]string                 `json:"tags,omitempty"`
+	VirtualNetworkPeerings []genruntime.ResourceReference    `json:"virtualNetworkPeerings,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &VirtualNetwork_Spec{}

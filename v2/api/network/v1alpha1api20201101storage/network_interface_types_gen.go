@@ -142,6 +142,7 @@ type NetworkInterface_Spec struct {
 	EnableAcceleratedNetworking *bool                          `json:"enableAcceleratedNetworking,omitempty"`
 	EnableIPForwarding          *bool                          `json:"enableIPForwarding,omitempty"`
 	ExtendedLocation            *ExtendedLocation              `json:"extendedLocation,omitempty"`
+	Id                          *string                        `json:"id,omitempty"`
 	IpConfigurations            []genruntime.ResourceReference `json:"ipConfigurations,omitempty"`
 	Location                    *string                        `json:"location,omitempty"`
 	MigrationPhase              *string                        `json:"migrationPhase,omitempty"`
@@ -153,10 +154,7 @@ type NetworkInterface_Spec struct {
 	Owner              genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	PrivateLinkService *PrivateLinkServiceSpec           `json:"privateLinkService,omitempty"`
 	PropertyBag        genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Tags      map[string]string             `json:"tags,omitempty"`
+	Tags               map[string]string                 `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &NetworkInterface_Spec{}
@@ -276,11 +274,9 @@ type NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedde
 
 //Storage version of v1alpha1api20201101.NetworkSecurityGroupSpec
 type NetworkSecurityGroupSpec struct {
-	Location    *string                `json:"location,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//Reference: Resource ID.
-	Reference     *genruntime.ResourceReference  `armReference:"Id" json:"reference,omitempty"`
+	Id            *string                        `json:"id,omitempty"`
+	Location      *string                        `json:"location,omitempty"`
+	PropertyBag   genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 	SecurityRules []genruntime.ResourceReference `json:"securityRules,omitempty"`
 	Tags          map[string]string              `json:"tags,omitempty"`
 }
@@ -304,15 +300,13 @@ type PrivateLinkServiceSpec struct {
 	EnableProxyProtocol                  *bool                               `json:"enableProxyProtocol,omitempty"`
 	ExtendedLocation                     *ExtendedLocation                   `json:"extendedLocation,omitempty"`
 	Fqdns                                []string                            `json:"fqdns,omitempty"`
+	Id                                   *string                             `json:"id,omitempty"`
 	IpConfigurations                     []PrivateLinkServiceIpConfiguration `json:"ipConfigurations,omitempty"`
 	LoadBalancerFrontendIpConfigurations []FrontendIPConfiguration           `json:"loadBalancerFrontendIpConfigurations,omitempty"`
 	Location                             *string                             `json:"location,omitempty"`
 	PropertyBag                          genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
-
-	//Reference: Resource ID.
-	Reference  *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Tags       map[string]string             `json:"tags,omitempty"`
-	Visibility *ResourceSet                  `json:"visibility,omitempty"`
+	Tags                                 map[string]string                   `json:"tags,omitempty"`
+	Visibility                           *ResourceSet                        `json:"visibility,omitempty"`
 }
 
 //Storage version of v1alpha1api20201101.PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded
@@ -367,15 +361,13 @@ type NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status struc
 
 //Storage version of v1alpha1api20201101.PrivateLinkServiceIpConfiguration
 type PrivateLinkServiceIpConfiguration struct {
+	Id                        *string                `json:"id,omitempty"`
 	Name                      *string                `json:"name,omitempty"`
 	Primary                   *bool                  `json:"primary,omitempty"`
 	PrivateIPAddress          *string                `json:"privateIPAddress,omitempty"`
 	PrivateIPAddressVersion   *string                `json:"privateIPAddressVersion,omitempty"`
 	PrivateIPAllocationMethod *string                `json:"privateIPAllocationMethod,omitempty"`
 	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	//Subnet: The reference to the subnet resource.
 	Subnet *genruntime.ResourceReference `json:"subnet,omitempty"`

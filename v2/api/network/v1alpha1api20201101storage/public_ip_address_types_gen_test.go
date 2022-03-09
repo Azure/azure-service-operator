@@ -144,6 +144,7 @@ func PublicIPAddress_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPublicIPAddress_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPublicIPAddress_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["IpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
@@ -675,6 +676,7 @@ func NatGatewaySpecGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNatGatewaySpec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNatGatewaySpec(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
@@ -1074,6 +1076,7 @@ func PublicIPAddressSpec_SubResourceEmbeddedGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPublicIPAddressSpec_SubResourceEmbedded is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPublicIPAddressSpec_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
@@ -1133,9 +1136,15 @@ func SubResourceGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSubResource(generators)
 	subResourceGenerator = gen.Struct(reflect.TypeOf(SubResource{}), generators)
 
 	return subResourceGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSubResource is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSubResource(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_NatGatewaySku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

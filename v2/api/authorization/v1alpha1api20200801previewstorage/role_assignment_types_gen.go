@@ -150,14 +150,11 @@ type RoleAssignment_Spec struct {
 	OriginalVersion                    string  `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
-	Owner         genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PrincipalId   *string                           `json:"principalId,omitempty"`
-	PrincipalType *string                           `json:"principalType,omitempty"`
-	PropertyBag   genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-
-	// +kubebuilder:validation:Required
-	//RoleDefinitionReference: The role definition ID.
-	RoleDefinitionReference genruntime.ResourceReference `armReference:"RoleDefinitionId" json:"roleDefinitionReference"`
+	Owner            genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	PrincipalId      *string                           `json:"principalId,omitempty"`
+	PrincipalType    *string                           `json:"principalType,omitempty"`
+	PropertyBag      genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	RoleDefinitionId *string                           `json:"roleDefinitionId,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &RoleAssignment_Spec{}

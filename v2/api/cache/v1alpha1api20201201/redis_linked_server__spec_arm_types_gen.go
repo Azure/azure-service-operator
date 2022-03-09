@@ -31,6 +31,7 @@ func (server RedisLinkedServer_SpecARM) GetType() string {
 }
 
 type RedisLinkedServerPropertiesARM struct {
+	//LinkedRedisCacheId: Fully qualified resourceId of the linked redis cache.
 	LinkedRedisCacheId string `json:"linkedRedisCacheId"`
 
 	//LinkedRedisCacheLocation: Location of the linked redis cache.

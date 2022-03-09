@@ -50,6 +50,8 @@ type RoleAssignmentPropertiesARM struct {
 	PrincipalId string `json:"principalId"`
 
 	//PrincipalType: The principal type of the assigned principal ID.
-	PrincipalType    *RoleAssignmentPropertiesPrincipalType `json:"principalType,omitempty"`
-	RoleDefinitionId string                                 `json:"roleDefinitionId"`
+	PrincipalType *RoleAssignmentPropertiesPrincipalType `json:"principalType,omitempty"`
+
+	//RoleDefinitionId: The role definition ID.
+	RoleDefinitionId string `json:"roleDefinitionId"`
 }

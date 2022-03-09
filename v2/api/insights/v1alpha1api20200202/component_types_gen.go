@@ -1160,11 +1160,10 @@ type Component_Spec struct {
 	//Tags: Resource tags
 	Tags *v1.JSON `json:"tags,omitempty"`
 
-	//WorkspaceResourceReference: Resource Id of the log analytics workspace which the
-	//data will be ingested to. This property is required to create an application
-	//with this API version. Applications from older versions will not have this
-	//property.
-	WorkspaceResourceReference *genruntime.ResourceReference `armReference:"WorkspaceResourceId" json:"workspaceResourceReference,omitempty"`
+	//WorkspaceResourceId: Resource Id of the log analytics workspace which the data
+	//will be ingested to. This property is required to create an application with
+	//this API version. Applications from older versions will not have this property.
+	WorkspaceResourceId *string `json:"WorkspaceResourceId,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Component_Spec{}
@@ -1208,7 +1207,7 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		component.Request_Source != nil ||
 		component.RetentionInDays != nil ||
 		component.SamplingPercentage != nil ||
-		component.WorkspaceResourceReference != nil {
+		component.WorkspaceResourceId != nil {
 		result.Properties = &ApplicationInsightsComponentPropertiesARM{}
 	}
 	if component.Application_Type != nil {
@@ -1262,12 +1261,8 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		samplingPercentage := *component.SamplingPercentage
 		result.Properties.SamplingPercentage = &samplingPercentage
 	}
-	if component.WorkspaceResourceReference != nil {
-		workspaceResourceIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*component.WorkspaceResourceReference)
-		if err != nil {
-			return nil, err
-		}
-		workspaceResourceId := workspaceResourceIdARMID
+	if component.WorkspaceResourceId != nil {
+		workspaceResourceId := *component.WorkspaceResourceId
 		result.Properties.WorkspaceResourceId = &workspaceResourceId
 	}
 
@@ -1431,7 +1426,14 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		component.Tags = &tags
 	}
 
-	// no assignment for property ‘WorkspaceResourceReference’
+	// Set property ‘WorkspaceResourceId’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.WorkspaceResourceId != nil {
+			workspaceResourceId := *typedInput.Properties.WorkspaceResourceId
+			component.WorkspaceResourceId = &workspaceResourceId
+		}
+	}
 
 	// No error
 	return nil
@@ -1607,13 +1609,8 @@ func (component *Component_Spec) AssignPropertiesFromComponent_Spec(source *v1al
 		component.Tags = nil
 	}
 
-	// WorkspaceResourceReference
-	if source.WorkspaceResourceReference != nil {
-		workspaceResourceReference := source.WorkspaceResourceReference.Copy()
-		component.WorkspaceResourceReference = &workspaceResourceReference
-	} else {
-		component.WorkspaceResourceReference = nil
-	}
+	// WorkspaceResourceId
+	component.WorkspaceResourceId = genruntime.ClonePointerToString(source.WorkspaceResourceId)
 
 	// No error
 	return nil
@@ -1746,13 +1743,8 @@ func (component *Component_Spec) AssignPropertiesToComponent_Spec(destination *v
 		destination.Tags = nil
 	}
 
-	// WorkspaceResourceReference
-	if component.WorkspaceResourceReference != nil {
-		workspaceResourceReference := component.WorkspaceResourceReference.Copy()
-		destination.WorkspaceResourceReference = &workspaceResourceReference
-	} else {
-		destination.WorkspaceResourceReference = nil
-	}
+	// WorkspaceResourceId
+	destination.WorkspaceResourceId = genruntime.ClonePointerToString(component.WorkspaceResourceId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

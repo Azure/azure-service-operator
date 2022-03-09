@@ -1121,9 +1121,9 @@ func (account *BatchAccount_Status) AssignPropertiesToBatchAccount_Status(destin
 
 type AutoStorageBaseProperties struct {
 	// +kubebuilder:validation:Required
-	//StorageAccountReference: The resource ID of the storage account to be used for
+	//StorageAccountId: The resource ID of the storage account to be used for
 	//auto-storage account.
-	StorageAccountReference genruntime.ResourceReference `armReference:"StorageAccountId" json:"storageAccountReference"`
+	StorageAccountId string `json:"storageAccountId"`
 }
 
 var _ genruntime.ARMTransformer = &AutoStorageBaseProperties{}
@@ -1136,11 +1136,7 @@ func (properties *AutoStorageBaseProperties) ConvertToARM(resolved genruntime.Co
 	var result AutoStorageBasePropertiesARM
 
 	// Set property ‘StorageAccountId’:
-	storageAccountReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(properties.StorageAccountReference)
-	if err != nil {
-		return nil, err
-	}
-	result.StorageAccountId = storageAccountReferenceARMID
+	result.StorageAccountId = properties.StorageAccountId
 	return result, nil
 }
 
@@ -1151,12 +1147,13 @@ func (properties *AutoStorageBaseProperties) NewEmptyARMValue() genruntime.ARMRe
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *AutoStorageBaseProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(AutoStorageBasePropertiesARM)
+	typedInput, ok := armInput.(AutoStorageBasePropertiesARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoStorageBasePropertiesARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘StorageAccountReference’
+	// Set property ‘StorageAccountId’:
+	properties.StorageAccountId = typedInput.StorageAccountId
 
 	// No error
 	return nil
@@ -1165,8 +1162,8 @@ func (properties *AutoStorageBaseProperties) PopulateFromARM(owner genruntime.Ar
 // AssignPropertiesFromAutoStorageBaseProperties populates our AutoStorageBaseProperties from the provided source AutoStorageBaseProperties
 func (properties *AutoStorageBaseProperties) AssignPropertiesFromAutoStorageBaseProperties(source *v1alpha1api20210101storage.AutoStorageBaseProperties) error {
 
-	// StorageAccountReference
-	properties.StorageAccountReference = source.StorageAccountReference.Copy()
+	// StorageAccountId
+	properties.StorageAccountId = genruntime.GetOptionalStringValue(source.StorageAccountId)
 
 	// No error
 	return nil
@@ -1177,8 +1174,9 @@ func (properties *AutoStorageBaseProperties) AssignPropertiesToAutoStorageBasePr
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// StorageAccountReference
-	destination.StorageAccountReference = properties.StorageAccountReference.Copy()
+	// StorageAccountId
+	storageAccountId := properties.StorageAccountId
+	destination.StorageAccountId = &storageAccountId
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1695,9 +1693,8 @@ func (properties *EncryptionProperties_Status) AssignPropertiesToEncryptionPrope
 
 type KeyVaultReference struct {
 	// +kubebuilder:validation:Required
-	//Reference: The resource ID of the Azure key vault associated with the Batch
-	//account.
-	Reference genruntime.ResourceReference `armReference:"Id" json:"reference"`
+	//Id: The resource ID of the Azure key vault associated with the Batch account.
+	Id string `json:"id"`
 
 	// +kubebuilder:validation:Required
 	//Url: The URL of the Azure key vault associated with the Batch account.
@@ -1714,11 +1711,7 @@ func (reference *KeyVaultReference) ConvertToARM(resolved genruntime.ConvertToAR
 	var result KeyVaultReferenceARM
 
 	// Set property ‘Id’:
-	referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(reference.Reference)
-	if err != nil {
-		return nil, err
-	}
-	result.Id = referenceARMID
+	result.Id = reference.Id
 
 	// Set property ‘Url’:
 	result.Url = reference.Url
@@ -1737,7 +1730,8 @@ func (reference *KeyVaultReference) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultReferenceARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// Set property ‘Id’:
+	reference.Id = typedInput.Id
 
 	// Set property ‘Url’:
 	reference.Url = typedInput.Url
@@ -1749,8 +1743,8 @@ func (reference *KeyVaultReference) PopulateFromARM(owner genruntime.ArbitraryOw
 // AssignPropertiesFromKeyVaultReference populates our KeyVaultReference from the provided source KeyVaultReference
 func (reference *KeyVaultReference) AssignPropertiesFromKeyVaultReference(source *v1alpha1api20210101storage.KeyVaultReference) error {
 
-	// Reference
-	reference.Reference = source.Reference.Copy()
+	// Id
+	reference.Id = genruntime.GetOptionalStringValue(source.Id)
 
 	// Url
 	reference.Url = genruntime.GetOptionalStringValue(source.Url)
@@ -1764,8 +1758,9 @@ func (reference *KeyVaultReference) AssignPropertiesToKeyVaultReference(destinat
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Reference
-	destination.Reference = reference.Reference.Copy()
+	// Id
+	id := reference.Id
+	destination.Id = &id
 
 	// Url
 	url := reference.Url

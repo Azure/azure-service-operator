@@ -994,8 +994,8 @@ type Namespace_Spec struct {
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
 
-	//ClusterArmReference: Cluster ARM ID of the Namespace.
-	ClusterArmReference *genruntime.ResourceReference `armReference:"ClusterArmId" json:"clusterArmReference,omitempty"`
+	//ClusterArmId: Cluster ARM ID of the Namespace.
+	ClusterArmId *string `json:"clusterArmId,omitempty"`
 
 	//DisableLocalAuth: This property disables SAS authentication for the Event Hubs
 	//namespace.
@@ -1073,7 +1073,7 @@ func (namespace *Namespace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property ‘Properties’:
 	if namespace.AlternateName != nil ||
-		namespace.ClusterArmReference != nil ||
+		namespace.ClusterArmId != nil ||
 		namespace.DisableLocalAuth != nil ||
 		namespace.Encryption != nil ||
 		namespace.IsAutoInflateEnabled != nil ||
@@ -1087,12 +1087,8 @@ func (namespace *Namespace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		alternateName := *namespace.AlternateName
 		result.Properties.AlternateName = &alternateName
 	}
-	if namespace.ClusterArmReference != nil {
-		clusterArmIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*namespace.ClusterArmReference)
-		if err != nil {
-			return nil, err
-		}
-		clusterArmId := clusterArmIdARMID
+	if namespace.ClusterArmId != nil {
+		clusterArmId := *namespace.ClusterArmId
 		result.Properties.ClusterArmId = &clusterArmId
 	}
 	if namespace.DisableLocalAuth != nil {
@@ -1175,7 +1171,14 @@ func (namespace *Namespace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// Set property ‘AzureName’:
 	namespace.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// no assignment for property ‘ClusterArmReference’
+	// Set property ‘ClusterArmId’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ClusterArmId != nil {
+			clusterArmId := *typedInput.Properties.ClusterArmId
+			namespace.ClusterArmId = &clusterArmId
+		}
+	}
 
 	// Set property ‘DisableLocalAuth’:
 	// copying flattened property:
@@ -1353,13 +1356,8 @@ func (namespace *Namespace_Spec) AssignPropertiesFromNamespace_Spec(source *v1al
 	// AzureName
 	namespace.AzureName = source.AzureName
 
-	// ClusterArmReference
-	if source.ClusterArmReference != nil {
-		clusterArmReference := source.ClusterArmReference.Copy()
-		namespace.ClusterArmReference = &clusterArmReference
-	} else {
-		namespace.ClusterArmReference = nil
-	}
+	// ClusterArmId
+	namespace.ClusterArmId = genruntime.ClonePointerToString(source.ClusterArmId)
 
 	// DisableLocalAuth
 	if source.DisableLocalAuth != nil {
@@ -1474,13 +1472,8 @@ func (namespace *Namespace_Spec) AssignPropertiesToNamespace_Spec(destination *v
 	// AzureName
 	destination.AzureName = namespace.AzureName
 
-	// ClusterArmReference
-	if namespace.ClusterArmReference != nil {
-		clusterArmReference := namespace.ClusterArmReference.Copy()
-		destination.ClusterArmReference = &clusterArmReference
-	} else {
-		destination.ClusterArmReference = nil
-	}
+	// ClusterArmId
+	destination.ClusterArmId = genruntime.ClonePointerToString(namespace.ClusterArmId)
 
 	// DisableLocalAuth
 	if namespace.DisableLocalAuth != nil {
@@ -3174,8 +3167,8 @@ func (properties *KeyVaultProperties_Status) AssignPropertiesToKeyVaultPropertie
 }
 
 type PrivateEndpoint struct {
-	//Reference: The ARM identifier for Private Endpoint.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	//Id: The ARM identifier for Private Endpoint.
+	Id *string `json:"id,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &PrivateEndpoint{}
@@ -3188,13 +3181,9 @@ func (endpoint *PrivateEndpoint) ConvertToARM(resolved genruntime.ConvertToARMRe
 	var result PrivateEndpointARM
 
 	// Set property ‘Id’:
-	if endpoint.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*endpoint.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if endpoint.Id != nil {
+		id := *endpoint.Id
+		result.Id = &id
 	}
 	return result, nil
 }
@@ -3206,12 +3195,16 @@ func (endpoint *PrivateEndpoint) NewEmptyARMValue() genruntime.ARMResourceStatus
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (endpoint *PrivateEndpoint) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(PrivateEndpointARM)
+	typedInput, ok := armInput.(PrivateEndpointARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		endpoint.Id = &id
+	}
 
 	// No error
 	return nil
@@ -3220,13 +3213,8 @@ func (endpoint *PrivateEndpoint) PopulateFromARM(owner genruntime.ArbitraryOwner
 // AssignPropertiesFromPrivateEndpoint populates our PrivateEndpoint from the provided source PrivateEndpoint
 func (endpoint *PrivateEndpoint) AssignPropertiesFromPrivateEndpoint(source *v1alpha1api20211101storage.PrivateEndpoint) error {
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		endpoint.Reference = &reference
-	} else {
-		endpoint.Reference = nil
-	}
+	// Id
+	endpoint.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
@@ -3237,13 +3225,8 @@ func (endpoint *PrivateEndpoint) AssignPropertiesToPrivateEndpoint(destination *
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Reference
-	if endpoint.Reference != nil {
-		reference := endpoint.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
+	// Id
+	destination.Id = genruntime.ClonePointerToString(endpoint.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3352,8 +3335,8 @@ const (
 )
 
 type UserAssignedIdentityProperties struct {
-	//UserAssignedIdentityReference: ARM ID of user Identity selected for encryption
-	UserAssignedIdentityReference *genruntime.ResourceReference `armReference:"UserAssignedIdentity" json:"userAssignedIdentityReference,omitempty"`
+	//UserAssignedIdentity: ARM ID of user Identity selected for encryption
+	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &UserAssignedIdentityProperties{}
@@ -3366,13 +3349,9 @@ func (properties *UserAssignedIdentityProperties) ConvertToARM(resolved genrunti
 	var result UserAssignedIdentityPropertiesARM
 
 	// Set property ‘UserAssignedIdentity’:
-	if properties.UserAssignedIdentityReference != nil {
-		userAssignedIdentityReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*properties.UserAssignedIdentityReference)
-		if err != nil {
-			return nil, err
-		}
-		userAssignedIdentityReference := userAssignedIdentityReferenceARMID
-		result.UserAssignedIdentity = &userAssignedIdentityReference
+	if properties.UserAssignedIdentity != nil {
+		userAssignedIdentity := *properties.UserAssignedIdentity
+		result.UserAssignedIdentity = &userAssignedIdentity
 	}
 	return result, nil
 }
@@ -3384,12 +3363,16 @@ func (properties *UserAssignedIdentityProperties) NewEmptyARMValue() genruntime.
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *UserAssignedIdentityProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(UserAssignedIdentityPropertiesARM)
+	typedInput, ok := armInput.(UserAssignedIdentityPropertiesARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentityPropertiesARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘UserAssignedIdentityReference’
+	// Set property ‘UserAssignedIdentity’:
+	if typedInput.UserAssignedIdentity != nil {
+		userAssignedIdentity := *typedInput.UserAssignedIdentity
+		properties.UserAssignedIdentity = &userAssignedIdentity
+	}
 
 	// No error
 	return nil
@@ -3398,13 +3381,8 @@ func (properties *UserAssignedIdentityProperties) PopulateFromARM(owner genrunti
 // AssignPropertiesFromUserAssignedIdentityProperties populates our UserAssignedIdentityProperties from the provided source UserAssignedIdentityProperties
 func (properties *UserAssignedIdentityProperties) AssignPropertiesFromUserAssignedIdentityProperties(source *v1alpha1api20211101storage.UserAssignedIdentityProperties) error {
 
-	// UserAssignedIdentityReference
-	if source.UserAssignedIdentityReference != nil {
-		userAssignedIdentityReference := source.UserAssignedIdentityReference.Copy()
-		properties.UserAssignedIdentityReference = &userAssignedIdentityReference
-	} else {
-		properties.UserAssignedIdentityReference = nil
-	}
+	// UserAssignedIdentity
+	properties.UserAssignedIdentity = genruntime.ClonePointerToString(source.UserAssignedIdentity)
 
 	// No error
 	return nil
@@ -3415,13 +3393,8 @@ func (properties *UserAssignedIdentityProperties) AssignPropertiesToUserAssigned
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// UserAssignedIdentityReference
-	if properties.UserAssignedIdentityReference != nil {
-		userAssignedIdentityReference := properties.UserAssignedIdentityReference.Copy()
-		destination.UserAssignedIdentityReference = &userAssignedIdentityReference
-	} else {
-		destination.UserAssignedIdentityReference = nil
-	}
+	// UserAssignedIdentity
+	destination.UserAssignedIdentity = genruntime.ClonePointerToString(properties.UserAssignedIdentity)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

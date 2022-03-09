@@ -2904,8 +2904,8 @@ func (properties *KeyVaultProperties_Status) AssignPropertiesToKeyVaultPropertie
 }
 
 type PrivateEndpoint struct {
-	//Reference: The ARM identifier for Private Endpoint.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	//Id: The ARM identifier for Private Endpoint.
+	Id *string `json:"id,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &PrivateEndpoint{}
@@ -2918,13 +2918,9 @@ func (endpoint *PrivateEndpoint) ConvertToARM(resolved genruntime.ConvertToARMRe
 	var result PrivateEndpointARM
 
 	// Set property ‘Id’:
-	if endpoint.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*endpoint.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if endpoint.Id != nil {
+		id := *endpoint.Id
+		result.Id = &id
 	}
 	return result, nil
 }
@@ -2936,12 +2932,16 @@ func (endpoint *PrivateEndpoint) NewEmptyARMValue() genruntime.ARMResourceStatus
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (endpoint *PrivateEndpoint) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(PrivateEndpointARM)
+	typedInput, ok := armInput.(PrivateEndpointARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		endpoint.Id = &id
+	}
 
 	// No error
 	return nil
@@ -2950,13 +2950,8 @@ func (endpoint *PrivateEndpoint) PopulateFromARM(owner genruntime.ArbitraryOwner
 // AssignPropertiesFromPrivateEndpoint populates our PrivateEndpoint from the provided source PrivateEndpoint
 func (endpoint *PrivateEndpoint) AssignPropertiesFromPrivateEndpoint(source *v1alpha1api20210101previewstorage.PrivateEndpoint) error {
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		endpoint.Reference = &reference
-	} else {
-		endpoint.Reference = nil
-	}
+	// Id
+	endpoint.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
@@ -2967,13 +2962,8 @@ func (endpoint *PrivateEndpoint) AssignPropertiesToPrivateEndpoint(destination *
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Reference
-	if endpoint.Reference != nil {
-		reference := endpoint.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
+	// Id
+	destination.Id = genruntime.ClonePointerToString(endpoint.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3009,8 +2999,8 @@ const (
 )
 
 type UserAssignedIdentityProperties struct {
-	//UserAssignedIdentityReference: ARM ID of user Identity selected for encryption
-	UserAssignedIdentityReference *genruntime.ResourceReference `armReference:"UserAssignedIdentity" json:"userAssignedIdentityReference,omitempty"`
+	//UserAssignedIdentity: ARM ID of user Identity selected for encryption
+	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &UserAssignedIdentityProperties{}
@@ -3023,13 +3013,9 @@ func (properties *UserAssignedIdentityProperties) ConvertToARM(resolved genrunti
 	var result UserAssignedIdentityPropertiesARM
 
 	// Set property ‘UserAssignedIdentity’:
-	if properties.UserAssignedIdentityReference != nil {
-		userAssignedIdentityReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*properties.UserAssignedIdentityReference)
-		if err != nil {
-			return nil, err
-		}
-		userAssignedIdentityReference := userAssignedIdentityReferenceARMID
-		result.UserAssignedIdentity = &userAssignedIdentityReference
+	if properties.UserAssignedIdentity != nil {
+		userAssignedIdentity := *properties.UserAssignedIdentity
+		result.UserAssignedIdentity = &userAssignedIdentity
 	}
 	return result, nil
 }
@@ -3041,12 +3027,16 @@ func (properties *UserAssignedIdentityProperties) NewEmptyARMValue() genruntime.
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *UserAssignedIdentityProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(UserAssignedIdentityPropertiesARM)
+	typedInput, ok := armInput.(UserAssignedIdentityPropertiesARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentityPropertiesARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘UserAssignedIdentityReference’
+	// Set property ‘UserAssignedIdentity’:
+	if typedInput.UserAssignedIdentity != nil {
+		userAssignedIdentity := *typedInput.UserAssignedIdentity
+		properties.UserAssignedIdentity = &userAssignedIdentity
+	}
 
 	// No error
 	return nil
@@ -3055,13 +3045,8 @@ func (properties *UserAssignedIdentityProperties) PopulateFromARM(owner genrunti
 // AssignPropertiesFromUserAssignedIdentityProperties populates our UserAssignedIdentityProperties from the provided source UserAssignedIdentityProperties
 func (properties *UserAssignedIdentityProperties) AssignPropertiesFromUserAssignedIdentityProperties(source *v1alpha1api20210101previewstorage.UserAssignedIdentityProperties) error {
 
-	// UserAssignedIdentityReference
-	if source.UserAssignedIdentityReference != nil {
-		userAssignedIdentityReference := source.UserAssignedIdentityReference.Copy()
-		properties.UserAssignedIdentityReference = &userAssignedIdentityReference
-	} else {
-		properties.UserAssignedIdentityReference = nil
-	}
+	// UserAssignedIdentity
+	properties.UserAssignedIdentity = genruntime.ClonePointerToString(source.UserAssignedIdentity)
 
 	// No error
 	return nil
@@ -3072,13 +3057,8 @@ func (properties *UserAssignedIdentityProperties) AssignPropertiesToUserAssigned
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// UserAssignedIdentityReference
-	if properties.UserAssignedIdentityReference != nil {
-		userAssignedIdentityReference := properties.UserAssignedIdentityReference.Copy()
-		destination.UserAssignedIdentityReference = &userAssignedIdentityReference
-	} else {
-		destination.UserAssignedIdentityReference = nil
-	}
+	// UserAssignedIdentity
+	destination.UserAssignedIdentity = genruntime.ClonePointerToString(properties.UserAssignedIdentity)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

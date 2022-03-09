@@ -143,6 +143,7 @@ func LoadBalancer_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForLoadBalancer_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLoadBalancer_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
@@ -298,9 +299,15 @@ func BackendAddressPoolGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBackendAddressPool(generators)
 	backendAddressPoolGenerator = gen.Struct(reflect.TypeOf(BackendAddressPool{}), generators)
 
 	return backendAddressPoolGenerator
+}
+
+// AddIndependentPropertyGeneratorsForBackendAddressPool is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBackendAddressPool(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -550,6 +557,7 @@ func FrontendIPConfigurationGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForFrontendIPConfiguration is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFrontendIPConfiguration(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.AlphaString())
@@ -721,6 +729,7 @@ func AddIndependentPropertyGeneratorsForInboundNatPool(gens map[string]gopter.Ge
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
 	gens["FrontendPortRangeEnd"] = gen.PtrOf(gen.Int())
 	gens["FrontendPortRangeStart"] = gen.PtrOf(gen.Int())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Protocol"] = gen.PtrOf(gen.AlphaString())
@@ -864,9 +873,15 @@ func InboundNatRuleGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForInboundNatRule(generators)
 	inboundNatRuleGenerator = gen.Struct(reflect.TypeOf(InboundNatRule{}), generators)
 
 	return inboundNatRuleGenerator
+}
+
+// AddIndependentPropertyGeneratorsForInboundNatRule is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForInboundNatRule(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_InboundNatRule_Status_LoadBalancer_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1120,6 +1135,7 @@ func AddIndependentPropertyGeneratorsForLoadBalancingRule(gens map[string]gopter
 	gens["EnableFloatingIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
 	gens["FrontendPort"] = gen.PtrOf(gen.Int())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["LoadDistribution"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -1288,6 +1304,7 @@ func OutboundRuleGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForOutboundRule(gens map[string]gopter.Gen) {
 	gens["AllocatedOutboundPorts"] = gen.PtrOf(gen.Int())
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Protocol"] = gen.PtrOf(gen.AlphaString())
@@ -1438,6 +1455,7 @@ func ProbeGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForProbe is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForProbe(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["IntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["NumberOfProbes"] = gen.PtrOf(gen.Int())
@@ -1594,6 +1612,7 @@ func PublicIPAddressSpecGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPublicIPAddressSpec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPublicIPAddressSpec(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["IpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())

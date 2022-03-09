@@ -831,6 +831,7 @@ func WorkspaceFeaturesGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForWorkspaceFeatures is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspaceFeatures(gens map[string]gopter.Gen) {
+	gens["ClusterResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["EnableDataExport"] = gen.PtrOf(gen.Bool())
 	gens["EnableLogAccessUsingOnlyResourcePermissions"] = gen.PtrOf(gen.Bool())

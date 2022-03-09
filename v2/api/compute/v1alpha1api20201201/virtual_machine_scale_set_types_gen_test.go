@@ -3449,9 +3449,15 @@ func ApiEntityReferenceGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApiEntityReference(generators)
 	apiEntityReferenceGenerator = gen.Struct(reflect.TypeOf(ApiEntityReference{}), generators)
 
 	return apiEntityReferenceGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApiEntityReference is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApiEntityReference(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ApiEntityReference_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -4221,6 +4227,7 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurati
 	gens["EnableAcceleratedNetworking"] = gen.PtrOf(gen.Bool())
 	gens["EnableFpga"] = gen.PtrOf(gen.Bool())
 	gens["EnableIPForwarding"] = gen.PtrOf(gen.Bool())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Primary"] = gen.PtrOf(gen.Bool())
 }
@@ -4711,6 +4718,7 @@ func VirtualMachineScaleSetIPConfigurationGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfiguration is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfiguration(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Primary"] = gen.PtrOf(gen.Bool())
 	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetIPConfigurationPropertiesPrivateIPAddressVersionIPv4, VirtualMachineScaleSetIPConfigurationPropertiesPrivateIPAddressVersionIPv6))

@@ -330,6 +330,9 @@ type NetworkInterface_Spec struct {
 	//ExtendedLocation: The extended location of the network interface.
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
 	//IpConfigurations: A list of IPConfigurations of the network interface.
 	IpConfigurations []genruntime.ResourceReference `json:"ipConfigurations,omitempty"`
 
@@ -350,9 +353,6 @@ type NetworkInterface_Spec struct {
 
 	//PrivateLinkService: Privatelinkservice of the network interface resource.
 	PrivateLinkService *PrivateLinkServiceSpec `json:"privateLinkService,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -381,13 +381,9 @@ func (networkInterface *NetworkInterface_Spec) ConvertToARM(resolved genruntime.
 	}
 
 	// Set property ‘Id’:
-	if networkInterface.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*networkInterface.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if networkInterface.Id != nil {
+		id := *networkInterface.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Location’:
@@ -522,6 +518,12 @@ func (networkInterface *NetworkInterface_Spec) PopulateFromARM(owner genruntime.
 		networkInterface.ExtendedLocation = &extendedLocation
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		networkInterface.Id = &id
+	}
+
 	// Set property ‘IpConfigurations’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -586,8 +588,6 @@ func (networkInterface *NetworkInterface_Spec) PopulateFromARM(owner genruntime.
 			networkInterface.PrivateLinkService = &privateLinkService
 		}
 	}
-
-	// no assignment for property ‘Reference’
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
@@ -697,6 +697,9 @@ func (networkInterface *NetworkInterface_Spec) AssignPropertiesFromNetworkInterf
 		networkInterface.ExtendedLocation = nil
 	}
 
+	// Id
+	networkInterface.Id = genruntime.ClonePointerToString(source.Id)
+
 	// IpConfigurations
 	if source.IpConfigurations != nil {
 		ipConfigurationList := make([]genruntime.ResourceReference, len(source.IpConfigurations))
@@ -756,14 +759,6 @@ func (networkInterface *NetworkInterface_Spec) AssignPropertiesFromNetworkInterf
 		networkInterface.PrivateLinkService = nil
 	}
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		networkInterface.Reference = &reference
-	} else {
-		networkInterface.Reference = nil
-	}
-
 	// Tags
 	networkInterface.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -818,6 +813,9 @@ func (networkInterface *NetworkInterface_Spec) AssignPropertiesToNetworkInterfac
 	} else {
 		destination.ExtendedLocation = nil
 	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(networkInterface.Id)
 
 	// IpConfigurations
 	if networkInterface.IpConfigurations != nil {
@@ -879,14 +877,6 @@ func (networkInterface *NetworkInterface_Spec) AssignPropertiesToNetworkInterfac
 		destination.PrivateLinkService = &privateLinkService
 	} else {
 		destination.PrivateLinkService = nil
-	}
-
-	// Reference
-	if networkInterface.Reference != nil {
-		reference := networkInterface.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// Tags
@@ -2583,11 +2573,11 @@ func (embedded *NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubReso
 }
 
 type NetworkSecurityGroupSpec struct {
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
 	//Location: Resource location.
 	Location *string `json:"location,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	//SecurityRules: A collection of security rules of the network security group.
 	SecurityRules []genruntime.ResourceReference `json:"securityRules,omitempty"`
@@ -2606,13 +2596,9 @@ func (group *NetworkSecurityGroupSpec) ConvertToARM(resolved genruntime.ConvertT
 	var result NetworkSecurityGroupSpecARM
 
 	// Set property ‘Id’:
-	if group.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*group.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if group.Id != nil {
+		id := *group.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Location’:
@@ -2651,13 +2637,17 @@ func (group *NetworkSecurityGroupSpec) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroupSpecARM, got %T", armInput)
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		group.Id = &id
+	}
+
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		group.Location = &location
 	}
-
-	// no assignment for property ‘Reference’
 
 	// Set property ‘SecurityRules’:
 	// copying flattened property:
@@ -2682,16 +2672,11 @@ func (group *NetworkSecurityGroupSpec) PopulateFromARM(owner genruntime.Arbitrar
 // AssignPropertiesFromNetworkSecurityGroupSpec populates our NetworkSecurityGroupSpec from the provided source NetworkSecurityGroupSpec
 func (group *NetworkSecurityGroupSpec) AssignPropertiesFromNetworkSecurityGroupSpec(source *v1alpha1api20201101storage.NetworkSecurityGroupSpec) error {
 
+	// Id
+	group.Id = genruntime.ClonePointerToString(source.Id)
+
 	// Location
 	group.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		group.Reference = &reference
-	} else {
-		group.Reference = nil
-	}
 
 	// SecurityRules
 	if source.SecurityRules != nil {
@@ -2718,16 +2703,11 @@ func (group *NetworkSecurityGroupSpec) AssignPropertiesToNetworkSecurityGroupSpe
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// Id
+	destination.Id = genruntime.ClonePointerToString(group.Id)
+
 	// Location
 	destination.Location = genruntime.ClonePointerToString(group.Location)
-
-	// Reference
-	if group.Reference != nil {
-		reference := group.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
 
 	// SecurityRules
 	if group.SecurityRules != nil {
@@ -2924,6 +2904,9 @@ type PrivateLinkServiceSpec struct {
 	//Fqdns: The list of Fqdn.
 	Fqdns []string `json:"fqdns,omitempty"`
 
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
 	//IpConfigurations: An array of private link service IP configurations.
 	IpConfigurations []PrivateLinkServiceIpConfiguration `json:"ipConfigurations,omitempty"`
 
@@ -2933,9 +2916,6 @@ type PrivateLinkServiceSpec struct {
 
 	//Location: Resource location.
 	Location *string `json:"location,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -2964,13 +2944,9 @@ func (service *PrivateLinkServiceSpec) ConvertToARM(resolved genruntime.ConvertT
 	}
 
 	// Set property ‘Id’:
-	if service.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*service.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if service.Id != nil {
+		id := *service.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Location’:
@@ -3090,6 +3066,12 @@ func (service *PrivateLinkServiceSpec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		service.Id = &id
+	}
+
 	// Set property ‘IpConfigurations’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -3121,8 +3103,6 @@ func (service *PrivateLinkServiceSpec) PopulateFromARM(owner genruntime.Arbitrar
 		location := *typedInput.Location
 		service.Location = &location
 	}
-
-	// no assignment for property ‘Reference’
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
@@ -3188,6 +3168,9 @@ func (service *PrivateLinkServiceSpec) AssignPropertiesFromPrivateLinkServiceSpe
 	// Fqdns
 	service.Fqdns = genruntime.CloneSliceOfString(source.Fqdns)
 
+	// Id
+	service.Id = genruntime.ClonePointerToString(source.Id)
+
 	// IpConfigurations
 	if source.IpConfigurations != nil {
 		ipConfigurationList := make([]PrivateLinkServiceIpConfiguration, len(source.IpConfigurations))
@@ -3226,14 +3209,6 @@ func (service *PrivateLinkServiceSpec) AssignPropertiesFromPrivateLinkServiceSpe
 
 	// Location
 	service.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		service.Reference = &reference
-	} else {
-		service.Reference = nil
-	}
 
 	// Tags
 	service.Tags = genruntime.CloneMapOfStringToString(source.Tags)
@@ -3294,6 +3269,9 @@ func (service *PrivateLinkServiceSpec) AssignPropertiesToPrivateLinkServiceSpec(
 	// Fqdns
 	destination.Fqdns = genruntime.CloneSliceOfString(service.Fqdns)
 
+	// Id
+	destination.Id = genruntime.ClonePointerToString(service.Id)
+
 	// IpConfigurations
 	if service.IpConfigurations != nil {
 		ipConfigurationList := make([]v1alpha1api20201101storage.PrivateLinkServiceIpConfiguration, len(service.IpConfigurations))
@@ -3332,14 +3310,6 @@ func (service *PrivateLinkServiceSpec) AssignPropertiesToPrivateLinkServiceSpec(
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(service.Location)
-
-	// Reference
-	if service.Reference != nil {
-		reference := service.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(service.Tags)
@@ -3957,6 +3927,9 @@ func (properties *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties
 }
 
 type PrivateLinkServiceIpConfiguration struct {
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
 	//Name: The name of private link service ip configuration.
 	Name *string `json:"name,omitempty"`
 
@@ -3973,9 +3946,6 @@ type PrivateLinkServiceIpConfiguration struct {
 	//PrivateIPAllocationMethod: The private IP address allocation method.
 	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
 
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-
 	//Subnet: The reference to the subnet resource.
 	Subnet *genruntime.ResourceReference `json:"subnet,omitempty"`
 }
@@ -3990,13 +3960,9 @@ func (configuration *PrivateLinkServiceIpConfiguration) ConvertToARM(resolved ge
 	var result PrivateLinkServiceIpConfigurationARM
 
 	// Set property ‘Id’:
-	if configuration.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*configuration.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if configuration.Id != nil {
+		id := *configuration.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Name’:
@@ -4052,6 +4018,12 @@ func (configuration *PrivateLinkServiceIpConfiguration) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkServiceIpConfigurationARM, got %T", armInput)
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		configuration.Id = &id
+	}
+
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
@@ -4094,8 +4066,6 @@ func (configuration *PrivateLinkServiceIpConfiguration) PopulateFromARM(owner ge
 		}
 	}
 
-	// no assignment for property ‘Reference’
-
 	// no assignment for property ‘Subnet’
 
 	// No error
@@ -4104,6 +4074,9 @@ func (configuration *PrivateLinkServiceIpConfiguration) PopulateFromARM(owner ge
 
 // AssignPropertiesFromPrivateLinkServiceIpConfiguration populates our PrivateLinkServiceIpConfiguration from the provided source PrivateLinkServiceIpConfiguration
 func (configuration *PrivateLinkServiceIpConfiguration) AssignPropertiesFromPrivateLinkServiceIpConfiguration(source *v1alpha1api20201101storage.PrivateLinkServiceIpConfiguration) error {
+
+	// Id
+	configuration.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Name
 	configuration.Name = genruntime.ClonePointerToString(source.Name)
@@ -4135,14 +4108,6 @@ func (configuration *PrivateLinkServiceIpConfiguration) AssignPropertiesFromPriv
 		configuration.PrivateIPAllocationMethod = nil
 	}
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		configuration.Reference = &reference
-	} else {
-		configuration.Reference = nil
-	}
-
 	// Subnet
 	if source.Subnet != nil {
 		subnet := source.Subnet.Copy()
@@ -4159,6 +4124,9 @@ func (configuration *PrivateLinkServiceIpConfiguration) AssignPropertiesFromPriv
 func (configuration *PrivateLinkServiceIpConfiguration) AssignPropertiesToPrivateLinkServiceIpConfiguration(destination *v1alpha1api20201101storage.PrivateLinkServiceIpConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(configuration.Id)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(configuration.Name)
@@ -4188,14 +4156,6 @@ func (configuration *PrivateLinkServiceIpConfiguration) AssignPropertiesToPrivat
 		destination.PrivateIPAllocationMethod = &privateIPAllocationMethod
 	} else {
 		destination.PrivateIPAllocationMethod = nil
-	}
-
-	// Reference
-	if configuration.Reference != nil {
-		reference := configuration.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// Subnet

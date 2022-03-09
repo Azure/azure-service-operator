@@ -273,6 +273,7 @@ func AddIndependentPropertyGeneratorsForNetworkInterface_Spec(gens map[string]go
 	gens["AzureName"] = gen.AlphaString()
 	gens["EnableAcceleratedNetworking"] = gen.PtrOf(gen.Bool())
 	gens["EnableIPForwarding"] = gen.PtrOf(gen.Bool())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MigrationPhase"] = gen.PtrOf(gen.OneConstOf(
 		NetworkInterfacePropertiesFormatMigrationPhaseAbort,
@@ -971,6 +972,7 @@ func NetworkSecurityGroupSpecGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkSecurityGroupSpec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkSecurityGroupSpec(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
@@ -1303,6 +1305,7 @@ func PrivateLinkServiceSpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPrivateLinkServiceSpec(gens map[string]gopter.Gen) {
 	gens["EnableProxyProtocol"] = gen.PtrOf(gen.Bool())
 	gens["Fqdns"] = gen.SliceOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
@@ -2163,6 +2166,7 @@ func PrivateLinkServiceIpConfigurationGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPrivateLinkServiceIpConfiguration is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateLinkServiceIpConfiguration(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Primary"] = gen.PtrOf(gen.Bool())
 	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())

@@ -1345,9 +1345,9 @@ type ManagedClustersAgentPool_Spec struct {
 	//NodeLabels: The node labels to be persisted across all nodes in agent pool.
 	NodeLabels map[string]string `json:"nodeLabels,omitempty"`
 
-	//NodePublicIPPrefixIDReference: This is of the form:
+	//NodePublicIPPrefixID: This is of the form:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
-	NodePublicIPPrefixIDReference *genruntime.ResourceReference `armReference:"NodePublicIPPrefixID" json:"nodePublicIPPrefixIDReference,omitempty"`
+	NodePublicIPPrefixID *string `json:"nodePublicIPPrefixID,omitempty"`
 
 	//NodeTaints: The taints added to new nodes during node pool create and scale. For
 	//example, key=value:NoSchedule.
@@ -1369,10 +1369,10 @@ type ManagedClustersAgentPool_Spec struct {
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
-	//PodSubnetIDReference: If omitted, pod IPs are statically assigned on the node
-	//subnet (see vnetSubnetID for more details). This is of the form:
+	//PodSubnetID: If omitted, pod IPs are statically assigned on the node subnet (see
+	//vnetSubnetID for more details). This is of the form:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
-	PodSubnetIDReference *genruntime.ResourceReference `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
+	PodSubnetID *string `json:"podSubnetID,omitempty"`
 
 	//ProximityPlacementGroupID: The ID for Proximity Placement Group.
 	ProximityPlacementGroupID *string `json:"proximityPlacementGroupID,omitempty"`
@@ -1404,11 +1404,11 @@ type ManagedClustersAgentPool_Spec struct {
 	//https://docs.microsoft.com/azure/aks/quotas-skus-regions
 	VmSize *string `json:"vmSize,omitempty"`
 
-	//VnetSubnetIDReference: If this is not specified, a VNET and subnet will be
-	//generated and used. If no podSubnetID is specified, this applies to nodes and
-	//pods, otherwise it applies to just nodes. This is of the form:
+	//VnetSubnetID: If this is not specified, a VNET and subnet will be generated and
+	//used. If no podSubnetID is specified, this applies to nodes and pods, otherwise
+	//it applies to just nodes. This is of the form:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
-	VnetSubnetIDReference *genruntime.ResourceReference `armReference:"VnetSubnetID" json:"vnetSubnetIDReference,omitempty"`
+	VnetSubnetID *string `json:"vnetSubnetID,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagedClustersAgentPool_Spec{}
@@ -1443,14 +1443,14 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertToARM(resolved genruntime.Conv
 		pool.MinCount != nil ||
 		pool.Mode != nil ||
 		pool.NodeLabels != nil ||
-		pool.NodePublicIPPrefixIDReference != nil ||
+		pool.NodePublicIPPrefixID != nil ||
 		pool.NodeTaints != nil ||
 		pool.OrchestratorVersion != nil ||
 		pool.OsDiskSizeGB != nil ||
 		pool.OsDiskType != nil ||
 		pool.OsSKU != nil ||
 		pool.OsType != nil ||
-		pool.PodSubnetIDReference != nil ||
+		pool.PodSubnetID != nil ||
 		pool.ProximityPlacementGroupID != nil ||
 		pool.ScaleSetEvictionPolicy != nil ||
 		pool.ScaleSetPriority != nil ||
@@ -1459,7 +1459,7 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertToARM(resolved genruntime.Conv
 		pool.Type != nil ||
 		pool.UpgradeSettings != nil ||
 		pool.VmSize != nil ||
-		pool.VnetSubnetIDReference != nil {
+		pool.VnetSubnetID != nil {
 		result.Properties = &ManagedClusterAgentPoolProfilePropertiesARM{}
 	}
 	for _, item := range pool.AvailabilityZones {
@@ -1535,12 +1535,8 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertToARM(resolved genruntime.Conv
 			result.Properties.NodeLabels[key] = value
 		}
 	}
-	if pool.NodePublicIPPrefixIDReference != nil {
-		nodePublicIPPrefixIDARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*pool.NodePublicIPPrefixIDReference)
-		if err != nil {
-			return nil, err
-		}
-		nodePublicIPPrefixID := nodePublicIPPrefixIDARMID
+	if pool.NodePublicIPPrefixID != nil {
+		nodePublicIPPrefixID := *pool.NodePublicIPPrefixID
 		result.Properties.NodePublicIPPrefixID = &nodePublicIPPrefixID
 	}
 	for _, item := range pool.NodeTaints {
@@ -1566,12 +1562,8 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertToARM(resolved genruntime.Conv
 		osType := *pool.OsType
 		result.Properties.OsType = &osType
 	}
-	if pool.PodSubnetIDReference != nil {
-		podSubnetIDARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*pool.PodSubnetIDReference)
-		if err != nil {
-			return nil, err
-		}
-		podSubnetID := podSubnetIDARMID
+	if pool.PodSubnetID != nil {
+		podSubnetID := *pool.PodSubnetID
 		result.Properties.PodSubnetID = &podSubnetID
 	}
 	if pool.ProximityPlacementGroupID != nil {
@@ -1612,12 +1604,8 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertToARM(resolved genruntime.Conv
 		vmSize := *pool.VmSize
 		result.Properties.VmSize = &vmSize
 	}
-	if pool.VnetSubnetIDReference != nil {
-		vnetSubnetIDARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*pool.VnetSubnetIDReference)
-		if err != nil {
-			return nil, err
-		}
-		vnetSubnetID := vnetSubnetIDARMID
+	if pool.VnetSubnetID != nil {
+		vnetSubnetID := *pool.VnetSubnetID
 		result.Properties.VnetSubnetID = &vnetSubnetID
 	}
 	return result, nil
@@ -1793,7 +1781,14 @@ func (pool *ManagedClustersAgentPool_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// no assignment for property ‘NodePublicIPPrefixIDReference’
+	// Set property ‘NodePublicIPPrefixID’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NodePublicIPPrefixID != nil {
+			nodePublicIPPrefixID := *typedInput.Properties.NodePublicIPPrefixID
+			pool.NodePublicIPPrefixID = &nodePublicIPPrefixID
+		}
+	}
 
 	// Set property ‘NodeTaints’:
 	// copying flattened property:
@@ -1853,7 +1848,14 @@ func (pool *ManagedClustersAgentPool_Spec) PopulateFromARM(owner genruntime.Arbi
 		Name: owner.Name,
 	}
 
-	// no assignment for property ‘PodSubnetIDReference’
+	// Set property ‘PodSubnetID’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PodSubnetID != nil {
+			podSubnetID := *typedInput.Properties.PodSubnetID
+			pool.PodSubnetID = &podSubnetID
+		}
+	}
 
 	// Set property ‘ProximityPlacementGroupID’:
 	// copying flattened property:
@@ -1934,7 +1936,14 @@ func (pool *ManagedClustersAgentPool_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// no assignment for property ‘VnetSubnetIDReference’
+	// Set property ‘VnetSubnetID’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.VnetSubnetID != nil {
+			vnetSubnetID := *typedInput.Properties.VnetSubnetID
+			pool.VnetSubnetID = &vnetSubnetID
+		}
+	}
 
 	// No error
 	return nil
@@ -2102,13 +2111,8 @@ func (pool *ManagedClustersAgentPool_Spec) AssignPropertiesFromManagedClustersAg
 	// NodeLabels
 	pool.NodeLabels = genruntime.CloneMapOfStringToString(source.NodeLabels)
 
-	// NodePublicIPPrefixIDReference
-	if source.NodePublicIPPrefixIDReference != nil {
-		nodePublicIPPrefixIDReference := source.NodePublicIPPrefixIDReference.Copy()
-		pool.NodePublicIPPrefixIDReference = &nodePublicIPPrefixIDReference
-	} else {
-		pool.NodePublicIPPrefixIDReference = nil
-	}
+	// NodePublicIPPrefixID
+	pool.NodePublicIPPrefixID = genruntime.ClonePointerToString(source.NodePublicIPPrefixID)
 
 	// NodeTaints
 	pool.NodeTaints = genruntime.CloneSliceOfString(source.NodeTaints)
@@ -2151,13 +2155,8 @@ func (pool *ManagedClustersAgentPool_Spec) AssignPropertiesFromManagedClustersAg
 	// Owner
 	pool.Owner = source.Owner.Copy()
 
-	// PodSubnetIDReference
-	if source.PodSubnetIDReference != nil {
-		podSubnetIDReference := source.PodSubnetIDReference.Copy()
-		pool.PodSubnetIDReference = &podSubnetIDReference
-	} else {
-		pool.PodSubnetIDReference = nil
-	}
+	// PodSubnetID
+	pool.PodSubnetID = genruntime.ClonePointerToString(source.PodSubnetID)
 
 	// ProximityPlacementGroupID
 	pool.ProximityPlacementGroupID = genruntime.ClonePointerToString(source.ProximityPlacementGroupID)
@@ -2212,13 +2211,8 @@ func (pool *ManagedClustersAgentPool_Spec) AssignPropertiesFromManagedClustersAg
 	// VmSize
 	pool.VmSize = genruntime.ClonePointerToString(source.VmSize)
 
-	// VnetSubnetIDReference
-	if source.VnetSubnetIDReference != nil {
-		vnetSubnetIDReference := source.VnetSubnetIDReference.Copy()
-		pool.VnetSubnetIDReference = &vnetSubnetIDReference
-	} else {
-		pool.VnetSubnetIDReference = nil
-	}
+	// VnetSubnetID
+	pool.VnetSubnetID = genruntime.ClonePointerToString(source.VnetSubnetID)
 
 	// No error
 	return nil
@@ -2338,13 +2332,8 @@ func (pool *ManagedClustersAgentPool_Spec) AssignPropertiesToManagedClustersAgen
 	// NodeLabels
 	destination.NodeLabels = genruntime.CloneMapOfStringToString(pool.NodeLabels)
 
-	// NodePublicIPPrefixIDReference
-	if pool.NodePublicIPPrefixIDReference != nil {
-		nodePublicIPPrefixIDReference := pool.NodePublicIPPrefixIDReference.Copy()
-		destination.NodePublicIPPrefixIDReference = &nodePublicIPPrefixIDReference
-	} else {
-		destination.NodePublicIPPrefixIDReference = nil
-	}
+	// NodePublicIPPrefixID
+	destination.NodePublicIPPrefixID = genruntime.ClonePointerToString(pool.NodePublicIPPrefixID)
 
 	// NodeTaints
 	destination.NodeTaints = genruntime.CloneSliceOfString(pool.NodeTaints)
@@ -2390,13 +2379,8 @@ func (pool *ManagedClustersAgentPool_Spec) AssignPropertiesToManagedClustersAgen
 	// Owner
 	destination.Owner = pool.Owner.Copy()
 
-	// PodSubnetIDReference
-	if pool.PodSubnetIDReference != nil {
-		podSubnetIDReference := pool.PodSubnetIDReference.Copy()
-		destination.PodSubnetIDReference = &podSubnetIDReference
-	} else {
-		destination.PodSubnetIDReference = nil
-	}
+	// PodSubnetID
+	destination.PodSubnetID = genruntime.ClonePointerToString(pool.PodSubnetID)
 
 	// ProximityPlacementGroupID
 	destination.ProximityPlacementGroupID = genruntime.ClonePointerToString(pool.ProximityPlacementGroupID)
@@ -2451,13 +2435,8 @@ func (pool *ManagedClustersAgentPool_Spec) AssignPropertiesToManagedClustersAgen
 	// VmSize
 	destination.VmSize = genruntime.ClonePointerToString(pool.VmSize)
 
-	// VnetSubnetIDReference
-	if pool.VnetSubnetIDReference != nil {
-		vnetSubnetIDReference := pool.VnetSubnetIDReference.Copy()
-		destination.VnetSubnetIDReference = &vnetSubnetIDReference
-	} else {
-		destination.VnetSubnetIDReference = nil
-	}
+	// VnetSubnetID
+	destination.VnetSubnetID = genruntime.ClonePointerToString(pool.VnetSubnetID)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

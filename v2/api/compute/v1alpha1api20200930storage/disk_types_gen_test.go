@@ -145,6 +145,7 @@ func Disk_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDisk_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["BurstingEnabled"] = gen.PtrOf(gen.Bool())
+	gens["DiskAccessId"] = gen.PtrOf(gen.AlphaString())
 	gens["DiskIOPSReadOnly"] = gen.PtrOf(gen.Int())
 	gens["DiskIOPSReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskMBpsReadOnly"] = gen.PtrOf(gen.Int())
@@ -342,6 +343,7 @@ func CreationDataGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForCreationData(gens map[string]gopter.Gen) {
 	gens["CreateOption"] = gen.PtrOf(gen.AlphaString())
 	gens["LogicalSectorSize"] = gen.PtrOf(gen.Int())
+	gens["SourceResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceUri"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageAccountId"] = gen.PtrOf(gen.AlphaString())
 	gens["UploadSizeBytes"] = gen.PtrOf(gen.Int())
@@ -609,6 +611,7 @@ func EncryptionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryption is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryption(gens map[string]gopter.Gen) {
+	gens["DiskEncryptionSetId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1390,6 +1393,7 @@ func ImageDiskReferenceGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForImageDiskReference is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImageDiskReference(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Lun"] = gen.PtrOf(gen.Int())
 }
 
@@ -1798,9 +1802,15 @@ func SourceVaultGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSourceVault(generators)
 	sourceVaultGenerator = gen.Struct(reflect.TypeOf(SourceVault{}), generators)
 
 	return sourceVaultGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSourceVault is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSourceVault(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_SourceVault_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

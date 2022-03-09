@@ -147,22 +147,20 @@ type NetworkSecurityGroupsSecurityRule_Spec struct {
 	DestinationPortRange                 *string                        `json:"destinationPortRange,omitempty"`
 	DestinationPortRanges                []string                       `json:"destinationPortRanges,omitempty"`
 	Direction                            *string                        `json:"direction,omitempty"`
+	Id                                   *string                        `json:"id,omitempty"`
 	OriginalVersion                      string                         `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
-	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	Priority    *int                              `json:"priority,omitempty"`
-	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Protocol    *string                           `json:"protocol,omitempty"`
-
-	//Reference: Resource ID.
-	Reference                       *genruntime.ResourceReference  `armReference:"Id" json:"reference,omitempty"`
-	SourceAddressPrefix             *string                        `json:"sourceAddressPrefix,omitempty"`
-	SourceAddressPrefixes           []string                       `json:"sourceAddressPrefixes,omitempty"`
-	SourceApplicationSecurityGroups []ApplicationSecurityGroupSpec `json:"sourceApplicationSecurityGroups,omitempty"`
-	SourcePortRange                 *string                        `json:"sourcePortRange,omitempty"`
-	SourcePortRanges                []string                       `json:"sourcePortRanges,omitempty"`
-	Type                            *string                        `json:"type,omitempty"`
+	Owner                           genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Priority                        *int                              `json:"priority,omitempty"`
+	PropertyBag                     genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	Protocol                        *string                           `json:"protocol,omitempty"`
+	SourceAddressPrefix             *string                           `json:"sourceAddressPrefix,omitempty"`
+	SourceAddressPrefixes           []string                          `json:"sourceAddressPrefixes,omitempty"`
+	SourceApplicationSecurityGroups []ApplicationSecurityGroupSpec    `json:"sourceApplicationSecurityGroups,omitempty"`
+	SourcePortRange                 *string                           `json:"sourcePortRange,omitempty"`
+	SourcePortRanges                []string                          `json:"sourcePortRanges,omitempty"`
+	Type                            *string                           `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &NetworkSecurityGroupsSecurityRule_Spec{}
@@ -233,12 +231,10 @@ func (embedded *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourc
 
 //Storage version of v1alpha1api20201101.ApplicationSecurityGroupSpec
 type ApplicationSecurityGroupSpec struct {
+	Id          *string                `json:"id,omitempty"`
 	Location    *string                `json:"location,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Tags      map[string]string             `json:"tags,omitempty"`
+	Tags        map[string]string      `json:"tags,omitempty"`
 }
 
 //Storage version of v1alpha1api20201101.ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded

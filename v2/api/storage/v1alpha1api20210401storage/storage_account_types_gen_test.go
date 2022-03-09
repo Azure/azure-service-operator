@@ -1757,9 +1757,15 @@ func EncryptionIdentityGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForEncryptionIdentity(generators)
 	encryptionIdentityGenerator = gen.Struct(reflect.TypeOf(EncryptionIdentity{}), generators)
 
 	return encryptionIdentityGenerator
+}
+
+// AddIndependentPropertyGeneratorsForEncryptionIdentity is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEncryptionIdentity(gens map[string]gopter.Gen) {
+	gens["UserAssignedIdentity"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_EncryptionIdentity_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2248,6 +2254,7 @@ func ResourceAccessRuleGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForResourceAccessRule is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForResourceAccessRule(gens map[string]gopter.Gen) {
+	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -2430,6 +2437,7 @@ func VirtualNetworkRuleGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualNetworkRule is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkRule(gens map[string]gopter.Gen) {
 	gens["Action"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.AlphaString())
 }
 

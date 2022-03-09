@@ -327,18 +327,14 @@ type KeyVaultProperties_Status struct {
 
 //Storage version of v1alpha1api20210101preview.PrivateEndpoint
 type PrivateEndpoint struct {
+	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//Reference: The ARM identifier for Private Endpoint.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 //Storage version of v1alpha1api20210101preview.UserAssignedIdentityProperties
 type UserAssignedIdentityProperties struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//UserAssignedIdentityReference: ARM ID of user Identity selected for encryption
-	UserAssignedIdentityReference *genruntime.ResourceReference `armReference:"UserAssignedIdentity" json:"userAssignedIdentityReference,omitempty"`
+	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	UserAssignedIdentity *string                `json:"userAssignedIdentity,omitempty"`
 }
 
 //Storage version of v1alpha1api20210101preview.UserAssignedIdentityProperties_Status

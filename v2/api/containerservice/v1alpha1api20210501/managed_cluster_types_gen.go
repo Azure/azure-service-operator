@@ -347,9 +347,9 @@ type ManagedCluster_Spec struct {
 	//accounts](https://docs.microsoft.com/azure/aks/managed-aad#disable-local-accounts-preview).
 	DisableLocalAccounts *bool `json:"disableLocalAccounts,omitempty"`
 
-	//DiskEncryptionSetIDReference: This is of the form:
+	//DiskEncryptionSetID: This is of the form:
 	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{encryptionSetName}'
-	DiskEncryptionSetIDReference *genruntime.ResourceReference `armReference:"DiskEncryptionSetID" json:"diskEncryptionSetIDReference,omitempty"`
+	DiskEncryptionSetID *string `json:"diskEncryptionSetID,omitempty"`
 
 	//DnsPrefix: This cannot be updated once the Managed Cluster has been created.
 	DnsPrefix *string `json:"dnsPrefix,omitempty"`
@@ -470,7 +470,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		cluster.AutoScalerProfile != nil ||
 		cluster.AutoUpgradeProfile != nil ||
 		cluster.DisableLocalAccounts != nil ||
-		cluster.DiskEncryptionSetIDReference != nil ||
+		cluster.DiskEncryptionSetID != nil ||
 		cluster.DnsPrefix != nil ||
 		cluster.EnablePodSecurityPolicy != nil ||
 		cluster.EnableRBAC != nil ||
@@ -534,12 +534,8 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		disableLocalAccounts := *cluster.DisableLocalAccounts
 		result.Properties.DisableLocalAccounts = &disableLocalAccounts
 	}
-	if cluster.DiskEncryptionSetIDReference != nil {
-		diskEncryptionSetIDARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*cluster.DiskEncryptionSetIDReference)
-		if err != nil {
-			return nil, err
-		}
-		diskEncryptionSetID := diskEncryptionSetIDARMID
+	if cluster.DiskEncryptionSetID != nil {
+		diskEncryptionSetID := *cluster.DiskEncryptionSetID
 		result.Properties.DiskEncryptionSetID = &diskEncryptionSetID
 	}
 	if cluster.DnsPrefix != nil {
@@ -744,7 +740,14 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// no assignment for property ‘DiskEncryptionSetIDReference’
+	// Set property ‘DiskEncryptionSetID’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DiskEncryptionSetID != nil {
+			diskEncryptionSetID := *typedInput.Properties.DiskEncryptionSetID
+			cluster.DiskEncryptionSetID = &diskEncryptionSetID
+		}
+	}
 
 	// Set property ‘DnsPrefix’:
 	// copying flattened property:
@@ -1092,13 +1095,8 @@ func (cluster *ManagedCluster_Spec) AssignPropertiesFromManagedCluster_Spec(sour
 		cluster.DisableLocalAccounts = nil
 	}
 
-	// DiskEncryptionSetIDReference
-	if source.DiskEncryptionSetIDReference != nil {
-		diskEncryptionSetIDReference := source.DiskEncryptionSetIDReference.Copy()
-		cluster.DiskEncryptionSetIDReference = &diskEncryptionSetIDReference
-	} else {
-		cluster.DiskEncryptionSetIDReference = nil
-	}
+	// DiskEncryptionSetID
+	cluster.DiskEncryptionSetID = genruntime.ClonePointerToString(source.DiskEncryptionSetID)
 
 	// DnsPrefix
 	cluster.DnsPrefix = genruntime.ClonePointerToString(source.DnsPrefix)
@@ -1360,13 +1358,8 @@ func (cluster *ManagedCluster_Spec) AssignPropertiesToManagedCluster_Spec(destin
 		destination.DisableLocalAccounts = nil
 	}
 
-	// DiskEncryptionSetIDReference
-	if cluster.DiskEncryptionSetIDReference != nil {
-		diskEncryptionSetIDReference := cluster.DiskEncryptionSetIDReference.Copy()
-		destination.DiskEncryptionSetIDReference = &diskEncryptionSetIDReference
-	} else {
-		destination.DiskEncryptionSetIDReference = nil
-	}
+	// DiskEncryptionSetID
+	destination.DiskEncryptionSetID = genruntime.ClonePointerToString(cluster.DiskEncryptionSetID)
 
 	// DnsPrefix
 	destination.DnsPrefix = genruntime.ClonePointerToString(cluster.DnsPrefix)
@@ -4488,9 +4481,9 @@ type ManagedClusterAgentPoolProfile struct {
 	//NodeLabels: The node labels to be persisted across all nodes in agent pool.
 	NodeLabels map[string]string `json:"nodeLabels,omitempty"`
 
-	//NodePublicIPPrefixIDReference: This is of the form:
+	//NodePublicIPPrefixID: This is of the form:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
-	NodePublicIPPrefixIDReference *genruntime.ResourceReference `armReference:"NodePublicIPPrefixID" json:"nodePublicIPPrefixIDReference,omitempty"`
+	NodePublicIPPrefixID *string `json:"nodePublicIPPrefixID,omitempty"`
 
 	//NodeTaints: The taints added to new nodes during node pool create and scale. For
 	//example, key=value:NoSchedule.
@@ -4509,10 +4502,10 @@ type ManagedClusterAgentPoolProfile struct {
 	OsSKU               *OSSKU                  `json:"osSKU,omitempty"`
 	OsType              *OSType                 `json:"osType,omitempty"`
 
-	//PodSubnetIDReference: If omitted, pod IPs are statically assigned on the node
-	//subnet (see vnetSubnetID for more details). This is of the form:
+	//PodSubnetID: If omitted, pod IPs are statically assigned on the node subnet (see
+	//vnetSubnetID for more details). This is of the form:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
-	PodSubnetIDReference *genruntime.ResourceReference `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
+	PodSubnetID *string `json:"podSubnetID,omitempty"`
 
 	//ProximityPlacementGroupID: The ID for Proximity Placement Group.
 	ProximityPlacementGroupID *string `json:"proximityPlacementGroupID,omitempty"`
@@ -4544,11 +4537,11 @@ type ManagedClusterAgentPoolProfile struct {
 	//https://docs.microsoft.com/azure/aks/quotas-skus-regions
 	VmSize *string `json:"vmSize,omitempty"`
 
-	//VnetSubnetIDReference: If this is not specified, a VNET and subnet will be
-	//generated and used. If no podSubnetID is specified, this applies to nodes and
-	//pods, otherwise it applies to just nodes. This is of the form:
+	//VnetSubnetID: If this is not specified, a VNET and subnet will be generated and
+	//used. If no podSubnetID is specified, this applies to nodes and pods, otherwise
+	//it applies to just nodes. This is of the form:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
-	VnetSubnetIDReference *genruntime.ResourceReference `armReference:"VnetSubnetID" json:"vnetSubnetIDReference,omitempty"`
+	VnetSubnetID *string `json:"vnetSubnetID,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagedClusterAgentPoolProfile{}
@@ -4672,13 +4665,9 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 	}
 
 	// Set property ‘NodePublicIPPrefixID’:
-	if profile.NodePublicIPPrefixIDReference != nil {
-		nodePublicIPPrefixIDReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*profile.NodePublicIPPrefixIDReference)
-		if err != nil {
-			return nil, err
-		}
-		nodePublicIPPrefixIDReference := nodePublicIPPrefixIDReferenceARMID
-		result.NodePublicIPPrefixID = &nodePublicIPPrefixIDReference
+	if profile.NodePublicIPPrefixID != nil {
+		nodePublicIPPrefixID := *profile.NodePublicIPPrefixID
+		result.NodePublicIPPrefixID = &nodePublicIPPrefixID
 	}
 
 	// Set property ‘NodeTaints’:
@@ -4717,13 +4706,9 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 	}
 
 	// Set property ‘PodSubnetID’:
-	if profile.PodSubnetIDReference != nil {
-		podSubnetIDReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*profile.PodSubnetIDReference)
-		if err != nil {
-			return nil, err
-		}
-		podSubnetIDReference := podSubnetIDReferenceARMID
-		result.PodSubnetID = &podSubnetIDReference
+	if profile.PodSubnetID != nil {
+		podSubnetID := *profile.PodSubnetID
+		result.PodSubnetID = &podSubnetID
 	}
 
 	// Set property ‘ProximityPlacementGroupID’:
@@ -4781,13 +4766,9 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 	}
 
 	// Set property ‘VnetSubnetID’:
-	if profile.VnetSubnetIDReference != nil {
-		vnetSubnetIDReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*profile.VnetSubnetIDReference)
-		if err != nil {
-			return nil, err
-		}
-		vnetSubnetIDReference := vnetSubnetIDReferenceARMID
-		result.VnetSubnetID = &vnetSubnetIDReference
+	if profile.VnetSubnetID != nil {
+		vnetSubnetID := *profile.VnetSubnetID
+		result.VnetSubnetID = &vnetSubnetID
 	}
 	return result, nil
 }
@@ -4917,7 +4898,11 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// no assignment for property ‘NodePublicIPPrefixIDReference’
+	// Set property ‘NodePublicIPPrefixID’:
+	if typedInput.NodePublicIPPrefixID != nil {
+		nodePublicIPPrefixID := *typedInput.NodePublicIPPrefixID
+		profile.NodePublicIPPrefixID = &nodePublicIPPrefixID
+	}
 
 	// Set property ‘NodeTaints’:
 	for _, item := range typedInput.NodeTaints {
@@ -4954,7 +4939,11 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 		profile.OsType = &osType
 	}
 
-	// no assignment for property ‘PodSubnetIDReference’
+	// Set property ‘PodSubnetID’:
+	if typedInput.PodSubnetID != nil {
+		podSubnetID := *typedInput.PodSubnetID
+		profile.PodSubnetID = &podSubnetID
+	}
 
 	// Set property ‘ProximityPlacementGroupID’:
 	if typedInput.ProximityPlacementGroupID != nil {
@@ -5011,7 +5000,11 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 		profile.VmSize = &vmSize
 	}
 
-	// no assignment for property ‘VnetSubnetIDReference’
+	// Set property ‘VnetSubnetID’:
+	if typedInput.VnetSubnetID != nil {
+		vnetSubnetID := *typedInput.VnetSubnetID
+		profile.VnetSubnetID = &vnetSubnetID
+	}
 
 	// No error
 	return nil
@@ -5134,13 +5127,8 @@ func (profile *ManagedClusterAgentPoolProfile) AssignPropertiesFromManagedCluste
 	// NodeLabels
 	profile.NodeLabels = genruntime.CloneMapOfStringToString(source.NodeLabels)
 
-	// NodePublicIPPrefixIDReference
-	if source.NodePublicIPPrefixIDReference != nil {
-		nodePublicIPPrefixIDReference := source.NodePublicIPPrefixIDReference.Copy()
-		profile.NodePublicIPPrefixIDReference = &nodePublicIPPrefixIDReference
-	} else {
-		profile.NodePublicIPPrefixIDReference = nil
-	}
+	// NodePublicIPPrefixID
+	profile.NodePublicIPPrefixID = genruntime.ClonePointerToString(source.NodePublicIPPrefixID)
 
 	// NodeTaints
 	profile.NodeTaints = genruntime.CloneSliceOfString(source.NodeTaints)
@@ -5180,13 +5168,8 @@ func (profile *ManagedClusterAgentPoolProfile) AssignPropertiesFromManagedCluste
 		profile.OsType = nil
 	}
 
-	// PodSubnetIDReference
-	if source.PodSubnetIDReference != nil {
-		podSubnetIDReference := source.PodSubnetIDReference.Copy()
-		profile.PodSubnetIDReference = &podSubnetIDReference
-	} else {
-		profile.PodSubnetIDReference = nil
-	}
+	// PodSubnetID
+	profile.PodSubnetID = genruntime.ClonePointerToString(source.PodSubnetID)
 
 	// ProximityPlacementGroupID
 	profile.ProximityPlacementGroupID = genruntime.ClonePointerToString(source.ProximityPlacementGroupID)
@@ -5241,13 +5224,8 @@ func (profile *ManagedClusterAgentPoolProfile) AssignPropertiesFromManagedCluste
 	// VmSize
 	profile.VmSize = genruntime.ClonePointerToString(source.VmSize)
 
-	// VnetSubnetIDReference
-	if source.VnetSubnetIDReference != nil {
-		vnetSubnetIDReference := source.VnetSubnetIDReference.Copy()
-		profile.VnetSubnetIDReference = &vnetSubnetIDReference
-	} else {
-		profile.VnetSubnetIDReference = nil
-	}
+	// VnetSubnetID
+	profile.VnetSubnetID = genruntime.ClonePointerToString(source.VnetSubnetID)
 
 	// No error
 	return nil
@@ -5372,13 +5350,8 @@ func (profile *ManagedClusterAgentPoolProfile) AssignPropertiesToManagedClusterA
 	// NodeLabels
 	destination.NodeLabels = genruntime.CloneMapOfStringToString(profile.NodeLabels)
 
-	// NodePublicIPPrefixIDReference
-	if profile.NodePublicIPPrefixIDReference != nil {
-		nodePublicIPPrefixIDReference := profile.NodePublicIPPrefixIDReference.Copy()
-		destination.NodePublicIPPrefixIDReference = &nodePublicIPPrefixIDReference
-	} else {
-		destination.NodePublicIPPrefixIDReference = nil
-	}
+	// NodePublicIPPrefixID
+	destination.NodePublicIPPrefixID = genruntime.ClonePointerToString(profile.NodePublicIPPrefixID)
 
 	// NodeTaints
 	destination.NodeTaints = genruntime.CloneSliceOfString(profile.NodeTaints)
@@ -5418,13 +5391,8 @@ func (profile *ManagedClusterAgentPoolProfile) AssignPropertiesToManagedClusterA
 		destination.OsType = nil
 	}
 
-	// PodSubnetIDReference
-	if profile.PodSubnetIDReference != nil {
-		podSubnetIDReference := profile.PodSubnetIDReference.Copy()
-		destination.PodSubnetIDReference = &podSubnetIDReference
-	} else {
-		destination.PodSubnetIDReference = nil
-	}
+	// PodSubnetID
+	destination.PodSubnetID = genruntime.ClonePointerToString(profile.PodSubnetID)
 
 	// ProximityPlacementGroupID
 	destination.ProximityPlacementGroupID = genruntime.ClonePointerToString(profile.ProximityPlacementGroupID)
@@ -5479,13 +5447,8 @@ func (profile *ManagedClusterAgentPoolProfile) AssignPropertiesToManagedClusterA
 	// VmSize
 	destination.VmSize = genruntime.ClonePointerToString(profile.VmSize)
 
-	// VnetSubnetIDReference
-	if profile.VnetSubnetIDReference != nil {
-		vnetSubnetIDReference := profile.VnetSubnetIDReference.Copy()
-		destination.VnetSubnetIDReference = &vnetSubnetIDReference
-	} else {
-		destination.VnetSubnetIDReference = nil
-	}
+	// VnetSubnetID
+	destination.VnetSubnetID = genruntime.ClonePointerToString(profile.VnetSubnetID)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -11088,8 +11051,8 @@ func (info *ManagedClusterPodIdentity_StatusProvisioningInfo) AssignPropertiesTo
 }
 
 type ResourceReference struct {
-	//Reference: The fully qualified Azure resource id.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	//Id: The fully qualified Azure resource id.
+	Id *string `json:"id,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ResourceReference{}
@@ -11102,13 +11065,9 @@ func (reference *ResourceReference) ConvertToARM(resolved genruntime.ConvertToAR
 	var result ResourceReferenceARM
 
 	// Set property ‘Id’:
-	if reference.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*reference.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference1 := referenceARMID
-		result.Id = &reference1
+	if reference.Id != nil {
+		id := *reference.Id
+		result.Id = &id
 	}
 	return result, nil
 }
@@ -11120,12 +11079,16 @@ func (reference *ResourceReference) NewEmptyARMValue() genruntime.ARMResourceSta
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (reference *ResourceReference) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(ResourceReferenceARM)
+	typedInput, ok := armInput.(ResourceReferenceARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceReferenceARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		reference.Id = &id
+	}
 
 	// No error
 	return nil
@@ -11134,13 +11097,8 @@ func (reference *ResourceReference) PopulateFromARM(owner genruntime.ArbitraryOw
 // AssignPropertiesFromResourceReference populates our ResourceReference from the provided source ResourceReference
 func (reference *ResourceReference) AssignPropertiesFromResourceReference(source *v1alpha1api20210501storage.ResourceReference) error {
 
-	// Reference
-	if source.Reference != nil {
-		referenceTemp := source.Reference.Copy()
-		reference.Reference = &referenceTemp
-	} else {
-		reference.Reference = nil
-	}
+	// Id
+	reference.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
@@ -11151,13 +11109,8 @@ func (reference *ResourceReference) AssignPropertiesToResourceReference(destinat
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Reference
-	if reference.Reference != nil {
-		referenceTemp := reference.Reference.Copy()
-		destination.Reference = &referenceTemp
-	} else {
-		destination.Reference = nil
-	}
+	// Id
+	destination.Id = genruntime.ClonePointerToString(reference.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -11235,8 +11188,8 @@ type UserAssignedIdentity struct {
 	//ObjectId: The object ID of the user assigned identity.
 	ObjectId *string `json:"objectId,omitempty"`
 
-	//ResourceReference: The resource ID of the user assigned identity.
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+	//ResourceId: The resource ID of the user assigned identity.
+	ResourceId *string `json:"resourceId,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &UserAssignedIdentity{}
@@ -11261,13 +11214,9 @@ func (identity *UserAssignedIdentity) ConvertToARM(resolved genruntime.ConvertTo
 	}
 
 	// Set property ‘ResourceId’:
-	if identity.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*identity.ResourceReference)
-		if err != nil {
-			return nil, err
-		}
-		resourceReference := resourceReferenceARMID
-		result.ResourceId = &resourceReference
+	if identity.ResourceId != nil {
+		resourceId := *identity.ResourceId
+		result.ResourceId = &resourceId
 	}
 	return result, nil
 }
@@ -11296,7 +11245,11 @@ func (identity *UserAssignedIdentity) PopulateFromARM(owner genruntime.Arbitrary
 		identity.ObjectId = &objectId
 	}
 
-	// no assignment for property ‘ResourceReference’
+	// Set property ‘ResourceId’:
+	if typedInput.ResourceId != nil {
+		resourceId := *typedInput.ResourceId
+		identity.ResourceId = &resourceId
+	}
 
 	// No error
 	return nil
@@ -11311,13 +11264,8 @@ func (identity *UserAssignedIdentity) AssignPropertiesFromUserAssignedIdentity(s
 	// ObjectId
 	identity.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
 
-	// ResourceReference
-	if source.ResourceReference != nil {
-		resourceReference := source.ResourceReference.Copy()
-		identity.ResourceReference = &resourceReference
-	} else {
-		identity.ResourceReference = nil
-	}
+	// ResourceId
+	identity.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
 
 	// No error
 	return nil
@@ -11334,13 +11282,8 @@ func (identity *UserAssignedIdentity) AssignPropertiesToUserAssignedIdentity(des
 	// ObjectId
 	destination.ObjectId = genruntime.ClonePointerToString(identity.ObjectId)
 
-	// ResourceReference
-	if identity.ResourceReference != nil {
-		resourceReference := identity.ResourceReference.Copy()
-		destination.ResourceReference = &resourceReference
-	} else {
-		destination.ResourceReference = nil
-	}
+	// ResourceId
+	destination.ResourceId = genruntime.ClonePointerToString(identity.ResourceId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

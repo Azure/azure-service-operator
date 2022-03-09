@@ -231,17 +231,14 @@ type CaptureDescription_Status struct {
 
 //Storage version of v1alpha1api20211101.Destination
 type Destination struct {
-	ArchiveNameFormat      *string                `json:"archiveNameFormat,omitempty"`
-	BlobContainer          *string                `json:"blobContainer,omitempty"`
-	DataLakeAccountName    *string                `json:"dataLakeAccountName,omitempty"`
-	DataLakeFolderPath     *string                `json:"dataLakeFolderPath,omitempty"`
-	DataLakeSubscriptionId *string                `json:"dataLakeSubscriptionId,omitempty"`
-	Name                   *string                `json:"name,omitempty"`
-	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//StorageAccountResourceReference: Resource id of the storage account to be used
-	//to create the blobs
-	StorageAccountResourceReference *genruntime.ResourceReference `armReference:"StorageAccountResourceId" json:"storageAccountResourceReference,omitempty"`
+	ArchiveNameFormat        *string                `json:"archiveNameFormat,omitempty"`
+	BlobContainer            *string                `json:"blobContainer,omitempty"`
+	DataLakeAccountName      *string                `json:"dataLakeAccountName,omitempty"`
+	DataLakeFolderPath       *string                `json:"dataLakeFolderPath,omitempty"`
+	DataLakeSubscriptionId   *string                `json:"dataLakeSubscriptionId,omitempty"`
+	Name                     *string                `json:"name,omitempty"`
+	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	StorageAccountResourceId *string                `json:"storageAccountResourceId,omitempty"`
 }
 
 //Storage version of v1alpha1api20211101.Destination_Status

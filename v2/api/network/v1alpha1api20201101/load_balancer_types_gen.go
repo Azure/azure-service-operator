@@ -331,6 +331,9 @@ type LoadBalancer_Spec struct {
 	//the load balancer.
 	FrontendIPConfigurations []FrontendIPConfiguration `json:"frontendIPConfigurations,omitempty"`
 
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
 	//InboundNatPools: Defines an external port range for inbound NAT to a single
 	//backend port on NICs associated with a load balancer. Inbound NAT rules are
 	//created automatically for each NIC associated with the Load Balancer using an
@@ -365,9 +368,6 @@ type LoadBalancer_Spec struct {
 	//Probes: Collection of probe objects used in the load balancer.
 	Probes []Probe `json:"probes,omitempty"`
 
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-
 	//Sku: The load balancer SKU.
 	Sku *LoadBalancerSku `json:"sku,omitempty"`
 
@@ -398,13 +398,9 @@ func (balancer *LoadBalancer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 
 	// Set property ‘Id’:
-	if balancer.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*balancer.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if balancer.Id != nil {
+		id := *balancer.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Location’:
@@ -548,6 +544,12 @@ func (balancer *LoadBalancer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		balancer.Id = &id
+	}
+
 	// Set property ‘InboundNatPools’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -623,8 +625,6 @@ func (balancer *LoadBalancer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			balancer.Probes = append(balancer.Probes, item1)
 		}
 	}
-
-	// no assignment for property ‘Reference’
 
 	// Set property ‘Sku’:
 	if typedInput.Sku != nil {
@@ -753,6 +753,9 @@ func (balancer *LoadBalancer_Spec) AssignPropertiesFromLoadBalancer_Spec(source 
 		balancer.FrontendIPConfigurations = nil
 	}
 
+	// Id
+	balancer.Id = genruntime.ClonePointerToString(source.Id)
+
 	// InboundNatPools
 	if source.InboundNatPools != nil {
 		inboundNatPoolList := make([]InboundNatPool, len(source.InboundNatPools))
@@ -849,14 +852,6 @@ func (balancer *LoadBalancer_Spec) AssignPropertiesFromLoadBalancer_Spec(source 
 		balancer.Probes = nil
 	}
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		balancer.Reference = &reference
-	} else {
-		balancer.Reference = nil
-	}
-
 	// Sku
 	if source.Sku != nil {
 		var sku LoadBalancerSku
@@ -931,6 +926,9 @@ func (balancer *LoadBalancer_Spec) AssignPropertiesToLoadBalancer_Spec(destinati
 	} else {
 		destination.FrontendIPConfigurations = nil
 	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(balancer.Id)
 
 	// InboundNatPools
 	if balancer.InboundNatPools != nil {
@@ -1029,14 +1027,6 @@ func (balancer *LoadBalancer_Spec) AssignPropertiesToLoadBalancer_Spec(destinati
 		destination.Probes = probeList
 	} else {
 		destination.Probes = nil
-	}
-
-	// Reference
-	if balancer.Reference != nil {
-		reference := balancer.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// Sku
@@ -1760,8 +1750,8 @@ func (balancer *LoadBalancer_Status) AssignPropertiesToLoadBalancer_Status(desti
 }
 
 type BackendAddressPool struct {
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &BackendAddressPool{}
@@ -1774,13 +1764,9 @@ func (pool *BackendAddressPool) ConvertToARM(resolved genruntime.ConvertToARMRes
 	var result BackendAddressPoolARM
 
 	// Set property ‘Id’:
-	if pool.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*pool.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if pool.Id != nil {
+		id := *pool.Id
+		result.Id = &id
 	}
 	return result, nil
 }
@@ -1792,12 +1778,16 @@ func (pool *BackendAddressPool) NewEmptyARMValue() genruntime.ARMResourceStatus 
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (pool *BackendAddressPool) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(BackendAddressPoolARM)
+	typedInput, ok := armInput.(BackendAddressPoolARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendAddressPoolARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		pool.Id = &id
+	}
 
 	// No error
 	return nil
@@ -1806,13 +1796,8 @@ func (pool *BackendAddressPool) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 // AssignPropertiesFromBackendAddressPool populates our BackendAddressPool from the provided source BackendAddressPool
 func (pool *BackendAddressPool) AssignPropertiesFromBackendAddressPool(source *v1alpha1api20201101storage.BackendAddressPool) error {
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		pool.Reference = &reference
-	} else {
-		pool.Reference = nil
-	}
+	// Id
+	pool.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
@@ -1823,13 +1808,8 @@ func (pool *BackendAddressPool) AssignPropertiesToBackendAddressPool(destination
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Reference
-	if pool.Reference != nil {
-		reference := pool.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
+	// Id
+	destination.Id = genruntime.ClonePointerToString(pool.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2062,6 +2042,9 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocation_Stat
 }
 
 type FrontendIPConfiguration struct {
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
 	//Name: The name of the resource that is unique within the set of frontend IP
 	//configurations used by the load balancer. This name can be used to access the
 	//resource.
@@ -2083,9 +2066,6 @@ type FrontendIPConfiguration struct {
 	//PublicIPPrefix: The reference to the Public IP Prefix resource.
 	PublicIPPrefix *SubResource `json:"publicIPPrefix,omitempty"`
 
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-
 	//Subnet: The reference to the subnet resource.
 	Subnet *genruntime.ResourceReference `json:"subnet,omitempty"`
 
@@ -2104,13 +2084,9 @@ func (configuration *FrontendIPConfiguration) ConvertToARM(resolved genruntime.C
 	var result FrontendIPConfigurationARM
 
 	// Set property ‘Id’:
-	if configuration.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*configuration.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if configuration.Id != nil {
+		id := *configuration.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Name’:
@@ -2184,6 +2160,12 @@ func (configuration *FrontendIPConfiguration) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FrontendIPConfigurationARM, got %T", armInput)
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		configuration.Id = &id
+	}
+
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
@@ -2245,8 +2227,6 @@ func (configuration *FrontendIPConfiguration) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// no assignment for property ‘Reference’
-
 	// no assignment for property ‘Subnet’
 
 	// Set property ‘Zones’:
@@ -2260,6 +2240,9 @@ func (configuration *FrontendIPConfiguration) PopulateFromARM(owner genruntime.A
 
 // AssignPropertiesFromFrontendIPConfiguration populates our FrontendIPConfiguration from the provided source FrontendIPConfiguration
 func (configuration *FrontendIPConfiguration) AssignPropertiesFromFrontendIPConfiguration(source *v1alpha1api20201101storage.FrontendIPConfiguration) error {
+
+	// Id
+	configuration.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Name
 	configuration.Name = genruntime.ClonePointerToString(source.Name)
@@ -2307,14 +2290,6 @@ func (configuration *FrontendIPConfiguration) AssignPropertiesFromFrontendIPConf
 		configuration.PublicIPPrefix = nil
 	}
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		configuration.Reference = &reference
-	} else {
-		configuration.Reference = nil
-	}
-
 	// Subnet
 	if source.Subnet != nil {
 		subnet := source.Subnet.Copy()
@@ -2334,6 +2309,9 @@ func (configuration *FrontendIPConfiguration) AssignPropertiesFromFrontendIPConf
 func (configuration *FrontendIPConfiguration) AssignPropertiesToFrontendIPConfiguration(destination *v1alpha1api20201101storage.FrontendIPConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(configuration.Id)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(configuration.Name)
@@ -2379,14 +2357,6 @@ func (configuration *FrontendIPConfiguration) AssignPropertiesToFrontendIPConfig
 		destination.PublicIPPrefix = &publicIPPrefix
 	} else {
 		destination.PublicIPPrefix = nil
-	}
-
-	// Reference
-	if configuration.Reference != nil {
-		reference := configuration.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// Subnet
@@ -2969,6 +2939,9 @@ type InboundNatPool struct {
 	//balancer. Acceptable values range between 1 and 65534.
 	FrontendPortRangeStart *int `json:"frontendPortRangeStart,omitempty"`
 
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
 	//IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be
 	//set between 4 and 30 minutes. The default value is 4 minutes. This element is
 	//only used when the protocol is set to TCP.
@@ -2980,9 +2953,6 @@ type InboundNatPool struct {
 
 	//Protocol: The reference to the transport protocol used by the inbound NAT pool.
 	Protocol *TransportProtocol `json:"protocol,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &InboundNatPool{}
@@ -2995,13 +2965,9 @@ func (pool *InboundNatPool) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	var result InboundNatPoolARM
 
 	// Set property ‘Id’:
-	if pool.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*pool.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if pool.Id != nil {
+		id := *pool.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Name’:
@@ -3118,6 +3084,12 @@ func (pool *InboundNatPool) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		pool.FrontendPortRangeStart = &typedInput.Properties.FrontendPortRangeStart
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		pool.Id = &id
+	}
+
 	// Set property ‘IdleTimeoutInMinutes’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -3138,8 +3110,6 @@ func (pool *InboundNatPool) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	if typedInput.Properties != nil {
 		pool.Protocol = &typedInput.Properties.Protocol
 	}
-
-	// no assignment for property ‘Reference’
 
 	// No error
 	return nil
@@ -3185,6 +3155,9 @@ func (pool *InboundNatPool) AssignPropertiesFromInboundNatPool(source *v1alpha1a
 	// FrontendPortRangeStart
 	pool.FrontendPortRangeStart = genruntime.ClonePointerToInt(source.FrontendPortRangeStart)
 
+	// Id
+	pool.Id = genruntime.ClonePointerToString(source.Id)
+
 	// IdleTimeoutInMinutes
 	pool.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
 
@@ -3197,14 +3170,6 @@ func (pool *InboundNatPool) AssignPropertiesFromInboundNatPool(source *v1alpha1a
 		pool.Protocol = &protocol
 	} else {
 		pool.Protocol = nil
-	}
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		pool.Reference = &reference
-	} else {
-		pool.Reference = nil
 	}
 
 	// No error
@@ -3253,6 +3218,9 @@ func (pool *InboundNatPool) AssignPropertiesToInboundNatPool(destination *v1alph
 	// FrontendPortRangeStart
 	destination.FrontendPortRangeStart = genruntime.ClonePointerToInt(pool.FrontendPortRangeStart)
 
+	// Id
+	destination.Id = genruntime.ClonePointerToString(pool.Id)
+
 	// IdleTimeoutInMinutes
 	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(pool.IdleTimeoutInMinutes)
 
@@ -3265,14 +3233,6 @@ func (pool *InboundNatPool) AssignPropertiesToInboundNatPool(destination *v1alph
 		destination.Protocol = &protocol
 	} else {
 		destination.Protocol = nil
-	}
-
-	// Reference
-	if pool.Reference != nil {
-		reference := pool.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// Update the property bag
@@ -3596,8 +3556,8 @@ func (pool *InboundNatPool_Status) AssignPropertiesToInboundNatPool_Status(desti
 }
 
 type InboundNatRule struct {
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &InboundNatRule{}
@@ -3610,13 +3570,9 @@ func (rule *InboundNatRule) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	var result InboundNatRuleARM
 
 	// Set property ‘Id’:
-	if rule.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*rule.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if rule.Id != nil {
+		id := *rule.Id
+		result.Id = &id
 	}
 	return result, nil
 }
@@ -3628,12 +3584,16 @@ func (rule *InboundNatRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *InboundNatRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(InboundNatRuleARM)
+	typedInput, ok := armInput.(InboundNatRuleARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundNatRuleARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		rule.Id = &id
+	}
 
 	// No error
 	return nil
@@ -3642,13 +3602,8 @@ func (rule *InboundNatRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 // AssignPropertiesFromInboundNatRule populates our InboundNatRule from the provided source InboundNatRule
 func (rule *InboundNatRule) AssignPropertiesFromInboundNatRule(source *v1alpha1api20201101storage.InboundNatRule) error {
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		rule.Reference = &reference
-	} else {
-		rule.Reference = nil
-	}
+	// Id
+	rule.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
@@ -3659,13 +3614,8 @@ func (rule *InboundNatRule) AssignPropertiesToInboundNatRule(destination *v1alph
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Reference
-	if rule.Reference != nil {
-		reference := rule.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
+	// Id
+	destination.Id = genruntime.ClonePointerToString(rule.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3955,6 +3905,9 @@ type LoadBalancingRule struct {
 	//65534. Note that value 0 enables "Any Port".
 	FrontendPort *int `json:"frontendPort,omitempty"`
 
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
 	//IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be
 	//set between 4 and 30 minutes. The default value is 4 minutes. This element is
 	//only used when the protocol is set to TCP.
@@ -3973,9 +3926,6 @@ type LoadBalancingRule struct {
 	//Protocol: The reference to the transport protocol used by the load balancing
 	//rule.
 	Protocol *TransportProtocol `json:"protocol,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &LoadBalancingRule{}
@@ -3988,13 +3938,9 @@ func (rule *LoadBalancingRule) ConvertToARM(resolved genruntime.ConvertToARMReso
 	var result LoadBalancingRuleARM
 
 	// Set property ‘Id’:
-	if rule.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*rule.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if rule.Id != nil {
+		id := *rule.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Name’:
@@ -4156,6 +4102,12 @@ func (rule *LoadBalancingRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		rule.FrontendPort = &typedInput.Properties.FrontendPort
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		rule.Id = &id
+	}
+
 	// Set property ‘IdleTimeoutInMinutes’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -4199,8 +4151,6 @@ func (rule *LoadBalancingRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	if typedInput.Properties != nil {
 		rule.Protocol = &typedInput.Properties.Protocol
 	}
-
-	// no assignment for property ‘Reference’
 
 	// No error
 	return nil
@@ -4263,6 +4213,9 @@ func (rule *LoadBalancingRule) AssignPropertiesFromLoadBalancingRule(source *v1a
 	// FrontendPort
 	rule.FrontendPort = genruntime.ClonePointerToInt(source.FrontendPort)
 
+	// Id
+	rule.Id = genruntime.ClonePointerToString(source.Id)
+
 	// IdleTimeoutInMinutes
 	rule.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
 
@@ -4295,14 +4248,6 @@ func (rule *LoadBalancingRule) AssignPropertiesFromLoadBalancingRule(source *v1a
 		rule.Protocol = &protocol
 	} else {
 		rule.Protocol = nil
-	}
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		rule.Reference = &reference
-	} else {
-		rule.Reference = nil
 	}
 
 	// No error
@@ -4368,6 +4313,9 @@ func (rule *LoadBalancingRule) AssignPropertiesToLoadBalancingRule(destination *
 	// FrontendPort
 	destination.FrontendPort = genruntime.ClonePointerToInt(rule.FrontendPort)
 
+	// Id
+	destination.Id = genruntime.ClonePointerToString(rule.Id)
+
 	// IdleTimeoutInMinutes
 	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(rule.IdleTimeoutInMinutes)
 
@@ -4400,14 +4348,6 @@ func (rule *LoadBalancingRule) AssignPropertiesToLoadBalancingRule(destination *
 		destination.Protocol = &protocol
 	} else {
 		destination.Protocol = nil
-	}
-
-	// Reference
-	if rule.Reference != nil {
-		reference := rule.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// Update the property bag
@@ -4863,6 +4803,9 @@ type OutboundRule struct {
 	//FrontendIPConfigurations: The Frontend IP addresses of the load balancer.
 	FrontendIPConfigurations []SubResource `json:"frontendIPConfigurations,omitempty"`
 
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
 	//IdleTimeoutInMinutes: The timeout for the TCP idle connection.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
@@ -4872,9 +4815,6 @@ type OutboundRule struct {
 
 	//Protocol: The protocol for the outbound rule in load balancer.
 	Protocol *OutboundRulePropertiesFormatProtocol `json:"protocol,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &OutboundRule{}
@@ -4887,13 +4827,9 @@ func (rule *OutboundRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	var result OutboundRuleARM
 
 	// Set property ‘Id’:
-	if rule.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*rule.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if rule.Id != nil {
+		id := *rule.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Name’:
@@ -4999,6 +4935,12 @@ func (rule *OutboundRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		}
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		rule.Id = &id
+	}
+
 	// Set property ‘IdleTimeoutInMinutes’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -5019,8 +4961,6 @@ func (rule *OutboundRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 	if typedInput.Properties != nil {
 		rule.Protocol = &typedInput.Properties.Protocol
 	}
-
-	// no assignment for property ‘Reference’
 
 	// No error
 	return nil
@@ -5070,6 +5010,9 @@ func (rule *OutboundRule) AssignPropertiesFromOutboundRule(source *v1alpha1api20
 		rule.FrontendIPConfigurations = nil
 	}
 
+	// Id
+	rule.Id = genruntime.ClonePointerToString(source.Id)
+
 	// IdleTimeoutInMinutes
 	rule.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
 
@@ -5082,14 +5025,6 @@ func (rule *OutboundRule) AssignPropertiesFromOutboundRule(source *v1alpha1api20
 		rule.Protocol = &protocol
 	} else {
 		rule.Protocol = nil
-	}
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		rule.Reference = &reference
-	} else {
-		rule.Reference = nil
 	}
 
 	// No error
@@ -5142,6 +5077,9 @@ func (rule *OutboundRule) AssignPropertiesToOutboundRule(destination *v1alpha1ap
 		destination.FrontendIPConfigurations = nil
 	}
 
+	// Id
+	destination.Id = genruntime.ClonePointerToString(rule.Id)
+
 	// IdleTimeoutInMinutes
 	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(rule.IdleTimeoutInMinutes)
 
@@ -5154,14 +5092,6 @@ func (rule *OutboundRule) AssignPropertiesToOutboundRule(destination *v1alpha1ap
 		destination.Protocol = &protocol
 	} else {
 		destination.Protocol = nil
-	}
-
-	// Reference
-	if rule.Reference != nil {
-		reference := rule.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// Update the property bag
@@ -5472,6 +5402,9 @@ func (rule *OutboundRule_Status) AssignPropertiesToOutboundRule_Status(destinati
 }
 
 type Probe struct {
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
 	//IntervalInSeconds: The interval, in seconds, for how frequently to probe the
 	//endpoint for health status. Typically, the interval is slightly less than half
 	//the allocated timeout period (in seconds) which allows two full probes before
@@ -5499,9 +5432,6 @@ type Probe struct {
 	//successful.
 	Protocol *ProbePropertiesFormatProtocol `json:"protocol,omitempty"`
 
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-
 	//RequestPath: The URI used for requesting health status from the VM. Path is
 	//required if a protocol is set to http. Otherwise, it is not allowed. There is no
 	//default value.
@@ -5518,13 +5448,9 @@ func (probe *Probe) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	var result ProbeARM
 
 	// Set property ‘Id’:
-	if probe.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*probe.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if probe.Id != nil {
+		id := *probe.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Name’:
@@ -5574,6 +5500,12 @@ func (probe *Probe) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ProbeARM, got %T", armInput)
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		probe.Id = &id
+	}
+
 	// Set property ‘IntervalInSeconds’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -5610,8 +5542,6 @@ func (probe *Probe) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 		probe.Protocol = &typedInput.Properties.Protocol
 	}
 
-	// no assignment for property ‘Reference’
-
 	// Set property ‘RequestPath’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -5627,6 +5557,9 @@ func (probe *Probe) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 
 // AssignPropertiesFromProbe populates our Probe from the provided source Probe
 func (probe *Probe) AssignPropertiesFromProbe(source *v1alpha1api20201101storage.Probe) error {
+
+	// Id
+	probe.Id = genruntime.ClonePointerToString(source.Id)
 
 	// IntervalInSeconds
 	probe.IntervalInSeconds = genruntime.ClonePointerToInt(source.IntervalInSeconds)
@@ -5648,14 +5581,6 @@ func (probe *Probe) AssignPropertiesFromProbe(source *v1alpha1api20201101storage
 		probe.Protocol = nil
 	}
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		probe.Reference = &reference
-	} else {
-		probe.Reference = nil
-	}
-
 	// RequestPath
 	probe.RequestPath = genruntime.ClonePointerToString(source.RequestPath)
 
@@ -5667,6 +5592,9 @@ func (probe *Probe) AssignPropertiesFromProbe(source *v1alpha1api20201101storage
 func (probe *Probe) AssignPropertiesToProbe(destination *v1alpha1api20201101storage.Probe) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(probe.Id)
 
 	// IntervalInSeconds
 	destination.IntervalInSeconds = genruntime.ClonePointerToInt(probe.IntervalInSeconds)
@@ -5686,14 +5614,6 @@ func (probe *Probe) AssignPropertiesToProbe(destination *v1alpha1api20201101stor
 		destination.Protocol = &protocol
 	} else {
 		destination.Protocol = nil
-	}
-
-	// Reference
-	if probe.Reference != nil {
-		reference := probe.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// RequestPath
@@ -6019,6 +5939,9 @@ type PublicIPAddressSpec struct {
 	//ExtendedLocation: The extended location of the public ip address.
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
 	//IdleTimeoutInMinutes: The idle timeout of the public IP address.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
@@ -6050,9 +5973,6 @@ type PublicIPAddressSpec struct {
 	//PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated
 	//from.
 	PublicIPPrefix *SubResource `json:"publicIPPrefix,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	//ServicePublicIPAddress: The service public IP address of the public IP address
 	//resource.
@@ -6089,13 +6009,9 @@ func (address *PublicIPAddressSpec) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 
 	// Set property ‘Id’:
-	if address.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*address.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if address.Id != nil {
+		id := *address.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Location’:
@@ -6271,6 +6187,12 @@ func (address *PublicIPAddressSpec) PopulateFromARM(owner genruntime.ArbitraryOw
 		address.ExtendedLocation = &extendedLocation
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		address.Id = &id
+	}
+
 	// Set property ‘IdleTimeoutInMinutes’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -6377,8 +6299,6 @@ func (address *PublicIPAddressSpec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// no assignment for property ‘Reference’
-
 	// Set property ‘ServicePublicIPAddress’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -6459,6 +6379,9 @@ func (address *PublicIPAddressSpec) AssignPropertiesFromPublicIPAddressSpec(sour
 	} else {
 		address.ExtendedLocation = nil
 	}
+
+	// Id
+	address.Id = genruntime.ClonePointerToString(source.Id)
 
 	// IdleTimeoutInMinutes
 	address.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
@@ -6547,14 +6470,6 @@ func (address *PublicIPAddressSpec) AssignPropertiesFromPublicIPAddressSpec(sour
 		address.PublicIPPrefix = nil
 	}
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		address.Reference = &reference
-	} else {
-		address.Reference = nil
-	}
-
 	// ServicePublicIPAddress
 	if source.ServicePublicIPAddress != nil {
 		var servicePublicIPAddress PublicIPAddressSpec
@@ -6629,6 +6544,9 @@ func (address *PublicIPAddressSpec) AssignPropertiesToPublicIPAddressSpec(destin
 	} else {
 		destination.ExtendedLocation = nil
 	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(address.Id)
 
 	// IdleTimeoutInMinutes
 	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(address.IdleTimeoutInMinutes)
@@ -6715,14 +6633,6 @@ func (address *PublicIPAddressSpec) AssignPropertiesToPublicIPAddressSpec(destin
 		destination.PublicIPPrefix = &publicIPPrefix
 	} else {
 		destination.PublicIPPrefix = nil
-	}
-
-	// Reference
-	if address.Reference != nil {
-		reference := address.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// ServicePublicIPAddress

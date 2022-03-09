@@ -207,6 +207,7 @@ type ScaleInPolicyARM struct {
 }
 
 type SubResourceARM struct {
+	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
 }
 
@@ -464,6 +465,8 @@ type VirtualMachineScaleSetStorageProfileARM struct {
 }
 
 type ApiEntityReferenceARM struct {
+	//Id: The ARM resource id in the form of
+	///subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
 	Id *string `json:"id,omitempty"`
 }
 
@@ -522,6 +525,7 @@ type VirtualMachineScaleSetDataDiskARM struct {
 }
 
 type VirtualMachineScaleSetNetworkConfigurationARM struct {
+	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
 	//Name: The network configuration name.
@@ -618,6 +622,7 @@ type VirtualMachineScaleSetNetworkConfigurationPropertiesARM struct {
 }
 
 type VirtualMachineScaleSetIPConfigurationARM struct {
+	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
 	//Name: The IP configuration name.

@@ -2814,9 +2814,15 @@ func SubResourceGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSubResource(generators)
 	subResourceGenerator = gen.Struct(reflect.TypeOf(SubResource{}), generators)
 
 	return subResourceGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSubResource is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSubResource(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_SubResource_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -4188,6 +4194,7 @@ func ImageReferenceGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForImageReference is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImageReference(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Offer"] = gen.PtrOf(gen.AlphaString())
 	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
 	gens["Sku"] = gen.PtrOf(gen.AlphaString())
@@ -4849,6 +4856,7 @@ func NetworkInterfaceReferenceGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkInterfaceReference is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkInterfaceReference(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Primary"] = gen.PtrOf(gen.Bool())
 }
 
@@ -7605,6 +7613,7 @@ func ManagedDiskParametersGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedDiskParameters is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedDiskParameters(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
 		StorageAccountTypePremium_LRS,
 		StorageAccountTypePremium_ZRS,

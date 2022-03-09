@@ -420,11 +420,8 @@ type ActiveDirectoryProperties_Status struct {
 
 //Storage version of v1alpha1api20210401.EncryptionIdentity
 type EncryptionIdentity struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//UserAssignedIdentityReference: Resource identifier of the UserAssigned identity
-	//to be associated with server-side encryption on the storage account.
-	UserAssignedIdentityReference *genruntime.ResourceReference `armReference:"UserAssignedIdentity" json:"userAssignedIdentityReference,omitempty"`
+	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	UserAssignedIdentity *string                `json:"userAssignedIdentity,omitempty"`
 }
 
 //Storage version of v1alpha1api20210401.EncryptionIdentity_Status
@@ -486,10 +483,8 @@ type KeyVaultProperties_Status struct {
 //Storage version of v1alpha1api20210401.ResourceAccessRule
 type ResourceAccessRule struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//ResourceReference: Resource Id
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
-	TenantId          *string                       `json:"tenantId,omitempty"`
+	ResourceId  *string                `json:"resourceId,omitempty"`
+	TenantId    *string                `json:"tenantId,omitempty"`
 }
 
 //Storage version of v1alpha1api20210401.ResourceAccessRule_Status
@@ -509,13 +504,9 @@ type UserAssignedIdentity_Status struct {
 //Storage version of v1alpha1api20210401.VirtualNetworkRule
 type VirtualNetworkRule struct {
 	Action      *string                `json:"action,omitempty"`
+	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// +kubebuilder:validation:Required
-	//Reference: Resource ID of a subnet, for example:
-	///subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
-	Reference genruntime.ResourceReference `armReference:"Id" json:"reference"`
-	State     *string                      `json:"state,omitempty"`
+	State       *string                `json:"state,omitempty"`
 }
 
 //Storage version of v1alpha1api20210401.VirtualNetworkRule_Status

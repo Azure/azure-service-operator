@@ -143,13 +143,10 @@ const APIVersionValue = APIVersion("2020-09-30")
 type Disk_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName       string        `json:"azureName"`
-	BurstingEnabled *bool         `json:"burstingEnabled,omitempty"`
-	CreationData    *CreationData `json:"creationData,omitempty"`
-
-	//DiskAccessReference: ARM id of the DiskAccess resource for using private
-	//endpoints on disks.
-	DiskAccessReference          *genruntime.ResourceReference `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
+	AzureName                    string                        `json:"azureName"`
+	BurstingEnabled              *bool                         `json:"burstingEnabled,omitempty"`
+	CreationData                 *CreationData                 `json:"creationData,omitempty"`
+	DiskAccessId                 *string                       `json:"diskAccessId,omitempty"`
 	DiskIOPSReadOnly             *int                          `json:"diskIOPSReadOnly,omitempty"`
 	DiskIOPSReadWrite            *int                          `json:"diskIOPSReadWrite,omitempty"`
 	DiskMBpsReadOnly             *int                          `json:"diskMBpsReadOnly,omitempty"`
@@ -261,13 +258,10 @@ type CreationData struct {
 	ImageReference        *ImageDiskReference    `json:"imageReference,omitempty"`
 	LogicalSectorSize     *int                   `json:"logicalSectorSize,omitempty"`
 	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//SourceResourceReference: If createOption is Copy, this is the ARM id of the
-	//source snapshot or disk.
-	SourceResourceReference *genruntime.ResourceReference `armReference:"SourceResourceId" json:"sourceResourceReference,omitempty"`
-	SourceUri               *string                       `json:"sourceUri,omitempty"`
-	StorageAccountId        *string                       `json:"storageAccountId,omitempty"`
-	UploadSizeBytes         *int                          `json:"uploadSizeBytes,omitempty"`
+	SourceResourceId      *string                `json:"sourceResourceId,omitempty"`
+	SourceUri             *string                `json:"sourceUri,omitempty"`
+	StorageAccountId      *string                `json:"storageAccountId,omitempty"`
+	UploadSizeBytes       *int                   `json:"uploadSizeBytes,omitempty"`
 }
 
 //Storage version of v1alpha1api20200930.CreationData_Status
@@ -299,11 +293,9 @@ type DiskSku_Status struct {
 
 //Storage version of v1alpha1api20200930.Encryption
 type Encryption struct {
-	//DiskEncryptionSetReference: ResourceId of the disk encryption set to use for
-	//enabling encryption at rest.
-	DiskEncryptionSetReference *genruntime.ResourceReference `armReference:"DiskEncryptionSetId" json:"diskEncryptionSetReference,omitempty"`
-	PropertyBag                genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Type                       *string                       `json:"type,omitempty"`
+	DiskEncryptionSetId *string                `json:"diskEncryptionSetId,omitempty"`
+	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Type                *string                `json:"type,omitempty"`
 }
 
 //Storage version of v1alpha1api20200930.EncryptionSettingsCollection
@@ -471,13 +463,9 @@ type EncryptionSettingsElement_Status struct {
 
 //Storage version of v1alpha1api20200930.ImageDiskReference
 type ImageDiskReference struct {
+	Id          *string                `json:"id,omitempty"`
 	Lun         *int                   `json:"lun,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// +kubebuilder:validation:Required
-	//Reference: A relative uri containing either a Platform Image Repository or user
-	//image reference.
-	Reference genruntime.ResourceReference `armReference:"Id" json:"reference"`
 }
 
 //Storage version of v1alpha1api20200930.ImageDiskReference_Status
@@ -517,10 +505,8 @@ type KeyVaultAndSecretReference_Status struct {
 
 //Storage version of v1alpha1api20200930.SourceVault
 type SourceVault struct {
+	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 //Storage version of v1alpha1api20200930.SourceVault_Status

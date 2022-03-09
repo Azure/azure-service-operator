@@ -317,12 +317,12 @@ type RedisLinkedServer_Spec struct {
 	AzureName string `json:"azureName"`
 
 	// +kubebuilder:validation:Required
-	//LinkedRedisCacheLocation: Location of the linked redis cache.
-	LinkedRedisCacheLocation string `json:"linkedRedisCacheLocation"`
+	//LinkedRedisCacheId: Fully qualified resourceId of the linked redis cache.
+	LinkedRedisCacheId string `json:"linkedRedisCacheId"`
 
 	// +kubebuilder:validation:Required
-	//LinkedRedisCacheReference: Fully qualified resourceId of the linked redis cache.
-	LinkedRedisCacheReference genruntime.ResourceReference `armReference:"LinkedRedisCacheId" json:"linkedRedisCacheReference"`
+	//LinkedRedisCacheLocation: Location of the linked redis cache.
+	LinkedRedisCacheLocation string `json:"linkedRedisCacheLocation"`
 
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
@@ -348,12 +348,8 @@ func (server *RedisLinkedServer_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	result.Properties.LinkedRedisCacheId = server.LinkedRedisCacheId
 	result.Properties.LinkedRedisCacheLocation = server.LinkedRedisCacheLocation
-	linkedRedisCacheIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(server.LinkedRedisCacheReference)
-	if err != nil {
-		return nil, err
-	}
-	result.Properties.LinkedRedisCacheId = linkedRedisCacheIdARMID
 	result.Properties.ServerRole = server.ServerRole
 	return result, nil
 }
@@ -373,11 +369,13 @@ func (server *RedisLinkedServer_Spec) PopulateFromARM(owner genruntime.Arbitrary
 	// Set property ‘AzureName’:
 	server.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
+	// Set property ‘LinkedRedisCacheId’:
+	// copying flattened property:
+	server.LinkedRedisCacheId = typedInput.Properties.LinkedRedisCacheId
+
 	// Set property ‘LinkedRedisCacheLocation’:
 	// copying flattened property:
 	server.LinkedRedisCacheLocation = typedInput.Properties.LinkedRedisCacheLocation
-
-	// no assignment for property ‘LinkedRedisCacheReference’
 
 	// Set property ‘Owner’:
 	server.Owner = genruntime.KnownResourceReference{
@@ -448,11 +446,11 @@ func (server *RedisLinkedServer_Spec) AssignPropertiesFromRedisLinkedServer_Spec
 	// AzureName
 	server.AzureName = source.AzureName
 
+	// LinkedRedisCacheId
+	server.LinkedRedisCacheId = genruntime.GetOptionalStringValue(source.LinkedRedisCacheId)
+
 	// LinkedRedisCacheLocation
 	server.LinkedRedisCacheLocation = genruntime.GetOptionalStringValue(source.LinkedRedisCacheLocation)
-
-	// LinkedRedisCacheReference
-	server.LinkedRedisCacheReference = source.LinkedRedisCacheReference.Copy()
 
 	// Owner
 	server.Owner = source.Owner.Copy()
@@ -476,12 +474,13 @@ func (server *RedisLinkedServer_Spec) AssignPropertiesToRedisLinkedServer_Spec(d
 	// AzureName
 	destination.AzureName = server.AzureName
 
+	// LinkedRedisCacheId
+	linkedRedisCacheId := server.LinkedRedisCacheId
+	destination.LinkedRedisCacheId = &linkedRedisCacheId
+
 	// LinkedRedisCacheLocation
 	linkedRedisCacheLocation := server.LinkedRedisCacheLocation
 	destination.LinkedRedisCacheLocation = &linkedRedisCacheLocation
-
-	// LinkedRedisCacheReference
-	destination.LinkedRedisCacheReference = server.LinkedRedisCacheReference.Copy()
 
 	// OriginalVersion
 	destination.OriginalVersion = server.OriginalVersion()

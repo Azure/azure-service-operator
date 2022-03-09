@@ -1633,9 +1633,9 @@ func (capping *WorkspaceCapping_Status) AssignPropertiesToWorkspaceCapping_Statu
 }
 
 type WorkspaceFeatures struct {
-	//ClusterResourceReference: Dedicated LA cluster resourceId that is linked to the
+	//ClusterResourceId: Dedicated LA cluster resourceId that is linked to the
 	//workspaces.
-	ClusterResourceReference *genruntime.ResourceReference `armReference:"ClusterResourceId" json:"clusterResourceReference,omitempty"`
+	ClusterResourceId *string `json:"clusterResourceId,omitempty"`
 
 	//DisableLocalAuth: Disable Non-AAD based Auth.
 	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
@@ -1662,13 +1662,9 @@ func (features *WorkspaceFeatures) ConvertToARM(resolved genruntime.ConvertToARM
 	var result WorkspaceFeaturesARM
 
 	// Set property ‘ClusterResourceId’:
-	if features.ClusterResourceReference != nil {
-		clusterResourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*features.ClusterResourceReference)
-		if err != nil {
-			return nil, err
-		}
-		clusterResourceReference := clusterResourceReferenceARMID
-		result.ClusterResourceId = &clusterResourceReference
+	if features.ClusterResourceId != nil {
+		clusterResourceId := *features.ClusterResourceId
+		result.ClusterResourceId = &clusterResourceId
 	}
 
 	// Set property ‘DisableLocalAuth’:
@@ -1709,7 +1705,11 @@ func (features *WorkspaceFeatures) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceFeaturesARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘ClusterResourceReference’
+	// Set property ‘ClusterResourceId’:
+	if typedInput.ClusterResourceId != nil {
+		clusterResourceId := *typedInput.ClusterResourceId
+		features.ClusterResourceId = &clusterResourceId
+	}
 
 	// Set property ‘DisableLocalAuth’:
 	if typedInput.DisableLocalAuth != nil {
@@ -1742,13 +1742,8 @@ func (features *WorkspaceFeatures) PopulateFromARM(owner genruntime.ArbitraryOwn
 // AssignPropertiesFromWorkspaceFeatures populates our WorkspaceFeatures from the provided source WorkspaceFeatures
 func (features *WorkspaceFeatures) AssignPropertiesFromWorkspaceFeatures(source *v1alpha1api20210601storage.WorkspaceFeatures) error {
 
-	// ClusterResourceReference
-	if source.ClusterResourceReference != nil {
-		clusterResourceReference := source.ClusterResourceReference.Copy()
-		features.ClusterResourceReference = &clusterResourceReference
-	} else {
-		features.ClusterResourceReference = nil
-	}
+	// ClusterResourceId
+	features.ClusterResourceId = genruntime.ClonePointerToString(source.ClusterResourceId)
 
 	// DisableLocalAuth
 	if source.DisableLocalAuth != nil {
@@ -1791,13 +1786,8 @@ func (features *WorkspaceFeatures) AssignPropertiesToWorkspaceFeatures(destinati
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// ClusterResourceReference
-	if features.ClusterResourceReference != nil {
-		clusterResourceReference := features.ClusterResourceReference.Copy()
-		destination.ClusterResourceReference = &clusterResourceReference
-	} else {
-		destination.ClusterResourceReference = nil
-	}
+	// ClusterResourceId
+	destination.ClusterResourceId = genruntime.ClonePointerToString(features.ClusterResourceId)
 
 	// DisableLocalAuth
 	if features.DisableLocalAuth != nil {

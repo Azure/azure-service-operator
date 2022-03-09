@@ -5448,8 +5448,8 @@ func (profile *StorageProfile_Status) AssignPropertiesToStorageProfile_Status(de
 }
 
 type SubResource struct {
-	//Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	//Id: Resource Id
+	Id *string `json:"id,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SubResource{}
@@ -5462,13 +5462,9 @@ func (resource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	var result SubResourceARM
 
 	// Set property ‘Id’:
-	if resource.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*resource.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if resource.Id != nil {
+		id := *resource.Id
+		result.Id = &id
 	}
 	return result, nil
 }
@@ -5480,12 +5476,16 @@ func (resource *SubResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *SubResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(SubResourceARM)
+	typedInput, ok := armInput.(SubResourceARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResourceARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		resource.Id = &id
+	}
 
 	// No error
 	return nil
@@ -5494,13 +5494,8 @@ func (resource *SubResource) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 // AssignPropertiesFromSubResource populates our SubResource from the provided source SubResource
 func (resource *SubResource) AssignPropertiesFromSubResource(source *v1alpha1api20201201storage.SubResource) error {
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		resource.Reference = &reference
-	} else {
-		resource.Reference = nil
-	}
+	// Id
+	resource.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
@@ -5511,13 +5506,8 @@ func (resource *SubResource) AssignPropertiesToSubResource(destination *v1alpha1
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Reference
-	if resource.Reference != nil {
-		reference := resource.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
+	// Id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -8153,15 +8143,15 @@ const (
 )
 
 type ImageReference struct {
+	//Id: Resource Id
+	Id *string `json:"id,omitempty"`
+
 	//Offer: Specifies the offer of the platform image or marketplace image used to
 	//create the virtual machine.
 	Offer *string `json:"offer,omitempty"`
 
 	//Publisher: The image publisher.
 	Publisher *string `json:"publisher,omitempty"`
-
-	//Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	//Sku: The image SKU.
 	Sku *string `json:"sku,omitempty"`
@@ -8185,13 +8175,9 @@ func (reference *ImageReference) ConvertToARM(resolved genruntime.ConvertToARMRe
 	var result ImageReferenceARM
 
 	// Set property ‘Id’:
-	if reference.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*reference.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference1 := referenceARMID
-		result.Id = &reference1
+	if reference.Id != nil {
+		id := *reference.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Offer’:
@@ -8232,6 +8218,12 @@ func (reference *ImageReference) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageReferenceARM, got %T", armInput)
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		reference.Id = &id
+	}
+
 	// Set property ‘Offer’:
 	if typedInput.Offer != nil {
 		offer := *typedInput.Offer
@@ -8243,8 +8235,6 @@ func (reference *ImageReference) PopulateFromARM(owner genruntime.ArbitraryOwner
 		publisher := *typedInput.Publisher
 		reference.Publisher = &publisher
 	}
-
-	// no assignment for property ‘Reference’
 
 	// Set property ‘Sku’:
 	if typedInput.Sku != nil {
@@ -8265,19 +8255,14 @@ func (reference *ImageReference) PopulateFromARM(owner genruntime.ArbitraryOwner
 // AssignPropertiesFromImageReference populates our ImageReference from the provided source ImageReference
 func (reference *ImageReference) AssignPropertiesFromImageReference(source *v1alpha1api20201201storage.ImageReference) error {
 
+	// Id
+	reference.Id = genruntime.ClonePointerToString(source.Id)
+
 	// Offer
 	reference.Offer = genruntime.ClonePointerToString(source.Offer)
 
 	// Publisher
 	reference.Publisher = genruntime.ClonePointerToString(source.Publisher)
-
-	// Reference
-	if source.Reference != nil {
-		referenceTemp := source.Reference.Copy()
-		reference.Reference = &referenceTemp
-	} else {
-		reference.Reference = nil
-	}
 
 	// Sku
 	reference.Sku = genruntime.ClonePointerToString(source.Sku)
@@ -8294,19 +8279,14 @@ func (reference *ImageReference) AssignPropertiesToImageReference(destination *v
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// Id
+	destination.Id = genruntime.ClonePointerToString(reference.Id)
+
 	// Offer
 	destination.Offer = genruntime.ClonePointerToString(reference.Offer)
 
 	// Publisher
 	destination.Publisher = genruntime.ClonePointerToString(reference.Publisher)
-
-	// Reference
-	if reference.Reference != nil {
-		referenceTemp := reference.Reference.Copy()
-		destination.Reference = &referenceTemp
-	} else {
-		destination.Reference = nil
-	}
 
 	// Sku
 	destination.Sku = genruntime.ClonePointerToString(reference.Sku)
@@ -9136,12 +9116,12 @@ func (redeploy *MaintenanceRedeployStatus_Status) AssignPropertiesToMaintenanceR
 }
 
 type NetworkInterfaceReference struct {
+	//Id: Resource Id
+	Id *string `json:"id,omitempty"`
+
 	//Primary: Specifies the primary network interface in case the virtual machine has
 	//more than 1 network interface.
 	Primary *bool `json:"primary,omitempty"`
-
-	//Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NetworkInterfaceReference{}
@@ -9154,13 +9134,9 @@ func (reference *NetworkInterfaceReference) ConvertToARM(resolved genruntime.Con
 	var result NetworkInterfaceReferenceARM
 
 	// Set property ‘Id’:
-	if reference.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*reference.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference1 := referenceARMID
-		result.Id = &reference1
+	if reference.Id != nil {
+		id := *reference.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Properties’:
@@ -9186,6 +9162,12 @@ func (reference *NetworkInterfaceReference) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkInterfaceReferenceARM, got %T", armInput)
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		reference.Id = &id
+	}
+
 	// Set property ‘Primary’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -9195,8 +9177,6 @@ func (reference *NetworkInterfaceReference) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// no assignment for property ‘Reference’
-
 	// No error
 	return nil
 }
@@ -9204,20 +9184,15 @@ func (reference *NetworkInterfaceReference) PopulateFromARM(owner genruntime.Arb
 // AssignPropertiesFromNetworkInterfaceReference populates our NetworkInterfaceReference from the provided source NetworkInterfaceReference
 func (reference *NetworkInterfaceReference) AssignPropertiesFromNetworkInterfaceReference(source *v1alpha1api20201201storage.NetworkInterfaceReference) error {
 
+	// Id
+	reference.Id = genruntime.ClonePointerToString(source.Id)
+
 	// Primary
 	if source.Primary != nil {
 		primary := *source.Primary
 		reference.Primary = &primary
 	} else {
 		reference.Primary = nil
-	}
-
-	// Reference
-	if source.Reference != nil {
-		referenceTemp := source.Reference.Copy()
-		reference.Reference = &referenceTemp
-	} else {
-		reference.Reference = nil
 	}
 
 	// No error
@@ -9229,20 +9204,15 @@ func (reference *NetworkInterfaceReference) AssignPropertiesToNetworkInterfaceRe
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// Id
+	destination.Id = genruntime.ClonePointerToString(reference.Id)
+
 	// Primary
 	if reference.Primary != nil {
 		primary := *reference.Primary
 		destination.Primary = &primary
 	} else {
 		destination.Primary = nil
-	}
-
-	// Reference
-	if reference.Reference != nil {
-		referenceTemp := reference.Reference.Copy()
-		destination.Reference = &referenceTemp
-	} else {
-		destination.Reference = nil
 	}
 
 	// Update the property bag
@@ -13338,8 +13308,8 @@ type ManagedDiskParameters struct {
 	//id for the managed disk.
 	DiskEncryptionSet *SubResource `json:"diskEncryptionSet,omitempty"`
 
-	//Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	//Id: Resource Id
+	Id *string `json:"id,omitempty"`
 
 	//StorageAccountType: Specifies the storage account type for the managed disk.
 	//Managed OS disk storage account type can only be set when you create the scale
@@ -13368,13 +13338,9 @@ func (parameters *ManagedDiskParameters) ConvertToARM(resolved genruntime.Conver
 	}
 
 	// Set property ‘Id’:
-	if parameters.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*parameters.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if parameters.Id != nil {
+		id := *parameters.Id
+		result.Id = &id
 	}
 
 	// Set property ‘StorageAccountType’:
@@ -13408,7 +13374,11 @@ func (parameters *ManagedDiskParameters) PopulateFromARM(owner genruntime.Arbitr
 		parameters.DiskEncryptionSet = &diskEncryptionSet
 	}
 
-	// no assignment for property ‘Reference’
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		parameters.Id = &id
+	}
 
 	// Set property ‘StorageAccountType’:
 	if typedInput.StorageAccountType != nil {
@@ -13435,13 +13405,8 @@ func (parameters *ManagedDiskParameters) AssignPropertiesFromManagedDiskParamete
 		parameters.DiskEncryptionSet = nil
 	}
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		parameters.Reference = &reference
-	} else {
-		parameters.Reference = nil
-	}
+	// Id
+	parameters.Id = genruntime.ClonePointerToString(source.Id)
 
 	// StorageAccountType
 	if source.StorageAccountType != nil {
@@ -13472,13 +13437,8 @@ func (parameters *ManagedDiskParameters) AssignPropertiesToManagedDiskParameters
 		destination.DiskEncryptionSet = nil
 	}
 
-	// Reference
-	if parameters.Reference != nil {
-		reference := parameters.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
+	// Id
+	destination.Id = genruntime.ClonePointerToString(parameters.Id)
 
 	// StorageAccountType
 	if parameters.StorageAccountType != nil {

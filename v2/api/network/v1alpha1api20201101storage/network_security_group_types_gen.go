@@ -138,17 +138,15 @@ type NetworkSecurityGroup_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName       string  `json:"azureName"`
+	Id              *string `json:"id,omitempty"`
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
-	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-
-	//Reference: Resource ID.
-	Reference     *genruntime.ResourceReference  `armReference:"Id" json:"reference,omitempty"`
-	SecurityRules []genruntime.ResourceReference `json:"securityRules,omitempty"`
-	Tags          map[string]string              `json:"tags,omitempty"`
+	Owner         genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	PropertyBag   genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	SecurityRules []genruntime.ResourceReference    `json:"securityRules,omitempty"`
+	Tags          map[string]string                 `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &NetworkSecurityGroup_Spec{}

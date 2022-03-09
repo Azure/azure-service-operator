@@ -825,9 +825,9 @@ func (in *EncryptionIdentity) DeepCopyInto(out *EncryptionIdentity) {
 			(*out)[key] = val
 		}
 	}
-	if in.UserAssignedIdentityReference != nil {
-		in, out := &in.UserAssignedIdentityReference, &out.UserAssignedIdentityReference
-		*out = new(genruntime.ResourceReference)
+	if in.UserAssignedIdentity != nil {
+		in, out := &in.UserAssignedIdentity, &out.UserAssignedIdentity
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -1802,9 +1802,9 @@ func (in *ResourceAccessRule) DeepCopyInto(out *ResourceAccessRule) {
 			(*out)[key] = val
 		}
 	}
-	if in.ResourceReference != nil {
-		in, out := &in.ResourceReference, &out.ResourceReference
-		*out = new(genruntime.ResourceReference)
+	if in.ResourceId != nil {
+		in, out := &in.ResourceId, &out.ResourceId
+		*out = new(string)
 		**out = **in
 	}
 	if in.TenantId != nil {
@@ -3074,6 +3074,11 @@ func (in *VirtualNetworkRule) DeepCopyInto(out *VirtualNetworkRule) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Id != nil {
+		in, out := &in.Id, &out.Id
+		*out = new(string)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -3081,7 +3086,6 @@ func (in *VirtualNetworkRule) DeepCopyInto(out *VirtualNetworkRule) {
 			(*out)[key] = val
 		}
 	}
-	out.Reference = in.Reference
 	if in.State != nil {
 		in, out := &in.State, &out.State
 		*out = new(string)

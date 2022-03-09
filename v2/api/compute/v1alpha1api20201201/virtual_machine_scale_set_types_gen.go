@@ -6643,9 +6643,9 @@ func (profile *VirtualMachineScaleSetStorageProfile_Status) AssignPropertiesToVi
 }
 
 type ApiEntityReference struct {
-	//Reference: The ARM resource id in the form of
+	//Id: The ARM resource id in the form of
 	///subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	Id *string `json:"id,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ApiEntityReference{}
@@ -6658,13 +6658,9 @@ func (reference *ApiEntityReference) ConvertToARM(resolved genruntime.ConvertToA
 	var result ApiEntityReferenceARM
 
 	// Set property ‘Id’:
-	if reference.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*reference.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference1 := referenceARMID
-		result.Id = &reference1
+	if reference.Id != nil {
+		id := *reference.Id
+		result.Id = &id
 	}
 	return result, nil
 }
@@ -6676,12 +6672,16 @@ func (reference *ApiEntityReference) NewEmptyARMValue() genruntime.ARMResourceSt
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (reference *ApiEntityReference) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(ApiEntityReferenceARM)
+	typedInput, ok := armInput.(ApiEntityReferenceARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiEntityReferenceARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		reference.Id = &id
+	}
 
 	// No error
 	return nil
@@ -6690,13 +6690,8 @@ func (reference *ApiEntityReference) PopulateFromARM(owner genruntime.ArbitraryO
 // AssignPropertiesFromApiEntityReference populates our ApiEntityReference from the provided source ApiEntityReference
 func (reference *ApiEntityReference) AssignPropertiesFromApiEntityReference(source *v1alpha1api20201201storage.ApiEntityReference) error {
 
-	// Reference
-	if source.Reference != nil {
-		referenceTemp := source.Reference.Copy()
-		reference.Reference = &referenceTemp
-	} else {
-		reference.Reference = nil
-	}
+	// Id
+	reference.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
@@ -6707,13 +6702,8 @@ func (reference *ApiEntityReference) AssignPropertiesToApiEntityReference(destin
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Reference
-	if reference.Reference != nil {
-		referenceTemp := reference.Reference.Copy()
-		destination.Reference = &referenceTemp
-	} else {
-		destination.Reference = nil
-	}
+	// Id
+	destination.Id = genruntime.ClonePointerToString(reference.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -7571,6 +7561,9 @@ type VirtualMachineScaleSetNetworkConfiguration struct {
 	//EnableIPForwarding: Whether IP forwarding enabled on this NIC.
 	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
 
+	//Id: Resource Id
+	Id *string `json:"id,omitempty"`
+
 	//IpConfigurations: Specifies the IP configurations of the network interface.
 	IpConfigurations []VirtualMachineScaleSetIPConfiguration `json:"ipConfigurations,omitempty"`
 
@@ -7584,9 +7577,6 @@ type VirtualMachineScaleSetNetworkConfiguration struct {
 	//Primary: Specifies the primary network interface in case the virtual machine has
 	//more than 1 network interface.
 	Primary *bool `json:"primary,omitempty"`
-
-	//Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetNetworkConfiguration{}
@@ -7599,13 +7589,9 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration) ConvertToARM(re
 	var result VirtualMachineScaleSetNetworkConfigurationARM
 
 	// Set property ‘Id’:
-	if configuration.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*configuration.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if configuration.Id != nil {
+		id := *configuration.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Name’:
@@ -7716,6 +7702,12 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration) PopulateFromARM
 		}
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		configuration.Id = &id
+	}
+
 	// Set property ‘IpConfigurations’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -7754,8 +7746,6 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration) PopulateFromARM
 			configuration.Primary = &primary
 		}
 	}
-
-	// no assignment for property ‘Reference’
 
 	// No error
 	return nil
@@ -7800,6 +7790,9 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration) AssignPropertie
 		configuration.EnableIPForwarding = nil
 	}
 
+	// Id
+	configuration.Id = genruntime.ClonePointerToString(source.Id)
+
 	// IpConfigurations
 	if source.IpConfigurations != nil {
 		ipConfigurationList := make([]VirtualMachineScaleSetIPConfiguration, len(source.IpConfigurations))
@@ -7839,14 +7832,6 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration) AssignPropertie
 		configuration.Primary = &primary
 	} else {
 		configuration.Primary = nil
-	}
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		configuration.Reference = &reference
-	} else {
-		configuration.Reference = nil
 	}
 
 	// No error
@@ -7894,6 +7879,9 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration) AssignPropertie
 		destination.EnableIPForwarding = nil
 	}
 
+	// Id
+	destination.Id = genruntime.ClonePointerToString(configuration.Id)
+
 	// IpConfigurations
 	if configuration.IpConfigurations != nil {
 		ipConfigurationList := make([]v1alpha1api20201201storage.VirtualMachineScaleSetIPConfiguration, len(configuration.IpConfigurations))
@@ -7934,14 +7922,6 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration) AssignPropertie
 		destination.Primary = &primary
 	} else {
 		destination.Primary = nil
-	}
-
-	// Reference
-	if configuration.Reference != nil {
-		reference := configuration.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// Update the property bag
@@ -8967,6 +8947,9 @@ type VirtualMachineScaleSetIPConfiguration struct {
 	//security group.
 	ApplicationSecurityGroups []SubResource `json:"applicationSecurityGroups,omitempty"`
 
+	//Id: Resource Id
+	Id *string `json:"id,omitempty"`
+
 	//LoadBalancerBackendAddressPools: Specifies an array of references to backend
 	//address pools of load balancers. A scale set can reference backend address pools
 	//of one public and one internal load balancer. Multiple scale sets cannot use the
@@ -8995,9 +8978,6 @@ type VirtualMachineScaleSetIPConfiguration struct {
 	//PublicIPAddressConfiguration: The publicIPAddressConfiguration.
 	PublicIPAddressConfiguration *VirtualMachineScaleSetPublicIPAddressConfiguration `json:"publicIPAddressConfiguration,omitempty"`
 
-	//Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-
 	//Subnet: Specifies the identifier of the subnet.
 	Subnet *ApiEntityReference `json:"subnet,omitempty"`
 }
@@ -9012,13 +8992,9 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) ConvertToARM(resolve
 	var result VirtualMachineScaleSetIPConfigurationARM
 
 	// Set property ‘Id’:
-	if configuration.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*configuration.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if configuration.Id != nil {
+		id := *configuration.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Name’:
@@ -9128,6 +9104,12 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) PopulateFromARM(owne
 		}
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		configuration.Id = &id
+	}
+
 	// Set property ‘LoadBalancerBackendAddressPools’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -9189,8 +9171,6 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) PopulateFromARM(owne
 		}
 	}
 
-	// no assignment for property ‘Reference’
-
 	// Set property ‘Subnet’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -9247,6 +9227,9 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) AssignPropertiesFrom
 	} else {
 		configuration.ApplicationSecurityGroups = nil
 	}
+
+	// Id
+	configuration.Id = genruntime.ClonePointerToString(source.Id)
 
 	// LoadBalancerBackendAddressPools
 	if source.LoadBalancerBackendAddressPools != nil {
@@ -9315,14 +9298,6 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) AssignPropertiesFrom
 		configuration.PublicIPAddressConfiguration = nil
 	}
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		configuration.Reference = &reference
-	} else {
-		configuration.Reference = nil
-	}
-
 	// Subnet
 	if source.Subnet != nil {
 		var subnet ApiEntityReference
@@ -9379,6 +9354,9 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) AssignPropertiesToVi
 	} else {
 		destination.ApplicationSecurityGroups = nil
 	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(configuration.Id)
 
 	// LoadBalancerBackendAddressPools
 	if configuration.LoadBalancerBackendAddressPools != nil {
@@ -9446,14 +9424,6 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) AssignPropertiesToVi
 		destination.PublicIPAddressConfiguration = &publicIPAddressConfiguration
 	} else {
 		destination.PublicIPAddressConfiguration = nil
-	}
-
-	// Reference
-	if configuration.Reference != nil {
-		reference := configuration.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// Subnet

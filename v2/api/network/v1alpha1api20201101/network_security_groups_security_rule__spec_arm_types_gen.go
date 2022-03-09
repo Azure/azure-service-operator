@@ -6,8 +6,10 @@ package v1alpha1api20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type NetworkSecurityGroupsSecurityRule_SpecARM struct {
-	AzureName string  `json:"azureName"`
-	Id        *string `json:"id,omitempty"`
+	AzureName string `json:"azureName"`
+
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
 
 	//Name: The name of the resource that is unique within a resource group. This name
 	//can be used to access the resource.
@@ -98,6 +100,7 @@ type SecurityRulePropertiesFormatARM struct {
 }
 
 type ApplicationSecurityGroupSpecARM struct {
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
 	//Location: Resource location.

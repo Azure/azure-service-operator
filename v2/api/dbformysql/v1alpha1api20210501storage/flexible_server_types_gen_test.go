@@ -675,9 +675,16 @@ func NetworkGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNetwork(generators)
 	networkGenerator = gen.Struct(reflect.TypeOf(Network{}), generators)
 
 	return networkGenerator
+}
+
+// AddIndependentPropertyGeneratorsForNetwork is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNetwork(gens map[string]gopter.Gen) {
+	gens["DelegatedSubnetResourceId"] = gen.PtrOf(gen.AlphaString())
+	gens["PrivateDnsZoneResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Network_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

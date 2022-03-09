@@ -234,6 +234,8 @@ const (
 )
 
 type VirtualNetworkRuleARM struct {
+	//Id: Resource ID of a subnet, for example:
+	///subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.
 	Id *string `json:"id,omitempty"`
 
 	//IgnoreMissingVNetServiceEndpoint: Create firewall rule before the virtual

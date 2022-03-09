@@ -150,26 +150,23 @@ type ManagedCluster_Spec struct {
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName            string `json:"azureName"`
-	DisableLocalAccounts *bool  `json:"disableLocalAccounts,omitempty"`
-
-	//DiskEncryptionSetIDReference: This is of the form:
-	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{encryptionSetName}'
-	DiskEncryptionSetIDReference *genruntime.ResourceReference   `armReference:"DiskEncryptionSetID" json:"diskEncryptionSetIDReference,omitempty"`
-	DnsPrefix                    *string                         `json:"dnsPrefix,omitempty"`
-	EnablePodSecurityPolicy      *bool                           `json:"enablePodSecurityPolicy,omitempty"`
-	EnableRBAC                   *bool                           `json:"enableRBAC,omitempty"`
-	ExtendedLocation             *ExtendedLocation               `json:"extendedLocation,omitempty"`
-	FqdnSubdomain                *string                         `json:"fqdnSubdomain,omitempty"`
-	HttpProxyConfig              *ManagedClusterHTTPProxyConfig  `json:"httpProxyConfig,omitempty"`
-	Identity                     *ManagedClusterIdentity         `json:"identity,omitempty"`
-	IdentityProfile              *v1.JSON                        `json:"identityProfile,omitempty"`
-	KubernetesVersion            *string                         `json:"kubernetesVersion,omitempty"`
-	LinuxProfile                 *ContainerServiceLinuxProfile   `json:"linuxProfile,omitempty"`
-	Location                     *string                         `json:"location,omitempty"`
-	NetworkProfile               *ContainerServiceNetworkProfile `json:"networkProfile,omitempty"`
-	NodeResourceGroup            *string                         `json:"nodeResourceGroup,omitempty"`
-	OriginalVersion              string                          `json:"originalVersion"`
+	AzureName               string                          `json:"azureName"`
+	DisableLocalAccounts    *bool                           `json:"disableLocalAccounts,omitempty"`
+	DiskEncryptionSetID     *string                         `json:"diskEncryptionSetID,omitempty"`
+	DnsPrefix               *string                         `json:"dnsPrefix,omitempty"`
+	EnablePodSecurityPolicy *bool                           `json:"enablePodSecurityPolicy,omitempty"`
+	EnableRBAC              *bool                           `json:"enableRBAC,omitempty"`
+	ExtendedLocation        *ExtendedLocation               `json:"extendedLocation,omitempty"`
+	FqdnSubdomain           *string                         `json:"fqdnSubdomain,omitempty"`
+	HttpProxyConfig         *ManagedClusterHTTPProxyConfig  `json:"httpProxyConfig,omitempty"`
+	Identity                *ManagedClusterIdentity         `json:"identity,omitempty"`
+	IdentityProfile         *v1.JSON                        `json:"identityProfile,omitempty"`
+	KubernetesVersion       *string                         `json:"kubernetesVersion,omitempty"`
+	LinuxProfile            *ContainerServiceLinuxProfile   `json:"linuxProfile,omitempty"`
+	Location                *string                         `json:"location,omitempty"`
+	NetworkProfile          *ContainerServiceNetworkProfile `json:"networkProfile,omitempty"`
+	NodeResourceGroup       *string                         `json:"nodeResourceGroup,omitempty"`
+	OriginalVersion         string                          `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
 	Owner                   genruntime.KnownResourceReference      `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
@@ -366,53 +363,41 @@ type ManagedClusterAPIServerAccessProfile_Status struct {
 
 //Storage version of v1alpha1api20210501.ManagedClusterAgentPoolProfile
 type ManagedClusterAgentPoolProfile struct {
-	AvailabilityZones      []string          `json:"availabilityZones,omitempty"`
-	Count                  *int              `json:"count,omitempty"`
-	EnableAutoScaling      *bool             `json:"enableAutoScaling,omitempty"`
-	EnableEncryptionAtHost *bool             `json:"enableEncryptionAtHost,omitempty"`
-	EnableFIPS             *bool             `json:"enableFIPS,omitempty"`
-	EnableNodePublicIP     *bool             `json:"enableNodePublicIP,omitempty"`
-	EnableUltraSSD         *bool             `json:"enableUltraSSD,omitempty"`
-	GpuInstanceProfile     *string           `json:"gpuInstanceProfile,omitempty"`
-	KubeletConfig          *KubeletConfig    `json:"kubeletConfig,omitempty"`
-	KubeletDiskType        *string           `json:"kubeletDiskType,omitempty"`
-	LinuxOSConfig          *LinuxOSConfig    `json:"linuxOSConfig,omitempty"`
-	MaxCount               *int              `json:"maxCount,omitempty"`
-	MaxPods                *int              `json:"maxPods,omitempty"`
-	MinCount               *int              `json:"minCount,omitempty"`
-	Mode                   *string           `json:"mode,omitempty"`
-	Name                   *string           `json:"name,omitempty"`
-	NodeLabels             map[string]string `json:"nodeLabels,omitempty"`
-
-	//NodePublicIPPrefixIDReference: This is of the form:
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
-	NodePublicIPPrefixIDReference *genruntime.ResourceReference `armReference:"NodePublicIPPrefixID" json:"nodePublicIPPrefixIDReference,omitempty"`
-	NodeTaints                    []string                      `json:"nodeTaints,omitempty"`
-	OrchestratorVersion           *string                       `json:"orchestratorVersion,omitempty"`
-	OsDiskSizeGB                  *int                          `json:"osDiskSizeGB,omitempty"`
-	OsDiskType                    *string                       `json:"osDiskType,omitempty"`
-	OsSKU                         *string                       `json:"osSKU,omitempty"`
-	OsType                        *string                       `json:"osType,omitempty"`
-
-	//PodSubnetIDReference: If omitted, pod IPs are statically assigned on the node
-	//subnet (see vnetSubnetID for more details). This is of the form:
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
-	PodSubnetIDReference      *genruntime.ResourceReference `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
-	PropertyBag               genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	ProximityPlacementGroupID *string                       `json:"proximityPlacementGroupID,omitempty"`
-	ScaleSetEvictionPolicy    *string                       `json:"scaleSetEvictionPolicy,omitempty"`
-	ScaleSetPriority          *string                       `json:"scaleSetPriority,omitempty"`
-	SpotMaxPrice              *float64                      `json:"spotMaxPrice,omitempty"`
-	Tags                      map[string]string             `json:"tags,omitempty"`
-	Type                      *string                       `json:"type,omitempty"`
-	UpgradeSettings           *AgentPoolUpgradeSettings     `json:"upgradeSettings,omitempty"`
-	VmSize                    *string                       `json:"vmSize,omitempty"`
-
-	//VnetSubnetIDReference: If this is not specified, a VNET and subnet will be
-	//generated and used. If no podSubnetID is specified, this applies to nodes and
-	//pods, otherwise it applies to just nodes. This is of the form:
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
-	VnetSubnetIDReference *genruntime.ResourceReference `armReference:"VnetSubnetID" json:"vnetSubnetIDReference,omitempty"`
+	AvailabilityZones         []string                  `json:"availabilityZones,omitempty"`
+	Count                     *int                      `json:"count,omitempty"`
+	EnableAutoScaling         *bool                     `json:"enableAutoScaling,omitempty"`
+	EnableEncryptionAtHost    *bool                     `json:"enableEncryptionAtHost,omitempty"`
+	EnableFIPS                *bool                     `json:"enableFIPS,omitempty"`
+	EnableNodePublicIP        *bool                     `json:"enableNodePublicIP,omitempty"`
+	EnableUltraSSD            *bool                     `json:"enableUltraSSD,omitempty"`
+	GpuInstanceProfile        *string                   `json:"gpuInstanceProfile,omitempty"`
+	KubeletConfig             *KubeletConfig            `json:"kubeletConfig,omitempty"`
+	KubeletDiskType           *string                   `json:"kubeletDiskType,omitempty"`
+	LinuxOSConfig             *LinuxOSConfig            `json:"linuxOSConfig,omitempty"`
+	MaxCount                  *int                      `json:"maxCount,omitempty"`
+	MaxPods                   *int                      `json:"maxPods,omitempty"`
+	MinCount                  *int                      `json:"minCount,omitempty"`
+	Mode                      *string                   `json:"mode,omitempty"`
+	Name                      *string                   `json:"name,omitempty"`
+	NodeLabels                map[string]string         `json:"nodeLabels,omitempty"`
+	NodePublicIPPrefixID      *string                   `json:"nodePublicIPPrefixID,omitempty"`
+	NodeTaints                []string                  `json:"nodeTaints,omitempty"`
+	OrchestratorVersion       *string                   `json:"orchestratorVersion,omitempty"`
+	OsDiskSizeGB              *int                      `json:"osDiskSizeGB,omitempty"`
+	OsDiskType                *string                   `json:"osDiskType,omitempty"`
+	OsSKU                     *string                   `json:"osSKU,omitempty"`
+	OsType                    *string                   `json:"osType,omitempty"`
+	PodSubnetID               *string                   `json:"podSubnetID,omitempty"`
+	PropertyBag               genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
+	ProximityPlacementGroupID *string                   `json:"proximityPlacementGroupID,omitempty"`
+	ScaleSetEvictionPolicy    *string                   `json:"scaleSetEvictionPolicy,omitempty"`
+	ScaleSetPriority          *string                   `json:"scaleSetPriority,omitempty"`
+	SpotMaxPrice              *float64                  `json:"spotMaxPrice,omitempty"`
+	Tags                      map[string]string         `json:"tags,omitempty"`
+	Type                      *string                   `json:"type,omitempty"`
+	UpgradeSettings           *AgentPoolUpgradeSettings `json:"upgradeSettings,omitempty"`
+	VmSize                    *string                   `json:"vmSize,omitempty"`
+	VnetSubnetID              *string                   `json:"vnetSubnetID,omitempty"`
 }
 
 //Storage version of v1alpha1api20210501.ManagedClusterAgentPoolProfile_Status
@@ -760,10 +745,8 @@ type ManagedClusterPodIdentity_StatusProvisioningInfo struct {
 
 //Storage version of v1alpha1api20210501.ResourceReference
 type ResourceReference struct {
+	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//Reference: The fully qualified Azure resource id.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 //Storage version of v1alpha1api20210501.ResourceReference_Status
@@ -777,9 +760,7 @@ type UserAssignedIdentity struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	ObjectId    *string                `json:"objectId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//ResourceReference: The resource ID of the user assigned identity.
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+	ResourceId  *string                `json:"resourceId,omitempty"`
 }
 
 //Storage version of v1alpha1api20210501.UserAssignedIdentity_Status

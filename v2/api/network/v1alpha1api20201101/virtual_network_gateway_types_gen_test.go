@@ -277,8 +277,10 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGateway_Spec(gens map[stri
 	gens["EnableDnsForwarding"] = gen.PtrOf(gen.Bool())
 	gens["EnablePrivateIpAddress"] = gen.PtrOf(gen.Bool())
 	gens["GatewayType"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayPropertiesFormatGatewayTypeExpressRoute, VirtualNetworkGatewayPropertiesFormatGatewayTypeLocalGateway, VirtualNetworkGatewayPropertiesFormatGatewayTypeVpn))
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["VNetExtendedLocationResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["VpnGatewayGeneration"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayPropertiesFormatVpnGatewayGenerationGeneration1, VirtualNetworkGatewayPropertiesFormatVpnGatewayGenerationGeneration2, VirtualNetworkGatewayPropertiesFormatVpnGatewayGenerationNone))
 	gens["VpnType"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayPropertiesFormatVpnTypePolicyBased, VirtualNetworkGatewayPropertiesFormatVpnTypeRouteBased))
 }
@@ -774,6 +776,7 @@ func VirtualNetworkGatewayIPConfigurationGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethodDynamic, IPAllocationMethodStatic))
 }
@@ -2174,6 +2177,7 @@ func VpnClientRevokedCertificateGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVpnClientRevokedCertificate is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVpnClientRevokedCertificate(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Thumbprint"] = gen.PtrOf(gen.AlphaString())
 }
@@ -2383,6 +2387,7 @@ func VpnClientRootCertificateGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVpnClientRootCertificate is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVpnClientRootCertificate(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicCertData"] = gen.AlphaString()
 }

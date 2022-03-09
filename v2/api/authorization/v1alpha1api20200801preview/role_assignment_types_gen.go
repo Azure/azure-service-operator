@@ -347,8 +347,8 @@ type RoleAssignment_Spec struct {
 	PrincipalType *RoleAssignmentPropertiesPrincipalType `json:"principalType,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//RoleDefinitionReference: The role definition ID.
-	RoleDefinitionReference genruntime.ResourceReference `armReference:"RoleDefinitionId" json:"roleDefinitionReference"`
+	//RoleDefinitionId: The role definition ID.
+	RoleDefinitionId string `json:"roleDefinitionId"`
 }
 
 var _ genruntime.ARMTransformer = &RoleAssignment_Spec{}
@@ -388,11 +388,7 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 		principalType := *assignment.PrincipalType
 		result.Properties.PrincipalType = &principalType
 	}
-	roleDefinitionIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(assignment.RoleDefinitionReference)
-	if err != nil {
-		return nil, err
-	}
-	result.Properties.RoleDefinitionId = roleDefinitionIdARMID
+	result.Properties.RoleDefinitionId = assignment.RoleDefinitionId
 	return result, nil
 }
 
@@ -455,7 +451,9 @@ func (assignment *RoleAssignment_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		assignment.PrincipalType = &principalType
 	}
 
-	// no assignment for property ‘RoleDefinitionReference’
+	// Set property ‘RoleDefinitionId’:
+	// copying flattened property:
+	assignment.RoleDefinitionId = typedInput.Properties.RoleDefinitionId
 
 	// No error
 	return nil
@@ -543,8 +541,8 @@ func (assignment *RoleAssignment_Spec) AssignPropertiesFromRoleAssignment_Spec(s
 		assignment.PrincipalType = nil
 	}
 
-	// RoleDefinitionReference
-	assignment.RoleDefinitionReference = source.RoleDefinitionReference.Copy()
+	// RoleDefinitionId
+	assignment.RoleDefinitionId = genruntime.GetOptionalStringValue(source.RoleDefinitionId)
 
 	// No error
 	return nil
@@ -588,8 +586,9 @@ func (assignment *RoleAssignment_Spec) AssignPropertiesToRoleAssignment_Spec(des
 		destination.PrincipalType = nil
 	}
 
-	// RoleDefinitionReference
-	destination.RoleDefinitionReference = assignment.RoleDefinitionReference.Copy()
+	// RoleDefinitionId
+	roleDefinitionId := assignment.RoleDefinitionId
+	destination.RoleDefinitionId = &roleDefinitionId
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

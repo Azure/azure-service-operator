@@ -151,6 +151,7 @@ func AddIndependentPropertyGeneratorsForFlexibleServer_Spec(gens map[string]gopt
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["PointInTimeUTC"] = gen.PtrOf(gen.AlphaString())
 	gens["PropertiesTags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["SourceServerResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
@@ -674,9 +675,16 @@ func NetworkGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNetwork(generators)
 	networkGenerator = gen.Struct(reflect.TypeOf(Network{}), generators)
 
 	return networkGenerator
+}
+
+// AddIndependentPropertyGeneratorsForNetwork is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNetwork(gens map[string]gopter.Gen) {
+	gens["DelegatedSubnetResourceId"] = gen.PtrOf(gen.AlphaString())
+	gens["PrivateDnsZoneArmResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Network_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

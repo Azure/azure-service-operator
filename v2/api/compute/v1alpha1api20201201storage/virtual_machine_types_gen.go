@@ -407,10 +407,8 @@ type StorageProfile_Status struct {
 
 //Storage version of v1alpha1api20201201.SubResource
 type SubResource struct {
+	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 //Storage version of v1alpha1api20201201.SubResource_Status
@@ -541,14 +539,12 @@ type DiskInstanceView_Status struct {
 
 //Storage version of v1alpha1api20201201.ImageReference
 type ImageReference struct {
+	Id          *string                `json:"id,omitempty"`
 	Offer       *string                `json:"offer,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Publisher   *string                `json:"publisher,omitempty"`
-
-	//Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Sku       *string                       `json:"sku,omitempty"`
-	Version   *string                       `json:"version,omitempty"`
+	Sku         *string                `json:"sku,omitempty"`
+	Version     *string                `json:"version,omitempty"`
 }
 
 //Storage version of v1alpha1api20201201.ImageReference_Status
@@ -604,11 +600,9 @@ type MaintenanceRedeployStatus_Status struct {
 
 //Storage version of v1alpha1api20201201.NetworkInterfaceReference
 type NetworkInterfaceReference struct {
+	Id          *string                `json:"id,omitempty"`
 	Primary     *bool                  `json:"primary,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 //Storage version of v1alpha1api20201201.NetworkInterfaceReference_Status
@@ -830,12 +824,10 @@ type LinuxPatchSettings_Status struct {
 
 //Storage version of v1alpha1api20201201.ManagedDiskParameters
 type ManagedDiskParameters struct {
-	DiskEncryptionSet *SubResource           `json:"diskEncryptionSet,omitempty"`
-	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//Reference: Resource Id
-	Reference          *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	StorageAccountType *string                       `json:"storageAccountType,omitempty"`
+	DiskEncryptionSet  *SubResource           `json:"diskEncryptionSet,omitempty"`
+	Id                 *string                `json:"id,omitempty"`
+	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	StorageAccountType *string                `json:"storageAccountType,omitempty"`
 }
 
 //Storage version of v1alpha1api20201201.ManagedDiskParameters_Status

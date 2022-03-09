@@ -343,6 +343,9 @@ type VirtualNetwork_Spec struct {
 	//ExtendedLocation: The extended location of the virtual network.
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
 	//IpAllocations: Array of IpAllocation which reference this VNET.
 	IpAllocations []SubResource `json:"ipAllocations,omitempty"`
 
@@ -351,9 +354,6 @@ type VirtualNetwork_Spec struct {
 
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	//Subnets: A list of subnets in a Virtual Network.
 	Subnets []genruntime.ResourceReference `json:"subnets,omitempty"`
@@ -388,13 +388,9 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 
 	// Set property ‘Id’:
-	if network.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*network.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if network.Id != nil {
+		id := *network.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Location’:
@@ -582,6 +578,12 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		network.ExtendedLocation = &extendedLocation
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		network.Id = &id
+	}
+
 	// Set property ‘IpAllocations’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -605,8 +607,6 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	network.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
-
-	// no assignment for property ‘Reference’
 
 	// Set property ‘Subnets’:
 	// copying flattened property:
@@ -768,6 +768,9 @@ func (network *VirtualNetwork_Spec) AssignPropertiesFromVirtualNetwork_Spec(sour
 		network.ExtendedLocation = nil
 	}
 
+	// Id
+	network.Id = genruntime.ClonePointerToString(source.Id)
+
 	// IpAllocations
 	if source.IpAllocations != nil {
 		ipAllocationList := make([]SubResource, len(source.IpAllocations))
@@ -791,14 +794,6 @@ func (network *VirtualNetwork_Spec) AssignPropertiesFromVirtualNetwork_Spec(sour
 
 	// Owner
 	network.Owner = source.Owner.Copy()
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		network.Reference = &reference
-	} else {
-		network.Reference = nil
-	}
 
 	// Subnets
 	if source.Subnets != nil {
@@ -917,6 +912,9 @@ func (network *VirtualNetwork_Spec) AssignPropertiesToVirtualNetwork_Spec(destin
 		destination.ExtendedLocation = nil
 	}
 
+	// Id
+	destination.Id = genruntime.ClonePointerToString(network.Id)
+
 	// IpAllocations
 	if network.IpAllocations != nil {
 		ipAllocationList := make([]v1alpha1api20201101storage.SubResource, len(network.IpAllocations))
@@ -943,14 +941,6 @@ func (network *VirtualNetwork_Spec) AssignPropertiesToVirtualNetwork_Spec(destin
 
 	// Owner
 	destination.Owner = network.Owner.Copy()
-
-	// Reference
-	if network.Reference != nil {
-		reference := network.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
 
 	// Subnets
 	if network.Subnets != nil {

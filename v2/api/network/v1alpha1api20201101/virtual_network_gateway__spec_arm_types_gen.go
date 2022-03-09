@@ -10,7 +10,9 @@ type VirtualNetworkGateway_SpecARM struct {
 
 	//ExtendedLocation: The extended location of type local virtual network gateway.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-	Id               *string              `json:"id,omitempty"`
+
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
 
 	//Location: Resource location.
 	Location *string `json:"location,omitempty"`
@@ -75,8 +77,11 @@ type VirtualNetworkGatewayPropertiesFormatARM struct {
 
 	//Sku: The reference to the VirtualNetworkGatewaySku resource which represents the
 	//SKU selected for Virtual network gateway.
-	Sku                            *VirtualNetworkGatewaySkuARM `json:"sku,omitempty"`
-	VNetExtendedLocationResourceId *string                      `json:"vNetExtendedLocationResourceId,omitempty"`
+	Sku *VirtualNetworkGatewaySkuARM `json:"sku,omitempty"`
+
+	//VNetExtendedLocationResourceId: Customer vnet resource id. VirtualNetworkGateway
+	//of type local gateway is associated with the customer vnet.
+	VNetExtendedLocationResourceId *string `json:"vNetExtendedLocationResourceId,omitempty"`
 
 	//VpnClientConfiguration: The reference to the VpnClientConfiguration resource
 	//which represents the P2S VpnClient configurations.
@@ -113,6 +118,7 @@ type BgpSettingsARM struct {
 }
 
 type VirtualNetworkGatewayIPConfigurationARM struct {
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
 	//Name: The name of the resource that is unique within a resource group. This name
@@ -239,6 +245,7 @@ type VirtualNetworkGatewayIPConfigurationPropertiesFormatARM struct {
 }
 
 type VpnClientRevokedCertificateARM struct {
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
 	//Name: The name of the resource that is unique within a resource group. This name
@@ -250,6 +257,7 @@ type VpnClientRevokedCertificateARM struct {
 }
 
 type VpnClientRootCertificateARM struct {
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
 	//Name: The name of the resource that is unique within a resource group. This name

@@ -6,8 +6,10 @@ package v1alpha1api20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type VirtualNetworksSubnet_SpecARM struct {
-	AzureName string  `json:"azureName"`
-	Id        *string `json:"id,omitempty"`
+	AzureName string `json:"azureName"`
+
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
 
 	//Name: The name of the resource that is unique within a resource group. This name
 	//can be used to access the resource.
@@ -79,6 +81,7 @@ type SubnetPropertiesFormatARM struct {
 }
 
 type ApplicationGatewayIPConfigurationARM struct {
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
 	//Name: Name of the IP configuration that is unique within an Application Gateway.
@@ -89,6 +92,7 @@ type ApplicationGatewayIPConfigurationARM struct {
 }
 
 type RouteTableSpecARM struct {
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
 	//Location: Resource location.
@@ -102,6 +106,7 @@ type RouteTableSpecARM struct {
 }
 
 type ServiceEndpointPolicySpecARM struct {
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
 	//Location: Resource location.
@@ -144,5 +149,6 @@ type ServiceEndpointPolicyPropertiesFormat_VirtualNetworksSubnet_SubResourceEmbe
 }
 
 type ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }

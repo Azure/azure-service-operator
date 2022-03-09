@@ -316,14 +316,14 @@ type NetworkSecurityGroup_Spec struct {
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
 
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
 	//Location: Resource location.
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	//SecurityRules: A collection of security rules of the network security group.
 	SecurityRules []genruntime.ResourceReference `json:"securityRules,omitempty"`
@@ -345,13 +345,9 @@ func (group *NetworkSecurityGroup_Spec) ConvertToARM(resolved genruntime.Convert
 	result.AzureName = group.AzureName
 
 	// Set property ‘Id’:
-	if group.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*group.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if group.Id != nil {
+		id := *group.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Location’:
@@ -396,6 +392,12 @@ func (group *NetworkSecurityGroup_Spec) PopulateFromARM(owner genruntime.Arbitra
 	// Set property ‘AzureName’:
 	group.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		group.Id = &id
+	}
+
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
@@ -406,8 +408,6 @@ func (group *NetworkSecurityGroup_Spec) PopulateFromARM(owner genruntime.Arbitra
 	group.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
-
-	// no assignment for property ‘Reference’
 
 	// Set property ‘SecurityRules’:
 	// copying flattened property:
@@ -485,19 +485,14 @@ func (group *NetworkSecurityGroup_Spec) AssignPropertiesFromNetworkSecurityGroup
 	// AzureName
 	group.AzureName = source.AzureName
 
+	// Id
+	group.Id = genruntime.ClonePointerToString(source.Id)
+
 	// Location
 	group.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
 	group.Owner = source.Owner.Copy()
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		group.Reference = &reference
-	} else {
-		group.Reference = nil
-	}
 
 	// SecurityRules
 	if source.SecurityRules != nil {
@@ -527,6 +522,9 @@ func (group *NetworkSecurityGroup_Spec) AssignPropertiesToNetworkSecurityGroup_S
 	// AzureName
 	destination.AzureName = group.AzureName
 
+	// Id
+	destination.Id = genruntime.ClonePointerToString(group.Id)
+
 	// Location
 	destination.Location = genruntime.ClonePointerToString(group.Location)
 
@@ -535,14 +533,6 @@ func (group *NetworkSecurityGroup_Spec) AssignPropertiesToNetworkSecurityGroup_S
 
 	// Owner
 	destination.Owner = group.Owner.Copy()
-
-	// Reference
-	if group.Reference != nil {
-		reference := group.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
 
 	// SecurityRules
 	if group.SecurityRules != nil {

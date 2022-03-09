@@ -215,12 +215,8 @@ func (account *BatchAccount_Status) ConvertStatusTo(destination genruntime.Conve
 
 //Storage version of v1alpha1api20210101.AutoStorageBaseProperties
 type AutoStorageBaseProperties struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// +kubebuilder:validation:Required
-	//StorageAccountReference: The resource ID of the storage account to be used for
-	//auto-storage account.
-	StorageAccountReference genruntime.ResourceReference `armReference:"StorageAccountId" json:"storageAccountReference"`
+	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	StorageAccountId *string                `json:"storageAccountId,omitempty"`
 }
 
 //Storage version of v1alpha1api20210101.AutoStorageBaseProperties_Status
@@ -260,13 +256,9 @@ type EncryptionProperties_Status struct {
 
 //Storage version of v1alpha1api20210101.KeyVaultReference
 type KeyVaultReference struct {
+	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// +kubebuilder:validation:Required
-	//Reference: The resource ID of the Azure key vault associated with the Batch
-	//account.
-	Reference genruntime.ResourceReference `armReference:"Id" json:"reference"`
-	Url       *string                      `json:"url,omitempty"`
+	Url         *string                `json:"url,omitempty"`
 }
 
 //Storage version of v1alpha1api20210101.KeyVaultReference_Status

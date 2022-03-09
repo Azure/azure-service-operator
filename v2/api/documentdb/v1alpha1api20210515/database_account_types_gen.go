@@ -4218,13 +4218,13 @@ const (
 )
 
 type VirtualNetworkRule struct {
+	//Id: Resource ID of a subnet, for example:
+	///subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.
+	Id *string `json:"id,omitempty"`
+
 	//IgnoreMissingVNetServiceEndpoint: Create firewall rule before the virtual
 	//network has vnet service endpoint enabled.
 	IgnoreMissingVNetServiceEndpoint *bool `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
-
-	//Reference: Resource ID of a subnet, for example:
-	///subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualNetworkRule{}
@@ -4237,13 +4237,9 @@ func (rule *VirtualNetworkRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 	var result VirtualNetworkRuleARM
 
 	// Set property ‘Id’:
-	if rule.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*rule.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if rule.Id != nil {
+		id := *rule.Id
+		result.Id = &id
 	}
 
 	// Set property ‘IgnoreMissingVNetServiceEndpoint’:
@@ -4266,13 +4262,17 @@ func (rule *VirtualNetworkRule) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkRuleARM, got %T", armInput)
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		rule.Id = &id
+	}
+
 	// Set property ‘IgnoreMissingVNetServiceEndpoint’:
 	if typedInput.IgnoreMissingVNetServiceEndpoint != nil {
 		ignoreMissingVNetServiceEndpoint := *typedInput.IgnoreMissingVNetServiceEndpoint
 		rule.IgnoreMissingVNetServiceEndpoint = &ignoreMissingVNetServiceEndpoint
 	}
-
-	// no assignment for property ‘Reference’
 
 	// No error
 	return nil
@@ -4281,20 +4281,15 @@ func (rule *VirtualNetworkRule) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 // AssignPropertiesFromVirtualNetworkRule populates our VirtualNetworkRule from the provided source VirtualNetworkRule
 func (rule *VirtualNetworkRule) AssignPropertiesFromVirtualNetworkRule(source *v1alpha1api20210515storage.VirtualNetworkRule) error {
 
+	// Id
+	rule.Id = genruntime.ClonePointerToString(source.Id)
+
 	// IgnoreMissingVNetServiceEndpoint
 	if source.IgnoreMissingVNetServiceEndpoint != nil {
 		ignoreMissingVNetServiceEndpoint := *source.IgnoreMissingVNetServiceEndpoint
 		rule.IgnoreMissingVNetServiceEndpoint = &ignoreMissingVNetServiceEndpoint
 	} else {
 		rule.IgnoreMissingVNetServiceEndpoint = nil
-	}
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		rule.Reference = &reference
-	} else {
-		rule.Reference = nil
 	}
 
 	// No error
@@ -4306,20 +4301,15 @@ func (rule *VirtualNetworkRule) AssignPropertiesToVirtualNetworkRule(destination
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// Id
+	destination.Id = genruntime.ClonePointerToString(rule.Id)
+
 	// IgnoreMissingVNetServiceEndpoint
 	if rule.IgnoreMissingVNetServiceEndpoint != nil {
 		ignoreMissingVNetServiceEndpoint := *rule.IgnoreMissingVNetServiceEndpoint
 		destination.IgnoreMissingVNetServiceEndpoint = &ignoreMissingVNetServiceEndpoint
 	} else {
 		destination.IgnoreMissingVNetServiceEndpoint = nil
-	}
-
-	// Reference
-	if rule.Reference != nil {
-		reference := rule.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// Update the property bag

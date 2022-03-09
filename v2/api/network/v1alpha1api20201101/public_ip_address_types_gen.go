@@ -326,6 +326,9 @@ type PublicIPAddress_Spec struct {
 	//ExtendedLocation: The extended location of the public ip address.
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
 	//IdleTimeoutInMinutes: The idle timeout of the public IP address.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
@@ -360,9 +363,6 @@ type PublicIPAddress_Spec struct {
 	//PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated
 	//from.
 	PublicIPPrefix *SubResource `json:"publicIPPrefix,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	//ServicePublicIPAddress: The service public IP address of the public IP address
 	//resource.
@@ -402,13 +402,9 @@ func (address *PublicIPAddress_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	}
 
 	// Set property ‘Id’:
-	if address.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*address.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if address.Id != nil {
+		id := *address.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Location’:
@@ -590,6 +586,12 @@ func (address *PublicIPAddress_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 		address.ExtendedLocation = &extendedLocation
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		address.Id = &id
+	}
+
 	// Set property ‘IdleTimeoutInMinutes’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -700,8 +702,6 @@ func (address *PublicIPAddress_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 			address.PublicIPPrefix = &publicIPPrefix
 		}
 	}
-
-	// no assignment for property ‘Reference’
 
 	// Set property ‘ServicePublicIPAddress’:
 	// copying flattened property:
@@ -837,6 +837,9 @@ func (address *PublicIPAddress_Spec) AssignPropertiesFromPublicIPAddress_Spec(so
 		address.ExtendedLocation = nil
 	}
 
+	// Id
+	address.Id = genruntime.ClonePointerToString(source.Id)
+
 	// IdleTimeoutInMinutes
 	address.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
 
@@ -927,14 +930,6 @@ func (address *PublicIPAddress_Spec) AssignPropertiesFromPublicIPAddress_Spec(so
 		address.PublicIPPrefix = nil
 	}
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		address.Reference = &reference
-	} else {
-		address.Reference = nil
-	}
-
 	// ServicePublicIPAddress
 	if source.ServicePublicIPAddress != nil {
 		var servicePublicIPAddress PublicIPAddressSpec_SubResourceEmbedded
@@ -1012,6 +1007,9 @@ func (address *PublicIPAddress_Spec) AssignPropertiesToPublicIPAddress_Spec(dest
 	} else {
 		destination.ExtendedLocation = nil
 	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(address.Id)
 
 	// IdleTimeoutInMinutes
 	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(address.IdleTimeoutInMinutes)
@@ -1104,14 +1102,6 @@ func (address *PublicIPAddress_Spec) AssignPropertiesToPublicIPAddress_Spec(dest
 		destination.PublicIPPrefix = &publicIPPrefix
 	} else {
 		destination.PublicIPPrefix = nil
-	}
-
-	// Reference
-	if address.Reference != nil {
-		reference := address.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// ServicePublicIPAddress
@@ -2488,6 +2478,9 @@ func (ipTag *IpTag_Status) AssignPropertiesToIpTag_Status(destination *v1alpha1a
 }
 
 type NatGatewaySpec struct {
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
 	//IdleTimeoutInMinutes: The idle timeout of the nat gateway.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
@@ -2501,9 +2494,6 @@ type NatGatewaySpec struct {
 	//PublicIpPrefixes: An array of public ip prefixes associated with the nat gateway
 	//resource.
 	PublicIpPrefixes []SubResource `json:"publicIpPrefixes,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	//Sku: The nat gateway SKU.
 	Sku *NatGatewaySku `json:"sku,omitempty"`
@@ -2526,13 +2516,9 @@ func (gateway *NatGatewaySpec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	var result NatGatewaySpecARM
 
 	// Set property ‘Id’:
-	if gateway.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*gateway.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if gateway.Id != nil {
+		id := *gateway.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Location’:
@@ -2603,6 +2589,12 @@ func (gateway *NatGatewaySpec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGatewaySpecARM, got %T", armInput)
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		gateway.Id = &id
+	}
+
 	// Set property ‘IdleTimeoutInMinutes’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -2644,8 +2636,6 @@ func (gateway *NatGatewaySpec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// no assignment for property ‘Reference’
-
 	// Set property ‘Sku’:
 	if typedInput.Sku != nil {
 		var sku1 NatGatewaySku
@@ -2676,6 +2666,9 @@ func (gateway *NatGatewaySpec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 // AssignPropertiesFromNatGatewaySpec populates our NatGatewaySpec from the provided source NatGatewaySpec
 func (gateway *NatGatewaySpec) AssignPropertiesFromNatGatewaySpec(source *v1alpha1api20201101storage.NatGatewaySpec) error {
+
+	// Id
+	gateway.Id = genruntime.ClonePointerToString(source.Id)
 
 	// IdleTimeoutInMinutes
 	gateway.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
@@ -2719,14 +2712,6 @@ func (gateway *NatGatewaySpec) AssignPropertiesFromNatGatewaySpec(source *v1alph
 		gateway.PublicIpPrefixes = nil
 	}
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		gateway.Reference = &reference
-	} else {
-		gateway.Reference = nil
-	}
-
 	// Sku
 	if source.Sku != nil {
 		var sku NatGatewaySku
@@ -2753,6 +2738,9 @@ func (gateway *NatGatewaySpec) AssignPropertiesFromNatGatewaySpec(source *v1alph
 func (gateway *NatGatewaySpec) AssignPropertiesToNatGatewaySpec(destination *v1alpha1api20201101storage.NatGatewaySpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(gateway.Id)
 
 	// IdleTimeoutInMinutes
 	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(gateway.IdleTimeoutInMinutes)
@@ -2794,14 +2782,6 @@ func (gateway *NatGatewaySpec) AssignPropertiesToNatGatewaySpec(destination *v1a
 		destination.PublicIpPrefixes = publicIpPrefixList
 	} else {
 		destination.PublicIpPrefixes = nil
-	}
-
-	// Reference
-	if gateway.Reference != nil {
-		reference := gateway.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// Sku
@@ -3365,11 +3345,11 @@ type PublicIPAddressSpec_SubResourceEmbedded struct {
 	//ExtendedLocation: The extended location of the public ip address.
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
 	//Location: Resource location.
 	Location *string `json:"location,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	//Sku: The public IP address SKU.
 	Sku *PublicIPAddressSku `json:"sku,omitempty"`
@@ -3402,13 +3382,9 @@ func (embedded *PublicIPAddressSpec_SubResourceEmbedded) ConvertToARM(resolved g
 	}
 
 	// Set property ‘Id’:
-	if embedded.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*embedded.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if embedded.Id != nil {
+		id := *embedded.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Location’:
@@ -3465,13 +3441,17 @@ func (embedded *PublicIPAddressSpec_SubResourceEmbedded) PopulateFromARM(owner g
 		embedded.ExtendedLocation = &extendedLocation
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		embedded.Id = &id
+	}
+
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		embedded.Location = &location
 	}
-
-	// no assignment for property ‘Reference’
 
 	// Set property ‘Sku’:
 	if typedInput.Sku != nil {
@@ -3516,16 +3496,11 @@ func (embedded *PublicIPAddressSpec_SubResourceEmbedded) AssignPropertiesFromPub
 		embedded.ExtendedLocation = nil
 	}
 
+	// Id
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
+
 	// Location
 	embedded.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
-	}
 
 	// Sku
 	if source.Sku != nil {
@@ -3566,16 +3541,11 @@ func (embedded *PublicIPAddressSpec_SubResourceEmbedded) AssignPropertiesToPubli
 		destination.ExtendedLocation = nil
 	}
 
+	// Id
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+
 	// Location
 	destination.Location = genruntime.ClonePointerToString(embedded.Location)
-
-	// Reference
-	if embedded.Reference != nil {
-		reference := embedded.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
 
 	// Sku
 	if embedded.Sku != nil {
@@ -3607,8 +3577,8 @@ func (embedded *PublicIPAddressSpec_SubResourceEmbedded) AssignPropertiesToPubli
 }
 
 type SubResource struct {
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SubResource{}
@@ -3621,13 +3591,9 @@ func (resource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	var result SubResourceARM
 
 	// Set property ‘Id’:
-	if resource.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*resource.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if resource.Id != nil {
+		id := *resource.Id
+		result.Id = &id
 	}
 	return result, nil
 }
@@ -3639,12 +3605,16 @@ func (resource *SubResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *SubResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(SubResourceARM)
+	typedInput, ok := armInput.(SubResourceARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResourceARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		resource.Id = &id
+	}
 
 	// No error
 	return nil
@@ -3653,13 +3623,8 @@ func (resource *SubResource) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 // AssignPropertiesFromSubResource populates our SubResource from the provided source SubResource
 func (resource *SubResource) AssignPropertiesFromSubResource(source *v1alpha1api20201101storage.SubResource) error {
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		resource.Reference = &reference
-	} else {
-		resource.Reference = nil
-	}
+	// Id
+	resource.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
@@ -3670,13 +3635,8 @@ func (resource *SubResource) AssignPropertiesToSubResource(destination *v1alpha1
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Reference
-	if resource.Reference != nil {
-		reference := resource.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
+	// Id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

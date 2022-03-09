@@ -1252,6 +1252,9 @@ type VirtualNetworksSubnet_Spec struct {
 	//Delegations: An array of references to the delegations on the subnet.
 	Delegations []genruntime.ResourceReference `json:"delegations,omitempty"`
 
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
 	//IpAllocations: Array of IpAllocation which reference this subnet.
 	IpAllocations []SubResource `json:"ipAllocations,omitempty"`
 
@@ -1271,9 +1274,6 @@ type VirtualNetworksSubnet_Spec struct {
 	//PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on
 	//private link service in the subnet.
 	PrivateLinkServiceNetworkPolicies *SubnetPropertiesFormatPrivateLinkServiceNetworkPolicies `json:"privateLinkServiceNetworkPolicies,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	//RouteTable: The reference to the RouteTable resource.
 	RouteTable *RouteTableSpec `json:"routeTable,omitempty"`
@@ -1301,13 +1301,9 @@ func (subnet *VirtualNetworksSubnet_Spec) ConvertToARM(resolved genruntime.Conve
 	result.AzureName = subnet.AzureName
 
 	// Set property ‘Id’:
-	if subnet.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*subnet.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if subnet.Id != nil {
+		id := *subnet.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Name’:
@@ -1460,6 +1456,12 @@ func (subnet *VirtualNetworksSubnet_Spec) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		subnet.Id = &id
+	}
+
 	// Set property ‘IpAllocations’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1523,8 +1525,6 @@ func (subnet *VirtualNetworksSubnet_Spec) PopulateFromARM(owner genruntime.Arbit
 			subnet.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicies
 		}
 	}
-
-	// no assignment for property ‘Reference’
 
 	// Set property ‘RouteTable’:
 	// copying flattened property:
@@ -1669,6 +1669,9 @@ func (subnet *VirtualNetworksSubnet_Spec) AssignPropertiesFromVirtualNetworksSub
 		subnet.Delegations = nil
 	}
 
+	// Id
+	subnet.Id = genruntime.ClonePointerToString(source.Id)
+
 	// IpAllocations
 	if source.IpAllocations != nil {
 		ipAllocationList := make([]SubResource, len(source.IpAllocations))
@@ -1728,14 +1731,6 @@ func (subnet *VirtualNetworksSubnet_Spec) AssignPropertiesFromVirtualNetworksSub
 		subnet.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicy
 	} else {
 		subnet.PrivateLinkServiceNetworkPolicies = nil
-	}
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		subnet.Reference = &reference
-	} else {
-		subnet.Reference = nil
 	}
 
 	// RouteTable
@@ -1838,6 +1833,9 @@ func (subnet *VirtualNetworksSubnet_Spec) AssignPropertiesToVirtualNetworksSubne
 		destination.Delegations = nil
 	}
 
+	// Id
+	destination.Id = genruntime.ClonePointerToString(subnet.Id)
+
 	// IpAllocations
 	if subnet.IpAllocations != nil {
 		ipAllocationList := make([]v1alpha1api20201101storage.SubResource, len(subnet.IpAllocations))
@@ -1900,14 +1898,6 @@ func (subnet *VirtualNetworksSubnet_Spec) AssignPropertiesToVirtualNetworksSubne
 		destination.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicy
 	} else {
 		destination.PrivateLinkServiceNetworkPolicies = nil
-	}
-
-	// Reference
-	if subnet.Reference != nil {
-		reference := subnet.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// RouteTable
@@ -1983,11 +1973,11 @@ func (subnet *VirtualNetworksSubnet_Spec) SetAzureName(azureName string) {
 }
 
 type ApplicationGatewayIPConfiguration struct {
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
 	//Name: Name of the IP configuration that is unique within an Application Gateway.
 	Name *string `json:"name,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	//Subnet: Reference to the subnet resource. A subnet from where application
 	//gateway gets its private address.
@@ -2004,13 +1994,9 @@ func (configuration *ApplicationGatewayIPConfiguration) ConvertToARM(resolved ge
 	var result ApplicationGatewayIPConfigurationARM
 
 	// Set property ‘Id’:
-	if configuration.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*configuration.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if configuration.Id != nil {
+		id := *configuration.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Name’:
@@ -2046,13 +2032,17 @@ func (configuration *ApplicationGatewayIPConfiguration) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayIPConfigurationARM, got %T", armInput)
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		configuration.Id = &id
+	}
+
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		configuration.Name = &name
 	}
-
-	// no assignment for property ‘Reference’
 
 	// Set property ‘Subnet’:
 	// copying flattened property:
@@ -2075,16 +2065,11 @@ func (configuration *ApplicationGatewayIPConfiguration) PopulateFromARM(owner ge
 // AssignPropertiesFromApplicationGatewayIPConfiguration populates our ApplicationGatewayIPConfiguration from the provided source ApplicationGatewayIPConfiguration
 func (configuration *ApplicationGatewayIPConfiguration) AssignPropertiesFromApplicationGatewayIPConfiguration(source *v1alpha1api20201101storage.ApplicationGatewayIPConfiguration) error {
 
+	// Id
+	configuration.Id = genruntime.ClonePointerToString(source.Id)
+
 	// Name
 	configuration.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		configuration.Reference = &reference
-	} else {
-		configuration.Reference = nil
-	}
 
 	// Subnet
 	if source.Subnet != nil {
@@ -2107,16 +2092,11 @@ func (configuration *ApplicationGatewayIPConfiguration) AssignPropertiesToApplic
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// Id
+	destination.Id = genruntime.ClonePointerToString(configuration.Id)
+
 	// Name
 	destination.Name = genruntime.ClonePointerToString(configuration.Name)
-
-	// Reference
-	if configuration.Reference != nil {
-		reference := configuration.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
 
 	// Subnet
 	if configuration.Subnet != nil {
@@ -3087,11 +3067,11 @@ type RouteTableSpec struct {
 	//route table. True means disable.
 	DisableBgpRoutePropagation *bool `json:"disableBgpRoutePropagation,omitempty"`
 
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
 	//Location: Resource location.
 	Location *string `json:"location,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	//Routes: Collection of routes contained within a route table.
 	Routes []genruntime.ResourceReference `json:"routes,omitempty"`
@@ -3110,13 +3090,9 @@ func (table *RouteTableSpec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	var result RouteTableSpecARM
 
 	// Set property ‘Id’:
-	if table.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*table.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if table.Id != nil {
+		id := *table.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Location’:
@@ -3168,13 +3144,17 @@ func (table *RouteTableSpec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		table.Id = &id
+	}
+
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		table.Location = &location
 	}
-
-	// no assignment for property ‘Reference’
 
 	// Set property ‘Routes’:
 	// copying flattened property:
@@ -3207,16 +3187,11 @@ func (table *RouteTableSpec) AssignPropertiesFromRouteTableSpec(source *v1alpha1
 		table.DisableBgpRoutePropagation = nil
 	}
 
+	// Id
+	table.Id = genruntime.ClonePointerToString(source.Id)
+
 	// Location
 	table.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		table.Reference = &reference
-	} else {
-		table.Reference = nil
-	}
 
 	// Routes
 	if source.Routes != nil {
@@ -3251,16 +3226,11 @@ func (table *RouteTableSpec) AssignPropertiesToRouteTableSpec(destination *v1alp
 		destination.DisableBgpRoutePropagation = nil
 	}
 
+	// Id
+	destination.Id = genruntime.ClonePointerToString(table.Id)
+
 	// Location
 	destination.Location = genruntime.ClonePointerToString(table.Location)
-
-	// Reference
-	if table.Reference != nil {
-		reference := table.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
 
 	// Routes
 	if table.Routes != nil {
@@ -3552,11 +3522,11 @@ func (link *ServiceAssociationLink_Status) AssignPropertiesToServiceAssociationL
 }
 
 type ServiceEndpointPolicySpec struct {
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
 	//Location: Resource location.
 	Location *string `json:"location,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	//ServiceEndpointPolicyDefinitions: A collection of service endpoint policy
 	//definitions of the service endpoint policy.
@@ -3576,13 +3546,9 @@ func (policy *ServiceEndpointPolicySpec) ConvertToARM(resolved genruntime.Conver
 	var result ServiceEndpointPolicySpecARM
 
 	// Set property ‘Id’:
-	if policy.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*policy.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if policy.Id != nil {
+		id := *policy.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Location’:
@@ -3625,13 +3591,17 @@ func (policy *ServiceEndpointPolicySpec) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServiceEndpointPolicySpecARM, got %T", armInput)
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		policy.Id = &id
+	}
+
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		policy.Location = &location
 	}
-
-	// no assignment for property ‘Reference’
 
 	// Set property ‘ServiceEndpointPolicyDefinitions’:
 	// copying flattened property:
@@ -3661,16 +3631,11 @@ func (policy *ServiceEndpointPolicySpec) PopulateFromARM(owner genruntime.Arbitr
 // AssignPropertiesFromServiceEndpointPolicySpec populates our ServiceEndpointPolicySpec from the provided source ServiceEndpointPolicySpec
 func (policy *ServiceEndpointPolicySpec) AssignPropertiesFromServiceEndpointPolicySpec(source *v1alpha1api20201101storage.ServiceEndpointPolicySpec) error {
 
+	// Id
+	policy.Id = genruntime.ClonePointerToString(source.Id)
+
 	// Location
 	policy.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		policy.Reference = &reference
-	} else {
-		policy.Reference = nil
-	}
 
 	// ServiceEndpointPolicyDefinitions
 	if source.ServiceEndpointPolicyDefinitions != nil {
@@ -3702,16 +3667,11 @@ func (policy *ServiceEndpointPolicySpec) AssignPropertiesToServiceEndpointPolicy
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// Id
+	destination.Id = genruntime.ClonePointerToString(policy.Id)
+
 	// Location
 	destination.Location = genruntime.ClonePointerToString(policy.Location)
-
-	// Reference
-	if policy.Reference != nil {
-		reference := policy.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
 
 	// ServiceEndpointPolicyDefinitions
 	if policy.ServiceEndpointPolicyDefinitions != nil {
@@ -4164,8 +4124,8 @@ func (embedded *PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded
 }
 
 type ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbedded struct {
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbedded{}
@@ -4178,13 +4138,9 @@ func (embedded *ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourc
 	var result ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbeddedARM
 
 	// Set property ‘Id’:
-	if embedded.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*embedded.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if embedded.Id != nil {
+		id := *embedded.Id
+		result.Id = &id
 	}
 	return result, nil
 }
@@ -4196,12 +4152,16 @@ func (embedded *ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourc
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbeddedARM)
+	typedInput, ok := armInput.(ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbeddedARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbeddedARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		embedded.Id = &id
+	}
 
 	// No error
 	return nil
@@ -4210,13 +4170,8 @@ func (embedded *ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourc
 // AssignPropertiesFromServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbedded populates our ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbedded from the provided source ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbedded
 func (embedded *ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbedded(source *v1alpha1api20201101storage.ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbedded) error {
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
-	}
+	// Id
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
@@ -4227,13 +4182,8 @@ func (embedded *ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourc
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Reference
-	if embedded.Reference != nil {
-		reference := embedded.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
+	// Id
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

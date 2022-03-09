@@ -10,7 +10,9 @@ type VirtualNetwork_SpecARM struct {
 
 	//ExtendedLocation: The extended location of the virtual network.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-	Id               *string              `json:"id,omitempty"`
+
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
 
 	//Location: Resource location.
 	Location *string `json:"location,omitempty"`

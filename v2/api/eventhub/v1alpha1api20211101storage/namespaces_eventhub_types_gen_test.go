@@ -455,6 +455,7 @@ func AddIndependentPropertyGeneratorsForDestination(gens map[string]gopter.Gen) 
 	gens["DataLakeFolderPath"] = gen.PtrOf(gen.AlphaString())
 	gens["DataLakeSubscriptionId"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["StorageAccountResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Destination_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

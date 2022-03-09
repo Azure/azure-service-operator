@@ -149,9 +149,11 @@ type ConnectionStateARM struct {
 }
 
 type PrivateEndpointARM struct {
+	//Id: The ARM identifier for Private Endpoint.
 	Id *string `json:"id,omitempty"`
 }
 
 type UserAssignedIdentityPropertiesARM struct {
+	//UserAssignedIdentity: ARM ID of user Identity selected for encryption
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }

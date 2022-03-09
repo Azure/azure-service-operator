@@ -10,7 +10,9 @@ type LoadBalancer_SpecARM struct {
 
 	//ExtendedLocation: The extended location of the load balancer.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-	Id               *string              `json:"id,omitempty"`
+
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
 
 	//Location: Resource location.
 	Location *string `json:"location,omitempty"`
@@ -97,6 +99,7 @@ type LoadBalancerSkuARM struct {
 }
 
 type BackendAddressPoolARM struct {
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -106,6 +109,7 @@ type ExtendedLocationType string
 const ExtendedLocationTypeEdgeZone = ExtendedLocationType("EdgeZone")
 
 type FrontendIPConfigurationARM struct {
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
 	//Name: The name of the resource that is unique within the set of frontend IP
@@ -122,6 +126,7 @@ type FrontendIPConfigurationARM struct {
 }
 
 type InboundNatPoolARM struct {
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
 	//Name: The name of the resource that is unique within the set of inbound NAT
@@ -133,6 +138,7 @@ type InboundNatPoolARM struct {
 }
 
 type InboundNatRuleARM struct {
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -153,6 +159,7 @@ const (
 )
 
 type LoadBalancingRuleARM struct {
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
 	//Name: The name of the resource that is unique within the set of load balancing
@@ -164,6 +171,7 @@ type LoadBalancingRuleARM struct {
 }
 
 type OutboundRuleARM struct {
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
 	//Name: The name of the resource that is unique within the set of outbound rules
@@ -175,6 +183,7 @@ type OutboundRuleARM struct {
 }
 
 type ProbeARM struct {
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
 	//Name: The name of the resource that is unique within the set of probes used by
@@ -346,7 +355,9 @@ type ProbePropertiesFormatARM struct {
 type PublicIPAddressSpecARM struct {
 	//ExtendedLocation: The extended location of the public ip address.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-	Id               *string              `json:"id,omitempty"`
+
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
 
 	//Location: Resource location.
 	Location *string `json:"location,omitempty"`

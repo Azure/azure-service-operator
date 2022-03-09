@@ -69,6 +69,8 @@ type BatchAccountPropertiesARM struct {
 }
 
 type AutoStorageBasePropertiesARM struct {
+	//StorageAccountId: The resource ID of the storage account to be used for
+	//auto-storage account.
 	StorageAccountId string `json:"storageAccountId"`
 }
 
@@ -90,6 +92,7 @@ type EncryptionPropertiesARM struct {
 }
 
 type KeyVaultReferenceARM struct {
+	//Id: The resource ID of the Azure key vault associated with the Batch account.
 	Id string `json:"id"`
 
 	//Url: The URL of the Azure key vault associated with the Batch account.

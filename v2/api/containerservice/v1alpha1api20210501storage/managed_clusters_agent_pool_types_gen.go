@@ -220,40 +220,28 @@ type ManagedClustersAgentPool_Spec struct {
 	MinCount               *int              `json:"minCount,omitempty"`
 	Mode                   *string           `json:"mode,omitempty"`
 	NodeLabels             map[string]string `json:"nodeLabels,omitempty"`
-
-	//NodePublicIPPrefixIDReference: This is of the form:
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
-	NodePublicIPPrefixIDReference *genruntime.ResourceReference `armReference:"NodePublicIPPrefixID" json:"nodePublicIPPrefixIDReference,omitempty"`
-	NodeTaints                    []string                      `json:"nodeTaints,omitempty"`
-	OrchestratorVersion           *string                       `json:"orchestratorVersion,omitempty"`
-	OriginalVersion               string                        `json:"originalVersion"`
-	OsDiskSizeGB                  *int                          `json:"osDiskSizeGB,omitempty"`
-	OsDiskType                    *string                       `json:"osDiskType,omitempty"`
-	OsSKU                         *string                       `json:"osSKU,omitempty"`
-	OsType                        *string                       `json:"osType,omitempty"`
+	NodePublicIPPrefixID   *string           `json:"nodePublicIPPrefixID,omitempty"`
+	NodeTaints             []string          `json:"nodeTaints,omitempty"`
+	OrchestratorVersion    *string           `json:"orchestratorVersion,omitempty"`
+	OriginalVersion        string            `json:"originalVersion"`
+	OsDiskSizeGB           *int              `json:"osDiskSizeGB,omitempty"`
+	OsDiskType             *string           `json:"osDiskType,omitempty"`
+	OsSKU                  *string           `json:"osSKU,omitempty"`
+	OsType                 *string           `json:"osType,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-
-	//PodSubnetIDReference: If omitted, pod IPs are statically assigned on the node
-	//subnet (see vnetSubnetID for more details). This is of the form:
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
-	PodSubnetIDReference      *genruntime.ResourceReference `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
-	PropertyBag               genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	ProximityPlacementGroupID *string                       `json:"proximityPlacementGroupID,omitempty"`
-	ScaleSetEvictionPolicy    *string                       `json:"scaleSetEvictionPolicy,omitempty"`
-	ScaleSetPriority          *string                       `json:"scaleSetPriority,omitempty"`
-	SpotMaxPrice              *float64                      `json:"spotMaxPrice,omitempty"`
-	Tags                      map[string]string             `json:"tags,omitempty"`
-	Type                      *string                       `json:"type,omitempty"`
-	UpgradeSettings           *AgentPoolUpgradeSettings     `json:"upgradeSettings,omitempty"`
-	VmSize                    *string                       `json:"vmSize,omitempty"`
-
-	//VnetSubnetIDReference: If this is not specified, a VNET and subnet will be
-	//generated and used. If no podSubnetID is specified, this applies to nodes and
-	//pods, otherwise it applies to just nodes. This is of the form:
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
-	VnetSubnetIDReference *genruntime.ResourceReference `armReference:"VnetSubnetID" json:"vnetSubnetIDReference,omitempty"`
+	Owner                     genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	PodSubnetID               *string                           `json:"podSubnetID,omitempty"`
+	PropertyBag               genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	ProximityPlacementGroupID *string                           `json:"proximityPlacementGroupID,omitempty"`
+	ScaleSetEvictionPolicy    *string                           `json:"scaleSetEvictionPolicy,omitempty"`
+	ScaleSetPriority          *string                           `json:"scaleSetPriority,omitempty"`
+	SpotMaxPrice              *float64                          `json:"spotMaxPrice,omitempty"`
+	Tags                      map[string]string                 `json:"tags,omitempty"`
+	Type                      *string                           `json:"type,omitempty"`
+	UpgradeSettings           *AgentPoolUpgradeSettings         `json:"upgradeSettings,omitempty"`
+	VmSize                    *string                           `json:"vmSize,omitempty"`
+	VnetSubnetID              *string                           `json:"vnetSubnetID,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &ManagedClustersAgentPool_Spec{}

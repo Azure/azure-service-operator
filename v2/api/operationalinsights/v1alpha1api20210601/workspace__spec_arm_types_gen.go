@@ -75,6 +75,8 @@ type WorkspaceCappingARM struct {
 }
 
 type WorkspaceFeaturesARM struct {
+	//ClusterResourceId: Dedicated LA cluster resourceId that is linked to the
+	//workspaces.
 	ClusterResourceId *string `json:"clusterResourceId,omitempty"`
 
 	//DisableLocalAuth: Disable Non-AAD based Auth.

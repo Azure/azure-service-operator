@@ -51,7 +51,10 @@ type DiskPropertiesARM struct {
 	//CreationData: Disk source information. CreationData information cannot be
 	//changed after the disk has been created.
 	CreationData CreationDataARM `json:"creationData"`
-	DiskAccessId *string         `json:"diskAccessId,omitempty"`
+
+	//DiskAccessId: ARM id of the DiskAccess resource for using private endpoints on
+	//disks.
+	DiskAccessId *string `json:"diskAccessId,omitempty"`
 
 	//DiskIOPSReadOnly: The total number of IOPS that will be allowed across all VMs
 	//mounting the shared disk as ReadOnly. One operation can transfer between 4k and
@@ -141,8 +144,11 @@ type CreationDataARM struct {
 
 	//LogicalSectorSize: Logical sector size in bytes for Ultra disks. Supported
 	//values are 512 ad 4096. 4096 is the default.
-	LogicalSectorSize *int    `json:"logicalSectorSize,omitempty"`
-	SourceResourceId  *string `json:"sourceResourceId,omitempty"`
+	LogicalSectorSize *int `json:"logicalSectorSize,omitempty"`
+
+	//SourceResourceId: If createOption is Copy, this is the ARM id of the source
+	//snapshot or disk.
+	SourceResourceId *string `json:"sourceResourceId,omitempty"`
 
 	//SourceUri: If createOption is Import, this is the URI of a blob to be imported
 	//into a managed disk.
@@ -170,6 +176,8 @@ const (
 )
 
 type EncryptionARM struct {
+	//DiskEncryptionSetId: ResourceId of the disk encryption set to use for enabling
+	//encryption at rest.
 	DiskEncryptionSetId *string         `json:"diskEncryptionSetId,omitempty"`
 	Type                *EncryptionType `json:"type,omitempty"`
 }
@@ -223,6 +231,8 @@ type EncryptionSettingsElementARM struct {
 }
 
 type ImageDiskReferenceARM struct {
+	//Id: A relative uri containing either a Platform Image Repository or user image
+	//reference.
 	Id string `json:"id"`
 
 	//Lun: If the disk is created from an image's data disk, this is an index that
@@ -248,5 +258,6 @@ type KeyVaultAndSecretReferenceARM struct {
 }
 
 type SourceVaultARM struct {
+	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
 }

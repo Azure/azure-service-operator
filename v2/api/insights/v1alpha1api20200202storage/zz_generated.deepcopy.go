@@ -363,9 +363,9 @@ func (in *Component_Spec) DeepCopyInto(out *Component_Spec) {
 		*out = new(v1.JSON)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.WorkspaceResourceReference != nil {
-		in, out := &in.WorkspaceResourceReference, &out.WorkspaceResourceReference
-		*out = new(genruntime.ResourceReference)
+	if in.WorkspaceResourceId != nil {
+		in, out := &in.WorkspaceResourceId, &out.WorkspaceResourceId
+		*out = new(string)
 		**out = **in
 	}
 }

@@ -11,7 +11,6 @@ Licensed under the MIT license.
 package v1alpha1api20200202
 
 import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -611,9 +610,9 @@ func (in *Component_Spec) DeepCopyInto(out *Component_Spec) {
 		*out = new(v1.JSON)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.WorkspaceResourceReference != nil {
-		in, out := &in.WorkspaceResourceReference, &out.WorkspaceResourceReference
-		*out = new(genruntime.ResourceReference)
+	if in.WorkspaceResourceId != nil {
+		in, out := &in.WorkspaceResourceId, &out.WorkspaceResourceId
+		*out = new(string)
 		**out = **in
 	}
 }

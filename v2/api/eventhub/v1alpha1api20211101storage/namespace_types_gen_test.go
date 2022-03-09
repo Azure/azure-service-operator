@@ -238,6 +238,7 @@ func Namespace_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForNamespace_Spec(gens map[string]gopter.Gen) {
 	gens["AlternateName"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
+	gens["ClusterArmId"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["IsAutoInflateEnabled"] = gen.PtrOf(gen.Bool())
 	gens["KafkaEnabled"] = gen.PtrOf(gen.Bool())
@@ -1132,9 +1133,15 @@ func PrivateEndpointGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateEndpoint(generators)
 	privateEndpointGenerator = gen.Struct(reflect.TypeOf(PrivateEndpoint{}), generators)
 
 	return privateEndpointGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPrivateEndpoint is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateEndpoint(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_UserAssignedIdentity_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1247,9 +1254,15 @@ func UserAssignedIdentityPropertiesGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForUserAssignedIdentityProperties(generators)
 	userAssignedIdentityPropertiesGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentityProperties{}), generators)
 
 	return userAssignedIdentityPropertiesGenerator
+}
+
+// AddIndependentPropertyGeneratorsForUserAssignedIdentityProperties is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUserAssignedIdentityProperties(gens map[string]gopter.Gen) {
+	gens["UserAssignedIdentity"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_UserAssignedIdentityProperties_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

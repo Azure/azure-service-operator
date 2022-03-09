@@ -4979,9 +4979,9 @@ const (
 )
 
 type EncryptionIdentity struct {
-	//UserAssignedIdentityReference: Resource identifier of the UserAssigned identity
-	//to be associated with server-side encryption on the storage account.
-	UserAssignedIdentityReference *genruntime.ResourceReference `armReference:"UserAssignedIdentity" json:"userAssignedIdentityReference,omitempty"`
+	//UserAssignedIdentity: Resource identifier of the UserAssigned identity to be
+	//associated with server-side encryption on the storage account.
+	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &EncryptionIdentity{}
@@ -4994,13 +4994,9 @@ func (identity *EncryptionIdentity) ConvertToARM(resolved genruntime.ConvertToAR
 	var result EncryptionIdentityARM
 
 	// Set property ‘UserAssignedIdentity’:
-	if identity.UserAssignedIdentityReference != nil {
-		userAssignedIdentityReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*identity.UserAssignedIdentityReference)
-		if err != nil {
-			return nil, err
-		}
-		userAssignedIdentityReference := userAssignedIdentityReferenceARMID
-		result.UserAssignedIdentity = &userAssignedIdentityReference
+	if identity.UserAssignedIdentity != nil {
+		userAssignedIdentity := *identity.UserAssignedIdentity
+		result.UserAssignedIdentity = &userAssignedIdentity
 	}
 	return result, nil
 }
@@ -5012,12 +5008,16 @@ func (identity *EncryptionIdentity) NewEmptyARMValue() genruntime.ARMResourceSta
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *EncryptionIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(EncryptionIdentityARM)
+	typedInput, ok := armInput.(EncryptionIdentityARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionIdentityARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘UserAssignedIdentityReference’
+	// Set property ‘UserAssignedIdentity’:
+	if typedInput.UserAssignedIdentity != nil {
+		userAssignedIdentity := *typedInput.UserAssignedIdentity
+		identity.UserAssignedIdentity = &userAssignedIdentity
+	}
 
 	// No error
 	return nil
@@ -5026,13 +5026,8 @@ func (identity *EncryptionIdentity) PopulateFromARM(owner genruntime.ArbitraryOw
 // AssignPropertiesFromEncryptionIdentity populates our EncryptionIdentity from the provided source EncryptionIdentity
 func (identity *EncryptionIdentity) AssignPropertiesFromEncryptionIdentity(source *v1alpha1api20210401storage.EncryptionIdentity) error {
 
-	// UserAssignedIdentityReference
-	if source.UserAssignedIdentityReference != nil {
-		userAssignedIdentityReference := source.UserAssignedIdentityReference.Copy()
-		identity.UserAssignedIdentityReference = &userAssignedIdentityReference
-	} else {
-		identity.UserAssignedIdentityReference = nil
-	}
+	// UserAssignedIdentity
+	identity.UserAssignedIdentity = genruntime.ClonePointerToString(source.UserAssignedIdentity)
 
 	// No error
 	return nil
@@ -5043,13 +5038,8 @@ func (identity *EncryptionIdentity) AssignPropertiesToEncryptionIdentity(destina
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// UserAssignedIdentityReference
-	if identity.UserAssignedIdentityReference != nil {
-		userAssignedIdentityReference := identity.UserAssignedIdentityReference.Copy()
-		destination.UserAssignedIdentityReference = &userAssignedIdentityReference
-	} else {
-		destination.UserAssignedIdentityReference = nil
-	}
+	// UserAssignedIdentity
+	destination.UserAssignedIdentity = genruntime.ClonePointerToString(identity.UserAssignedIdentity)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5993,8 +5983,8 @@ const (
 )
 
 type ResourceAccessRule struct {
-	//ResourceReference: Resource Id
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+	//ResourceId: Resource Id
+	ResourceId *string `json:"resourceId,omitempty"`
 
 	//TenantId: Tenant Id
 	TenantId *string `json:"tenantId,omitempty"`
@@ -6010,13 +6000,9 @@ func (rule *ResourceAccessRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 	var result ResourceAccessRuleARM
 
 	// Set property ‘ResourceId’:
-	if rule.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*rule.ResourceReference)
-		if err != nil {
-			return nil, err
-		}
-		resourceReference := resourceReferenceARMID
-		result.ResourceId = &resourceReference
+	if rule.ResourceId != nil {
+		resourceId := *rule.ResourceId
+		result.ResourceId = &resourceId
 	}
 
 	// Set property ‘TenantId’:
@@ -6039,7 +6025,11 @@ func (rule *ResourceAccessRule) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceAccessRuleARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘ResourceReference’
+	// Set property ‘ResourceId’:
+	if typedInput.ResourceId != nil {
+		resourceId := *typedInput.ResourceId
+		rule.ResourceId = &resourceId
+	}
 
 	// Set property ‘TenantId’:
 	if typedInput.TenantId != nil {
@@ -6054,13 +6044,8 @@ func (rule *ResourceAccessRule) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 // AssignPropertiesFromResourceAccessRule populates our ResourceAccessRule from the provided source ResourceAccessRule
 func (rule *ResourceAccessRule) AssignPropertiesFromResourceAccessRule(source *v1alpha1api20210401storage.ResourceAccessRule) error {
 
-	// ResourceReference
-	if source.ResourceReference != nil {
-		resourceReference := source.ResourceReference.Copy()
-		rule.ResourceReference = &resourceReference
-	} else {
-		rule.ResourceReference = nil
-	}
+	// ResourceId
+	rule.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
 
 	// TenantId
 	rule.TenantId = genruntime.ClonePointerToString(source.TenantId)
@@ -6074,13 +6059,8 @@ func (rule *ResourceAccessRule) AssignPropertiesToResourceAccessRule(destination
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// ResourceReference
-	if rule.ResourceReference != nil {
-		resourceReference := rule.ResourceReference.Copy()
-		destination.ResourceReference = &resourceReference
-	} else {
-		destination.ResourceReference = nil
-	}
+	// ResourceId
+	destination.ResourceId = genruntime.ClonePointerToString(rule.ResourceId)
 
 	// TenantId
 	destination.TenantId = genruntime.ClonePointerToString(rule.TenantId)
@@ -6260,9 +6240,9 @@ type VirtualNetworkRule struct {
 	Action *VirtualNetworkRuleAction `json:"action,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Reference: Resource ID of a subnet, for example:
+	//Id: Resource ID of a subnet, for example:
 	///subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
-	Reference genruntime.ResourceReference `armReference:"Id" json:"reference"`
+	Id string `json:"id"`
 
 	//State: Gets the state of virtual network rule.
 	State *VirtualNetworkRuleState `json:"state,omitempty"`
@@ -6284,11 +6264,7 @@ func (rule *VirtualNetworkRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 	}
 
 	// Set property ‘Id’:
-	referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(rule.Reference)
-	if err != nil {
-		return nil, err
-	}
-	result.Id = referenceARMID
+	result.Id = rule.Id
 
 	// Set property ‘State’:
 	if rule.State != nil {
@@ -6316,7 +6292,8 @@ func (rule *VirtualNetworkRule) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		rule.Action = &action
 	}
 
-	// no assignment for property ‘Reference’
+	// Set property ‘Id’:
+	rule.Id = typedInput.Id
 
 	// Set property ‘State’:
 	if typedInput.State != nil {
@@ -6339,8 +6316,8 @@ func (rule *VirtualNetworkRule) AssignPropertiesFromVirtualNetworkRule(source *v
 		rule.Action = nil
 	}
 
-	// Reference
-	rule.Reference = source.Reference.Copy()
+	// Id
+	rule.Id = genruntime.GetOptionalStringValue(source.Id)
 
 	// State
 	if source.State != nil {
@@ -6367,8 +6344,9 @@ func (rule *VirtualNetworkRule) AssignPropertiesToVirtualNetworkRule(destination
 		destination.Action = nil
 	}
 
-	// Reference
-	destination.Reference = rule.Reference.Copy()
+	// Id
+	id := rule.Id
+	destination.Id = &id
 
 	// State
 	if rule.State != nil {

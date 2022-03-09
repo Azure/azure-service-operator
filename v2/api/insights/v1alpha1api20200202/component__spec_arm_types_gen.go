@@ -93,6 +93,10 @@ type ApplicationInsightsComponentPropertiesARM struct {
 
 	//SamplingPercentage: Percentage of the data produced by the application being
 	//monitored that is being sampled for Application Insights telemetry.
-	SamplingPercentage  *float64 `json:"SamplingPercentage,omitempty"`
-	WorkspaceResourceId *string  `json:"workspaceResourceId,omitempty"`
+	SamplingPercentage *float64 `json:"SamplingPercentage,omitempty"`
+
+	//WorkspaceResourceId: Resource Id of the log analytics workspace which the data
+	//will be ingested to. This property is required to create an application with
+	//this API version. Applications from older versions will not have this property.
+	WorkspaceResourceId *string `json:"WorkspaceResourceId,omitempty"`
 }

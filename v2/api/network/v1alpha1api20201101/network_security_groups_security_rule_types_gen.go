@@ -346,6 +346,9 @@ type NetworkSecurityGroupsSecurityRule_Spec struct {
 	//evaluated on incoming or outgoing traffic.
 	Direction *SecurityRuleDirection `json:"direction,omitempty"`
 
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
@@ -356,9 +359,6 @@ type NetworkSecurityGroupsSecurityRule_Spec struct {
 
 	//Protocol: Network protocol this rule applies to.
 	Protocol *SecurityRulePropertiesFormatProtocol `json:"protocol,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	//SourceAddressPrefix: The CIDR or source IP range. Asterisk '*' can also be used
 	//to match all source IPs. Default tags such as 'VirtualNetwork',
@@ -397,13 +397,9 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) ConvertToARM(resolved genrun
 	result.AzureName = rule.AzureName
 
 	// Set property ‘Id’:
-	if rule.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*rule.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if rule.Id != nil {
+		id := *rule.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Name’:
@@ -578,6 +574,12 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) PopulateFromARM(owner genrun
 		rule.Direction = &typedInput.Properties.Direction
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		rule.Id = &id
+	}
+
 	// Set property ‘Owner’:
 	rule.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
@@ -597,8 +599,6 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) PopulateFromARM(owner genrun
 	if typedInput.Properties != nil {
 		rule.Protocol = &typedInput.Properties.Protocol
 	}
-
-	// no assignment for property ‘Reference’
 
 	// Set property ‘SourceAddressPrefix’:
 	// copying flattened property:
@@ -762,6 +762,9 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) AssignPropertiesFromNetworkS
 		rule.Direction = nil
 	}
 
+	// Id
+	rule.Id = genruntime.ClonePointerToString(source.Id)
+
 	// Owner
 	rule.Owner = source.Owner.Copy()
 
@@ -774,14 +777,6 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) AssignPropertiesFromNetworkS
 		rule.Protocol = &protocol
 	} else {
 		rule.Protocol = nil
-	}
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		rule.Reference = &reference
-	} else {
-		rule.Reference = nil
 	}
 
 	// SourceAddressPrefix
@@ -878,6 +873,9 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) AssignPropertiesToNetworkSec
 		destination.Direction = nil
 	}
 
+	// Id
+	destination.Id = genruntime.ClonePointerToString(rule.Id)
+
 	// OriginalVersion
 	destination.OriginalVersion = rule.OriginalVersion()
 
@@ -893,14 +891,6 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) AssignPropertiesToNetworkSec
 		destination.Protocol = &protocol
 	} else {
 		destination.Protocol = nil
-	}
-
-	// Reference
-	if rule.Reference != nil {
-		reference := rule.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// SourceAddressPrefix
@@ -1479,11 +1469,11 @@ func (embedded *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourc
 }
 
 type ApplicationSecurityGroupSpec struct {
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
 	//Location: Resource location.
 	Location *string `json:"location,omitempty"`
-
-	//Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -1499,13 +1489,9 @@ func (group *ApplicationSecurityGroupSpec) ConvertToARM(resolved genruntime.Conv
 	var result ApplicationSecurityGroupSpecARM
 
 	// Set property ‘Id’:
-	if group.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*group.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if group.Id != nil {
+		id := *group.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Location’:
@@ -1536,13 +1522,17 @@ func (group *ApplicationSecurityGroupSpec) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationSecurityGroupSpecARM, got %T", armInput)
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		group.Id = &id
+	}
+
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		group.Location = &location
 	}
-
-	// no assignment for property ‘Reference’
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
@@ -1559,16 +1549,11 @@ func (group *ApplicationSecurityGroupSpec) PopulateFromARM(owner genruntime.Arbi
 // AssignPropertiesFromApplicationSecurityGroupSpec populates our ApplicationSecurityGroupSpec from the provided source ApplicationSecurityGroupSpec
 func (group *ApplicationSecurityGroupSpec) AssignPropertiesFromApplicationSecurityGroupSpec(source *v1alpha1api20201101storage.ApplicationSecurityGroupSpec) error {
 
+	// Id
+	group.Id = genruntime.ClonePointerToString(source.Id)
+
 	// Location
 	group.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		group.Reference = &reference
-	} else {
-		group.Reference = nil
-	}
 
 	// Tags
 	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
@@ -1582,16 +1567,11 @@ func (group *ApplicationSecurityGroupSpec) AssignPropertiesToApplicationSecurity
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// Id
+	destination.Id = genruntime.ClonePointerToString(group.Id)
+
 	// Location
 	destination.Location = genruntime.ClonePointerToString(group.Location)
-
-	// Reference
-	if group.Reference != nil {
-		reference := group.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(group.Tags)

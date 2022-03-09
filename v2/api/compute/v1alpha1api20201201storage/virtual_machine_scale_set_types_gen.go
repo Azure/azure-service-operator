@@ -466,11 +466,8 @@ type VirtualMachineScaleSetStorageProfile_Status struct {
 
 //Storage version of v1alpha1api20201201.ApiEntityReference
 type ApiEntityReference struct {
+	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//Reference: The ARM resource id in the form of
-	///subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 //Storage version of v1alpha1api20201201.ApiEntityReference_Status
@@ -533,14 +530,12 @@ type VirtualMachineScaleSetNetworkConfiguration struct {
 	EnableAcceleratedNetworking *bool                                                  `json:"enableAcceleratedNetworking,omitempty"`
 	EnableFpga                  *bool                                                  `json:"enableFpga,omitempty"`
 	EnableIPForwarding          *bool                                                  `json:"enableIPForwarding,omitempty"`
+	Id                          *string                                                `json:"id,omitempty"`
 	IpConfigurations            []VirtualMachineScaleSetIPConfiguration                `json:"ipConfigurations,omitempty"`
 	Name                        *string                                                `json:"name,omitempty"`
 	NetworkSecurityGroup        *SubResource                                           `json:"networkSecurityGroup,omitempty"`
 	Primary                     *bool                                                  `json:"primary,omitempty"`
 	PropertyBag                 genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
-
-	//Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 //Storage version of v1alpha1api20201201.VirtualMachineScaleSetNetworkConfiguration_Status
@@ -591,6 +586,7 @@ type VirtualMachineScaleSetOSDisk_Status struct {
 type VirtualMachineScaleSetIPConfiguration struct {
 	ApplicationGatewayBackendAddressPools []SubResource                                       `json:"applicationGatewayBackendAddressPools,omitempty"`
 	ApplicationSecurityGroups             []SubResource                                       `json:"applicationSecurityGroups,omitempty"`
+	Id                                    *string                                             `json:"id,omitempty"`
 	LoadBalancerBackendAddressPools       []SubResource                                       `json:"loadBalancerBackendAddressPools,omitempty"`
 	LoadBalancerInboundNatPools           []SubResource                                       `json:"loadBalancerInboundNatPools,omitempty"`
 	Name                                  *string                                             `json:"name,omitempty"`
@@ -598,10 +594,7 @@ type VirtualMachineScaleSetIPConfiguration struct {
 	PrivateIPAddressVersion               *string                                             `json:"privateIPAddressVersion,omitempty"`
 	PropertyBag                           genruntime.PropertyBag                              `json:"$propertyBag,omitempty"`
 	PublicIPAddressConfiguration          *VirtualMachineScaleSetPublicIPAddressConfiguration `json:"publicIPAddressConfiguration,omitempty"`
-
-	//Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Subnet    *ApiEntityReference           `json:"subnet,omitempty"`
+	Subnet                                *ApiEntityReference                                 `json:"subnet,omitempty"`
 }
 
 //Storage version of v1alpha1api20201201.VirtualMachineScaleSetIPConfiguration_Status

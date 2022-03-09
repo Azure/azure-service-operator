@@ -302,6 +302,8 @@ type ActiveDirectoryPropertiesARM struct {
 }
 
 type EncryptionIdentityARM struct {
+	//UserAssignedIdentity: Resource identifier of the UserAssigned identity to be
+	//associated with server-side encryption on the storage account.
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }
 
@@ -339,6 +341,7 @@ type KeyVaultPropertiesARM struct {
 }
 
 type ResourceAccessRuleARM struct {
+	//ResourceId: Resource Id
 	ResourceId *string `json:"resourceId,omitempty"`
 
 	//TenantId: Tenant Id
@@ -348,7 +351,10 @@ type ResourceAccessRuleARM struct {
 type VirtualNetworkRuleARM struct {
 	//Action: The action of virtual network rule.
 	Action *VirtualNetworkRuleAction `json:"action,omitempty"`
-	Id     string                    `json:"id"`
+
+	//Id: Resource ID of a subnet, for example:
+	///subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
+	Id string `json:"id"`
 
 	//State: Gets the state of virtual network rule.
 	State *VirtualNetworkRuleState `json:"state,omitempty"`

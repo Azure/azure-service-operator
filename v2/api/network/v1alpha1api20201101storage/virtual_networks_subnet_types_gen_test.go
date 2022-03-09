@@ -242,6 +242,7 @@ func AddIndependentPropertyGeneratorsForVirtualNetworksSubnet_Spec(gens map[stri
 	gens["AddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["AddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["PrivateEndpointNetworkPolicies"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateLinkServiceNetworkPolicies"] = gen.PtrOf(gen.AlphaString())
@@ -325,6 +326,7 @@ func ApplicationGatewayIPConfigurationGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForApplicationGatewayIPConfiguration is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewayIPConfiguration(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -876,6 +878,7 @@ func RouteTableSpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRouteTableSpec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRouteTableSpec(gens map[string]gopter.Gen) {
 	gens["DisableBgpRoutePropagation"] = gen.PtrOf(gen.Bool())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
@@ -1074,6 +1077,7 @@ func ServiceEndpointPolicySpecGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForServiceEndpointPolicySpec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServiceEndpointPolicySpec(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
@@ -1392,7 +1396,13 @@ func ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbeddedGe
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbedded(generators)
 	serviceEndpointPolicyDefinition_virtualNetworksSubnet_subResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
 
 	return serviceEndpointPolicyDefinition_virtualNetworksSubnet_subResourceEmbeddedGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }

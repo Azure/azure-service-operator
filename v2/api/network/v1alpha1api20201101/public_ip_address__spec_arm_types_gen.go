@@ -10,7 +10,9 @@ type PublicIPAddress_SpecARM struct {
 
 	//ExtendedLocation: The extended location of the public ip address.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-	Id               *string              `json:"id,omitempty"`
+
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
 
 	//Location: Resource location.
 	Location *string `json:"location,omitempty"`
@@ -118,6 +120,7 @@ type IpTagARM struct {
 }
 
 type NatGatewaySpecARM struct {
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
 	//Location: Resource location.
@@ -175,7 +178,9 @@ const (
 type PublicIPAddressSpec_SubResourceEmbeddedARM struct {
 	//ExtendedLocation: The extended location of the public ip address.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-	Id               *string              `json:"id,omitempty"`
+
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
 
 	//Location: Resource location.
 	Location *string `json:"location,omitempty"`
@@ -192,6 +197,7 @@ type PublicIPAddressSpec_SubResourceEmbeddedARM struct {
 }
 
 type SubResourceARM struct {
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 

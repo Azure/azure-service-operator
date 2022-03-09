@@ -193,18 +193,16 @@ type Namespace_Spec struct {
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName string `json:"azureName"`
-
-	//ClusterArmReference: Cluster ARM ID of the Namespace.
-	ClusterArmReference    *genruntime.ResourceReference `armReference:"ClusterArmId" json:"clusterArmReference,omitempty"`
-	DisableLocalAuth       *bool                         `json:"disableLocalAuth,omitempty"`
-	Encryption             *Encryption                   `json:"encryption,omitempty"`
-	Identity               *Identity                     `json:"identity,omitempty"`
-	IsAutoInflateEnabled   *bool                         `json:"isAutoInflateEnabled,omitempty"`
-	KafkaEnabled           *bool                         `json:"kafkaEnabled,omitempty"`
-	Location               *string                       `json:"location,omitempty"`
-	MaximumThroughputUnits *int                          `json:"maximumThroughputUnits,omitempty"`
-	OriginalVersion        string                        `json:"originalVersion"`
+	AzureName              string      `json:"azureName"`
+	ClusterArmId           *string     `json:"clusterArmId,omitempty"`
+	DisableLocalAuth       *bool       `json:"disableLocalAuth,omitempty"`
+	Encryption             *Encryption `json:"encryption,omitempty"`
+	Identity               *Identity   `json:"identity,omitempty"`
+	IsAutoInflateEnabled   *bool       `json:"isAutoInflateEnabled,omitempty"`
+	KafkaEnabled           *bool       `json:"kafkaEnabled,omitempty"`
+	Location               *string     `json:"location,omitempty"`
+	MaximumThroughputUnits *int        `json:"maximumThroughputUnits,omitempty"`
+	OriginalVersion        string      `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
 	Owner                      genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
@@ -335,10 +333,8 @@ type KeyVaultProperties_Status struct {
 
 //Storage version of v1alpha1api20211101.PrivateEndpoint
 type PrivateEndpoint struct {
+	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//Reference: The ARM identifier for Private Endpoint.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 //Storage version of v1alpha1api20211101.UserAssignedIdentity_Status
@@ -350,10 +346,8 @@ type UserAssignedIdentity_Status struct {
 
 //Storage version of v1alpha1api20211101.UserAssignedIdentityProperties
 type UserAssignedIdentityProperties struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	//UserAssignedIdentityReference: ARM ID of user Identity selected for encryption
-	UserAssignedIdentityReference *genruntime.ResourceReference `armReference:"UserAssignedIdentity" json:"userAssignedIdentityReference,omitempty"`
+	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	UserAssignedIdentity *string                `json:"userAssignedIdentity,omitempty"`
 }
 
 //Storage version of v1alpha1api20211101.UserAssignedIdentityProperties_Status

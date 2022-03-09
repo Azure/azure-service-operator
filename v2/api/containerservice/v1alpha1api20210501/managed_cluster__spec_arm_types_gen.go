@@ -86,8 +86,11 @@ type ManagedClusterPropertiesARM struct {
 	//disabled for this cluster. This must only be used on Managed Clusters that are
 	//AAD enabled. For more details see [disable local
 	//accounts](https://docs.microsoft.com/azure/aks/managed-aad#disable-local-accounts-preview).
-	DisableLocalAccounts *bool   `json:"disableLocalAccounts,omitempty"`
-	DiskEncryptionSetID  *string `json:"diskEncryptionSetID,omitempty"`
+	DisableLocalAccounts *bool `json:"disableLocalAccounts,omitempty"`
+
+	//DiskEncryptionSetID: This is of the form:
+	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{encryptionSetName}'
+	DiskEncryptionSetID *string `json:"diskEncryptionSetID,omitempty"`
 
 	//DnsPrefix: This cannot be updated once the Managed Cluster has been created.
 	DnsPrefix *string `json:"dnsPrefix,omitempty"`
@@ -314,8 +317,11 @@ type ManagedClusterAgentPoolProfileARM struct {
 	Name *string `json:"name,omitempty"`
 
 	//NodeLabels: The node labels to be persisted across all nodes in agent pool.
-	NodeLabels           map[string]string `json:"nodeLabels,omitempty"`
-	NodePublicIPPrefixID *string           `json:"nodePublicIPPrefixID,omitempty"`
+	NodeLabels map[string]string `json:"nodeLabels,omitempty"`
+
+	//NodePublicIPPrefixID: This is of the form:
+	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
+	NodePublicIPPrefixID *string `json:"nodePublicIPPrefixID,omitempty"`
 
 	//NodeTaints: The taints added to new nodes during node pool create and scale. For
 	//example, key=value:NoSchedule.
@@ -333,7 +339,11 @@ type ManagedClusterAgentPoolProfileARM struct {
 	OsDiskType          *OSDiskType             `json:"osDiskType,omitempty"`
 	OsSKU               *OSSKU                  `json:"osSKU,omitempty"`
 	OsType              *OSType                 `json:"osType,omitempty"`
-	PodSubnetID         *string                 `json:"podSubnetID,omitempty"`
+
+	//PodSubnetID: If omitted, pod IPs are statically assigned on the node subnet (see
+	//vnetSubnetID for more details). This is of the form:
+	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
+	PodSubnetID *string `json:"podSubnetID,omitempty"`
 
 	//ProximityPlacementGroupID: The ID for Proximity Placement Group.
 	ProximityPlacementGroupID *string `json:"proximityPlacementGroupID,omitempty"`
@@ -363,7 +373,12 @@ type ManagedClusterAgentPoolProfileARM struct {
 	//compute resources (memory, cpu, etc) pods might fail to run correctly. For more
 	//details on restricted VM sizes, see:
 	//https://docs.microsoft.com/azure/aks/quotas-skus-regions
-	VmSize       *string `json:"vmSize,omitempty"`
+	VmSize *string `json:"vmSize,omitempty"`
+
+	//VnetSubnetID: If this is not specified, a VNET and subnet will be generated and
+	//used. If no podSubnetID is specified, this applies to nodes and pods, otherwise
+	//it applies to just nodes. This is of the form:
+	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 	VnetSubnetID *string `json:"vnetSubnetID,omitempty"`
 }
 
@@ -616,6 +631,7 @@ type ManagedClusterLoadBalancerProfileOutboundIPsARM struct {
 }
 
 type ResourceReferenceARM struct {
+	//Id: The fully qualified Azure resource id.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -624,6 +640,8 @@ type UserAssignedIdentityARM struct {
 	ClientId *string `json:"clientId,omitempty"`
 
 	//ObjectId: The object ID of the user assigned identity.
-	ObjectId   *string `json:"objectId,omitempty"`
+	ObjectId *string `json:"objectId,omitempty"`
+
+	//ResourceId: The resource ID of the user assigned identity.
 	ResourceId *string `json:"resourceId,omitempty"`
 }

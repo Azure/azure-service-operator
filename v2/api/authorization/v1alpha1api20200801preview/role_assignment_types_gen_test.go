@@ -272,6 +272,7 @@ func AddIndependentPropertyGeneratorsForRoleAssignment_Spec(gens map[string]gopt
 		RoleAssignmentPropertiesPrincipalTypeGroup,
 		RoleAssignmentPropertiesPrincipalTypeServicePrincipal,
 		RoleAssignmentPropertiesPrincipalTypeUser))
+	gens["RoleDefinitionId"] = gen.AlphaString()
 }
 
 func Test_RoleAssignment_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

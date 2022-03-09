@@ -122,8 +122,12 @@ type MaintenanceWindowARM struct {
 }
 
 type NetworkARM struct {
+	//DelegatedSubnetResourceId: Delegated subnet resource id used to setup vnet for a
+	//server.
 	DelegatedSubnetResourceId *string `json:"delegatedSubnetResourceId,omitempty"`
-	PrivateDnsZoneResourceId  *string `json:"privateDnsZoneResourceId,omitempty"`
+
+	//PrivateDnsZoneResourceId: Private DNS zone resource id.
+	PrivateDnsZoneResourceId *string `json:"privateDnsZoneResourceId,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Burstable","GeneralPurpose","MemoryOptimized"}

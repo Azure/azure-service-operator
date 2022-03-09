@@ -330,9 +330,9 @@ type Disk_Spec struct {
 	//changed after the disk has been created.
 	CreationData *CreationData `json:"creationData,omitempty"`
 
-	//DiskAccessReference: ARM id of the DiskAccess resource for using private
-	//endpoints on disks.
-	DiskAccessReference *genruntime.ResourceReference `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
+	//DiskAccessId: ARM id of the DiskAccess resource for using private endpoints on
+	//disks.
+	DiskAccessId *string `json:"diskAccessId,omitempty"`
 
 	//DiskIOPSReadOnly: The total number of IOPS that will be allowed across all VMs
 	//mounting the shared disk as ReadOnly. One operation can transfer between 4k and
@@ -444,7 +444,7 @@ func (disk *Disk_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 	// Set property ‘Properties’:
 	if disk.BurstingEnabled != nil ||
 		disk.CreationData != nil ||
-		disk.DiskAccessReference != nil ||
+		disk.DiskAccessId != nil ||
 		disk.DiskIOPSReadOnly != nil ||
 		disk.DiskIOPSReadWrite != nil ||
 		disk.DiskMBpsReadOnly != nil ||
@@ -472,12 +472,8 @@ func (disk *Disk_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 	}
 	temp = tempARM.(CreationDataARM)
 	result.Properties.CreationData = temp
-	if disk.DiskAccessReference != nil {
-		diskAccessIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*disk.DiskAccessReference)
-		if err != nil {
-			return nil, err
-		}
-		diskAccessId := diskAccessIdARMID
+	if disk.DiskAccessId != nil {
+		diskAccessId := *disk.DiskAccessId
 		result.Properties.DiskAccessId = &diskAccessId
 	}
 	if disk.DiskIOPSReadOnly != nil {
@@ -611,7 +607,14 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		disk.CreationData = &temp
 	}
 
-	// no assignment for property ‘DiskAccessReference’
+	// Set property ‘DiskAccessId’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DiskAccessId != nil {
+			diskAccessId := *typedInput.Properties.DiskAccessId
+			disk.DiskAccessId = &diskAccessId
+		}
+	}
 
 	// Set property ‘DiskIOPSReadOnly’:
 	// copying flattened property:
@@ -877,13 +880,8 @@ func (disk *Disk_Spec) AssignPropertiesFromDisk_Spec(source *v1alpha1api20200930
 		disk.CreationData = nil
 	}
 
-	// DiskAccessReference
-	if source.DiskAccessReference != nil {
-		diskAccessReference := source.DiskAccessReference.Copy()
-		disk.DiskAccessReference = &diskAccessReference
-	} else {
-		disk.DiskAccessReference = nil
-	}
+	// DiskAccessId
+	disk.DiskAccessId = genruntime.ClonePointerToString(source.DiskAccessId)
 
 	// DiskIOPSReadOnly
 	disk.DiskIOPSReadOnly = genruntime.ClonePointerToInt(source.DiskIOPSReadOnly)
@@ -1042,13 +1040,8 @@ func (disk *Disk_Spec) AssignPropertiesToDisk_Spec(destination *v1alpha1api20200
 		destination.CreationData = nil
 	}
 
-	// DiskAccessReference
-	if disk.DiskAccessReference != nil {
-		diskAccessReference := disk.DiskAccessReference.Copy()
-		destination.DiskAccessReference = &diskAccessReference
-	} else {
-		destination.DiskAccessReference = nil
-	}
+	// DiskAccessId
+	destination.DiskAccessId = genruntime.ClonePointerToString(disk.DiskAccessId)
 
 	// DiskIOPSReadOnly
 	destination.DiskIOPSReadOnly = genruntime.ClonePointerToInt(disk.DiskIOPSReadOnly)
@@ -2071,9 +2064,9 @@ type CreationData struct {
 	//values are 512 ad 4096. 4096 is the default.
 	LogicalSectorSize *int `json:"logicalSectorSize,omitempty"`
 
-	//SourceResourceReference: If createOption is Copy, this is the ARM id of the
-	//source snapshot or disk.
-	SourceResourceReference *genruntime.ResourceReference `armReference:"SourceResourceId" json:"sourceResourceReference,omitempty"`
+	//SourceResourceId: If createOption is Copy, this is the ARM id of the source
+	//snapshot or disk.
+	SourceResourceId *string `json:"sourceResourceId,omitempty"`
 
 	//SourceUri: If createOption is Import, this is the URI of a blob to be imported
 	//into a managed disk.
@@ -2129,13 +2122,9 @@ func (data *CreationData) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	}
 
 	// Set property ‘SourceResourceId’:
-	if data.SourceResourceReference != nil {
-		sourceResourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*data.SourceResourceReference)
-		if err != nil {
-			return nil, err
-		}
-		sourceResourceReference := sourceResourceReferenceARMID
-		result.SourceResourceId = &sourceResourceReference
+	if data.SourceResourceId != nil {
+		sourceResourceId := *data.SourceResourceId
+		result.SourceResourceId = &sourceResourceId
 	}
 
 	// Set property ‘SourceUri’:
@@ -2201,7 +2190,11 @@ func (data *CreationData) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		data.LogicalSectorSize = &logicalSectorSize
 	}
 
-	// no assignment for property ‘SourceResourceReference’
+	// Set property ‘SourceResourceId’:
+	if typedInput.SourceResourceId != nil {
+		sourceResourceId := *typedInput.SourceResourceId
+		data.SourceResourceId = &sourceResourceId
+	}
 
 	// Set property ‘SourceUri’:
 	if typedInput.SourceUri != nil {
@@ -2262,13 +2255,8 @@ func (data *CreationData) AssignPropertiesFromCreationData(source *v1alpha1api20
 	// LogicalSectorSize
 	data.LogicalSectorSize = genruntime.ClonePointerToInt(source.LogicalSectorSize)
 
-	// SourceResourceReference
-	if source.SourceResourceReference != nil {
-		sourceResourceReference := source.SourceResourceReference.Copy()
-		data.SourceResourceReference = &sourceResourceReference
-	} else {
-		data.SourceResourceReference = nil
-	}
+	// SourceResourceId
+	data.SourceResourceId = genruntime.ClonePointerToString(source.SourceResourceId)
 
 	// SourceUri
 	data.SourceUri = genruntime.ClonePointerToString(source.SourceUri)
@@ -2319,13 +2307,8 @@ func (data *CreationData) AssignPropertiesToCreationData(destination *v1alpha1ap
 	// LogicalSectorSize
 	destination.LogicalSectorSize = genruntime.ClonePointerToInt(data.LogicalSectorSize)
 
-	// SourceResourceReference
-	if data.SourceResourceReference != nil {
-		sourceResourceReference := data.SourceResourceReference.Copy()
-		destination.SourceResourceReference = &sourceResourceReference
-	} else {
-		destination.SourceResourceReference = nil
-	}
+	// SourceResourceId
+	destination.SourceResourceId = genruntime.ClonePointerToString(data.SourceResourceId)
 
 	// SourceUri
 	destination.SourceUri = genruntime.ClonePointerToString(data.SourceUri)
@@ -2765,10 +2748,10 @@ const (
 )
 
 type Encryption struct {
-	//DiskEncryptionSetReference: ResourceId of the disk encryption set to use for
-	//enabling encryption at rest.
-	DiskEncryptionSetReference *genruntime.ResourceReference `armReference:"DiskEncryptionSetId" json:"diskEncryptionSetReference,omitempty"`
-	Type                       *EncryptionType               `json:"type,omitempty"`
+	//DiskEncryptionSetId: ResourceId of the disk encryption set to use for enabling
+	//encryption at rest.
+	DiskEncryptionSetId *string         `json:"diskEncryptionSetId,omitempty"`
+	Type                *EncryptionType `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Encryption{}
@@ -2781,13 +2764,9 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 	var result EncryptionARM
 
 	// Set property ‘DiskEncryptionSetId’:
-	if encryption.DiskEncryptionSetReference != nil {
-		diskEncryptionSetReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*encryption.DiskEncryptionSetReference)
-		if err != nil {
-			return nil, err
-		}
-		diskEncryptionSetReference := diskEncryptionSetReferenceARMID
-		result.DiskEncryptionSetId = &diskEncryptionSetReference
+	if encryption.DiskEncryptionSetId != nil {
+		diskEncryptionSetId := *encryption.DiskEncryptionSetId
+		result.DiskEncryptionSetId = &diskEncryptionSetId
 	}
 
 	// Set property ‘Type’:
@@ -2810,7 +2789,11 @@ func (encryption *Encryption) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘DiskEncryptionSetReference’
+	// Set property ‘DiskEncryptionSetId’:
+	if typedInput.DiskEncryptionSetId != nil {
+		diskEncryptionSetId := *typedInput.DiskEncryptionSetId
+		encryption.DiskEncryptionSetId = &diskEncryptionSetId
+	}
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
@@ -2825,13 +2808,8 @@ func (encryption *Encryption) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 // AssignPropertiesFromEncryption populates our Encryption from the provided source Encryption
 func (encryption *Encryption) AssignPropertiesFromEncryption(source *v1alpha1api20200930storage.Encryption) error {
 
-	// DiskEncryptionSetReference
-	if source.DiskEncryptionSetReference != nil {
-		diskEncryptionSetReference := source.DiskEncryptionSetReference.Copy()
-		encryption.DiskEncryptionSetReference = &diskEncryptionSetReference
-	} else {
-		encryption.DiskEncryptionSetReference = nil
-	}
+	// DiskEncryptionSetId
+	encryption.DiskEncryptionSetId = genruntime.ClonePointerToString(source.DiskEncryptionSetId)
 
 	// Type
 	if source.Type != nil {
@@ -2850,13 +2828,8 @@ func (encryption *Encryption) AssignPropertiesToEncryption(destination *v1alpha1
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// DiskEncryptionSetReference
-	if encryption.DiskEncryptionSetReference != nil {
-		diskEncryptionSetReference := encryption.DiskEncryptionSetReference.Copy()
-		destination.DiskEncryptionSetReference = &diskEncryptionSetReference
-	} else {
-		destination.DiskEncryptionSetReference = nil
-	}
+	// DiskEncryptionSetId
+	destination.DiskEncryptionSetId = genruntime.ClonePointerToString(encryption.DiskEncryptionSetId)
 
 	// Type
 	if encryption.Type != nil {
@@ -4004,15 +3977,15 @@ const (
 )
 
 type ImageDiskReference struct {
+	// +kubebuilder:validation:Required
+	//Id: A relative uri containing either a Platform Image Repository or user image
+	//reference.
+	Id string `json:"id"`
+
 	//Lun: If the disk is created from an image's data disk, this is an index that
 	//indicates which of the data disks in the image to use. For OS disks, this field
 	//is null.
 	Lun *int `json:"lun,omitempty"`
-
-	// +kubebuilder:validation:Required
-	//Reference: A relative uri containing either a Platform Image Repository or user
-	//image reference.
-	Reference genruntime.ResourceReference `armReference:"Id" json:"reference"`
 }
 
 var _ genruntime.ARMTransformer = &ImageDiskReference{}
@@ -4025,11 +3998,7 @@ func (reference *ImageDiskReference) ConvertToARM(resolved genruntime.ConvertToA
 	var result ImageDiskReferenceARM
 
 	// Set property ‘Id’:
-	referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(reference.Reference)
-	if err != nil {
-		return nil, err
-	}
-	result.Id = referenceARMID
+	result.Id = reference.Id
 
 	// Set property ‘Lun’:
 	if reference.Lun != nil {
@@ -4051,13 +4020,14 @@ func (reference *ImageDiskReference) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageDiskReferenceARM, got %T", armInput)
 	}
 
+	// Set property ‘Id’:
+	reference.Id = typedInput.Id
+
 	// Set property ‘Lun’:
 	if typedInput.Lun != nil {
 		lun := *typedInput.Lun
 		reference.Lun = &lun
 	}
-
-	// no assignment for property ‘Reference’
 
 	// No error
 	return nil
@@ -4066,11 +4036,11 @@ func (reference *ImageDiskReference) PopulateFromARM(owner genruntime.ArbitraryO
 // AssignPropertiesFromImageDiskReference populates our ImageDiskReference from the provided source ImageDiskReference
 func (reference *ImageDiskReference) AssignPropertiesFromImageDiskReference(source *v1alpha1api20200930storage.ImageDiskReference) error {
 
+	// Id
+	reference.Id = genruntime.GetOptionalStringValue(source.Id)
+
 	// Lun
 	reference.Lun = genruntime.ClonePointerToInt(source.Lun)
-
-	// Reference
-	reference.Reference = source.Reference.Copy()
 
 	// No error
 	return nil
@@ -4081,11 +4051,12 @@ func (reference *ImageDiskReference) AssignPropertiesToImageDiskReference(destin
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// Id
+	id := reference.Id
+	destination.Id = &id
+
 	// Lun
 	destination.Lun = genruntime.ClonePointerToInt(reference.Lun)
-
-	// Reference
-	destination.Reference = reference.Reference.Copy()
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4568,8 +4539,8 @@ func (reference *KeyVaultAndSecretReference_Status) AssignPropertiesToKeyVaultAn
 }
 
 type SourceVault struct {
-	//Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	//Id: Resource Id
+	Id *string `json:"id,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SourceVault{}
@@ -4582,13 +4553,9 @@ func (vault *SourceVault) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	var result SourceVaultARM
 
 	// Set property ‘Id’:
-	if vault.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*vault.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
+	if vault.Id != nil {
+		id := *vault.Id
+		result.Id = &id
 	}
 	return result, nil
 }
@@ -4600,12 +4567,16 @@ func (vault *SourceVault) NewEmptyARMValue() genruntime.ARMResourceStatus {
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (vault *SourceVault) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(SourceVaultARM)
+	typedInput, ok := armInput.(SourceVaultARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SourceVaultARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		vault.Id = &id
+	}
 
 	// No error
 	return nil
@@ -4614,13 +4585,8 @@ func (vault *SourceVault) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 // AssignPropertiesFromSourceVault populates our SourceVault from the provided source SourceVault
 func (vault *SourceVault) AssignPropertiesFromSourceVault(source *v1alpha1api20200930storage.SourceVault) error {
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		vault.Reference = &reference
-	} else {
-		vault.Reference = nil
-	}
+	// Id
+	vault.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
@@ -4631,13 +4597,8 @@ func (vault *SourceVault) AssignPropertiesToSourceVault(destination *v1alpha1api
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Reference
-	if vault.Reference != nil {
-		reference := vault.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
+	// Id
+	destination.Id = genruntime.ClonePointerToString(vault.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

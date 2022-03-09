@@ -248,14 +248,12 @@ type WorkspaceCapping_Status struct {
 
 //Storage version of v1alpha1api20210601.WorkspaceFeatures
 type WorkspaceFeatures struct {
-	//ClusterResourceReference: Dedicated LA cluster resourceId that is linked to the
-	//workspaces.
-	ClusterResourceReference                    *genruntime.ResourceReference `armReference:"ClusterResourceId" json:"clusterResourceReference,omitempty"`
-	DisableLocalAuth                            *bool                         `json:"disableLocalAuth,omitempty"`
-	EnableDataExport                            *bool                         `json:"enableDataExport,omitempty"`
-	EnableLogAccessUsingOnlyResourcePermissions *bool                         `json:"enableLogAccessUsingOnlyResourcePermissions,omitempty"`
-	ImmediatePurgeDataOn30Days                  *bool                         `json:"immediatePurgeDataOn30Days,omitempty"`
-	PropertyBag                                 genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	ClusterResourceId                           *string                `json:"clusterResourceId,omitempty"`
+	DisableLocalAuth                            *bool                  `json:"disableLocalAuth,omitempty"`
+	EnableDataExport                            *bool                  `json:"enableDataExport,omitempty"`
+	EnableLogAccessUsingOnlyResourcePermissions *bool                  `json:"enableLogAccessUsingOnlyResourcePermissions,omitempty"`
+	ImmediatePurgeDataOn30Days                  *bool                  `json:"immediatePurgeDataOn30Days,omitempty"`
+	PropertyBag                                 genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v1alpha1api20210601.WorkspaceFeatures_Status

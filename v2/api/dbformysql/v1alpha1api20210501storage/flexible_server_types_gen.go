@@ -285,13 +285,9 @@ type MaintenanceWindow_Status struct {
 
 //Storage version of v1alpha1api20210501.Network
 type Network struct {
-	//DelegatedSubnetResourceReference: Delegated subnet resource id used to setup
-	//vnet for a server.
-	DelegatedSubnetResourceReference *genruntime.ResourceReference `armReference:"DelegatedSubnetResourceId" json:"delegatedSubnetResourceReference,omitempty"`
-
-	//PrivateDnsZoneResourceReference: Private DNS zone resource id.
-	PrivateDnsZoneResourceReference *genruntime.ResourceReference `armReference:"PrivateDnsZoneResourceId" json:"privateDnsZoneResourceReference,omitempty"`
-	PropertyBag                     genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	DelegatedSubnetResourceId *string                `json:"delegatedSubnetResourceId,omitempty"`
+	PrivateDnsZoneResourceId  *string                `json:"privateDnsZoneResourceId,omitempty"`
+	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v1alpha1api20210501.Network_Status

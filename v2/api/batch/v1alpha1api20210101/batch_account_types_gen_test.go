@@ -497,9 +497,15 @@ func AutoStorageBasePropertiesGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForAutoStorageBaseProperties(generators)
 	autoStorageBasePropertiesGenerator = gen.Struct(reflect.TypeOf(AutoStorageBaseProperties{}), generators)
 
 	return autoStorageBasePropertiesGenerator
+}
+
+// AddIndependentPropertyGeneratorsForAutoStorageBaseProperties is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAutoStorageBaseProperties(gens map[string]gopter.Gen) {
+	gens["StorageAccountId"] = gen.AlphaString()
 }
 
 func Test_AutoStorageBaseProperties_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1154,6 +1160,7 @@ func KeyVaultReferenceGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKeyVaultReference is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyVaultReference(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.AlphaString()
 	gens["Url"] = gen.AlphaString()
 }
 

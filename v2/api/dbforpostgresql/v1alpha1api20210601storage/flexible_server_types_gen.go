@@ -156,18 +156,15 @@ type FlexibleServer_Spec struct {
 	OriginalVersion   string             `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
-	Owner          genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PointInTimeUTC *string                           `json:"pointInTimeUTC,omitempty"`
-	PropertiesTags map[string]string                 `json:"properties_tags,omitempty"`
-	PropertyBag    genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Sku            *Sku                              `json:"sku,omitempty"`
-
-	//SourceServerResourceReference: The source server resource ID to restore from.
-	//It's required when 'createMode' is 'PointInTimeRestore'.
-	SourceServerResourceReference *genruntime.ResourceReference `armReference:"SourceServerResourceId" json:"sourceServerResourceReference,omitempty"`
-	Storage                       *Storage                      `json:"storage,omitempty"`
-	Tags                          map[string]string             `json:"tags,omitempty"`
-	Version                       *string                       `json:"version,omitempty"`
+	Owner                  genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	PointInTimeUTC         *string                           `json:"pointInTimeUTC,omitempty"`
+	PropertiesTags         map[string]string                 `json:"properties_tags,omitempty"`
+	PropertyBag            genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	Sku                    *Sku                              `json:"sku,omitempty"`
+	SourceServerResourceId *string                           `json:"sourceServerResourceId,omitempty"`
+	Storage                *Storage                          `json:"storage,omitempty"`
+	Tags                   map[string]string                 `json:"tags,omitempty"`
+	Version                *string                           `json:"version,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &FlexibleServer_Spec{}
@@ -288,12 +285,9 @@ type MaintenanceWindow_Status struct {
 
 //Storage version of v1alpha1api20210601.Network
 type Network struct {
-	//DelegatedSubnetResourceReference: delegated subnet arm resource id.
-	DelegatedSubnetResourceReference *genruntime.ResourceReference `armReference:"DelegatedSubnetResourceId" json:"delegatedSubnetResourceReference,omitempty"`
-
-	//PrivateDnsZoneArmResourceReference: private dns zone arm resource id.
-	PrivateDnsZoneArmResourceReference *genruntime.ResourceReference `armReference:"PrivateDnsZoneArmResourceId" json:"privateDnsZoneArmResourceReference,omitempty"`
-	PropertyBag                        genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	DelegatedSubnetResourceId   *string                `json:"delegatedSubnetResourceId,omitempty"`
+	PrivateDnsZoneArmResourceId *string                `json:"privateDnsZoneArmResourceId,omitempty"`
+	PropertyBag                 genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v1alpha1api20210601.Network_Status

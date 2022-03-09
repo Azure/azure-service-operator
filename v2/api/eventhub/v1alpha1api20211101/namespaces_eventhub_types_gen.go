@@ -1437,9 +1437,9 @@ type Destination struct {
 	//Name: Name for capture destination
 	Name *string `json:"name,omitempty"`
 
-	//StorageAccountResourceReference: Resource id of the storage account to be used
-	//to create the blobs
-	StorageAccountResourceReference *genruntime.ResourceReference `armReference:"StorageAccountResourceId" json:"storageAccountResourceReference,omitempty"`
+	//StorageAccountResourceId: Resource id of the storage account to be used to
+	//create the blobs
+	StorageAccountResourceId *string `json:"storageAccountResourceId,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Destination{}
@@ -1463,7 +1463,7 @@ func (destination *Destination) ConvertToARM(resolved genruntime.ConvertToARMRes
 		destination.DataLakeAccountName != nil ||
 		destination.DataLakeFolderPath != nil ||
 		destination.DataLakeSubscriptionId != nil ||
-		destination.StorageAccountResourceReference != nil {
+		destination.StorageAccountResourceId != nil {
 		result.Properties = &DestinationPropertiesARM{}
 	}
 	if destination.ArchiveNameFormat != nil {
@@ -1486,12 +1486,8 @@ func (destination *Destination) ConvertToARM(resolved genruntime.ConvertToARMRes
 		dataLakeSubscriptionId := *destination.DataLakeSubscriptionId
 		result.Properties.DataLakeSubscriptionId = &dataLakeSubscriptionId
 	}
-	if destination.StorageAccountResourceReference != nil {
-		storageAccountResourceIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*destination.StorageAccountResourceReference)
-		if err != nil {
-			return nil, err
-		}
-		storageAccountResourceId := storageAccountResourceIdARMID
+	if destination.StorageAccountResourceId != nil {
+		storageAccountResourceId := *destination.StorageAccountResourceId
 		result.Properties.StorageAccountResourceId = &storageAccountResourceId
 	}
 	return result, nil
@@ -1560,7 +1556,14 @@ func (destination *Destination) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		destination.Name = &name
 	}
 
-	// no assignment for property ‘StorageAccountResourceReference’
+	// Set property ‘StorageAccountResourceId’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.StorageAccountResourceId != nil {
+			storageAccountResourceId := *typedInput.Properties.StorageAccountResourceId
+			destination.StorageAccountResourceId = &storageAccountResourceId
+		}
+	}
 
 	// No error
 	return nil
@@ -1592,13 +1595,8 @@ func (destination *Destination) AssignPropertiesFromDestination(source *v1alpha1
 	// Name
 	destination.Name = genruntime.ClonePointerToString(source.Name)
 
-	// StorageAccountResourceReference
-	if source.StorageAccountResourceReference != nil {
-		storageAccountResourceReference := source.StorageAccountResourceReference.Copy()
-		destination.StorageAccountResourceReference = &storageAccountResourceReference
-	} else {
-		destination.StorageAccountResourceReference = nil
-	}
+	// StorageAccountResourceId
+	destination.StorageAccountResourceId = genruntime.ClonePointerToString(source.StorageAccountResourceId)
 
 	// No error
 	return nil
@@ -1632,13 +1630,8 @@ func (destination *Destination) AssignPropertiesToDestination(target *v1alpha1ap
 	// Name
 	target.Name = genruntime.ClonePointerToString(destination.Name)
 
-	// StorageAccountResourceReference
-	if destination.StorageAccountResourceReference != nil {
-		storageAccountResourceReference := destination.StorageAccountResourceReference.Copy()
-		target.StorageAccountResourceReference = &storageAccountResourceReference
-	} else {
-		target.StorageAccountResourceReference = nil
-	}
+	// StorageAccountResourceId
+	target.StorageAccountResourceId = genruntime.ClonePointerToString(destination.StorageAccountResourceId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

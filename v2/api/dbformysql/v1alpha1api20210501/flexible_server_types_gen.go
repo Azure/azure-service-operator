@@ -2310,12 +2310,12 @@ func (window *MaintenanceWindow_Status) AssignPropertiesToMaintenanceWindow_Stat
 }
 
 type Network struct {
-	//DelegatedSubnetResourceReference: Delegated subnet resource id used to setup
-	//vnet for a server.
-	DelegatedSubnetResourceReference *genruntime.ResourceReference `armReference:"DelegatedSubnetResourceId" json:"delegatedSubnetResourceReference,omitempty"`
+	//DelegatedSubnetResourceId: Delegated subnet resource id used to setup vnet for a
+	//server.
+	DelegatedSubnetResourceId *string `json:"delegatedSubnetResourceId,omitempty"`
 
-	//PrivateDnsZoneResourceReference: Private DNS zone resource id.
-	PrivateDnsZoneResourceReference *genruntime.ResourceReference `armReference:"PrivateDnsZoneResourceId" json:"privateDnsZoneResourceReference,omitempty"`
+	//PrivateDnsZoneResourceId: Private DNS zone resource id.
+	PrivateDnsZoneResourceId *string `json:"privateDnsZoneResourceId,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Network{}
@@ -2328,23 +2328,15 @@ func (network *Network) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	var result NetworkARM
 
 	// Set property ‘DelegatedSubnetResourceId’:
-	if network.DelegatedSubnetResourceReference != nil {
-		delegatedSubnetResourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*network.DelegatedSubnetResourceReference)
-		if err != nil {
-			return nil, err
-		}
-		delegatedSubnetResourceReference := delegatedSubnetResourceReferenceARMID
-		result.DelegatedSubnetResourceId = &delegatedSubnetResourceReference
+	if network.DelegatedSubnetResourceId != nil {
+		delegatedSubnetResourceId := *network.DelegatedSubnetResourceId
+		result.DelegatedSubnetResourceId = &delegatedSubnetResourceId
 	}
 
 	// Set property ‘PrivateDnsZoneResourceId’:
-	if network.PrivateDnsZoneResourceReference != nil {
-		privateDnsZoneResourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*network.PrivateDnsZoneResourceReference)
-		if err != nil {
-			return nil, err
-		}
-		privateDnsZoneResourceReference := privateDnsZoneResourceReferenceARMID
-		result.PrivateDnsZoneResourceId = &privateDnsZoneResourceReference
+	if network.PrivateDnsZoneResourceId != nil {
+		privateDnsZoneResourceId := *network.PrivateDnsZoneResourceId
+		result.PrivateDnsZoneResourceId = &privateDnsZoneResourceId
 	}
 	return result, nil
 }
@@ -2356,14 +2348,22 @@ func (network *Network) NewEmptyARMValue() genruntime.ARMResourceStatus {
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (network *Network) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(NetworkARM)
+	typedInput, ok := armInput.(NetworkARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘DelegatedSubnetResourceReference’
+	// Set property ‘DelegatedSubnetResourceId’:
+	if typedInput.DelegatedSubnetResourceId != nil {
+		delegatedSubnetResourceId := *typedInput.DelegatedSubnetResourceId
+		network.DelegatedSubnetResourceId = &delegatedSubnetResourceId
+	}
 
-	// no assignment for property ‘PrivateDnsZoneResourceReference’
+	// Set property ‘PrivateDnsZoneResourceId’:
+	if typedInput.PrivateDnsZoneResourceId != nil {
+		privateDnsZoneResourceId := *typedInput.PrivateDnsZoneResourceId
+		network.PrivateDnsZoneResourceId = &privateDnsZoneResourceId
+	}
 
 	// No error
 	return nil
@@ -2372,21 +2372,11 @@ func (network *Network) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 // AssignPropertiesFromNetwork populates our Network from the provided source Network
 func (network *Network) AssignPropertiesFromNetwork(source *v1alpha1api20210501storage.Network) error {
 
-	// DelegatedSubnetResourceReference
-	if source.DelegatedSubnetResourceReference != nil {
-		delegatedSubnetResourceReference := source.DelegatedSubnetResourceReference.Copy()
-		network.DelegatedSubnetResourceReference = &delegatedSubnetResourceReference
-	} else {
-		network.DelegatedSubnetResourceReference = nil
-	}
+	// DelegatedSubnetResourceId
+	network.DelegatedSubnetResourceId = genruntime.ClonePointerToString(source.DelegatedSubnetResourceId)
 
-	// PrivateDnsZoneResourceReference
-	if source.PrivateDnsZoneResourceReference != nil {
-		privateDnsZoneResourceReference := source.PrivateDnsZoneResourceReference.Copy()
-		network.PrivateDnsZoneResourceReference = &privateDnsZoneResourceReference
-	} else {
-		network.PrivateDnsZoneResourceReference = nil
-	}
+	// PrivateDnsZoneResourceId
+	network.PrivateDnsZoneResourceId = genruntime.ClonePointerToString(source.PrivateDnsZoneResourceId)
 
 	// No error
 	return nil
@@ -2397,21 +2387,11 @@ func (network *Network) AssignPropertiesToNetwork(destination *v1alpha1api202105
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// DelegatedSubnetResourceReference
-	if network.DelegatedSubnetResourceReference != nil {
-		delegatedSubnetResourceReference := network.DelegatedSubnetResourceReference.Copy()
-		destination.DelegatedSubnetResourceReference = &delegatedSubnetResourceReference
-	} else {
-		destination.DelegatedSubnetResourceReference = nil
-	}
+	// DelegatedSubnetResourceId
+	destination.DelegatedSubnetResourceId = genruntime.ClonePointerToString(network.DelegatedSubnetResourceId)
 
-	// PrivateDnsZoneResourceReference
-	if network.PrivateDnsZoneResourceReference != nil {
-		privateDnsZoneResourceReference := network.PrivateDnsZoneResourceReference.Copy()
-		destination.PrivateDnsZoneResourceReference = &privateDnsZoneResourceReference
-	} else {
-		destination.PrivateDnsZoneResourceReference = nil
-	}
+	// PrivateDnsZoneResourceId
+	destination.PrivateDnsZoneResourceId = genruntime.ClonePointerToString(network.PrivateDnsZoneResourceId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

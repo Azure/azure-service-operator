@@ -182,22 +182,20 @@ type VirtualNetworksVirtualNetworkPeering_Spec struct {
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName                 string `json:"azureName"`
-	DoNotVerifyRemoteGateways *bool  `json:"doNotVerifyRemoteGateways,omitempty"`
-	OriginalVersion           string `json:"originalVersion"`
+	AzureName                 string  `json:"azureName"`
+	DoNotVerifyRemoteGateways *bool   `json:"doNotVerifyRemoteGateways,omitempty"`
+	Id                        *string `json:"id,omitempty"`
+	OriginalVersion           string  `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
-	Owner        genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PeeringState *string                           `json:"peeringState,omitempty"`
-	PropertyBag  genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-
-	//Reference: Resource ID.
-	Reference            *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	RemoteAddressSpace   *AddressSpace                 `json:"remoteAddressSpace,omitempty"`
-	RemoteBgpCommunities *VirtualNetworkBgpCommunities `json:"remoteBgpCommunities,omitempty"`
-	RemoteVirtualNetwork *SubResource                  `json:"remoteVirtualNetwork,omitempty"`
-	Type                 *string                       `json:"type,omitempty"`
-	UseRemoteGateways    *bool                         `json:"useRemoteGateways,omitempty"`
+	Owner                genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	PeeringState         *string                           `json:"peeringState,omitempty"`
+	PropertyBag          genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	RemoteAddressSpace   *AddressSpace                     `json:"remoteAddressSpace,omitempty"`
+	RemoteBgpCommunities *VirtualNetworkBgpCommunities     `json:"remoteBgpCommunities,omitempty"`
+	RemoteVirtualNetwork *SubResource                      `json:"remoteVirtualNetwork,omitempty"`
+	Type                 *string                           `json:"type,omitempty"`
+	UseRemoteGateways    *bool                             `json:"useRemoteGateways,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &VirtualNetworksVirtualNetworkPeering_Spec{}

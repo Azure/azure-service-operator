@@ -269,6 +269,7 @@ func AddIndependentPropertyGeneratorsForManagedClustersAgentPool_Spec(gens map[s
 	gens["MinCount"] = gen.PtrOf(gen.Int())
 	gens["Mode"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["NodePublicIPPrefixID"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeTaints"] = gen.SliceOf(gen.AlphaString())
 	gens["OrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
@@ -276,6 +277,7 @@ func AddIndependentPropertyGeneratorsForManagedClustersAgentPool_Spec(gens map[s
 	gens["OsDiskType"] = gen.PtrOf(gen.AlphaString())
 	gens["OsSKU"] = gen.PtrOf(gen.AlphaString())
 	gens["OsType"] = gen.PtrOf(gen.AlphaString())
+	gens["PodSubnetID"] = gen.PtrOf(gen.AlphaString())
 	gens["ProximityPlacementGroupID"] = gen.PtrOf(gen.AlphaString())
 	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.AlphaString())
 	gens["ScaleSetPriority"] = gen.PtrOf(gen.AlphaString())
@@ -283,6 +285,7 @@ func AddIndependentPropertyGeneratorsForManagedClustersAgentPool_Spec(gens map[s
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
+	gens["VnetSubnetID"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForManagedClustersAgentPool_Spec is a factory method for creating gopter generators

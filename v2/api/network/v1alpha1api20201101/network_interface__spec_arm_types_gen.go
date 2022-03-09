@@ -10,7 +10,9 @@ type NetworkInterface_SpecARM struct {
 
 	//ExtendedLocation: The extended location of the network interface.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-	Id               *string              `json:"id,omitempty"`
+
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
 
 	//Location: Resource location.
 	Location *string `json:"location,omitempty"`
@@ -80,6 +82,7 @@ type NetworkInterfaceDnsSettingsARM struct {
 }
 
 type NetworkSecurityGroupSpecARM struct {
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
 	//Location: Resource location.
@@ -95,7 +98,9 @@ type NetworkSecurityGroupSpecARM struct {
 type PrivateLinkServiceSpecARM struct {
 	//ExtendedLocation: The extended location of the load balancer.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-	Id               *string              `json:"id,omitempty"`
+
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
 
 	//Location: Resource location.
 	Location *string `json:"location,omitempty"`
@@ -130,6 +135,7 @@ type PrivateLinkServicePropertiesARM struct {
 }
 
 type PrivateLinkServiceIpConfigurationARM struct {
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
 	//Name: The name of private link service ip configuration.

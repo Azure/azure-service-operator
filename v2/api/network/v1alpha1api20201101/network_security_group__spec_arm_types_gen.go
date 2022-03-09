@@ -6,8 +6,10 @@ package v1alpha1api20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type NetworkSecurityGroup_SpecARM struct {
-	AzureName string  `json:"azureName"`
-	Id        *string `json:"id,omitempty"`
+	AzureName string `json:"azureName"`
+
+	//Id: Resource ID.
+	Id *string `json:"id,omitempty"`
 
 	//Location: Resource location.
 	Location *string `json:"location,omitempty"`
