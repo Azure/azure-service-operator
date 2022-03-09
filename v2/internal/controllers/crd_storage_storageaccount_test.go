@@ -8,6 +8,7 @@ package controllers_test
 import (
 	"testing"
 
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -24,21 +25,7 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Create a storage account
-	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
-	acct := &storage.StorageAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
-		Spec: storage.StorageAccounts_Spec{
-			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg),
-			Kind:     storage.StorageAccountsSpecKindStorageV2,
-			Sku: storage.Sku{
-				Name: storage.SkuNameStandardLRS,
-			},
-			// TODO: They mark this property as optional but actually it is required
-			AccessTier: &accessTier,
-		},
-	}
+	acct := createStorgeAccount(tc, rg)
 
 	tc.CreateResourceAndWait(acct)
 
@@ -60,12 +47,6 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 			Name: "Queue Services CRUD",
 			Test: func(testContext *testcommon.KubePerTestContext) {
 				StorageAccount_QueueServices_CRUD(tc, acct)
-			},
-		},
-		testcommon.Subtest{
-			Name: "Management Policies CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				StorageAccount_ManagementPolicy_CRUD(tc, acct)
 			},
 		},
 	)
@@ -152,21 +133,8 @@ func Test_Storage_StorageAccount_SecretsFromAzure(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Create a storage account
-	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
-	acct := &storage.StorageAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
-		Spec: storage.StorageAccounts_Spec{
-			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg),
-			Kind:     storage.StorageAccountsSpecKindStorageV2,
-			Sku: storage.Sku{
-				Name: storage.SkuNameStandardLRS,
-			},
-			AccessTier: &accessTier,
-			// Initially with no OperatorSpec.Secrets, to ensure no secrets are created
-		},
-	}
+	// Initially with no OperatorSpec.Secrets, to ensure no secrets are created
+	acct := createStorgeAccount(tc, rg)
 
 	tc.CreateResourceAndWait(acct)
 
@@ -247,6 +215,30 @@ func StorageAccount_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerT
 	tc.ExpectSecretHasKeys(dfsSecret, "dfs")
 }
 
+func Test_Storage_StorageAccount_ManagementPolicies(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	acct := createStorgeAccount(tc, rg)
+
+	tc.CreateResourceAndWait(acct)
+
+	tc.Expect(acct.Status.Location).To(Equal(&tc.AzureRegion))
+	expectedKind := storage.StorageAccountStatusKindStorageV2
+	tc.Expect(acct.Status.Kind).To(Equal(&expectedKind))
+
+	// Run sub-tests on storage account
+	tc.RunSubtests(
+		testcommon.Subtest{
+			Name: "Management Policies CRUD",
+			Test: func(testContext *testcommon.KubePerTestContext) {
+				StorageAccount_ManagementPolicy_CRUD(tc, acct)
+			},
+		})
+}
+
 func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blobService client.Object) {
 	ruleEnable := true
 	daysAfterLastAccessTimeGreaterThan := 90
@@ -289,4 +281,23 @@ func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blo
 
 	tc.CreateResourceAndWait(managementPolicy)
 	defer tc.DeleteResourceAndWait(managementPolicy)
+}
+
+func createStorgeAccount(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
+	// Create a storage account
+	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
+	acct := &storage.StorageAccount{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
+		Spec: storage.StorageAccounts_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+			Kind:     storage.StorageAccountsSpecKindStorageV2,
+			Sku: storage.Sku{
+				Name: storage.SkuNameStandardLRS,
+			},
+			// TODO: They mark this property as optional but actually it is required
+			AccessTier: &accessTier,
+		},
+	}
+	return acct
 }
