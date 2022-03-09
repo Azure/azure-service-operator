@@ -99,7 +99,7 @@ func registerWebhook(mgr ctrl.Manager, obj client.Object) error {
 func RegisterAll(
 	mgr ctrl.Manager,
 	clientFactory arm.ARMClientFactory,
-	objs []registration.StorageType,
+	objs []*registration.StorageType,
 	extensions map[schema.GroupVersionKind]genruntime.ResourceExtension,
 	options Options) error {
 
@@ -137,7 +137,7 @@ func register(
 	mgr ctrl.Manager,
 	reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind,
 	clientFactory arm.ARMClientFactory,
-	info registration.StorageType,
+	info *registration.StorageType,
 	extensions map[schema.GroupVersionKind]genruntime.ResourceExtension,
 	options Options) error {
 
@@ -223,7 +223,7 @@ func register(
 
 // MakeResourceGVKLookup creates a map of schema.GroupKind to schema.GroupVersionKind. This can be used to look up
 // the version of a GroupKind that is being reconciled.
-func MakeResourceGVKLookup(mgr ctrl.Manager, objs []registration.StorageType) (map[schema.GroupKind]schema.GroupVersionKind, error) {
+func MakeResourceGVKLookup(mgr ctrl.Manager, objs []*registration.StorageType) (map[schema.GroupKind]schema.GroupVersionKind, error) {
 	result := make(map[schema.GroupKind]schema.GroupVersionKind)
 
 	for _, obj := range objs {
