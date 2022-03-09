@@ -180,10 +180,10 @@ func makeResourceReferenceProperty(idFactory astmodel.IdentifierFactory, existin
 	newProp := astmodel.NewPropertyDefinition(
 		idFactory.CreatePropertyName(referencePropertyName, astmodel.Exported),
 		idFactory.CreateIdentifier(referencePropertyName, astmodel.NotExported),
-		astmodel.ResourceReferenceType)
+		astmodel.NewOptionalType(astmodel.ResourceReferenceType))
 
 	newProp = newProp.WithDescription(existing.Description())
-	if existing.HasKubebuilderRequiredValidation() {
+	if existing.IsRequired() {
 		newProp = newProp.MakeRequired()
 	} else {
 		newProp = newProp.MakeOptional()

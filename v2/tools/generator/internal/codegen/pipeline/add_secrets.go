@@ -154,7 +154,7 @@ func transformSecretProperties(_ *astmodel.TypeVisitor, it *astmodel.ObjectType,
 			}
 
 			// check if it's optional
-			required := prop.HasKubebuilderRequiredValidation()
+			required := prop.IsRequired()
 
 			var newType astmodel.Type
 			if required {

@@ -6,9 +6,9 @@ package v1alpha1api20200101
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	// +kubebuilder:validation:Required
-	Enabled bool    `json:"enabled"`
+	Enabled *bool   `json:"enabled,omitempty"`
 	Name    *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Size int `json:"size"`
+	Size *int `json:"size,omitempty"`
 }

@@ -849,7 +849,11 @@ func (in *NamespacesAuthorizationRules_Spec) DeepCopyInto(out *NamespacesAuthori
 		*out = new(string)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -1007,7 +1011,11 @@ func (in *NamespacesEventhubsAuthorizationRules_Spec) DeepCopyInto(out *Namespac
 		*out = new(string)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -1106,7 +1114,11 @@ func (in *NamespacesEventhubsConsumergroups_Spec) DeepCopyInto(out *NamespacesEv
 		*out = new(string)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -1156,7 +1168,11 @@ func (in *NamespacesEventhubs_Spec) DeepCopyInto(out *NamespacesEventhubs_Spec) 
 		*out = new(int)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PartitionCount != nil {
 		in, out := &in.PartitionCount, &out.PartitionCount
 		*out = new(int)
@@ -1345,7 +1361,11 @@ func (in *Namespaces_Spec) DeepCopyInto(out *Namespaces_Spec) {
 		*out = new(int)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PrivateEndpointConnections != nil {
 		in, out := &in.PrivateEndpointConnections, &out.PrivateEndpointConnections
 		*out = make([]Namespaces_Spec_Properties_PrivateEndpointConnections, len(*in))

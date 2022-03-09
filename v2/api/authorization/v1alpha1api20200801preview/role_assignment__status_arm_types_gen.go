@@ -39,13 +39,13 @@ type RoleAssignmentProperties_StatusARM struct {
 	Description *string `json:"description,omitempty"`
 
 	//PrincipalId: The principal ID.
-	PrincipalId string `json:"principalId"`
+	PrincipalId *string `json:"principalId,omitempty"`
 
 	//PrincipalType: The principal type of the assigned principal ID.
 	PrincipalType *RoleAssignmentPropertiesStatusPrincipalType `json:"principalType,omitempty"`
 
 	//RoleDefinitionId: The role definition ID.
-	RoleDefinitionId string `json:"roleDefinitionId"`
+	RoleDefinitionId *string `json:"roleDefinitionId,omitempty"`
 
 	//Scope: The role assignment scope.
 	Scope *string `json:"scope,omitempty"`

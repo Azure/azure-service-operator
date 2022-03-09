@@ -208,10 +208,10 @@ type FakeResourceList struct {
 }
 
 type FakeResource_SpecARM struct {
-	EmbeddedTestTypeARM `json:",inline"`
+	EmbeddedTestTypeARM `json:",inline,omitempty"`
 	Color               *FakeResourceSpecColor `json:"color,omitempty"`
-	Foo                 FooARM                 `json:"foo"`
-	Name                string                 `json:"name"`
+	Foo                 *FooARM                `json:"foo,omitempty"`
+	Name                string                 `json:"name,omitempty"`
 	OptionalFoo         *FooARM                `json:"optionalFoo,omitempty"`
 }
 
@@ -233,7 +233,7 @@ func (resource FakeResource_SpecARM) GetType() string {
 }
 
 type EmbeddedTestTypeARM struct {
-	FancyProp int `json:"fancyProp"`
+	FancyProp int `json:"fancyProp,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
@@ -251,22 +251,22 @@ const (
 )
 
 type FakeResource_Spec struct {
-	EmbeddedTestType `json:",inline"`
+	EmbeddedTestType `json:",inline,omitempty"`
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string                 `json:"azureName"`
+	AzureName string                 `json:"azureName,omitempty"`
 	Color     *FakeResourceSpecColor `json:"color,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Foo         Foo  `json:"foo"`
+	Foo         *Foo `json:"foo,omitempty"`
 	OptionalFoo *Foo `json:"optionalFoo,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 }
 
 var _ genruntime.ARMTransformer = &FakeResource_Spec{}
@@ -285,11 +285,14 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 
 	// Set property ‘Foo’:
-	fooARM, err := resource.Foo.ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if resource.Foo != nil {
+		fooARM, err := (*resource.Foo).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		foo := fooARM.(FooARM)
+		result.Foo = &foo
 	}
-	result.Foo = fooARM.(FooARM)
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -328,17 +331,20 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	}
 
 	// Set property ‘Foo’:
-	var foo Foo
-	err := foo.PopulateFromARM(owner, typedInput.Foo)
-	if err != nil {
-		return err
+	if typedInput.Foo != nil {
+		var foo1 Foo
+		err := foo1.PopulateFromARM(owner, *typedInput.Foo)
+		if err != nil {
+			return err
+		}
+		foo := foo1
+		resource.Foo = &foo
 	}
-	resource.Foo = foo
 
 	// Set property ‘OptionalFoo’:
 	if typedInput.OptionalFoo != nil {
 		var optionalFoo1 Foo
-		err = optionalFoo1.PopulateFromARM(owner, *typedInput.OptionalFoo)
+		err := optionalFoo1.PopulateFromARM(owner, *typedInput.OptionalFoo)
 		if err != nil {
 			return err
 		}
@@ -347,7 +353,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	}
 
 	// Set property ‘Owner’:
-	resource.Owner = genruntime.KnownResourceReference{
+	resource.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -385,12 +391,12 @@ func (resource *FakeResource_Spec) SetAzureName(azureName string) { resource.Azu
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type FooARM struct {
-	EmbeddedTestTypeARM `json:",inline"`
+	EmbeddedTestTypeARM `json:",inline,omitempty"`
 	Name                *string `json:"name,omitempty"`
 }
 
 type EmbeddedTestType struct {
-	FancyProp int `json:"fancyProp"`
+	FancyProp int `json:"fancyProp,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &EmbeddedTestType{}
@@ -428,7 +434,7 @@ func (testType *EmbeddedTestType) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
-	EmbeddedTestType `json:",inline"`
+	EmbeddedTestType `json:",inline,omitempty"`
 	Name             *string `json:"name,omitempty"`
 }
 

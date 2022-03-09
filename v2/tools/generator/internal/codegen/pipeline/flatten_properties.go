@@ -190,7 +190,7 @@ func flattenPropType(propType astmodel.Type, defs astmodel.TypeDefinitionSet) ([
 		}
 
 		for ix := range innerProps {
-			innerProps[ix] = innerProps[ix].MakeOptional()
+			innerProps[ix] = innerProps[ix].MakeTypeOptional()
 		}
 
 		return innerProps, nil

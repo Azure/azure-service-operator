@@ -1163,7 +1163,7 @@ type VirtualMachineScaleSets_Spec struct {
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//DoNotRunExtensionsOnOverprovisionedVMs: When Overprovision is enabled, extensions are launched only on the requested
 	//number of VMs which are finally kept. This property will hence ensure that the extensions do not run on the extra
@@ -1178,7 +1178,7 @@ type VirtualMachineScaleSets_Spec struct {
 	Identity *VirtualMachineScaleSetIdentity `json:"identity,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//OrchestrationMode: Specifies the orchestration mode for the virtual machine scale set.
 	OrchestrationMode *VirtualMachineScaleSetsSpecPropertiesOrchestrationMode `json:"orchestrationMode,omitempty"`
@@ -1190,7 +1190,7 @@ type VirtualMachineScaleSets_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	//Plan: Specifies information about the marketplace image used to create the virtual machine. This element is only used
 	//for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic
@@ -1260,7 +1260,10 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 	}
 
 	// Set property ‘Location’:
-	result.Location = sets.Location
+	if sets.Location != nil {
+		location := *sets.Location
+		result.Location = &location
+	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -1276,6 +1279,21 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 	}
 
 	// Set property ‘Properties’:
+	if sets.AdditionalCapabilities != nil ||
+		sets.AutomaticRepairsPolicy != nil ||
+		sets.DoNotRunExtensionsOnOverprovisionedVMs != nil ||
+		sets.HostGroup != nil ||
+		sets.OrchestrationMode != nil ||
+		sets.Overprovision != nil ||
+		sets.PlatformFaultDomainCount != nil ||
+		sets.ProximityPlacementGroup != nil ||
+		sets.ScaleInPolicy != nil ||
+		sets.SinglePlacementGroup != nil ||
+		sets.UpgradePolicy != nil ||
+		sets.VirtualMachineProfile != nil ||
+		sets.ZoneBalance != nil {
+		result.Properties = &VirtualMachineScaleSets_Spec_PropertiesARM{}
+	}
 	if sets.AdditionalCapabilities != nil {
 		additionalCapabilitiesARM, err := (*sets.AdditionalCapabilities).ConvertToARM(resolved)
 		if err != nil {
@@ -1396,26 +1414,30 @@ func (sets *VirtualMachineScaleSets_Spec) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property ‘AdditionalCapabilities’:
 	// copying flattened property:
-	if typedInput.Properties.AdditionalCapabilities != nil {
-		var additionalCapabilities1 AdditionalCapabilities
-		err := additionalCapabilities1.PopulateFromARM(owner, *typedInput.Properties.AdditionalCapabilities)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AdditionalCapabilities != nil {
+			var additionalCapabilities1 AdditionalCapabilities
+			err := additionalCapabilities1.PopulateFromARM(owner, *typedInput.Properties.AdditionalCapabilities)
+			if err != nil {
+				return err
+			}
+			additionalCapabilities := additionalCapabilities1
+			sets.AdditionalCapabilities = &additionalCapabilities
 		}
-		additionalCapabilities := additionalCapabilities1
-		sets.AdditionalCapabilities = &additionalCapabilities
 	}
 
 	// Set property ‘AutomaticRepairsPolicy’:
 	// copying flattened property:
-	if typedInput.Properties.AutomaticRepairsPolicy != nil {
-		var automaticRepairsPolicy1 AutomaticRepairsPolicy
-		err := automaticRepairsPolicy1.PopulateFromARM(owner, *typedInput.Properties.AutomaticRepairsPolicy)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AutomaticRepairsPolicy != nil {
+			var automaticRepairsPolicy1 AutomaticRepairsPolicy
+			err := automaticRepairsPolicy1.PopulateFromARM(owner, *typedInput.Properties.AutomaticRepairsPolicy)
+			if err != nil {
+				return err
+			}
+			automaticRepairsPolicy := automaticRepairsPolicy1
+			sets.AutomaticRepairsPolicy = &automaticRepairsPolicy
 		}
-		automaticRepairsPolicy := automaticRepairsPolicy1
-		sets.AutomaticRepairsPolicy = &automaticRepairsPolicy
 	}
 
 	// Set property ‘AzureName’:
@@ -1423,9 +1445,11 @@ func (sets *VirtualMachineScaleSets_Spec) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property ‘DoNotRunExtensionsOnOverprovisionedVMs’:
 	// copying flattened property:
-	if typedInput.Properties.DoNotRunExtensionsOnOverprovisionedVMs != nil {
-		doNotRunExtensionsOnOverprovisionedVMs := *typedInput.Properties.DoNotRunExtensionsOnOverprovisionedVMs
-		sets.DoNotRunExtensionsOnOverprovisionedVMs = &doNotRunExtensionsOnOverprovisionedVMs
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DoNotRunExtensionsOnOverprovisionedVMs != nil {
+			doNotRunExtensionsOnOverprovisionedVMs := *typedInput.Properties.DoNotRunExtensionsOnOverprovisionedVMs
+			sets.DoNotRunExtensionsOnOverprovisionedVMs = &doNotRunExtensionsOnOverprovisionedVMs
+		}
 	}
 
 	// Set property ‘ExtendedLocation’:
@@ -1441,14 +1465,16 @@ func (sets *VirtualMachineScaleSets_Spec) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property ‘HostGroup’:
 	// copying flattened property:
-	if typedInput.Properties.HostGroup != nil {
-		var hostGroup1 SubResource
-		err := hostGroup1.PopulateFromARM(owner, *typedInput.Properties.HostGroup)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HostGroup != nil {
+			var hostGroup1 SubResource
+			err := hostGroup1.PopulateFromARM(owner, *typedInput.Properties.HostGroup)
+			if err != nil {
+				return err
+			}
+			hostGroup := hostGroup1
+			sets.HostGroup = &hostGroup
 		}
-		hostGroup := hostGroup1
-		sets.HostGroup = &hostGroup
 	}
 
 	// Set property ‘Identity’:
@@ -1463,24 +1489,31 @@ func (sets *VirtualMachineScaleSets_Spec) PopulateFromARM(owner genruntime.Arbit
 	}
 
 	// Set property ‘Location’:
-	sets.Location = typedInput.Location
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		sets.Location = &location
+	}
 
 	// Set property ‘OrchestrationMode’:
 	// copying flattened property:
-	if typedInput.Properties.OrchestrationMode != nil {
-		orchestrationMode := *typedInput.Properties.OrchestrationMode
-		sets.OrchestrationMode = &orchestrationMode
+	if typedInput.Properties != nil {
+		if typedInput.Properties.OrchestrationMode != nil {
+			orchestrationMode := *typedInput.Properties.OrchestrationMode
+			sets.OrchestrationMode = &orchestrationMode
+		}
 	}
 
 	// Set property ‘Overprovision’:
 	// copying flattened property:
-	if typedInput.Properties.Overprovision != nil {
-		overprovision := *typedInput.Properties.Overprovision
-		sets.Overprovision = &overprovision
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Overprovision != nil {
+			overprovision := *typedInput.Properties.Overprovision
+			sets.Overprovision = &overprovision
+		}
 	}
 
 	// Set property ‘Owner’:
-	sets.Owner = genruntime.KnownResourceReference{
+	sets.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -1497,40 +1530,48 @@ func (sets *VirtualMachineScaleSets_Spec) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property ‘PlatformFaultDomainCount’:
 	// copying flattened property:
-	if typedInput.Properties.PlatformFaultDomainCount != nil {
-		platformFaultDomainCount := *typedInput.Properties.PlatformFaultDomainCount
-		sets.PlatformFaultDomainCount = &platformFaultDomainCount
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PlatformFaultDomainCount != nil {
+			platformFaultDomainCount := *typedInput.Properties.PlatformFaultDomainCount
+			sets.PlatformFaultDomainCount = &platformFaultDomainCount
+		}
 	}
 
 	// Set property ‘ProximityPlacementGroup’:
 	// copying flattened property:
-	if typedInput.Properties.ProximityPlacementGroup != nil {
-		var proximityPlacementGroup1 SubResource
-		err := proximityPlacementGroup1.PopulateFromARM(owner, *typedInput.Properties.ProximityPlacementGroup)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProximityPlacementGroup != nil {
+			var proximityPlacementGroup1 SubResource
+			err := proximityPlacementGroup1.PopulateFromARM(owner, *typedInput.Properties.ProximityPlacementGroup)
+			if err != nil {
+				return err
+			}
+			proximityPlacementGroup := proximityPlacementGroup1
+			sets.ProximityPlacementGroup = &proximityPlacementGroup
 		}
-		proximityPlacementGroup := proximityPlacementGroup1
-		sets.ProximityPlacementGroup = &proximityPlacementGroup
 	}
 
 	// Set property ‘ScaleInPolicy’:
 	// copying flattened property:
-	if typedInput.Properties.ScaleInPolicy != nil {
-		var scaleInPolicy1 ScaleInPolicy
-		err := scaleInPolicy1.PopulateFromARM(owner, *typedInput.Properties.ScaleInPolicy)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ScaleInPolicy != nil {
+			var scaleInPolicy1 ScaleInPolicy
+			err := scaleInPolicy1.PopulateFromARM(owner, *typedInput.Properties.ScaleInPolicy)
+			if err != nil {
+				return err
+			}
+			scaleInPolicy := scaleInPolicy1
+			sets.ScaleInPolicy = &scaleInPolicy
 		}
-		scaleInPolicy := scaleInPolicy1
-		sets.ScaleInPolicy = &scaleInPolicy
 	}
 
 	// Set property ‘SinglePlacementGroup’:
 	// copying flattened property:
-	if typedInput.Properties.SinglePlacementGroup != nil {
-		singlePlacementGroup := *typedInput.Properties.SinglePlacementGroup
-		sets.SinglePlacementGroup = &singlePlacementGroup
+	if typedInput.Properties != nil {
+		if typedInput.Properties.SinglePlacementGroup != nil {
+			singlePlacementGroup := *typedInput.Properties.SinglePlacementGroup
+			sets.SinglePlacementGroup = &singlePlacementGroup
+		}
 	}
 
 	// Set property ‘Sku’:
@@ -1554,33 +1595,39 @@ func (sets *VirtualMachineScaleSets_Spec) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property ‘UpgradePolicy’:
 	// copying flattened property:
-	if typedInput.Properties.UpgradePolicy != nil {
-		var upgradePolicy1 UpgradePolicy
-		err := upgradePolicy1.PopulateFromARM(owner, *typedInput.Properties.UpgradePolicy)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.UpgradePolicy != nil {
+			var upgradePolicy1 UpgradePolicy
+			err := upgradePolicy1.PopulateFromARM(owner, *typedInput.Properties.UpgradePolicy)
+			if err != nil {
+				return err
+			}
+			upgradePolicy := upgradePolicy1
+			sets.UpgradePolicy = &upgradePolicy
 		}
-		upgradePolicy := upgradePolicy1
-		sets.UpgradePolicy = &upgradePolicy
 	}
 
 	// Set property ‘VirtualMachineProfile’:
 	// copying flattened property:
-	if typedInput.Properties.VirtualMachineProfile != nil {
-		var virtualMachineProfile1 VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile
-		err := virtualMachineProfile1.PopulateFromARM(owner, *typedInput.Properties.VirtualMachineProfile)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.VirtualMachineProfile != nil {
+			var virtualMachineProfile1 VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile
+			err := virtualMachineProfile1.PopulateFromARM(owner, *typedInput.Properties.VirtualMachineProfile)
+			if err != nil {
+				return err
+			}
+			virtualMachineProfile := virtualMachineProfile1
+			sets.VirtualMachineProfile = &virtualMachineProfile
 		}
-		virtualMachineProfile := virtualMachineProfile1
-		sets.VirtualMachineProfile = &virtualMachineProfile
 	}
 
 	// Set property ‘ZoneBalance’:
 	// copying flattened property:
-	if typedInput.Properties.ZoneBalance != nil {
-		zoneBalance := *typedInput.Properties.ZoneBalance
-		sets.ZoneBalance = &zoneBalance
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ZoneBalance != nil {
+			zoneBalance := *typedInput.Properties.ZoneBalance
+			sets.ZoneBalance = &zoneBalance
+		}
 	}
 
 	// Set property ‘Zones’:
@@ -1717,7 +1764,7 @@ func (sets *VirtualMachineScaleSets_Spec) AssignPropertiesFromVirtualMachineScal
 	}
 
 	// Location
-	sets.Location = genruntime.GetOptionalStringValue(source.Location)
+	sets.Location = genruntime.ClonePointerToString(source.Location)
 
 	// OrchestrationMode
 	if source.OrchestrationMode != nil {
@@ -1736,7 +1783,12 @@ func (sets *VirtualMachineScaleSets_Spec) AssignPropertiesFromVirtualMachineScal
 	}
 
 	// Owner
-	sets.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		sets.Owner = &owner
+	} else {
+		sets.Owner = nil
+	}
 
 	// Plan
 	if source.Plan != nil {
@@ -1916,8 +1968,7 @@ func (sets *VirtualMachineScaleSets_Spec) AssignPropertiesToVirtualMachineScaleS
 	}
 
 	// Location
-	location := sets.Location
-	destination.Location = &location
+	destination.Location = genruntime.ClonePointerToString(sets.Location)
 
 	// OrchestrationMode
 	if sets.OrchestrationMode != nil {
@@ -1939,7 +1990,12 @@ func (sets *VirtualMachineScaleSets_Spec) AssignPropertiesToVirtualMachineScaleS
 	}
 
 	// Owner
-	destination.Owner = sets.Owner.Copy()
+	if sets.Owner != nil {
+		owner := sets.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Plan
 	if sets.Plan != nil {
@@ -6996,7 +7052,7 @@ type VirtualMachineScaleSetDataDisk struct {
 
 	// +kubebuilder:validation:Required
 	//CreateOption: The create option.
-	CreateOption VirtualMachineScaleSetDataDiskCreateOption `json:"createOption"`
+	CreateOption *VirtualMachineScaleSetDataDiskCreateOption `json:"createOption,omitempty"`
 
 	//DiskIOPSReadWrite: Specifies the Read-Write IOPS for the managed disk. Should be used only when StorageAccountType is
 	//UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
@@ -7014,7 +7070,7 @@ type VirtualMachineScaleSetDataDisk struct {
 	// +kubebuilder:validation:Required
 	//Lun: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and
 	//therefore must be unique for each data disk attached to a VM.
-	Lun int `json:"lun"`
+	Lun *int `json:"lun,omitempty"`
 
 	//ManagedDisk: Describes the parameters of a ScaleSet managed disk.
 	ManagedDisk *VirtualMachineScaleSetManagedDiskParameters `json:"managedDisk,omitempty"`
@@ -7042,7 +7098,10 @@ func (disk *VirtualMachineScaleSetDataDisk) ConvertToARM(resolved genruntime.Con
 	}
 
 	// Set property ‘CreateOption’:
-	result.CreateOption = disk.CreateOption
+	if disk.CreateOption != nil {
+		createOption := *disk.CreateOption
+		result.CreateOption = &createOption
+	}
 
 	// Set property ‘DiskIOPSReadWrite’:
 	if disk.DiskIOPSReadWrite != nil {
@@ -7063,7 +7122,10 @@ func (disk *VirtualMachineScaleSetDataDisk) ConvertToARM(resolved genruntime.Con
 	}
 
 	// Set property ‘Lun’:
-	result.Lun = disk.Lun
+	if disk.Lun != nil {
+		lun := *disk.Lun
+		result.Lun = &lun
+	}
 
 	// Set property ‘ManagedDisk’:
 	if disk.ManagedDisk != nil {
@@ -7108,7 +7170,10 @@ func (disk *VirtualMachineScaleSetDataDisk) PopulateFromARM(owner genruntime.Arb
 	}
 
 	// Set property ‘CreateOption’:
-	disk.CreateOption = typedInput.CreateOption
+	if typedInput.CreateOption != nil {
+		createOption := *typedInput.CreateOption
+		disk.CreateOption = &createOption
+	}
 
 	// Set property ‘DiskIOPSReadWrite’:
 	if typedInput.DiskIOPSReadWrite != nil {
@@ -7129,7 +7194,10 @@ func (disk *VirtualMachineScaleSetDataDisk) PopulateFromARM(owner genruntime.Arb
 	}
 
 	// Set property ‘Lun’:
-	disk.Lun = typedInput.Lun
+	if typedInput.Lun != nil {
+		lun := *typedInput.Lun
+		disk.Lun = &lun
+	}
 
 	// Set property ‘ManagedDisk’:
 	if typedInput.ManagedDisk != nil {
@@ -7171,9 +7239,10 @@ func (disk *VirtualMachineScaleSetDataDisk) AssignPropertiesFromVirtualMachineSc
 
 	// CreateOption
 	if source.CreateOption != nil {
-		disk.CreateOption = VirtualMachineScaleSetDataDiskCreateOption(*source.CreateOption)
+		createOption := VirtualMachineScaleSetDataDiskCreateOption(*source.CreateOption)
+		disk.CreateOption = &createOption
 	} else {
-		disk.CreateOption = ""
+		disk.CreateOption = nil
 	}
 
 	// DiskIOPSReadWrite
@@ -7186,7 +7255,7 @@ func (disk *VirtualMachineScaleSetDataDisk) AssignPropertiesFromVirtualMachineSc
 	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
 
 	// Lun
-	disk.Lun = genruntime.GetOptionalIntValue(source.Lun)
+	disk.Lun = genruntime.ClonePointerToInt(source.Lun)
 
 	// ManagedDisk
 	if source.ManagedDisk != nil {
@@ -7229,8 +7298,12 @@ func (disk *VirtualMachineScaleSetDataDisk) AssignPropertiesToVirtualMachineScal
 	}
 
 	// CreateOption
-	createOption := string(disk.CreateOption)
-	destination.CreateOption = &createOption
+	if disk.CreateOption != nil {
+		createOption := string(*disk.CreateOption)
+		destination.CreateOption = &createOption
+	} else {
+		destination.CreateOption = nil
+	}
 
 	// DiskIOPSReadWrite
 	destination.DiskIOPSReadWrite = genruntime.ClonePointerToInt(disk.DiskIOPSReadWrite)
@@ -7242,8 +7315,7 @@ func (disk *VirtualMachineScaleSetDataDisk) AssignPropertiesToVirtualMachineScal
 	destination.DiskSizeGB = genruntime.ClonePointerToInt(disk.DiskSizeGB)
 
 	// Lun
-	lun := disk.Lun
-	destination.Lun = &lun
+	destination.Lun = genruntime.ClonePointerToInt(disk.Lun)
 
 	// ManagedDisk
 	if disk.ManagedDisk != nil {
@@ -7288,9 +7360,8 @@ type VirtualMachineScaleSetDataDisk_Status struct {
 	//Default: None for Standard storage. ReadOnly for Premium storage
 	Caching *Caching_Status `json:"caching,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//CreateOption: The create option.
-	CreateOption CreateOption_Status `json:"createOption"`
+	CreateOption *CreateOption_Status `json:"createOption,omitempty"`
 
 	//DiskIOPSReadWrite: Specifies the Read-Write IOPS for the managed disk. Should be used only when StorageAccountType is
 	//UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
@@ -7305,10 +7376,9 @@ type VirtualMachineScaleSetDataDisk_Status struct {
 	//This value cannot be larger than 1023 GB
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Lun: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and
 	//therefore must be unique for each data disk attached to a VM.
-	Lun int `json:"lun"`
+	Lun *int `json:"lun,omitempty"`
 
 	//ManagedDisk: The managed disk parameters.
 	ManagedDisk *VirtualMachineScaleSetManagedDiskParameters_Status `json:"managedDisk,omitempty"`
@@ -7341,7 +7411,10 @@ func (disk *VirtualMachineScaleSetDataDisk_Status) PopulateFromARM(owner genrunt
 	}
 
 	// Set property ‘CreateOption’:
-	disk.CreateOption = typedInput.CreateOption
+	if typedInput.CreateOption != nil {
+		createOption := *typedInput.CreateOption
+		disk.CreateOption = &createOption
+	}
 
 	// Set property ‘DiskIOPSReadWrite’:
 	if typedInput.DiskIOPSReadWrite != nil {
@@ -7362,7 +7435,10 @@ func (disk *VirtualMachineScaleSetDataDisk_Status) PopulateFromARM(owner genrunt
 	}
 
 	// Set property ‘Lun’:
-	disk.Lun = typedInput.Lun
+	if typedInput.Lun != nil {
+		lun := *typedInput.Lun
+		disk.Lun = &lun
+	}
 
 	// Set property ‘ManagedDisk’:
 	if typedInput.ManagedDisk != nil {
@@ -7404,9 +7480,10 @@ func (disk *VirtualMachineScaleSetDataDisk_Status) AssignPropertiesFromVirtualMa
 
 	// CreateOption
 	if source.CreateOption != nil {
-		disk.CreateOption = CreateOption_Status(*source.CreateOption)
+		createOption := CreateOption_Status(*source.CreateOption)
+		disk.CreateOption = &createOption
 	} else {
-		disk.CreateOption = ""
+		disk.CreateOption = nil
 	}
 
 	// DiskIOPSReadWrite
@@ -7419,7 +7496,7 @@ func (disk *VirtualMachineScaleSetDataDisk_Status) AssignPropertiesFromVirtualMa
 	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
 
 	// Lun
-	disk.Lun = genruntime.GetOptionalIntValue(source.Lun)
+	disk.Lun = genruntime.ClonePointerToInt(source.Lun)
 
 	// ManagedDisk
 	if source.ManagedDisk != nil {
@@ -7462,8 +7539,12 @@ func (disk *VirtualMachineScaleSetDataDisk_Status) AssignPropertiesToVirtualMach
 	}
 
 	// CreateOption
-	createOption := string(disk.CreateOption)
-	destination.CreateOption = &createOption
+	if disk.CreateOption != nil {
+		createOption := string(*disk.CreateOption)
+		destination.CreateOption = &createOption
+	} else {
+		destination.CreateOption = nil
+	}
 
 	// DiskIOPSReadWrite
 	destination.DiskIOPSReadWrite = genruntime.ClonePointerToInt(disk.DiskIOPSReadWrite)
@@ -7475,8 +7556,7 @@ func (disk *VirtualMachineScaleSetDataDisk_Status) AssignPropertiesToVirtualMach
 	destination.DiskSizeGB = genruntime.ClonePointerToInt(disk.DiskSizeGB)
 
 	// Lun
-	lun := disk.Lun
-	destination.Lun = &lun
+	destination.Lun = genruntime.ClonePointerToInt(disk.Lun)
 
 	// ManagedDisk
 	if disk.ManagedDisk != nil {
@@ -7867,9 +7947,8 @@ type VirtualMachineScaleSetNetworkConfiguration_Status struct {
 	//IpConfigurations: Specifies the IP configurations of the network interface.
 	IpConfigurations []VirtualMachineScaleSetIPConfiguration_Status `json:"ipConfigurations,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Name: The network configuration name.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//NetworkSecurityGroup: The network security group.
 	NetworkSecurityGroup *SubResource_Status `json:"networkSecurityGroup,omitempty"`
@@ -7953,7 +8032,10 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration_Status) Populate
 	}
 
 	// Set property ‘Name’:
-	configuration.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		configuration.Name = &name
+	}
 
 	// Set property ‘NetworkSecurityGroup’:
 	// copying flattened property:
@@ -8043,7 +8125,7 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration_Status) AssignPr
 	}
 
 	// Name
-	configuration.Name = genruntime.GetOptionalStringValue(source.Name)
+	configuration.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NetworkSecurityGroup
 	if source.NetworkSecurityGroup != nil {
@@ -8132,8 +8214,7 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration_Status) AssignPr
 	}
 
 	// Name
-	name := configuration.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(configuration.Name)
 
 	// NetworkSecurityGroup
 	if configuration.NetworkSecurityGroup != nil {
@@ -8181,7 +8262,7 @@ type VirtualMachineScaleSetOSDisk struct {
 	//The only allowed value is: FromImage \u2013 This value is used when you are using an image to create the virtual
 	//machine. If you are using a platform image, you also use the imageReference element described above. If you are using a
 	//marketplace image, you  also use the plan element previously described.
-	CreateOption VirtualMachineScaleSetOSDiskCreateOption `json:"createOption"`
+	CreateOption *VirtualMachineScaleSetOSDiskCreateOption `json:"createOption,omitempty"`
 
 	//DiffDiskSettings: Describes the parameters of ephemeral disk settings that can be specified for operating system disk.
 	//NOTE: The ephemeral disk settings can only be specified for managed disk.
@@ -8231,7 +8312,10 @@ func (disk *VirtualMachineScaleSetOSDisk) ConvertToARM(resolved genruntime.Conve
 	}
 
 	// Set property ‘CreateOption’:
-	result.CreateOption = disk.CreateOption
+	if disk.CreateOption != nil {
+		createOption := *disk.CreateOption
+		result.CreateOption = &createOption
+	}
 
 	// Set property ‘DiffDiskSettings’:
 	if disk.DiffDiskSettings != nil {
@@ -8313,7 +8397,10 @@ func (disk *VirtualMachineScaleSetOSDisk) PopulateFromARM(owner genruntime.Arbit
 	}
 
 	// Set property ‘CreateOption’:
-	disk.CreateOption = typedInput.CreateOption
+	if typedInput.CreateOption != nil {
+		createOption := *typedInput.CreateOption
+		disk.CreateOption = &createOption
+	}
 
 	// Set property ‘DiffDiskSettings’:
 	if typedInput.DiffDiskSettings != nil {
@@ -8394,9 +8481,10 @@ func (disk *VirtualMachineScaleSetOSDisk) AssignPropertiesFromVirtualMachineScal
 
 	// CreateOption
 	if source.CreateOption != nil {
-		disk.CreateOption = VirtualMachineScaleSetOSDiskCreateOption(*source.CreateOption)
+		createOption := VirtualMachineScaleSetOSDiskCreateOption(*source.CreateOption)
+		disk.CreateOption = &createOption
 	} else {
-		disk.CreateOption = ""
+		disk.CreateOption = nil
 	}
 
 	// DiffDiskSettings
@@ -8478,8 +8566,12 @@ func (disk *VirtualMachineScaleSetOSDisk) AssignPropertiesToVirtualMachineScaleS
 	}
 
 	// CreateOption
-	createOption := string(disk.CreateOption)
-	destination.CreateOption = &createOption
+	if disk.CreateOption != nil {
+		createOption := string(*disk.CreateOption)
+		destination.CreateOption = &createOption
+	} else {
+		destination.CreateOption = nil
+	}
 
 	// DiffDiskSettings
 	if disk.DiffDiskSettings != nil {
@@ -8562,12 +8654,11 @@ type VirtualMachineScaleSetOSDisk_Status struct {
 	//Default: None for Standard storage. ReadOnly for Premium storage
 	Caching *Caching_Status `json:"caching,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//CreateOption: Specifies how the virtual machines in the scale set should be created.
 	//The only allowed value is: FromImage \u2013 This value is used when you are using an image to create the virtual
 	//machine. If you are using a platform image, you also use the imageReference element described above. If you are using a
 	//marketplace image, you  also use the plan element previously described.
-	CreateOption CreateOption_Status `json:"createOption"`
+	CreateOption *CreateOption_Status `json:"createOption,omitempty"`
 
 	//DiffDiskSettings: Specifies the ephemeral disk Settings for the operating system disk used by the virtual machine scale
 	//set.
@@ -8622,7 +8713,10 @@ func (disk *VirtualMachineScaleSetOSDisk_Status) PopulateFromARM(owner genruntim
 	}
 
 	// Set property ‘CreateOption’:
-	disk.CreateOption = typedInput.CreateOption
+	if typedInput.CreateOption != nil {
+		createOption := *typedInput.CreateOption
+		disk.CreateOption = &createOption
+	}
 
 	// Set property ‘DiffDiskSettings’:
 	if typedInput.DiffDiskSettings != nil {
@@ -8703,9 +8797,10 @@ func (disk *VirtualMachineScaleSetOSDisk_Status) AssignPropertiesFromVirtualMach
 
 	// CreateOption
 	if source.CreateOption != nil {
-		disk.CreateOption = CreateOption_Status(*source.CreateOption)
+		createOption := CreateOption_Status(*source.CreateOption)
+		disk.CreateOption = &createOption
 	} else {
-		disk.CreateOption = ""
+		disk.CreateOption = nil
 	}
 
 	// DiffDiskSettings
@@ -8787,8 +8882,12 @@ func (disk *VirtualMachineScaleSetOSDisk_Status) AssignPropertiesToVirtualMachin
 	}
 
 	// CreateOption
-	createOption := string(disk.CreateOption)
-	destination.CreateOption = &createOption
+	if disk.CreateOption != nil {
+		createOption := string(*disk.CreateOption)
+		destination.CreateOption = &createOption
+	} else {
+		destination.CreateOption = nil
+	}
 
 	// DiffDiskSettings
 	if disk.DiffDiskSettings != nil {
@@ -8866,17 +8965,21 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProf
 	//Name: The name of the extension.
 	Name *string `json:"name,omitempty"`
 
+	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MinLength=1
 	//Publisher: Microsoft.Compute/extensions - Publisher
 	Publisher *string `json:"publisher,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//Settings: Microsoft.Compute/extensions - Settings
 	Settings map[string]v1.JSON `json:"settings,omitempty"`
 
+	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MinLength=1
 	//Type: Microsoft.Compute/extensions - Type
 	Type *string `json:"type,omitempty"`
 
+	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MinLength=1
 	//TypeHandlerVersion: Microsoft.Compute/extensions - Type handler version
 	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
@@ -8905,7 +9008,8 @@ func (extensions *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_
 		result.Properties = &GenericExtensionARM{}
 	}
 	if extensions.Publisher != nil {
-		result.Properties.Publisher = *extensions.Publisher
+		publisher := *extensions.Publisher
+		result.Properties.Publisher = &publisher
 	}
 	if extensions.Settings != nil {
 		result.Properties.Settings = make(map[string]v1.JSON)
@@ -8914,10 +9018,12 @@ func (extensions *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_
 		}
 	}
 	if extensions.Type != nil {
-		result.Properties.Type = *extensions.Type
+		typeVar := *extensions.Type
+		result.Properties.Type = &typeVar
 	}
 	if extensions.TypeHandlerVersion != nil {
-		result.Properties.TypeHandlerVersion = *extensions.TypeHandlerVersion
+		typeHandlerVersion := *extensions.TypeHandlerVersion
+		result.Properties.TypeHandlerVersion = &typeHandlerVersion
 	}
 	return result, nil
 }
@@ -8943,7 +9049,10 @@ func (extensions *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_
 	// Set property ‘Publisher’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		extensions.Publisher = &typedInput.Properties.Publisher
+		if typedInput.Properties.Publisher != nil {
+			publisher := *typedInput.Properties.Publisher
+			extensions.Publisher = &publisher
+		}
 	}
 
 	// Set property ‘Settings’:
@@ -8960,13 +9069,19 @@ func (extensions *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_
 	// Set property ‘Type’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		extensions.Type = &typedInput.Properties.Type
+		if typedInput.Properties.Type != nil {
+			typeVar := *typedInput.Properties.Type
+			extensions.Type = &typeVar
+		}
 	}
 
 	// Set property ‘TypeHandlerVersion’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		extensions.TypeHandlerVersion = &typedInput.Properties.TypeHandlerVersion
+		if typedInput.Properties.TypeHandlerVersion != nil {
+			typeHandlerVersion := *typedInput.Properties.TypeHandlerVersion
+			extensions.TypeHandlerVersion = &typeHandlerVersion
+		}
 	}
 
 	// No error
@@ -9092,12 +9207,13 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//IpConfigurations: Specifies the IP configurations of the network interface.
 	IpConfigurations []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations `json:"ipConfigurations,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Name: The network configuration name.
-	Name                 string       `json:"name"`
+	Name                 *string      `json:"name,omitempty"`
 	NetworkSecurityGroup *SubResource `json:"networkSecurityGroup,omitempty"`
 
 	//Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
@@ -9120,7 +9236,10 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 	}
 
 	// Set property ‘Name’:
-	result.Name = configurations.Name
+	if configurations.Name != nil {
+		name := *configurations.Name
+		result.Name = &name
+	}
 
 	// Set property ‘Properties’:
 	if configurations.DnsSettings != nil ||
@@ -9247,7 +9366,10 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 	}
 
 	// Set property ‘Name’:
-	configurations.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		configurations.Name = &name
+	}
 
 	// Set property ‘NetworkSecurityGroup’:
 	// copying flattened property:
@@ -9337,7 +9459,7 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 	}
 
 	// Name
-	configurations.Name = genruntime.GetOptionalStringValue(source.Name)
+	configurations.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NetworkSecurityGroup
 	if source.NetworkSecurityGroup != nil {
@@ -9426,8 +9548,7 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 	}
 
 	// Name
-	name := configurations.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(configurations.Name)
 
 	// NetworkSecurityGroup
 	if configurations.NetworkSecurityGroup != nil {
@@ -9500,9 +9621,8 @@ type VirtualMachineScaleSetIPConfiguration_Status struct {
 	//basic sku load balancer.
 	LoadBalancerInboundNatPools []SubResource_Status `json:"loadBalancerInboundNatPools,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Name: The IP configuration name.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
 	Primary *bool `json:"primary,omitempty"`
@@ -9591,7 +9711,10 @@ func (configuration *VirtualMachineScaleSetIPConfiguration_Status) PopulateFromA
 	}
 
 	// Set property ‘Name’:
-	configuration.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		configuration.Name = &name
+	}
 
 	// Set property ‘Primary’:
 	// copying flattened property:
@@ -9722,7 +9845,7 @@ func (configuration *VirtualMachineScaleSetIPConfiguration_Status) AssignPropert
 	}
 
 	// Name
-	configuration.Name = genruntime.GetOptionalStringValue(source.Name)
+	configuration.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Primary
 	if source.Primary != nil {
@@ -9849,8 +9972,7 @@ func (configuration *VirtualMachineScaleSetIPConfiguration_Status) AssignPropert
 	}
 
 	// Name
-	name := configuration.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(configuration.Name)
 
 	// Primary
 	if configuration.Primary != nil {
@@ -10332,7 +10454,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 
 	// +kubebuilder:validation:Required
 	//Name: The IP configuration name.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
 	Primary *bool `json:"primary,omitempty"`
@@ -10364,7 +10486,10 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 	}
 
 	// Set property ‘Name’:
-	result.Name = configurations.Name
+	if configurations.Name != nil {
+		name := *configurations.Name
+		result.Name = &name
+	}
 
 	// Set property ‘Properties’:
 	if configurations.ApplicationGatewayBackendAddressPools != nil ||
@@ -10503,7 +10628,10 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 	}
 
 	// Set property ‘Name’:
-	configurations.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		configurations.Name = &name
+	}
 
 	// Set property ‘Primary’:
 	// copying flattened property:
@@ -10634,7 +10762,7 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 	}
 
 	// Name
-	configurations.Name = genruntime.GetOptionalStringValue(source.Name)
+	configurations.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Primary
 	if source.Primary != nil {
@@ -10761,8 +10889,7 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 	}
 
 	// Name
-	name := configurations.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(configurations.Name)
 
 	// Primary
 	if configurations.Primary != nil {
@@ -10844,9 +10971,8 @@ type VirtualMachineScaleSetPublicIPAddressConfiguration_Status struct {
 	//IpTags: The list of IP tags associated with the public IP address.
 	IpTags []VirtualMachineScaleSetIpTag_Status `json:"ipTags,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Name: The publicIP address configuration name.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it represents whether the specific
 	//ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
@@ -10907,7 +11033,10 @@ func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration_Status) 
 	}
 
 	// Set property ‘Name’:
-	configuration.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		configuration.Name = &name
+	}
 
 	// Set property ‘PublicIPAddressVersion’:
 	// copying flattened property:
@@ -10973,7 +11102,7 @@ func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration_Status) 
 	}
 
 	// Name
-	configuration.Name = genruntime.GetOptionalStringValue(source.Name)
+	configuration.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PublicIPAddressVersion
 	if source.PublicIPAddressVersion != nil {
@@ -11038,8 +11167,7 @@ func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration_Status) 
 	}
 
 	// Name
-	name := configuration.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(configuration.Name)
 
 	// PublicIPAddressVersion
 	if configuration.PublicIPAddressVersion != nil {
@@ -11092,7 +11220,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 
 	// +kubebuilder:validation:Required
 	//Name: The publicIP address configuration name.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it represents whether the specific
 	//ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
@@ -11110,7 +11238,10 @@ func (configuration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfi
 	var result VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM
 
 	// Set property ‘Name’:
-	result.Name = configuration.Name
+	if configuration.Name != nil {
+		name := *configuration.Name
+		result.Name = &name
+	}
 
 	// Set property ‘Properties’:
 	if configuration.DnsSettings != nil ||
@@ -11203,7 +11334,10 @@ func (configuration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfi
 	}
 
 	// Set property ‘Name’:
-	configuration.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		configuration.Name = &name
+	}
 
 	// Set property ‘PublicIPAddressVersion’:
 	// copying flattened property:
@@ -11269,7 +11403,7 @@ func (configuration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfi
 	}
 
 	// Name
-	configuration.Name = genruntime.GetOptionalStringValue(source.Name)
+	configuration.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PublicIPAddressVersion
 	if source.PublicIPAddressVersion != nil {
@@ -11334,8 +11468,7 @@ func (configuration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfi
 	}
 
 	// Name
-	name := configuration.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(configuration.Name)
 
 	// PublicIPAddressVersion
 	if configuration.PublicIPAddressVersion != nil {
@@ -11541,7 +11674,7 @@ type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings struct {
 	// +kubebuilder:validation:Required
 	//DomainNameLabel: The Domain name label.The concatenation of the domain name label and vm index will be the domain name
 	//labels of the PublicIPAddress resources that will be created
-	DomainNameLabel string `json:"domainNameLabel"`
+	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings{}
@@ -11554,7 +11687,10 @@ func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) C
 	var result VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsARM
 
 	// Set property ‘DomainNameLabel’:
-	result.DomainNameLabel = settings.DomainNameLabel
+	if settings.DomainNameLabel != nil {
+		domainNameLabel := *settings.DomainNameLabel
+		result.DomainNameLabel = &domainNameLabel
+	}
 	return result, nil
 }
 
@@ -11571,7 +11707,10 @@ func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) P
 	}
 
 	// Set property ‘DomainNameLabel’:
-	settings.DomainNameLabel = typedInput.DomainNameLabel
+	if typedInput.DomainNameLabel != nil {
+		domainNameLabel := *typedInput.DomainNameLabel
+		settings.DomainNameLabel = &domainNameLabel
+	}
 
 	// No error
 	return nil
@@ -11581,7 +11720,7 @@ func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) P
 func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings(source *v1alpha1api20201201storage.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) error {
 
 	// DomainNameLabel
-	settings.DomainNameLabel = genruntime.GetOptionalStringValue(source.DomainNameLabel)
+	settings.DomainNameLabel = genruntime.ClonePointerToString(source.DomainNameLabel)
 
 	// No error
 	return nil
@@ -11593,8 +11732,7 @@ func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) A
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DomainNameLabel
-	domainNameLabel := settings.DomainNameLabel
-	destination.DomainNameLabel = &domainNameLabel
+	destination.DomainNameLabel = genruntime.ClonePointerToString(settings.DomainNameLabel)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -11608,10 +11746,9 @@ func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) A
 }
 
 type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status struct {
-	// +kubebuilder:validation:Required
 	//DomainNameLabel: The Domain name label.The concatenation of the domain name label and vm index will be the domain name
 	//labels of the PublicIPAddress resources that will be created
-	DomainNameLabel string `json:"domainNameLabel"`
+	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status{}
@@ -11629,7 +11766,10 @@ func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_St
 	}
 
 	// Set property ‘DomainNameLabel’:
-	settings.DomainNameLabel = typedInput.DomainNameLabel
+	if typedInput.DomainNameLabel != nil {
+		domainNameLabel := *typedInput.DomainNameLabel
+		settings.DomainNameLabel = &domainNameLabel
+	}
 
 	// No error
 	return nil
@@ -11639,7 +11779,7 @@ func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_St
 func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status) AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status) error {
 
 	// DomainNameLabel
-	settings.DomainNameLabel = genruntime.GetOptionalStringValue(source.DomainNameLabel)
+	settings.DomainNameLabel = genruntime.ClonePointerToString(source.DomainNameLabel)
 
 	// No error
 	return nil
@@ -11651,8 +11791,7 @@ func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_St
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DomainNameLabel
-	domainNameLabel := settings.DomainNameLabel
-	destination.DomainNameLabel = &domainNameLabel
+	destination.DomainNameLabel = genruntime.ClonePointerToString(settings.DomainNameLabel)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -243,9 +243,9 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 	if ownerNameType == astmodel.KnownResourceReferenceType {
 		compositeLit := astbuilder.NewCompositeLiteralBuilder(astmodel.KnownResourceReferenceType.AsType(builder.codeGenerationContext))
 		compositeLit.AddField("Name", astbuilder.Selector(dst.NewIdent(ownerParameter), "Name"))
-		convertedOwner = compositeLit.Build()
+		convertedOwner = astbuilder.AddrOf(compositeLit.Build())
 	} else if ownerNameType == astmodel.ArbitraryOwnerReference {
-		convertedOwner = dst.NewIdent(ownerParameter)
+		convertedOwner = astbuilder.AddrOf(dst.NewIdent(ownerParameter))
 	} else {
 		panic(fmt.Sprintf("found Owner property on spec with unexpected TypeName %s", ownerNameType.String()))
 	}

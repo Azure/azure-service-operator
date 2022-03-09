@@ -10,10 +10,10 @@ type RedisEnterpriseDatabases_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the database.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties of RedisEnterprise databases, as opposed to general resource properties like location, tags
-	Properties DatabasePropertiesARM `json:"properties"`
+	Properties *DatabasePropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -64,7 +64,7 @@ type ModuleARM struct {
 	Args *string `json:"args,omitempty"`
 
 	//Name: The name of the module, e.g. 'RedisBloom', 'RediSearch', 'RedisTimeSeries'
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Persistence

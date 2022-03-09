@@ -90,7 +90,7 @@ func AddIndependentPropertyGeneratorsForRedisLinkedServersSpecARM(gens map[strin
 
 // AddRelatedPropertyGeneratorsForRedisLinkedServersSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisLinkedServersSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = RedisLinkedServerCreatePropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(RedisLinkedServerCreatePropertiesARMGenerator())
 }
 
 func Test_RedisLinkedServerCreatePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -150,7 +150,7 @@ func RedisLinkedServerCreatePropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRedisLinkedServerCreatePropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedisLinkedServerCreatePropertiesARM(gens map[string]gopter.Gen) {
-	gens["LinkedRedisCacheId"] = gen.AlphaString()
-	gens["LinkedRedisCacheLocation"] = gen.AlphaString()
-	gens["ServerRole"] = gen.OneConstOf(RedisLinkedServerCreatePropertiesServerRolePrimary, RedisLinkedServerCreatePropertiesServerRoleSecondary)
+	gens["LinkedRedisCacheId"] = gen.PtrOf(gen.AlphaString())
+	gens["LinkedRedisCacheLocation"] = gen.PtrOf(gen.AlphaString())
+	gens["ServerRole"] = gen.PtrOf(gen.OneConstOf(RedisLinkedServerCreatePropertiesServerRolePrimary, RedisLinkedServerCreatePropertiesServerRoleSecondary))
 }

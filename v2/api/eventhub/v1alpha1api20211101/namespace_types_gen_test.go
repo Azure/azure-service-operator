@@ -1199,7 +1199,7 @@ func SkuGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.OneConstOf(SkuNameBasic, SkuNamePremium, SkuNameStandard)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SkuNameBasic, SkuNamePremium, SkuNameStandard))
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(SkuTierBasic, SkuTierPremium, SkuTierStandard))
 }
 
@@ -1302,7 +1302,7 @@ func SkuStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSkuStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuStatus(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.OneConstOf(SkuStatusNameBasic, SkuStatusNamePremium, SkuStatusNameStandard)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SkuStatusNameBasic, SkuStatusNamePremium, SkuStatusNameStandard))
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(SkuStatusTierBasic, SkuStatusTierPremium, SkuStatusTierStandard))
 }
 

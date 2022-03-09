@@ -641,7 +641,11 @@ func (in *Registries_Spec) DeepCopyInto(out *Registries_Spec) {
 		*out = new(NetworkRuleSet)
 		(*in).DeepCopyInto(*out)
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.Policies != nil {
 		in, out := &in.Policies, &out.Policies
 		*out = new(Policies)

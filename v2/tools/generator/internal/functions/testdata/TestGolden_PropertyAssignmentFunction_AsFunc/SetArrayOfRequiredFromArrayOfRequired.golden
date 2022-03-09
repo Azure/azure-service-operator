@@ -6,7 +6,7 @@ package vCurrent
 import verification "github.com/Azure/azure-service-operator/testing/verification/vNext"
 
 type Person struct {
-	Scores []int `json:"scores"`
+	Scores []int `json:"scores,omitempty"`
 }
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person

@@ -48,6 +48,8 @@ func Test_EventGrid_Topic(t *testing.T) {
 			Test: func(tc *testcommon.KubePerTestContext) {
 				// First create a queue to use as destination
 
+				kind := storage.StorageAccountsSpecKindStorageV2
+				sku := storage.SkuNameStandardLRS
 				acctName := tc.NoSpaceNamer.GenerateName("stor")
 				tier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
 				acct := &storage.StorageAccount{
@@ -55,9 +57,9 @@ func Test_EventGrid_Topic(t *testing.T) {
 					Spec: storage.StorageAccounts_Spec{
 						Owner:      testcommon.AsOwner(rg),
 						Location:   tc.AzureRegion,
-						Kind:       storage.StorageAccountsSpecKindStorageV2,
+						Kind:       &kind,
 						AccessTier: &tier,
-						Sku:        storage.Sku{Name: storage.SkuNameStandardLRS},
+						Sku:        &storage.Sku{Name: &sku},
 					},
 				}
 
@@ -83,15 +85,16 @@ func Test_EventGrid_Topic(t *testing.T) {
 
 				acctReference := tc.MakeReferenceFromResource(acct)
 
+				endpointType := eventgrid.StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue
 				subscription := &eventgrid.EventSubscription{
 					ObjectMeta: tc.MakeObjectMeta("sub"),
 					Spec: eventgrid.EventSubscriptions_Spec{
 						Owner: tc.AsExtensionOwner(topic),
 						Destination: &eventgrid.EventSubscriptionDestination{
 							StorageQueue: &eventgrid.StorageQueueEventSubscriptionDestination{
-								EndpointType: eventgrid.StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue,
+								EndpointType: &endpointType,
 								Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{
-									ResourceReference: &acctReference,
+									ResourceReference: acctReference,
 									QueueName:         &queue.Name,
 								},
 							},

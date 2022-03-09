@@ -702,7 +702,7 @@ func IpsecPolicyStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForIpsecPolicyStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIpsecPolicyStatusARM(gens map[string]gopter.Gen) {
-	gens["DhGroup"] = gen.OneConstOf(
+	gens["DhGroup"] = gen.PtrOf(gen.OneConstOf(
 		DhGroup_StatusDHGroup1,
 		DhGroup_StatusDHGroup14,
 		DhGroup_StatusDHGroup2,
@@ -710,23 +710,23 @@ func AddIndependentPropertyGeneratorsForIpsecPolicyStatusARM(gens map[string]gop
 		DhGroup_StatusDHGroup24,
 		DhGroup_StatusECP256,
 		DhGroup_StatusECP384,
-		DhGroup_StatusNone)
-	gens["IkeEncryption"] = gen.OneConstOf(
+		DhGroup_StatusNone))
+	gens["IkeEncryption"] = gen.PtrOf(gen.OneConstOf(
 		IkeEncryption_StatusAES128,
 		IkeEncryption_StatusAES192,
 		IkeEncryption_StatusAES256,
 		IkeEncryption_StatusDES,
 		IkeEncryption_StatusDES3,
 		IkeEncryption_StatusGCMAES128,
-		IkeEncryption_StatusGCMAES256)
-	gens["IkeIntegrity"] = gen.OneConstOf(
+		IkeEncryption_StatusGCMAES256))
+	gens["IkeIntegrity"] = gen.PtrOf(gen.OneConstOf(
 		IkeIntegrity_StatusGCMAES128,
 		IkeIntegrity_StatusGCMAES256,
 		IkeIntegrity_StatusMD5,
 		IkeIntegrity_StatusSHA1,
 		IkeIntegrity_StatusSHA256,
-		IkeIntegrity_StatusSHA384)
-	gens["IpsecEncryption"] = gen.OneConstOf(
+		IkeIntegrity_StatusSHA384))
+	gens["IpsecEncryption"] = gen.PtrOf(gen.OneConstOf(
 		IpsecEncryption_StatusAES128,
 		IpsecEncryption_StatusAES192,
 		IpsecEncryption_StatusAES256,
@@ -735,15 +735,15 @@ func AddIndependentPropertyGeneratorsForIpsecPolicyStatusARM(gens map[string]gop
 		IpsecEncryption_StatusGCMAES128,
 		IpsecEncryption_StatusGCMAES192,
 		IpsecEncryption_StatusGCMAES256,
-		IpsecEncryption_StatusNone)
-	gens["IpsecIntegrity"] = gen.OneConstOf(
+		IpsecEncryption_StatusNone))
+	gens["IpsecIntegrity"] = gen.PtrOf(gen.OneConstOf(
 		IpsecIntegrity_StatusGCMAES128,
 		IpsecIntegrity_StatusGCMAES192,
 		IpsecIntegrity_StatusGCMAES256,
 		IpsecIntegrity_StatusMD5,
 		IpsecIntegrity_StatusSHA1,
-		IpsecIntegrity_StatusSHA256)
-	gens["PfsGroup"] = gen.OneConstOf(
+		IpsecIntegrity_StatusSHA256))
+	gens["PfsGroup"] = gen.PtrOf(gen.OneConstOf(
 		PfsGroup_StatusECP256,
 		PfsGroup_StatusECP384,
 		PfsGroup_StatusNone,
@@ -752,9 +752,9 @@ func AddIndependentPropertyGeneratorsForIpsecPolicyStatusARM(gens map[string]gop
 		PfsGroup_StatusPFS2,
 		PfsGroup_StatusPFS2048,
 		PfsGroup_StatusPFS24,
-		PfsGroup_StatusPFSMM)
-	gens["SaDataSizeKilobytes"] = gen.Int()
-	gens["SaLifeTimeSeconds"] = gen.Int()
+		PfsGroup_StatusPFSMM))
+	gens["SaDataSizeKilobytes"] = gen.PtrOf(gen.Int())
+	gens["SaLifeTimeSeconds"] = gen.PtrOf(gen.Int())
 }
 
 func Test_RadiusServer_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -814,7 +814,7 @@ func RadiusServerStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRadiusServerStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRadiusServerStatusARM(gens map[string]gopter.Gen) {
-	gens["RadiusServerAddress"] = gen.AlphaString()
+	gens["RadiusServerAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["RadiusServerScore"] = gen.PtrOf(gen.Int())
 	gens["RadiusServerSecret"] = gen.PtrOf(gen.AlphaString())
 }
@@ -1049,7 +1049,7 @@ func AddIndependentPropertyGeneratorsForVpnClientRootCertificateStatusARM(gens m
 
 // AddRelatedPropertyGeneratorsForVpnClientRootCertificateStatusARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVpnClientRootCertificateStatusARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = VpnClientRootCertificatePropertiesFormatStatusARMGenerator()
+	gens["Properties"] = gen.PtrOf(VpnClientRootCertificatePropertiesFormatStatusARMGenerator())
 }
 
 func Test_VpnClientRevokedCertificatePropertiesFormat_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1179,5 +1179,5 @@ func AddIndependentPropertyGeneratorsForVpnClientRootCertificatePropertiesFormat
 		ProvisioningState_StatusFailed,
 		ProvisioningState_StatusSucceeded,
 		ProvisioningState_StatusUpdating))
-	gens["PublicCertData"] = gen.AlphaString()
+	gens["PublicCertData"] = gen.PtrOf(gen.AlphaString())
 }

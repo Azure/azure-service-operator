@@ -9,7 +9,7 @@ import (
 )
 
 type Person struct {
-	Keys map[string]*Release `json:"keys"`
+	Keys map[string]*Release `json:"keys,omitempty"`
 }
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person

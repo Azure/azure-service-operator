@@ -23,20 +23,21 @@ func Test_OperationalInsights_Workspace_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Create a workspace
+	sku := operationalinsights.WorkspaceSkuNameStandalone
 	workspace := &operationalinsights.Workspace{
 		ObjectMeta: tc.MakeObjectMeta("workspace"),
 		Spec: operationalinsights.Workspaces_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &operationalinsights.WorkspaceSku{
-				Name: operationalinsights.WorkspaceSkuNameStandalone,
+				Name: &sku,
 			},
 		},
 	}
 
 	tc.CreateResourceAndWait(workspace)
 
-	tc.Expect(workspace.Status.Location).To(Equal(&tc.AzureRegion))
+	tc.Expect(workspace.Status.Location).To(Equal(tc.AzureRegion))
 	tc.Expect(workspace.Status.Id).ToNot(BeNil())
 	armId := *workspace.Status.Id
 

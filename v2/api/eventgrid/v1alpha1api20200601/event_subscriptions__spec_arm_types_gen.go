@@ -14,10 +14,10 @@ type EventSubscriptions_SpecARM struct {
 
 	//Name: Name of the event subscription. Event subscription names must be between 3 and 64 characters in length and should
 	//use alphanumeric letters only.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties of the Event Subscription.
-	Properties EventSubscriptionPropertiesARM `json:"properties"`
+	Properties *EventSubscriptionPropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -191,7 +191,7 @@ type RetryPolicyARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageBlobDeadLetterDestination
 type StorageBlobDeadLetterDestinationARM struct {
-	EndpointType StorageBlobDeadLetterDestinationEndpointType `json:"endpointType"`
+	EndpointType *StorageBlobDeadLetterDestinationEndpointType `json:"endpointType,omitempty"`
 
 	//Properties: Properties of the storage blob based dead letter destination.
 	Properties *StorageBlobDeadLetterDestinationPropertiesARM `json:"properties,omitempty"`
@@ -340,7 +340,7 @@ func (filter *AdvancedFilterARM) UnmarshalJSON(data []byte) error {
 
 //Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AzureFunctionEventSubscriptionDestination
 type AzureFunctionEventSubscriptionDestinationARM struct {
-	EndpointType AzureFunctionEventSubscriptionDestinationEndpointType `json:"endpointType"`
+	EndpointType AzureFunctionEventSubscriptionDestinationEndpointType `json:"endpointType,omitempty"`
 
 	//Properties: The properties that represent the Azure Function destination of an event subscription.
 	Properties *AzureFunctionEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
@@ -348,7 +348,7 @@ type AzureFunctionEventSubscriptionDestinationARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventHubEventSubscriptionDestination
 type EventHubEventSubscriptionDestinationARM struct {
-	EndpointType EventHubEventSubscriptionDestinationEndpointType `json:"endpointType"`
+	EndpointType EventHubEventSubscriptionDestinationEndpointType `json:"endpointType,omitempty"`
 
 	//Properties: The properties for a event hub destination.
 	Properties *EventHubEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
@@ -356,7 +356,7 @@ type EventHubEventSubscriptionDestinationARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/HybridConnectionEventSubscriptionDestination
 type HybridConnectionEventSubscriptionDestinationARM struct {
-	EndpointType HybridConnectionEventSubscriptionDestinationEndpointType `json:"endpointType"`
+	EndpointType HybridConnectionEventSubscriptionDestinationEndpointType `json:"endpointType,omitempty"`
 
 	//Properties: The properties for a hybrid connection destination.
 	Properties *HybridConnectionEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
@@ -364,7 +364,7 @@ type HybridConnectionEventSubscriptionDestinationARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusQueueEventSubscriptionDestination
 type ServiceBusQueueEventSubscriptionDestinationARM struct {
-	EndpointType ServiceBusQueueEventSubscriptionDestinationEndpointType `json:"endpointType"`
+	EndpointType ServiceBusQueueEventSubscriptionDestinationEndpointType `json:"endpointType,omitempty"`
 
 	//Properties: The properties that represent the Service Bus destination of an event subscription.
 	Properties *ServiceBusQueueEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
@@ -372,7 +372,7 @@ type ServiceBusQueueEventSubscriptionDestinationARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusTopicEventSubscriptionDestination
 type ServiceBusTopicEventSubscriptionDestinationARM struct {
-	EndpointType ServiceBusTopicEventSubscriptionDestinationEndpointType `json:"endpointType"`
+	EndpointType ServiceBusTopicEventSubscriptionDestinationEndpointType `json:"endpointType,omitempty"`
 
 	//Properties: The properties that represent the Service Bus Topic destination of an event subscription.
 	Properties *ServiceBusTopicEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
@@ -387,7 +387,7 @@ type StorageBlobDeadLetterDestinationPropertiesARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageQueueEventSubscriptionDestination
 type StorageQueueEventSubscriptionDestinationARM struct {
-	EndpointType StorageQueueEventSubscriptionDestinationEndpointType `json:"endpointType"`
+	EndpointType StorageQueueEventSubscriptionDestinationEndpointType `json:"endpointType,omitempty"`
 
 	//Properties: The properties for a storage queue destination.
 	Properties *StorageQueueEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
@@ -395,7 +395,7 @@ type StorageQueueEventSubscriptionDestinationARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/WebHookEventSubscriptionDestination
 type WebHookEventSubscriptionDestinationARM struct {
-	EndpointType WebHookEventSubscriptionDestinationEndpointType `json:"endpointType"`
+	EndpointType WebHookEventSubscriptionDestinationEndpointType `json:"endpointType,omitempty"`
 
 	//Properties: Information about the webhook destination properties for an event subscription.
 	Properties *WebHookEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
@@ -404,7 +404,7 @@ type WebHookEventSubscriptionDestinationARM struct {
 type AdvancedFilter_BoolEqualsARM struct {
 	//Key: The field/property in the event based on which you want to filter.
 	Key          *string                              `json:"key,omitempty"`
-	OperatorType AdvancedFilterBoolEqualsOperatorType `json:"operatorType"`
+	OperatorType AdvancedFilterBoolEqualsOperatorType `json:"operatorType,omitempty"`
 
 	//Value: The boolean filter value.
 	Value *bool `json:"value,omitempty"`
@@ -413,7 +413,7 @@ type AdvancedFilter_BoolEqualsARM struct {
 type AdvancedFilter_NumberGreaterThanARM struct {
 	//Key: The field/property in the event based on which you want to filter.
 	Key          *string                                     `json:"key,omitempty"`
-	OperatorType AdvancedFilterNumberGreaterThanOperatorType `json:"operatorType"`
+	OperatorType AdvancedFilterNumberGreaterThanOperatorType `json:"operatorType,omitempty"`
 
 	//Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
@@ -422,7 +422,7 @@ type AdvancedFilter_NumberGreaterThanARM struct {
 type AdvancedFilter_NumberGreaterThanOrEqualsARM struct {
 	//Key: The field/property in the event based on which you want to filter.
 	Key          *string                                             `json:"key,omitempty"`
-	OperatorType AdvancedFilterNumberGreaterThanOrEqualsOperatorType `json:"operatorType"`
+	OperatorType AdvancedFilterNumberGreaterThanOrEqualsOperatorType `json:"operatorType,omitempty"`
 
 	//Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
@@ -431,7 +431,7 @@ type AdvancedFilter_NumberGreaterThanOrEqualsARM struct {
 type AdvancedFilter_NumberInARM struct {
 	//Key: The field/property in the event based on which you want to filter.
 	Key          *string                            `json:"key,omitempty"`
-	OperatorType AdvancedFilterNumberInOperatorType `json:"operatorType"`
+	OperatorType AdvancedFilterNumberInOperatorType `json:"operatorType,omitempty"`
 
 	//Values: The set of filter values.
 	Values []float64 `json:"values,omitempty"`
@@ -440,7 +440,7 @@ type AdvancedFilter_NumberInARM struct {
 type AdvancedFilter_NumberLessThanARM struct {
 	//Key: The field/property in the event based on which you want to filter.
 	Key          *string                                  `json:"key,omitempty"`
-	OperatorType AdvancedFilterNumberLessThanOperatorType `json:"operatorType"`
+	OperatorType AdvancedFilterNumberLessThanOperatorType `json:"operatorType,omitempty"`
 
 	//Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
@@ -449,7 +449,7 @@ type AdvancedFilter_NumberLessThanARM struct {
 type AdvancedFilter_NumberLessThanOrEqualsARM struct {
 	//Key: The field/property in the event based on which you want to filter.
 	Key          *string                                          `json:"key,omitempty"`
-	OperatorType AdvancedFilterNumberLessThanOrEqualsOperatorType `json:"operatorType"`
+	OperatorType AdvancedFilterNumberLessThanOrEqualsOperatorType `json:"operatorType,omitempty"`
 
 	//Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
@@ -458,7 +458,7 @@ type AdvancedFilter_NumberLessThanOrEqualsARM struct {
 type AdvancedFilter_NumberNotInARM struct {
 	//Key: The field/property in the event based on which you want to filter.
 	Key          *string                               `json:"key,omitempty"`
-	OperatorType AdvancedFilterNumberNotInOperatorType `json:"operatorType"`
+	OperatorType AdvancedFilterNumberNotInOperatorType `json:"operatorType,omitempty"`
 
 	//Values: The set of filter values.
 	Values []float64 `json:"values,omitempty"`
@@ -467,7 +467,7 @@ type AdvancedFilter_NumberNotInARM struct {
 type AdvancedFilter_StringBeginsWithARM struct {
 	//Key: The field/property in the event based on which you want to filter.
 	Key          *string                                    `json:"key,omitempty"`
-	OperatorType AdvancedFilterStringBeginsWithOperatorType `json:"operatorType"`
+	OperatorType AdvancedFilterStringBeginsWithOperatorType `json:"operatorType,omitempty"`
 
 	//Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
@@ -476,7 +476,7 @@ type AdvancedFilter_StringBeginsWithARM struct {
 type AdvancedFilter_StringContainsARM struct {
 	//Key: The field/property in the event based on which you want to filter.
 	Key          *string                                  `json:"key,omitempty"`
-	OperatorType AdvancedFilterStringContainsOperatorType `json:"operatorType"`
+	OperatorType AdvancedFilterStringContainsOperatorType `json:"operatorType,omitempty"`
 
 	//Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
@@ -485,7 +485,7 @@ type AdvancedFilter_StringContainsARM struct {
 type AdvancedFilter_StringEndsWithARM struct {
 	//Key: The field/property in the event based on which you want to filter.
 	Key          *string                                  `json:"key,omitempty"`
-	OperatorType AdvancedFilterStringEndsWithOperatorType `json:"operatorType"`
+	OperatorType AdvancedFilterStringEndsWithOperatorType `json:"operatorType,omitempty"`
 
 	//Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
@@ -494,7 +494,7 @@ type AdvancedFilter_StringEndsWithARM struct {
 type AdvancedFilter_StringInARM struct {
 	//Key: The field/property in the event based on which you want to filter.
 	Key          *string                            `json:"key,omitempty"`
-	OperatorType AdvancedFilterStringInOperatorType `json:"operatorType"`
+	OperatorType AdvancedFilterStringInOperatorType `json:"operatorType,omitempty"`
 
 	//Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
@@ -503,7 +503,7 @@ type AdvancedFilter_StringInARM struct {
 type AdvancedFilter_StringNotInARM struct {
 	//Key: The field/property in the event based on which you want to filter.
 	Key          *string                               `json:"key,omitempty"`
-	OperatorType AdvancedFilterStringNotInOperatorType `json:"operatorType"`
+	OperatorType AdvancedFilterStringNotInOperatorType `json:"operatorType,omitempty"`
 
 	//Values: The set of filter values.
 	Values []string `json:"values,omitempty"`

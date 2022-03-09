@@ -83,7 +83,7 @@ func VirtualMachinesSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachinesSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachinesSpecARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
@@ -94,7 +94,7 @@ func AddRelatedPropertyGeneratorsForVirtualMachinesSpecARM(gens map[string]gopte
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationARMGenerator())
 	gens["Identity"] = gen.PtrOf(VirtualMachineIdentityARMGenerator())
 	gens["Plan"] = gen.PtrOf(PlanARMGenerator())
-	gens["Properties"] = VirtualMachinesSpecPropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(VirtualMachinesSpecPropertiesARMGenerator())
 }
 
 func Test_VirtualMachineIdentityARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -996,10 +996,10 @@ func DataDiskARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDataDiskARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDataDiskARM(gens map[string]gopter.Gen) {
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(DataDiskCachingNone, DataDiskCachingReadOnly, DataDiskCachingReadWrite))
-	gens["CreateOption"] = gen.OneConstOf(DataDiskCreateOptionAttach, DataDiskCreateOptionEmpty, DataDiskCreateOptionFromImage)
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(DataDiskCreateOptionAttach, DataDiskCreateOptionEmpty, DataDiskCreateOptionFromImage))
 	gens["DetachOption"] = gen.PtrOf(gen.OneConstOf(DataDiskDetachOptionForceDetach))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["Lun"] = gen.Int()
+	gens["Lun"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ToBeDetached"] = gen.PtrOf(gen.Bool())
 	gens["WriteAcceleratorEnabled"] = gen.PtrOf(gen.Bool())
@@ -1217,7 +1217,7 @@ func OSDiskARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForOSDiskARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForOSDiskARM(gens map[string]gopter.Gen) {
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(OSDiskCachingNone, OSDiskCachingReadOnly, OSDiskCachingReadWrite))
-	gens["CreateOption"] = gen.OneConstOf(OSDiskCreateOptionAttach, OSDiskCreateOptionEmpty, OSDiskCreateOptionFromImage)
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(OSDiskCreateOptionAttach, OSDiskCreateOptionEmpty, OSDiskCreateOptionFromImage))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OSDiskOsTypeLinux, OSDiskOsTypeWindows))
@@ -2332,12 +2332,12 @@ func KeyVaultKeyReferenceARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKeyVaultKeyReferenceARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyVaultKeyReferenceARM(gens map[string]gopter.Gen) {
-	gens["KeyUrl"] = gen.AlphaString()
+	gens["KeyUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForKeyVaultKeyReferenceARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForKeyVaultKeyReferenceARM(gens map[string]gopter.Gen) {
-	gens["SourceVault"] = SubResourceARMGenerator()
+	gens["SourceVault"] = gen.PtrOf(SubResourceARMGenerator())
 }
 
 func Test_KeyVaultSecretReferenceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2406,12 +2406,12 @@ func KeyVaultSecretReferenceARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKeyVaultSecretReferenceARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyVaultSecretReferenceARM(gens map[string]gopter.Gen) {
-	gens["SecretUrl"] = gen.AlphaString()
+	gens["SecretUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForKeyVaultSecretReferenceARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForKeyVaultSecretReferenceARM(gens map[string]gopter.Gen) {
-	gens["SourceVault"] = SubResourceARMGenerator()
+	gens["SourceVault"] = gen.PtrOf(SubResourceARMGenerator())
 }
 
 func Test_SshPublicKeyARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

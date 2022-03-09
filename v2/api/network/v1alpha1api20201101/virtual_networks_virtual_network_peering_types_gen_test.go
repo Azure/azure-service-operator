@@ -418,5 +418,5 @@ func AddIndependentPropertyGeneratorsForVirtualNetworksVirtualNetworkPeeringsSpe
 func AddRelatedPropertyGeneratorsForVirtualNetworksVirtualNetworkPeeringsSpec(gens map[string]gopter.Gen) {
 	gens["RemoteAddressSpace"] = gen.PtrOf(AddressSpaceGenerator())
 	gens["RemoteBgpCommunities"] = gen.PtrOf(VirtualNetworkBgpCommunitiesGenerator())
-	gens["RemoteVirtualNetwork"] = SubResourceGenerator()
+	gens["RemoteVirtualNetwork"] = gen.PtrOf(SubResourceGenerator())
 }

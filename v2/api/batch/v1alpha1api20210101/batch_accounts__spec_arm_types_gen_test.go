@@ -83,7 +83,7 @@ func BatchAccountsSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBatchAccountsSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBatchAccountsSpecARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
@@ -91,7 +91,7 @@ func AddIndependentPropertyGeneratorsForBatchAccountsSpecARM(gens map[string]gop
 // AddRelatedPropertyGeneratorsForBatchAccountsSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForBatchAccountsSpecARM(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(BatchAccountIdentityARMGenerator())
-	gens["Properties"] = BatchAccountCreatePropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(BatchAccountCreatePropertiesARMGenerator())
 }
 
 func Test_BatchAccountCreatePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -228,7 +228,7 @@ func BatchAccountIdentityARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBatchAccountIdentityARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBatchAccountIdentityARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.OneConstOf(BatchAccountIdentityTypeNone, BatchAccountIdentityTypeSystemAssigned, BatchAccountIdentityTypeUserAssigned)
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(BatchAccountIdentityTypeNone, BatchAccountIdentityTypeSystemAssigned, BatchAccountIdentityTypeUserAssigned))
 }
 
 func Test_AutoStorageBasePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -288,7 +288,7 @@ func AutoStorageBasePropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAutoStorageBasePropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAutoStorageBasePropertiesARM(gens map[string]gopter.Gen) {
-	gens["StorageAccountId"] = gen.AlphaString()
+	gens["StorageAccountId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_EncryptionPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -422,8 +422,8 @@ func KeyVaultReferenceARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKeyVaultReferenceARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyVaultReferenceARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.AlphaString()
-	gens["Url"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Url"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_KeyVaultPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

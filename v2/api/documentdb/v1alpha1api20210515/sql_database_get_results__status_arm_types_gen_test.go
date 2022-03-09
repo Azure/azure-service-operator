@@ -215,7 +215,7 @@ func SqlDatabaseGetPropertiesStatusResourceARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSqlDatabaseGetPropertiesStatusResourceARM(gens map[string]gopter.Gen) {
 	gens["Colls"] = gen.PtrOf(gen.AlphaString())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Rid"] = gen.PtrOf(gen.AlphaString())
 	gens["Ts"] = gen.PtrOf(gen.Float64())
 	gens["Users"] = gen.PtrOf(gen.AlphaString())

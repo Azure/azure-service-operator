@@ -6,6 +6,7 @@ Licensed under the MIT license.
 package testcommon
 
 import (
+	"github.com/Azure/go-autorest/autorest/to"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
@@ -21,7 +22,7 @@ func CreateResourceGroup() *resources.ResourceGroup {
 			Name:      "myrg",
 		},
 		Spec: resources.ResourceGroupSpec{
-			Location: "West US",
+			Location: to.StringPtr("West US"),
 		},
 	}
 }

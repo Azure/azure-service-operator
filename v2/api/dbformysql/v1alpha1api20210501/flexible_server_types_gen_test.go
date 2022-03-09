@@ -278,7 +278,7 @@ func AddIndependentPropertyGeneratorsForFlexibleServersSpec(gens map[string]gopt
 		ServerPropertiesCreateModeGeoRestore,
 		ServerPropertiesCreateModePointInTimeRestore,
 		ServerPropertiesCreateModeReplica))
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplicationRole"] = gen.PtrOf(gen.OneConstOf(ServerPropertiesReplicationRoleNone, ServerPropertiesReplicationRoleReplica, ServerPropertiesReplicationRoleSource))
 	gens["RestorePointInTime"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceServerResourceId"] = gen.PtrOf(gen.AlphaString())
@@ -1363,8 +1363,8 @@ func SkuGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-	gens["Tier"] = gen.OneConstOf(SkuTierBurstable, SkuTierGeneralPurpose, SkuTierMemoryOptimized)
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(SkuTierBurstable, SkuTierGeneralPurpose, SkuTierMemoryOptimized))
 }
 
 func Test_Sku_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1465,8 +1465,8 @@ func SkuStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSkuStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuStatus(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-	gens["Tier"] = gen.OneConstOf(SkuStatusTierBurstable, SkuStatusTierGeneralPurpose, SkuStatusTierMemoryOptimized)
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(SkuStatusTierBurstable, SkuStatusTierGeneralPurpose, SkuStatusTierMemoryOptimized))
 }
 
 func Test_Storage_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

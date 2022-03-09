@@ -325,7 +325,7 @@ type FlexibleServers_Spec struct {
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//Backup: Backup properties of a server
 	Backup *Backup `json:"backup,omitempty"`
@@ -337,7 +337,7 @@ type FlexibleServers_Spec struct {
 	HighAvailability *HighAvailability `json:"highAvailability,omitempty"`
 
 	//Location: The geo-location where the resource lives
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//MaintenanceWindow: Maintenance window properties of a server.
 	MaintenanceWindow *MaintenanceWindow `json:"maintenanceWindow,omitempty"`
@@ -349,7 +349,7 @@ type FlexibleServers_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	//PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the time to restore from. It's required when
 	//'createMode' is 'PointInTimeRestore'.
@@ -382,12 +382,29 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	var result FlexibleServers_SpecARM
 
 	// Set property ‘Location’:
-	result.Location = servers.Location
+	if servers.Location != nil {
+		location := *servers.Location
+		result.Location = &location
+	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if servers.AdministratorLogin != nil ||
+		servers.AdministratorLoginPassword != nil ||
+		servers.AvailabilityZone != nil ||
+		servers.Backup != nil ||
+		servers.CreateMode != nil ||
+		servers.HighAvailability != nil ||
+		servers.MaintenanceWindow != nil ||
+		servers.Network != nil ||
+		servers.PointInTimeUTC != nil ||
+		servers.SourceServerResourceReference != nil ||
+		servers.Storage != nil ||
+		servers.Version != nil {
+		result.Properties = &ServerPropertiesARM{}
+	}
 	if servers.AdministratorLogin != nil {
 		administratorLogin := *servers.AdministratorLogin
 		result.Properties.AdministratorLogin = &administratorLogin
@@ -499,18 +516,22 @@ func (servers *FlexibleServers_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘AdministratorLogin’:
 	// copying flattened property:
-	if typedInput.Properties.AdministratorLogin != nil {
-		administratorLogin := *typedInput.Properties.AdministratorLogin
-		servers.AdministratorLogin = &administratorLogin
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AdministratorLogin != nil {
+			administratorLogin := *typedInput.Properties.AdministratorLogin
+			servers.AdministratorLogin = &administratorLogin
+		}
 	}
 
 	// no assignment for property ‘AdministratorLoginPassword’
 
 	// Set property ‘AvailabilityZone’:
 	// copying flattened property:
-	if typedInput.Properties.AvailabilityZone != nil {
-		availabilityZone := *typedInput.Properties.AvailabilityZone
-		servers.AvailabilityZone = &availabilityZone
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AvailabilityZone != nil {
+			availabilityZone := *typedInput.Properties.AvailabilityZone
+			servers.AvailabilityZone = &availabilityZone
+		}
 	}
 
 	// Set property ‘AzureName’:
@@ -518,72 +539,87 @@ func (servers *FlexibleServers_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘Backup’:
 	// copying flattened property:
-	if typedInput.Properties.Backup != nil {
-		var backup1 Backup
-		err := backup1.PopulateFromARM(owner, *typedInput.Properties.Backup)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Backup != nil {
+			var backup1 Backup
+			err := backup1.PopulateFromARM(owner, *typedInput.Properties.Backup)
+			if err != nil {
+				return err
+			}
+			backup := backup1
+			servers.Backup = &backup
 		}
-		backup := backup1
-		servers.Backup = &backup
 	}
 
 	// Set property ‘CreateMode’:
 	// copying flattened property:
-	if typedInput.Properties.CreateMode != nil {
-		createMode := *typedInput.Properties.CreateMode
-		servers.CreateMode = &createMode
+	if typedInput.Properties != nil {
+		if typedInput.Properties.CreateMode != nil {
+			createMode := *typedInput.Properties.CreateMode
+			servers.CreateMode = &createMode
+		}
 	}
 
 	// Set property ‘HighAvailability’:
 	// copying flattened property:
-	if typedInput.Properties.HighAvailability != nil {
-		var highAvailability1 HighAvailability
-		err := highAvailability1.PopulateFromARM(owner, *typedInput.Properties.HighAvailability)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HighAvailability != nil {
+			var highAvailability1 HighAvailability
+			err := highAvailability1.PopulateFromARM(owner, *typedInput.Properties.HighAvailability)
+			if err != nil {
+				return err
+			}
+			highAvailability := highAvailability1
+			servers.HighAvailability = &highAvailability
 		}
-		highAvailability := highAvailability1
-		servers.HighAvailability = &highAvailability
 	}
 
 	// Set property ‘Location’:
-	servers.Location = typedInput.Location
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		servers.Location = &location
+	}
 
 	// Set property ‘MaintenanceWindow’:
 	// copying flattened property:
-	if typedInput.Properties.MaintenanceWindow != nil {
-		var maintenanceWindow1 MaintenanceWindow
-		err := maintenanceWindow1.PopulateFromARM(owner, *typedInput.Properties.MaintenanceWindow)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MaintenanceWindow != nil {
+			var maintenanceWindow1 MaintenanceWindow
+			err := maintenanceWindow1.PopulateFromARM(owner, *typedInput.Properties.MaintenanceWindow)
+			if err != nil {
+				return err
+			}
+			maintenanceWindow := maintenanceWindow1
+			servers.MaintenanceWindow = &maintenanceWindow
 		}
-		maintenanceWindow := maintenanceWindow1
-		servers.MaintenanceWindow = &maintenanceWindow
 	}
 
 	// Set property ‘Network’:
 	// copying flattened property:
-	if typedInput.Properties.Network != nil {
-		var network1 Network
-		err := network1.PopulateFromARM(owner, *typedInput.Properties.Network)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Network != nil {
+			var network1 Network
+			err := network1.PopulateFromARM(owner, *typedInput.Properties.Network)
+			if err != nil {
+				return err
+			}
+			network := network1
+			servers.Network = &network
 		}
-		network := network1
-		servers.Network = &network
 	}
 
 	// Set property ‘Owner’:
-	servers.Owner = genruntime.KnownResourceReference{
+	servers.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘PointInTimeUTC’:
 	// copying flattened property:
-	if typedInput.Properties.PointInTimeUTC != nil {
-		pointInTimeUTC := *typedInput.Properties.PointInTimeUTC
-		servers.PointInTimeUTC = &pointInTimeUTC
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PointInTimeUTC != nil {
+			pointInTimeUTC := *typedInput.Properties.PointInTimeUTC
+			servers.PointInTimeUTC = &pointInTimeUTC
+		}
 	}
 
 	// Set property ‘Sku’:
@@ -601,14 +637,16 @@ func (servers *FlexibleServers_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘Storage’:
 	// copying flattened property:
-	if typedInput.Properties.Storage != nil {
-		var storage1 Storage
-		err := storage1.PopulateFromARM(owner, *typedInput.Properties.Storage)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Storage != nil {
+			var storage1 Storage
+			err := storage1.PopulateFromARM(owner, *typedInput.Properties.Storage)
+			if err != nil {
+				return err
+			}
+			storage := storage1
+			servers.Storage = &storage
 		}
-		storage := storage1
-		servers.Storage = &storage
 	}
 
 	// Set property ‘Tags’:
@@ -621,9 +659,11 @@ func (servers *FlexibleServers_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘Version’:
 	// copying flattened property:
-	if typedInput.Properties.Version != nil {
-		version := *typedInput.Properties.Version
-		servers.Version = &version
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Version != nil {
+			version := *typedInput.Properties.Version
+			servers.Version = &version
+		}
 	}
 
 	// No error
@@ -733,7 +773,7 @@ func (servers *FlexibleServers_Spec) AssignPropertiesFromFlexibleServersSpec(sou
 	}
 
 	// Location
-	servers.Location = genruntime.GetOptionalStringValue(source.Location)
+	servers.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MaintenanceWindow
 	if source.MaintenanceWindow != nil {
@@ -760,7 +800,12 @@ func (servers *FlexibleServers_Spec) AssignPropertiesFromFlexibleServersSpec(sou
 	}
 
 	// Owner
-	servers.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		servers.Owner = &owner
+	} else {
+		servers.Owner = nil
+	}
 
 	// PointInTimeUTC
 	if source.PointInTimeUTC != nil {
@@ -872,8 +917,7 @@ func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(desti
 	}
 
 	// Location
-	location := servers.Location
-	destination.Location = &location
+	destination.Location = genruntime.ClonePointerToString(servers.Location)
 
 	// MaintenanceWindow
 	if servers.MaintenanceWindow != nil {
@@ -903,7 +947,12 @@ func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(desti
 	destination.OriginalVersion = servers.OriginalVersion()
 
 	// Owner
-	destination.Owner = servers.Owner.Copy()
+	if servers.Owner != nil {
+		owner := servers.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// PointInTimeUTC
 	if servers.PointInTimeUTC != nil {
@@ -2554,11 +2603,11 @@ const (
 type Sku struct {
 	// +kubebuilder:validation:Required
 	//Name: The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Tier: The tier of the particular SKU, e.g. Burstable.
-	Tier SkuTier `json:"tier"`
+	Tier *SkuTier `json:"tier,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Sku{}
@@ -2571,10 +2620,16 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	var result SkuARM
 
 	// Set property ‘Name’:
-	result.Name = sku.Name
+	if sku.Name != nil {
+		name := *sku.Name
+		result.Name = &name
+	}
 
 	// Set property ‘Tier’:
-	result.Tier = sku.Tier
+	if sku.Tier != nil {
+		tier := *sku.Tier
+		result.Tier = &tier
+	}
 	return result, nil
 }
 
@@ -2591,10 +2646,16 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 	}
 
 	// Set property ‘Name’:
-	sku.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		sku.Name = &name
+	}
 
 	// Set property ‘Tier’:
-	sku.Tier = typedInput.Tier
+	if typedInput.Tier != nil {
+		tier := *typedInput.Tier
+		sku.Tier = &tier
+	}
 
 	// No error
 	return nil
@@ -2604,13 +2665,14 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 func (sku *Sku) AssignPropertiesFromSku(source *v1alpha1api20210601storage.Sku) error {
 
 	// Name
-	sku.Name = genruntime.GetOptionalStringValue(source.Name)
+	sku.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Tier
 	if source.Tier != nil {
-		sku.Tier = SkuTier(*source.Tier)
+		tier := SkuTier(*source.Tier)
+		sku.Tier = &tier
 	} else {
-		sku.Tier = ""
+		sku.Tier = nil
 	}
 
 	// No error
@@ -2623,12 +2685,15 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20210601storage.Sk
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := sku.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(sku.Name)
 
 	// Tier
-	tier := string(sku.Tier)
-	destination.Tier = &tier
+	if sku.Tier != nil {
+		tier := string(*sku.Tier)
+		destination.Tier = &tier
+	} else {
+		destination.Tier = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2642,13 +2707,11 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20210601storage.Sk
 }
 
 type Sku_Status struct {
-	// +kubebuilder:validation:Required
 	//Name: The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Tier: The tier of the particular SKU, e.g. Burstable.
-	Tier SkuStatusTier `json:"tier"`
+	Tier *SkuStatusTier `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_Status{}
@@ -2666,10 +2729,16 @@ func (sku *Sku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	}
 
 	// Set property ‘Name’:
-	sku.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		sku.Name = &name
+	}
 
 	// Set property ‘Tier’:
-	sku.Tier = typedInput.Tier
+	if typedInput.Tier != nil {
+		tier := *typedInput.Tier
+		sku.Tier = &tier
+	}
 
 	// No error
 	return nil
@@ -2679,13 +2748,14 @@ func (sku *Sku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v1alpha1api20210601storage.Sku_Status) error {
 
 	// Name
-	sku.Name = genruntime.GetOptionalStringValue(source.Name)
+	sku.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Tier
 	if source.Tier != nil {
-		sku.Tier = SkuStatusTier(*source.Tier)
+		tier := SkuStatusTier(*source.Tier)
+		sku.Tier = &tier
 	} else {
-		sku.Tier = ""
+		sku.Tier = nil
 	}
 
 	// No error
@@ -2698,12 +2768,15 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1api20210
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := sku.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(sku.Name)
 
 	// Tier
-	tier := string(sku.Tier)
-	destination.Tier = &tier
+	if sku.Tier != nil {
+		tier := string(*sku.Tier)
+		destination.Tier = &tier
+	} else {
+		destination.Tier = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

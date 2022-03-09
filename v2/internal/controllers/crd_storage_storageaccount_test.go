@@ -29,7 +29,7 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 
 	tc.CreateResourceAndWait(acct)
 
-	tc.Expect(acct.Status.Location).To(Equal(&tc.AzureRegion))
+	tc.Expect(acct.Status.Location).To(Equal(tc.AzureRegion))
 	expectedKind := storage.StorageAccountStatusKindStorageV2
 	tc.Expect(acct.Status.Kind).To(Equal(&expectedKind))
 	tc.Expect(acct.Status.Id).ToNot(BeNil())
@@ -138,7 +138,7 @@ func Test_Storage_StorageAccount_SecretsFromAzure(t *testing.T) {
 
 	tc.CreateResourceAndWait(acct)
 
-	tc.Expect(acct.Status.Location).To(Equal(&tc.AzureRegion))
+	tc.Expect(acct.Status.Location).To(Equal(tc.AzureRegion))
 	expectedKind := storage.StorageAccountStatusKindStorageV2
 	tc.Expect(acct.Status.Kind).To(Equal(&expectedKind))
 
@@ -285,15 +285,17 @@ func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blo
 
 func createStorgeAccount(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
 	// Create a storage account
-	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
+	aaccessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
+	kind := storage.StorageAccountsSpecKindStorageV2
+	sku := storage.SkuNameStandardLRS
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccounts_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			Kind:     storage.StorageAccountsSpecKindStorageV2,
-			Sku: storage.Sku{
-				Name: storage.SkuNameStandardLRS,
+			Kind:     &kind,
+			Sku: &storage.Sku{
+				Name: &sku,
 			},
 			// TODO: They mark this property as optional but actually it is required
 			AccessTier: &accessTier,

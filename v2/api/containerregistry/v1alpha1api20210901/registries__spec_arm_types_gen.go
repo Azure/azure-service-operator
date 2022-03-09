@@ -10,16 +10,16 @@ type Registries_SpecARM struct {
 	Identity *IdentityPropertiesARM `json:"identity,omitempty"`
 
 	//Location: The location of the resource. This cannot be changed after the resource is created.
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the container registry.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: The properties of a container registry.
-	Properties RegistryPropertiesARM `json:"properties"`
+	Properties *RegistryPropertiesARM `json:"properties,omitempty"`
 
 	//Sku: The SKU of a container registry.
-	Sku SkuARM `json:"sku"`
+	Sku *SkuARM `json:"sku,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -88,7 +88,7 @@ type RegistryPropertiesARM struct {
 //Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Sku
 type SkuARM struct {
 	//Name: The SKU name of the container registry. Required for registry creation.
-	Name SkuName `json:"name"`
+	Name *SkuName `json:"name,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/EncryptionProperty
@@ -112,7 +112,7 @@ const (
 //Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/NetworkRuleSet
 type NetworkRuleSetARM struct {
 	//DefaultAction: The default action of allow or deny when no other rules match.
-	DefaultAction NetworkRuleSetDefaultAction `json:"defaultAction"`
+	DefaultAction *NetworkRuleSetDefaultAction `json:"defaultAction,omitempty"`
 
 	//IpRules: The IP ACL rules.
 	IpRules []IPRuleARM `json:"ipRules,omitempty"`
@@ -196,7 +196,7 @@ type IPRuleARM struct {
 	Action *IPRuleAction `json:"action,omitempty"`
 
 	//Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
-	Value string `json:"value"`
+	Value *string `json:"value,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/KeyVaultProperties

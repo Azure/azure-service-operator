@@ -11,6 +11,7 @@ Licensed under the MIT license.
 package v1alpha1api20200801preview
 
 import (
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"k8s.io/apimachinery/pkg/runtime"
 )
@@ -97,9 +98,19 @@ func (in *RoleAssignmentPropertiesARM) DeepCopyInto(out *RoleAssignmentPropertie
 		*out = new(string)
 		**out = **in
 	}
+	if in.PrincipalId != nil {
+		in, out := &in.PrincipalId, &out.PrincipalId
+		*out = new(string)
+		**out = **in
+	}
 	if in.PrincipalType != nil {
 		in, out := &in.PrincipalType, &out.PrincipalType
 		*out = new(RoleAssignmentPropertiesPrincipalType)
+		**out = **in
+	}
+	if in.RoleDefinitionId != nil {
+		in, out := &in.RoleDefinitionId, &out.RoleDefinitionId
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -147,9 +158,19 @@ func (in *RoleAssignmentProperties_StatusARM) DeepCopyInto(out *RoleAssignmentPr
 		*out = new(string)
 		**out = **in
 	}
+	if in.PrincipalId != nil {
+		in, out := &in.PrincipalId, &out.PrincipalId
+		*out = new(string)
+		**out = **in
+	}
 	if in.PrincipalType != nil {
 		in, out := &in.PrincipalType, &out.PrincipalType
 		*out = new(RoleAssignmentPropertiesStatusPrincipalType)
+		**out = **in
+	}
+	if in.RoleDefinitionId != nil {
+		in, out := &in.RoleDefinitionId, &out.RoleDefinitionId
+		*out = new(string)
 		**out = **in
 	}
 	if in.Scope != nil {
@@ -339,13 +360,26 @@ func (in *RoleAssignments_Spec) DeepCopyInto(out *RoleAssignments_Spec) {
 		*out = new(string)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.ArbitraryOwnerReference)
+		**out = **in
+	}
+	if in.PrincipalId != nil {
+		in, out := &in.PrincipalId, &out.PrincipalId
+		*out = new(string)
+		**out = **in
+	}
 	if in.PrincipalType != nil {
 		in, out := &in.PrincipalType, &out.PrincipalType
 		*out = new(RoleAssignmentPropertiesPrincipalType)
 		**out = **in
 	}
-	out.RoleDefinitionReference = in.RoleDefinitionReference
+	if in.RoleDefinitionReference != nil {
+		in, out := &in.RoleDefinitionReference, &out.RoleDefinitionReference
+		*out = new(genruntime.ResourceReference)
+		**out = **in
+	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))
@@ -373,7 +407,11 @@ func (in *RoleAssignments_SpecARM) DeepCopyInto(out *RoleAssignments_SpecARM) {
 		*out = new(string)
 		**out = **in
 	}
-	in.Properties.DeepCopyInto(&out.Properties)
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(RoleAssignmentPropertiesARM)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))

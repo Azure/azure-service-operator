@@ -65,8 +65,8 @@ type KubeBaseTestContext struct {
 	KubeConfig *rest.Config
 }
 
-func AsOwner(obj client.Object) genruntime.KnownResourceReference {
-	return genruntime.KnownResourceReference{
+func AsOwner(obj client.Object) *genruntime.KnownResourceReference {
+	return &genruntime.KnownResourceReference{
 		Name: obj.GetName(),
 	}
 }

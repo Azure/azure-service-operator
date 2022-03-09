@@ -412,14 +412,15 @@ func (policy *ManagementPolicy_Status) PopulateFromARM(owner genruntime.Arbitrar
 	// Set property ‘Policy’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		var temp ManagementPolicySchema_Status
-		var temp1 ManagementPolicySchema_Status
-		err := temp1.PopulateFromARM(owner, typedInput.Properties.Policy)
-		if err != nil {
-			return err
+		if typedInput.Properties.Policy != nil {
+			var policy2 ManagementPolicySchema_Status
+			err := policy2.PopulateFromARM(owner, *typedInput.Properties.Policy)
+			if err != nil {
+				return err
+			}
+			policy1 := policy2
+			policy.Policy = &policy1
 		}
-		temp = temp1
-		policy.Policy = &temp
 	}
 
 	// Set property ‘Type’:
@@ -522,8 +523,9 @@ type StorageAccountsManagementPolicies_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a storage.azure.com/StorageAccount resource
-	Owner genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner" kind:"StorageAccount"`
+	Owner *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccount"`
 
+	// +kubebuilder:validation:Required
 	//Policy: The Storage Account ManagementPolicies Rules. See more details in:
 	//https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
 	Policy *ManagementPolicySchema `json:"policy,omitempty"`
@@ -554,13 +556,14 @@ func (policies *StorageAccountsManagementPolicies_Spec) ConvertToARM(resolved ge
 	if policies.Policy != nil {
 		result.Properties = &ManagementPolicyPropertiesARM{}
 	}
-	var temp ManagementPolicySchemaARM
-	tempARM, err := (*policies.Policy).ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if policies.Policy != nil {
+		policyARM, err := (*policies.Policy).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		policy := policyARM.(ManagementPolicySchemaARM)
+		result.Properties.Policy = &policy
 	}
-	temp = tempARM.(ManagementPolicySchemaARM)
-	result.Properties.Policy = temp
 
 	// Set property ‘Tags’:
 	if policies.Tags != nil {
@@ -591,21 +594,22 @@ func (policies *StorageAccountsManagementPolicies_Spec) PopulateFromARM(owner ge
 	}
 
 	// Set property ‘Owner’:
-	policies.Owner = genruntime.KnownResourceReference{
+	policies.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Policy’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		var temp ManagementPolicySchema
-		var temp1 ManagementPolicySchema
-		err := temp1.PopulateFromARM(owner, typedInput.Properties.Policy)
-		if err != nil {
-			return err
+		if typedInput.Properties.Policy != nil {
+			var policy1 ManagementPolicySchema
+			err := policy1.PopulateFromARM(owner, *typedInput.Properties.Policy)
+			if err != nil {
+				return err
+			}
+			policy := policy1
+			policies.Policy = &policy
 		}
-		temp = temp1
-		policies.Policy = &temp
 	}
 
 	// Set property ‘Tags’:
@@ -677,7 +681,12 @@ func (policies *StorageAccountsManagementPolicies_Spec) AssignPropertiesFromStor
 	policies.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	policies.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		policies.Owner = &owner
+	} else {
+		policies.Owner = nil
+	}
 
 	// Policy
 	if source.Policy != nil {
@@ -710,7 +719,12 @@ func (policies *StorageAccountsManagementPolicies_Spec) AssignPropertiesToStorag
 	destination.OriginalVersion = policies.OriginalVersion()
 
 	// Owner
-	destination.Owner = policies.Owner.Copy()
+	if policies.Owner != nil {
+		owner := policies.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Policy
 	if policies.Policy != nil {
@@ -748,7 +762,7 @@ type ManagementPolicySchema struct {
 	// +kubebuilder:validation:Required
 	//Rules: The Storage Account ManagementPolicies Rules. See more details in:
 	//https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
-	Rules []ManagementPolicyRule `json:"rules"`
+	Rules []ManagementPolicyRule `json:"rules,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagementPolicySchema{}
@@ -857,10 +871,9 @@ func (schema *ManagementPolicySchema) AssignPropertiesToManagementPolicySchema(d
 }
 
 type ManagementPolicySchema_Status struct {
-	// +kubebuilder:validation:Required
 	//Rules: The Storage Account ManagementPolicies Rules. See more details in:
 	//https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
-	Rules []ManagementPolicyRule_Status `json:"rules"`
+	Rules []ManagementPolicyRule_Status `json:"rules,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagementPolicySchema_Status{}
@@ -954,7 +967,7 @@ func (schema *ManagementPolicySchema_Status) AssignPropertiesToManagementPolicyS
 type ManagementPolicyRule struct {
 	// +kubebuilder:validation:Required
 	//Definition: An object that defines the Lifecycle rule. Each definition is made up with a filters set and an actions set.
-	Definition ManagementPolicyDefinition `json:"definition"`
+	Definition *ManagementPolicyDefinition `json:"definition,omitempty"`
 
 	//Enabled: Rule is enabled if set to true.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -962,11 +975,11 @@ type ManagementPolicyRule struct {
 	// +kubebuilder:validation:Required
 	//Name: A rule name can contain any combination of alpha numeric characters. Rule name is case-sensitive. It must be
 	//unique within a policy.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Type: The valid value is Lifecycle
-	Type ManagementPolicyRuleType `json:"type"`
+	Type *ManagementPolicyRuleType `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagementPolicyRule{}
@@ -979,11 +992,14 @@ func (rule *ManagementPolicyRule) ConvertToARM(resolved genruntime.ConvertToARMR
 	var result ManagementPolicyRuleARM
 
 	// Set property ‘Definition’:
-	definitionARM, err := rule.Definition.ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if rule.Definition != nil {
+		definitionARM, err := (*rule.Definition).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		definition := definitionARM.(ManagementPolicyDefinitionARM)
+		result.Definition = &definition
 	}
-	result.Definition = definitionARM.(ManagementPolicyDefinitionARM)
 
 	// Set property ‘Enabled’:
 	if rule.Enabled != nil {
@@ -992,10 +1008,16 @@ func (rule *ManagementPolicyRule) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 
 	// Set property ‘Name’:
-	result.Name = rule.Name
+	if rule.Name != nil {
+		name := *rule.Name
+		result.Name = &name
+	}
 
 	// Set property ‘Type’:
-	result.Type = rule.Type
+	if rule.Type != nil {
+		typeVar := *rule.Type
+		result.Type = &typeVar
+	}
 	return result, nil
 }
 
@@ -1012,12 +1034,15 @@ func (rule *ManagementPolicyRule) PopulateFromARM(owner genruntime.ArbitraryOwne
 	}
 
 	// Set property ‘Definition’:
-	var definition ManagementPolicyDefinition
-	err := definition.PopulateFromARM(owner, typedInput.Definition)
-	if err != nil {
-		return err
+	if typedInput.Definition != nil {
+		var definition1 ManagementPolicyDefinition
+		err := definition1.PopulateFromARM(owner, *typedInput.Definition)
+		if err != nil {
+			return err
+		}
+		definition := definition1
+		rule.Definition = &definition
 	}
-	rule.Definition = definition
 
 	// Set property ‘Enabled’:
 	if typedInput.Enabled != nil {
@@ -1026,10 +1051,16 @@ func (rule *ManagementPolicyRule) PopulateFromARM(owner genruntime.ArbitraryOwne
 	}
 
 	// Set property ‘Name’:
-	rule.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		rule.Name = &name
+	}
 
 	// Set property ‘Type’:
-	rule.Type = typedInput.Type
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		rule.Type = &typeVar
+	}
 
 	// No error
 	return nil
@@ -1045,9 +1076,9 @@ func (rule *ManagementPolicyRule) AssignPropertiesFromManagementPolicyRule(sourc
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyDefinition() to populate field Definition")
 		}
-		rule.Definition = definition
+		rule.Definition = &definition
 	} else {
-		rule.Definition = ManagementPolicyDefinition{}
+		rule.Definition = nil
 	}
 
 	// Enabled
@@ -1059,13 +1090,14 @@ func (rule *ManagementPolicyRule) AssignPropertiesFromManagementPolicyRule(sourc
 	}
 
 	// Name
-	rule.Name = genruntime.GetOptionalStringValue(source.Name)
+	rule.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
 	if source.Type != nil {
-		rule.Type = ManagementPolicyRuleType(*source.Type)
+		typeVar := ManagementPolicyRuleType(*source.Type)
+		rule.Type = &typeVar
 	} else {
-		rule.Type = ""
+		rule.Type = nil
 	}
 
 	// No error
@@ -1078,12 +1110,16 @@ func (rule *ManagementPolicyRule) AssignPropertiesToManagementPolicyRule(destina
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Definition
-	var definition v1alpha1api20210401storage.ManagementPolicyDefinition
-	err := rule.Definition.AssignPropertiesToManagementPolicyDefinition(&definition)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyDefinition() to populate field Definition")
+	if rule.Definition != nil {
+		var definition v1alpha1api20210401storage.ManagementPolicyDefinition
+		err := rule.Definition.AssignPropertiesToManagementPolicyDefinition(&definition)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyDefinition() to populate field Definition")
+		}
+		destination.Definition = &definition
+	} else {
+		destination.Definition = nil
 	}
-	destination.Definition = &definition
 
 	// Enabled
 	if rule.Enabled != nil {
@@ -1094,12 +1130,15 @@ func (rule *ManagementPolicyRule) AssignPropertiesToManagementPolicyRule(destina
 	}
 
 	// Name
-	name := rule.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(rule.Name)
 
 	// Type
-	typeVar := string(rule.Type)
-	destination.Type = &typeVar
+	if rule.Type != nil {
+		typeVar := string(*rule.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1113,21 +1152,18 @@ func (rule *ManagementPolicyRule) AssignPropertiesToManagementPolicyRule(destina
 }
 
 type ManagementPolicyRule_Status struct {
-	// +kubebuilder:validation:Required
 	//Definition: An object that defines the Lifecycle rule.
-	Definition ManagementPolicyDefinition_Status `json:"definition"`
+	Definition *ManagementPolicyDefinition_Status `json:"definition,omitempty"`
 
 	//Enabled: Rule is enabled if set to true.
 	Enabled *bool `json:"enabled,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Name: A rule name can contain any combination of alpha numeric characters. Rule name is case-sensitive. It must be
 	//unique within a policy.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Type: The valid value is Lifecycle
-	Type ManagementPolicyRuleStatusType `json:"type"`
+	Type *ManagementPolicyRuleStatusType `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagementPolicyRule_Status{}
@@ -1145,12 +1181,15 @@ func (rule *ManagementPolicyRule_Status) PopulateFromARM(owner genruntime.Arbitr
 	}
 
 	// Set property ‘Definition’:
-	var definition ManagementPolicyDefinition_Status
-	err := definition.PopulateFromARM(owner, typedInput.Definition)
-	if err != nil {
-		return err
+	if typedInput.Definition != nil {
+		var definition1 ManagementPolicyDefinition_Status
+		err := definition1.PopulateFromARM(owner, *typedInput.Definition)
+		if err != nil {
+			return err
+		}
+		definition := definition1
+		rule.Definition = &definition
 	}
-	rule.Definition = definition
 
 	// Set property ‘Enabled’:
 	if typedInput.Enabled != nil {
@@ -1159,10 +1198,16 @@ func (rule *ManagementPolicyRule_Status) PopulateFromARM(owner genruntime.Arbitr
 	}
 
 	// Set property ‘Name’:
-	rule.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		rule.Name = &name
+	}
 
 	// Set property ‘Type’:
-	rule.Type = typedInput.Type
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		rule.Type = &typeVar
+	}
 
 	// No error
 	return nil
@@ -1178,9 +1223,9 @@ func (rule *ManagementPolicyRule_Status) AssignPropertiesFromManagementPolicyRul
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyDefinitionStatus() to populate field Definition")
 		}
-		rule.Definition = definition
+		rule.Definition = &definition
 	} else {
-		rule.Definition = ManagementPolicyDefinition_Status{}
+		rule.Definition = nil
 	}
 
 	// Enabled
@@ -1192,13 +1237,14 @@ func (rule *ManagementPolicyRule_Status) AssignPropertiesFromManagementPolicyRul
 	}
 
 	// Name
-	rule.Name = genruntime.GetOptionalStringValue(source.Name)
+	rule.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
 	if source.Type != nil {
-		rule.Type = ManagementPolicyRuleStatusType(*source.Type)
+		typeVar := ManagementPolicyRuleStatusType(*source.Type)
+		rule.Type = &typeVar
 	} else {
-		rule.Type = ""
+		rule.Type = nil
 	}
 
 	// No error
@@ -1211,12 +1257,16 @@ func (rule *ManagementPolicyRule_Status) AssignPropertiesToManagementPolicyRuleS
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Definition
-	var definition v1alpha1api20210401storage.ManagementPolicyDefinition_Status
-	err := rule.Definition.AssignPropertiesToManagementPolicyDefinitionStatus(&definition)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyDefinitionStatus() to populate field Definition")
+	if rule.Definition != nil {
+		var definition v1alpha1api20210401storage.ManagementPolicyDefinition_Status
+		err := rule.Definition.AssignPropertiesToManagementPolicyDefinitionStatus(&definition)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyDefinitionStatus() to populate field Definition")
+		}
+		destination.Definition = &definition
+	} else {
+		destination.Definition = nil
 	}
-	destination.Definition = &definition
 
 	// Enabled
 	if rule.Enabled != nil {
@@ -1227,12 +1277,15 @@ func (rule *ManagementPolicyRule_Status) AssignPropertiesToManagementPolicyRuleS
 	}
 
 	// Name
-	name := rule.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(rule.Name)
 
 	// Type
-	typeVar := string(rule.Type)
-	destination.Type = &typeVar
+	if rule.Type != nil {
+		typeVar := string(*rule.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1249,7 +1302,7 @@ func (rule *ManagementPolicyRule_Status) AssignPropertiesToManagementPolicyRuleS
 type ManagementPolicyDefinition struct {
 	// +kubebuilder:validation:Required
 	//Actions: Actions are applied to the filtered blobs when the execution condition is met.
-	Actions ManagementPolicyAction `json:"actions"`
+	Actions *ManagementPolicyAction `json:"actions,omitempty"`
 
 	//Filters: Filters limit rule actions to a subset of blobs within the storage account. If multiple filters are defined, a
 	//logical AND is performed on all filters.
@@ -1266,11 +1319,14 @@ func (definition *ManagementPolicyDefinition) ConvertToARM(resolved genruntime.C
 	var result ManagementPolicyDefinitionARM
 
 	// Set property ‘Actions’:
-	actionsARM, err := definition.Actions.ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if definition.Actions != nil {
+		actionsARM, err := (*definition.Actions).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		actions := actionsARM.(ManagementPolicyActionARM)
+		result.Actions = &actions
 	}
-	result.Actions = actionsARM.(ManagementPolicyActionARM)
 
 	// Set property ‘Filters’:
 	if definition.Filters != nil {
@@ -1297,17 +1353,20 @@ func (definition *ManagementPolicyDefinition) PopulateFromARM(owner genruntime.A
 	}
 
 	// Set property ‘Actions’:
-	var actions ManagementPolicyAction
-	err := actions.PopulateFromARM(owner, typedInput.Actions)
-	if err != nil {
-		return err
+	if typedInput.Actions != nil {
+		var actions1 ManagementPolicyAction
+		err := actions1.PopulateFromARM(owner, *typedInput.Actions)
+		if err != nil {
+			return err
+		}
+		actions := actions1
+		definition.Actions = &actions
 	}
-	definition.Actions = actions
 
 	// Set property ‘Filters’:
 	if typedInput.Filters != nil {
 		var filters1 ManagementPolicyFilter
-		err = filters1.PopulateFromARM(owner, *typedInput.Filters)
+		err := filters1.PopulateFromARM(owner, *typedInput.Filters)
 		if err != nil {
 			return err
 		}
@@ -1329,9 +1388,9 @@ func (definition *ManagementPolicyDefinition) AssignPropertiesFromManagementPoli
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyAction() to populate field Actions")
 		}
-		definition.Actions = action
+		definition.Actions = &action
 	} else {
-		definition.Actions = ManagementPolicyAction{}
+		definition.Actions = nil
 	}
 
 	// Filters
@@ -1356,17 +1415,21 @@ func (definition *ManagementPolicyDefinition) AssignPropertiesToManagementPolicy
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Actions
-	var action v1alpha1api20210401storage.ManagementPolicyAction
-	err := definition.Actions.AssignPropertiesToManagementPolicyAction(&action)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyAction() to populate field Actions")
+	if definition.Actions != nil {
+		var action v1alpha1api20210401storage.ManagementPolicyAction
+		err := definition.Actions.AssignPropertiesToManagementPolicyAction(&action)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyAction() to populate field Actions")
+		}
+		destination.Actions = &action
+	} else {
+		destination.Actions = nil
 	}
-	destination.Actions = &action
 
 	// Filters
 	if definition.Filters != nil {
 		var filter v1alpha1api20210401storage.ManagementPolicyFilter
-		err = definition.Filters.AssignPropertiesToManagementPolicyFilter(&filter)
+		err := definition.Filters.AssignPropertiesToManagementPolicyFilter(&filter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyFilter() to populate field Filters")
 		}
@@ -1387,9 +1450,8 @@ func (definition *ManagementPolicyDefinition) AssignPropertiesToManagementPolicy
 }
 
 type ManagementPolicyDefinition_Status struct {
-	// +kubebuilder:validation:Required
 	//Actions: An object that defines the action set.
-	Actions ManagementPolicyAction_Status `json:"actions"`
+	Actions *ManagementPolicyAction_Status `json:"actions,omitempty"`
 
 	//Filters: An object that defines the filter set.
 	Filters *ManagementPolicyFilter_Status `json:"filters,omitempty"`
@@ -1410,17 +1472,20 @@ func (definition *ManagementPolicyDefinition_Status) PopulateFromARM(owner genru
 	}
 
 	// Set property ‘Actions’:
-	var actions ManagementPolicyAction_Status
-	err := actions.PopulateFromARM(owner, typedInput.Actions)
-	if err != nil {
-		return err
+	if typedInput.Actions != nil {
+		var actions1 ManagementPolicyAction_Status
+		err := actions1.PopulateFromARM(owner, *typedInput.Actions)
+		if err != nil {
+			return err
+		}
+		actions := actions1
+		definition.Actions = &actions
 	}
-	definition.Actions = actions
 
 	// Set property ‘Filters’:
 	if typedInput.Filters != nil {
 		var filters1 ManagementPolicyFilter_Status
-		err = filters1.PopulateFromARM(owner, *typedInput.Filters)
+		err := filters1.PopulateFromARM(owner, *typedInput.Filters)
 		if err != nil {
 			return err
 		}
@@ -1442,9 +1507,9 @@ func (definition *ManagementPolicyDefinition_Status) AssignPropertiesFromManagem
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyActionStatus() to populate field Actions")
 		}
-		definition.Actions = action
+		definition.Actions = &action
 	} else {
-		definition.Actions = ManagementPolicyAction_Status{}
+		definition.Actions = nil
 	}
 
 	// Filters
@@ -1469,17 +1534,21 @@ func (definition *ManagementPolicyDefinition_Status) AssignPropertiesToManagemen
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Actions
-	var action v1alpha1api20210401storage.ManagementPolicyAction_Status
-	err := definition.Actions.AssignPropertiesToManagementPolicyActionStatus(&action)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyActionStatus() to populate field Actions")
+	if definition.Actions != nil {
+		var action v1alpha1api20210401storage.ManagementPolicyAction_Status
+		err := definition.Actions.AssignPropertiesToManagementPolicyActionStatus(&action)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyActionStatus() to populate field Actions")
+		}
+		destination.Actions = &action
+	} else {
+		destination.Actions = nil
 	}
-	destination.Actions = &action
 
 	// Filters
 	if definition.Filters != nil {
 		var filter v1alpha1api20210401storage.ManagementPolicyFilter_Status
-		err = definition.Filters.AssignPropertiesToManagementPolicyFilterStatus(&filter)
+		err := definition.Filters.AssignPropertiesToManagementPolicyFilterStatus(&filter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyFilterStatus() to populate field Filters")
 		}
@@ -1861,7 +1930,7 @@ type ManagementPolicyFilter struct {
 	// +kubebuilder:validation:Required
 	//BlobTypes: An array of predefined enum values. Currently blockBlob supports all tiering and delete actions. Only delete
 	//actions are supported for appendBlob.
-	BlobTypes []string `json:"blobTypes"`
+	BlobTypes []string `json:"blobTypes,omitempty"`
 
 	//PrefixMatch: An array of strings for prefixes to be match.
 	PrefixMatch []string `json:"prefixMatch,omitempty"`
@@ -2008,10 +2077,9 @@ type ManagementPolicyFilter_Status struct {
 	//BlobIndexMatch: An array of blob index tag based filters, there can be at most 10 tag filters
 	BlobIndexMatch []TagFilter_Status `json:"blobIndexMatch,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//BlobTypes: An array of predefined enum values. Currently blockBlob supports all tiering and delete actions. Only delete
 	//actions are supported for appendBlob.
-	BlobTypes []string `json:"blobTypes"`
+	BlobTypes []string `json:"blobTypes,omitempty"`
 
 	//PrefixMatch: An array of strings for prefixes to be match.
 	PrefixMatch []string `json:"prefixMatch,omitempty"`
@@ -3255,18 +3323,18 @@ type TagFilter struct {
 	// +kubebuilder:validation:MaxLength=128
 	// +kubebuilder:validation:MinLength=1
 	//Name: This is the filter tag name, it can have 1 - 128 characters
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Op: This is the comparison operator which is used for object comparison and filtering. Only == (equality operator) is
 	//currently supported
-	Op string `json:"op"`
+	Op *string `json:"op,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MaxLength=256
 	// +kubebuilder:validation:MinLength=0
 	//Value: This is the filter tag value field used for tag based filtering, it can have 0 - 256 characters
-	Value string `json:"value"`
+	Value *string `json:"value,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &TagFilter{}
@@ -3279,13 +3347,22 @@ func (filter *TagFilter) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	var result TagFilterARM
 
 	// Set property ‘Name’:
-	result.Name = filter.Name
+	if filter.Name != nil {
+		name := *filter.Name
+		result.Name = &name
+	}
 
 	// Set property ‘Op’:
-	result.Op = filter.Op
+	if filter.Op != nil {
+		op := *filter.Op
+		result.Op = &op
+	}
 
 	// Set property ‘Value’:
-	result.Value = filter.Value
+	if filter.Value != nil {
+		value := *filter.Value
+		result.Value = &value
+	}
 	return result, nil
 }
 
@@ -3302,13 +3379,22 @@ func (filter *TagFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	}
 
 	// Set property ‘Name’:
-	filter.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		filter.Name = &name
+	}
 
 	// Set property ‘Op’:
-	filter.Op = typedInput.Op
+	if typedInput.Op != nil {
+		op := *typedInput.Op
+		filter.Op = &op
+	}
 
 	// Set property ‘Value’:
-	filter.Value = typedInput.Value
+	if typedInput.Value != nil {
+		value := *typedInput.Value
+		filter.Value = &value
+	}
 
 	// No error
 	return nil
@@ -3319,19 +3405,21 @@ func (filter *TagFilter) AssignPropertiesFromTagFilter(source *v1alpha1api202104
 
 	// Name
 	if source.Name != nil {
-		filter.Name = *source.Name
+		name := *source.Name
+		filter.Name = &name
 	} else {
-		filter.Name = ""
+		filter.Name = nil
 	}
 
 	// Op
-	filter.Op = genruntime.GetOptionalStringValue(source.Op)
+	filter.Op = genruntime.ClonePointerToString(source.Op)
 
 	// Value
 	if source.Value != nil {
-		filter.Value = *source.Value
+		value := *source.Value
+		filter.Value = &value
 	} else {
-		filter.Value = ""
+		filter.Value = nil
 	}
 
 	// No error
@@ -3344,16 +3432,23 @@ func (filter *TagFilter) AssignPropertiesToTagFilter(destination *v1alpha1api202
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := filter.Name
-	destination.Name = &name
+	if filter.Name != nil {
+		name := *filter.Name
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Op
-	op := filter.Op
-	destination.Op = &op
+	destination.Op = genruntime.ClonePointerToString(filter.Op)
 
 	// Value
-	value := filter.Value
-	destination.Value = &value
+	if filter.Value != nil {
+		value := *filter.Value
+		destination.Value = &value
+	} else {
+		destination.Value = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3367,18 +3462,15 @@ func (filter *TagFilter) AssignPropertiesToTagFilter(destination *v1alpha1api202
 }
 
 type TagFilter_Status struct {
-	// +kubebuilder:validation:Required
 	//Name: This is the filter tag name, it can have 1 - 128 characters
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Op: This is the comparison operator which is used for object comparison and filtering. Only == (equality operator) is
 	//currently supported
-	Op string `json:"op"`
+	Op *string `json:"op,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Value: This is the filter tag value field used for tag based filtering, it can have 0 - 256 characters
-	Value string `json:"value"`
+	Value *string `json:"value,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &TagFilter_Status{}
@@ -3396,13 +3488,22 @@ func (filter *TagFilter_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	}
 
 	// Set property ‘Name’:
-	filter.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		filter.Name = &name
+	}
 
 	// Set property ‘Op’:
-	filter.Op = typedInput.Op
+	if typedInput.Op != nil {
+		op := *typedInput.Op
+		filter.Op = &op
+	}
 
 	// Set property ‘Value’:
-	filter.Value = typedInput.Value
+	if typedInput.Value != nil {
+		value := *typedInput.Value
+		filter.Value = &value
+	}
 
 	// No error
 	return nil
@@ -3412,13 +3513,13 @@ func (filter *TagFilter_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 func (filter *TagFilter_Status) AssignPropertiesFromTagFilterStatus(source *v1alpha1api20210401storage.TagFilter_Status) error {
 
 	// Name
-	filter.Name = genruntime.GetOptionalStringValue(source.Name)
+	filter.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Op
-	filter.Op = genruntime.GetOptionalStringValue(source.Op)
+	filter.Op = genruntime.ClonePointerToString(source.Op)
 
 	// Value
-	filter.Value = genruntime.GetOptionalStringValue(source.Value)
+	filter.Value = genruntime.ClonePointerToString(source.Value)
 
 	// No error
 	return nil
@@ -3430,16 +3531,13 @@ func (filter *TagFilter_Status) AssignPropertiesToTagFilterStatus(destination *v
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := filter.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(filter.Name)
 
 	// Op
-	op := filter.Op
-	destination.Op = &op
+	destination.Op = genruntime.ClonePointerToString(filter.Op)
 
 	// Value
-	value := filter.Value
-	destination.Value = &value
+	destination.Value = genruntime.ClonePointerToString(filter.Value)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3458,7 +3556,7 @@ type DateAfterCreation struct {
 	// +kubebuilder:validation:Minimum=0
 	// +kubebuilder:validation:MultipleOf=1
 	//DaysAfterCreationGreaterThan: Value indicating the age in days after creation
-	DaysAfterCreationGreaterThan int `json:"daysAfterCreationGreaterThan"`
+	DaysAfterCreationGreaterThan *int `json:"daysAfterCreationGreaterThan,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DateAfterCreation{}
@@ -3471,7 +3569,10 @@ func (creation *DateAfterCreation) ConvertToARM(resolved genruntime.ConvertToARM
 	var result DateAfterCreationARM
 
 	// Set property ‘DaysAfterCreationGreaterThan’:
-	result.DaysAfterCreationGreaterThan = creation.DaysAfterCreationGreaterThan
+	if creation.DaysAfterCreationGreaterThan != nil {
+		daysAfterCreationGreaterThan := *creation.DaysAfterCreationGreaterThan
+		result.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
+	}
 	return result, nil
 }
 
@@ -3488,7 +3589,10 @@ func (creation *DateAfterCreation) PopulateFromARM(owner genruntime.ArbitraryOwn
 	}
 
 	// Set property ‘DaysAfterCreationGreaterThan’:
-	creation.DaysAfterCreationGreaterThan = typedInput.DaysAfterCreationGreaterThan
+	if typedInput.DaysAfterCreationGreaterThan != nil {
+		daysAfterCreationGreaterThan := *typedInput.DaysAfterCreationGreaterThan
+		creation.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
+	}
 
 	// No error
 	return nil
@@ -3499,9 +3603,10 @@ func (creation *DateAfterCreation) AssignPropertiesFromDateAfterCreation(source 
 
 	// DaysAfterCreationGreaterThan
 	if source.DaysAfterCreationGreaterThan != nil {
-		creation.DaysAfterCreationGreaterThan = *source.DaysAfterCreationGreaterThan
+		daysAfterCreationGreaterThan := *source.DaysAfterCreationGreaterThan
+		creation.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
 	} else {
-		creation.DaysAfterCreationGreaterThan = 0
+		creation.DaysAfterCreationGreaterThan = nil
 	}
 
 	// No error
@@ -3514,8 +3619,12 @@ func (creation *DateAfterCreation) AssignPropertiesToDateAfterCreation(destinati
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DaysAfterCreationGreaterThan
-	daysAfterCreationGreaterThan := creation.DaysAfterCreationGreaterThan
-	destination.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
+	if creation.DaysAfterCreationGreaterThan != nil {
+		daysAfterCreationGreaterThan := *creation.DaysAfterCreationGreaterThan
+		destination.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
+	} else {
+		destination.DaysAfterCreationGreaterThan = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3529,9 +3638,8 @@ func (creation *DateAfterCreation) AssignPropertiesToDateAfterCreation(destinati
 }
 
 type DateAfterCreation_Status struct {
-	// +kubebuilder:validation:Required
 	//DaysAfterCreationGreaterThan: Value indicating the age in days after creation
-	DaysAfterCreationGreaterThan int `json:"daysAfterCreationGreaterThan"`
+	DaysAfterCreationGreaterThan *int `json:"daysAfterCreationGreaterThan,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DateAfterCreation_Status{}
@@ -3549,7 +3657,10 @@ func (creation *DateAfterCreation_Status) PopulateFromARM(owner genruntime.Arbit
 	}
 
 	// Set property ‘DaysAfterCreationGreaterThan’:
-	creation.DaysAfterCreationGreaterThan = typedInput.DaysAfterCreationGreaterThan
+	if typedInput.DaysAfterCreationGreaterThan != nil {
+		daysAfterCreationGreaterThan := *typedInput.DaysAfterCreationGreaterThan
+		creation.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
+	}
 
 	// No error
 	return nil
@@ -3559,7 +3670,7 @@ func (creation *DateAfterCreation_Status) PopulateFromARM(owner genruntime.Arbit
 func (creation *DateAfterCreation_Status) AssignPropertiesFromDateAfterCreationStatus(source *v1alpha1api20210401storage.DateAfterCreation_Status) error {
 
 	// DaysAfterCreationGreaterThan
-	creation.DaysAfterCreationGreaterThan = genruntime.GetOptionalIntValue(source.DaysAfterCreationGreaterThan)
+	creation.DaysAfterCreationGreaterThan = genruntime.ClonePointerToInt(source.DaysAfterCreationGreaterThan)
 
 	// No error
 	return nil
@@ -3571,8 +3682,7 @@ func (creation *DateAfterCreation_Status) AssignPropertiesToDateAfterCreationSta
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DaysAfterCreationGreaterThan
-	daysAfterCreationGreaterThan := creation.DaysAfterCreationGreaterThan
-	destination.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
+	destination.DaysAfterCreationGreaterThan = genruntime.ClonePointerToInt(creation.DaysAfterCreationGreaterThan)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -150,8 +150,8 @@ func RedisLinkedServerPropertiesStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRedisLinkedServerPropertiesStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedisLinkedServerPropertiesStatusARM(gens map[string]gopter.Gen) {
-	gens["LinkedRedisCacheId"] = gen.AlphaString()
-	gens["LinkedRedisCacheLocation"] = gen.AlphaString()
+	gens["LinkedRedisCacheId"] = gen.PtrOf(gen.AlphaString())
+	gens["LinkedRedisCacheLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["ServerRole"] = gen.OneConstOf(RedisLinkedServerPropertiesStatusServerRolePrimary, RedisLinkedServerPropertiesStatusServerRoleSecondary)
+	gens["ServerRole"] = gen.PtrOf(gen.OneConstOf(RedisLinkedServerPropertiesStatusServerRolePrimary, RedisLinkedServerPropertiesStatusServerRoleSecondary))
 }

@@ -10,10 +10,10 @@ type DatabaseAccountsMongodbDatabasesCollections_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: Cosmos DB collection name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties to create and update Azure Cosmos DB MongoDB collection.
-	Properties MongoDBCollectionCreateUpdatePropertiesARM `json:"properties"`
+	Properties *MongoDBCollectionCreateUpdatePropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
 	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
@@ -47,7 +47,7 @@ type MongoDBCollectionCreateUpdatePropertiesARM struct {
 	Options *CreateUpdateOptionsARM `json:"options,omitempty"`
 
 	//Resource: Cosmos DB MongoDB collection resource object
-	Resource MongoDBCollectionResourceARM `json:"resource"`
+	Resource *MongoDBCollectionResourceARM `json:"resource,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CreateUpdateOptions
@@ -64,7 +64,7 @@ type MongoDBCollectionResourceARM struct {
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
 
 	//Id: Name of the Cosmos DB MongoDB collection
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 
 	//Indexes: List of index keys
 	Indexes []MongoIndexARM `json:"indexes,omitempty"`

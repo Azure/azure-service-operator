@@ -10,10 +10,10 @@ type DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: Cosmos DB storedProcedure name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties to create and update Azure Cosmos DB storedProcedure.
-	Properties SqlStoredProcedureCreateUpdatePropertiesARM `json:"properties"`
+	Properties *SqlStoredProcedureCreateUpdatePropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
 	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
@@ -47,7 +47,7 @@ type SqlStoredProcedureCreateUpdatePropertiesARM struct {
 	Options *CreateUpdateOptionsARM `json:"options,omitempty"`
 
 	//Resource: Cosmos DB SQL storedProcedure resource object
-	Resource SqlStoredProcedureResourceARM `json:"resource"`
+	Resource *SqlStoredProcedureResourceARM `json:"resource,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlStoredProcedureResource
@@ -56,5 +56,5 @@ type SqlStoredProcedureResourceARM struct {
 	Body *string `json:"body,omitempty"`
 
 	//Id: Name of the Cosmos DB SQL storedProcedure
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 }

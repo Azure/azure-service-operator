@@ -717,7 +717,7 @@ const RedisEnterpriseDatabasesSpecAPIVersion20210301 = RedisEnterpriseDatabasesS
 type RedisEnterpriseDatabases_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
 	//TLS-encrypted.
@@ -739,7 +739,7 @@ type RedisEnterpriseDatabases_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a cache.azure.com/RedisEnterprise resource
-	Owner genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner" kind:"RedisEnterprise"`
+	Owner *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"RedisEnterprise"`
 
 	//Persistence: Persistence-related configuration for the RedisEnterprise database
 	Persistence *Persistence `json:"persistence,omitempty"`
@@ -770,6 +770,14 @@ func (databases *RedisEnterpriseDatabases_Spec) ConvertToARM(resolved genruntime
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if databases.ClientProtocol != nil ||
+		databases.ClusteringPolicy != nil ||
+		databases.EvictionPolicy != nil ||
+		databases.Modules != nil ||
+		databases.Persistence != nil ||
+		databases.Port != nil {
+		result.Properties = &DatabasePropertiesARM{}
+	}
 	if databases.ClientProtocol != nil {
 		clientProtocol := *databases.ClientProtocol
 		result.Properties.ClientProtocol = &clientProtocol
@@ -829,23 +837,29 @@ func (databases *RedisEnterpriseDatabases_Spec) PopulateFromARM(owner genruntime
 
 	// Set property ‘ClientProtocol’:
 	// copying flattened property:
-	if typedInput.Properties.ClientProtocol != nil {
-		clientProtocol := *typedInput.Properties.ClientProtocol
-		databases.ClientProtocol = &clientProtocol
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ClientProtocol != nil {
+			clientProtocol := *typedInput.Properties.ClientProtocol
+			databases.ClientProtocol = &clientProtocol
+		}
 	}
 
 	// Set property ‘ClusteringPolicy’:
 	// copying flattened property:
-	if typedInput.Properties.ClusteringPolicy != nil {
-		clusteringPolicy := *typedInput.Properties.ClusteringPolicy
-		databases.ClusteringPolicy = &clusteringPolicy
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ClusteringPolicy != nil {
+			clusteringPolicy := *typedInput.Properties.ClusteringPolicy
+			databases.ClusteringPolicy = &clusteringPolicy
+		}
 	}
 
 	// Set property ‘EvictionPolicy’:
 	// copying flattened property:
-	if typedInput.Properties.EvictionPolicy != nil {
-		evictionPolicy := *typedInput.Properties.EvictionPolicy
-		databases.EvictionPolicy = &evictionPolicy
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EvictionPolicy != nil {
+			evictionPolicy := *typedInput.Properties.EvictionPolicy
+			databases.EvictionPolicy = &evictionPolicy
+		}
 	}
 
 	// Set property ‘Location’:
@@ -856,37 +870,43 @@ func (databases *RedisEnterpriseDatabases_Spec) PopulateFromARM(owner genruntime
 
 	// Set property ‘Modules’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.Modules {
-		var item1 Module
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.Modules {
+			var item1 Module
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			databases.Modules = append(databases.Modules, item1)
 		}
-		databases.Modules = append(databases.Modules, item1)
 	}
 
 	// Set property ‘Owner’:
-	databases.Owner = genruntime.KnownResourceReference{
+	databases.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Persistence’:
 	// copying flattened property:
-	if typedInput.Properties.Persistence != nil {
-		var persistence1 Persistence
-		err := persistence1.PopulateFromARM(owner, *typedInput.Properties.Persistence)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Persistence != nil {
+			var persistence1 Persistence
+			err := persistence1.PopulateFromARM(owner, *typedInput.Properties.Persistence)
+			if err != nil {
+				return err
+			}
+			persistence := persistence1
+			databases.Persistence = &persistence
 		}
-		persistence := persistence1
-		databases.Persistence = &persistence
 	}
 
 	// Set property ‘Port’:
 	// copying flattened property:
-	if typedInput.Properties.Port != nil {
-		port := *typedInput.Properties.Port
-		databases.Port = &port
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Port != nil {
+			port := *typedInput.Properties.Port
+			databases.Port = &port
+		}
 	}
 
 	// Set property ‘Tags’:
@@ -1003,7 +1023,12 @@ func (databases *RedisEnterpriseDatabases_Spec) AssignPropertiesFromRedisEnterpr
 	}
 
 	// Owner
-	databases.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		databases.Owner = &owner
+	} else {
+		databases.Owner = nil
+	}
 
 	// Persistence
 	if source.Persistence != nil {
@@ -1084,7 +1109,12 @@ func (databases *RedisEnterpriseDatabases_Spec) AssignPropertiesToRedisEnterpris
 	destination.OriginalVersion = databases.OriginalVersion()
 
 	// Owner
-	destination.Owner = databases.Owner.Copy()
+	if databases.Owner != nil {
+		owner := databases.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Persistence
 	if databases.Persistence != nil {
@@ -1162,7 +1192,7 @@ type Module struct {
 
 	// +kubebuilder:validation:Required
 	//Name: The name of the module, e.g. 'RedisBloom', 'RediSearch', 'RedisTimeSeries'
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Module{}
@@ -1181,7 +1211,10 @@ func (module *Module) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	}
 
 	// Set property ‘Name’:
-	result.Name = module.Name
+	if module.Name != nil {
+		name := *module.Name
+		result.Name = &name
+	}
 	return result, nil
 }
 
@@ -1204,7 +1237,10 @@ func (module *Module) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 	}
 
 	// Set property ‘Name’:
-	module.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		module.Name = &name
+	}
 
 	// No error
 	return nil
@@ -1217,7 +1253,7 @@ func (module *Module) AssignPropertiesFromModule(source *v1alpha1api20210301stor
 	module.Args = genruntime.ClonePointerToString(source.Args)
 
 	// Name
-	module.Name = genruntime.GetOptionalStringValue(source.Name)
+	module.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -1232,8 +1268,7 @@ func (module *Module) AssignPropertiesToModule(destination *v1alpha1api20210301s
 	destination.Args = genruntime.ClonePointerToString(module.Args)
 
 	// Name
-	name := module.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(module.Name)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1250,9 +1285,8 @@ type Module_Status struct {
 	//Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
 	Args *string `json:"args,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Name: The name of the module, e.g. 'RedisBloom', 'RediSearch', 'RedisTimeSeries'
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Version: The version of the module, e.g. '1.0'.
 	Version *string `json:"version,omitempty"`
@@ -1279,7 +1313,10 @@ func (module *Module_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	}
 
 	// Set property ‘Name’:
-	module.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		module.Name = &name
+	}
 
 	// Set property ‘Version’:
 	if typedInput.Version != nil {
@@ -1298,7 +1335,7 @@ func (module *Module_Status) AssignPropertiesFromModuleStatus(source *v1alpha1ap
 	module.Args = genruntime.ClonePointerToString(source.Args)
 
 	// Name
-	module.Name = genruntime.GetOptionalStringValue(source.Name)
+	module.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Version
 	module.Version = genruntime.ClonePointerToString(source.Version)
@@ -1316,8 +1353,7 @@ func (module *Module_Status) AssignPropertiesToModuleStatus(destination *v1alpha
 	destination.Args = genruntime.ClonePointerToString(module.Args)
 
 	// Name
-	name := module.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(module.Name)
 
 	// Version
 	destination.Version = genruntime.ClonePointerToString(module.Version)

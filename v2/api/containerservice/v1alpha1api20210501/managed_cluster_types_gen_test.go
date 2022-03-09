@@ -425,7 +425,7 @@ func AddIndependentPropertyGeneratorsForManagedClustersSpec(gens map[string]gopt
 	gens["EnableRBAC"] = gen.PtrOf(gen.Bool())
 	gens["FqdnSubdomain"] = gen.PtrOf(gen.AlphaString())
 	gens["KubernetesVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeResourceGroup"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
@@ -663,12 +663,12 @@ func ContainerServiceLinuxProfileGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForContainerServiceLinuxProfile is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForContainerServiceLinuxProfile(gens map[string]gopter.Gen) {
-	gens["AdminUsername"] = gen.AlphaString()
+	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForContainerServiceLinuxProfile is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForContainerServiceLinuxProfile(gens map[string]gopter.Gen) {
-	gens["Ssh"] = ContainerServiceSshConfigurationGenerator()
+	gens["Ssh"] = gen.PtrOf(ContainerServiceSshConfigurationGenerator())
 }
 
 func Test_ContainerServiceLinuxProfile_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -779,12 +779,12 @@ func ContainerServiceLinuxProfileStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForContainerServiceLinuxProfileStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForContainerServiceLinuxProfileStatus(gens map[string]gopter.Gen) {
-	gens["AdminUsername"] = gen.AlphaString()
+	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForContainerServiceLinuxProfileStatus is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForContainerServiceLinuxProfileStatus(gens map[string]gopter.Gen) {
-	gens["Ssh"] = ContainerServiceSshConfigurationStatusGenerator()
+	gens["Ssh"] = gen.PtrOf(ContainerServiceSshConfigurationStatusGenerator())
 }
 
 func Test_ContainerServiceNetworkProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1766,7 +1766,7 @@ func ManagedClusterAddonProfileGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedClusterAddonProfile is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterAddonProfile(gens map[string]gopter.Gen) {
 	gens["Config"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Enabled"] = gen.Bool()
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
 func Test_ManagedClusterAgentPoolProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1895,7 +1895,7 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfile(gens map[
 	gens["MaxPods"] = gen.PtrOf(gen.Int())
 	gens["MinCount"] = gen.PtrOf(gen.Int())
 	gens["Mode"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileModeSystem, ManagedClusterAgentPoolProfileModeUser))
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["NodeTaints"] = gen.SliceOf(gen.AlphaString())
 	gens["OrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
@@ -3503,7 +3503,7 @@ func ManagedClusterServicePrincipalProfileGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusterServicePrincipalProfile is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterServicePrincipalProfile(gens map[string]gopter.Gen) {
-	gens["ClientId"] = gen.AlphaString()
+	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["Secret"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -3606,7 +3606,7 @@ func ManagedClusterServicePrincipalProfileStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusterServicePrincipalProfileStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterServicePrincipalProfileStatus(gens map[string]gopter.Gen) {
-	gens["ClientId"] = gen.AlphaString()
+	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["Secret"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -3710,7 +3710,7 @@ func ManagedClusterWindowsProfileGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedClusterWindowsProfile is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterWindowsProfile(gens map[string]gopter.Gen) {
 	gens["AdminPassword"] = gen.PtrOf(gen.AlphaString())
-	gens["AdminUsername"] = gen.AlphaString()
+	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
 	gens["EnableCSIProxy"] = gen.PtrOf(gen.Bool())
 	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterWindowsProfileLicenseTypeNone, ManagedClusterWindowsProfileLicenseTypeWindowsServer))
 }
@@ -3815,7 +3815,7 @@ func ManagedClusterWindowsProfileStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedClusterWindowsProfileStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterWindowsProfileStatus(gens map[string]gopter.Gen) {
 	gens["AdminPassword"] = gen.PtrOf(gen.AlphaString())
-	gens["AdminUsername"] = gen.AlphaString()
+	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
 	gens["EnableCSIProxy"] = gen.PtrOf(gen.Bool())
 	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterWindowsProfileStatusLicenseTypeNone, ManagedClusterWindowsProfileStatusLicenseTypeWindowsServer))
 }
@@ -4789,13 +4789,13 @@ func ManagedClusterPodIdentityGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedClusterPodIdentity is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterPodIdentity(gens map[string]gopter.Gen) {
 	gens["BindingSelector"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Namespace"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Namespace"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForManagedClusterPodIdentity is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClusterPodIdentity(gens map[string]gopter.Gen) {
-	gens["Identity"] = UserAssignedIdentityGenerator()
+	gens["Identity"] = gen.PtrOf(UserAssignedIdentityGenerator())
 }
 
 func Test_ManagedClusterPodIdentityException_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -4897,8 +4897,8 @@ func ManagedClusterPodIdentityExceptionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusterPodIdentityException is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityException(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-	gens["Namespace"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Namespace"] = gen.PtrOf(gen.AlphaString())
 	gens["PodLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
@@ -5001,8 +5001,8 @@ func ManagedClusterPodIdentityExceptionStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusterPodIdentityExceptionStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityExceptionStatus(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-	gens["Namespace"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Namespace"] = gen.PtrOf(gen.AlphaString())
 	gens["PodLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
@@ -5115,8 +5115,8 @@ func ManagedClusterPodIdentityStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedClusterPodIdentityStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityStatus(gens map[string]gopter.Gen) {
 	gens["BindingSelector"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Namespace"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Namespace"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
 		ManagedClusterPodIdentityStatusProvisioningStateAssigned,
 		ManagedClusterPodIdentityStatusProvisioningStateDeleting,
@@ -5126,7 +5126,7 @@ func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityStatus(gens map
 
 // AddRelatedPropertyGeneratorsForManagedClusterPodIdentityStatus is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClusterPodIdentityStatus(gens map[string]gopter.Gen) {
-	gens["Identity"] = UserAssignedIdentityStatusGenerator()
+	gens["Identity"] = gen.PtrOf(UserAssignedIdentityStatusGenerator())
 	gens["ProvisioningInfo"] = gen.PtrOf(ManagedClusterPodIdentityStatusProvisioningInfoGenerator())
 }
 
@@ -5229,7 +5229,7 @@ func ContainerServiceSshPublicKeyGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForContainerServiceSshPublicKey is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForContainerServiceSshPublicKey(gens map[string]gopter.Gen) {
-	gens["KeyData"] = gen.AlphaString()
+	gens["KeyData"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ContainerServiceSshPublicKey_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -5331,7 +5331,7 @@ func ContainerServiceSshPublicKeyStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForContainerServiceSshPublicKeyStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForContainerServiceSshPublicKeyStatus(gens map[string]gopter.Gen) {
-	gens["KeyData"] = gen.AlphaString()
+	gens["KeyData"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ManagedClusterLoadBalancerProfileManagedOutboundIPs_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

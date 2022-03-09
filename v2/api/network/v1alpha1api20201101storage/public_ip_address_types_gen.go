@@ -181,7 +181,7 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Conv
 type PublicIPAddresses_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName            string                      `json:"azureName"`
+	AzureName            string                      `json:"azureName,omitempty"`
 	DdosSettings         *DdosSettings               `json:"ddosSettings,omitempty"`
 	DnsSettings          *PublicIPAddressDnsSettings `json:"dnsSettings,omitempty"`
 	ExtendedLocation     *ExtendedLocation           `json:"extendedLocation,omitempty"`
@@ -189,20 +189,20 @@ type PublicIPAddresses_Spec struct {
 	IpAddress            *string                     `json:"ipAddress,omitempty"`
 	IpTags               []IpTag                     `json:"ipTags,omitempty"`
 	Location             *string                     `json:"location,omitempty"`
-	OriginalVersion      string                      `json:"originalVersion"`
+	OriginalVersion      string                      `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner                    genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PropertyBag              genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	PublicIPAddressVersion   *string                           `json:"publicIPAddressVersion,omitempty"`
-	PublicIPAllocationMethod *string                           `json:"publicIPAllocationMethod,omitempty"`
-	PublicIPPrefix           *SubResource                      `json:"publicIPPrefix,omitempty"`
-	Sku                      *PublicIPAddressSku               `json:"sku,omitempty"`
-	Tags                     map[string]string                 `json:"tags,omitempty"`
-	Zones                    []string                          `json:"zones,omitempty"`
+	Owner                    *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag              genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PublicIPAddressVersion   *string                            `json:"publicIPAddressVersion,omitempty"`
+	PublicIPAllocationMethod *string                            `json:"publicIPAllocationMethod,omitempty"`
+	PublicIPPrefix           *SubResource                       `json:"publicIPPrefix,omitempty"`
+	Sku                      *PublicIPAddressSku                `json:"sku,omitempty"`
+	Tags                     map[string]string                  `json:"tags,omitempty"`
+	Zones                    []string                           `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &PublicIPAddresses_Spec{}

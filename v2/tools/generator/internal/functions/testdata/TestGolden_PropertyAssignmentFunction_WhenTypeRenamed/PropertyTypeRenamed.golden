@@ -9,7 +9,7 @@ import (
 )
 
 type Event struct {
-	Where Location `json:"where"`
+	Where Location `json:"where,omitempty"`
 }
 
 // AssignPropertiesFromEvent populates our Event from the provided source Event

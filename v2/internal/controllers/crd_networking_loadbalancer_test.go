@@ -31,6 +31,7 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 
 	// Public IP Address
 	sku := network.PublicIPAddressSkuNameStandard
+	allocationMethod := network.PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic
 	publicIPAddress := &network.PublicIPAddress{
 		TypeMeta: metav1.TypeMeta{
 			Kind: reflect.TypeOf(network.PublicIPAddress{}).Name(),
@@ -42,7 +43,7 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 			Sku: &network.PublicIPAddressSku{
 				Name: &sku,
 			},
-			PublicIPAllocationMethod: network.PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic,
+			PublicIPAllocationMethod: &allocationMethod,
 		},
 	}
 
@@ -77,7 +78,7 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 			},
 			FrontendIPConfigurations: []network.LoadBalancers_Spec_Properties_FrontendIPConfigurations{
 				{
-					Name: lbFrontendName,
+					Name: &lbFrontendName,
 					PublicIPAddress: &network.SubResource{
 						Reference: tc.MakeReferenceFromResource(publicIPAddress),
 					},
@@ -86,9 +87,9 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 			// TODO: The below stuff isn't really necessary for LB CRUD but is required for VMSS...
 			InboundNatPools: []network.LoadBalancers_Spec_Properties_InboundNatPools{
 				{
-					Name: "MyFancyNatPool",
+					Name: to.StringPtr("MyFancyNatPool"),
 					FrontendIPConfiguration: &network.SubResource{
-						Reference: genruntime.ResourceReference{
+						Reference: &genruntime.ResourceReference{
 							ARMID: frontendIPConfigurationARMID,
 						},
 					},

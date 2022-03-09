@@ -435,14 +435,14 @@ func AddIndependentPropertyGeneratorsForStorageAccountsSpec(gens map[string]gopt
 	gens["AzureName"] = gen.AlphaString()
 	gens["IsHnsEnabled"] = gen.PtrOf(gen.Bool())
 	gens["IsNfsV3Enabled"] = gen.PtrOf(gen.Bool())
-	gens["Kind"] = gen.OneConstOf(
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(
 		StorageAccountsSpecKindBlobStorage,
 		StorageAccountsSpecKindBlockBlobStorage,
 		StorageAccountsSpecKindFileStorage,
 		StorageAccountsSpecKindStorage,
-		StorageAccountsSpecKindStorageV2)
+		StorageAccountsSpecKindStorageV2))
 	gens["LargeFileSharesState"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesCreateParametersLargeFileSharesStateDisabled, StorageAccountPropertiesCreateParametersLargeFileSharesStateEnabled))
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesCreateParametersMinimumTlsVersionTLS10, StorageAccountPropertiesCreateParametersMinimumTlsVersionTLS11, StorageAccountPropertiesCreateParametersMinimumTlsVersionTLS12))
 	gens["SupportsHttpsTrafficOnly"] = gen.PtrOf(gen.Bool())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
@@ -460,7 +460,7 @@ func AddRelatedPropertyGeneratorsForStorageAccountsSpec(gens map[string]gopter.G
 	gens["OperatorSpec"] = gen.PtrOf(StorageAccountOperatorSpecGenerator())
 	gens["RoutingPreference"] = gen.PtrOf(RoutingPreferenceGenerator())
 	gens["SasPolicy"] = gen.PtrOf(SasPolicyGenerator())
-	gens["Sku"] = SkuGenerator()
+	gens["Sku"] = gen.PtrOf(SkuGenerator())
 }
 
 func Test_AzureFilesIdentityBasedAuthentication_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -577,7 +577,7 @@ func AddIndependentPropertyGeneratorsForAzureFilesIdentityBasedAuthentication(ge
 		AzureFilesIdentityBasedAuthenticationDefaultSharePermissionStorageFileDataSmbShareElevatedContributor,
 		AzureFilesIdentityBasedAuthenticationDefaultSharePermissionStorageFileDataSmbShareOwner,
 		AzureFilesIdentityBasedAuthenticationDefaultSharePermissionStorageFileDataSmbShareReader))
-	gens["DirectoryServiceOptions"] = gen.OneConstOf(AzureFilesIdentityBasedAuthenticationDirectoryServiceOptionsAADDS, AzureFilesIdentityBasedAuthenticationDirectoryServiceOptionsAD, AzureFilesIdentityBasedAuthenticationDirectoryServiceOptionsNone)
+	gens["DirectoryServiceOptions"] = gen.PtrOf(gen.OneConstOf(AzureFilesIdentityBasedAuthenticationDirectoryServiceOptionsAADDS, AzureFilesIdentityBasedAuthenticationDirectoryServiceOptionsAD, AzureFilesIdentityBasedAuthenticationDirectoryServiceOptionsNone))
 }
 
 // AddRelatedPropertyGeneratorsForAzureFilesIdentityBasedAuthentication is a factory method for creating gopter generators
@@ -699,7 +699,7 @@ func AddIndependentPropertyGeneratorsForAzureFilesIdentityBasedAuthenticationSta
 		AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareElevatedContributor,
 		AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareOwner,
 		AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareReader))
-	gens["DirectoryServiceOptions"] = gen.OneConstOf(AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptionsAADDS, AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptionsAD, AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptionsNone)
+	gens["DirectoryServiceOptions"] = gen.PtrOf(gen.OneConstOf(AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptionsAADDS, AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptionsAD, AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptionsNone))
 }
 
 // AddRelatedPropertyGeneratorsForAzureFilesIdentityBasedAuthenticationStatus is a factory method for creating gopter generators
@@ -923,7 +923,7 @@ func CustomDomainGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCustomDomain is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCustomDomain(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["UseSubDomainName"] = gen.PtrOf(gen.Bool())
 }
 
@@ -1025,7 +1025,7 @@ func CustomDomainStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCustomDomainStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCustomDomainStatus(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["UseSubDomainName"] = gen.PtrOf(gen.Bool())
 }
 
@@ -1136,7 +1136,7 @@ func EncryptionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryption is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryption(gens map[string]gopter.Gen) {
-	gens["KeySource"] = gen.OneConstOf(EncryptionKeySourceMicrosoftKeyvault, EncryptionKeySourceMicrosoftStorage)
+	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(EncryptionKeySourceMicrosoftKeyvault, EncryptionKeySourceMicrosoftStorage))
 	gens["RequireInfrastructureEncryption"] = gen.PtrOf(gen.Bool())
 }
 
@@ -1254,7 +1254,7 @@ func EncryptionStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionStatus(gens map[string]gopter.Gen) {
-	gens["KeySource"] = gen.OneConstOf(EncryptionStatusKeySourceMicrosoftKeyvault, EncryptionStatusKeySourceMicrosoftStorage)
+	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(EncryptionStatusKeySourceMicrosoftKeyvault, EncryptionStatusKeySourceMicrosoftStorage))
 	gens["RequireInfrastructureEncryption"] = gen.PtrOf(gen.Bool())
 }
 
@@ -1793,11 +1793,11 @@ func IdentityGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForIdentity is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIdentity(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.OneConstOf(
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(
 		IdentityTypeNone,
 		IdentityTypeSystemAssigned,
 		IdentityTypeSystemAssignedUserAssigned,
-		IdentityTypeUserAssigned)
+		IdentityTypeUserAssigned))
 }
 
 func Test_Identity_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1909,11 +1909,11 @@ func IdentityStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForIdentityStatus(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(
 		IdentityStatusTypeNone,
 		IdentityStatusTypeSystemAssigned,
 		IdentityStatusTypeSystemAssignedUserAssigned,
-		IdentityStatusTypeUserAssigned)
+		IdentityStatusTypeUserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForIdentityStatus is a factory method for creating gopter generators
@@ -2122,7 +2122,7 @@ func KeyPolicyGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKeyPolicy is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyPolicy(gens map[string]gopter.Gen) {
-	gens["KeyExpirationPeriodInDays"] = gen.Int()
+	gens["KeyExpirationPeriodInDays"] = gen.PtrOf(gen.Int())
 }
 
 func Test_KeyPolicy_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2223,7 +2223,7 @@ func KeyPolicyStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKeyPolicyStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyPolicyStatus(gens map[string]gopter.Gen) {
-	gens["KeyExpirationPeriodInDays"] = gen.Int()
+	gens["KeyExpirationPeriodInDays"] = gen.PtrOf(gen.Int())
 }
 
 func Test_NetworkRuleSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2338,7 +2338,7 @@ func AddIndependentPropertyGeneratorsForNetworkRuleSet(gens map[string]gopter.Ge
 		NetworkRuleSetBypassLogging,
 		NetworkRuleSetBypassMetrics,
 		NetworkRuleSetBypassNone))
-	gens["DefaultAction"] = gen.OneConstOf(NetworkRuleSetDefaultActionAllow, NetworkRuleSetDefaultActionDeny)
+	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetDefaultActionAllow, NetworkRuleSetDefaultActionDeny))
 }
 
 // AddRelatedPropertyGeneratorsForNetworkRuleSet is a factory method for creating gopter generators
@@ -2461,7 +2461,7 @@ func AddIndependentPropertyGeneratorsForNetworkRuleSetStatus(gens map[string]gop
 		NetworkRuleSetStatusBypassLogging,
 		NetworkRuleSetStatusBypassMetrics,
 		NetworkRuleSetStatusBypassNone))
-	gens["DefaultAction"] = gen.OneConstOf(NetworkRuleSetStatusDefaultActionAllow, NetworkRuleSetStatusDefaultActionDeny)
+	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetStatusDefaultActionAllow, NetworkRuleSetStatusDefaultActionDeny))
 }
 
 // AddRelatedPropertyGeneratorsForNetworkRuleSetStatus is a factory method for creating gopter generators
@@ -2878,8 +2878,8 @@ func SasPolicyGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSasPolicy is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSasPolicy(gens map[string]gopter.Gen) {
-	gens["ExpirationAction"] = gen.OneConstOf(SasPolicyExpirationActionLog)
-	gens["SasExpirationPeriod"] = gen.AlphaString()
+	gens["ExpirationAction"] = gen.PtrOf(gen.OneConstOf(SasPolicyExpirationActionLog))
+	gens["SasExpirationPeriod"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_SasPolicy_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2980,8 +2980,8 @@ func SasPolicyStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSasPolicyStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSasPolicyStatus(gens map[string]gopter.Gen) {
-	gens["ExpirationAction"] = gen.OneConstOf(SasPolicyStatusExpirationActionLog)
-	gens["SasExpirationPeriod"] = gen.AlphaString()
+	gens["ExpirationAction"] = gen.PtrOf(gen.OneConstOf(SasPolicyStatusExpirationActionLog))
+	gens["SasExpirationPeriod"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Sku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -3082,7 +3082,7 @@ func SkuGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
 		SkuNamePremiumLRS,
 		SkuNamePremiumZRS,
 		SkuNameStandardGRS,
@@ -3090,7 +3090,7 @@ func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
 		SkuNameStandardLRS,
 		SkuNameStandardRAGRS,
 		SkuNameStandardRAGZRS,
-		SkuNameStandardZRS)
+		SkuNameStandardZRS))
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(SkuTierPremium, SkuTierStandard))
 }
 
@@ -3192,7 +3192,7 @@ func SkuStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSkuStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuStatus(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
 		SkuName_StatusPremiumLRS,
 		SkuName_StatusPremiumZRS,
 		SkuName_StatusStandardGRS,
@@ -3200,7 +3200,7 @@ func AddIndependentPropertyGeneratorsForSkuStatus(gens map[string]gopter.Gen) {
 		SkuName_StatusStandardLRS,
 		SkuName_StatusStandardRAGRS,
 		SkuName_StatusStandardRAGZRS,
-		SkuName_StatusStandardZRS)
+		SkuName_StatusStandardZRS))
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Tier_StatusPremium, Tier_StatusStandard))
 }
 
@@ -3405,12 +3405,12 @@ func ActiveDirectoryPropertiesGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForActiveDirectoryProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForActiveDirectoryProperties(gens map[string]gopter.Gen) {
-	gens["AzureStorageSid"] = gen.AlphaString()
-	gens["DomainGuid"] = gen.AlphaString()
-	gens["DomainName"] = gen.AlphaString()
-	gens["DomainSid"] = gen.AlphaString()
-	gens["ForestName"] = gen.AlphaString()
-	gens["NetBiosDomainName"] = gen.AlphaString()
+	gens["AzureStorageSid"] = gen.PtrOf(gen.AlphaString())
+	gens["DomainGuid"] = gen.PtrOf(gen.AlphaString())
+	gens["DomainName"] = gen.PtrOf(gen.AlphaString())
+	gens["DomainSid"] = gen.PtrOf(gen.AlphaString())
+	gens["ForestName"] = gen.PtrOf(gen.AlphaString())
+	gens["NetBiosDomainName"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ActiveDirectoryProperties_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -3512,12 +3512,12 @@ func ActiveDirectoryPropertiesStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForActiveDirectoryPropertiesStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForActiveDirectoryPropertiesStatus(gens map[string]gopter.Gen) {
-	gens["AzureStorageSid"] = gen.AlphaString()
-	gens["DomainGuid"] = gen.AlphaString()
-	gens["DomainName"] = gen.AlphaString()
-	gens["DomainSid"] = gen.AlphaString()
-	gens["ForestName"] = gen.AlphaString()
-	gens["NetBiosDomainName"] = gen.AlphaString()
+	gens["AzureStorageSid"] = gen.PtrOf(gen.AlphaString())
+	gens["DomainGuid"] = gen.PtrOf(gen.AlphaString())
+	gens["DomainName"] = gen.PtrOf(gen.AlphaString())
+	gens["DomainSid"] = gen.PtrOf(gen.AlphaString())
+	gens["ForestName"] = gen.PtrOf(gen.AlphaString())
+	gens["NetBiosDomainName"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_BlobRestoreParameters_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -3628,7 +3628,7 @@ func BlobRestoreParametersStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBlobRestoreParametersStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBlobRestoreParametersStatus(gens map[string]gopter.Gen) {
-	gens["TimeToRestore"] = gen.AlphaString()
+	gens["TimeToRestore"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForBlobRestoreParametersStatus is a factory method for creating gopter generators
@@ -4141,7 +4141,7 @@ func IPRuleGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIPRule is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIPRule(gens map[string]gopter.Gen) {
 	gens["Action"] = gen.PtrOf(gen.OneConstOf(IPRuleActionAllow))
-	gens["Value"] = gen.AlphaString()
+	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_IPRule_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -4243,7 +4243,7 @@ func IPRuleStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIPRuleStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIPRuleStatus(gens map[string]gopter.Gen) {
 	gens["Action"] = gen.PtrOf(gen.OneConstOf(IPRuleStatusActionAllow))
-	gens["Value"] = gen.AlphaString()
+	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_KeyVaultProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -5277,7 +5277,7 @@ func VirtualNetworkRuleStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualNetworkRuleStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkRuleStatus(gens map[string]gopter.Gen) {
 	gens["Action"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkRuleStatusActionAllow))
-	gens["Id"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.OneConstOf(
 		VirtualNetworkRuleStatusStateDeprovisioning,
 		VirtualNetworkRuleStatusStateFailed,
@@ -5385,8 +5385,8 @@ func BlobRestoreRangeStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBlobRestoreRangeStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBlobRestoreRangeStatus(gens map[string]gopter.Gen) {
-	gens["EndRange"] = gen.AlphaString()
-	gens["StartRange"] = gen.AlphaString()
+	gens["EndRange"] = gen.PtrOf(gen.AlphaString())
+	gens["StartRange"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_EncryptionService_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

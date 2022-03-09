@@ -12,7 +12,7 @@ type StorageAccountsQueueServicesQueues_SpecARM struct {
 	//Name: A queue name must be unique within a storage account and must be between 3 and 63 characters.The name must
 	//comprise of lowercase alphanumeric and dash(-) characters only, it should begin and end with an alphanumeric character
 	//and it cannot have two consecutive dash(-) characters.
-	Name       string              `json:"name"`
+	Name       string              `json:"name,omitempty"`
 	Properties *QueuePropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource

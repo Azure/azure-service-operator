@@ -712,13 +712,13 @@ func ManagementPolicyRuleGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagementPolicyRule is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagementPolicyRule(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.OneConstOf(ManagementPolicyRuleTypeLifecycle)
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagementPolicyRuleTypeLifecycle))
 }
 
 // AddRelatedPropertyGeneratorsForManagementPolicyRule is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagementPolicyRule(gens map[string]gopter.Gen) {
-	gens["Definition"] = ManagementPolicyDefinitionGenerator()
+	gens["Definition"] = gen.PtrOf(ManagementPolicyDefinitionGenerator())
 }
 
 func Test_ManagementPolicyRule_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -830,13 +830,13 @@ func ManagementPolicyRuleStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagementPolicyRuleStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagementPolicyRuleStatus(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.OneConstOf(ManagementPolicyRuleStatusTypeLifecycle)
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagementPolicyRuleStatusTypeLifecycle))
 }
 
 // AddRelatedPropertyGeneratorsForManagementPolicyRuleStatus is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagementPolicyRuleStatus(gens map[string]gopter.Gen) {
-	gens["Definition"] = ManagementPolicyDefinitionStatusGenerator()
+	gens["Definition"] = gen.PtrOf(ManagementPolicyDefinitionStatusGenerator())
 }
 
 func Test_ManagementPolicyDefinition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -938,7 +938,7 @@ func ManagementPolicyDefinitionGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForManagementPolicyDefinition is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagementPolicyDefinition(gens map[string]gopter.Gen) {
-	gens["Actions"] = ManagementPolicyActionGenerator()
+	gens["Actions"] = gen.PtrOf(ManagementPolicyActionGenerator())
 	gens["Filters"] = gen.PtrOf(ManagementPolicyFilterGenerator())
 }
 
@@ -1041,7 +1041,7 @@ func ManagementPolicyDefinitionStatusGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForManagementPolicyDefinitionStatus is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagementPolicyDefinitionStatus(gens map[string]gopter.Gen) {
-	gens["Actions"] = ManagementPolicyActionStatusGenerator()
+	gens["Actions"] = gen.PtrOf(ManagementPolicyActionStatusGenerator())
 	gens["Filters"] = gen.PtrOf(ManagementPolicyFilterStatusGenerator())
 }
 
@@ -2237,9 +2237,9 @@ func TagFilterGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForTagFilter is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForTagFilter(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-	gens["Op"] = gen.AlphaString()
-	gens["Value"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Op"] = gen.PtrOf(gen.AlphaString())
+	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_TagFilter_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2340,9 +2340,9 @@ func TagFilterStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForTagFilterStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForTagFilterStatus(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-	gens["Op"] = gen.AlphaString()
-	gens["Value"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Op"] = gen.PtrOf(gen.AlphaString())
+	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_DateAfterCreation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2443,7 +2443,7 @@ func DateAfterCreationGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDateAfterCreation is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDateAfterCreation(gens map[string]gopter.Gen) {
-	gens["DaysAfterCreationGreaterThan"] = gen.Int()
+	gens["DaysAfterCreationGreaterThan"] = gen.PtrOf(gen.Int())
 }
 
 func Test_DateAfterCreation_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2545,7 +2545,7 @@ func DateAfterCreationStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDateAfterCreationStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDateAfterCreationStatus(gens map[string]gopter.Gen) {
-	gens["DaysAfterCreationGreaterThan"] = gen.Int()
+	gens["DaysAfterCreationGreaterThan"] = gen.PtrOf(gen.Int())
 }
 
 func Test_DateAfterModification_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

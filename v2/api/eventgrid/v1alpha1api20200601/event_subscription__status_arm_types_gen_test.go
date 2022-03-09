@@ -239,7 +239,7 @@ func DeadLetterDestinationStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeadLetterDestinationStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeadLetterDestinationStatusARM(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.OneConstOf(DeadLetterDestinationStatusEndpointTypeStorageBlob)
+	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(DeadLetterDestinationStatusEndpointTypeStorageBlob))
 }
 
 func Test_EventSubscriptionDestination_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -299,14 +299,14 @@ func EventSubscriptionDestinationStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEventSubscriptionDestinationStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEventSubscriptionDestinationStatusARM(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.OneConstOf(
+	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(
 		EventSubscriptionDestinationStatusEndpointTypeAzureFunction,
 		EventSubscriptionDestinationStatusEndpointTypeEventHub,
 		EventSubscriptionDestinationStatusEndpointTypeHybridConnection,
 		EventSubscriptionDestinationStatusEndpointTypeServiceBusQueue,
 		EventSubscriptionDestinationStatusEndpointTypeServiceBusTopic,
 		EventSubscriptionDestinationStatusEndpointTypeStorageQueue,
-		EventSubscriptionDestinationStatusEndpointTypeWebHook)
+		EventSubscriptionDestinationStatusEndpointTypeWebHook))
 }
 
 func Test_EventSubscriptionFilter_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -505,7 +505,7 @@ func AdvancedFilterStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAdvancedFilterStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdvancedFilterStatusARM(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(
+	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(
 		AdvancedFilterStatusOperatorTypeBoolEquals,
 		AdvancedFilterStatusOperatorTypeNumberGreaterThan,
 		AdvancedFilterStatusOperatorTypeNumberGreaterThanOrEquals,
@@ -517,5 +517,5 @@ func AddIndependentPropertyGeneratorsForAdvancedFilterStatusARM(gens map[string]
 		AdvancedFilterStatusOperatorTypeStringContains,
 		AdvancedFilterStatusOperatorTypeStringEndsWith,
 		AdvancedFilterStatusOperatorTypeStringIn,
-		AdvancedFilterStatusOperatorTypeStringNotIn)
+		AdvancedFilterStatusOperatorTypeStringNotIn))
 }

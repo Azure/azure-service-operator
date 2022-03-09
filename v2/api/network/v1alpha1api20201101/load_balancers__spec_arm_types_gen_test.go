@@ -83,7 +83,7 @@ func LoadBalancersSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForLoadBalancersSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLoadBalancersSpecARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
@@ -91,7 +91,7 @@ func AddIndependentPropertyGeneratorsForLoadBalancersSpecARM(gens map[string]gop
 // AddRelatedPropertyGeneratorsForLoadBalancersSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForLoadBalancersSpecARM(gens map[string]gopter.Gen) {
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationARMGenerator())
-	gens["Properties"] = LoadBalancersSpecPropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(LoadBalancersSpecPropertiesARMGenerator())
 	gens["Sku"] = gen.PtrOf(LoadBalancerSkuARMGenerator())
 }
 
@@ -152,8 +152,8 @@ func ExtendedLocationARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForExtendedLocationARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocationARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.OneConstOf(ExtendedLocationTypeEdgeZone)
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationTypeEdgeZone))
 }
 
 func Test_LoadBalancerSkuARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -347,7 +347,7 @@ func LoadBalancersSpecPropertiesBackendAddressPoolsARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPoolsARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPoolsARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPoolsARM is a factory method for creating gopter generators
@@ -421,7 +421,7 @@ func LoadBalancersSpecPropertiesFrontendIPConfigurationsARMGenerator() gopter.Ge
 
 // AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesFrontendIPConfigurationsARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesFrontendIPConfigurationsARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -496,7 +496,7 @@ func LoadBalancersSpecPropertiesInboundNatPoolsARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesInboundNatPoolsARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesInboundNatPoolsARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesInboundNatPoolsARM is a factory method for creating gopter generators
@@ -570,7 +570,7 @@ func LoadBalancersSpecPropertiesLoadBalancingRulesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesLoadBalancingRulesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesLoadBalancingRulesARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesLoadBalancingRulesARM is a factory method for creating gopter generators
@@ -718,7 +718,7 @@ func LoadBalancersSpecPropertiesProbesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesProbesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesProbesARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesProbesARM is a factory method for creating gopter generators
@@ -870,18 +870,18 @@ func InboundNatPoolPropertiesFormatARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInboundNatPoolPropertiesFormatARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInboundNatPoolPropertiesFormatARM(gens map[string]gopter.Gen) {
-	gens["BackendPort"] = gen.Int()
+	gens["BackendPort"] = gen.PtrOf(gen.Int())
 	gens["EnableFloatingIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
-	gens["FrontendPortRangeEnd"] = gen.Int()
-	gens["FrontendPortRangeStart"] = gen.Int()
+	gens["FrontendPortRangeEnd"] = gen.PtrOf(gen.Int())
+	gens["FrontendPortRangeStart"] = gen.PtrOf(gen.Int())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.OneConstOf(InboundNatPoolPropertiesFormatProtocolAll, InboundNatPoolPropertiesFormatProtocolTcp, InboundNatPoolPropertiesFormatProtocolUdp)
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(InboundNatPoolPropertiesFormatProtocolAll, InboundNatPoolPropertiesFormatProtocolTcp, InboundNatPoolPropertiesFormatProtocolUdp))
 }
 
 // AddRelatedPropertyGeneratorsForInboundNatPoolPropertiesFormatARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForInboundNatPoolPropertiesFormatARM(gens map[string]gopter.Gen) {
-	gens["FrontendIPConfiguration"] = SubResourceARMGenerator()
+	gens["FrontendIPConfiguration"] = gen.PtrOf(SubResourceARMGenerator())
 }
 
 func Test_LoadBalancers_Spec_Properties_BackendAddressPools_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1024,20 +1024,20 @@ func LoadBalancingRulePropertiesFormatARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForLoadBalancingRulePropertiesFormatARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLoadBalancingRulePropertiesFormatARM(gens map[string]gopter.Gen) {
-	gens["BackendPort"] = gen.Int()
+	gens["BackendPort"] = gen.PtrOf(gen.Int())
 	gens["DisableOutboundSnat"] = gen.PtrOf(gen.Bool())
 	gens["EnableFloatingIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
-	gens["FrontendPort"] = gen.Int()
+	gens["FrontendPort"] = gen.PtrOf(gen.Int())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["LoadDistribution"] = gen.PtrOf(gen.OneConstOf(LoadBalancingRulePropertiesFormatLoadDistributionDefault, LoadBalancingRulePropertiesFormatLoadDistributionSourceIP, LoadBalancingRulePropertiesFormatLoadDistributionSourceIPProtocol))
-	gens["Protocol"] = gen.OneConstOf(LoadBalancingRulePropertiesFormatProtocolAll, LoadBalancingRulePropertiesFormatProtocolTcp, LoadBalancingRulePropertiesFormatProtocolUdp)
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(LoadBalancingRulePropertiesFormatProtocolAll, LoadBalancingRulePropertiesFormatProtocolTcp, LoadBalancingRulePropertiesFormatProtocolUdp))
 }
 
 // AddRelatedPropertyGeneratorsForLoadBalancingRulePropertiesFormatARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForLoadBalancingRulePropertiesFormatARM(gens map[string]gopter.Gen) {
 	gens["BackendAddressPool"] = gen.PtrOf(SubResourceARMGenerator())
-	gens["FrontendIPConfiguration"] = SubResourceARMGenerator()
+	gens["FrontendIPConfiguration"] = gen.PtrOf(SubResourceARMGenerator())
 	gens["Probe"] = gen.PtrOf(SubResourceARMGenerator())
 }
 
@@ -1110,12 +1110,12 @@ func AddIndependentPropertyGeneratorsForOutboundRulePropertiesFormatARM(gens map
 	gens["AllocatedOutboundPorts"] = gen.PtrOf(gen.Int())
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.OneConstOf(OutboundRulePropertiesFormatProtocolAll, OutboundRulePropertiesFormatProtocolTcp, OutboundRulePropertiesFormatProtocolUdp)
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(OutboundRulePropertiesFormatProtocolAll, OutboundRulePropertiesFormatProtocolTcp, OutboundRulePropertiesFormatProtocolUdp))
 }
 
 // AddRelatedPropertyGeneratorsForOutboundRulePropertiesFormatARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForOutboundRulePropertiesFormatARM(gens map[string]gopter.Gen) {
-	gens["BackendAddressPool"] = SubResourceARMGenerator()
+	gens["BackendAddressPool"] = gen.PtrOf(SubResourceARMGenerator())
 	gens["FrontendIPConfigurations"] = gen.SliceOf(SubResourceARMGenerator())
 }
 
@@ -1177,9 +1177,9 @@ func ProbePropertiesFormatARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForProbePropertiesFormatARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForProbePropertiesFormatARM(gens map[string]gopter.Gen) {
 	gens["IntervalInSeconds"] = gen.PtrOf(gen.Int())
-	gens["NumberOfProbes"] = gen.Int()
-	gens["Port"] = gen.Int()
-	gens["Protocol"] = gen.OneConstOf(ProbePropertiesFormatProtocolHttp, ProbePropertiesFormatProtocolHttps, ProbePropertiesFormatProtocolTcp)
+	gens["NumberOfProbes"] = gen.PtrOf(gen.Int())
+	gens["Port"] = gen.PtrOf(gen.Int())
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(ProbePropertiesFormatProtocolHttp, ProbePropertiesFormatProtocolHttps, ProbePropertiesFormatProtocolTcp))
 	gens["RequestPath"] = gen.PtrOf(gen.AlphaString())
 }
 

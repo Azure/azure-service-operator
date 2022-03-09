@@ -817,16 +817,16 @@ const NetworkSecurityGroupsSpecAPIVersion20201101 = NetworkSecurityGroupsSpecAPI
 type NetworkSecurityGroups_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -842,7 +842,10 @@ func (groups *NetworkSecurityGroups_Spec) ConvertToARM(resolved genruntime.Conve
 	var result NetworkSecurityGroups_SpecARM
 
 	// Set property ‘Location’:
-	result.Location = groups.Location
+	if groups.Location != nil {
+		location := *groups.Location
+		result.Location = &location
+	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -873,10 +876,13 @@ func (groups *NetworkSecurityGroups_Spec) PopulateFromARM(owner genruntime.Arbit
 	groups.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Location’:
-	groups.Location = typedInput.Location
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		groups.Location = &location
+	}
 
 	// Set property ‘Owner’:
-	groups.Owner = genruntime.KnownResourceReference{
+	groups.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -949,10 +955,15 @@ func (groups *NetworkSecurityGroups_Spec) AssignPropertiesFromNetworkSecurityGro
 	groups.AzureName = source.AzureName
 
 	// Location
-	groups.Location = genruntime.GetOptionalStringValue(source.Location)
+	groups.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	groups.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		groups.Owner = &owner
+	} else {
+		groups.Owner = nil
+	}
 
 	// Tags
 	groups.Tags = genruntime.CloneMapOfStringToString(source.Tags)
@@ -970,14 +981,18 @@ func (groups *NetworkSecurityGroups_Spec) AssignPropertiesToNetworkSecurityGroup
 	destination.AzureName = groups.AzureName
 
 	// Location
-	location := groups.Location
-	destination.Location = &location
+	destination.Location = genruntime.ClonePointerToString(groups.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = groups.OriginalVersion()
 
 	// Owner
-	destination.Owner = groups.Owner.Copy()
+	if groups.Owner != nil {
+		owner := groups.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(groups.Tags)

@@ -35,7 +35,7 @@ type BatchAccountIdentity_StatusARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	//Type: The type of identity used for the Batch account.
-	Type BatchAccountIdentityStatusType `json:"type"`
+	Type *BatchAccountIdentityStatusType `json:"type,omitempty"`
 
 	//UserAssignedIdentities: The list of user identities associated with the Batch account. The user identity dictionary key
 	//references will be ARM resource ids in the form:
@@ -88,10 +88,10 @@ type BatchAccountProperties_StatusARM struct {
 
 type AutoStorageProperties_StatusARM struct {
 	//LastKeySync: The UTC time at which storage keys were last synchronized with the Batch account.
-	LastKeySync string `json:"lastKeySync"`
+	LastKeySync *string `json:"lastKeySync,omitempty"`
 
 	//StorageAccountId: The resource ID of the storage account to be used for auto-storage account.
-	StorageAccountId string `json:"storageAccountId"`
+	StorageAccountId *string `json:"storageAccountId,omitempty"`
 }
 
 type BatchAccountIdentityStatusType string
@@ -120,10 +120,10 @@ type EncryptionProperties_StatusARM struct {
 
 type KeyVaultReference_StatusARM struct {
 	//Id: The resource ID of the Azure key vault associated with the Batch account.
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 
 	//Url: The URL of the Azure key vault associated with the Batch account.
-	Url string `json:"url"`
+	Url *string `json:"url,omitempty"`
 }
 
 type PrivateEndpointConnection_StatusARM struct {
@@ -172,7 +172,7 @@ type PrivateEndpoint_StatusARM struct {
 }
 
 type PrivateLinkServiceConnectionState_StatusARM struct {
-	ActionRequired *string                                   `json:"actionRequired,omitempty"`
-	Description    *string                                   `json:"description,omitempty"`
-	Status         PrivateLinkServiceConnectionStatus_Status `json:"status"`
+	ActionRequired *string                                    `json:"actionRequired,omitempty"`
+	Description    *string                                    `json:"description,omitempty"`
+	Status         *PrivateLinkServiceConnectionStatus_Status `json:"status,omitempty"`
 }

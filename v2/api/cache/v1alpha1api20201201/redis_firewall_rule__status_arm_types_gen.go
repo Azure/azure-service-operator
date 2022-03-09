@@ -20,8 +20,8 @@ type RedisFirewallRule_StatusARM struct {
 
 type RedisFirewallRuleProperties_StatusARM struct {
 	//EndIP: highest IP address included in the range
-	EndIP string `json:"endIP"`
+	EndIP *string `json:"endIP,omitempty"`
 
 	//StartIP: lowest IP address included in the range
-	StartIP string `json:"startIP"`
+	StartIP *string `json:"startIP,omitempty"`
 }

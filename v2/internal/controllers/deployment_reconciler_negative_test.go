@@ -26,18 +26,20 @@ func newStorageAccountWithInvalidKeyExpiration(tc *testcommon.KubePerTestContext
 
 	// Create a storage account with an invalid key expiration period
 	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
+	kind := storage.StorageAccountsSpecKindBlobStorage
+	sku := storage.SkuNameStandardLRS
 	return &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccounts_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			Kind:     storage.StorageAccountsSpecKindBlobStorage,
-			Sku: storage.Sku{
-				Name: storage.SkuNameStandardLRS,
+			Kind:     &kind,
+			Sku: &storage.Sku{
+				Name: &sku,
 			},
 			AccessTier: &accessTier,
 			KeyPolicy: &storage.KeyPolicy{
-				KeyExpirationPeriodInDays: -260,
+				KeyExpirationPeriodInDays: to.IntPtr(-260),
 			},
 		},
 	}
@@ -76,7 +78,12 @@ func newVMSSWithInvalidPublisher(tc *testcommon.KubePerTestContext, rg *resource
 				NetworkProfile: &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile{
 					NetworkInterfaceConfigurations: []compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations{
 						{
-							Name: "mynicconfig",
+							Name: to.StringPtr("mynicconfig"),
+							IpConfigurations: []compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations{
+								{
+									Name: to.StringPtr("test"),
+								},
+							},
 						},
 					},
 				},

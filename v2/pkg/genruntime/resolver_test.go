@@ -9,6 +9,7 @@ import (
 	"context"
 	"testing"
 
+	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
@@ -77,7 +78,7 @@ func createResourceGroup(name string) *resources.ResourceGroup {
 			Namespace: testNamespace,
 		},
 		Spec: resources.ResourceGroupSpec{
-			Location:  "West US",
+			Location:  to.StringPtr("West US"),
 			AzureName: name, // defaulter webhook will copy Name to AzureName
 		},
 	}
@@ -96,7 +97,7 @@ func createResourceGroupRootedResource(rgName string, name string) (genruntime.M
 			Namespace: testNamespace,
 		},
 		Spec: batch.BatchAccounts_Spec{
-			Owner: genruntime.KnownResourceReference{
+			Owner: &genruntime.KnownResourceReference{
 				Name: rgName,
 			},
 			AzureName: name, // defaulter webhook will copy Name to AzureName
@@ -119,7 +120,7 @@ func createDeeplyNestedResource(rgName string, parentName string, name string) g
 			Namespace: testNamespace,
 		},
 		Spec: storage.StorageAccounts_Spec{
-			Owner: genruntime.KnownResourceReference{
+			Owner: &genruntime.KnownResourceReference{
 				Name: rgName,
 			},
 			AzureName: parentName, // defaulter webhook will copy Name to AzureName
@@ -136,7 +137,7 @@ func createDeeplyNestedResource(rgName string, parentName string, name string) g
 			Namespace: testNamespace,
 		},
 		Spec: storage.StorageAccountsBlobServices_Spec{
-			Owner: genruntime.KnownResourceReference{
+			Owner: &genruntime.KnownResourceReference{
 				Name: parentName,
 			},
 		},

@@ -32,8 +32,8 @@ func Test_ReconcilePolicy_SkipReconcile_DoesntCreateResourceInAzure(t *testing.T
 	tc.CreateResourceAndWaitForState(rg, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
 
 	// We expect status to be empty
-	tc.Expect(rg.Status.Name).To(BeEmpty())
-	tc.Expect(rg.Status.Location).To(BeEmpty())
+	tc.Expect(rg.Status.Name).To(BeNil())
+	tc.Expect(rg.Status.Location).To(BeNil())
 
 	// We expect the ready condition to include details of the error
 	tc.Expect(rg.Status.Conditions[0].Reason).To(Equal("AzureResourceNotFound"))
@@ -57,9 +57,9 @@ func Test_ReconcilePolicy_SkipReconcile_DoesntCreateResourceInAzure(t *testing.T
 	tc.Patch(old, rg)
 	tc.Eventually(rg).Should(tc.Match.BeProvisioned(0))
 
-	// We expect status to be empty
-	tc.Expect(rg.Status.Name).ToNot(BeEmpty())
-	tc.Expect(rg.Status.Location).ToNot(BeEmpty())
+	// We expect status to not be empty
+	tc.Expect(rg.Status.Name).ToNot(BeNil())
+	tc.Expect(rg.Status.Location).ToNot(BeNil())
 
 	// The actual Azure resource should exist
 	exists, _, err = tc.AzureClient.HeadByID(

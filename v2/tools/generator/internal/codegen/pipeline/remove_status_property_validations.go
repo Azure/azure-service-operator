@@ -61,6 +61,7 @@ func removeStatusTypeValidations(definitions astmodel.TypeDefinitionSet) (astmod
 		astmodel.TypeVisitorBuilder{
 			VisitEnumType:      removeEnumValidations,
 			VisitValidatedType: removeValidatedType,
+			VisitObjectType:    removeKubebuilderRequired,
 		}.Build())
 
 	var errs []error
@@ -113,4 +114,13 @@ func removeValidatedType(this *astmodel.TypeVisitor, vt *astmodel.ValidatedType,
 
 func removeEnumValidations(this *astmodel.TypeVisitor, et *astmodel.EnumType, _ interface{}) (astmodel.Type, error) {
 	return et.WithoutValidation(), nil
+}
+
+// removeKubebuilderRequired removes kubebuilder:validation:Required from all properties
+func removeKubebuilderRequired(this *astmodel.TypeVisitor, ot *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+	for _, prop := range ot.Properties() {
+		ot = ot.WithProperty(prop.MakeOptional())
+	}
+
+	return astmodel.IdentityVisitOfObjectType(this, ot, ctx)
 }

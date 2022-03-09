@@ -76,7 +76,7 @@ type RedisProperties_StatusARM struct {
 	ShardCount *int `json:"shardCount,omitempty"`
 
 	//Sku: The SKU of the Redis cache to deploy.
-	Sku Sku_StatusARM `json:"sku"`
+	Sku *Sku_StatusARM `json:"sku,omitempty"`
 
 	//SslPort: Redis SSL port.
 	SslPort *int `json:"sslPort,omitempty"`
@@ -127,11 +127,11 @@ type RedisLinkedServer_StatusARM struct {
 type Sku_StatusARM struct {
 	//Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
 	//P (Premium) family (1, 2, 3, 4).
-	Capacity int `json:"capacity"`
+	Capacity *int `json:"capacity,omitempty"`
 
 	//Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
-	Family SkuStatusFamily `json:"family"`
+	Family *SkuStatusFamily `json:"family,omitempty"`
 
 	//Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
-	Name SkuStatusName `json:"name"`
+	Name *SkuStatusName `json:"name,omitempty"`
 }

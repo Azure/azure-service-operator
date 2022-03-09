@@ -206,6 +206,11 @@ func (in *ImageDataDisk) DeepCopyInto(out *ImageDataDisk) {
 		*out = new(int)
 		**out = **in
 	}
+	if in.Lun != nil {
+		in, out := &in.Lun, &out.Lun
+		*out = new(int)
+		**out = **in
+	}
 	if in.ManagedDisk != nil {
 		in, out := &in.ManagedDisk, &out.ManagedDisk
 		*out = new(SubResource)
@@ -253,6 +258,11 @@ func (in *ImageDataDiskARM) DeepCopyInto(out *ImageDataDiskARM) {
 	}
 	if in.DiskSizeGB != nil {
 		in, out := &in.DiskSizeGB, &out.DiskSizeGB
+		*out = new(int)
+		**out = **in
+	}
+	if in.Lun != nil {
+		in, out := &in.Lun, &out.Lun
 		*out = new(int)
 		**out = **in
 	}
@@ -306,6 +316,11 @@ func (in *ImageDataDisk_Status) DeepCopyInto(out *ImageDataDisk_Status) {
 		*out = new(int)
 		**out = **in
 	}
+	if in.Lun != nil {
+		in, out := &in.Lun, &out.Lun
+		*out = new(int)
+		**out = **in
+	}
 	if in.ManagedDisk != nil {
 		in, out := &in.ManagedDisk, &out.ManagedDisk
 		*out = new(SubResource_Status)
@@ -353,6 +368,11 @@ func (in *ImageDataDisk_StatusARM) DeepCopyInto(out *ImageDataDisk_StatusARM) {
 	}
 	if in.DiskSizeGB != nil {
 		in, out := &in.DiskSizeGB, &out.DiskSizeGB
+		*out = new(int)
+		**out = **in
+	}
+	if in.Lun != nil {
+		in, out := &in.Lun, &out.Lun
 		*out = new(int)
 		**out = **in
 	}
@@ -443,6 +463,16 @@ func (in *ImageOSDisk) DeepCopyInto(out *ImageOSDisk) {
 		*out = new(SubResource)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.OsState != nil {
+		in, out := &in.OsState, &out.OsState
+		*out = new(ImageOSDiskOsState)
+		**out = **in
+	}
+	if in.OsType != nil {
+		in, out := &in.OsType, &out.OsType
+		*out = new(ImageOSDiskOsType)
+		**out = **in
+	}
 	if in.Snapshot != nil {
 		in, out := &in.Snapshot, &out.Snapshot
 		*out = new(SubResource)
@@ -492,6 +522,16 @@ func (in *ImageOSDiskARM) DeepCopyInto(out *ImageOSDiskARM) {
 		in, out := &in.ManagedDisk, &out.ManagedDisk
 		*out = new(SubResourceARM)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.OsState != nil {
+		in, out := &in.OsState, &out.OsState
+		*out = new(ImageOSDiskOsState)
+		**out = **in
+	}
+	if in.OsType != nil {
+		in, out := &in.OsType, &out.OsType
+		*out = new(ImageOSDiskOsType)
+		**out = **in
 	}
 	if in.Snapshot != nil {
 		in, out := &in.Snapshot, &out.Snapshot
@@ -543,6 +583,16 @@ func (in *ImageOSDisk_Status) DeepCopyInto(out *ImageOSDisk_Status) {
 		*out = new(SubResource_Status)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.OsState != nil {
+		in, out := &in.OsState, &out.OsState
+		*out = new(ImageOSDiskStatusOsState)
+		**out = **in
+	}
+	if in.OsType != nil {
+		in, out := &in.OsType, &out.OsType
+		*out = new(ImageOSDiskStatusOsType)
+		**out = **in
+	}
 	if in.Snapshot != nil {
 		in, out := &in.Snapshot, &out.Snapshot
 		*out = new(SubResource_Status)
@@ -592,6 +642,16 @@ func (in *ImageOSDisk_StatusARM) DeepCopyInto(out *ImageOSDisk_StatusARM) {
 		in, out := &in.ManagedDisk, &out.ManagedDisk
 		*out = new(SubResource_StatusARM)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.OsState != nil {
+		in, out := &in.OsState, &out.OsState
+		*out = new(ImageOSDiskStatusOsState)
+		**out = **in
+	}
+	if in.OsType != nil {
+		in, out := &in.OsType, &out.OsType
+		*out = new(ImageOSDiskStatusOsType)
+		**out = **in
 	}
 	if in.Snapshot != nil {
 		in, out := &in.Snapshot, &out.Snapshot
@@ -947,7 +1007,16 @@ func (in *Images_Spec) DeepCopyInto(out *Images_Spec) {
 		*out = new(ImagePropertiesHyperVGeneration)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.SourceVirtualMachine != nil {
 		in, out := &in.SourceVirtualMachine, &out.SourceVirtualMachine
 		*out = new(SubResource)
@@ -985,7 +1054,16 @@ func (in *Images_SpecARM) DeepCopyInto(out *Images_SpecARM) {
 		*out = new(ExtendedLocationARM)
 		(*in).DeepCopyInto(*out)
 	}
-	in.Properties.DeepCopyInto(&out.Properties)
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(ImagePropertiesARM)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))

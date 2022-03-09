@@ -33,7 +33,7 @@ type SqlUserDefinedFunctionGetProperties_Status_ResourceARM struct {
 	Etag *string `json:"_etag,omitempty"`
 
 	//Id: Name of the Cosmos DB SQL userDefinedFunction
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 
 	//Rid: A system generated property. A unique identifier.
 	Rid *string `json:"_rid,omitempty"`

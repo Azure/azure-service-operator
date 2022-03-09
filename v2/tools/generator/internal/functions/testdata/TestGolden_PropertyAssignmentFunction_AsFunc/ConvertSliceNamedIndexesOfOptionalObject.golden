@@ -9,7 +9,7 @@ import (
 )
 
 type Person struct {
-	Indexes []*Release `json:"indexes"`
+	Indexes []*Release `json:"indexes,omitempty"`
 }
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person

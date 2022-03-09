@@ -36,7 +36,7 @@ import (
 var DefaultTestRegion = "westus2" // Could make this an env variable if we wanted
 
 type TestContext struct {
-	AzureRegion  string
+	AzureRegion  *string
 	NameConfig   *ResourceNameConfig
 	RecordReplay bool
 }
@@ -76,7 +76,7 @@ func NewTestContext(
 	recordReplay bool,
 	nameConfig *ResourceNameConfig) TestContext {
 	return TestContext{
-		AzureRegion:  region,
+		AzureRegion:  &region,
 		RecordReplay: recordReplay,
 		NameConfig:   nameConfig,
 	}

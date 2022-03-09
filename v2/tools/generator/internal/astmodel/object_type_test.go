@@ -21,7 +21,7 @@ var (
 	knownAs              = NewPropertyDefinition("KnownAs", "known-as", StringType)
 	gender               = NewPropertyDefinition("Gender", "gender", StringType)
 	embeddedProp         = NewPropertyDefinition("", "-", MakeTypeName(GenRuntimeReference, "DummyType"))
-	optionalEmbeddedProp = NewPropertyDefinition("", "-", MakeTypeName(GenRuntimeReference, "DummyType")).MakeOptional()
+	optionalEmbeddedProp = NewPropertyDefinition("", "-", MakeTypeName(GenRuntimeReference, "DummyType")).MakeTypeOptional()
 )
 
 /*

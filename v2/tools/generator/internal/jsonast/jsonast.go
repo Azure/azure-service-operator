@@ -576,6 +576,14 @@ func getProperties(
 			}
 		}
 
+		// All types are optional (regardless of if the property is required or not) because of
+		// non-optional types (int, string, MyType, etc) interaction with omitempty.
+		// If a field is json:omitempty but its type is not optional (not a ptr) then the default value
+		// for that type will be omitted from the JSON payload. For example 0 would be omitted for ints.
+		// On the other hand if a field is NOT json:omitempty then the type is always serialized in the payload
+		// which causes issues for kubebuilder:validation:Required (how can we tell the user didn't specify that value?)
+		// See https://github.com/Azure/azure-service-operator/issues/1999 for more details.
+		property = property.MakeTypeOptional()
 		if isRequired {
 			property = property.MakeRequired()
 		} else {

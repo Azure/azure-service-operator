@@ -9,7 +9,7 @@ import (
 )
 
 type Person struct {
-	Reference genruntime.ResourceReference `json:"reference"`
+	Reference genruntime.ResourceReference `json:"reference,omitempty"`
 }
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person

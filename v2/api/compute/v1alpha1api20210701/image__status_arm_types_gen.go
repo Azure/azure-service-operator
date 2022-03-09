@@ -96,7 +96,7 @@ type ImageDataDisk_StatusARM struct {
 
 	//Lun: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and
 	//therefore must be unique for each data disk attached to a VM.
-	Lun int `json:"lun"`
+	Lun *int `json:"lun,omitempty"`
 
 	//ManagedDisk: The managedDisk.
 	ManagedDisk *SubResource_StatusARM `json:"managedDisk,omitempty"`
@@ -133,14 +133,14 @@ type ImageOSDisk_StatusARM struct {
 	ManagedDisk *SubResource_StatusARM `json:"managedDisk,omitempty"`
 
 	//OsState: The OS State.
-	OsState ImageOSDiskStatusOsState `json:"osState"`
+	OsState *ImageOSDiskStatusOsState `json:"osState,omitempty"`
 
 	//OsType: This property allows you to specify the type of the OS that is included in the disk if creating a VM from a
 	//custom image.
 	//Possible values are:
 	//Windows
 	//Linux
-	OsType ImageOSDiskStatusOsType `json:"osType"`
+	OsType *ImageOSDiskStatusOsType `json:"osType,omitempty"`
 
 	//Snapshot: The snapshot.
 	Snapshot *SubResource_StatusARM `json:"snapshot,omitempty"`

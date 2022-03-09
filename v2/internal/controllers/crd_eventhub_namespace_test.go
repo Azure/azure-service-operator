@@ -24,13 +24,14 @@ func Test_EventHub_Namespace_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	skuTier := eventhub.SkuTierStandard
+	skuName := eventhub.SkuNameStandard
 	namespace := &eventhub.Namespace{
 		ObjectMeta: tc.MakeObjectMeta("namespace"),
 		Spec: eventhub.Namespaces_Spec{
-			Location: &tc.AzureRegion,
+			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &eventhub.Sku{
-				Name: eventhub.SkuNameStandard,
+				Name: &skuName,
 				Tier: &skuTier,
 			},
 			IsAutoInflateEnabled:   to.BoolPtr(true),

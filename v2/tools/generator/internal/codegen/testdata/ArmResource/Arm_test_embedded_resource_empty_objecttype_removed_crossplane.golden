@@ -54,8 +54,8 @@ type ASpecAPIVersion string
 const ASpecAPIVersion20200601 = ASpecAPIVersion("2020-06-01")
 
 type A_Spec struct {
-	v1alpha1.ResourceSpec `json:",inline"`
-	ForProvider           AParameters `json:"forProvider"`
+	v1alpha1.ResourceSpec `json:",inline,omitempty"`
+	ForProvider           AParameters `json:"forProvider,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
@@ -64,24 +64,24 @@ type BSpecAPIVersion string
 const BSpecAPIVersion20200601 = BSpecAPIVersion("2020-06-01")
 
 type B_Spec struct {
-	v1alpha1.ResourceSpec `json:",inline"`
-	ForProvider           BParameters `json:"forProvider"`
+	v1alpha1.ResourceSpec `json:",inline,omitempty"`
+	ForProvider           BParameters `json:"forProvider,omitempty"`
 }
 
 type AParameters struct {
 	// +kubebuilder:validation:Required
-	Name                      string              `json:"name"`
+	Name                      string              `json:"name,omitempty"`
 	Properties                *AProperties        `json:"properties,omitempty"`
-	ResourceGroupName         string              `json:"resourceGroupName"`
+	ResourceGroupName         string              `json:"resourceGroupName,omitempty"`
 	ResourceGroupNameRef      *v1alpha1.Reference `json:"resourceGroupNameRef,omitempty"`
 	ResourceGroupNameSelector *v1alpha1.Selector  `json:"resourceGroupNameSelector,omitempty"`
 }
 
 type BParameters struct {
 	// +kubebuilder:validation:Required
-	Name                      string              `json:"name"`
+	Name                      string              `json:"name,omitempty"`
 	Properties                *BProperties        `json:"properties,omitempty"`
-	ResourceGroupName         string              `json:"resourceGroupName"`
+	ResourceGroupName         string              `json:"resourceGroupName,omitempty"`
 	ResourceGroupNameRef      *v1alpha1.Reference `json:"resourceGroupNameRef,omitempty"`
 	ResourceGroupNameSelector *v1alpha1.Selector  `json:"resourceGroupNameSelector,omitempty"`
 }

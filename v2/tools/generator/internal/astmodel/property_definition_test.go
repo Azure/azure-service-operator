@@ -32,7 +32,7 @@ func Test_NewPropertyDefinition_GivenValues_ReturnsInstanceWithExpectedFields(t 
 
 	g.Expect(property.propertyName).To(Equal(propertyName))
 	g.Expect(property.propertyType).To(Equal(propertyType))
-	g.Expect(property.tags["json"]).To(Equal([]string{propertyJsonName}))
+	g.Expect(property.tags["json"]).To(Equal([]string{propertyJsonName, "omitempty"}))
 	g.Expect(property.description).To(BeEmpty())
 }
 
@@ -57,7 +57,7 @@ func Test_PropertyDefinition_TagsAdded_TagsAreRenderedAsExpected(t *testing.T) {
 	updated := original.WithTag("key", "value")
 
 	g.Expect(updated).NotTo(Equal(original))
-	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s\" key:\"value\"", propertyJsonName)))
+	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\" key:\"value\"", propertyJsonName)))
 }
 
 func Test_PropertyDefinition_TagsAdded_TagsCanBeRetrieved(t *testing.T) {
@@ -92,7 +92,7 @@ func Test_PropertyDefinition_MultipleTagsAdded_TagsAreRenderedCommaSeparated(t *
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
 	updated := original.WithTag("key", "value").WithTag("key", "value2").WithTag("key", "value3")
 
-	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s\" key:\"value,value2,value3\"", propertyJsonName)))
+	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\" key:\"value,value2,value3\"", propertyJsonName)))
 }
 
 func Test_PropertyDefinition_ExistingTagAdded_TagsAreNotDuplicated(t *testing.T) {
@@ -103,7 +103,7 @@ func Test_PropertyDefinition_ExistingTagAdded_TagsAreNotDuplicated(t *testing.T)
 	updated := original.WithTag("json", propertyJsonName)
 
 	g.Expect(updated).To(Equal(original))
-	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s\"", propertyJsonName)))
+	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJsonName)))
 }
 
 func Test_PropertyDefinition_TagKeyRemoved_TagIsNotRendered(t *testing.T) {
@@ -122,7 +122,7 @@ func Test_PropertyDefinition_LastTagValueRemoved_TagIsNotRendered(t *testing.T) 
 	g := NewGomegaWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
-	updated := original.WithoutTag("json", propertyJsonName)
+	updated := original.WithoutTag("json", propertyJsonName).WithoutTag("json", "omitempty")
 
 	g.Expect(updated).NotTo(Equal(original))
 	g.Expect(updated.renderedTags()).To(Equal(""))
@@ -139,7 +139,7 @@ func Test_PropertyDefinition_TagValueRemoved_RemainingTagsAreRenderedAsExpected(
 	updated := original.WithoutTag("key", "value2")
 
 	g.Expect(updated).ToNot(Equal(original))
-	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s\" key:\"value1,value3\"", propertyJsonName)))
+	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\" key:\"value1,value3\"", propertyJsonName)))
 }
 
 func Test_PropertyDefinition_NonExistentTagKeyRemoved_TagsAreRenderedAsExpected(t *testing.T) {
@@ -150,7 +150,7 @@ func Test_PropertyDefinition_NonExistentTagKeyRemoved_TagsAreRenderedAsExpected(
 	updated := original.WithoutTag("doesntexist", "")
 
 	g.Expect(updated).To(Equal(original))
-	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s\"", propertyJsonName)))
+	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJsonName)))
 }
 
 func Test_PropertyDefinition_NonExistentTagValueRemoved_TagsAreRenderedAsExpected(t *testing.T) {
@@ -161,7 +161,7 @@ func Test_PropertyDefinition_NonExistentTagValueRemoved_TagsAreRenderedAsExpecte
 	updated := original.WithoutTag("doesntexist", "val")
 
 	g.Expect(updated).To(Equal(original))
-	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s\"", propertyJsonName)))
+	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJsonName)))
 }
 
 /*
@@ -272,50 +272,6 @@ func Test_PropertyDefinitionWithType_GivenSameType_ReturnsExistingReference(t *t
 }
 
 /*
- * WithKubebuilderRequiredValidation() Tests
- */
-
-func Test_PropertyDefinition_WhenMarkedKubebuilderRequiredValidation_IsRequired(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	property := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).WithKubebuilderRequiredValidation(true)
-
-	g.Expect(property.HasKubebuilderRequiredValidation()).To(BeTrue())
-}
-
-func Test_PropertyDefinition_WhenMarkedKubebuilderRequiredValidation_LeavesOriginalUnmodified(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
-	new := original.WithKubebuilderRequiredValidation(true)
-
-	g.Expect(new).ToNot(Equal(original))
-	g.Expect(original.HasKubebuilderRequiredValidation()).NotTo(BeTrue())
-}
-
-func Test_PropertyDefinition_WhenKubebuilderRequiredValidationTrueThenFalse_ReturnsPropertyEqualToOriginal(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	origProperty := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
-	property := origProperty.WithKubebuilderRequiredValidation(true).WithKubebuilderRequiredValidation(false)
-
-	g.Expect(property).To(Equal(origProperty))
-}
-
-func Test_PropertyDefinition_WhenKubebuilderRequiredValidationFalse_LeavesOriginalUnmodified(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).WithKubebuilderRequiredValidation(true)
-	property := original.WithKubebuilderRequiredValidation(false)
-
-	g.Expect(property).NotTo(Equal(original))
-}
-
-/*
  * MakeRequired() Tests
  */
 
@@ -323,47 +279,124 @@ func Test_PropertyDefinitionMakeRequired_WhenOptional_ReturnsDifferentReference(
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeOptional()
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional().MakeOptional()
 	updated := original.MakeRequired()
 
 	g.Expect(updated).NotTo(BeIdenticalTo(original))
-	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s\"", propertyJsonName)))
+	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJsonName)))
 }
 
 func TestPropertyDefinitionMakeRequired_WhenOptional_ReturnsTypeWithIsRequiredTrue(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeOptional()
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional().MakeOptional()
 	updated := original.MakeRequired()
 
-	g.Expect(updated.HasKubebuilderRequiredValidation()).To(BeTrue())
+	g.Expect(updated.IsRequired()).To(BeTrue())
 }
 
 func Test_PropertyDefinitionMakeRequired_WhenRequired_ReturnsExistingReference(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeRequired()
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional().MakeRequired()
 	updated := original.MakeRequired()
 
 	g.Expect(updated).To(BeIdenticalTo(original))
 }
 
-func Test_PropertyDefinitionMakeRequired_WhenTypeOptionalAndIsRequired_ReturnsNewReference(t *testing.T) {
+func Test_PropertyDefinitionMakeRequired_WhenTypeIsOptional_Panics(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).
-		MakeOptional().
-		WithKubebuilderRequiredValidation(true)
-
-	updated := original.MakeRequired()
-
-	g.Expect(updated).NotTo(BeIdenticalTo(original))
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeRequired()
+	g.Expect(func() { original.MakeRequired() }).To(
+		PanicWith(fmt.Sprintf("property %s with non-optional type *astmodel.PrimitiveType cannot be marked kubebuilder:validation:Required.",
+			propertyName)))
 }
 
-func Test_PropertyDefinitionMakeRequired_PropertyTypeArrayAndMap(t *testing.T) {
+/*
+ * MakeOptional() Tests
+ */
+
+func TestPropertyDefinitionMakeOptional_WhenRequired_ReturnsDifferentReference(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional().MakeRequired()
+	updated := original.MakeOptional()
+
+	g.Expect(updated).NotTo(BeIdenticalTo(original))
+	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJsonName)))
+}
+
+func TestPropertyDefinitionMakeOptional_WhenRequired_ReturnsTypeWithIsRequiredFalse(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional().MakeRequired()
+	updated := original.MakeOptional()
+
+	g.Expect(updated.IsRequired()).NotTo(BeTrue())
+}
+
+func Test_PropertyDefinitionMakeOptional_WhenOptional_ReturnsExistingReference(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional().MakeOptional()
+	updated := original.MakeOptional()
+
+	g.Expect(updated).To(BeIdenticalTo(original))
+}
+
+func Test_PropertyDefinitionMakeOptional_WhenRequiredFalse_ReturnsSelf(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
+	updated := original.MakeOptional()
+
+	g.Expect(updated).To(BeIdenticalTo(original))
+}
+
+/*
+ * MakeTypeRequired() Tests
+ */
+
+func Test_PropertyDefinitionMakeTypeRequired_WhenOptional_ReturnsDifferentReference(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional()
+	updated := original.MakeTypeRequired()
+
+	g.Expect(updated).NotTo(BeIdenticalTo(original))
+	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJsonName)))
+}
+
+func TestPropertyDefinitionMakeTypeRequired_WhenOptional_ReturnsNonOptionalType(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional()
+	updated := original.MakeTypeRequired()
+
+	g.Expect(updated.PropertyType()).To(Equal(propertyType))
+}
+
+func Test_PropertyDefinitionMakeTypeRequired_WhenRequired_ReturnsExistingReference(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeRequired()
+	updated := original.MakeTypeRequired()
+
+	g.Expect(updated).To(BeIdenticalTo(original))
+}
+
+func Test_PropertyDefinitionMakeTypeRequired_PropertyTypeArrayAndMap(t *testing.T) {
 	t.Parallel()
 
 	cases := []struct {
@@ -381,63 +414,53 @@ func Test_PropertyDefinitionMakeRequired_PropertyTypeArrayAndMap(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 			original := NewPropertyDefinition(propertyName, propertyJsonName, c.propertyType)
-			updated := original.MakeRequired()
+			updated := original.MakeTypeRequired()
 
-			g.Expect(updated).NotTo(BeIdenticalTo(original))
-			g.Expect(updated.HasKubebuilderRequiredValidation()).To(BeTrue())
-			g.Expect(updated.propertyType).To(BeIdenticalTo(original.propertyType))
+			g.Expect(updated).To(BeIdenticalTo(original))
+			//g.Expect(updated.IsRequired()).To(BeFalse())
+			//g.Expect(updated.propertyType).To(BeIdenticalTo(original.propertyType))
 
-			g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s\"", propertyJsonName)))
+			g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJsonName)))
 		})
 	}
 }
 
 /*
- * MakeOptional() Tests
+ * MakeTypeOptional() Tests
  */
 
-func TestPropertyDefinitionMakeOptional_WhenRequired_ReturnsDifferentReference(t *testing.T) {
+func TestPropertyDefinitionMakeTypeOptional_WhenRequired_ReturnsDifferentReference(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeRequired()
-	updated := original.MakeOptional()
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeRequired()
+	updated := original.MakeTypeOptional()
 
 	g.Expect(updated).NotTo(BeIdenticalTo(original))
 	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJsonName)))
 }
 
-func TestPropertyDefinitionMakeOptional_WhenRequired_ReturnsTypeWithIsRequiredFalse(t *testing.T) {
+func TestPropertyDefinitionMakeTypeOptional_WhenRequired_ReturnsOptionalType(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeRequired()
-	updated := original.MakeOptional()
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeRequired()
+	updated := original.MakeTypeOptional()
 
-	g.Expect(updated.HasKubebuilderRequiredValidation()).NotTo(BeTrue())
+	g.Expect(updated.PropertyType()).To(BeAssignableToTypeOf(&OptionalType{}))
 }
 
-func Test_PropertyDefinitionMakeOptional_WhenOptional_ReturnsExistingReference(t *testing.T) {
+func Test_PropertyDefinitionMakeTypeOptional_WhenOptional_ReturnsExistingReference(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeOptional()
-	updated := original.MakeOptional()
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeTypeOptional()
+	updated := original.MakeTypeOptional()
 
 	g.Expect(updated).To(BeIdenticalTo(original))
 }
 
-func Test_PropertyDefinitionMakeOptional_WhenTypeMandatoryAndIsRequiredFalse_ReturnsNewReference(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
-	updated := original.MakeOptional()
-
-	g.Expect(updated).NotTo(BeIdenticalTo(original))
-}
-
-func Test_PropertyDefinitionMakeOptional_PropertyTypeArrayAndMap(t *testing.T) {
+func Test_PropertyDefinitionMakeTypeOptional_PropertyTypeArrayAndMap(t *testing.T) {
 	t.Parallel()
 
 	cases := []struct {
@@ -448,8 +471,8 @@ func Test_PropertyDefinitionMakeOptional_PropertyTypeArrayAndMap(t *testing.T) {
 		// Expect equal to self
 		{"optional array property returns self", NewArrayType(propertyType), false},
 		{"optional map property returns self", NewMapType(propertyType, propertyType), false},
-		{"required array property returns new property", NewArrayType(propertyType), true},
-		{"required map property returns new property", NewMapType(propertyType, propertyType), true},
+		{"required array property returns self", NewArrayType(propertyType), true},
+		{"required map property returns self", NewMapType(propertyType, propertyType), true},
 	}
 
 	for _, c := range cases {
@@ -460,18 +483,17 @@ func Test_PropertyDefinitionMakeOptional_PropertyTypeArrayAndMap(t *testing.T) {
 
 			if c.propertyRequiredFirst {
 				original := NewPropertyDefinition(propertyName, propertyJsonName, c.propertyType)
-				required := original.MakeRequired()
-				updated := required.MakeOptional()
+				required := original.MakeTypeRequired()
+				updated := required.MakeTypeOptional()
 
-				g.Expect(updated).NotTo(BeIdenticalTo(original))
-				g.Expect(updated.HasKubebuilderRequiredValidation()).To(BeFalse())
-				g.Expect(updated.propertyType).To(BeIdenticalTo(required.propertyType))
+				g.Expect(updated).To(BeIdenticalTo(original))
+				g.Expect(updated.IsRequired()).To(BeFalse())
 				g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJsonName)))
 			} else {
 				original := NewPropertyDefinition(propertyName, propertyJsonName, c.propertyType)
-				updated := original.MakeOptional()
+				updated := original.MakeTypeOptional()
 
-				g.Expect(updated).NotTo(Equal(original))
+				g.Expect(updated).To(Equal(original))
 				g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJsonName)))
 			}
 		})
@@ -487,26 +509,13 @@ func Test_PropertyDefinitionAsAst_GivenValidField_ReturnsNonNilResult(t *testing
 	g := NewGomegaWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).
+		MakeTypeOptional().
 		MakeRequired().
 		WithDescription(propertyDescription)
 
 	node := original.AsField(nil)
 
 	g.Expect(node).NotTo(BeNil())
-}
-
-/*
- * WithValidation Tests
- */
-func Test_PropertyDefinition_WithValidation_ReturnsNewPropertyDefinition(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
-	updated := original.WithKubebuilderRequiredValidation(true)
-
-	g.Expect(updated).ToNot(Equal(original))
-	g.Expect(updated.HasKubebuilderRequiredValidation()).To(BeTrue())
 }
 
 /*
@@ -525,7 +534,6 @@ func TestPropertyDefinition_Equals_WhenGivenPropertyDefinition_ReturnsExpectedRe
 	differentType := createIntProperty("FullName", "Full Legal Name")
 	differentTags := createStringProperty("FullName", "Full Legal Name").WithTag("a", "b")
 	differentDescription := createStringProperty("FullName", "The whole thing")
-	differentValidation := createStringProperty("FullName", "Full Legal Name").WithKubebuilderRequiredValidation(true)
 
 	cases := []struct {
 		name          string
@@ -544,7 +552,6 @@ func TestPropertyDefinition_Equals_WhenGivenPropertyDefinition_ReturnsExpectedRe
 		{"Not-equal if types are different", strProperty, differentType, false},
 		{"Not-equal if descriptions are different", strProperty, differentDescription, false},
 		{"Not-equal if tags are different", strProperty, differentTags, false},
-		{"Not-equal if validations are different", strProperty, differentValidation, false},
 	}
 
 	for _, c := range cases {
@@ -558,21 +565,6 @@ func TestPropertyDefinition_Equals_WhenGivenPropertyDefinition_ReturnsExpectedRe
 			g.Expect(areEqual).To(Equal(c.expected))
 		})
 	}
-}
-
-func TestSettingSameRequiredValueDoesNotAllocateNewPropertyDefinition(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	strProperty := createStringProperty("FullName", "Full Legal Name")
-	strPropertyRequired := strProperty.WithKubebuilderRequiredValidation(true)
-
-	// safety check
-	g.Expect(strProperty).ToNot(Equal(strPropertyRequired))
-
-	// actual asserts
-	g.Expect(strProperty.WithKubebuilderRequiredValidation(false)).To(BeIdenticalTo(strProperty))
-	g.Expect(strPropertyRequired.WithKubebuilderRequiredValidation(true)).To(BeIdenticalTo(strPropertyRequired))
 }
 
 func TestSettingSameFlattenValueDoesNotAllocateNewPropertyDefinition(t *testing.T) {

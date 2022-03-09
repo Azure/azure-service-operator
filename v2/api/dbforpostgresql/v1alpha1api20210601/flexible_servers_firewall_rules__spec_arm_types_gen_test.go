@@ -90,7 +90,7 @@ func AddIndependentPropertyGeneratorsForFlexibleServersFirewallRulesSpecARM(gens
 
 // AddRelatedPropertyGeneratorsForFlexibleServersFirewallRulesSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFlexibleServersFirewallRulesSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = FirewallRulePropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(FirewallRulePropertiesARMGenerator())
 }
 
 func Test_FirewallRulePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -150,6 +150,6 @@ func FirewallRulePropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForFirewallRulePropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFirewallRulePropertiesARM(gens map[string]gopter.Gen) {
-	gens["EndIpAddress"] = gen.AlphaString()
-	gens["StartIpAddress"] = gen.AlphaString()
+	gens["EndIpAddress"] = gen.PtrOf(gen.AlphaString())
+	gens["StartIpAddress"] = gen.PtrOf(gen.AlphaString())
 }

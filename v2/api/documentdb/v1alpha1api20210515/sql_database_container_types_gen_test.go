@@ -279,7 +279,7 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersSp
 // AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersSpec(gens map[string]gopter.Gen) {
 	gens["Options"] = gen.PtrOf(CreateUpdateOptionsGenerator())
-	gens["Resource"] = SqlContainerResourceGenerator()
+	gens["Resource"] = gen.PtrOf(SqlContainerResourceGenerator())
 }
 
 func Test_SqlContainerGetResults_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -514,7 +514,7 @@ func AddIndependentPropertyGeneratorsForSqlContainerGetPropertiesStatusResource(
 	gens["AnalyticalStorageTtl"] = gen.PtrOf(gen.Int())
 	gens["DefaultTtl"] = gen.PtrOf(gen.Int())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Rid"] = gen.PtrOf(gen.AlphaString())
 	gens["Ts"] = gen.PtrOf(gen.Float64())
 }
@@ -637,7 +637,7 @@ func SqlContainerResourceGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSqlContainerResource(gens map[string]gopter.Gen) {
 	gens["AnalyticalStorageTtl"] = gen.PtrOf(gen.Int())
 	gens["DefaultTtl"] = gen.PtrOf(gen.Int())
-	gens["Id"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForSqlContainerResource is a factory method for creating gopter generators

@@ -9,7 +9,7 @@ import (
 )
 
 type Person struct {
-	Items []string `json:"items"`
+	Items []string `json:"items,omitempty"`
 }
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person

@@ -214,7 +214,7 @@ func MongoDBDatabaseGetPropertiesStatusResourceARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForMongoDBDatabaseGetPropertiesStatusResourceARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForMongoDBDatabaseGetPropertiesStatusResourceARM(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Rid"] = gen.PtrOf(gen.AlphaString())
 	gens["Ts"] = gen.PtrOf(gen.Float64())
 }

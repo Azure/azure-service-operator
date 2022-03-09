@@ -968,7 +968,7 @@ type BatchAccounts_Spec struct {
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]+$"
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//Encryption: Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using
 	//a Microsoft managed key. For additional control, a customer-managed key can be used instead.
@@ -982,13 +982,13 @@ type BatchAccounts_Spec struct {
 	KeyVaultReference *KeyVaultReference `json:"keyVaultReference,omitempty"`
 
 	//Location: The region in which to create the account.
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	//PoolAllocationMode: The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the
 	//mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is
@@ -1022,12 +1022,22 @@ func (accounts *BatchAccounts_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 
 	// Set property ‘Location’:
-	result.Location = accounts.Location
+	if accounts.Location != nil {
+		location := *accounts.Location
+		result.Location = &location
+	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if accounts.AutoStorage != nil ||
+		accounts.Encryption != nil ||
+		accounts.KeyVaultReference != nil ||
+		accounts.PoolAllocationMode != nil ||
+		accounts.PublicNetworkAccess != nil {
+		result.Properties = &BatchAccountCreatePropertiesARM{}
+	}
 	if accounts.AutoStorage != nil {
 		autoStorageARM, err := (*accounts.AutoStorage).ConvertToARM(resolved)
 		if err != nil {
@@ -1085,14 +1095,16 @@ func (accounts *BatchAccounts_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property ‘AutoStorage’:
 	// copying flattened property:
-	if typedInput.Properties.AutoStorage != nil {
-		var autoStorage1 AutoStorageBaseProperties
-		err := autoStorage1.PopulateFromARM(owner, *typedInput.Properties.AutoStorage)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AutoStorage != nil {
+			var autoStorage1 AutoStorageBaseProperties
+			err := autoStorage1.PopulateFromARM(owner, *typedInput.Properties.AutoStorage)
+			if err != nil {
+				return err
+			}
+			autoStorage := autoStorage1
+			accounts.AutoStorage = &autoStorage
 		}
-		autoStorage := autoStorage1
-		accounts.AutoStorage = &autoStorage
 	}
 
 	// Set property ‘AzureName’:
@@ -1100,14 +1112,16 @@ func (accounts *BatchAccounts_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property ‘Encryption’:
 	// copying flattened property:
-	if typedInput.Properties.Encryption != nil {
-		var encryption1 EncryptionProperties
-		err := encryption1.PopulateFromARM(owner, *typedInput.Properties.Encryption)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Encryption != nil {
+			var encryption1 EncryptionProperties
+			err := encryption1.PopulateFromARM(owner, *typedInput.Properties.Encryption)
+			if err != nil {
+				return err
+			}
+			encryption := encryption1
+			accounts.Encryption = &encryption
 		}
-		encryption := encryption1
-		accounts.Encryption = &encryption
 	}
 
 	// Set property ‘Identity’:
@@ -1123,36 +1137,45 @@ func (accounts *BatchAccounts_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property ‘KeyVaultReference’:
 	// copying flattened property:
-	if typedInput.Properties.KeyVaultReference != nil {
-		var keyVaultReference1 KeyVaultReference
-		err := keyVaultReference1.PopulateFromARM(owner, *typedInput.Properties.KeyVaultReference)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.KeyVaultReference != nil {
+			var keyVaultReference1 KeyVaultReference
+			err := keyVaultReference1.PopulateFromARM(owner, *typedInput.Properties.KeyVaultReference)
+			if err != nil {
+				return err
+			}
+			keyVaultReference := keyVaultReference1
+			accounts.KeyVaultReference = &keyVaultReference
 		}
-		keyVaultReference := keyVaultReference1
-		accounts.KeyVaultReference = &keyVaultReference
 	}
 
 	// Set property ‘Location’:
-	accounts.Location = typedInput.Location
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		accounts.Location = &location
+	}
 
 	// Set property ‘Owner’:
-	accounts.Owner = genruntime.KnownResourceReference{
+	accounts.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘PoolAllocationMode’:
 	// copying flattened property:
-	if typedInput.Properties.PoolAllocationMode != nil {
-		poolAllocationMode := *typedInput.Properties.PoolAllocationMode
-		accounts.PoolAllocationMode = &poolAllocationMode
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PoolAllocationMode != nil {
+			poolAllocationMode := *typedInput.Properties.PoolAllocationMode
+			accounts.PoolAllocationMode = &poolAllocationMode
+		}
 	}
 
 	// Set property ‘PublicNetworkAccess’:
 	// copying flattened property:
-	if typedInput.Properties.PublicNetworkAccess != nil {
-		publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
-		accounts.PublicNetworkAccess = &publicNetworkAccess
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicNetworkAccess != nil {
+			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			accounts.PublicNetworkAccess = &publicNetworkAccess
+		}
 	}
 
 	// Set property ‘Tags’:
@@ -1272,10 +1295,15 @@ func (accounts *BatchAccounts_Spec) AssignPropertiesFromBatchAccountsSpec(source
 	}
 
 	// Location
-	accounts.Location = genruntime.GetOptionalStringValue(source.Location)
+	accounts.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	accounts.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		accounts.Owner = &owner
+	} else {
+		accounts.Owner = nil
+	}
 
 	// PoolAllocationMode
 	if source.PoolAllocationMode != nil {
@@ -1357,14 +1385,18 @@ func (accounts *BatchAccounts_Spec) AssignPropertiesToBatchAccountsSpec(destinat
 	}
 
 	// Location
-	location := accounts.Location
-	destination.Location = &location
+	destination.Location = genruntime.ClonePointerToString(accounts.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = accounts.OriginalVersion()
 
 	// Owner
-	destination.Owner = accounts.Owner.Copy()
+	if accounts.Owner != nil {
+		owner := accounts.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// PoolAllocationMode
 	if accounts.PoolAllocationMode != nil {
@@ -1408,7 +1440,7 @@ func (accounts *BatchAccounts_Spec) SetAzureName(azureName string) { accounts.Az
 type AutoStorageBaseProperties struct {
 	// +kubebuilder:validation:Required
 	//StorageAccountReference: The resource ID of the storage account to be used for auto-storage account.
-	StorageAccountReference genruntime.ResourceReference `armReference:"StorageAccountId" json:"storageAccountReference"`
+	StorageAccountReference *genruntime.ResourceReference `armReference:"StorageAccountId" json:"storageAccountReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &AutoStorageBaseProperties{}
@@ -1421,11 +1453,14 @@ func (properties *AutoStorageBaseProperties) ConvertToARM(resolved genruntime.Co
 	var result AutoStorageBasePropertiesARM
 
 	// Set property ‘StorageAccountId’:
-	storageAccountReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(properties.StorageAccountReference)
-	if err != nil {
-		return nil, err
+	if properties.StorageAccountReference != nil {
+		storageAccountReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*properties.StorageAccountReference)
+		if err != nil {
+			return nil, err
+		}
+		storageAccountReference := storageAccountReferenceARMID
+		result.StorageAccountId = &storageAccountReference
 	}
-	result.StorageAccountId = storageAccountReferenceARMID
 	return result, nil
 }
 
@@ -1451,7 +1486,12 @@ func (properties *AutoStorageBaseProperties) PopulateFromARM(owner genruntime.Ar
 func (properties *AutoStorageBaseProperties) AssignPropertiesFromAutoStorageBaseProperties(source *v1alpha1api20210101storage.AutoStorageBaseProperties) error {
 
 	// StorageAccountReference
-	properties.StorageAccountReference = source.StorageAccountReference.Copy()
+	if source.StorageAccountReference != nil {
+		storageAccountReference := source.StorageAccountReference.Copy()
+		properties.StorageAccountReference = &storageAccountReference
+	} else {
+		properties.StorageAccountReference = nil
+	}
 
 	// No error
 	return nil
@@ -1463,7 +1503,12 @@ func (properties *AutoStorageBaseProperties) AssignPropertiesToAutoStorageBasePr
 	propertyBag := genruntime.NewPropertyBag()
 
 	// StorageAccountReference
-	destination.StorageAccountReference = properties.StorageAccountReference.Copy()
+	if properties.StorageAccountReference != nil {
+		storageAccountReference := properties.StorageAccountReference.Copy()
+		destination.StorageAccountReference = &storageAccountReference
+	} else {
+		destination.StorageAccountReference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1477,13 +1522,11 @@ func (properties *AutoStorageBaseProperties) AssignPropertiesToAutoStorageBasePr
 }
 
 type AutoStorageProperties_Status struct {
-	// +kubebuilder:validation:Required
 	//LastKeySync: The UTC time at which storage keys were last synchronized with the Batch account.
-	LastKeySync string `json:"lastKeySync"`
+	LastKeySync *string `json:"lastKeySync,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//StorageAccountId: The resource ID of the storage account to be used for auto-storage account.
-	StorageAccountId string `json:"storageAccountId"`
+	StorageAccountId *string `json:"storageAccountId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AutoStorageProperties_Status{}
@@ -1501,10 +1544,16 @@ func (properties *AutoStorageProperties_Status) PopulateFromARM(owner genruntime
 	}
 
 	// Set property ‘LastKeySync’:
-	properties.LastKeySync = typedInput.LastKeySync
+	if typedInput.LastKeySync != nil {
+		lastKeySync := *typedInput.LastKeySync
+		properties.LastKeySync = &lastKeySync
+	}
 
 	// Set property ‘StorageAccountId’:
-	properties.StorageAccountId = typedInput.StorageAccountId
+	if typedInput.StorageAccountId != nil {
+		storageAccountId := *typedInput.StorageAccountId
+		properties.StorageAccountId = &storageAccountId
+	}
 
 	// No error
 	return nil
@@ -1514,10 +1563,10 @@ func (properties *AutoStorageProperties_Status) PopulateFromARM(owner genruntime
 func (properties *AutoStorageProperties_Status) AssignPropertiesFromAutoStoragePropertiesStatus(source *v1alpha1api20210101storage.AutoStorageProperties_Status) error {
 
 	// LastKeySync
-	properties.LastKeySync = genruntime.GetOptionalStringValue(source.LastKeySync)
+	properties.LastKeySync = genruntime.ClonePointerToString(source.LastKeySync)
 
 	// StorageAccountId
-	properties.StorageAccountId = genruntime.GetOptionalStringValue(source.StorageAccountId)
+	properties.StorageAccountId = genruntime.ClonePointerToString(source.StorageAccountId)
 
 	// No error
 	return nil
@@ -1529,12 +1578,10 @@ func (properties *AutoStorageProperties_Status) AssignPropertiesToAutoStoragePro
 	propertyBag := genruntime.NewPropertyBag()
 
 	// LastKeySync
-	lastKeySync := properties.LastKeySync
-	destination.LastKeySync = &lastKeySync
+	destination.LastKeySync = genruntime.ClonePointerToString(properties.LastKeySync)
 
 	// StorageAccountId
-	storageAccountId := properties.StorageAccountId
-	destination.StorageAccountId = &storageAccountId
+	destination.StorageAccountId = genruntime.ClonePointerToString(properties.StorageAccountId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1567,7 +1614,7 @@ const (
 type BatchAccountIdentity struct {
 	// +kubebuilder:validation:Required
 	//Type: The type of identity used for the Batch account.
-	Type BatchAccountIdentityType `json:"type"`
+	Type *BatchAccountIdentityType `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &BatchAccountIdentity{}
@@ -1580,7 +1627,10 @@ func (identity *BatchAccountIdentity) ConvertToARM(resolved genruntime.ConvertTo
 	var result BatchAccountIdentityARM
 
 	// Set property ‘Type’:
-	result.Type = identity.Type
+	if identity.Type != nil {
+		typeVar := *identity.Type
+		result.Type = &typeVar
+	}
 	return result, nil
 }
 
@@ -1597,7 +1647,10 @@ func (identity *BatchAccountIdentity) PopulateFromARM(owner genruntime.Arbitrary
 	}
 
 	// Set property ‘Type’:
-	identity.Type = typedInput.Type
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		identity.Type = &typeVar
+	}
 
 	// No error
 	return nil
@@ -1608,9 +1661,10 @@ func (identity *BatchAccountIdentity) AssignPropertiesFromBatchAccountIdentity(s
 
 	// Type
 	if source.Type != nil {
-		identity.Type = BatchAccountIdentityType(*source.Type)
+		typeVar := BatchAccountIdentityType(*source.Type)
+		identity.Type = &typeVar
 	} else {
-		identity.Type = ""
+		identity.Type = nil
 	}
 
 	// No error
@@ -1623,8 +1677,12 @@ func (identity *BatchAccountIdentity) AssignPropertiesToBatchAccountIdentity(des
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Type
-	typeVar := string(identity.Type)
-	destination.Type = &typeVar
+	if identity.Type != nil {
+		typeVar := string(*identity.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1645,9 +1703,8 @@ type BatchAccountIdentity_Status struct {
 	//identity.
 	TenantId *string `json:"tenantId,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Type: The type of identity used for the Batch account.
-	Type BatchAccountIdentityStatusType `json:"type"`
+	Type *BatchAccountIdentityStatusType `json:"type,omitempty"`
 
 	//UserAssignedIdentities: The list of user identities associated with the Batch account. The user identity dictionary key
 	//references will be ARM resource ids in the form:
@@ -1682,7 +1739,10 @@ func (identity *BatchAccountIdentity_Status) PopulateFromARM(owner genruntime.Ar
 	}
 
 	// Set property ‘Type’:
-	identity.Type = typedInput.Type
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		identity.Type = &typeVar
+	}
 
 	// Set property ‘UserAssignedIdentities’:
 	if typedInput.UserAssignedIdentities != nil {
@@ -1712,9 +1772,10 @@ func (identity *BatchAccountIdentity_Status) AssignPropertiesFromBatchAccountIde
 
 	// Type
 	if source.Type != nil {
-		identity.Type = BatchAccountIdentityStatusType(*source.Type)
+		typeVar := BatchAccountIdentityStatusType(*source.Type)
+		identity.Type = &typeVar
 	} else {
-		identity.Type = ""
+		identity.Type = nil
 	}
 
 	// UserAssignedIdentities
@@ -1751,8 +1812,12 @@ func (identity *BatchAccountIdentity_Status) AssignPropertiesToBatchAccountIdent
 	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
 
 	// Type
-	typeVar := string(identity.Type)
-	destination.Type = &typeVar
+	if identity.Type != nil {
+		typeVar := string(*identity.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
@@ -2036,11 +2101,11 @@ func (properties *EncryptionProperties_Status) AssignPropertiesToEncryptionPrope
 type KeyVaultReference struct {
 	// +kubebuilder:validation:Required
 	//Reference: The resource ID of the Azure key vault associated with the Batch account.
-	Reference genruntime.ResourceReference `armReference:"Id" json:"reference"`
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Url: The URL of the Azure key vault associated with the Batch account.
-	Url string `json:"url"`
+	Url *string `json:"url,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &KeyVaultReference{}
@@ -2053,14 +2118,20 @@ func (reference *KeyVaultReference) ConvertToARM(resolved genruntime.ConvertToAR
 	var result KeyVaultReferenceARM
 
 	// Set property ‘Id’:
-	referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(reference.Reference)
-	if err != nil {
-		return nil, err
+	if reference.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*reference.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference1 := referenceARMID
+		result.Id = &reference1
 	}
-	result.Id = referenceARMID
 
 	// Set property ‘Url’:
-	result.Url = reference.Url
+	if reference.Url != nil {
+		url := *reference.Url
+		result.Url = &url
+	}
 	return result, nil
 }
 
@@ -2079,7 +2150,10 @@ func (reference *KeyVaultReference) PopulateFromARM(owner genruntime.ArbitraryOw
 	// no assignment for property ‘Reference’
 
 	// Set property ‘Url’:
-	reference.Url = typedInput.Url
+	if typedInput.Url != nil {
+		url := *typedInput.Url
+		reference.Url = &url
+	}
 
 	// No error
 	return nil
@@ -2089,10 +2163,15 @@ func (reference *KeyVaultReference) PopulateFromARM(owner genruntime.ArbitraryOw
 func (reference *KeyVaultReference) AssignPropertiesFromKeyVaultReference(source *v1alpha1api20210101storage.KeyVaultReference) error {
 
 	// Reference
-	reference.Reference = source.Reference.Copy()
+	if source.Reference != nil {
+		referenceTemp := source.Reference.Copy()
+		reference.Reference = &referenceTemp
+	} else {
+		reference.Reference = nil
+	}
 
 	// Url
-	reference.Url = genruntime.GetOptionalStringValue(source.Url)
+	reference.Url = genruntime.ClonePointerToString(source.Url)
 
 	// No error
 	return nil
@@ -2104,11 +2183,15 @@ func (reference *KeyVaultReference) AssignPropertiesToKeyVaultReference(destinat
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Reference
-	destination.Reference = reference.Reference.Copy()
+	if reference.Reference != nil {
+		referenceTemp := reference.Reference.Copy()
+		destination.Reference = &referenceTemp
+	} else {
+		destination.Reference = nil
+	}
 
 	// Url
-	url := reference.Url
-	destination.Url = &url
+	destination.Url = genruntime.ClonePointerToString(reference.Url)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2122,13 +2205,11 @@ func (reference *KeyVaultReference) AssignPropertiesToKeyVaultReference(destinat
 }
 
 type KeyVaultReference_Status struct {
-	// +kubebuilder:validation:Required
 	//Id: The resource ID of the Azure key vault associated with the Batch account.
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Url: The URL of the Azure key vault associated with the Batch account.
-	Url string `json:"url"`
+	Url *string `json:"url,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &KeyVaultReference_Status{}
@@ -2146,10 +2227,16 @@ func (reference *KeyVaultReference_Status) PopulateFromARM(owner genruntime.Arbi
 	}
 
 	// Set property ‘Id’:
-	reference.Id = typedInput.Id
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		reference.Id = &id
+	}
 
 	// Set property ‘Url’:
-	reference.Url = typedInput.Url
+	if typedInput.Url != nil {
+		url := *typedInput.Url
+		reference.Url = &url
+	}
 
 	// No error
 	return nil
@@ -2159,10 +2246,10 @@ func (reference *KeyVaultReference_Status) PopulateFromARM(owner genruntime.Arbi
 func (reference *KeyVaultReference_Status) AssignPropertiesFromKeyVaultReferenceStatus(source *v1alpha1api20210101storage.KeyVaultReference_Status) error {
 
 	// Id
-	reference.Id = genruntime.GetOptionalStringValue(source.Id)
+	reference.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Url
-	reference.Url = genruntime.GetOptionalStringValue(source.Url)
+	reference.Url = genruntime.ClonePointerToString(source.Url)
 
 	// No error
 	return nil
@@ -2174,12 +2261,10 @@ func (reference *KeyVaultReference_Status) AssignPropertiesToKeyVaultReferenceSt
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Id
-	id := reference.Id
-	destination.Id = &id
+	destination.Id = genruntime.ClonePointerToString(reference.Id)
 
 	// Url
-	url := reference.Url
-	destination.Url = &url
+	destination.Url = genruntime.ClonePointerToString(reference.Url)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2782,11 +2867,9 @@ func (endpoint *PrivateEndpoint_Status) AssignPropertiesToPrivateEndpointStatus(
 }
 
 type PrivateLinkServiceConnectionState_Status struct {
-	ActionRequired *string `json:"actionRequired,omitempty"`
-	Description    *string `json:"description,omitempty"`
-
-	// +kubebuilder:validation:Required
-	Status PrivateLinkServiceConnectionStatus_Status `json:"status"`
+	ActionRequired *string                                    `json:"actionRequired,omitempty"`
+	Description    *string                                    `json:"description,omitempty"`
+	Status         *PrivateLinkServiceConnectionStatus_Status `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PrivateLinkServiceConnectionState_Status{}
@@ -2816,7 +2899,10 @@ func (state *PrivateLinkServiceConnectionState_Status) PopulateFromARM(owner gen
 	}
 
 	// Set property ‘Status’:
-	state.Status = typedInput.Status
+	if typedInput.Status != nil {
+		status := *typedInput.Status
+		state.Status = &status
+	}
 
 	// No error
 	return nil
@@ -2833,9 +2919,10 @@ func (state *PrivateLinkServiceConnectionState_Status) AssignPropertiesFromPriva
 
 	// Status
 	if source.Status != nil {
-		state.Status = PrivateLinkServiceConnectionStatus_Status(*source.Status)
+		status := PrivateLinkServiceConnectionStatus_Status(*source.Status)
+		state.Status = &status
 	} else {
-		state.Status = ""
+		state.Status = nil
 	}
 
 	// No error
@@ -2854,8 +2941,12 @@ func (state *PrivateLinkServiceConnectionState_Status) AssignPropertiesToPrivate
 	destination.Description = genruntime.ClonePointerToString(state.Description)
 
 	// Status
-	status := string(state.Status)
-	destination.Status = &status
+	if state.Status != nil {
+		status := string(*state.Status)
+		destination.Status = &status
+	} else {
+		destination.Status = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

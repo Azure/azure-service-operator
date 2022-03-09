@@ -449,7 +449,7 @@ type VirtualMachineScaleSetDataDisk_StatusARM struct {
 	Caching *Caching_Status `json:"caching,omitempty"`
 
 	//CreateOption: The create option.
-	CreateOption CreateOption_Status `json:"createOption"`
+	CreateOption *CreateOption_Status `json:"createOption,omitempty"`
 
 	//DiskIOPSReadWrite: Specifies the Read-Write IOPS for the managed disk. Should be used only when StorageAccountType is
 	//UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
@@ -466,7 +466,7 @@ type VirtualMachineScaleSetDataDisk_StatusARM struct {
 
 	//Lun: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and
 	//therefore must be unique for each data disk attached to a VM.
-	Lun int `json:"lun"`
+	Lun *int `json:"lun,omitempty"`
 
 	//ManagedDisk: The managed disk parameters.
 	ManagedDisk *VirtualMachineScaleSetManagedDiskParameters_StatusARM `json:"managedDisk,omitempty"`
@@ -495,7 +495,7 @@ type VirtualMachineScaleSetNetworkConfiguration_StatusARM struct {
 	Id *string `json:"id,omitempty"`
 
 	//Name: The network configuration name.
-	Name       string                                                          `json:"name"`
+	Name       *string                                                         `json:"name,omitempty"`
 	Properties *VirtualMachineScaleSetNetworkConfigurationProperties_StatusARM `json:"properties,omitempty"`
 }
 
@@ -512,7 +512,7 @@ type VirtualMachineScaleSetOSDisk_StatusARM struct {
 	//The only allowed value is: FromImage \u2013 This value is used when you are using an image to create the virtual
 	//machine. If you are using a platform image, you also use the imageReference element described above. If you are using a
 	//marketplace image, you  also use the plan element previously described.
-	CreateOption CreateOption_Status `json:"createOption"`
+	CreateOption *CreateOption_Status `json:"createOption,omitempty"`
 
 	//DiffDiskSettings: Specifies the ephemeral disk Settings for the operating system disk used by the virtual machine scale
 	//set.
@@ -606,7 +606,7 @@ type VirtualMachineScaleSetNetworkConfigurationProperties_StatusARM struct {
 	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
 
 	//IpConfigurations: Specifies the IP configurations of the network interface.
-	IpConfigurations []VirtualMachineScaleSetIPConfiguration_StatusARM `json:"ipConfigurations"`
+	IpConfigurations []VirtualMachineScaleSetIPConfiguration_StatusARM `json:"ipConfigurations,omitempty"`
 
 	//NetworkSecurityGroup: The network security group.
 	NetworkSecurityGroup *SubResource_StatusARM `json:"networkSecurityGroup,omitempty"`
@@ -620,7 +620,7 @@ type VirtualMachineScaleSetIPConfiguration_StatusARM struct {
 	Id *string `json:"id,omitempty"`
 
 	//Name: The IP configuration name.
-	Name       string                                                     `json:"name"`
+	Name       *string                                                    `json:"name,omitempty"`
 	Properties *VirtualMachineScaleSetIPConfigurationProperties_StatusARM `json:"properties,omitempty"`
 }
 
@@ -664,7 +664,7 @@ type VirtualMachineScaleSetIPConfigurationProperties_StatusARM struct {
 
 type VirtualMachineScaleSetPublicIPAddressConfiguration_StatusARM struct {
 	//Name: The publicIP address configuration name.
-	Name       string                                                                  `json:"name"`
+	Name       *string                                                                 `json:"name,omitempty"`
 	Properties *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_StatusARM `json:"properties,omitempty"`
 }
 
@@ -697,5 +697,5 @@ type VirtualMachineScaleSetIpTag_StatusARM struct {
 type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_StatusARM struct {
 	//DomainNameLabel: The Domain name label.The concatenation of the domain name label and vm index will be the domain name
 	//labels of the PublicIPAddress resources that will be created
-	DomainNameLabel string `json:"domainNameLabel"`
+	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
 }

@@ -209,7 +209,7 @@ type FakeResourceList struct {
 }
 
 type FakeResource_SpecARM struct {
-	Name       string         `json:"name"`
+	Name       string         `json:"name,omitempty"`
 	Properties *PropertiesARM `json:"properties,omitempty"`
 }
 
@@ -238,14 +238,14 @@ const FakeResourceSpecAPIVersion20200601 = FakeResourceSpecAPIVersion("2020-06-0
 type FakeResource_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner      genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	Properties *Properties                       `json:"properties,omitempty"`
+	Owner      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Properties *Properties                        `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &FakeResource_Spec{}
@@ -288,7 +288,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	resource.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	resource.Owner = genruntime.KnownResourceReference{
+	resource.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -388,19 +388,19 @@ func (properties *PropertiesARM) UnmarshalJSON(data []byte) error {
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
 type BarARM struct {
-	Discrim BarDiscrim `json:"discrim"`
-	Size    int        `json:"size"`
+	Discrim BarDiscrim `json:"discrim,omitempty"`
+	Size    *int       `json:"size,omitempty"`
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
 type BazARM struct {
-	Discrim BazDiscrim `json:"discrim"`
-	Enabled bool       `json:"enabled"`
+	Discrim BazDiscrim `json:"discrim,omitempty"`
+	Enabled *bool      `json:"enabled,omitempty"`
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type FooARM struct {
-	Discrim FooDiscrim `json:"discrim"`
+	Discrim FooDiscrim `json:"discrim,omitempty"`
 	Name    *string    `json:"name,omitempty"`
 }
 
@@ -509,10 +509,10 @@ func (properties *Properties) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
 type Bar struct {
 	// +kubebuilder:validation:Required
-	Discrim BarDiscrim `json:"discrim"`
+	Discrim *BarDiscrim `json:"discrim,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Size int `json:"size"`
+	Size *int `json:"size,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Bar{}
@@ -525,10 +525,15 @@ func (bar *Bar) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	var result BarARM
 
 	// Set property ‘Discrim’:
-	result.Discrim = bar.Discrim
+	if bar.Discrim != nil {
+		result.Discrim = *bar.Discrim
+	}
 
 	// Set property ‘Size’:
-	result.Size = bar.Size
+	if bar.Size != nil {
+		size := *bar.Size
+		result.Size = &size
+	}
 	return result, nil
 }
 
@@ -545,10 +550,13 @@ func (bar *Bar) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 	}
 
 	// Set property ‘Discrim’:
-	bar.Discrim = typedInput.Discrim
+	bar.Discrim = &typedInput.Discrim
 
 	// Set property ‘Size’:
-	bar.Size = typedInput.Size
+	if typedInput.Size != nil {
+		size := *typedInput.Size
+		bar.Size = &size
+	}
 
 	// No error
 	return nil
@@ -562,10 +570,10 @@ const BarDiscrimBar = BarDiscrim("bar")
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
 type Baz struct {
 	// +kubebuilder:validation:Required
-	Discrim BazDiscrim `json:"discrim"`
+	Discrim *BazDiscrim `json:"discrim,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Enabled bool `json:"enabled"`
+	Enabled *bool `json:"enabled,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Baz{}
@@ -578,10 +586,15 @@ func (baz *Baz) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	var result BazARM
 
 	// Set property ‘Discrim’:
-	result.Discrim = baz.Discrim
+	if baz.Discrim != nil {
+		result.Discrim = *baz.Discrim
+	}
 
 	// Set property ‘Enabled’:
-	result.Enabled = baz.Enabled
+	if baz.Enabled != nil {
+		enabled := *baz.Enabled
+		result.Enabled = &enabled
+	}
 	return result, nil
 }
 
@@ -598,10 +611,13 @@ func (baz *Baz) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 	}
 
 	// Set property ‘Discrim’:
-	baz.Discrim = typedInput.Discrim
+	baz.Discrim = &typedInput.Discrim
 
 	// Set property ‘Enabled’:
-	baz.Enabled = typedInput.Enabled
+	if typedInput.Enabled != nil {
+		enabled := *typedInput.Enabled
+		baz.Enabled = &enabled
+	}
 
 	// No error
 	return nil
@@ -615,8 +631,8 @@ const BazDiscrimBaz = BazDiscrim("baz")
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
 	// +kubebuilder:validation:Required
-	Discrim FooDiscrim `json:"discrim"`
-	Name    *string    `json:"name,omitempty"`
+	Discrim *FooDiscrim `json:"discrim,omitempty"`
+	Name    *string     `json:"name,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Foo{}
@@ -629,7 +645,9 @@ func (foo *Foo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	var result FooARM
 
 	// Set property ‘Discrim’:
-	result.Discrim = foo.Discrim
+	if foo.Discrim != nil {
+		result.Discrim = *foo.Discrim
+	}
 
 	// Set property ‘Name’:
 	if foo.Name != nil {
@@ -652,7 +670,7 @@ func (foo *Foo) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 	}
 
 	// Set property ‘Discrim’:
-	foo.Discrim = typedInput.Discrim
+	foo.Discrim = &typedInput.Discrim
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {

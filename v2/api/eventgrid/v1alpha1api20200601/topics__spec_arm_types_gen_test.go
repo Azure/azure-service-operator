@@ -73,7 +73,7 @@ func TopicsSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForTopicsSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForTopicsSpecARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }

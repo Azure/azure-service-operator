@@ -39,6 +39,7 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 		Name: secret.Name,
 		Key:  adminPasswordKey,
 	}
+	tier := mysql.SkuTierGeneralPurpose
 	flexibleServer := &mysql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("mysql"),
 		Spec: mysql.FlexibleServers_Spec{
@@ -46,8 +47,8 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
 			Sku: &mysql.Sku{
-				Name: "Standard_D4ds_v4",
-				Tier: mysql.SkuTierGeneralPurpose,
+				Name: to.StringPtr("Standard_D4ds_v4"),
+				Tier: &tier,
 			},
 			AdministratorLogin:         to.StringPtr("myadmin"),
 			AdministratorLoginPassword: &secretRef,
@@ -120,8 +121,8 @@ func MySQLFlexibleServer_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, fl
 		ObjectMeta: tc.MakeObjectMeta("fwrule"),
 		Spec: mysql.FlexibleServersFirewallRules_Spec{
 			Owner:          testcommon.AsOwner(flexibleServer),
-			StartIpAddress: "1.2.3.4",
-			EndIpAddress:   "1.2.3.4",
+			StartIpAddress: to.StringPtr("1.2.3.4"),
+			EndIpAddress:   to.StringPtr("1.2.3.4"),
 		},
 	}
 
@@ -129,7 +130,7 @@ func MySQLFlexibleServer_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, fl
 	defer tc.DeleteResourceAndWait(rule)
 
 	old := rule.DeepCopy()
-	rule.Spec.EndIpAddress = "1.2.3.5"
+	rule.Spec.EndIpAddress = to.StringPtr("1.2.3.5")
 	tc.PatchResourceAndWait(old, rule)
 	tc.Expect(rule.Status.EndIpAddress).To(Equal(to.StringPtr("1.2.3.5")))
 

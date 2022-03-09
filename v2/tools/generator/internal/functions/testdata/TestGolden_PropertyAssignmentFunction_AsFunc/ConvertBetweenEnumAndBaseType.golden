@@ -6,7 +6,7 @@ package vCurrent
 import verification "github.com/Azure/azure-service-operator/testing/verification/vNext"
 
 type Person struct {
-	Sku string `json:"sku"`
+	Sku string `json:"sku,omitempty"`
 }
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person

@@ -56,7 +56,7 @@ type Sku_StatusARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	//Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.)
-	Name SkuStatusName `json:"name"`
+	Name *SkuStatusName `json:"name,omitempty"`
 }
 
 type ClusterPropertiesStatusMinimumTlsVersion string

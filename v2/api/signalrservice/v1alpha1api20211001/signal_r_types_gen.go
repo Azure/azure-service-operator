@@ -1220,7 +1220,7 @@ const SignalRSpecAPIVersion20211001 = SignalRSpecAPIVersion("2021-10-01")
 type SignalR_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//Cors: Cross-Origin Resource Sharing (CORS) settings.
 	Cors *SignalRCorsSettings `json:"cors,omitempty"`
@@ -1256,7 +1256,7 @@ type SignalR_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	//PublicNetworkAccess: Enable or disable public network access. Default to "Enabled".
 	//When it's Enabled, network ACLs still apply.
@@ -1314,6 +1314,17 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if signalR.Cors != nil ||
+		signalR.DisableAadAuth != nil ||
+		signalR.DisableLocalAuth != nil ||
+		signalR.Features != nil ||
+		signalR.NetworkACLs != nil ||
+		signalR.PublicNetworkAccess != nil ||
+		signalR.ResourceLogConfiguration != nil ||
+		signalR.Tls != nil ||
+		signalR.Upstream != nil {
+		result.Properties = &SignalRPropertiesARM{}
+	}
 	if signalR.Cors != nil {
 		corsARM, err := (*signalR.Cors).ConvertToARM(resolved)
 		if err != nil {
@@ -1411,39 +1422,47 @@ func (signalR *SignalR_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property ‘Cors’:
 	// copying flattened property:
-	if typedInput.Properties.Cors != nil {
-		var cors1 SignalRCorsSettings
-		err := cors1.PopulateFromARM(owner, *typedInput.Properties.Cors)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Cors != nil {
+			var cors1 SignalRCorsSettings
+			err := cors1.PopulateFromARM(owner, *typedInput.Properties.Cors)
+			if err != nil {
+				return err
+			}
+			cors := cors1
+			signalR.Cors = &cors
 		}
-		cors := cors1
-		signalR.Cors = &cors
 	}
 
 	// Set property ‘DisableAadAuth’:
 	// copying flattened property:
-	if typedInput.Properties.DisableAadAuth != nil {
-		disableAadAuth := *typedInput.Properties.DisableAadAuth
-		signalR.DisableAadAuth = &disableAadAuth
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DisableAadAuth != nil {
+			disableAadAuth := *typedInput.Properties.DisableAadAuth
+			signalR.DisableAadAuth = &disableAadAuth
+		}
 	}
 
 	// Set property ‘DisableLocalAuth’:
 	// copying flattened property:
-	if typedInput.Properties.DisableLocalAuth != nil {
-		disableLocalAuth := *typedInput.Properties.DisableLocalAuth
-		signalR.DisableLocalAuth = &disableLocalAuth
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DisableLocalAuth != nil {
+			disableLocalAuth := *typedInput.Properties.DisableLocalAuth
+			signalR.DisableLocalAuth = &disableLocalAuth
+		}
 	}
 
 	// Set property ‘Features’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.Features {
-		var item1 SignalRFeature
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.Features {
+			var item1 SignalRFeature
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			signalR.Features = append(signalR.Features, item1)
 		}
-		signalR.Features = append(signalR.Features, item1)
 	}
 
 	// Set property ‘Identity’:
@@ -1471,38 +1490,44 @@ func (signalR *SignalR_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property ‘NetworkACLs’:
 	// copying flattened property:
-	if typedInput.Properties.NetworkACLs != nil {
-		var networkACLs1 SignalRNetworkACLs
-		err := networkACLs1.PopulateFromARM(owner, *typedInput.Properties.NetworkACLs)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NetworkACLs != nil {
+			var networkACLs1 SignalRNetworkACLs
+			err := networkACLs1.PopulateFromARM(owner, *typedInput.Properties.NetworkACLs)
+			if err != nil {
+				return err
+			}
+			networkACLs := networkACLs1
+			signalR.NetworkACLs = &networkACLs
 		}
-		networkACLs := networkACLs1
-		signalR.NetworkACLs = &networkACLs
 	}
 
 	// Set property ‘Owner’:
-	signalR.Owner = genruntime.KnownResourceReference{
+	signalR.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘PublicNetworkAccess’:
 	// copying flattened property:
-	if typedInput.Properties.PublicNetworkAccess != nil {
-		publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
-		signalR.PublicNetworkAccess = &publicNetworkAccess
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicNetworkAccess != nil {
+			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			signalR.PublicNetworkAccess = &publicNetworkAccess
+		}
 	}
 
 	// Set property ‘ResourceLogConfiguration’:
 	// copying flattened property:
-	if typedInput.Properties.ResourceLogConfiguration != nil {
-		var resourceLogConfiguration1 ResourceLogConfiguration
-		err := resourceLogConfiguration1.PopulateFromARM(owner, *typedInput.Properties.ResourceLogConfiguration)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ResourceLogConfiguration != nil {
+			var resourceLogConfiguration1 ResourceLogConfiguration
+			err := resourceLogConfiguration1.PopulateFromARM(owner, *typedInput.Properties.ResourceLogConfiguration)
+			if err != nil {
+				return err
+			}
+			resourceLogConfiguration := resourceLogConfiguration1
+			signalR.ResourceLogConfiguration = &resourceLogConfiguration
 		}
-		resourceLogConfiguration := resourceLogConfiguration1
-		signalR.ResourceLogConfiguration = &resourceLogConfiguration
 	}
 
 	// Set property ‘Sku’:
@@ -1526,26 +1551,30 @@ func (signalR *SignalR_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property ‘Tls’:
 	// copying flattened property:
-	if typedInput.Properties.Tls != nil {
-		var tls1 SignalRTlsSettings
-		err := tls1.PopulateFromARM(owner, *typedInput.Properties.Tls)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Tls != nil {
+			var tls1 SignalRTlsSettings
+			err := tls1.PopulateFromARM(owner, *typedInput.Properties.Tls)
+			if err != nil {
+				return err
+			}
+			tls := tls1
+			signalR.Tls = &tls
 		}
-		tls := tls1
-		signalR.Tls = &tls
 	}
 
 	// Set property ‘Upstream’:
 	// copying flattened property:
-	if typedInput.Properties.Upstream != nil {
-		var upstream1 ServerlessUpstreamSettings
-		err := upstream1.PopulateFromARM(owner, *typedInput.Properties.Upstream)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Upstream != nil {
+			var upstream1 ServerlessUpstreamSettings
+			err := upstream1.PopulateFromARM(owner, *typedInput.Properties.Upstream)
+			if err != nil {
+				return err
+			}
+			upstream := upstream1
+			signalR.Upstream = &upstream
 		}
-		upstream := upstream1
-		signalR.Upstream = &upstream
 	}
 
 	// No error
@@ -1690,7 +1719,12 @@ func (signalR *SignalR_Spec) AssignPropertiesFromSignalRSpec(source *v1alpha1api
 	}
 
 	// Owner
-	signalR.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		signalR.Owner = &owner
+	} else {
+		signalR.Owner = nil
+	}
 
 	// PublicNetworkAccess
 	signalR.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
@@ -1843,7 +1877,12 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalRSpec(destination *v1alpha1
 	destination.OriginalVersion = signalR.OriginalVersion()
 
 	// Owner
-	destination.Owner = signalR.Owner.Copy()
+	if signalR.Owner != nil {
+		owner := signalR.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// PublicNetworkAccess
 	destination.PublicNetworkAccess = genruntime.ClonePointerToString(signalR.PublicNetworkAccess)
@@ -2522,7 +2561,7 @@ type ResourceSku struct {
 	// +kubebuilder:validation:Required
 	//Name: The name of the SKU. Required.
 	//Allowed values: Standard_S1, Free_F1
-	Name string           `json:"name"`
+	Name *string          `json:"name,omitempty"`
 	Tier *ResourceSkuTier `json:"tier,omitempty"`
 }
 
@@ -2542,7 +2581,10 @@ func (resourceSku *ResourceSku) ConvertToARM(resolved genruntime.ConvertToARMRes
 	}
 
 	// Set property ‘Name’:
-	result.Name = resourceSku.Name
+	if resourceSku.Name != nil {
+		name := *resourceSku.Name
+		result.Name = &name
+	}
 
 	// Set property ‘Tier’:
 	if resourceSku.Tier != nil {
@@ -2571,7 +2613,10 @@ func (resourceSku *ResourceSku) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	}
 
 	// Set property ‘Name’:
-	resourceSku.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		resourceSku.Name = &name
+	}
 
 	// Set property ‘Tier’:
 	if typedInput.Tier != nil {
@@ -2590,7 +2635,7 @@ func (resourceSku *ResourceSku) AssignPropertiesFromResourceSku(source *v1alpha1
 	resourceSku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
 
 	// Name
-	resourceSku.Name = genruntime.GetOptionalStringValue(source.Name)
+	resourceSku.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Tier
 	if source.Tier != nil {
@@ -2613,8 +2658,7 @@ func (resourceSku *ResourceSku) AssignPropertiesToResourceSku(destination *v1alp
 	destination.Capacity = genruntime.ClonePointerToInt(resourceSku.Capacity)
 
 	// Name
-	name := resourceSku.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(resourceSku.Name)
 
 	// Tier
 	if resourceSku.Tier != nil {
@@ -2645,10 +2689,9 @@ type ResourceSku_Status struct {
 	//Family: Not used. Retained for future use.
 	Family *string `json:"family,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Name: The name of the SKU. Required.
 	//Allowed values: Standard_S1, Free_F1
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Size: Not used. Retained for future use.
 	Size *string `json:"size,omitempty"`
@@ -2685,7 +2728,10 @@ func (resourceSku *ResourceSku_Status) PopulateFromARM(owner genruntime.Arbitrar
 	}
 
 	// Set property ‘Name’:
-	resourceSku.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		resourceSku.Name = &name
+	}
 
 	// Set property ‘Size’:
 	if typedInput.Size != nil {
@@ -2713,7 +2759,7 @@ func (resourceSku *ResourceSku_Status) AssignPropertiesFromResourceSkuStatus(sou
 	resourceSku.Family = genruntime.ClonePointerToString(source.Family)
 
 	// Name
-	resourceSku.Name = genruntime.GetOptionalStringValue(source.Name)
+	resourceSku.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Size
 	resourceSku.Size = genruntime.ClonePointerToString(source.Size)
@@ -2742,8 +2788,7 @@ func (resourceSku *ResourceSku_Status) AssignPropertiesToResourceSkuStatus(desti
 	destination.Family = genruntime.ClonePointerToString(resourceSku.Family)
 
 	// Name
-	name := resourceSku.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(resourceSku.Name)
 
 	// Size
 	destination.Size = genruntime.ClonePointerToString(resourceSku.Size)
@@ -3200,7 +3245,7 @@ func (settings *SignalRCorsSettings_Status) AssignPropertiesToSignalRCorsSetting
 //Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRFeature
 type SignalRFeature struct {
 	// +kubebuilder:validation:Required
-	Flag SignalRFeatureFlag `json:"flag"`
+	Flag *SignalRFeatureFlag `json:"flag,omitempty"`
 
 	//Properties: Optional properties related to this feature.
 	Properties map[string]string `json:"properties,omitempty"`
@@ -3210,7 +3255,7 @@ type SignalRFeature struct {
 	// +kubebuilder:validation:MinLength=1
 	//Value: Value of the feature flag. See Azure SignalR service document https://docs.microsoft.com/azure/azure-signalr/ for
 	//allowed values.
-	Value string `json:"value"`
+	Value *string `json:"value,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SignalRFeature{}
@@ -3223,7 +3268,10 @@ func (feature *SignalRFeature) ConvertToARM(resolved genruntime.ConvertToARMReso
 	var result SignalRFeatureARM
 
 	// Set property ‘Flag’:
-	result.Flag = feature.Flag
+	if feature.Flag != nil {
+		flag := *feature.Flag
+		result.Flag = &flag
+	}
 
 	// Set property ‘Properties’:
 	if feature.Properties != nil {
@@ -3234,7 +3282,10 @@ func (feature *SignalRFeature) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 
 	// Set property ‘Value’:
-	result.Value = feature.Value
+	if feature.Value != nil {
+		value := *feature.Value
+		result.Value = &value
+	}
 	return result, nil
 }
 
@@ -3251,7 +3302,10 @@ func (feature *SignalRFeature) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	}
 
 	// Set property ‘Flag’:
-	feature.Flag = typedInput.Flag
+	if typedInput.Flag != nil {
+		flag := *typedInput.Flag
+		feature.Flag = &flag
+	}
 
 	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
@@ -3262,7 +3316,10 @@ func (feature *SignalRFeature) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	}
 
 	// Set property ‘Value’:
-	feature.Value = typedInput.Value
+	if typedInput.Value != nil {
+		value := *typedInput.Value
+		feature.Value = &value
+	}
 
 	// No error
 	return nil
@@ -3273,9 +3330,10 @@ func (feature *SignalRFeature) AssignPropertiesFromSignalRFeature(source *v1alph
 
 	// Flag
 	if source.Flag != nil {
-		feature.Flag = SignalRFeatureFlag(*source.Flag)
+		flag := SignalRFeatureFlag(*source.Flag)
+		feature.Flag = &flag
 	} else {
-		feature.Flag = ""
+		feature.Flag = nil
 	}
 
 	// Properties
@@ -3283,9 +3341,10 @@ func (feature *SignalRFeature) AssignPropertiesFromSignalRFeature(source *v1alph
 
 	// Value
 	if source.Value != nil {
-		feature.Value = *source.Value
+		value := *source.Value
+		feature.Value = &value
 	} else {
-		feature.Value = ""
+		feature.Value = nil
 	}
 
 	// No error
@@ -3298,15 +3357,23 @@ func (feature *SignalRFeature) AssignPropertiesToSignalRFeature(destination *v1a
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Flag
-	flag := string(feature.Flag)
-	destination.Flag = &flag
+	if feature.Flag != nil {
+		flag := string(*feature.Flag)
+		destination.Flag = &flag
+	} else {
+		destination.Flag = nil
+	}
 
 	// Properties
 	destination.Properties = genruntime.CloneMapOfStringToString(feature.Properties)
 
 	// Value
-	value := feature.Value
-	destination.Value = &value
+	if feature.Value != nil {
+		value := *feature.Value
+		destination.Value = &value
+	} else {
+		destination.Value = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3320,7 +3387,6 @@ func (feature *SignalRFeature) AssignPropertiesToSignalRFeature(destination *v1a
 }
 
 type SignalRFeature_Status struct {
-	// +kubebuilder:validation:Required
 	//Flag: FeatureFlags is the supported features of Azure SignalR service.
 	//- ServiceMode: Flag for backend server for SignalR service. Values allowed: "Default": have your own backend server;
 	//"Serverless": your application doesn't have a backend server; "Classic": for backward compatibility. Support both
@@ -3331,15 +3397,14 @@ type SignalRFeature_Status struct {
 	//traces in real time, it will be helpful when you developing your own Azure SignalR based web application or
 	//self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged.
 	//Values allowed: "true"/"false", to enable/disable live trace feature.
-	Flag FeatureFlags_Status `json:"flag"`
+	Flag *FeatureFlags_Status `json:"flag,omitempty"`
 
 	//Properties: Optional properties related to this feature.
 	Properties map[string]string `json:"properties,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Value: Value of the feature flag. See Azure SignalR service document https://docs.microsoft.com/azure/azure-signalr/ for
 	//allowed values.
-	Value string `json:"value"`
+	Value *string `json:"value,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SignalRFeature_Status{}
@@ -3357,7 +3422,10 @@ func (feature *SignalRFeature_Status) PopulateFromARM(owner genruntime.Arbitrary
 	}
 
 	// Set property ‘Flag’:
-	feature.Flag = typedInput.Flag
+	if typedInput.Flag != nil {
+		flag := *typedInput.Flag
+		feature.Flag = &flag
+	}
 
 	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
@@ -3368,7 +3436,10 @@ func (feature *SignalRFeature_Status) PopulateFromARM(owner genruntime.Arbitrary
 	}
 
 	// Set property ‘Value’:
-	feature.Value = typedInput.Value
+	if typedInput.Value != nil {
+		value := *typedInput.Value
+		feature.Value = &value
+	}
 
 	// No error
 	return nil
@@ -3379,16 +3450,17 @@ func (feature *SignalRFeature_Status) AssignPropertiesFromSignalRFeatureStatus(s
 
 	// Flag
 	if source.Flag != nil {
-		feature.Flag = FeatureFlags_Status(*source.Flag)
+		flag := FeatureFlags_Status(*source.Flag)
+		feature.Flag = &flag
 	} else {
-		feature.Flag = ""
+		feature.Flag = nil
 	}
 
 	// Properties
 	feature.Properties = genruntime.CloneMapOfStringToString(source.Properties)
 
 	// Value
-	feature.Value = genruntime.GetOptionalStringValue(source.Value)
+	feature.Value = genruntime.ClonePointerToString(source.Value)
 
 	// No error
 	return nil
@@ -3400,15 +3472,18 @@ func (feature *SignalRFeature_Status) AssignPropertiesToSignalRFeatureStatus(des
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Flag
-	flag := string(feature.Flag)
-	destination.Flag = &flag
+	if feature.Flag != nil {
+		flag := string(*feature.Flag)
+		destination.Flag = &flag
+	} else {
+		destination.Flag = nil
+	}
 
 	// Properties
 	destination.Properties = genruntime.CloneMapOfStringToString(feature.Properties)
 
 	// Value
-	value := feature.Value
-	destination.Value = &value
+	destination.Value = genruntime.ClonePointerToString(feature.Value)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4338,7 +4413,7 @@ type PrivateEndpointACL struct {
 
 	// +kubebuilder:validation:Required
 	//Name: Name of the private endpoint connection
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &PrivateEndpointACL{}
@@ -4361,7 +4436,10 @@ func (endpointACL *PrivateEndpointACL) ConvertToARM(resolved genruntime.ConvertT
 	}
 
 	// Set property ‘Name’:
-	result.Name = endpointACL.Name
+	if endpointACL.Name != nil {
+		name := *endpointACL.Name
+		result.Name = &name
+	}
 	return result, nil
 }
 
@@ -4388,7 +4466,10 @@ func (endpointACL *PrivateEndpointACL) PopulateFromARM(owner genruntime.Arbitrar
 	}
 
 	// Set property ‘Name’:
-	endpointACL.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		endpointACL.Name = &name
+	}
 
 	// No error
 	return nil
@@ -4424,7 +4505,7 @@ func (endpointACL *PrivateEndpointACL) AssignPropertiesFromPrivateEndpointACL(so
 	}
 
 	// Name
-	endpointACL.Name = genruntime.GetOptionalStringValue(source.Name)
+	endpointACL.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -4462,8 +4543,7 @@ func (endpointACL *PrivateEndpointACL) AssignPropertiesToPrivateEndpointACL(dest
 	}
 
 	// Name
-	name := endpointACL.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(endpointACL.Name)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4483,9 +4563,8 @@ type PrivateEndpointACL_Status struct {
 	//Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Deny []SignalRRequestType_Status `json:"deny,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Name: Name of the private endpoint connection
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PrivateEndpointACL_Status{}
@@ -4513,7 +4592,10 @@ func (endpointACL *PrivateEndpointACL_Status) PopulateFromARM(owner genruntime.A
 	}
 
 	// Set property ‘Name’:
-	endpointACL.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		endpointACL.Name = &name
+	}
 
 	// No error
 	return nil
@@ -4549,7 +4631,7 @@ func (endpointACL *PrivateEndpointACL_Status) AssignPropertiesFromPrivateEndpoin
 	}
 
 	// Name
-	endpointACL.Name = genruntime.GetOptionalStringValue(source.Name)
+	endpointACL.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -4587,8 +4669,7 @@ func (endpointACL *PrivateEndpointACL_Status) AssignPropertiesToPrivateEndpointA
 	}
 
 	// Name
-	name := endpointACL.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(endpointACL.Name)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4827,7 +4908,7 @@ type UpstreamTemplate struct {
 	//inside the template, the value of the Upstream URL is dynamically calculated when the client request comes in.
 	//For example, if the urlTemplate is `http://example.com/{hub}/api/{event}`, with a client request from hub `chat`
 	//connects, it will first POST to this URL: `http://example.com/chat/api/connect`.
-	UrlTemplate string `json:"urlTemplate"`
+	UrlTemplate *string `json:"urlTemplate,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &UpstreamTemplate{}
@@ -4868,7 +4949,10 @@ func (template *UpstreamTemplate) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 
 	// Set property ‘UrlTemplate’:
-	result.UrlTemplate = template.UrlTemplate
+	if template.UrlTemplate != nil {
+		urlTemplate := *template.UrlTemplate
+		result.UrlTemplate = &urlTemplate
+	}
 	return result, nil
 }
 
@@ -4914,7 +4998,10 @@ func (template *UpstreamTemplate) PopulateFromARM(owner genruntime.ArbitraryOwne
 	}
 
 	// Set property ‘UrlTemplate’:
-	template.UrlTemplate = typedInput.UrlTemplate
+	if typedInput.UrlTemplate != nil {
+		urlTemplate := *typedInput.UrlTemplate
+		template.UrlTemplate = &urlTemplate
+	}
 
 	// No error
 	return nil
@@ -4945,7 +5032,7 @@ func (template *UpstreamTemplate) AssignPropertiesFromUpstreamTemplate(source *v
 	template.HubPattern = genruntime.ClonePointerToString(source.HubPattern)
 
 	// UrlTemplate
-	template.UrlTemplate = genruntime.GetOptionalStringValue(source.UrlTemplate)
+	template.UrlTemplate = genruntime.ClonePointerToString(source.UrlTemplate)
 
 	// No error
 	return nil
@@ -4978,8 +5065,7 @@ func (template *UpstreamTemplate) AssignPropertiesToUpstreamTemplate(destination
 	destination.HubPattern = genruntime.ClonePointerToString(template.HubPattern)
 
 	// UrlTemplate
-	urlTemplate := template.UrlTemplate
-	destination.UrlTemplate = &urlTemplate
+	destination.UrlTemplate = genruntime.ClonePointerToString(template.UrlTemplate)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5018,12 +5104,11 @@ type UpstreamTemplate_Status struct {
 	//3. The single hub name, for example, "hub1", it matches "hub1"
 	HubPattern *string `json:"hubPattern,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//UrlTemplate: Gets or sets the Upstream URL template. You can use 3 predefined parameters {hub}, {category} {event}
 	//inside the template, the value of the Upstream URL is dynamically calculated when the client request comes in.
 	//For example, if the urlTemplate is `http://example.com/{hub}/api/{event}`, with a client request from hub `chat`
 	//connects, it will first POST to this URL: `http://example.com/chat/api/connect`.
-	UrlTemplate string `json:"urlTemplate"`
+	UrlTemplate *string `json:"urlTemplate,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &UpstreamTemplate_Status{}
@@ -5070,7 +5155,10 @@ func (template *UpstreamTemplate_Status) PopulateFromARM(owner genruntime.Arbitr
 	}
 
 	// Set property ‘UrlTemplate’:
-	template.UrlTemplate = typedInput.UrlTemplate
+	if typedInput.UrlTemplate != nil {
+		urlTemplate := *typedInput.UrlTemplate
+		template.UrlTemplate = &urlTemplate
+	}
 
 	// No error
 	return nil
@@ -5101,7 +5189,7 @@ func (template *UpstreamTemplate_Status) AssignPropertiesFromUpstreamTemplateSta
 	template.HubPattern = genruntime.ClonePointerToString(source.HubPattern)
 
 	// UrlTemplate
-	template.UrlTemplate = genruntime.GetOptionalStringValue(source.UrlTemplate)
+	template.UrlTemplate = genruntime.ClonePointerToString(source.UrlTemplate)
 
 	// No error
 	return nil
@@ -5134,8 +5222,7 @@ func (template *UpstreamTemplate_Status) AssignPropertiesToUpstreamTemplateStatu
 	destination.HubPattern = genruntime.ClonePointerToString(template.HubPattern)
 
 	// UrlTemplate
-	urlTemplate := template.UrlTemplate
-	destination.UrlTemplate = &urlTemplate
+	destination.UrlTemplate = genruntime.ClonePointerToString(template.UrlTemplate)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

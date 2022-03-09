@@ -31,8 +31,8 @@ type ServerList struct {
 }
 
 type Server_Status struct {
-	v1alpha1.ResourceStatus `json:",inline"`
-	AtProvider              ServerObservation `json:"atProvider"`
+	v1alpha1.ResourceStatus `json:",inline,omitempty"`
+	AtProvider              ServerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"2020-11-01-preview"}
@@ -41,8 +41,8 @@ type ServersSpecAPIVersion string
 const ServersSpecAPIVersion20201101Preview = ServersSpecAPIVersion("2020-11-01-preview")
 
 type Servers_Spec struct {
-	v1alpha1.ResourceSpec `json:",inline"`
-	ForProvider           ServersParameters `json:"forProvider"`
+	v1alpha1.ResourceSpec `json:",inline,omitempty"`
+	ForProvider           ServersParameters `json:"forProvider,omitempty"`
 }
 
 type ServerObservation struct {
@@ -122,14 +122,14 @@ type ServersParameters struct {
 	KeyId *string `json:"keyId,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//MinimalTlsVersion: Minimal TLS version. Allowed values: '1.0', '1.1', '1.2'
 	MinimalTlsVersion *string `json:"minimalTlsVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Name: The name of the server.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//PrimaryUserAssignedIdentityId: The resource id of a user assigned identity to be used by default.
 	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
@@ -137,7 +137,7 @@ type ServersParameters struct {
 	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this server.  Value is optional but if passed
 	//in, must be 'Enabled' or 'Disabled'.
 	PublicNetworkAccess       *ServerPropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-	ResourceGroupName         string                               `json:"resourceGroupName"`
+	ResourceGroupName         string                               `json:"resourceGroupName,omitempty"`
 	ResourceGroupNameRef      *v1alpha1.Reference                  `json:"resourceGroupNameRef,omitempty"`
 	ResourceGroupNameSelector *v1alpha1.Selector                   `json:"resourceGroupNameSelector,omitempty"`
 
@@ -326,13 +326,11 @@ type PrivateLinkServiceConnectionStateProperty_Status struct {
 	//ActionsRequired: The actions required for private link service connection.
 	ActionsRequired *PrivateLinkServiceConnectionStatePropertyStatusActionsRequired `json:"actionsRequired,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Description: The private link service connection description.
-	Description string `json:"description"`
+	Description *string `json:"description,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Status: The private link service connection status.
-	Status PrivateLinkServiceConnectionStatePropertyStatusStatus `json:"status"`
+	Status *PrivateLinkServiceConnectionStatePropertyStatusStatus `json:"status,omitempty"`
 }
 
 type PrivateLinkServiceConnectionStatePropertyStatusActionsRequired string

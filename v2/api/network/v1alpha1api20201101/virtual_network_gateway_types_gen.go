@@ -1092,7 +1092,7 @@ type VirtualNetworkGateways_Spec struct {
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//BgpSettings: Virtual network gateway's BGP speaker settings.
 	BgpSettings *BgpSettings `json:"bgpSettings,omitempty"`
@@ -1121,13 +1121,13 @@ type VirtualNetworkGateways_Spec struct {
 	IpConfigurations []VirtualNetworkGateways_Spec_Properties_IpConfigurations `json:"ipConfigurations,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	//Sku: The reference to the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network
 	//gateway.
@@ -1164,12 +1164,32 @@ func (gateways *VirtualNetworkGateways_Spec) ConvertToARM(resolved genruntime.Co
 	var result VirtualNetworkGateways_SpecARM
 
 	// Set property ‘Location’:
-	result.Location = gateways.Location
+	if gateways.Location != nil {
+		location := *gateways.Location
+		result.Location = &location
+	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if gateways.ActiveActive != nil ||
+		gateways.BgpSettings != nil ||
+		gateways.CustomRoutes != nil ||
+		gateways.EnableBgp != nil ||
+		gateways.EnableDnsForwarding != nil ||
+		gateways.EnablePrivateIpAddress != nil ||
+		gateways.GatewayDefaultSite != nil ||
+		gateways.GatewayType != nil ||
+		gateways.IpConfigurations != nil ||
+		gateways.Sku != nil ||
+		gateways.VNetExtendedLocationResourceReference != nil ||
+		gateways.VirtualNetworkExtendedLocation != nil ||
+		gateways.VpnClientConfiguration != nil ||
+		gateways.VpnGatewayGeneration != nil ||
+		gateways.VpnType != nil {
+		result.Properties = &VirtualNetworkGateways_Spec_PropertiesARM{}
+	}
 	if gateways.ActiveActive != nil {
 		activeActive := *gateways.ActiveActive
 		result.Properties.ActiveActive = &activeActive
@@ -1286,9 +1306,11 @@ func (gateways *VirtualNetworkGateways_Spec) PopulateFromARM(owner genruntime.Ar
 
 	// Set property ‘ActiveActive’:
 	// copying flattened property:
-	if typedInput.Properties.ActiveActive != nil {
-		activeActive := *typedInput.Properties.ActiveActive
-		gateways.ActiveActive = &activeActive
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ActiveActive != nil {
+			activeActive := *typedInput.Properties.ActiveActive
+			gateways.ActiveActive = &activeActive
+		}
 	}
 
 	// Set property ‘AzureName’:
@@ -1296,97 +1318,118 @@ func (gateways *VirtualNetworkGateways_Spec) PopulateFromARM(owner genruntime.Ar
 
 	// Set property ‘BgpSettings’:
 	// copying flattened property:
-	if typedInput.Properties.BgpSettings != nil {
-		var bgpSettings1 BgpSettings
-		err := bgpSettings1.PopulateFromARM(owner, *typedInput.Properties.BgpSettings)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.BgpSettings != nil {
+			var bgpSettings1 BgpSettings
+			err := bgpSettings1.PopulateFromARM(owner, *typedInput.Properties.BgpSettings)
+			if err != nil {
+				return err
+			}
+			bgpSettings := bgpSettings1
+			gateways.BgpSettings = &bgpSettings
 		}
-		bgpSettings := bgpSettings1
-		gateways.BgpSettings = &bgpSettings
 	}
 
 	// Set property ‘CustomRoutes’:
 	// copying flattened property:
-	if typedInput.Properties.CustomRoutes != nil {
-		var customRoutes1 AddressSpace
-		err := customRoutes1.PopulateFromARM(owner, *typedInput.Properties.CustomRoutes)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.CustomRoutes != nil {
+			var customRoutes1 AddressSpace
+			err := customRoutes1.PopulateFromARM(owner, *typedInput.Properties.CustomRoutes)
+			if err != nil {
+				return err
+			}
+			customRoutes := customRoutes1
+			gateways.CustomRoutes = &customRoutes
 		}
-		customRoutes := customRoutes1
-		gateways.CustomRoutes = &customRoutes
 	}
 
 	// Set property ‘EnableBgp’:
 	// copying flattened property:
-	if typedInput.Properties.EnableBgp != nil {
-		enableBgp := *typedInput.Properties.EnableBgp
-		gateways.EnableBgp = &enableBgp
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableBgp != nil {
+			enableBgp := *typedInput.Properties.EnableBgp
+			gateways.EnableBgp = &enableBgp
+		}
 	}
 
 	// Set property ‘EnableDnsForwarding’:
 	// copying flattened property:
-	if typedInput.Properties.EnableDnsForwarding != nil {
-		enableDnsForwarding := *typedInput.Properties.EnableDnsForwarding
-		gateways.EnableDnsForwarding = &enableDnsForwarding
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableDnsForwarding != nil {
+			enableDnsForwarding := *typedInput.Properties.EnableDnsForwarding
+			gateways.EnableDnsForwarding = &enableDnsForwarding
+		}
 	}
 
 	// Set property ‘EnablePrivateIpAddress’:
 	// copying flattened property:
-	if typedInput.Properties.EnablePrivateIpAddress != nil {
-		enablePrivateIpAddress := *typedInput.Properties.EnablePrivateIpAddress
-		gateways.EnablePrivateIpAddress = &enablePrivateIpAddress
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnablePrivateIpAddress != nil {
+			enablePrivateIpAddress := *typedInput.Properties.EnablePrivateIpAddress
+			gateways.EnablePrivateIpAddress = &enablePrivateIpAddress
+		}
 	}
 
 	// Set property ‘GatewayDefaultSite’:
 	// copying flattened property:
-	if typedInput.Properties.GatewayDefaultSite != nil {
-		var gatewayDefaultSite1 SubResource
-		err := gatewayDefaultSite1.PopulateFromARM(owner, *typedInput.Properties.GatewayDefaultSite)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.GatewayDefaultSite != nil {
+			var gatewayDefaultSite1 SubResource
+			err := gatewayDefaultSite1.PopulateFromARM(owner, *typedInput.Properties.GatewayDefaultSite)
+			if err != nil {
+				return err
+			}
+			gatewayDefaultSite := gatewayDefaultSite1
+			gateways.GatewayDefaultSite = &gatewayDefaultSite
 		}
-		gatewayDefaultSite := gatewayDefaultSite1
-		gateways.GatewayDefaultSite = &gatewayDefaultSite
 	}
 
 	// Set property ‘GatewayType’:
 	// copying flattened property:
-	if typedInput.Properties.GatewayType != nil {
-		gatewayType := *typedInput.Properties.GatewayType
-		gateways.GatewayType = &gatewayType
+	if typedInput.Properties != nil {
+		if typedInput.Properties.GatewayType != nil {
+			gatewayType := *typedInput.Properties.GatewayType
+			gateways.GatewayType = &gatewayType
+		}
 	}
 
 	// Set property ‘IpConfigurations’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.IpConfigurations {
-		var item1 VirtualNetworkGateways_Spec_Properties_IpConfigurations
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.IpConfigurations {
+			var item1 VirtualNetworkGateways_Spec_Properties_IpConfigurations
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			gateways.IpConfigurations = append(gateways.IpConfigurations, item1)
 		}
-		gateways.IpConfigurations = append(gateways.IpConfigurations, item1)
 	}
 
 	// Set property ‘Location’:
-	gateways.Location = typedInput.Location
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		gateways.Location = &location
+	}
 
 	// Set property ‘Owner’:
-	gateways.Owner = genruntime.KnownResourceReference{
+	gateways.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Sku’:
 	// copying flattened property:
-	if typedInput.Properties.Sku != nil {
-		var sku1 VirtualNetworkGatewaySku
-		err := sku1.PopulateFromARM(owner, *typedInput.Properties.Sku)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Sku != nil {
+			var sku1 VirtualNetworkGatewaySku
+			err := sku1.PopulateFromARM(owner, *typedInput.Properties.Sku)
+			if err != nil {
+				return err
+			}
+			sku := sku1
+			gateways.Sku = &sku
 		}
-		sku := sku1
-		gateways.Sku = &sku
 	}
 
 	// Set property ‘Tags’:
@@ -1401,40 +1444,48 @@ func (gateways *VirtualNetworkGateways_Spec) PopulateFromARM(owner genruntime.Ar
 
 	// Set property ‘VirtualNetworkExtendedLocation’:
 	// copying flattened property:
-	if typedInput.Properties.VirtualNetworkExtendedLocation != nil {
-		var virtualNetworkExtendedLocation1 ExtendedLocation
-		err := virtualNetworkExtendedLocation1.PopulateFromARM(owner, *typedInput.Properties.VirtualNetworkExtendedLocation)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.VirtualNetworkExtendedLocation != nil {
+			var virtualNetworkExtendedLocation1 ExtendedLocation
+			err := virtualNetworkExtendedLocation1.PopulateFromARM(owner, *typedInput.Properties.VirtualNetworkExtendedLocation)
+			if err != nil {
+				return err
+			}
+			virtualNetworkExtendedLocation := virtualNetworkExtendedLocation1
+			gateways.VirtualNetworkExtendedLocation = &virtualNetworkExtendedLocation
 		}
-		virtualNetworkExtendedLocation := virtualNetworkExtendedLocation1
-		gateways.VirtualNetworkExtendedLocation = &virtualNetworkExtendedLocation
 	}
 
 	// Set property ‘VpnClientConfiguration’:
 	// copying flattened property:
-	if typedInput.Properties.VpnClientConfiguration != nil {
-		var vpnClientConfiguration1 VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
-		err := vpnClientConfiguration1.PopulateFromARM(owner, *typedInput.Properties.VpnClientConfiguration)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.VpnClientConfiguration != nil {
+			var vpnClientConfiguration1 VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
+			err := vpnClientConfiguration1.PopulateFromARM(owner, *typedInput.Properties.VpnClientConfiguration)
+			if err != nil {
+				return err
+			}
+			vpnClientConfiguration := vpnClientConfiguration1
+			gateways.VpnClientConfiguration = &vpnClientConfiguration
 		}
-		vpnClientConfiguration := vpnClientConfiguration1
-		gateways.VpnClientConfiguration = &vpnClientConfiguration
 	}
 
 	// Set property ‘VpnGatewayGeneration’:
 	// copying flattened property:
-	if typedInput.Properties.VpnGatewayGeneration != nil {
-		vpnGatewayGeneration := *typedInput.Properties.VpnGatewayGeneration
-		gateways.VpnGatewayGeneration = &vpnGatewayGeneration
+	if typedInput.Properties != nil {
+		if typedInput.Properties.VpnGatewayGeneration != nil {
+			vpnGatewayGeneration := *typedInput.Properties.VpnGatewayGeneration
+			gateways.VpnGatewayGeneration = &vpnGatewayGeneration
+		}
 	}
 
 	// Set property ‘VpnType’:
 	// copying flattened property:
-	if typedInput.Properties.VpnType != nil {
-		vpnType := *typedInput.Properties.VpnType
-		gateways.VpnType = &vpnType
+	if typedInput.Properties != nil {
+		if typedInput.Properties.VpnType != nil {
+			vpnType := *typedInput.Properties.VpnType
+			gateways.VpnType = &vpnType
+		}
 	}
 
 	// No error
@@ -1592,10 +1643,15 @@ func (gateways *VirtualNetworkGateways_Spec) AssignPropertiesFromVirtualNetworkG
 	}
 
 	// Location
-	gateways.Location = genruntime.GetOptionalStringValue(source.Location)
+	gateways.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	gateways.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		gateways.Owner = &owner
+	} else {
+		gateways.Owner = nil
+	}
 
 	// Sku
 	if source.Sku != nil {
@@ -1767,14 +1823,18 @@ func (gateways *VirtualNetworkGateways_Spec) AssignPropertiesToVirtualNetworkGat
 	}
 
 	// Location
-	location := gateways.Location
-	destination.Location = &location
+	destination.Location = genruntime.ClonePointerToString(gateways.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = gateways.OriginalVersion()
 
 	// Owner
-	destination.Owner = gateways.Owner.Copy()
+	if gateways.Owner != nil {
+		owner := gateways.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Sku
 	if gateways.Sku != nil {
@@ -4056,37 +4116,37 @@ func (address *IPConfigurationBgpPeeringAddress_Status) AssignPropertiesToIPConf
 type IpsecPolicy struct {
 	// +kubebuilder:validation:Required
 	//DhGroup: The DH Group used in IKE Phase 1 for initial SA.
-	DhGroup IpsecPolicyDhGroup `json:"dhGroup"`
+	DhGroup *IpsecPolicyDhGroup `json:"dhGroup,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//IkeEncryption: The IKE encryption algorithm (IKE phase 2).
-	IkeEncryption IpsecPolicyIkeEncryption `json:"ikeEncryption"`
+	IkeEncryption *IpsecPolicyIkeEncryption `json:"ikeEncryption,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//IkeIntegrity: The IKE integrity algorithm (IKE phase 2).
-	IkeIntegrity IpsecPolicyIkeIntegrity `json:"ikeIntegrity"`
+	IkeIntegrity *IpsecPolicyIkeIntegrity `json:"ikeIntegrity,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//IpsecEncryption: The IPSec encryption algorithm (IKE phase 1).
-	IpsecEncryption IpsecPolicyIpsecEncryption `json:"ipsecEncryption"`
+	IpsecEncryption *IpsecPolicyIpsecEncryption `json:"ipsecEncryption,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//IpsecIntegrity: The IPSec integrity algorithm (IKE phase 1).
-	IpsecIntegrity IpsecPolicyIpsecIntegrity `json:"ipsecIntegrity"`
+	IpsecIntegrity *IpsecPolicyIpsecIntegrity `json:"ipsecIntegrity,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//PfsGroup: The Pfs Group used in IKE Phase 2 for new child SA.
-	PfsGroup IpsecPolicyPfsGroup `json:"pfsGroup"`
+	PfsGroup *IpsecPolicyPfsGroup `json:"pfsGroup,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//SaDataSizeKilobytes: The IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for a site
 	//to site VPN tunnel.
-	SaDataSizeKilobytes int `json:"saDataSizeKilobytes"`
+	SaDataSizeKilobytes *int `json:"saDataSizeKilobytes,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//SaLifeTimeSeconds: The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site
 	//to site VPN tunnel.
-	SaLifeTimeSeconds int `json:"saLifeTimeSeconds"`
+	SaLifeTimeSeconds *int `json:"saLifeTimeSeconds,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &IpsecPolicy{}
@@ -4099,28 +4159,52 @@ func (policy *IpsecPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	var result IpsecPolicyARM
 
 	// Set property ‘DhGroup’:
-	result.DhGroup = policy.DhGroup
+	if policy.DhGroup != nil {
+		dhGroup := *policy.DhGroup
+		result.DhGroup = &dhGroup
+	}
 
 	// Set property ‘IkeEncryption’:
-	result.IkeEncryption = policy.IkeEncryption
+	if policy.IkeEncryption != nil {
+		ikeEncryption := *policy.IkeEncryption
+		result.IkeEncryption = &ikeEncryption
+	}
 
 	// Set property ‘IkeIntegrity’:
-	result.IkeIntegrity = policy.IkeIntegrity
+	if policy.IkeIntegrity != nil {
+		ikeIntegrity := *policy.IkeIntegrity
+		result.IkeIntegrity = &ikeIntegrity
+	}
 
 	// Set property ‘IpsecEncryption’:
-	result.IpsecEncryption = policy.IpsecEncryption
+	if policy.IpsecEncryption != nil {
+		ipsecEncryption := *policy.IpsecEncryption
+		result.IpsecEncryption = &ipsecEncryption
+	}
 
 	// Set property ‘IpsecIntegrity’:
-	result.IpsecIntegrity = policy.IpsecIntegrity
+	if policy.IpsecIntegrity != nil {
+		ipsecIntegrity := *policy.IpsecIntegrity
+		result.IpsecIntegrity = &ipsecIntegrity
+	}
 
 	// Set property ‘PfsGroup’:
-	result.PfsGroup = policy.PfsGroup
+	if policy.PfsGroup != nil {
+		pfsGroup := *policy.PfsGroup
+		result.PfsGroup = &pfsGroup
+	}
 
 	// Set property ‘SaDataSizeKilobytes’:
-	result.SaDataSizeKilobytes = policy.SaDataSizeKilobytes
+	if policy.SaDataSizeKilobytes != nil {
+		saDataSizeKilobytes := *policy.SaDataSizeKilobytes
+		result.SaDataSizeKilobytes = &saDataSizeKilobytes
+	}
 
 	// Set property ‘SaLifeTimeSeconds’:
-	result.SaLifeTimeSeconds = policy.SaLifeTimeSeconds
+	if policy.SaLifeTimeSeconds != nil {
+		saLifeTimeSeconds := *policy.SaLifeTimeSeconds
+		result.SaLifeTimeSeconds = &saLifeTimeSeconds
+	}
 	return result, nil
 }
 
@@ -4137,28 +4221,52 @@ func (policy *IpsecPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	}
 
 	// Set property ‘DhGroup’:
-	policy.DhGroup = typedInput.DhGroup
+	if typedInput.DhGroup != nil {
+		dhGroup := *typedInput.DhGroup
+		policy.DhGroup = &dhGroup
+	}
 
 	// Set property ‘IkeEncryption’:
-	policy.IkeEncryption = typedInput.IkeEncryption
+	if typedInput.IkeEncryption != nil {
+		ikeEncryption := *typedInput.IkeEncryption
+		policy.IkeEncryption = &ikeEncryption
+	}
 
 	// Set property ‘IkeIntegrity’:
-	policy.IkeIntegrity = typedInput.IkeIntegrity
+	if typedInput.IkeIntegrity != nil {
+		ikeIntegrity := *typedInput.IkeIntegrity
+		policy.IkeIntegrity = &ikeIntegrity
+	}
 
 	// Set property ‘IpsecEncryption’:
-	policy.IpsecEncryption = typedInput.IpsecEncryption
+	if typedInput.IpsecEncryption != nil {
+		ipsecEncryption := *typedInput.IpsecEncryption
+		policy.IpsecEncryption = &ipsecEncryption
+	}
 
 	// Set property ‘IpsecIntegrity’:
-	policy.IpsecIntegrity = typedInput.IpsecIntegrity
+	if typedInput.IpsecIntegrity != nil {
+		ipsecIntegrity := *typedInput.IpsecIntegrity
+		policy.IpsecIntegrity = &ipsecIntegrity
+	}
 
 	// Set property ‘PfsGroup’:
-	policy.PfsGroup = typedInput.PfsGroup
+	if typedInput.PfsGroup != nil {
+		pfsGroup := *typedInput.PfsGroup
+		policy.PfsGroup = &pfsGroup
+	}
 
 	// Set property ‘SaDataSizeKilobytes’:
-	policy.SaDataSizeKilobytes = typedInput.SaDataSizeKilobytes
+	if typedInput.SaDataSizeKilobytes != nil {
+		saDataSizeKilobytes := *typedInput.SaDataSizeKilobytes
+		policy.SaDataSizeKilobytes = &saDataSizeKilobytes
+	}
 
 	// Set property ‘SaLifeTimeSeconds’:
-	policy.SaLifeTimeSeconds = typedInput.SaLifeTimeSeconds
+	if typedInput.SaLifeTimeSeconds != nil {
+		saLifeTimeSeconds := *typedInput.SaLifeTimeSeconds
+		policy.SaLifeTimeSeconds = &saLifeTimeSeconds
+	}
 
 	// No error
 	return nil
@@ -4169,51 +4277,57 @@ func (policy *IpsecPolicy) AssignPropertiesFromIpsecPolicy(source *v1alpha1api20
 
 	// DhGroup
 	if source.DhGroup != nil {
-		policy.DhGroup = IpsecPolicyDhGroup(*source.DhGroup)
+		dhGroup := IpsecPolicyDhGroup(*source.DhGroup)
+		policy.DhGroup = &dhGroup
 	} else {
-		policy.DhGroup = ""
+		policy.DhGroup = nil
 	}
 
 	// IkeEncryption
 	if source.IkeEncryption != nil {
-		policy.IkeEncryption = IpsecPolicyIkeEncryption(*source.IkeEncryption)
+		ikeEncryption := IpsecPolicyIkeEncryption(*source.IkeEncryption)
+		policy.IkeEncryption = &ikeEncryption
 	} else {
-		policy.IkeEncryption = ""
+		policy.IkeEncryption = nil
 	}
 
 	// IkeIntegrity
 	if source.IkeIntegrity != nil {
-		policy.IkeIntegrity = IpsecPolicyIkeIntegrity(*source.IkeIntegrity)
+		ikeIntegrity := IpsecPolicyIkeIntegrity(*source.IkeIntegrity)
+		policy.IkeIntegrity = &ikeIntegrity
 	} else {
-		policy.IkeIntegrity = ""
+		policy.IkeIntegrity = nil
 	}
 
 	// IpsecEncryption
 	if source.IpsecEncryption != nil {
-		policy.IpsecEncryption = IpsecPolicyIpsecEncryption(*source.IpsecEncryption)
+		ipsecEncryption := IpsecPolicyIpsecEncryption(*source.IpsecEncryption)
+		policy.IpsecEncryption = &ipsecEncryption
 	} else {
-		policy.IpsecEncryption = ""
+		policy.IpsecEncryption = nil
 	}
 
 	// IpsecIntegrity
 	if source.IpsecIntegrity != nil {
-		policy.IpsecIntegrity = IpsecPolicyIpsecIntegrity(*source.IpsecIntegrity)
+		ipsecIntegrity := IpsecPolicyIpsecIntegrity(*source.IpsecIntegrity)
+		policy.IpsecIntegrity = &ipsecIntegrity
 	} else {
-		policy.IpsecIntegrity = ""
+		policy.IpsecIntegrity = nil
 	}
 
 	// PfsGroup
 	if source.PfsGroup != nil {
-		policy.PfsGroup = IpsecPolicyPfsGroup(*source.PfsGroup)
+		pfsGroup := IpsecPolicyPfsGroup(*source.PfsGroup)
+		policy.PfsGroup = &pfsGroup
 	} else {
-		policy.PfsGroup = ""
+		policy.PfsGroup = nil
 	}
 
 	// SaDataSizeKilobytes
-	policy.SaDataSizeKilobytes = genruntime.GetOptionalIntValue(source.SaDataSizeKilobytes)
+	policy.SaDataSizeKilobytes = genruntime.ClonePointerToInt(source.SaDataSizeKilobytes)
 
 	// SaLifeTimeSeconds
-	policy.SaLifeTimeSeconds = genruntime.GetOptionalIntValue(source.SaLifeTimeSeconds)
+	policy.SaLifeTimeSeconds = genruntime.ClonePointerToInt(source.SaLifeTimeSeconds)
 
 	// No error
 	return nil
@@ -4225,36 +4339,58 @@ func (policy *IpsecPolicy) AssignPropertiesToIpsecPolicy(destination *v1alpha1ap
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DhGroup
-	dhGroup := string(policy.DhGroup)
-	destination.DhGroup = &dhGroup
+	if policy.DhGroup != nil {
+		dhGroup := string(*policy.DhGroup)
+		destination.DhGroup = &dhGroup
+	} else {
+		destination.DhGroup = nil
+	}
 
 	// IkeEncryption
-	ikeEncryption := string(policy.IkeEncryption)
-	destination.IkeEncryption = &ikeEncryption
+	if policy.IkeEncryption != nil {
+		ikeEncryption := string(*policy.IkeEncryption)
+		destination.IkeEncryption = &ikeEncryption
+	} else {
+		destination.IkeEncryption = nil
+	}
 
 	// IkeIntegrity
-	ikeIntegrity := string(policy.IkeIntegrity)
-	destination.IkeIntegrity = &ikeIntegrity
+	if policy.IkeIntegrity != nil {
+		ikeIntegrity := string(*policy.IkeIntegrity)
+		destination.IkeIntegrity = &ikeIntegrity
+	} else {
+		destination.IkeIntegrity = nil
+	}
 
 	// IpsecEncryption
-	ipsecEncryption := string(policy.IpsecEncryption)
-	destination.IpsecEncryption = &ipsecEncryption
+	if policy.IpsecEncryption != nil {
+		ipsecEncryption := string(*policy.IpsecEncryption)
+		destination.IpsecEncryption = &ipsecEncryption
+	} else {
+		destination.IpsecEncryption = nil
+	}
 
 	// IpsecIntegrity
-	ipsecIntegrity := string(policy.IpsecIntegrity)
-	destination.IpsecIntegrity = &ipsecIntegrity
+	if policy.IpsecIntegrity != nil {
+		ipsecIntegrity := string(*policy.IpsecIntegrity)
+		destination.IpsecIntegrity = &ipsecIntegrity
+	} else {
+		destination.IpsecIntegrity = nil
+	}
 
 	// PfsGroup
-	pfsGroup := string(policy.PfsGroup)
-	destination.PfsGroup = &pfsGroup
+	if policy.PfsGroup != nil {
+		pfsGroup := string(*policy.PfsGroup)
+		destination.PfsGroup = &pfsGroup
+	} else {
+		destination.PfsGroup = nil
+	}
 
 	// SaDataSizeKilobytes
-	saDataSizeKilobyte := policy.SaDataSizeKilobytes
-	destination.SaDataSizeKilobytes = &saDataSizeKilobyte
+	destination.SaDataSizeKilobytes = genruntime.ClonePointerToInt(policy.SaDataSizeKilobytes)
 
 	// SaLifeTimeSeconds
-	saLifeTimeSecond := policy.SaLifeTimeSeconds
-	destination.SaLifeTimeSeconds = &saLifeTimeSecond
+	destination.SaLifeTimeSeconds = genruntime.ClonePointerToInt(policy.SaLifeTimeSeconds)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4268,39 +4404,31 @@ func (policy *IpsecPolicy) AssignPropertiesToIpsecPolicy(destination *v1alpha1ap
 }
 
 type IpsecPolicy_Status struct {
-	// +kubebuilder:validation:Required
 	//DhGroup: The DH Group used in IKE Phase 1 for initial SA.
-	DhGroup DhGroup_Status `json:"dhGroup"`
+	DhGroup *DhGroup_Status `json:"dhGroup,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//IkeEncryption: The IKE encryption algorithm (IKE phase 2).
-	IkeEncryption IkeEncryption_Status `json:"ikeEncryption"`
+	IkeEncryption *IkeEncryption_Status `json:"ikeEncryption,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//IkeIntegrity: The IKE integrity algorithm (IKE phase 2).
-	IkeIntegrity IkeIntegrity_Status `json:"ikeIntegrity"`
+	IkeIntegrity *IkeIntegrity_Status `json:"ikeIntegrity,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//IpsecEncryption: The IPSec encryption algorithm (IKE phase 1).
-	IpsecEncryption IpsecEncryption_Status `json:"ipsecEncryption"`
+	IpsecEncryption *IpsecEncryption_Status `json:"ipsecEncryption,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//IpsecIntegrity: The IPSec integrity algorithm (IKE phase 1).
-	IpsecIntegrity IpsecIntegrity_Status `json:"ipsecIntegrity"`
+	IpsecIntegrity *IpsecIntegrity_Status `json:"ipsecIntegrity,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//PfsGroup: The Pfs Group used in IKE Phase 2 for new child SA.
-	PfsGroup PfsGroup_Status `json:"pfsGroup"`
+	PfsGroup *PfsGroup_Status `json:"pfsGroup,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//SaDataSizeKilobytes: The IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for a site
 	//to site VPN tunnel.
-	SaDataSizeKilobytes int `json:"saDataSizeKilobytes"`
+	SaDataSizeKilobytes *int `json:"saDataSizeKilobytes,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//SaLifeTimeSeconds: The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site
 	//to site VPN tunnel.
-	SaLifeTimeSeconds int `json:"saLifeTimeSeconds"`
+	SaLifeTimeSeconds *int `json:"saLifeTimeSeconds,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &IpsecPolicy_Status{}
@@ -4318,28 +4446,52 @@ func (policy *IpsecPolicy_Status) PopulateFromARM(owner genruntime.ArbitraryOwne
 	}
 
 	// Set property ‘DhGroup’:
-	policy.DhGroup = typedInput.DhGroup
+	if typedInput.DhGroup != nil {
+		dhGroup := *typedInput.DhGroup
+		policy.DhGroup = &dhGroup
+	}
 
 	// Set property ‘IkeEncryption’:
-	policy.IkeEncryption = typedInput.IkeEncryption
+	if typedInput.IkeEncryption != nil {
+		ikeEncryption := *typedInput.IkeEncryption
+		policy.IkeEncryption = &ikeEncryption
+	}
 
 	// Set property ‘IkeIntegrity’:
-	policy.IkeIntegrity = typedInput.IkeIntegrity
+	if typedInput.IkeIntegrity != nil {
+		ikeIntegrity := *typedInput.IkeIntegrity
+		policy.IkeIntegrity = &ikeIntegrity
+	}
 
 	// Set property ‘IpsecEncryption’:
-	policy.IpsecEncryption = typedInput.IpsecEncryption
+	if typedInput.IpsecEncryption != nil {
+		ipsecEncryption := *typedInput.IpsecEncryption
+		policy.IpsecEncryption = &ipsecEncryption
+	}
 
 	// Set property ‘IpsecIntegrity’:
-	policy.IpsecIntegrity = typedInput.IpsecIntegrity
+	if typedInput.IpsecIntegrity != nil {
+		ipsecIntegrity := *typedInput.IpsecIntegrity
+		policy.IpsecIntegrity = &ipsecIntegrity
+	}
 
 	// Set property ‘PfsGroup’:
-	policy.PfsGroup = typedInput.PfsGroup
+	if typedInput.PfsGroup != nil {
+		pfsGroup := *typedInput.PfsGroup
+		policy.PfsGroup = &pfsGroup
+	}
 
 	// Set property ‘SaDataSizeKilobytes’:
-	policy.SaDataSizeKilobytes = typedInput.SaDataSizeKilobytes
+	if typedInput.SaDataSizeKilobytes != nil {
+		saDataSizeKilobytes := *typedInput.SaDataSizeKilobytes
+		policy.SaDataSizeKilobytes = &saDataSizeKilobytes
+	}
 
 	// Set property ‘SaLifeTimeSeconds’:
-	policy.SaLifeTimeSeconds = typedInput.SaLifeTimeSeconds
+	if typedInput.SaLifeTimeSeconds != nil {
+		saLifeTimeSeconds := *typedInput.SaLifeTimeSeconds
+		policy.SaLifeTimeSeconds = &saLifeTimeSeconds
+	}
 
 	// No error
 	return nil
@@ -4350,51 +4502,57 @@ func (policy *IpsecPolicy_Status) AssignPropertiesFromIpsecPolicyStatus(source *
 
 	// DhGroup
 	if source.DhGroup != nil {
-		policy.DhGroup = DhGroup_Status(*source.DhGroup)
+		dhGroup := DhGroup_Status(*source.DhGroup)
+		policy.DhGroup = &dhGroup
 	} else {
-		policy.DhGroup = ""
+		policy.DhGroup = nil
 	}
 
 	// IkeEncryption
 	if source.IkeEncryption != nil {
-		policy.IkeEncryption = IkeEncryption_Status(*source.IkeEncryption)
+		ikeEncryption := IkeEncryption_Status(*source.IkeEncryption)
+		policy.IkeEncryption = &ikeEncryption
 	} else {
-		policy.IkeEncryption = ""
+		policy.IkeEncryption = nil
 	}
 
 	// IkeIntegrity
 	if source.IkeIntegrity != nil {
-		policy.IkeIntegrity = IkeIntegrity_Status(*source.IkeIntegrity)
+		ikeIntegrity := IkeIntegrity_Status(*source.IkeIntegrity)
+		policy.IkeIntegrity = &ikeIntegrity
 	} else {
-		policy.IkeIntegrity = ""
+		policy.IkeIntegrity = nil
 	}
 
 	// IpsecEncryption
 	if source.IpsecEncryption != nil {
-		policy.IpsecEncryption = IpsecEncryption_Status(*source.IpsecEncryption)
+		ipsecEncryption := IpsecEncryption_Status(*source.IpsecEncryption)
+		policy.IpsecEncryption = &ipsecEncryption
 	} else {
-		policy.IpsecEncryption = ""
+		policy.IpsecEncryption = nil
 	}
 
 	// IpsecIntegrity
 	if source.IpsecIntegrity != nil {
-		policy.IpsecIntegrity = IpsecIntegrity_Status(*source.IpsecIntegrity)
+		ipsecIntegrity := IpsecIntegrity_Status(*source.IpsecIntegrity)
+		policy.IpsecIntegrity = &ipsecIntegrity
 	} else {
-		policy.IpsecIntegrity = ""
+		policy.IpsecIntegrity = nil
 	}
 
 	// PfsGroup
 	if source.PfsGroup != nil {
-		policy.PfsGroup = PfsGroup_Status(*source.PfsGroup)
+		pfsGroup := PfsGroup_Status(*source.PfsGroup)
+		policy.PfsGroup = &pfsGroup
 	} else {
-		policy.PfsGroup = ""
+		policy.PfsGroup = nil
 	}
 
 	// SaDataSizeKilobytes
-	policy.SaDataSizeKilobytes = genruntime.GetOptionalIntValue(source.SaDataSizeKilobytes)
+	policy.SaDataSizeKilobytes = genruntime.ClonePointerToInt(source.SaDataSizeKilobytes)
 
 	// SaLifeTimeSeconds
-	policy.SaLifeTimeSeconds = genruntime.GetOptionalIntValue(source.SaLifeTimeSeconds)
+	policy.SaLifeTimeSeconds = genruntime.ClonePointerToInt(source.SaLifeTimeSeconds)
 
 	// No error
 	return nil
@@ -4406,36 +4564,58 @@ func (policy *IpsecPolicy_Status) AssignPropertiesToIpsecPolicyStatus(destinatio
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DhGroup
-	dhGroup := string(policy.DhGroup)
-	destination.DhGroup = &dhGroup
+	if policy.DhGroup != nil {
+		dhGroup := string(*policy.DhGroup)
+		destination.DhGroup = &dhGroup
+	} else {
+		destination.DhGroup = nil
+	}
 
 	// IkeEncryption
-	ikeEncryption := string(policy.IkeEncryption)
-	destination.IkeEncryption = &ikeEncryption
+	if policy.IkeEncryption != nil {
+		ikeEncryption := string(*policy.IkeEncryption)
+		destination.IkeEncryption = &ikeEncryption
+	} else {
+		destination.IkeEncryption = nil
+	}
 
 	// IkeIntegrity
-	ikeIntegrity := string(policy.IkeIntegrity)
-	destination.IkeIntegrity = &ikeIntegrity
+	if policy.IkeIntegrity != nil {
+		ikeIntegrity := string(*policy.IkeIntegrity)
+		destination.IkeIntegrity = &ikeIntegrity
+	} else {
+		destination.IkeIntegrity = nil
+	}
 
 	// IpsecEncryption
-	ipsecEncryption := string(policy.IpsecEncryption)
-	destination.IpsecEncryption = &ipsecEncryption
+	if policy.IpsecEncryption != nil {
+		ipsecEncryption := string(*policy.IpsecEncryption)
+		destination.IpsecEncryption = &ipsecEncryption
+	} else {
+		destination.IpsecEncryption = nil
+	}
 
 	// IpsecIntegrity
-	ipsecIntegrity := string(policy.IpsecIntegrity)
-	destination.IpsecIntegrity = &ipsecIntegrity
+	if policy.IpsecIntegrity != nil {
+		ipsecIntegrity := string(*policy.IpsecIntegrity)
+		destination.IpsecIntegrity = &ipsecIntegrity
+	} else {
+		destination.IpsecIntegrity = nil
+	}
 
 	// PfsGroup
-	pfsGroup := string(policy.PfsGroup)
-	destination.PfsGroup = &pfsGroup
+	if policy.PfsGroup != nil {
+		pfsGroup := string(*policy.PfsGroup)
+		destination.PfsGroup = &pfsGroup
+	} else {
+		destination.PfsGroup = nil
+	}
 
 	// SaDataSizeKilobytes
-	saDataSizeKilobyte := policy.SaDataSizeKilobytes
-	destination.SaDataSizeKilobytes = &saDataSizeKilobyte
+	destination.SaDataSizeKilobytes = genruntime.ClonePointerToInt(policy.SaDataSizeKilobytes)
 
 	// SaLifeTimeSeconds
-	saLifeTimeSecond := policy.SaLifeTimeSeconds
-	destination.SaLifeTimeSeconds = &saLifeTimeSecond
+	destination.SaLifeTimeSeconds = genruntime.ClonePointerToInt(policy.SaLifeTimeSeconds)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4452,7 +4632,7 @@ func (policy *IpsecPolicy_Status) AssignPropertiesToIpsecPolicyStatus(destinatio
 type RadiusServer struct {
 	// +kubebuilder:validation:Required
 	//RadiusServerAddress: The address of this radius server.
-	RadiusServerAddress string `json:"radiusServerAddress"`
+	RadiusServerAddress *string `json:"radiusServerAddress,omitempty"`
 
 	//RadiusServerScore: The initial score assigned to this radius server.
 	RadiusServerScore *int `json:"radiusServerScore,omitempty"`
@@ -4471,7 +4651,10 @@ func (server *RadiusServer) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	var result RadiusServerARM
 
 	// Set property ‘RadiusServerAddress’:
-	result.RadiusServerAddress = server.RadiusServerAddress
+	if server.RadiusServerAddress != nil {
+		radiusServerAddress := *server.RadiusServerAddress
+		result.RadiusServerAddress = &radiusServerAddress
+	}
 
 	// Set property ‘RadiusServerScore’:
 	if server.RadiusServerScore != nil {
@@ -4500,7 +4683,10 @@ func (server *RadiusServer) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	}
 
 	// Set property ‘RadiusServerAddress’:
-	server.RadiusServerAddress = typedInput.RadiusServerAddress
+	if typedInput.RadiusServerAddress != nil {
+		radiusServerAddress := *typedInput.RadiusServerAddress
+		server.RadiusServerAddress = &radiusServerAddress
+	}
 
 	// Set property ‘RadiusServerScore’:
 	if typedInput.RadiusServerScore != nil {
@@ -4522,7 +4708,7 @@ func (server *RadiusServer) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 func (server *RadiusServer) AssignPropertiesFromRadiusServer(source *v1alpha1api20201101storage.RadiusServer) error {
 
 	// RadiusServerAddress
-	server.RadiusServerAddress = genruntime.GetOptionalStringValue(source.RadiusServerAddress)
+	server.RadiusServerAddress = genruntime.ClonePointerToString(source.RadiusServerAddress)
 
 	// RadiusServerScore
 	server.RadiusServerScore = genruntime.ClonePointerToInt(source.RadiusServerScore)
@@ -4540,8 +4726,7 @@ func (server *RadiusServer) AssignPropertiesToRadiusServer(destination *v1alpha1
 	propertyBag := genruntime.NewPropertyBag()
 
 	// RadiusServerAddress
-	radiusServerAddress := server.RadiusServerAddress
-	destination.RadiusServerAddress = &radiusServerAddress
+	destination.RadiusServerAddress = genruntime.ClonePointerToString(server.RadiusServerAddress)
 
 	// RadiusServerScore
 	destination.RadiusServerScore = genruntime.ClonePointerToInt(server.RadiusServerScore)
@@ -4561,9 +4746,8 @@ func (server *RadiusServer) AssignPropertiesToRadiusServer(destination *v1alpha1
 }
 
 type RadiusServer_Status struct {
-	// +kubebuilder:validation:Required
 	//RadiusServerAddress: The address of this radius server.
-	RadiusServerAddress string `json:"radiusServerAddress"`
+	RadiusServerAddress *string `json:"radiusServerAddress,omitempty"`
 
 	//RadiusServerScore: The initial score assigned to this radius server.
 	RadiusServerScore *int `json:"radiusServerScore,omitempty"`
@@ -4587,7 +4771,10 @@ func (server *RadiusServer_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 	}
 
 	// Set property ‘RadiusServerAddress’:
-	server.RadiusServerAddress = typedInput.RadiusServerAddress
+	if typedInput.RadiusServerAddress != nil {
+		radiusServerAddress := *typedInput.RadiusServerAddress
+		server.RadiusServerAddress = &radiusServerAddress
+	}
 
 	// Set property ‘RadiusServerScore’:
 	if typedInput.RadiusServerScore != nil {
@@ -4609,7 +4796,7 @@ func (server *RadiusServer_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 func (server *RadiusServer_Status) AssignPropertiesFromRadiusServerStatus(source *v1alpha1api20201101storage.RadiusServer_Status) error {
 
 	// RadiusServerAddress
-	server.RadiusServerAddress = genruntime.GetOptionalStringValue(source.RadiusServerAddress)
+	server.RadiusServerAddress = genruntime.ClonePointerToString(source.RadiusServerAddress)
 
 	// RadiusServerScore
 	server.RadiusServerScore = genruntime.ClonePointerToInt(source.RadiusServerScore)
@@ -4627,8 +4814,7 @@ func (server *RadiusServer_Status) AssignPropertiesToRadiusServerStatus(destinat
 	propertyBag := genruntime.NewPropertyBag()
 
 	// RadiusServerAddress
-	radiusServerAddress := server.RadiusServerAddress
-	destination.RadiusServerAddress = &radiusServerAddress
+	destination.RadiusServerAddress = genruntime.ClonePointerToString(server.RadiusServerAddress)
 
 	// RadiusServerScore
 	destination.RadiusServerScore = genruntime.ClonePointerToInt(server.RadiusServerScore)
@@ -4869,7 +5055,7 @@ type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRoot
 
 	// +kubebuilder:validation:Required
 	//PublicCertData: The certificate public data.
-	PublicCertData string `json:"publicCertData"`
+	PublicCertData *string `json:"publicCertData,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates{}
@@ -4888,7 +5074,13 @@ func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguratio
 	}
 
 	// Set property ‘Properties’:
-	result.Properties.PublicCertData = certificates.PublicCertData
+	if certificates.PublicCertData != nil {
+		result.Properties = &VpnClientRootCertificatePropertiesFormatARM{}
+	}
+	if certificates.PublicCertData != nil {
+		publicCertData := *certificates.PublicCertData
+		result.Properties.PublicCertData = &publicCertData
+	}
 	return result, nil
 }
 
@@ -4912,7 +5104,12 @@ func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguratio
 
 	// Set property ‘PublicCertData’:
 	// copying flattened property:
-	certificates.PublicCertData = typedInput.Properties.PublicCertData
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicCertData != nil {
+			publicCertData := *typedInput.Properties.PublicCertData
+			certificates.PublicCertData = &publicCertData
+		}
+	}
 
 	// No error
 	return nil
@@ -4925,7 +5122,7 @@ func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguratio
 	certificates.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PublicCertData
-	certificates.PublicCertData = genruntime.GetOptionalStringValue(source.PublicCertData)
+	certificates.PublicCertData = genruntime.ClonePointerToString(source.PublicCertData)
 
 	// No error
 	return nil
@@ -4940,8 +5137,7 @@ func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguratio
 	destination.Name = genruntime.ClonePointerToString(certificates.Name)
 
 	// PublicCertData
-	publicCertDatum := certificates.PublicCertData
-	destination.PublicCertData = &publicCertDatum
+	destination.PublicCertData = genruntime.ClonePointerToString(certificates.PublicCertData)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5117,9 +5313,8 @@ type VpnClientRootCertificate_Status struct {
 	//ProvisioningState: The provisioning state of the VPN client root certificate resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//PublicCertData: The certificate public data.
-	PublicCertData string `json:"publicCertData"`
+	PublicCertData *string `json:"publicCertData,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VpnClientRootCertificate_Status{}
@@ -5156,14 +5351,21 @@ func (certificate *VpnClientRootCertificate_Status) PopulateFromARM(owner genrun
 
 	// Set property ‘ProvisioningState’:
 	// copying flattened property:
-	if typedInput.Properties.ProvisioningState != nil {
-		provisioningState := *typedInput.Properties.ProvisioningState
-		certificate.ProvisioningState = &provisioningState
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProvisioningState != nil {
+			provisioningState := *typedInput.Properties.ProvisioningState
+			certificate.ProvisioningState = &provisioningState
+		}
 	}
 
 	// Set property ‘PublicCertData’:
 	// copying flattened property:
-	certificate.PublicCertData = typedInput.Properties.PublicCertData
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicCertData != nil {
+			publicCertData := *typedInput.Properties.PublicCertData
+			certificate.PublicCertData = &publicCertData
+		}
+	}
 
 	// No error
 	return nil
@@ -5190,7 +5392,7 @@ func (certificate *VpnClientRootCertificate_Status) AssignPropertiesFromVpnClien
 	}
 
 	// PublicCertData
-	certificate.PublicCertData = genruntime.GetOptionalStringValue(source.PublicCertData)
+	certificate.PublicCertData = genruntime.ClonePointerToString(source.PublicCertData)
 
 	// No error
 	return nil
@@ -5219,8 +5421,7 @@ func (certificate *VpnClientRootCertificate_Status) AssignPropertiesToVpnClientR
 	}
 
 	// PublicCertData
-	publicCertDatum := certificate.PublicCertData
-	destination.PublicCertData = &publicCertDatum
+	destination.PublicCertData = genruntime.ClonePointerToString(certificate.PublicCertData)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

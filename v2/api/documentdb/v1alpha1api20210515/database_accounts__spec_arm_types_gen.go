@@ -19,10 +19,10 @@ type DatabaseAccounts_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: Cosmos DB database account name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties to create and update Azure Cosmos DB database accounts.
-	Properties DatabaseAccountCreateUpdatePropertiesARM `json:"properties"`
+	Properties *DatabaseAccountCreateUpdatePropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
 	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
@@ -71,7 +71,7 @@ type DatabaseAccountCreateUpdatePropertiesARM struct {
 	Cors []CorsPolicyARM `json:"cors,omitempty"`
 
 	//DatabaseAccountOfferType: The offer type for the database
-	DatabaseAccountOfferType DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType `json:"databaseAccountOfferType"`
+	DatabaseAccountOfferType *DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType `json:"databaseAccountOfferType,omitempty"`
 
 	//DefaultIdentity: The default identity for accessing key vault used in features like customer managed keys. The default
 	//identity needs to be explicitly set by the users. It can be "FirstPartyIdentity", "SystemAssignedIdentity" and more.
@@ -108,7 +108,7 @@ type DatabaseAccountCreateUpdatePropertiesARM struct {
 	KeyVaultKeyUri *string `json:"keyVaultKeyUri,omitempty"`
 
 	//Locations: An array that contains the georeplication locations enabled for the Cosmos DB account.
-	Locations []LocationARM `json:"locations"`
+	Locations []LocationARM `json:"locations,omitempty"`
 
 	//NetworkAclBypass: Indicates what services are allowed to bypass firewall checks.
 	NetworkAclBypass *DatabaseAccountCreateUpdatePropertiesNetworkAclBypass `json:"networkAclBypass,omitempty"`
@@ -201,7 +201,7 @@ type CapabilityARM struct {
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConsistencyPolicy
 type ConsistencyPolicyARM struct {
 	//DefaultConsistencyLevel: The default consistency level and configuration settings of the Cosmos DB account.
-	DefaultConsistencyLevel ConsistencyPolicyDefaultConsistencyLevel `json:"defaultConsistencyLevel"`
+	DefaultConsistencyLevel *ConsistencyPolicyDefaultConsistencyLevel `json:"defaultConsistencyLevel,omitempty"`
 
 	//MaxIntervalInSeconds: When used with the Bounded Staleness consistency level, this value represents the time amount of
 	//staleness (in seconds) tolerated. Accepted range for this value is 5 - 86400. Required when defaultConsistencyPolicy is
@@ -223,7 +223,7 @@ type CorsPolicyARM struct {
 	AllowedMethods *string `json:"allowedMethods,omitempty"`
 
 	//AllowedOrigins: The origin domains that are permitted to make a request against the service via CORS.
-	AllowedOrigins string `json:"allowedOrigins"`
+	AllowedOrigins *string `json:"allowedOrigins,omitempty"`
 
 	//ExposedHeaders: The response headers that may be sent in the response to the CORS request and exposed by the browser to
 	//the request issuer.
@@ -276,14 +276,14 @@ type VirtualNetworkRuleARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContinuousModeBackupPolicy
 type ContinuousModeBackupPolicyARM struct {
-	Type ContinuousModeBackupPolicyType `json:"type"`
+	Type ContinuousModeBackupPolicyType `json:"type,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/PeriodicModeBackupPolicy
 type PeriodicModeBackupPolicyARM struct {
 	//PeriodicModeProperties: Configuration values for periodic mode backup
 	PeriodicModeProperties *PeriodicModePropertiesARM   `json:"periodicModeProperties,omitempty"`
-	Type                   PeriodicModeBackupPolicyType `json:"type"`
+	Type                   PeriodicModeBackupPolicyType `json:"type,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/PeriodicModeProperties

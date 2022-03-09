@@ -315,7 +315,7 @@ const NamespacesSpecAPIVersion20210101Preview = NamespacesSpecAPIVersion("2021-0
 type Namespaces_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//Encryption: Properties to configure Encryption
 	Encryption *Encryption `json:"encryption,omitempty"`
@@ -324,13 +324,13 @@ type Namespaces_Spec struct {
 	Identity *Identity `json:"identity,omitempty"`
 
 	//Location: The Geo-location where the resource lives
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	//Sku: SKU of the namespace.
 	Sku *SBSku `json:"sku,omitempty"`
@@ -362,12 +362,18 @@ func (namespaces *Namespaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 
 	// Set property ‘Location’:
-	result.Location = namespaces.Location
+	if namespaces.Location != nil {
+		location := *namespaces.Location
+		result.Location = &location
+	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if namespaces.Encryption != nil || namespaces.ZoneRedundant != nil {
+		result.Properties = &Namespaces_Spec_PropertiesARM{}
+	}
 	if namespaces.Encryption != nil {
 		encryptionARM, err := (*namespaces.Encryption).ConvertToARM(resolved)
 		if err != nil {
@@ -418,14 +424,16 @@ func (namespaces *Namespaces_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘Encryption’:
 	// copying flattened property:
-	if typedInput.Properties.Encryption != nil {
-		var encryption1 Encryption
-		err := encryption1.PopulateFromARM(owner, *typedInput.Properties.Encryption)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Encryption != nil {
+			var encryption1 Encryption
+			err := encryption1.PopulateFromARM(owner, *typedInput.Properties.Encryption)
+			if err != nil {
+				return err
+			}
+			encryption := encryption1
+			namespaces.Encryption = &encryption
 		}
-		encryption := encryption1
-		namespaces.Encryption = &encryption
 	}
 
 	// Set property ‘Identity’:
@@ -440,10 +448,13 @@ func (namespaces *Namespaces_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	}
 
 	// Set property ‘Location’:
-	namespaces.Location = typedInput.Location
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		namespaces.Location = &location
+	}
 
 	// Set property ‘Owner’:
-	namespaces.Owner = genruntime.KnownResourceReference{
+	namespaces.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -468,9 +479,11 @@ func (namespaces *Namespaces_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘ZoneRedundant’:
 	// copying flattened property:
-	if typedInput.Properties.ZoneRedundant != nil {
-		zoneRedundant := *typedInput.Properties.ZoneRedundant
-		namespaces.ZoneRedundant = &zoneRedundant
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ZoneRedundant != nil {
+			zoneRedundant := *typedInput.Properties.ZoneRedundant
+			namespaces.ZoneRedundant = &zoneRedundant
+		}
 	}
 
 	// No error
@@ -558,10 +571,15 @@ func (namespaces *Namespaces_Spec) AssignPropertiesFromNamespacesSpec(source *v1
 	}
 
 	// Location
-	namespaces.Location = genruntime.GetOptionalStringValue(source.Location)
+	namespaces.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	namespaces.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		namespaces.Owner = &owner
+	} else {
+		namespaces.Owner = nil
+	}
 
 	// Sku
 	if source.Sku != nil {
@@ -623,14 +641,18 @@ func (namespaces *Namespaces_Spec) AssignPropertiesToNamespacesSpec(destination 
 	}
 
 	// Location
-	location := namespaces.Location
-	destination.Location = &location
+	destination.Location = genruntime.ClonePointerToString(namespaces.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = namespaces.OriginalVersion()
 
 	// Owner
-	destination.Owner = namespaces.Owner.Copy()
+	if namespaces.Owner != nil {
+		owner := namespaces.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Sku
 	if namespaces.Sku != nil {
@@ -1850,7 +1872,7 @@ type SBSku struct {
 
 	// +kubebuilder:validation:Required
 	//Name: Name of this SKU.
-	Name SBSkuName `json:"name"`
+	Name *SBSkuName `json:"name,omitempty"`
 
 	//Tier: The billing tier of this particular SKU.
 	Tier *SBSkuTier `json:"tier,omitempty"`
@@ -1872,7 +1894,10 @@ func (sbSku *SBSku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	}
 
 	// Set property ‘Name’:
-	result.Name = sbSku.Name
+	if sbSku.Name != nil {
+		name := *sbSku.Name
+		result.Name = &name
+	}
 
 	// Set property ‘Tier’:
 	if sbSku.Tier != nil {
@@ -1901,7 +1926,10 @@ func (sbSku *SBSku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 	}
 
 	// Set property ‘Name’:
-	sbSku.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		sbSku.Name = &name
+	}
 
 	// Set property ‘Tier’:
 	if typedInput.Tier != nil {
@@ -1921,9 +1949,10 @@ func (sbSku *SBSku) AssignPropertiesFromSBSku(source *v1alpha1api20210101preview
 
 	// Name
 	if source.Name != nil {
-		sbSku.Name = SBSkuName(*source.Name)
+		name := SBSkuName(*source.Name)
+		sbSku.Name = &name
 	} else {
-		sbSku.Name = ""
+		sbSku.Name = nil
 	}
 
 	// Tier
@@ -1947,8 +1976,12 @@ func (sbSku *SBSku) AssignPropertiesToSBSku(destination *v1alpha1api20210101prev
 	destination.Capacity = genruntime.ClonePointerToInt(sbSku.Capacity)
 
 	// Name
-	name := string(sbSku.Name)
-	destination.Name = &name
+	if sbSku.Name != nil {
+		name := string(*sbSku.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Tier
 	if sbSku.Tier != nil {
@@ -1973,9 +2006,8 @@ type SBSku_Status struct {
 	//Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
 	Capacity *int `json:"capacity,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Name: Name of this SKU.
-	Name SBSkuStatusName `json:"name"`
+	Name *SBSkuStatusName `json:"name,omitempty"`
 
 	//Tier: The billing tier of this particular SKU.
 	Tier *SBSkuStatusTier `json:"tier,omitempty"`
@@ -2002,7 +2034,10 @@ func (sbSku *SBSku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	}
 
 	// Set property ‘Name’:
-	sbSku.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		sbSku.Name = &name
+	}
 
 	// Set property ‘Tier’:
 	if typedInput.Tier != nil {
@@ -2022,9 +2057,10 @@ func (sbSku *SBSku_Status) AssignPropertiesFromSBSkuStatus(source *v1alpha1api20
 
 	// Name
 	if source.Name != nil {
-		sbSku.Name = SBSkuStatusName(*source.Name)
+		name := SBSkuStatusName(*source.Name)
+		sbSku.Name = &name
 	} else {
-		sbSku.Name = ""
+		sbSku.Name = nil
 	}
 
 	// Tier
@@ -2048,8 +2084,12 @@ func (sbSku *SBSku_Status) AssignPropertiesToSBSkuStatus(destination *v1alpha1ap
 	destination.Capacity = genruntime.ClonePointerToInt(sbSku.Capacity)
 
 	// Name
-	name := string(sbSku.Name)
-	destination.Name = &name
+	if sbSku.Name != nil {
+		name := string(*sbSku.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Tier
 	if sbSku.Tier != nil {

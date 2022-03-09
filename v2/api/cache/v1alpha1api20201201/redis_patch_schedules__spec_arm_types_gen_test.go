@@ -90,7 +90,7 @@ func AddIndependentPropertyGeneratorsForRedisPatchSchedulesSpecARM(gens map[stri
 
 // AddRelatedPropertyGeneratorsForRedisPatchSchedulesSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisPatchSchedulesSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = ScheduleEntriesARMGenerator()
+	gens["Properties"] = gen.PtrOf(ScheduleEntriesARMGenerator())
 }
 
 func Test_ScheduleEntriesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -208,7 +208,7 @@ func ScheduleEntryARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForScheduleEntryARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForScheduleEntryARM(gens map[string]gopter.Gen) {
-	gens["DayOfWeek"] = gen.OneConstOf(
+	gens["DayOfWeek"] = gen.PtrOf(gen.OneConstOf(
 		ScheduleEntryDayOfWeekEveryday,
 		ScheduleEntryDayOfWeekFriday,
 		ScheduleEntryDayOfWeekMonday,
@@ -217,7 +217,7 @@ func AddIndependentPropertyGeneratorsForScheduleEntryARM(gens map[string]gopter.
 		ScheduleEntryDayOfWeekThursday,
 		ScheduleEntryDayOfWeekTuesday,
 		ScheduleEntryDayOfWeekWednesday,
-		ScheduleEntryDayOfWeekWeekend)
+		ScheduleEntryDayOfWeekWeekend))
 	gens["MaintenanceWindow"] = gen.PtrOf(gen.AlphaString())
-	gens["StartHourUtc"] = gen.Int()
+	gens["StartHourUtc"] = gen.PtrOf(gen.Int())
 }

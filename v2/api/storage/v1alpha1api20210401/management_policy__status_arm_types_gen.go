@@ -24,33 +24,33 @@ type ManagementPolicyProperties_StatusARM struct {
 
 	//Policy: The Storage Account ManagementPolicy, in JSON format. See more details in:
 	//https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
-	Policy ManagementPolicySchema_StatusARM `json:"policy"`
+	Policy *ManagementPolicySchema_StatusARM `json:"policy,omitempty"`
 }
 
 type ManagementPolicySchema_StatusARM struct {
 	//Rules: The Storage Account ManagementPolicies Rules. See more details in:
 	//https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
-	Rules []ManagementPolicyRule_StatusARM `json:"rules"`
+	Rules []ManagementPolicyRule_StatusARM `json:"rules,omitempty"`
 }
 
 type ManagementPolicyRule_StatusARM struct {
 	//Definition: An object that defines the Lifecycle rule.
-	Definition ManagementPolicyDefinition_StatusARM `json:"definition"`
+	Definition *ManagementPolicyDefinition_StatusARM `json:"definition,omitempty"`
 
 	//Enabled: Rule is enabled if set to true.
 	Enabled *bool `json:"enabled,omitempty"`
 
 	//Name: A rule name can contain any combination of alpha numeric characters. Rule name is case-sensitive. It must be
 	//unique within a policy.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Type: The valid value is Lifecycle
-	Type ManagementPolicyRuleStatusType `json:"type"`
+	Type *ManagementPolicyRuleStatusType `json:"type,omitempty"`
 }
 
 type ManagementPolicyDefinition_StatusARM struct {
 	//Actions: An object that defines the action set.
-	Actions ManagementPolicyAction_StatusARM `json:"actions"`
+	Actions *ManagementPolicyAction_StatusARM `json:"actions,omitempty"`
 
 	//Filters: An object that defines the filter set.
 	Filters *ManagementPolicyFilter_StatusARM `json:"filters,omitempty"`
@@ -77,7 +77,7 @@ type ManagementPolicyFilter_StatusARM struct {
 
 	//BlobTypes: An array of predefined enum values. Currently blockBlob supports all tiering and delete actions. Only delete
 	//actions are supported for appendBlob.
-	BlobTypes []string `json:"blobTypes"`
+	BlobTypes []string `json:"blobTypes,omitempty"`
 
 	//PrefixMatch: An array of strings for prefixes to be match.
 	PrefixMatch []string `json:"prefixMatch,omitempty"`
@@ -122,19 +122,19 @@ type ManagementPolicyVersion_StatusARM struct {
 
 type TagFilter_StatusARM struct {
 	//Name: This is the filter tag name, it can have 1 - 128 characters
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Op: This is the comparison operator which is used for object comparison and filtering. Only == (equality operator) is
 	//currently supported
-	Op string `json:"op"`
+	Op *string `json:"op,omitempty"`
 
 	//Value: This is the filter tag value field used for tag based filtering, it can have 0 - 256 characters
-	Value string `json:"value"`
+	Value *string `json:"value,omitempty"`
 }
 
 type DateAfterCreation_StatusARM struct {
 	//DaysAfterCreationGreaterThan: Value indicating the age in days after creation
-	DaysAfterCreationGreaterThan int `json:"daysAfterCreationGreaterThan"`
+	DaysAfterCreationGreaterThan *int `json:"daysAfterCreationGreaterThan,omitempty"`
 }
 
 type DateAfterModification_StatusARM struct {

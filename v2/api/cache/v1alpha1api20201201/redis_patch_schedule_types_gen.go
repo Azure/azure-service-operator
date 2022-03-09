@@ -515,11 +515,11 @@ type RedisPatchSchedules_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a cache.azure.com/Redis resource
-	Owner genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner" kind:"Redis"`
+	Owner *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"Redis"`
 
 	// +kubebuilder:validation:Required
 	//ScheduleEntries: List of patch schedules for a Redis cache.
-	ScheduleEntries []ScheduleEntry `json:"scheduleEntries"`
+	ScheduleEntries []ScheduleEntry `json:"scheduleEntries,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -544,6 +544,9 @@ func (schedules *RedisPatchSchedules_Spec) ConvertToARM(resolved genruntime.Conv
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if schedules.ScheduleEntries != nil {
+		result.Properties = &ScheduleEntriesARM{}
+	}
 	for _, item := range schedules.ScheduleEntries {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -581,19 +584,21 @@ func (schedules *RedisPatchSchedules_Spec) PopulateFromARM(owner genruntime.Arbi
 	}
 
 	// Set property ‘Owner’:
-	schedules.Owner = genruntime.KnownResourceReference{
+	schedules.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘ScheduleEntries’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.ScheduleEntries {
-		var item1 ScheduleEntry
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.ScheduleEntries {
+			var item1 ScheduleEntry
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			schedules.ScheduleEntries = append(schedules.ScheduleEntries, item1)
 		}
-		schedules.ScheduleEntries = append(schedules.ScheduleEntries, item1)
 	}
 
 	// Set property ‘Tags’:
@@ -665,7 +670,12 @@ func (schedules *RedisPatchSchedules_Spec) AssignPropertiesFromRedisPatchSchedul
 	schedules.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	schedules.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		schedules.Owner = &owner
+	} else {
+		schedules.Owner = nil
+	}
 
 	// ScheduleEntries
 	if source.ScheduleEntries != nil {
@@ -704,7 +714,12 @@ func (schedules *RedisPatchSchedules_Spec) AssignPropertiesToRedisPatchSchedules
 	destination.OriginalVersion = schedules.OriginalVersion()
 
 	// Owner
-	destination.Owner = schedules.Owner.Copy()
+	if schedules.Owner != nil {
+		owner := schedules.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// ScheduleEntries
 	if schedules.ScheduleEntries != nil {
@@ -747,14 +762,14 @@ func (schedules *RedisPatchSchedules_Spec) OriginalVersion() string {
 type ScheduleEntry struct {
 	// +kubebuilder:validation:Required
 	//DayOfWeek: Day of the week when a cache can be patched.
-	DayOfWeek ScheduleEntryDayOfWeek `json:"dayOfWeek"`
+	DayOfWeek *ScheduleEntryDayOfWeek `json:"dayOfWeek,omitempty"`
 
 	//MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
 	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//StartHourUtc: Start hour after which cache patching can start.
-	StartHourUtc int `json:"startHourUtc"`
+	StartHourUtc *int `json:"startHourUtc,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ScheduleEntry{}
@@ -767,7 +782,10 @@ func (entry *ScheduleEntry) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	var result ScheduleEntryARM
 
 	// Set property ‘DayOfWeek’:
-	result.DayOfWeek = entry.DayOfWeek
+	if entry.DayOfWeek != nil {
+		dayOfWeek := *entry.DayOfWeek
+		result.DayOfWeek = &dayOfWeek
+	}
 
 	// Set property ‘MaintenanceWindow’:
 	if entry.MaintenanceWindow != nil {
@@ -776,7 +794,10 @@ func (entry *ScheduleEntry) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	}
 
 	// Set property ‘StartHourUtc’:
-	result.StartHourUtc = entry.StartHourUtc
+	if entry.StartHourUtc != nil {
+		startHourUtc := *entry.StartHourUtc
+		result.StartHourUtc = &startHourUtc
+	}
 	return result, nil
 }
 
@@ -793,7 +814,10 @@ func (entry *ScheduleEntry) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	}
 
 	// Set property ‘DayOfWeek’:
-	entry.DayOfWeek = typedInput.DayOfWeek
+	if typedInput.DayOfWeek != nil {
+		dayOfWeek := *typedInput.DayOfWeek
+		entry.DayOfWeek = &dayOfWeek
+	}
 
 	// Set property ‘MaintenanceWindow’:
 	if typedInput.MaintenanceWindow != nil {
@@ -802,7 +826,10 @@ func (entry *ScheduleEntry) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	}
 
 	// Set property ‘StartHourUtc’:
-	entry.StartHourUtc = typedInput.StartHourUtc
+	if typedInput.StartHourUtc != nil {
+		startHourUtc := *typedInput.StartHourUtc
+		entry.StartHourUtc = &startHourUtc
+	}
 
 	// No error
 	return nil
@@ -813,9 +840,10 @@ func (entry *ScheduleEntry) AssignPropertiesFromScheduleEntry(source *v1alpha1ap
 
 	// DayOfWeek
 	if source.DayOfWeek != nil {
-		entry.DayOfWeek = ScheduleEntryDayOfWeek(*source.DayOfWeek)
+		dayOfWeek := ScheduleEntryDayOfWeek(*source.DayOfWeek)
+		entry.DayOfWeek = &dayOfWeek
 	} else {
-		entry.DayOfWeek = ""
+		entry.DayOfWeek = nil
 	}
 
 	// MaintenanceWindow
@@ -827,7 +855,7 @@ func (entry *ScheduleEntry) AssignPropertiesFromScheduleEntry(source *v1alpha1ap
 	}
 
 	// StartHourUtc
-	entry.StartHourUtc = genruntime.GetOptionalIntValue(source.StartHourUtc)
+	entry.StartHourUtc = genruntime.ClonePointerToInt(source.StartHourUtc)
 
 	// No error
 	return nil
@@ -839,8 +867,12 @@ func (entry *ScheduleEntry) AssignPropertiesToScheduleEntry(destination *v1alpha
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DayOfWeek
-	dayOfWeek := string(entry.DayOfWeek)
-	destination.DayOfWeek = &dayOfWeek
+	if entry.DayOfWeek != nil {
+		dayOfWeek := string(*entry.DayOfWeek)
+		destination.DayOfWeek = &dayOfWeek
+	} else {
+		destination.DayOfWeek = nil
+	}
 
 	// MaintenanceWindow
 	if entry.MaintenanceWindow != nil {
@@ -851,8 +883,7 @@ func (entry *ScheduleEntry) AssignPropertiesToScheduleEntry(destination *v1alpha
 	}
 
 	// StartHourUtc
-	startHourUtc := entry.StartHourUtc
-	destination.StartHourUtc = &startHourUtc
+	destination.StartHourUtc = genruntime.ClonePointerToInt(entry.StartHourUtc)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -866,16 +897,14 @@ func (entry *ScheduleEntry) AssignPropertiesToScheduleEntry(destination *v1alpha
 }
 
 type ScheduleEntry_Status struct {
-	// +kubebuilder:validation:Required
 	//DayOfWeek: Day of the week when a cache can be patched.
-	DayOfWeek ScheduleEntryStatusDayOfWeek `json:"dayOfWeek"`
+	DayOfWeek *ScheduleEntryStatusDayOfWeek `json:"dayOfWeek,omitempty"`
 
 	//MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
 	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//StartHourUtc: Start hour after which cache patching can start.
-	StartHourUtc int `json:"startHourUtc"`
+	StartHourUtc *int `json:"startHourUtc,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ScheduleEntry_Status{}
@@ -893,7 +922,10 @@ func (entry *ScheduleEntry_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 	}
 
 	// Set property ‘DayOfWeek’:
-	entry.DayOfWeek = typedInput.DayOfWeek
+	if typedInput.DayOfWeek != nil {
+		dayOfWeek := *typedInput.DayOfWeek
+		entry.DayOfWeek = &dayOfWeek
+	}
 
 	// Set property ‘MaintenanceWindow’:
 	if typedInput.MaintenanceWindow != nil {
@@ -902,7 +934,10 @@ func (entry *ScheduleEntry_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 	}
 
 	// Set property ‘StartHourUtc’:
-	entry.StartHourUtc = typedInput.StartHourUtc
+	if typedInput.StartHourUtc != nil {
+		startHourUtc := *typedInput.StartHourUtc
+		entry.StartHourUtc = &startHourUtc
+	}
 
 	// No error
 	return nil
@@ -913,16 +948,17 @@ func (entry *ScheduleEntry_Status) AssignPropertiesFromScheduleEntryStatus(sourc
 
 	// DayOfWeek
 	if source.DayOfWeek != nil {
-		entry.DayOfWeek = ScheduleEntryStatusDayOfWeek(*source.DayOfWeek)
+		dayOfWeek := ScheduleEntryStatusDayOfWeek(*source.DayOfWeek)
+		entry.DayOfWeek = &dayOfWeek
 	} else {
-		entry.DayOfWeek = ""
+		entry.DayOfWeek = nil
 	}
 
 	// MaintenanceWindow
 	entry.MaintenanceWindow = genruntime.ClonePointerToString(source.MaintenanceWindow)
 
 	// StartHourUtc
-	entry.StartHourUtc = genruntime.GetOptionalIntValue(source.StartHourUtc)
+	entry.StartHourUtc = genruntime.ClonePointerToInt(source.StartHourUtc)
 
 	// No error
 	return nil
@@ -934,15 +970,18 @@ func (entry *ScheduleEntry_Status) AssignPropertiesToScheduleEntryStatus(destina
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DayOfWeek
-	dayOfWeek := string(entry.DayOfWeek)
-	destination.DayOfWeek = &dayOfWeek
+	if entry.DayOfWeek != nil {
+		dayOfWeek := string(*entry.DayOfWeek)
+		destination.DayOfWeek = &dayOfWeek
+	} else {
+		destination.DayOfWeek = nil
+	}
 
 	// MaintenanceWindow
 	destination.MaintenanceWindow = genruntime.ClonePointerToString(entry.MaintenanceWindow)
 
 	// StartHourUtc
-	startHourUtc := entry.StartHourUtc
-	destination.StartHourUtc = &startHourUtc
+	destination.StartHourUtc = genruntime.ClonePointerToInt(entry.StartHourUtc)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

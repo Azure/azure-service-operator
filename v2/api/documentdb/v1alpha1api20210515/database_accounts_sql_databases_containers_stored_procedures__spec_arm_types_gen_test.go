@@ -90,7 +90,7 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersSt
 
 // AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStoredProceduresSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStoredProceduresSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = SqlStoredProcedureCreateUpdatePropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(SqlStoredProcedureCreateUpdatePropertiesARMGenerator())
 }
 
 func Test_SqlStoredProcedureCreateUpdatePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -151,7 +151,7 @@ func SqlStoredProcedureCreateUpdatePropertiesARMGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForSqlStoredProcedureCreateUpdatePropertiesARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSqlStoredProcedureCreateUpdatePropertiesARM(gens map[string]gopter.Gen) {
 	gens["Options"] = gen.PtrOf(CreateUpdateOptionsARMGenerator())
-	gens["Resource"] = SqlStoredProcedureResourceARMGenerator()
+	gens["Resource"] = gen.PtrOf(SqlStoredProcedureResourceARMGenerator())
 }
 
 func Test_SqlStoredProcedureResourceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -212,5 +212,5 @@ func SqlStoredProcedureResourceARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSqlStoredProcedureResourceARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSqlStoredProcedureResourceARM(gens map[string]gopter.Gen) {
 	gens["Body"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }

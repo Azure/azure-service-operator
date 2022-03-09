@@ -10,10 +10,10 @@ type RedisLinkedServers_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the linked server that is being added to the Redis cache.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Create properties for a linked server
-	Properties RedisLinkedServerCreatePropertiesARM `json:"properties"`
+	Properties *RedisLinkedServerCreatePropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -38,11 +38,11 @@ func (servers RedisLinkedServers_SpecARM) GetType() string {
 
 //Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/RedisLinkedServerCreateProperties
 type RedisLinkedServerCreatePropertiesARM struct {
-	LinkedRedisCacheId string `json:"linkedRedisCacheId"`
+	LinkedRedisCacheId *string `json:"linkedRedisCacheId,omitempty"`
 
 	//LinkedRedisCacheLocation: Location of the linked redis cache.
-	LinkedRedisCacheLocation string `json:"linkedRedisCacheLocation"`
+	LinkedRedisCacheLocation *string `json:"linkedRedisCacheLocation,omitempty"`
 
 	//ServerRole: Role of the linked server.
-	ServerRole RedisLinkedServerCreatePropertiesServerRole `json:"serverRole"`
+	ServerRole *RedisLinkedServerCreatePropertiesServerRole `json:"serverRole,omitempty"`
 }

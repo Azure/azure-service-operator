@@ -52,7 +52,7 @@ type Identity_StatusARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	//Type: The identity type.
-	Type IdentityStatusType `json:"type"`
+	Type *IdentityStatusType `json:"type,omitempty"`
 
 	//UserAssignedIdentities: Gets or sets a list of key value pairs that describe the set of User Assigned identities that
 	//will be used with this storage account. The key is the ARM resource identifier of the identity. Only 1 User Assigned
@@ -182,7 +182,7 @@ type AzureFilesIdentityBasedAuthentication_StatusARM struct {
 	DefaultSharePermission *AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission `json:"defaultSharePermission,omitempty"`
 
 	//DirectoryServiceOptions: Indicates the directory service used.
-	DirectoryServiceOptions AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions `json:"directoryServiceOptions"`
+	DirectoryServiceOptions *AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions `json:"directoryServiceOptions,omitempty"`
 }
 
 type BlobRestoreStatus_StatusARM struct {
@@ -202,7 +202,7 @@ type BlobRestoreStatus_StatusARM struct {
 
 type CustomDomain_StatusARM struct {
 	//Name: Gets or sets the custom domain name assigned to the storage account. Name is the CNAME source.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//UseSubDomainName: Indicates whether indirect CName validation is enabled. Default value is false. This should only be
 	//set on updates.
@@ -215,7 +215,7 @@ type Encryption_StatusARM struct {
 
 	//KeySource: The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Storage,
 	//Microsoft.Keyvault
-	KeySource EncryptionStatusKeySource `json:"keySource"`
+	KeySource *EncryptionStatusKeySource `json:"keySource,omitempty"`
 
 	//Keyvaultproperties: Properties provided by key vault.
 	Keyvaultproperties *KeyVaultProperties_StatusARM `json:"keyvaultproperties,omitempty"`
@@ -290,7 +290,7 @@ type KeyCreationTime_StatusARM struct {
 
 type KeyPolicy_StatusARM struct {
 	//KeyExpirationPeriodInDays: The key expiration period in days.
-	KeyExpirationPeriodInDays int `json:"keyExpirationPeriodInDays"`
+	KeyExpirationPeriodInDays *int `json:"keyExpirationPeriodInDays,omitempty"`
 }
 
 type NetworkRuleSet_StatusARM struct {
@@ -299,7 +299,7 @@ type NetworkRuleSet_StatusARM struct {
 	Bypass *NetworkRuleSetStatusBypass `json:"bypass,omitempty"`
 
 	//DefaultAction: Specifies the default action of allow or deny when no other rules match.
-	DefaultAction NetworkRuleSetStatusDefaultAction `json:"defaultAction"`
+	DefaultAction *NetworkRuleSetStatusDefaultAction `json:"defaultAction,omitempty"`
 
 	//IpRules: Sets the IP ACL rules
 	IpRules []IPRule_StatusARM `json:"ipRules,omitempty"`
@@ -330,10 +330,10 @@ type RoutingPreference_StatusARM struct {
 
 type SasPolicy_StatusARM struct {
 	//ExpirationAction: The SAS expiration action. Can only be Log.
-	ExpirationAction SasPolicyStatusExpirationAction `json:"expirationAction"`
+	ExpirationAction *SasPolicyStatusExpirationAction `json:"expirationAction,omitempty"`
 
 	//SasExpirationPeriod: The SAS expiration period, DD.HH:MM:SS.
-	SasExpirationPeriod string `json:"sasExpirationPeriod"`
+	SasExpirationPeriod *string `json:"sasExpirationPeriod,omitempty"`
 }
 
 type UserAssignedIdentity_StatusARM struct {
@@ -346,30 +346,30 @@ type UserAssignedIdentity_StatusARM struct {
 
 type ActiveDirectoryProperties_StatusARM struct {
 	//AzureStorageSid: Specifies the security identifier (SID) for Azure Storage.
-	AzureStorageSid string `json:"azureStorageSid"`
+	AzureStorageSid *string `json:"azureStorageSid,omitempty"`
 
 	//DomainGuid: Specifies the domain GUID.
-	DomainGuid string `json:"domainGuid"`
+	DomainGuid *string `json:"domainGuid,omitempty"`
 
 	//DomainName: Specifies the primary domain that the AD DNS server is authoritative for.
-	DomainName string `json:"domainName"`
+	DomainName *string `json:"domainName,omitempty"`
 
 	//DomainSid: Specifies the security identifier (SID).
-	DomainSid string `json:"domainSid"`
+	DomainSid *string `json:"domainSid,omitempty"`
 
 	//ForestName: Specifies the Active Directory forest to get.
-	ForestName string `json:"forestName"`
+	ForestName *string `json:"forestName,omitempty"`
 
 	//NetBiosDomainName: Specifies the NetBIOS domain name.
-	NetBiosDomainName string `json:"netBiosDomainName"`
+	NetBiosDomainName *string `json:"netBiosDomainName,omitempty"`
 }
 
 type BlobRestoreParameters_StatusARM struct {
 	//BlobRanges: Blob ranges to restore.
-	BlobRanges []BlobRestoreRange_StatusARM `json:"blobRanges"`
+	BlobRanges []BlobRestoreRange_StatusARM `json:"blobRanges,omitempty"`
 
 	//TimeToRestore: Restore blob to the specified time.
-	TimeToRestore string `json:"timeToRestore"`
+	TimeToRestore *string `json:"timeToRestore,omitempty"`
 }
 
 type EncryptionIdentity_StatusARM struct {
@@ -397,7 +397,7 @@ type IPRule_StatusARM struct {
 	Action *IPRuleStatusAction `json:"action,omitempty"`
 
 	//Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
-	Value string `json:"value"`
+	Value *string `json:"value,omitempty"`
 }
 
 type KeyVaultProperties_StatusARM struct {
@@ -465,7 +465,7 @@ type VirtualNetworkRule_StatusARM struct {
 
 	//Id: Resource ID of a subnet, for example:
 	///subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 
 	//State: Gets the state of virtual network rule.
 	State *VirtualNetworkRuleStatusState `json:"state,omitempty"`
@@ -473,10 +473,10 @@ type VirtualNetworkRule_StatusARM struct {
 
 type BlobRestoreRange_StatusARM struct {
 	//EndRange: Blob end range. This is exclusive. Empty means account end.
-	EndRange string `json:"endRange"`
+	EndRange *string `json:"endRange,omitempty"`
 
 	//StartRange: Blob start range. This is inclusive. Empty means account start.
-	StartRange string `json:"startRange"`
+	StartRange *string `json:"startRange,omitempty"`
 }
 
 type EncryptionService_StatusARM struct {

@@ -1228,7 +1228,11 @@ func (in *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) De
 		*out = new(string)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -1273,7 +1277,11 @@ func (in *DatabaseAccountsMongodbDatabasesCollections_Spec) DeepCopyInto(out *Da
 		*out = new(CreateUpdateOptions)
 		(*in).DeepCopyInto(*out)
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -1313,7 +1321,11 @@ func (in *DatabaseAccountsMongodbDatabasesThroughputSettings_Spec) DeepCopyInto(
 		*out = new(string)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -1358,7 +1370,11 @@ func (in *DatabaseAccountsMongodbDatabases_Spec) DeepCopyInto(out *DatabaseAccou
 		*out = new(CreateUpdateOptions)
 		(*in).DeepCopyInto(*out)
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -1403,7 +1419,11 @@ func (in *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) DeepCopyI
 		*out = new(CreateUpdateOptions)
 		(*in).DeepCopyInto(*out)
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -1443,7 +1463,11 @@ func (in *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) DeepCop
 		*out = new(string)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -1488,7 +1512,11 @@ func (in *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) DeepCopyInto(out 
 		*out = new(CreateUpdateOptions)
 		(*in).DeepCopyInto(*out)
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -1533,7 +1561,11 @@ func (in *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) DeepC
 		*out = new(CreateUpdateOptions)
 		(*in).DeepCopyInto(*out)
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -1578,7 +1610,11 @@ func (in *DatabaseAccountsSqlDatabasesContainers_Spec) DeepCopyInto(out *Databas
 		*out = new(CreateUpdateOptions)
 		(*in).DeepCopyInto(*out)
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -1618,7 +1654,11 @@ func (in *DatabaseAccountsSqlDatabasesThroughputSettings_Spec) DeepCopyInto(out 
 		*out = new(string)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -1663,7 +1703,11 @@ func (in *DatabaseAccountsSqlDatabases_Spec) DeepCopyInto(out *DatabaseAccountsS
 		*out = new(CreateUpdateOptions)
 		(*in).DeepCopyInto(*out)
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -1831,7 +1875,11 @@ func (in *DatabaseAccounts_Spec) DeepCopyInto(out *DatabaseAccounts_Spec) {
 		*out = new(DatabaseAccountOperatorSpec)
 		(*in).DeepCopyInto(*out)
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))

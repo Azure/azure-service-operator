@@ -321,7 +321,7 @@ func SkuStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSkuStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuStatusARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.OneConstOf(SkuStatusNameBasic, SkuStatusNamePremium, SkuStatusNameStandard)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SkuStatusNameBasic, SkuStatusNamePremium, SkuStatusNameStandard))
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(SkuStatusTierBasic, SkuStatusTierPremium, SkuStatusTierStandard))
 }
 

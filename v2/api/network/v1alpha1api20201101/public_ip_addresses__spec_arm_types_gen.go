@@ -10,13 +10,13 @@ type PublicIPAddresses_SpecARM struct {
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: Name of the resource
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Public IP address properties.
-	Properties PublicIPAddressPropertiesFormatARM `json:"properties"`
+	Properties *PublicIPAddressPropertiesFormatARM `json:"properties,omitempty"`
 
 	//Sku: The public IP address SKU.
 	Sku *PublicIPAddressSkuARM `json:"sku,omitempty"`
@@ -66,7 +66,7 @@ type PublicIPAddressPropertiesFormatARM struct {
 	PublicIPAddressVersion *PublicIPAddressPropertiesFormatPublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
 
 	//PublicIPAllocationMethod: The public IP address allocation method.
-	PublicIPAllocationMethod PublicIPAddressPropertiesFormatPublicIPAllocationMethod `json:"publicIPAllocationMethod"`
+	PublicIPAllocationMethod *PublicIPAddressPropertiesFormatPublicIPAllocationMethod `json:"publicIPAllocationMethod,omitempty"`
 
 	//PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated from.
 	PublicIPPrefix *SubResourceARM `json:"publicIPPrefix,omitempty"`
@@ -108,7 +108,7 @@ type PublicIPAddressDnsSettingsARM struct {
 	//DomainNameLabel: The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up
 	//the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS
 	//record is created for the public IP in the Microsoft Azure DNS system.
-	DomainNameLabel string `json:"domainNameLabel"`
+	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
 
 	//Fqdn: The Fully Qualified Domain Name of the A DNS record associated with the public IP. This is the concatenation of
 	//the domainNameLabel and the regionalized DNS zone.

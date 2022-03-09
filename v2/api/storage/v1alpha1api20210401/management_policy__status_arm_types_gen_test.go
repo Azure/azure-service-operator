@@ -164,7 +164,7 @@ func AddIndependentPropertyGeneratorsForManagementPolicyPropertiesStatusARM(gens
 
 // AddRelatedPropertyGeneratorsForManagementPolicyPropertiesStatusARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagementPolicyPropertiesStatusARM(gens map[string]gopter.Gen) {
-	gens["Policy"] = ManagementPolicySchemaStatusARMGenerator()
+	gens["Policy"] = gen.PtrOf(ManagementPolicySchemaStatusARMGenerator())
 }
 
 func Test_ManagementPolicySchema_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -294,13 +294,13 @@ func ManagementPolicyRuleStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagementPolicyRuleStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagementPolicyRuleStatusARM(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.OneConstOf(ManagementPolicyRuleStatusTypeLifecycle)
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagementPolicyRuleStatusTypeLifecycle))
 }
 
 // AddRelatedPropertyGeneratorsForManagementPolicyRuleStatusARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagementPolicyRuleStatusARM(gens map[string]gopter.Gen) {
-	gens["Definition"] = ManagementPolicyDefinitionStatusARMGenerator()
+	gens["Definition"] = gen.PtrOf(ManagementPolicyDefinitionStatusARMGenerator())
 }
 
 func Test_ManagementPolicyDefinition_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -360,7 +360,7 @@ func ManagementPolicyDefinitionStatusARMGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForManagementPolicyDefinitionStatusARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagementPolicyDefinitionStatusARM(gens map[string]gopter.Gen) {
-	gens["Actions"] = ManagementPolicyActionStatusARMGenerator()
+	gens["Actions"] = gen.PtrOf(ManagementPolicyActionStatusARMGenerator())
 	gens["Filters"] = gen.PtrOf(ManagementPolicyFilterStatusARMGenerator())
 }
 
@@ -757,9 +757,9 @@ func TagFilterStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForTagFilterStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForTagFilterStatusARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-	gens["Op"] = gen.AlphaString()
-	gens["Value"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Op"] = gen.PtrOf(gen.AlphaString())
+	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_DateAfterCreation_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -819,7 +819,7 @@ func DateAfterCreationStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDateAfterCreationStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDateAfterCreationStatusARM(gens map[string]gopter.Gen) {
-	gens["DaysAfterCreationGreaterThan"] = gen.Int()
+	gens["DaysAfterCreationGreaterThan"] = gen.PtrOf(gen.Int())
 }
 
 func Test_DateAfterModification_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -16,10 +16,10 @@ type VirtualMachines_SpecARM struct {
 	Identity *VirtualMachineIdentityARM `json:"identity,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the virtual machine.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Plan: Specifies information about the marketplace image used to create the virtual machine. This element is only used
 	//for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic
@@ -28,7 +28,7 @@ type VirtualMachines_SpecARM struct {
 	Plan *PlanARM `json:"plan,omitempty"`
 
 	//Properties: Describes the properties of a Virtual Machine.
-	Properties VirtualMachines_Spec_PropertiesARM `json:"properties"`
+	Properties *VirtualMachines_Spec_PropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -335,7 +335,7 @@ type DataDiskARM struct {
 	//FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a
 	//platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also
 	//use the plan element previously described.
-	CreateOption DataDiskCreateOption `json:"createOption"`
+	CreateOption *DataDiskCreateOption `json:"createOption,omitempty"`
 
 	//DetachOption: Specifies the detach behavior to be used while detaching a disk or which is already in the process of
 	//detachment from the virtual machine. Supported values: ForceDetach.
@@ -357,7 +357,7 @@ type DataDiskARM struct {
 
 	//Lun: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and
 	//therefore must be unique for each data disk attached to a VM.
-	Lun int `json:"lun"`
+	Lun *int `json:"lun,omitempty"`
 
 	//ManagedDisk: The parameters of a managed disk.
 	ManagedDisk *ManagedDiskParametersARM `json:"managedDisk,omitempty"`
@@ -428,7 +428,7 @@ type OSDiskARM struct {
 	//FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a
 	//platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also
 	//use the plan element previously described.
-	CreateOption OSDiskCreateOption `json:"createOption"`
+	CreateOption *OSDiskCreateOption `json:"createOption,omitempty"`
 
 	//DiffDiskSettings: Describes the parameters of ephemeral disk settings that can be specified for operating system disk.
 	//NOTE: The ephemeral disk settings can only be specified for managed disk.
@@ -663,15 +663,15 @@ type DiskEncryptionSetParametersARM struct {
 //Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/KeyVaultKeyReference
 type KeyVaultKeyReferenceARM struct {
 	//KeyUrl: The URL referencing a key encryption key in Key Vault.
-	KeyUrl      string         `json:"keyUrl"`
-	SourceVault SubResourceARM `json:"sourceVault"`
+	KeyUrl      *string         `json:"keyUrl,omitempty"`
+	SourceVault *SubResourceARM `json:"sourceVault,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/KeyVaultSecretReference
 type KeyVaultSecretReferenceARM struct {
 	//SecretUrl: The URL referencing a secret in a Key Vault.
-	SecretUrl   string         `json:"secretUrl"`
-	SourceVault SubResourceARM `json:"sourceVault"`
+	SecretUrl   *string         `json:"secretUrl,omitempty"`
+	SourceVault *SubResourceARM `json:"sourceVault,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/SshPublicKey

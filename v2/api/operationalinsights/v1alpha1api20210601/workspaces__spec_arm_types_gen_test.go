@@ -83,14 +83,14 @@ func WorkspacesSpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWorkspacesSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspacesSpecARM(gens map[string]gopter.Gen) {
 	gens["ETag"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForWorkspacesSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForWorkspacesSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = WorkspacePropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(WorkspacePropertiesARMGenerator())
 }
 
 func Test_WorkspacePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -361,7 +361,7 @@ func WorkspaceSkuARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWorkspaceSkuARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspaceSkuARM(gens map[string]gopter.Gen) {
 	gens["CapacityReservationLevel"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.OneConstOf(
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
 		WorkspaceSkuNameCapacityReservation,
 		WorkspaceSkuNameFree,
 		WorkspaceSkuNameLACluster,
@@ -369,5 +369,5 @@ func AddIndependentPropertyGeneratorsForWorkspaceSkuARM(gens map[string]gopter.G
 		WorkspaceSkuNamePerNode,
 		WorkspaceSkuNamePremium,
 		WorkspaceSkuNameStandalone,
-		WorkspaceSkuNameStandard)
+		WorkspaceSkuNameStandard))
 }

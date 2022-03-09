@@ -206,7 +206,7 @@ type StorageAccounts_Spec struct {
 	// +kubebuilder:validation:MinLength=3
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName            string                      `json:"azureName"`
+	AzureName            string                      `json:"azureName,omitempty"`
 	CustomDomain         *CustomDomain               `json:"customDomain,omitempty"`
 	Encryption           *Encryption                 `json:"encryption,omitempty"`
 	ExtendedLocation     *ExtendedLocation           `json:"extendedLocation,omitempty"`
@@ -220,19 +220,19 @@ type StorageAccounts_Spec struct {
 	MinimumTlsVersion    *string                     `json:"minimumTlsVersion,omitempty"`
 	NetworkAcls          *NetworkRuleSet             `json:"networkAcls,omitempty"`
 	OperatorSpec         *StorageAccountOperatorSpec `json:"operatorSpec,omitempty"`
-	OriginalVersion      string                      `json:"originalVersion"`
+	OriginalVersion      string                      `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner                    genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PropertyBag              genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	RoutingPreference        *RoutingPreference                `json:"routingPreference,omitempty"`
-	SasPolicy                *SasPolicy                        `json:"sasPolicy,omitempty"`
-	Sku                      *Sku                              `json:"sku,omitempty"`
-	SupportsHttpsTrafficOnly *bool                             `json:"supportsHttpsTrafficOnly,omitempty"`
-	Tags                     map[string]string                 `json:"tags,omitempty"`
+	Owner                    *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag              genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	RoutingPreference        *RoutingPreference                 `json:"routingPreference,omitempty"`
+	SasPolicy                *SasPolicy                         `json:"sasPolicy,omitempty"`
+	Sku                      *Sku                               `json:"sku,omitempty"`
+	SupportsHttpsTrafficOnly *bool                              `json:"supportsHttpsTrafficOnly,omitempty"`
+	Tags                     map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &StorageAccounts_Spec{}
@@ -635,8 +635,8 @@ type VirtualNetworkRule struct {
 	// +kubebuilder:validation:Required
 	//Reference: Resource ID of a subnet, for example:
 	///subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
-	Reference genruntime.ResourceReference `armReference:"Id" json:"reference"`
-	State     *string                      `json:"state,omitempty"`
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	State     *string                       `json:"state,omitempty"`
 }
 
 //Storage version of v1alpha1api20210401.VirtualNetworkRule_Status

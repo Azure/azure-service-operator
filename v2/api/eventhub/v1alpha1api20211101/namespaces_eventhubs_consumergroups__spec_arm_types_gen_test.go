@@ -90,7 +90,7 @@ func AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroupsSpecARM
 
 // AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumergroupsSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumergroupsSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = ConsumerGroupPropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(ConsumerGroupPropertiesARMGenerator())
 }
 
 func Test_ConsumerGroupPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -404,7 +404,7 @@ func DomainsSpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDomainsSpec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(DomainPropertiesInputSchemaCloudEventSchemaV10, DomainPropertiesInputSchemaCustomEventSchema, DomainPropertiesInputSchemaEventGridSchema))
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DomainPropertiesPublicNetworkAccessDisabled, DomainPropertiesPublicNetworkAccessEnabled))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
@@ -719,7 +719,7 @@ func InputSchemaMappingStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInputSchemaMappingStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInputSchemaMappingStatus(gens map[string]gopter.Gen) {
-	gens["InputSchemaMappingType"] = gen.OneConstOf(InputSchemaMappingStatusInputSchemaMappingTypeJson)
+	gens["InputSchemaMappingType"] = gen.PtrOf(gen.OneConstOf(InputSchemaMappingStatusInputSchemaMappingTypeJson))
 }
 
 func Test_JsonInputSchemaMapping_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -830,7 +830,7 @@ func JsonInputSchemaMappingGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForJsonInputSchemaMapping is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForJsonInputSchemaMapping(gens map[string]gopter.Gen) {
-	gens["InputSchemaMappingType"] = gen.OneConstOf(JsonInputSchemaMappingInputSchemaMappingTypeJson)
+	gens["InputSchemaMappingType"] = gen.PtrOf(gen.OneConstOf(JsonInputSchemaMappingInputSchemaMappingTypeJson))
 }
 
 // AddRelatedPropertyGeneratorsForJsonInputSchemaMapping is a factory method for creating gopter generators

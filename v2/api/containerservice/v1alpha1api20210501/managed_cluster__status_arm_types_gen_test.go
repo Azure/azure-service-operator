@@ -460,12 +460,12 @@ func ContainerServiceLinuxProfileStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForContainerServiceLinuxProfileStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForContainerServiceLinuxProfileStatusARM(gens map[string]gopter.Gen) {
-	gens["AdminUsername"] = gen.AlphaString()
+	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForContainerServiceLinuxProfileStatusARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForContainerServiceLinuxProfileStatusARM(gens map[string]gopter.Gen) {
-	gens["Ssh"] = ContainerServiceSshConfigurationStatusARMGenerator()
+	gens["Ssh"] = gen.PtrOf(ContainerServiceSshConfigurationStatusARMGenerator())
 }
 
 func Test_ContainerServiceNetworkProfile_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1195,7 +1195,7 @@ func ManagedClusterServicePrincipalProfileStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusterServicePrincipalProfileStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterServicePrincipalProfileStatusARM(gens map[string]gopter.Gen) {
-	gens["ClientId"] = gen.AlphaString()
+	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["Secret"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1257,7 +1257,7 @@ func ManagedClusterWindowsProfileStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedClusterWindowsProfileStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterWindowsProfileStatusARM(gens map[string]gopter.Gen) {
 	gens["AdminPassword"] = gen.PtrOf(gen.AlphaString())
-	gens["AdminUsername"] = gen.AlphaString()
+	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
 	gens["EnableCSIProxy"] = gen.PtrOf(gen.Bool())
 	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterWindowsProfileStatusLicenseTypeNone, ManagedClusterWindowsProfileStatusLicenseTypeWindowsServer))
 }
@@ -1522,8 +1522,8 @@ func ManagedClusterPodIdentityExceptionStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusterPodIdentityExceptionStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityExceptionStatusARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-	gens["Namespace"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Namespace"] = gen.PtrOf(gen.AlphaString())
 	gens["PodLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
@@ -1594,8 +1594,8 @@ func ManagedClusterPodIdentityStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedClusterPodIdentityStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityStatusARM(gens map[string]gopter.Gen) {
 	gens["BindingSelector"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Namespace"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Namespace"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
 		ManagedClusterPodIdentityStatusProvisioningStateAssigned,
 		ManagedClusterPodIdentityStatusProvisioningStateDeleting,
@@ -1605,7 +1605,7 @@ func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityStatusARM(gens 
 
 // AddRelatedPropertyGeneratorsForManagedClusterPodIdentityStatusARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClusterPodIdentityStatusARM(gens map[string]gopter.Gen) {
-	gens["Identity"] = UserAssignedIdentityStatusARMGenerator()
+	gens["Identity"] = gen.PtrOf(UserAssignedIdentityStatusARMGenerator())
 	gens["ProvisioningInfo"] = gen.PtrOf(ManagedClusterPodIdentityStatusProvisioningInfoARMGenerator())
 }
 
@@ -1666,7 +1666,7 @@ func ContainerServiceSshPublicKeyStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForContainerServiceSshPublicKeyStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForContainerServiceSshPublicKeyStatusARM(gens map[string]gopter.Gen) {
-	gens["KeyData"] = gen.AlphaString()
+	gens["KeyData"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

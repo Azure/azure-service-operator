@@ -80,10 +80,10 @@ type ServerProperties_StatusARM struct {
 
 type Sku_StatusARM struct {
 	//Name: The name of the sku, e.g. Standard_D32s_v3.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Tier: The tier of the particular SKU, e.g. GeneralPurpose.
-	Tier SkuStatusTier `json:"tier"`
+	Tier *SkuStatusTier `json:"tier,omitempty"`
 }
 
 type Backup_StatusARM struct {

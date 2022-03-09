@@ -90,7 +90,7 @@ func AddIndependentPropertyGeneratorsForFlexibleServersDatabasesSpecARM(gens map
 
 // AddRelatedPropertyGeneratorsForFlexibleServersDatabasesSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFlexibleServersDatabasesSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = DatabasePropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(DatabasePropertiesARMGenerator())
 }
 
 func Test_DatabasePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

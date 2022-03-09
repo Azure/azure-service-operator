@@ -422,7 +422,7 @@ func RedisSpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRedisSpec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["EnableNonSslPort"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(RedisCreatePropertiesMinimumTlsVersion10, RedisCreatePropertiesMinimumTlsVersion11, RedisCreatePropertiesMinimumTlsVersion12))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RedisCreatePropertiesPublicNetworkAccessDisabled, RedisCreatePropertiesPublicNetworkAccessEnabled))
 	gens["RedisConfiguration"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
@@ -439,7 +439,7 @@ func AddIndependentPropertyGeneratorsForRedisSpec(gens map[string]gopter.Gen) {
 // AddRelatedPropertyGeneratorsForRedisSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisSpec(gens map[string]gopter.Gen) {
 	gens["OperatorSpec"] = gen.PtrOf(RedisOperatorSpecGenerator())
-	gens["Sku"] = SkuGenerator()
+	gens["Sku"] = gen.PtrOf(SkuGenerator())
 }
 
 func Test_PrivateEndpointConnection_Status_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -952,9 +952,9 @@ func SkuGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
-	gens["Capacity"] = gen.Int()
-	gens["Family"] = gen.OneConstOf(SkuFamilyC, SkuFamilyP)
-	gens["Name"] = gen.OneConstOf(SkuNameBasic, SkuNamePremium, SkuNameStandard)
+	gens["Capacity"] = gen.PtrOf(gen.Int())
+	gens["Family"] = gen.PtrOf(gen.OneConstOf(SkuFamilyC, SkuFamilyP))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SkuNameBasic, SkuNamePremium, SkuNameStandard))
 }
 
 func Test_Sku_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1055,9 +1055,9 @@ func SkuStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSkuStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuStatus(gens map[string]gopter.Gen) {
-	gens["Capacity"] = gen.Int()
-	gens["Family"] = gen.OneConstOf(SkuStatusFamilyC, SkuStatusFamilyP)
-	gens["Name"] = gen.OneConstOf(SkuStatusNameBasic, SkuStatusNamePremium, SkuStatusNameStandard)
+	gens["Capacity"] = gen.PtrOf(gen.Int())
+	gens["Family"] = gen.PtrOf(gen.OneConstOf(SkuStatusFamilyC, SkuStatusFamilyP))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SkuStatusNameBasic, SkuStatusNamePremium, SkuStatusNameStandard))
 }
 
 func Test_RedisOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
