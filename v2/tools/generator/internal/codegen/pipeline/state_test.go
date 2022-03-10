@@ -46,4 +46,3 @@ func TestStateCheckFinalState_WhenExpectationNotSatisfied_ReturnsExpectedError(t
 	g.Expect(err.Error()).To(ContainSubstring(firstStageId))
 	g.Expect(err.Error()).To(ContainSubstring(lastStageId))
 }
-

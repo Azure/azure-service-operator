@@ -40,8 +40,8 @@ func TestGolden_InjectConvertibleStatusInterface(t *testing.T) {
 	cfg := config.NewConfiguration()
 	finalState, err := RunTestPipeline(
 		initialState,
-		CreateStorageTypes(),                              // First create the storage types
-		CreateConversionGraph(cfg),                        // Then, create the conversion graph showing relationships
+		CreateStorageTypes(),       // First create the storage types
+		CreateConversionGraph(cfg), // Then, create the conversion graph showing relationships
 		InjectPropertyAssignmentFunctions(cfg, idFactory), // After which we inject property assignment functions
 		ImplementConvertibleStatusInterface(idFactory),    // And then we get to run the stage we're testing
 	)

@@ -22,7 +22,7 @@ func TestGolden_InjectConvertibleInterface(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
-	
+
 	// Test Resource V1
 
 	specV1 := test.CreateSpec(test.Pkg2020, "Person", test.FullNameProperty)

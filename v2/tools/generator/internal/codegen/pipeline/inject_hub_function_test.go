@@ -79,6 +79,6 @@ func TestInjectHubFunction_WhenResourceIsNotStorageVersion_GeneratesExpectedFile
 		initialState,
 		InjectHubFunction(idFactory))
 	g.Expect(err).To(Succeed())
-	
+
 	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions(), test.DiffWithTypes(initialState.Definitions()))
 }

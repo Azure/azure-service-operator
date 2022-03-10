@@ -746,4 +746,3 @@ func generateMethodDeclForFunction(
 
 	return f.AsFunc(codeGenerationContext, typeName)
 }
-

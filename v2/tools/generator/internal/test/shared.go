@@ -58,11 +58,11 @@ var (
 	Pkg2022s = astmodel.MakeStoragePackageReference(Pkg2022)
 
 	// Reference Package Batch 2020
-	BatchPkg2020 = MakeLocalPackageReference(BatchGroup, "v20200101")
+	BatchPkg2020  = MakeLocalPackageReference(BatchGroup, "v20200101")
 	BatchPkg2020s = astmodel.MakeStoragePackageReference(BatchPkg2020)
 
 	// Reference Package Batch 2021
-	BatchPkg2021 = MakeLocalPackageReference(BatchGroup, "v20210630")
+	BatchPkg2021  = MakeLocalPackageReference(BatchGroup, "v20210630")
 	BatchPkg2021s = astmodel.MakeStoragePackageReference(BatchPkg2021)
 
 	// Objects in Pkg2021

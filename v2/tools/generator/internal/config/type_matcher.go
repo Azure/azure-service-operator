@@ -132,7 +132,7 @@ func (t *TypeMatcher) String() string {
 		spacer = "; "
 	}
 
-	if t.Because!= "" {
+	if t.Because != "" {
 		result.WriteString(fmt.Sprintf("%sBecause: %q", spacer, t.Because))
 	}
 
