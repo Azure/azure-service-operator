@@ -50,6 +50,12 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 				StorageAccount_QueueServices_CRUD(tc, acct)
 			},
 		},
+		testcommon.Subtest{
+			Name: "Management Policies CRUD",
+			Test: func(testContext *testcommon.KubePerTestContext) {
+				StorageAccount_ManagementPolicy_CRUD(tc, acct)
+			},
+		},
 	)
 
 	tc.DeleteResourceAndWait(acct)
@@ -214,30 +220,6 @@ func StorageAccount_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerT
 	tc.ExpectSecretHasKeys(fileSecret, "file")
 	tc.ExpectSecretHasKeys(webSecret, "web")
 	tc.ExpectSecretHasKeys(dfsSecret, "dfs")
-}
-
-func Test_Storage_StorageAccount_ManagementPolicies(t *testing.T) {
-	t.Parallel()
-	tc := globalTestContext.ForTest(t)
-
-	rg := tc.CreateTestResourceGroupAndWait()
-
-	acct := createStorageAccount(tc, rg)
-
-	tc.CreateResourceAndWait(acct)
-
-	//tc.Expect(acct.Status.Location).To(Equal(&tc.AzureRegion))
-	//expectedKind := storage.StorageAccountStatusKindStorageV2
-	//tc.Expect(acct.Status.Kind).To(Equal(&expectedKind))
-
-	// Run sub-tests on storage account
-	tc.RunSubtests(
-		testcommon.Subtest{
-			Name: "Management Policies CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				StorageAccount_ManagementPolicy_CRUD(tc, acct)
-			},
-		})
 }
 
 func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blobService client.Object) {
