@@ -52,7 +52,11 @@ func (gc *GroupConfiguration) add(version *VersionConfiguration) {
 	// Convert version.name into a storage package version
 	// We do this by constructing a storage package reference for reasons similar to above.
 	storage := astmodel.MakeStoragePackageReference(local)
-	_, sv, _ := storage.GroupVersion()
+	_, sv, ok := storage.GroupVersion()
+	if !ok {
+		msg := fmt.Sprintf("storage package reference %s unexpectedly failed to return GroupVersion()", storage)
+		panic(msg)
+	}
 
 	gc.versions[strings.ToLower(version.name)] = version
 	gc.versions[strings.ToLower(lv)] = version
