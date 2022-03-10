@@ -229,7 +229,7 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 
 		// Fail fast if something goes awry
 		if len(stateOut.Definitions()) == 0 {
-			return errors.Errorf("All type definitions removed by stage %s", stage.Id())
+			return errors.Errorf("all type definitions removed by stage %s", stage.Id())
 		}
 
 		defsAdded := stateOut.Definitions().Except(state.Definitions())
