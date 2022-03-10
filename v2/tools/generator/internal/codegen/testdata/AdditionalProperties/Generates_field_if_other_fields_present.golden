@@ -3,12 +3,120 @@
 // Licensed under the MIT license.
 package v1alpha1api20200101
 
+import (
+	"github.com/Azure/azure-service-operator/testing/test/v1alpha1api20200101storage"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/pkg/errors"
+)
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	Tags *Test_Tags `json:"tags,omitempty"`
 }
 
+// AssignPropertiesFromTest populates our Test from the provided source Test
+func (test *Test) AssignPropertiesFromTest(source *v1alpha1api20200101storage.Test) error {
+
+	// Tags
+	if source.Tags != nil {
+		var tag Test_Tags
+		err := tag.AssignPropertiesFromTestTags(source.Tags)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromTestTags() to populate field Tags")
+		}
+		test.Tags = &tag
+	} else {
+		test.Tags = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTest populates the provided destination Test from our Test
+func (test *Test) AssignPropertiesToTest(destination *v1alpha1api20200101storage.Test) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Tags
+	if test.Tags != nil {
+		var tag v1alpha1api20200101storage.Test_Tags
+		err := test.Tags.AssignPropertiesToTestTags(&tag)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToTestTags() to populate field Tags")
+		}
+		destination.Tags = &tag
+	} else {
+		destination.Tags = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type Test_Tags struct {
 	OtherField           *string            `json:"otherField,omitempty"`
 	additionalProperties map[string]float64 `json:"additionalProperties,omitempty"`
+}
+
+// AssignPropertiesFromTestTags populates our Test_Tags from the provided source Test_Tags
+func (tags *Test_Tags) AssignPropertiesFromTestTags(source *v1alpha1api20200101storage.Test_Tags) error {
+
+	// OtherField
+	tags.OtherField = genruntime.ClonePointerToString(source.OtherField)
+
+	// additionalProperties
+	if source.additionalProperties != nil {
+		additionalPropertyMap := make(map[string]float64, len(source.additionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range source.additionalProperties {
+			// Shadow the loop variable to avoid aliasing
+			additionalPropertyValue := additionalPropertyValue
+			additionalPropertyMap[additionalPropertyKey] = additionalPropertyValue
+		}
+		tags.additionalProperties = additionalPropertyMap
+	} else {
+		tags.additionalProperties = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTestTags populates the provided destination Test_Tags from our Test_Tags
+func (tags *Test_Tags) AssignPropertiesToTestTags(destination *v1alpha1api20200101storage.Test_Tags) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// OtherField
+	destination.OtherField = genruntime.ClonePointerToString(tags.OtherField)
+
+	// additionalProperties
+	if tags.additionalProperties != nil {
+		additionalPropertyMap := make(map[string]float64, len(tags.additionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range tags.additionalProperties {
+			// Shadow the loop variable to avoid aliasing
+			additionalPropertyValue := additionalPropertyValue
+			additionalPropertyMap[additionalPropertyKey] = additionalPropertyValue
+		}
+		destination.additionalProperties = additionalPropertyMap
+	} else {
+		destination.additionalProperties = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }

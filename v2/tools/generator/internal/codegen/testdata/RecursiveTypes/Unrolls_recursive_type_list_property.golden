@@ -3,9 +3,62 @@
 // Licensed under the MIT license.
 package v1alpha1api20200101
 
+import (
+	"github.com/Azure/azure-service-operator/testing/test/v1alpha1api20200101storage"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/pkg/errors"
+)
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	Error *Error `json:"error,omitempty"`
+}
+
+// AssignPropertiesFromTest populates our Test from the provided source Test
+func (test *Test) AssignPropertiesFromTest(source *v1alpha1api20200101storage.Test) error {
+
+	// Error
+	if source.Error != nil {
+		var error Error
+		err := error.AssignPropertiesFromError(source.Error)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromError() to populate field Error")
+		}
+		test.Error = &error
+	} else {
+		test.Error = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTest populates the provided destination Test from our Test
+func (test *Test) AssignPropertiesToTest(destination *v1alpha1api20200101storage.Test) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Error
+	if test.Error != nil {
+		var error v1alpha1api20200101storage.Error
+		err := test.Error.AssignPropertiesToError(&error)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToError() to populate field Error")
+		}
+		destination.Error = &error
+	} else {
+		destination.Error = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Error
@@ -14,6 +67,100 @@ type Error struct {
 	Name   *string          `json:"name,omitempty"`
 }
 
+// AssignPropertiesFromError populates our Error from the provided source Error
+func (error *Error) AssignPropertiesFromError(source *v1alpha1api20200101storage.Error) error {
+
+	// Errors
+	if source.Errors != nil {
+		errorList := make([]Error_Unrolled, len(source.Errors))
+		for errorIndex, errorItem := range source.Errors {
+			// Shadow the loop variable to avoid aliasing
+			errorItem := errorItem
+			var errorLocal Error_Unrolled
+			err := errorLocal.AssignPropertiesFromErrorUnrolled(&errorItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromErrorUnrolled() to populate field Errors")
+			}
+			errorList[errorIndex] = errorLocal
+		}
+		error.Errors = errorList
+	} else {
+		error.Errors = nil
+	}
+
+	// Name
+	error.Name = genruntime.ClonePointerToString(source.Name)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToError populates the provided destination Error from our Error
+func (error *Error) AssignPropertiesToError(destination *v1alpha1api20200101storage.Error) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Errors
+	if error.Errors != nil {
+		errorList := make([]v1alpha1api20200101storage.Error_Unrolled, len(error.Errors))
+		for errorIndex, errorItem := range error.Errors {
+			// Shadow the loop variable to avoid aliasing
+			errorItem := errorItem
+			var errorLocal v1alpha1api20200101storage.Error_Unrolled
+			err := errorItem.AssignPropertiesToErrorUnrolled(&errorLocal)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToErrorUnrolled() to populate field Errors")
+			}
+			errorList[errorIndex] = errorLocal
+		}
+		destination.Errors = errorList
+	} else {
+		destination.Errors = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(error.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type Error_Unrolled struct {
 	Name *string `json:"name,omitempty"`
+}
+
+// AssignPropertiesFromErrorUnrolled populates our Error_Unrolled from the provided source Error_Unrolled
+func (unrolled *Error_Unrolled) AssignPropertiesFromErrorUnrolled(source *v1alpha1api20200101storage.Error_Unrolled) error {
+
+	// Name
+	unrolled.Name = genruntime.ClonePointerToString(source.Name)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToErrorUnrolled populates the provided destination Error_Unrolled from our Error_Unrolled
+func (unrolled *Error_Unrolled) AssignPropertiesToErrorUnrolled(destination *v1alpha1api20200101storage.Error_Unrolled) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(unrolled.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }

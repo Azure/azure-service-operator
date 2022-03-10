@@ -3,6 +3,12 @@
 // Licensed under the MIT license.
 package v1alpha1api20200101
 
+import (
+	"github.com/Azure/azure-service-operator/testing/test/v1alpha1api20200101storage"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/pkg/errors"
+)
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	//Either: Mutually exclusive with all other properties
@@ -12,12 +18,153 @@ type Test struct {
 	Or *Test_Or `json:"or,omitempty"`
 }
 
+// AssignPropertiesFromTest populates our Test from the provided source Test
+func (test *Test) AssignPropertiesFromTest(source *v1alpha1api20200101storage.Test) error {
+
+	// Either
+	if source.Either != nil {
+		var either Test_Either
+		err := either.AssignPropertiesFromTestEither(source.Either)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromTestEither() to populate field Either")
+		}
+		test.Either = &either
+	} else {
+		test.Either = nil
+	}
+
+	// Or
+	if source.Or != nil {
+		var or Test_Or
+		err := or.AssignPropertiesFromTestOr(source.Or)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromTestOr() to populate field Or")
+		}
+		test.Or = &or
+	} else {
+		test.Or = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTest populates the provided destination Test from our Test
+func (test *Test) AssignPropertiesToTest(destination *v1alpha1api20200101storage.Test) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Either
+	if test.Either != nil {
+		var either v1alpha1api20200101storage.Test_Either
+		err := test.Either.AssignPropertiesToTestEither(&either)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToTestEither() to populate field Either")
+		}
+		destination.Either = &either
+	} else {
+		destination.Either = nil
+	}
+
+	// Or
+	if test.Or != nil {
+		var or v1alpha1api20200101storage.Test_Or
+		err := test.Or.AssignPropertiesToTestOr(&or)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToTestOr() to populate field Or")
+		}
+		destination.Or = &or
+	} else {
+		destination.Or = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type Test_Either struct {
 	Height *int `json:"height,omitempty"`
 	Width  *int `json:"width,omitempty"`
 }
 
+// AssignPropertiesFromTestEither populates our Test_Either from the provided source Test_Either
+func (either *Test_Either) AssignPropertiesFromTestEither(source *v1alpha1api20200101storage.Test_Either) error {
+
+	// Height
+	either.Height = genruntime.ClonePointerToInt(source.Height)
+
+	// Width
+	either.Width = genruntime.ClonePointerToInt(source.Width)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTestEither populates the provided destination Test_Either from our Test_Either
+func (either *Test_Either) AssignPropertiesToTestEither(destination *v1alpha1api20200101storage.Test_Either) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Height
+	destination.Height = genruntime.ClonePointerToInt(either.Height)
+
+	// Width
+	destination.Width = genruntime.ClonePointerToInt(either.Width)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type Test_Or struct {
 	Length *int `json:"length,omitempty"`
 	Width  *int `json:"width,omitempty"`
+}
+
+// AssignPropertiesFromTestOr populates our Test_Or from the provided source Test_Or
+func (testOr *Test_Or) AssignPropertiesFromTestOr(source *v1alpha1api20200101storage.Test_Or) error {
+
+	// Length
+	testOr.Length = genruntime.ClonePointerToInt(source.Length)
+
+	// Width
+	testOr.Width = genruntime.ClonePointerToInt(source.Width)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTestOr populates the provided destination Test_Or from our Test_Or
+func (testOr *Test_Or) AssignPropertiesToTestOr(destination *v1alpha1api20200101storage.Test_Or) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Length
+	destination.Length = genruntime.ClonePointerToInt(testOr.Length)
+
+	// Width
+	destination.Width = genruntime.ClonePointerToInt(testOr.Width)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }

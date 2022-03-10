@@ -5,12 +5,16 @@ package v1alpha1api20200101
 
 import (
 	"fmt"
+	"github.com/Azure/azure-service-operator/testing/test/v1alpha1api20200101storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
@@ -35,6 +39,28 @@ func (a *A) GetConditions() conditions.Conditions {
 
 // SetConditions sets the conditions on the resource status
 func (a *A) SetConditions(conditions conditions.Conditions) { a.Status.Conditions = conditions }
+
+var _ conversion.Convertible = &A{}
+
+// ConvertFrom populates our A from the provided hub A
+func (a *A) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1alpha1api20200101storage.A)
+	if !ok {
+		return fmt.Errorf("expected storage:test/v1alpha1api20200101storage/A but received %T instead", hub)
+	}
+
+	return a.AssignPropertiesFromA(source)
+}
+
+// ConvertTo populates the provided hub A from our A
+func (a *A) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1alpha1api20200101storage.A)
+	if !ok {
+		return fmt.Errorf("expected storage:test/v1alpha1api20200101storage/A but received %T instead", hub)
+	}
+
+	return a.AssignPropertiesToA(destination)
+}
 
 // +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-a,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=as,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.as.test.azure.com,admissionReviewVersions=v1beta1
 
@@ -179,6 +205,51 @@ func (a *A) validateResourceReferences() error {
 	return genruntime.ValidateResourceReferences(refs)
 }
 
+// AssignPropertiesFromA populates our A from the provided source A
+func (a *A) AssignPropertiesFromA(source *v1alpha1api20200101storage.A) error {
+
+	// ObjectMeta
+	a.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec A_Spec
+	err := spec.AssignPropertiesFromASpec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromASpec() to populate field Spec")
+	}
+	a.Spec = spec
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToA populates the provided destination A from our A
+func (a *A) AssignPropertiesToA(destination *v1alpha1api20200101storage.A) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *a.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v1alpha1api20200101storage.A_Spec
+	err := a.Spec.AssignPropertiesToASpec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToASpec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// No error
+	return nil
+}
+
+// OriginalGVK returns a GroupValueKind for the original API version used to create the resource
+func (a *A) OriginalGVK() *schema.GroupVersionKind {
+	return &schema.GroupVersionKind{
+		Group:   GroupVersion.Group,
+		Version: a.Spec.OriginalVersion(),
+		Kind:    "A",
+	}
+}
+
 // +kubebuilder:object:root=true
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
 type AList struct {
@@ -292,6 +363,136 @@ func (a *A_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	return nil
 }
 
+var _ genruntime.ConvertibleSpec = &A_Spec{}
+
+// ConvertSpecFrom populates our A_Spec from the provided source
+func (a *A_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v1alpha1api20200101storage.A_Spec)
+	if ok {
+		// Populate our instance from source
+		return a.AssignPropertiesFromASpec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v1alpha1api20200101storage.A_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = a.AssignPropertiesFromASpec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our A_Spec
+func (a *A_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v1alpha1api20200101storage.A_Spec)
+	if ok {
+		// Populate destination from our instance
+		return a.AssignPropertiesToASpec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v1alpha1api20200101storage.A_Spec{}
+	err := a.AssignPropertiesToASpec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromASpec populates our A_Spec from the provided source A_Spec
+func (a *A_Spec) AssignPropertiesFromASpec(source *v1alpha1api20200101storage.A_Spec) error {
+
+	// AzureName
+	a.AzureName = source.AzureName
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		a.Owner = &owner
+	} else {
+		a.Owner = nil
+	}
+
+	// Properties
+	if source.Properties != nil {
+		var property AProperties
+		err := property.AssignPropertiesFromAProperties(source.Properties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromAProperties() to populate field Properties")
+		}
+		a.Properties = &property
+	} else {
+		a.Properties = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToASpec populates the provided destination A_Spec from our A_Spec
+func (a *A_Spec) AssignPropertiesToASpec(destination *v1alpha1api20200101storage.A_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = a.AzureName
+
+	// OriginalVersion
+	destination.OriginalVersion = a.OriginalVersion()
+
+	// Owner
+	if a.Owner != nil {
+		owner := a.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Properties
+	if a.Properties != nil {
+		var property v1alpha1api20200101storage.AProperties
+		err := a.Properties.AssignPropertiesToAProperties(&property)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToAProperties() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (a *A_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (a *A_Spec) SetAzureName(azureName string) { a.AzureName = azureName }
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
 type AProperties struct {
 	Left  *Left_SubResourceEmbedded    `json:"left,omitempty"`
@@ -361,6 +562,77 @@ func (properties *AProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 		right := right1
 		properties.Right = &right
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromAProperties populates our AProperties from the provided source AProperties
+func (properties *AProperties) AssignPropertiesFromAProperties(source *v1alpha1api20200101storage.AProperties) error {
+
+	// Left
+	if source.Left != nil {
+		var left Left_SubResourceEmbedded
+		err := left.AssignPropertiesFromLeftSubResourceEmbedded(source.Left)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromLeftSubResourceEmbedded() to populate field Left")
+		}
+		properties.Left = &left
+	} else {
+		properties.Left = nil
+	}
+
+	// Right
+	if source.Right != nil {
+		var right Right_SubResourceEmbedded_1
+		err := right.AssignPropertiesFromRightSubResourceEmbedded1(source.Right)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromRightSubResourceEmbedded1() to populate field Right")
+		}
+		properties.Right = &right
+	} else {
+		properties.Right = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToAProperties populates the provided destination AProperties from our AProperties
+func (properties *AProperties) AssignPropertiesToAProperties(destination *v1alpha1api20200101storage.AProperties) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Left
+	if properties.Left != nil {
+		var left v1alpha1api20200101storage.Left_SubResourceEmbedded
+		err := properties.Left.AssignPropertiesToLeftSubResourceEmbedded(&left)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToLeftSubResourceEmbedded() to populate field Left")
+		}
+		destination.Left = &left
+	} else {
+		destination.Left = nil
+	}
+
+	// Right
+	if properties.Right != nil {
+		var right v1alpha1api20200101storage.Right_SubResourceEmbedded_1
+		err := properties.Right.AssignPropertiesToRightSubResourceEmbedded1(&right)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToRightSubResourceEmbedded1() to populate field Right")
+		}
+		destination.Right = &right
+	} else {
+		destination.Right = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
 	}
 
 	// No error
@@ -486,6 +758,83 @@ func (embedded *Left_SubResourceEmbedded) PopulateFromARM(owner genruntime.Arbit
 	return nil
 }
 
+// AssignPropertiesFromLeftSubResourceEmbedded populates our Left_SubResourceEmbedded from the provided source Left_SubResourceEmbedded
+func (embedded *Left_SubResourceEmbedded) AssignPropertiesFromLeftSubResourceEmbedded(source *v1alpha1api20200101storage.Left_SubResourceEmbedded) error {
+
+	// Name
+	embedded.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Properties
+	if source.Properties != nil {
+		var property LeftProperties
+		err := property.AssignPropertiesFromLeftProperties(source.Properties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromLeftProperties() to populate field Properties")
+		}
+		embedded.Properties = &property
+	} else {
+		embedded.Properties = nil
+	}
+
+	// RefField
+	if source.RefField != nil {
+		var refField FakeResource_SubResourceEmbedded
+		err := refField.AssignPropertiesFromFakeResourceSubResourceEmbedded(source.RefField)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromFakeResourceSubResourceEmbedded() to populate field RefField")
+		}
+		embedded.RefField = &refField
+	} else {
+		embedded.RefField = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToLeftSubResourceEmbedded populates the provided destination Left_SubResourceEmbedded from our Left_SubResourceEmbedded
+func (embedded *Left_SubResourceEmbedded) AssignPropertiesToLeftSubResourceEmbedded(destination *v1alpha1api20200101storage.Left_SubResourceEmbedded) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(embedded.Name)
+
+	// Properties
+	if embedded.Properties != nil {
+		var property v1alpha1api20200101storage.LeftProperties
+		err := embedded.Properties.AssignPropertiesToLeftProperties(&property)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToLeftProperties() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// RefField
+	if embedded.RefField != nil {
+		var refField v1alpha1api20200101storage.FakeResource_SubResourceEmbedded
+		err := embedded.RefField.AssignPropertiesToFakeResourceSubResourceEmbedded(&refField)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToFakeResourceSubResourceEmbedded() to populate field RefField")
+		}
+		destination.RefField = &refField
+	} else {
+		destination.RefField = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/RightProperties
 type RightPropertiesARM struct {
 	StrField *string `json:"strField,omitempty"`
@@ -579,6 +928,83 @@ func (embedded1 *Right_SubResourceEmbedded_1) PopulateFromARM(owner genruntime.A
 	return nil
 }
 
+// AssignPropertiesFromRightSubResourceEmbedded1 populates our Right_SubResourceEmbedded_1 from the provided source Right_SubResourceEmbedded_1
+func (embedded1 *Right_SubResourceEmbedded_1) AssignPropertiesFromRightSubResourceEmbedded1(source *v1alpha1api20200101storage.Right_SubResourceEmbedded_1) error {
+
+	// Name
+	embedded1.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Properties
+	if source.Properties != nil {
+		var property RightProperties
+		err := property.AssignPropertiesFromRightProperties(source.Properties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromRightProperties() to populate field Properties")
+		}
+		embedded1.Properties = &property
+	} else {
+		embedded1.Properties = nil
+	}
+
+	// RefField
+	if source.RefField != nil {
+		var refField FakeResource_SubResourceEmbedded_1
+		err := refField.AssignPropertiesFromFakeResourceSubResourceEmbedded1(source.RefField)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromFakeResourceSubResourceEmbedded1() to populate field RefField")
+		}
+		embedded1.RefField = &refField
+	} else {
+		embedded1.RefField = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToRightSubResourceEmbedded1 populates the provided destination Right_SubResourceEmbedded_1 from our Right_SubResourceEmbedded_1
+func (embedded1 *Right_SubResourceEmbedded_1) AssignPropertiesToRightSubResourceEmbedded1(destination *v1alpha1api20200101storage.Right_SubResourceEmbedded_1) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(embedded1.Name)
+
+	// Properties
+	if embedded1.Properties != nil {
+		var property v1alpha1api20200101storage.RightProperties
+		err := embedded1.Properties.AssignPropertiesToRightProperties(&property)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToRightProperties() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// RefField
+	if embedded1.RefField != nil {
+		var refField v1alpha1api20200101storage.FakeResource_SubResourceEmbedded_1
+		err := embedded1.RefField.AssignPropertiesToFakeResourceSubResourceEmbedded1(&refField)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToFakeResourceSubResourceEmbedded1() to populate field RefField")
+		}
+		destination.RefField = &refField
+	} else {
+		destination.RefField = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
 type FakeResourceProperties_SubResourceEmbeddedARM struct {
 	Loop2 *Right_SubResourceEmbeddedARM `json:"loop2,omitempty"`
@@ -655,6 +1081,59 @@ func (embedded *FakeResource_SubResourceEmbedded) PopulateFromARM(owner genrunti
 	return nil
 }
 
+// AssignPropertiesFromFakeResourceSubResourceEmbedded populates our FakeResource_SubResourceEmbedded from the provided source FakeResource_SubResourceEmbedded
+func (embedded *FakeResource_SubResourceEmbedded) AssignPropertiesFromFakeResourceSubResourceEmbedded(source *v1alpha1api20200101storage.FakeResource_SubResourceEmbedded) error {
+
+	// Name
+	embedded.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Properties
+	if source.Properties != nil {
+		var property FakeResourceProperties_SubResourceEmbedded
+		err := property.AssignPropertiesFromFakeResourcePropertiesSubResourceEmbedded(source.Properties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromFakeResourcePropertiesSubResourceEmbedded() to populate field Properties")
+		}
+		embedded.Properties = &property
+	} else {
+		embedded.Properties = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFakeResourceSubResourceEmbedded populates the provided destination FakeResource_SubResourceEmbedded from our FakeResource_SubResourceEmbedded
+func (embedded *FakeResource_SubResourceEmbedded) AssignPropertiesToFakeResourceSubResourceEmbedded(destination *v1alpha1api20200101storage.FakeResource_SubResourceEmbedded) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(embedded.Name)
+
+	// Properties
+	if embedded.Properties != nil {
+		var property v1alpha1api20200101storage.FakeResourceProperties_SubResourceEmbedded
+		err := embedded.Properties.AssignPropertiesToFakeResourcePropertiesSubResourceEmbedded(&property)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToFakeResourcePropertiesSubResourceEmbedded() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResource
 type FakeResource_SubResourceEmbedded_1 struct {
 	Name       *string                                       `json:"name,omitempty"`
@@ -721,6 +1200,59 @@ func (embedded1 *FakeResource_SubResourceEmbedded_1) PopulateFromARM(owner genru
 	return nil
 }
 
+// AssignPropertiesFromFakeResourceSubResourceEmbedded1 populates our FakeResource_SubResourceEmbedded_1 from the provided source FakeResource_SubResourceEmbedded_1
+func (embedded1 *FakeResource_SubResourceEmbedded_1) AssignPropertiesFromFakeResourceSubResourceEmbedded1(source *v1alpha1api20200101storage.FakeResource_SubResourceEmbedded_1) error {
+
+	// Name
+	embedded1.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Properties
+	if source.Properties != nil {
+		var property FakeResourceProperties_SubResourceEmbedded_1
+		err := property.AssignPropertiesFromFakeResourcePropertiesSubResourceEmbedded1(source.Properties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromFakeResourcePropertiesSubResourceEmbedded1() to populate field Properties")
+		}
+		embedded1.Properties = &property
+	} else {
+		embedded1.Properties = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFakeResourceSubResourceEmbedded1 populates the provided destination FakeResource_SubResourceEmbedded_1 from our FakeResource_SubResourceEmbedded_1
+func (embedded1 *FakeResource_SubResourceEmbedded_1) AssignPropertiesToFakeResourceSubResourceEmbedded1(destination *v1alpha1api20200101storage.FakeResource_SubResourceEmbedded_1) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(embedded1.Name)
+
+	// Properties
+	if embedded1.Properties != nil {
+		var property v1alpha1api20200101storage.FakeResourceProperties_SubResourceEmbedded_1
+		err := embedded1.Properties.AssignPropertiesToFakeResourcePropertiesSubResourceEmbedded1(&property)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToFakeResourcePropertiesSubResourceEmbedded1() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/LeftProperties
 type LeftProperties struct {
 	StrField *string `json:"strField,omitempty"`
@@ -765,6 +1297,35 @@ func (properties *LeftProperties) PopulateFromARM(owner genruntime.ArbitraryOwne
 	return nil
 }
 
+// AssignPropertiesFromLeftProperties populates our LeftProperties from the provided source LeftProperties
+func (properties *LeftProperties) AssignPropertiesFromLeftProperties(source *v1alpha1api20200101storage.LeftProperties) error {
+
+	// StrField
+	properties.StrField = genruntime.ClonePointerToString(source.StrField)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToLeftProperties populates the provided destination LeftProperties from our LeftProperties
+func (properties *LeftProperties) AssignPropertiesToLeftProperties(destination *v1alpha1api20200101storage.LeftProperties) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// StrField
+	destination.StrField = genruntime.ClonePointerToString(properties.StrField)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/RightProperties
 type RightProperties struct {
 	StrField *string `json:"strField,omitempty"`
@@ -803,6 +1364,35 @@ func (properties *RightProperties) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.StrField != nil {
 		strField := *typedInput.StrField
 		properties.StrField = &strField
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromRightProperties populates our RightProperties from the provided source RightProperties
+func (properties *RightProperties) AssignPropertiesFromRightProperties(source *v1alpha1api20200101storage.RightProperties) error {
+
+	// StrField
+	properties.StrField = genruntime.ClonePointerToString(source.StrField)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToRightProperties populates the provided destination RightProperties from our RightProperties
+func (properties *RightProperties) AssignPropertiesToRightProperties(destination *v1alpha1api20200101storage.RightProperties) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// StrField
+	destination.StrField = genruntime.ClonePointerToString(properties.StrField)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
 	}
 
 	// No error
@@ -862,6 +1452,53 @@ func (embedded *FakeResourceProperties_SubResourceEmbedded) PopulateFromARM(owne
 	return nil
 }
 
+// AssignPropertiesFromFakeResourcePropertiesSubResourceEmbedded populates our FakeResourceProperties_SubResourceEmbedded from the provided source FakeResourceProperties_SubResourceEmbedded
+func (embedded *FakeResourceProperties_SubResourceEmbedded) AssignPropertiesFromFakeResourcePropertiesSubResourceEmbedded(source *v1alpha1api20200101storage.FakeResourceProperties_SubResourceEmbedded) error {
+
+	// Loop2
+	if source.Loop2 != nil {
+		var loop2 Right_SubResourceEmbedded
+		err := loop2.AssignPropertiesFromRightSubResourceEmbedded(source.Loop2)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromRightSubResourceEmbedded() to populate field Loop2")
+		}
+		embedded.Loop2 = &loop2
+	} else {
+		embedded.Loop2 = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFakeResourcePropertiesSubResourceEmbedded populates the provided destination FakeResourceProperties_SubResourceEmbedded from our FakeResourceProperties_SubResourceEmbedded
+func (embedded *FakeResourceProperties_SubResourceEmbedded) AssignPropertiesToFakeResourcePropertiesSubResourceEmbedded(destination *v1alpha1api20200101storage.FakeResourceProperties_SubResourceEmbedded) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Loop2
+	if embedded.Loop2 != nil {
+		var loop2 v1alpha1api20200101storage.Right_SubResourceEmbedded
+		err := embedded.Loop2.AssignPropertiesToRightSubResourceEmbedded(&loop2)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToRightSubResourceEmbedded() to populate field Loop2")
+		}
+		destination.Loop2 = &loop2
+	} else {
+		destination.Loop2 = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
 type FakeResourceProperties_SubResourceEmbedded_1 struct {
 	Loop1 *Left_SubResourceEmbedded_1 `json:"loop1,omitempty"`
@@ -909,6 +1546,53 @@ func (embedded1 *FakeResourceProperties_SubResourceEmbedded_1) PopulateFromARM(o
 		}
 		loop1 := loop
 		embedded1.Loop1 = &loop1
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromFakeResourcePropertiesSubResourceEmbedded1 populates our FakeResourceProperties_SubResourceEmbedded_1 from the provided source FakeResourceProperties_SubResourceEmbedded_1
+func (embedded1 *FakeResourceProperties_SubResourceEmbedded_1) AssignPropertiesFromFakeResourcePropertiesSubResourceEmbedded1(source *v1alpha1api20200101storage.FakeResourceProperties_SubResourceEmbedded_1) error {
+
+	// Loop1
+	if source.Loop1 != nil {
+		var loop1 Left_SubResourceEmbedded_1
+		err := loop1.AssignPropertiesFromLeftSubResourceEmbedded1(source.Loop1)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromLeftSubResourceEmbedded1() to populate field Loop1")
+		}
+		embedded1.Loop1 = &loop1
+	} else {
+		embedded1.Loop1 = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFakeResourcePropertiesSubResourceEmbedded1 populates the provided destination FakeResourceProperties_SubResourceEmbedded_1 from our FakeResourceProperties_SubResourceEmbedded_1
+func (embedded1 *FakeResourceProperties_SubResourceEmbedded_1) AssignPropertiesToFakeResourcePropertiesSubResourceEmbedded1(destination *v1alpha1api20200101storage.FakeResourceProperties_SubResourceEmbedded_1) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Loop1
+	if embedded1.Loop1 != nil {
+		var loop1 v1alpha1api20200101storage.Left_SubResourceEmbedded_1
+		err := embedded1.Loop1.AssignPropertiesToLeftSubResourceEmbedded1(&loop1)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToLeftSubResourceEmbedded1() to populate field Loop1")
+		}
+		destination.Loop1 = &loop1
+	} else {
+		destination.Loop1 = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
 	}
 
 	// No error
@@ -993,6 +1677,59 @@ func (embedded1 *Left_SubResourceEmbedded_1) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
+// AssignPropertiesFromLeftSubResourceEmbedded1 populates our Left_SubResourceEmbedded_1 from the provided source Left_SubResourceEmbedded_1
+func (embedded1 *Left_SubResourceEmbedded_1) AssignPropertiesFromLeftSubResourceEmbedded1(source *v1alpha1api20200101storage.Left_SubResourceEmbedded_1) error {
+
+	// Name
+	embedded1.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Properties
+	if source.Properties != nil {
+		var property LeftProperties
+		err := property.AssignPropertiesFromLeftProperties(source.Properties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromLeftProperties() to populate field Properties")
+		}
+		embedded1.Properties = &property
+	} else {
+		embedded1.Properties = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToLeftSubResourceEmbedded1 populates the provided destination Left_SubResourceEmbedded_1 from our Left_SubResourceEmbedded_1
+func (embedded1 *Left_SubResourceEmbedded_1) AssignPropertiesToLeftSubResourceEmbedded1(destination *v1alpha1api20200101storage.Left_SubResourceEmbedded_1) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(embedded1.Name)
+
+	// Properties
+	if embedded1.Properties != nil {
+		var property v1alpha1api20200101storage.LeftProperties
+		err := embedded1.Properties.AssignPropertiesToLeftProperties(&property)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToLeftProperties() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Right
 type Right_SubResourceEmbedded struct {
 	Name       *string          `json:"name,omitempty"`
@@ -1053,6 +1790,59 @@ func (embedded *Right_SubResourceEmbedded) PopulateFromARM(owner genruntime.Arbi
 		}
 		properties := properties1
 		embedded.Properties = &properties
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromRightSubResourceEmbedded populates our Right_SubResourceEmbedded from the provided source Right_SubResourceEmbedded
+func (embedded *Right_SubResourceEmbedded) AssignPropertiesFromRightSubResourceEmbedded(source *v1alpha1api20200101storage.Right_SubResourceEmbedded) error {
+
+	// Name
+	embedded.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Properties
+	if source.Properties != nil {
+		var property RightProperties
+		err := property.AssignPropertiesFromRightProperties(source.Properties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromRightProperties() to populate field Properties")
+		}
+		embedded.Properties = &property
+	} else {
+		embedded.Properties = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToRightSubResourceEmbedded populates the provided destination Right_SubResourceEmbedded from our Right_SubResourceEmbedded
+func (embedded *Right_SubResourceEmbedded) AssignPropertiesToRightSubResourceEmbedded(destination *v1alpha1api20200101storage.Right_SubResourceEmbedded) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(embedded.Name)
+
+	// Properties
+	if embedded.Properties != nil {
+		var property v1alpha1api20200101storage.RightProperties
+		err := embedded.Properties.AssignPropertiesToRightProperties(&property)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToRightProperties() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
 	}
 
 	// No error

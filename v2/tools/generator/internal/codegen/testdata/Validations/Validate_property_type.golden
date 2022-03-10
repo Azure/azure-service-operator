@@ -3,6 +3,11 @@
 // Licensed under the MIT license.
 package v1alpha1api20200101
 
+import (
+	"github.com/Azure/azure-service-operator/testing/test/v1alpha1api20200101storage"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+)
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	// +kubebuilder:validation:Required
@@ -30,4 +35,101 @@ type Test struct {
 	// +kubebuilder:validation:Minimum=100
 	// +kubebuilder:validation:MultipleOf=4
 	Sun *int `json:"sun,omitempty"`
+}
+
+// AssignPropertiesFromTest populates our Test from the provided source Test
+func (test *Test) AssignPropertiesFromTest(source *v1alpha1api20200101storage.Test) error {
+
+	// Apple
+	if source.Apple != nil {
+		appleList := make([]float64, len(source.Apple))
+		for appleIndex, appleItem := range source.Apple {
+			// Shadow the loop variable to avoid aliasing
+			appleItem := appleItem
+			appleList[appleIndex] = appleItem
+		}
+		test.Apple = appleList
+	} else {
+		test.Apple = nil
+	}
+
+	// Duck
+	if source.Duck != nil {
+		duck := *source.Duck
+		test.Duck = &duck
+	} else {
+		test.Duck = nil
+	}
+
+	// Moon
+	if source.Moon != nil {
+		moon := *source.Moon
+		test.Moon = &moon
+	} else {
+		test.Moon = nil
+	}
+
+	// Sun
+	if source.Sun != nil {
+		sun := *source.Sun
+		test.Sun = &sun
+	} else {
+		test.Sun = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTest populates the provided destination Test from our Test
+func (test *Test) AssignPropertiesToTest(destination *v1alpha1api20200101storage.Test) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Apple
+	if test.Apple != nil {
+		appleList := make([]float64, len(test.Apple))
+		for appleIndex, appleItem := range test.Apple {
+			// Shadow the loop variable to avoid aliasing
+			appleItem := appleItem
+			appleList[appleIndex] = appleItem
+		}
+		destination.Apple = appleList
+	} else {
+		destination.Apple = nil
+	}
+
+	// Duck
+	if test.Duck != nil {
+		duck := *test.Duck
+		destination.Duck = &duck
+	} else {
+		destination.Duck = nil
+	}
+
+	// Moon
+	if test.Moon != nil {
+		moon := *test.Moon
+		destination.Moon = &moon
+	} else {
+		destination.Moon = nil
+	}
+
+	// Sun
+	if test.Sun != nil {
+		sun := *test.Sun
+		destination.Sun = &sun
+	} else {
+		destination.Sun = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }

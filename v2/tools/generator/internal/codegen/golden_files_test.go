@@ -192,7 +192,6 @@ func NewTestCodeGenerator(
 	}
 
 	codegen.ReplaceStage(pipeline.LoadSchemaIntoTypesStageID, loadTestSchemaIntoTypes(idFactory, cfg, path))
-	codegen.InjectStageAfter(pipeline.SimplifyDefinitionsStageId, stripFunctionsPipelineStage())
 	codegen.ReplaceStage(pipeline.ExportPackagesStageID, exportPackagesTestPipelineStage(t, testName))
 
 	if testConfig.InjectEmbeddedStruct {
@@ -267,7 +266,11 @@ func exportPackagesTestPipelineStage(t *testing.T, testName string) *pipeline.St
 				pkg, ok := pkgs[ref]
 				if !ok {
 					// expected to always be ok because we don't use external package references for type definitions
-					g, v, _ := ref.GroupVersion()
+					g, v, ok := ref.GroupVersion()
+					if !ok {
+						t.Fatalf("didn't expect package reference %s", ref)
+					}
+
 					pkg = astmodel.NewPackageDefinition(g, v)
 					pkgs[ref] = pkg
 
@@ -319,36 +322,6 @@ func stripUnusedTypesPipelineStage() *pipeline.Stage {
 			defs, err := pipeline.StripUnusedDefinitions(roots, state.Definitions())
 			if err != nil {
 				return nil, errors.Wrapf(err, "could not strip unused types")
-			}
-
-			return state.WithDefinitions(defs), nil
-		})
-}
-
-// stripFunctionsPipelineStage creates a stage to remove functions and interface implementations (which contain
-// functions) from the golden test output.
-// These golden tests are looking at the structure of the generated structs; including all the code for functions in
-// the output is just noise that makes the golden files hard to review.
-func stripFunctionsPipelineStage() *pipeline.Stage {
-	return pipeline.NewStage(
-		"stripFunctions",
-		"Strip functions to remove noise",
-		func(ctx context.Context, state *pipeline.State) (*pipeline.State, error) {
-			visitor := astmodel.TypeVisitorBuilder{
-				VisitResourceType: func(it *astmodel.ResourceType) astmodel.Type {
-					return it.WithoutFunctions().
-						WithoutInterface(astmodel.ConvertibleInterface)
-				},
-				VisitObjectType: func(it *astmodel.ObjectType) astmodel.Type {
-					return it.WithoutFunctions().
-						WithoutInterface(astmodel.ConvertibleSpecInterfaceType).
-						WithoutInterface(astmodel.ConvertibleStatusInterfaceType)
-				},
-			}.Build()
-
-			defs, err := visitor.VisitDefinitions(state.Definitions(), nil)
-			if err != nil {
-				return nil, err
 			}
 
 			return state.WithDefinitions(defs), nil
