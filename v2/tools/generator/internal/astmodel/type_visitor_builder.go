@@ -10,15 +10,18 @@ import "fmt"
 // TypeVisitorBuilder provides a flexible way to create a TypeVisitor. Fields should be initialized
 // with funcs matching one of the following forms:
 //
-// func(this *TypeVisitor, it TypeName, ctx interface{}) (Type, error)
-// func(it TypeName) (Type, error)
-// func(it TypeName) Type
+// func(this *TypeVisitor, it <sometype>, ctx interface{}) (Type, error)
+// func(it <sometype>) (Type, error)
+// func(it <sometype>) Type
 //
-// These examples assume TypeName but can be generalized across any of the supported types, e.g. ResourceType:
+// o  Must always return Type, and optionally an error
+// o  <sometype> must match the type for the field being initialized
 //
-// func(this *TypeVisitor, it *ResourceType, ctx interface{}) (Type, error)
-// func(it *ResourceType) (Type, error)
-// func(it *ResourceType) Type
+// Some examples:
+//
+// VisitTypeName = func(it TypeName) Type      // Works
+// VisitTypeName = func(it *ObjectType) Type   // Fails - parameter is not a TypeName
+// VisitTypeName = func(it TypeName) TypeName  // Fails - return type is not Type
 //
 type TypeVisitorBuilder struct {
 	VisitTypeName      interface{}
