@@ -83,9 +83,7 @@ func VirtualNetworksSubnetsSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualNetworksSubnetsSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworksSubnetsSpecARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForVirtualNetworksSubnetsSpecARM is a factory method for creating gopter generators

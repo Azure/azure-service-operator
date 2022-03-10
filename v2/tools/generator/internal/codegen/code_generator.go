@@ -128,7 +128,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		pipeline.AssertTypesCollectionValid(),
 
-		pipeline.RemoveEmbeddedResources().UsedFor(pipeline.ARMTarget), // TODO: For now only used for ARM,
+		pipeline.RemoveEmbeddedResources(configuration).UsedFor(pipeline.ARMTarget),
 
 		// Apply export filters before generating
 		// ARM types for resources etc:
@@ -153,6 +153,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.ReportOnTypesAndVersions(configuration).UsedFor(pipeline.ARMTarget), // TODO: For now only used for ARM
 
 		pipeline.CreateARMTypes(idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.PruneResourcesWithLifecycleOwnedByParent(configuration).UsedFor(pipeline.ARMTarget),
 		pipeline.MakeOneOfDiscriminantRequired().UsedFor(pipeline.ARMTarget),
 		pipeline.ApplyARMConversionInterface(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.ApplyKubernetesResourceInterface(idFactory).UsedFor(pipeline.ARMTarget),

@@ -242,11 +242,9 @@ func AddIndependentPropertyGeneratorsForVirtualNetworksSubnetsSpec(gens map[stri
 	gens["AddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["AddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["PrivateEndpointNetworkPolicies"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateLinkServiceNetworkPolicies"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForVirtualNetworksSubnetsSpec is a factory method for creating gopter generators
