@@ -18,9 +18,6 @@ func MakeLocalPackageReference(group string, version string) astmodel.LocalPacka
 	// For test purposes, we use a constant custom prefix so that our tests don't need updating when when change
 	// our active version prefix.
 	// For convenience, we tolerate the prefix already being present
-	if strings.HasPrefix(version, "v") {
-		version = version[1:]
-	}
-
+	version = strings.TrimPrefix(version, "v")
 	return astmodel.MakeLocalPackageReference(GoModulePrefix, group, "v", version)
 }
