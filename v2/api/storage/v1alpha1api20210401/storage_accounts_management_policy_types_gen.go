@@ -3618,7 +3618,7 @@ func (creation *DateAfterCreation) AssignPropertiesToDateAfterCreation(destinati
 
 type DateAfterCreation_Status struct {
 	//DaysAfterCreationGreaterThan: Value indicating the age in days after creation
-	DaysAfterCreationGreaterThan *int `json:"daysAfterCreationGreaterThan,omitempty"`
+	DaysAfterCreationGreaterThan float64 `json:"daysAfterCreationGreaterThan,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DateAfterCreation_Status{}
@@ -3636,10 +3636,7 @@ func (creation *DateAfterCreation_Status) PopulateFromARM(owner genruntime.Arbit
 	}
 
 	// Set property ‘DaysAfterCreationGreaterThan’:
-	if typedInput.DaysAfterCreationGreaterThan != nil {
-		daysAfterCreationGreaterThan := *typedInput.DaysAfterCreationGreaterThan
-		creation.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
-	}
+	creation.DaysAfterCreationGreaterThan = typedInput.DaysAfterCreationGreaterThan
 
 	// No error
 	return nil
@@ -3649,7 +3646,11 @@ func (creation *DateAfterCreation_Status) PopulateFromARM(owner genruntime.Arbit
 func (creation *DateAfterCreation_Status) AssignPropertiesFromDateAfterCreationStatus(source *v1alpha1api20210401storage.DateAfterCreation_Status) error {
 
 	// DaysAfterCreationGreaterThan
-	creation.DaysAfterCreationGreaterThan = genruntime.ClonePointerToInt(source.DaysAfterCreationGreaterThan)
+	if source.DaysAfterCreationGreaterThan != nil {
+		creation.DaysAfterCreationGreaterThan = *source.DaysAfterCreationGreaterThan
+	} else {
+		creation.DaysAfterCreationGreaterThan = 0
+	}
 
 	// No error
 	return nil
@@ -3661,7 +3662,8 @@ func (creation *DateAfterCreation_Status) AssignPropertiesToDateAfterCreationSta
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DaysAfterCreationGreaterThan
-	destination.DaysAfterCreationGreaterThan = genruntime.ClonePointerToInt(creation.DaysAfterCreationGreaterThan)
+	daysAfterCreationGreaterThan := creation.DaysAfterCreationGreaterThan
+	destination.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

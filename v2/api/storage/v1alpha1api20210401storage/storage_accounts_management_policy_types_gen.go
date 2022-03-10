@@ -354,7 +354,7 @@ type DateAfterCreation struct {
 
 //Storage version of v1alpha1api20210401.DateAfterCreation_Status
 type DateAfterCreation_Status struct {
-	DaysAfterCreationGreaterThan *int                   `json:"daysAfterCreationGreaterThan,omitempty"`
+	DaysAfterCreationGreaterThan *float64               `json:"daysAfterCreationGreaterThan,omitempty"`
 	PropertyBag                  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 

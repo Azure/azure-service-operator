@@ -844,7 +844,7 @@ func (in *DateAfterCreation_Status) DeepCopyInto(out *DateAfterCreation_Status) 
 	*out = *in
 	if in.DaysAfterCreationGreaterThan != nil {
 		in, out := &in.DaysAfterCreationGreaterThan, &out.DaysAfterCreationGreaterThan
-		*out = new(int)
+		*out = new(float64)
 		**out = **in
 	}
 	if in.PropertyBag != nil {

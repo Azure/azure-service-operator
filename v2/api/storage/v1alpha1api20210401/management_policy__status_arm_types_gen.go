@@ -134,7 +134,7 @@ type TagFilter_StatusARM struct {
 
 type DateAfterCreation_StatusARM struct {
 	//DaysAfterCreationGreaterThan: Value indicating the age in days after creation
-	DaysAfterCreationGreaterThan *int `json:"daysAfterCreationGreaterThan,omitempty"`
+	DaysAfterCreationGreaterThan float64 `json:"daysAfterCreationGreaterThan,omitempty"`
 }
 
 type DateAfterModification_StatusARM struct {

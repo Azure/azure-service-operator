@@ -1536,7 +1536,7 @@ func DateAfterCreationStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDateAfterCreationStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDateAfterCreationStatus(gens map[string]gopter.Gen) {
-	gens["DaysAfterCreationGreaterThan"] = gen.PtrOf(gen.Int())
+	gens["DaysAfterCreationGreaterThan"] = gen.PtrOf(gen.Float64())
 }
 
 func Test_DateAfterModification_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
