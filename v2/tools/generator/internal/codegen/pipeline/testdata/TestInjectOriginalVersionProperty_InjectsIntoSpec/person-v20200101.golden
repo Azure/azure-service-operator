@@ -23,18 +23,19 @@
  
  type Person_Spec struct {
  	//FamilyName: Shared name of the family
-	FamilyName string `json:"familyName,omitempty"`
+ 	FamilyName string `json:"familyName,omitempty"`
  
  	//FullName: As would be used to address mail
-	FullName string `json:"fullName,omitempty"`
+ 	FullName string `json:"fullName,omitempty"`
  
  	//KnownAs: How the person is generally known
-	KnownAs         string `json:"knownAs,omitempty"`
-	OriginalVersion string `json:"originalVersion,omitempty"`
+-	KnownAs string `json:"knownAs,omitempty"`
++	KnownAs         string `json:"knownAs,omitempty"`
++	OriginalVersion string `json:"originalVersion,omitempty"`
  }
  
  type Person_Status struct {
-	Status string `json:"status,omitempty"`
+ 	Status string `json:"status,omitempty"`
  }
  
  func init() {
