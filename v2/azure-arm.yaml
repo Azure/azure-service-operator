@@ -150,6 +150,11 @@ typeTransformers:
         value:
           name: string
     because: the definition in rest api specs uses additionalProperties + defined fields which we don't support
+  - group: storage
+    name: DateAfterCreation_Status
+    property: DaysAfterCreationGreaterThan
+    target:
+      name: float
   - group: cache
     name: RedisProperties_Status
     property: AccessKeys
@@ -218,6 +223,11 @@ typeTransformers:
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+  - name: StorageAccountsManagementPolicies_Spec
+    group: storage
+    property: Location
+    remove: true
+    because: This property should be marked readonly
   - name: ManagedServiceIdentity
     group: documentdb
     property: UserAssignedIdentities
@@ -930,6 +940,8 @@ objectModelConfiguration:
       StorageAccountsQueueService:
         $export: true
       StorageAccountsQueueServicesQueue:
+        $export: true
+      StorageAccountsManagementPolicy:
         $export: true
       VirtualNetworkRule:
         Id:

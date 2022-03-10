@@ -231,6 +231,7 @@ Use CRD version `v1alpha1api20211001`
 - StorageAccount ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1alpha1api20210401_storageaccount.yaml))
 - StorageAccountsBlobService ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1alpha1api20210401_storageaccountsblobservice.yaml))
 - StorageAccountsBlobServicesContainer ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1alpha1api20210401_storageaccountsblobservicescontainer.yaml))
+- StorageAccountsManagementPolicy ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1alpha1api20210401_storageaccountsmanagementpolicy.yaml))
 - StorageAccountsQueueService ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1alpha1api20210401_storageaccountsqueueservice.yaml))
 - StorageAccountsQueueServicesQueue ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1alpha1api20210401_storageaccountsqueueservicesqueue.yaml))
 
