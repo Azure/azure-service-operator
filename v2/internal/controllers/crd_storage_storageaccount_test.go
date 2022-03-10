@@ -26,7 +26,7 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	acct := createStorageAccount(tc, rg)
+	acct := newStorageAccount(tc, rg)
 
 	tc.CreateResourceAndWait(acct)
 
@@ -141,7 +141,7 @@ func Test_Storage_StorageAccount_SecretsFromAzure(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Initially with no OperatorSpec.Secrets, to ensure no secrets are created
-	acct := createStorageAccount(tc, rg)
+	acct := newStorageAccount(tc, rg)
 
 	tc.CreateResourceAndWait(acct)
 
@@ -258,7 +258,7 @@ func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blo
 	defer tc.DeleteResourceAndWait(managementPolicy)
 }
 
-func createStorageAccount(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
+func newStorageAccount(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
 	// Create a storage account
 	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
 	kind := storage.StorageAccountsSpecKindStorageV2
