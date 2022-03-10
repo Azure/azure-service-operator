@@ -6,17 +6,19 @@
 package functions
 
 import (
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 	"testing"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 func getExtendedResourcesTestData() (string, astmodel.LocalPackageReference) {
 	testGroup := "microsoft.person"
-	extensionPackage := test.MakeLocalPackageReference(testGroup, "customizations")
-	return testGroup, extensionPackage
 
+	// We don't use test.MakeLocalPackageReference because that forces a 'v' prefix we don't need/want
+	extensionPackage := astmodel.MakeLocalPackageReference(test.GoModulePrefix, testGroup, "", "customizations")
+	return testGroup, extensionPackage
 }
 
 func TestGolden_GetExtendedResourceFunction_oneVersion_GeneratesExpectedCode(t *testing.T) {
