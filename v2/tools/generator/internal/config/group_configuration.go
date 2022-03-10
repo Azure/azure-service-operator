@@ -47,7 +47,11 @@ func (gc *GroupConfiguration) add(version *VersionConfiguration) {
 	// We do this by constructing a local package reference because this avoids replicating the logic here and risking
 	// inconsistency if things are changed in the future.
 	local := astmodel.MakeLocalPackageReference("prefix", "group", astmodel.GeneratorVersionPrefix, version.name)
-	_, lv, _ := local.GroupVersion()
+	_, lv, ok := local.GroupVersion()
+	if !ok {
+		msg := fmt.Sprintf("local package reference %s unexpectedly failed to return GroupVersion()", storage)
+		panic(msg)
+	}
 
 	// Convert version.name into a storage package version
 	// We do this by constructing a storage package reference for reasons similar to above.

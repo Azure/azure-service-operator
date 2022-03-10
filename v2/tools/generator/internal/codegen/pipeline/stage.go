@@ -137,9 +137,9 @@ func (stage *Stage) RequiresPrerequisiteStages(prerequisites ...string) {
 //
 // For example, InjectJsonSerializationTests creates round trip serialization tests for any object types that have
 // properties. It's not correct to give InjectJsonSerializationTests a prerequisite on every earlier stage that creates
-// new object types becauses it isn't concerned with where those object came from. However, but those earlier stages DO
-// want their new object types to be tested, so they declare a post-requisite on InjectJsonSerializationTests to ensure
-// this happens.
+// new object types becauses it isn't concerned with where those object came from. However, those earlier stages DO want
+// their new object types to be tested, so they declare a post-requisite on InjectJsonSerializationTests to ensure this
+// happens.
 //
 // Post-requisites are thus not completely isomorphic with RequiresPrerequisiteStages  as there may be supporting stages that are
 // sometimes omitted from execution when targeting different outcomes. Having both pre- and post-requisites allows the

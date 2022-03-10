@@ -19,9 +19,15 @@ import "fmt"
 //
 // Some examples:
 //
-// VisitTypeName = func(it TypeName) Type      // Works
-// VisitTypeName = func(it *ObjectType) Type   // Fails - parameter is not a TypeName
-// VisitTypeName = func(it TypeName) TypeName  // Fails - return type is not Type
+// VisitTypeName = func(it TypeName) Type                                             // Works
+// VisitTypeName = func(this TypeVisitor, it TypeName, ctx interface{}) (Type, error) // Works
+// VisitTypeName = func(it *ObjectType) Type                                          // Fails - parameter is not a TypeName
+// VisitTypeName = func(it TypeName) TypeName                                         // Fails - return type is not Type
+//
+// VisitObjectType = func(it *ObjectType) Type                                                // Works
+// VisitObjectType = func(this TypeVisitor, it *ObjectType, ctx interface{}) (Type, error)    // Works
+// VisitObjectType = func(it TypeName) Type                                                   // Fails - parameter is not an *ObjectType
+// VisitObjectType = func(this TypeVisitor, it TypeName, ctx interface{}) (ObjectType, error) // Fails -return is not Type
 //
 type TypeVisitorBuilder struct {
 	VisitTypeName      interface{}
