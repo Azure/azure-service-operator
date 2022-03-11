@@ -49,7 +49,7 @@ func (gc *GroupConfiguration) add(version *VersionConfiguration) {
 	local := astmodel.MakeLocalPackageReference("prefix", "group", astmodel.GeneratorVersionPrefix, version.name)
 	_, lv, ok := local.GroupVersion()
 	if !ok {
-		msg := fmt.Sprintf("local package reference %s unexpectedly failed to return GroupVersion()", storage)
+		msg := fmt.Sprintf("local package reference %s unexpectedly failed to return GroupVersion()", local)
 		panic(msg)
 	}
 
