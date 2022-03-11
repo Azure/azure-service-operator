@@ -385,6 +385,14 @@ tasks:
       - mkdir -p bin # in case it doesn't exist
       - kustomize build config/default | sed -e 's@localhost:5000/azureserviceoperator:latest@{{.PUBLIC_REGISTRY}}{{.CONTROLLER_DOCKER_IMAGE}}@g' > bin/azureserviceoperator_{{.VERSION}}.yaml
 
+  controller:make-multitenant-files:
+    desc: Splits the deployment yaml into cluster and tenant files for multitenant deployment
+    deps: [controller:run-kustomize]
+    dir: "v2/bin"
+    cmds:
+      - '../../{{.SCRIPTS_ROOT}}/make-multitenant-cluster.sh "{{.VERSION}}" "azureserviceoperator_{{.VERSION}}.yaml"'
+      - '../../{{.SCRIPTS_ROOT}}/make-multitenant-tenant.sh "{{.VERSION}}" "azureserviceoperator_{{.VERSION}}.yaml"'
+
   controller:run-kustomize-for-envtest:
     desc: Generates the CRDs for use in envtest
     deps: [controller:generate-kustomize]
