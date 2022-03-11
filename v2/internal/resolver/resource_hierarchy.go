@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package genruntime
+package resolver
 
 import (
 	"fmt"
@@ -12,6 +12,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 type ResourceHierarchyRoot string
@@ -25,7 +26,7 @@ const (
 const ResourceGroupKind = "ResourceGroup"
 const ResourceGroupGroup = "resources.azure.com"
 
-type ResourceHierarchy []MetaObject
+type ResourceHierarchy []genruntime.MetaObject
 
 // ResourceGroup returns the resource group that the hierarchy is in, or an error if the hierarchy is not rooted
 // in a resource group.
@@ -49,7 +50,7 @@ func (h ResourceHierarchy) Location() (string, error) {
 	}
 
 	// There's an assumption here that the top
-	locatable, ok := h[0].(LocatableResource)
+	locatable, ok := h[0].(genruntime.LocatableResource)
 	if !ok {
 		return "", errors.Errorf("root does not implement LocatableResource: %T", h[0])
 	}
@@ -73,7 +74,7 @@ func (h ResourceHierarchy) FullyQualifiedARMID(subscriptionID string) (string, e
 	lastResource := h[len(h)-1]
 	lastResourceKind := lastResource.GetResourceKind()
 
-	if lastResourceKind == ResourceKindExtension {
+	if lastResourceKind == genruntime.ResourceKindExtension {
 		hierarchy := h[:len(h)-1]
 		parentARMID, err := hierarchy.FullyQualifiedARMID(subscriptionID)
 		if err != nil {
@@ -120,7 +121,7 @@ func (h ResourceHierarchy) FullyQualifiedARMID(subscriptionID string) (string, e
 		}
 
 		// Join them together
-		interleaved := InterleaveStrSlice(resourceTypes, remainingNames)
+		interleaved := genruntime.InterleaveStrSlice(resourceTypes, remainingNames)
 		return genericarmclient.MakeResourceGroupScopeARMID(subscriptionID, rgName, provider, interleaved...)
 	default:
 		return "", errors.Errorf("unknown root kind %q", h.RootKind())
@@ -157,7 +158,7 @@ func (h ResourceHierarchy) getAzureNames() []string {
 	return azureNames
 }
 
-func getResourceTypeAndProvider(res MetaObject) (string, []string, error) {
+func getResourceTypeAndProvider(res genruntime.MetaObject) (string, []string, error) {
 	rawType := res.GetType()
 
 	split := strings.Split(rawType, "/")

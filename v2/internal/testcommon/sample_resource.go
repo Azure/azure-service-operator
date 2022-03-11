@@ -1,9 +1,9 @@
 /*
-Copyright (c) Microsoft Corporation.
-Licensed under the MIT license.
-*/
+ * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT license.
+ */
 
-package genruntime_test
+package testcommon
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

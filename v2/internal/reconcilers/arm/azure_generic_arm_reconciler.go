@@ -19,6 +19,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/randextensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -58,7 +59,7 @@ type AzureDeploymentReconciler struct {
 	Recorder           record.EventRecorder
 	ARMClientFactory   ARMClientFactory
 	KubeClient         *kubeclient.Client
-	ResourceResolver   *genruntime.Resolver
+	ResourceResolver   *resolver.Resolver
 	PositiveConditions *conditions.PositiveConditionBuilder
 	Config             config.Values
 	Rand               *rand.Rand
@@ -69,7 +70,7 @@ func NewAzureDeploymentReconciler(
 	armClientFactory ARMClientFactory,
 	eventRecorder record.EventRecorder,
 	kubeClient *kubeclient.Client,
-	resourceResolver *genruntime.Resolver,
+	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
 	cfg config.Values,
 	rand *rand.Rand,

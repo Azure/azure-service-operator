@@ -22,6 +22,7 @@ import (
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/ownerutil"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
@@ -212,7 +213,7 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 	// This is an optimization to avoid excess requests to Azure.
 	_, err := r.ResourceResolver.ResolveResourceHierarchy(ctx, r.Obj)
 	if err != nil {
-		var typedErr *genruntime.ReferenceNotFound
+		var typedErr *resolver.ReferenceNotFound
 		if errors.As(err, &typedErr) {
 			return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
 		}
@@ -576,7 +577,7 @@ func (r *azureDeploymentReconcilerInstance) CommitUpdate(ctx context.Context) er
 func (r *azureDeploymentReconcilerInstance) isOwnerReady(ctx context.Context) (bool, error) {
 	_, err := r.ResourceResolver.ResolveOwner(ctx, r.Obj)
 	if err != nil {
-		var typedErr *genruntime.ReferenceNotFound
+		var typedErr *resolver.ReferenceNotFound
 		if errors.As(err, &typedErr) {
 			r.Log.V(Info).Info("Owner does not yet exist", "NamespacedName", typedErr.NamespacedName)
 			return false, nil
@@ -676,7 +677,7 @@ func ConvertToARMResourceImpl(
 	ctx context.Context,
 	metaObject genruntime.MetaObject,
 	scheme *runtime.Scheme,
-	resolver *genruntime.Resolver,
+	resolver *resolver.Resolver,
 	subscriptionID string) (genruntime.ARMResource, error) {
 	spec, err := genruntime.GetVersionedSpec(metaObject, scheme)
 	if err != nil {
@@ -688,9 +689,9 @@ func ConvertToARMResourceImpl(
 		return nil, errors.Errorf("spec was of type %T which doesn't implement genruntime.ArmTransformer", spec)
 	}
 
-	resourceHierarchy, resolvedDetails, err := resolve(ctx, resolver, metaObject)
+	resourceHierarchy, resolvedDetails, err := resolver.ResolveAll(ctx, metaObject)
 	if err != nil {
-		return nil, err
+		return nil, classifyResolverError(err)
 	}
 
 	armSpec, err := armTransformer.ConvertToARM(resolvedDetails)
@@ -710,4 +711,15 @@ func ConvertToARMResourceImpl(
 
 	result := genruntime.NewARMResource(typedArmSpec, nil, armID)
 	return result, nil
+}
+
+func classifyResolverError(err error) error {
+	// If it's specifically secret not found, say so
+	var typedErr *resolver.SecretNotFound
+	if errors.As(err, &typedErr) {
+		return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonSecretNotFound)
+	}
+	// Everything else is ReferenceNotFound. This is maybe a bit of a lie but secrets are also references and we want to make sure
+	// everything is classified as something, so for now it's good enough.
+	return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonReferenceNotFound)
 }

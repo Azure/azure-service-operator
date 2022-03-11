@@ -33,6 +33,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
+	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -178,7 +179,7 @@ func register(
 		clientFactory,
 		eventRecorder,
 		kubeClient,
-		genruntime.NewResolver(kubeClient, reconciledResourceLookup),
+		resolver.NewResolver(kubeClient, reconciledResourceLookup),
 		conditions.NewPositiveConditionBuilder(clock.New()),
 		options.Config,
 		//nolint:gosec // do not want cryptographic randomness here
