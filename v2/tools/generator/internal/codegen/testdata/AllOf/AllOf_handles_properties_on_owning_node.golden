@@ -3,8 +3,48 @@
 // Licensed under the MIT license.
 package v1alpha1api20200101
 
+import (
+	"github.com/Azure/azure-service-operator/testing/test/v1alpha1api20200101storage"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+)
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	Length *int `json:"length,omitempty"`
 	Width  *int `json:"width,omitempty"`
+}
+
+// AssignPropertiesFromTest populates our Test from the provided source Test
+func (test *Test) AssignPropertiesFromTest(source *v1alpha1api20200101storage.Test) error {
+
+	// Length
+	test.Length = genruntime.ClonePointerToInt(source.Length)
+
+	// Width
+	test.Width = genruntime.ClonePointerToInt(source.Width)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTest populates the provided destination Test from our Test
+func (test *Test) AssignPropertiesToTest(destination *v1alpha1api20200101storage.Test) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Length
+	destination.Length = genruntime.ClonePointerToInt(test.Length)
+
+	// Width
+	destination.Width = genruntime.ClonePointerToInt(test.Width)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }

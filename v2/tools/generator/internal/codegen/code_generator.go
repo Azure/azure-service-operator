@@ -10,7 +10,6 @@ import (
 	"fmt"
 
 	"github.com/pkg/errors"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/internal/version"
@@ -62,11 +61,6 @@ func NewTargetedCodeGeneratorFromConfig(
 	}
 
 	result.pipeline = stages
-
-	err = result.verifyPipeline()
-	if err != nil {
-		return nil, err
-	}
 
 	return result, nil
 }
@@ -181,9 +175,9 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		// Create Storage types
 		// TODO: For now only used for ARM
-		pipeline.CreateConversionGraph(configuration).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectOriginalVersionFunction(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.CreateStorageTypes().UsedFor(pipeline.ARMTarget),
+		pipeline.CreateConversionGraph(configuration).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectOriginalVersionProperty().UsedFor(pipeline.ARMTarget),
 		pipeline.InjectPropertyAssignmentFunctions(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.ImplementConvertibleSpecInterface(idFactory).UsedFor(pipeline.ARMTarget),
@@ -233,6 +227,11 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 			return errors.Wrapf(err, "failed during pipeline stage %d/%d: %s", i+1, len(generator.pipeline), stage.Description())
 		}
 
+		// Fail fast if something goes awry
+		if len(stateOut.Definitions()) == 0 {
+			return errors.Errorf("all type definitions removed by stage %s", stage.Id())
+		}
+
 		defsAdded := stateOut.Definitions().Except(state.Definitions())
 		defsRemoved := state.Definitions().Except(stateOut.Definitions())
 
@@ -247,53 +246,14 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 		state = stateOut
 	}
 
+	if err := state.CheckFinalState(); err != nil {
+		klog.Info("Failed")
+		return err
+	}
+
 	klog.Info("Finished")
 
 	return nil
-}
-
-func (generator *CodeGenerator) verifyPipeline() error {
-	var errs []error
-
-	// Set of stages that we've already seen, used to confirm prerequisites
-	stagesSeen := astmodel.MakeStringSet()
-
-	// Set of stages we expect to see, each associated with a slice containing the earlier stages that expected each
-	stagesExpected := make(map[string][]string)
-
-	for index, stage := range generator.pipeline {
-		klog.V(3).Infof("Checking requisites of %d/%d %s", index, len(generator.pipeline), stage.Id())
-		err := stage.CheckPrerequisites(stagesSeen)
-		if err != nil {
-			errs = append(errs, err)
-		}
-
-		for _, postreq := range stage.Postrequisites() {
-			if stagesSeen.Contains(postreq) {
-				klog.V(3).Infof("[✗] Postrequisite %s satisfied EARLY", postreq)
-				errs = append(errs, errors.Errorf("postrequisite %q of stage %q satisfied too early", postreq, stage.Id()))
-			} else {
-				klog.V(3).Infof("[?] Postrequisite %s expected", postreq)
-				stagesExpected[postreq] = append(stagesExpected[postreq], stage.Id())
-			}
-		}
-
-		stagesSeen.Add(stage.Id())
-
-		for _, req := range stagesExpected[stage.Id()] {
-			klog.V(3).Infof("[✓] Postrequisite of %s satisfied", req)
-		}
-
-		delete(stagesExpected, stage.Id())
-	}
-
-	for required, requiredBy := range stagesExpected {
-		for _, stageId := range requiredBy {
-			errs = append(errs, errors.Errorf("postrequisite %q of stage %q not satisfied", required, stageId))
-		}
-	}
-
-	return kerrors.NewAggregate(errs)
 }
 
 // RemoveStages will remove all stages from the pipeline with the given ids.

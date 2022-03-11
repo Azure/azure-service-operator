@@ -51,8 +51,8 @@ func TestGolden_InjectPropertyAssignmentTests(t *testing.T) {
 	cfg := config.NewConfiguration()
 	finalState, err := RunTestPipeline(
 		state,
-		CreateConversionGraph(cfg),
-		CreateStorageTypes(),
+		CreateStorageTypes(),       // First create the storage types
+		CreateConversionGraph(cfg), // Then, create the conversion graph showing relationships
 		InjectPropertyAssignmentFunctions(cfg, idFactory),
 		InjectJsonSerializationTests(idFactory),
 		InjectPropertyAssignmentTests(idFactory))

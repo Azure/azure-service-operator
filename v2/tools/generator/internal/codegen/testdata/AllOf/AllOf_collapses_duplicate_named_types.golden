@@ -3,10 +3,44 @@
 // Licensed under the MIT license.
 package v1alpha1api20200101
 
+import (
+	"github.com/Azure/azure-service-operator/testing/test/v1alpha1api20200101storage"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+)
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test Foo
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
 	Name *string `json:"name,omitempty"`
+}
+
+// AssignPropertiesFromFoo populates our Foo from the provided source Foo
+func (foo *Foo) AssignPropertiesFromFoo(source *v1alpha1api20200101storage.Foo) error {
+
+	// Name
+	foo.Name = genruntime.ClonePointerToString(source.Name)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFoo populates the provided destination Foo from our Foo
+func (foo *Foo) AssignPropertiesToFoo(destination *v1alpha1api20200101storage.Foo) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(foo.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }

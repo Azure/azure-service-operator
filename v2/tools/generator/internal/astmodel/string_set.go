@@ -36,3 +36,13 @@ func (set StringSet) Add(s string) {
 func (set StringSet) Remove(s string) {
 	delete(set, s)
 }
+
+// Copy returns an independent copy of the set
+func (set StringSet) Copy() StringSet {
+	result := MakeStringSet()
+	for s := range set {
+		result.Add(s)
+	}
+
+	return result
+}

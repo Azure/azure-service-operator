@@ -68,9 +68,14 @@ func makeObjectSerializationTestCaseFactory(idFactory astmodel.IdentifierFactory
 
 // NeedsTest returns true if we should generate a testcase for the specified definition
 func (s *objectSerializationTestCaseFactory) NeedsTest(def astmodel.TypeDefinition) bool {
-	_, ok := astmodel.AsPropertyContainer(def.Type())
+	pc, ok := astmodel.AsPropertyContainer(def.Type())
 	if !ok {
 		// Can only generate tests for property containers
+		return false
+	}
+
+	// No test needed for types with no properties
+	if len(pc.Properties().AsSlice()) == 0 {
 		return false
 	}
 

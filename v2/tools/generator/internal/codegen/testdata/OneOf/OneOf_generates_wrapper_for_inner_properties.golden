@@ -3,11 +3,86 @@
 // Licensed under the MIT license.
 package v1alpha1api20200101
 
+import (
+	"github.com/Azure/azure-service-operator/testing/test/v1alpha1api20200101storage"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/pkg/errors"
+)
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	MyBool     *bool            `json:"myBool,omitempty"`
 	MyString   *string          `json:"myString,omitempty"`
 	Properties *Test_Properties `json:"properties,omitempty"`
+}
+
+// AssignPropertiesFromTest populates our Test from the provided source Test
+func (test *Test) AssignPropertiesFromTest(source *v1alpha1api20200101storage.Test) error {
+
+	// MyBool
+	if source.MyBool != nil {
+		myBool := *source.MyBool
+		test.MyBool = &myBool
+	} else {
+		test.MyBool = nil
+	}
+
+	// MyString
+	test.MyString = genruntime.ClonePointerToString(source.MyString)
+
+	// Properties
+	if source.Properties != nil {
+		var property Test_Properties
+		err := property.AssignPropertiesFromTestProperties(source.Properties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromTestProperties() to populate field Properties")
+		}
+		test.Properties = &property
+	} else {
+		test.Properties = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTest populates the provided destination Test from our Test
+func (test *Test) AssignPropertiesToTest(destination *v1alpha1api20200101storage.Test) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// MyBool
+	if test.MyBool != nil {
+		myBool := *test.MyBool
+		destination.MyBool = &myBool
+	} else {
+		destination.MyBool = nil
+	}
+
+	// MyString
+	destination.MyString = genruntime.ClonePointerToString(test.MyString)
+
+	// Properties
+	if test.Properties != nil {
+		var property v1alpha1api20200101storage.Test_Properties
+		err := test.Properties.AssignPropertiesToTestProperties(&property)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToTestProperties() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 type Test_Properties struct {
@@ -18,13 +93,142 @@ type Test_Properties struct {
 	Foo *Foo `json:"foo,omitempty"`
 }
 
+// AssignPropertiesFromTestProperties populates our Test_Properties from the provided source Test_Properties
+func (properties *Test_Properties) AssignPropertiesFromTestProperties(source *v1alpha1api20200101storage.Test_Properties) error {
+
+	// Bar
+	if source.Bar != nil {
+		var bar Bar
+		err := bar.AssignPropertiesFromBar(source.Bar)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromBar() to populate field Bar")
+		}
+		properties.Bar = &bar
+	} else {
+		properties.Bar = nil
+	}
+
+	// Foo
+	if source.Foo != nil {
+		var foo Foo
+		err := foo.AssignPropertiesFromFoo(source.Foo)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromFoo() to populate field Foo")
+		}
+		properties.Foo = &foo
+	} else {
+		properties.Foo = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTestProperties populates the provided destination Test_Properties from our Test_Properties
+func (properties *Test_Properties) AssignPropertiesToTestProperties(destination *v1alpha1api20200101storage.Test_Properties) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Bar
+	if properties.Bar != nil {
+		var bar v1alpha1api20200101storage.Bar
+		err := properties.Bar.AssignPropertiesToBar(&bar)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToBar() to populate field Bar")
+		}
+		destination.Bar = &bar
+	} else {
+		destination.Bar = nil
+	}
+
+	// Foo
+	if properties.Foo != nil {
+		var foo v1alpha1api20200101storage.Foo
+		err := properties.Foo.AssignPropertiesToFoo(&foo)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToFoo() to populate field Foo")
+		}
+		destination.Foo = &foo
+	} else {
+		destination.Foo = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
 type Bar struct {
 	// +kubebuilder:validation:Required
 	Size *int `json:"size,omitempty"`
 }
 
+// AssignPropertiesFromBar populates our Bar from the provided source Bar
+func (bar *Bar) AssignPropertiesFromBar(source *v1alpha1api20200101storage.Bar) error {
+
+	// Size
+	bar.Size = genruntime.ClonePointerToInt(source.Size)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToBar populates the provided destination Bar from our Bar
+func (bar *Bar) AssignPropertiesToBar(destination *v1alpha1api20200101storage.Bar) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Size
+	destination.Size = genruntime.ClonePointerToInt(bar.Size)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
 	Name *string `json:"name,omitempty"`
+}
+
+// AssignPropertiesFromFoo populates our Foo from the provided source Foo
+func (foo *Foo) AssignPropertiesFromFoo(source *v1alpha1api20200101storage.Foo) error {
+
+	// Name
+	foo.Name = genruntime.ClonePointerToString(source.Name)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFoo populates the provided destination Foo from our Foo
+func (foo *Foo) AssignPropertiesToFoo(destination *v1alpha1api20200101storage.Foo) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(foo.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }

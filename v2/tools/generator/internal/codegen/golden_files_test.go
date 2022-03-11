@@ -28,6 +28,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
+var goldenTestPackageReference = astmodel.MakeLocalPackageReference(test.GoModulePrefix, "test", astmodel.GeneratorVersionPrefix, "20200101")
+
 type GoldenTestConfig struct {
 	HasARMResources      bool                        `yaml:"hasArmResources"`
 	InjectEmbeddedStruct bool                        `yaml:"injectEmbeddedStruct"`
@@ -64,7 +66,7 @@ func loadTestConfig(path string) (GoldenTestConfig, error) {
 }
 
 func makeEmbeddedTestTypeDefinition() astmodel.TypeDefinition {
-	name := astmodel.MakeTypeName(test.MakeLocalPackageReference("test", "v1alpha1api20200101"), "EmbeddedTestType")
+	name := astmodel.MakeTypeName(goldenTestPackageReference, "EmbeddedTestType")
 	t := astmodel.NewObjectType()
 	t = t.WithProperty(astmodel.NewPropertyDefinition("FancyProp", "fancyProp", astmodel.IntType))
 
@@ -155,7 +157,6 @@ func NewTestCodeGenerator(
 		codegen.RemoveStages(
 			pipeline.DeleteGeneratedCodeStageID,
 			pipeline.CheckForAnyTypeStageID,
-			pipeline.CreateStorageTypesStageID,
 			pipeline.CreateResourceExtensionsStageID,
 			// TODO: Once the stage is enabled in the pipeline, we may need to remove it here for testing
 			// pipeline.InjectHubFunctionStageID,
@@ -257,42 +258,54 @@ func exportPackagesTestPipelineStage(t *testing.T, testName string) *pipeline.St
 				t.Fatalf("defs was empty")
 			}
 
-			var pr astmodel.PackageReference
-			var group string
-			var version string
-			var found bool
-			var ds []astmodel.TypeDefinition
-			for _, def := range state.Definitions() {
-				ds = append(ds, def)
-				ref := def.Name().PackageReference
-				if !found {
-					pr = ref
-					group, version, found = ref.GroupVersion()
-				}
-			}
-
-			// Fabricate a single package definition
+			// Create package definitions
 			pkgs := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
-
-			packageDefinition := astmodel.NewPackageDefinition(group, version)
+			nonStoragePackageCount := 0
 			for _, def := range state.Definitions() {
-				packageDefinition.AddDefinition(def)
+				ref := def.Name().PackageReference
+				pkg, ok := pkgs[ref]
+				if !ok {
+					// expected to always be ok because we don't use external package references for type definitions
+					g, v, ok := ref.GroupVersion()
+					if !ok {
+						t.Fatalf("didn't expect package reference %s", ref)
+					}
+
+					pkg = astmodel.NewPackageDefinition(g, v)
+					pkgs[ref] = pkg
+
+					if !astmodel.IsStoragePackageReference(ref) {
+						nonStoragePackageCount++
+					}
+				}
+
+				pkg.AddDefinition(def)
 			}
 
-			pkgs[pr] = packageDefinition
+			// Export each package definition
+			// We don't export storage packages as they're tested elsewhere
+			// If there's more than one package to export, we suffix with the package name
+			for ref, pkg := range pkgs {
+				if astmodel.IsStoragePackageReference(ref) {
+					continue
+				}
 
-			// put all definitions in one file, regardless.
-			// the package reference isn't really used here.
-			fileDef := astmodel.NewFileDefinition(pr, ds, pkgs)
+				fileDef := astmodel.NewFileDefinition(ref, pkg.Definitions().AsSlice(), pkgs)
 
-			buf := &bytes.Buffer{}
-			fileWriter := astmodel.NewGoSourceFileWriter(fileDef)
-			err := fileWriter.SaveToWriter(buf)
-			if err != nil {
-				t.Fatalf("could not generate file: %s", err)
+				buf := &bytes.Buffer{}
+				fileWriter := astmodel.NewGoSourceFileWriter(fileDef)
+				err := fileWriter.SaveToWriter(buf)
+				if err != nil {
+					t.Fatalf("could not generate file: %s", err)
+				}
+
+				fileName := testName
+				if nonStoragePackageCount > 1 {
+					fileName = fileName + "_" + ref.PackageName()
+				}
+
+				g.Assert(t, fileName, buf.Bytes())
 			}
-
-			g.Assert(t, testName, buf.Bytes())
 
 			return state, nil
 		})
@@ -305,10 +318,7 @@ func stripUnusedTypesPipelineStage() *pipeline.Stage {
 		func(ctx context.Context, state *pipeline.State) (*pipeline.State, error) {
 			// The golden files always generate a top-level Test type - mark
 			// that as the root.
-			roots := astmodel.NewTypeNameSet(astmodel.MakeTypeName(
-				test.MakeLocalPackageReference("test", "v1alpha1api20200101"),
-				"Test",
-			))
+			roots := astmodel.NewTypeNameSet(astmodel.MakeTypeName(goldenTestPackageReference, "Test"))
 			defs, err := pipeline.StripUnusedDefinitions(roots, state.Definitions())
 			if err != nil {
 				return nil, errors.Wrapf(err, "could not strip unused types")

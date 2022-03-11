@@ -6,12 +6,12 @@
 package pipeline
 
 import (
-	"context"
 	"testing"
 
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
@@ -20,6 +20,7 @@ func TestInjectHubFunction_WhenResourceIsStorageVersion_GeneratesExpectedFile(t 
 	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
+	cfg := config.NewConfiguration()
 
 	// Define a test resource
 	spec := test.CreateSpec(test.Pkg2020, "Person", test.FullNameProperty, test.FamilyNameProperty, test.KnownAsProperty)
@@ -32,11 +33,18 @@ func TestInjectHubFunction_WhenResourceIsStorageVersion_GeneratesExpectedFile(t 
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(resource, status, spec)
 
-	injectHubFunction := InjectHubFunction(idFactory)
+	initialState, err := RunTestPipeline(
+		NewState().WithDefinitions(defs),
+		CreateStorageTypes(),
+		CreateConversionGraph(cfg),
+		MarkLatestStorageVariantAsHubVersion(),
+		InjectHubFunction(idFactory),
+	)
+	g.Expect(err).To(Succeed())
 
-	// Don't need a context when testing
-	state := NewState().WithDefinitions(defs)
-	finalState, err := injectHubFunction.Run(context.TODO(), state)
+	finalState, err := RunTestPipeline(
+		initialState,
+		InjectHubFunction(idFactory))
 
 	g.Expect(err).To(Succeed())
 
@@ -48,6 +56,7 @@ func TestInjectHubFunction_WhenResourceIsNotStorageVersion_GeneratesExpectedFile
 	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
+	cfg := config.NewConfiguration()
 
 	// Define a test resource
 	spec := test.CreateSpec(test.Pkg2020, "Person", test.FullNameProperty, test.FamilyNameProperty, test.KnownAsProperty)
@@ -57,13 +66,19 @@ func TestInjectHubFunction_WhenResourceIsNotStorageVersion_GeneratesExpectedFile
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(resource, status, spec)
 
-	injectHubFunction := InjectHubFunction(idFactory)
-
-	// Don't need a context when testing
-	state := NewState().WithDefinitions(defs)
-	finalState, err := injectHubFunction.Run(context.TODO(), state)
-
+	initialState, err := RunTestPipeline(
+		NewState().WithDefinitions(defs),
+		CreateStorageTypes(),
+		CreateConversionGraph(cfg),
+		MarkLatestStorageVariantAsHubVersion(),
+		InjectHubFunction(idFactory),
+	)
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions())
+	finalState, err := RunTestPipeline(
+		initialState,
+		InjectHubFunction(idFactory))
+	g.Expect(err).To(Succeed())
+
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions(), test.DiffWithTypes(initialState.Definitions()))
 }

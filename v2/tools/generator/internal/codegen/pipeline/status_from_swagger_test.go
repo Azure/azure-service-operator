@@ -12,6 +12,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
 func Test_ShouldSkipDir_GivenPath_HasExpectedResult(t *testing.T) {
@@ -68,15 +69,11 @@ func Test_ShouldSkipDir_GivenPath_HasExpectedResult(t *testing.T) {
 	}
 }
 
-func makeTestLocalPackageReference(group string, version string) astmodel.LocalPackageReference {
-	return astmodel.MakeLocalPackageReference("github.com/Azure/azure-service-operator/v2/api", group, version)
-}
-
 func Test_StructurallyIdentical_RecursesIntoTypeNames(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	pkg := makeTestLocalPackageReference("abc", "123")
+	pkg := test.MakeLocalPackageReference("abc", "123")
 	name := func(n string) astmodel.TypeName { return astmodel.MakeTypeName(pkg, n) }
 
 	types1 := astmodel.MakeTypes(map[astmodel.TypeName]astmodel.Type{
@@ -108,7 +105,7 @@ func Test_StructurallyIdentical_DistinguishesIdenticalTypeNames(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	pkg := makeTestLocalPackageReference("abc", "123")
+	pkg := test.MakeLocalPackageReference("abc", "123")
 	name := func(n string) astmodel.TypeName { return astmodel.MakeTypeName(pkg, n) }
 
 	types1 := astmodel.MakeTypes(map[astmodel.TypeName]astmodel.Type{

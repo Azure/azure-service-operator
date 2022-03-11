@@ -509,8 +509,8 @@ func loadAllSchemas(
 			pkg := astmodel.MakeLocalPackageReference(
 				localPathPrefix,
 				idFactory.CreateGroupName(group),
-				astmodel.CreateLocalPackageNameFromVersion(version),
-			)
+				astmodel.GeneratorVersionPrefix,
+				version)
 
 			// all files are loaded in parallel to speed this up
 			eg.Go(func() error {

@@ -241,7 +241,7 @@ func (scanner *SchemaScanner) GenerateAllDefinitions(ctx context.Context, schema
 
 	rootPackage := scanner.configuration.MakeLocalPackageReference(
 		scanner.idFactory.CreateGroupName(rootGroup),
-		astmodel.CreateLocalPackageNameFromVersion(rootVersion))
+		rootVersion)
 	rootTypeName := astmodel.MakeTypeName(rootPackage, rootName)
 
 	_, err = generateDefinitionsFor(ctx, scanner, rootTypeName, schema)

@@ -117,7 +117,9 @@ func (stage *Stage) HasId(id string) bool {
 	return stage.id == id
 }
 
-// RequiresPrerequisiteStages declares which stages must have completed before this one is executed
+// RequiresPrerequisiteStages declares which stages must have completed before this one is executed.
+// Use prerequisites to specify stages that must be present for this stage to work - typically this means that the
+// earlier stage is responsible for creating the preconditions required for this stage to operate correctly.
 func (stage *Stage) RequiresPrerequisiteStages(prerequisites ...string) {
 	if len(stage.prerequisites) > 0 {
 		panic(fmt.Sprintf(
@@ -131,9 +133,18 @@ func (stage *Stage) RequiresPrerequisiteStages(prerequisites ...string) {
 }
 
 // RequiresPostrequisiteStages declares which stages must be executed after this one has completed
-// This is not completely isomorphic with RequiresPrerequisiteStages as there may be supporting stages that are
+// Use postrequisites when it is necessary for that later stage to act on the results of this one.
+//
+// For example, InjectJsonSerializationTests creates round trip serialization tests for any object types that have
+// properties. It's not correct to give InjectJsonSerializationTests a prerequisite on every earlier stage that creates
+// new object types becauses it isn't concerned with where those object came from. However, those earlier stages DO want
+// their new object types to be tested, so they declare a post-requisite on InjectJsonSerializationTests to ensure this
+// happens.
+//
+// Post-requisites are thus not completely isomorphic with RequiresPrerequisiteStages  as there may be supporting stages that are
 // sometimes omitted from execution when targeting different outcomes. Having both pre- and post-requisites allows the
 // dependencies to drop out cleanly when different stages are present.
+//
 func (stage *Stage) RequiresPostrequisiteStages(postrequisites ...string) {
 	if len(stage.postrequisites) > 0 {
 		panic(fmt.Sprintf(
@@ -181,14 +192,39 @@ func (stage *Stage) Description() string {
 
 // Run is used to execute the action associated with this stage
 func (stage *Stage) Run(ctx context.Context, state *State) (*State, error) {
-	return stage.action(ctx, state)
+	if err := stage.checkPreconditions(state); err != nil {
+		return nil, errors.Wrapf(err, "preconditions of stage %s not met", stage.id)
+	}
+
+	resultState, err := stage.action(ctx, state)
+	if err != nil {
+		return nil, err
+	}
+
+	return resultState.WithSeenStage(stage.id), nil
 }
 
-// CheckPrerequisites returns an error if the prerequisites of this stage have not been met
-func (stage *Stage) CheckPrerequisites(priorStages astmodel.StringSet) error {
+// checkPreconditions checks to ensure the preconditions of this stage have been satisfied
+func (stage *Stage) checkPreconditions(state *State) error {
+	klog.V(3).Infof("Checking requisites of %s", stage.Id())
+
+	if err := stage.checkPrerequisites(state); err != nil {
+		return err
+	}
+
+	if err := stage.checkPostrequisites(state); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// checkPrerequisites returns an error if the prerequisites of this stage have not been met
+func (stage *Stage) checkPrerequisites(state *State) error {
+
 	var errs []error
 	for _, prereq := range stage.prerequisites {
-		satisfied := priorStages.Contains(prereq)
+		satisfied := state.stagesSeen.Contains(prereq)
 		if satisfied {
 			klog.V(3).Infof("[✓] Required prerequisite %s satisfied", prereq)
 		} else {
@@ -196,7 +232,21 @@ func (stage *Stage) CheckPrerequisites(priorStages astmodel.StringSet) error {
 		}
 
 		if !satisfied {
-			errs = append(errs, errors.Errorf("prerequisite %q of stage %q not satisfied.", prereq, stage.id))
+			errs = append(errs, errors.Errorf("prerequisite %q of stage %q NOT satisfied.", prereq, stage.Id()))
+		}
+	}
+
+	return kerrors.NewAggregate(errs)
+}
+
+// checkPostrequisites returns an error if the postrequisites of this stage have been satisfied early
+func (stage *Stage) checkPostrequisites(state *State) error {
+	var errs []error
+	for _, postreq := range stage.postrequisites {
+		early := state.stagesSeen.Contains(postreq)
+		if early {
+			klog.V(3).Infof("[✗] Required postrequisite %s satisfied early", postreq)
+			errs = append(errs, errors.Errorf("postrequisite %q satisfied of stage %q early.", postreq, stage.Id()))
 		}
 	}
 

@@ -30,9 +30,11 @@ func NewConversionGraphBuilder(configuration *config.ObjectModelConfiguration) *
 }
 
 // Add includes the supplied package reference in the conversion graph
-func (b *ConversionGraphBuilder) Add(ref astmodel.PackageReference) {
-	subBuilder := b.getSubBuilder(ref)
-	subBuilder.Add(ref)
+func (b *ConversionGraphBuilder) Add(refs ...astmodel.PackageReference) {
+	for _, ref := range refs {
+		subBuilder := b.getSubBuilder(ref)
+		subBuilder.Add(ref)
+	}
 }
 
 // AddAll includes all the supplied package references in the conversion graph

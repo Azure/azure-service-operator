@@ -45,6 +45,11 @@ func (typeName TypeName) WithName(name string) TypeName {
 	return MakeTypeName(typeName.PackageReference, name)
 }
 
+// WithPackageReference returns a new TypeName in a different package but with the same name
+func (typeName TypeName) WithPackageReference(ref PackageReference) TypeName {
+	return MakeTypeName(ref, typeName.name)
+}
+
 // A TypeName can be used as a Type,
 // it is simply a reference to the name.
 var _ Type = TypeName{}

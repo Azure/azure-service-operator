@@ -5,6 +5,7 @@ package v1alpha1api20200101
 
 import (
 	"fmt"
+	"github.com/Azure/azure-service-operator/testing/test/v1alpha1api20200101storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -13,14 +14,11 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=test.azure.com,resources=as,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=test.azure.com,resources={as/status,as/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -41,6 +39,28 @@ func (a *A) GetConditions() conditions.Conditions {
 
 // SetConditions sets the conditions on the resource status
 func (a *A) SetConditions(conditions conditions.Conditions) { a.Status.Conditions = conditions }
+
+var _ conversion.Convertible = &A{}
+
+// ConvertFrom populates our A from the provided hub A
+func (a *A) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1alpha1api20200101storage.A)
+	if !ok {
+		return fmt.Errorf("expected storage:test/v1alpha1api20200101storage/A but received %T instead", hub)
+	}
+
+	return a.AssignPropertiesFromA(source)
+}
+
+// ConvertTo populates the provided hub A from our A
+func (a *A) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1alpha1api20200101storage.A)
+	if !ok {
+		return fmt.Errorf("expected storage:test/v1alpha1api20200101storage/A but received %T instead", hub)
+	}
+
+	return a.AssignPropertiesToA(destination)
+}
 
 // +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-a,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=as,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.as.test.azure.com,admissionReviewVersions=v1beta1
 
@@ -185,8 +205,41 @@ func (a *A) validateResourceReferences() error {
 	return genruntime.ValidateResourceReferences(refs)
 }
 
-// Hub marks that this A is the hub type for conversion
-func (a *A) Hub() {}
+// AssignPropertiesFromA populates our A from the provided source A
+func (a *A) AssignPropertiesFromA(source *v1alpha1api20200101storage.A) error {
+
+	// ObjectMeta
+	a.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec A_Spec
+	err := spec.AssignPropertiesFromASpec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromASpec() to populate field Spec")
+	}
+	a.Spec = spec
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToA populates the provided destination A from our A
+func (a *A) AssignPropertiesToA(destination *v1alpha1api20200101storage.A) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *a.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v1alpha1api20200101storage.A_Spec
+	err := a.Spec.AssignPropertiesToASpec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToASpec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (a *A) OriginalGVK() *schema.GroupVersionKind {
@@ -227,11 +280,7 @@ func (a A_SpecARM) GetType() string {
 	return "Microsoft.Azure/A"
 }
 
-// +kubebuilder:rbac:groups=test.azure.com,resources=bs,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=test.azure.com,resources={bs/status,bs/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -252,6 +301,28 @@ func (b *B) GetConditions() conditions.Conditions {
 
 // SetConditions sets the conditions on the resource status
 func (b *B) SetConditions(conditions conditions.Conditions) { b.Status.Conditions = conditions }
+
+var _ conversion.Convertible = &B{}
+
+// ConvertFrom populates our B from the provided hub B
+func (b *B) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1alpha1api20200101storage.B)
+	if !ok {
+		return fmt.Errorf("expected storage:test/v1alpha1api20200101storage/B but received %T instead", hub)
+	}
+
+	return b.AssignPropertiesFromB(source)
+}
+
+// ConvertTo populates the provided hub B from our B
+func (b *B) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1alpha1api20200101storage.B)
+	if !ok {
+		return fmt.Errorf("expected storage:test/v1alpha1api20200101storage/B but received %T instead", hub)
+	}
+
+	return b.AssignPropertiesToB(destination)
+}
 
 // +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-b,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=bs,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.bs.test.azure.com,admissionReviewVersions=v1beta1
 
@@ -396,8 +467,41 @@ func (b *B) validateResourceReferences() error {
 	return genruntime.ValidateResourceReferences(refs)
 }
 
-// Hub marks that this B is the hub type for conversion
-func (b *B) Hub() {}
+// AssignPropertiesFromB populates our B from the provided source B
+func (b *B) AssignPropertiesFromB(source *v1alpha1api20200101storage.B) error {
+
+	// ObjectMeta
+	b.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec B_Spec
+	err := spec.AssignPropertiesFromBSpec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromBSpec() to populate field Spec")
+	}
+	b.Spec = spec
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToB populates the provided destination B from our B
+func (b *B) AssignPropertiesToB(destination *v1alpha1api20200101storage.B) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *b.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v1alpha1api20200101storage.B_Spec
+	err := b.Spec.AssignPropertiesToBSpec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToBSpec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (b *B) OriginalGVK() *schema.GroupVersionKind {
@@ -526,20 +630,122 @@ var _ genruntime.ConvertibleSpec = &A_Spec{}
 
 // ConvertSpecFrom populates our A_Spec from the provided source
 func (a *A_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == a {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v1alpha1api20200101storage.A_Spec)
+	if ok {
+		// Populate our instance from source
+		return a.AssignPropertiesFromASpec(src)
 	}
 
-	return source.ConvertSpecTo(a)
+	// Convert to an intermediate form
+	src = &v1alpha1api20200101storage.A_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = a.AssignPropertiesFromASpec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our A_Spec
 func (a *A_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == a {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v1alpha1api20200101storage.A_Spec)
+	if ok {
+		// Populate destination from our instance
+		return a.AssignPropertiesToASpec(dst)
 	}
 
-	return destination.ConvertSpecFrom(a)
+	// Convert to an intermediate form
+	dst = &v1alpha1api20200101storage.A_Spec{}
+	err := a.AssignPropertiesToASpec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromASpec populates our A_Spec from the provided source A_Spec
+func (a *A_Spec) AssignPropertiesFromASpec(source *v1alpha1api20200101storage.A_Spec) error {
+
+	// AzureName
+	a.AzureName = source.AzureName
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		a.Owner = &owner
+	} else {
+		a.Owner = nil
+	}
+
+	// Properties
+	if source.Properties != nil {
+		var property AProperties
+		err := property.AssignPropertiesFromAProperties(source.Properties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromAProperties() to populate field Properties")
+		}
+		a.Properties = &property
+	} else {
+		a.Properties = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToASpec populates the provided destination A_Spec from our A_Spec
+func (a *A_Spec) AssignPropertiesToASpec(destination *v1alpha1api20200101storage.A_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = a.AzureName
+
+	// OriginalVersion
+	destination.OriginalVersion = a.OriginalVersion()
+
+	// Owner
+	if a.Owner != nil {
+		owner := a.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Properties
+	if a.Properties != nil {
+		var property v1alpha1api20200101storage.AProperties
+		err := a.Properties.AssignPropertiesToAProperties(&property)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToAProperties() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // OriginalVersion returns the original API version used to create the resource.
@@ -636,20 +842,122 @@ var _ genruntime.ConvertibleSpec = &B_Spec{}
 
 // ConvertSpecFrom populates our B_Spec from the provided source
 func (b *B_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == b {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v1alpha1api20200101storage.B_Spec)
+	if ok {
+		// Populate our instance from source
+		return b.AssignPropertiesFromBSpec(src)
 	}
 
-	return source.ConvertSpecTo(b)
+	// Convert to an intermediate form
+	src = &v1alpha1api20200101storage.B_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = b.AssignPropertiesFromBSpec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our B_Spec
 func (b *B_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == b {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v1alpha1api20200101storage.B_Spec)
+	if ok {
+		// Populate destination from our instance
+		return b.AssignPropertiesToBSpec(dst)
 	}
 
-	return destination.ConvertSpecFrom(b)
+	// Convert to an intermediate form
+	dst = &v1alpha1api20200101storage.B_Spec{}
+	err := b.AssignPropertiesToBSpec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromBSpec populates our B_Spec from the provided source B_Spec
+func (b *B_Spec) AssignPropertiesFromBSpec(source *v1alpha1api20200101storage.B_Spec) error {
+
+	// AzureName
+	b.AzureName = source.AzureName
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		b.Owner = &owner
+	} else {
+		b.Owner = nil
+	}
+
+	// Properties
+	if source.Properties != nil {
+		var property BProperties
+		err := property.AssignPropertiesFromBProperties(source.Properties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromBProperties() to populate field Properties")
+		}
+		b.Properties = &property
+	} else {
+		b.Properties = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToBSpec populates the provided destination B_Spec from our B_Spec
+func (b *B_Spec) AssignPropertiesToBSpec(destination *v1alpha1api20200101storage.B_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = b.AzureName
+
+	// OriginalVersion
+	destination.OriginalVersion = b.OriginalVersion()
+
+	// Owner
+	if b.Owner != nil {
+		owner := b.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Properties
+	if b.Properties != nil {
+		var property v1alpha1api20200101storage.BProperties
+		err := b.Properties.AssignPropertiesToBProperties(&property)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToBProperties() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // OriginalVersion returns the original API version used to create the resource.
@@ -739,6 +1047,65 @@ func (properties *AProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
+// AssignPropertiesFromAProperties populates our AProperties from the provided source AProperties
+func (properties *AProperties) AssignPropertiesFromAProperties(source *v1alpha1api20200101storage.AProperties) error {
+
+	// IntField
+	properties.IntField = genruntime.ClonePointerToInt(source.IntField)
+
+	// RefField
+	if source.RefField != nil {
+		var refField BResource
+		err := refField.AssignPropertiesFromBResource(source.RefField)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromBResource() to populate field RefField")
+		}
+		properties.RefField = &refField
+	} else {
+		properties.RefField = nil
+	}
+
+	// StringField
+	properties.StringField = genruntime.ClonePointerToString(source.StringField)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToAProperties populates the provided destination AProperties from our AProperties
+func (properties *AProperties) AssignPropertiesToAProperties(destination *v1alpha1api20200101storage.AProperties) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// IntField
+	destination.IntField = genruntime.ClonePointerToInt(properties.IntField)
+
+	// RefField
+	if properties.RefField != nil {
+		var refField v1alpha1api20200101storage.BResource
+		err := properties.RefField.AssignPropertiesToBResource(&refField)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToBResource() to populate field RefField")
+		}
+		destination.RefField = &refField
+	} else {
+		destination.RefField = nil
+	}
+
+	// StringField
+	destination.StringField = genruntime.ClonePointerToString(properties.StringField)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/BProperties
 type BProperties struct {
 	EnumField *BPropertiesEnumField `json:"enumField,omitempty"`
@@ -777,6 +1144,45 @@ func (properties *BProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	if typedInput.EnumField != nil {
 		enumField := *typedInput.EnumField
 		properties.EnumField = &enumField
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromBProperties populates our BProperties from the provided source BProperties
+func (properties *BProperties) AssignPropertiesFromBProperties(source *v1alpha1api20200101storage.BProperties) error {
+
+	// EnumField
+	if source.EnumField != nil {
+		enumField := BPropertiesEnumField(*source.EnumField)
+		properties.EnumField = &enumField
+	} else {
+		properties.EnumField = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToBProperties populates the provided destination BProperties from our BProperties
+func (properties *BProperties) AssignPropertiesToBProperties(destination *v1alpha1api20200101storage.BProperties) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// EnumField
+	if properties.EnumField != nil {
+		enumField := string(*properties.EnumField)
+		destination.EnumField = &enumField
+	} else {
+		destination.EnumField = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
 	}
 
 	// No error
@@ -832,6 +1238,45 @@ func (resource *BResource) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	}
 
 	// no assignment for property ‘Reference’
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromBResource populates our BResource from the provided source BResource
+func (resource *BResource) AssignPropertiesFromBResource(source *v1alpha1api20200101storage.BResource) error {
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		resource.Reference = &reference
+	} else {
+		resource.Reference = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToBResource populates the provided destination BResource from our BResource
+func (resource *BResource) AssignPropertiesToBResource(destination *v1alpha1api20200101storage.BResource) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Reference
+	if resource.Reference != nil {
+		reference := resource.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

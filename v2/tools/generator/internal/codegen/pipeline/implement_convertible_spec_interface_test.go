@@ -40,8 +40,8 @@ func TestGolden_InjectConvertibleSpecInterface(t *testing.T) {
 	cfg := config.NewConfiguration()
 	finalState, err := RunTestPipeline(
 		initialState,
-		CreateConversionGraph(cfg), // First create the conversion graph showing relationships
-		CreateStorageTypes(),       // Then create the storage types
+		CreateStorageTypes(),       // First create the storage types
+		CreateConversionGraph(cfg), // Then, create the conversion graph showing relationships
 		InjectPropertyAssignmentFunctions(cfg, idFactory), // After which we inject property assignment functions
 		ImplementConvertibleSpecInterface(idFactory),      // And then we get to run the stage we're testing
 	)

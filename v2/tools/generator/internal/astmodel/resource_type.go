@@ -225,6 +225,15 @@ func (resource *ResourceType) WithFunction(function Function) *ResourceType {
 	return result
 }
 
+// WithoutFunctions creates a new Resource with no functions (useful for testing)
+func (resource *ResourceType) WithoutFunctions() *ResourceType {
+	// Create a copy to preserve immutability
+	result := resource.copy()
+	result.functions = make(map[string]Function)
+
+	return result
+}
+
 // WithTestCase creates a new Resource that's a copy with an additional test case included
 func (resource *ResourceType) WithTestCase(testcase TestCase) *ResourceType {
 	result := resource.copy()
@@ -596,7 +605,7 @@ func (resource *ResourceType) generateMethodDecls(codeGenerationContext *CodeGen
 	var result []dst.Decl
 
 	for _, f := range resource.Functions() {
-		funcDef := f.AsFunc(codeGenerationContext, typeName)
+		funcDef := generateMethodDeclForFunction(typeName, f, codeGenerationContext)
 		result = append(result, funcDef)
 	}
 
@@ -716,4 +725,24 @@ func (resource *ResourceType) WriteDebugDescription(builder *strings.Builder, de
 	builder.WriteString("|status:")
 	resource.status.WriteDebugDescription(builder, definitions)
 	builder.WriteString("]")
+}
+
+// generateMethodDeclForFunction generates the AST for a function; if a panic occurs, the identity of the type and
+// function being generated will be wrapped around the existing panic details to aid in debugging.
+func generateMethodDeclForFunction(
+	typeName TypeName,
+	f Function,
+	codeGenerationContext *CodeGenerationContext) *dst.FuncDecl {
+
+	defer func() {
+		if err := recover(); err != nil {
+			panic(fmt.Sprintf(
+				"generating method declaration for %s.%s: %s",
+				typeName.Name(),
+				f.Name(),
+				err))
+		}
+	}()
+
+	return f.AsFunc(codeGenerationContext, typeName)
 }

@@ -14,6 +14,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
 var (
@@ -26,10 +27,7 @@ func Test_CanExtractTypeNameFromSameFile(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	schemaPackage := astmodel.MakeLocalPackageReference(
-		"github.com/Azure/azure-service-operator/v2/api",
-		"Microsoft.Test",
-		"v1")
+	schemaPackage := test.MakeLocalPackageReference("Microsoft.Test", "v1")
 
 	loader := NewCachingFileLoader(map[string]PackageAndSwagger{
 		schemaPath: {
@@ -66,10 +64,7 @@ func Test_CanExtractTypeNameFromDifferentFile_AndInheritPackage(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	schemaPackage := astmodel.MakeLocalPackageReference(
-		"github.com/Azure/azure-service-operator/v2/api",
-		"Microsoft.Test",
-		"v1")
+	schemaPackage := test.MakeLocalPackageReference("Microsoft.Test", "v1")
 
 	loader := NewCachingFileLoader(map[string]PackageAndSwagger{
 		schemaPath: {
@@ -117,15 +112,9 @@ func Test_CanExtractTypeNameFromDifferentFile_AndUsePresetPackage(t *testing.T) 
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	schemaPackage := astmodel.MakeLocalPackageReference(
-		"github.com/Azure/azure-service-operator/v2/api",
-		"Microsoft.Test",
-		"v1")
+	schemaPackage := test.MakeLocalPackageReference("Microsoft.Test", "v1")
 
-	externalPackage := astmodel.MakeLocalPackageReference(
-		"github.com/Azure/azure-service-operator/v2/api",
-		"Microsoft.Common",
-		"v1")
+	externalPackage := test.MakeLocalPackageReference("Microsoft.Common", "v1")
 
 	loader := NewCachingFileLoader(map[string]PackageAndSwagger{
 		schemaPath: {
@@ -173,10 +162,7 @@ func Test_GeneratingCollidingTypeNamesReturnsError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	schemaPackage := astmodel.MakeLocalPackageReference(
-		"github.com/Azure/azure-service-operator/v2/api",
-		"Microsoft.Test",
-		"v1")
+	schemaPackage := test.MakeLocalPackageReference("Microsoft.Test", "v1")
 
 	loader := NewCachingFileLoader(map[string]PackageAndSwagger{
 		schemaPath: {
@@ -232,10 +218,7 @@ func Test_GeneratingCollidingTypeNamesWithSiblingFilesReturnsError(t *testing.T)
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	schemaPackage := astmodel.MakeLocalPackageReference(
-		"github.com/Azure/azure-service-operator/v2/api",
-		"Microsoft.Test",
-		"v1")
+	schemaPackage := test.MakeLocalPackageReference("Microsoft.Test", "v1")
 
 	loader := NewCachingFileLoader(map[string]PackageAndSwagger{
 		schemaPath: {

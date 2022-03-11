@@ -30,8 +30,9 @@ stripUnused                                          Strip unused types for test
 addStatusConditions                       azure      Add the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources
 addOperatorSpec                           azure      Adds the property 'OperatorSpec' to all Spec types that require it
 applyDefaulterAndValidatorInterfaces      azure      Add the admission.Defaulter and admission.Validator interfaces to each resource that requires them
-createConversionGraph                     azure      Create the graph of conversions between versions of each resource group
 injectOriginalVersionFunction             azure      Inject the function OriginalVersion() into each Spec type
+createStorageTypes                        azure      Create storage versions of CRD types
+createConversionGraph                     azure      Create the graph of conversions between versions of each resource group
 injectOriginalVersionProperty             azure      Inject the property OriginalVersion into each Storage Spec type
 injectPropertyAssignmentFunctions         azure      Inject property assignment functions AssignFrom() and AssignTo() into resources and objects
 implementConvertibleSpecInterface         azure      Inject ConvertSpecTo() and ConvertSpecFrom() to implement genruntime.ConvertibleSpec on each Spec type
