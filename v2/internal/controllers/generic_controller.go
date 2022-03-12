@@ -98,6 +98,8 @@ func registerWebhook(mgr ctrl.Manager, obj client.Object) error {
 
 func RegisterAll(
 	mgr ctrl.Manager,
+	fieldIndexer client.FieldIndexer,
+	kubeClient kubeclient.Client,
 	clientFactory arm.ARMClientFactory,
 	objs []*registration.StorageType,
 	extensions map[schema.GroupVersionKind]genruntime.ResourceExtension,
@@ -114,7 +116,7 @@ func RegisterAll(
 	for _, obj := range objs {
 		for _, indexer := range obj.Indexes {
 			options.Log.V(Info).Info("Registering indexer for type", "type", fmt.Sprintf("%T", obj.Obj), "key", indexer.Key)
-			err = mgr.GetFieldIndexer().IndexField(context.Background(), obj.Obj, indexer.Key, indexer.Func)
+			err = fieldIndexer.IndexField(context.Background(), obj.Obj, indexer.Key, indexer.Func)
 			if err != nil {
 				return errors.Wrapf(err, "failed to register indexer for %T, Key: %q", obj.Obj, indexer.Key)
 			}
@@ -125,7 +127,7 @@ func RegisterAll(
 	for _, obj := range objs {
 		// TODO: Consider pulling some of the construction of things out of register (gvk, etc), so that we can pass in just
 		// TODO: the applicable extensions rather than a map of all of them
-		if err := register(mgr, reconciledResourceLookup, clientFactory, obj, extensions, options); err != nil {
+		if err := register(mgr, kubeClient, reconciledResourceLookup, clientFactory, obj, extensions, options); err != nil {
 			errs = append(errs, err)
 		}
 	}
@@ -135,6 +137,7 @@ func RegisterAll(
 
 func register(
 	mgr ctrl.Manager,
+	kubeClient kubeclient.Client,
 	reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind,
 	clientFactory arm.ARMClientFactory,
 	info *registration.StorageType,
@@ -156,7 +159,6 @@ func register(
 	}
 
 	options.Log.V(Status).Info("Registering", "GVK", gvk)
-	kubeClient := kubeclient.NewClient(mgr.GetClient())
 	extension := extensions[gvk]
 
 	loggerFactory := func(mo genruntime.MetaObject) logr.Logger {

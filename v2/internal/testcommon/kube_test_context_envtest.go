@@ -29,6 +29,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
+	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -134,8 +135,17 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		if err != nil {
 			return nil, errors.Wrapf(err, "getting extensions")
 		}
+
+		// We use a custom indexer here so that we can simulate the caching client behavior for indexing even though
+		// for our tests we are not using the caching client
+		testIndexer := NewIndexer(mgr.GetScheme())
+		indexer := kubeclient.NewAndIndexer(mgr.GetFieldIndexer(), testIndexer)
+		kubeClient := kubeclient.NewClient(NewClient(mgr.GetClient(), testIndexer))
+
 		err = controllers.RegisterAll(
 			mgr,
+			indexer,
+			kubeClient,
 			clientFactory,
 			controllers.GetKnownStorageTypes(),
 			extensions,
