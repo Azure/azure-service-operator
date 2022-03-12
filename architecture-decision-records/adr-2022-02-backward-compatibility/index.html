@@ -3,16 +3,22 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Tutorial: PostgreSQL Votes #  Follow the guided example to create a simple voting application backed by PostgreSQL. The PostgreSQL Server and Database are hosted in Azure but created easily via kubectl and Azure Service Operator!">
+<meta name="description" content="Context #  As we close in on a beta release, we want to modify the version prefix used for code-generated resources.
+We don&rsquo;t want to maroon existing users of Azure Service Operator (ASO) by making this a breaking change.
+Cross version compatibility between ARM versions of a resource (that is, between v1alpha1api20180101 and v1alpha1api20200101) is already implemented and well tested, so we want to leverage that existing infrastructure.
+Version skew policy in the Kubernetes ecosystem is to allow for one or two older minor versions of backward compatibility.">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="Tutorial: PostgreSQL Votes" />
-<meta property="og:description" content="Tutorial: PostgreSQL Votes #  Follow the guided example to create a simple voting application backed by PostgreSQL. The PostgreSQL Server and Database are hosted in Azure but created easily via kubectl and Azure Service Operator!" />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="Context #  As we close in on a beta release, we want to modify the version prefix used for code-generated resources.
+We don&rsquo;t want to maroon existing users of Azure Service Operator (ASO) by making this a breaking change.
+Cross version compatibility between ARM versions of a resource (that is, between v1alpha1api20180101 and v1alpha1api20200101) is already implemented and well tested, so we want to leverage that existing infrastructure.
+Version skew policy in the Kubernetes ecosystem is to allow for one or two older minor versions of backward compatibility." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/introduction/tutorial-postgresql/" /><meta property="article:section" content="introduction" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/" /><meta property="article:section" content="architecture-decision-records" />
 
 
 
-<title>Tutorial: PostgreSQL Votes | Azure Service Operator</title>
+<title>Adr 2022 02 Backward Compatibility | Azure Service Operator</title>
 <link rel="manifest" href="/azure-service-operator/manifest.json">
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
@@ -188,7 +194,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/introduction/tutorial-postgresql/" class=" active">Tutorial: PostgreSQL Votes</a>
+    <a href="https://azure.github.io/azure-service-operator/introduction/tutorial-postgresql/" class="">Tutorial: PostgreSQL Votes</a>
   
 
         </li>
@@ -538,7 +544,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/" class="">Adr 2022 02 Backward Compatibility</a>
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/" class=" active">Adr 2022 02 Backward Compatibility</a>
   
 
         </li>
@@ -902,7 +908,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/azure-service-operator/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>Tutorial: PostgreSQL Votes</strong>
+  <strong>Adr 2022 02 Backward Compatibility</strong>
 
   <label for="toc-control">
     
@@ -927,13 +933,58 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><h1 id="tutorial-postgresql-votes">
-  Tutorial: PostgreSQL Votes
-  <a class="anchor" href="#tutorial-postgresql-votes">#</a>
+  <article class="markdown"><h1 id="context">
+  Context
+  <a class="anchor" href="#context">#</a>
 </h1>
-<p>Follow the <a href="https://github.com/Azure-Samples/azure-service-operator-samples/tree/master/azure-votes-postgresql">guided example</a>
-to create a simple voting application backed by PostgreSQL.
-The PostgreSQL Server and Database are hosted in Azure but created easily via <code>kubectl</code> and Azure Service Operator!</p>
+<p>As we close in on a beta release, we want to modify the version prefix used for code-generated resources.</p>
+<p>We don&rsquo;t want to maroon existing users of Azure Service Operator (ASO) by making this a breaking change.</p>
+<p>Cross version compatibility between ARM versions of a resource (that is, between <code>v1alpha1api20180101</code> and <code>v1alpha1api20200101</code>) is already implemented and well tested, so we want to leverage that existing infrastructure.</p>
+<p>Version skew policy in the Kubernetes ecosystem is to allow for one or two older minor versions of backward compatibility. This gives us the <em>option</em> of temporarily introducing backward compatibility with the <code>codegen-beta-0</code> release and then dropping it once we reach <code>codegen-beta-2</code> or greater.</p>
+<h1 id="decision">
+  Decision
+  <a class="anchor" href="#decision">#</a>
+</h1>
+<p>Change the prefix used from <code>v1alpha1api</code> to simply <code>v1beta</code>. (We don&rsquo;t need a minor number as part of the prefix. The original intention was to increment the minor version with each release of the operator, but the overhead of this is very high, so we&rsquo;ve instead used the prefix <code>v1alpha1api</code> for all our alpha releases.)</p>
+<p>Introduce a new pipeline stage to create additional storage versions for backward compatibility, each created by cloning an existing storage version but using a package name based on the old <code>v1alpha1api</code> prefix.</p>
+<p>For example, the storage version of the <code>compute</code> resource <code>v1beta20201201/VirtualMachine</code> is <code>v1beta20201201storage/VirtualMachine</code>. The new pipeline stage will clone that resource as <code>v1alpha1api20201201storage/VirtualMachine</code> and subsequent pipeline stages will create the necessary conversion.</p>
+<p><img src="images/adr-2022-02-backward-compatibility-single-version.png" alt="image" /></p>
+<p>For the trivial case where we only support a single ARM version of a resource, this gives us full compatibility to upgrade an older (alpha) installation of ASO to a new beta release.</p>
+<p>When we have multiple ARM versions in flight (as we do with <code>compute</code>), supporting all <em>potential</em> older resource versions gives us maximum compatibility without any need for configuration or to make any assumptions about which ARM versions were previously supported.</p>
+<p><img src="images/adr-2022-02-backward-compatibility-multiple-version.png" alt="image" /></p>
+<p>This approach also gives us backward compatibility when we have a mix of resources across multiple versions (as happens with both <code>compute</code> and <code>network</code>). We know from prior work (including introduction of the <code>PropertyBag</code> field) that conversions between storage versions are lossless.</p>
+<p>We&rsquo;ll only drop these backward compatibility types if it is necessary to do so.</p>
+<p>Reasons for this include (but are not limited to):</p>
+<ul>
+<li>A breaking change to the structure of our storage resources</li>
+<li>A desire (or need) to reduce the size of our CRD definitions</li>
+</ul>
+<h1 id="status">
+  Status
+  <a class="anchor" href="#status">#</a>
+</h1>
+<p>Proposed.</p>
+<h1 id="consequences">
+  Consequences
+  <a class="anchor" href="#consequences">#</a>
+</h1>
+<p>With the supported format for old resources being derived from newer resources, we need to be careful about breaking changes (e.g. removing properties or changing property types) that might cause issues for users upgrading to the latest ASO.</p>
+<p>Factors reducing the severity of this include:</p>
+<ul>
+<li>Our object shapes are defined by ARM resource versions, which have tight constraints on the types of permitted changes, so we&rsquo;re unlikely to have breaking changes from that source.</li>
+<li>We have exactly the same compatibility issues between adjacent ASO releases, so our changes to the generator already have to consider this.</li>
+<li>We only need to maintain backward compatibility across a small number of versions.</li>
+</ul>
+<h1 id="experience-report">
+  Experience Report
+  <a class="anchor" href="#experience-report">#</a>
+</h1>
+<p>TBC.</p>
+<h1 id="references">
+  References
+  <a class="anchor" href="#references">#</a>
+</h1>
+<p>TBC.</p>
 </article>
  
       

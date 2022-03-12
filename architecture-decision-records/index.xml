@@ -72,5 +72,17 @@ These inconsistencies are anticipated. Given the number of disparate teams indep
 For example, the Azure Redis Resource Provider can return a HTTP conflict (409) with a retry message indicating that it&amp;rsquo;s not a fatal error but a transient one.</description>
     </item>
     
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/</guid>
+      <description>Context #  As we close in on a beta release, we want to modify the version prefix used for code-generated resources.
+We don&amp;rsquo;t want to maroon existing users of Azure Service Operator (ASO) by making this a breaking change.
+Cross version compatibility between ARM versions of a resource (that is, between v1alpha1api20180101 and v1alpha1api20200101) is already implemented and well tested, so we want to leverage that existing infrastructure.
+Version skew policy in the Kubernetes ecosystem is to allow for one or two older minor versions of backward compatibility.</description>
+    </item>
+    
   </channel>
 </rss>

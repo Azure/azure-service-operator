@@ -1,0 +1,22 @@
+graph {
+    nodesep="1"
+
+    node [shape=rect]
+    v1beta20201201 [label="v1beta20201201\nVirtualMachine"]
+
+    subgraph storageVersions {
+        rank=same;
+
+        node [shape=rect]
+        v1beta20201201storage [label="v1beta20201201storage\nVirtualMachine"]
+
+        node [shape=rect, penwidth=3]
+        v1alpha1api20201201storage [label="v1alpha1api20201201\nVirtualMachine"]
+    }
+
+    edge [arrowhead=vee, arrowtail=vee, dir=both]
+    v1beta20201201 -- v1beta20201201storage
+
+    edge [arrowhead=vee, arrowtail=none, dir=both]
+    v1alpha1api20201201storage -- v1beta20201201storage
+}

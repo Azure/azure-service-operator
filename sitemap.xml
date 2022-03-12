@@ -36,6 +36,9 @@
     <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/</loc>
     <priority>0</priority>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/</loc>
+    <priority>0</priority>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/create-a-new-release/</loc>
