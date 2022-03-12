@@ -186,7 +186,7 @@ type Namespaces_Spec struct {
 	// +kubebuilder:validation:MinLength=6
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//ClusterArmReference: Cluster ARM ID of the Namespace.
 	ClusterArmReference    *genruntime.ResourceReference `armReference:"ClusterArmId" json:"clusterArmReference,omitempty"`
@@ -197,10 +197,13 @@ type Namespaces_Spec struct {
 	KafkaEnabled           *bool                         `json:"kafkaEnabled,omitempty"`
 	Location               *string                       `json:"location,omitempty"`
 	MaximumThroughputUnits *int                          `json:"maximumThroughputUnits,omitempty"`
-	OriginalVersion        string                        `json:"originalVersion"`
+	OriginalVersion        string                        `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner                      genruntime.KnownResourceReference                       `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a resources.azure.com/ResourceGroup resource
+	Owner                      *genruntime.KnownResourceReference                      `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PrivateEndpointConnections []Namespaces_Spec_Properties_PrivateEndpointConnections `json:"privateEndpointConnections,omitempty"`
 	PropertyBag                genruntime.PropertyBag                                  `json:"$propertyBag,omitempty"`
 	Sku                        *Sku                                                    `json:"sku,omitempty"`

@@ -3,6 +3,12 @@
 // Licensed under the MIT license.
 package v1alpha1api20200101
 
+import (
+	"github.com/Azure/azure-service-operator/testing/test/v1alpha1api20200101storage"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/pkg/errors"
+)
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	//Bar: Mutually exclusive with all other properties
@@ -15,19 +21,211 @@ type Test struct {
 	Foo *Foo `json:"foo,omitempty"`
 }
 
+// AssignPropertiesFromTest populates our Test from the provided source Test
+func (test *Test) AssignPropertiesFromTest(source *v1alpha1api20200101storage.Test) error {
+
+	// Bar
+	if source.Bar != nil {
+		var bar Bar
+		err := bar.AssignPropertiesFromBar(source.Bar)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromBar() to populate field Bar")
+		}
+		test.Bar = &bar
+	} else {
+		test.Bar = nil
+	}
+
+	// Baz
+	if source.Baz != nil {
+		var baz Baz
+		err := baz.AssignPropertiesFromBaz(source.Baz)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromBaz() to populate field Baz")
+		}
+		test.Baz = &baz
+	} else {
+		test.Baz = nil
+	}
+
+	// Foo
+	if source.Foo != nil {
+		var foo Foo
+		err := foo.AssignPropertiesFromFoo(source.Foo)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromFoo() to populate field Foo")
+		}
+		test.Foo = &foo
+	} else {
+		test.Foo = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTest populates the provided destination Test from our Test
+func (test *Test) AssignPropertiesToTest(destination *v1alpha1api20200101storage.Test) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Bar
+	if test.Bar != nil {
+		var bar v1alpha1api20200101storage.Bar
+		err := test.Bar.AssignPropertiesToBar(&bar)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToBar() to populate field Bar")
+		}
+		destination.Bar = &bar
+	} else {
+		destination.Bar = nil
+	}
+
+	// Baz
+	if test.Baz != nil {
+		var baz v1alpha1api20200101storage.Baz
+		err := test.Baz.AssignPropertiesToBaz(&baz)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToBaz() to populate field Baz")
+		}
+		destination.Baz = &baz
+	} else {
+		destination.Baz = nil
+	}
+
+	// Foo
+	if test.Foo != nil {
+		var foo v1alpha1api20200101storage.Foo
+		err := test.Foo.AssignPropertiesToFoo(&foo)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToFoo() to populate field Foo")
+		}
+		destination.Foo = &foo
+	} else {
+		destination.Foo = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
 type Bar struct {
 	// +kubebuilder:validation:Required
-	Size int `json:"size"`
+	Size *int `json:"size,omitempty"`
+}
+
+// AssignPropertiesFromBar populates our Bar from the provided source Bar
+func (bar *Bar) AssignPropertiesFromBar(source *v1alpha1api20200101storage.Bar) error {
+
+	// Size
+	bar.Size = genruntime.ClonePointerToInt(source.Size)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToBar populates the provided destination Bar from our Bar
+func (bar *Bar) AssignPropertiesToBar(destination *v1alpha1api20200101storage.Bar) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Size
+	destination.Size = genruntime.ClonePointerToInt(bar.Size)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
 type Baz struct {
 	// +kubebuilder:validation:Required
-	Enabled bool `json:"enabled"`
+	Enabled *bool `json:"enabled,omitempty"`
+}
+
+// AssignPropertiesFromBaz populates our Baz from the provided source Baz
+func (baz *Baz) AssignPropertiesFromBaz(source *v1alpha1api20200101storage.Baz) error {
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		baz.Enabled = &enabled
+	} else {
+		baz.Enabled = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToBaz populates the provided destination Baz from our Baz
+func (baz *Baz) AssignPropertiesToBaz(destination *v1alpha1api20200101storage.Baz) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Enabled
+	if baz.Enabled != nil {
+		enabled := *baz.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
 	Name *string `json:"name,omitempty"`
+}
+
+// AssignPropertiesFromFoo populates our Foo from the provided source Foo
+func (foo *Foo) AssignPropertiesFromFoo(source *v1alpha1api20200101storage.Foo) error {
+
+	// Name
+	foo.Name = genruntime.ClonePointerToString(source.Name)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFoo populates the provided destination Foo from our Foo
+func (foo *Foo) AssignPropertiesToFoo(destination *v1alpha1api20200101storage.Foo) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(foo.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }

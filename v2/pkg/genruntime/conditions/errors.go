@@ -30,6 +30,15 @@ func NewReadyConditionImpactingError(cause error, severity ConditionSeverity, re
 
 var _ error = &ReadyConditionImpactingError{}
 
+func AsReadyConditionImpactingError(err error) (*ReadyConditionImpactingError, bool) {
+	var typedErr *ReadyConditionImpactingError
+	if errors.As(err, &typedErr) {
+		return typedErr, true
+	}
+
+	return nil, false
+}
+
 func (e *ReadyConditionImpactingError) Error() string {
 	// Defered to cause
 	return e.cause.Error()

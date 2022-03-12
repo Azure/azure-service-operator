@@ -530,13 +530,16 @@ const DomainsTopicsSpecAPIVersion20200601 = DomainsTopicsSpecAPIVersion("2020-06
 type DomainsTopics_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"eventgrid.azure.com" json:"owner" kind:"Domain"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a eventgrid.azure.com/Domain resource
+	Owner *genruntime.KnownResourceReference `group:"eventgrid.azure.com" json:"owner,omitempty" kind:"Domain"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -592,7 +595,7 @@ func (topics *DomainsTopics_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 	}
 
 	// Set property ‘Owner’:
-	topics.Owner = genruntime.KnownResourceReference{
+	topics.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -668,7 +671,12 @@ func (topics *DomainsTopics_Spec) AssignPropertiesFromDomainsTopicsSpec(source *
 	topics.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	topics.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		topics.Owner = &owner
+	} else {
+		topics.Owner = nil
+	}
 
 	// Tags
 	topics.Tags = genruntime.CloneMapOfStringToString(source.Tags)
@@ -692,7 +700,12 @@ func (topics *DomainsTopics_Spec) AssignPropertiesToDomainsTopicsSpec(destinatio
 	destination.OriginalVersion = topics.OriginalVersion()
 
 	// Owner
-	destination.Owner = topics.Owner.Copy()
+	if topics.Owner != nil {
+		owner := topics.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(topics.Tags)

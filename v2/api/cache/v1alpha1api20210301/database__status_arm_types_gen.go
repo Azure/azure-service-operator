@@ -77,7 +77,7 @@ type Module_StatusARM struct {
 	Args *string `json:"args,omitempty"`
 
 	//Name: The name of the module, e.g. 'RedisBloom', 'RediSearch', 'RedisTimeSeries'
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Version: The version of the module, e.g. '1.0'.
 	Version *string `json:"version,omitempty"`

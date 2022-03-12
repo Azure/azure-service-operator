@@ -82,14 +82,14 @@ func WebtestsSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForWebtestsSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWebtestsSpecARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForWebtestsSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForWebtestsSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = WebTestPropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(WebTestPropertiesARMGenerator())
 }
 
 func Test_WebTestPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -161,14 +161,14 @@ func AddIndependentPropertyGeneratorsForWebTestPropertiesARM(gens map[string]gop
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["Frequency"] = gen.PtrOf(gen.Int())
-	gens["Kind"] = gen.OneConstOf(
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(
 		WebTestPropertiesKindBasic,
 		WebTestPropertiesKindMultistep,
 		WebTestPropertiesKindPing,
-		WebTestPropertiesKindStandard)
-	gens["Name"] = gen.AlphaString()
+		WebTestPropertiesKindStandard))
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["RetryEnabled"] = gen.PtrOf(gen.Bool())
-	gens["SyntheticMonitorId"] = gen.AlphaString()
+	gens["SyntheticMonitorId"] = gen.PtrOf(gen.AlphaString())
 	gens["Timeout"] = gen.PtrOf(gen.Int())
 }
 

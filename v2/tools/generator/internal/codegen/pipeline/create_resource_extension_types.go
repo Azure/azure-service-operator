@@ -17,8 +17,8 @@ const (
 	CreateResourceExtensionsStageID = "createResourceExtensions"
 )
 
-func CreateResourceExtensions(localPath string, idFactory astmodel.IdentifierFactory) Stage {
-	stage := MakeStage(
+func CreateResourceExtensions(localPath string, idFactory astmodel.IdentifierFactory) *Stage {
+	stage := NewStage(
 		CreateResourceExtensionsStageID,
 		"Create Resource Extensions for each resource type",
 		func(ctx context.Context, state *State) (*State, error) {
@@ -31,7 +31,11 @@ func CreateResourceExtensions(localPath string, idFactory astmodel.IdentifierFac
 			// Iterate through resource types and aggregate the resource types that share the same extension type in a map.
 			for _, typeDef := range resourceDefs {
 				group, _, _ := typeDef.Name().PackageReference.GroupVersion()
-				packageRef := astmodel.MakeLocalPackageReference(localPath, group, "customizations")
+				packageRef := astmodel.MakeLocalPackageReference(
+					localPath,
+					group,
+					"", // no prefix needed (or wanted!) for customizations
+					"customizations")
 				extensionTypeName := astmodel.MakeTypeName(packageRef, typeDef.Name().Name()+"Extension")
 				extendedResourceTypesMapping[extensionTypeName] = append(extendedResourceTypesMapping[extensionTypeName], typeDef.Name())
 			}
@@ -53,8 +57,5 @@ func CreateResourceExtensions(localPath string, idFactory astmodel.IdentifierFac
 			return state, nil
 		})
 
-	// We don't want tests to be generated for resourceExtensions, since these are not the actual resource types.
-	// Therefore, we want to make sure that 'createResourceExtensions' stage only runs when these prerequisite
-	// stages have completed.
-	return stage.RequiresPrerequisiteStages(InjectJsonSerializationTestsID, InjectPropertyAssignmentTestsID)
+	return stage
 }

@@ -165,16 +165,19 @@ func (database *Database_Status) ConvertStatusTo(destination genruntime.Converti
 type FlexibleServersDatabases_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName       string  `json:"azureName"`
+	AzureName       string  `json:"azureName,omitempty"`
 	Charset         *string `json:"charset,omitempty"`
 	Collation       *string `json:"collation,omitempty"`
 	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion"`
+	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner       genruntime.KnownResourceReference `group:"dbforpostgresql.azure.com" json:"owner" kind:"FlexibleServer"`
-	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Tags        map[string]string                 `json:"tags,omitempty"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a dbforpostgresql.azure.com/FlexibleServer resource
+	Owner       *genruntime.KnownResourceReference `group:"dbforpostgresql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &FlexibleServersDatabases_Spec{}

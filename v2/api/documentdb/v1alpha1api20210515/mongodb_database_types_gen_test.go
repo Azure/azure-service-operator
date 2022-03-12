@@ -278,7 +278,7 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesSpec(gen
 // AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesSpec(gens map[string]gopter.Gen) {
 	gens["Options"] = gen.PtrOf(CreateUpdateOptionsGenerator())
-	gens["Resource"] = MongoDBDatabaseResourceGenerator()
+	gens["Resource"] = gen.PtrOf(MongoDBDatabaseResourceGenerator())
 }
 
 func Test_MongoDBDatabaseGetResults_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -618,7 +618,7 @@ func MongoDBDatabaseGetPropertiesStatusResourceGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForMongoDBDatabaseGetPropertiesStatusResource is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForMongoDBDatabaseGetPropertiesStatusResource(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Rid"] = gen.PtrOf(gen.AlphaString())
 	gens["Ts"] = gen.PtrOf(gen.Float64())
 }
@@ -722,7 +722,7 @@ func MongoDBDatabaseResourceGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForMongoDBDatabaseResource is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForMongoDBDatabaseResource(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_OptionsResource_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

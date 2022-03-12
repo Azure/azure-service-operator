@@ -136,7 +136,7 @@ type NamespacesQueues_Spec struct {
 	// +kubebuilder:validation:MinLength=1
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName                           string  `json:"azureName"`
+	AzureName                           string  `json:"azureName,omitempty"`
 	DeadLetteringOnMessageExpiration    *bool   `json:"deadLetteringOnMessageExpiration,omitempty"`
 	DefaultMessageTimeToLive            *string `json:"defaultMessageTimeToLive,omitempty"`
 	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
@@ -149,14 +149,17 @@ type NamespacesQueues_Spec struct {
 	LockDuration                        *string `json:"lockDuration,omitempty"`
 	MaxDeliveryCount                    *int    `json:"maxDeliveryCount,omitempty"`
 	MaxSizeInMegabytes                  *int    `json:"maxSizeInMegabytes,omitempty"`
-	OriginalVersion                     string  `json:"originalVersion"`
+	OriginalVersion                     string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner                      genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner" kind:"Namespace"`
-	PropertyBag                genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	RequiresDuplicateDetection *bool                             `json:"requiresDuplicateDetection,omitempty"`
-	RequiresSession            *bool                             `json:"requiresSession,omitempty"`
-	Tags                       map[string]string                 `json:"tags,omitempty"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a servicebus.azure.com/Namespace resource
+	Owner                      *genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner,omitempty" kind:"Namespace"`
+	PropertyBag                genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	RequiresDuplicateDetection *bool                              `json:"requiresDuplicateDetection,omitempty"`
+	RequiresSession            *bool                              `json:"requiresSession,omitempty"`
+	Tags                       map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &NamespacesQueues_Spec{}

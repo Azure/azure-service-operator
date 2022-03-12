@@ -20,8 +20,8 @@ const CreateConversionGraphStageId = "createConversionGraph"
 
 // CreateConversionGraph walks the set of available types and creates a graph of conversions that will be used to
 // convert resources to/from the designated storage (or hub) version
-func CreateConversionGraph(configuration *config.Configuration) Stage {
-	stage := MakeStage(
+func CreateConversionGraph(configuration *config.Configuration) *Stage {
+	stage := NewStage(
 		CreateConversionGraphStageId,
 		"Create the graph of conversions between versions of each resource group",
 		func(ctx context.Context, state *State) (*State, error) {
@@ -42,5 +42,6 @@ func CreateConversionGraph(configuration *config.Configuration) Stage {
 			return state.WithConversionGraph(graph), nil
 		})
 
+	stage.RequiresPrerequisiteStages(CreateStorageTypesStageID)
 	return stage
 }

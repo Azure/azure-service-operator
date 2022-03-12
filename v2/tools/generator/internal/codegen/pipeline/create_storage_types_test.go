@@ -11,7 +11,6 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
@@ -41,11 +40,7 @@ func TestGolden_CreateStorageTypes(t *testing.T) {
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2, test.Address2021)
 
-	initialState, err := RunTestPipeline(
-		NewState().WithDefinitions(defs),
-		CreateConversionGraph(config.NewConfiguration()))
-	g.Expect(err).To(Succeed())
-
+	initialState := NewState().WithDefinitions(defs)
 	finalState, err := RunTestPipeline(initialState, CreateStorageTypes())
 	g.Expect(err).To(Succeed())
 

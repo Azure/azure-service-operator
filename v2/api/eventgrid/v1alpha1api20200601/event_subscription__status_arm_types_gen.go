@@ -52,12 +52,12 @@ type EventSubscriptionProperties_StatusARM struct {
 
 type DeadLetterDestination_StatusARM struct {
 	//EndpointType: Type of the endpoint for the dead letter destination
-	EndpointType DeadLetterDestinationStatusEndpointType `json:"endpointType"`
+	EndpointType *DeadLetterDestinationStatusEndpointType `json:"endpointType,omitempty"`
 }
 
 type EventSubscriptionDestination_StatusARM struct {
 	//EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType EventSubscriptionDestinationStatusEndpointType `json:"endpointType"`
+	EndpointType *EventSubscriptionDestinationStatusEndpointType `json:"endpointType,omitempty"`
 }
 
 type EventSubscriptionFilter_StatusARM struct {
@@ -95,5 +95,5 @@ type AdvancedFilter_StatusARM struct {
 	Key *string `json:"key,omitempty"`
 
 	//OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType AdvancedFilterStatusOperatorType `json:"operatorType"`
+	OperatorType *AdvancedFilterStatusOperatorType `json:"operatorType,omitempty"`
 }

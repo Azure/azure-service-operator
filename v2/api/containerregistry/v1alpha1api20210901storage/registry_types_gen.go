@@ -138,23 +138,26 @@ type Registries_Spec struct {
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]*$"
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName                string              `json:"azureName"`
+	AzureName                string              `json:"azureName,omitempty"`
 	DataEndpointEnabled      *bool               `json:"dataEndpointEnabled,omitempty"`
 	Encryption               *EncryptionProperty `json:"encryption,omitempty"`
 	Identity                 *IdentityProperties `json:"identity,omitempty"`
 	Location                 *string             `json:"location,omitempty"`
 	NetworkRuleBypassOptions *string             `json:"networkRuleBypassOptions,omitempty"`
 	NetworkRuleSet           *NetworkRuleSet     `json:"networkRuleSet,omitempty"`
-	OriginalVersion          string              `json:"originalVersion"`
+	OriginalVersion          string              `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner               genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	Policies            *Policies                         `json:"policies,omitempty"`
-	PropertyBag         genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                           `json:"publicNetworkAccess,omitempty"`
-	Sku                 *Sku                              `json:"sku,omitempty"`
-	Tags                map[string]string                 `json:"tags,omitempty"`
-	ZoneRedundancy      *string                           `json:"zoneRedundancy,omitempty"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a resources.azure.com/ResourceGroup resource
+	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Policies            *Policies                          `json:"policies,omitempty"`
+	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
+	Sku                 *Sku                               `json:"sku,omitempty"`
+	Tags                map[string]string                  `json:"tags,omitempty"`
+	ZoneRedundancy      *string                            `json:"zoneRedundancy,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Registries_Spec{}

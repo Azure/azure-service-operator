@@ -25,8 +25,8 @@ func TestConversionGraph_WithTwoUnrelatedReferences_HasExpectedTransitions(t *te
 
 	omc := config.NewObjectModelConfiguration()
 	builder := NewConversionGraphBuilder(omc)
-	builder.Add(test.Pkg2020)
-	builder.Add(test.BatchPkg2020)
+	builder.Add(test.Pkg2020, test.Pkg2020s)
+	builder.Add(test.BatchPkg2020, test.BatchPkg2020s)
 	graph, err := builder.Build()
 
 	// Check size of graph
@@ -73,9 +73,9 @@ func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) 
 	// Create a builder use it to configure a graph to test
 	omc := config.NewObjectModelConfiguration()
 	builder := NewConversionGraphBuilder(omc)
-	builder.Add(person2020.Name().PackageReference)
-	builder.Add(person2021.Name().PackageReference)
-	builder.Add(person2022.Name().PackageReference)
+	builder.Add(test.Pkg2020, test.Pkg2020s)
+	builder.Add(test.Pkg2021, test.Pkg2021s)
+	builder.Add(test.Pkg2022, test.Pkg2022s)
 
 	graph, err := builder.Build()
 	g.Expect(err).To(Succeed())
@@ -137,8 +137,8 @@ func Test_ConversionGraph_WhenRenameConfigured_FindsRenamedType(t *testing.T) {
 
 	// Create a builder use it to configure a graph to test
 	builder := NewConversionGraphBuilder(omc)
-	builder.Add(person2020.Name().PackageReference)
-	builder.Add(party2021.Name().PackageReference)
+	builder.Add(test.Pkg2020, test.Pkg2020s)
+	builder.Add(test.Pkg2021, test.Pkg2021s)
 
 	graph, err := builder.Build()
 	g.Expect(err).To(Succeed())
@@ -170,8 +170,8 @@ func Test_ConversionGraph_WhenRenameSpecifiesMissingType_ReturnsError(t *testing
 
 	// Create a builder use it to configure a graph to test
 	builder := NewConversionGraphBuilder(omc)
-	builder.Add(person2020.Name().PackageReference)
-	builder.Add(party2021.Name().PackageReference)
+	builder.Add(test.Pkg2020, test.Pkg2020s)
+	builder.Add(test.Pkg2021, test.Pkg2021s)
 
 	graph, err := builder.Build()
 	g.Expect(err).To(Succeed())
@@ -206,8 +206,8 @@ func Test_ConversionGraph_WhenRenameSpecifiesConflictingType_ReturnsError(t *tes
 
 	// Create a builder use it to configure a graph to test
 	builder := NewConversionGraphBuilder(omc)
-	builder.Add(person2020.Name().PackageReference)
-	builder.Add(person2021.Name().PackageReference)
+	builder.Add(test.Pkg2020, test.Pkg2020s)
+	builder.Add(test.Pkg2021, test.Pkg2021s)
 
 	graph, err := builder.Build()
 	g.Expect(err).To(Succeed())

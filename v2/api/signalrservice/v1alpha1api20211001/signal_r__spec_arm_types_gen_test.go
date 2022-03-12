@@ -91,7 +91,7 @@ func AddIndependentPropertyGeneratorsForSignalRSpecARM(gens map[string]gopter.Ge
 // AddRelatedPropertyGeneratorsForSignalRSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSignalRSpecARM(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(ManagedIdentityARMGenerator())
-	gens["Properties"] = SignalRPropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(SignalRPropertiesARMGenerator())
 	gens["Sku"] = gen.PtrOf(ResourceSkuARMGenerator())
 }
 
@@ -211,7 +211,7 @@ func ResourceSkuARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForResourceSkuARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForResourceSkuARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(
 		ResourceSkuTierBasic,
 		ResourceSkuTierFree,
@@ -536,13 +536,13 @@ func SignalRFeatureARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSignalRFeatureARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSignalRFeatureARM(gens map[string]gopter.Gen) {
-	gens["Flag"] = gen.OneConstOf(
+	gens["Flag"] = gen.PtrOf(gen.OneConstOf(
 		SignalRFeatureFlagEnableConnectivityLogs,
 		SignalRFeatureFlagEnableLiveTrace,
 		SignalRFeatureFlagEnableMessagingLogs,
-		SignalRFeatureFlagServiceMode)
+		SignalRFeatureFlagServiceMode))
 	gens["Properties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Value"] = gen.AlphaString()
+	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_SignalRNetworkACLsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -815,7 +815,7 @@ func AddIndependentPropertyGeneratorsForPrivateEndpointACLARM(gens map[string]go
 		PrivateEndpointACLDenyRESTAPI,
 		PrivateEndpointACLDenyServerConnection,
 		PrivateEndpointACLDenyTrace))
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ResourceLogCategoryARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -948,7 +948,7 @@ func AddIndependentPropertyGeneratorsForUpstreamTemplateARM(gens map[string]gopt
 	gens["CategoryPattern"] = gen.PtrOf(gen.AlphaString())
 	gens["EventPattern"] = gen.PtrOf(gen.AlphaString())
 	gens["HubPattern"] = gen.PtrOf(gen.AlphaString())
-	gens["UrlTemplate"] = gen.AlphaString()
+	gens["UrlTemplate"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForUpstreamTemplateARM is a factory method for creating gopter generators

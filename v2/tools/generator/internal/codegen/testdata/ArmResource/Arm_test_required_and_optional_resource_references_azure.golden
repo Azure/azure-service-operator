@@ -5,6 +5,7 @@ package v1alpha1api20200101
 
 import (
 	"fmt"
+	"github.com/Azure/azure-service-operator/testing/test/v1alpha1api20200101storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -13,14 +14,11 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=test.azure.com,resources=fakeresources,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=test.azure.com,resources={fakeresources/status,fakeresources/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -42,6 +40,28 @@ func (resource *FakeResource) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (resource *FakeResource) SetConditions(conditions conditions.Conditions) {
 	resource.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &FakeResource{}
+
+// ConvertFrom populates our FakeResource from the provided hub FakeResource
+func (resource *FakeResource) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1alpha1api20200101storage.FakeResource)
+	if !ok {
+		return fmt.Errorf("expected storage:test/v1alpha1api20200101storage/FakeResource but received %T instead", hub)
+	}
+
+	return resource.AssignPropertiesFromFakeResource(source)
+}
+
+// ConvertTo populates the provided hub FakeResource from our FakeResource
+func (resource *FakeResource) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1alpha1api20200101storage.FakeResource)
+	if !ok {
+		return fmt.Errorf("expected storage:test/v1alpha1api20200101storage/FakeResource but received %T instead", hub)
+	}
+
+	return resource.AssignPropertiesToFakeResource(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-fakeresource,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=fakeresources,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.fakeresources.test.azure.com,admissionReviewVersions=v1beta1
@@ -187,8 +207,41 @@ func (resource *FakeResource) validateResourceReferences() error {
 	return genruntime.ValidateResourceReferences(refs)
 }
 
-// Hub marks that this FakeResource is the hub type for conversion
-func (resource *FakeResource) Hub() {}
+// AssignPropertiesFromFakeResource populates our FakeResource from the provided source FakeResource
+func (resource *FakeResource) AssignPropertiesFromFakeResource(source *v1alpha1api20200101storage.FakeResource) error {
+
+	// ObjectMeta
+	resource.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec FakeResource_Spec
+	err := spec.AssignPropertiesFromFakeResourceSpec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromFakeResourceSpec() to populate field Spec")
+	}
+	resource.Spec = spec
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFakeResource populates the provided destination FakeResource from our FakeResource
+func (resource *FakeResource) AssignPropertiesToFakeResource(destination *v1alpha1api20200101storage.FakeResource) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *resource.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v1alpha1api20200101storage.FakeResource_Spec
+	err := resource.Spec.AssignPropertiesToFakeResourceSpec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToFakeResourceSpec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (resource *FakeResource) OriginalGVK() *schema.GroupVersionKind {
@@ -208,7 +261,7 @@ type FakeResourceList struct {
 }
 
 type FakeResource_SpecARM struct {
-	Name       string                     `json:"name"`
+	Name       string                     `json:"name,omitempty"`
 	Properties *FakeResourcePropertiesARM `json:"properties,omitempty"`
 }
 
@@ -232,7 +285,7 @@ func (resource FakeResource_SpecARM) GetType() string {
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
 type FakeResourcePropertiesARM struct {
 	OptionalVNet *string `json:"optionalVNet,omitempty"`
-	RequiredVNet string  `json:"requiredVNet"`
+	RequiredVNet *string `json:"requiredVNet,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
@@ -243,11 +296,14 @@ const FakeResourceSpecAPIVersion20200601 = FakeResourceSpecAPIVersion("2020-06-0
 type FakeResource_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner      genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	Properties *FakeResourceProperties           `json:"properties,omitempty"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a resources.azure.com/ResourceGroup resource
+	Owner      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Properties *FakeResourceProperties            `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &FakeResource_Spec{}
@@ -290,7 +346,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	resource.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	resource.Owner = genruntime.KnownResourceReference{
+	resource.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -313,20 +369,122 @@ var _ genruntime.ConvertibleSpec = &FakeResource_Spec{}
 
 // ConvertSpecFrom populates our FakeResource_Spec from the provided source
 func (resource *FakeResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == resource {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v1alpha1api20200101storage.FakeResource_Spec)
+	if ok {
+		// Populate our instance from source
+		return resource.AssignPropertiesFromFakeResourceSpec(src)
 	}
 
-	return source.ConvertSpecTo(resource)
+	// Convert to an intermediate form
+	src = &v1alpha1api20200101storage.FakeResource_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = resource.AssignPropertiesFromFakeResourceSpec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our FakeResource_Spec
 func (resource *FakeResource_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == resource {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v1alpha1api20200101storage.FakeResource_Spec)
+	if ok {
+		// Populate destination from our instance
+		return resource.AssignPropertiesToFakeResourceSpec(dst)
 	}
 
-	return destination.ConvertSpecFrom(resource)
+	// Convert to an intermediate form
+	dst = &v1alpha1api20200101storage.FakeResource_Spec{}
+	err := resource.AssignPropertiesToFakeResourceSpec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromFakeResourceSpec populates our FakeResource_Spec from the provided source FakeResource_Spec
+func (resource *FakeResource_Spec) AssignPropertiesFromFakeResourceSpec(source *v1alpha1api20200101storage.FakeResource_Spec) error {
+
+	// AzureName
+	resource.AzureName = source.AzureName
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		resource.Owner = &owner
+	} else {
+		resource.Owner = nil
+	}
+
+	// Properties
+	if source.Properties != nil {
+		var property FakeResourceProperties
+		err := property.AssignPropertiesFromFakeResourceProperties(source.Properties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromFakeResourceProperties() to populate field Properties")
+		}
+		resource.Properties = &property
+	} else {
+		resource.Properties = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFakeResourceSpec populates the provided destination FakeResource_Spec from our FakeResource_Spec
+func (resource *FakeResource_Spec) AssignPropertiesToFakeResourceSpec(destination *v1alpha1api20200101storage.FakeResource_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = resource.AzureName
+
+	// OriginalVersion
+	destination.OriginalVersion = resource.OriginalVersion()
+
+	// Owner
+	if resource.Owner != nil {
+		owner := resource.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Properties
+	if resource.Properties != nil {
+		var property v1alpha1api20200101storage.FakeResourceProperties
+		err := resource.Properties.AssignPropertiesToFakeResourceProperties(&property)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToFakeResourceProperties() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // OriginalVersion returns the original API version used to create the resource.
@@ -346,7 +504,7 @@ type FakeResourceProperties struct {
 	// +kubebuilder:validation:Required
 	//RequiredVNetReference: A string of the form
 	///subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
-	RequiredVNetReference genruntime.ResourceReference `armReference:"RequiredVNet" json:"requiredVNetReference"`
+	RequiredVNetReference *genruntime.ResourceReference `armReference:"RequiredVNet" json:"requiredVNetReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &FakeResourceProperties{}
@@ -369,11 +527,14 @@ func (properties *FakeResourceProperties) ConvertToARM(resolved genruntime.Conve
 	}
 
 	// Set property ‘RequiredVNet’:
-	requiredVNetReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(properties.RequiredVNetReference)
-	if err != nil {
-		return nil, err
+	if properties.RequiredVNetReference != nil {
+		requiredVNetReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*properties.RequiredVNetReference)
+		if err != nil {
+			return nil, err
+		}
+		requiredVNetReference := requiredVNetReferenceARMID
+		result.RequiredVNet = &requiredVNetReference
 	}
-	result.RequiredVNet = requiredVNetReferenceARMID
 	return result, nil
 }
 
@@ -392,6 +553,61 @@ func (properties *FakeResourceProperties) PopulateFromARM(owner genruntime.Arbit
 	// no assignment for property ‘OptionalVNetReference’
 
 	// no assignment for property ‘RequiredVNetReference’
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromFakeResourceProperties populates our FakeResourceProperties from the provided source FakeResourceProperties
+func (properties *FakeResourceProperties) AssignPropertiesFromFakeResourceProperties(source *v1alpha1api20200101storage.FakeResourceProperties) error {
+
+	// OptionalVNetReference
+	if source.OptionalVNetReference != nil {
+		optionalVNetReference := source.OptionalVNetReference.Copy()
+		properties.OptionalVNetReference = &optionalVNetReference
+	} else {
+		properties.OptionalVNetReference = nil
+	}
+
+	// RequiredVNetReference
+	if source.RequiredVNetReference != nil {
+		requiredVNetReference := source.RequiredVNetReference.Copy()
+		properties.RequiredVNetReference = &requiredVNetReference
+	} else {
+		properties.RequiredVNetReference = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFakeResourceProperties populates the provided destination FakeResourceProperties from our FakeResourceProperties
+func (properties *FakeResourceProperties) AssignPropertiesToFakeResourceProperties(destination *v1alpha1api20200101storage.FakeResourceProperties) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// OptionalVNetReference
+	if properties.OptionalVNetReference != nil {
+		optionalVNetReference := properties.OptionalVNetReference.Copy()
+		destination.OptionalVNetReference = &optionalVNetReference
+	} else {
+		destination.OptionalVNetReference = nil
+	}
+
+	// RequiredVNetReference
+	if properties.RequiredVNetReference != nil {
+		requiredVNetReference := properties.RequiredVNetReference.Copy()
+		destination.RequiredVNetReference = &requiredVNetReference
+	} else {
+		destination.RequiredVNetReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

@@ -22,8 +22,8 @@ const MakeStatusPropertiesOptionalStageID = "makeStatusPropertiesOptional"
 // has implications for updating or patching the CRD resource as patching something in the spec or changing an annotation
 // will deserialize the response from apiserver into the object passed in. If there are any spurious empty properties in Status
 // included they will end up getting overwritten (possibly before the client.Status().Update() call can be made).
-func MakeStatusPropertiesOptional() Stage {
-	return MakeStage(
+func MakeStatusPropertiesOptional() *Stage {
+	return NewStage(
 		MakeStatusPropertiesOptionalStageID,
 		"Force all status properties to be optional",
 		func(ctx context.Context, state *State) (*State, error) {
@@ -65,10 +65,10 @@ func makeStatusPropertiesOptional(statusDef astmodel.TypeDefinition) (astmodel.T
 func makeObjectPropertiesOptional(this *astmodel.TypeVisitor, ot *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 	typeName := ctx.(astmodel.TypeName)
 	for _, property := range ot.Properties() {
-		if property.HasKubebuilderRequiredValidation() {
+		if property.IsRequired() {
 			klog.V(4).Infof("\"%s.%s\" was required, changing it to optional", typeName.String(), property.PropertyName())
 		}
-		ot = ot.WithProperty(property.MakeOptional())
+		ot = ot.WithProperty(property.MakeOptional().MakeTypeOptional())
 	}
 
 	return astmodel.IdentityVisitOfObjectType(this, ot, ctx)

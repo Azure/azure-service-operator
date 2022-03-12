@@ -42,6 +42,7 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 		Key:  adminPasswordKey,
 	}
 	version := postgresql.ServerPropertiesVersion13
+	tier := postgresql.SkuTierGeneralPurpose
 	flexibleServer := &postgresql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("postgresql"),
 		Spec: postgresql.FlexibleServers_Spec{
@@ -49,8 +50,8 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
 			Sku: &postgresql.Sku{
-				Name: "Standard_D4s_v3",
-				Tier: postgresql.SkuTierGeneralPurpose,
+				Name: to.StringPtr("Standard_D4s_v3"),
+				Tier: &tier,
 			},
 			AdministratorLogin:         to.StringPtr("myadmin"),
 			AdministratorLoginPassword: &secretRef,
@@ -127,8 +128,8 @@ func FlexibleServer_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, flexibl
 		Spec: postgresql.FlexibleServersFirewallRules_Spec{
 			Owner: testcommon.AsOwner(flexibleServer),
 			// I think that these rules are allow rules - somebody with this IP can access the server.
-			StartIpAddress: "1.2.3.4",
-			EndIpAddress:   "1.2.3.4",
+			StartIpAddress: to.StringPtr("1.2.3.4"),
+			EndIpAddress:   to.StringPtr("1.2.3.4"),
 		},
 	}
 

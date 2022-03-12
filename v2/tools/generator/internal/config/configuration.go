@@ -53,6 +53,8 @@ type Configuration struct {
 	// SamplesURL is the URL the samples are accessible at. Paths will be appended to the end of this to
 	// build full sample links. If this is not specified, no samples links are generated.
 	SamplesURL string `yaml:"samplesUrl"`
+	// EmitDocFiles is used as a signal to create doc.go files for packages. If omitted, default is false.
+	EmitDocFiles bool `yaml:"emitDocFiles"`
 
 	// Additional information about our object model
 	ObjectModelConfiguration *ObjectModelConfiguration `yaml:"objectModelConfiguration"`
@@ -356,7 +358,7 @@ func (config *Configuration) TransformTypeProperties(name astmodel.TypeName, obj
 
 // MakeLocalPackageReference creates a local package reference based on the configured destination location
 func (config *Configuration) MakeLocalPackageReference(group string, version string) astmodel.LocalPackageReference {
-	return astmodel.MakeLocalPackageReference(config.LocalPathPrefix(), group, version)
+	return astmodel.MakeLocalPackageReference(config.LocalPathPrefix(), group, astmodel.GeneratorVersionPrefix, version)
 }
 
 func getModulePathFromModFile(modFilePath string) (string, error) {

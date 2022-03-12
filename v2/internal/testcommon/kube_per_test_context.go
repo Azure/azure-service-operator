@@ -76,22 +76,17 @@ func (tc KubePerTestContext) MakeObjectMetaWithName(name string) ctrl.ObjectMeta
 	}
 }
 
-func (tc KubePerTestContext) MakeReferenceFromResource(resource client.Object) genruntime.ResourceReference {
+func (tc KubePerTestContext) MakeReferenceFromResource(resource client.Object) *genruntime.ResourceReference {
 	gvk, err := apiutil.GVKForObject(resource, tc.scheme)
 	if err != nil {
 		tc.T.Fatal(err)
 	}
 
-	return genruntime.ResourceReference{
+	return &genruntime.ResourceReference{
 		Group: gvk.Group,
 		Kind:  gvk.Kind,
 		Name:  resource.GetName(),
 	}
-}
-
-func (tc KubePerTestContext) MakeReferencePtrFromResource(resource client.Object) *genruntime.ResourceReference {
-	result := tc.MakeReferenceFromResource(resource)
-	return &result
 }
 
 func (tc KubePerTestContext) NewTestResourceGroup() *resources.ResourceGroup {
@@ -346,6 +341,16 @@ func (tc *KubePerTestContext) CreateResourceUntracked(obj client.Object) {
 	tc.G.Expect(tc.kubeClient.Create(tc.Ctx, obj)).To(gomega.Succeed())
 }
 
+// CreateResourceExpectRequestFailure attempts to create a resource and asserts that the resource
+// was NOT created (an error was returned). That error is returned for further assertions.
+// This can be used to perform negative tests
+func (tc *KubePerTestContext) CreateResourceExpectRequestFailure(obj client.Object) error {
+	err := tc.kubeClient.Create(tc.Ctx, obj)
+	tc.G.Expect(err).ToNot(gomega.BeNil())
+
+	return err
+}
+
 // CreateResourceAndWait creates the resource in K8s and waits for it to
 // change into the Provisioned state.
 func (tc *KubePerTestContext) CreateResourceAndWait(obj client.Object) {
@@ -509,7 +514,7 @@ func (tc *KubePerTestContext) RunParallelSubtests(tests ...Subtest) {
 	})
 }
 
-func (tc *KubePerTestContext) AsExtensionOwner(obj client.Object) genruntime.ArbitraryOwnerReference {
+func (tc *KubePerTestContext) AsExtensionOwner(obj client.Object) *genruntime.ArbitraryOwnerReference {
 	// Set the GVK, because for some horrible reason Kubernetes clears it during deserialization.
 	// See https://github.com/kubernetes/kubernetes/issues/3030 for details.
 	gvks, _, err := tc.kubeClient.Scheme().ObjectKinds(obj)
@@ -526,7 +531,7 @@ func (tc *KubePerTestContext) AsExtensionOwner(obj client.Object) genruntime.Arb
 		break
 	}
 
-	return genruntime.ArbitraryOwnerReference{
+	return &genruntime.ArbitraryOwnerReference{
 		Name:  obj.GetName(),
 		Group: gvk.Group,
 		Kind:  gvk.Kind,

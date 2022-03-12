@@ -86,12 +86,12 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName, kin
 			switch string(property.PropertyName()) {
 			case NameProperty:
 				nameProperty = property
-				if _, ok := property.PropertyType().(*OptionalType); ok {
+				if _, ok := AsOptionalType(property.PropertyType()); ok {
 					isNameOptional = true
 				}
 			case TypeProperty:
 				typeProperty = property
-				if _, ok := property.PropertyType().(*OptionalType); ok {
+				if _, ok := AsOptionalType(property.PropertyType()); ok {
 					isTypeOptional = true
 				}
 			case APIVersionProperty:
@@ -117,7 +117,7 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName, kin
 
 		if isNameOptional {
 			// Fix name to be required -- again this is an artifact of bad spec more than anything
-			nameProperty = nameProperty.MakeRequired()
+			nameProperty = nameProperty.MakeTypeRequired()
 			objectType = objectType.WithProperty(nameProperty)
 		}
 
@@ -125,11 +125,11 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName, kin
 		// case forcing it to required makes our lives simpler (and the vast majority of resources specify
 		// it as required anyway). The only time it's allowed to be optional is if you set apiProfile on
 		// the ARM template instead, which we never do.
-		apiVersionProperty = apiVersionProperty.MakeRequired()
+		apiVersionProperty = apiVersionProperty.MakeTypeRequired()
 		objectType = objectType.WithProperty(apiVersionProperty)
 
 		if isTypeOptional {
-			typeProperty = typeProperty.MakeRequired()
+			typeProperty = typeProperty.MakeTypeRequired()
 			objectType = objectType.WithProperty(typeProperty)
 		}
 
@@ -221,6 +221,15 @@ func (resource *ResourceType) WithFunction(function Function) *ResourceType {
 	// Create a copy to preserve immutability
 	result := resource.copy()
 	result.functions[function.Name()] = function
+
+	return result
+}
+
+// WithoutFunctions creates a new Resource with no functions (useful for testing)
+func (resource *ResourceType) WithoutFunctions() *ResourceType {
+	// Create a copy to preserve immutability
+	result := resource.copy()
+	result.functions = make(map[string]Function)
 
 	return result
 }
@@ -347,7 +356,7 @@ func (resource *ResourceType) Equals(other Type, override EqualityOverrides) boo
 func (resource *ResourceType) EmbeddedProperties() []*PropertyDefinition {
 	typeMetaType := MakeTypeName(MetaV1Reference, "TypeMeta")
 	typeMetaProperty := NewPropertyDefinition("", "", typeMetaType).
-		WithTag("json", "inline")
+		WithTag("json", "inline").WithoutTag("json", "omitempty")
 
 	objectMetaProperty := NewPropertyDefinition("", "metadata", ObjectMetaType).
 		WithTag("json", "omitempty")
@@ -596,7 +605,7 @@ func (resource *ResourceType) generateMethodDecls(codeGenerationContext *CodeGen
 	var result []dst.Decl
 
 	for _, f := range resource.Functions() {
-		funcDef := f.AsFunc(codeGenerationContext, typeName)
+		funcDef := generateMethodDeclForFunction(typeName, f, codeGenerationContext)
 		result = append(result, funcDef)
 	}
 
@@ -716,4 +725,24 @@ func (resource *ResourceType) WriteDebugDescription(builder *strings.Builder, de
 	builder.WriteString("|status:")
 	resource.status.WriteDebugDescription(builder, definitions)
 	builder.WriteString("]")
+}
+
+// generateMethodDeclForFunction generates the AST for a function; if a panic occurs, the identity of the type and
+// function being generated will be wrapped around the existing panic details to aid in debugging.
+func generateMethodDeclForFunction(
+	typeName TypeName,
+	f Function,
+	codeGenerationContext *CodeGenerationContext) *dst.FuncDecl {
+
+	defer func() {
+		if err := recover(); err != nil {
+			panic(fmt.Sprintf(
+				"generating method declaration for %s.%s: %s",
+				typeName.Name(),
+				f.Name(),
+				err))
+		}
+	}()
+
+	return f.AsFunc(codeGenerationContext, typeName)
 }

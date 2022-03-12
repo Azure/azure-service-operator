@@ -317,7 +317,7 @@ type StorageAccountsQueueServicesQueues_Spec struct {
 	// +kubebuilder:validation:MinLength=3
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
@@ -326,7 +326,10 @@ type StorageAccountsQueueServicesQueues_Spec struct {
 	Metadata map[string]string `json:"metadata,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner" kind:"StorageAccountsQueueService"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a storage.azure.com/StorageAccountsQueueService resource
+	Owner *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccountsQueueService"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -404,7 +407,7 @@ func (queues *StorageAccountsQueueServicesQueues_Spec) PopulateFromARM(owner gen
 	}
 
 	// Set property ‘Owner’:
-	queues.Owner = genruntime.KnownResourceReference{
+	queues.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -483,7 +486,12 @@ func (queues *StorageAccountsQueueServicesQueues_Spec) AssignPropertiesFromStora
 	queues.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
 	// Owner
-	queues.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		queues.Owner = &owner
+	} else {
+		queues.Owner = nil
+	}
 
 	// Tags
 	queues.Tags = genruntime.CloneMapOfStringToString(source.Tags)
@@ -510,7 +518,12 @@ func (queues *StorageAccountsQueueServicesQueues_Spec) AssignPropertiesToStorage
 	destination.OriginalVersion = queues.OriginalVersion()
 
 	// Owner
-	destination.Owner = queues.Owner.Copy()
+	if queues.Owner != nil {
+		owner := queues.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(queues.Tags)

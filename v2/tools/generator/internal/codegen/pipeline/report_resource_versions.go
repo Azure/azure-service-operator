@@ -24,8 +24,8 @@ import (
 const ReportResourceVersionsStageID = "reportResourceVersions"
 
 // ReportResourceVersions creates a pipeline stage that generates a report listing all generated resources.
-func ReportResourceVersions(configuration *config.Configuration) Stage {
-	return MakeStage(
+func ReportResourceVersions(configuration *config.Configuration) *Stage {
+	return NewStage(
 		ReportResourceVersionsStageID,
 		"Generate a report listing all the resources generated",
 		func(ctx context.Context, state *State) (*State, error) {

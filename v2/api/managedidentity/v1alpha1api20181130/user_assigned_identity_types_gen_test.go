@@ -371,6 +371,6 @@ func UserAssignedIdentitiesSpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForUserAssignedIdentitiesSpec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUserAssignedIdentitiesSpec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }

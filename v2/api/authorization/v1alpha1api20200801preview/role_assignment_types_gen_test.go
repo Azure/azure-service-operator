@@ -387,7 +387,7 @@ func AddIndependentPropertyGeneratorsForRoleAssignmentsSpec(gens map[string]gopt
 	gens["DelegatedManagedIdentityResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalId"] = gen.AlphaString()
+	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(
 		RoleAssignmentPropertiesPrincipalTypeForeignGroup,
 		RoleAssignmentPropertiesPrincipalTypeGroup,

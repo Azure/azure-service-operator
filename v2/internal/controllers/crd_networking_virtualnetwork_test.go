@@ -26,8 +26,8 @@ func Test_Networking_VirtualNetwork_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
 		Spec: network.VirtualNetworks_Spec{
 			Owner:    testcommon.AsOwner(rg),
-			Location: testcommon.DefaultTestRegion,
-			AddressSpace: network.AddressSpace{
+			Location: tc.AzureRegion,
+			AddressSpace: &network.AddressSpace{
 				AddressPrefixes: []string{"10.0.0.0/8"},
 			},
 		},
@@ -61,7 +61,7 @@ func Subnet_CRUD(tc *testcommon.KubePerTestContext, vnet *network.VirtualNetwork
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
 		Spec: network.VirtualNetworksSubnets_Spec{
 			Owner:         testcommon.AsOwner(vnet),
-			AddressPrefix: "10.0.0.0/24",
+			AddressPrefix: to.StringPtr("10.0.0.0/24"),
 		},
 	}
 
@@ -75,7 +75,7 @@ func Subnet_CRUD(tc *testcommon.KubePerTestContext, vnet *network.VirtualNetwork
 	old := subnet.DeepCopy()
 	subnet.Spec.Delegations = []network.VirtualNetworksSubnets_Spec_Properties_Delegations{
 		{
-			Name:        "mydelegation",
+			Name:        to.StringPtr("mydelegation"),
 			ServiceName: to.StringPtr("Microsoft.DBforMySQL/serversv2"),
 		},
 	}

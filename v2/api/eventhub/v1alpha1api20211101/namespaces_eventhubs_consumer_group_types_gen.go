@@ -576,13 +576,16 @@ type NamespacesEventhubsConsumergroups_Spec struct {
 	// +kubebuilder:validation:MinLength=1
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner" kind:"NamespacesEventhub"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a eventhub.azure.com/NamespacesEventhub resource
+	Owner *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"NamespacesEventhub"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -612,6 +615,9 @@ func (consumergroups *NamespacesEventhubsConsumergroups_Spec) ConvertToARM(resol
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if consumergroups.UserMetadata != nil {
+		result.Properties = &ConsumerGroupPropertiesARM{}
+	}
 	if consumergroups.UserMetadata != nil {
 		userMetadata := *consumergroups.UserMetadata
 		result.Properties.UserMetadata = &userMetadata
@@ -649,7 +655,7 @@ func (consumergroups *NamespacesEventhubsConsumergroups_Spec) PopulateFromARM(ow
 	}
 
 	// Set property ‘Owner’:
-	consumergroups.Owner = genruntime.KnownResourceReference{
+	consumergroups.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -663,9 +669,11 @@ func (consumergroups *NamespacesEventhubsConsumergroups_Spec) PopulateFromARM(ow
 
 	// Set property ‘UserMetadata’:
 	// copying flattened property:
-	if typedInput.Properties.UserMetadata != nil {
-		userMetadata := *typedInput.Properties.UserMetadata
-		consumergroups.UserMetadata = &userMetadata
+	if typedInput.Properties != nil {
+		if typedInput.Properties.UserMetadata != nil {
+			userMetadata := *typedInput.Properties.UserMetadata
+			consumergroups.UserMetadata = &userMetadata
+		}
 	}
 
 	// No error
@@ -732,7 +740,12 @@ func (consumergroups *NamespacesEventhubsConsumergroups_Spec) AssignPropertiesFr
 	consumergroups.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	consumergroups.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		consumergroups.Owner = &owner
+	} else {
+		consumergroups.Owner = nil
+	}
 
 	// Tags
 	consumergroups.Tags = genruntime.CloneMapOfStringToString(source.Tags)
@@ -759,7 +772,12 @@ func (consumergroups *NamespacesEventhubsConsumergroups_Spec) AssignPropertiesTo
 	destination.OriginalVersion = consumergroups.OriginalVersion()
 
 	// Owner
-	destination.Owner = consumergroups.Owner.Copy()
+	if consumergroups.Owner != nil {
+		owner := consumergroups.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(consumergroups.Tags)

@@ -10,13 +10,13 @@ type VirtualNetworks_SpecARM struct {
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: Name of the resource
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties of the virtual network.
-	Properties VirtualNetworks_Spec_PropertiesARM `json:"properties"`
+	Properties *VirtualNetworks_Spec_PropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -41,7 +41,7 @@ func (networks VirtualNetworks_SpecARM) GetType() string {
 
 type VirtualNetworks_Spec_PropertiesARM struct {
 	//AddressSpace: The AddressSpace that contains an array of IP address ranges that can be used by subnets.
-	AddressSpace AddressSpaceARM `json:"addressSpace"`
+	AddressSpace *AddressSpaceARM `json:"addressSpace,omitempty"`
 
 	//BgpCommunities: Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
 	BgpCommunities *VirtualNetworkBgpCommunitiesARM `json:"bgpCommunities,omitempty"`
@@ -69,12 +69,12 @@ type VirtualNetworks_Spec_PropertiesARM struct {
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DhcpOptions
 type DhcpOptionsARM struct {
 	//DnsServers: The list of DNS servers IP addresses.
-	DnsServers []string `json:"dnsServers"`
+	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
 type VirtualNetworks_Spec_Properties_SubnetsARM struct {
 	//Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Properties: Properties of the subnet.
 	Properties *VirtualNetworks_Spec_Properties_Subnets_PropertiesARM `json:"properties,omitempty"`
@@ -82,7 +82,7 @@ type VirtualNetworks_Spec_Properties_SubnetsARM struct {
 
 type VirtualNetworks_Spec_Properties_Subnets_PropertiesARM struct {
 	//AddressPrefix: The address prefix for the subnet.
-	AddressPrefix string `json:"addressPrefix"`
+	AddressPrefix *string `json:"addressPrefix,omitempty"`
 
 	//AddressPrefixes: List of address prefixes for the subnet.
 	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
@@ -117,7 +117,7 @@ type VirtualNetworks_Spec_Properties_Subnets_PropertiesARM struct {
 
 type VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM struct {
 	//Name: The name of the resource that is unique within a subnet. This name can be used to access the resource.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Properties: Properties of the subnet.
 	Properties *ServiceDelegationPropertiesFormatARM `json:"properties,omitempty"`

@@ -279,7 +279,7 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollecti
 // AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsSpec(gens map[string]gopter.Gen) {
 	gens["Options"] = gen.PtrOf(CreateUpdateOptionsGenerator())
-	gens["Resource"] = MongoDBCollectionResourceGenerator()
+	gens["Resource"] = gen.PtrOf(MongoDBCollectionResourceGenerator())
 }
 
 func Test_MongoDBCollectionGetResults_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -513,7 +513,7 @@ func MongoDBCollectionGetPropertiesStatusResourceGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForMongoDBCollectionGetPropertiesStatusResource(gens map[string]gopter.Gen) {
 	gens["AnalyticalStorageTtl"] = gen.PtrOf(gen.Int())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Rid"] = gen.PtrOf(gen.AlphaString())
 	gens["ShardKey"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Ts"] = gen.PtrOf(gen.Float64())
@@ -633,7 +633,7 @@ func MongoDBCollectionResourceGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForMongoDBCollectionResource is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForMongoDBCollectionResource(gens map[string]gopter.Gen) {
 	gens["AnalyticalStorageTtl"] = gen.PtrOf(gen.Int())
-	gens["Id"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["ShardKey"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 

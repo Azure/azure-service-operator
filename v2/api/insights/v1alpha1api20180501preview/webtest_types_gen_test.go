@@ -407,15 +407,15 @@ func AddIndependentPropertyGeneratorsForWebtestsSpec(gens map[string]gopter.Gen)
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["Frequency"] = gen.PtrOf(gen.Int())
-	gens["Kind"] = gen.OneConstOf(
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(
 		WebTestPropertiesKindBasic,
 		WebTestPropertiesKindMultistep,
 		WebTestPropertiesKindPing,
-		WebTestPropertiesKindStandard)
-	gens["Location"] = gen.AlphaString()
-	gens["Name"] = gen.AlphaString()
+		WebTestPropertiesKindStandard))
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["RetryEnabled"] = gen.PtrOf(gen.Bool())
-	gens["SyntheticMonitorId"] = gen.AlphaString()
+	gens["SyntheticMonitorId"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Timeout"] = gen.PtrOf(gen.Int())
 }

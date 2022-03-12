@@ -41,8 +41,8 @@ added to the Status field of the Resource type, after we have renamed all the st
 avoid any conflicts with existing Spec types that have already been defined.
 
 */
-func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.Configuration) Stage {
-	return MakeLegacyStage(
+func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.Configuration) *Stage {
+	return NewLegacyStage(
 		"addStatusFromSwagger",
 		"Add information from Swagger specs for 'status' fields",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
@@ -509,8 +509,8 @@ func loadAllSchemas(
 			pkg := astmodel.MakeLocalPackageReference(
 				localPathPrefix,
 				idFactory.CreateGroupName(group),
-				astmodel.CreateLocalPackageNameFromVersion(version),
-			)
+				astmodel.GeneratorVersionPrefix,
+				version)
 
 			// all files are loaded in parallel to speed this up
 			eg.Go(func() error {

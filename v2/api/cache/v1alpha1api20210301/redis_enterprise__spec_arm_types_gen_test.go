@@ -83,7 +83,7 @@ func RedisEnterpriseSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRedisEnterpriseSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedisEnterpriseSpecARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
@@ -91,8 +91,8 @@ func AddIndependentPropertyGeneratorsForRedisEnterpriseSpecARM(gens map[string]g
 
 // AddRelatedPropertyGeneratorsForRedisEnterpriseSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisEnterpriseSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = ClusterPropertiesARMGenerator()
-	gens["Sku"] = SkuARMGenerator()
+	gens["Properties"] = gen.PtrOf(ClusterPropertiesARMGenerator())
+	gens["Sku"] = gen.PtrOf(SkuARMGenerator())
 }
 
 func Test_ClusterPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -212,12 +212,12 @@ func SkuARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSkuARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.OneConstOf(
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
 		SkuNameEnterpriseE10,
 		SkuNameEnterpriseE100,
 		SkuNameEnterpriseE20,
 		SkuNameEnterpriseE50,
 		SkuNameEnterpriseFlashF1500,
 		SkuNameEnterpriseFlashF300,
-		SkuNameEnterpriseFlashF700)
+		SkuNameEnterpriseFlashF700))
 }

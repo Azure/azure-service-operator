@@ -10,14 +10,14 @@ type Snapshots_SpecARM struct {
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the snapshot that is being created. The name can't be changed after the snapshot is created. Supported
 	//characters for the name are a-z, A-Z, 0-9 and _. The max name length is 80 characters.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Snapshot resource properties.
-	Properties SnapshotPropertiesARM `json:"properties"`
+	Properties *SnapshotPropertiesARM `json:"properties,omitempty"`
 
 	//Sku: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for
 	//incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
@@ -47,8 +47,8 @@ func (snapshots Snapshots_SpecARM) GetType() string {
 //Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SnapshotProperties
 type SnapshotPropertiesARM struct {
 	//CreationData: Data used when creating a disk.
-	CreationData CreationDataARM `json:"creationData"`
-	DiskAccessId *string         `json:"diskAccessId,omitempty"`
+	CreationData *CreationDataARM `json:"creationData,omitempty"`
+	DiskAccessId *string          `json:"diskAccessId,omitempty"`
 
 	//DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
 	//create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only

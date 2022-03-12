@@ -18,8 +18,8 @@ import (
 const AddSecretsStageID = "addSecrets"
 
 // AddSecrets replaces properties flagged as secret with genruntime.SecretReference
-func AddSecrets(config *config.Configuration) Stage {
-	stage := MakeStage(
+func AddSecrets(config *config.Configuration) *Stage {
+	stage := NewStage(
 		AddSecretsStageID,
 		"Replace properties flagged as secret with genruntime.SecretReference",
 		func(ctx context.Context, state *State) (*State, error) {
@@ -43,9 +43,10 @@ func AddSecrets(config *config.Configuration) Stage {
 			return state.WithDefinitions(result), nil
 		})
 
-	return stage.
-		RequiresPrerequisiteStages(AugmentSpecWithStatusStageID).
-		RequiresPostrequisiteStages(CreateARMTypesStageID)
+	stage.RequiresPrerequisiteStages(AugmentSpecWithStatusStageID)
+	stage.RequiresPostrequisiteStages(CreateARMTypesStageID)
+
+	return stage
 }
 
 func applyConfigSecretOverrides(config *config.Configuration, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
@@ -153,7 +154,7 @@ func transformSecretProperties(_ *astmodel.TypeVisitor, it *astmodel.ObjectType,
 			}
 
 			// check if it's optional
-			required := prop.HasKubebuilderRequiredValidation()
+			required := prop.IsRequired()
 
 			var newType astmodel.Type
 			if required {

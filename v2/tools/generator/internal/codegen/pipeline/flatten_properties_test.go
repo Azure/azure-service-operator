@@ -12,9 +12,10 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
-var placeholderPackage = astmodel.MakeLocalPackageReference("prefix", "group", "version")
+var placeholderPackage = test.MakeLocalPackageReference("group", "version")
 
 func TestDuplicateNamesAreCaughtAndRenamed(t *testing.T) {
 	t.Parallel()
@@ -41,7 +42,7 @@ func TestDuplicateNamesAreCaughtAndRenamed(t *testing.T) {
 	newObjType := astmodel.NewObjectType().
 		WithProperties(
 			prop,
-			prop.WithName(newName).WithJsonName(newJsonName).AddFlattenedFrom(astmodel.PropertyName("Inner")))
+			prop.WithName(newName).WithJsonName(newJsonName).AddFlattenedFrom("Inner"))
 	expectedDefs := make(astmodel.TypeDefinitionSet)
 	expectedDefs.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "ObjType"), newObjType))
 

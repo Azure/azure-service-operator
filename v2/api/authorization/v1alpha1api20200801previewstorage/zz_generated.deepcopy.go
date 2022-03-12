@@ -207,7 +207,11 @@ func (in *RoleAssignments_Spec) DeepCopyInto(out *RoleAssignments_Spec) {
 		*out = new(string)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.ArbitraryOwnerReference)
+		**out = **in
+	}
 	if in.PrincipalId != nil {
 		in, out := &in.PrincipalId, &out.PrincipalId
 		*out = new(string)
@@ -225,7 +229,11 @@ func (in *RoleAssignments_Spec) DeepCopyInto(out *RoleAssignments_Spec) {
 			(*out)[key] = val
 		}
 	}
-	out.RoleDefinitionReference = in.RoleDefinitionReference
+	if in.RoleDefinitionReference != nil {
+		in, out := &in.RoleDefinitionReference, &out.RoleDefinitionReference
+		*out = new(genruntime.ResourceReference)
+		**out = **in
+	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))

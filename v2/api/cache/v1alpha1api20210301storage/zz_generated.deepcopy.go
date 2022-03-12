@@ -496,7 +496,11 @@ func (in *RedisEnterpriseDatabases_Spec) DeepCopyInto(out *RedisEnterpriseDataba
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.Persistence != nil {
 		in, out := &in.Persistence, &out.Persistence
 		*out = new(Persistence)
@@ -578,7 +582,11 @@ func (in *RedisEnterprise_Spec) DeepCopyInto(out *RedisEnterprise_Spec) {
 		*out = new(string)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))

@@ -321,7 +321,7 @@ type Registries_Spec struct {
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]*$"
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//DataEndpointEnabled: Enable a single data endpoint per region for serving data.
 	DataEndpointEnabled *bool               `json:"dataEndpointEnabled,omitempty"`
@@ -331,7 +331,7 @@ type Registries_Spec struct {
 	Identity *IdentityProperties `json:"identity,omitempty"`
 
 	//Location: The location of the resource. This cannot be changed after the resource is created.
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.
 	NetworkRuleBypassOptions *RegistryPropertiesNetworkRuleBypassOptions `json:"networkRuleBypassOptions,omitempty"`
@@ -340,7 +340,10 @@ type Registries_Spec struct {
 	NetworkRuleSet *NetworkRuleSet `json:"networkRuleSet,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	//Policies: The policies for a container registry.
 	Policies *Policies `json:"policies,omitempty"`
@@ -350,7 +353,7 @@ type Registries_Spec struct {
 
 	// +kubebuilder:validation:Required
 	//Sku: The SKU of a container registry.
-	Sku Sku `json:"sku"`
+	Sku *Sku `json:"sku,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -379,12 +382,25 @@ func (registries *Registries_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 
 	// Set property ‘Location’:
-	result.Location = registries.Location
+	if registries.Location != nil {
+		location := *registries.Location
+		result.Location = &location
+	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if registries.AdminUserEnabled != nil ||
+		registries.DataEndpointEnabled != nil ||
+		registries.Encryption != nil ||
+		registries.NetworkRuleBypassOptions != nil ||
+		registries.NetworkRuleSet != nil ||
+		registries.Policies != nil ||
+		registries.PublicNetworkAccess != nil ||
+		registries.ZoneRedundancy != nil {
+		result.Properties = &RegistryPropertiesARM{}
+	}
 	if registries.AdminUserEnabled != nil {
 		adminUserEnabled := *registries.AdminUserEnabled
 		result.Properties.AdminUserEnabled = &adminUserEnabled
@@ -431,11 +447,14 @@ func (registries *Registries_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 
 	// Set property ‘Sku’:
-	skuARM, err := registries.Sku.ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if registries.Sku != nil {
+		skuARM, err := (*registries.Sku).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		sku := skuARM.(SkuARM)
+		result.Sku = &sku
 	}
-	result.Sku = skuARM.(SkuARM)
 
 	// Set property ‘Tags’:
 	if registries.Tags != nil {
@@ -461,9 +480,11 @@ func (registries *Registries_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘AdminUserEnabled’:
 	// copying flattened property:
-	if typedInput.Properties.AdminUserEnabled != nil {
-		adminUserEnabled := *typedInput.Properties.AdminUserEnabled
-		registries.AdminUserEnabled = &adminUserEnabled
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AdminUserEnabled != nil {
+			adminUserEnabled := *typedInput.Properties.AdminUserEnabled
+			registries.AdminUserEnabled = &adminUserEnabled
+		}
 	}
 
 	// Set property ‘AzureName’:
@@ -471,21 +492,25 @@ func (registries *Registries_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘DataEndpointEnabled’:
 	// copying flattened property:
-	if typedInput.Properties.DataEndpointEnabled != nil {
-		dataEndpointEnabled := *typedInput.Properties.DataEndpointEnabled
-		registries.DataEndpointEnabled = &dataEndpointEnabled
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DataEndpointEnabled != nil {
+			dataEndpointEnabled := *typedInput.Properties.DataEndpointEnabled
+			registries.DataEndpointEnabled = &dataEndpointEnabled
+		}
 	}
 
 	// Set property ‘Encryption’:
 	// copying flattened property:
-	if typedInput.Properties.Encryption != nil {
-		var encryption1 EncryptionProperty
-		err := encryption1.PopulateFromARM(owner, *typedInput.Properties.Encryption)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Encryption != nil {
+			var encryption1 EncryptionProperty
+			err := encryption1.PopulateFromARM(owner, *typedInput.Properties.Encryption)
+			if err != nil {
+				return err
+			}
+			encryption := encryption1
+			registries.Encryption = &encryption
 		}
-		encryption := encryption1
-		registries.Encryption = &encryption
 	}
 
 	// Set property ‘Identity’:
@@ -500,58 +525,72 @@ func (registries *Registries_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	}
 
 	// Set property ‘Location’:
-	registries.Location = typedInput.Location
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		registries.Location = &location
+	}
 
 	// Set property ‘NetworkRuleBypassOptions’:
 	// copying flattened property:
-	if typedInput.Properties.NetworkRuleBypassOptions != nil {
-		networkRuleBypassOptions := *typedInput.Properties.NetworkRuleBypassOptions
-		registries.NetworkRuleBypassOptions = &networkRuleBypassOptions
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NetworkRuleBypassOptions != nil {
+			networkRuleBypassOptions := *typedInput.Properties.NetworkRuleBypassOptions
+			registries.NetworkRuleBypassOptions = &networkRuleBypassOptions
+		}
 	}
 
 	// Set property ‘NetworkRuleSet’:
 	// copying flattened property:
-	if typedInput.Properties.NetworkRuleSet != nil {
-		var networkRuleSet1 NetworkRuleSet
-		err := networkRuleSet1.PopulateFromARM(owner, *typedInput.Properties.NetworkRuleSet)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NetworkRuleSet != nil {
+			var networkRuleSet1 NetworkRuleSet
+			err := networkRuleSet1.PopulateFromARM(owner, *typedInput.Properties.NetworkRuleSet)
+			if err != nil {
+				return err
+			}
+			networkRuleSet := networkRuleSet1
+			registries.NetworkRuleSet = &networkRuleSet
 		}
-		networkRuleSet := networkRuleSet1
-		registries.NetworkRuleSet = &networkRuleSet
 	}
 
 	// Set property ‘Owner’:
-	registries.Owner = genruntime.KnownResourceReference{
+	registries.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Policies’:
 	// copying flattened property:
-	if typedInput.Properties.Policies != nil {
-		var policies1 Policies
-		err := policies1.PopulateFromARM(owner, *typedInput.Properties.Policies)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Policies != nil {
+			var policies1 Policies
+			err := policies1.PopulateFromARM(owner, *typedInput.Properties.Policies)
+			if err != nil {
+				return err
+			}
+			policies := policies1
+			registries.Policies = &policies
 		}
-		policies := policies1
-		registries.Policies = &policies
 	}
 
 	// Set property ‘PublicNetworkAccess’:
 	// copying flattened property:
-	if typedInput.Properties.PublicNetworkAccess != nil {
-		publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
-		registries.PublicNetworkAccess = &publicNetworkAccess
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicNetworkAccess != nil {
+			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			registries.PublicNetworkAccess = &publicNetworkAccess
+		}
 	}
 
 	// Set property ‘Sku’:
-	var sku Sku
-	err := sku.PopulateFromARM(owner, typedInput.Sku)
-	if err != nil {
-		return err
+	if typedInput.Sku != nil {
+		var sku1 Sku
+		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
+		if err != nil {
+			return err
+		}
+		sku := sku1
+		registries.Sku = &sku
 	}
-	registries.Sku = sku
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
@@ -563,9 +602,11 @@ func (registries *Registries_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘ZoneRedundancy’:
 	// copying flattened property:
-	if typedInput.Properties.ZoneRedundancy != nil {
-		zoneRedundancy := *typedInput.Properties.ZoneRedundancy
-		registries.ZoneRedundancy = &zoneRedundancy
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ZoneRedundancy != nil {
+			zoneRedundancy := *typedInput.Properties.ZoneRedundancy
+			registries.ZoneRedundancy = &zoneRedundancy
+		}
 	}
 
 	// No error
@@ -669,7 +710,7 @@ func (registries *Registries_Spec) AssignPropertiesFromRegistriesSpec(source *v1
 	}
 
 	// Location
-	registries.Location = genruntime.GetOptionalStringValue(source.Location)
+	registries.Location = genruntime.ClonePointerToString(source.Location)
 
 	// NetworkRuleBypassOptions
 	if source.NetworkRuleBypassOptions != nil {
@@ -692,7 +733,12 @@ func (registries *Registries_Spec) AssignPropertiesFromRegistriesSpec(source *v1
 	}
 
 	// Owner
-	registries.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		registries.Owner = &owner
+	} else {
+		registries.Owner = nil
+	}
 
 	// Policies
 	if source.Policies != nil {
@@ -721,9 +767,9 @@ func (registries *Registries_Spec) AssignPropertiesFromRegistriesSpec(source *v1
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSku() to populate field Sku")
 		}
-		registries.Sku = sku
+		registries.Sku = &sku
 	} else {
-		registries.Sku = Sku{}
+		registries.Sku = nil
 	}
 
 	// Tags
@@ -790,8 +836,7 @@ func (registries *Registries_Spec) AssignPropertiesToRegistriesSpec(destination 
 	}
 
 	// Location
-	location := registries.Location
-	destination.Location = &location
+	destination.Location = genruntime.ClonePointerToString(registries.Location)
 
 	// NetworkRuleBypassOptions
 	if registries.NetworkRuleBypassOptions != nil {
@@ -817,7 +862,12 @@ func (registries *Registries_Spec) AssignPropertiesToRegistriesSpec(destination 
 	destination.OriginalVersion = registries.OriginalVersion()
 
 	// Owner
-	destination.Owner = registries.Owner.Copy()
+	if registries.Owner != nil {
+		owner := registries.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Policies
 	if registries.Policies != nil {
@@ -840,12 +890,16 @@ func (registries *Registries_Spec) AssignPropertiesToRegistriesSpec(destination 
 	}
 
 	// Sku
-	var sku v1alpha1api20210901storage.Sku
-	err := registries.Sku.AssignPropertiesToSku(&sku)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSku() to populate field Sku")
+	if registries.Sku != nil {
+		var sku v1alpha1api20210901storage.Sku
+		err := registries.Sku.AssignPropertiesToSku(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSku() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
 	}
-	destination.Sku = &sku
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(registries.Tags)
@@ -2196,7 +2250,7 @@ func (properties *IdentityProperties_Status) AssignPropertiesToIdentityPropertie
 type NetworkRuleSet struct {
 	// +kubebuilder:validation:Required
 	//DefaultAction: The default action of allow or deny when no other rules match.
-	DefaultAction NetworkRuleSetDefaultAction `json:"defaultAction"`
+	DefaultAction *NetworkRuleSetDefaultAction `json:"defaultAction,omitempty"`
 
 	//IpRules: The IP ACL rules.
 	IpRules []IPRule `json:"ipRules,omitempty"`
@@ -2212,7 +2266,10 @@ func (ruleSet *NetworkRuleSet) ConvertToARM(resolved genruntime.ConvertToARMReso
 	var result NetworkRuleSetARM
 
 	// Set property ‘DefaultAction’:
-	result.DefaultAction = ruleSet.DefaultAction
+	if ruleSet.DefaultAction != nil {
+		defaultAction := *ruleSet.DefaultAction
+		result.DefaultAction = &defaultAction
+	}
 
 	// Set property ‘IpRules’:
 	for _, item := range ruleSet.IpRules {
@@ -2238,7 +2295,10 @@ func (ruleSet *NetworkRuleSet) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	}
 
 	// Set property ‘DefaultAction’:
-	ruleSet.DefaultAction = typedInput.DefaultAction
+	if typedInput.DefaultAction != nil {
+		defaultAction := *typedInput.DefaultAction
+		ruleSet.DefaultAction = &defaultAction
+	}
 
 	// Set property ‘IpRules’:
 	for _, item := range typedInput.IpRules {
@@ -2259,9 +2319,10 @@ func (ruleSet *NetworkRuleSet) AssignPropertiesFromNetworkRuleSet(source *v1alph
 
 	// DefaultAction
 	if source.DefaultAction != nil {
-		ruleSet.DefaultAction = NetworkRuleSetDefaultAction(*source.DefaultAction)
+		defaultAction := NetworkRuleSetDefaultAction(*source.DefaultAction)
+		ruleSet.DefaultAction = &defaultAction
 	} else {
-		ruleSet.DefaultAction = ""
+		ruleSet.DefaultAction = nil
 	}
 
 	// IpRules
@@ -2292,8 +2353,12 @@ func (ruleSet *NetworkRuleSet) AssignPropertiesToNetworkRuleSet(destination *v1a
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DefaultAction
-	defaultAction := string(ruleSet.DefaultAction)
-	destination.DefaultAction = &defaultAction
+	if ruleSet.DefaultAction != nil {
+		defaultAction := string(*ruleSet.DefaultAction)
+		destination.DefaultAction = &defaultAction
+	} else {
+		destination.DefaultAction = nil
+	}
 
 	// IpRules
 	if ruleSet.IpRules != nil {
@@ -2325,9 +2390,8 @@ func (ruleSet *NetworkRuleSet) AssignPropertiesToNetworkRuleSet(destination *v1a
 }
 
 type NetworkRuleSet_Status struct {
-	// +kubebuilder:validation:Required
 	//DefaultAction: The default action of allow or deny when no other rules match.
-	DefaultAction NetworkRuleSetStatusDefaultAction `json:"defaultAction"`
+	DefaultAction *NetworkRuleSetStatusDefaultAction `json:"defaultAction,omitempty"`
 
 	//IpRules: The IP ACL rules.
 	IpRules []IPRule_Status `json:"ipRules,omitempty"`
@@ -2348,7 +2412,10 @@ func (ruleSet *NetworkRuleSet_Status) PopulateFromARM(owner genruntime.Arbitrary
 	}
 
 	// Set property ‘DefaultAction’:
-	ruleSet.DefaultAction = typedInput.DefaultAction
+	if typedInput.DefaultAction != nil {
+		defaultAction := *typedInput.DefaultAction
+		ruleSet.DefaultAction = &defaultAction
+	}
 
 	// Set property ‘IpRules’:
 	for _, item := range typedInput.IpRules {
@@ -2369,9 +2436,10 @@ func (ruleSet *NetworkRuleSet_Status) AssignPropertiesFromNetworkRuleSetStatus(s
 
 	// DefaultAction
 	if source.DefaultAction != nil {
-		ruleSet.DefaultAction = NetworkRuleSetStatusDefaultAction(*source.DefaultAction)
+		defaultAction := NetworkRuleSetStatusDefaultAction(*source.DefaultAction)
+		ruleSet.DefaultAction = &defaultAction
 	} else {
-		ruleSet.DefaultAction = ""
+		ruleSet.DefaultAction = nil
 	}
 
 	// IpRules
@@ -2402,8 +2470,12 @@ func (ruleSet *NetworkRuleSet_Status) AssignPropertiesToNetworkRuleSetStatus(des
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DefaultAction
-	defaultAction := string(ruleSet.DefaultAction)
-	destination.DefaultAction = &defaultAction
+	if ruleSet.DefaultAction != nil {
+		defaultAction := string(*ruleSet.DefaultAction)
+		destination.DefaultAction = &defaultAction
+	} else {
+		destination.DefaultAction = nil
+	}
 
 	// IpRules
 	if ruleSet.IpRules != nil {
@@ -3006,7 +3078,7 @@ const (
 type Sku struct {
 	// +kubebuilder:validation:Required
 	//Name: The SKU name of the container registry. Required for registry creation.
-	Name SkuName `json:"name"`
+	Name *SkuName `json:"name,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Sku{}
@@ -3019,7 +3091,10 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	var result SkuARM
 
 	// Set property ‘Name’:
-	result.Name = sku.Name
+	if sku.Name != nil {
+		name := *sku.Name
+		result.Name = &name
+	}
 	return result, nil
 }
 
@@ -3036,7 +3111,10 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 	}
 
 	// Set property ‘Name’:
-	sku.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		sku.Name = &name
+	}
 
 	// No error
 	return nil
@@ -3047,9 +3125,10 @@ func (sku *Sku) AssignPropertiesFromSku(source *v1alpha1api20210901storage.Sku) 
 
 	// Name
 	if source.Name != nil {
-		sku.Name = SkuName(*source.Name)
+		name := SkuName(*source.Name)
+		sku.Name = &name
 	} else {
-		sku.Name = ""
+		sku.Name = nil
 	}
 
 	// No error
@@ -3062,8 +3141,12 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20210901storage.Sk
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(sku.Name)
-	destination.Name = &name
+	if sku.Name != nil {
+		name := string(*sku.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3077,9 +3160,8 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20210901storage.Sk
 }
 
 type Sku_Status struct {
-	// +kubebuilder:validation:Required
 	//Name: The SKU name of the container registry. Required for registry creation.
-	Name SkuStatusName `json:"name"`
+	Name *SkuStatusName `json:"name,omitempty"`
 
 	//Tier: The SKU tier based on the SKU name.
 	Tier *SkuStatusTier `json:"tier,omitempty"`
@@ -3100,7 +3182,10 @@ func (sku *Sku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	}
 
 	// Set property ‘Name’:
-	sku.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		sku.Name = &name
+	}
 
 	// Set property ‘Tier’:
 	if typedInput.Tier != nil {
@@ -3117,9 +3202,10 @@ func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v1alpha1api20210901
 
 	// Name
 	if source.Name != nil {
-		sku.Name = SkuStatusName(*source.Name)
+		name := SkuStatusName(*source.Name)
+		sku.Name = &name
 	} else {
-		sku.Name = ""
+		sku.Name = nil
 	}
 
 	// Tier
@@ -3140,8 +3226,12 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1api20210
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(sku.Name)
-	destination.Name = &name
+	if sku.Name != nil {
+		name := string(*sku.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Tier
 	if sku.Tier != nil {
@@ -3569,7 +3659,7 @@ type IPRule struct {
 
 	// +kubebuilder:validation:Required
 	//Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
-	Value string `json:"value"`
+	Value *string `json:"value,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &IPRule{}
@@ -3588,7 +3678,10 @@ func (rule *IPRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	}
 
 	// Set property ‘Value’:
-	result.Value = rule.Value
+	if rule.Value != nil {
+		value := *rule.Value
+		result.Value = &value
+	}
 	return result, nil
 }
 
@@ -3611,7 +3704,10 @@ func (rule *IPRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 	}
 
 	// Set property ‘Value’:
-	rule.Value = typedInput.Value
+	if typedInput.Value != nil {
+		value := *typedInput.Value
+		rule.Value = &value
+	}
 
 	// No error
 	return nil
@@ -3629,7 +3725,7 @@ func (rule *IPRule) AssignPropertiesFromIPRule(source *v1alpha1api20210901storag
 	}
 
 	// Value
-	rule.Value = genruntime.GetOptionalStringValue(source.Value)
+	rule.Value = genruntime.ClonePointerToString(source.Value)
 
 	// No error
 	return nil
@@ -3649,8 +3745,7 @@ func (rule *IPRule) AssignPropertiesToIPRule(destination *v1alpha1api20210901sto
 	}
 
 	// Value
-	value := rule.Value
-	destination.Value = &value
+	destination.Value = genruntime.ClonePointerToString(rule.Value)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3667,9 +3762,8 @@ type IPRule_Status struct {
 	//Action: The action of IP ACL rule.
 	Action *IPRuleStatusAction `json:"action,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
-	Value string `json:"value"`
+	Value *string `json:"value,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &IPRule_Status{}
@@ -3693,7 +3787,10 @@ func (rule *IPRule_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	}
 
 	// Set property ‘Value’:
-	rule.Value = typedInput.Value
+	if typedInput.Value != nil {
+		value := *typedInput.Value
+		rule.Value = &value
+	}
 
 	// No error
 	return nil
@@ -3711,7 +3808,7 @@ func (rule *IPRule_Status) AssignPropertiesFromIPRuleStatus(source *v1alpha1api2
 	}
 
 	// Value
-	rule.Value = genruntime.GetOptionalStringValue(source.Value)
+	rule.Value = genruntime.ClonePointerToString(source.Value)
 
 	// No error
 	return nil
@@ -3731,8 +3828,7 @@ func (rule *IPRule_Status) AssignPropertiesToIPRuleStatus(destination *v1alpha1a
 	}
 
 	// Value
-	value := rule.Value
-	destination.Value = &value
+	destination.Value = genruntime.ClonePointerToString(rule.Value)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

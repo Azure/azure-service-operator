@@ -14,18 +14,18 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/api/batch/v1alpha1api20210101"
 	"github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
+	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func CreateResolver(scheme *runtime.Scheme, testClient client.Client) (*genruntime.Resolver, error) {
+func CreateResolver(scheme *runtime.Scheme, testClient client.Client) (*resolver.Resolver, error) {
 	groupToVersionMap, err := makeResourceGVKLookup(scheme)
 	if err != nil {
 		return nil, err
 	}
 
-	resolver := genruntime.NewResolver(kubeclient.NewClient(testClient, scheme), groupToVersionMap)
-	return resolver, nil
+	res := resolver.NewResolver(kubeclient.NewClient(testClient, scheme), groupToVersionMap)
+	return res, nil
 }
 
 func makeResourceGVKLookup(scheme *runtime.Scheme) (map[schema.GroupKind]schema.GroupVersionKind, error) {

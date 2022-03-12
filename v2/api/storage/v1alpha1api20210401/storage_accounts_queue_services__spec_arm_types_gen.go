@@ -10,7 +10,7 @@ type StorageAccountsQueueServices_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the Queue Service within the specified storage account. Queue Service Name must be 'default'
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: The properties of a storage account’s Queue service.
 	Properties *QueueServicePropertiesPropertiesARM `json:"properties,omitempty"`

@@ -7,16 +7,16 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type RedisEnterprise_SpecARM struct {
 	//Location: The geo-location where the resource lives
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the RedisEnterprise cluster.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties of RedisEnterprise clusters, as opposed to general resource properties like location, tags
-	Properties ClusterPropertiesARM `json:"properties"`
+	Properties *ClusterPropertiesARM `json:"properties,omitempty"`
 
 	//Sku: SKU parameters supplied to the create RedisEnterprise operation.
-	Sku SkuARM `json:"sku"`
+	Sku *SkuARM `json:"sku,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -55,7 +55,7 @@ type SkuARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	//Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.).
-	Name SkuName `json:"name"`
+	Name *SkuName `json:"name,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Enterprise_E10","Enterprise_E100","Enterprise_E20","Enterprise_E50","EnterpriseFlash_F1500","EnterpriseFlash_F300","EnterpriseFlash_F700"}

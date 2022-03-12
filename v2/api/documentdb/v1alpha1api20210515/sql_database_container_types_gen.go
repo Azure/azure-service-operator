@@ -315,7 +315,7 @@ const DatabaseAccountsSqlDatabasesContainersSpecAPIVersion20210515 = DatabaseAcc
 type DatabaseAccountsSqlDatabasesContainers_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
@@ -325,11 +325,14 @@ type DatabaseAccountsSqlDatabasesContainers_Spec struct {
 	Options *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner" kind:"SqlDatabase"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a documentdb.azure.com/SqlDatabase resource
+	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabase"`
 
 	// +kubebuilder:validation:Required
 	//Resource: Cosmos DB SQL container resource object
-	Resource SqlContainerResource `json:"resource"`
+	Resource *SqlContainerResource `json:"resource,omitempty"`
 
 	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
 	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
@@ -358,6 +361,9 @@ func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) ConvertToARM(reso
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if containers.Options != nil || containers.Resource != nil {
+		result.Properties = &SqlContainerCreateUpdatePropertiesARM{}
+	}
 	if containers.Options != nil {
 		optionsARM, err := (*containers.Options).ConvertToARM(resolved)
 		if err != nil {
@@ -366,11 +372,14 @@ func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) ConvertToARM(reso
 		options := optionsARM.(CreateUpdateOptionsARM)
 		result.Properties.Options = &options
 	}
-	resourceARM, err := containers.Resource.ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if containers.Resource != nil {
+		resourceARM, err := (*containers.Resource).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		resource := resourceARM.(SqlContainerResourceARM)
+		result.Properties.Resource = &resource
 	}
-	result.Properties.Resource = resourceARM.(SqlContainerResourceARM)
 
 	// Set property ‘Tags’:
 	if containers.Tags != nil {
@@ -405,29 +414,36 @@ func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) PopulateFromARM(o
 
 	// Set property ‘Options’:
 	// copying flattened property:
-	if typedInput.Properties.Options != nil {
-		var options1 CreateUpdateOptions
-		err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Options != nil {
+			var options1 CreateUpdateOptions
+			err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
+			if err != nil {
+				return err
+			}
+			options := options1
+			containers.Options = &options
 		}
-		options := options1
-		containers.Options = &options
 	}
 
 	// Set property ‘Owner’:
-	containers.Owner = genruntime.KnownResourceReference{
+	containers.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Resource’:
 	// copying flattened property:
-	var resource SqlContainerResource
-	err := resource.PopulateFromARM(owner, typedInput.Properties.Resource)
-	if err != nil {
-		return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Resource != nil {
+			var resource1 SqlContainerResource
+			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
+			if err != nil {
+				return err
+			}
+			resource := resource1
+			containers.Resource = &resource
+		}
 	}
-	containers.Resource = resource
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
@@ -513,7 +529,12 @@ func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) AssignPropertiesF
 	}
 
 	// Owner
-	containers.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		containers.Owner = &owner
+	} else {
+		containers.Owner = nil
+	}
 
 	// Resource
 	if source.Resource != nil {
@@ -522,9 +543,9 @@ func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) AssignPropertiesF
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerResource() to populate field Resource")
 		}
-		containers.Resource = resource
+		containers.Resource = &resource
 	} else {
-		containers.Resource = SqlContainerResource{}
+		containers.Resource = nil
 	}
 
 	// Tags
@@ -561,15 +582,24 @@ func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) AssignPropertiesT
 	destination.OriginalVersion = containers.OriginalVersion()
 
 	// Owner
-	destination.Owner = containers.Owner.Copy()
+	if containers.Owner != nil {
+		owner := containers.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Resource
-	var resource v1alpha1api20210515storage.SqlContainerResource
-	err := containers.Resource.AssignPropertiesToSqlContainerResource(&resource)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSqlContainerResource() to populate field Resource")
+	if containers.Resource != nil {
+		var resource v1alpha1api20210515storage.SqlContainerResource
+		err := containers.Resource.AssignPropertiesToSqlContainerResource(&resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSqlContainerResource() to populate field Resource")
+		}
+		destination.Resource = &resource
+	} else {
+		destination.Resource = nil
 	}
-	destination.Resource = &resource
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(containers.Tags)
@@ -865,9 +895,8 @@ type SqlContainerGetProperties_Status_Resource struct {
 	//Etag: A system generated property representing the resource etag required for optimistic concurrency control.
 	Etag *string `json:"_etag,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Id: Name of the Cosmos DB SQL container
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 
 	//IndexingPolicy: The configuration of the indexing policy. By default, the indexing is automatic for all document paths
 	//within the container
@@ -931,7 +960,10 @@ func (resource *SqlContainerGetProperties_Status_Resource) PopulateFromARM(owner
 	}
 
 	// Set property ‘Id’:
-	resource.Id = typedInput.Id
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		resource.Id = &id
+	}
 
 	// Set property ‘IndexingPolicy’:
 	if typedInput.IndexingPolicy != nil {
@@ -1007,7 +1039,7 @@ func (resource *SqlContainerGetProperties_Status_Resource) AssignPropertiesFromS
 	resource.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Id
-	resource.Id = genruntime.GetOptionalStringValue(source.Id)
+	resource.Id = genruntime.ClonePointerToString(source.Id)
 
 	// IndexingPolicy
 	if source.IndexingPolicy != nil {
@@ -1087,8 +1119,7 @@ func (resource *SqlContainerGetProperties_Status_Resource) AssignPropertiesToSql
 	destination.Etag = genruntime.ClonePointerToString(resource.Etag)
 
 	// Id
-	id := resource.Id
-	destination.Id = &id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
 
 	// IndexingPolicy
 	if resource.IndexingPolicy != nil {
@@ -1161,7 +1192,7 @@ type SqlContainerResource struct {
 
 	// +kubebuilder:validation:Required
 	//Id: Name of the Cosmos DB SQL container
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 
 	//IndexingPolicy: Cosmos DB indexing policy
 	IndexingPolicy *IndexingPolicy `json:"indexingPolicy,omitempty"`
@@ -1206,7 +1237,10 @@ func (resource *SqlContainerResource) ConvertToARM(resolved genruntime.ConvertTo
 	}
 
 	// Set property ‘Id’:
-	result.Id = resource.Id
+	if resource.Id != nil {
+		id := *resource.Id
+		result.Id = &id
+	}
 
 	// Set property ‘IndexingPolicy’:
 	if resource.IndexingPolicy != nil {
@@ -1276,7 +1310,10 @@ func (resource *SqlContainerResource) PopulateFromARM(owner genruntime.Arbitrary
 	}
 
 	// Set property ‘Id’:
-	resource.Id = typedInput.Id
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		resource.Id = &id
+	}
 
 	// Set property ‘IndexingPolicy’:
 	if typedInput.IndexingPolicy != nil {
@@ -1337,7 +1374,7 @@ func (resource *SqlContainerResource) AssignPropertiesFromSqlContainerResource(s
 	resource.DefaultTtl = genruntime.ClonePointerToInt(source.DefaultTtl)
 
 	// Id
-	resource.Id = genruntime.GetOptionalStringValue(source.Id)
+	resource.Id = genruntime.ClonePointerToString(source.Id)
 
 	// IndexingPolicy
 	if source.IndexingPolicy != nil {
@@ -1403,8 +1440,7 @@ func (resource *SqlContainerResource) AssignPropertiesToSqlContainerResource(des
 	destination.DefaultTtl = genruntime.ClonePointerToInt(resource.DefaultTtl)
 
 	// Id
-	id := resource.Id
-	destination.Id = &id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
 
 	// IndexingPolicy
 	if resource.IndexingPolicy != nil {

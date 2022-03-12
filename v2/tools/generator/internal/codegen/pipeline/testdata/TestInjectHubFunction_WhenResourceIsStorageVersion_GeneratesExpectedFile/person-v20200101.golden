@@ -30,17 +30,17 @@ type PersonList struct {
 
 type Person_Spec struct {
 	//FamilyName: Shared name of the family
-	FamilyName string `json:"familyName"`
+	FamilyName string `json:"familyName,omitempty"`
 
 	//FullName: As would be used to address mail
-	FullName string `json:"fullName"`
+	FullName string `json:"fullName,omitempty"`
 
 	//KnownAs: How the person is generally known
-	KnownAs string `json:"knownAs"`
+	KnownAs string `json:"knownAs,omitempty"`
 }
 
 type Person_Status struct {
-	Status string `json:"status"`
+	Status string `json:"status,omitempty"`
 }
 
 func init() {

@@ -19,7 +19,7 @@ import (
 type KnownResourceReference struct {
 	// This is the name of the Kubernetes resource to reference.
 	// +kubebuilder:validation:Required
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	// References across namespaces are not supported.
 
@@ -33,15 +33,15 @@ type KnownResourceReference struct {
 type ArbitraryOwnerReference struct {
 	// This is the name of the Kubernetes resource to reference.
 	// +kubebuilder:validation:Required
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Group is the Kubernetes group of the resource.
-	Group string `json:"group"`
+	Group string `json:"group,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Kind is the Kubernetes kind of the resource.
-	Kind string `json:"kind"`
+	Kind string `json:"kind,omitempty"`
 
 	// Ownership across namespaces is not supported.
 }
@@ -63,6 +63,7 @@ type ResourceReference struct {
 	// name - the versions are just giving a different view on the same resource
 
 	// TODO: The below regex may be overly restrictive
+
 	// +kubebuilder:validation:Pattern="(?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$"
 	// ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
 	// The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level

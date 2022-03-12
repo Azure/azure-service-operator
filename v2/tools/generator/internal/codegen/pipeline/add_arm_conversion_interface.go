@@ -7,6 +7,7 @@ package pipeline
 
 import (
 	"context"
+	"fmt"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -21,8 +22,8 @@ const ApplyARMConversionInterfaceStageID = "applyArmConversionInterface"
 // ApplyARMConversionInterface adds the genruntime.ARMTransformer interface and the Owner property
 // to all Kubernetes types.
 // The genruntime.ARMTransformer interface is used to convert from the Kubernetes type to the corresponding ARM type and back.
-func ApplyARMConversionInterface(idFactory astmodel.IdentifierFactory) Stage {
-	return MakeLegacyStage(
+func ApplyARMConversionInterface(idFactory astmodel.IdentifierFactory) *Stage {
+	return NewLegacyStage(
 		ApplyARMConversionInterfaceStageID,
 		"Add ARM conversion interfaces to Kubernetes types",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
@@ -198,8 +199,14 @@ func (c *armConversionApplier) transformSpec(resourceType *astmodel.ResourceType
 			return t, nil
 		}
 
-		// rename Name to AzureName
-		azureNameProp := armconversion.GetAzureNameProperty(c.idFactory).WithType(nameProp.PropertyType())
+		// rename Name to AzureName and promote type if needed
+		// Note: if this type ends up wrapped in another type we may need to use a visitor to do this instead of
+		// doing it manually.
+		namePropType := nameProp.PropertyType()
+		if optional, ok := namePropType.(*astmodel.OptionalType); ok {
+			namePropType = optional.Element()
+		}
+		azureNameProp := armconversion.GetAzureNameProperty(c.idFactory).WithType(namePropType)
 		return t.WithoutProperty(astmodel.NameProperty).WithProperty(azureNameProp), nil
 	}
 
@@ -242,26 +249,41 @@ func (c *armConversionApplier) addARMConversionInterface(
 }
 
 func (c *armConversionApplier) createOwnerProperty(ownerTypeName *astmodel.TypeName) (*astmodel.PropertyDefinition, error) {
-	prop := astmodel.NewPropertyDefinition(
-		c.idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported),
-		c.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
-		astmodel.KnownResourceReferenceType)
-
 	ref := ownerTypeName.PackageReference
-	if group, _, ok := ref.GroupVersion(); ok {
-		prop = prop.WithTag("group", group+astmodel.GroupSuffix)
-		prop = prop.WithTag("kind", ownerTypeName.Name())
-		prop = prop.MakeRequired() // Owner is always required
+	var group string
+	var kind string
+	if grp, _, ok := ref.GroupVersion(); ok {
+		group = grp + astmodel.GroupSuffix
+		kind = ownerTypeName.Name()
 	} else {
 		return nil, errors.Errorf("owners from external package %s not currently supported", ref)
 	}
+
+	prop := astmodel.NewPropertyDefinition(
+		c.idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported),
+		c.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
+		astmodel.NewOptionalType(astmodel.KnownResourceReferenceType))
+	prop = prop.WithDescription(
+		fmt.Sprintf("The owner of the resource. The owner controls where the resource goes when it is deployed. "+
+			"The owner also controls the resources lifecycle. "+
+			"When the owner is deleted the resource will also be deleted. Owner is expected to "+
+			"be a reference to a %s/%s resource", group, kind))
+	prop = prop.WithTag("group", group)
+	prop = prop.WithTag("kind", kind)
+	prop = prop.MakeRequired() // Owner is always required
 
 	return prop, nil
 }
 
 func (c *armConversionApplier) createExtensionResourceOwnerProperty() *astmodel.PropertyDefinition {
-	return astmodel.NewPropertyDefinition(
+	prop := astmodel.NewPropertyDefinition(
 		c.idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported),
 		c.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
-		astmodel.ArbitraryOwnerReference).MakeRequired()
+		astmodel.NewOptionalType(astmodel.ArbitraryOwnerReference)).MakeRequired()
+	prop = prop.WithDescription(
+		"The owner of the resource. The owner controls where the resource goes when it is deployed. " +
+			"The owner also controls the resources lifecycle. " +
+			"When the owner is deleted the resource will also be deleted. " +
+			"This resource is an extension resource, which means that any other Azure resource can be its owner.")
+	return prop
 }

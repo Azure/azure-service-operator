@@ -40,7 +40,7 @@ type ApplicationInsightsComponentProperties_StatusARM struct {
 	ApplicationId *string `json:"ApplicationId,omitempty"`
 
 	//ApplicationType: Type of application being monitored.
-	ApplicationType ApplicationInsightsComponentPropertiesStatusApplicationType `json:"Application_Type"`
+	ApplicationType *ApplicationInsightsComponentPropertiesStatusApplicationType `json:"Application_Type,omitempty"`
 
 	//ConnectionString: Application Insights component connection string.
 	ConnectionString *string `json:"ConnectionString,omitempty"`

@@ -184,7 +184,7 @@ func AddIndependentPropertyGeneratorsForSnapshotPropertiesStatusARM(gens map[str
 
 // AddRelatedPropertyGeneratorsForSnapshotPropertiesStatusARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSnapshotPropertiesStatusARM(gens map[string]gopter.Gen) {
-	gens["CreationData"] = CreationDataStatusARMGenerator()
+	gens["CreationData"] = gen.PtrOf(CreationDataStatusARMGenerator())
 	gens["Encryption"] = gen.PtrOf(EncryptionStatusARMGenerator())
 	gens["EncryptionSettingsCollection"] = gen.PtrOf(EncryptionSettingsCollectionStatusARMGenerator())
 	gens["PurchasePlan"] = gen.PtrOf(PurchasePlanStatusARMGenerator())

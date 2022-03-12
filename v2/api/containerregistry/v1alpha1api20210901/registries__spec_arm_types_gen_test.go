@@ -82,7 +82,7 @@ func RegistriesSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRegistriesSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRegistriesSpecARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
@@ -90,8 +90,8 @@ func AddIndependentPropertyGeneratorsForRegistriesSpecARM(gens map[string]gopter
 // AddRelatedPropertyGeneratorsForRegistriesSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRegistriesSpecARM(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(IdentityPropertiesARMGenerator())
-	gens["Properties"] = RegistryPropertiesARMGenerator()
-	gens["Sku"] = SkuARMGenerator()
+	gens["Properties"] = gen.PtrOf(RegistryPropertiesARMGenerator())
+	gens["Sku"] = gen.PtrOf(SkuARMGenerator())
 }
 
 func Test_IdentityPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -310,11 +310,11 @@ func SkuARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSkuARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
 		SkuNameBasic,
 		SkuNameClassic,
 		SkuNamePremium,
-		SkuNameStandard)
+		SkuNameStandard))
 }
 
 func Test_EncryptionPropertyARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -456,7 +456,7 @@ func NetworkRuleSetARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkRuleSetARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkRuleSetARM(gens map[string]gopter.Gen) {
-	gens["DefaultAction"] = gen.OneConstOf(NetworkRuleSetDefaultActionAllow, NetworkRuleSetDefaultActionDeny)
+	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetDefaultActionAllow, NetworkRuleSetDefaultActionDeny))
 }
 
 // AddRelatedPropertyGeneratorsForNetworkRuleSetARM is a factory method for creating gopter generators
@@ -703,7 +703,7 @@ func IPRuleARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIPRuleARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIPRuleARM(gens map[string]gopter.Gen) {
 	gens["Action"] = gen.PtrOf(gen.OneConstOf(IPRuleActionAllow))
-	gens["Value"] = gen.AlphaString()
+	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_KeyVaultPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

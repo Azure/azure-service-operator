@@ -195,7 +195,7 @@ type VirtualMachines_Spec struct {
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName            string                                          `json:"azureName"`
+	AzureName            string                                          `json:"azureName,omitempty"`
 	BillingProfile       *BillingProfile                                 `json:"billingProfile,omitempty"`
 	DiagnosticsProfile   *DiagnosticsProfile                             `json:"diagnosticsProfile,omitempty"`
 	EvictionPolicy       *string                                         `json:"evictionPolicy,omitempty"`
@@ -208,21 +208,24 @@ type VirtualMachines_Spec struct {
 	LicenseType          *string                                         `json:"licenseType,omitempty"`
 	Location             *string                                         `json:"location,omitempty"`
 	NetworkProfile       *VirtualMachines_Spec_Properties_NetworkProfile `json:"networkProfile,omitempty"`
-	OriginalVersion      string                                          `json:"originalVersion"`
+	OriginalVersion      string                                          `json:"originalVersion,omitempty"`
 	OsProfile            *OSProfile                                      `json:"osProfile,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner                   genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	Plan                    *Plan                             `json:"plan,omitempty"`
-	PlatformFaultDomain     *int                              `json:"platformFaultDomain,omitempty"`
-	Priority                *string                           `json:"priority,omitempty"`
-	PropertyBag             genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	ProximityPlacementGroup *SubResource                      `json:"proximityPlacementGroup,omitempty"`
-	SecurityProfile         *SecurityProfile                  `json:"securityProfile,omitempty"`
-	StorageProfile          *StorageProfile                   `json:"storageProfile,omitempty"`
-	Tags                    map[string]string                 `json:"tags,omitempty"`
-	VirtualMachineScaleSet  *SubResource                      `json:"virtualMachineScaleSet,omitempty"`
-	Zones                   []string                          `json:"zones,omitempty"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a resources.azure.com/ResourceGroup resource
+	Owner                   *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Plan                    *Plan                              `json:"plan,omitempty"`
+	PlatformFaultDomain     *int                               `json:"platformFaultDomain,omitempty"`
+	Priority                *string                            `json:"priority,omitempty"`
+	PropertyBag             genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ProximityPlacementGroup *SubResource                       `json:"proximityPlacementGroup,omitempty"`
+	SecurityProfile         *SecurityProfile                   `json:"securityProfile,omitempty"`
+	StorageProfile          *StorageProfile                    `json:"storageProfile,omitempty"`
+	Tags                    map[string]string                  `json:"tags,omitempty"`
+	VirtualMachineScaleSet  *SubResource                       `json:"virtualMachineScaleSet,omitempty"`
+	Zones                   []string                           `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &VirtualMachines_Spec{}

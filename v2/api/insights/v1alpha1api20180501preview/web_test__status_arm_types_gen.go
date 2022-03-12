@@ -39,14 +39,14 @@ type WebTestProperties_StatusARM struct {
 	Frequency *int `json:"Frequency,omitempty"`
 
 	//Kind: The kind of web test this is, valid choices are ping, multistep, basic, and standard.
-	Kind WebTestPropertiesStatusKind `json:"Kind"`
+	Kind *WebTestPropertiesStatusKind `json:"Kind,omitempty"`
 
 	//Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
 	//application.
-	Locations []WebTestGeolocation_StatusARM `json:"Locations"`
+	Locations []WebTestGeolocation_StatusARM `json:"Locations,omitempty"`
 
 	//Name: User defined name if this WebTest.
-	Name string `json:"Name"`
+	Name *string `json:"Name,omitempty"`
 
 	//ProvisioningState: Current state of this component, whether or not is has been provisioned within the resource group it
 	//is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying,
@@ -60,7 +60,7 @@ type WebTestProperties_StatusARM struct {
 	RetryEnabled *bool `json:"RetryEnabled,omitempty"`
 
 	//SyntheticMonitorId: Unique ID of this WebTest. This is typically the same value as the Name field.
-	SyntheticMonitorId string `json:"SyntheticMonitorId"`
+	SyntheticMonitorId *string `json:"SyntheticMonitorId,omitempty"`
 
 	//Timeout: Seconds until this WebTest will timeout and fail. Default value is 30.
 	Timeout *int `json:"Timeout,omitempty"`

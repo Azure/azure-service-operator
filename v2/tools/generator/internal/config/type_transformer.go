@@ -57,7 +57,10 @@ type TypeTransformer struct {
 	matchedProperties map[astmodel.TypeName]string
 }
 
-func produceTargetType(target TransformTarget, descriptor string, makeLocalPackageReferenceFunc func(group string, version string) astmodel.LocalPackageReference) (astmodel.Type, error) {
+func produceTargetType(
+	target TransformTarget,
+	descriptor string,
+	makeLocalPackageReferenceFunc func(group string, version string) astmodel.LocalPackageReference) (astmodel.Type, error) {
 	if target.Name != "" && target.Map != nil {
 		return nil, errors.Errorf("multiple target types defined")
 	}

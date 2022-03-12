@@ -29,8 +29,8 @@ var (
 )
 
 // ConvertAllOfAndOneOfToObjects reduces the AllOfType and OneOfType to ObjectType
-func ConvertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) Stage {
-	return MakeLegacyStage(
+func ConvertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) *Stage {
+	return NewLegacyStage(
 		"allof-anyof-objects",
 		"Convert allOf and oneOf to object types",
 		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
@@ -322,7 +322,7 @@ func (s synthesizer) oneOfObject(oneOf *astmodel.OneOfType, propNames []property
 	oneOf.Types().ForEach(func(t astmodel.Type, ix int) {
 		names := propNames[ix]
 		prop := astmodel.NewPropertyDefinition(names.golang, names.json, t)
-		prop = prop.MakeOptional()
+		prop = prop.MakeTypeOptional()
 		prop = prop.WithDescription(propertyDescription)
 		properties = append(properties, prop)
 	})

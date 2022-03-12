@@ -15,8 +15,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-func FlattenProperties() Stage {
-	return MakeLegacyStage("flattenProperties", "Apply flattening to properties marked for flattening", applyPropertyFlattening)
+func FlattenProperties() *Stage {
+	return NewLegacyStage("flattenProperties", "Apply flattening to properties marked for flattening", applyPropertyFlattening)
 }
 
 func applyPropertyFlattening(
@@ -190,7 +190,7 @@ func flattenPropType(propType astmodel.Type, defs astmodel.TypeDefinitionSet) ([
 		}
 
 		for ix := range innerProps {
-			innerProps[ix] = innerProps[ix].MakeOptional()
+			innerProps[ix] = innerProps[ix].MakeTypeOptional()
 		}
 
 		return innerProps, nil

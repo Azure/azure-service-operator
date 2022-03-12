@@ -133,7 +133,7 @@ typeTransformers:
     property: Copy
     ifType:
       group: deploymenttemplate
-      version: v1alpha1api20190401
+      version: "2019-04-01"
       name: ResourceCopy
       optional: true
     remove: true
@@ -142,7 +142,7 @@ typeTransformers:
     property: Copy
     ifType:
       group: definitions
-      version: v1alpha1api
+      version: "*"
       name: ResourceCopy
       optional: true
     remove: true

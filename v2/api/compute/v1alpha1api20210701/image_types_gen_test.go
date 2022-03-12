@@ -394,7 +394,7 @@ func ImagesSpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForImagesSpec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(ImagePropertiesHyperVGenerationV1, ImagePropertiesHyperVGenerationV2))
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
@@ -1150,7 +1150,7 @@ func AddIndependentPropertyGeneratorsForImageDataDisk(gens map[string]gopter.Gen
 	gens["BlobUri"] = gen.PtrOf(gen.AlphaString())
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageDataDiskCachingNone, ImageDataDiskCachingReadOnly, ImageDataDiskCachingReadWrite))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["Lun"] = gen.Int()
+	gens["Lun"] = gen.PtrOf(gen.Int())
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
 		ImageDataDiskStorageAccountTypePremiumLRS,
 		ImageDataDiskStorageAccountTypePremiumZRS,
@@ -1278,7 +1278,7 @@ func AddIndependentPropertyGeneratorsForImageDataDiskStatus(gens map[string]gopt
 	gens["BlobUri"] = gen.PtrOf(gen.AlphaString())
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageDataDiskStatusCachingNone, ImageDataDiskStatusCachingReadOnly, ImageDataDiskStatusCachingReadWrite))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["Lun"] = gen.Int()
+	gens["Lun"] = gen.PtrOf(gen.Int())
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
 		StorageAccountType_StatusPremiumLRS,
 		StorageAccountType_StatusPremiumZRS,
@@ -1405,8 +1405,8 @@ func AddIndependentPropertyGeneratorsForImageOSDisk(gens map[string]gopter.Gen) 
 	gens["BlobUri"] = gen.PtrOf(gen.AlphaString())
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskCachingNone, ImageOSDiskCachingReadOnly, ImageOSDiskCachingReadWrite))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["OsState"] = gen.OneConstOf(ImageOSDiskOsStateGeneralized, ImageOSDiskOsStateSpecialized)
-	gens["OsType"] = gen.OneConstOf(ImageOSDiskOsTypeLinux, ImageOSDiskOsTypeWindows)
+	gens["OsState"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskOsStateGeneralized, ImageOSDiskOsStateSpecialized))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskOsTypeLinux, ImageOSDiskOsTypeWindows))
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
 		ImageOSDiskStorageAccountTypePremiumLRS,
 		ImageOSDiskStorageAccountTypePremiumZRS,
@@ -1533,8 +1533,8 @@ func AddIndependentPropertyGeneratorsForImageOSDiskStatus(gens map[string]gopter
 	gens["BlobUri"] = gen.PtrOf(gen.AlphaString())
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskStatusCachingNone, ImageOSDiskStatusCachingReadOnly, ImageOSDiskStatusCachingReadWrite))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["OsState"] = gen.OneConstOf(ImageOSDiskStatusOsStateGeneralized, ImageOSDiskStatusOsStateSpecialized)
-	gens["OsType"] = gen.OneConstOf(ImageOSDiskStatusOsTypeLinux, ImageOSDiskStatusOsTypeWindows)
+	gens["OsState"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskStatusOsStateGeneralized, ImageOSDiskStatusOsStateSpecialized))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskStatusOsTypeLinux, ImageOSDiskStatusOsTypeWindows))
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
 		StorageAccountType_StatusPremiumLRS,
 		StorageAccountType_StatusPremiumZRS,

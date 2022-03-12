@@ -7,13 +7,13 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Webtests_SpecARM struct {
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the Application Insights WebTest resource.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Metadata describing a web test for an Azure resource.
-	Properties WebTestPropertiesARM `json:"properties"`
+	Properties *WebTestPropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -51,14 +51,14 @@ type WebTestPropertiesARM struct {
 	Frequency *int `json:"Frequency,omitempty"`
 
 	//Kind: The kind of web test this is, valid choices are ping, multistep, basic, and standard.
-	Kind WebTestPropertiesKind `json:"Kind"`
+	Kind *WebTestPropertiesKind `json:"Kind,omitempty"`
 
 	//Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
 	//application.
-	Locations []WebTestGeolocationARM `json:"Locations"`
+	Locations []WebTestGeolocationARM `json:"Locations,omitempty"`
 
 	//Name: User defined name if this WebTest.
-	Name string `json:"Name"`
+	Name *string `json:"Name,omitempty"`
 
 	//Request: The collection of request properties
 	Request *WebTestPropertiesRequestARM `json:"Request,omitempty"`
@@ -67,7 +67,7 @@ type WebTestPropertiesARM struct {
 	RetryEnabled *bool `json:"RetryEnabled,omitempty"`
 
 	//SyntheticMonitorId: Unique ID of this WebTest. This is typically the same value as the Name field.
-	SyntheticMonitorId string `json:"SyntheticMonitorId"`
+	SyntheticMonitorId *string `json:"SyntheticMonitorId,omitempty"`
 
 	//Timeout: Seconds until this WebTest will timeout and fail. Default value is 30.
 	Timeout *int `json:"Timeout,omitempty"`

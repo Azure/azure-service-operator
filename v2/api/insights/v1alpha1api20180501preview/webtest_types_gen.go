@@ -486,7 +486,10 @@ func (test *WebTest_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	// Set property ‘Kind’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		test.Kind = &typedInput.Properties.Kind
+		if typedInput.Properties.Kind != nil {
+			kind := *typedInput.Properties.Kind
+			test.Kind = &kind
+		}
 	}
 
 	// Set property ‘Location’:
@@ -517,7 +520,10 @@ func (test *WebTest_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	// Set property ‘PropertiesName’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		test.PropertiesName = &typedInput.Properties.Name
+		if typedInput.Properties.Name != nil {
+			propertiesName := *typedInput.Properties.Name
+			test.PropertiesName = &propertiesName
+		}
 	}
 
 	// Set property ‘ProvisioningState’:
@@ -555,7 +561,10 @@ func (test *WebTest_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	// Set property ‘SyntheticMonitorId’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		test.SyntheticMonitorId = &typedInput.Properties.SyntheticMonitorId
+		if typedInput.Properties.SyntheticMonitorId != nil {
+			syntheticMonitorId := *typedInput.Properties.SyntheticMonitorId
+			test.SyntheticMonitorId = &syntheticMonitorId
+		}
 	}
 
 	// Set property ‘Tags’:
@@ -866,7 +875,7 @@ const WebtestsSpecAPIVersion20180501Preview = WebtestsSpecAPIVersion("2018-05-01
 type Webtests_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//Configuration: An XML configuration specification for a WebTest.
 	Configuration *WebTestPropertiesConfiguration `json:"Configuration,omitempty"`
@@ -882,22 +891,25 @@ type Webtests_Spec struct {
 
 	// +kubebuilder:validation:Required
 	//Kind: The kind of web test this is, valid choices are ping, multistep, basic, and standard.
-	Kind WebTestPropertiesKind `json:"Kind"`
+	Kind *WebTestPropertiesKind `json:"Kind,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
 	//application.
-	Locations []WebTestGeolocation `json:"Locations"`
+	Locations []WebTestGeolocation `json:"Locations,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Name: User defined name if this WebTest.
-	Name string `json:"Name"`
+	Name *string `json:"Name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	//Request: The collection of request properties
 	Request *WebTestPropertiesRequest `json:"Request,omitempty"`
@@ -907,7 +919,7 @@ type Webtests_Spec struct {
 
 	// +kubebuilder:validation:Required
 	//SyntheticMonitorId: Unique ID of this WebTest. This is typically the same value as the Name field.
-	SyntheticMonitorId string `json:"SyntheticMonitorId"`
+	SyntheticMonitorId *string `json:"SyntheticMonitorId,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -929,12 +941,29 @@ func (webtests *Webtests_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	var result Webtests_SpecARM
 
 	// Set property ‘Location’:
-	result.Location = webtests.Location
+	if webtests.Location != nil {
+		location := *webtests.Location
+		result.Location = &location
+	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if webtests.Configuration != nil ||
+		webtests.Description != nil ||
+		webtests.Enabled != nil ||
+		webtests.Frequency != nil ||
+		webtests.Kind != nil ||
+		webtests.Locations != nil ||
+		webtests.Name != nil ||
+		webtests.Request != nil ||
+		webtests.RetryEnabled != nil ||
+		webtests.SyntheticMonitorId != nil ||
+		webtests.Timeout != nil ||
+		webtests.ValidationRules != nil {
+		result.Properties = &WebTestPropertiesARM{}
+	}
 	if webtests.Configuration != nil {
 		configurationARM, err := (*webtests.Configuration).ConvertToARM(resolved)
 		if err != nil {
@@ -955,7 +984,10 @@ func (webtests *Webtests_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		frequency := *webtests.Frequency
 		result.Properties.Frequency = &frequency
 	}
-	result.Properties.Kind = webtests.Kind
+	if webtests.Kind != nil {
+		kind := *webtests.Kind
+		result.Properties.Kind = &kind
+	}
 	for _, item := range webtests.Locations {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -963,7 +995,10 @@ func (webtests *Webtests_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		}
 		result.Properties.Locations = append(result.Properties.Locations, itemARM.(WebTestGeolocationARM))
 	}
-	result.Properties.Name = webtests.Name
+	if webtests.Name != nil {
+		name := *webtests.Name
+		result.Properties.Name = &name
+	}
 	if webtests.Request != nil {
 		requestARM, err := (*webtests.Request).ConvertToARM(resolved)
 		if err != nil {
@@ -976,7 +1011,10 @@ func (webtests *Webtests_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		retryEnabled := *webtests.RetryEnabled
 		result.Properties.RetryEnabled = &retryEnabled
 	}
-	result.Properties.SyntheticMonitorId = webtests.SyntheticMonitorId
+	if webtests.SyntheticMonitorId != nil {
+		syntheticMonitorId := *webtests.SyntheticMonitorId
+		result.Properties.SyntheticMonitorId = &syntheticMonitorId
+	}
 	if webtests.Timeout != nil {
 		timeout := *webtests.Timeout
 		result.Properties.Timeout = &timeout
@@ -1017,86 +1055,118 @@ func (webtests *Webtests_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property ‘Configuration’:
 	// copying flattened property:
-	if typedInput.Properties.Configuration != nil {
-		var configuration1 WebTestPropertiesConfiguration
-		err := configuration1.PopulateFromARM(owner, *typedInput.Properties.Configuration)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Configuration != nil {
+			var configuration1 WebTestPropertiesConfiguration
+			err := configuration1.PopulateFromARM(owner, *typedInput.Properties.Configuration)
+			if err != nil {
+				return err
+			}
+			configuration := configuration1
+			webtests.Configuration = &configuration
 		}
-		configuration := configuration1
-		webtests.Configuration = &configuration
 	}
 
 	// Set property ‘Description’:
 	// copying flattened property:
-	if typedInput.Properties.Description != nil {
-		description := *typedInput.Properties.Description
-		webtests.Description = &description
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Description != nil {
+			description := *typedInput.Properties.Description
+			webtests.Description = &description
+		}
 	}
 
 	// Set property ‘Enabled’:
 	// copying flattened property:
-	if typedInput.Properties.Enabled != nil {
-		enabled := *typedInput.Properties.Enabled
-		webtests.Enabled = &enabled
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Enabled != nil {
+			enabled := *typedInput.Properties.Enabled
+			webtests.Enabled = &enabled
+		}
 	}
 
 	// Set property ‘Frequency’:
 	// copying flattened property:
-	if typedInput.Properties.Frequency != nil {
-		frequency := *typedInput.Properties.Frequency
-		webtests.Frequency = &frequency
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Frequency != nil {
+			frequency := *typedInput.Properties.Frequency
+			webtests.Frequency = &frequency
+		}
 	}
 
 	// Set property ‘Kind’:
 	// copying flattened property:
-	webtests.Kind = typedInput.Properties.Kind
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Kind != nil {
+			kind := *typedInput.Properties.Kind
+			webtests.Kind = &kind
+		}
+	}
 
 	// Set property ‘Location’:
-	webtests.Location = typedInput.Location
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		webtests.Location = &location
+	}
 
 	// Set property ‘Locations’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.Locations {
-		var item1 WebTestGeolocation
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.Locations {
+			var item1 WebTestGeolocation
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			webtests.Locations = append(webtests.Locations, item1)
 		}
-		webtests.Locations = append(webtests.Locations, item1)
 	}
 
 	// Set property ‘Name’:
 	// copying flattened property:
-	webtests.Name = typedInput.Properties.Name
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Name != nil {
+			name := *typedInput.Properties.Name
+			webtests.Name = &name
+		}
+	}
 
 	// Set property ‘Owner’:
-	webtests.Owner = genruntime.KnownResourceReference{
+	webtests.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Request’:
 	// copying flattened property:
-	if typedInput.Properties.Request != nil {
-		var request1 WebTestPropertiesRequest
-		err := request1.PopulateFromARM(owner, *typedInput.Properties.Request)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Request != nil {
+			var request1 WebTestPropertiesRequest
+			err := request1.PopulateFromARM(owner, *typedInput.Properties.Request)
+			if err != nil {
+				return err
+			}
+			request := request1
+			webtests.Request = &request
 		}
-		request := request1
-		webtests.Request = &request
 	}
 
 	// Set property ‘RetryEnabled’:
 	// copying flattened property:
-	if typedInput.Properties.RetryEnabled != nil {
-		retryEnabled := *typedInput.Properties.RetryEnabled
-		webtests.RetryEnabled = &retryEnabled
+	if typedInput.Properties != nil {
+		if typedInput.Properties.RetryEnabled != nil {
+			retryEnabled := *typedInput.Properties.RetryEnabled
+			webtests.RetryEnabled = &retryEnabled
+		}
 	}
 
 	// Set property ‘SyntheticMonitorId’:
 	// copying flattened property:
-	webtests.SyntheticMonitorId = typedInput.Properties.SyntheticMonitorId
+	if typedInput.Properties != nil {
+		if typedInput.Properties.SyntheticMonitorId != nil {
+			syntheticMonitorId := *typedInput.Properties.SyntheticMonitorId
+			webtests.SyntheticMonitorId = &syntheticMonitorId
+		}
+	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
@@ -1108,21 +1178,25 @@ func (webtests *Webtests_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property ‘Timeout’:
 	// copying flattened property:
-	if typedInput.Properties.Timeout != nil {
-		timeout := *typedInput.Properties.Timeout
-		webtests.Timeout = &timeout
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Timeout != nil {
+			timeout := *typedInput.Properties.Timeout
+			webtests.Timeout = &timeout
+		}
 	}
 
 	// Set property ‘ValidationRules’:
 	// copying flattened property:
-	if typedInput.Properties.ValidationRules != nil {
-		var validationRules1 WebTestPropertiesValidationRules
-		err := validationRules1.PopulateFromARM(owner, *typedInput.Properties.ValidationRules)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ValidationRules != nil {
+			var validationRules1 WebTestPropertiesValidationRules
+			err := validationRules1.PopulateFromARM(owner, *typedInput.Properties.ValidationRules)
+			if err != nil {
+				return err
+			}
+			validationRules := validationRules1
+			webtests.ValidationRules = &validationRules
 		}
-		validationRules := validationRules1
-		webtests.ValidationRules = &validationRules
 	}
 
 	// No error
@@ -1213,13 +1287,14 @@ func (webtests *Webtests_Spec) AssignPropertiesFromWebtestsSpec(source *v1alpha1
 
 	// Kind
 	if source.Kind != nil {
-		webtests.Kind = WebTestPropertiesKind(*source.Kind)
+		kind := WebTestPropertiesKind(*source.Kind)
+		webtests.Kind = &kind
 	} else {
-		webtests.Kind = ""
+		webtests.Kind = nil
 	}
 
 	// Location
-	webtests.Location = genruntime.GetOptionalStringValue(source.Location)
+	webtests.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Locations
 	if source.Locations != nil {
@@ -1240,10 +1315,15 @@ func (webtests *Webtests_Spec) AssignPropertiesFromWebtestsSpec(source *v1alpha1
 	}
 
 	// Name
-	webtests.Name = genruntime.GetOptionalStringValue(source.Name)
+	webtests.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Owner
-	webtests.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		webtests.Owner = &owner
+	} else {
+		webtests.Owner = nil
+	}
 
 	// Request
 	if source.Request != nil {
@@ -1266,7 +1346,7 @@ func (webtests *Webtests_Spec) AssignPropertiesFromWebtestsSpec(source *v1alpha1
 	}
 
 	// SyntheticMonitorId
-	webtests.SyntheticMonitorId = genruntime.GetOptionalStringValue(source.SyntheticMonitorId)
+	webtests.SyntheticMonitorId = genruntime.ClonePointerToString(source.SyntheticMonitorId)
 
 	// Tags
 	webtests.Tags = genruntime.CloneMapOfStringToString(source.Tags)
@@ -1325,12 +1405,15 @@ func (webtests *Webtests_Spec) AssignPropertiesToWebtestsSpec(destination *v1alp
 	destination.Frequency = genruntime.ClonePointerToInt(webtests.Frequency)
 
 	// Kind
-	kind := string(webtests.Kind)
-	destination.Kind = &kind
+	if webtests.Kind != nil {
+		kind := string(*webtests.Kind)
+		destination.Kind = &kind
+	} else {
+		destination.Kind = nil
+	}
 
 	// Location
-	location := webtests.Location
-	destination.Location = &location
+	destination.Location = genruntime.ClonePointerToString(webtests.Location)
 
 	// Locations
 	if webtests.Locations != nil {
@@ -1338,12 +1421,12 @@ func (webtests *Webtests_Spec) AssignPropertiesToWebtestsSpec(destination *v1alp
 		for locationIndex, locationItem := range webtests.Locations {
 			// Shadow the loop variable to avoid aliasing
 			locationItem := locationItem
-			var locationLocal v1alpha1api20180501previewstorage.WebTestGeolocation
-			err := locationItem.AssignPropertiesToWebTestGeolocation(&locationLocal)
+			var location v1alpha1api20180501previewstorage.WebTestGeolocation
+			err := locationItem.AssignPropertiesToWebTestGeolocation(&location)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToWebTestGeolocation() to populate field Locations")
 			}
-			locationList[locationIndex] = locationLocal
+			locationList[locationIndex] = location
 		}
 		destination.Locations = locationList
 	} else {
@@ -1351,14 +1434,18 @@ func (webtests *Webtests_Spec) AssignPropertiesToWebtestsSpec(destination *v1alp
 	}
 
 	// Name
-	name := webtests.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(webtests.Name)
 
 	// OriginalVersion
 	destination.OriginalVersion = webtests.OriginalVersion()
 
 	// Owner
-	destination.Owner = webtests.Owner.Copy()
+	if webtests.Owner != nil {
+		owner := webtests.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Request
 	if webtests.Request != nil {
@@ -1381,8 +1468,7 @@ func (webtests *Webtests_Spec) AssignPropertiesToWebtestsSpec(destination *v1alp
 	}
 
 	// SyntheticMonitorId
-	syntheticMonitorId := webtests.SyntheticMonitorId
-	destination.SyntheticMonitorId = &syntheticMonitorId
+	destination.SyntheticMonitorId = genruntime.ClonePointerToString(webtests.SyntheticMonitorId)
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(webtests.Tags)

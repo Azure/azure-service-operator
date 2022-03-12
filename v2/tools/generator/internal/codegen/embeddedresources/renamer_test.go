@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 
 	. "github.com/onsi/gomega"
 )
@@ -19,14 +20,8 @@ var (
 	resourceTypeName2 = newTestName("Resource2")
 )
 
-var goModulePrefix = "github.com/Azure/azure-service-operator/testing"
-
-func makeTestLocalPackageReference(group string, version string) astmodel.LocalPackageReference {
-	return astmodel.MakeLocalPackageReference(goModulePrefix, group, version)
-}
-
 func newTestName(name string) astmodel.TypeName {
-	return astmodel.MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), name)
+	return astmodel.MakeTypeName(test.MakeLocalPackageReference("group", "2020-01-01"), name)
 }
 
 func newTestObject(name astmodel.TypeName, fields ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {

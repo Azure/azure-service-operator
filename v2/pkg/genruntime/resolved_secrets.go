@@ -1,0 +1,32 @@
+/*
+ * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT license.
+ */
+
+package genruntime
+
+import (
+	"github.com/pkg/errors"
+)
+
+// ResolvedSecrets is a set of secret references which have been resolved for a particular resource.
+type ResolvedSecrets struct {
+	// secrets is a map of SecretReference to secret value.
+	secrets map[SecretReference]string
+}
+
+// MakeResolvedSecrets creates a ResolvedSecrets
+func MakeResolvedSecrets(secrets map[SecretReference]string) ResolvedSecrets {
+	return ResolvedSecrets{
+		secrets: secrets,
+	}
+}
+
+// LookupSecret looks up the secret value for the given reference. If it cannot be found, an error is returned.
+func (r ResolvedSecrets) LookupSecret(ref SecretReference) (string, error) {
+	result, ok := r.secrets[ref]
+	if !ok {
+		return "", errors.Errorf("couldn't find resolved secret %s", ref.String())
+	}
+	return result, nil
+}

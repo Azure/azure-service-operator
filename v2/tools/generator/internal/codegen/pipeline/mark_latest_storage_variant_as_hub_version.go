@@ -18,8 +18,8 @@ const MarkLatestStorageVariantAsHubVersionID = "markLatestStorageVariantAsHubVer
 
 // MarkLatestStorageVariantAsHubVersion creates a Stage to mark the latest non-preview storage variant of a resource
 // as the hub version of that resource for persistence
-func MarkLatestStorageVariantAsHubVersion() Stage {
-	stage := MakeStage(
+func MarkLatestStorageVariantAsHubVersion() *Stage {
+	stage := NewStage(
 		MarkLatestStorageVariantAsHubVersionID,
 		"Mark the latest GA storage variant of each resource as the hub version",
 		func(ctx context.Context, state *State) (*State, error) {
@@ -49,6 +49,5 @@ func MarkLatestStorageVariantAsHubVersion() Stage {
 		})
 
 	stage.RequiresPrerequisiteStages(CreateConversionGraphStageId)
-
 	return stage
 }

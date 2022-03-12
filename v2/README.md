@@ -23,7 +23,7 @@ See the list of supported resources [here](https://azure.github.io/azure-service
 1. Install [cert-manager](https://cert-manager.io/docs/installation/kubernetes/) on the cluster using the following command.
 
     ```bash
-    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.yaml
+    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.7.1/cert-manager.yaml
     ```
    Check that the cert-manager pods have started successfully before continuing.
 
@@ -68,26 +68,24 @@ See the list of supported resources [here](https://azure.github.io/azure-service
    AZURE_CLIENT_ID=<your-client-id> # This is the appID from the service principal we created.
    AZURE_CLIENT_SECRET=<your-client-secret> # This is the password from the service principal we created.
    ```
-3. Download [the latest **v2+** release](https://github.com/Azure/azure-service-operator/releases) of Azure Service Operator and install it into your cluster.
-   ```bash
-   kubectl apply --server-side=true -f azureserviceoperator_v2.0.0-alpha.3.yaml
+
+3. Install [the latest **v2+** Helm chart](/v2/charts). Alternatively you can install from the [release YAML directly](https://azure.github.io/azure-service-operator/installing-from-yaml)
+
    ```
-4. Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as. Make sure that you have the 4 environment variables from step 2 set before running this command. 
-   To learn more about other authentication options, see the [authentication documentation](https://azure.github.io/azure-service-operator/introduction/authentication/):
-   ```bash
-   cat <<EOF | kubectl apply -f -
-   apiVersion: v1
-   kind: Secret
-   metadata:
-     name: aso-controller-settings
-     namespace: azureserviceoperator-system
-   stringData:
-     AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
-     AZURE_TENANT_ID: "$AZURE_TENANT_ID"
-     AZURE_CLIENT_ID: "$AZURE_CLIENT_ID"
-     AZURE_CLIENT_SECRET: "$AZURE_CLIENT_SECRET"
-   EOF
+   helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
    ```
+
+   ```
+   helm upgrade --install --devel aso2 aso2/azure-service-operator \
+        --create-namespace \
+        --namespace=azureserviceoperator-system \
+        --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+        --set azureTenantID=$AZURE_TENANT_ID \
+        --set azureClientID=$AZURE_CLIENT_ID \
+        --set azureClientSecret=$AZURE_CLIENT_SECRET
+   ```
+
+   To learn more about other authentication options, see the [authentication documentation](https://azure.github.io/azure-service-operator/introduction/authentication/).
 
 ### Usage
 

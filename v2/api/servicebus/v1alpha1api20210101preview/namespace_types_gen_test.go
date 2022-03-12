@@ -270,7 +270,7 @@ func NamespacesSpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForNamespacesSpec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespacesSpec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["ZoneRedundant"] = gen.PtrOf(gen.Bool())
 }
@@ -1085,7 +1085,7 @@ func SBSkuGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSBSku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSBSku(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.OneConstOf(SBSkuNameBasic, SBSkuNamePremium, SBSkuNameStandard)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SBSkuNameBasic, SBSkuNamePremium, SBSkuNameStandard))
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(SBSkuTierBasic, SBSkuTierPremium, SBSkuTierStandard))
 }
 
@@ -1188,7 +1188,7 @@ func SBSkuStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSBSkuStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSBSkuStatus(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.OneConstOf(SBSkuStatusNameBasic, SBSkuStatusNamePremium, SBSkuStatusNameStandard)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SBSkuStatusNameBasic, SBSkuStatusNamePremium, SBSkuStatusNameStandard))
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(SBSkuStatusTierBasic, SBSkuStatusTierPremium, SBSkuStatusTierStandard))
 }
 

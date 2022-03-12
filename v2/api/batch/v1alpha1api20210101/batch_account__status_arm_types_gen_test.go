@@ -164,7 +164,7 @@ func BatchAccountIdentityStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForBatchAccountIdentityStatusARM(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(BatchAccountIdentityStatusTypeNone, BatchAccountIdentityStatusTypeSystemAssigned, BatchAccountIdentityStatusTypeUserAssigned)
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(BatchAccountIdentityStatusTypeNone, BatchAccountIdentityStatusTypeSystemAssigned, BatchAccountIdentityStatusTypeUserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForBatchAccountIdentityStatusARM is a factory method for creating gopter generators
@@ -321,8 +321,8 @@ func AutoStoragePropertiesStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAutoStoragePropertiesStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAutoStoragePropertiesStatusARM(gens map[string]gopter.Gen) {
-	gens["LastKeySync"] = gen.AlphaString()
-	gens["StorageAccountId"] = gen.AlphaString()
+	gens["LastKeySync"] = gen.PtrOf(gen.AlphaString())
+	gens["StorageAccountId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_BatchAccountIdentity_Status_UserAssignedIdentitiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -517,8 +517,8 @@ func KeyVaultReferenceStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKeyVaultReferenceStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyVaultReferenceStatusARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.AlphaString()
-	gens["Url"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Url"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_PrivateEndpointConnection_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -913,9 +913,9 @@ func PrivateLinkServiceConnectionStateStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionStateStatusARM(gens map[string]gopter.Gen) {
 	gens["ActionRequired"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Status"] = gen.OneConstOf(
+	gens["Status"] = gen.PtrOf(gen.OneConstOf(
 		PrivateLinkServiceConnectionStatus_StatusApproved,
 		PrivateLinkServiceConnectionStatus_StatusDisconnected,
 		PrivateLinkServiceConnectionStatus_StatusPending,
-		PrivateLinkServiceConnectionStatus_StatusRejected)
+		PrivateLinkServiceConnectionStatus_StatusRejected))
 }

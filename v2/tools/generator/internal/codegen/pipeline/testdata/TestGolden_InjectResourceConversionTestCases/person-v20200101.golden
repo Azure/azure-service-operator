@@ -117,13 +117,13 @@ type PersonList struct {
 
 type Person_Spec struct {
 	//FamilyName: Shared name of the family
-	FamilyName string `json:"familyName"`
+	FamilyName string `json:"familyName,omitempty"`
 
 	//FullName: As would be used to address mail
-	FullName string `json:"fullName"`
+	FullName string `json:"fullName,omitempty"`
 
 	//KnownAs: How the person is generally known
-	KnownAs string `json:"knownAs"`
+	KnownAs string `json:"knownAs,omitempty"`
 }
 
 // AssignPropertiesFromPersonSpec populates our Person_Spec from the provided source Person_Spec
@@ -171,7 +171,7 @@ func (person *Person_Spec) AssignPropertiesToPersonSpec(destination *v20200101st
 }
 
 type Person_Status struct {
-	Status string `json:"status"`
+	Status string `json:"status,omitempty"`
 }
 
 // AssignPropertiesFromPersonStatus populates our Person_Status from the provided source Person_Status

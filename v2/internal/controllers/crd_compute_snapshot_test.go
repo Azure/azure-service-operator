@@ -23,11 +23,12 @@ func Test_Compute_Snapshot_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	tc.LogSection("Create Snapshot")
+	createOption := compute.CreationDataCreateOptionEmpty
 	snapshot := &compute.Snapshot{
 		ObjectMeta: tc.MakeObjectMeta("snapshot"),
 		Spec: compute.Snapshots_Spec{
-			CreationData: compute.CreationData{
-				CreateOption: compute.CreationDataCreateOptionEmpty,
+			CreationData: &compute.CreationData{
+				CreateOption: &createOption,
 			},
 			DiskSizeGB: to.IntPtr(32),
 			Location:   tc.AzureRegion,
@@ -37,8 +38,8 @@ func Test_Compute_Snapshot_CRUD(t *testing.T) {
 
 	tc.CreateResourceAndWait(snapshot)
 	tc.Expect(snapshot.Status.Id).ToNot(BeNil())
-	tc.Expect(*snapshot.Status.DiskSizeGB).To(Equal(*snapshot.Spec.DiskSizeGB))
-	tc.Expect(*snapshot.Status.Location).To(Equal(snapshot.Spec.Location))
+	tc.Expect(snapshot.Status.DiskSizeGB).To(Equal(snapshot.Spec.DiskSizeGB))
+	tc.Expect(snapshot.Status.Location).To(Equal(snapshot.Spec.Location))
 	armId := *snapshot.Status.Id
 
 	// Perform a simple patch to resize the disk

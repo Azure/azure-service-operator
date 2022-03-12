@@ -90,7 +90,7 @@ func AddIndependentPropertyGeneratorsForRoleAssignmentsSpecARM(gens map[string]g
 
 // AddRelatedPropertyGeneratorsForRoleAssignmentsSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRoleAssignmentsSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = RoleAssignmentPropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(RoleAssignmentPropertiesARMGenerator())
 }
 
 func Test_RoleAssignmentPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -154,11 +154,11 @@ func AddIndependentPropertyGeneratorsForRoleAssignmentPropertiesARM(gens map[str
 	gens["ConditionVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["DelegatedManagedIdentityResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalId"] = gen.AlphaString()
+	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(
 		RoleAssignmentPropertiesPrincipalTypeForeignGroup,
 		RoleAssignmentPropertiesPrincipalTypeGroup,
 		RoleAssignmentPropertiesPrincipalTypeServicePrincipal,
 		RoleAssignmentPropertiesPrincipalTypeUser))
-	gens["RoleDefinitionId"] = gen.AlphaString()
+	gens["RoleDefinitionId"] = gen.PtrOf(gen.AlphaString())
 }

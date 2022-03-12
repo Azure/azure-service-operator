@@ -3,10 +3,192 @@
 // Licensed under the MIT license.
 package v1alpha1api20200101
 
+import (
+	"github.com/Azure/azure-service-operator/testing/test/v1alpha1api20200101storage"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+)
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	P1 [][][]float64 `json:"p1,omitempty"`
 	P2 [][]float64   `json:"p2,omitempty"`
 	P3 []float64     `json:"p3,omitempty"`
 	P4 *float64      `json:"p4,omitempty"`
+}
+
+// AssignPropertiesFromTest populates our Test from the provided source Test
+func (test *Test) AssignPropertiesFromTest(source *v1alpha1api20200101storage.Test) error {
+
+	// P1
+	if source.P1 != nil {
+		p1List := make([][][]float64, len(source.P1))
+		for p1Index, p1Item := range source.P1 {
+			// Shadow the loop variable to avoid aliasing
+			p1Item := p1Item
+			if p1Item != nil {
+				p1List1 := make([][]float64, len(p1Item))
+				for p1Index1, p1Item1 := range p1Item {
+					// Shadow the loop variable to avoid aliasing
+					p1Item1 := p1Item1
+					if p1Item1 != nil {
+						p1List2 := make([]float64, len(p1Item1))
+						for p1Index2, p1Item2 := range p1Item1 {
+							// Shadow the loop variable to avoid aliasing
+							p1Item2 := p1Item2
+							p1List2[p1Index2] = p1Item2
+						}
+						p1List1[p1Index1] = p1List2
+					} else {
+						p1List1[p1Index1] = nil
+					}
+				}
+				p1List[p1Index] = p1List1
+			} else {
+				p1List[p1Index] = nil
+			}
+		}
+		test.P1 = p1List
+	} else {
+		test.P1 = nil
+	}
+
+	// P2
+	if source.P2 != nil {
+		p2List := make([][]float64, len(source.P2))
+		for p2Index, p2Item := range source.P2 {
+			// Shadow the loop variable to avoid aliasing
+			p2Item := p2Item
+			if p2Item != nil {
+				p2List1 := make([]float64, len(p2Item))
+				for p2Index1, p2Item1 := range p2Item {
+					// Shadow the loop variable to avoid aliasing
+					p2Item1 := p2Item1
+					p2List1[p2Index1] = p2Item1
+				}
+				p2List[p2Index] = p2List1
+			} else {
+				p2List[p2Index] = nil
+			}
+		}
+		test.P2 = p2List
+	} else {
+		test.P2 = nil
+	}
+
+	// P3
+	if source.P3 != nil {
+		p3List := make([]float64, len(source.P3))
+		for p3Index, p3Item := range source.P3 {
+			// Shadow the loop variable to avoid aliasing
+			p3Item := p3Item
+			p3List[p3Index] = p3Item
+		}
+		test.P3 = p3List
+	} else {
+		test.P3 = nil
+	}
+
+	// P4
+	if source.P4 != nil {
+		p4 := *source.P4
+		test.P4 = &p4
+	} else {
+		test.P4 = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTest populates the provided destination Test from our Test
+func (test *Test) AssignPropertiesToTest(destination *v1alpha1api20200101storage.Test) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// P1
+	if test.P1 != nil {
+		p1List := make([][][]float64, len(test.P1))
+		for p1Index, p1Item := range test.P1 {
+			// Shadow the loop variable to avoid aliasing
+			p1Item := p1Item
+			if p1Item != nil {
+				p1List1 := make([][]float64, len(p1Item))
+				for p1Index1, p1Item1 := range p1Item {
+					// Shadow the loop variable to avoid aliasing
+					p1Item1 := p1Item1
+					if p1Item1 != nil {
+						p1List2 := make([]float64, len(p1Item1))
+						for p1Index2, p1Item2 := range p1Item1 {
+							// Shadow the loop variable to avoid aliasing
+							p1Item2 := p1Item2
+							p1List2[p1Index2] = p1Item2
+						}
+						p1List1[p1Index1] = p1List2
+					} else {
+						p1List1[p1Index1] = nil
+					}
+				}
+				p1List[p1Index] = p1List1
+			} else {
+				p1List[p1Index] = nil
+			}
+		}
+		destination.P1 = p1List
+	} else {
+		destination.P1 = nil
+	}
+
+	// P2
+	if test.P2 != nil {
+		p2List := make([][]float64, len(test.P2))
+		for p2Index, p2Item := range test.P2 {
+			// Shadow the loop variable to avoid aliasing
+			p2Item := p2Item
+			if p2Item != nil {
+				p2List1 := make([]float64, len(p2Item))
+				for p2Index1, p2Item1 := range p2Item {
+					// Shadow the loop variable to avoid aliasing
+					p2Item1 := p2Item1
+					p2List1[p2Index1] = p2Item1
+				}
+				p2List[p2Index] = p2List1
+			} else {
+				p2List[p2Index] = nil
+			}
+		}
+		destination.P2 = p2List
+	} else {
+		destination.P2 = nil
+	}
+
+	// P3
+	if test.P3 != nil {
+		p3List := make([]float64, len(test.P3))
+		for p3Index, p3Item := range test.P3 {
+			// Shadow the loop variable to avoid aliasing
+			p3Item := p3Item
+			p3List[p3Index] = p3Item
+		}
+		destination.P3 = p3List
+	} else {
+		destination.P3 = nil
+	}
+
+	// P4
+	if test.P4 != nil {
+		p4 := *test.P4
+		destination.P4 = &p4
+	} else {
+		destination.P4 = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }

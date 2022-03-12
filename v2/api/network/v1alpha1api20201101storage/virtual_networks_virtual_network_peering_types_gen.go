@@ -178,19 +178,22 @@ type VirtualNetworksVirtualNetworkPeerings_Spec struct {
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName       string  `json:"azureName"`
+	AzureName       string  `json:"azureName,omitempty"`
 	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion"`
+	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner                genruntime.KnownResourceReference `group:"network.azure.com" json:"owner" kind:"VirtualNetwork"`
-	PeeringState         *string                           `json:"peeringState,omitempty"`
-	PropertyBag          genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	RemoteAddressSpace   *AddressSpace                     `json:"remoteAddressSpace,omitempty"`
-	RemoteBgpCommunities *VirtualNetworkBgpCommunities     `json:"remoteBgpCommunities,omitempty"`
-	RemoteVirtualNetwork *SubResource                      `json:"remoteVirtualNetwork,omitempty"`
-	Tags                 map[string]string                 `json:"tags,omitempty"`
-	UseRemoteGateways    *bool                             `json:"useRemoteGateways,omitempty"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a network.azure.com/VirtualNetwork resource
+	Owner                *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"VirtualNetwork"`
+	PeeringState         *string                            `json:"peeringState,omitempty"`
+	PropertyBag          genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	RemoteAddressSpace   *AddressSpace                      `json:"remoteAddressSpace,omitempty"`
+	RemoteBgpCommunities *VirtualNetworkBgpCommunities      `json:"remoteBgpCommunities,omitempty"`
+	RemoteVirtualNetwork *SubResource                       `json:"remoteVirtualNetwork,omitempty"`
+	Tags                 map[string]string                  `json:"tags,omitempty"`
+	UseRemoteGateways    *bool                              `json:"useRemoteGateways,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &VirtualNetworksVirtualNetworkPeerings_Spec{}

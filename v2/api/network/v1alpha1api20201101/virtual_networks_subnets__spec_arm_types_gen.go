@@ -10,10 +10,10 @@ type VirtualNetworksSubnets_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: Name of the resource
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties of the subnet.
-	Properties VirtualNetworksSubnets_Spec_PropertiesARM `json:"properties"`
+	Properties *VirtualNetworksSubnets_Spec_PropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -38,7 +38,7 @@ func (subnets VirtualNetworksSubnets_SpecARM) GetType() string {
 
 type VirtualNetworksSubnets_Spec_PropertiesARM struct {
 	//AddressPrefix: The address prefix for the subnet.
-	AddressPrefix string `json:"addressPrefix"`
+	AddressPrefix *string `json:"addressPrefix,omitempty"`
 
 	//AddressPrefixes: List of address prefixes for the subnet.
 	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
@@ -82,7 +82,7 @@ type ServiceEndpointPropertiesFormatARM struct {
 
 type VirtualNetworksSubnets_Spec_Properties_DelegationsARM struct {
 	//Name: The name of the resource that is unique within a subnet. This name can be used to access the resource.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Properties: Properties of the subnet.
 	Properties *ServiceDelegationPropertiesFormatARM `json:"properties,omitempty"`

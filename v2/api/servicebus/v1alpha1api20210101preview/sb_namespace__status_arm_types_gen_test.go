@@ -315,7 +315,7 @@ func SBSkuStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSBSkuStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSBSkuStatusARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.OneConstOf(SBSkuStatusNameBasic, SBSkuStatusNamePremium, SBSkuStatusNameStandard)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SBSkuStatusNameBasic, SBSkuStatusNamePremium, SBSkuStatusNameStandard))
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(SBSkuStatusTierBasic, SBSkuStatusTierPremium, SBSkuStatusTierStandard))
 }
 

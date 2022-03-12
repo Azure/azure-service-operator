@@ -83,15 +83,15 @@ func ComponentsSpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForComponentsSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForComponentsSpecARM(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.AlphaString()
-	gens["Location"] = gen.AlphaString()
+	gens["Kind"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForComponentsSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForComponentsSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = ApplicationInsightsComponentPropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(ApplicationInsightsComponentPropertiesARMGenerator())
 }
 
 func Test_ApplicationInsightsComponentPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -151,7 +151,7 @@ func ApplicationInsightsComponentPropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForApplicationInsightsComponentPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationInsightsComponentPropertiesARM(gens map[string]gopter.Gen) {
-	gens["ApplicationType"] = gen.OneConstOf(ApplicationInsightsComponentPropertiesApplicationTypeOther, ApplicationInsightsComponentPropertiesApplicationTypeWeb)
+	gens["ApplicationType"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesApplicationTypeOther, ApplicationInsightsComponentPropertiesApplicationTypeWeb))
 	gens["DisableIpMasking"] = gen.PtrOf(gen.Bool())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["FlowType"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesFlowTypeBluefield))

@@ -90,7 +90,7 @@ func AddIndependentPropertyGeneratorsForEventSubscriptionsSpecARM(gens map[strin
 
 // AddRelatedPropertyGeneratorsForEventSubscriptionsSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForEventSubscriptionsSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = EventSubscriptionPropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(EventSubscriptionPropertiesARMGenerator())
 }
 
 func Test_EventSubscriptionPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -463,7 +463,7 @@ func StorageBlobDeadLetterDestinationARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForStorageBlobDeadLetterDestinationARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageBlobDeadLetterDestinationARM(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.OneConstOf(StorageBlobDeadLetterDestinationEndpointTypeStorageBlob)
+	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(StorageBlobDeadLetterDestinationEndpointTypeStorageBlob))
 }
 
 // AddRelatedPropertyGeneratorsForStorageBlobDeadLetterDestinationARM is a factory method for creating gopter generators

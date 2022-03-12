@@ -11,7 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -27,13 +27,13 @@ func Test_ReconcilePolicy_SkipReconcile_DoesntCreateResourceInAzure(t *testing.T
 	// Create a resource group
 	rg := tc.NewTestResourceGroup()
 	rg.Annotations = map[string]string{
-		reconcilers.ReconcilePolicyAnnotation: string(reconcilers.ReconcilePolicySkip),
+		arm.ReconcilePolicyAnnotation: string(arm.ReconcilePolicySkip),
 	}
 	tc.CreateResourceAndWaitForState(rg, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
 
 	// We expect status to be empty
-	tc.Expect(rg.Status.Name).To(BeEmpty())
-	tc.Expect(rg.Status.Location).To(BeEmpty())
+	tc.Expect(rg.Status.Name).To(BeNil())
+	tc.Expect(rg.Status.Location).To(BeNil())
 
 	// We expect the ready condition to include details of the error
 	tc.Expect(rg.Status.Conditions[0].Reason).To(Equal("AzureResourceNotFound"))
@@ -53,13 +53,13 @@ func Test_ReconcilePolicy_SkipReconcile_DoesntCreateResourceInAzure(t *testing.T
 	// Now when we remove the annotation the resource should move to ready state
 	// Update the tags
 	old := rg.DeepCopy()
-	delete(rg.Annotations, reconcilers.ReconcilePolicyAnnotation)
+	delete(rg.Annotations, arm.ReconcilePolicyAnnotation)
 	tc.Patch(old, rg)
 	tc.Eventually(rg).Should(tc.Match.BeProvisioned(0))
 
-	// We expect status to be empty
-	tc.Expect(rg.Status.Name).ToNot(BeEmpty())
-	tc.Expect(rg.Status.Location).ToNot(BeEmpty())
+	// We expect status to not be empty
+	tc.Expect(rg.Status.Name).ToNot(BeNil())
+	tc.Expect(rg.Status.Location).ToNot(BeNil())
 
 	// The actual Azure resource should exist
 	exists, _, err = tc.AzureClient.HeadByID(

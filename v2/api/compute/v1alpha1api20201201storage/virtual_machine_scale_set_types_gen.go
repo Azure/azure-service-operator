@@ -188,18 +188,21 @@ type VirtualMachineScaleSets_Spec struct {
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName                              string                          `json:"azureName"`
+	AzureName                              string                          `json:"azureName,omitempty"`
 	DoNotRunExtensionsOnOverprovisionedVMs *bool                           `json:"doNotRunExtensionsOnOverprovisionedVMs,omitempty"`
 	ExtendedLocation                       *ExtendedLocation               `json:"extendedLocation,omitempty"`
 	HostGroup                              *SubResource                    `json:"hostGroup,omitempty"`
 	Identity                               *VirtualMachineScaleSetIdentity `json:"identity,omitempty"`
 	Location                               *string                         `json:"location,omitempty"`
 	OrchestrationMode                      *string                         `json:"orchestrationMode,omitempty"`
-	OriginalVersion                        string                          `json:"originalVersion"`
+	OriginalVersion                        string                          `json:"originalVersion,omitempty"`
 	Overprovision                          *bool                           `json:"overprovision,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner                    genruntime.KnownResourceReference                              `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a resources.azure.com/ResourceGroup resource
+	Owner                    *genruntime.KnownResourceReference                             `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Plan                     *Plan                                                          `json:"plan,omitempty"`
 	PlatformFaultDomainCount *int                                                           `json:"platformFaultDomainCount,omitempty"`
 	PropertyBag              genruntime.PropertyBag                                         `json:"$propertyBag,omitempty"`

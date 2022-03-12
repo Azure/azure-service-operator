@@ -3,6 +3,12 @@
 // Licensed under the MIT license.
 package v1alpha1api20200101
 
+import (
+	"github.com/Azure/azure-service-operator/testing/test/v1alpha1api20200101storage"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/pkg/errors"
+)
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	//Base: Mutually exclusive with all other properties
@@ -12,11 +18,146 @@ type Test struct {
 	Inherited *Test_Inherited `json:"inherited,omitempty"`
 }
 
+// AssignPropertiesFromTest populates our Test from the provided source Test
+func (test *Test) AssignPropertiesFromTest(source *v1alpha1api20200101storage.Test) error {
+
+	// Base
+	if source.Base != nil {
+		var base Test_Base
+		err := base.AssignPropertiesFromTestBase(source.Base)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromTestBase() to populate field Base")
+		}
+		test.Base = &base
+	} else {
+		test.Base = nil
+	}
+
+	// Inherited
+	if source.Inherited != nil {
+		var inherited Test_Inherited
+		err := inherited.AssignPropertiesFromTestInherited(source.Inherited)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromTestInherited() to populate field Inherited")
+		}
+		test.Inherited = &inherited
+	} else {
+		test.Inherited = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTest populates the provided destination Test from our Test
+func (test *Test) AssignPropertiesToTest(destination *v1alpha1api20200101storage.Test) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Base
+	if test.Base != nil {
+		var base v1alpha1api20200101storage.Test_Base
+		err := test.Base.AssignPropertiesToTestBase(&base)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToTestBase() to populate field Base")
+		}
+		destination.Base = &base
+	} else {
+		destination.Base = nil
+	}
+
+	// Inherited
+	if test.Inherited != nil {
+		var inherited v1alpha1api20200101storage.Test_Inherited
+		err := test.Inherited.AssignPropertiesToTestInherited(&inherited)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToTestInherited() to populate field Inherited")
+		}
+		destination.Inherited = &inherited
+	} else {
+		destination.Inherited = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type Test_Base struct {
 	Width *int `json:"width,omitempty"`
+}
+
+// AssignPropertiesFromTestBase populates our Test_Base from the provided source Test_Base
+func (base *Test_Base) AssignPropertiesFromTestBase(source *v1alpha1api20200101storage.Test_Base) error {
+
+	// Width
+	base.Width = genruntime.ClonePointerToInt(source.Width)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTestBase populates the provided destination Test_Base from our Test_Base
+func (base *Test_Base) AssignPropertiesToTestBase(destination *v1alpha1api20200101storage.Test_Base) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Width
+	destination.Width = genruntime.ClonePointerToInt(base.Width)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 type Test_Inherited struct {
 	Height *int `json:"height,omitempty"`
 	Width  *int `json:"width,omitempty"`
+}
+
+// AssignPropertiesFromTestInherited populates our Test_Inherited from the provided source Test_Inherited
+func (inherited *Test_Inherited) AssignPropertiesFromTestInherited(source *v1alpha1api20200101storage.Test_Inherited) error {
+
+	// Height
+	inherited.Height = genruntime.ClonePointerToInt(source.Height)
+
+	// Width
+	inherited.Width = genruntime.ClonePointerToInt(source.Width)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTestInherited populates the provided destination Test_Inherited from our Test_Inherited
+func (inherited *Test_Inherited) AssignPropertiesToTestInherited(destination *v1alpha1api20200101storage.Test_Inherited) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Height
+	destination.Height = genruntime.ClonePointerToInt(inherited.Height)
+
+	// Width
+	destination.Width = genruntime.ClonePointerToInt(inherited.Width)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }

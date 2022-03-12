@@ -36,7 +36,7 @@ import (
 var DefaultTestRegion = "westus2" // Could make this an env variable if we wanted
 
 type TestContext struct {
-	AzureRegion  string
+	AzureRegion  *string
 	NameConfig   *ResourceNameConfig
 	RecordReplay bool
 }
@@ -50,6 +50,7 @@ type PerTestContext struct {
 	AzureSubscription   string
 	AzureMatch          *ARMMatcher
 	Namer               ResourceNamer
+	NoSpaceNamer        ResourceNamer
 	TestName            string
 	Namespace           string
 }
@@ -75,7 +76,7 @@ func NewTestContext(
 	recordReplay bool,
 	nameConfig *ResourceNameConfig) TestContext {
 	return TestContext{
-		AzureRegion:  region,
+		AzureRegion:  &region,
 		RecordReplay: recordReplay,
 		NameConfig:   nameConfig,
 	}
@@ -124,11 +125,14 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 		}
 	})
 
+	namer := tc.NameConfig.NewResourceNamer(t.Name())
+
 	return PerTestContext{
 		TestContext:         tc,
 		T:                   t,
 		logger:              logger,
-		Namer:               tc.NameConfig.NewResourceNamer(t.Name()),
+		Namer:               namer,
+		NoSpaceNamer:        namer.WithSeparator(""),
 		AzureClient:         armClient,
 		AzureSubscription:   subscriptionID,
 		AzureMatch:          NewARMMatcher(armClient),

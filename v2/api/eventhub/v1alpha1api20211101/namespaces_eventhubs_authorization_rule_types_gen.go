@@ -316,17 +316,20 @@ type NamespacesEventhubsAuthorizationRules_Spec struct {
 	// +kubebuilder:validation:MinLength=1
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner" kind:"NamespacesEventhub"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a eventhub.azure.com/NamespacesEventhub resource
+	Owner *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"NamespacesEventhub"`
 
 	// +kubebuilder:validation:Required
 	//Rights: The rights associated with the rule.
-	Rights []AuthorizationRulePropertiesRights `json:"rights"`
+	Rights []AuthorizationRulePropertiesRights `json:"rights,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -351,6 +354,9 @@ func (rules *NamespacesEventhubsAuthorizationRules_Spec) ConvertToARM(resolved g
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if rules.Rights != nil {
+		result.Properties = &AuthorizationRulePropertiesARM{}
+	}
 	for _, item := range rules.Rights {
 		result.Properties.Rights = append(result.Properties.Rights, item)
 	}
@@ -387,14 +393,16 @@ func (rules *NamespacesEventhubsAuthorizationRules_Spec) PopulateFromARM(owner g
 	}
 
 	// Set property ‘Owner’:
-	rules.Owner = genruntime.KnownResourceReference{
+	rules.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Rights’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.Rights {
-		rules.Rights = append(rules.Rights, item)
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.Rights {
+			rules.Rights = append(rules.Rights, item)
+		}
 	}
 
 	// Set property ‘Tags’:
@@ -469,7 +477,12 @@ func (rules *NamespacesEventhubsAuthorizationRules_Spec) AssignPropertiesFromNam
 	rules.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	rules.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		rules.Owner = &owner
+	} else {
+		rules.Owner = nil
+	}
 
 	// Rights
 	if source.Rights != nil {
@@ -506,7 +519,12 @@ func (rules *NamespacesEventhubsAuthorizationRules_Spec) AssignPropertiesToNames
 	destination.OriginalVersion = rules.OriginalVersion()
 
 	// Owner
-	destination.Owner = rules.Owner.Copy()
+	if rules.Owner != nil {
+		owner := rules.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Rights
 	if rules.Rights != nil {

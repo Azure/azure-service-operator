@@ -8,6 +8,8 @@ package controllers_test
 import (
 	"testing"
 
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
+	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -24,28 +26,11 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Custom namer because storage accounts have strict names
-	namer := tc.Namer.WithSeparator("")
-
-	// Create a storage account
-	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
-	acct := &storage.StorageAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("stor")),
-		Spec: storage.StorageAccounts_Spec{
-			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg),
-			Kind:     storage.StorageAccountsSpecKindStorageV2,
-			Sku: storage.Sku{
-				Name: storage.SkuNameStandardLRS,
-			},
-			// TODO: They mark this property as optional but actually it is required
-			AccessTier: &accessTier,
-		},
-	}
+	acct := newStorageAccount(tc, rg)
 
 	tc.CreateResourceAndWait(acct)
 
-	tc.Expect(acct.Status.Location).To(Equal(&tc.AzureRegion))
+	tc.Expect(acct.Status.Location).To(Equal(tc.AzureRegion))
 	expectedKind := storage.StorageAccountStatusKindStorageV2
 	tc.Expect(acct.Status.Kind).To(Equal(&expectedKind))
 	tc.Expect(acct.Status.Id).ToNot(BeNil())
@@ -63,6 +48,12 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 			Name: "Queue Services CRUD",
 			Test: func(testContext *testcommon.KubePerTestContext) {
 				StorageAccount_QueueServices_CRUD(tc, acct)
+			},
+		},
+		testcommon.Subtest{
+			Name: "Management Policies CRUD",
+			Test: func(testContext *testcommon.KubePerTestContext) {
+				StorageAccount_ManagementPolicy_CRUD(tc, acct)
 			},
 		},
 	)
@@ -149,28 +140,12 @@ func Test_Storage_StorageAccount_SecretsFromAzure(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Custom namer because storage accounts have strict names
-	namer := tc.Namer.WithSeparator("")
-
-	// Create a storage account
-	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
-	acct := &storage.StorageAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("stor")),
-		Spec: storage.StorageAccounts_Spec{
-			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg),
-			Kind:     storage.StorageAccountsSpecKindStorageV2,
-			Sku: storage.Sku{
-				Name: storage.SkuNameStandardLRS,
-			},
-			AccessTier: &accessTier,
-			// Initially with no OperatorSpec.Secrets, to ensure no secrets are created
-		},
-	}
+	// Initially with no OperatorSpec.Secrets, to ensure no secrets are created
+	acct := newStorageAccount(tc, rg)
 
 	tc.CreateResourceAndWait(acct)
 
-	tc.Expect(acct.Status.Location).To(Equal(&tc.AzureRegion))
+	tc.Expect(acct.Status.Location).To(Equal(tc.AzureRegion))
 	expectedKind := storage.StorageAccountStatusKindStorageV2
 	tc.Expect(acct.Status.Kind).To(Equal(&expectedKind))
 
@@ -245,4 +220,61 @@ func StorageAccount_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerT
 	tc.ExpectSecretHasKeys(fileSecret, "file")
 	tc.ExpectSecretHasKeys(webSecret, "web")
 	tc.ExpectSecretHasKeys(dfsSecret, "dfs")
+}
+
+func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blobService client.Object) {
+	ruleType := storage.ManagementPolicyRuleTypeLifecycle
+
+	managementPolicy := &storage.StorageAccountsManagementPolicy{
+		ObjectMeta: tc.MakeObjectMeta("policy"),
+		Spec: storage.StorageAccountsManagementPolicies_Spec{
+			Owner: testcommon.AsOwner(blobService),
+			Policy: &storage.ManagementPolicySchema{
+				Rules: []storage.ManagementPolicyRule{
+					{
+						Definition: &storage.ManagementPolicyDefinition{
+							Actions: &storage.ManagementPolicyAction{
+								Version: &storage.ManagementPolicyVersion{
+									Delete: &storage.DateAfterCreation{
+										DaysAfterCreationGreaterThan: to.IntPtr(30),
+									},
+								},
+							},
+							Filters: &storage.ManagementPolicyFilter{
+								BlobTypes:   []string{"blockBlob"},
+								PrefixMatch: []string{"sample-container/blob1"},
+							},
+						},
+						Enabled: to.BoolPtr(true),
+						Name:    to.StringPtr("test-rule"),
+						Type:    &ruleType,
+					},
+				},
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(managementPolicy)
+	defer tc.DeleteResourceAndWait(managementPolicy)
+}
+
+func newStorageAccount(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
+	// Create a storage account
+	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
+	kind := storage.StorageAccountsSpecKindStorageV2
+	sku := storage.SkuNameStandardLRS
+	acct := &storage.StorageAccount{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
+		Spec: storage.StorageAccounts_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+			Kind:     &kind,
+			Sku: &storage.Sku{
+				Name: &sku,
+			},
+			// TODO: They mark this property as optional but actually it is required
+			AccessTier: &accessTier,
+		},
+	}
+	return acct
 }

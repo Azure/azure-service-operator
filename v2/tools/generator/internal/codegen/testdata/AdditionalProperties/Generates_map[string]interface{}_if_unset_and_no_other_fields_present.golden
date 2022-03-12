@@ -3,9 +3,62 @@
 // Licensed under the MIT license.
 package v1alpha1api20200101
 
-import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+import (
+	"github.com/Azure/azure-service-operator/testing/test/v1alpha1api20200101storage"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+)
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	Tags map[string]v1.JSON `json:"tags,omitempty"`
+}
+
+// AssignPropertiesFromTest populates our Test from the provided source Test
+func (test *Test) AssignPropertiesFromTest(source *v1alpha1api20200101storage.Test) error {
+
+	// Tags
+	if source.Tags != nil {
+		tagMap := make(map[string]v1.JSON, len(source.Tags))
+		for tagKey, tagValue := range source.Tags {
+			// Shadow the loop variable to avoid aliasing
+			tagValue := tagValue
+			tagMap[tagKey] = *tagValue.DeepCopy()
+		}
+		test.Tags = tagMap
+	} else {
+		test.Tags = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTest populates the provided destination Test from our Test
+func (test *Test) AssignPropertiesToTest(destination *v1alpha1api20200101storage.Test) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Tags
+	if test.Tags != nil {
+		tagMap := make(map[string]v1.JSON, len(test.Tags))
+		for tagKey, tagValue := range test.Tags {
+			// Shadow the loop variable to avoid aliasing
+			tagValue := tagValue
+			tagMap[tagKey] = *tagValue.DeepCopy()
+		}
+		destination.Tags = tagMap
+	} else {
+		destination.Tags = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }

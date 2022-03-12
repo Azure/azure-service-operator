@@ -412,7 +412,7 @@ func VirtualMachineScaleSetsSpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["DoNotRunExtensionsOnOverprovisionedVMs"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OrchestrationMode"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetsSpecPropertiesOrchestrationModeFlexible, VirtualMachineScaleSetsSpecPropertiesOrchestrationModeUniform))
 	gens["Overprovision"] = gen.PtrOf(gen.Bool())
 	gens["PlatformFaultDomainCount"] = gen.PtrOf(gen.Int())
@@ -3889,11 +3889,11 @@ func VirtualMachineScaleSetDataDiskGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDisk is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDisk(gens map[string]gopter.Gen) {
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetDataDiskCachingNone, VirtualMachineScaleSetDataDiskCachingReadOnly, VirtualMachineScaleSetDataDiskCachingReadWrite))
-	gens["CreateOption"] = gen.OneConstOf(VirtualMachineScaleSetDataDiskCreateOptionAttach, VirtualMachineScaleSetDataDiskCreateOptionEmpty, VirtualMachineScaleSetDataDiskCreateOptionFromImage)
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetDataDiskCreateOptionAttach, VirtualMachineScaleSetDataDiskCreateOptionEmpty, VirtualMachineScaleSetDataDiskCreateOptionFromImage))
 	gens["DiskIOPSReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskMBpsReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["Lun"] = gen.Int()
+	gens["Lun"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["WriteAcceleratorEnabled"] = gen.PtrOf(gen.Bool())
 }
@@ -4012,11 +4012,11 @@ func VirtualMachineScaleSetDataDiskStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDiskStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDiskStatus(gens map[string]gopter.Gen) {
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(Caching_StatusNone, Caching_StatusReadOnly, Caching_StatusReadWrite))
-	gens["CreateOption"] = gen.OneConstOf(CreateOption_StatusAttach, CreateOption_StatusEmpty, CreateOption_StatusFromImage)
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(CreateOption_StatusAttach, CreateOption_StatusEmpty, CreateOption_StatusFromImage))
 	gens["DiskIOPSReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskMBpsReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["Lun"] = gen.Int()
+	gens["Lun"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["WriteAcceleratorEnabled"] = gen.PtrOf(gen.Bool())
 }
@@ -4250,7 +4250,7 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurati
 	gens["EnableFpga"] = gen.PtrOf(gen.Bool())
 	gens["EnableIPForwarding"] = gen.PtrOf(gen.Bool())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Primary"] = gen.PtrOf(gen.Bool())
 }
 
@@ -4370,7 +4370,7 @@ func VirtualMachineScaleSetOSDiskGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDisk is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDisk(gens map[string]gopter.Gen) {
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetOSDiskCachingNone, VirtualMachineScaleSetOSDiskCachingReadOnly, VirtualMachineScaleSetOSDiskCachingReadWrite))
-	gens["CreateOption"] = gen.OneConstOf(VirtualMachineScaleSetOSDiskCreateOptionAttach, VirtualMachineScaleSetOSDiskCreateOptionEmpty, VirtualMachineScaleSetOSDiskCreateOptionFromImage)
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetOSDiskCreateOptionAttach, VirtualMachineScaleSetOSDiskCreateOptionEmpty, VirtualMachineScaleSetOSDiskCreateOptionFromImage))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["OsType"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetOSDiskOsTypeLinux, VirtualMachineScaleSetOSDiskOsTypeWindows))
@@ -4494,7 +4494,7 @@ func VirtualMachineScaleSetOSDiskStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDiskStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDiskStatus(gens map[string]gopter.Gen) {
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(Caching_StatusNone, Caching_StatusReadOnly, Caching_StatusReadWrite))
-	gens["CreateOption"] = gen.OneConstOf(CreateOption_StatusAttach, CreateOption_StatusEmpty, CreateOption_StatusFromImage)
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(CreateOption_StatusAttach, CreateOption_StatusEmpty, CreateOption_StatusFromImage))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["OsType"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetOSDiskStatusOsTypeLinux, VirtualMachineScaleSetOSDiskStatusOsTypeWindows))
@@ -4729,7 +4729,7 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVir
 	gens["EnableFpga"] = gen.PtrOf(gen.Bool())
 	gens["EnableIPForwarding"] = gen.PtrOf(gen.Bool())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Primary"] = gen.PtrOf(gen.Bool())
 }
 
@@ -4849,7 +4849,7 @@ func VirtualMachineScaleSetIPConfigurationStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationStatus(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Primary"] = gen.PtrOf(gen.Bool())
 	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersionIPv4, VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersionIPv6))
 }
@@ -5423,7 +5423,7 @@ func VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNet
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Primary"] = gen.PtrOf(gen.Bool())
 	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPrivateIPAddressVersionIPv4, VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPrivateIPAddressVersionIPv6))
 }
@@ -5547,7 +5547,7 @@ func VirtualMachineScaleSetPublicIPAddressConfigurationStatusGenerator() gopter.
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationStatus(gens map[string]gopter.Gen) {
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersionIPv4, VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersionIPv6))
 }
 
@@ -5669,7 +5669,7 @@ func VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNet
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration(gens map[string]gopter.Gen) {
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesPublicIPAddressVersionIPv4, VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesPublicIPAddressVersionIPv6))
 }
 
@@ -5985,7 +5985,7 @@ func VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsGenerator() go
 
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings(gens map[string]gopter.Gen) {
-	gens["DomainNameLabel"] = gen.AlphaString()
+	gens["DomainNameLabel"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -6087,5 +6087,5 @@ func VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatusGenerato
 
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus(gens map[string]gopter.Gen) {
-	gens["DomainNameLabel"] = gen.AlphaString()
+	gens["DomainNameLabel"] = gen.PtrOf(gen.AlphaString())
 }

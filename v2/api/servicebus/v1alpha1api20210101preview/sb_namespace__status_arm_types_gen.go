@@ -80,7 +80,7 @@ type SBSku_StatusARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	//Name: Name of this SKU.
-	Name SBSkuStatusName `json:"name"`
+	Name *SBSkuStatusName `json:"name,omitempty"`
 
 	//Tier: The billing tier of this particular SKU.
 	Tier *SBSkuStatusTier `json:"tier,omitempty"`

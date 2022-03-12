@@ -31,8 +31,8 @@ const RemoveStatusPropertyValidationsStageID = "removeStatusPropertyValidation"
 // In the above cases, if we left validation on the Status types, we would be unable to persist the content
 // returned by the service (apiserver will reject it as not matching the OpenAPI schema). This could be a problem
 // in cases where the resource was created via some other means and then imported into
-func RemoveStatusValidations() Stage {
-	return MakeStage(
+func RemoveStatusValidations() *Stage {
+	return NewStage(
 		RemoveStatusPropertyValidationsStageID,
 		"Remove validation from all status properties",
 		func(ctx context.Context, state *State) (*State, error) {
@@ -61,6 +61,7 @@ func removeStatusTypeValidations(definitions astmodel.TypeDefinitionSet) (astmod
 		astmodel.TypeVisitorBuilder{
 			VisitEnumType:      removeEnumValidations,
 			VisitValidatedType: removeValidatedType,
+			VisitObjectType:    removeKubebuilderRequired,
 		}.Build())
 
 	var errs []error
@@ -113,4 +114,13 @@ func removeValidatedType(this *astmodel.TypeVisitor, vt *astmodel.ValidatedType,
 
 func removeEnumValidations(this *astmodel.TypeVisitor, et *astmodel.EnumType, _ interface{}) (astmodel.Type, error) {
 	return et.WithoutValidation(), nil
+}
+
+// removeKubebuilderRequired removes kubebuilder:validation:Required from all properties
+func removeKubebuilderRequired(this *astmodel.TypeVisitor, ot *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+	for _, prop := range ot.Properties() {
+		ot = ot.WithProperty(prop.MakeOptional())
+	}
+
+	return astmodel.IdentityVisitOfObjectType(this, ot, ctx)
 }

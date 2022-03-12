@@ -90,7 +90,7 @@ func AddIndependentPropertyGeneratorsForNamespacesSpecARM(gens map[string]gopter
 // AddRelatedPropertyGeneratorsForNamespacesSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesSpecARM(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(IdentityARMGenerator())
-	gens["Properties"] = NamespacesSpecPropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(NamespacesSpecPropertiesARMGenerator())
 	gens["Sku"] = gen.PtrOf(SkuARMGenerator())
 }
 
@@ -295,7 +295,7 @@ func SkuARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSkuARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.OneConstOf(SkuNameBasic, SkuNamePremium, SkuNameStandard)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SkuNameBasic, SkuNamePremium, SkuNameStandard))
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(SkuTierBasic, SkuTierPremium, SkuTierStandard))
 }
 

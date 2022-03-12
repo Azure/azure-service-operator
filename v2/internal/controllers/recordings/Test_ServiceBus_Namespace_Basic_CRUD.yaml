@@ -244,7 +244,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"asotest-queue-gkglnj","properties":{}}'
+    body: '{"location":"westus2","name":"asotest-queue-gkglnj"}'
     form: {}
     headers:
       Accept:

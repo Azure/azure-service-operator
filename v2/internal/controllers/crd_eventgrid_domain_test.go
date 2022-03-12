@@ -36,15 +36,16 @@ func Test_EventGrid_Domain(t *testing.T) {
 
 	// Create a storage account to use as destination
 	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
-	namer := tc.Namer.WithSeparator("") // storage account rules are different
-	acctName := namer.GenerateName("dest")
+	kind := storage.StorageAccountsSpecKindStorageV2
+	sku := storage.SkuNameStandardLRS
+	acctName := tc.NoSpaceNamer.GenerateName("dest")
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(acctName),
 		Spec: storage.StorageAccounts_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			Kind:     storage.StorageAccountsSpecKindStorageV2,
-			Sku:      storage.Sku{Name: storage.SkuNameStandardLRS},
+			Kind:     &kind,
+			Sku:      &storage.Sku{Name: &sku},
 			// TODO: They mark this property as optional but actually it is required
 			AccessTier: &accessTier,
 		},
@@ -88,15 +89,16 @@ func Test_EventGrid_Domain(t *testing.T) {
 				tc.CreateResourceAndWait(topic)
 				// don’t bother deleting; deleting domain will clean up
 
+				endpointType := eventgrid.StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue
 				subscription := &eventgrid.EventSubscription{
 					ObjectMeta: tc.MakeObjectMeta("sub"),
 					Spec: eventgrid.EventSubscriptions_Spec{
 						Owner: tc.AsExtensionOwner(topic),
 						Destination: &eventgrid.EventSubscriptionDestination{
 							StorageQueue: &eventgrid.StorageQueueEventSubscriptionDestination{
-								EndpointType: eventgrid.StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue,
+								EndpointType: &endpointType,
 								Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{
-									ResourceReference: &acctReference,
+									ResourceReference: acctReference,
 									QueueName:         &queue.Name,
 								},
 							},
@@ -111,15 +113,16 @@ func Test_EventGrid_Domain(t *testing.T) {
 		testcommon.Subtest{
 			Name: "CreateDomainSubscription",
 			Test: func(tc *testcommon.KubePerTestContext) {
+				endpointType := eventgrid.StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue
 				subscription := &eventgrid.EventSubscription{
 					ObjectMeta: tc.MakeObjectMeta("sub"),
 					Spec: eventgrid.EventSubscriptions_Spec{
 						Owner: tc.AsExtensionOwner(domain),
 						Destination: &eventgrid.EventSubscriptionDestination{
 							StorageQueue: &eventgrid.StorageQueueEventSubscriptionDestination{
-								EndpointType: eventgrid.StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue,
+								EndpointType: &endpointType,
 								Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{
-									ResourceReference: &acctReference,
+									ResourceReference: acctReference,
 									QueueName:         &queue.Name,
 								},
 							},

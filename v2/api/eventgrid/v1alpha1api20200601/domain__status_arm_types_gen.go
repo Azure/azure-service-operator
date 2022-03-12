@@ -65,7 +65,7 @@ type InboundIpRule_StatusARM struct {
 
 type InputSchemaMapping_StatusARM struct {
 	//InputSchemaMappingType: Type of the custom mapping
-	InputSchemaMappingType InputSchemaMappingStatusInputSchemaMappingType `json:"inputSchemaMappingType"`
+	InputSchemaMappingType *InputSchemaMappingStatusInputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
 }
 
 type PrivateEndpointConnection_Status_Domain_SubResourceEmbeddedARM struct {

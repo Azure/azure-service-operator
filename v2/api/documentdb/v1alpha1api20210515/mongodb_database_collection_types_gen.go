@@ -315,7 +315,7 @@ const DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion20210515 = Databa
 type DatabaseAccountsMongodbDatabasesCollections_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
@@ -325,11 +325,14 @@ type DatabaseAccountsMongodbDatabasesCollections_Spec struct {
 	Options *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner" kind:"MongodbDatabase"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a documentdb.azure.com/MongodbDatabase resource
+	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"MongodbDatabase"`
 
 	// +kubebuilder:validation:Required
 	//Resource: Cosmos DB MongoDB collection resource object
-	Resource MongoDBCollectionResource `json:"resource"`
+	Resource *MongoDBCollectionResource `json:"resource,omitempty"`
 
 	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
 	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
@@ -358,6 +361,9 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertToAR
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if collections.Options != nil || collections.Resource != nil {
+		result.Properties = &MongoDBCollectionCreateUpdatePropertiesARM{}
+	}
 	if collections.Options != nil {
 		optionsARM, err := (*collections.Options).ConvertToARM(resolved)
 		if err != nil {
@@ -366,11 +372,14 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertToAR
 		options := optionsARM.(CreateUpdateOptionsARM)
 		result.Properties.Options = &options
 	}
-	resourceARM, err := collections.Resource.ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if collections.Resource != nil {
+		resourceARM, err := (*collections.Resource).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		resource := resourceARM.(MongoDBCollectionResourceARM)
+		result.Properties.Resource = &resource
 	}
-	result.Properties.Resource = resourceARM.(MongoDBCollectionResourceARM)
 
 	// Set property ‘Tags’:
 	if collections.Tags != nil {
@@ -405,29 +414,36 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) PopulateFro
 
 	// Set property ‘Options’:
 	// copying flattened property:
-	if typedInput.Properties.Options != nil {
-		var options1 CreateUpdateOptions
-		err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Options != nil {
+			var options1 CreateUpdateOptions
+			err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
+			if err != nil {
+				return err
+			}
+			options := options1
+			collections.Options = &options
 		}
-		options := options1
-		collections.Options = &options
 	}
 
 	// Set property ‘Owner’:
-	collections.Owner = genruntime.KnownResourceReference{
+	collections.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Resource’:
 	// copying flattened property:
-	var resource MongoDBCollectionResource
-	err := resource.PopulateFromARM(owner, typedInput.Properties.Resource)
-	if err != nil {
-		return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Resource != nil {
+			var resource1 MongoDBCollectionResource
+			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
+			if err != nil {
+				return err
+			}
+			resource := resource1
+			collections.Resource = &resource
+		}
 	}
-	collections.Resource = resource
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
@@ -513,7 +529,12 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) AssignPrope
 	}
 
 	// Owner
-	collections.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		collections.Owner = &owner
+	} else {
+		collections.Owner = nil
+	}
 
 	// Resource
 	if source.Resource != nil {
@@ -522,9 +543,9 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) AssignPrope
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromMongoDBCollectionResource() to populate field Resource")
 		}
-		collections.Resource = resource
+		collections.Resource = &resource
 	} else {
-		collections.Resource = MongoDBCollectionResource{}
+		collections.Resource = nil
 	}
 
 	// Tags
@@ -561,15 +582,24 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) AssignPrope
 	destination.OriginalVersion = collections.OriginalVersion()
 
 	// Owner
-	destination.Owner = collections.Owner.Copy()
+	if collections.Owner != nil {
+		owner := collections.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// Resource
-	var resource v1alpha1api20210515storage.MongoDBCollectionResource
-	err := collections.Resource.AssignPropertiesToMongoDBCollectionResource(&resource)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToMongoDBCollectionResource() to populate field Resource")
+	if collections.Resource != nil {
+		var resource v1alpha1api20210515storage.MongoDBCollectionResource
+		err := collections.Resource.AssignPropertiesToMongoDBCollectionResource(&resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToMongoDBCollectionResource() to populate field Resource")
+		}
+		destination.Resource = &resource
+	} else {
+		destination.Resource = nil
 	}
-	destination.Resource = &resource
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(collections.Tags)
@@ -859,9 +889,8 @@ type MongoDBCollectionGetProperties_Status_Resource struct {
 	//Etag: A system generated property representing the resource etag required for optimistic concurrency control.
 	Etag *string `json:"_etag,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Id: Name of the Cosmos DB MongoDB collection
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 
 	//Indexes: List of index keys
 	Indexes []MongoIndex_Status `json:"indexes,omitempty"`
@@ -903,7 +932,10 @@ func (resource *MongoDBCollectionGetProperties_Status_Resource) PopulateFromARM(
 	}
 
 	// Set property ‘Id’:
-	resource.Id = typedInput.Id
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		resource.Id = &id
+	}
 
 	// Set property ‘Indexes’:
 	for _, item := range typedInput.Indexes {
@@ -949,7 +981,7 @@ func (resource *MongoDBCollectionGetProperties_Status_Resource) AssignProperties
 	resource.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Id
-	resource.Id = genruntime.GetOptionalStringValue(source.Id)
+	resource.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Indexes
 	if source.Indexes != nil {
@@ -999,8 +1031,7 @@ func (resource *MongoDBCollectionGetProperties_Status_Resource) AssignProperties
 	destination.Etag = genruntime.ClonePointerToString(resource.Etag)
 
 	// Id
-	id := resource.Id
-	destination.Id = &id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
 
 	// Indexes
 	if resource.Indexes != nil {
@@ -1052,7 +1083,7 @@ type MongoDBCollectionResource struct {
 
 	// +kubebuilder:validation:Required
 	//Id: Name of the Cosmos DB MongoDB collection
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 
 	//Indexes: List of index keys
 	Indexes []MongoIndex `json:"indexes,omitempty"`
@@ -1077,7 +1108,10 @@ func (resource *MongoDBCollectionResource) ConvertToARM(resolved genruntime.Conv
 	}
 
 	// Set property ‘Id’:
-	result.Id = resource.Id
+	if resource.Id != nil {
+		id := *resource.Id
+		result.Id = &id
+	}
 
 	// Set property ‘Indexes’:
 	for _, item := range resource.Indexes {
@@ -1117,7 +1151,10 @@ func (resource *MongoDBCollectionResource) PopulateFromARM(owner genruntime.Arbi
 	}
 
 	// Set property ‘Id’:
-	resource.Id = typedInput.Id
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		resource.Id = &id
+	}
 
 	// Set property ‘Indexes’:
 	for _, item := range typedInput.Indexes {
@@ -1148,7 +1185,7 @@ func (resource *MongoDBCollectionResource) AssignPropertiesFromMongoDBCollection
 	resource.AnalyticalStorageTtl = genruntime.ClonePointerToInt(source.AnalyticalStorageTtl)
 
 	// Id
-	resource.Id = genruntime.GetOptionalStringValue(source.Id)
+	resource.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Indexes
 	if source.Indexes != nil {
@@ -1184,8 +1221,7 @@ func (resource *MongoDBCollectionResource) AssignPropertiesToMongoDBCollectionRe
 	destination.AnalyticalStorageTtl = genruntime.ClonePointerToInt(resource.AnalyticalStorageTtl)
 
 	// Id
-	id := resource.Id
-	destination.Id = &id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
 
 	// Indexes
 	if resource.Indexes != nil {

@@ -90,7 +90,7 @@ func AddIndependentPropertyGeneratorsForNamespacesQueuesSpecARM(gens map[string]
 
 // AddRelatedPropertyGeneratorsForNamespacesQueuesSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesQueuesSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = SBQueuePropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(SBQueuePropertiesARMGenerator())
 }
 
 func Test_SBQueuePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

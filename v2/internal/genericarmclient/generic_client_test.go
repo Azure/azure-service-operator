@@ -11,6 +11,7 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
+	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -74,7 +75,7 @@ func Test_NewResourceGroup_Error(t *testing.T) {
 			Name: rgName,
 		},
 		Spec: resources.ResourceGroupSpec{
-			Location: "BadLocation",
+			Location: to.StringPtr("BadLocation"),
 			Tags:     testcommon.CreateTestResourceGroupDefaultTags(),
 		},
 	}

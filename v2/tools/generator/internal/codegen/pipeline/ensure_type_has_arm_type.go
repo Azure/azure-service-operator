@@ -16,8 +16,8 @@ import (
 
 // TODO: Wondering if we should have an even stronger version of this that asserts it for all types rather than just the top level?
 // EnsureARMTypeExistsForEveryResource performs a check ensuring that every Kubernetes resource spec/status has a corresponding ARM type
-func EnsureARMTypeExistsForEveryResource() Stage {
-	return MakeLegacyStage(
+func EnsureARMTypeExistsForEveryResource() *Stage {
+	return NewLegacyStage(
 		"ensureArmTypeExistsForEveryType",
 		"Check that an ARM type exists for both Spec and Status of each resource",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {

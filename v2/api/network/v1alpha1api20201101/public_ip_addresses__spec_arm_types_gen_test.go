@@ -83,7 +83,7 @@ func PublicIPAddressesSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPublicIPAddressesSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPublicIPAddressesSpecARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
@@ -92,7 +92,7 @@ func AddIndependentPropertyGeneratorsForPublicIPAddressesSpecARM(gens map[string
 // AddRelatedPropertyGeneratorsForPublicIPAddressesSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPublicIPAddressesSpecARM(gens map[string]gopter.Gen) {
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationARMGenerator())
-	gens["Properties"] = PublicIPAddressPropertiesFormatARMGenerator()
+	gens["Properties"] = gen.PtrOf(PublicIPAddressPropertiesFormatARMGenerator())
 	gens["Sku"] = gen.PtrOf(PublicIPAddressSkuARMGenerator())
 }
 
@@ -165,7 +165,7 @@ func AddIndependentPropertyGeneratorsForPublicIPAddressPropertiesFormatARM(gens 
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["IpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressPropertiesFormatPublicIPAddressVersionIPv4, PublicIPAddressPropertiesFormatPublicIPAddressVersionIPv6))
-	gens["PublicIPAllocationMethod"] = gen.OneConstOf(PublicIPAddressPropertiesFormatPublicIPAllocationMethodDynamic, PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic)
+	gens["PublicIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressPropertiesFormatPublicIPAllocationMethodDynamic, PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic))
 }
 
 // AddRelatedPropertyGeneratorsForPublicIPAddressPropertiesFormatARM is a factory method for creating gopter generators
@@ -428,7 +428,7 @@ func PublicIPAddressDnsSettingsARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPublicIPAddressDnsSettingsARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPublicIPAddressDnsSettingsARM(gens map[string]gopter.Gen) {
-	gens["DomainNameLabel"] = gen.AlphaString()
+	gens["DomainNameLabel"] = gen.PtrOf(gen.AlphaString())
 	gens["Fqdn"] = gen.PtrOf(gen.AlphaString())
 	gens["ReverseFqdn"] = gen.PtrOf(gen.AlphaString())
 }

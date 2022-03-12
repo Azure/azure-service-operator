@@ -834,13 +834,16 @@ type VirtualNetworksVirtualNetworkPeerings_Spec struct {
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"network.azure.com" json:"owner" kind:"VirtualNetwork"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a network.azure.com/VirtualNetwork resource
+	Owner *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"VirtualNetwork"`
 
 	//PeeringState: The status of the virtual network peering.
 	PeeringState *VirtualNetworkPeeringPropertiesFormatPeeringState `json:"peeringState,omitempty"`
@@ -855,7 +858,7 @@ type VirtualNetworksVirtualNetworkPeerings_Spec struct {
 	//RemoteVirtualNetwork: The reference to the remote virtual network. The remote virtual network can be in the same or
 	//different region (preview). See here to register for the preview and learn more
 	//(https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
-	RemoteVirtualNetwork SubResource `json:"remoteVirtualNetwork"`
+	RemoteVirtualNetwork *SubResource `json:"remoteVirtualNetwork,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -886,6 +889,16 @@ func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertToARM(resolve
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if peerings.AllowForwardedTraffic != nil ||
+		peerings.AllowGatewayTransit != nil ||
+		peerings.AllowVirtualNetworkAccess != nil ||
+		peerings.PeeringState != nil ||
+		peerings.RemoteAddressSpace != nil ||
+		peerings.RemoteBgpCommunities != nil ||
+		peerings.RemoteVirtualNetwork != nil ||
+		peerings.UseRemoteGateways != nil {
+		result.Properties = &VirtualNetworkPeeringPropertiesFormatARM{}
+	}
 	if peerings.AllowForwardedTraffic != nil {
 		allowForwardedTraffic := *peerings.AllowForwardedTraffic
 		result.Properties.AllowForwardedTraffic = &allowForwardedTraffic
@@ -918,11 +931,14 @@ func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertToARM(resolve
 		remoteBgpCommunities := remoteBgpCommunitiesARM.(VirtualNetworkBgpCommunitiesARM)
 		result.Properties.RemoteBgpCommunities = &remoteBgpCommunities
 	}
-	remoteVirtualNetworkARM, err := peerings.RemoteVirtualNetwork.ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if peerings.RemoteVirtualNetwork != nil {
+		remoteVirtualNetworkARM, err := (*peerings.RemoteVirtualNetwork).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		remoteVirtualNetwork := remoteVirtualNetworkARM.(SubResourceARM)
+		result.Properties.RemoteVirtualNetwork = &remoteVirtualNetwork
 	}
-	result.Properties.RemoteVirtualNetwork = remoteVirtualNetworkARM.(SubResourceARM)
 	if peerings.UseRemoteGateways != nil {
 		useRemoteGateways := *peerings.UseRemoteGateways
 		result.Properties.UseRemoteGateways = &useRemoteGateways
@@ -952,23 +968,29 @@ func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) PopulateFromARM(owne
 
 	// Set property ‘AllowForwardedTraffic’:
 	// copying flattened property:
-	if typedInput.Properties.AllowForwardedTraffic != nil {
-		allowForwardedTraffic := *typedInput.Properties.AllowForwardedTraffic
-		peerings.AllowForwardedTraffic = &allowForwardedTraffic
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AllowForwardedTraffic != nil {
+			allowForwardedTraffic := *typedInput.Properties.AllowForwardedTraffic
+			peerings.AllowForwardedTraffic = &allowForwardedTraffic
+		}
 	}
 
 	// Set property ‘AllowGatewayTransit’:
 	// copying flattened property:
-	if typedInput.Properties.AllowGatewayTransit != nil {
-		allowGatewayTransit := *typedInput.Properties.AllowGatewayTransit
-		peerings.AllowGatewayTransit = &allowGatewayTransit
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AllowGatewayTransit != nil {
+			allowGatewayTransit := *typedInput.Properties.AllowGatewayTransit
+			peerings.AllowGatewayTransit = &allowGatewayTransit
+		}
 	}
 
 	// Set property ‘AllowVirtualNetworkAccess’:
 	// copying flattened property:
-	if typedInput.Properties.AllowVirtualNetworkAccess != nil {
-		allowVirtualNetworkAccess := *typedInput.Properties.AllowVirtualNetworkAccess
-		peerings.AllowVirtualNetworkAccess = &allowVirtualNetworkAccess
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AllowVirtualNetworkAccess != nil {
+			allowVirtualNetworkAccess := *typedInput.Properties.AllowVirtualNetworkAccess
+			peerings.AllowVirtualNetworkAccess = &allowVirtualNetworkAccess
+		}
 	}
 
 	// Set property ‘AzureName’:
@@ -981,49 +1003,60 @@ func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) PopulateFromARM(owne
 	}
 
 	// Set property ‘Owner’:
-	peerings.Owner = genruntime.KnownResourceReference{
+	peerings.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘PeeringState’:
 	// copying flattened property:
-	if typedInput.Properties.PeeringState != nil {
-		peeringState := *typedInput.Properties.PeeringState
-		peerings.PeeringState = &peeringState
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PeeringState != nil {
+			peeringState := *typedInput.Properties.PeeringState
+			peerings.PeeringState = &peeringState
+		}
 	}
 
 	// Set property ‘RemoteAddressSpace’:
 	// copying flattened property:
-	if typedInput.Properties.RemoteAddressSpace != nil {
-		var remoteAddressSpace1 AddressSpace
-		err := remoteAddressSpace1.PopulateFromARM(owner, *typedInput.Properties.RemoteAddressSpace)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.RemoteAddressSpace != nil {
+			var remoteAddressSpace1 AddressSpace
+			err := remoteAddressSpace1.PopulateFromARM(owner, *typedInput.Properties.RemoteAddressSpace)
+			if err != nil {
+				return err
+			}
+			remoteAddressSpace := remoteAddressSpace1
+			peerings.RemoteAddressSpace = &remoteAddressSpace
 		}
-		remoteAddressSpace := remoteAddressSpace1
-		peerings.RemoteAddressSpace = &remoteAddressSpace
 	}
 
 	// Set property ‘RemoteBgpCommunities’:
 	// copying flattened property:
-	if typedInput.Properties.RemoteBgpCommunities != nil {
-		var remoteBgpCommunities1 VirtualNetworkBgpCommunities
-		err := remoteBgpCommunities1.PopulateFromARM(owner, *typedInput.Properties.RemoteBgpCommunities)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.RemoteBgpCommunities != nil {
+			var remoteBgpCommunities1 VirtualNetworkBgpCommunities
+			err := remoteBgpCommunities1.PopulateFromARM(owner, *typedInput.Properties.RemoteBgpCommunities)
+			if err != nil {
+				return err
+			}
+			remoteBgpCommunities := remoteBgpCommunities1
+			peerings.RemoteBgpCommunities = &remoteBgpCommunities
 		}
-		remoteBgpCommunities := remoteBgpCommunities1
-		peerings.RemoteBgpCommunities = &remoteBgpCommunities
 	}
 
 	// Set property ‘RemoteVirtualNetwork’:
 	// copying flattened property:
-	var remoteVirtualNetwork SubResource
-	err := remoteVirtualNetwork.PopulateFromARM(owner, typedInput.Properties.RemoteVirtualNetwork)
-	if err != nil {
-		return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.RemoteVirtualNetwork != nil {
+			var remoteVirtualNetwork1 SubResource
+			err := remoteVirtualNetwork1.PopulateFromARM(owner, *typedInput.Properties.RemoteVirtualNetwork)
+			if err != nil {
+				return err
+			}
+			remoteVirtualNetwork := remoteVirtualNetwork1
+			peerings.RemoteVirtualNetwork = &remoteVirtualNetwork
+		}
 	}
-	peerings.RemoteVirtualNetwork = remoteVirtualNetwork
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
@@ -1035,9 +1068,11 @@ func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) PopulateFromARM(owne
 
 	// Set property ‘UseRemoteGateways’:
 	// copying flattened property:
-	if typedInput.Properties.UseRemoteGateways != nil {
-		useRemoteGateways := *typedInput.Properties.UseRemoteGateways
-		peerings.UseRemoteGateways = &useRemoteGateways
+	if typedInput.Properties != nil {
+		if typedInput.Properties.UseRemoteGateways != nil {
+			useRemoteGateways := *typedInput.Properties.UseRemoteGateways
+			peerings.UseRemoteGateways = &useRemoteGateways
+		}
 	}
 
 	// No error
@@ -1128,7 +1163,12 @@ func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) AssignPropertiesFrom
 	peerings.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	peerings.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		peerings.Owner = &owner
+	} else {
+		peerings.Owner = nil
+	}
 
 	// PeeringState
 	if source.PeeringState != nil {
@@ -1169,9 +1209,9 @@ func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) AssignPropertiesFrom
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field RemoteVirtualNetwork")
 		}
-		peerings.RemoteVirtualNetwork = remoteVirtualNetwork
+		peerings.RemoteVirtualNetwork = &remoteVirtualNetwork
 	} else {
-		peerings.RemoteVirtualNetwork = SubResource{}
+		peerings.RemoteVirtualNetwork = nil
 	}
 
 	// Tags
@@ -1228,7 +1268,12 @@ func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) AssignPropertiesToVi
 	destination.OriginalVersion = peerings.OriginalVersion()
 
 	// Owner
-	destination.Owner = peerings.Owner.Copy()
+	if peerings.Owner != nil {
+		owner := peerings.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// PeeringState
 	if peerings.PeeringState != nil {
@@ -1263,12 +1308,16 @@ func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) AssignPropertiesToVi
 	}
 
 	// RemoteVirtualNetwork
-	var remoteVirtualNetwork v1alpha1api20201101storage.SubResource
-	err := peerings.RemoteVirtualNetwork.AssignPropertiesToSubResource(&remoteVirtualNetwork)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field RemoteVirtualNetwork")
+	if peerings.RemoteVirtualNetwork != nil {
+		var remoteVirtualNetwork v1alpha1api20201101storage.SubResource
+		err := peerings.RemoteVirtualNetwork.AssignPropertiesToSubResource(&remoteVirtualNetwork)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field RemoteVirtualNetwork")
+		}
+		destination.RemoteVirtualNetwork = &remoteVirtualNetwork
+	} else {
+		destination.RemoteVirtualNetwork = nil
 	}
-	destination.RemoteVirtualNetwork = &remoteVirtualNetwork
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(peerings.Tags)

@@ -277,7 +277,7 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollecti
 
 // AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(gens map[string]gopter.Gen) {
-	gens["Resource"] = ThroughputSettingsResourceGenerator()
+	gens["Resource"] = gen.PtrOf(ThroughputSettingsResourceGenerator())
 }
 
 func Test_ThroughputSettingsGetResults_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -745,7 +745,7 @@ func AutoscaleSettingsResourceGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAutoscaleSettingsResource is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAutoscaleSettingsResource(gens map[string]gopter.Gen) {
-	gens["MaxThroughput"] = gen.Int()
+	gens["MaxThroughput"] = gen.PtrOf(gen.Int())
 }
 
 // AddRelatedPropertyGeneratorsForAutoscaleSettingsResource is a factory method for creating gopter generators
@@ -861,7 +861,7 @@ func AutoscaleSettingsResourceStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAutoscaleSettingsResourceStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAutoscaleSettingsResourceStatus(gens map[string]gopter.Gen) {
-	gens["MaxThroughput"] = gen.Int()
+	gens["MaxThroughput"] = gen.PtrOf(gen.Int())
 	gens["TargetMaxThroughput"] = gen.PtrOf(gen.Int())
 }
 

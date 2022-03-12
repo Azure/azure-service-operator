@@ -54,8 +54,8 @@ type BlobServiceProperties_Status_PropertiesARM struct {
 }
 
 type Sku_StatusARM struct {
-	Name SkuName_Status `json:"name"`
-	Tier *Tier_Status   `json:"tier,omitempty"`
+	Name *SkuName_Status `json:"name,omitempty"`
+	Tier *Tier_Status    `json:"tier,omitempty"`
 }
 
 type ChangeFeed_StatusARM struct {
@@ -87,7 +87,7 @@ type LastAccessTimeTrackingPolicy_StatusARM struct {
 	BlobType []string `json:"blobType,omitempty"`
 
 	//Enable: When set to true last access time based tracking is enabled.
-	Enable bool `json:"enable"`
+	Enable *bool `json:"enable,omitempty"`
 
 	//Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
 	Name *LastAccessTimeTrackingPolicyStatusName `json:"name,omitempty"`
@@ -102,7 +102,7 @@ type RestorePolicyProperties_StatusARM struct {
 	Days *int `json:"days,omitempty"`
 
 	//Enabled: Blob restore is enabled if set to true.
-	Enabled bool `json:"enabled"`
+	Enabled *bool `json:"enabled,omitempty"`
 
 	//LastEnabledTime: Deprecated in favor of minRestoreTime property.
 	LastEnabledTime *string `json:"lastEnabledTime,omitempty"`
@@ -134,22 +134,22 @@ const (
 type CorsRule_StatusARM struct {
 	//AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
 	//request.
-	AllowedHeaders []string `json:"allowedHeaders"`
+	AllowedHeaders []string `json:"allowedHeaders,omitempty"`
 
 	//AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
 	//origin.
-	AllowedMethods []CorsRuleStatusAllowedMethods `json:"allowedMethods"`
+	AllowedMethods []CorsRuleStatusAllowedMethods `json:"allowedMethods,omitempty"`
 
 	//AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*"
 	//to allow all domains
-	AllowedOrigins []string `json:"allowedOrigins"`
+	AllowedOrigins []string `json:"allowedOrigins,omitempty"`
 
 	//ExposedHeaders: Required if CorsRule element is present. A list of response headers to expose to CORS clients.
-	ExposedHeaders []string `json:"exposedHeaders"`
+	ExposedHeaders []string `json:"exposedHeaders,omitempty"`
 
 	//MaxAgeInSeconds: Required if CorsRule element is present. The number of seconds that the client/browser should cache a
 	//preflight response.
-	MaxAgeInSeconds int `json:"maxAgeInSeconds"`
+	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }
 
 type LastAccessTimeTrackingPolicyStatusName string

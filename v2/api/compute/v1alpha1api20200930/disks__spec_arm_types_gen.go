@@ -10,14 +10,14 @@ type Disks_SpecARM struct {
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the managed disk that is being created. The name can't be changed after the disk is created. Supported
 	//characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Disk resource properties.
-	Properties DiskPropertiesARM `json:"properties"`
+	Properties *DiskPropertiesARM `json:"properties,omitempty"`
 
 	//Sku: The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.
 	Sku *DiskSkuARM `json:"sku,omitempty"`
@@ -53,8 +53,8 @@ type DiskPropertiesARM struct {
 	BurstingEnabled *bool `json:"burstingEnabled,omitempty"`
 
 	//CreationData: Data used when creating a disk.
-	CreationData CreationDataARM `json:"creationData"`
-	DiskAccessId *string         `json:"diskAccessId,omitempty"`
+	CreationData *CreationDataARM `json:"creationData,omitempty"`
+	DiskAccessId *string          `json:"diskAccessId,omitempty"`
 
 	//DiskIOPSReadOnly: The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One
 	//operation can transfer between 4k and 256k bytes.
@@ -120,7 +120,7 @@ type ExtendedLocationARM struct {
 //Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/CreationData
 type CreationDataARM struct {
 	//CreateOption: This enumerates the possible sources of a disk's creation.
-	CreateOption CreationDataCreateOption `json:"createOption"`
+	CreateOption *CreationDataCreateOption `json:"createOption,omitempty"`
 
 	//GalleryImageReference: The source image used for creating the disk.
 	GalleryImageReference *ImageDiskReferenceARM `json:"galleryImageReference,omitempty"`
@@ -166,7 +166,7 @@ type EncryptionSettingsCollectionARM struct {
 	//Enabled: Set this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set
 	//this flag to false and remove DiskEncryptionKey and KeyEncryptionKey to disable encryption. If EncryptionSettings is
 	//null in the request object, the existing settings remain unchanged.
-	Enabled bool `json:"enabled"`
+	Enabled *bool `json:"enabled,omitempty"`
 
 	//EncryptionSettings: A collection of encryption settings, one for each disk volume.
 	EncryptionSettings []EncryptionSettingsElementARM `json:"encryptionSettings,omitempty"`
@@ -184,17 +184,17 @@ const ExtendedLocationTypeEdgeZone = ExtendedLocationType("EdgeZone")
 //Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/PurchasePlan
 type PurchasePlanARM struct {
 	//Name: The plan ID.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Product: Specifies the product of the image from the marketplace. This is the same value as Offer under the
 	//imageReference element.
-	Product string `json:"product"`
+	Product *string `json:"product,omitempty"`
 
 	//PromotionCode: The Offer Promotion Code.
 	PromotionCode *string `json:"promotionCode,omitempty"`
 
 	//Publisher: The publisher ID.
-	Publisher string `json:"publisher"`
+	Publisher *string `json:"publisher,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/EncryptionSettingsElement
@@ -209,7 +209,7 @@ type EncryptionSettingsElementARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/ImageDiskReference
 type ImageDiskReferenceARM struct {
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 
 	//Lun: If the disk is created from an image's data disk, this is an index that indicates which of the data disks in the
 	//image to use. For OS disks, this field is null.
@@ -219,21 +219,21 @@ type ImageDiskReferenceARM struct {
 //Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/KeyVaultAndKeyReference
 type KeyVaultAndKeyReferenceARM struct {
 	//KeyUrl: Url pointing to a key or secret in KeyVault
-	KeyUrl string `json:"keyUrl"`
+	KeyUrl *string `json:"keyUrl,omitempty"`
 
 	//SourceVault: The vault id is an Azure Resource Manager Resource id in the form
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
-	SourceVault SourceVaultARM `json:"sourceVault"`
+	SourceVault *SourceVaultARM `json:"sourceVault,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/KeyVaultAndSecretReference
 type KeyVaultAndSecretReferenceARM struct {
 	//SecretUrl: Url pointing to a key or secret in KeyVault
-	SecretUrl string `json:"secretUrl"`
+	SecretUrl *string `json:"secretUrl,omitempty"`
 
 	//SourceVault: The vault id is an Azure Resource Manager Resource id in the form
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
-	SourceVault SourceVaultARM `json:"sourceVault"`
+	SourceVault *SourceVaultARM `json:"sourceVault,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SourceVault

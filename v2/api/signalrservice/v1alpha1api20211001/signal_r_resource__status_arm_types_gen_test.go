@@ -234,7 +234,7 @@ func ResourceSkuStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForResourceSkuStatusARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Family"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Size"] = gen.PtrOf(gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(
 		SignalRSkuTier_StatusBasic,
@@ -800,13 +800,13 @@ func SignalRFeatureStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSignalRFeatureStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSignalRFeatureStatusARM(gens map[string]gopter.Gen) {
-	gens["Flag"] = gen.OneConstOf(
+	gens["Flag"] = gen.PtrOf(gen.OneConstOf(
 		FeatureFlags_StatusEnableConnectivityLogs,
 		FeatureFlags_StatusEnableLiveTrace,
 		FeatureFlags_StatusEnableMessagingLogs,
-		FeatureFlags_StatusServiceMode)
+		FeatureFlags_StatusServiceMode))
 	gens["Properties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Value"] = gen.AlphaString()
+	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_SignalRNetworkACLs_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1141,7 +1141,7 @@ func AddIndependentPropertyGeneratorsForPrivateEndpointACLStatusARM(gens map[str
 		SignalRRequestType_StatusRESTAPI,
 		SignalRRequestType_StatusServerConnection,
 		SignalRRequestType_StatusTrace))
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ResourceLogCategory_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1274,7 +1274,7 @@ func AddIndependentPropertyGeneratorsForUpstreamTemplateStatusARM(gens map[strin
 	gens["CategoryPattern"] = gen.PtrOf(gen.AlphaString())
 	gens["EventPattern"] = gen.PtrOf(gen.AlphaString())
 	gens["HubPattern"] = gen.PtrOf(gen.AlphaString())
-	gens["UrlTemplate"] = gen.AlphaString()
+	gens["UrlTemplate"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForUpstreamTemplateStatusARM is a factory method for creating gopter generators

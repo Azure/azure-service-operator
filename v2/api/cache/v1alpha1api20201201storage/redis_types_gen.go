@@ -185,24 +185,27 @@ func (resource *RedisResource_Status) ConvertStatusTo(destination genruntime.Con
 type Redis_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName         string             `json:"azureName"`
+	AzureName         string             `json:"azureName,omitempty"`
 	EnableNonSslPort  *bool              `json:"enableNonSslPort,omitempty"`
 	Location          *string            `json:"location,omitempty"`
 	MinimumTlsVersion *string            `json:"minimumTlsVersion,omitempty"`
 	OperatorSpec      *RedisOperatorSpec `json:"operatorSpec,omitempty"`
-	OriginalVersion   string             `json:"originalVersion"`
+	OriginalVersion   string             `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner               genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PropertyBag         genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                           `json:"publicNetworkAccess,omitempty"`
-	RedisConfiguration  map[string]string                 `json:"redisConfiguration,omitempty"`
-	RedisVersion        *string                           `json:"redisVersion,omitempty"`
-	ReplicasPerMaster   *int                              `json:"replicasPerMaster,omitempty"`
-	ReplicasPerPrimary  *int                              `json:"replicasPerPrimary,omitempty"`
-	ShardCount          *int                              `json:"shardCount,omitempty"`
-	Sku                 *Sku                              `json:"sku,omitempty"`
-	StaticIP            *string                           `json:"staticIP,omitempty"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a resources.azure.com/ResourceGroup resource
+	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
+	RedisConfiguration  map[string]string                  `json:"redisConfiguration,omitempty"`
+	RedisVersion        *string                            `json:"redisVersion,omitempty"`
+	ReplicasPerMaster   *int                               `json:"replicasPerMaster,omitempty"`
+	ReplicasPerPrimary  *int                               `json:"replicasPerPrimary,omitempty"`
+	ShardCount          *int                               `json:"shardCount,omitempty"`
+	Sku                 *Sku                               `json:"sku,omitempty"`
+	StaticIP            *string                            `json:"staticIP,omitempty"`
 
 	//SubnetReference: The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1

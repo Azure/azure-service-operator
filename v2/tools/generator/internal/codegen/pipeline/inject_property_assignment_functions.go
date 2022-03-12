@@ -26,8 +26,8 @@ const InjectPropertyAssignmentFunctionsStageID = "injectPropertyAssignmentFuncti
 // are the building blocks of the main CovertTo*() and ConvertFrom*() methods.
 func InjectPropertyAssignmentFunctions(
 	configuration *config.Configuration,
-	idFactory astmodel.IdentifierFactory) Stage {
-	stage := MakeStage(
+	idFactory astmodel.IdentifierFactory) *Stage {
+	stage := NewStage(
 		InjectPropertyAssignmentFunctionsStageID,
 		"Inject property assignment functions AssignFrom() and AssignTo() into resources and objects",
 		func(ctx context.Context, state *State) (*State, error) {

@@ -422,7 +422,7 @@ func AddIndependentPropertyGeneratorsForSnapshotsSpec(gens map[string]gopter.Gen
 		SnapshotPropertiesDiskStateUnattached))
 	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(SnapshotPropertiesHyperVGenerationV1, SnapshotPropertiesHyperVGenerationV2))
 	gens["Incremental"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(SnapshotPropertiesNetworkAccessPolicyAllowAll, SnapshotPropertiesNetworkAccessPolicyAllowPrivate, SnapshotPropertiesNetworkAccessPolicyDenyAll))
 	gens["OsType"] = gen.PtrOf(gen.OneConstOf(SnapshotPropertiesOsTypeLinux, SnapshotPropertiesOsTypeWindows))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
@@ -430,7 +430,7 @@ func AddIndependentPropertyGeneratorsForSnapshotsSpec(gens map[string]gopter.Gen
 
 // AddRelatedPropertyGeneratorsForSnapshotsSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSnapshotsSpec(gens map[string]gopter.Gen) {
-	gens["CreationData"] = CreationDataGenerator()
+	gens["CreationData"] = gen.PtrOf(CreationDataGenerator())
 	gens["Encryption"] = gen.PtrOf(EncryptionGenerator())
 	gens["EncryptionSettingsCollection"] = gen.PtrOf(EncryptionSettingsCollectionGenerator())
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())

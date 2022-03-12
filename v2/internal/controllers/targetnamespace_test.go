@@ -19,11 +19,11 @@ import (
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 
-const finalizerName = reconcilers.GenericControllerFinalizer
+const finalizerName = arm.GenericControllerFinalizer
 
 func TestTargetNamespaces(t *testing.T) {
 	t.Parallel()

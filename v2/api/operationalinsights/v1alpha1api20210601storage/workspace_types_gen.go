@@ -181,23 +181,26 @@ type Workspaces_Spec struct {
 	// +kubebuilder:validation:Pattern="^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName        string             `json:"azureName"`
+	AzureName        string             `json:"azureName,omitempty"`
 	ETag             *string            `json:"eTag,omitempty"`
 	Features         *WorkspaceFeatures `json:"features,omitempty"`
 	ForceCmkForQuery *bool              `json:"forceCmkForQuery,omitempty"`
 	Location         *string            `json:"location,omitempty"`
-	OriginalVersion  string             `json:"originalVersion"`
+	OriginalVersion  string             `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner                           genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PropertyBag                     genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	ProvisioningState               *string                           `json:"provisioningState,omitempty"`
-	PublicNetworkAccessForIngestion *string                           `json:"publicNetworkAccessForIngestion,omitempty"`
-	PublicNetworkAccessForQuery     *string                           `json:"publicNetworkAccessForQuery,omitempty"`
-	RetentionInDays                 *int                              `json:"retentionInDays,omitempty"`
-	Sku                             *WorkspaceSku                     `json:"sku,omitempty"`
-	Tags                            map[string]string                 `json:"tags,omitempty"`
-	WorkspaceCapping                *WorkspaceCapping                 `json:"workspaceCapping,omitempty"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a resources.azure.com/ResourceGroup resource
+	Owner                           *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag                     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ProvisioningState               *string                            `json:"provisioningState,omitempty"`
+	PublicNetworkAccessForIngestion *string                            `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForQuery     *string                            `json:"publicNetworkAccessForQuery,omitempty"`
+	RetentionInDays                 *int                               `json:"retentionInDays,omitempty"`
+	Sku                             *WorkspaceSku                      `json:"sku,omitempty"`
+	Tags                            map[string]string                  `json:"tags,omitempty"`
+	WorkspaceCapping                *WorkspaceCapping                  `json:"workspaceCapping,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Workspaces_Spec{}

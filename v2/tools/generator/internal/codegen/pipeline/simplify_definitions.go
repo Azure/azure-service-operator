@@ -14,10 +14,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
+const SimplifyDefinitionsStageId = "simplifyDefinitions"
+
 // SimplifyDefinitions creates a pipeline stage that removes any wrapper types prior to actual code generation
-func SimplifyDefinitions() Stage {
-	return MakeLegacyStage(
-		"simplifyDefinitions",
+func SimplifyDefinitions() *Stage {
+	return NewLegacyStage(
+		SimplifyDefinitionsStageId,
 		"Flatten definitions by removing wrapper types",
 		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			visitor := createSimplifyingVisitor()

@@ -24,14 +24,18 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 	systemAssigned := signalrservice.ManagedIdentityTypeSystemAssigned
 	// Adapted from the quickstart example:
 	// https://docs.microsoft.com/en-us/azure/azure-signalr/signalr-quickstart-azure-signalr-service-arm-template
+	serviceModeFlag := signalrservice.SignalRFeatureFlagServiceMode
+	connectivityLogsFlag := signalrservice.SignalRFeatureFlagEnableConnectivityLogs
+	enableMessagingLogsFlag := signalrservice.SignalRFeatureFlagEnableMessagingLogs
+	enableliveTraceFlag := signalrservice.SignalRFeatureFlagEnableLiveTrace
 	signalR := signalrservice.SignalR{
 		ObjectMeta: tc.MakeObjectMeta("signalr"),
 		Spec: signalrservice.SignalR_Spec{
-			Location: &tc.AzureRegion,
+			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &signalrservice.ResourceSku{
 				Capacity: to.IntPtr(1),
-				Name:     "Standard_S1",
+				Name:     to.StringPtr("Standard_S1"),
 			},
 			Identity: &signalrservice.ManagedIdentity{
 				Type: &systemAssigned,
@@ -40,17 +44,17 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 				ClientCertEnabled: to.BoolPtr(false),
 			},
 			Features: []signalrservice.SignalRFeature{{
-				Flag:  signalrservice.SignalRFeatureFlagServiceMode,
-				Value: "Classic",
+				Flag:  &serviceModeFlag,
+				Value: to.StringPtr("Classic"),
 			}, {
-				Flag:  signalrservice.SignalRFeatureFlagEnableConnectivityLogs,
-				Value: "true",
+				Flag:  &connectivityLogsFlag,
+				Value: to.StringPtr("true"),
 			}, {
-				Flag:  signalrservice.SignalRFeatureFlagEnableMessagingLogs,
-				Value: "true",
+				Flag:  &enableMessagingLogsFlag,
+				Value: to.StringPtr("true"),
 			}, {
-				Flag:  signalrservice.SignalRFeatureFlagEnableLiveTrace,
-				Value: "true",
+				Flag:  &enableliveTraceFlag,
+				Value: to.StringPtr("true"),
 			}},
 			Cors: &signalrservice.SignalRCorsSettings{
 				AllowedOrigins: []string{"https://foo.com", "https://bar.com"},
@@ -63,7 +67,7 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 					},
 				},
 				PrivateEndpoints: []signalrservice.PrivateEndpointACL{{
-					Name: "privateendpointname",
+					Name: to.StringPtr("privateendpointname"),
 					Allow: []signalrservice.PrivateEndpointACLAllow{
 						signalrservice.PrivateEndpointACLAllowServerConnection,
 					},
@@ -74,7 +78,7 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 					CategoryPattern: to.StringPtr("*"),
 					EventPattern:    to.StringPtr("connect,disconnect"),
 					HubPattern:      to.StringPtr("*"),
-					UrlTemplate:     "https://example.com/chat/api/connect",
+					UrlTemplate:     to.StringPtr("https://example.com/chat/api/connect"),
 				}},
 			},
 		},

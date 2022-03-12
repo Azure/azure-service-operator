@@ -10,10 +10,10 @@ type DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: Name of the resource
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties to update Azure Cosmos DB resource throughput.
-	Properties ThroughputSettingsUpdatePropertiesARM `json:"properties"`
+	Properties *ThroughputSettingsUpdatePropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
 	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no

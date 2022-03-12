@@ -104,7 +104,7 @@
  
  type Person_Spec struct {
  	//FullName: As would be used to address mail
- 	FullName string `json:"fullName"`
+ 	FullName string `json:"fullName,omitempty"`
  }
  
  // AssignPropertiesFromPersonSpec populates our Person_Spec from the provided source Person_Spec
@@ -138,7 +138,7 @@
  }
  
  type Person_Status struct {
- 	Status string `json:"status"`
+ 	Status string `json:"status,omitempty"`
  }
  
  // AssignPropertiesFromPersonStatus populates our Person_Status from the provided source Person_Status

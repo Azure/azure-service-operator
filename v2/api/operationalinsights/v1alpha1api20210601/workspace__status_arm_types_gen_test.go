@@ -446,7 +446,7 @@ func AddIndependentPropertyGeneratorsForWorkspaceSkuStatusARM(gens map[string]go
 		WorkspaceSkuStatusCapacityReservationLevel500,
 		WorkspaceSkuStatusCapacityReservationLevel5000))
 	gens["LastSkuUpdate"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.OneConstOf(
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
 		WorkspaceSkuStatusNameCapacityReservation,
 		WorkspaceSkuStatusNameFree,
 		WorkspaceSkuStatusNameLACluster,
@@ -454,5 +454,5 @@ func AddIndependentPropertyGeneratorsForWorkspaceSkuStatusARM(gens map[string]go
 		WorkspaceSkuStatusNamePerNode,
 		WorkspaceSkuStatusNamePremium,
 		WorkspaceSkuStatusNameStandalone,
-		WorkspaceSkuStatusNameStandard)
+		WorkspaceSkuStatusNameStandard))
 }

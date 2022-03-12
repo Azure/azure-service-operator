@@ -21,15 +21,13 @@ func Test_ContainerRegistry_Registry_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Custom namer because ContainerRegistry accounts have strict names
-	namer := tc.Namer.WithSeparator("")
-
 	publicNetworkAccess := containerregistry.RegistryPropertiesPublicNetworkAccessEnabled
 	zoneRedundancy := containerregistry.RegistryPropertiesZoneRedundancyDisabled
 	adminUserEnabled := false
-	name := namer.GenerateName("registry")
+	name := tc.NoSpaceNamer.GenerateName("registry")
 
 	// Create a ContainerRegistry
+	skuName := containerregistry.SkuNameBasic
 	acct := containerregistry.Registry{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: containerregistry.Registries_Spec{
@@ -38,8 +36,8 @@ func Test_ContainerRegistry_Registry_CRUD(t *testing.T) {
 			Location:            tc.AzureRegion,
 			Owner:               testcommon.AsOwner(rg),
 			PublicNetworkAccess: &publicNetworkAccess,
-			Sku: containerregistry.Sku{
-				Name: containerregistry.SkuNameBasic,
+			Sku: &containerregistry.Sku{
+				Name: &skuName,
 			},
 			ZoneRedundancy: &zoneRedundancy,
 		},

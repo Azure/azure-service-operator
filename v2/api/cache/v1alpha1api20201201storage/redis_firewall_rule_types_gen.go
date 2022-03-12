@@ -164,16 +164,19 @@ func (rule *RedisFirewallRule_Status) ConvertStatusTo(destination genruntime.Con
 type RedisFirewallRules_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName       string  `json:"azureName"`
+	AzureName       string  `json:"azureName,omitempty"`
 	EndIP           *string `json:"endIP,omitempty"`
 	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion"`
+	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner       genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner" kind:"Redis"`
-	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	StartIP     *string                           `json:"startIP,omitempty"`
-	Tags        map[string]string                 `json:"tags,omitempty"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a cache.azure.com/Redis resource
+	Owner       *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"Redis"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	StartIP     *string                            `json:"startIP,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &RedisFirewallRules_Spec{}

@@ -167,7 +167,7 @@ func VirtualMachineExtensionStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualMachineExtensionStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineExtensionStatusARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
@@ -1405,12 +1405,12 @@ func DataDiskStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDataDiskStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDataDiskStatusARM(gens map[string]gopter.Gen) {
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(Caching_StatusNone, Caching_StatusReadOnly, Caching_StatusReadWrite))
-	gens["CreateOption"] = gen.OneConstOf(CreateOption_StatusAttach, CreateOption_StatusEmpty, CreateOption_StatusFromImage)
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(CreateOption_StatusAttach, CreateOption_StatusEmpty, CreateOption_StatusFromImage))
 	gens["DetachOption"] = gen.PtrOf(gen.OneConstOf(DetachOption_StatusForceDetach))
 	gens["DiskIOPSReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskMBpsReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["Lun"] = gen.Int()
+	gens["Lun"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ToBeDetached"] = gen.PtrOf(gen.Bool())
 	gens["WriteAcceleratorEnabled"] = gen.PtrOf(gen.Bool())
@@ -1913,7 +1913,7 @@ func OSDiskStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForOSDiskStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForOSDiskStatusARM(gens map[string]gopter.Gen) {
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(Caching_StatusNone, Caching_StatusReadOnly, Caching_StatusReadWrite))
-	gens["CreateOption"] = gen.OneConstOf(CreateOption_StatusAttach, CreateOption_StatusEmpty, CreateOption_StatusFromImage)
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(CreateOption_StatusAttach, CreateOption_StatusEmpty, CreateOption_StatusFromImage))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OSDiskStatusOsTypeLinux, OSDiskStatusOsTypeWindows))
@@ -3495,12 +3495,12 @@ func KeyVaultKeyReferenceStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKeyVaultKeyReferenceStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyVaultKeyReferenceStatusARM(gens map[string]gopter.Gen) {
-	gens["KeyUrl"] = gen.AlphaString()
+	gens["KeyUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForKeyVaultKeyReferenceStatusARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForKeyVaultKeyReferenceStatusARM(gens map[string]gopter.Gen) {
-	gens["SourceVault"] = SubResourceStatusARMGenerator()
+	gens["SourceVault"] = gen.PtrOf(SubResourceStatusARMGenerator())
 }
 
 func Test_KeyVaultSecretReference_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3569,12 +3569,12 @@ func KeyVaultSecretReferenceStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKeyVaultSecretReferenceStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyVaultSecretReferenceStatusARM(gens map[string]gopter.Gen) {
-	gens["SecretUrl"] = gen.AlphaString()
+	gens["SecretUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForKeyVaultSecretReferenceStatusARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForKeyVaultSecretReferenceStatusARM(gens map[string]gopter.Gen) {
-	gens["SourceVault"] = SubResourceStatusARMGenerator()
+	gens["SourceVault"] = gen.PtrOf(SubResourceStatusARMGenerator())
 }
 
 func Test_SshPublicKey_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

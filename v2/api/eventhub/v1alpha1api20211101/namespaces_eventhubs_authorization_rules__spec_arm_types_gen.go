@@ -10,10 +10,10 @@ type NamespacesEventhubsAuthorizationRules_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: The authorization rule name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties supplied to create or update AuthorizationRule
-	Properties AuthorizationRulePropertiesARM `json:"properties"`
+	Properties *AuthorizationRulePropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`

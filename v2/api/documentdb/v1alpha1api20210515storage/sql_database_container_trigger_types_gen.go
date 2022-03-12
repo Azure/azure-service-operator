@@ -133,16 +133,19 @@ type SqlDatabaseContainerTriggerList struct {
 type DatabaseAccountsSqlDatabasesContainersTriggers_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName       string               `json:"azureName"`
+	AzureName       string               `json:"azureName,omitempty"`
 	Location        *string              `json:"location,omitempty"`
 	Options         *CreateUpdateOptions `json:"options,omitempty"`
-	OriginalVersion string               `json:"originalVersion"`
+	OriginalVersion string               `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner       genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner" kind:"SqlDatabaseContainer"`
-	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Resource    *SqlTriggerResource               `json:"resource,omitempty"`
-	Tags        map[string]string                 `json:"tags,omitempty"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a documentdb.azure.com/SqlDatabaseContainer resource
+	Owner       *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabaseContainer"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Resource    *SqlTriggerResource                `json:"resource,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersTriggers_Spec{}

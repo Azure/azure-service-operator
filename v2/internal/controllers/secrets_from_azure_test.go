@@ -10,7 +10,6 @@ import (
 
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
@@ -64,7 +63,7 @@ func Test_WhenObjectPullSecretsAndSecretAlreadyExists_WarningConditionIsSet(t *t
 	}
 	tc.CreateResource(collidingSecret)
 
-	tc.CreateResourceAndWaitForState(acct, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
+	tc.CreateResourceAndWaitForFailure(acct)
 
 	// Expect that the ARM ID in status is set. This indicates that status is filled out and the resource
 	// has been created in Azure
@@ -72,6 +71,7 @@ func Test_WhenObjectPullSecretsAndSecretAlreadyExists_WarningConditionIsSet(t *t
 	armId := *acct.Status.Id
 
 	// We expect the ready condition to include details of the error
+	tc.Expect(acct.Status.Conditions[0].Severity).To(Equal(conditions.ConditionSeverityError))
 	tc.Expect(acct.Status.Conditions[0].Reason).To(Equal("FailedWritingSecret"))
 	tc.Expect(acct.Status.Conditions[0].Message).To(MatchRegexp("cannot overwrite secret.*which is not owned by"))
 
@@ -99,24 +99,46 @@ func Test_TwoObjectsWriteSameSecret_WarningConditionIsSetOnSecond(t *testing.T) 
 	acct2 := makeSimpleStorageAccountWithOperatorSpecSecrets(tc, rg, storageKeysSecret, "key2")
 
 	tc.CreateResourceAndWait(acct1)
-	tc.CreateResourceAndWaitForState(acct2, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
+	tc.CreateResourceAndWaitForFailure(acct2)
 
 	// We expect the ready condition to include details of the error
+	// Note that the error is fatal as the customer must take some action in order to resolve the problem.
+	tc.Expect(acct2.Status.Conditions[0].Severity).To(Equal(conditions.ConditionSeverityError))
 	tc.Expect(acct2.Status.Conditions[0].Reason).To(Equal("FailedWritingSecret"))
 	tc.Expect(acct2.Status.Conditions[0].Message).To(MatchRegexp("cannot overwrite secret.*which is not owned by"))
 }
 
+func Test_SameObjectHasTwoSecretsWritingToSameDestination_RejectedByWebhook(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.NewTestResourceGroup()
+
+	// Create a storage account
+	storageKeysSecret := "k1"
+	acct1 := makeSimpleStorageAccountWithOperatorSpecSecrets(tc, rg, storageKeysSecret, "key1")
+	// Add a second, colliding secret
+	acct1.Spec.OperatorSpec.Secrets.Key2 = &genruntime.SecretDestination{
+		Name: storageKeysSecret,
+		Key:  "key1",
+	}
+
+	err := tc.CreateResourceExpectRequestFailure(acct1)
+	tc.Expect(err.Error()).To(ContainSubstring("cannot write more than one secret to destination Name: %q, Key: %q", storageKeysSecret, "key1"))
+}
+
 func makeSimpleStorageAccountWithOperatorSpecSecrets(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, secretName string, secretKey string) *storage.StorageAccount {
-	namer := tc.Namer.WithSeparator("")
 	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
+	kind := storage.StorageAccountsSpecKindStorageV2
+	sku := storage.SkuNameStandardLRS
 	acct := &storage.StorageAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("stor")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccounts_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			Kind:     storage.StorageAccountsSpecKindStorageV2,
-			Sku: storage.Sku{
-				Name: storage.SkuNameStandardLRS,
+			Kind:     &kind,
+			Sku: &storage.Sku{
+				Name: &sku,
 			},
 			AccessTier: &accessTier,
 			OperatorSpec: &storage.StorageAccountOperatorSpec{

@@ -129,6 +129,11 @@ func (t *TypeMatcher) String() string {
 
 	if t.Version != "" {
 		result.WriteString(fmt.Sprintf("%sVersion: %q", spacer, t.Version))
+		spacer = "; "
+	}
+
+	if t.Because != "" {
+		result.WriteString(fmt.Sprintf("%sBecause: %q", spacer, t.Because))
 	}
 
 	return result.String()

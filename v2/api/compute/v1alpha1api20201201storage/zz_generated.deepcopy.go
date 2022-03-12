@@ -5427,7 +5427,11 @@ func (in *VirtualMachineScaleSets_Spec) DeepCopyInto(out *VirtualMachineScaleSet
 		*out = new(bool)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.Plan != nil {
 		in, out := &in.Plan, &out.Plan
 		*out = new(Plan)
@@ -6167,7 +6171,11 @@ func (in *VirtualMachines_Spec) DeepCopyInto(out *VirtualMachines_Spec) {
 		*out = new(OSProfile)
 		(*in).DeepCopyInto(*out)
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.Plan != nil {
 		in, out := &in.Plan, &out.Plan
 		*out = new(Plan)

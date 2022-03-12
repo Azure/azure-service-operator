@@ -24,6 +24,7 @@ func Test_MakeTypeDefinition_GivenValues_InitializesProperties(t *testing.T) {
 	const name = "demo"
 	const group = "group"
 	const version = "2020-01-01"
+	const pkg = "v20200101"
 
 	ref := MakeTypeName(makeTestLocalPackageReference(group, version), name)
 	objectType := NewObjectType().WithProperties(fullName, familyName, knownAs)
@@ -35,7 +36,7 @@ func Test_MakeTypeDefinition_GivenValues_InitializesProperties(t *testing.T) {
 	actualGroup, actualVersion, ok := objectDefinition.Name().PackageReference.GroupVersion()
 	g.Expect(ok).To(BeTrue())
 	g.Expect(actualGroup).To(Equal(group))
-	g.Expect(actualVersion).To(Equal(version))
+	g.Expect(actualVersion).To(Equal(pkg))
 
 	g.Expect(objectDefinition.Type().(*ObjectType).properties).To(HaveLen(3))
 }

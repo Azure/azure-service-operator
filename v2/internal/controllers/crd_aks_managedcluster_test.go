@@ -38,7 +38,7 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 			DnsPrefix: to.StringPtr("aso"),
 			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile{
 				{
-					Name:   "ap1",
+					Name:   to.StringPtr("ap1"),
 					Count:  to.IntPtr(1),
 					VmSize: to.StringPtr("Standard_DS2_v2"),
 					OsType: &osType,
@@ -46,11 +46,11 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 				},
 			},
 			LinuxProfile: &aks.ContainerServiceLinuxProfile{
-				AdminUsername: adminUsername,
-				Ssh: aks.ContainerServiceSshConfiguration{
+				AdminUsername: &adminUsername,
+				Ssh: &aks.ContainerServiceSshConfiguration{
 					PublicKeys: []aks.ContainerServiceSshPublicKey{
 						{
-							KeyData: *sshPublicKey,
+							KeyData: sshPublicKey,
 						},
 					},
 				},

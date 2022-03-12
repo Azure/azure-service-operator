@@ -10,7 +10,7 @@
 +)
 +
  type Person_Status struct {
- 	Status string `json:"status"`
+ 	Status string `json:"status,omitempty"`
  }
  
 +// ConvertStatusFrom populates our Person_Status from the provided source

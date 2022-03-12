@@ -239,5 +239,5 @@ func VirtualNetworkBgpCommunitiesStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunitiesStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunitiesStatusARM(gens map[string]gopter.Gen) {
 	gens["RegionalCommunity"] = gen.PtrOf(gen.AlphaString())
-	gens["VirtualNetworkCommunity"] = gen.AlphaString()
+	gens["VirtualNetworkCommunity"] = gen.PtrOf(gen.AlphaString())
 }

@@ -439,6 +439,11 @@ func getKnownStorageTypes() []registration.StorageType {
 		Watches: []registration.Watch{},
 	})
 	result = append(result, registration.StorageType{
+		Obj:     new(storagev1alpha1api20210401storage.StorageAccountsManagementPolicy),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{},
+	})
+	result = append(result, registration.StorageType{
 		Obj:     new(storagev1alpha1api20210401storage.StorageAccountsQueueService),
 		Indexes: []registration.Index{},
 		Watches: []registration.Watch{},
@@ -579,11 +584,13 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(storagev1alpha1api20210401.StorageAccount))
 	result = append(result, new(storagev1alpha1api20210401.StorageAccountsBlobService))
 	result = append(result, new(storagev1alpha1api20210401.StorageAccountsBlobServicesContainer))
+	result = append(result, new(storagev1alpha1api20210401.StorageAccountsManagementPolicy))
 	result = append(result, new(storagev1alpha1api20210401.StorageAccountsQueueService))
 	result = append(result, new(storagev1alpha1api20210401.StorageAccountsQueueServicesQueue))
 	result = append(result, new(storagev1alpha1api20210401storage.StorageAccount))
 	result = append(result, new(storagev1alpha1api20210401storage.StorageAccountsBlobService))
 	result = append(result, new(storagev1alpha1api20210401storage.StorageAccountsBlobServicesContainer))
+	result = append(result, new(storagev1alpha1api20210401storage.StorageAccountsManagementPolicy))
 	result = append(result, new(storagev1alpha1api20210401storage.StorageAccountsQueueService))
 	result = append(result, new(storagev1alpha1api20210401storage.StorageAccountsQueueServicesQueue))
 	return result
@@ -707,6 +714,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &storagecustomizations.StorageAccountExtension{})
 	result = append(result, &storagecustomizations.StorageAccountsBlobServiceExtension{})
 	result = append(result, &storagecustomizations.StorageAccountsBlobServicesContainerExtension{})
+	result = append(result, &storagecustomizations.StorageAccountsManagementPolicyExtension{})
 	result = append(result, &storagecustomizations.StorageAccountsQueueServiceExtension{})
 	result = append(result, &storagecustomizations.StorageAccountsQueueServicesQueueExtension{})
 	return result

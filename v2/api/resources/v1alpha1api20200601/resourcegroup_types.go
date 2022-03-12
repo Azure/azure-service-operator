@@ -122,7 +122,10 @@ func (rg *ResourceGroup) GetResourceKind() genruntime.ResourceKind {
 var _ genruntime.LocatableResource = &ResourceGroup{}
 
 func (rg *ResourceGroup) Location() string {
-	return rg.Spec.Location
+	if rg.Spec.Location == nil {
+		return ""
+	}
+	return *rg.Spec.Location
 }
 
 // +kubebuilder:object:root=true
@@ -133,18 +136,18 @@ type ResourceGroupList struct {
 }
 
 type ResourceGroupStatus struct {
-	ID string `json:"id,omitempty"`
+	ID *string `json:"id,omitempty"`
 
-	Name     string `json:"name,omitempty"`
-	Location string `json:"location,omitempty"`
+	Name     *string `json:"name,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	// ManagedBy is the management group responsible for managing this group
-	ManagedBy string `json:"managedBy,omitempty"`
+	ManagedBy *string `json:"managedBy,omitempty"`
 
 	// Tags are user defined key value pairs
 	Tags map[string]string `json:"tags,omitempty"`
 
-	ProvisioningState string `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// Conditions describe the observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -236,14 +239,14 @@ func (status *ResourceGroupStatus) ConvertStatusFrom(source genruntime.Convertib
 type ResourceGroupSpec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name
 	// of the resource in Kubernetes but it doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Location is the Azure location for the group (eg westus2, southcentralus, etc...)
-	Location string `json:"location"`
+	Location *string `json:"location,omitempty"`
 
 	// ManagedBy is the management group responsible for managing this group
-	ManagedBy string `json:"managedBy,omitempty"`
+	ManagedBy *string `json:"managedBy,omitempty"`
 
 	// Tags are user defined key value pairs
 	Tags map[string]string `json:"tags,omitempty"`

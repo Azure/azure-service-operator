@@ -14,6 +14,9 @@ typeRegistrationOutputFile: internal/controllers/controller_resources_gen.go
 # samplesUrl is the base URL used for linking to samples when we generate a list of supported resources
 samplesUrl: https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples
 
+# emitDocFiles bool is used as a signal to create doc.go files for packages
+emitDocFiles: true
+
 pipeline: azure
 
 #
@@ -147,6 +150,11 @@ typeTransformers:
         value:
           name: string
     because: the definition in rest api specs uses additionalProperties + defined fields which we don't support
+  - group: storage
+    name: DateAfterCreation_Status
+    property: DaysAfterCreationGreaterThan
+    target:
+      name: float
   - group: cache
     name: RedisProperties_Status
     property: AccessKeys
@@ -173,7 +181,7 @@ typeTransformers:
     property: Copy
     ifType:
       group: deploymenttemplate
-      version: v1alpha1api20190401
+      version: "2019-04-01"
       name: ResourceCopy
       optional: true
     remove: true
@@ -182,7 +190,7 @@ typeTransformers:
     property: Copy
     ifType:
       group: definitions
-      version: v1alpha1api
+      version: "*"
       name: ResourceCopy
       optional: true
     remove: true
@@ -215,6 +223,11 @@ typeTransformers:
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+  - name: StorageAccountsManagementPolicies_Spec
+    group: storage
+    property: Location
+    remove: true
+    because: This property should be marked readonly
   - name: ManagedServiceIdentity
     group: documentdb
     property: UserAssignedIdentities
@@ -927,6 +940,8 @@ objectModelConfiguration:
       StorageAccountsQueueService:
         $export: true
       StorageAccountsQueueServicesQueue:
+        $export: true
+      StorageAccountsManagementPolicy:
         $export: true
       VirtualNetworkRule:
         Id:

@@ -17,10 +17,10 @@ type SignalR_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the resource.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: A class that describes the properties of the resource
-	Properties SignalRPropertiesARM `json:"properties"`
+	Properties *SignalRPropertiesARM `json:"properties,omitempty"`
 
 	//Sku: The billing information of the resource.
 	Sku *ResourceSkuARM `json:"sku,omitempty"`
@@ -64,7 +64,7 @@ type ResourceSkuARM struct {
 
 	//Name: The name of the SKU. Required.
 	//Allowed values: Standard_S1, Free_F1
-	Name string           `json:"name"`
+	Name *string          `json:"name,omitempty"`
 	Tier *ResourceSkuTier `json:"tier,omitempty"`
 }
 
@@ -156,14 +156,14 @@ type SignalRCorsSettingsARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRFeature
 type SignalRFeatureARM struct {
-	Flag SignalRFeatureFlag `json:"flag"`
+	Flag *SignalRFeatureFlag `json:"flag,omitempty"`
 
 	//Properties: Optional properties related to this feature.
 	Properties map[string]string `json:"properties,omitempty"`
 
 	//Value: Value of the feature flag. See Azure SignalR service document https://docs.microsoft.com/azure/azure-signalr/ for
 	//allowed values.
-	Value string `json:"value"`
+	Value *string `json:"value,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRNetworkACLs
@@ -201,7 +201,7 @@ type PrivateEndpointACLARM struct {
 	Deny []PrivateEndpointACLDeny `json:"deny,omitempty"`
 
 	//Name: Name of the private endpoint connection
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ResourceLogCategory
@@ -248,7 +248,7 @@ type UpstreamTemplateARM struct {
 	//inside the template, the value of the Upstream URL is dynamically calculated when the client request comes in.
 	//For example, if the urlTemplate is `http://example.com/{hub}/api/{event}`, with a client request from hub `chat`
 	//connects, it will first POST to this URL: `http://example.com/chat/api/connect`.
-	UrlTemplate string `json:"urlTemplate"`
+	UrlTemplate *string `json:"urlTemplate,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/UpstreamAuthSettings

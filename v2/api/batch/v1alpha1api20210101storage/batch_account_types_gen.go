@@ -184,19 +184,22 @@ type BatchAccounts_Spec struct {
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]+$"
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName         string                `json:"azureName"`
+	AzureName         string                `json:"azureName,omitempty"`
 	Encryption        *EncryptionProperties `json:"encryption,omitempty"`
 	Identity          *BatchAccountIdentity `json:"identity,omitempty"`
 	KeyVaultReference *KeyVaultReference    `json:"keyVaultReference,omitempty"`
 	Location          *string               `json:"location,omitempty"`
-	OriginalVersion   string                `json:"originalVersion"`
+	OriginalVersion   string                `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner               genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
-	PoolAllocationMode  *string                           `json:"poolAllocationMode,omitempty"`
-	PropertyBag         genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                           `json:"publicNetworkAccess,omitempty"`
-	Tags                map[string]string                 `json:"tags,omitempty"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a resources.azure.com/ResourceGroup resource
+	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PoolAllocationMode  *string                            `json:"poolAllocationMode,omitempty"`
+	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
+	Tags                map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &BatchAccounts_Spec{}
@@ -226,7 +229,7 @@ type AutoStorageBaseProperties struct {
 
 	// +kubebuilder:validation:Required
 	//StorageAccountReference: The resource ID of the storage account to be used for auto-storage account.
-	StorageAccountReference genruntime.ResourceReference `armReference:"StorageAccountId" json:"storageAccountReference"`
+	StorageAccountReference *genruntime.ResourceReference `armReference:"StorageAccountId" json:"storageAccountReference,omitempty"`
 }
 
 //Storage version of v1alpha1api20210101.AutoStorageProperties_Status
@@ -274,8 +277,8 @@ type KeyVaultReference struct {
 
 	// +kubebuilder:validation:Required
 	//Reference: The resource ID of the Azure key vault associated with the Batch account.
-	Reference genruntime.ResourceReference `armReference:"Id" json:"reference"`
-	Url       *string                      `json:"url,omitempty"`
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	Url       *string                       `json:"url,omitempty"`
 }
 
 //Storage version of v1alpha1api20210101.KeyVaultReference_Status

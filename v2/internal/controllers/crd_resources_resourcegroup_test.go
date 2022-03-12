@@ -8,6 +8,7 @@ package controllers_test
 import (
 	"testing"
 
+	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 )
 
@@ -22,9 +23,9 @@ func Test_Resources_ResourceGroup_CRUD(t *testing.T) {
 
 	// check properties
 	tc.Expect(rg.Status.Location).To(Equal(tc.AzureRegion))
-	tc.Expect(rg.Status.ProvisioningState).To(Equal("Succeeded"))
+	tc.Expect(rg.Status.ProvisioningState).To(Equal(to.StringPtr("Succeeded")))
 	tc.Expect(rg.Status.ID).ToNot(BeNil())
-	armId := rg.Status.ID
+	armId := *rg.Status.ID
 
 	// Update the tags
 	old := rg.DeepCopy()

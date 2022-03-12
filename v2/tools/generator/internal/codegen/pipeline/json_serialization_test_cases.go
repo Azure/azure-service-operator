@@ -19,8 +19,8 @@ import (
 // InjectJsonSerializationTestsID is the unique identifier for this pipeline stage
 const InjectJsonSerializationTestsID = "injectJSONTestCases"
 
-func InjectJsonSerializationTests(idFactory astmodel.IdentifierFactory) Stage {
-	stage := MakeStage(
+func InjectJsonSerializationTests(idFactory astmodel.IdentifierFactory) *Stage {
+	stage := NewStage(
 		InjectJsonSerializationTestsID,
 		"Add test cases to verify JSON serialization",
 		func(ctx context.Context, state *State) (*State, error) {
@@ -45,7 +45,9 @@ func InjectJsonSerializationTests(idFactory astmodel.IdentifierFactory) Stage {
 			return state.WithDefinitions(state.Definitions().OverlayWith(modifiedDefinitions)), nil
 		})
 
-	return stage.RequiresPostrequisiteStages("simplifyDefinitions" /* needs flags */)
+	stage.RequiresPostrequisiteStages("simplifyDefinitions" /* needs flags */)
+
+	return stage
 }
 
 type objectSerializationTestCaseFactory struct {
@@ -66,9 +68,14 @@ func makeObjectSerializationTestCaseFactory(idFactory astmodel.IdentifierFactory
 
 // NeedsTest returns true if we should generate a testcase for the specified definition
 func (s *objectSerializationTestCaseFactory) NeedsTest(def astmodel.TypeDefinition) bool {
-	_, ok := astmodel.AsPropertyContainer(def.Type())
+	pc, ok := astmodel.AsPropertyContainer(def.Type())
 	if !ok {
 		// Can only generate tests for property containers
+		return false
+	}
+
+	// No test needed for types with no properties
+	if len(pc.Properties().AsSlice()) == 0 {
 		return false
 	}
 

@@ -81,7 +81,7 @@ func (objectType *ObjectType) generateMethodDecls(codeGenerationContext *CodeGen
 	var result []dst.Decl
 
 	for _, f := range objectType.Functions() {
-		funcDef := f.AsFunc(codeGenerationContext, typeName)
+		funcDef := generateMethodDeclForFunction(typeName, f, codeGenerationContext)
 		result = append(result, funcDef)
 	}
 
@@ -449,6 +449,15 @@ func (objectType *ObjectType) WithFunction(function Function) *ObjectType {
 	// Create a copy of objectType to preserve immutability
 	result := objectType.copy()
 	result.functions[function.Name()] = function
+
+	return result
+}
+
+// WithoutFunctions creates a new ObjectType with no functions (useful for testing)
+func (objectType *ObjectType) WithoutFunctions() *ObjectType {
+	// Create a copy to preserve immutability
+	result := objectType.copy()
+	result.functions = make(map[string]Function)
 
 	return result
 }

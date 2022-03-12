@@ -293,6 +293,16 @@ func (set TypeDefinitionSet) ResolveResourceStatusDefinition(resourceType *Resou
 	return ResolveResourceStatusDefinition(set, resourceType)
 }
 
+// AsSlice creates a new slice containing all the definitions
+func (set TypeDefinitionSet) AsSlice() []TypeDefinition {
+	var result []TypeDefinition
+	for _, def := range set {
+		result = append(result, def)
+	}
+
+	return result
+}
+
 type ResolvedResourceDefinition struct {
 	ResourceDef  TypeDefinition
 	ResourceType *ResourceType

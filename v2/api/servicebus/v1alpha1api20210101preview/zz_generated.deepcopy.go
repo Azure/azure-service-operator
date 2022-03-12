@@ -714,7 +714,11 @@ func (in *NamespacesQueues_Spec) DeepCopyInto(out *NamespacesQueues_Spec) {
 		*out = new(int)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.RequiresDuplicateDetection != nil {
 		in, out := &in.RequiresDuplicateDetection, &out.RequiresDuplicateDetection
 		*out = new(bool)
@@ -752,7 +756,11 @@ func (in *NamespacesQueues_SpecARM) DeepCopyInto(out *NamespacesQueues_SpecARM) 
 		*out = new(string)
 		**out = **in
 	}
-	in.Properties.DeepCopyInto(&out.Properties)
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(SBQueuePropertiesARM)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))
@@ -874,7 +882,11 @@ func (in *NamespacesTopics_Spec) DeepCopyInto(out *NamespacesTopics_Spec) {
 		*out = new(int)
 		**out = **in
 	}
-	out.Owner = in.Owner
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.RequiresDuplicateDetection != nil {
 		in, out := &in.RequiresDuplicateDetection, &out.RequiresDuplicateDetection
 		*out = new(bool)
@@ -912,7 +924,11 @@ func (in *NamespacesTopics_SpecARM) DeepCopyInto(out *NamespacesTopics_SpecARM) 
 		*out = new(string)
 		**out = **in
 	}
-	in.Properties.DeepCopyInto(&out.Properties)
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(SBTopicPropertiesARM)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))
@@ -945,7 +961,16 @@ func (in *Namespaces_Spec) DeepCopyInto(out *Namespaces_Spec) {
 		*out = new(Identity)
 		(*in).DeepCopyInto(*out)
 	}
-	out.Owner = in.Owner
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
 	if in.Sku != nil {
 		in, out := &in.Sku, &out.Sku
 		*out = new(SBSku)
@@ -983,7 +1008,16 @@ func (in *Namespaces_SpecARM) DeepCopyInto(out *Namespaces_SpecARM) {
 		*out = new(IdentityARM)
 		(*in).DeepCopyInto(*out)
 	}
-	in.Properties.DeepCopyInto(&out.Properties)
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(Namespaces_Spec_PropertiesARM)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Sku != nil {
 		in, out := &in.Sku, &out.Sku
 		*out = new(SBSkuARM)
@@ -1718,6 +1752,11 @@ func (in *SBSku) DeepCopyInto(out *SBSku) {
 		*out = new(int)
 		**out = **in
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(SBSkuName)
+		**out = **in
+	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
 		*out = new(SBSkuTier)
@@ -1741,6 +1780,11 @@ func (in *SBSkuARM) DeepCopyInto(out *SBSkuARM) {
 	if in.Capacity != nil {
 		in, out := &in.Capacity, &out.Capacity
 		*out = new(int)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(SBSkuName)
 		**out = **in
 	}
 	if in.Tier != nil {
@@ -1768,6 +1812,11 @@ func (in *SBSku_Status) DeepCopyInto(out *SBSku_Status) {
 		*out = new(int)
 		**out = **in
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(SBSkuStatusName)
+		**out = **in
+	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
 		*out = new(SBSkuStatusTier)
@@ -1791,6 +1840,11 @@ func (in *SBSku_StatusARM) DeepCopyInto(out *SBSku_StatusARM) {
 	if in.Capacity != nil {
 		in, out := &in.Capacity, &out.Capacity
 		*out = new(int)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(SBSkuStatusName)
 		**out = **in
 	}
 	if in.Tier != nil {

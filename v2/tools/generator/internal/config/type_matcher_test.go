@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 
 	. "github.com/onsi/gomega"
 
@@ -17,10 +18,10 @@ import (
 
 // Shared test values -- note that these are used by type_transformer_test.go too
 var (
-	person2020  = astmodel.MakeTypeName(makeTestLocalPackageReference("party", "2020-01-01"), "person")
-	post2019    = astmodel.MakeTypeName(makeTestLocalPackageReference("thing", "2019-01-01"), "post")
-	student2019 = astmodel.MakeTypeName(makeTestLocalPackageReference("role", "2019-01-01"), "student")
-	tutor2019   = astmodel.MakeTypeName(makeTestLocalPackageReference("role", "2019-01-01"), "tutor")
+	person2020  = astmodel.MakeTypeName(test.MakeLocalPackageReference("party", "2020-01-01"), "person")
+	post2019    = astmodel.MakeTypeName(test.MakeLocalPackageReference("thing", "2019-01-01"), "post")
+	student2019 = astmodel.MakeTypeName(test.MakeLocalPackageReference("role", "2019-01-01"), "student")
+	tutor2019   = astmodel.MakeTypeName(test.MakeLocalPackageReference("role", "2019-01-01"), "tutor")
 )
 
 func Test_FilterByGroup_CorrectlySelectsStructs(t *testing.T) {
@@ -44,7 +45,7 @@ func Test_FilterByVersion_CorrectlySelectsStructs(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	filter := config.TypeMatcher{Version: "2019-*"}
+	filter := config.TypeMatcher{Version: "v2019*"}
 	err := filter.Initialize()
 	g.Expect(err).To(BeNil())
 
@@ -76,7 +77,7 @@ func Test_FilterByMultipleConditions_CorrectlySelectsStructs(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	filter := config.TypeMatcher{Name: "p*", Version: "2019-*"}
+	filter := config.TypeMatcher{Name: "p*", Version: "v2019*"}
 	err := filter.Initialize()
 	g.Expect(err).To(BeNil())
 

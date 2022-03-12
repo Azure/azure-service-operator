@@ -1024,7 +1024,7 @@ const PublicIPAddressesSpecAPIVersion20201101 = PublicIPAddressesSpecAPIVersion(
 type PublicIPAddresses_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//DdosSettings: The DDoS protection custom policy associated with the public IP address.
 	DdosSettings *DdosSettings `json:"ddosSettings,omitempty"`
@@ -1045,17 +1045,20 @@ type PublicIPAddresses_Spec struct {
 	IpTags []IpTag `json:"ipTags,omitempty"`
 
 	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	//PublicIPAddressVersion: The public IP address version.
 	PublicIPAddressVersion *PublicIPAddressPropertiesFormatPublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//PublicIPAllocationMethod: The public IP address allocation method.
-	PublicIPAllocationMethod PublicIPAddressPropertiesFormatPublicIPAllocationMethod `json:"publicIPAllocationMethod"`
+	PublicIPAllocationMethod *PublicIPAddressPropertiesFormatPublicIPAllocationMethod `json:"publicIPAllocationMethod,omitempty"`
 
 	//PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated from.
 	PublicIPPrefix *SubResource `json:"publicIPPrefix,omitempty"`
@@ -1090,12 +1093,25 @@ func (addresses *PublicIPAddresses_Spec) ConvertToARM(resolved genruntime.Conver
 	}
 
 	// Set property ‘Location’:
-	result.Location = addresses.Location
+	if addresses.Location != nil {
+		location := *addresses.Location
+		result.Location = &location
+	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+	if addresses.DdosSettings != nil ||
+		addresses.DnsSettings != nil ||
+		addresses.IdleTimeoutInMinutes != nil ||
+		addresses.IpAddress != nil ||
+		addresses.IpTags != nil ||
+		addresses.PublicIPAddressVersion != nil ||
+		addresses.PublicIPAllocationMethod != nil ||
+		addresses.PublicIPPrefix != nil {
+		result.Properties = &PublicIPAddressPropertiesFormatARM{}
+	}
 	if addresses.DdosSettings != nil {
 		ddosSettingsARM, err := (*addresses.DdosSettings).ConvertToARM(resolved)
 		if err != nil {
@@ -1131,7 +1147,10 @@ func (addresses *PublicIPAddresses_Spec) ConvertToARM(resolved genruntime.Conver
 		publicIPAddressVersion := *addresses.PublicIPAddressVersion
 		result.Properties.PublicIPAddressVersion = &publicIPAddressVersion
 	}
-	result.Properties.PublicIPAllocationMethod = addresses.PublicIPAllocationMethod
+	if addresses.PublicIPAllocationMethod != nil {
+		publicIPAllocationMethod := *addresses.PublicIPAllocationMethod
+		result.Properties.PublicIPAllocationMethod = &publicIPAllocationMethod
+	}
 	if addresses.PublicIPPrefix != nil {
 		publicIPPrefixARM, err := (*addresses.PublicIPPrefix).ConvertToARM(resolved)
 		if err != nil {
@@ -1183,26 +1202,30 @@ func (addresses *PublicIPAddresses_Spec) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property ‘DdosSettings’:
 	// copying flattened property:
-	if typedInput.Properties.DdosSettings != nil {
-		var ddosSettings1 DdosSettings
-		err := ddosSettings1.PopulateFromARM(owner, *typedInput.Properties.DdosSettings)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DdosSettings != nil {
+			var ddosSettings1 DdosSettings
+			err := ddosSettings1.PopulateFromARM(owner, *typedInput.Properties.DdosSettings)
+			if err != nil {
+				return err
+			}
+			ddosSettings := ddosSettings1
+			addresses.DdosSettings = &ddosSettings
 		}
-		ddosSettings := ddosSettings1
-		addresses.DdosSettings = &ddosSettings
 	}
 
 	// Set property ‘DnsSettings’:
 	// copying flattened property:
-	if typedInput.Properties.DnsSettings != nil {
-		var dnsSettings1 PublicIPAddressDnsSettings
-		err := dnsSettings1.PopulateFromARM(owner, *typedInput.Properties.DnsSettings)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DnsSettings != nil {
+			var dnsSettings1 PublicIPAddressDnsSettings
+			err := dnsSettings1.PopulateFromARM(owner, *typedInput.Properties.DnsSettings)
+			if err != nil {
+				return err
+			}
+			dnsSettings := dnsSettings1
+			addresses.DnsSettings = &dnsSettings
 		}
-		dnsSettings := dnsSettings1
-		addresses.DnsSettings = &dnsSettings
 	}
 
 	// Set property ‘ExtendedLocation’:
@@ -1218,58 +1241,76 @@ func (addresses *PublicIPAddresses_Spec) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property ‘IdleTimeoutInMinutes’:
 	// copying flattened property:
-	if typedInput.Properties.IdleTimeoutInMinutes != nil {
-		idleTimeoutInMinutes := *typedInput.Properties.IdleTimeoutInMinutes
-		addresses.IdleTimeoutInMinutes = &idleTimeoutInMinutes
+	if typedInput.Properties != nil {
+		if typedInput.Properties.IdleTimeoutInMinutes != nil {
+			idleTimeoutInMinutes := *typedInput.Properties.IdleTimeoutInMinutes
+			addresses.IdleTimeoutInMinutes = &idleTimeoutInMinutes
+		}
 	}
 
 	// Set property ‘IpAddress’:
 	// copying flattened property:
-	if typedInput.Properties.IpAddress != nil {
-		ipAddress := *typedInput.Properties.IpAddress
-		addresses.IpAddress = &ipAddress
+	if typedInput.Properties != nil {
+		if typedInput.Properties.IpAddress != nil {
+			ipAddress := *typedInput.Properties.IpAddress
+			addresses.IpAddress = &ipAddress
+		}
 	}
 
 	// Set property ‘IpTags’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.IpTags {
-		var item1 IpTag
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.IpTags {
+			var item1 IpTag
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			addresses.IpTags = append(addresses.IpTags, item1)
 		}
-		addresses.IpTags = append(addresses.IpTags, item1)
 	}
 
 	// Set property ‘Location’:
-	addresses.Location = typedInput.Location
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		addresses.Location = &location
+	}
 
 	// Set property ‘Owner’:
-	addresses.Owner = genruntime.KnownResourceReference{
+	addresses.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘PublicIPAddressVersion’:
 	// copying flattened property:
-	if typedInput.Properties.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := *typedInput.Properties.PublicIPAddressVersion
-		addresses.PublicIPAddressVersion = &publicIPAddressVersion
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicIPAddressVersion != nil {
+			publicIPAddressVersion := *typedInput.Properties.PublicIPAddressVersion
+			addresses.PublicIPAddressVersion = &publicIPAddressVersion
+		}
 	}
 
 	// Set property ‘PublicIPAllocationMethod’:
 	// copying flattened property:
-	addresses.PublicIPAllocationMethod = typedInput.Properties.PublicIPAllocationMethod
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicIPAllocationMethod != nil {
+			publicIPAllocationMethod := *typedInput.Properties.PublicIPAllocationMethod
+			addresses.PublicIPAllocationMethod = &publicIPAllocationMethod
+		}
+	}
 
 	// Set property ‘PublicIPPrefix’:
 	// copying flattened property:
-	if typedInput.Properties.PublicIPPrefix != nil {
-		var publicIPPrefix1 SubResource
-		err := publicIPPrefix1.PopulateFromARM(owner, *typedInput.Properties.PublicIPPrefix)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicIPPrefix != nil {
+			var publicIPPrefix1 SubResource
+			err := publicIPPrefix1.PopulateFromARM(owner, *typedInput.Properties.PublicIPPrefix)
+			if err != nil {
+				return err
+			}
+			publicIPPrefix := publicIPPrefix1
+			addresses.PublicIPPrefix = &publicIPPrefix
 		}
-		publicIPPrefix := publicIPPrefix1
-		addresses.PublicIPPrefix = &publicIPPrefix
 	}
 
 	// Set property ‘Sku’:
@@ -1417,10 +1458,15 @@ func (addresses *PublicIPAddresses_Spec) AssignPropertiesFromPublicIPAddressesSp
 	}
 
 	// Location
-	addresses.Location = genruntime.GetOptionalStringValue(source.Location)
+	addresses.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	addresses.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		addresses.Owner = &owner
+	} else {
+		addresses.Owner = nil
+	}
 
 	// PublicIPAddressVersion
 	if source.PublicIPAddressVersion != nil {
@@ -1432,9 +1478,10 @@ func (addresses *PublicIPAddresses_Spec) AssignPropertiesFromPublicIPAddressesSp
 
 	// PublicIPAllocationMethod
 	if source.PublicIPAllocationMethod != nil {
-		addresses.PublicIPAllocationMethod = PublicIPAddressPropertiesFormatPublicIPAllocationMethod(*source.PublicIPAllocationMethod)
+		publicIPAllocationMethod := PublicIPAddressPropertiesFormatPublicIPAllocationMethod(*source.PublicIPAllocationMethod)
+		addresses.PublicIPAllocationMethod = &publicIPAllocationMethod
 	} else {
-		addresses.PublicIPAllocationMethod = ""
+		addresses.PublicIPAllocationMethod = nil
 	}
 
 	// PublicIPPrefix
@@ -1540,14 +1587,18 @@ func (addresses *PublicIPAddresses_Spec) AssignPropertiesToPublicIPAddressesSpec
 	}
 
 	// Location
-	location := addresses.Location
-	destination.Location = &location
+	destination.Location = genruntime.ClonePointerToString(addresses.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = addresses.OriginalVersion()
 
 	// Owner
-	destination.Owner = addresses.Owner.Copy()
+	if addresses.Owner != nil {
+		owner := addresses.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// PublicIPAddressVersion
 	if addresses.PublicIPAddressVersion != nil {
@@ -1558,8 +1609,12 @@ func (addresses *PublicIPAddresses_Spec) AssignPropertiesToPublicIPAddressesSpec
 	}
 
 	// PublicIPAllocationMethod
-	publicIPAllocationMethod := string(addresses.PublicIPAllocationMethod)
-	destination.PublicIPAllocationMethod = &publicIPAllocationMethod
+	if addresses.PublicIPAllocationMethod != nil {
+		publicIPAllocationMethod := string(*addresses.PublicIPAllocationMethod)
+		destination.PublicIPAllocationMethod = &publicIPAllocationMethod
+	} else {
+		destination.PublicIPAllocationMethod = nil
+	}
 
 	// PublicIPPrefix
 	if addresses.PublicIPPrefix != nil {
@@ -2409,7 +2464,7 @@ type PublicIPAddressDnsSettings struct {
 	//DomainNameLabel: The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up
 	//the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS
 	//record is created for the public IP in the Microsoft Azure DNS system.
-	DomainNameLabel string `json:"domainNameLabel"`
+	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
 
 	//Fqdn: The Fully Qualified Domain Name of the A DNS record associated with the public IP. This is the concatenation of
 	//the domainNameLabel and the regionalized DNS zone.
@@ -2431,7 +2486,10 @@ func (settings *PublicIPAddressDnsSettings) ConvertToARM(resolved genruntime.Con
 	var result PublicIPAddressDnsSettingsARM
 
 	// Set property ‘DomainNameLabel’:
-	result.DomainNameLabel = settings.DomainNameLabel
+	if settings.DomainNameLabel != nil {
+		domainNameLabel := *settings.DomainNameLabel
+		result.DomainNameLabel = &domainNameLabel
+	}
 
 	// Set property ‘Fqdn’:
 	if settings.Fqdn != nil {
@@ -2460,7 +2518,10 @@ func (settings *PublicIPAddressDnsSettings) PopulateFromARM(owner genruntime.Arb
 	}
 
 	// Set property ‘DomainNameLabel’:
-	settings.DomainNameLabel = typedInput.DomainNameLabel
+	if typedInput.DomainNameLabel != nil {
+		domainNameLabel := *typedInput.DomainNameLabel
+		settings.DomainNameLabel = &domainNameLabel
+	}
 
 	// Set property ‘Fqdn’:
 	if typedInput.Fqdn != nil {
@@ -2482,7 +2543,7 @@ func (settings *PublicIPAddressDnsSettings) PopulateFromARM(owner genruntime.Arb
 func (settings *PublicIPAddressDnsSettings) AssignPropertiesFromPublicIPAddressDnsSettings(source *v1alpha1api20201101storage.PublicIPAddressDnsSettings) error {
 
 	// DomainNameLabel
-	settings.DomainNameLabel = genruntime.GetOptionalStringValue(source.DomainNameLabel)
+	settings.DomainNameLabel = genruntime.ClonePointerToString(source.DomainNameLabel)
 
 	// Fqdn
 	settings.Fqdn = genruntime.ClonePointerToString(source.Fqdn)
@@ -2500,8 +2561,7 @@ func (settings *PublicIPAddressDnsSettings) AssignPropertiesToPublicIPAddressDns
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DomainNameLabel
-	domainNameLabel := settings.DomainNameLabel
-	destination.DomainNameLabel = &domainNameLabel
+	destination.DomainNameLabel = genruntime.ClonePointerToString(settings.DomainNameLabel)
 
 	// Fqdn
 	destination.Fqdn = genruntime.ClonePointerToString(settings.Fqdn)

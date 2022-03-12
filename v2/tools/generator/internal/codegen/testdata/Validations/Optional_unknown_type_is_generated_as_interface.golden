@@ -3,9 +3,52 @@
 // Licensed under the MIT license.
 package v1alpha1api20200101
 
-import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+import (
+	"github.com/Azure/azure-service-operator/testing/test/v1alpha1api20200101storage"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+)
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	Foo *v1.JSON `json:"foo,omitempty"`
+}
+
+// AssignPropertiesFromTest populates our Test from the provided source Test
+func (test *Test) AssignPropertiesFromTest(source *v1alpha1api20200101storage.Test) error {
+
+	// Foo
+	if source.Foo != nil {
+		foo := *source.Foo.DeepCopy()
+		test.Foo = &foo
+	} else {
+		test.Foo = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTest populates the provided destination Test from our Test
+func (test *Test) AssignPropertiesToTest(destination *v1alpha1api20200101storage.Test) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Foo
+	if test.Foo != nil {
+		foo := *test.Foo.DeepCopy()
+		destination.Foo = &foo
+	} else {
+		destination.Foo = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }

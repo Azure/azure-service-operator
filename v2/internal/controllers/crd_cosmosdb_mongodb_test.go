@@ -23,24 +23,22 @@ func Test_CosmosDB_MongoDatabase_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Custom namer because cosmos DB accounts have strict names
-	namer := tc.Namer.WithSeparator("")
-
 	// Create a Cosmos DB account
 	kind := documentdb.DatabaseAccountsSpecKindMongoDB
+	offerType := documentdb.DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferTypeStandard
 	acct := documentdb.DatabaseAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("db")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("db")),
 		Spec: documentdb.DatabaseAccounts_Spec{
-			Location: &tc.AzureRegion,
+			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Kind:     &kind,
 			Capabilities: []documentdb.Capability{{
 				Name: to.StringPtr("EnableMongo"),
 			}},
-			DatabaseAccountOfferType: documentdb.DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferTypeStandard,
+			DatabaseAccountOfferType: &offerType,
 			Locations: []documentdb.Location{
 				{
-					LocationName: &tc.AzureRegion,
+					LocationName: tc.AzureRegion,
 				},
 			},
 		},
@@ -51,15 +49,15 @@ func Test_CosmosDB_MongoDatabase_CRUD(t *testing.T) {
 	db := documentdb.MongodbDatabase{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: documentdb.DatabaseAccountsMongodbDatabases_Spec{
-			Location: &tc.AzureRegion,
+			Location: tc.AzureRegion,
 			Options: &documentdb.CreateUpdateOptions{
 				AutoscaleSettings: &documentdb.AutoscaleSettings{
 					MaxThroughput: to.IntPtr(4000),
 				},
 			},
 			Owner: testcommon.AsOwner(&acct),
-			Resource: documentdb.MongoDBDatabaseResource{
-				Id: name,
+			Resource: &documentdb.MongoDBDatabaseResource{
+				Id: &name,
 			},
 		},
 	}
@@ -102,13 +100,13 @@ func CosmosDB_MongoDB_Collection_CRUD(tc *testcommon.KubePerTestContext, db clie
 	collection := documentdb.MongodbDatabaseCollection{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: documentdb.DatabaseAccountsMongodbDatabasesCollections_Spec{
-			Location: &tc.AzureRegion,
+			Location: tc.AzureRegion,
 			Options: &documentdb.CreateUpdateOptions{
 				Throughput: to.IntPtr(400),
 			},
 			Owner: testcommon.AsOwner(db),
-			Resource: documentdb.MongoDBCollectionResource{
-				Id: name,
+			Resource: &documentdb.MongoDBCollectionResource{
+				Id: &name,
 				Indexes: []documentdb.MongoIndex{{
 					Key: &documentdb.MongoIndexKeys{
 						Keys: []string{"_id"},
@@ -162,11 +160,11 @@ func CosmosDB_MongoDB_Database_ThroughputSettings_CRUD(tc *testcommon.KubePerTes
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("throughput")),
 		Spec: documentdb.DatabaseAccountsMongodbDatabasesThroughputSettings_Spec{
 			Owner: testcommon.AsOwner(db),
-			Resource: documentdb.ThroughputSettingsResource{
+			Resource: &documentdb.ThroughputSettingsResource{
 				// We cannot change this to be a fixed throughput as we already created the database using
 				// autoscale and they do not allow switching back to fixed from that.
 				AutoscaleSettings: &documentdb.AutoscaleSettingsResource{
-					MaxThroughput: 5000,
+					MaxThroughput: to.IntPtr(5000),
 				},
 			},
 		},
@@ -179,15 +177,15 @@ func CosmosDB_MongoDB_Database_ThroughputSettings_CRUD(tc *testcommon.KubePerTes
 	// Ensure that the status is what we expect
 	tc.Expect(throughputSettings.Status.Id).ToNot(BeNil())
 	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
-	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings.MaxThroughput).To(Equal(5000))
+	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings.MaxThroughput).To(Equal(to.IntPtr(5000)))
 
 	tc.T.Log("increase max throughput to 6000")
 	old := throughputSettings.DeepCopy()
-	throughputSettings.Spec.Resource.AutoscaleSettings.MaxThroughput = 6000
+	throughputSettings.Spec.Resource.AutoscaleSettings.MaxThroughput = to.IntPtr(6000)
 	tc.PatchResourceAndWait(old, &throughputSettings)
 	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
 	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings).ToNot(BeNil())
-	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings.MaxThroughput).To(Equal(6000))
+	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings.MaxThroughput).To(Equal(to.IntPtr(6000)))
 }
 
 func CosmosDB_MongoDB_Database_Collections_ThroughputSettings_CRUD(tc *testcommon.KubePerTestContext, collection client.Object) {
@@ -195,7 +193,7 @@ func CosmosDB_MongoDB_Database_Collections_ThroughputSettings_CRUD(tc *testcommo
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("throughput")),
 		Spec: documentdb.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec{
 			Owner: testcommon.AsOwner(collection),
-			Resource: documentdb.ThroughputSettingsResource{
+			Resource: &documentdb.ThroughputSettingsResource{
 				Throughput: to.IntPtr(500),
 			},
 		},

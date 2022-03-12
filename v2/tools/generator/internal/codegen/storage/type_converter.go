@@ -20,19 +20,14 @@ type TypeConverter struct {
 	visitor astmodel.TypeVisitor
 	// definitions contains all the definitions for this group
 	definitions astmodel.TypeDefinitionSet
-	// conversionGraph is the map of package conversions we use
-	conversionGraph *ConversionGraph
 	// propertyConverter is used to modify properties
 	propertyConverter *PropertyConverter
 }
 
-// NewTypeConverter creates a new converter for the creating of storage variants
-func NewTypeConverter(
-	definitions astmodel.TypeDefinitionSet,
-	conversionGraph *ConversionGraph) *TypeConverter {
+// NewTypeConverter creates a new converter for the creation of storage variants
+func NewTypeConverter(definitions astmodel.TypeDefinitionSet) *TypeConverter {
 	result := &TypeConverter{
 		definitions:       definitions,
-		conversionGraph:   conversionGraph,
 		propertyConverter: NewPropertyConverter(definitions),
 	}
 
@@ -98,7 +93,7 @@ func (t *TypeConverter) convertObjectType(
 		errs = append(errs, err)
 	}
 
-	// We use the JSON identifier $propertyBag because it can't possibly conflict with any identifer generated from
+	// We use the JSON identifier $propertyBag because it can't possibly conflict with any identifier generated from
 	// an ARM schema (none of those use the prefix `$`)
 	bagProperty := astmodel.NewPropertyDefinition(bagName, "$propertyBag", astmodel.PropertyBagType).
 		WithTag("json", "omitempty")
@@ -146,15 +141,16 @@ func (t *TypeConverter) stripAllFlags(
 	return astmodel.IdentityVisitOfFlaggedType(tv, flaggedType, ctx)
 }
 
+// tryConvertToStoragePackage converts the supplied TypeName to reference the parallel type in a storage package if it
+// is a local reference; if not, it returns false.
 func (t *TypeConverter) tryConvertToStoragePackage(name astmodel.TypeName) (astmodel.TypeName, bool) {
-	// Map the type name into our storage package
-	ref, ok := t.conversionGraph.LookupTransition(name.PackageReference)
+	local, ok := name.PackageReference.(astmodel.LocalPackageReference)
 	if !ok {
 		return astmodel.EmptyTypeName, false
 	}
 
-	visitedName := astmodel.MakeTypeName(ref, name.Name())
-	return visitedName, true
+	storage := astmodel.MakeStoragePackageReference(local)
+	return name.WithPackageReference(storage), true
 }
 
 // descriptionForStorageVariant creates a description for a storage variant, indicating which

@@ -10,10 +10,10 @@ type FlexibleServersConfigurations_SpecARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the server configuration.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: The properties of a configuration.
-	Properties ConfigurationPropertiesARM `json:"properties"`
+	Properties *ConfigurationPropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`

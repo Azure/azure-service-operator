@@ -41,7 +41,7 @@ type DiskProperties_StatusARM struct {
 	BurstingEnabled *bool `json:"burstingEnabled,omitempty"`
 
 	//CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.
-	CreationData CreationData_StatusARM `json:"creationData"`
+	CreationData *CreationData_StatusARM `json:"creationData,omitempty"`
 
 	//DiskAccessId: ARM id of the DiskAccess resource for using private endpoints on disks.
 	DiskAccessId *string `json:"diskAccessId,omitempty"`
@@ -131,7 +131,7 @@ type ExtendedLocation_StatusARM struct {
 
 type CreationData_StatusARM struct {
 	//CreateOption: This enumerates the possible sources of a disk's creation.
-	CreateOption CreationDataStatusCreateOption `json:"createOption"`
+	CreateOption *CreationDataStatusCreateOption `json:"createOption,omitempty"`
 
 	//GalleryImageReference: Required if creating from a Gallery Image. The id of the ImageDiskReference will be the ARM id of
 	//the shared galley image version from which to create a disk.
@@ -175,7 +175,7 @@ type EncryptionSettingsCollection_StatusARM struct {
 	//Enabled: Set this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set
 	//this flag to false and remove DiskEncryptionKey and KeyEncryptionKey to disable encryption. If EncryptionSettings is
 	//null in the request object, the existing settings remain unchanged.
-	Enabled bool `json:"enabled"`
+	Enabled *bool `json:"enabled,omitempty"`
 
 	//EncryptionSettings: A collection of encryption settings, one for each disk volume.
 	EncryptionSettings []EncryptionSettingsElement_StatusARM `json:"encryptionSettings,omitempty"`
@@ -197,17 +197,17 @@ const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZon
 
 type PurchasePlan_StatusARM struct {
 	//Name: The plan ID.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//Product: Specifies the product of the image from the marketplace. This is the same value as Offer under the
 	//imageReference element.
-	Product string `json:"product"`
+	Product *string `json:"product,omitempty"`
 
 	//PromotionCode: The Offer Promotion Code.
 	PromotionCode *string `json:"promotionCode,omitempty"`
 
 	//Publisher: The publisher ID.
-	Publisher string `json:"publisher"`
+	Publisher *string `json:"publisher,omitempty"`
 }
 
 type ShareInfoElement_StatusARM struct {
@@ -226,7 +226,7 @@ type EncryptionSettingsElement_StatusARM struct {
 
 type ImageDiskReference_StatusARM struct {
 	//Id: A relative uri containing either a Platform Image Repository or user image reference.
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 
 	//Lun: If the disk is created from an image's data disk, this is an index that indicates which of the data disks in the
 	//image to use. For OS disks, this field is null.
@@ -235,18 +235,18 @@ type ImageDiskReference_StatusARM struct {
 
 type KeyVaultAndKeyReference_StatusARM struct {
 	//KeyUrl: Url pointing to a key or secret in KeyVault
-	KeyUrl string `json:"keyUrl"`
+	KeyUrl *string `json:"keyUrl,omitempty"`
 
 	//SourceVault: Resource id of the KeyVault containing the key or secret
-	SourceVault SourceVault_StatusARM `json:"sourceVault"`
+	SourceVault *SourceVault_StatusARM `json:"sourceVault,omitempty"`
 }
 
 type KeyVaultAndSecretReference_StatusARM struct {
 	//SecretUrl: Url pointing to a key or secret in KeyVault
-	SecretUrl string `json:"secretUrl"`
+	SecretUrl *string `json:"secretUrl,omitempty"`
 
 	//SourceVault: Resource id of the KeyVault containing the key or secret
-	SourceVault SourceVault_StatusARM `json:"sourceVault"`
+	SourceVault *SourceVault_StatusARM `json:"sourceVault,omitempty"`
 }
 
 type SourceVault_StatusARM struct {

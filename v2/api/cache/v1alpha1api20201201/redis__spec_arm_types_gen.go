@@ -7,13 +7,13 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Redis_SpecARM struct {
 	//Location: The geo-location where the resource lives
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the Redis cache.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	//Properties: Properties supplied to Create Redis operation.
-	Properties RedisCreatePropertiesARM `json:"properties"`
+	Properties *RedisCreatePropertiesARM `json:"properties,omitempty"`
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -71,7 +71,7 @@ type RedisCreatePropertiesARM struct {
 	ShardCount *int `json:"shardCount,omitempty"`
 
 	//Sku: SKU parameters supplied to the create Redis operation.
-	Sku SkuARM `json:"sku"`
+	Sku *SkuARM `json:"sku,omitempty"`
 
 	//StaticIP: Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual
 	//Network; auto assigned by default.
@@ -86,11 +86,11 @@ type RedisCreatePropertiesARM struct {
 type SkuARM struct {
 	//Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
 	//P (Premium) family (1, 2, 3, 4).
-	Capacity int `json:"capacity"`
+	Capacity *int `json:"capacity,omitempty"`
 
 	//Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
-	Family SkuFamily `json:"family"`
+	Family *SkuFamily `json:"family,omitempty"`
 
 	//Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium).
-	Name SkuName `json:"name"`
+	Name *SkuName `json:"name,omitempty"`
 }

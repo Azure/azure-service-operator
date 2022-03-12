@@ -18,8 +18,8 @@ import (
 // InjectPropertyAssignmentTestsID is the unique identifier for this stage
 const InjectPropertyAssignmentTestsID = "injectPropertyAssignmentTestCases"
 
-func InjectPropertyAssignmentTests(idFactory astmodel.IdentifierFactory) Stage {
-	stage := MakeStage(
+func InjectPropertyAssignmentTests(idFactory astmodel.IdentifierFactory) *Stage {
+	stage := NewStage(
 		InjectPropertyAssignmentTestsID,
 		"Add test cases to verify PropertyAssignment functions",
 		func(ctx context.Context, state *State) (*State, error) {
@@ -46,8 +46,7 @@ func InjectPropertyAssignmentTests(idFactory astmodel.IdentifierFactory) Stage {
 
 	stage.RequiresPrerequisiteStages(
 		InjectPropertyAssignmentFunctionsStageID, // Need PropertyAssignmentFunctions to test
-		InjectJsonSerializationTestsID,           // We reuse the generators from the JSON tests
-	)
+		InjectJsonSerializationTestsID)           // We reuse the generators from the JSON tests
 
 	return stage
 }

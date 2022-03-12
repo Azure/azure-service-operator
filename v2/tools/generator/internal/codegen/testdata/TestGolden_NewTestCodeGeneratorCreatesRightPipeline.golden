@@ -23,13 +23,16 @@ verifyNoErroredTypes                                 Verify there are no Errored
 stripUnused                                          Strip unused types for test
 replaceAnyTypeWithJSON                               Replace properties using interface{} with arbitrary JSON
 addSecrets                                azure      Replace properties flagged as secret with genruntime.SecretReference
+makeOneOfDiscriminantRequired             azure      Fix one of types to a discriminator which is not omitempty/optional
 applyKubernetesResourceInterface          azure      Add the KubernetesResource interface to every resource
 flattenProperties                                    Apply flattening to properties marked for flattening
 stripUnused                                          Strip unused types for test
 addStatusConditions                       azure      Add the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources
 addOperatorSpec                           azure      Adds the property 'OperatorSpec' to all Spec types that require it
-createConversionGraph                     azure      Create the graph of conversions between versions of each resource group
+applyDefaulterAndValidatorInterfaces      azure      Add the admission.Defaulter and admission.Validator interfaces to each resource that requires them
 injectOriginalVersionFunction             azure      Inject the function OriginalVersion() into each Spec type
+createStorageTypes                        azure      Create storage versions of CRD types
+createConversionGraph                     azure      Create the graph of conversions between versions of each resource group
 injectOriginalVersionProperty             azure      Inject the property OriginalVersion into each Storage Spec type
 injectPropertyAssignmentFunctions         azure      Inject property assignment functions AssignFrom() and AssignTo() into resources and objects
 implementConvertibleSpecInterface         azure      Inject ConvertSpecTo() and ConvertSpecFrom() to implement genruntime.ConvertibleSpec on each Spec type
@@ -38,9 +41,9 @@ injectOriginalGVKFunction                 azure      Inject the function Origina
 markLatestStorageVariantAsHubVersion      azure      Mark the latest GA storage variant of each resource as the hub version
 injectHubFunction                         azure      Inject the function Hub() into each hub resource
 implementConvertibleInterface             azure      Implement the Convertible interface on each non-hub Resource type
-injectResourceConversionTestCases         azure      Add test cases to verify Resource implementations of conversion.Convertible (funcs ConvertTo & ConvertFrom) behave as expected
 injectJSONTestCases                       azure      Add test cases to verify JSON serialization
 injectPropertyAssignmentTestCases         azure      Add test cases to verify PropertyAssignment functions
+injectResourceConversionTestCases         azure      Add test cases to verify Resource implementations of conversion.Convertible (funcs ConvertTo & ConvertFrom) behave as expected
 simplifyDefinitions                                  Flatten definitions by removing wrapper types
 ensureArmTypeExistsForEveryType           azure      Check that an ARM type exists for both Spec and Status of each resource
 detectSkippingProperties                  azure      Detect properties that skip resource or object versions

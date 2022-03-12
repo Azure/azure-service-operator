@@ -3,6 +3,12 @@
 // Licensed under the MIT license.
 package v1alpha1api20200101
 
+import (
+	"github.com/Azure/azure-service-operator/testing/test/v1alpha1api20200101storage"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/pkg/errors"
+)
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	Foo              *Foo     `json:"foo,omitempty"`
@@ -11,7 +17,119 @@ type Test struct {
 	StringArrayAlias []string `json:"stringArrayAlias,omitempty"`
 }
 
+// AssignPropertiesFromTest populates our Test from the provided source Test
+func (test *Test) AssignPropertiesFromTest(source *v1alpha1api20200101storage.Test) error {
+
+	// Foo
+	if source.Foo != nil {
+		var foo Foo
+		err := foo.AssignPropertiesFromFoo(source.Foo)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromFoo() to populate field Foo")
+		}
+		test.Foo = &foo
+	} else {
+		test.Foo = nil
+	}
+
+	// FooAlias
+	if source.FooAlias != nil {
+		var fooAlia Foo
+		err := fooAlia.AssignPropertiesFromFoo(source.FooAlias)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromFoo() to populate field FooAlias")
+		}
+		test.FooAlias = &fooAlia
+	} else {
+		test.FooAlias = nil
+	}
+
+	// StringAlias
+	test.StringAlias = genruntime.ClonePointerToString(source.StringAlias)
+
+	// StringArrayAlias
+	test.StringArrayAlias = genruntime.CloneSliceOfString(source.StringArrayAlias)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTest populates the provided destination Test from our Test
+func (test *Test) AssignPropertiesToTest(destination *v1alpha1api20200101storage.Test) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Foo
+	if test.Foo != nil {
+		var foo v1alpha1api20200101storage.Foo
+		err := test.Foo.AssignPropertiesToFoo(&foo)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToFoo() to populate field Foo")
+		}
+		destination.Foo = &foo
+	} else {
+		destination.Foo = nil
+	}
+
+	// FooAlias
+	if test.FooAlias != nil {
+		var fooAlia v1alpha1api20200101storage.Foo
+		err := test.FooAlias.AssignPropertiesToFoo(&fooAlia)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToFoo() to populate field FooAlias")
+		}
+		destination.FooAlias = &fooAlia
+	} else {
+		destination.FooAlias = nil
+	}
+
+	// StringAlias
+	destination.StringAlias = genruntime.ClonePointerToString(test.StringAlias)
+
+	// StringArrayAlias
+	destination.StringArrayAlias = genruntime.CloneSliceOfString(test.StringArrayAlias)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
 	Name *string `json:"name,omitempty"`
+}
+
+// AssignPropertiesFromFoo populates our Foo from the provided source Foo
+func (foo *Foo) AssignPropertiesFromFoo(source *v1alpha1api20200101storage.Foo) error {
+
+	// Name
+	foo.Name = genruntime.ClonePointerToString(source.Name)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFoo populates the provided destination Foo from our Foo
+func (foo *Foo) AssignPropertiesToFoo(destination *v1alpha1api20200101storage.Foo) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(foo.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }

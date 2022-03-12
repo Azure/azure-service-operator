@@ -82,7 +82,7 @@ func DisksSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDisksSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDisksSpecARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
@@ -91,7 +91,7 @@ func AddIndependentPropertyGeneratorsForDisksSpecARM(gens map[string]gopter.Gen)
 // AddRelatedPropertyGeneratorsForDisksSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDisksSpecARM(gens map[string]gopter.Gen) {
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationARMGenerator())
-	gens["Properties"] = DiskPropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(DiskPropertiesARMGenerator())
 	gens["Sku"] = gen.PtrOf(DiskSkuARMGenerator())
 }
 
@@ -176,7 +176,7 @@ func AddIndependentPropertyGeneratorsForDiskPropertiesARM(gens map[string]gopter
 
 // AddRelatedPropertyGeneratorsForDiskPropertiesARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDiskPropertiesARM(gens map[string]gopter.Gen) {
-	gens["CreationData"] = CreationDataARMGenerator()
+	gens["CreationData"] = gen.PtrOf(CreationDataARMGenerator())
 	gens["Encryption"] = gen.PtrOf(EncryptionARMGenerator())
 	gens["EncryptionSettingsCollection"] = gen.PtrOf(EncryptionSettingsCollectionARMGenerator())
 	gens["PurchasePlan"] = gen.PtrOf(PurchasePlanARMGenerator())
@@ -371,14 +371,14 @@ func CreationDataARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCreationDataARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCreationDataARM(gens map[string]gopter.Gen) {
-	gens["CreateOption"] = gen.OneConstOf(
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(
 		CreationDataCreateOptionAttach,
 		CreationDataCreateOptionCopy,
 		CreationDataCreateOptionEmpty,
 		CreationDataCreateOptionFromImage,
 		CreationDataCreateOptionImport,
 		CreationDataCreateOptionRestore,
-		CreationDataCreateOptionUpload)
+		CreationDataCreateOptionUpload))
 	gens["LogicalSectorSize"] = gen.PtrOf(gen.Int())
 	gens["SourceResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceUri"] = gen.PtrOf(gen.AlphaString())
@@ -518,7 +518,7 @@ func EncryptionSettingsCollectionARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionSettingsCollectionARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionSettingsCollectionARM(gens map[string]gopter.Gen) {
-	gens["Enabled"] = gen.Bool()
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["EncryptionSettingsVersion"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -583,10 +583,10 @@ func PurchasePlanARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPurchasePlanARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPurchasePlanARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-	gens["Product"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Product"] = gen.PtrOf(gen.AlphaString())
 	gens["PromotionCode"] = gen.PtrOf(gen.AlphaString())
-	gens["Publisher"] = gen.AlphaString()
+	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_EncryptionSettingsElementARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -707,7 +707,7 @@ func ImageDiskReferenceARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForImageDiskReferenceARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImageDiskReferenceARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Lun"] = gen.PtrOf(gen.Int())
 }
 
@@ -777,12 +777,12 @@ func KeyVaultAndKeyReferenceARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKeyVaultAndKeyReferenceARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyVaultAndKeyReferenceARM(gens map[string]gopter.Gen) {
-	gens["KeyUrl"] = gen.AlphaString()
+	gens["KeyUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForKeyVaultAndKeyReferenceARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForKeyVaultAndKeyReferenceARM(gens map[string]gopter.Gen) {
-	gens["SourceVault"] = SourceVaultARMGenerator()
+	gens["SourceVault"] = gen.PtrOf(SourceVaultARMGenerator())
 }
 
 func Test_KeyVaultAndSecretReferenceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -851,12 +851,12 @@ func KeyVaultAndSecretReferenceARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKeyVaultAndSecretReferenceARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyVaultAndSecretReferenceARM(gens map[string]gopter.Gen) {
-	gens["SecretUrl"] = gen.AlphaString()
+	gens["SecretUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForKeyVaultAndSecretReferenceARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForKeyVaultAndSecretReferenceARM(gens map[string]gopter.Gen) {
-	gens["SourceVault"] = SourceVaultARMGenerator()
+	gens["SourceVault"] = gen.PtrOf(SourceVaultARMGenerator())
 }
 
 func Test_SourceVaultARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

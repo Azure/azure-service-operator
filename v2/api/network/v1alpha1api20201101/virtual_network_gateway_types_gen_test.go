@@ -423,7 +423,7 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpec(gens map[stri
 		VirtualNetworkGatewaysSpecPropertiesGatewayTypeHyperNet,
 		VirtualNetworkGatewaysSpecPropertiesGatewayTypeLocalGateway,
 		VirtualNetworkGatewaysSpecPropertiesGatewayTypeVpn))
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["VpnGatewayGeneration"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewaysSpecPropertiesVpnGatewayGenerationGeneration1, VirtualNetworkGatewaysSpecPropertiesVpnGatewayGenerationGeneration2, VirtualNetworkGatewaysSpecPropertiesVpnGatewayGenerationNone))
 	gens["VpnType"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewaysSpecPropertiesVpnTypePolicyBased, VirtualNetworkGatewaysSpecPropertiesVpnTypeRouteBased))
@@ -1751,7 +1751,7 @@ func IpsecPolicyGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForIpsecPolicy is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIpsecPolicy(gens map[string]gopter.Gen) {
-	gens["DhGroup"] = gen.OneConstOf(
+	gens["DhGroup"] = gen.PtrOf(gen.OneConstOf(
 		IpsecPolicyDhGroupDHGroup1,
 		IpsecPolicyDhGroupDHGroup14,
 		IpsecPolicyDhGroupDHGroup2,
@@ -1759,23 +1759,23 @@ func AddIndependentPropertyGeneratorsForIpsecPolicy(gens map[string]gopter.Gen) 
 		IpsecPolicyDhGroupDHGroup24,
 		IpsecPolicyDhGroupECP256,
 		IpsecPolicyDhGroupECP384,
-		IpsecPolicyDhGroupNone)
-	gens["IkeEncryption"] = gen.OneConstOf(
+		IpsecPolicyDhGroupNone))
+	gens["IkeEncryption"] = gen.PtrOf(gen.OneConstOf(
 		IpsecPolicyIkeEncryptionAES128,
 		IpsecPolicyIkeEncryptionAES192,
 		IpsecPolicyIkeEncryptionAES256,
 		IpsecPolicyIkeEncryptionDES,
 		IpsecPolicyIkeEncryptionDES3,
 		IpsecPolicyIkeEncryptionGCMAES128,
-		IpsecPolicyIkeEncryptionGCMAES256)
-	gens["IkeIntegrity"] = gen.OneConstOf(
+		IpsecPolicyIkeEncryptionGCMAES256))
+	gens["IkeIntegrity"] = gen.PtrOf(gen.OneConstOf(
 		IpsecPolicyIkeIntegrityGCMAES128,
 		IpsecPolicyIkeIntegrityGCMAES256,
 		IpsecPolicyIkeIntegrityMD5,
 		IpsecPolicyIkeIntegritySHA1,
 		IpsecPolicyIkeIntegritySHA256,
-		IpsecPolicyIkeIntegritySHA384)
-	gens["IpsecEncryption"] = gen.OneConstOf(
+		IpsecPolicyIkeIntegritySHA384))
+	gens["IpsecEncryption"] = gen.PtrOf(gen.OneConstOf(
 		IpsecPolicyIpsecEncryptionAES128,
 		IpsecPolicyIpsecEncryptionAES192,
 		IpsecPolicyIpsecEncryptionAES256,
@@ -1784,15 +1784,15 @@ func AddIndependentPropertyGeneratorsForIpsecPolicy(gens map[string]gopter.Gen) 
 		IpsecPolicyIpsecEncryptionGCMAES128,
 		IpsecPolicyIpsecEncryptionGCMAES192,
 		IpsecPolicyIpsecEncryptionGCMAES256,
-		IpsecPolicyIpsecEncryptionNone)
-	gens["IpsecIntegrity"] = gen.OneConstOf(
+		IpsecPolicyIpsecEncryptionNone))
+	gens["IpsecIntegrity"] = gen.PtrOf(gen.OneConstOf(
 		IpsecPolicyIpsecIntegrityGCMAES128,
 		IpsecPolicyIpsecIntegrityGCMAES192,
 		IpsecPolicyIpsecIntegrityGCMAES256,
 		IpsecPolicyIpsecIntegrityMD5,
 		IpsecPolicyIpsecIntegritySHA1,
-		IpsecPolicyIpsecIntegritySHA256)
-	gens["PfsGroup"] = gen.OneConstOf(
+		IpsecPolicyIpsecIntegritySHA256))
+	gens["PfsGroup"] = gen.PtrOf(gen.OneConstOf(
 		IpsecPolicyPfsGroupECP256,
 		IpsecPolicyPfsGroupECP384,
 		IpsecPolicyPfsGroupNone,
@@ -1801,9 +1801,9 @@ func AddIndependentPropertyGeneratorsForIpsecPolicy(gens map[string]gopter.Gen) 
 		IpsecPolicyPfsGroupPFS2,
 		IpsecPolicyPfsGroupPFS2048,
 		IpsecPolicyPfsGroupPFS24,
-		IpsecPolicyPfsGroupPFSMM)
-	gens["SaDataSizeKilobytes"] = gen.Int()
-	gens["SaLifeTimeSeconds"] = gen.Int()
+		IpsecPolicyPfsGroupPFSMM))
+	gens["SaDataSizeKilobytes"] = gen.PtrOf(gen.Int())
+	gens["SaLifeTimeSeconds"] = gen.PtrOf(gen.Int())
 }
 
 func Test_IpsecPolicy_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1904,7 +1904,7 @@ func IpsecPolicyStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForIpsecPolicyStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIpsecPolicyStatus(gens map[string]gopter.Gen) {
-	gens["DhGroup"] = gen.OneConstOf(
+	gens["DhGroup"] = gen.PtrOf(gen.OneConstOf(
 		DhGroup_StatusDHGroup1,
 		DhGroup_StatusDHGroup14,
 		DhGroup_StatusDHGroup2,
@@ -1912,23 +1912,23 @@ func AddIndependentPropertyGeneratorsForIpsecPolicyStatus(gens map[string]gopter
 		DhGroup_StatusDHGroup24,
 		DhGroup_StatusECP256,
 		DhGroup_StatusECP384,
-		DhGroup_StatusNone)
-	gens["IkeEncryption"] = gen.OneConstOf(
+		DhGroup_StatusNone))
+	gens["IkeEncryption"] = gen.PtrOf(gen.OneConstOf(
 		IkeEncryption_StatusAES128,
 		IkeEncryption_StatusAES192,
 		IkeEncryption_StatusAES256,
 		IkeEncryption_StatusDES,
 		IkeEncryption_StatusDES3,
 		IkeEncryption_StatusGCMAES128,
-		IkeEncryption_StatusGCMAES256)
-	gens["IkeIntegrity"] = gen.OneConstOf(
+		IkeEncryption_StatusGCMAES256))
+	gens["IkeIntegrity"] = gen.PtrOf(gen.OneConstOf(
 		IkeIntegrity_StatusGCMAES128,
 		IkeIntegrity_StatusGCMAES256,
 		IkeIntegrity_StatusMD5,
 		IkeIntegrity_StatusSHA1,
 		IkeIntegrity_StatusSHA256,
-		IkeIntegrity_StatusSHA384)
-	gens["IpsecEncryption"] = gen.OneConstOf(
+		IkeIntegrity_StatusSHA384))
+	gens["IpsecEncryption"] = gen.PtrOf(gen.OneConstOf(
 		IpsecEncryption_StatusAES128,
 		IpsecEncryption_StatusAES192,
 		IpsecEncryption_StatusAES256,
@@ -1937,15 +1937,15 @@ func AddIndependentPropertyGeneratorsForIpsecPolicyStatus(gens map[string]gopter
 		IpsecEncryption_StatusGCMAES128,
 		IpsecEncryption_StatusGCMAES192,
 		IpsecEncryption_StatusGCMAES256,
-		IpsecEncryption_StatusNone)
-	gens["IpsecIntegrity"] = gen.OneConstOf(
+		IpsecEncryption_StatusNone))
+	gens["IpsecIntegrity"] = gen.PtrOf(gen.OneConstOf(
 		IpsecIntegrity_StatusGCMAES128,
 		IpsecIntegrity_StatusGCMAES192,
 		IpsecIntegrity_StatusGCMAES256,
 		IpsecIntegrity_StatusMD5,
 		IpsecIntegrity_StatusSHA1,
-		IpsecIntegrity_StatusSHA256)
-	gens["PfsGroup"] = gen.OneConstOf(
+		IpsecIntegrity_StatusSHA256))
+	gens["PfsGroup"] = gen.PtrOf(gen.OneConstOf(
 		PfsGroup_StatusECP256,
 		PfsGroup_StatusECP384,
 		PfsGroup_StatusNone,
@@ -1954,9 +1954,9 @@ func AddIndependentPropertyGeneratorsForIpsecPolicyStatus(gens map[string]gopter
 		PfsGroup_StatusPFS2,
 		PfsGroup_StatusPFS2048,
 		PfsGroup_StatusPFS24,
-		PfsGroup_StatusPFSMM)
-	gens["SaDataSizeKilobytes"] = gen.Int()
-	gens["SaLifeTimeSeconds"] = gen.Int()
+		PfsGroup_StatusPFSMM))
+	gens["SaDataSizeKilobytes"] = gen.PtrOf(gen.Int())
+	gens["SaLifeTimeSeconds"] = gen.PtrOf(gen.Int())
 }
 
 func Test_RadiusServer_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2057,7 +2057,7 @@ func RadiusServerGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRadiusServer is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRadiusServer(gens map[string]gopter.Gen) {
-	gens["RadiusServerAddress"] = gen.AlphaString()
+	gens["RadiusServerAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["RadiusServerScore"] = gen.PtrOf(gen.Int())
 	gens["RadiusServerSecret"] = gen.PtrOf(gen.AlphaString())
 }
@@ -2160,7 +2160,7 @@ func RadiusServerStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRadiusServerStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRadiusServerStatus(gens map[string]gopter.Gen) {
-	gens["RadiusServerAddress"] = gen.AlphaString()
+	gens["RadiusServerAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["RadiusServerScore"] = gen.PtrOf(gen.Int())
 	gens["RadiusServerSecret"] = gen.PtrOf(gen.AlphaString())
 }
@@ -2370,7 +2370,7 @@ func VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCert
 // AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicCertData"] = gen.AlphaString()
+	gens["PublicCertData"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_VpnClientRevokedCertificate_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2590,5 +2590,5 @@ func AddIndependentPropertyGeneratorsForVpnClientRootCertificateStatus(gens map[
 		ProvisioningState_StatusFailed,
 		ProvisioningState_StatusSucceeded,
 		ProvisioningState_StatusUpdating))
-	gens["PublicCertData"] = gen.AlphaString()
+	gens["PublicCertData"] = gen.PtrOf(gen.AlphaString())
 }

@@ -266,15 +266,8 @@ func (v *versionComparer) isPreviewVersionLabel(identifier string) (int, bool) {
 // special set, and if so returns its true. If the passed identifier does not contain one,
 // returns false.
 func containsPreviewVersionLabel(identifier string) bool {
-	// Work out where the API version starts in the identifier
-	// (We don't want to return preview just because the operator itself is in preview)
-	startOfAPIVersion := 0
-	if strings.HasPrefix(identifier, generatorVersionPrefix) {
-		startOfAPIVersion = len(generatorVersionPrefix)
-	}
-
 	for _, id := range previewVersionLabels {
-		if strings.LastIndex(identifier, id) > startOfAPIVersion {
+		if strings.LastIndex(identifier, id) > 0 {
 			return true
 		}
 	}

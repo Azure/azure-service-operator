@@ -409,13 +409,13 @@ func AddIndependentPropertyGeneratorsForVirtualNetworksSpec(gens map[string]gopt
 	gens["AzureName"] = gen.AlphaString()
 	gens["EnableDdosProtection"] = gen.PtrOf(gen.Bool())
 	gens["EnableVmProtection"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForVirtualNetworksSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualNetworksSpec(gens map[string]gopter.Gen) {
-	gens["AddressSpace"] = AddressSpaceGenerator()
+	gens["AddressSpace"] = gen.PtrOf(AddressSpaceGenerator())
 	gens["BgpCommunities"] = gen.PtrOf(VirtualNetworkBgpCommunitiesGenerator())
 	gens["DdosProtectionPlan"] = gen.PtrOf(SubResourceGenerator())
 	gens["DhcpOptions"] = gen.PtrOf(DhcpOptionsGenerator())
@@ -1029,7 +1029,7 @@ func VirtualNetworkBgpCommunitiesGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities(gens map[string]gopter.Gen) {
-	gens["VirtualNetworkCommunity"] = gen.AlphaString()
+	gens["VirtualNetworkCommunity"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_VirtualNetworkBgpCommunities_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1132,7 +1132,7 @@ func VirtualNetworkBgpCommunitiesStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunitiesStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunitiesStatus(gens map[string]gopter.Gen) {
 	gens["RegionalCommunity"] = gen.PtrOf(gen.AlphaString())
-	gens["VirtualNetworkCommunity"] = gen.AlphaString()
+	gens["VirtualNetworkCommunity"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_VirtualNetworkPeering_Status_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1347,7 +1347,7 @@ func VirtualNetworksSpecPropertiesSubnetsGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForVirtualNetworksSpecPropertiesSubnets(gens map[string]gopter.Gen) {
 	gens["AddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["AddressPrefixes"] = gen.SliceOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateEndpointNetworkPolicies"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateLinkServiceNetworkPolicies"] = gen.PtrOf(gen.AlphaString())
 }
@@ -1462,6 +1462,6 @@ func VirtualNetworksSpecPropertiesSubnetsPropertiesDelegationsGenerator() gopter
 
 // AddIndependentPropertyGeneratorsForVirtualNetworksSpecPropertiesSubnetsPropertiesDelegations is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworksSpecPropertiesSubnetsPropertiesDelegations(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ServiceName"] = gen.PtrOf(gen.AlphaString())
 }

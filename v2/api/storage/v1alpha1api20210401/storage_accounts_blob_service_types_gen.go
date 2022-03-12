@@ -846,7 +846,10 @@ type StorageAccountsBlobServices_Spec struct {
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner" kind:"StorageAccount"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a storage.azure.com/StorageAccount resource
+	Owner *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccount"`
 
 	//RestorePolicy: The blob service properties for blob restore policy
 	RestorePolicy *RestorePolicyProperties `json:"restorePolicy,omitempty"`
@@ -1072,7 +1075,7 @@ func (services *StorageAccountsBlobServices_Spec) PopulateFromARM(owner genrunti
 	}
 
 	// Set property ‘Owner’:
-	services.Owner = genruntime.KnownResourceReference{
+	services.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -1238,7 +1241,12 @@ func (services *StorageAccountsBlobServices_Spec) AssignPropertiesFromStorageAcc
 	services.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	services.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		services.Owner = &owner
+	} else {
+		services.Owner = nil
+	}
 
 	// RestorePolicy
 	if source.RestorePolicy != nil {
@@ -1350,7 +1358,12 @@ func (services *StorageAccountsBlobServices_Spec) AssignPropertiesToStorageAccou
 	destination.OriginalVersion = services.OriginalVersion()
 
 	// Owner
-	destination.Owner = services.Owner.Copy()
+	if services.Owner != nil {
+		owner := services.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// RestorePolicy
 	if services.RestorePolicy != nil {
@@ -1998,7 +2011,7 @@ type LastAccessTimeTrackingPolicy struct {
 
 	// +kubebuilder:validation:Required
 	//Enable: When set to true last access time based tracking is enabled.
-	Enable bool `json:"enable"`
+	Enable *bool `json:"enable,omitempty"`
 
 	//Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only.
 	Name *LastAccessTimeTrackingPolicyName `json:"name,omitempty"`
@@ -2023,7 +2036,10 @@ func (policy *LastAccessTimeTrackingPolicy) ConvertToARM(resolved genruntime.Con
 	}
 
 	// Set property ‘Enable’:
-	result.Enable = policy.Enable
+	if policy.Enable != nil {
+		enable := *policy.Enable
+		result.Enable = &enable
+	}
 
 	// Set property ‘Name’:
 	if policy.Name != nil {
@@ -2057,7 +2073,10 @@ func (policy *LastAccessTimeTrackingPolicy) PopulateFromARM(owner genruntime.Arb
 	}
 
 	// Set property ‘Enable’:
-	policy.Enable = typedInput.Enable
+	if typedInput.Enable != nil {
+		enable := *typedInput.Enable
+		policy.Enable = &enable
+	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
@@ -2083,9 +2102,10 @@ func (policy *LastAccessTimeTrackingPolicy) AssignPropertiesFromLastAccessTimeTr
 
 	// Enable
 	if source.Enable != nil {
-		policy.Enable = *source.Enable
+		enable := *source.Enable
+		policy.Enable = &enable
 	} else {
-		policy.Enable = false
+		policy.Enable = nil
 	}
 
 	// Name
@@ -2112,8 +2132,12 @@ func (policy *LastAccessTimeTrackingPolicy) AssignPropertiesToLastAccessTimeTrac
 	destination.BlobType = genruntime.CloneSliceOfString(policy.BlobType)
 
 	// Enable
-	enable := policy.Enable
-	destination.Enable = &enable
+	if policy.Enable != nil {
+		enable := *policy.Enable
+		destination.Enable = &enable
+	} else {
+		destination.Enable = nil
+	}
 
 	// Name
 	if policy.Name != nil {
@@ -2142,9 +2166,8 @@ type LastAccessTimeTrackingPolicy_Status struct {
 	//read only
 	BlobType []string `json:"blobType,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Enable: When set to true last access time based tracking is enabled.
-	Enable bool `json:"enable"`
+	Enable *bool `json:"enable,omitempty"`
 
 	//Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
 	Name *LastAccessTimeTrackingPolicyStatusName `json:"name,omitempty"`
@@ -2174,7 +2197,10 @@ func (policy *LastAccessTimeTrackingPolicy_Status) PopulateFromARM(owner genrunt
 	}
 
 	// Set property ‘Enable’:
-	policy.Enable = typedInput.Enable
+	if typedInput.Enable != nil {
+		enable := *typedInput.Enable
+		policy.Enable = &enable
+	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
@@ -2200,9 +2226,10 @@ func (policy *LastAccessTimeTrackingPolicy_Status) AssignPropertiesFromLastAcces
 
 	// Enable
 	if source.Enable != nil {
-		policy.Enable = *source.Enable
+		enable := *source.Enable
+		policy.Enable = &enable
 	} else {
-		policy.Enable = false
+		policy.Enable = nil
 	}
 
 	// Name
@@ -2229,8 +2256,12 @@ func (policy *LastAccessTimeTrackingPolicy_Status) AssignPropertiesToLastAccessT
 	destination.BlobType = genruntime.CloneSliceOfString(policy.BlobType)
 
 	// Enable
-	enable := policy.Enable
-	destination.Enable = &enable
+	if policy.Enable != nil {
+		enable := *policy.Enable
+		destination.Enable = &enable
+	} else {
+		destination.Enable = nil
+	}
 
 	// Name
 	if policy.Name != nil {
@@ -2263,7 +2294,7 @@ type RestorePolicyProperties struct {
 
 	// +kubebuilder:validation:Required
 	//Enabled: Blob restore is enabled if set to true.
-	Enabled bool `json:"enabled"`
+	Enabled *bool `json:"enabled,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RestorePolicyProperties{}
@@ -2282,7 +2313,10 @@ func (properties *RestorePolicyProperties) ConvertToARM(resolved genruntime.Conv
 	}
 
 	// Set property ‘Enabled’:
-	result.Enabled = properties.Enabled
+	if properties.Enabled != nil {
+		enabled := *properties.Enabled
+		result.Enabled = &enabled
+	}
 	return result, nil
 }
 
@@ -2305,7 +2339,10 @@ func (properties *RestorePolicyProperties) PopulateFromARM(owner genruntime.Arbi
 	}
 
 	// Set property ‘Enabled’:
-	properties.Enabled = typedInput.Enabled
+	if typedInput.Enabled != nil {
+		enabled := *typedInput.Enabled
+		properties.Enabled = &enabled
+	}
 
 	// No error
 	return nil
@@ -2324,9 +2361,10 @@ func (properties *RestorePolicyProperties) AssignPropertiesFromRestorePolicyProp
 
 	// Enabled
 	if source.Enabled != nil {
-		properties.Enabled = *source.Enabled
+		enabled := *source.Enabled
+		properties.Enabled = &enabled
 	} else {
-		properties.Enabled = false
+		properties.Enabled = nil
 	}
 
 	// No error
@@ -2347,8 +2385,12 @@ func (properties *RestorePolicyProperties) AssignPropertiesToRestorePolicyProper
 	}
 
 	// Enabled
-	enabled := properties.Enabled
-	destination.Enabled = &enabled
+	if properties.Enabled != nil {
+		enabled := *properties.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2365,9 +2407,8 @@ type RestorePolicyProperties_Status struct {
 	//Days: how long this blob can be restored. It should be great than zero and less than DeleteRetentionPolicy.days.
 	Days *int `json:"days,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Enabled: Blob restore is enabled if set to true.
-	Enabled bool `json:"enabled"`
+	Enabled *bool `json:"enabled,omitempty"`
 
 	//LastEnabledTime: Deprecated in favor of minRestoreTime property.
 	LastEnabledTime *string `json:"lastEnabledTime,omitempty"`
@@ -2397,7 +2438,10 @@ func (properties *RestorePolicyProperties_Status) PopulateFromARM(owner genrunti
 	}
 
 	// Set property ‘Enabled’:
-	properties.Enabled = typedInput.Enabled
+	if typedInput.Enabled != nil {
+		enabled := *typedInput.Enabled
+		properties.Enabled = &enabled
+	}
 
 	// Set property ‘LastEnabledTime’:
 	if typedInput.LastEnabledTime != nil {
@@ -2423,9 +2467,10 @@ func (properties *RestorePolicyProperties_Status) AssignPropertiesFromRestorePol
 
 	// Enabled
 	if source.Enabled != nil {
-		properties.Enabled = *source.Enabled
+		enabled := *source.Enabled
+		properties.Enabled = &enabled
 	} else {
-		properties.Enabled = false
+		properties.Enabled = nil
 	}
 
 	// LastEnabledTime
@@ -2447,8 +2492,12 @@ func (properties *RestorePolicyProperties_Status) AssignPropertiesToRestorePolic
 	destination.Days = genruntime.ClonePointerToInt(properties.Days)
 
 	// Enabled
-	enabled := properties.Enabled
-	destination.Enabled = &enabled
+	if properties.Enabled != nil {
+		enabled := *properties.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
 
 	// LastEnabledTime
 	destination.LastEnabledTime = genruntime.ClonePointerToString(properties.LastEnabledTime)
@@ -2472,26 +2521,26 @@ type CorsRule struct {
 	// +kubebuilder:validation:Required
 	//AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
 	//request.
-	AllowedHeaders []string `json:"allowedHeaders"`
+	AllowedHeaders []string `json:"allowedHeaders,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
 	//origin.
-	AllowedMethods []CorsRuleAllowedMethods `json:"allowedMethods"`
+	AllowedMethods []CorsRuleAllowedMethods `json:"allowedMethods,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*"
 	//to allow all domains
-	AllowedOrigins []string `json:"allowedOrigins"`
+	AllowedOrigins []string `json:"allowedOrigins,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//ExposedHeaders: Required if CorsRule element is present. A list of response headers to expose to CORS clients.
-	ExposedHeaders []string `json:"exposedHeaders"`
+	ExposedHeaders []string `json:"exposedHeaders,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//MaxAgeInSeconds: Required if CorsRule element is present. The number of seconds that the client/browser should cache a
 	//preflight response.
-	MaxAgeInSeconds int `json:"maxAgeInSeconds"`
+	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &CorsRule{}
@@ -2524,7 +2573,10 @@ func (rule *CorsRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	}
 
 	// Set property ‘MaxAgeInSeconds’:
-	result.MaxAgeInSeconds = rule.MaxAgeInSeconds
+	if rule.MaxAgeInSeconds != nil {
+		maxAgeInSeconds := *rule.MaxAgeInSeconds
+		result.MaxAgeInSeconds = &maxAgeInSeconds
+	}
 	return result, nil
 }
 
@@ -2561,7 +2613,10 @@ func (rule *CorsRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 	}
 
 	// Set property ‘MaxAgeInSeconds’:
-	rule.MaxAgeInSeconds = typedInput.MaxAgeInSeconds
+	if typedInput.MaxAgeInSeconds != nil {
+		maxAgeInSeconds := *typedInput.MaxAgeInSeconds
+		rule.MaxAgeInSeconds = &maxAgeInSeconds
+	}
 
 	// No error
 	return nil
@@ -2593,7 +2648,7 @@ func (rule *CorsRule) AssignPropertiesFromCorsRule(source *v1alpha1api20210401st
 	rule.ExposedHeaders = genruntime.CloneSliceOfString(source.ExposedHeaders)
 
 	// MaxAgeInSeconds
-	rule.MaxAgeInSeconds = genruntime.GetOptionalIntValue(source.MaxAgeInSeconds)
+	rule.MaxAgeInSeconds = genruntime.ClonePointerToInt(source.MaxAgeInSeconds)
 
 	// No error
 	return nil
@@ -2627,8 +2682,7 @@ func (rule *CorsRule) AssignPropertiesToCorsRule(destination *v1alpha1api2021040
 	destination.ExposedHeaders = genruntime.CloneSliceOfString(rule.ExposedHeaders)
 
 	// MaxAgeInSeconds
-	maxAgeInSecond := rule.MaxAgeInSeconds
-	destination.MaxAgeInSeconds = &maxAgeInSecond
+	destination.MaxAgeInSeconds = genruntime.ClonePointerToInt(rule.MaxAgeInSeconds)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2642,29 +2696,24 @@ func (rule *CorsRule) AssignPropertiesToCorsRule(destination *v1alpha1api2021040
 }
 
 type CorsRule_Status struct {
-	// +kubebuilder:validation:Required
 	//AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
 	//request.
-	AllowedHeaders []string `json:"allowedHeaders"`
+	AllowedHeaders []string `json:"allowedHeaders,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
 	//origin.
-	AllowedMethods []CorsRuleStatusAllowedMethods `json:"allowedMethods"`
+	AllowedMethods []CorsRuleStatusAllowedMethods `json:"allowedMethods,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*"
 	//to allow all domains
-	AllowedOrigins []string `json:"allowedOrigins"`
+	AllowedOrigins []string `json:"allowedOrigins,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//ExposedHeaders: Required if CorsRule element is present. A list of response headers to expose to CORS clients.
-	ExposedHeaders []string `json:"exposedHeaders"`
+	ExposedHeaders []string `json:"exposedHeaders,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//MaxAgeInSeconds: Required if CorsRule element is present. The number of seconds that the client/browser should cache a
 	//preflight response.
-	MaxAgeInSeconds int `json:"maxAgeInSeconds"`
+	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &CorsRule_Status{}
@@ -2702,7 +2751,10 @@ func (rule *CorsRule_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	}
 
 	// Set property ‘MaxAgeInSeconds’:
-	rule.MaxAgeInSeconds = typedInput.MaxAgeInSeconds
+	if typedInput.MaxAgeInSeconds != nil {
+		maxAgeInSeconds := *typedInput.MaxAgeInSeconds
+		rule.MaxAgeInSeconds = &maxAgeInSeconds
+	}
 
 	// No error
 	return nil
@@ -2734,7 +2786,7 @@ func (rule *CorsRule_Status) AssignPropertiesFromCorsRuleStatus(source *v1alpha1
 	rule.ExposedHeaders = genruntime.CloneSliceOfString(source.ExposedHeaders)
 
 	// MaxAgeInSeconds
-	rule.MaxAgeInSeconds = genruntime.GetOptionalIntValue(source.MaxAgeInSeconds)
+	rule.MaxAgeInSeconds = genruntime.ClonePointerToInt(source.MaxAgeInSeconds)
 
 	// No error
 	return nil
@@ -2768,8 +2820,7 @@ func (rule *CorsRule_Status) AssignPropertiesToCorsRuleStatus(destination *v1alp
 	destination.ExposedHeaders = genruntime.CloneSliceOfString(rule.ExposedHeaders)
 
 	// MaxAgeInSeconds
-	maxAgeInSecond := rule.MaxAgeInSeconds
-	destination.MaxAgeInSeconds = &maxAgeInSecond
+	destination.MaxAgeInSeconds = genruntime.ClonePointerToInt(rule.MaxAgeInSeconds)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

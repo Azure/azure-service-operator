@@ -3,14 +3,126 @@
 // Licensed under the MIT license.
 package v1alpha1api20200101
 
+import (
+	"github.com/Azure/azure-service-operator/testing/test/v1alpha1api20200101storage"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/pkg/errors"
+)
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	InnerFlat    *Inner `json:"inner_flat,omitempty"`
 	InnerNotFlat *Inner `json:"inner_not_flat,omitempty"`
 }
 
+// AssignPropertiesFromTest populates our Test from the provided source Test
+func (test *Test) AssignPropertiesFromTest(source *v1alpha1api20200101storage.Test) error {
+
+	// InnerFlat
+	if source.InnerFlat != nil {
+		var innerFlat Inner
+		err := innerFlat.AssignPropertiesFromInner(source.InnerFlat)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromInner() to populate field InnerFlat")
+		}
+		test.InnerFlat = &innerFlat
+	} else {
+		test.InnerFlat = nil
+	}
+
+	// InnerNotFlat
+	if source.InnerNotFlat != nil {
+		var innerNotFlat Inner
+		err := innerNotFlat.AssignPropertiesFromInner(source.InnerNotFlat)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromInner() to populate field InnerNotFlat")
+		}
+		test.InnerNotFlat = &innerNotFlat
+	} else {
+		test.InnerNotFlat = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTest populates the provided destination Test from our Test
+func (test *Test) AssignPropertiesToTest(destination *v1alpha1api20200101storage.Test) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// InnerFlat
+	if test.InnerFlat != nil {
+		var innerFlat v1alpha1api20200101storage.Inner
+		err := test.InnerFlat.AssignPropertiesToInner(&innerFlat)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToInner() to populate field InnerFlat")
+		}
+		destination.InnerFlat = &innerFlat
+	} else {
+		destination.InnerFlat = nil
+	}
+
+	// InnerNotFlat
+	if test.InnerNotFlat != nil {
+		var innerNotFlat v1alpha1api20200101storage.Inner
+		err := test.InnerNotFlat.AssignPropertiesToInner(&innerNotFlat)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToInner() to populate field InnerNotFlat")
+		}
+		destination.InnerNotFlat = &innerNotFlat
+	} else {
+		destination.InnerNotFlat = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Inner
 type Inner struct {
 	Color *string `json:"color,omitempty"`
 	Name  *string `json:"name,omitempty"`
+}
+
+// AssignPropertiesFromInner populates our Inner from the provided source Inner
+func (inner *Inner) AssignPropertiesFromInner(source *v1alpha1api20200101storage.Inner) error {
+
+	// Color
+	inner.Color = genruntime.ClonePointerToString(source.Color)
+
+	// Name
+	inner.Name = genruntime.ClonePointerToString(source.Name)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToInner populates the provided destination Inner from our Inner
+func (inner *Inner) AssignPropertiesToInner(destination *v1alpha1api20200101storage.Inner) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Color
+	destination.Color = genruntime.ClonePointerToString(inner.Color)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(inner.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }

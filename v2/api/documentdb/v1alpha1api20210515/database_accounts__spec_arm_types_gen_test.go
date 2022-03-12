@@ -92,7 +92,7 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsSpecARM(gens map[string]
 // AddRelatedPropertyGeneratorsForDatabaseAccountsSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccountsSpecARM(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(ManagedServiceIdentityARMGenerator())
-	gens["Properties"] = DatabaseAccountCreateUpdatePropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(DatabaseAccountCreateUpdatePropertiesARMGenerator())
 }
 
 func Test_DatabaseAccountCreateUpdatePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -162,7 +162,7 @@ func DatabaseAccountCreateUpdatePropertiesARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdatePropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdatePropertiesARM(gens map[string]gopter.Gen) {
 	gens["ConnectorOffer"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountCreateUpdatePropertiesConnectorOfferSmall))
-	gens["DatabaseAccountOfferType"] = gen.OneConstOf(DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferTypeStandard)
+	gens["DatabaseAccountOfferType"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferTypeStandard))
 	gens["DefaultIdentity"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableKeyBasedMetadataWriteAccess"] = gen.PtrOf(gen.Bool())
 	gens["EnableAnalyticalStorage"] = gen.PtrOf(gen.Bool())
@@ -561,12 +561,12 @@ func ConsistencyPolicyARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForConsistencyPolicyARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForConsistencyPolicyARM(gens map[string]gopter.Gen) {
-	gens["DefaultConsistencyLevel"] = gen.OneConstOf(
+	gens["DefaultConsistencyLevel"] = gen.PtrOf(gen.OneConstOf(
 		ConsistencyPolicyDefaultConsistencyLevelBoundedStaleness,
 		ConsistencyPolicyDefaultConsistencyLevelConsistentPrefix,
 		ConsistencyPolicyDefaultConsistencyLevelEventual,
 		ConsistencyPolicyDefaultConsistencyLevelSession,
-		ConsistencyPolicyDefaultConsistencyLevelStrong)
+		ConsistencyPolicyDefaultConsistencyLevelStrong))
 	gens["MaxIntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["MaxStalenessPrefix"] = gen.PtrOf(gen.Int())
 }
@@ -629,7 +629,7 @@ func CorsPolicyARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForCorsPolicyARM(gens map[string]gopter.Gen) {
 	gens["AllowedHeaders"] = gen.PtrOf(gen.AlphaString())
 	gens["AllowedMethods"] = gen.PtrOf(gen.AlphaString())
-	gens["AllowedOrigins"] = gen.AlphaString()
+	gens["AllowedOrigins"] = gen.PtrOf(gen.AlphaString())
 	gens["ExposedHeaders"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxAgeInSeconds"] = gen.PtrOf(gen.Int())
 }

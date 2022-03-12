@@ -89,7 +89,7 @@ func AddIndependentPropertyGeneratorsForManagedClustersAgentPoolsSpecARM(gens ma
 
 // AddRelatedPropertyGeneratorsForManagedClustersAgentPoolsSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClustersAgentPoolsSpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = ManagedClusterAgentPoolProfilePropertiesARMGenerator()
+	gens["Properties"] = gen.PtrOf(ManagedClusterAgentPoolProfilePropertiesARMGenerator())
 }
 
 func Test_ManagedClusterAgentPoolProfilePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

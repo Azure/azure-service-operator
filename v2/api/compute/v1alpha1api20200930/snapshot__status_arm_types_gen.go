@@ -30,7 +30,7 @@ type Snapshot_StatusARM struct {
 
 type SnapshotProperties_StatusARM struct {
 	//CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.
-	CreationData CreationData_StatusARM `json:"creationData"`
+	CreationData *CreationData_StatusARM `json:"creationData,omitempty"`
 
 	//DiskAccessId: ARM id of the DiskAccess resource for using private endpoints on disks.
 	DiskAccessId *string `json:"diskAccessId,omitempty"`

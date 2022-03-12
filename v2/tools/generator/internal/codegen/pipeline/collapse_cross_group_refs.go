@@ -18,8 +18,8 @@ const CollapseCrossGroupReferencesStageID = "collapseCrossGroupReferences"
 
 // CollapseCrossGroupReferences finds and removes references between API groups. This isn't particularly common
 // but does occur in a few instances, for example from Microsoft.Compute -> Microsoft.Compute.Extensions.
-func CollapseCrossGroupReferences() Stage {
-	return MakeLegacyStage(
+func CollapseCrossGroupReferences() *Stage {
+	return NewLegacyStage(
 		CollapseCrossGroupReferencesStageID,
 		"Find and remove cross group references",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {

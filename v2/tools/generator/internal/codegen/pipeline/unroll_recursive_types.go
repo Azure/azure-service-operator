@@ -43,8 +43,8 @@ const UnrollRecursiveTypesStageID = "unrollRecursiveTypes"
 // a depth of 1 in practice.
 // If we were to unroll all loops (rather than just types that directly reference themselves like we're doing here) that
 // "in practice" observation may no longer hold, so we avoid doing it here (it's also more complicated to do that).
-func UnrollRecursiveTypes() Stage {
-	return MakeStage(
+func UnrollRecursiveTypes() *Stage {
+	return NewStage(
 		UnrollRecursiveTypesStageID,
 		"Unroll directly recursive types since they are not supported by controller-gen",
 		func(ctx context.Context, state *State) (*State, error) {

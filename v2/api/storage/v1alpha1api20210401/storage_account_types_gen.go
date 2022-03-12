@@ -212,7 +212,7 @@ func (account *StorageAccount) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (account *StorageAccount) createValidations() []func() error {
-	return []func() error{account.validateResourceReferences}
+	return []func() error{account.validateResourceReferences, account.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,6 +226,9 @@ func (account *StorageAccount) updateValidations() []func(old runtime.Object) er
 		func(old runtime.Object) error {
 			return account.validateResourceReferences()
 		},
+		func(old runtime.Object) error {
+			return account.validateSecretDestinations()
+		},
 	}
 }
 
@@ -236,6 +239,27 @@ func (account *StorageAccount) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (account *StorageAccount) validateSecretDestinations() error {
+	if account.Spec.OperatorSpec == nil {
+		return nil
+	}
+	if account.Spec.OperatorSpec.Secrets == nil {
+		return nil
+	}
+	secrets := []*genruntime.SecretDestination{
+		account.Spec.OperatorSpec.Secrets.BlobEndpoint,
+		account.Spec.OperatorSpec.Secrets.DfsEndpoint,
+		account.Spec.OperatorSpec.Secrets.FileEndpoint,
+		account.Spec.OperatorSpec.Secrets.Key1,
+		account.Spec.OperatorSpec.Secrets.Key2,
+		account.Spec.OperatorSpec.Secrets.QueueEndpoint,
+		account.Spec.OperatorSpec.Secrets.TableEndpoint,
+		account.Spec.OperatorSpec.Secrets.WebEndpoint,
+	}
+	return genruntime.ValidateSecretDestinations(secrets)
 }
 
 // AssignPropertiesFromStorageAccount populates our StorageAccount from the provided source StorageAccount
@@ -1649,7 +1673,7 @@ type StorageAccounts_Spec struct {
 	// +kubebuilder:validation:MinLength=3
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName"`
+	AzureName string `json:"azureName,omitempty"`
 
 	//CustomDomain: The custom domain assigned to this storage account. This can be set via Update.
 	CustomDomain *CustomDomain `json:"customDomain,omitempty"`
@@ -1674,7 +1698,7 @@ type StorageAccounts_Spec struct {
 
 	// +kubebuilder:validation:Required
 	//Kind: Required. Indicates the type of storage account.
-	Kind StorageAccountsSpecKind `json:"kind"`
+	Kind *StorageAccountsSpecKind `json:"kind,omitempty"`
 
 	//LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.
 	LargeFileSharesState *StorageAccountPropertiesCreateParametersLargeFileSharesState `json:"largeFileSharesState,omitempty"`
@@ -1682,7 +1706,7 @@ type StorageAccounts_Spec struct {
 	//Location: Required. Gets or sets the location of the resource. This will be one of the supported and registered Azure
 	//Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The geo region of a resource cannot be changed once it is
 	//created, but if an identical geo region is specified on update, the request will succeed.
-	Location string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	//MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS
 	//1.0 for this property.
@@ -1696,7 +1720,10 @@ type StorageAccounts_Spec struct {
 	OperatorSpec *StorageAccountOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	//reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	//RoutingPreference: Routing preference defines the type of network, either microsoft or internet routing to be used to
 	//deliver the user data, the default option is microsoft routing
@@ -1707,7 +1734,7 @@ type StorageAccounts_Spec struct {
 
 	// +kubebuilder:validation:Required
 	//Sku: The SKU of the storage account.
-	Sku Sku `json:"sku"`
+	Sku *Sku `json:"sku,omitempty"`
 
 	//SupportsHttpsTrafficOnly: Allows https traffic only to storage service if sets to true. The default value is true since
 	//API version 2019-04-01.
@@ -1749,10 +1776,16 @@ func (accounts *StorageAccounts_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	}
 
 	// Set property ‘Kind’:
-	result.Kind = accounts.Kind
+	if accounts.Kind != nil {
+		kind := *accounts.Kind
+		result.Kind = &kind
+	}
 
 	// Set property ‘Location’:
-	result.Location = accounts.Location
+	if accounts.Location != nil {
+		location := *accounts.Location
+		result.Location = &location
+	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -1870,11 +1903,14 @@ func (accounts *StorageAccounts_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	}
 
 	// Set property ‘Sku’:
-	skuARM, err := accounts.Sku.ConvertToARM(resolved)
-	if err != nil {
-		return nil, err
+	if accounts.Sku != nil {
+		skuARM, err := (*accounts.Sku).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		sku := skuARM.(SkuARM)
+		result.Sku = &sku
 	}
-	result.Sku = skuARM.(SkuARM)
 
 	// Set property ‘Tags’:
 	if accounts.Tags != nil {
@@ -2034,7 +2070,10 @@ func (accounts *StorageAccounts_Spec) PopulateFromARM(owner genruntime.Arbitrary
 	}
 
 	// Set property ‘Kind’:
-	accounts.Kind = typedInput.Kind
+	if typedInput.Kind != nil {
+		kind := *typedInput.Kind
+		accounts.Kind = &kind
+	}
 
 	// Set property ‘LargeFileSharesState’:
 	// copying flattened property:
@@ -2046,7 +2085,10 @@ func (accounts *StorageAccounts_Spec) PopulateFromARM(owner genruntime.Arbitrary
 	}
 
 	// Set property ‘Location’:
-	accounts.Location = typedInput.Location
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		accounts.Location = &location
+	}
 
 	// Set property ‘MinimumTlsVersion’:
 	// copying flattened property:
@@ -2074,7 +2116,7 @@ func (accounts *StorageAccounts_Spec) PopulateFromARM(owner genruntime.Arbitrary
 	// no assignment for property ‘OperatorSpec’
 
 	// Set property ‘Owner’:
-	accounts.Owner = genruntime.KnownResourceReference{
+	accounts.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -2107,12 +2149,15 @@ func (accounts *StorageAccounts_Spec) PopulateFromARM(owner genruntime.Arbitrary
 	}
 
 	// Set property ‘Sku’:
-	var sku Sku
-	err := sku.PopulateFromARM(owner, typedInput.Sku)
-	if err != nil {
-		return err
+	if typedInput.Sku != nil {
+		var sku1 Sku
+		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
+		if err != nil {
+			return err
+		}
+		sku := sku1
+		accounts.Sku = &sku
 	}
-	accounts.Sku = sku
 
 	// Set property ‘SupportsHttpsTrafficOnly’:
 	// copying flattened property:
@@ -2313,9 +2358,10 @@ func (accounts *StorageAccounts_Spec) AssignPropertiesFromStorageAccountsSpec(so
 
 	// Kind
 	if source.Kind != nil {
-		accounts.Kind = StorageAccountsSpecKind(*source.Kind)
+		kind := StorageAccountsSpecKind(*source.Kind)
+		accounts.Kind = &kind
 	} else {
-		accounts.Kind = ""
+		accounts.Kind = nil
 	}
 
 	// LargeFileSharesState
@@ -2327,7 +2373,7 @@ func (accounts *StorageAccounts_Spec) AssignPropertiesFromStorageAccountsSpec(so
 	}
 
 	// Location
-	accounts.Location = genruntime.GetOptionalStringValue(source.Location)
+	accounts.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
@@ -2362,7 +2408,12 @@ func (accounts *StorageAccounts_Spec) AssignPropertiesFromStorageAccountsSpec(so
 	}
 
 	// Owner
-	accounts.Owner = source.Owner.Copy()
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		accounts.Owner = &owner
+	} else {
+		accounts.Owner = nil
+	}
 
 	// RoutingPreference
 	if source.RoutingPreference != nil {
@@ -2395,9 +2446,9 @@ func (accounts *StorageAccounts_Spec) AssignPropertiesFromStorageAccountsSpec(so
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSku() to populate field Sku")
 		}
-		accounts.Sku = sku
+		accounts.Sku = &sku
 	} else {
-		accounts.Sku = Sku{}
+		accounts.Sku = nil
 	}
 
 	// SupportsHttpsTrafficOnly
@@ -2544,8 +2595,12 @@ func (accounts *StorageAccounts_Spec) AssignPropertiesToStorageAccountsSpec(dest
 	}
 
 	// Kind
-	kind := string(accounts.Kind)
-	destination.Kind = &kind
+	if accounts.Kind != nil {
+		kind := string(*accounts.Kind)
+		destination.Kind = &kind
+	} else {
+		destination.Kind = nil
+	}
 
 	// LargeFileSharesState
 	if accounts.LargeFileSharesState != nil {
@@ -2556,8 +2611,7 @@ func (accounts *StorageAccounts_Spec) AssignPropertiesToStorageAccountsSpec(dest
 	}
 
 	// Location
-	location := accounts.Location
-	destination.Location = &location
+	destination.Location = genruntime.ClonePointerToString(accounts.Location)
 
 	// MinimumTlsVersion
 	if accounts.MinimumTlsVersion != nil {
@@ -2595,7 +2649,12 @@ func (accounts *StorageAccounts_Spec) AssignPropertiesToStorageAccountsSpec(dest
 	destination.OriginalVersion = accounts.OriginalVersion()
 
 	// Owner
-	destination.Owner = accounts.Owner.Copy()
+	if accounts.Owner != nil {
+		owner := accounts.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
 
 	// RoutingPreference
 	if accounts.RoutingPreference != nil {
@@ -2622,12 +2681,16 @@ func (accounts *StorageAccounts_Spec) AssignPropertiesToStorageAccountsSpec(dest
 	}
 
 	// Sku
-	var sku v1alpha1api20210401storage.Sku
-	err := accounts.Sku.AssignPropertiesToSku(&sku)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSku() to populate field Sku")
+	if accounts.Sku != nil {
+		var sku v1alpha1api20210401storage.Sku
+		err := accounts.Sku.AssignPropertiesToSku(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSku() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
 	}
-	destination.Sku = &sku
 
 	// SupportsHttpsTrafficOnly
 	if accounts.SupportsHttpsTrafficOnly != nil {
@@ -2669,7 +2732,7 @@ type AzureFilesIdentityBasedAuthentication struct {
 
 	// +kubebuilder:validation:Required
 	//DirectoryServiceOptions: Indicates the directory service used.
-	DirectoryServiceOptions AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions `json:"directoryServiceOptions"`
+	DirectoryServiceOptions *AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions `json:"directoryServiceOptions,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &AzureFilesIdentityBasedAuthentication{}
@@ -2698,7 +2761,10 @@ func (authentication *AzureFilesIdentityBasedAuthentication) ConvertToARM(resolv
 	}
 
 	// Set property ‘DirectoryServiceOptions’:
-	result.DirectoryServiceOptions = authentication.DirectoryServiceOptions
+	if authentication.DirectoryServiceOptions != nil {
+		directoryServiceOptions := *authentication.DirectoryServiceOptions
+		result.DirectoryServiceOptions = &directoryServiceOptions
+	}
 	return result, nil
 }
 
@@ -2732,7 +2798,10 @@ func (authentication *AzureFilesIdentityBasedAuthentication) PopulateFromARM(own
 	}
 
 	// Set property ‘DirectoryServiceOptions’:
-	authentication.DirectoryServiceOptions = typedInput.DirectoryServiceOptions
+	if typedInput.DirectoryServiceOptions != nil {
+		directoryServiceOptions := *typedInput.DirectoryServiceOptions
+		authentication.DirectoryServiceOptions = &directoryServiceOptions
+	}
 
 	// No error
 	return nil
@@ -2763,9 +2832,10 @@ func (authentication *AzureFilesIdentityBasedAuthentication) AssignPropertiesFro
 
 	// DirectoryServiceOptions
 	if source.DirectoryServiceOptions != nil {
-		authentication.DirectoryServiceOptions = AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions(*source.DirectoryServiceOptions)
+		directoryServiceOption := AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions(*source.DirectoryServiceOptions)
+		authentication.DirectoryServiceOptions = &directoryServiceOption
 	} else {
-		authentication.DirectoryServiceOptions = ""
+		authentication.DirectoryServiceOptions = nil
 	}
 
 	// No error
@@ -2798,8 +2868,12 @@ func (authentication *AzureFilesIdentityBasedAuthentication) AssignPropertiesToA
 	}
 
 	// DirectoryServiceOptions
-	directoryServiceOption := string(authentication.DirectoryServiceOptions)
-	destination.DirectoryServiceOptions = &directoryServiceOption
+	if authentication.DirectoryServiceOptions != nil {
+		directoryServiceOption := string(*authentication.DirectoryServiceOptions)
+		destination.DirectoryServiceOptions = &directoryServiceOption
+	} else {
+		destination.DirectoryServiceOptions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2819,9 +2893,8 @@ type AzureFilesIdentityBasedAuthentication_Status struct {
 	//DefaultSharePermission: Default share permission for users using Kerberos authentication if RBAC role is not assigned.
 	DefaultSharePermission *AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission `json:"defaultSharePermission,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//DirectoryServiceOptions: Indicates the directory service used.
-	DirectoryServiceOptions AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions `json:"directoryServiceOptions"`
+	DirectoryServiceOptions *AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions `json:"directoryServiceOptions,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AzureFilesIdentityBasedAuthentication_Status{}
@@ -2856,7 +2929,10 @@ func (authentication *AzureFilesIdentityBasedAuthentication_Status) PopulateFrom
 	}
 
 	// Set property ‘DirectoryServiceOptions’:
-	authentication.DirectoryServiceOptions = typedInput.DirectoryServiceOptions
+	if typedInput.DirectoryServiceOptions != nil {
+		directoryServiceOptions := *typedInput.DirectoryServiceOptions
+		authentication.DirectoryServiceOptions = &directoryServiceOptions
+	}
 
 	// No error
 	return nil
@@ -2887,9 +2963,10 @@ func (authentication *AzureFilesIdentityBasedAuthentication_Status) AssignProper
 
 	// DirectoryServiceOptions
 	if source.DirectoryServiceOptions != nil {
-		authentication.DirectoryServiceOptions = AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions(*source.DirectoryServiceOptions)
+		directoryServiceOption := AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions(*source.DirectoryServiceOptions)
+		authentication.DirectoryServiceOptions = &directoryServiceOption
 	} else {
-		authentication.DirectoryServiceOptions = ""
+		authentication.DirectoryServiceOptions = nil
 	}
 
 	// No error
@@ -2922,8 +2999,12 @@ func (authentication *AzureFilesIdentityBasedAuthentication_Status) AssignProper
 	}
 
 	// DirectoryServiceOptions
-	directoryServiceOption := string(authentication.DirectoryServiceOptions)
-	destination.DirectoryServiceOptions = &directoryServiceOption
+	if authentication.DirectoryServiceOptions != nil {
+		directoryServiceOption := string(*authentication.DirectoryServiceOptions)
+		destination.DirectoryServiceOptions = &directoryServiceOption
+	} else {
+		destination.DirectoryServiceOptions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3077,7 +3158,7 @@ func (restore *BlobRestoreStatus_Status) AssignPropertiesToBlobRestoreStatusStat
 type CustomDomain struct {
 	// +kubebuilder:validation:Required
 	//Name: Gets or sets the custom domain name assigned to the storage account. Name is the CNAME source.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//UseSubDomainName: Indicates whether indirect CName validation is enabled. Default value is false. This should only be
 	//set on updates.
@@ -3094,7 +3175,10 @@ func (domain *CustomDomain) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	var result CustomDomainARM
 
 	// Set property ‘Name’:
-	result.Name = domain.Name
+	if domain.Name != nil {
+		name := *domain.Name
+		result.Name = &name
+	}
 
 	// Set property ‘UseSubDomainName’:
 	if domain.UseSubDomainName != nil {
@@ -3117,7 +3201,10 @@ func (domain *CustomDomain) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	}
 
 	// Set property ‘Name’:
-	domain.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		domain.Name = &name
+	}
 
 	// Set property ‘UseSubDomainName’:
 	if typedInput.UseSubDomainName != nil {
@@ -3133,7 +3220,7 @@ func (domain *CustomDomain) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 func (domain *CustomDomain) AssignPropertiesFromCustomDomain(source *v1alpha1api20210401storage.CustomDomain) error {
 
 	// Name
-	domain.Name = genruntime.GetOptionalStringValue(source.Name)
+	domain.Name = genruntime.ClonePointerToString(source.Name)
 
 	// UseSubDomainName
 	if source.UseSubDomainName != nil {
@@ -3153,8 +3240,7 @@ func (domain *CustomDomain) AssignPropertiesToCustomDomain(destination *v1alpha1
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := domain.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(domain.Name)
 
 	// UseSubDomainName
 	if domain.UseSubDomainName != nil {
@@ -3176,9 +3262,8 @@ func (domain *CustomDomain) AssignPropertiesToCustomDomain(destination *v1alpha1
 }
 
 type CustomDomain_Status struct {
-	// +kubebuilder:validation:Required
 	//Name: Gets or sets the custom domain name assigned to the storage account. Name is the CNAME source.
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	//UseSubDomainName: Indicates whether indirect CName validation is enabled. Default value is false. This should only be
 	//set on updates.
@@ -3200,7 +3285,10 @@ func (domain *CustomDomain_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 	}
 
 	// Set property ‘Name’:
-	domain.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		domain.Name = &name
+	}
 
 	// Set property ‘UseSubDomainName’:
 	if typedInput.UseSubDomainName != nil {
@@ -3216,7 +3304,7 @@ func (domain *CustomDomain_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 func (domain *CustomDomain_Status) AssignPropertiesFromCustomDomainStatus(source *v1alpha1api20210401storage.CustomDomain_Status) error {
 
 	// Name
-	domain.Name = genruntime.GetOptionalStringValue(source.Name)
+	domain.Name = genruntime.ClonePointerToString(source.Name)
 
 	// UseSubDomainName
 	if source.UseSubDomainName != nil {
@@ -3236,8 +3324,7 @@ func (domain *CustomDomain_Status) AssignPropertiesToCustomDomainStatus(destinat
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := domain.Name
-	destination.Name = &name
+	destination.Name = genruntime.ClonePointerToString(domain.Name)
 
 	// UseSubDomainName
 	if domain.UseSubDomainName != nil {
@@ -3266,7 +3353,7 @@ type Encryption struct {
 	// +kubebuilder:validation:Required
 	//KeySource: The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Storage,
 	//Microsoft.Keyvault.
-	KeySource EncryptionKeySource `json:"keySource"`
+	KeySource *EncryptionKeySource `json:"keySource,omitempty"`
 
 	//Keyvaultproperties: Properties of key vault.
 	Keyvaultproperties *KeyVaultProperties `json:"keyvaultproperties,omitempty"`
@@ -3299,7 +3386,10 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 	}
 
 	// Set property ‘KeySource’:
-	result.KeySource = encryption.KeySource
+	if encryption.KeySource != nil {
+		keySource := *encryption.KeySource
+		result.KeySource = &keySource
+	}
 
 	// Set property ‘Keyvaultproperties’:
 	if encryption.Keyvaultproperties != nil {
@@ -3353,7 +3443,10 @@ func (encryption *Encryption) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	}
 
 	// Set property ‘KeySource’:
-	encryption.KeySource = typedInput.KeySource
+	if typedInput.KeySource != nil {
+		keySource := *typedInput.KeySource
+		encryption.KeySource = &keySource
+	}
 
 	// Set property ‘Keyvaultproperties’:
 	if typedInput.Keyvaultproperties != nil {
@@ -3404,9 +3497,10 @@ func (encryption *Encryption) AssignPropertiesFromEncryption(source *v1alpha1api
 
 	// KeySource
 	if source.KeySource != nil {
-		encryption.KeySource = EncryptionKeySource(*source.KeySource)
+		keySource := EncryptionKeySource(*source.KeySource)
+		encryption.KeySource = &keySource
 	} else {
-		encryption.KeySource = ""
+		encryption.KeySource = nil
 	}
 
 	// Keyvaultproperties
@@ -3463,8 +3557,12 @@ func (encryption *Encryption) AssignPropertiesToEncryption(destination *v1alpha1
 	}
 
 	// KeySource
-	keySource := string(encryption.KeySource)
-	destination.KeySource = &keySource
+	if encryption.KeySource != nil {
+		keySource := string(*encryption.KeySource)
+		destination.KeySource = &keySource
+	} else {
+		destination.KeySource = nil
+	}
 
 	// Keyvaultproperties
 	if encryption.Keyvaultproperties != nil {
@@ -3513,10 +3611,9 @@ type Encryption_Status struct {
 	//Identity: The identity to be used with service-side encryption at rest.
 	Identity *EncryptionIdentity_Status `json:"identity,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//KeySource: The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Storage,
 	//Microsoft.Keyvault
-	KeySource EncryptionStatusKeySource `json:"keySource"`
+	KeySource *EncryptionStatusKeySource `json:"keySource,omitempty"`
 
 	//Keyvaultproperties: Properties provided by key vault.
 	Keyvaultproperties *KeyVaultProperties_Status `json:"keyvaultproperties,omitempty"`
@@ -3555,7 +3652,10 @@ func (encryption *Encryption_Status) PopulateFromARM(owner genruntime.ArbitraryO
 	}
 
 	// Set property ‘KeySource’:
-	encryption.KeySource = typedInput.KeySource
+	if typedInput.KeySource != nil {
+		keySource := *typedInput.KeySource
+		encryption.KeySource = &keySource
+	}
 
 	// Set property ‘Keyvaultproperties’:
 	if typedInput.Keyvaultproperties != nil {
@@ -3606,9 +3706,10 @@ func (encryption *Encryption_Status) AssignPropertiesFromEncryptionStatus(source
 
 	// KeySource
 	if source.KeySource != nil {
-		encryption.KeySource = EncryptionStatusKeySource(*source.KeySource)
+		keySource := EncryptionStatusKeySource(*source.KeySource)
+		encryption.KeySource = &keySource
 	} else {
-		encryption.KeySource = ""
+		encryption.KeySource = nil
 	}
 
 	// Keyvaultproperties
@@ -3665,8 +3766,12 @@ func (encryption *Encryption_Status) AssignPropertiesToEncryptionStatus(destinat
 	}
 
 	// KeySource
-	keySource := string(encryption.KeySource)
-	destination.KeySource = &keySource
+	if encryption.KeySource != nil {
+		keySource := string(*encryption.KeySource)
+		destination.KeySource = &keySource
+	} else {
+		destination.KeySource = nil
+	}
 
 	// Keyvaultproperties
 	if encryption.Keyvaultproperties != nil {
@@ -4225,7 +4330,7 @@ func (stats *GeoReplicationStats_Status) AssignPropertiesToGeoReplicationStatsSt
 type Identity struct {
 	// +kubebuilder:validation:Required
 	//Type: The identity type.
-	Type IdentityType `json:"type"`
+	Type *IdentityType `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Identity{}
@@ -4238,7 +4343,10 @@ func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	var result IdentityARM
 
 	// Set property ‘Type’:
-	result.Type = identity.Type
+	if identity.Type != nil {
+		typeVar := *identity.Type
+		result.Type = &typeVar
+	}
 	return result, nil
 }
 
@@ -4255,7 +4363,10 @@ func (identity *Identity) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 	}
 
 	// Set property ‘Type’:
-	identity.Type = typedInput.Type
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		identity.Type = &typeVar
+	}
 
 	// No error
 	return nil
@@ -4266,9 +4377,10 @@ func (identity *Identity) AssignPropertiesFromIdentity(source *v1alpha1api202104
 
 	// Type
 	if source.Type != nil {
-		identity.Type = IdentityType(*source.Type)
+		typeVar := IdentityType(*source.Type)
+		identity.Type = &typeVar
 	} else {
-		identity.Type = ""
+		identity.Type = nil
 	}
 
 	// No error
@@ -4281,8 +4393,12 @@ func (identity *Identity) AssignPropertiesToIdentity(destination *v1alpha1api202
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Type
-	typeVar := string(identity.Type)
-	destination.Type = &typeVar
+	if identity.Type != nil {
+		typeVar := string(*identity.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4302,9 +4418,8 @@ type Identity_Status struct {
 	//TenantId: The tenant ID of resource.
 	TenantId *string `json:"tenantId,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Type: The identity type.
-	Type IdentityStatusType `json:"type"`
+	Type *IdentityStatusType `json:"type,omitempty"`
 
 	//UserAssignedIdentities: Gets or sets a list of key value pairs that describe the set of User Assigned identities that
 	//will be used with this storage account. The key is the ARM resource identifier of the identity. Only 1 User Assigned
@@ -4339,7 +4454,10 @@ func (identity *Identity_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	}
 
 	// Set property ‘Type’:
-	identity.Type = typedInput.Type
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		identity.Type = &typeVar
+	}
 
 	// Set property ‘UserAssignedIdentities’:
 	if typedInput.UserAssignedIdentities != nil {
@@ -4369,9 +4487,10 @@ func (identity *Identity_Status) AssignPropertiesFromIdentityStatus(source *v1al
 
 	// Type
 	if source.Type != nil {
-		identity.Type = IdentityStatusType(*source.Type)
+		typeVar := IdentityStatusType(*source.Type)
+		identity.Type = &typeVar
 	} else {
-		identity.Type = ""
+		identity.Type = nil
 	}
 
 	// UserAssignedIdentities
@@ -4408,8 +4527,12 @@ func (identity *Identity_Status) AssignPropertiesToIdentityStatus(destination *v
 	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
 
 	// Type
-	typeVar := string(identity.Type)
-	destination.Type = &typeVar
+	if identity.Type != nil {
+		typeVar := string(*identity.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
@@ -4514,7 +4637,7 @@ func (time *KeyCreationTime_Status) AssignPropertiesToKeyCreationTimeStatus(dest
 type KeyPolicy struct {
 	// +kubebuilder:validation:Required
 	//KeyExpirationPeriodInDays: The key expiration period in days.
-	KeyExpirationPeriodInDays int `json:"keyExpirationPeriodInDays"`
+	KeyExpirationPeriodInDays *int `json:"keyExpirationPeriodInDays,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &KeyPolicy{}
@@ -4527,7 +4650,10 @@ func (policy *KeyPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	var result KeyPolicyARM
 
 	// Set property ‘KeyExpirationPeriodInDays’:
-	result.KeyExpirationPeriodInDays = policy.KeyExpirationPeriodInDays
+	if policy.KeyExpirationPeriodInDays != nil {
+		keyExpirationPeriodInDays := *policy.KeyExpirationPeriodInDays
+		result.KeyExpirationPeriodInDays = &keyExpirationPeriodInDays
+	}
 	return result, nil
 }
 
@@ -4544,7 +4670,10 @@ func (policy *KeyPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	}
 
 	// Set property ‘KeyExpirationPeriodInDays’:
-	policy.KeyExpirationPeriodInDays = typedInput.KeyExpirationPeriodInDays
+	if typedInput.KeyExpirationPeriodInDays != nil {
+		keyExpirationPeriodInDays := *typedInput.KeyExpirationPeriodInDays
+		policy.KeyExpirationPeriodInDays = &keyExpirationPeriodInDays
+	}
 
 	// No error
 	return nil
@@ -4554,7 +4683,7 @@ func (policy *KeyPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 func (policy *KeyPolicy) AssignPropertiesFromKeyPolicy(source *v1alpha1api20210401storage.KeyPolicy) error {
 
 	// KeyExpirationPeriodInDays
-	policy.KeyExpirationPeriodInDays = genruntime.GetOptionalIntValue(source.KeyExpirationPeriodInDays)
+	policy.KeyExpirationPeriodInDays = genruntime.ClonePointerToInt(source.KeyExpirationPeriodInDays)
 
 	// No error
 	return nil
@@ -4566,8 +4695,7 @@ func (policy *KeyPolicy) AssignPropertiesToKeyPolicy(destination *v1alpha1api202
 	propertyBag := genruntime.NewPropertyBag()
 
 	// KeyExpirationPeriodInDays
-	keyExpirationPeriodInDay := policy.KeyExpirationPeriodInDays
-	destination.KeyExpirationPeriodInDays = &keyExpirationPeriodInDay
+	destination.KeyExpirationPeriodInDays = genruntime.ClonePointerToInt(policy.KeyExpirationPeriodInDays)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4581,9 +4709,8 @@ func (policy *KeyPolicy) AssignPropertiesToKeyPolicy(destination *v1alpha1api202
 }
 
 type KeyPolicy_Status struct {
-	// +kubebuilder:validation:Required
 	//KeyExpirationPeriodInDays: The key expiration period in days.
-	KeyExpirationPeriodInDays int `json:"keyExpirationPeriodInDays"`
+	KeyExpirationPeriodInDays *int `json:"keyExpirationPeriodInDays,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &KeyPolicy_Status{}
@@ -4601,7 +4728,10 @@ func (policy *KeyPolicy_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	}
 
 	// Set property ‘KeyExpirationPeriodInDays’:
-	policy.KeyExpirationPeriodInDays = typedInput.KeyExpirationPeriodInDays
+	if typedInput.KeyExpirationPeriodInDays != nil {
+		keyExpirationPeriodInDays := *typedInput.KeyExpirationPeriodInDays
+		policy.KeyExpirationPeriodInDays = &keyExpirationPeriodInDays
+	}
 
 	// No error
 	return nil
@@ -4611,7 +4741,7 @@ func (policy *KeyPolicy_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 func (policy *KeyPolicy_Status) AssignPropertiesFromKeyPolicyStatus(source *v1alpha1api20210401storage.KeyPolicy_Status) error {
 
 	// KeyExpirationPeriodInDays
-	policy.KeyExpirationPeriodInDays = genruntime.GetOptionalIntValue(source.KeyExpirationPeriodInDays)
+	policy.KeyExpirationPeriodInDays = genruntime.ClonePointerToInt(source.KeyExpirationPeriodInDays)
 
 	// No error
 	return nil
@@ -4623,8 +4753,7 @@ func (policy *KeyPolicy_Status) AssignPropertiesToKeyPolicyStatus(destination *v
 	propertyBag := genruntime.NewPropertyBag()
 
 	// KeyExpirationPeriodInDays
-	keyExpirationPeriodInDay := policy.KeyExpirationPeriodInDays
-	destination.KeyExpirationPeriodInDays = &keyExpirationPeriodInDay
+	destination.KeyExpirationPeriodInDays = genruntime.ClonePointerToInt(policy.KeyExpirationPeriodInDays)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4645,7 +4774,7 @@ type NetworkRuleSet struct {
 
 	// +kubebuilder:validation:Required
 	//DefaultAction: Specifies the default action of allow or deny when no other rules match.
-	DefaultAction NetworkRuleSetDefaultAction `json:"defaultAction"`
+	DefaultAction *NetworkRuleSetDefaultAction `json:"defaultAction,omitempty"`
 
 	//IpRules: Sets the IP ACL rules
 	IpRules []IPRule `json:"ipRules,omitempty"`
@@ -4673,7 +4802,10 @@ func (ruleSet *NetworkRuleSet) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 
 	// Set property ‘DefaultAction’:
-	result.DefaultAction = ruleSet.DefaultAction
+	if ruleSet.DefaultAction != nil {
+		defaultAction := *ruleSet.DefaultAction
+		result.DefaultAction = &defaultAction
+	}
 
 	// Set property ‘IpRules’:
 	for _, item := range ruleSet.IpRules {
@@ -4723,7 +4855,10 @@ func (ruleSet *NetworkRuleSet) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	}
 
 	// Set property ‘DefaultAction’:
-	ruleSet.DefaultAction = typedInput.DefaultAction
+	if typedInput.DefaultAction != nil {
+		defaultAction := *typedInput.DefaultAction
+		ruleSet.DefaultAction = &defaultAction
+	}
 
 	// Set property ‘IpRules’:
 	for _, item := range typedInput.IpRules {
@@ -4772,9 +4907,10 @@ func (ruleSet *NetworkRuleSet) AssignPropertiesFromNetworkRuleSet(source *v1alph
 
 	// DefaultAction
 	if source.DefaultAction != nil {
-		ruleSet.DefaultAction = NetworkRuleSetDefaultAction(*source.DefaultAction)
+		defaultAction := NetworkRuleSetDefaultAction(*source.DefaultAction)
+		ruleSet.DefaultAction = &defaultAction
 	} else {
-		ruleSet.DefaultAction = ""
+		ruleSet.DefaultAction = nil
 	}
 
 	// IpRules
@@ -4849,8 +4985,12 @@ func (ruleSet *NetworkRuleSet) AssignPropertiesToNetworkRuleSet(destination *v1a
 	}
 
 	// DefaultAction
-	defaultAction := string(ruleSet.DefaultAction)
-	destination.DefaultAction = &defaultAction
+	if ruleSet.DefaultAction != nil {
+		defaultAction := string(*ruleSet.DefaultAction)
+		destination.DefaultAction = &defaultAction
+	} else {
+		destination.DefaultAction = nil
+	}
 
 	// IpRules
 	if ruleSet.IpRules != nil {
@@ -4922,9 +5062,8 @@ type NetworkRuleSet_Status struct {
 	//Logging|Metrics|AzureServices (For example, "Logging, Metrics"), or None to bypass none of those traffics.
 	Bypass *NetworkRuleSetStatusBypass `json:"bypass,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//DefaultAction: Specifies the default action of allow or deny when no other rules match.
-	DefaultAction NetworkRuleSetStatusDefaultAction `json:"defaultAction"`
+	DefaultAction *NetworkRuleSetStatusDefaultAction `json:"defaultAction,omitempty"`
 
 	//IpRules: Sets the IP ACL rules
 	IpRules []IPRule_Status `json:"ipRules,omitempty"`
@@ -4957,7 +5096,10 @@ func (ruleSet *NetworkRuleSet_Status) PopulateFromARM(owner genruntime.Arbitrary
 	}
 
 	// Set property ‘DefaultAction’:
-	ruleSet.DefaultAction = typedInput.DefaultAction
+	if typedInput.DefaultAction != nil {
+		defaultAction := *typedInput.DefaultAction
+		ruleSet.DefaultAction = &defaultAction
+	}
 
 	// Set property ‘IpRules’:
 	for _, item := range typedInput.IpRules {
@@ -5006,9 +5148,10 @@ func (ruleSet *NetworkRuleSet_Status) AssignPropertiesFromNetworkRuleSetStatus(s
 
 	// DefaultAction
 	if source.DefaultAction != nil {
-		ruleSet.DefaultAction = NetworkRuleSetStatusDefaultAction(*source.DefaultAction)
+		defaultAction := NetworkRuleSetStatusDefaultAction(*source.DefaultAction)
+		ruleSet.DefaultAction = &defaultAction
 	} else {
-		ruleSet.DefaultAction = ""
+		ruleSet.DefaultAction = nil
 	}
 
 	// IpRules
@@ -5083,8 +5226,12 @@ func (ruleSet *NetworkRuleSet_Status) AssignPropertiesToNetworkRuleSetStatus(des
 	}
 
 	// DefaultAction
-	defaultAction := string(ruleSet.DefaultAction)
-	destination.DefaultAction = &defaultAction
+	if ruleSet.DefaultAction != nil {
+		defaultAction := string(*ruleSet.DefaultAction)
+		destination.DefaultAction = &defaultAction
+	} else {
+		destination.DefaultAction = nil
+	}
 
 	// IpRules
 	if ruleSet.IpRules != nil {
@@ -5478,11 +5625,11 @@ func (preference *RoutingPreference_Status) AssignPropertiesToRoutingPreferenceS
 type SasPolicy struct {
 	// +kubebuilder:validation:Required
 	//ExpirationAction: The SAS expiration action. Can only be Log.
-	ExpirationAction SasPolicyExpirationAction `json:"expirationAction"`
+	ExpirationAction *SasPolicyExpirationAction `json:"expirationAction,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//SasExpirationPeriod: The SAS expiration period, DD.HH:MM:SS.
-	SasExpirationPeriod string `json:"sasExpirationPeriod"`
+	SasExpirationPeriod *string `json:"sasExpirationPeriod,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SasPolicy{}
@@ -5495,10 +5642,16 @@ func (policy *SasPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	var result SasPolicyARM
 
 	// Set property ‘ExpirationAction’:
-	result.ExpirationAction = policy.ExpirationAction
+	if policy.ExpirationAction != nil {
+		expirationAction := *policy.ExpirationAction
+		result.ExpirationAction = &expirationAction
+	}
 
 	// Set property ‘SasExpirationPeriod’:
-	result.SasExpirationPeriod = policy.SasExpirationPeriod
+	if policy.SasExpirationPeriod != nil {
+		sasExpirationPeriod := *policy.SasExpirationPeriod
+		result.SasExpirationPeriod = &sasExpirationPeriod
+	}
 	return result, nil
 }
 
@@ -5515,10 +5668,16 @@ func (policy *SasPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	}
 
 	// Set property ‘ExpirationAction’:
-	policy.ExpirationAction = typedInput.ExpirationAction
+	if typedInput.ExpirationAction != nil {
+		expirationAction := *typedInput.ExpirationAction
+		policy.ExpirationAction = &expirationAction
+	}
 
 	// Set property ‘SasExpirationPeriod’:
-	policy.SasExpirationPeriod = typedInput.SasExpirationPeriod
+	if typedInput.SasExpirationPeriod != nil {
+		sasExpirationPeriod := *typedInput.SasExpirationPeriod
+		policy.SasExpirationPeriod = &sasExpirationPeriod
+	}
 
 	// No error
 	return nil
@@ -5529,13 +5688,14 @@ func (policy *SasPolicy) AssignPropertiesFromSasPolicy(source *v1alpha1api202104
 
 	// ExpirationAction
 	if source.ExpirationAction != nil {
-		policy.ExpirationAction = SasPolicyExpirationAction(*source.ExpirationAction)
+		expirationAction := SasPolicyExpirationAction(*source.ExpirationAction)
+		policy.ExpirationAction = &expirationAction
 	} else {
-		policy.ExpirationAction = ""
+		policy.ExpirationAction = nil
 	}
 
 	// SasExpirationPeriod
-	policy.SasExpirationPeriod = genruntime.GetOptionalStringValue(source.SasExpirationPeriod)
+	policy.SasExpirationPeriod = genruntime.ClonePointerToString(source.SasExpirationPeriod)
 
 	// No error
 	return nil
@@ -5547,12 +5707,15 @@ func (policy *SasPolicy) AssignPropertiesToSasPolicy(destination *v1alpha1api202
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ExpirationAction
-	expirationAction := string(policy.ExpirationAction)
-	destination.ExpirationAction = &expirationAction
+	if policy.ExpirationAction != nil {
+		expirationAction := string(*policy.ExpirationAction)
+		destination.ExpirationAction = &expirationAction
+	} else {
+		destination.ExpirationAction = nil
+	}
 
 	// SasExpirationPeriod
-	sasExpirationPeriod := policy.SasExpirationPeriod
-	destination.SasExpirationPeriod = &sasExpirationPeriod
+	destination.SasExpirationPeriod = genruntime.ClonePointerToString(policy.SasExpirationPeriod)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5566,13 +5729,11 @@ func (policy *SasPolicy) AssignPropertiesToSasPolicy(destination *v1alpha1api202
 }
 
 type SasPolicy_Status struct {
-	// +kubebuilder:validation:Required
 	//ExpirationAction: The SAS expiration action. Can only be Log.
-	ExpirationAction SasPolicyStatusExpirationAction `json:"expirationAction"`
+	ExpirationAction *SasPolicyStatusExpirationAction `json:"expirationAction,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//SasExpirationPeriod: The SAS expiration period, DD.HH:MM:SS.
-	SasExpirationPeriod string `json:"sasExpirationPeriod"`
+	SasExpirationPeriod *string `json:"sasExpirationPeriod,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SasPolicy_Status{}
@@ -5590,10 +5751,16 @@ func (policy *SasPolicy_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	}
 
 	// Set property ‘ExpirationAction’:
-	policy.ExpirationAction = typedInput.ExpirationAction
+	if typedInput.ExpirationAction != nil {
+		expirationAction := *typedInput.ExpirationAction
+		policy.ExpirationAction = &expirationAction
+	}
 
 	// Set property ‘SasExpirationPeriod’:
-	policy.SasExpirationPeriod = typedInput.SasExpirationPeriod
+	if typedInput.SasExpirationPeriod != nil {
+		sasExpirationPeriod := *typedInput.SasExpirationPeriod
+		policy.SasExpirationPeriod = &sasExpirationPeriod
+	}
 
 	// No error
 	return nil
@@ -5604,13 +5771,14 @@ func (policy *SasPolicy_Status) AssignPropertiesFromSasPolicyStatus(source *v1al
 
 	// ExpirationAction
 	if source.ExpirationAction != nil {
-		policy.ExpirationAction = SasPolicyStatusExpirationAction(*source.ExpirationAction)
+		expirationAction := SasPolicyStatusExpirationAction(*source.ExpirationAction)
+		policy.ExpirationAction = &expirationAction
 	} else {
-		policy.ExpirationAction = ""
+		policy.ExpirationAction = nil
 	}
 
 	// SasExpirationPeriod
-	policy.SasExpirationPeriod = genruntime.GetOptionalStringValue(source.SasExpirationPeriod)
+	policy.SasExpirationPeriod = genruntime.ClonePointerToString(source.SasExpirationPeriod)
 
 	// No error
 	return nil
@@ -5622,12 +5790,15 @@ func (policy *SasPolicy_Status) AssignPropertiesToSasPolicyStatus(destination *v
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ExpirationAction
-	expirationAction := string(policy.ExpirationAction)
-	destination.ExpirationAction = &expirationAction
+	if policy.ExpirationAction != nil {
+		expirationAction := string(*policy.ExpirationAction)
+		destination.ExpirationAction = &expirationAction
+	} else {
+		destination.ExpirationAction = nil
+	}
 
 	// SasExpirationPeriod
-	sasExpirationPeriod := policy.SasExpirationPeriod
-	destination.SasExpirationPeriod = &sasExpirationPeriod
+	destination.SasExpirationPeriod = genruntime.ClonePointerToString(policy.SasExpirationPeriod)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5643,7 +5814,7 @@ func (policy *SasPolicy_Status) AssignPropertiesToSasPolicyStatus(destination *v
 //Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Sku
 type Sku struct {
 	// +kubebuilder:validation:Required
-	Name SkuName  `json:"name"`
+	Name *SkuName `json:"name,omitempty"`
 	Tier *SkuTier `json:"tier,omitempty"`
 }
 
@@ -5657,7 +5828,10 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	var result SkuARM
 
 	// Set property ‘Name’:
-	result.Name = sku.Name
+	if sku.Name != nil {
+		name := *sku.Name
+		result.Name = &name
+	}
 
 	// Set property ‘Tier’:
 	if sku.Tier != nil {
@@ -5680,7 +5854,10 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 	}
 
 	// Set property ‘Name’:
-	sku.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		sku.Name = &name
+	}
 
 	// Set property ‘Tier’:
 	if typedInput.Tier != nil {
@@ -5697,9 +5874,10 @@ func (sku *Sku) AssignPropertiesFromSku(source *v1alpha1api20210401storage.Sku) 
 
 	// Name
 	if source.Name != nil {
-		sku.Name = SkuName(*source.Name)
+		name := SkuName(*source.Name)
+		sku.Name = &name
 	} else {
-		sku.Name = ""
+		sku.Name = nil
 	}
 
 	// Tier
@@ -5720,8 +5898,12 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20210401storage.Sk
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(sku.Name)
-	destination.Name = &name
+	if sku.Name != nil {
+		name := string(*sku.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Tier
 	if sku.Tier != nil {
@@ -5743,9 +5925,8 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20210401storage.Sk
 }
 
 type Sku_Status struct {
-	// +kubebuilder:validation:Required
-	Name SkuName_Status `json:"name"`
-	Tier *Tier_Status   `json:"tier,omitempty"`
+	Name *SkuName_Status `json:"name,omitempty"`
+	Tier *Tier_Status    `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_Status{}
@@ -5763,7 +5944,10 @@ func (sku *Sku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	}
 
 	// Set property ‘Name’:
-	sku.Name = typedInput.Name
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		sku.Name = &name
+	}
 
 	// Set property ‘Tier’:
 	if typedInput.Tier != nil {
@@ -5780,9 +5964,10 @@ func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v1alpha1api20210401
 
 	// Name
 	if source.Name != nil {
-		sku.Name = SkuName_Status(*source.Name)
+		name := SkuName_Status(*source.Name)
+		sku.Name = &name
 	} else {
-		sku.Name = ""
+		sku.Name = nil
 	}
 
 	// Tier
@@ -5803,8 +5988,12 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1api20210
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(sku.Name)
-	destination.Name = &name
+	if sku.Name != nil {
+		name := string(*sku.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Tier
 	if sku.Tier != nil {
@@ -5951,27 +6140,27 @@ const (
 type ActiveDirectoryProperties struct {
 	// +kubebuilder:validation:Required
 	//AzureStorageSid: Specifies the security identifier (SID) for Azure Storage.
-	AzureStorageSid string `json:"azureStorageSid"`
+	AzureStorageSid *string `json:"azureStorageSid,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//DomainGuid: Specifies the domain GUID.
-	DomainGuid string `json:"domainGuid"`
+	DomainGuid *string `json:"domainGuid,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//DomainName: Specifies the primary domain that the AD DNS server is authoritative for.
-	DomainName string `json:"domainName"`
+	DomainName *string `json:"domainName,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//DomainSid: Specifies the security identifier (SID).
-	DomainSid string `json:"domainSid"`
+	DomainSid *string `json:"domainSid,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//ForestName: Specifies the Active Directory forest to get.
-	ForestName string `json:"forestName"`
+	ForestName *string `json:"forestName,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//NetBiosDomainName: Specifies the NetBIOS domain name.
-	NetBiosDomainName string `json:"netBiosDomainName"`
+	NetBiosDomainName *string `json:"netBiosDomainName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ActiveDirectoryProperties{}
@@ -5984,22 +6173,40 @@ func (properties *ActiveDirectoryProperties) ConvertToARM(resolved genruntime.Co
 	var result ActiveDirectoryPropertiesARM
 
 	// Set property ‘AzureStorageSid’:
-	result.AzureStorageSid = properties.AzureStorageSid
+	if properties.AzureStorageSid != nil {
+		azureStorageSid := *properties.AzureStorageSid
+		result.AzureStorageSid = &azureStorageSid
+	}
 
 	// Set property ‘DomainGuid’:
-	result.DomainGuid = properties.DomainGuid
+	if properties.DomainGuid != nil {
+		domainGuid := *properties.DomainGuid
+		result.DomainGuid = &domainGuid
+	}
 
 	// Set property ‘DomainName’:
-	result.DomainName = properties.DomainName
+	if properties.DomainName != nil {
+		domainName := *properties.DomainName
+		result.DomainName = &domainName
+	}
 
 	// Set property ‘DomainSid’:
-	result.DomainSid = properties.DomainSid
+	if properties.DomainSid != nil {
+		domainSid := *properties.DomainSid
+		result.DomainSid = &domainSid
+	}
 
 	// Set property ‘ForestName’:
-	result.ForestName = properties.ForestName
+	if properties.ForestName != nil {
+		forestName := *properties.ForestName
+		result.ForestName = &forestName
+	}
 
 	// Set property ‘NetBiosDomainName’:
-	result.NetBiosDomainName = properties.NetBiosDomainName
+	if properties.NetBiosDomainName != nil {
+		netBiosDomainName := *properties.NetBiosDomainName
+		result.NetBiosDomainName = &netBiosDomainName
+	}
 	return result, nil
 }
 
@@ -6016,22 +6223,40 @@ func (properties *ActiveDirectoryProperties) PopulateFromARM(owner genruntime.Ar
 	}
 
 	// Set property ‘AzureStorageSid’:
-	properties.AzureStorageSid = typedInput.AzureStorageSid
+	if typedInput.AzureStorageSid != nil {
+		azureStorageSid := *typedInput.AzureStorageSid
+		properties.AzureStorageSid = &azureStorageSid
+	}
 
 	// Set property ‘DomainGuid’:
-	properties.DomainGuid = typedInput.DomainGuid
+	if typedInput.DomainGuid != nil {
+		domainGuid := *typedInput.DomainGuid
+		properties.DomainGuid = &domainGuid
+	}
 
 	// Set property ‘DomainName’:
-	properties.DomainName = typedInput.DomainName
+	if typedInput.DomainName != nil {
+		domainName := *typedInput.DomainName
+		properties.DomainName = &domainName
+	}
 
 	// Set property ‘DomainSid’:
-	properties.DomainSid = typedInput.DomainSid
+	if typedInput.DomainSid != nil {
+		domainSid := *typedInput.DomainSid
+		properties.DomainSid = &domainSid
+	}
 
 	// Set property ‘ForestName’:
-	properties.ForestName = typedInput.ForestName
+	if typedInput.ForestName != nil {
+		forestName := *typedInput.ForestName
+		properties.ForestName = &forestName
+	}
 
 	// Set property ‘NetBiosDomainName’:
-	properties.NetBiosDomainName = typedInput.NetBiosDomainName
+	if typedInput.NetBiosDomainName != nil {
+		netBiosDomainName := *typedInput.NetBiosDomainName
+		properties.NetBiosDomainName = &netBiosDomainName
+	}
 
 	// No error
 	return nil
@@ -6041,22 +6266,22 @@ func (properties *ActiveDirectoryProperties) PopulateFromARM(owner genruntime.Ar
 func (properties *ActiveDirectoryProperties) AssignPropertiesFromActiveDirectoryProperties(source *v1alpha1api20210401storage.ActiveDirectoryProperties) error {
 
 	// AzureStorageSid
-	properties.AzureStorageSid = genruntime.GetOptionalStringValue(source.AzureStorageSid)
+	properties.AzureStorageSid = genruntime.ClonePointerToString(source.AzureStorageSid)
 
 	// DomainGuid
-	properties.DomainGuid = genruntime.GetOptionalStringValue(source.DomainGuid)
+	properties.DomainGuid = genruntime.ClonePointerToString(source.DomainGuid)
 
 	// DomainName
-	properties.DomainName = genruntime.GetOptionalStringValue(source.DomainName)
+	properties.DomainName = genruntime.ClonePointerToString(source.DomainName)
 
 	// DomainSid
-	properties.DomainSid = genruntime.GetOptionalStringValue(source.DomainSid)
+	properties.DomainSid = genruntime.ClonePointerToString(source.DomainSid)
 
 	// ForestName
-	properties.ForestName = genruntime.GetOptionalStringValue(source.ForestName)
+	properties.ForestName = genruntime.ClonePointerToString(source.ForestName)
 
 	// NetBiosDomainName
-	properties.NetBiosDomainName = genruntime.GetOptionalStringValue(source.NetBiosDomainName)
+	properties.NetBiosDomainName = genruntime.ClonePointerToString(source.NetBiosDomainName)
 
 	// No error
 	return nil
@@ -6068,28 +6293,22 @@ func (properties *ActiveDirectoryProperties) AssignPropertiesToActiveDirectoryPr
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureStorageSid
-	azureStorageSid := properties.AzureStorageSid
-	destination.AzureStorageSid = &azureStorageSid
+	destination.AzureStorageSid = genruntime.ClonePointerToString(properties.AzureStorageSid)
 
 	// DomainGuid
-	domainGuid := properties.DomainGuid
-	destination.DomainGuid = &domainGuid
+	destination.DomainGuid = genruntime.ClonePointerToString(properties.DomainGuid)
 
 	// DomainName
-	domainName := properties.DomainName
-	destination.DomainName = &domainName
+	destination.DomainName = genruntime.ClonePointerToString(properties.DomainName)
 
 	// DomainSid
-	domainSid := properties.DomainSid
-	destination.DomainSid = &domainSid
+	destination.DomainSid = genruntime.ClonePointerToString(properties.DomainSid)
 
 	// ForestName
-	forestName := properties.ForestName
-	destination.ForestName = &forestName
+	destination.ForestName = genruntime.ClonePointerToString(properties.ForestName)
 
 	// NetBiosDomainName
-	netBiosDomainName := properties.NetBiosDomainName
-	destination.NetBiosDomainName = &netBiosDomainName
+	destination.NetBiosDomainName = genruntime.ClonePointerToString(properties.NetBiosDomainName)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -6103,29 +6322,23 @@ func (properties *ActiveDirectoryProperties) AssignPropertiesToActiveDirectoryPr
 }
 
 type ActiveDirectoryProperties_Status struct {
-	// +kubebuilder:validation:Required
 	//AzureStorageSid: Specifies the security identifier (SID) for Azure Storage.
-	AzureStorageSid string `json:"azureStorageSid"`
+	AzureStorageSid *string `json:"azureStorageSid,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//DomainGuid: Specifies the domain GUID.
-	DomainGuid string `json:"domainGuid"`
+	DomainGuid *string `json:"domainGuid,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//DomainName: Specifies the primary domain that the AD DNS server is authoritative for.
-	DomainName string `json:"domainName"`
+	DomainName *string `json:"domainName,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//DomainSid: Specifies the security identifier (SID).
-	DomainSid string `json:"domainSid"`
+	DomainSid *string `json:"domainSid,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//ForestName: Specifies the Active Directory forest to get.
-	ForestName string `json:"forestName"`
+	ForestName *string `json:"forestName,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//NetBiosDomainName: Specifies the NetBIOS domain name.
-	NetBiosDomainName string `json:"netBiosDomainName"`
+	NetBiosDomainName *string `json:"netBiosDomainName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ActiveDirectoryProperties_Status{}
@@ -6143,22 +6356,40 @@ func (properties *ActiveDirectoryProperties_Status) PopulateFromARM(owner genrun
 	}
 
 	// Set property ‘AzureStorageSid’:
-	properties.AzureStorageSid = typedInput.AzureStorageSid
+	if typedInput.AzureStorageSid != nil {
+		azureStorageSid := *typedInput.AzureStorageSid
+		properties.AzureStorageSid = &azureStorageSid
+	}
 
 	// Set property ‘DomainGuid’:
-	properties.DomainGuid = typedInput.DomainGuid
+	if typedInput.DomainGuid != nil {
+		domainGuid := *typedInput.DomainGuid
+		properties.DomainGuid = &domainGuid
+	}
 
 	// Set property ‘DomainName’:
-	properties.DomainName = typedInput.DomainName
+	if typedInput.DomainName != nil {
+		domainName := *typedInput.DomainName
+		properties.DomainName = &domainName
+	}
 
 	// Set property ‘DomainSid’:
-	properties.DomainSid = typedInput.DomainSid
+	if typedInput.DomainSid != nil {
+		domainSid := *typedInput.DomainSid
+		properties.DomainSid = &domainSid
+	}
 
 	// Set property ‘ForestName’:
-	properties.ForestName = typedInput.ForestName
+	if typedInput.ForestName != nil {
+		forestName := *typedInput.ForestName
+		properties.ForestName = &forestName
+	}
 
 	// Set property ‘NetBiosDomainName’:
-	properties.NetBiosDomainName = typedInput.NetBiosDomainName
+	if typedInput.NetBiosDomainName != nil {
+		netBiosDomainName := *typedInput.NetBiosDomainName
+		properties.NetBiosDomainName = &netBiosDomainName
+	}
 
 	// No error
 	return nil
@@ -6168,22 +6399,22 @@ func (properties *ActiveDirectoryProperties_Status) PopulateFromARM(owner genrun
 func (properties *ActiveDirectoryProperties_Status) AssignPropertiesFromActiveDirectoryPropertiesStatus(source *v1alpha1api20210401storage.ActiveDirectoryProperties_Status) error {
 
 	// AzureStorageSid
-	properties.AzureStorageSid = genruntime.GetOptionalStringValue(source.AzureStorageSid)
+	properties.AzureStorageSid = genruntime.ClonePointerToString(source.AzureStorageSid)
 
 	// DomainGuid
-	properties.DomainGuid = genruntime.GetOptionalStringValue(source.DomainGuid)
+	properties.DomainGuid = genruntime.ClonePointerToString(source.DomainGuid)
 
 	// DomainName
-	properties.DomainName = genruntime.GetOptionalStringValue(source.DomainName)
+	properties.DomainName = genruntime.ClonePointerToString(source.DomainName)
 
 	// DomainSid
-	properties.DomainSid = genruntime.GetOptionalStringValue(source.DomainSid)
+	properties.DomainSid = genruntime.ClonePointerToString(source.DomainSid)
 
 	// ForestName
-	properties.ForestName = genruntime.GetOptionalStringValue(source.ForestName)
+	properties.ForestName = genruntime.ClonePointerToString(source.ForestName)
 
 	// NetBiosDomainName
-	properties.NetBiosDomainName = genruntime.GetOptionalStringValue(source.NetBiosDomainName)
+	properties.NetBiosDomainName = genruntime.ClonePointerToString(source.NetBiosDomainName)
 
 	// No error
 	return nil
@@ -6195,28 +6426,22 @@ func (properties *ActiveDirectoryProperties_Status) AssignPropertiesToActiveDire
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureStorageSid
-	azureStorageSid := properties.AzureStorageSid
-	destination.AzureStorageSid = &azureStorageSid
+	destination.AzureStorageSid = genruntime.ClonePointerToString(properties.AzureStorageSid)
 
 	// DomainGuid
-	domainGuid := properties.DomainGuid
-	destination.DomainGuid = &domainGuid
+	destination.DomainGuid = genruntime.ClonePointerToString(properties.DomainGuid)
 
 	// DomainName
-	domainName := properties.DomainName
-	destination.DomainName = &domainName
+	destination.DomainName = genruntime.ClonePointerToString(properties.DomainName)
 
 	// DomainSid
-	domainSid := properties.DomainSid
-	destination.DomainSid = &domainSid
+	destination.DomainSid = genruntime.ClonePointerToString(properties.DomainSid)
 
 	// ForestName
-	forestName := properties.ForestName
-	destination.ForestName = &forestName
+	destination.ForestName = genruntime.ClonePointerToString(properties.ForestName)
 
 	// NetBiosDomainName
-	netBiosDomainName := properties.NetBiosDomainName
-	destination.NetBiosDomainName = &netBiosDomainName
+	destination.NetBiosDomainName = genruntime.ClonePointerToString(properties.NetBiosDomainName)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -6268,13 +6493,11 @@ const (
 )
 
 type BlobRestoreParameters_Status struct {
-	// +kubebuilder:validation:Required
 	//BlobRanges: Blob ranges to restore.
-	BlobRanges []BlobRestoreRange_Status `json:"blobRanges"`
+	BlobRanges []BlobRestoreRange_Status `json:"blobRanges,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//TimeToRestore: Restore blob to the specified time.
-	TimeToRestore string `json:"timeToRestore"`
+	TimeToRestore *string `json:"timeToRestore,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &BlobRestoreParameters_Status{}
@@ -6302,7 +6525,10 @@ func (parameters *BlobRestoreParameters_Status) PopulateFromARM(owner genruntime
 	}
 
 	// Set property ‘TimeToRestore’:
-	parameters.TimeToRestore = typedInput.TimeToRestore
+	if typedInput.TimeToRestore != nil {
+		timeToRestore := *typedInput.TimeToRestore
+		parameters.TimeToRestore = &timeToRestore
+	}
 
 	// No error
 	return nil
@@ -6330,7 +6556,7 @@ func (parameters *BlobRestoreParameters_Status) AssignPropertiesFromBlobRestoreP
 	}
 
 	// TimeToRestore
-	parameters.TimeToRestore = genruntime.GetOptionalStringValue(source.TimeToRestore)
+	parameters.TimeToRestore = genruntime.ClonePointerToString(source.TimeToRestore)
 
 	// No error
 	return nil
@@ -6360,8 +6586,7 @@ func (parameters *BlobRestoreParameters_Status) AssignPropertiesToBlobRestorePar
 	}
 
 	// TimeToRestore
-	timeToRestore := parameters.TimeToRestore
-	destination.TimeToRestore = &timeToRestore
+	destination.TimeToRestore = genruntime.ClonePointerToString(parameters.TimeToRestore)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -6996,7 +7221,7 @@ type IPRule struct {
 
 	// +kubebuilder:validation:Required
 	//Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
-	Value string `json:"value"`
+	Value *string `json:"value,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &IPRule{}
@@ -7015,7 +7240,10 @@ func (rule *IPRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	}
 
 	// Set property ‘Value’:
-	result.Value = rule.Value
+	if rule.Value != nil {
+		value := *rule.Value
+		result.Value = &value
+	}
 	return result, nil
 }
 
@@ -7038,7 +7266,10 @@ func (rule *IPRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 	}
 
 	// Set property ‘Value’:
-	rule.Value = typedInput.Value
+	if typedInput.Value != nil {
+		value := *typedInput.Value
+		rule.Value = &value
+	}
 
 	// No error
 	return nil
@@ -7056,7 +7287,7 @@ func (rule *IPRule) AssignPropertiesFromIPRule(source *v1alpha1api20210401storag
 	}
 
 	// Value
-	rule.Value = genruntime.GetOptionalStringValue(source.Value)
+	rule.Value = genruntime.ClonePointerToString(source.Value)
 
 	// No error
 	return nil
@@ -7076,8 +7307,7 @@ func (rule *IPRule) AssignPropertiesToIPRule(destination *v1alpha1api20210401sto
 	}
 
 	// Value
-	value := rule.Value
-	destination.Value = &value
+	destination.Value = genruntime.ClonePointerToString(rule.Value)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -7094,9 +7324,8 @@ type IPRule_Status struct {
 	//Action: The action of IP ACL rule.
 	Action *IPRuleStatusAction `json:"action,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
-	Value string `json:"value"`
+	Value *string `json:"value,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &IPRule_Status{}
@@ -7120,7 +7349,10 @@ func (rule *IPRule_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	}
 
 	// Set property ‘Value’:
-	rule.Value = typedInput.Value
+	if typedInput.Value != nil {
+		value := *typedInput.Value
+		rule.Value = &value
+	}
 
 	// No error
 	return nil
@@ -7138,7 +7370,7 @@ func (rule *IPRule_Status) AssignPropertiesFromIPRuleStatus(source *v1alpha1api2
 	}
 
 	// Value
-	rule.Value = genruntime.GetOptionalStringValue(source.Value)
+	rule.Value = genruntime.ClonePointerToString(source.Value)
 
 	// No error
 	return nil
@@ -7158,8 +7390,7 @@ func (rule *IPRule_Status) AssignPropertiesToIPRuleStatus(destination *v1alpha1a
 	}
 
 	// Value
-	value := rule.Value
-	destination.Value = &value
+	destination.Value = genruntime.ClonePointerToString(rule.Value)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -8142,7 +8373,7 @@ type VirtualNetworkRule struct {
 	// +kubebuilder:validation:Required
 	//Reference: Resource ID of a subnet, for example:
 	///subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
-	Reference genruntime.ResourceReference `armReference:"Id" json:"reference"`
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	//State: Gets the state of virtual network rule.
 	State *VirtualNetworkRuleState `json:"state,omitempty"`
@@ -8164,11 +8395,14 @@ func (rule *VirtualNetworkRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 	}
 
 	// Set property ‘Id’:
-	referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(rule.Reference)
-	if err != nil {
-		return nil, err
+	if rule.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*rule.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference := referenceARMID
+		result.Id = &reference
 	}
-	result.Id = referenceARMID
 
 	// Set property ‘State’:
 	if rule.State != nil {
@@ -8220,7 +8454,12 @@ func (rule *VirtualNetworkRule) AssignPropertiesFromVirtualNetworkRule(source *v
 	}
 
 	// Reference
-	rule.Reference = source.Reference.Copy()
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		rule.Reference = &reference
+	} else {
+		rule.Reference = nil
+	}
 
 	// State
 	if source.State != nil {
@@ -8248,7 +8487,12 @@ func (rule *VirtualNetworkRule) AssignPropertiesToVirtualNetworkRule(destination
 	}
 
 	// Reference
-	destination.Reference = rule.Reference.Copy()
+	if rule.Reference != nil {
+		reference := rule.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
 
 	// State
 	if rule.State != nil {
@@ -8273,10 +8517,9 @@ type VirtualNetworkRule_Status struct {
 	//Action: The action of virtual network rule.
 	Action *VirtualNetworkRuleStatusAction `json:"action,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//Id: Resource ID of a subnet, for example:
 	///subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 
 	//State: Gets the state of virtual network rule.
 	State *VirtualNetworkRuleStatusState `json:"state,omitempty"`
@@ -8303,7 +8546,10 @@ func (rule *VirtualNetworkRule_Status) PopulateFromARM(owner genruntime.Arbitrar
 	}
 
 	// Set property ‘Id’:
-	rule.Id = typedInput.Id
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		rule.Id = &id
+	}
 
 	// Set property ‘State’:
 	if typedInput.State != nil {
@@ -8327,7 +8573,7 @@ func (rule *VirtualNetworkRule_Status) AssignPropertiesFromVirtualNetworkRuleSta
 	}
 
 	// Id
-	rule.Id = genruntime.GetOptionalStringValue(source.Id)
+	rule.Id = genruntime.ClonePointerToString(source.Id)
 
 	// State
 	if source.State != nil {
@@ -8355,8 +8601,7 @@ func (rule *VirtualNetworkRule_Status) AssignPropertiesToVirtualNetworkRuleStatu
 	}
 
 	// Id
-	id := rule.Id
-	destination.Id = &id
+	destination.Id = genruntime.ClonePointerToString(rule.Id)
 
 	// State
 	if rule.State != nil {
@@ -8378,13 +8623,11 @@ func (rule *VirtualNetworkRule_Status) AssignPropertiesToVirtualNetworkRuleStatu
 }
 
 type BlobRestoreRange_Status struct {
-	// +kubebuilder:validation:Required
 	//EndRange: Blob end range. This is exclusive. Empty means account end.
-	EndRange string `json:"endRange"`
+	EndRange *string `json:"endRange,omitempty"`
 
-	// +kubebuilder:validation:Required
 	//StartRange: Blob start range. This is inclusive. Empty means account start.
-	StartRange string `json:"startRange"`
+	StartRange *string `json:"startRange,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &BlobRestoreRange_Status{}
@@ -8402,10 +8645,16 @@ func (restoreRange *BlobRestoreRange_Status) PopulateFromARM(owner genruntime.Ar
 	}
 
 	// Set property ‘EndRange’:
-	restoreRange.EndRange = typedInput.EndRange
+	if typedInput.EndRange != nil {
+		endRange := *typedInput.EndRange
+		restoreRange.EndRange = &endRange
+	}
 
 	// Set property ‘StartRange’:
-	restoreRange.StartRange = typedInput.StartRange
+	if typedInput.StartRange != nil {
+		startRange := *typedInput.StartRange
+		restoreRange.StartRange = &startRange
+	}
 
 	// No error
 	return nil
@@ -8415,10 +8664,10 @@ func (restoreRange *BlobRestoreRange_Status) PopulateFromARM(owner genruntime.Ar
 func (restoreRange *BlobRestoreRange_Status) AssignPropertiesFromBlobRestoreRangeStatus(source *v1alpha1api20210401storage.BlobRestoreRange_Status) error {
 
 	// EndRange
-	restoreRange.EndRange = genruntime.GetOptionalStringValue(source.EndRange)
+	restoreRange.EndRange = genruntime.ClonePointerToString(source.EndRange)
 
 	// StartRange
-	restoreRange.StartRange = genruntime.GetOptionalStringValue(source.StartRange)
+	restoreRange.StartRange = genruntime.ClonePointerToString(source.StartRange)
 
 	// No error
 	return nil
@@ -8430,12 +8679,10 @@ func (restoreRange *BlobRestoreRange_Status) AssignPropertiesToBlobRestoreRangeS
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndRange
-	endRange := restoreRange.EndRange
-	destination.EndRange = &endRange
+	destination.EndRange = genruntime.ClonePointerToString(restoreRange.EndRange)
 
 	// StartRange
-	startRange := restoreRange.StartRange
-	destination.StartRange = &startRange
+	destination.StartRange = genruntime.ClonePointerToString(restoreRange.StartRange)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
