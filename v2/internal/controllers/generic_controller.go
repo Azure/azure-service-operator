@@ -49,7 +49,7 @@ type (
 type GenericReconciler struct {
 	Reconciler           genruntime.Reconciler
 	LoggerFactory        LoggerFactory
-	KubeClient           *kubeclient.Client
+	KubeClient           kubeclient.Client
 	Recorder             record.EventRecorder
 	Name                 string
 	Config               config.Values
@@ -156,7 +156,7 @@ func register(
 	}
 
 	options.Log.V(Status).Info("Registering", "GVK", gvk)
-	kubeClient := kubeclient.NewClient(mgr.GetClient(), mgr.GetScheme())
+	kubeClient := kubeclient.NewClient(mgr.GetClient())
 	extension := extensions[gvk]
 
 	loggerFactory := func(mo genruntime.MetaObject) logr.Logger {
@@ -294,7 +294,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		return ctrl.Result{}, nil
 	} else if reconcilerNamespace == "" && gr.Config.PodNamespace != "" {
 		genruntime.AddAnnotation(metaObj, NamespaceAnnotation, gr.Config.PodNamespace)
-		return ctrl.Result{Requeue: true}, gr.KubeClient.Client.Update(ctx, obj)
+		return ctrl.Result{Requeue: true}, gr.KubeClient.Update(ctx, obj)
 	}
 
 	result, err := gr.Reconciler.Reconcile(ctx, log, metaObj)
