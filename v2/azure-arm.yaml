@@ -56,12 +56,12 @@ typeFilters:
     because: Some types (SitesSlotsConfig) use OneOf in a way we don't currently handle. Exclude the whole set for now.
   - action: prune
     group: network
-    version: 'v*api201*'
-    because: Pruning all older networking api versions types since we don't use them anyway
+    version: 'v*beta201*'
+    because: Pruning all older networking api versions types since we don't use them anyway (and they have odd issues)
   - action: prune
     group: compute
-    version: 'v*api201*'
-    because: Pruning all older compute api versions types since we don't use them anyway
+    version: 'v*beta201*'
+    because: Pruning all older compute api versions types since we don't use them anyway (and they have odd issues)
   - action: prune
     group: kusto
     because: Some types use OneOf in a way we don't currently handle correctly.
