@@ -61,8 +61,7 @@ func transformFloatToInt(this *astmodel.TypeVisitor, ot *astmodel.ObjectType, ct
 			// Check if the Float64 Type has validations. If yes, then we have to change it to IntType as code-gen doesn't
 			// allow float types with validations.
 			if validatedType, ok := prop.PropertyType().(*astmodel.ValidatedType); ok {
-				ot = ot.WithProperty(prop.WithType(validatedType.WithType(astmodel.IntType)))
-
+				ot = ot.WithProperty(prop.WithType(validatedType.WithType(astmodel.IntType)).MakeTypeOptional())
 			}
 		}
 	}
