@@ -31,12 +31,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 )
 
-func GetKnownStorageTypes() []registration.StorageType {
+func GetKnownStorageTypes() []*registration.StorageType {
 	knownTypes := getKnownStorageTypes()
 
 	knownTypes = append(
 		knownTypes,
-		registration.MakeStorageType(new(resources.ResourceGroup)))
+		registration.NewStorageType(new(resources.ResourceGroup)))
 
 	return knownTypes
 }

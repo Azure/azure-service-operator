@@ -247,8 +247,8 @@ func createGetKnownTypesFunc(codeGenerationContext *astmodel.CodeGenerationConte
 
 // createGetKnownStorageTypesFunc creates a getKnownStorageTypes function that returns all storage types:
 //		func getKnownStorageTypes() []registration.StorageType {
-//			var result []registration.StorageType
-//			result = append(result, registration.StorageType{
+//			var result []*registration.StorageType
+//			result = append(result, &registration.StorageType{
 //				Obj: new(<package>.<resource>),
 //				Indexes: []registration.Index{
 //					{
@@ -279,9 +279,7 @@ func createGetKnownStorageTypesFunc(
 	resultIdent := dst.NewIdent("result")
 	resultVar := astbuilder.LocalVariableDeclaration(
 		resultIdent.String(),
-		&dst.ArrayType{
-			Elt: astmodel.StorageTypeRegistrationType.AsType(codeGenerationContext),
-		},
+		astmodel.NewArrayType(astmodel.NewOptionalType(astmodel.StorageTypeRegistrationType)).AsType(codeGenerationContext),
 		"")
 
 	sort.Slice(resources, orderByImportedTypeName(codeGenerationContext, resources))
@@ -360,7 +358,7 @@ func createGetKnownStorageTypesFunc(
 
 		appendStmt := astbuilder.AppendSlice(
 			resultIdent,
-			newStorageTypeBuilder.Build())
+			astbuilder.AddrOf(newStorageTypeBuilder.Build()))
 		resourceAppendStatements = append(resourceAppendStatements, appendStmt)
 	}
 
@@ -381,9 +379,8 @@ func createGetKnownStorageTypesFunc(
 		Params: []*dst.Field{},
 		Returns: []*dst.Field{
 			{
-				Type: &dst.ArrayType{
-					Elt: astmodel.StorageTypeRegistrationType.AsType(codeGenerationContext),
-				},
+				Type: astmodel.NewArrayType(
+					astmodel.NewOptionalType(astmodel.StorageTypeRegistrationType)).AsType(codeGenerationContext),
 			},
 		},
 	}
