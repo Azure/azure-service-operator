@@ -20,12 +20,12 @@ import (
 )
 
 type Resolver struct {
-	client                   *kubeclient.Client
+	client                   kubeclient.Client
 	kubeSecretResolver       SecretResolver
 	reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind
 }
 
-func NewResolver(client *kubeclient.Client, reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind) *Resolver {
+func NewResolver(client kubeclient.Client, reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind) *Resolver {
 	return &Resolver{
 		client:                   client,
 		kubeSecretResolver:       NewKubeSecretResolver(client),
@@ -170,7 +170,7 @@ func (r *Resolver) ResolveOwner(ctx context.Context, obj genruntime.MetaObject) 
 
 // Scheme returns the current scheme from our client
 func (r *Resolver) Scheme() *runtime.Scheme {
-	return r.client.Scheme
+	return r.client.Scheme()
 }
 
 func (r *Resolver) findGVK(ref genruntime.NamespacedResourceReference) (schema.GroupVersionKind, error) {

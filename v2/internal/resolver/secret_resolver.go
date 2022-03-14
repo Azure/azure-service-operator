@@ -25,12 +25,12 @@ type SecretResolver interface {
 
 // kubeSecretResolver resolves Kubernetes secrets
 type kubeSecretResolver struct {
-	client *kubeclient.Client
+	client kubeclient.Client
 }
 
 var _ SecretResolver = &kubeSecretResolver{}
 
-func NewKubeSecretResolver(client *kubeclient.Client) SecretResolver {
+func NewKubeSecretResolver(client kubeclient.Client) SecretResolver {
 	return &kubeSecretResolver{
 		client: client,
 	}
@@ -45,7 +45,7 @@ func (r *kubeSecretResolver) ResolveSecretReference(ctx context.Context, ref gen
 	}
 
 	secret := &v1.Secret{}
-	err := r.client.Client.Get(ctx, refNamespacedName, secret)
+	err := r.client.Get(ctx, refNamespacedName, secret)
 	if err != nil {
 		if apierrors.IsNotFound(err) {
 			err := NewSecretNotFoundError(refNamespacedName, err)
