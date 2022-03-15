@@ -80,7 +80,7 @@ func fuseAugmenters(augments ...augmenter) augmenter {
 // (AllOf, AllOf) - panics
 // (OneOf, OneOf) - panics
 // (Resource, Resource) - panics
-func newDefaultMerger(allTypes astmodel.ReadonlyTypes) *astmodel.TypeMerger {
+func newDefaultMerger(allTypes astmodel.ReadonlyTypeDefinitions) *astmodel.TypeMerger {
 	merger := astmodel.NewTypeMerger(func(ctx interface{}, left, right astmodel.Type) (astmodel.Type, error) {
 		// as a fallback, return left (= main type) if we have nothing else to do
 		return left, nil
@@ -192,7 +192,7 @@ func newDefaultMerger(allTypes astmodel.ReadonlyTypes) *astmodel.TypeMerger {
 }
 
 // flattenAugmenter copies across the "flatten" property from Swagger
-func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
+func flattenAugmenter(allTypes astmodel.ReadonlyTypeDefinitions) augmenter {
 	return func(spec astmodel.Type, status astmodel.Type) (astmodel.Type, error) {
 		// reminder: merger is invoked with a pair of Types and invokes the first
 		// function added that matches those types
@@ -251,7 +251,7 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 
 // secretAugmenter copies across the "x-ms-secret" and "format: password" properties from Swagger
 // and stores them in a secret property
-func secretAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
+func secretAugmenter(allTypes astmodel.ReadonlyTypeDefinitions) augmenter {
 	return func(spec astmodel.Type, status astmodel.Type) (astmodel.Type, error) {
 		// reminder: merger is invoked with a pair of Typesand invokes the first
 		// function added that matches those types
