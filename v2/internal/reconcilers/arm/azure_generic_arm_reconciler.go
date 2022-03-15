@@ -58,7 +58,7 @@ var _ genruntime.Reconciler = &AzureDeploymentReconciler{}
 type AzureDeploymentReconciler struct {
 	Recorder           record.EventRecorder
 	ARMClientFactory   ARMClientFactory
-	KubeClient         *kubeclient.Client
+	KubeClient         kubeclient.Client
 	ResourceResolver   *resolver.Resolver
 	PositiveConditions *conditions.PositiveConditionBuilder
 	Config             config.Values
@@ -69,7 +69,7 @@ type AzureDeploymentReconciler struct {
 func NewAzureDeploymentReconciler(
 	armClientFactory ARMClientFactory,
 	eventRecorder record.EventRecorder,
-	kubeClient *kubeclient.Client,
+	kubeClient kubeclient.Client,
 	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
 	cfg config.Values,

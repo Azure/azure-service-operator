@@ -19,7 +19,7 @@ import (
 // CommitObject persists the contents of obj to etcd by using the Kubernetes client.
 // Note that after this method has been called, obj contains the result of the update
 // from APIServer (including an updated resourceVersion).
-func CommitObject(ctx context.Context, kubeClient *kubeclient.Client, obj genruntime.MetaObject) error {
+func CommitObject(ctx context.Context, kubeClient kubeclient.Client, obj genruntime.MetaObject) error {
 	// Order of updates (spec first or status first) matters here.
 	// If the status is updated first: clients that are waiting on status
 	// Condition Ready == true might see that quickly enough, and make a spec
@@ -33,7 +33,7 @@ func CommitObject(ctx context.Context, kubeClient *kubeclient.Client, obj genrun
 	// This will cause the contents we have in Status.Location to be overwritten.
 	clone := obj.DeepCopyObject().(client.Object)
 
-	err := kubeClient.Client.Update(ctx, clone)
+	err := kubeClient.Update(ctx, clone)
 	if err != nil {
 		return errors.Wrapf(err, "updating %s/%s resource", obj.GetNamespace(), obj.GetName())
 	}
@@ -42,7 +42,7 @@ func CommitObject(ctx context.Context, kubeClient *kubeclient.Client, obj genrun
 
 	// Note that subsequent calls to GET can (if using a cached client) can miss the updates we've just done.
 	// See: https://github.com/kubernetes-sigs/controller-runtime/issues/1464.
-	err = kubeClient.Client.Status().Update(ctx, obj)
+	err = kubeClient.Status().Update(ctx, obj)
 	if err != nil {
 		return errors.Wrapf(err, "updating %s/%s resource status", obj.GetNamespace(), obj.GetName())
 	}

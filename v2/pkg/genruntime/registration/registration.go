@@ -37,9 +37,9 @@ type StorageType struct {
 	Watches []Watch
 }
 
-// MakeStorageType makes a new storage type for the specified object
-func MakeStorageType(obj client.Object) StorageType {
-	return StorageType{
+// NewStorageType makes a new storage type for the specified object
+func NewStorageType(obj client.Object) *StorageType {
+	return &StorageType{
 		Obj: obj,
 	}
 }
