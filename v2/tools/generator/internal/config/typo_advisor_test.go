@@ -13,12 +13,14 @@ import (
 )
 
 func TestTypoAdvisor_Wrapf_WhenNoError_ReturnsNil(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	advisor := createTestTypoAdvisor("alpha", "beta", "gamma", "delta")
 	g.Expect(advisor.Wrapf(nil, "beat", "format string")).To(BeNil())
 }
 
 func TestTypoAdvisor_Wrapf_WhenErrorButNoTerms_ReturnsOriginalError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	advisor := createTestTypoAdvisor()
 	err := errors.New("Boom")
@@ -27,6 +29,7 @@ func TestTypoAdvisor_Wrapf_WhenErrorButNoTerms_ReturnsOriginalError(t *testing.T
 }
 
 func TestTypoAdvisor_Wrapf_WhenErrorButNoTypo_ReturnsOriginalError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	advisor := createTestTypoAdvisor("alpha", "beta", "gamma", "delta")
 	err := errors.New("Boom")
@@ -34,6 +37,7 @@ func TestTypoAdvisor_Wrapf_WhenErrorButNoTypo_ReturnsOriginalError(t *testing.T)
 }
 
 func TestTypoAdvisor_Wrapf_WhenErrorAndTypo_ReturnsExpectedError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	advisor := createTestTypoAdvisor("alpha", "beta", "gamma", "delta")
 	err := errors.New("Boom")
