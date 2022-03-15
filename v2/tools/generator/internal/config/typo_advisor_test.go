@@ -42,6 +42,7 @@ func TestTypoAdvisor_Wrapf_WhenErrorAndTypo_ReturnsExpectedError(t *testing.T) {
 	g.Expect(actual).NotTo(BeNil())
 	g.Expect(actual.Error()).To(ContainSubstring(err.Error()))
 	g.Expect(actual.Error()).To(ContainSubstring("the typo was beat"))
+	g.Expect(actual.Error()).To(ContainSubstring("did you mean beta?"))
 }
 
 func createTestTypoAdvisor(terms ...string) TypoAdvisor {
