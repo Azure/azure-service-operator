@@ -93,24 +93,9 @@ func FindSecretReferences(obj interface{}) (map[genruntime.SecretReference]struc
 
 // GetObjectListItems gets the list of items from an ObjectList
 func GetObjectListItems(listPtr client.ObjectList) ([]client.Object, error) {
-	val := reflect.ValueOf(listPtr)
-
-	if val.Kind() != reflect.Ptr {
-		return nil, errors.Errorf("provided list was not a pointer, was %s", val.Kind())
-	}
-
-	list := val.Elem()
-
-	if list.Kind() != reflect.Struct {
-		return nil, errors.Errorf("provided list was not a struct, was %s", val.Kind())
-	}
-
-	itemsField := list.FieldByName("Items")
-	if (itemsField == reflect.Value{}) {
-		return nil, errors.Errorf("provided list has no field \"Items\"")
-	}
-	if itemsField.Kind() != reflect.Slice {
-		return nil, errors.Errorf("provided list \"Items\" field was not of type slice")
+	itemsField, err := getItemsField(listPtr)
+	if err != nil {
+		return nil, err
 	}
 
 	var result []client.Object
@@ -133,4 +118,57 @@ func GetObjectListItems(listPtr client.ObjectList) ([]client.Object, error) {
 	}
 
 	return result, nil
+}
+
+// SetObjectListItems gets the list of items from an ObjectList
+func SetObjectListItems(listPtr client.ObjectList, items []client.Object) (returnErr error) {
+	itemsField, err := getItemsField(listPtr)
+	if err != nil {
+		return err
+	}
+
+	if !itemsField.CanSet() {
+		return errors.Errorf("cannot set items field of %T", listPtr)
+	}
+	defer func() {
+		if recovered := recover(); recovered != nil {
+			returnErr = errors.Errorf("failed to set items field of %T: %s", listPtr, recovered)
+		}
+	}()
+
+	slice := reflect.MakeSlice(itemsField.Type(), 0, 0)
+	for _, item := range items {
+		val := reflect.ValueOf(item)
+
+		if val.Kind() == reflect.Ptr {
+			val = val.Elem()
+		}
+		slice = reflect.Append(slice, val)
+	}
+
+	itemsField.Set(slice)
+	return nil
+}
+
+func getItemsField(listPtr client.ObjectList) (reflect.Value, error) {
+	val := reflect.ValueOf(listPtr)
+	if val.Kind() != reflect.Ptr {
+		return reflect.Value{}, errors.Errorf("provided list was not a pointer, was %s", val.Kind())
+	}
+
+	list := val.Elem()
+
+	if list.Kind() != reflect.Struct {
+		return reflect.Value{}, errors.Errorf("provided list was not a struct, was %s", val.Kind())
+	}
+
+	itemsField := list.FieldByName("Items")
+	if (itemsField == reflect.Value{}) {
+		return reflect.Value{}, errors.Errorf("provided list has no field \"Items\"")
+	}
+	if itemsField.Kind() != reflect.Slice {
+		return reflect.Value{}, errors.Errorf("provided list \"Items\" field was not of type slice")
+	}
+
+	return itemsField, nil
 }
