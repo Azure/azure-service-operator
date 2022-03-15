@@ -51,7 +51,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref }}
-          file: v2/bin/azureserviceoperator_*.yaml
+          file: "v2/bin/{azureserviceoperator,multitenant-cluster,multitenant-tenant}_*.yaml"
           file_glob: true
 
       - name: Login to registry
