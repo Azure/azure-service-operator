@@ -27,7 +27,7 @@ type Test struct {
 	// +kubebuilder:validation:Minimum=1000
 	// +kubebuilder:validation:ExclusiveMinimum=true
 	// +kubebuilder:validation:MultipleOf=3
-	Moon *int `json:"moon,omitempty"`
+	Moon *float64 `json:"moon,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Maximum=200

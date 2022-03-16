@@ -150,11 +150,6 @@ typeTransformers:
         value:
           name: string
     because: the definition in rest api specs uses additionalProperties + defined fields which we don't support
-  - group: storage
-    name: DateAfterCreation_Status
-    property: DaysAfterCreationGreaterThan
-    target:
-      name: float
   - group: cache
     name: RedisProperties_Status
     property: AccessKeys

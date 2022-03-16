@@ -32,6 +32,7 @@ type TypeConfiguration struct {
 	export                configurableBool
 	exportAs              configurableString
 	azureGeneratedSecrets configurableStringSlice
+	advisor               TypoAdvisor
 }
 
 const azureGeneratedSecretsTag = "$azureGeneratedSecrets"
@@ -160,7 +161,9 @@ func (tc *TypeConfiguration) visitProperty(
 func (tc *TypeConfiguration) visitProperties(visitor *configurationVisitor) error {
 	var errs []error
 	for _, pc := range tc.properties {
-		errs = append(errs, visitor.visitProperty(pc))
+		err := visitor.visitProperty(pc)
+		err = tc.advisor.Wrapf(err, pc.name, "property %s not seen", pc.name)
+		errs = append(errs, err)
 	}
 
 	// Both errors.Wrapf() and kerrors.NewAggregate() return nil if nothing went wrong
@@ -177,6 +180,7 @@ func (tc *TypeConfiguration) findProperty(property astmodel.PropertyName) (*Prop
 	// so we can do case-insensitive lookups later
 	p := strings.ToLower(string(property))
 	if pc, ok := tc.properties[p]; ok {
+		tc.advisor.AddTerm(pc.name)
 		return pc, nil
 	}
 
