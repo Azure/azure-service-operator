@@ -24,7 +24,7 @@ func CreateResolver(scheme *runtime.Scheme, testClient client.Client) (*resolver
 		return nil, err
 	}
 
-	res := resolver.NewResolver(kubeclient.NewClient(testClient, scheme), groupToVersionMap)
+	res := resolver.NewResolver(kubeclient.NewClient(testClient), groupToVersionMap)
 	return res, nil
 }
 

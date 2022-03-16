@@ -26,8 +26,9 @@ import (
 // └──────────────────────────┘       └────────────────────┘       ╚══════════════════════╝       └───────────────────┘       └───────────────────────┘
 //
 type VersionConfiguration struct {
-	name  string
-	types map[string]*TypeConfiguration
+	name    string
+	types   map[string]*TypeConfiguration
+	advisor TypoAdvisor
 }
 
 // NewVersionConfiguration returns a new (empty) VersionConfiguration
@@ -62,7 +63,9 @@ func (vc *VersionConfiguration) visitType(
 func (vc *VersionConfiguration) visitTypes(visitor *configurationVisitor) error {
 	var errs []error
 	for _, tc := range vc.types {
-		errs = append(errs, visitor.visitType(tc))
+		err := visitor.visitType(tc)
+		err = vc.advisor.Wrapf(err, tc.name, "type %s not seen", tc.name)
+		errs = append(errs, err)
 	}
 
 	// Both errors.Wrapf() and kerrors.NewAggregate() return nil if nothing went wrong
@@ -76,6 +79,7 @@ func (vc *VersionConfiguration) visitTypes(visitor *configurationVisitor) error 
 func (vc *VersionConfiguration) findType(name string) (*TypeConfiguration, error) {
 	n := strings.ToLower(name)
 	if t, ok := vc.types[n]; ok {
+		vc.advisor.AddTerm(t.name)
 		return t, nil
 	}
 

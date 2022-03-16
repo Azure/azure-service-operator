@@ -5,6 +5,10 @@
 
 package astmodel
 
+import (
+	"sort"
+)
+
 // StringSet provides a standard way to have a set of distinct strings with no sort applied
 type StringSet map[string]struct{}
 
@@ -44,5 +48,16 @@ func (set StringSet) Copy() StringSet {
 		result.Add(s)
 	}
 
+	return result
+}
+
+// AsSlice returns a sorted slice of strings from this set
+func (set StringSet) AsSortedSlice() []string {
+	result := make([]string, 0, len(set))
+	for s := range set {
+		result = append(result, s)
+	}
+
+	sort.Strings(result)
 	return result
 }

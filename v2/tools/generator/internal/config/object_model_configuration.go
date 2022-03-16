@@ -26,7 +26,8 @@ import (
 // ╚══════════════════════════╝       └────────────────────┘       └──────────────────────┘       └───────────────────┘       └───────────────────────┘
 //
 type ObjectModelConfiguration struct {
-	groups map[string]*GroupConfiguration
+	groups      map[string]*GroupConfiguration // nested configuration for individual groups
+	typoAdvisor TypoAdvisor
 }
 
 // NewObjectModelConfiguration returns a new (empty) ObjectModelConfiguration
@@ -235,7 +236,9 @@ func (omc *ObjectModelConfiguration) visitGroup(
 func (omc *ObjectModelConfiguration) visitGroups(visitor *configurationVisitor) error {
 	var errs []error
 	for _, gc := range omc.groups {
-		errs = append(errs, visitor.visitGroup(gc))
+		err := visitor.visitGroup(gc)
+		err = omc.typoAdvisor.Wrapf(err, gc.name, "group %s not seen", gc.name)
+		errs = append(errs, err)
 	}
 
 	// kerrors.NewAggregate() returns nil if nothing went wrong
@@ -256,6 +259,7 @@ func (omc *ObjectModelConfiguration) findGroup(name astmodel.TypeName) (*GroupCo
 		return nil, NewNotConfiguredError(msg)
 	}
 
+	omc.typoAdvisor.AddTerm(group)
 	if g, ok := omc.groups[group]; ok {
 		return g, nil
 	}

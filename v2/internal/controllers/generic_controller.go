@@ -49,7 +49,7 @@ type (
 type GenericReconciler struct {
 	Reconciler           genruntime.Reconciler
 	LoggerFactory        LoggerFactory
-	KubeClient           *kubeclient.Client
+	KubeClient           kubeclient.Client
 	Recorder             record.EventRecorder
 	Name                 string
 	Config               config.Values
@@ -98,8 +98,10 @@ func registerWebhook(mgr ctrl.Manager, obj client.Object) error {
 
 func RegisterAll(
 	mgr ctrl.Manager,
+	fieldIndexer client.FieldIndexer,
+	kubeClient kubeclient.Client,
 	clientFactory arm.ARMClientFactory,
-	objs []registration.StorageType,
+	objs []*registration.StorageType,
 	extensions map[schema.GroupVersionKind]genruntime.ResourceExtension,
 	options Options) error {
 
@@ -114,7 +116,7 @@ func RegisterAll(
 	for _, obj := range objs {
 		for _, indexer := range obj.Indexes {
 			options.Log.V(Info).Info("Registering indexer for type", "type", fmt.Sprintf("%T", obj.Obj), "key", indexer.Key)
-			err = mgr.GetFieldIndexer().IndexField(context.Background(), obj.Obj, indexer.Key, indexer.Func)
+			err = fieldIndexer.IndexField(context.Background(), obj.Obj, indexer.Key, indexer.Func)
 			if err != nil {
 				return errors.Wrapf(err, "failed to register indexer for %T, Key: %q", obj.Obj, indexer.Key)
 			}
@@ -125,7 +127,7 @@ func RegisterAll(
 	for _, obj := range objs {
 		// TODO: Consider pulling some of the construction of things out of register (gvk, etc), so that we can pass in just
 		// TODO: the applicable extensions rather than a map of all of them
-		if err := register(mgr, reconciledResourceLookup, clientFactory, obj, extensions, options); err != nil {
+		if err := register(mgr, kubeClient, reconciledResourceLookup, clientFactory, obj, extensions, options); err != nil {
 			errs = append(errs, err)
 		}
 	}
@@ -135,9 +137,10 @@ func RegisterAll(
 
 func register(
 	mgr ctrl.Manager,
+	kubeClient kubeclient.Client,
 	reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind,
 	clientFactory arm.ARMClientFactory,
-	info registration.StorageType,
+	info *registration.StorageType,
 	extensions map[schema.GroupVersionKind]genruntime.ResourceExtension,
 	options Options) error {
 
@@ -156,7 +159,6 @@ func register(
 	}
 
 	options.Log.V(Status).Info("Registering", "GVK", gvk)
-	kubeClient := kubeclient.NewClient(mgr.GetClient(), mgr.GetScheme())
 	extension := extensions[gvk]
 
 	loggerFactory := func(mo genruntime.MetaObject) logr.Logger {
@@ -223,7 +225,7 @@ func register(
 
 // MakeResourceGVKLookup creates a map of schema.GroupKind to schema.GroupVersionKind. This can be used to look up
 // the version of a GroupKind that is being reconciled.
-func MakeResourceGVKLookup(mgr ctrl.Manager, objs []registration.StorageType) (map[schema.GroupKind]schema.GroupVersionKind, error) {
+func MakeResourceGVKLookup(mgr ctrl.Manager, objs []*registration.StorageType) (map[schema.GroupKind]schema.GroupVersionKind, error) {
 	result := make(map[schema.GroupKind]schema.GroupVersionKind)
 
 	for _, obj := range objs {
@@ -294,7 +296,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		return ctrl.Result{}, nil
 	} else if reconcilerNamespace == "" && gr.Config.PodNamespace != "" {
 		genruntime.AddAnnotation(metaObj, NamespaceAnnotation, gr.Config.PodNamespace)
-		return ctrl.Result{Requeue: true}, gr.KubeClient.Client.Update(ctx, obj)
+		return ctrl.Result{Requeue: true}, gr.KubeClient.Update(ctx, obj)
 	}
 
 	result, err := gr.Reconciler.Reconcile(ctx, log, metaObj)
