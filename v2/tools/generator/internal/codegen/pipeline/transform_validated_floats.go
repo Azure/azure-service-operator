@@ -55,8 +55,8 @@ func visitValidatedType(this *astmodel.TypeVisitor, validated *astmodel.Validate
 
 // transformFloatToInt transforms all the validated FloatTypes to IntegerTypes
 func transformFloatToInt(this *astmodel.TypeVisitor, prim *astmodel.PrimitiveType, ctx interface{}) (astmodel.Type, error) {
-	validated, _ := ctx.(bool)
-	if prim == astmodel.FloatType && validated {
+	validated, ok := ctx.(bool)
+	if prim == astmodel.FloatType && ok && validated {
 		return astmodel.IntType, nil
 	}
 	return astmodel.IdentityVisitOfPrimitiveType(this, prim, ctx)
