@@ -108,6 +108,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		pipeline.MakeStatusPropertiesOptional(),
 		pipeline.RemoveStatusValidations(),
+		pipeline.TransformValidatedFloats(),
 		pipeline.UnrollRecursiveTypes(),
 
 		// Figure out resource owners:
