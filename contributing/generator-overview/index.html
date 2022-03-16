@@ -21,7 +21,7 @@ Code Structure #  Key packages used to structure the code of the generator are a
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.c5f9c58784b6a12c633adea66525f10fb3fc2fd53db6889bbfb16e95c27e7c7c.js" integrity="sha256-xfnFh4S2oSxjOt6mZSXxD7P8L9U9toibv7FulcJ&#43;fHw=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.cbfe5a7a6e2343d7b2f40adc808d5e249d9ebcbb07195feef2cb0aa9ff416bc0.js" integrity="sha256-y/5aem4jQ9ey9ArcgI1eJJ2evLsHGV/u8ssKqf9Ba8A=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -962,35 +962,35 @@ https://github.com/alex-shpak/hugo-book
 </thead>
 <tbody>
 <tr>
-<td><code>astmodel</code></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/astmodel"><code>astmodel</code></a></td>
 <td>Short for <em>Abstract Syntax Tree Model</em>, this package contains the core data types for defining the Go functions, data types, and methods we generate.</td>
 </tr>
 <tr>
-<td><code>functions</code></td>
-<td>Support for generation of individual functions, based on the <code>astmodel.Functions</code> interface</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/functions"><code>functions</code></a></td>
+<td>Support for generation of individual functions, based on the interface <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/function.go#L13">`astmodel.Function</a></td>
 </tr>
 <tr>
-<td><code>interfaces</code></td>
-<td>Support for generation of interface implementations, based on the <code>astmodel.InterfaceImplementer</code> interface</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/interfaces"><code>interfaces</code></a></td>
+<td>Support for generation of interface implementations, based on the <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/interface_implementer.go#L19"><code>astmodel.InterfaceImplementer</code></a> interface</td>
 </tr>
 <tr>
-<td><code>testcases</code></td>
-<td>Support for generation of test cases (used to verify our generated code works as expected), based on the <code>astmodel.TestCase</code> interface</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/testcases"><code>testcases</code></a></td>
+<td>Support for generation of test cases (used to verify our generated code works as expected), based on the <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/test_case.go#L11"><code>astmodel.TestCase</code></a> interface</td>
 </tr>
 <tr>
-<td><code>astbuilder</code></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/astbuilder"><code>astbuilder</code></a></td>
 <td>Intention revealing utility methods for creating the underlying Go abstract syntax tree we serialize as the last step of generation.</td>
 </tr>
 <tr>
-<td><code>codegen</code></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/codegen"><code>codegen</code></a></td>
 <td>The core processing pipeline of the code generator</td>
 </tr>
 <tr>
-<td><code>codegen/pipeline</code></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/codegen/pipeline"><code>codegen/pipeline</code></a></td>
 <td>Individual pipeline stages that are composed to form the code generator itself.</td>
 </tr>
 <tr>
-<td><code>test</code></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/test"><code>test</code></a></td>
 <td>Support methods to make writing tests easier</td>
 </tr>
 </tbody>
@@ -1007,39 +1007,45 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#object-model">#</a>
 </h2>
 <p>At the core, the code generator works with a rich semantic object model that captures the structure of the resources (and related types) we are generating.</p>
-<p>Underpinning this object model is the <code>astmodel</code> package.</p>
-<p>The interface <code>astmodel.Type</code> represents a specific data type. The most widely used implementations of <code>Type</code> fall into a few separate groups:</p>
+<p>Underpinning this object model is the <a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/astmodel"><code>astmodel</code></a> package.</p>
+<p>The interface <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/type.go"><code>astmodel.Type</code></a> represents a specific data type. The most widely used implementations of <code>Type</code> fall into a few separate groups:</p>
 <ul>
-<li>Simple Go types, including <code>PrimitiveType</code>, <code>ArrayType</code>, and <code>MapType</code>.</li>
-<li>Complex types with internal structure, most notably <code>ObjectType</code> and <code>ResourceType</code>.</li>
-<li>Wrapper types that provide additional semantics, including <code>OptionalType</code>, <code>ErroredType</code>, <code>FlaggedType</code> and <code>ValidatedType</code>.</li>
+<li>
+<p>Simple Go types, including <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/primitive_type.go"><code>PrimitiveType</code></a>, <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/array_type.go"><code>ArrayType</code></a>, and <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/map_type.go"><code>MapType</code></a>.</p>
+</li>
+<li>
+<p>Complex types with internal structure, most notably <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/object_type.go"><code>ObjectType</code></a> and <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/resource_type.go"><code>ResourceType</code></a>.</p>
+</li>
+<li>
+<p>Wrapper types that provide additional semantics, including <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/optional_type.go"><code>OptionalType</code></a>, <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/errored_type.go"><code>ErroredType</code></a>, <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/flagged_type.go"><code>FlaggedType</code></a> and <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/validated_type.go"><code>ValidatedType</code></a>.</p>
+</li>
 </ul>
-<p>This list is not exhaustive; other implementations of <code>Type</code> are used within limited scopes. For example, <code>AllOfType</code> and <code>OneOfType</code> represent JSON Schema techniques for creating object definitions via composition.</p>
-<p>Usefully, there is also <code>TypeName</code> which is both a type in itself and an indirect reference to a type defined elsewhere.</p>
-<p>When a <code>Type</code> is given a <code>TypeName</code>, it becomes a <code>TypeDefinition</code> and can be emitted as the source code for a Go type definition. A set of many <code>TypeDefinition</code>, each with a unique name is a <code>TypeDefinitionSet</code>.</p>
-<p>Both <code>ResourceType</code> and <code>ObjectType</code> act as containers, each implementing <code>PropertyContainer</code>, <code>FunctionContainer</code>, and <code>TestCaseContainer</code>. These do pretty much what you&rsquo;d expect from the names, though the implementations differ between <code>ResourceType</code> and <code>ObjectType</code>. For example, where an <code>ObjectType</code> implements <code>PropertyContainer</code> by providing support for an arbitrary set of properties, <code>ResourceType</code> has only <code>Spec</code> and <code>Status</code>.</p>
-<p>Most implementations of <code>astmodel.Function</code> are found in the <strong>functions</strong> package. New function implementations should go here; existing implementations are slowly being relocated.</p>
-<p>All implementations of <code>astmodel.TestCase</code> are found in the <strong>testcases</strong> package. New test case implementations should go here.</p>
+<p>This list is not exhaustive; other implementations of <code>Type</code> are used within limited scopes. For example, <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/allof_type.go"><code>AllOfType</code></a> and <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/oneof_type.go"><code>OneOfType</code></a> represent JSON Schema techniques for creating object definitions via composition.</p>
+<p>Usefully, there is also <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/type_name.go"><code>TypeName</code></a> which is both a type in itself and an indirect reference to a type defined elsewhere.</p>
+<p>When a <code>Type</code> is given a <code>TypeName</code>, it becomes a <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/type_definition.go"><code>TypeDefinition</code></a> and can be emitted as the source code for a Go type definition. A set of many <code>TypeDefinition</code>, each with a unique name is a <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/types.go"><code>TypeDefinitionSet</code></a>.</p>
+<p>Both <code>ResourceType</code> and <code>ObjectType</code> act as containers, each implementing <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/property_container.go"><code>PropertyContainer</code></a>, <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/function_container.go"><code>FunctionContainer</code></a>, and embedding <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/interface_implementer.go"><code>InterfaceImplementer</code></a>. These do pretty much what you&rsquo;d expect from the names, though the implementations differ between <code>ResourceType</code> and <code>ObjectType</code>. For example, where an <code>ObjectType</code> implements <code>PropertyContainer</code> by providing support for an arbitrary set of properties, <code>ResourceType</code> has only <code>Spec</code> and <code>Status</code>.</p>
+<p>Most implementations of <code>astmodel.Function</code> are found in the <a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/functions"><strong>functions</strong></a> package. New function implementations should go here; existing implementations are slowly being relocated.</p>
+<p>All implementations of <code>astmodel.TestCase</code> are found in the <a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/testcases"><strong>testcases</strong></a> package. New test case implementations should go here.</p>
 <h2 id="resources-objects-and-other-types">
   Resources, Objects and other types
   <a class="anchor" href="#resources-objects-and-other-types">#</a>
 </h2>
 <p>Each distinct resource is represented by a <code>ResourceType</code>. The <code>Spec</code> of each resource is an <code>ObjectType</code> containing a collection of <code>PropertyDefinition</code> values, along with implementations of the <code>Function</code>, and <code>TestCase</code> interfaces. The <code>Status</code> of a resource is a different <code>ObjectType</code>.</p>
-<p>Some properties capture primitive values (strings, integers, and so on), while others are themselves complex <code>ObjectType</code> definitions, forming a hierarchy of information. <code>MetaType</code> wrappers (including <code>OptionalType</code>, and <code>ValidatedType</code>) are used to add semantic information to both properties and to type definitions.</p>
+<p>Some properties capture primitive values (strings, integers, and so on), while others are themselves complex <code>ObjectType</code> definitions, forming a hierarchy of information. <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/meta_type.go"><code>MetaType</code></a> wrappers (including <code>OptionalType</code>, and <code>ValidatedType</code>) are used to add semantic information to both properties and to type definitions.</p>
 <h2 id="generator-pipeline">
   Generator Pipeline
   <a class="anchor" href="#generator-pipeline">#</a>
 </h2>
-<p>The code generator itself, found in the package <code>codegen</code>, is structured as a pipeline, composed of a series of stages that transform our object model incrementally. All the pipeline stages are found in the subpackage <code>codegen/pipeline</code>.</p>
-<p>One reason for this is to allow the creation of multiple pipelines (currently we have separate definitions targeting Azure, Crossplane, and for testing), each sharing the majority of their implementation. Another reason is to allow individual pipeline stages to be tested in isolation, though not all existing pipeline stages have tests in this form. New stage implementations should have isolated tests where possible.</p>
-<p>Pipeline stages are instances of <code>pipeline.Stage</code>. Each has a factory method that returns a <code>pipeline.Stage</code> instance. In operation, each accepts a <code>pipeline.State</code> containing the current object model and transforms it into a new state, that is passed to the next stage in turn. If a stage returns an error, the pipeline run is aborted.</p>
-<p>New stages should use the <code>NewStage()</code> function. You&rsquo;ll see some older stages that predate a structural change use the deprecated <code>NewLegacyStage()</code> factory instead; these older stages are slowly being migrated and <code>NewLegacyStage()</code> will be deleted when this is complete.</p>
+<p>The code generator itself, found in the package <a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/codegen"><code>codegen</code></a>, is structured as a pipeline, composed of a series of stages that transform our object model incrementally. All the pipeline stages are found in the subpackage <a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/codegen/pipeline"><code>codegen/pipeline</code></a>.</p>
+<p>One reason for this is to allow the creation of multiple pipelines (currently we have separate definitions targeting <em>Azure</em>, <em>Crossplane</em>, and for testing) each sharing the majority of their implementation. Another reason is to allow individual pipeline stages to be tested in isolation, though not all existing pipeline stages have tests in this form. New stage implementations should have isolated tests where possible. The helper method <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/codegen/pipeline/stage_test.go#L18"><code>RunTestPipeline()</code></a> is useful here.</p>
+<p>Pipeline stages are instances of <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/codegen/pipeline/stage.go"><code>pipeline.Stage</code></a>. Each has a factory method that returns a <code>pipeline.Stage</code> instance. In operation, each accepts a <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/codegen/pipeline/state.go"><code>pipeline.State</code></a> containing the current object model and transforms it into a new state, that is passed to the next stage in turn. If a stage returns an error, the pipeline run is aborted. Each <code>State</code> instance is immutable, allowing comparison between states when debugging.</p>
+<p>New stages should use the <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/codegen/pipeline/stage.go#L38"><code>NewStage()</code></a> function. You&rsquo;ll see some older stages that predate a structural change use the deprecated <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/codegen/pipeline/stage.go#L52"><code>NewLegacyStage()</code></a> factory instead; these older stages are slowly being migrated and <code>NewLegacyStage()</code> will be deleted when this is complete.</p>
 <h2 id="code-generation">
   Code Generation
   <a class="anchor" href="#code-generation">#</a>
 </h2>
 <p>Code is generated as a Go abstract syntax tree fragments which are then serialized to files as compilable Go code, forming a part of the operator itself.</p>
-<p>To make generation easier, our <code>astbuilder</code> package contains a wide variety of helper methods that allow declarative construction of the required tree. We are using the <code>dst</code> package instead of the Go core <code>ast</code> package, as it provides better control of comments and whitespace in the final output.</p>
+<p>To make generation easier, our <a href="https://github.com/Azure/azure-service-operator/tree/main/v2/tools/generator/internal/astbuilder"><code>astbuilder</code></a> package contains a wide variety of helper methods that allow declarative construction of the required tree. We are using the <code>dst</code> package instead of the standard Go core <code>ast</code> package, as it provides better control of comments and whitespace in the final output.</p>
 </article>
  
       
