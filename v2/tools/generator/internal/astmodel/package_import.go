@@ -101,3 +101,9 @@ func (pi PackageImport) VersionedNameForImport() string {
 	service := pi.ServiceNameForImport()
 	return service + pi.packageReference.PackageName()
 }
+
+// WithImportAlias creates a copy of this import with a name following the specified rules
+func (pi PackageImport) WithImportAlias(style PackageImportStyle) PackageImport {
+	alias := pi.packageReference.CreateImportAlias(style)
+	return pi.WithName(alias)
+}
