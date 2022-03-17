@@ -12,21 +12,12 @@ import (
 )
 
 var (
-	simpleTestRef PackageReference = MakeExternalPackageReference("simple")
-	pathTestRef   PackageReference = MakeExternalPackageReference("package/path")
-
-	// Important for these two package references to have the same version so that they conflict
-	emailTestRef   PackageReference = MakeExternalPackageReference("email/v20180801")
-	networkTestRef PackageReference = MakeExternalPackageReference("network/v20180801")
-
-	// Important for these two package references to have the same version as each other,
-	// AND each service name must conflict with the references above
-	emailTestAltRef   PackageReference = MakeExternalPackageReference("email/v20200801")
-	networkTestAltRef PackageReference = MakeExternalPackageReference("network/v20200801")
-
-	simpleTestImport         = NewPackageImport(simpleTestRef)
-	pathTestImport           = NewPackageImport(pathTestRef)
-	simpleTestImportWithName = simpleTestImport.WithName("simple")
+	simpleTestRef            PackageReference = MakeExternalPackageReference("simple")
+	pathTestRef              PackageReference = MakeExternalPackageReference("package/path")
+	emailTestRef             PackageReference = MakeExternalPackageReference("email/v20180801")
+	simpleTestImport                          = NewPackageImport(simpleTestRef)
+	pathTestImport                            = NewPackageImport(pathTestRef)
+	simpleTestImportWithName                  = simpleTestImport.WithName("simple")
 )
 
 /*
@@ -209,152 +200,6 @@ func TestRemove_WhenItemNotInSet_LeavesSetWithoutIt(t *testing.T) {
 }
 
 /*
- * ByNameInGroups() tests
- */
-
-func TestByNameInGroups_AppliesExpectedOrdering(t *testing.T) {
-	t.Parallel()
-
-	fmtRef := MakeExternalPackageReference("fmt")
-	testingRef := MakeExternalPackageReference("testing")
-	gomegaRef := MakeExternalPackageReference("github.com/onsi/gomega")
-
-	bareFmtImport := NewPackageImport(fmtRef)
-	namedFmtImport := bareFmtImport.WithName("f")
-
-	bareTestingImport := NewPackageImport(testingRef)
-	namedTestingImport := bareTestingImport.WithName("tst")
-
-	gomegaImport := NewPackageImport(gomegaRef)
-	implicitGomegaImport := gomegaImport.WithName(".")
-
-	localRef := makeTestLocalPackageReference("this", "v1")
-	localImport := NewPackageImport(localRef)
-
-	cases := []struct {
-		name  string
-		left  PackageImport
-		right PackageImport
-		less  bool
-	}{
-		// Comparison with self
-		{"fmt not less than self", bareFmtImport, bareFmtImport, false},
-		{"testing not less than self", bareTestingImport, bareTestingImport, false},
-		{"named fmt not less than self", namedTestingImport, namedTestingImport, false},
-		{"implicit gomega not less than self", implicitGomegaImport, implicitGomegaImport, false},
-		// named imports before others
-		{"named testing before bare testing", namedTestingImport, bareTestingImport, true},
-		{"bare testing after named testing", bareTestingImport, namedTestingImport, false},
-		// named imports are ordered by name
-		{"named fmt before named testing", namedFmtImport, namedTestingImport, true},
-		{"named testing after named fmt", namedTestingImport, namedFmtImport, false},
-		// local imports before external ones
-		{"external gomega after local import", gomegaImport, localImport, false},
-		{"local import before external gomega", localImport, gomegaImport, true},
-	}
-
-	for _, c := range cases {
-		c := c
-		t.Run(c.name, func(t *testing.T) {
-			t.Parallel()
-			g := NewGomegaWithT(t)
-			less := ByNameInGroups(c.left, c.right)
-			g.Expect(less).To(Equal(c.less))
-		})
-	}
-}
-
-/*
- * Resolve Conflict Tests
- */
-
-func TestPackageImportSet_ResolveConflicts_GivenExplicitlyNamedConflicts_ReturnsErrors(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-	importA := NewPackageImport(emailTestRef).WithName("collide")
-	importB := NewPackageImport(networkTestRef).WithName("collide")
-
-	set := NewPackageImportSet()
-	set.AddImport(importA)
-	set.AddImport(importB)
-
-	err := set.ResolveConflicts()
-	g.Expect(err).NotTo(BeNil())
-}
-
-func TestPackageImportSet_ResolveConflicts_GivenImplicityNamedConflicts_AssignsExpectedNames(t *testing.T) {
-	t.Parallel()
-
-	createSet := func(refs ...PackageReference) *PackageImportSet {
-		result := NewPackageImportSet()
-		for _, ref := range refs {
-			result.AddImportOfReference(ref)
-		}
-
-		return result
-	}
-
-	cases := []struct {
-		name         string
-		set          *PackageImportSet
-		testRef      PackageReference
-		expectedName string
-	}{
-		{
-			"Import conflicts with simple resolution (i)",
-			createSet(emailTestRef, networkTestRef),
-			emailTestRef,
-			"email",
-		},
-		{
-			"Import conflicts with simple resolution (ii)",
-			createSet(emailTestRef, networkTestRef),
-			networkTestRef,
-			"network",
-		},
-		{
-			"Import conflicts with versioned resolution (i)",
-			createSet(emailTestRef, networkTestRef, emailTestAltRef, networkTestAltRef),
-			emailTestRef,
-			"emailv20180801",
-		},
-		{
-			"Import conflicts with versioned resolution (ii)",
-			createSet(emailTestRef, networkTestRef, emailTestAltRef, networkTestAltRef),
-			networkTestRef,
-			"networkv20180801",
-		},
-		{
-			"Import conflicts with versioned resolution (iii)",
-			createSet(emailTestRef, networkTestRef, emailTestAltRef, networkTestAltRef),
-			emailTestAltRef,
-			"emailv20200801",
-		},
-		{
-			"Import conflicts with versioned resolution (iv)",
-			createSet(emailTestRef, networkTestRef, emailTestAltRef, networkTestAltRef),
-			networkTestAltRef,
-			"networkv20200801",
-		},
-	}
-
-	for _, c := range cases {
-		c := c
-		t.Run(c.name, func(t *testing.T) {
-			t.Parallel()
-			g := NewGomegaWithT(t)
-
-			err := c.set.ResolveConflicts()
-			g.Expect(err).To(BeNil())
-
-			imp, ok := c.set.ImportFor(c.testRef)
-			g.Expect(ok).To(BeTrue())
-			g.Expect(imp.name).To(Equal(c.expectedName))
-		})
-	}
-}
-
-/*
  * orderImports() tests
  */
 
@@ -400,6 +245,87 @@ func Test_PackageSet_OrderImports(t *testing.T) {
 
 			less := set.orderImports(c.left, c.right)
 			g.Expect(less).To(Equal(c.less))
+		})
+	}
+}
+
+/*
+ * Import name assignment tests
+ */
+
+func TestPackageImportSet_GivenSet_AssignsExpectedAliases(t *testing.T) {
+
+	batch_v2020 := makeTestLocalPackageReference("batch", "2020-01-01")
+	batch_v2021 := makeTestLocalPackageReference("batch", "2021-01-01")
+	batch_v2022 := makeTestLocalPackageReference("batch", "2022-01-01")
+
+	compute_v2020 := makeTestLocalPackageReference("compute", "2020-01-01")
+	compute_v2021 := makeTestLocalPackageReference("compute", "2021-01-01")
+	compute_v2022 := makeTestLocalPackageReference("compute", "2022-01-01")
+
+	network_v2020 := makeTestLocalPackageReference("network", "2020-01-01")
+	network_v2021 := makeTestLocalPackageReference("network", "2021-01-01")
+	network_v2022 := makeTestLocalPackageReference("network", "2022-01-01")
+
+	cases := []struct {
+		name       string
+		references map[PackageReference]string
+	}{
+		{
+			"Single version of Batch and nothing else",
+			map[PackageReference]string{
+				batch_v2020: "v20200101",
+			},
+		},
+		{
+			"Single version of Compute and nothing else",
+			map[PackageReference]string{
+				compute_v2022: "v20220101",
+			},
+		},
+		{
+			"Multiple versions of Batch",
+			map[PackageReference]string{
+				batch_v2020: "v20200101",
+				batch_v2021: "v20210101",
+				batch_v2022: "v20220101",
+			},
+		},
+		{
+			"One import from each group",
+			map[PackageReference]string{
+				batch_v2020:   "batch",
+				compute_v2020: "compute",
+				network_v2020: "network",
+			},
+		},
+		{
+			"Groups of different sizes",
+			map[PackageReference]string{
+				batch_v2020:   "batch",
+				compute_v2020: "compute_v20200101",
+				compute_v2021: "compute_v20210101",
+				network_v2020: "network_v20200101",
+				network_v2021: "network_v20210101",
+				network_v2022: "network_v20220101",
+			},
+		},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			set := NewPackageImportSet()
+			for ref := range c.references {
+				set.AddImportOfReference(ref)
+			}
+
+			for _, imp := range set.AsSlice() {
+				g.Expect(imp.name).To(Equal(c.references[imp.packageReference]))
+			}
 		})
 	}
 }
