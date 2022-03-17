@@ -8,6 +8,7 @@ package config
 import (
 	"fmt"
 	"strings"
+	"sync"
 
 	"github.com/hbollon/go-edlib"
 	"github.com/pkg/errors"
@@ -16,23 +17,28 @@ import (
 )
 
 // TypoAdvisor is a utility that helps augment errors with guidance when mistakes are made in configuration.
-// A zero TypoAdvisor is valid, so there's no factory method
 type TypoAdvisor struct {
+	lock  sync.RWMutex
 	terms astmodel.StringSet // set of terms we know to exist
+}
+
+func NewTypoAdvisor() *TypoAdvisor {
+	return &TypoAdvisor{
+		terms: make(astmodel.StringSet),
+	}
 }
 
 // AddTerm records that we saw the specified item
 func (advisor *TypoAdvisor) AddTerm(item string) {
-	if advisor.terms == nil {
-		// Lazy instantiation
-		advisor.terms = make(astmodel.StringSet)
-	}
-
+	advisor.lock.Lock()
+	defer advisor.lock.Unlock()
 	advisor.terms.Add(item)
 }
 
 // Wrapf adds any guidance to the provided error, if possible
 func (advisor *TypoAdvisor) Wrapf(originalError error, typo string, format string, args ...interface{}) error {
+	advisor.lock.RLock()
+	defer advisor.lock.RUnlock()
 
 	if len(advisor.terms) == 0 {
 		// Can't make any suggestions
