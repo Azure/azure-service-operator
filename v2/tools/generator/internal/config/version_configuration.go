@@ -28,14 +28,15 @@ import (
 type VersionConfiguration struct {
 	name    string
 	types   map[string]*TypeConfiguration
-	advisor TypoAdvisor
+	advisor *TypoAdvisor
 }
 
 // NewVersionConfiguration returns a new (empty) VersionConfiguration
 func NewVersionConfiguration(name string) *VersionConfiguration {
 	return &VersionConfiguration{
-		name:  name,
-		types: make(map[string]*TypeConfiguration),
+		name:    name,
+		types:   make(map[string]*TypeConfiguration),
+		advisor: NewTypoAdvisor(),
 	}
 }
 
@@ -49,8 +50,8 @@ func (vc *VersionConfiguration) add(tc *TypeConfiguration) {
 // Returns a NotConfiguredError if the type is not found; otherwise whatever error is returned by the visitor.
 func (vc *VersionConfiguration) visitType(
 	typeName astmodel.TypeName,
-	visitor *configurationVisitor) error {
-
+	visitor *configurationVisitor,
+) error {
 	tc, err := vc.findType(typeName.Name())
 	if err != nil {
 		return err
