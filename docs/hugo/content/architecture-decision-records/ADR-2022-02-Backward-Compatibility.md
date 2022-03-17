@@ -13,6 +13,7 @@ Pros
 Cons
 
 * Introduces an inconsistency between the status of ASO (beta) and the labelling of the resources (alpha).
+  
 * Might be perceived by some users as indicating these particular resources are still in alpha, and therefore pose significant a barrier to adoption of ASO.
 
 ## Option 2: Move all resources to beta
@@ -25,12 +26,12 @@ Pros
 
 Cons
 
-* Existing clusters with custom resources (CRs) reliant on ASO would break because ASO would no longer support the older version.  
-  Mitigation would require deleting the existing resource and creating a new CR with an updated version for the resource.
-* Existing automated deployments (e.g. as used by teams with a GitOpts model or other forms of continuous deployment) would break because the version specified in the existing YAML files would no longer exist.  
-  Mitigation would require modification of the deployment pipelines to change the version of the resources being deployed.
-* Existing manual deployments would also break because the version specified in the existing YAML files would no longer exist.
-  Mitigation would require modification of the YAML files being deployed to change the version of the resources being deployed.
+* Existing clusters with custom resources (CRs) reliant on ASO would break because ASO would no longer support the older alpha version.  
+  Mitigation: Users would need to manually delete the existing resource and creating a new CR with an updated version.
+
+* Any attempt to apply old alpha YAML will fail, as it no longer exists. This includes attempting to manually apply a YAML using `kubectl apply -f`, and through some other approaches where YAMLs are continuously applied, as in GitOps style workflows  
+  Mitigation: For manual uses, modification of the YAML files being applied to change the version of the resources.
+  Mitigation: For automated uses, modification of the deployment pipelines to change the version of the resources.
 
 ## Option 3a: In-place upgrade for existing resources
 
@@ -39,14 +40,18 @@ Change the generated prefix to `v1beta` for all resources, but retain the alpha 
 Pros
 
 * Moderate effort to implement (requires a new pipeline stage to create the alpha storage variants for compatibility with older versions).
+  
 * Existing clusters with custom resources reliant on ASO would continue to run because ASO would support conversion from the old hub version to the new.
 
 Cons
 
-* Existing automated deployments (e.g. as used by teams with a GitOpts model or other forms of continuous deployment) would break because the version specified in the existing YAML files would no longer exist.  
-  Mitigation would require modification of the deployment pipelines to change the version of the resources being deployed.
-* Existing manual deployments would also break because the version specified in the existing YAML files would no longer exist.
-  Mitigation would require modification of the YAML files being deployed to change the version of the resources being deployed.
+* Any attempt to apply old alpha YAML will fail, as it no longer exists. This includes attempting to manually apply a YAML using `kubectl apply -f`, and through some other approaches where YAMLs are continuously applied, as in GitOps style workflows  
+  Mitigation: For manual uses, modification of the YAML files being applied to change the version of the resources.
+  Mitigation: For automated uses, modification of the deployment pipelines to change the version of the resources.
+
+* CRDs will be 50% bigger than the alpha versions, due to the addition of another storage variant.  
+  Observation: We know there is an upper limit to the size of each CRD, though we're not very close to that yet.
+  Mitigation: Prune all documentation from the alpha variants to make them (much!) smaller
 
 ## Option 3b: Retain the alpha version for existing resources
 
@@ -55,17 +60,22 @@ Use a beta prefix for all resources. Also use our existing alpha prefix for all 
 Pros
 
 * Moderate effort to implement (requires pipeline and configuration changes to generate multiple versions of some resources).  
-  Could be implemented in two parts: generate all resources with both prefixes for `codegen-beta-0`, and introduce configuration for newer resources in `codegen-beta-1`.
+  Observation: We could implement this in two parts, firstly generating all resources with both prefixes for `codegen-beta-0`, and then introducing configuration for newer resources in `codegen-beta-1`.
+
 * Existing clusters with custom resources reliant on ASO would continue to run because ASO would support conversion from the old hub version to the new.
+
 * Existing automated deployments (e.g. as used by teams with a GitOpts model or other forms of continuous deployment) would continue to run because ASO would still support the version.
+
 * Existing manual deployments would also continue to run because ASO would still support the version.
 
 Cons
 
-* The size of our CRDs would double - and they're already large.  
-  Mitigation might be to prune all documentation from the alpha resource versions
+* CRDs will be twice the size of the alpha versions, due to the addition of both API and storage variants.
+  Observation: We know there is an upper limit to the size of each CRD, though we're not very close to that yet.
+  Mitigation: Prune all documentation from the alpha resource versions
+
 * Possible user confusion from having multiple versions of each resource.  
-  Pruning documentation would push users towards the beta versions.
+  Mitigation: Pruning documentation would push users towards the beta versions.
 
 ## Other factors
 
@@ -78,30 +88,35 @@ Version skew policy in the Kubernetes ecosystem is to allow for one or two older
 
 # Decision
 
+We choose to prioritize a good upgrade experience for our users.
 
+Change the prefix used for our resources from `v1alpha1api` to simply `v1beta`. (We don't need a minor number as part of the prefix. The original intention was to increment the minor version with each release of the operator, but the overhead of this is very high, so we've instead used the prefix `v1alpha1api` for all our alpha releases.)
 
-Change the prefix used from `v1alpha1api` to simply `v1beta`. (We don't need a minor number as part of the prefix. The original intention was to increment the minor version with each release of the operator, but the overhead of this is very high, so we've instead used the prefix `v1alpha1api` for all our alpha releases.)
+## Beta 0 Release
 
-~Introduce a new pipeline stage to create additional storage versions for backward compatibility, each created by cloning an existing storage version but using a package name based on the old `v1alpha1api` prefix.~
+All resources will be duplicated, published as both `v1beta` and as `v1alpha1api`. This includes new resources published for the first time in the beta.
 
-For example, the storage version of the `compute` resource `v1beta20201201/VirtualMachine` is `v1beta20201201storage/VirtualMachine`. The new pipeline stage will clone that resource as `v1alpha1api20201201storage/VirtualMachine` and subsequent pipeline stages will create the necessary conversion.
+Introduce a new pipeline stage to create additional versions for backward compatibility, each created by cloning an existing version but using a package name based on the old `v1alpha1api` prefix.
+
+For example, the storage version of the `compute` resource `v1beta20201201/VirtualMachine` is `v1beta20201201storage/VirtualMachine`. The new pipeline stage will clone both of those (as `v1alpha1api20201201/VirtualMachine` & `v1alpha1api20201201storage/VirtualMachine`) and subsequent pipeline stages will create the necessary conversions.
 
 ![image](images/adr-2022-02-backward-compatibility-single-version.png)
 
 For the trivial case where we only support a single ARM version of a resource, this gives us full compatibility to upgrade an older (alpha) installation of ASO to a new beta release.
 
-When we have multiple ARM versions in flight (as we do with `compute`), supporting all *potential* older resource versions gives us maximum compatibility without any need for configuration or to make any assumptions about which ARM versions were previously supported. 
+When we have multiple ARM versions in flight (as we do with `compute`), supporting all *potential* older resource versions gives us maximum compatibility without any need for configuration or to make any assumptions about which ARM versions were previously supported.
 
 ![image](images/adr-2022-02-backward-compatibility-multiple-version.png)
 
 This approach also gives us backward compatibility when we have a mix of resources across multiple versions (as happens with both `compute` and `network`). We know from prior work (including introduction of the `PropertyBag` field) that conversions between storage versions are lossless.
 
-We'll only drop these backward compatibility types if it is necessary to do so.
+## Beta 1 Release
 
-Reasons for this include (but are not limited to):
+Additional configuration will ensure that resources introduced in that (or later) releases won't include alpha versions. This configuration will require opt-in for backward compatibility, so that the overhead for new resources is as low as possible.
 
-* A breaking change to the structure of our storage resources
-* A desire (or need) to reduce the size of our CRD definitions
+## Beta n Release
+
+At some point, after giving users of ASO alpha releases a reasonable time frame, we will drop the alpha versions. We'll document this plan as a part of the **Beta 0** release.
 
 # Status
 
