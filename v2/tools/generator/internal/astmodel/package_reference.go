@@ -31,6 +31,8 @@ type PackageReference interface {
 	// GroupVersion returns the group and version of this reference.
 	// Returns true if the reference has a group and version, false otherwise.
 	GroupVersion() (string, string, bool)
+	// CreateImportAlias creates a custom alias for importing this reference
+	CreateImportAlias(style PackageImportStyle) string
 }
 
 // IsExternalPackageReference returns true if the provided reference is external
