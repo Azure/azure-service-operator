@@ -10,7 +10,8 @@ import (
 	"strings"
 )
 
-// ExternalPackageReference indicates a package to be imported from an external source, such as github or the go standard library.
+// ExternalPackageReference indicates a package to be imported from an external source, such as from GitHub or the go
+// standard library.
 type ExternalPackageReference struct {
 	packagePath string
 }
@@ -56,4 +57,9 @@ func (pr ExternalPackageReference) String() string {
 // GroupVersion returns the group and version of this local reference.
 func (pr ExternalPackageReference) GroupVersion() (string, string, bool) {
 	return "", "", false
+}
+
+// CreateImportAlias creates a custom alias for importing this reference
+func (pr ExternalPackageReference) CreateImportAlias(style PackageImportStyle) string {
+	panic(fmt.Sprintf("external package references don't support PackageImportStyle %q", style))
 }
