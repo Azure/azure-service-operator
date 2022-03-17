@@ -29,8 +29,8 @@ Cons
 * Existing clusters with custom resources (CRs) reliant on ASO would break because ASO would no longer support the older alpha version.  
   Mitigation: Users would need to manually delete the existing resource and creating a new CR with an updated version.
 
-* Any attempt to apply old alpha YAML will fail, as it no longer exists. This includes attempting to manually apply a YAML using `kubectl apply -f`, and through some other approaches where YAMLs are continuously applied, as in GitOps style workflows  
-  Mitigation: For manual uses, modification of the YAML files being applied to change the version of the resources.
+* Any attempt to apply old alpha YAML will fail, as it no longer exists. This includes attempting to manually apply a YAML using `kubectl apply -f`, and through some other approaches where YAMLs are continuously applied, as in GitOps style workflows.  
+  Mitigation: For manual uses, modification of the YAML files being applied to change the version of the resources.  
   Mitigation: For automated uses, modification of the deployment pipelines to change the version of the resources.
 
 ## Option 3a: In-place upgrade for existing resources
@@ -45,8 +45,8 @@ Pros
 
 Cons
 
-* Any attempt to apply old alpha YAML will fail, as it no longer exists. This includes attempting to manually apply a YAML using `kubectl apply -f`, and through some other approaches where YAMLs are continuously applied, as in GitOps style workflows  
-  Mitigation: For manual uses, modification of the YAML files being applied to change the version of the resources.
+* Any attempt to apply old alpha YAML will fail, as it no longer exists. This includes attempting to manually apply a YAML using `kubectl apply -f`, and through some other approaches where YAMLs are continuously applied, as in GitOps style workflows.  
+  Mitigation: For manual uses, modification of the YAML files being applied to change the version of the resources.  
   Mitigation: For automated uses, modification of the deployment pipelines to change the version of the resources.
 
 * CRDs will be 50% bigger than the alpha versions, due to the addition of another storage variant.  
@@ -64,14 +64,12 @@ Pros
 
 * Existing clusters with custom resources reliant on ASO would continue to run because ASO would support conversion from the old hub version to the new.
 
-* Existing automated deployments (e.g. as used by teams with a GitOpts model or other forms of continuous deployment) would continue to run because ASO would still support the version.
-
-* Existing manual deployments would also continue to run because ASO would still support the version.
+* Existing use of YAML containing alpha versions will continue to work, as they are still supported. This includes attempting to manually apply a YAML using `kubectl apply -f`, and through some other approaches where YAMLs are continuously applied, as in GitOps style workflows.  
 
 Cons
 
-* CRDs will be twice the size of the alpha versions, due to the addition of both API and storage variants.
-  Observation: We know there is an upper limit to the size of each CRD, though we're not very close to that yet.
+* CRDs will be twice the size of the alpha versions, due to the addition of both API and storage variants.  
+  Observation: We know there is an upper limit to the size of each CRD, though we're not very close to that yet.  
   Mitigation: Prune all documentation from the alpha resource versions
 
 * Possible user confusion from having multiple versions of each resource.  
@@ -129,9 +127,11 @@ With the supported format for old resources being derived from newer resources, 
 Factors reducing the severity of this include:
 
 * Our object shapes are defined by ARM resource versions, which have tight constraints on the types of permitted changes, so we're unlikely to have breaking changes from that source.
-* We have exactly the same compatibility issues between adjacent ASO releases, so our changes to the generator already have to consider this.
-* We only need to maintain backward compatibility across a small number of versions.
 
+* We have exactly the same compatibility issues between adjacent ASO releases, so our changes to the generator already have to consider this.
+
+* We only need to maintain backward compatibility across a small number of versions.
+  
 # Experience Report
 
 TBC.
