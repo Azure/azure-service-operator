@@ -32,7 +32,7 @@ type TypeConfiguration struct {
 	export                configurableBool
 	exportAs              configurableString
 	azureGeneratedSecrets configurableStringSlice
-	advisor               TypoAdvisor
+	advisor               *TypoAdvisor
 }
 
 const azureGeneratedSecretsTag = "$azureGeneratedSecrets"
@@ -41,6 +41,7 @@ func NewTypeConfiguration(name string) *TypeConfiguration {
 	return &TypeConfiguration{
 		name:       name,
 		properties: make(map[string]*PropertyConfiguration),
+		advisor:    NewTypoAdvisor(),
 	}
 }
 
@@ -147,8 +148,8 @@ func (tc *TypeConfiguration) add(property *PropertyConfiguration) {
 // Returns a NotConfiguredError if the property is not found; otherwise whatever error is returned by the visitor.
 func (tc *TypeConfiguration) visitProperty(
 	property astmodel.PropertyName,
-	visitor *configurationVisitor) error {
-
+	visitor *configurationVisitor,
+) error {
 	pc, err := tc.findProperty(property)
 	if err != nil {
 		return err

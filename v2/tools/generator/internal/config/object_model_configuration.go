@@ -27,13 +27,14 @@ import (
 //
 type ObjectModelConfiguration struct {
 	groups      map[string]*GroupConfiguration // nested configuration for individual groups
-	typoAdvisor TypoAdvisor
+	typoAdvisor *TypoAdvisor
 }
 
 // NewObjectModelConfiguration returns a new (empty) ObjectModelConfiguration
 func NewObjectModelConfiguration() *ObjectModelConfiguration {
 	return &ObjectModelConfiguration{
-		groups: make(map[string]*GroupConfiguration),
+		groups:      make(map[string]*GroupConfiguration),
+		typoAdvisor: NewTypoAdvisor(),
 	}
 }
 
@@ -222,8 +223,8 @@ func (omc *ObjectModelConfiguration) add(group *GroupConfiguration) {
 // Returns a NotConfiguredError if the group is not found; otherwise whatever error is returned by the visitor.
 func (omc *ObjectModelConfiguration) visitGroup(
 	name astmodel.TypeName,
-	visitor *configurationVisitor) error {
-
+	visitor *configurationVisitor,
+) error {
 	group, err := omc.findGroup(name)
 	if err != nil {
 		return err

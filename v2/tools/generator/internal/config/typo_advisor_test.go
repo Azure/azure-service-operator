@@ -25,7 +25,6 @@ func TestTypoAdvisor_Wrapf_WhenErrorButNoTerms_ReturnsOriginalError(t *testing.T
 	advisor := createTestTypoAdvisor()
 	err := errors.New("Boom")
 	g.Expect(advisor.Wrapf(err, "beat", "format string")).To(Equal(err))
-
 }
 
 func TestTypoAdvisor_Wrapf_WhenErrorButNoTypo_ReturnsOriginalError(t *testing.T) {
@@ -49,8 +48,8 @@ func TestTypoAdvisor_Wrapf_WhenErrorAndTypo_ReturnsExpectedError(t *testing.T) {
 	g.Expect(actual.Error()).To(ContainSubstring("did you mean beta?"))
 }
 
-func createTestTypoAdvisor(terms ...string) TypoAdvisor {
-	var result TypoAdvisor
+func createTestTypoAdvisor(terms ...string) *TypoAdvisor {
+	result := NewTypoAdvisor()
 	for _, term := range terms {
 		result.AddTerm(term)
 	}
