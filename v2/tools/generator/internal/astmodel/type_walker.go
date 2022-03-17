@@ -39,7 +39,7 @@ type TypeWalker struct {
 
 type typeWalkerState struct {
 	result     TypeDefinitionSet
-	processing map[TypeName]struct{}
+	processing TypeNameSet
 }
 
 // NewTypeWalker returns a TypeWalker.
@@ -151,7 +151,7 @@ func (t *TypeWalker) visitObjectType(this *TypeVisitor, it *ObjectType, ctx inte
 func (t *TypeWalker) Walk(def TypeDefinition) (TypeDefinitionSet, error) {
 	t.state = typeWalkerState{
 		result:     make(TypeDefinitionSet),
-		processing: make(map[TypeName]struct{}),
+		processing: make(TypeNameSet),
 	}
 
 	// Visit our own name to start the walk.

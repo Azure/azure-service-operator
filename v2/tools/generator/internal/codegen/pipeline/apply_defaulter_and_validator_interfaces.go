@@ -190,7 +190,7 @@ func validateSecretDestinationsBody(codeGenerationContext *astmodel.CodeGenerati
 	return body
 }
 
-func getResourceSecretsType(defs astmodel.ReadonlyTypes, resource *astmodel.ResourceType) (*astmodel.ObjectType, error) {
+func getResourceSecretsType(defs astmodel.ReadonlyTypeDefinitions, resource *astmodel.ResourceType) (*astmodel.ObjectType, error) {
 	spec, err := astmodel.ResolveResourceSpecDefinition(defs, resource)
 	if err != nil {
 		return nil, err

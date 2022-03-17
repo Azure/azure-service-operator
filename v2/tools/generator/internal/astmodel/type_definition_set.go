@@ -17,17 +17,17 @@ type TypeDefinitionSet map[TypeName]TypeDefinition
 
 // A restricted interface to indicate that the
 // consumer won’t modify the contained types.
-type ReadonlyTypes interface {
+type ReadonlyTypeDefinitions interface {
 	MustGetDefinition(name TypeName) TypeDefinition
 	GetDefinition(name TypeName) (TypeDefinition, error)
 }
 
-var _ ReadonlyTypes = TypeDefinitionSet{}
+var _ ReadonlyTypeDefinitions = TypeDefinitionSet{}
 
-// MakeTypes makes it easier to declare a TypeDefinitionSet from a map
-func MakeTypes(tys map[TypeName]Type) TypeDefinitionSet {
-	result := make(TypeDefinitionSet, len(tys))
-	for name, ty := range tys {
+// MakeTypeDefinitionSet makes it easier to declare a TypeDefinitionSet from a map
+func MakeTypeDefinitionSet(types map[TypeName]Type) TypeDefinitionSet {
+	result := make(TypeDefinitionSet, len(types))
+	for name, ty := range types {
 		result.Add(MakeTypeDefinition(name, ty))
 	}
 
@@ -340,7 +340,7 @@ func (set TypeDefinitionSet) Process(transformation func(definition TypeDefiniti
 }
 
 // ResolveResourceSpecDefinition finds the TypeDefinition associated with the resource Spec.
-func ResolveResourceSpecDefinition(defs ReadonlyTypes, resourceType *ResourceType) (TypeDefinition, error) {
+func ResolveResourceSpecDefinition(defs ReadonlyTypeDefinitions, resourceType *ResourceType) (TypeDefinition, error) {
 	// The expectation is that the spec type is just a name
 	specName, ok := resourceType.SpecType().(TypeName)
 	if !ok {
@@ -356,7 +356,7 @@ func ResolveResourceSpecDefinition(defs ReadonlyTypes, resourceType *ResourceTyp
 }
 
 // ResolveResourceStatusDefinition finds the TypeDefinition associated with the resource Status.
-func ResolveResourceStatusDefinition(defs ReadonlyTypes, resourceType *ResourceType) (TypeDefinition, error) {
+func ResolveResourceStatusDefinition(defs ReadonlyTypeDefinitions, resourceType *ResourceType) (TypeDefinition, error) {
 	statusName, ok := resourceType.StatusType().(TypeName)
 	if !ok {
 		return TypeDefinition{}, errors.Errorf("status was not of type TypeName, instead: %T", resourceType.StatusType())
@@ -373,7 +373,7 @@ func ResolveResourceStatusDefinition(defs ReadonlyTypes, resourceType *ResourceT
 
 // ResolveResourceSpecAndStatus takes a TypeDefinition that is a ResourceType and looks up its Spec and Status (as well as
 // the TypeDefinition's corresponding to them) and returns a ResolvedResourceDefinition
-func ResolveResourceSpecAndStatus(defs ReadonlyTypes, resourceDef TypeDefinition) (*ResolvedResourceDefinition, error) {
+func ResolveResourceSpecAndStatus(defs ReadonlyTypeDefinitions, resourceDef TypeDefinition) (*ResolvedResourceDefinition, error) {
 	resource, ok := AsResourceType(resourceDef.Type())
 	if !ok {
 		return nil, errors.Errorf("expected %q to be a Resource but instead it was a %T", resourceDef.Name(), resourceDef.Type())
