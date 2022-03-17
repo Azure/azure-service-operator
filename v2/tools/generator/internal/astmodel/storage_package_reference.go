@@ -77,3 +77,17 @@ func (s StoragePackageReference) GroupVersion() (string, string, bool) {
 func (s StoragePackageReference) Local() LocalPackageReference {
 	return s.inner
 }
+
+// CreateImportAlias creates a custom alias for importing this reference
+func (s StoragePackageReference) CreateImportAlias(style PackageImportStyle) string {
+	switch style {
+	case VersionOnly:
+		return s.Local().CreateImportAlias(style) + "s"
+	case GroupOnly:
+		return s.Local().CreateImportAlias(style)
+	case GroupAndVersion:
+		return s.Local().CreateImportAlias(style) + "s"
+	}
+
+	panic(fmt.Sprintf("didn't expect PackageImportStyle %q", style))
+}
