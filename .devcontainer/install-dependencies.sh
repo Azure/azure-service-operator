@@ -52,11 +52,10 @@ export GO111MODULE=on
 echo "Installing Go tools…"
 
 # go tools for vscode are preinstalled by base image (see first comment in Dockerfile)
-go get \
-    k8s.io/code-generator/cmd/conversion-gen@v0.22.2 \
-    sigs.k8s.io/controller-tools/cmd/controller-gen@v0.7.0 \
-    sigs.k8s.io/kind@v0.11.1 \
-    sigs.k8s.io/kustomize/kustomize/v4@v4.2.0 
+go install k8s.io/code-generator/cmd/conversion-gen@v0.22.2 
+go install sigs.k8s.io/controller-tools/cmd/controller-gen@v0.7.0 
+go install sigs.k8s.io/kind@v0.11.1 
+go install sigs.k8s.io/kustomize/kustomize/v4@v4.5.2 
 
 # for docs site
 go install -tags extended github.com/gohugoio/hugo@v0.88.1
