@@ -23,7 +23,7 @@ type CodeGenerationContext struct {
 	generatedPackages map[PackageReference]*PackageDefinition
 }
 
-var _ ReadonlyTypes = &CodeGenerationContext{}
+var _ ReadonlyTypeDefinitions = &CodeGenerationContext{}
 
 // NewCodeGenerationContext creates a new immutable code generation context
 func NewCodeGenerationContext(
