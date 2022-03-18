@@ -10,47 +10,42 @@ import (
 	"fmt"
 
 	"github.com/pkg/errors"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 const CreateTypesForBackwardCompatibilityID = "createTypesForBackwardCompatibility"
 
-// CreateTypesForBackwardCompatibility returns a pipeline stage that creates copies of storage types in other packages to
+// CreateTypesForBackwardCompatibility returns a pipeline stage that creates copies of types in other packages to
 // provide backward compatibility with previous releases of Azure Service Operator.
-// Backward compatibility versions are created for all storage versions to allow users of older versions of the operator
-// to easily upgrade. We lean on the fact that storage versions have already been modified to increase compatibility -
-// everything is optional, all enums have been rendered into their underlying primitive types, and so on.
+// Backward compatibility versions are created for all versions to allow users of older versions of the operator to
+// easily upgrade.
 func CreateTypesForBackwardCompatibility(prefix string) *Stage {
 	stage := NewStage(
 		CreateTypesForBackwardCompatibilityID,
-		"Create clones of CRD storage types for backward compatibility with prior ASO versions",
+		"Create clones of types for backward compatibility with prior ASO versions",
 		func(ctx context.Context, state *State) (*State, error) {
-			// Predicate to filter to only storage types
-			isStorageType := func(def astmodel.TypeDefinition) bool {
-				return astmodel.IsStoragePackageReference(def.Name().PackageReference)
-			}
-
-			// Filter to the types we want to process
-			typesToConvert := state.Definitions().Where(isStorageType)
-
-			// Update the description of each to reflect purpose
-			typesWithDescriptions := addCompatibilityComments(typesToConvert)
-
 			// Work out the new names for all our new types
-			renames := createBackwardCompatibilityRenameMap(typesToConvert, prefix)
+			renames := createBackwardCompatibilityRenameMap(state.Definitions(), prefix)
 
 			// Rename all the types
 			visitor := astmodel.NewRenamingVisitor(renames)
 
-			renamed, err := visitor.RenameAll(typesWithDescriptions)
+			renamed, err := visitor.RenameAll(state.Definitions())
 			if err != nil {
 				return nil, errors.Wrap(err, "creating types for backward compatibility")
 			}
 
+			// Update the description of each to reflect purpose
+			renamedWithDescriptions, err := addCompatibilityComments(renamed)
+			if err != nil {
+				return nil, errors.Wrap(err, "changing comments of types created for backward compatibility")
+			}
+
 			// Add the new types into our state
 			defs := state.Definitions()
-			defs.AddTypes(renamed)
+			defs.AddTypes(renamedWithDescriptions)
 
 			return state.WithDefinitions(defs), nil
 		})
@@ -60,9 +55,14 @@ func CreateTypesForBackwardCompatibility(prefix string) *Stage {
 	return stage
 }
 
-func addCompatibilityComments(defs astmodel.TypeDefinitionSet) astmodel.TypeDefinitionSet {
+func addCompatibilityComments(defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+	visitor := astmodel.TypeVisitorBuilder{
+		VisitObjectType: removePropertyDescriptions,
+	}.Build()
+
 	result := make(astmodel.TypeDefinitionSet)
 
+	var errs []error
 	for _, def := range defs {
 		name := def.Name()
 		desc := []string{
@@ -72,7 +72,26 @@ func addCompatibilityComments(defs astmodel.TypeDefinitionSet) astmodel.TypeDefi
 				name.Name()),
 		}
 
-		result.Add(def.WithDescription(desc))
+		t, err := visitor.Visit(def.Type(), nil)
+		if err != nil {
+			errs = append(errs, err)
+			continue
+		}
+
+		result.Add(def.WithType(t).WithDescription(desc))
+	}
+
+	if len(errs) > 0 {
+		return nil, kerrors.NewAggregate(errs)
+	}
+
+	return result, nil
+}
+
+func removePropertyDescriptions(ot *astmodel.ObjectType) astmodel.Type {
+	result := ot
+	for _, property := range ot.Properties() {
+		result = result.WithProperty(property.WithDescription(""))
 	}
 
 	return result
@@ -94,8 +113,20 @@ func createBackwardCompatibilityRenameMap(
 }
 
 func createBackwardCompatibilityRename(name astmodel.TypeName, versionPrefix string) astmodel.TypeName {
-	ref := name.PackageReference.(astmodel.StoragePackageReference)
-	local := ref.Local().WithVersionPrefix(versionPrefix)
-	newRef := astmodel.MakeStoragePackageReference(local)
-	return name.WithPackageReference(newRef)
+	var ref astmodel.PackageReference
+
+	switch r:=name.PackageReference.(type) {
+	case astmodel.LocalPackageReference:
+		ref = r.WithVersionPrefix(versionPrefix)
+		break
+	case astmodel.StoragePackageReference:
+		local := r.Local().WithVersionPrefix(versionPrefix)
+		ref = astmodel.MakeStoragePackageReference(local)
+		break
+	default:
+		panic(fmt.Sprintf("unexpected package reference type %T", r))
+	}
+	return name.WithPackageReference(ref)
 }
+
+
