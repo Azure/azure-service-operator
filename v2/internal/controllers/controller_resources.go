@@ -18,14 +18,15 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 	"github.com/go-logr/logr"
-	corev1 "k8s.io/api/core/v1"
+	coreV1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
+	resourcesalpha "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
+	resourcesbeta "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
@@ -36,7 +37,8 @@ func GetKnownStorageTypes() []*registration.StorageType {
 
 	knownTypes = append(
 		knownTypes,
-		registration.NewStorageType(new(resources.ResourceGroup)))
+		registration.NewStorageType(&resourcesalpha.ResourceGroup{}),
+		registration.NewStorageType(&resourcesbeta.ResourceGroup{}))
 
 	return knownTypes
 }
@@ -44,14 +46,18 @@ func GetKnownStorageTypes() []*registration.StorageType {
 func GetKnownTypes() []client.Object {
 	knownTypes := getKnownTypes()
 
-	knownTypes = append(knownTypes, new(resources.ResourceGroup))
+	knownTypes = append(
+		knownTypes,
+		&resourcesalpha.ResourceGroup{},
+		&resourcesbeta.ResourceGroup{})
 
 	return knownTypes
 }
 
 func CreateScheme() *runtime.Scheme {
 	scheme := createScheme()
-	_ = resources.AddToScheme(scheme)
+	_ = resourcesalpha.AddToScheme(scheme)
+	_ = resourcesbeta.AddToScheme(scheme)
 
 	return scheme
 }
@@ -97,7 +103,7 @@ func watchSecrets(c client.Client, log logr.Logger, keys []string, objList clien
 
 	return func(o client.Object) []reconcile.Request {
 		// Safety check that we're looking at a secret
-		if _, ok := o.(*corev1.Secret); !ok {
+		if _, ok := o.(*coreV1.Secret); !ok {
 			log.V(Status).Info("Unexpected non-secret", "namespace", o.GetNamespace(), "name", o.GetName(), "actual", fmt.Sprintf("%T", o))
 			return nil
 		}

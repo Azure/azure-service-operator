@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-package v1alpha1api20200601
+package v1beta20200601
 
 import (
 	"fmt"
@@ -12,6 +12,17 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
+
+// TODO: it doesn't really matter where these are (as long as they're in 'apis', where is where we run controller-gen).
+// These are the permissions required by the generic_controller. They're here because they can't go outside the 'apis'
+// directory.
+
+// +kubebuilder:rbac:groups=core,resources=events,verbs=get;list;watch;create;patch
+// +kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;watch;create;patch
+// +kubebuilder:rbac:groups=coordination.k8s.io,resources=leases,verbs=get;list;watch;create;update;patch;delete
+
+// +kubebuilder:rbac:groups=resources.azure.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=resources.azure.com,resources={resourcegroups/status,resourcegroups/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
@@ -26,7 +37,7 @@ type ResourceGroup struct {
 	Status            ResourceGroupStatus `json:"status,omitempty"`
 }
 
-// +kubebuilder:webhook:path=/mutate-resources-azure-com-v1alpha1api20200601-resourcegroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=resources.azure.com,resources=resourcegroups,verbs=create;update,versions=v1alpha1api20200601,name=default.v1alpha1api20200601.resourcegroups.resources.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-resources-azure-com-v1beta20200601-resourcegroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=resources.azure.com,resources=resourcegroups,verbs=create;update,versions=v1beta20200601,name=default.v1beta20200601.resourcegroups.resources.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Defaulter = &ResourceGroup{}
 
