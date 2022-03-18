@@ -67,6 +67,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/introduction/secrets/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/authorization.v1alpha1api20200801preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/batch.v1alpha1api20210101/</loc>

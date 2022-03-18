@@ -238,6 +238,17 @@ ASO may also be deployed in a multi-tenant configuration, enabling the use of se
     
     <item>
       <title></title>
+      <link>https://azure.github.io/azure-service-operator/introduction/secrets/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/introduction/secrets/</guid>
+      <description>Handling secrets #  Resources supported by Azure Service Operator may require secrets as input (passwords, SSH keys, etc). They may also produce secrets as &amp;ldquo;output&amp;rdquo; (storage keys, connection strings, etc).
+ASO has integration with Kubernetes secrets to interact with these different types of secrets.
+How to provide secrets to Azure #  Resources may have fields in their spec that expect a reference to a Kubernetes Secret. For example, in order to create a VM, you may want to specify an SSH password to enable SSH access to that VM.</description>
+    </item>
+    
+    <item>
+      <title></title>
       <link>https://azure.github.io/azure-service-operator/reference/authorization.v1alpha1api20200801preview/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
