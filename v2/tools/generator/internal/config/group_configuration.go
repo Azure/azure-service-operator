@@ -117,9 +117,9 @@ func (gc *GroupConfiguration) findVersion(name astmodel.TypeName) (*VersionConfi
 		ref = s.Local()
 	}
 
+	gc.advisor.AddTerm(ref.PackageName())
 	v := strings.ToLower(ref.PackageName())
 	if version, ok := gc.versions[v]; ok {
-		gc.advisor.AddTerm(version.name)
 		return version, nil
 	}
 
