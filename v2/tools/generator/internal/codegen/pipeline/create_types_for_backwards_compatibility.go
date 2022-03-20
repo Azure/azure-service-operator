@@ -17,7 +17,7 @@ import (
 
 const CreateTypesForBackwardCompatibilityID = "createTypesForBackwardCompatibility"
 
-// CreateTypesForBackwardCompatibility returns a pipeline stage that creates copies of types in other packages to
+// CreateTypesForBackwardCompatibility returns a pipeline stage that creates copies of types into other packages to
 // provide backward compatibility with previous releases of Azure Service Operator.
 // Backward compatibility versions are created for all versions to allow users of older versions of the operator to
 // easily upgrade.
@@ -50,8 +50,26 @@ func CreateTypesForBackwardCompatibility(prefix string) *Stage {
 			return state.WithDefinitions(defs), nil
 		})
 
-	stage.RequiresPrerequisiteStages(CreateStorageTypesStageID)
-	stage.RequiresPostrequisiteStages(CreateConversionGraphStageId)
+	//
+	// Our pre-requisite support can't currently handle our needs because the earlier stage MUST be present, else the
+	// pipeline fails to run. These requirements are more of the "if the stage is present it must run before me" variety
+	//
+	// ApplyExportFiltersStageID - we want to filter for export first to avoid creating a lot of backward compatibility
+	//     types that would immediately be pruned. We also need to avoid issues where the filters might remove the main
+	//     API type without removing the compatibilty type
+	//
+	// AddSecretsStageID - any transformations made to accommodate secrets must happen before we clone the type
+	//
+	//stage.RequiresPrerequisiteStages(
+	//	ApplyExportFiltersStageID, // export filters won't correctly prune compatibility types, so we create them afterwards
+	//	AddSecretsStageID,         // secrets need to be configured before we copy the type
+	//)
+
+	stage.RequiresPostrequisiteStages(
+		CreateARMTypesStageID,     // ARM types need to be created for each compatibility type
+		CreateStorageTypesStageID, // storage types need to be created too
+	)
+
 	return stage
 }
 
@@ -115,7 +133,7 @@ func createBackwardCompatibilityRenameMap(
 func createBackwardCompatibilityRename(name astmodel.TypeName, versionPrefix string) astmodel.TypeName {
 	var ref astmodel.PackageReference
 
-	switch r:=name.PackageReference.(type) {
+	switch r := name.PackageReference.(type) {
 	case astmodel.LocalPackageReference:
 		ref = r.WithVersionPrefix(versionPrefix)
 		break
@@ -128,5 +146,3 @@ func createBackwardCompatibilityRename(name astmodel.TypeName, versionPrefix str
 	}
 	return name.WithPackageReference(ref)
 }
-
-

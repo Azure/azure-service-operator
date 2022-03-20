@@ -14,7 +14,8 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestCreateBackwardCompatibilityTypes(t *testing.T) {
+func TestGolden_CreateBackwardCompatibilityTypes(t *testing.T) {
+
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -26,8 +27,7 @@ func TestCreateBackwardCompatibilityTypes(t *testing.T) {
 	defs.AddAll(person2020, person2021, person2022)
 
 	initialState, err := RunTestPipeline(
-		NewState(defs),
-		CreateStorageTypes())
+		NewState(defs))
 	g.Expect(err).To(Succeed())
 
 	finalState, err := RunTestPipeline(
