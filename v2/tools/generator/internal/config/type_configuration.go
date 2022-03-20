@@ -179,9 +179,9 @@ func (tc *TypeConfiguration) visitProperties(visitor *configurationVisitor) erro
 func (tc *TypeConfiguration) findProperty(property astmodel.PropertyName) (*PropertyConfiguration, error) {
 	// Store the property id using lowercase,
 	// so we can do case-insensitive lookups later
+	tc.advisor.AddTerm(string(property))
 	p := strings.ToLower(string(property))
 	if pc, ok := tc.properties[p]; ok {
-		tc.advisor.AddTerm(pc.name)
 		return pc, nil
 	}
 
