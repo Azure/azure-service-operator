@@ -136,11 +136,9 @@ func createBackwardCompatibilityRename(name astmodel.TypeName, versionPrefix str
 	switch r := name.PackageReference.(type) {
 	case astmodel.LocalPackageReference:
 		ref = r.WithVersionPrefix(versionPrefix)
-		break
 	case astmodel.StoragePackageReference:
 		local := r.Local().WithVersionPrefix(versionPrefix)
 		ref = astmodel.MakeStoragePackageReference(local)
-		break
 	default:
 		panic(fmt.Sprintf("unexpected package reference type %T", r))
 	}
