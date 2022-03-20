@@ -26,26 +26,26 @@ func CreateTypesForBackwardCompatibility(prefix string) *Stage {
 		CreateTypesForBackwardCompatibilityID,
 		"Create clones of types for backward compatibility with prior ASO versions",
 		func(ctx context.Context, state *State) (*State, error) {
+			// Update the description of each to reflect purpose
+			withDescriptions, err := addCompatibilityComments(state.Definitions())
+			if err != nil {
+				return nil, errors.Wrap(err, "changing comments of types created for backward compatibility")
+			}
+
 			// Work out the new names for all our new types
 			renames := createBackwardCompatibilityRenameMap(state.Definitions(), prefix)
 
 			// Rename all the types
 			visitor := astmodel.NewRenamingVisitor(renames)
 
-			renamed, err := visitor.RenameAll(state.Definitions())
+			renamed, err := visitor.RenameAll(withDescriptions)
 			if err != nil {
 				return nil, errors.Wrap(err, "creating types for backward compatibility")
 			}
 
-			// Update the description of each to reflect purpose
-			renamedWithDescriptions, err := addCompatibilityComments(renamed)
-			if err != nil {
-				return nil, errors.Wrap(err, "changing comments of types created for backward compatibility")
-			}
-
 			// Add the new types into our state
 			defs := state.Definitions()
-			defs.AddTypes(renamedWithDescriptions)
+			defs.AddTypes(renamed)
 
 			return state.WithDefinitions(defs), nil
 		})
