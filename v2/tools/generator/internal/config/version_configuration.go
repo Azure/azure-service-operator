@@ -78,9 +78,9 @@ func (vc *VersionConfiguration) visitTypes(visitor *configurationVisitor) error 
 
 // findType uses the provided name to work out which nested TypeConfiguration should be used
 func (vc *VersionConfiguration) findType(name string) (*TypeConfiguration, error) {
+	vc.advisor.AddTerm(name)
 	n := strings.ToLower(name)
 	if t, ok := vc.types[n]; ok {
-		vc.advisor.AddTerm(t.name)
 		return t, nil
 	}
 
