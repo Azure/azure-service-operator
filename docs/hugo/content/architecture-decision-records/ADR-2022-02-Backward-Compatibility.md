@@ -96,7 +96,7 @@ All resources will be duplicated, published as both `v1beta` and as `v1alpha1api
 
 Introduce a new pipeline stage to create additional versions for backward compatibility, each created by cloning an existing version but using a package name based on the old `v1alpha1api` prefix.
 
-For example, the storage version of the `compute` resource `v1beta20201201/VirtualMachine` is `v1beta20201201storage/VirtualMachine`. The new pipeline stage will clone both of those (as `v1alpha1api20201201/VirtualMachine` & `v1alpha1api20201201storage/VirtualMachine`) and subsequent pipeline stages will create the necessary conversions.
+For example, the API resource `v1beta20201201storage/VirtualMachine` will be cloned as `v1alpha1api20201201/VirtualMachine`. Subsequent pipeline stages will create matching storage versions and the necessary conversions.
 
 ![image](images/adr-2022-02-backward-compatibility-single-version.png)
 
