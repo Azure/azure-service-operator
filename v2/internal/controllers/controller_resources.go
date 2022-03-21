@@ -33,14 +33,13 @@ import (
 )
 
 func GetKnownStorageTypes() []*registration.StorageType {
-	knownTypes := getKnownStorageTypes()
+	knownStorageTypes := getKnownStorageTypes()
 
-	knownTypes = append(
-		knownTypes,
-		registration.NewStorageType(&resourcesalpha.ResourceGroup{}),
+	knownStorageTypes = append(
+		knownStorageTypes,
 		registration.NewStorageType(&resourcesbeta.ResourceGroup{}))
 
-	return knownTypes
+	return knownStorageTypes
 }
 
 func GetKnownTypes() []client.Object {
