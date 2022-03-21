@@ -7,8 +7,10 @@ import (
 
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
+	"github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -114,6 +116,80 @@ func (rg *ResourceGroup) Location() string {
 		return ""
 	}
 	return *rg.Spec.Location
+}
+
+var _ conversion.Convertible = &ResourceGroup{}
+
+// ConvertFrom populates our ResourceGroup from the provided hub ResourceGroup
+func (rg *ResourceGroup) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1beta20200601.ResourceGroup)
+	if !ok {
+		return fmt.Errorf("expected compute/v1beta20200601/ResourceGroup but received %T instead", hub)
+	}
+
+	return rg.AssignPropertiesFromResourceGroup(source)
+}
+
+// ConvertTo populates the provided hub Disk from our Disk
+func (rg *ResourceGroup) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1beta20200601.ResourceGroup)
+	if !ok {
+		return fmt.Errorf("expected compute/v1beta20200601/ResourceGroup but received %T instead", hub)
+	}
+
+	return rg.AssignPropertiesToResourceGroup(destination)
+}
+
+// AssignPropertiesFromResourceGroup populates our ResourceGroup from the provided source ResourceGroup
+func (rg *ResourceGroup) AssignPropertiesFromResourceGroup(source *v1beta20200601.ResourceGroup) error {
+
+	// ObjectMeta
+	rg.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec ResourceGroupSpec
+	err := spec.ConvertSpecFrom(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromResourceGroupSpec() to populate field Spec")
+	}
+	rg.Spec = spec
+
+	// Status
+	var status ResourceGroupStatus
+	err = status.ConvertStatusFrom(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromResourceGroupStatus() to populate field Status")
+	}
+	rg.Status = status
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToResourceGroup populates the provided destination Disk from our Disk
+func (rg *ResourceGroup) AssignPropertiesToResourceGroup(destination *v1beta20200601.ResourceGroup) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *rg.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v1beta20200601.ResourceGroupSpec
+	err := rg.Spec.ConvertSpecTo(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling ConvertSpecTo() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v1beta20200601.ResourceGroupStatus
+	err = rg.Status.ConvertStatusTo(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling ConvertStatusTo() to populate field Status")
+	}
+	destination.Status = status
+
+	// No error
+	return nil
 }
 
 // +kubebuilder:object:root=true
