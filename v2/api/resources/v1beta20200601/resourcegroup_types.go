@@ -7,6 +7,7 @@ import (
 
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -127,6 +128,11 @@ func (rg *ResourceGroup) Location() string {
 	}
 	return *rg.Spec.Location
 }
+
+var _ conversion.Hub = &ResourceGroup{}
+
+// Hub marks that this ResourceGroup is the hub type for conversion
+func (rg *ResourceGroup) Hub() {}
 
 // +kubebuilder:object:root=true
 type ResourceGroupList struct {
