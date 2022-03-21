@@ -86,7 +86,7 @@ Version skew policy in the Kubernetes ecosystem is to allow for one or two older
 
 # Decision
 
-We choose to prioritize a good upgrade experience for our users.
+We choose to prioritize a good upgrade experience for our users. We'll proceed with option 3b (Retain the alpha version for existing resources).
 
 Change the prefix used for our resources from `v1alpha1api` to simply `v1beta`. (We don't need a minor number as part of the prefix. The original intention was to increment the minor version with each release of the operator, but the overhead of this is very high, so we've instead used the prefix `v1alpha1api` for all our alpha releases.)
 
@@ -110,7 +110,7 @@ This approach also gives us backward compatibility when we have a mix of resourc
 
 ## Beta 1 Release
 
-Additional configuration will ensure that resources introduced in that (or later) releases won't include alpha versions. This configuration will require opt-in for backward compatibility, so that the overhead for new resources is as low as possible.
+Additional configuration will ensure that resources introduced in that (or later) releases won't include alpha versions. This configuration will require opt-in for backward compatibility, so that the overhead for new resources is as low as possible. [Issue #2176](https://github.com/Azure/azure-service-operator/issues/2176) has been logged to track this work.
 
 ## Beta n Release
 
