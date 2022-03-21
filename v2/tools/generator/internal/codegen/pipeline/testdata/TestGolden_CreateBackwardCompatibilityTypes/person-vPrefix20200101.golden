@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package vPrefix20200101
 
-//Backward compatibility type for vPrefix20200101.Person_Spec
+//Backward compatibility type for v20200101.Person_Spec
 type Person_Spec struct {
 	FamilyName string `json:"familyName,omitempty"`
 	FullName   string `json:"fullName,omitempty"`
