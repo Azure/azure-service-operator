@@ -4,28 +4,40 @@ graph {
     subgraph apiVersions {
         rank=same;
 
-        node [shape=rect]
+        node [shape=rect, penwidth=2]
+        v1alpha1api20201201 [label="v1alpha1api20201201\nVirtualMachine"]
+
+        node [shape=rect, penwidth=2]
+        v1alpha1api20210701 [label="v1alpha1api20210701\nVirtualMachine"]
+
+        node [shape=rect, penwidth=1]
         v1beta20201201 [label="v1beta20201201\nVirtualMachine"]
 
-        node [shape=rect]
+        node [shape=rect, penwidth=1]
         v1beta20210701 [label="v1beta20210701\nVirtualMachine"]
     }
 
     subgraph storageVersions {
         rank=same;
 
-        node [shape=rect]
+        node [shape=rect, penwidth=1]
         v1beta20201201storage [label="v1beta20201201storage\nVirtualMachine"]
 
-        node [shape=rect]
+        node [shape=rect, penwidth=1]
         v1beta20210701storage [label="v1beta20210701storage\nVirtualMachine"]
 
-        node [shape=rect, penwidth=3]
+        node [shape=rect, penwidth=2]
         v1alpha1api20201201storage [label="v1alpha1api20201201storage\nVirtualMachine"]
 
-        node [shape=rect, penwidth=3]
+        node [shape=rect, penwidth=2]
         v1alpha1api20210701storage [label="v1alpha1api20210701storage\nVirtualMachine"]
     }
+
+    edge [arrowhead=vee, arrowtail=vee, dir=both]
+    v1alpha1api20201201 -- v1alpha1api20201201storage
+
+    edge [arrowhead=vee, arrowtail=vee, dir=both]
+    v1alpha1api20210701 -- v1alpha1api20210701storage
 
     edge [arrowhead=vee, arrowtail=vee, dir=both]
     v1beta20201201 -- v1beta20201201storage
@@ -36,9 +48,9 @@ graph {
     edge [arrowhead=vee, arrowtail=vee, dir=both]
     v1beta20201201storage -- v1beta20210701storage
 
-    edge [arrowhead=vee, arrowtail=none, dir=both]
+    edge [arrowhead=vee, arrowtail=vee, dir=both]
     v1alpha1api20201201storage -- v1alpha1api20210701storage
 
-    edge [arrowhead=vee, arrowtail=none, dir=both]
+    edge [arrowhead=vee, arrowtail=vee, dir=both]
     v1alpha1api20210701storage -- v1beta20201201storage
 }
