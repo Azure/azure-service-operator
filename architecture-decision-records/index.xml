@@ -78,10 +78,11 @@ For example, the Azure Redis Resource Provider can return a HTTP conflict (409) 
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/</guid>
-      <description>Context #  As we close in on a beta release, we want to modify the version prefix used for code-generated resources.
-We don&amp;rsquo;t want to maroon existing users of Azure Service Operator (ASO) by making this a breaking change.
-Cross version compatibility between ARM versions of a resource (that is, between v1alpha1api20180101 and v1alpha1api20200101) is already implemented and well tested, so we want to leverage that existing infrastructure.
-Version skew policy in the Kubernetes ecosystem is to allow for one or two older minor versions of backward compatibility.</description>
+      <description>Context #  As we close in on a beta release, we are considering modification of the version prefix used for code-generated resources.
+Option 1: Do nothing #  Leave all generated resources using the alpha prefix that is currently in use.
+Pros
+ Easy to implement (nothing to do) and quick to deliver  Cons
+  Introduces an inconsistency between the status of ASO (beta) and the labelling of the resources (alpha).</description>
     </item>
     
   </channel>

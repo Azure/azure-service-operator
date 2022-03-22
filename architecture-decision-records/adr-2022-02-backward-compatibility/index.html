@@ -3,16 +3,18 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Context #  As we close in on a beta release, we want to modify the version prefix used for code-generated resources.
-We don&rsquo;t want to maroon existing users of Azure Service Operator (ASO) by making this a breaking change.
-Cross version compatibility between ARM versions of a resource (that is, between v1alpha1api20180101 and v1alpha1api20200101) is already implemented and well tested, so we want to leverage that existing infrastructure.
-Version skew policy in the Kubernetes ecosystem is to allow for one or two older minor versions of backward compatibility.">
+<meta name="description" content="Context #  As we close in on a beta release, we are considering modification of the version prefix used for code-generated resources.
+Option 1: Do nothing #  Leave all generated resources using the alpha prefix that is currently in use.
+Pros
+ Easy to implement (nothing to do) and quick to deliver  Cons
+  Introduces an inconsistency between the status of ASO (beta) and the labelling of the resources (alpha).">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
-<meta property="og:description" content="Context #  As we close in on a beta release, we want to modify the version prefix used for code-generated resources.
-We don&rsquo;t want to maroon existing users of Azure Service Operator (ASO) by making this a breaking change.
-Cross version compatibility between ARM versions of a resource (that is, between v1alpha1api20180101 and v1alpha1api20200101) is already implemented and well tested, so we want to leverage that existing infrastructure.
-Version skew policy in the Kubernetes ecosystem is to allow for one or two older minor versions of backward compatibility." />
+<meta property="og:description" content="Context #  As we close in on a beta release, we are considering modification of the version prefix used for code-generated resources.
+Option 1: Do nothing #  Leave all generated resources using the alpha prefix that is currently in use.
+Pros
+ Easy to implement (nothing to do) and quick to deliver  Cons
+  Introduces an inconsistency between the status of ASO (beta) and the labelling of the resources (alpha)." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/" /><meta property="article:section" content="architecture-decision-records" />
 
@@ -23,7 +25,7 @@ Version skew policy in the Kubernetes ecosystem is to allow for one or two older
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.476d03ec7000998b14a12984129a30c5203c95fdc811490b47286ccaacddb6c2.js" integrity="sha256-R20D7HAAmYsUoSmEEpowxSA8lf3IEUkLRyhsyqzdtsI=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.bf151564f92b82315c233b38db724d973685c8240949b8049e2f32006d12df94.js" integrity="sha256-vxUVZPkrgjFcIzs423JNlzaFyCQJSbgEni8yAG0S35Q=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -935,7 +937,21 @@ https://github.com/alex-shpak/hugo-book
   <aside class="hidden clearfix">
     
   
-<nav id="TableOfContents"></nav>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#option-1-do-nothing">Option 1: Do nothing</a></li>
+    <li><a href="#option-2-move-all-resources-to-beta">Option 2: Move all resources to beta</a></li>
+    <li><a href="#option-3a-in-place-upgrade-for-existing-resources">Option 3a: In-place upgrade for existing resources</a></li>
+    <li><a href="#option-3b-retain-the-alpha-version-for-existing-resources">Option 3b: Retain the alpha version for existing resources</a></li>
+    <li><a href="#other-factors">Other factors</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#beta-0-release">Beta 0 Release</a></li>
+    <li><a href="#beta-1-release">Beta 1 Release</a></li>
+    <li><a href="#beta-n-release">Beta n Release</a></li>
+  </ul>
+</nav>
 
 
 
@@ -950,28 +966,138 @@ https://github.com/alex-shpak/hugo-book
   Context
   <a class="anchor" href="#context">#</a>
 </h1>
-<p>As we close in on a beta release, we want to modify the version prefix used for code-generated resources.</p>
-<p>We don&rsquo;t want to maroon existing users of Azure Service Operator (ASO) by making this a breaking change.</p>
-<p>Cross version compatibility between ARM versions of a resource (that is, between <code>v1alpha1api20180101</code> and <code>v1alpha1api20200101</code>) is already implemented and well tested, so we want to leverage that existing infrastructure.</p>
+<p>As we close in on a beta release, we are considering modification of the version prefix used for code-generated resources.</p>
+<h2 id="option-1-do-nothing">
+  Option 1: Do nothing
+  <a class="anchor" href="#option-1-do-nothing">#</a>
+</h2>
+<p>Leave all generated resources using the alpha prefix that is currently in use.</p>
+<p>Pros</p>
+<ul>
+<li>Easy to implement (nothing to do) and quick to deliver</li>
+</ul>
+<p>Cons</p>
+<ul>
+<li>
+<p>Introduces an inconsistency between the status of ASO (beta) and the labelling of the resources (alpha).</p>
+</li>
+<li>
+<p>Might be perceived by some users as indicating these particular resources are still in alpha, and therefore pose significant a barrier to adoption of ASO.</p>
+</li>
+</ul>
+<h2 id="option-2-move-all-resources-to-beta">
+  Option 2: Move all resources to beta
+  <a class="anchor" href="#option-2-move-all-resources-to-beta">#</a>
+</h2>
+<p>Change the generated prefix for all resources</p>
+<p>Pros</p>
+<ul>
+<li>Easy to implement (change the prefix, update affected tests, and regenerate all files), and quick to deliver</li>
+</ul>
+<p>Cons</p>
+<ul>
+<li>
+<p>Existing clusters with custom resources (CRs) reliant on ASO would break because ASO would no longer support the older alpha version.<br>
+Mitigation: Users would need to manually delete the existing resource and creating a new CR with an updated version.</p>
+</li>
+<li>
+<p>Any attempt to apply old alpha YAML will fail, as it no longer exists. This includes attempting to manually apply a YAML using <code>kubectl apply -f</code>, and through some other approaches where YAMLs are continuously applied, as in GitOps style workflows.<br>
+Mitigation: For manual uses, modification of the YAML files being applied to change the version of the resources.<br>
+Mitigation: For automated uses, modification of the deployment pipelines to change the version of the resources.</p>
+</li>
+</ul>
+<h2 id="option-3a-in-place-upgrade-for-existing-resources">
+  Option 3a: In-place upgrade for existing resources
+  <a class="anchor" href="#option-3a-in-place-upgrade-for-existing-resources">#</a>
+</h2>
+<p>Change the generated prefix to <code>v1beta</code> for all resources, but retain the alpha storage variants of each existing resource. This would allow an upgraded ASO installation to promote any existing resources to the new storage version.</p>
+<p>Pros</p>
+<ul>
+<li>
+<p>Moderate effort to implement (requires a new pipeline stage to create the alpha storage variants for compatibility with older versions).</p>
+</li>
+<li>
+<p>Existing clusters with custom resources reliant on ASO would continue to run because ASO would support conversion from the old hub version to the new.</p>
+</li>
+</ul>
+<p>Cons</p>
+<ul>
+<li>
+<p>Any attempt to apply old alpha YAML will fail, as it no longer exists. This includes attempting to manually apply a YAML using <code>kubectl apply -f</code>, and through some other approaches where YAMLs are continuously applied, as in GitOps style workflows.<br>
+Mitigation: For manual uses, modification of the YAML files being applied to change the version of the resources.<br>
+Mitigation: For automated uses, modification of the deployment pipelines to change the version of the resources.</p>
+</li>
+<li>
+<p>CRDs will be 50% bigger than the alpha versions, due to the addition of another storage variant.<br>
+Observation: We know there is an upper limit to the size of each CRD, though we&rsquo;re not very close to that yet.
+Mitigation: Prune all documentation from the alpha variants to make them (much!) smaller</p>
+</li>
+</ul>
+<h2 id="option-3b-retain-the-alpha-version-for-existing-resources">
+  Option 3b: Retain the alpha version for existing resources
+  <a class="anchor" href="#option-3b-retain-the-alpha-version-for-existing-resources">#</a>
+</h2>
+<p>Use a beta prefix for all resources. Also use our existing alpha prefix for all resources that were included in any alpha release of ASO, but not for new resources.</p>
+<p>Pros</p>
+<ul>
+<li>
+<p>Moderate effort to implement (requires pipeline and configuration changes to generate multiple versions of some resources).<br>
+Observation: We could implement this in two parts, firstly generating all resources with both prefixes for <code>codegen-beta-0</code>, and then introducing configuration for newer resources in <code>codegen-beta-1</code>.</p>
+</li>
+<li>
+<p>Existing clusters with custom resources reliant on ASO would continue to run because ASO would support conversion from the old hub version to the new.</p>
+</li>
+<li>
+<p>Existing use of YAML containing alpha versions will continue to work, as they are still supported. This includes attempting to manually apply a YAML using <code>kubectl apply -f</code>, and through some other approaches where YAMLs are continuously applied, as in GitOps style workflows.</p>
+</li>
+</ul>
+<p>Cons</p>
+<ul>
+<li>
+<p>CRDs will be twice the size of the alpha versions, due to the addition of both API and storage variants.<br>
+Observation: We know there is an upper limit to the size of each CRD, though we&rsquo;re not very close to that yet.<br>
+Mitigation: Prune all documentation from the alpha resource versions</p>
+</li>
+<li>
+<p>Possible user confusion from having multiple versions of each resource.<br>
+Mitigation: Pruning documentation would push users towards the beta versions.</p>
+</li>
+</ul>
+<h2 id="other-factors">
+  Other factors
+  <a class="anchor" href="#other-factors">#</a>
+</h2>
+<p>We don&rsquo;t want to maroon existing users of Azure Service Operator (ASO) by making this a breaking change. It&rsquo;s important to us to make upgrades of ASO as straightforward as possible.</p>
+<p>Cross version compatibility between ARM versions of a resource (that is, for example, between <code>v1alpha1api20180101</code> and <code>v1alpha1api20200101</code>) is already implemented and well tested, so we should leverage that existing infrastructure.</p>
 <p>Version skew policy in the Kubernetes ecosystem is to allow for one or two older minor versions of backward compatibility. This gives us the <em>option</em> of temporarily introducing backward compatibility with the <code>codegen-beta-0</code> release and then dropping it once we reach <code>codegen-beta-2</code> or greater.</p>
 <h1 id="decision">
   Decision
   <a class="anchor" href="#decision">#</a>
 </h1>
-<p>Change the prefix used from <code>v1alpha1api</code> to simply <code>v1beta</code>. (We don&rsquo;t need a minor number as part of the prefix. The original intention was to increment the minor version with each release of the operator, but the overhead of this is very high, so we&rsquo;ve instead used the prefix <code>v1alpha1api</code> for all our alpha releases.)</p>
-<p>Introduce a new pipeline stage to create additional storage versions for backward compatibility, each created by cloning an existing storage version but using a package name based on the old <code>v1alpha1api</code> prefix.</p>
-<p>For example, the storage version of the <code>compute</code> resource <code>v1beta20201201/VirtualMachine</code> is <code>v1beta20201201storage/VirtualMachine</code>. The new pipeline stage will clone that resource as <code>v1alpha1api20201201storage/VirtualMachine</code> and subsequent pipeline stages will create the necessary conversion.</p>
+<p>We choose to prioritize a good upgrade experience for our users. We&rsquo;ll proceed with option 3b (Retain the alpha version for existing resources).</p>
+<p>Change the prefix used for our resources from <code>v1alpha1api</code> to simply <code>v1beta</code>. (We don&rsquo;t need a minor number as part of the prefix. The original intention was to increment the minor version with each release of the operator, but the overhead of this is very high, so we&rsquo;ve instead used the prefix <code>v1alpha1api</code> for all our alpha releases.)</p>
+<h2 id="beta-0-release">
+  Beta 0 Release
+  <a class="anchor" href="#beta-0-release">#</a>
+</h2>
+<p>All resources will be duplicated, published as both <code>v1beta</code> and as <code>v1alpha1api</code>. This includes new resources published for the first time in the beta.</p>
+<p>Introduce a new pipeline stage to create additional versions for backward compatibility, each created by cloning an existing version but using a package name based on the old <code>v1alpha1api</code> prefix.</p>
+<p>For example, the API resource <code>v1beta20201201storage/VirtualMachine</code> will be cloned as <code>v1alpha1api20201201/VirtualMachine</code>. Subsequent pipeline stages will create matching storage versions and the necessary conversions.</p>
 <p><img src="images/adr-2022-02-backward-compatibility-single-version.png" alt="image" /></p>
 <p>For the trivial case where we only support a single ARM version of a resource, this gives us full compatibility to upgrade an older (alpha) installation of ASO to a new beta release.</p>
 <p>When we have multiple ARM versions in flight (as we do with <code>compute</code>), supporting all <em>potential</em> older resource versions gives us maximum compatibility without any need for configuration or to make any assumptions about which ARM versions were previously supported.</p>
 <p><img src="images/adr-2022-02-backward-compatibility-multiple-version.png" alt="image" /></p>
 <p>This approach also gives us backward compatibility when we have a mix of resources across multiple versions (as happens with both <code>compute</code> and <code>network</code>). We know from prior work (including introduction of the <code>PropertyBag</code> field) that conversions between storage versions are lossless.</p>
-<p>We&rsquo;ll only drop these backward compatibility types if it is necessary to do so.</p>
-<p>Reasons for this include (but are not limited to):</p>
-<ul>
-<li>A breaking change to the structure of our storage resources</li>
-<li>A desire (or need) to reduce the size of our CRD definitions</li>
-</ul>
+<h2 id="beta-1-release">
+  Beta 1 Release
+  <a class="anchor" href="#beta-1-release">#</a>
+</h2>
+<p>Additional configuration will ensure that resources introduced in that (or later) releases won&rsquo;t include alpha versions. This configuration will require opt-in for backward compatibility, so that the overhead for new resources is as low as possible. <a href="https://github.com/Azure/azure-service-operator/issues/2176">Issue #2176</a> has been logged to track this work.</p>
+<h2 id="beta-n-release">
+  Beta n Release
+  <a class="anchor" href="#beta-n-release">#</a>
+</h2>
+<p>At some point, after giving users of ASO alpha releases a reasonable time frame, we will drop the alpha versions. We&rsquo;ll document this plan as a part of the <strong>Beta 0</strong> release.</p>
 <h1 id="status">
   Status
   <a class="anchor" href="#status">#</a>
@@ -984,9 +1110,15 @@ https://github.com/alex-shpak/hugo-book
 <p>With the supported format for old resources being derived from newer resources, we need to be careful about breaking changes (e.g. removing properties or changing property types) that might cause issues for users upgrading to the latest ASO.</p>
 <p>Factors reducing the severity of this include:</p>
 <ul>
-<li>Our object shapes are defined by ARM resource versions, which have tight constraints on the types of permitted changes, so we&rsquo;re unlikely to have breaking changes from that source.</li>
-<li>We have exactly the same compatibility issues between adjacent ASO releases, so our changes to the generator already have to consider this.</li>
-<li>We only need to maintain backward compatibility across a small number of versions.</li>
+<li>
+<p>Our object shapes are defined by ARM resource versions, which have tight constraints on the types of permitted changes, so we&rsquo;re unlikely to have breaking changes from that source.</p>
+</li>
+<li>
+<p>We have exactly the same compatibility issues between adjacent ASO releases, so our changes to the generator already have to consider this.</p>
+</li>
+<li>
+<p>We only need to maintain backward compatibility across a small number of versions.</p>
+</li>
 </ul>
 <h1 id="experience-report">
   Experience Report
@@ -1037,7 +1169,21 @@ https://github.com/alex-shpak/hugo-book
       <div class="book-toc-content">
         
   
-<nav id="TableOfContents"></nav>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#option-1-do-nothing">Option 1: Do nothing</a></li>
+    <li><a href="#option-2-move-all-resources-to-beta">Option 2: Move all resources to beta</a></li>
+    <li><a href="#option-3a-in-place-upgrade-for-existing-resources">Option 3a: In-place upgrade for existing resources</a></li>
+    <li><a href="#option-3b-retain-the-alpha-version-for-existing-resources">Option 3b: Retain the alpha version for existing resources</a></li>
+    <li><a href="#other-factors">Other factors</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#beta-0-release">Beta 0 Release</a></li>
+    <li><a href="#beta-1-release">Beta 1 Release</a></li>
+    <li><a href="#beta-n-release">Beta n Release</a></li>
+  </ul>
+</nav>
 
 
  
