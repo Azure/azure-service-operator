@@ -47,7 +47,7 @@ var (
 	}, []string{"name", "requestType"})
 
 	requeueTotal = prometheus.NewCounterVec(prometheus.CounterOpts{
-		Name: "request_requeue_total",
+		Name: "requests_requeue_total",
 		Help: "Total number of request requeue(s) for resource",
 	}, []string{"name", "requestType"})
 )
