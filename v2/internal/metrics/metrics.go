@@ -9,9 +9,8 @@ import (
 )
 
 const (
-	putLabel           = "PUT"
-	deleteLabel        = "DELETE"
-	defaultMetricsAddr = ":8080"
+	putLabel    = "PUT"
+	deleteLabel = "DELETE"
 )
 
 // TODO: Add more status codes here if there are more expected codes.
@@ -46,10 +45,23 @@ var (
 		Help:    "Status codes returned by ARM request",
 		Buckets: statusCodes,
 	}, []string{"name", "requestType"})
+
+	requeueTotal = prometheus.NewCounterVec(prometheus.CounterOpts{
+		Name: "request_requeue_total",
+		Help: "Total number of request requeue(s) for resource",
+	}, []string{"name", "requestType"})
 )
 
 func init() {
 	metrics.Registry.MustRegister(azureRequestsTotal, azureFailedRequestsTotal, azureRequestsTime, azureResponseCode)
+}
+
+func RecordRequeueTotalPUT(resourceName string) {
+	requeueTotal.WithLabelValues(resourceName, putLabel)
+}
+
+func RecordRequeueTotalDELETE(resourceName string) {
+	requeueTotal.WithLabelValues(resourceName, deleteLabel)
 }
 
 func RecordAzureRequestsTotalPUT(resourceName string) {

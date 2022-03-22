@@ -66,7 +66,7 @@ func (r *azureDeploymentReconcilerInstance) CreateOrUpdate(ctx context.Context) 
 	r.Log.V(Verbose).Info("Reconciling resource", "action", action)
 
 	result, err := actionFunc(ctx)
-	metrics.RecordAzureRequestsTotalPUT(r.Obj.GetName())
+	//TODO: check result here and record requeue and move RecordAzureRequestsTotalPUT inside where making put request
 
 	if err != nil {
 		r.Log.Error(err, "Error during CreateOrUpdate", "action", action)
@@ -74,6 +74,10 @@ func (r *azureDeploymentReconcilerInstance) CreateOrUpdate(ctx context.Context) 
 		metrics.RecordAzureFailedRequestsTotalPUT(r.Obj.GetName())
 
 		return ctrl.Result{}, err
+	}
+
+	if result.Requeue || result.RequeueAfter > 0 {
+		metrics.RecordRequeueTotalPUT(r.Obj.GetName())
 	}
 
 	return result, nil
@@ -98,9 +102,12 @@ func (r *azureDeploymentReconcilerInstance) Delete(ctx context.Context) (ctrl.Re
 	if err != nil {
 		r.Log.Error(err, "Error during Delete", "action", action)
 		r.Recorder.Event(r.Obj, v1.EventTypeWarning, "DeleteActionError", err.Error())
-		metrics.RecordAzureFailedRequestsTotalDELETE(r.Obj.GetName())
 
 		return ctrl.Result{}, err
+	}
+
+	if result.Requeue || result.RequeueAfter > 0 {
+		metrics.RecordRequeueTotalPUT(r.Obj.GetName())
 	}
 
 	return result, nil

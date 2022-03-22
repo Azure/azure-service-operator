@@ -130,6 +130,7 @@ func (client *GenericClient) createOrUpdateByID(
 	resp, err := client.pl.Do(req)
 
 	metrics.RecordAzureRequestsTimePUT(resourceName, time.Since(requestStartTime))
+	metrics.RecordAzureRequestsTotalPUT(resourceName)
 	metrics.RecordAzureResponseCodePUT(resourceName, resp.StatusCode)
 
 	if err != nil {
@@ -242,6 +243,7 @@ func (client *GenericClient) deleteByID(ctx context.Context, resourceID, resourc
 	resp, err := client.pl.Do(req)
 
 	metrics.RecordAzureRequestsTimeDELETE(resourceName, time.Since(requestStartTime))
+	metrics.RecordAzureFailedRequestsTotalDELETE(resourceName)
 	metrics.RecordAzureResponseCodeDELETE(resourceName, resp.StatusCode)
 
 	if err != nil {
