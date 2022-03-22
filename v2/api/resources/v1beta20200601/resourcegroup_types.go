@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-package v1alpha1api20200601
+package v1beta20200601
 
 import (
 	"fmt"
@@ -10,16 +10,27 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
-	"github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
+
+// TODO: it doesn't really matter where these are (as long as they're in 'apis', where is where we run controller-gen).
+// These are the permissions required by the generic_controller. They're here because they can't go outside the 'apis'
+// directory.
+
+// +kubebuilder:rbac:groups=core,resources=events,verbs=get;list;watch;create;patch
+// +kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;watch;create;patch
+// +kubebuilder:rbac:groups=coordination.k8s.io,resources=leases,verbs=get;list;watch;create;update;patch;delete
+
+// +kubebuilder:rbac:groups=resources.azure.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=resources.azure.com,resources={resourcegroups/status,resourcegroups/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
+// +kubebuilder:storageversion
 type ResourceGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -27,7 +38,7 @@ type ResourceGroup struct {
 	Status            ResourceGroupStatus `json:"status,omitempty"`
 }
 
-// +kubebuilder:webhook:path=/mutate-resources-azure-com-v1alpha1api20200601-resourcegroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=resources.azure.com,resources=resourcegroups,verbs=create;update,versions=v1alpha1api20200601,name=default.v1alpha1api20200601.resourcegroups.resources.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-resources-azure-com-v1beta20200601-resourcegroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=resources.azure.com,resources=resourcegroups,verbs=create;update,versions=v1beta20200601,name=default.v1beta20200601.resourcegroups.resources.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Defaulter = &ResourceGroup{}
 
@@ -118,79 +129,10 @@ func (rg *ResourceGroup) Location() string {
 	return *rg.Spec.Location
 }
 
-var _ conversion.Convertible = &ResourceGroup{}
+var _ conversion.Hub = &ResourceGroup{}
 
-// ConvertFrom populates our ResourceGroup from the provided hub ResourceGroup
-func (rg *ResourceGroup) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1beta20200601.ResourceGroup)
-	if !ok {
-		return fmt.Errorf("expected compute/v1beta20200601/ResourceGroup but received %T instead", hub)
-	}
-
-	return rg.AssignPropertiesFromResourceGroup(source)
-}
-
-// ConvertTo populates the provided hub Disk from our Disk
-func (rg *ResourceGroup) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1beta20200601.ResourceGroup)
-	if !ok {
-		return fmt.Errorf("expected compute/v1beta20200601/ResourceGroup but received %T instead", hub)
-	}
-
-	return rg.AssignPropertiesToResourceGroup(destination)
-}
-
-// AssignPropertiesFromResourceGroup populates our ResourceGroup from the provided source ResourceGroup
-func (rg *ResourceGroup) AssignPropertiesFromResourceGroup(source *v1beta20200601.ResourceGroup) error {
-
-	// ObjectMeta
-	rg.ObjectMeta = *source.ObjectMeta.DeepCopy()
-
-	// Spec
-	var spec ResourceGroupSpec
-	err := spec.ConvertSpecFrom(&source.Spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromResourceGroupSpec() to populate field Spec")
-	}
-	rg.Spec = spec
-
-	// Status
-	var status ResourceGroupStatus
-	err = status.ConvertStatusFrom(&source.Status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromResourceGroupStatus() to populate field Status")
-	}
-	rg.Status = status
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToResourceGroup populates the provided destination Disk from our Disk
-func (rg *ResourceGroup) AssignPropertiesToResourceGroup(destination *v1beta20200601.ResourceGroup) error {
-
-	// ObjectMeta
-	destination.ObjectMeta = *rg.ObjectMeta.DeepCopy()
-
-	// Spec
-	var spec v1beta20200601.ResourceGroupSpec
-	err := rg.Spec.ConvertSpecTo(&spec)
-	if err != nil {
-		return errors.Wrap(err, "calling ConvertSpecTo() to populate field Spec")
-	}
-	destination.Spec = spec
-
-	// Status
-	var status v1beta20200601.ResourceGroupStatus
-	err = rg.Status.ConvertStatusTo(&status)
-	if err != nil {
-		return errors.Wrap(err, "calling ConvertStatusTo() to populate field Status")
-	}
-	destination.Status = status
-
-	// No error
-	return nil
-}
+// Hub marks that this ResourceGroup is the hub type for conversion
+func (rg *ResourceGroup) Hub() {}
 
 // +kubebuilder:object:root=true
 type ResourceGroupList struct {
@@ -248,10 +190,10 @@ func (status *ResourceGroupStatus) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 // ConvertStatusTo copies information from the current instance onto the supplied destination
 func (status *ResourceGroupStatus) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1beta20200601.ResourceGroupStatus)
+	dst, ok := destination.(*ResourceGroupStatus)
 	if !ok {
 		return errors.Errorf(
-			"cannot convert ResourceGroupStatus, expected destination to be a *v1beta20200601.ResourceGroupStatus but received %T",
+			"cannot convert ResourceGroupStatus, expected destination to be a *ResourceGroupStatus but received %T",
 			destination)
 	}
 
@@ -275,10 +217,10 @@ func (status *ResourceGroupStatus) ConvertStatusTo(destination genruntime.Conver
 
 // ConvertStatusFrom copies information from the supplied source onto the current instance
 func (status *ResourceGroupStatus) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1beta20200601.ResourceGroupStatus)
+	src, ok := source.(*ResourceGroupStatus)
 	if !ok {
 		return errors.Errorf(
-			"cannot convert ResourceGroupStatus, expected source to be a *v1beta20200601.ResourceGroupStatus but received %T",
+			"cannot convert ResourceGroupStatus, expected source to be a *ResourceGroupStatus but received %T",
 			source)
 	}
 
@@ -357,10 +299,10 @@ func (spec *ResourceGroupSpec) SetAzureName(azureName string) { spec.AzureName =
 
 // ConvertSpecTo copies information from the current instance over to the supplied destination
 func (spec *ResourceGroupSpec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1beta20200601.ResourceGroupSpec)
+	dst, ok := destination.(*ResourceGroupSpec)
 	if !ok {
 		return errors.Errorf(
-			"cannot convert ResourceGroupSpec, expected destination to be a *v1beta20200601.ResouceGroupSpec but received %T",
+			"cannot convert ResourceGroupSpec, expected destination to be a *ResouceGroupSpec but received %T",
 			destination)
 	}
 
@@ -378,10 +320,10 @@ func (spec *ResourceGroupSpec) ConvertSpecTo(destination genruntime.ConvertibleS
 
 // ConvertSpecFrom copies information from the supplied source onto the current instance
 func (spec *ResourceGroupSpec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1beta20200601.ResourceGroupSpec)
+	src, ok := source.(*ResourceGroupSpec)
 	if !ok {
 		return errors.Errorf(
-			"cannot convert ResourceGroupSpec, expected source to be a *v1beta20200601.ResourceGroupSpec but received %T",
+			"cannot convert ResourceGroupSpec, expected source to be a *ResourceGroupSpec but received %T",
 			source)
 	}
 
