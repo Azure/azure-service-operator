@@ -152,7 +152,11 @@ func (fn *ResourceConversionFunction) directConversion(
 	fmtPackage := generationContext.MustGetImportedPackageName(astmodel.FmtReference)
 
 	// Expect this to always work; our hub type will never be an external reference
-	hubGoup, hubVersion, _ := fn.hub.PackageReference.GroupVersion()
+	hubGroup, hubVersion, ok := fn.hub.PackageReference.GroupVersion()
+	if !ok {
+		msg := fmt.Sprintf("hub type with external package reference %s is unexpected", fn.hub.PackageReference)
+		panic(msg)
+	}
 
 	localId := fn.localVariableId()
 	localIdent := dst.NewIdent(localId)
@@ -166,7 +170,7 @@ func (fn *ResourceConversionFunction) directConversion(
 	checkAssert := astbuilder.ReturnIfNotOk(
 		astbuilder.FormatError(
 			fmtPackage,
-			fmt.Sprintf("expected %s/%s/%s but received %%T instead", hubGoup, hubVersion, fn.Hub().Name()),
+			fmt.Sprintf("expected %s/%s/%s but received %%T instead", hubGroup, hubVersion, fn.Hub().Name()),
 			hubIdent))
 
 	copyAndReturn := astbuilder.Returns(
