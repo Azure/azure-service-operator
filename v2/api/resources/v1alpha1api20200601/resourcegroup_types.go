@@ -246,12 +246,12 @@ func (status *ResourceGroupStatus) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-// ConvertSpecTo copies information from the current instance onto the supplied destination
+// ConvertStatusTo copies information from the current instance onto the supplied destination
 func (status *ResourceGroupStatus) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*ResourceGroupStatus)
+	dst, ok := destination.(*v1beta20200601.ResourceGroupStatus)
 	if !ok {
 		return errors.Errorf(
-			"cannot convert ResourceGroupStatus, expected destination to be a *ResourceGroupStatus but received %T",
+			"cannot convert ResourceGroupStatus, expected destination to be a *v1beta20200601.ResourceGroupStatus but received %T",
 			destination)
 	}
 
@@ -273,12 +273,12 @@ func (status *ResourceGroupStatus) ConvertStatusTo(destination genruntime.Conver
 	return nil
 }
 
-// ConvertSpecFrom copies information from the supplied source onto the current instance
+// ConvertStatusFrom copies information from the supplied source onto the current instance
 func (status *ResourceGroupStatus) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*ResourceGroupStatus)
+	src, ok := source.(*v1beta20200601.ResourceGroupStatus)
 	if !ok {
 		return errors.Errorf(
-			"cannot convert ResourceGroupStatus, expected source to be a *ResourceGroupStatus but received %T",
+			"cannot convert ResourceGroupStatus, expected source to be a *v1beta20200601.ResourceGroupStatus but received %T",
 			source)
 	}
 
@@ -357,10 +357,10 @@ func (spec *ResourceGroupSpec) SetAzureName(azureName string) { spec.AzureName =
 
 // ConvertSpecTo copies information from the current instance over to the supplied destination
 func (spec *ResourceGroupSpec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*ResourceGroupSpec)
+	dst, ok := destination.(*v1beta20200601.ResourceGroupSpec)
 	if !ok {
 		return errors.Errorf(
-			"cannot convert ResourceGroupSpec, expected destination to be a *ResouceGroupSpec but received %T",
+			"cannot convert ResourceGroupSpec, expected destination to be a *v1beta20200601.ResouceGroupSpec but received %T",
 			destination)
 	}
 
@@ -378,10 +378,10 @@ func (spec *ResourceGroupSpec) ConvertSpecTo(destination genruntime.ConvertibleS
 
 // ConvertSpecFrom copies information from the supplied source onto the current instance
 func (spec *ResourceGroupSpec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*ResourceGroupSpec)
+	src, ok := source.(*v1beta20200601.ResourceGroupSpec)
 	if !ok {
 		return errors.Errorf(
-			"cannot convert ResourceGroupSpec, expected source to be a *ResourceGroupSpec but received %T",
+			"cannot convert ResourceGroupSpec, expected source to be a *v1beta20200601.ResourceGroupSpec but received %T",
 			source)
 	}
 
