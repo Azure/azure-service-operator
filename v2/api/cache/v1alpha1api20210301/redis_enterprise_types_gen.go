@@ -50,7 +50,7 @@ var _ conversion.Convertible = &RedisEnterprise{}
 func (enterprise *RedisEnterprise) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210301storage.RedisEnterprise)
 	if !ok {
-		return fmt.Errorf("expected storage:cache/v1alpha1api20210301storage/RedisEnterprise but received %T instead", hub)
+		return fmt.Errorf("expected cache/v1alpha1api20210301storage/RedisEnterprise but received %T instead", hub)
 	}
 
 	return enterprise.AssignPropertiesFromRedisEnterprise(source)
@@ -60,7 +60,7 @@ func (enterprise *RedisEnterprise) ConvertFrom(hub conversion.Hub) error {
 func (enterprise *RedisEnterprise) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210301storage.RedisEnterprise)
 	if !ok {
-		return fmt.Errorf("expected storage:cache/v1alpha1api20210301storage/RedisEnterprise but received %T instead", hub)
+		return fmt.Errorf("expected cache/v1alpha1api20210301storage/RedisEnterprise but received %T instead", hub)
 	}
 
 	return enterprise.AssignPropertiesToRedisEnterprise(destination)

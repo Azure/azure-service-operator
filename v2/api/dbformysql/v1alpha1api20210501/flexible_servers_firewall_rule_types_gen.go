@@ -50,7 +50,7 @@ var _ conversion.Convertible = &FlexibleServersFirewallRule{}
 func (rule *FlexibleServersFirewallRule) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210501storage.FlexibleServersFirewallRule)
 	if !ok {
-		return fmt.Errorf("expected storage:dbformysql/v1alpha1api20210501storage/FlexibleServersFirewallRule but received %T instead", hub)
+		return fmt.Errorf("expected dbformysql/v1alpha1api20210501storage/FlexibleServersFirewallRule but received %T instead", hub)
 	}
 
 	return rule.AssignPropertiesFromFlexibleServersFirewallRule(source)
@@ -60,7 +60,7 @@ func (rule *FlexibleServersFirewallRule) ConvertFrom(hub conversion.Hub) error {
 func (rule *FlexibleServersFirewallRule) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210501storage.FlexibleServersFirewallRule)
 	if !ok {
-		return fmt.Errorf("expected storage:dbformysql/v1alpha1api20210501storage/FlexibleServersFirewallRule but received %T instead", hub)
+		return fmt.Errorf("expected dbformysql/v1alpha1api20210501storage/FlexibleServersFirewallRule but received %T instead", hub)
 	}
 
 	return rule.AssignPropertiesToFlexibleServersFirewallRule(destination)

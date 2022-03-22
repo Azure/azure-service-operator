@@ -51,7 +51,7 @@ var _ conversion.Convertible = &VirtualMachineScaleSet{}
 func (scaleSet *VirtualMachineScaleSet) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20201201storage.VirtualMachineScaleSet)
 	if !ok {
-		return fmt.Errorf("expected storage:compute/v1alpha1api20201201storage/VirtualMachineScaleSet but received %T instead", hub)
+		return fmt.Errorf("expected compute/v1alpha1api20201201storage/VirtualMachineScaleSet but received %T instead", hub)
 	}
 
 	return scaleSet.AssignPropertiesFromVirtualMachineScaleSet(source)
@@ -61,7 +61,7 @@ func (scaleSet *VirtualMachineScaleSet) ConvertFrom(hub conversion.Hub) error {
 func (scaleSet *VirtualMachineScaleSet) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20201201storage.VirtualMachineScaleSet)
 	if !ok {
-		return fmt.Errorf("expected storage:compute/v1alpha1api20201201storage/VirtualMachineScaleSet but received %T instead", hub)
+		return fmt.Errorf("expected compute/v1alpha1api20201201storage/VirtualMachineScaleSet but received %T instead", hub)
 	}
 
 	return scaleSet.AssignPropertiesToVirtualMachineScaleSet(destination)

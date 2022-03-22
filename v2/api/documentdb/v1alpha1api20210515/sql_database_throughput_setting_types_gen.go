@@ -50,7 +50,7 @@ var _ conversion.Convertible = &SqlDatabaseThroughputSetting{}
 func (setting *SqlDatabaseThroughputSetting) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210515storage.SqlDatabaseThroughputSetting)
 	if !ok {
-		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/SqlDatabaseThroughputSetting but received %T instead", hub)
+		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/SqlDatabaseThroughputSetting but received %T instead", hub)
 	}
 
 	return setting.AssignPropertiesFromSqlDatabaseThroughputSetting(source)
@@ -60,7 +60,7 @@ func (setting *SqlDatabaseThroughputSetting) ConvertFrom(hub conversion.Hub) err
 func (setting *SqlDatabaseThroughputSetting) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210515storage.SqlDatabaseThroughputSetting)
 	if !ok {
-		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/SqlDatabaseThroughputSetting but received %T instead", hub)
+		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/SqlDatabaseThroughputSetting but received %T instead", hub)
 	}
 
 	return setting.AssignPropertiesToSqlDatabaseThroughputSetting(destination)

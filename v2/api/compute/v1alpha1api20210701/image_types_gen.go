@@ -50,7 +50,7 @@ var _ conversion.Convertible = &Image{}
 func (image *Image) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210701storage.Image)
 	if !ok {
-		return fmt.Errorf("expected storage:compute/v1alpha1api20210701storage/Image but received %T instead", hub)
+		return fmt.Errorf("expected compute/v1alpha1api20210701storage/Image but received %T instead", hub)
 	}
 
 	return image.AssignPropertiesFromImage(source)
@@ -60,7 +60,7 @@ func (image *Image) ConvertFrom(hub conversion.Hub) error {
 func (image *Image) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210701storage.Image)
 	if !ok {
-		return fmt.Errorf("expected storage:compute/v1alpha1api20210701storage/Image but received %T instead", hub)
+		return fmt.Errorf("expected compute/v1alpha1api20210701storage/Image but received %T instead", hub)
 	}
 
 	return image.AssignPropertiesToImage(destination)

@@ -50,7 +50,7 @@ var _ conversion.Convertible = &NamespacesQueue{}
 func (queue *NamespacesQueue) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210101previewstorage.NamespacesQueue)
 	if !ok {
-		return fmt.Errorf("expected storage:servicebus/v1alpha1api20210101previewstorage/NamespacesQueue but received %T instead", hub)
+		return fmt.Errorf("expected servicebus/v1alpha1api20210101previewstorage/NamespacesQueue but received %T instead", hub)
 	}
 
 	return queue.AssignPropertiesFromNamespacesQueue(source)
@@ -60,7 +60,7 @@ func (queue *NamespacesQueue) ConvertFrom(hub conversion.Hub) error {
 func (queue *NamespacesQueue) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210101previewstorage.NamespacesQueue)
 	if !ok {
-		return fmt.Errorf("expected storage:servicebus/v1alpha1api20210101previewstorage/NamespacesQueue but received %T instead", hub)
+		return fmt.Errorf("expected servicebus/v1alpha1api20210101previewstorage/NamespacesQueue but received %T instead", hub)
 	}
 
 	return queue.AssignPropertiesToNamespacesQueue(destination)

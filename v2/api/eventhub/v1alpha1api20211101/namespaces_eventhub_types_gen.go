@@ -50,7 +50,7 @@ var _ conversion.Convertible = &NamespacesEventhub{}
 func (eventhub *NamespacesEventhub) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20211101storage.NamespacesEventhub)
 	if !ok {
-		return fmt.Errorf("expected storage:eventhub/v1alpha1api20211101storage/NamespacesEventhub but received %T instead", hub)
+		return fmt.Errorf("expected eventhub/v1alpha1api20211101storage/NamespacesEventhub but received %T instead", hub)
 	}
 
 	return eventhub.AssignPropertiesFromNamespacesEventhub(source)
@@ -60,7 +60,7 @@ func (eventhub *NamespacesEventhub) ConvertFrom(hub conversion.Hub) error {
 func (eventhub *NamespacesEventhub) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20211101storage.NamespacesEventhub)
 	if !ok {
-		return fmt.Errorf("expected storage:eventhub/v1alpha1api20211101storage/NamespacesEventhub but received %T instead", hub)
+		return fmt.Errorf("expected eventhub/v1alpha1api20211101storage/NamespacesEventhub but received %T instead", hub)
 	}
 
 	return eventhub.AssignPropertiesToNamespacesEventhub(destination)

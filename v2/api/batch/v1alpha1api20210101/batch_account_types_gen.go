@@ -50,7 +50,7 @@ var _ conversion.Convertible = &BatchAccount{}
 func (account *BatchAccount) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210101storage.BatchAccount)
 	if !ok {
-		return fmt.Errorf("expected storage:batch/v1alpha1api20210101storage/BatchAccount but received %T instead", hub)
+		return fmt.Errorf("expected batch/v1alpha1api20210101storage/BatchAccount but received %T instead", hub)
 	}
 
 	return account.AssignPropertiesFromBatchAccount(source)
@@ -60,7 +60,7 @@ func (account *BatchAccount) ConvertFrom(hub conversion.Hub) error {
 func (account *BatchAccount) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210101storage.BatchAccount)
 	if !ok {
-		return fmt.Errorf("expected storage:batch/v1alpha1api20210101storage/BatchAccount but received %T instead", hub)
+		return fmt.Errorf("expected batch/v1alpha1api20210101storage/BatchAccount but received %T instead", hub)
 	}
 
 	return account.AssignPropertiesToBatchAccount(destination)

@@ -50,7 +50,7 @@ var _ conversion.Convertible = &StorageAccountsQueueService{}
 func (service *StorageAccountsQueueService) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210401storage.StorageAccountsQueueService)
 	if !ok {
-		return fmt.Errorf("expected storage:storage/v1alpha1api20210401storage/StorageAccountsQueueService but received %T instead", hub)
+		return fmt.Errorf("expected storage/v1alpha1api20210401storage/StorageAccountsQueueService but received %T instead", hub)
 	}
 
 	return service.AssignPropertiesFromStorageAccountsQueueService(source)
@@ -60,7 +60,7 @@ func (service *StorageAccountsQueueService) ConvertFrom(hub conversion.Hub) erro
 func (service *StorageAccountsQueueService) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210401storage.StorageAccountsQueueService)
 	if !ok {
-		return fmt.Errorf("expected storage:storage/v1alpha1api20210401storage/StorageAccountsQueueService but received %T instead", hub)
+		return fmt.Errorf("expected storage/v1alpha1api20210401storage/StorageAccountsQueueService but received %T instead", hub)
 	}
 
 	return service.AssignPropertiesToStorageAccountsQueueService(destination)
