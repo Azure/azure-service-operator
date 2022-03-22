@@ -56,7 +56,7 @@ func CreateTypesForBackwardCompatibility(prefix string) *Stage {
 	//
 	// ApplyExportFiltersStageID - we want to filter for export first to avoid creating a lot of backward compatibility
 	//     types that would immediately be pruned. We also need to avoid issues where the filters might remove the main
-	//     API type without removing the compatibilty type
+	//     API type without removing the compatibility type
 	//
 	// AddSecretsStageID - any transformations made to accommodate secrets must happen before we clone the type
 	//
@@ -74,9 +74,12 @@ func CreateTypesForBackwardCompatibility(prefix string) *Stage {
 }
 
 func addCompatibilityComments(defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-	visitor := astmodel.TypeVisitorBuilder{
-		VisitObjectType: removePropertyDescriptions,
-	}.Build()
+	//TODO: Enable filtering of property descriptions in a later PR to reduce the size of our CRDs
+	//TODO: It's currently disabled to reduce the size of the PR creating our v1beta packages
+
+	//visitor := astmodel.TypeVisitorBuilder{
+	//	VisitObjectType: removePropertyDescriptions,
+	//}.Build()
 
 	result := make(astmodel.TypeDefinitionSet)
 
@@ -85,18 +88,20 @@ func addCompatibilityComments(defs astmodel.TypeDefinitionSet) (astmodel.TypeDef
 		name := def.Name()
 		desc := []string{
 			fmt.Sprintf(
-				"Backward compatibility type for %s.%s",
+				"Deprecated version of %s. Use %s.%s instead",
+				name.Name(),
 				name.PackageReference.PackageName(),
 				name.Name()),
 		}
 
-		t, err := visitor.Visit(def.Type(), nil)
-		if err != nil {
-			errs = append(errs, err)
-			continue
-		}
+		//t, err := visitor.Visit(def.Type(), nil)
+		//if err != nil {
+		//	errs = append(errs, err)
+		//	continue
+		//}
 
-		result.Add(def.WithType(t).WithDescription(desc))
+		//result.Add(def.WithType(t).WithDescription(desc))
+		result.Add(def.WithDescription(desc))
 	}
 
 	if len(errs) > 0 {
@@ -106,14 +111,14 @@ func addCompatibilityComments(defs astmodel.TypeDefinitionSet) (astmodel.TypeDef
 	return result, nil
 }
 
-func removePropertyDescriptions(ot *astmodel.ObjectType) astmodel.Type {
-	result := ot
-	for _, property := range ot.Properties() {
-		result = result.WithProperty(property.WithDescription(""))
-	}
-
-	return result
-}
+//func removePropertyDescriptions(ot *astmodel.ObjectType) astmodel.Type {
+//	result := ot
+//	for _, property := range ot.Properties() {
+//		result = result.WithProperty(property.WithDescription(""))
+//	}
+//
+//	return result
+//}
 
 func createBackwardCompatibilityRenameMap(
 	set astmodel.TypeDefinitionSet,
