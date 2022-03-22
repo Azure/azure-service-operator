@@ -107,7 +107,7 @@ func RegisterAll(
 
 	options.setDefaults()
 
-	reconciledResourceLookup, err := MakeResourceGVKLookup(mgr, objs)
+	reconciledResourceLookup, err := MakeResourceStorageTypeLookup(mgr, objs)
 	if err != nil {
 		return err
 	}
@@ -223,9 +223,9 @@ func register(
 	return nil
 }
 
-// MakeResourceGVKLookup creates a map of schema.GroupKind to schema.GroupVersionKind. This can be used to look up
-// the version of a GroupKind that is being reconciled.
-func MakeResourceGVKLookup(mgr ctrl.Manager, objs []*registration.StorageType) (map[schema.GroupKind]schema.GroupVersionKind, error) {
+// MakeResourceStorageTypeLookup creates a map of schema.GroupKind to schema.GroupVersionKind. This can be used to look
+// up the storage version of any resource given the GroupKind that is being reconciled.
+func MakeResourceStorageTypeLookup(mgr ctrl.Manager, objs []*registration.StorageType) (map[schema.GroupKind]schema.GroupVersionKind, error) {
 	result := make(map[schema.GroupKind]schema.GroupVersionKind)
 
 	for _, obj := range objs {
@@ -235,7 +235,12 @@ func MakeResourceGVKLookup(mgr ctrl.Manager, objs []*registration.StorageType) (
 		}
 		groupKind := schema.GroupKind{Group: gvk.Group, Kind: gvk.Kind}
 		if existing, ok := result[groupKind]; ok {
-			return nil, errors.Errorf("somehow group: %q, kind: %q was already registered with version %q", gvk.Group, gvk.Kind, existing.Version)
+			return nil, errors.Errorf(
+				"group: %q, kind: %q already has registered storage version %q, but found %q as well",
+				gvk.Group,
+				gvk.Kind,
+				existing.Version,
+				gvk.Version)
 		}
 		result[groupKind] = gvk
 	}

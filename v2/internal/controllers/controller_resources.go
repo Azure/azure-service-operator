@@ -25,33 +25,38 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
+	resourcesalpha "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
+	resourcesbeta "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 )
 
 func GetKnownStorageTypes() []*registration.StorageType {
-	knownTypes := getKnownStorageTypes()
+	knownStorageTypes := getKnownStorageTypes()
 
-	knownTypes = append(
-		knownTypes,
-		registration.NewStorageType(new(resources.ResourceGroup)))
+	knownStorageTypes = append(
+		knownStorageTypes,
+		registration.NewStorageType(&resourcesbeta.ResourceGroup{}))
 
-	return knownTypes
+	return knownStorageTypes
 }
 
 func GetKnownTypes() []client.Object {
 	knownTypes := getKnownTypes()
 
-	knownTypes = append(knownTypes, new(resources.ResourceGroup))
+	knownTypes = append(
+		knownTypes,
+		&resourcesalpha.ResourceGroup{},
+		&resourcesbeta.ResourceGroup{})
 
 	return knownTypes
 }
 
 func CreateScheme() *runtime.Scheme {
 	scheme := createScheme()
-	_ = resources.AddToScheme(scheme)
+	_ = resourcesalpha.AddToScheme(scheme)
+	_ = resourcesbeta.AddToScheme(scheme)
 
 	return scheme
 }
