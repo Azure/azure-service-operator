@@ -50,7 +50,7 @@ var _ conversion.Convertible = &Disk{}
 func (disk *Disk) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20200930storage.Disk)
 	if !ok {
-		return fmt.Errorf("expected storage:compute/v1alpha1api20200930storage/Disk but received %T instead", hub)
+		return fmt.Errorf("expected compute/v1alpha1api20200930storage/Disk but received %T instead", hub)
 	}
 
 	return disk.AssignPropertiesFromDisk(source)
@@ -60,7 +60,7 @@ func (disk *Disk) ConvertFrom(hub conversion.Hub) error {
 func (disk *Disk) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20200930storage.Disk)
 	if !ok {
-		return fmt.Errorf("expected storage:compute/v1alpha1api20200930storage/Disk but received %T instead", hub)
+		return fmt.Errorf("expected compute/v1alpha1api20200930storage/Disk but received %T instead", hub)
 	}
 
 	return disk.AssignPropertiesToDisk(destination)

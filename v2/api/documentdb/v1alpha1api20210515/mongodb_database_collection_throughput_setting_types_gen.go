@@ -50,7 +50,7 @@ var _ conversion.Convertible = &MongodbDatabaseCollectionThroughputSetting{}
 func (setting *MongodbDatabaseCollectionThroughputSetting) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210515storage.MongodbDatabaseCollectionThroughputSetting)
 	if !ok {
-		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/MongodbDatabaseCollectionThroughputSetting but received %T instead", hub)
+		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/MongodbDatabaseCollectionThroughputSetting but received %T instead", hub)
 	}
 
 	return setting.AssignPropertiesFromMongodbDatabaseCollectionThroughputSetting(source)
@@ -60,7 +60,7 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) ConvertFrom(hub conve
 func (setting *MongodbDatabaseCollectionThroughputSetting) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210515storage.MongodbDatabaseCollectionThroughputSetting)
 	if !ok {
-		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/MongodbDatabaseCollectionThroughputSetting but received %T instead", hub)
+		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/MongodbDatabaseCollectionThroughputSetting but received %T instead", hub)
 	}
 
 	return setting.AssignPropertiesToMongodbDatabaseCollectionThroughputSetting(destination)

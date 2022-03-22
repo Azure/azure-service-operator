@@ -51,7 +51,7 @@ var _ conversion.Convertible = &ManagedCluster{}
 func (cluster *ManagedCluster) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210501storage.ManagedCluster)
 	if !ok {
-		return fmt.Errorf("expected storage:containerservice/v1alpha1api20210501storage/ManagedCluster but received %T instead", hub)
+		return fmt.Errorf("expected containerservice/v1alpha1api20210501storage/ManagedCluster but received %T instead", hub)
 	}
 
 	return cluster.AssignPropertiesFromManagedCluster(source)
@@ -61,7 +61,7 @@ func (cluster *ManagedCluster) ConvertFrom(hub conversion.Hub) error {
 func (cluster *ManagedCluster) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210501storage.ManagedCluster)
 	if !ok {
-		return fmt.Errorf("expected storage:containerservice/v1alpha1api20210501storage/ManagedCluster but received %T instead", hub)
+		return fmt.Errorf("expected containerservice/v1alpha1api20210501storage/ManagedCluster but received %T instead", hub)
 	}
 
 	return cluster.AssignPropertiesToManagedCluster(destination)

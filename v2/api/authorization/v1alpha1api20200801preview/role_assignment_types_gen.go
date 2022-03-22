@@ -50,7 +50,7 @@ var _ conversion.Convertible = &RoleAssignment{}
 func (assignment *RoleAssignment) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20200801previewstorage.RoleAssignment)
 	if !ok {
-		return fmt.Errorf("expected storage:authorization/v1alpha1api20200801previewstorage/RoleAssignment but received %T instead", hub)
+		return fmt.Errorf("expected authorization/v1alpha1api20200801previewstorage/RoleAssignment but received %T instead", hub)
 	}
 
 	return assignment.AssignPropertiesFromRoleAssignment(source)
@@ -60,7 +60,7 @@ func (assignment *RoleAssignment) ConvertFrom(hub conversion.Hub) error {
 func (assignment *RoleAssignment) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20200801previewstorage.RoleAssignment)
 	if !ok {
-		return fmt.Errorf("expected storage:authorization/v1alpha1api20200801previewstorage/RoleAssignment but received %T instead", hub)
+		return fmt.Errorf("expected authorization/v1alpha1api20200801previewstorage/RoleAssignment but received %T instead", hub)
 	}
 
 	return assignment.AssignPropertiesToRoleAssignment(destination)

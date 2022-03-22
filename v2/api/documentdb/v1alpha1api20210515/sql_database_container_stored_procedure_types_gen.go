@@ -50,7 +50,7 @@ var _ conversion.Convertible = &SqlDatabaseContainerStoredProcedure{}
 func (procedure *SqlDatabaseContainerStoredProcedure) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210515storage.SqlDatabaseContainerStoredProcedure)
 	if !ok {
-		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/SqlDatabaseContainerStoredProcedure but received %T instead", hub)
+		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/SqlDatabaseContainerStoredProcedure but received %T instead", hub)
 	}
 
 	return procedure.AssignPropertiesFromSqlDatabaseContainerStoredProcedure(source)
@@ -60,7 +60,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) ConvertFrom(hub conversion
 func (procedure *SqlDatabaseContainerStoredProcedure) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210515storage.SqlDatabaseContainerStoredProcedure)
 	if !ok {
-		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/SqlDatabaseContainerStoredProcedure but received %T instead", hub)
+		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/SqlDatabaseContainerStoredProcedure but received %T instead", hub)
 	}
 
 	return procedure.AssignPropertiesToSqlDatabaseContainerStoredProcedure(destination)

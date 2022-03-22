@@ -51,7 +51,7 @@ var _ conversion.Convertible = &SignalR{}
 func (signalR *SignalR) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20211001storage.SignalR)
 	if !ok {
-		return fmt.Errorf("expected storage:signalrservice/v1alpha1api20211001storage/SignalR but received %T instead", hub)
+		return fmt.Errorf("expected signalrservice/v1alpha1api20211001storage/SignalR but received %T instead", hub)
 	}
 
 	return signalR.AssignPropertiesFromSignalR(source)
@@ -61,7 +61,7 @@ func (signalR *SignalR) ConvertFrom(hub conversion.Hub) error {
 func (signalR *SignalR) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20211001storage.SignalR)
 	if !ok {
-		return fmt.Errorf("expected storage:signalrservice/v1alpha1api20211001storage/SignalR but received %T instead", hub)
+		return fmt.Errorf("expected signalrservice/v1alpha1api20211001storage/SignalR but received %T instead", hub)
 	}
 
 	return signalR.AssignPropertiesToSignalR(destination)

@@ -50,7 +50,7 @@ var _ conversion.Convertible = &RedisFirewallRule{}
 func (rule *RedisFirewallRule) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20201201storage.RedisFirewallRule)
 	if !ok {
-		return fmt.Errorf("expected storage:cache/v1alpha1api20201201storage/RedisFirewallRule but received %T instead", hub)
+		return fmt.Errorf("expected cache/v1alpha1api20201201storage/RedisFirewallRule but received %T instead", hub)
 	}
 
 	return rule.AssignPropertiesFromRedisFirewallRule(source)
@@ -60,7 +60,7 @@ func (rule *RedisFirewallRule) ConvertFrom(hub conversion.Hub) error {
 func (rule *RedisFirewallRule) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20201201storage.RedisFirewallRule)
 	if !ok {
-		return fmt.Errorf("expected storage:cache/v1alpha1api20201201storage/RedisFirewallRule but received %T instead", hub)
+		return fmt.Errorf("expected cache/v1alpha1api20201201storage/RedisFirewallRule but received %T instead", hub)
 	}
 
 	return rule.AssignPropertiesToRedisFirewallRule(destination)

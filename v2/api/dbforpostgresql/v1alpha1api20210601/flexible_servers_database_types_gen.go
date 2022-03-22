@@ -50,7 +50,7 @@ var _ conversion.Convertible = &FlexibleServersDatabase{}
 func (database *FlexibleServersDatabase) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210601storage.FlexibleServersDatabase)
 	if !ok {
-		return fmt.Errorf("expected storage:dbforpostgresql/v1alpha1api20210601storage/FlexibleServersDatabase but received %T instead", hub)
+		return fmt.Errorf("expected dbforpostgresql/v1alpha1api20210601storage/FlexibleServersDatabase but received %T instead", hub)
 	}
 
 	return database.AssignPropertiesFromFlexibleServersDatabase(source)
@@ -60,7 +60,7 @@ func (database *FlexibleServersDatabase) ConvertFrom(hub conversion.Hub) error {
 func (database *FlexibleServersDatabase) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210601storage.FlexibleServersDatabase)
 	if !ok {
-		return fmt.Errorf("expected storage:dbforpostgresql/v1alpha1api20210601storage/FlexibleServersDatabase but received %T instead", hub)
+		return fmt.Errorf("expected dbforpostgresql/v1alpha1api20210601storage/FlexibleServersDatabase but received %T instead", hub)
 	}
 
 	return database.AssignPropertiesToFlexibleServersDatabase(destination)

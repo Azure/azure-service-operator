@@ -50,7 +50,7 @@ var _ conversion.Convertible = &StorageAccountsManagementPolicy{}
 func (policy *StorageAccountsManagementPolicy) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210401storage.StorageAccountsManagementPolicy)
 	if !ok {
-		return fmt.Errorf("expected storage:storage/v1alpha1api20210401storage/StorageAccountsManagementPolicy but received %T instead", hub)
+		return fmt.Errorf("expected storage/v1alpha1api20210401storage/StorageAccountsManagementPolicy but received %T instead", hub)
 	}
 
 	return policy.AssignPropertiesFromStorageAccountsManagementPolicy(source)
@@ -60,7 +60,7 @@ func (policy *StorageAccountsManagementPolicy) ConvertFrom(hub conversion.Hub) e
 func (policy *StorageAccountsManagementPolicy) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210401storage.StorageAccountsManagementPolicy)
 	if !ok {
-		return fmt.Errorf("expected storage:storage/v1alpha1api20210401storage/StorageAccountsManagementPolicy but received %T instead", hub)
+		return fmt.Errorf("expected storage/v1alpha1api20210401storage/StorageAccountsManagementPolicy but received %T instead", hub)
 	}
 
 	return policy.AssignPropertiesToStorageAccountsManagementPolicy(destination)

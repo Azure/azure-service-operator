@@ -46,7 +46,7 @@ var _ conversion.Convertible = &A{}
 func (a *A) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20200101storage.A)
 	if !ok {
-		return fmt.Errorf("expected storage:test/v1alpha1api20200101storage/A but received %T instead", hub)
+		return fmt.Errorf("expected test/v1alpha1api20200101storage/A but received %T instead", hub)
 	}
 
 	return a.AssignPropertiesFromA(source)
@@ -56,7 +56,7 @@ func (a *A) ConvertFrom(hub conversion.Hub) error {
 func (a *A) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20200101storage.A)
 	if !ok {
-		return fmt.Errorf("expected storage:test/v1alpha1api20200101storage/A but received %T instead", hub)
+		return fmt.Errorf("expected test/v1alpha1api20200101storage/A but received %T instead", hub)
 	}
 
 	return a.AssignPropertiesToA(destination)
@@ -307,7 +307,7 @@ var _ conversion.Convertible = &B{}
 func (b *B) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20200101storage.B)
 	if !ok {
-		return fmt.Errorf("expected storage:test/v1alpha1api20200101storage/B but received %T instead", hub)
+		return fmt.Errorf("expected test/v1alpha1api20200101storage/B but received %T instead", hub)
 	}
 
 	return b.AssignPropertiesFromB(source)
@@ -317,7 +317,7 @@ func (b *B) ConvertFrom(hub conversion.Hub) error {
 func (b *B) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20200101storage.B)
 	if !ok {
-		return fmt.Errorf("expected storage:test/v1alpha1api20200101storage/B but received %T instead", hub)
+		return fmt.Errorf("expected test/v1alpha1api20200101storage/B but received %T instead", hub)
 	}
 
 	return b.AssignPropertiesToB(destination)
@@ -568,7 +568,7 @@ var _ conversion.Convertible = &C{}
 func (c *C) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20200101storage.C)
 	if !ok {
-		return fmt.Errorf("expected storage:test/v1alpha1api20200101storage/C but received %T instead", hub)
+		return fmt.Errorf("expected test/v1alpha1api20200101storage/C but received %T instead", hub)
 	}
 
 	return c.AssignPropertiesFromC(source)
@@ -578,7 +578,7 @@ func (c *C) ConvertFrom(hub conversion.Hub) error {
 func (c *C) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20200101storage.C)
 	if !ok {
-		return fmt.Errorf("expected storage:test/v1alpha1api20200101storage/C but received %T instead", hub)
+		return fmt.Errorf("expected test/v1alpha1api20200101storage/C but received %T instead", hub)
 	}
 
 	return c.AssignPropertiesToC(destination)
@@ -829,7 +829,7 @@ var _ conversion.Convertible = &D{}
 func (d *D) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20200101storage.D)
 	if !ok {
-		return fmt.Errorf("expected storage:test/v1alpha1api20200101storage/D but received %T instead", hub)
+		return fmt.Errorf("expected test/v1alpha1api20200101storage/D but received %T instead", hub)
 	}
 
 	return d.AssignPropertiesFromD(source)
@@ -839,7 +839,7 @@ func (d *D) ConvertFrom(hub conversion.Hub) error {
 func (d *D) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20200101storage.D)
 	if !ok {
-		return fmt.Errorf("expected storage:test/v1alpha1api20200101storage/D but received %T instead", hub)
+		return fmt.Errorf("expected test/v1alpha1api20200101storage/D but received %T instead", hub)
 	}
 
 	return d.AssignPropertiesToD(destination)

@@ -50,7 +50,7 @@ var _ conversion.Convertible = &Registry{}
 func (registry *Registry) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210901storage.Registry)
 	if !ok {
-		return fmt.Errorf("expected storage:containerregistry/v1alpha1api20210901storage/Registry but received %T instead", hub)
+		return fmt.Errorf("expected containerregistry/v1alpha1api20210901storage/Registry but received %T instead", hub)
 	}
 
 	return registry.AssignPropertiesFromRegistry(source)
@@ -60,7 +60,7 @@ func (registry *Registry) ConvertFrom(hub conversion.Hub) error {
 func (registry *Registry) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210901storage.Registry)
 	if !ok {
-		return fmt.Errorf("expected storage:containerregistry/v1alpha1api20210901storage/Registry but received %T instead", hub)
+		return fmt.Errorf("expected containerregistry/v1alpha1api20210901storage/Registry but received %T instead", hub)
 	}
 
 	return registry.AssignPropertiesToRegistry(destination)

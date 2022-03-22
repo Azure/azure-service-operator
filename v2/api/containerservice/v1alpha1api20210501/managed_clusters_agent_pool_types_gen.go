@@ -50,7 +50,7 @@ var _ conversion.Convertible = &ManagedClustersAgentPool{}
 func (pool *ManagedClustersAgentPool) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210501storage.ManagedClustersAgentPool)
 	if !ok {
-		return fmt.Errorf("expected storage:containerservice/v1alpha1api20210501storage/ManagedClustersAgentPool but received %T instead", hub)
+		return fmt.Errorf("expected containerservice/v1alpha1api20210501storage/ManagedClustersAgentPool but received %T instead", hub)
 	}
 
 	return pool.AssignPropertiesFromManagedClustersAgentPool(source)
@@ -60,7 +60,7 @@ func (pool *ManagedClustersAgentPool) ConvertFrom(hub conversion.Hub) error {
 func (pool *ManagedClustersAgentPool) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210501storage.ManagedClustersAgentPool)
 	if !ok {
-		return fmt.Errorf("expected storage:containerservice/v1alpha1api20210501storage/ManagedClustersAgentPool but received %T instead", hub)
+		return fmt.Errorf("expected containerservice/v1alpha1api20210501storage/ManagedClustersAgentPool but received %T instead", hub)
 	}
 
 	return pool.AssignPropertiesToManagedClustersAgentPool(destination)
