@@ -110,12 +110,14 @@ func (b *GroupConversionGraphBuilder) previewReferencesConvertBackward(refs []as
 // By the time we run this stage, we should only have non-preview (aka GA) releases left
 func (b *GroupConversionGraphBuilder) nonPreviewReferencesConvertForward(refs []astmodel.PackageReference) {
 	for i, ref := range refs {
-		if i == 0 {
-			continue
+		// Links are created from the current index to the next;
+		// if we're at the end of the sequence, there's nothing to do.
+		if i+1 >= len(refs) {
+			break
 		}
 
-		prior := refs[i-1]
-		b.links[prior] = ref
+		next := refs[i+1]
+		b.links[ref] = next
 	}
 }
 
