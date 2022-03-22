@@ -237,7 +237,7 @@ func (status *ResourceGroupStatus) PopulateFromARM(owner genruntime.ArbitraryOwn
 	status.ManagedBy = typedInput.ManagedBy
 	status.Name = typedInput.Name
 	status.Tags = typedInput.Tags
-	// Set property ‘AccessTier’:
+
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		status.ProvisioningState = typedInput.Properties.ProvisioningState

@@ -179,7 +179,7 @@ func (status *ResourceGroupStatus) PopulateFromARM(owner genruntime.ArbitraryOwn
 	status.ManagedBy = typedInput.ManagedBy
 	status.Name = typedInput.Name
 	status.Tags = typedInput.Tags
-	// Set property ‘AccessTier’:
+
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		status.ProvisioningState = typedInput.Properties.ProvisioningState
@@ -188,7 +188,7 @@ func (status *ResourceGroupStatus) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-// ConvertSpecTo copies information from the current instance onto the supplied destination
+// ConvertStatusTo copies information from the current instance onto the supplied destination
 func (status *ResourceGroupStatus) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	dst, ok := destination.(*ResourceGroupStatus)
 	if !ok {
@@ -215,7 +215,7 @@ func (status *ResourceGroupStatus) ConvertStatusTo(destination genruntime.Conver
 	return nil
 }
 
-// ConvertSpecFrom copies information from the supplied source onto the current instance
+// ConvertStatusFrom copies information from the supplied source onto the current instance
 func (status *ResourceGroupStatus) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	src, ok := source.(*ResourceGroupStatus)
 	if !ok {

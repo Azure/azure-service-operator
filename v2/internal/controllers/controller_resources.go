@@ -18,7 +18,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 	"github.com/go-logr/logr"
-	coreV1 "k8s.io/api/core/v1"
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -102,7 +102,7 @@ func watchSecrets(c client.Client, log logr.Logger, keys []string, objList clien
 
 	return func(o client.Object) []reconcile.Request {
 		// Safety check that we're looking at a secret
-		if _, ok := o.(*coreV1.Secret); !ok {
+		if _, ok := o.(*corev1.Secret); !ok {
 			log.V(Status).Info("Unexpected non-secret", "namespace", o.GetNamespace(), "name", o.GetName(), "actual", fmt.Sprintf("%T", o))
 			return nil
 		}
