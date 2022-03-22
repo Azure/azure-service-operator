@@ -50,7 +50,7 @@ var _ conversion.Convertible = &LoadBalancer{}
 func (balancer *LoadBalancer) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20201101storage.LoadBalancer)
 	if !ok {
-		return fmt.Errorf("expected storage:network/v1alpha1api20201101storage/LoadBalancer but received %T instead", hub)
+		return fmt.Errorf("expected network/v1alpha1api20201101storage/LoadBalancer but received %T instead", hub)
 	}
 
 	return balancer.AssignPropertiesFromLoadBalancer(source)
@@ -60,7 +60,7 @@ func (balancer *LoadBalancer) ConvertFrom(hub conversion.Hub) error {
 func (balancer *LoadBalancer) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20201101storage.LoadBalancer)
 	if !ok {
-		return fmt.Errorf("expected storage:network/v1alpha1api20201101storage/LoadBalancer but received %T instead", hub)
+		return fmt.Errorf("expected network/v1alpha1api20201101storage/LoadBalancer but received %T instead", hub)
 	}
 
 	return balancer.AssignPropertiesToLoadBalancer(destination)

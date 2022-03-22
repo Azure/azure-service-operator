@@ -50,7 +50,7 @@ var _ conversion.Convertible = &VirtualNetworkGateway{}
 func (gateway *VirtualNetworkGateway) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20201101storage.VirtualNetworkGateway)
 	if !ok {
-		return fmt.Errorf("expected storage:network/v1alpha1api20201101storage/VirtualNetworkGateway but received %T instead", hub)
+		return fmt.Errorf("expected network/v1alpha1api20201101storage/VirtualNetworkGateway but received %T instead", hub)
 	}
 
 	return gateway.AssignPropertiesFromVirtualNetworkGateway(source)
@@ -60,7 +60,7 @@ func (gateway *VirtualNetworkGateway) ConvertFrom(hub conversion.Hub) error {
 func (gateway *VirtualNetworkGateway) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20201101storage.VirtualNetworkGateway)
 	if !ok {
-		return fmt.Errorf("expected storage:network/v1alpha1api20201101storage/VirtualNetworkGateway but received %T instead", hub)
+		return fmt.Errorf("expected network/v1alpha1api20201101storage/VirtualNetworkGateway but received %T instead", hub)
 	}
 
 	return gateway.AssignPropertiesToVirtualNetworkGateway(destination)

@@ -48,7 +48,7 @@ var _ conversion.Convertible = &AResource{}
 func (resource *AResource) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20200101storage.AResource)
 	if !ok {
-		return fmt.Errorf("expected storage:test/v1alpha1api20200101storage/AResource but received %T instead", hub)
+		return fmt.Errorf("expected test/v1alpha1api20200101storage/AResource but received %T instead", hub)
 	}
 
 	return resource.AssignPropertiesFromAResource(source)
@@ -58,7 +58,7 @@ func (resource *AResource) ConvertFrom(hub conversion.Hub) error {
 func (resource *AResource) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20200101storage.AResource)
 	if !ok {
-		return fmt.Errorf("expected storage:test/v1alpha1api20200101storage/AResource but received %T instead", hub)
+		return fmt.Errorf("expected test/v1alpha1api20200101storage/AResource but received %T instead", hub)
 	}
 
 	return resource.AssignPropertiesToAResource(destination)

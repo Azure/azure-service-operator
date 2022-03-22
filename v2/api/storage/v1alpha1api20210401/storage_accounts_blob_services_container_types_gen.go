@@ -50,7 +50,7 @@ var _ conversion.Convertible = &StorageAccountsBlobServicesContainer{}
 func (container *StorageAccountsBlobServicesContainer) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210401storage.StorageAccountsBlobServicesContainer)
 	if !ok {
-		return fmt.Errorf("expected storage:storage/v1alpha1api20210401storage/StorageAccountsBlobServicesContainer but received %T instead", hub)
+		return fmt.Errorf("expected storage/v1alpha1api20210401storage/StorageAccountsBlobServicesContainer but received %T instead", hub)
 	}
 
 	return container.AssignPropertiesFromStorageAccountsBlobServicesContainer(source)
@@ -60,7 +60,7 @@ func (container *StorageAccountsBlobServicesContainer) ConvertFrom(hub conversio
 func (container *StorageAccountsBlobServicesContainer) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210401storage.StorageAccountsBlobServicesContainer)
 	if !ok {
-		return fmt.Errorf("expected storage:storage/v1alpha1api20210401storage/StorageAccountsBlobServicesContainer but received %T instead", hub)
+		return fmt.Errorf("expected storage/v1alpha1api20210401storage/StorageAccountsBlobServicesContainer but received %T instead", hub)
 	}
 
 	return container.AssignPropertiesToStorageAccountsBlobServicesContainer(destination)

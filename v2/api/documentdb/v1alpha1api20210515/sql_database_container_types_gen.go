@@ -50,7 +50,7 @@ var _ conversion.Convertible = &SqlDatabaseContainer{}
 func (container *SqlDatabaseContainer) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210515storage.SqlDatabaseContainer)
 	if !ok {
-		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/SqlDatabaseContainer but received %T instead", hub)
+		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/SqlDatabaseContainer but received %T instead", hub)
 	}
 
 	return container.AssignPropertiesFromSqlDatabaseContainer(source)
@@ -60,7 +60,7 @@ func (container *SqlDatabaseContainer) ConvertFrom(hub conversion.Hub) error {
 func (container *SqlDatabaseContainer) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210515storage.SqlDatabaseContainer)
 	if !ok {
-		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/SqlDatabaseContainer but received %T instead", hub)
+		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/SqlDatabaseContainer but received %T instead", hub)
 	}
 
 	return container.AssignPropertiesToSqlDatabaseContainer(destination)

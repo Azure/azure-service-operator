@@ -50,7 +50,7 @@ var _ conversion.Convertible = &Snapshot{}
 func (snapshot *Snapshot) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20200930storage.Snapshot)
 	if !ok {
-		return fmt.Errorf("expected storage:compute/v1alpha1api20200930storage/Snapshot but received %T instead", hub)
+		return fmt.Errorf("expected compute/v1alpha1api20200930storage/Snapshot but received %T instead", hub)
 	}
 
 	return snapshot.AssignPropertiesFromSnapshot(source)
@@ -60,7 +60,7 @@ func (snapshot *Snapshot) ConvertFrom(hub conversion.Hub) error {
 func (snapshot *Snapshot) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20200930storage.Snapshot)
 	if !ok {
-		return fmt.Errorf("expected storage:compute/v1alpha1api20200930storage/Snapshot but received %T instead", hub)
+		return fmt.Errorf("expected compute/v1alpha1api20200930storage/Snapshot but received %T instead", hub)
 	}
 
 	return snapshot.AssignPropertiesToSnapshot(destination)

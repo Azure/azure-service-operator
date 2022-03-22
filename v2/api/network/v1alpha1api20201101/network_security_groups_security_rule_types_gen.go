@@ -50,7 +50,7 @@ var _ conversion.Convertible = &NetworkSecurityGroupsSecurityRule{}
 func (rule *NetworkSecurityGroupsSecurityRule) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20201101storage.NetworkSecurityGroupsSecurityRule)
 	if !ok {
-		return fmt.Errorf("expected storage:network/v1alpha1api20201101storage/NetworkSecurityGroupsSecurityRule but received %T instead", hub)
+		return fmt.Errorf("expected network/v1alpha1api20201101storage/NetworkSecurityGroupsSecurityRule but received %T instead", hub)
 	}
 
 	return rule.AssignPropertiesFromNetworkSecurityGroupsSecurityRule(source)
@@ -60,7 +60,7 @@ func (rule *NetworkSecurityGroupsSecurityRule) ConvertFrom(hub conversion.Hub) e
 func (rule *NetworkSecurityGroupsSecurityRule) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20201101storage.NetworkSecurityGroupsSecurityRule)
 	if !ok {
-		return fmt.Errorf("expected storage:network/v1alpha1api20201101storage/NetworkSecurityGroupsSecurityRule but received %T instead", hub)
+		return fmt.Errorf("expected network/v1alpha1api20201101storage/NetworkSecurityGroupsSecurityRule but received %T instead", hub)
 	}
 
 	return rule.AssignPropertiesToNetworkSecurityGroupsSecurityRule(destination)

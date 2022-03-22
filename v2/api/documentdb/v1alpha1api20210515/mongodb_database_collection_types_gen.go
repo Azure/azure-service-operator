@@ -50,7 +50,7 @@ var _ conversion.Convertible = &MongodbDatabaseCollection{}
 func (collection *MongodbDatabaseCollection) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210515storage.MongodbDatabaseCollection)
 	if !ok {
-		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/MongodbDatabaseCollection but received %T instead", hub)
+		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/MongodbDatabaseCollection but received %T instead", hub)
 	}
 
 	return collection.AssignPropertiesFromMongodbDatabaseCollection(source)
@@ -60,7 +60,7 @@ func (collection *MongodbDatabaseCollection) ConvertFrom(hub conversion.Hub) err
 func (collection *MongodbDatabaseCollection) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210515storage.MongodbDatabaseCollection)
 	if !ok {
-		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/MongodbDatabaseCollection but received %T instead", hub)
+		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/MongodbDatabaseCollection but received %T instead", hub)
 	}
 
 	return collection.AssignPropertiesToMongodbDatabaseCollection(destination)

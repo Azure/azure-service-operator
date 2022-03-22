@@ -50,7 +50,7 @@ var _ conversion.Convertible = &SqlDatabaseContainerTrigger{}
 func (trigger *SqlDatabaseContainerTrigger) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210515storage.SqlDatabaseContainerTrigger)
 	if !ok {
-		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/SqlDatabaseContainerTrigger but received %T instead", hub)
+		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/SqlDatabaseContainerTrigger but received %T instead", hub)
 	}
 
 	return trigger.AssignPropertiesFromSqlDatabaseContainerTrigger(source)
@@ -60,7 +60,7 @@ func (trigger *SqlDatabaseContainerTrigger) ConvertFrom(hub conversion.Hub) erro
 func (trigger *SqlDatabaseContainerTrigger) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210515storage.SqlDatabaseContainerTrigger)
 	if !ok {
-		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/SqlDatabaseContainerTrigger but received %T instead", hub)
+		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/SqlDatabaseContainerTrigger but received %T instead", hub)
 	}
 
 	return trigger.AssignPropertiesToSqlDatabaseContainerTrigger(destination)

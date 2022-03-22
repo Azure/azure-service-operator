@@ -50,7 +50,7 @@ var _ conversion.Convertible = &PublicIPAddress{}
 func (address *PublicIPAddress) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20201101storage.PublicIPAddress)
 	if !ok {
-		return fmt.Errorf("expected storage:network/v1alpha1api20201101storage/PublicIPAddress but received %T instead", hub)
+		return fmt.Errorf("expected network/v1alpha1api20201101storage/PublicIPAddress but received %T instead", hub)
 	}
 
 	return address.AssignPropertiesFromPublicIPAddress(source)
@@ -60,7 +60,7 @@ func (address *PublicIPAddress) ConvertFrom(hub conversion.Hub) error {
 func (address *PublicIPAddress) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20201101storage.PublicIPAddress)
 	if !ok {
-		return fmt.Errorf("expected storage:network/v1alpha1api20201101storage/PublicIPAddress but received %T instead", hub)
+		return fmt.Errorf("expected network/v1alpha1api20201101storage/PublicIPAddress but received %T instead", hub)
 	}
 
 	return address.AssignPropertiesToPublicIPAddress(destination)

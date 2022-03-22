@@ -51,7 +51,7 @@ var _ conversion.Convertible = &Workspace{}
 func (workspace *Workspace) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210601storage.Workspace)
 	if !ok {
-		return fmt.Errorf("expected storage:operationalinsights/v1alpha1api20210601storage/Workspace but received %T instead", hub)
+		return fmt.Errorf("expected operationalinsights/v1alpha1api20210601storage/Workspace but received %T instead", hub)
 	}
 
 	return workspace.AssignPropertiesFromWorkspace(source)
@@ -61,7 +61,7 @@ func (workspace *Workspace) ConvertFrom(hub conversion.Hub) error {
 func (workspace *Workspace) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210601storage.Workspace)
 	if !ok {
-		return fmt.Errorf("expected storage:operationalinsights/v1alpha1api20210601storage/Workspace but received %T instead", hub)
+		return fmt.Errorf("expected operationalinsights/v1alpha1api20210601storage/Workspace but received %T instead", hub)
 	}
 
 	return workspace.AssignPropertiesToWorkspace(destination)

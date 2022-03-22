@@ -50,7 +50,7 @@ var _ conversion.Convertible = &Namespace{}
 func (namespace *Namespace) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20211101storage.Namespace)
 	if !ok {
-		return fmt.Errorf("expected storage:eventhub/v1alpha1api20211101storage/Namespace but received %T instead", hub)
+		return fmt.Errorf("expected eventhub/v1alpha1api20211101storage/Namespace but received %T instead", hub)
 	}
 
 	return namespace.AssignPropertiesFromNamespace(source)
@@ -60,7 +60,7 @@ func (namespace *Namespace) ConvertFrom(hub conversion.Hub) error {
 func (namespace *Namespace) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20211101storage.Namespace)
 	if !ok {
-		return fmt.Errorf("expected storage:eventhub/v1alpha1api20211101storage/Namespace but received %T instead", hub)
+		return fmt.Errorf("expected eventhub/v1alpha1api20211101storage/Namespace but received %T instead", hub)
 	}
 
 	return namespace.AssignPropertiesToNamespace(destination)
