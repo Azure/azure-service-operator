@@ -71,8 +71,6 @@ func (r *azureDeploymentReconcilerInstance) CreateOrUpdate(ctx context.Context) 
 	if err != nil {
 		r.Log.Error(err, "Error during CreateOrUpdate", "action", action)
 		r.Recorder.Event(r.Obj, v1.EventTypeWarning, "CreateOrUpdateActionError", err.Error())
-		metrics.RecordAzureFailedRequestsTotalPUT(r.Obj.GetName())
-
 		return ctrl.Result{}, err
 	}
 
@@ -97,17 +95,15 @@ func (r *azureDeploymentReconcilerInstance) Delete(ctx context.Context) (ctrl.Re
 	r.Log.V(Verbose).Info("Deleting Azure resource", "action", action)
 
 	result, err := actionFunc(ctx)
-	metrics.RecordAzureRequestsTotalDELETE(r.Obj.GetName())
 
 	if err != nil {
 		r.Log.Error(err, "Error during Delete", "action", action)
 		r.Recorder.Event(r.Obj, v1.EventTypeWarning, "DeleteActionError", err.Error())
-
 		return ctrl.Result{}, err
 	}
 
 	if result.Requeue || result.RequeueAfter > 0 {
-		metrics.RecordRequeueTotalPUT(r.Obj.GetName())
+		metrics.RecordRequeueTotalDELETE(r.Obj.GetName())
 	}
 
 	return result, nil
