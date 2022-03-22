@@ -36,7 +36,7 @@ func TestInjectHubFunction_WhenResourceIsStorageVersion_GeneratesExpectedFile(t 
 	initialState, err := RunTestPipeline(
 		NewState().WithDefinitions(defs),
 		CreateStorageTypes(),
-		CreateConversionGraph(cfg),
+		CreateConversionGraph(cfg, "v"),
 		MarkLatestStorageVariantAsHubVersion(),
 		InjectHubFunction(idFactory),
 	)
@@ -69,7 +69,7 @@ func TestInjectHubFunction_WhenResourceIsNotStorageVersion_GeneratesExpectedFile
 	initialState, err := RunTestPipeline(
 		NewState().WithDefinitions(defs),
 		CreateStorageTypes(),
-		CreateConversionGraph(cfg),
+		CreateConversionGraph(cfg, "v"),
 		MarkLatestStorageVariantAsHubVersion(),
 		InjectHubFunction(idFactory),
 	)

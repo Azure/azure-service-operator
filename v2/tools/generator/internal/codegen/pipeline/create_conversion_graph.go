@@ -20,7 +20,9 @@ const CreateConversionGraphStageId = "createConversionGraph"
 
 // CreateConversionGraph walks the set of available types and creates a graph of conversions that will be used to
 // convert resources to/from the designated storage (or hub) version
-func CreateConversionGraph(configuration *config.Configuration) *Stage {
+func CreateConversionGraph(
+	configuration *config.Configuration,
+	generatorPrefix string) *Stage {
 	stage := NewStage(
 		CreateConversionGraphStageId,
 		"Create the graph of conversions between versions of each resource group",
@@ -31,7 +33,8 @@ func CreateConversionGraph(configuration *config.Configuration) *Stage {
 				allReferences.AddReference(def.Name().PackageReference)
 			}
 
-			builder := storage.NewConversionGraphBuilder(configuration.ObjectModelConfiguration)
+			builder := storage.NewConversionGraphBuilder(
+				configuration.ObjectModelConfiguration, generatorPrefix)
 			builder.AddAll(allReferences)
 			graph, err := builder.Build()
 			if err != nil {

@@ -24,7 +24,7 @@ func TestConversionGraph_WithTwoUnrelatedReferences_HasExpectedTransitions(t *te
 	g := NewGomegaWithT(t)
 
 	omc := config.NewObjectModelConfiguration()
-	builder := NewConversionGraphBuilder(omc)
+	builder := NewConversionGraphBuilder(omc, "v")
 	builder.Add(test.Pkg2020, test.Pkg2020s)
 	builder.Add(test.BatchPkg2020, test.BatchPkg2020s)
 	graph, err := builder.Build()
@@ -72,7 +72,7 @@ func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) 
 
 	// Create a builder use it to configure a graph to test
 	omc := config.NewObjectModelConfiguration()
-	builder := NewConversionGraphBuilder(omc)
+	builder := NewConversionGraphBuilder(omc, "v")
 	builder.Add(test.Pkg2020, test.Pkg2020s)
 	builder.Add(test.Pkg2021, test.Pkg2021s)
 	builder.Add(test.Pkg2022, test.Pkg2022s)
@@ -136,7 +136,7 @@ func Test_ConversionGraph_WhenRenameConfigured_FindsRenamedType(t *testing.T) {
 	omc := config.CreateTestObjectModelConfigurationForRename(person2020.Name(), party2021.Name().Name())
 
 	// Create a builder use it to configure a graph to test
-	builder := NewConversionGraphBuilder(omc)
+	builder := NewConversionGraphBuilder(omc, "v")
 	builder.Add(test.Pkg2020, test.Pkg2020s)
 	builder.Add(test.Pkg2021, test.Pkg2021s)
 
@@ -169,7 +169,7 @@ func Test_ConversionGraph_WhenRenameSpecifiesMissingType_ReturnsError(t *testing
 	omc := config.CreateTestObjectModelConfigurationForRename(person2020.Name(), "Phantom")
 
 	// Create a builder use it to configure a graph to test
-	builder := NewConversionGraphBuilder(omc)
+	builder := NewConversionGraphBuilder(omc, "v")
 	builder.Add(test.Pkg2020, test.Pkg2020s)
 	builder.Add(test.Pkg2021, test.Pkg2021s)
 
@@ -205,7 +205,7 @@ func Test_ConversionGraph_WhenRenameSpecifiesConflictingType_ReturnsError(t *tes
 	omc := config.CreateTestObjectModelConfigurationForRename(person2020.Name(), party2021.Name().Name())
 
 	// Create a builder use it to configure a graph to test
-	builder := NewConversionGraphBuilder(omc)
+	builder := NewConversionGraphBuilder(omc, "v")
 	builder.Add(test.Pkg2020, test.Pkg2020s)
 	builder.Add(test.Pkg2021, test.Pkg2021s)
 
