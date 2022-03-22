@@ -31,6 +31,10 @@ func Test_MySQL_Secret_Updated(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 
+	// Force this test to run in a region that is not capacity constrained.
+	// location := tc.AzureRegion TODO: Uncomment this line when West US 2 is no longer constrained
+	location := to.StringPtr("West US")
+
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	adminUsername := "myadmin"
@@ -54,7 +58,7 @@ func Test_MySQL_Secret_Updated(t *testing.T) {
 	flexibleServer := &mysql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("mysql"),
 		Spec: mysql.FlexibleServers_Spec{
-			Location: tc.AzureRegion,
+			Location: location,
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
 			Sku: &mysql.Sku{
