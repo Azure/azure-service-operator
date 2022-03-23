@@ -5,18 +5,12 @@ package v1alpha1api20200601
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+//Deprecated version of Domains_Spec. Use v1beta20200601.Domains_Spec instead
 type Domains_SpecARM struct {
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	//Name: Name of the resource
-	Name string `json:"name,omitempty"`
-
-	//Properties: Properties of the Domain.
+	Location   *string              `json:"location,omitempty"`
+	Name       string               `json:"name,omitempty"`
 	Properties *DomainPropertiesARM `json:"properties,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags       map[string]string    `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Domains_SpecARM{}
@@ -36,92 +30,43 @@ func (domains Domains_SpecARM) GetType() string {
 	return "Microsoft.EventGrid/domains"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/DomainProperties
+//Deprecated version of DomainProperties. Use v1beta20200601.DomainProperties instead
 type DomainPropertiesARM struct {
-	//InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
-	//only if PublicNetworkAccess is enabled.
-	InboundIpRules []InboundIpRuleARM `json:"inboundIpRules,omitempty"`
-
-	//InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.
-	InputSchema *DomainPropertiesInputSchema `json:"inputSchema,omitempty"`
-
-	//InputSchemaMapping: By default, Event Grid expects events to be in the Event Grid event schema. Specifying an input
-	//schema mapping enables publishing to Event Grid using a custom input schema. Currently, the only supported type of
-	//InputSchemaMapping is 'JsonInputSchemaMapping'.
-	InputSchemaMapping *JsonInputSchemaMappingARM `json:"inputSchemaMapping,omitempty"`
-
-	//PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
-	//You can further restrict to specific IPs by configuring <seealso
-	//cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />.
+	InboundIpRules      []InboundIpRuleARM                   `json:"inboundIpRules,omitempty"`
+	InputSchema         *DomainPropertiesInputSchema         `json:"inputSchema,omitempty"`
+	InputSchemaMapping  *JsonInputSchemaMappingARM           `json:"inputSchemaMapping,omitempty"`
 	PublicNetworkAccess *DomainPropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/InboundIpRule
+//Deprecated version of InboundIpRule. Use v1beta20200601.InboundIpRule instead
 type InboundIpRuleARM struct {
-	//Action: Action to perform based on the match or no match of the IpMask.
 	Action *InboundIpRuleAction `json:"action,omitempty"`
-
-	//IpMask: IP Address in CIDR notation e.g., 10.0.0.0/8.
-	IpMask *string `json:"ipMask,omitempty"`
+	IpMask *string              `json:"ipMask,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonInputSchemaMapping
+//Deprecated version of JsonInputSchemaMapping. Use v1beta20200601.JsonInputSchemaMapping instead
 type JsonInputSchemaMappingARM struct {
 	InputSchemaMappingType *JsonInputSchemaMappingInputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
-
-	//Properties: This can be used to map properties of a source schema (or default values, for certain supported properties)
-	//to properties of the EventGridEvent schema.
-	Properties *JsonInputSchemaMappingPropertiesARM `json:"properties,omitempty"`
+	Properties             *JsonInputSchemaMappingPropertiesARM          `json:"properties,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonInputSchemaMappingProperties
+//Deprecated version of JsonInputSchemaMappingProperties. Use v1beta20200601.JsonInputSchemaMappingProperties instead
 type JsonInputSchemaMappingPropertiesARM struct {
-	//DataVersion: This is used to express the source of an input schema mapping for a single target field
-	//in the Event Grid Event schema. This is currently used in the mappings for the 'subject',
-	//'eventtype' and 'dataversion' properties. This represents a field in the input event schema
-	//along with a default value to be used, and at least one of these two properties should be provided.
 	DataVersion *JsonFieldWithDefaultARM `json:"dataVersion,omitempty"`
-
-	//EventTime: This is used to express the source of an input schema mapping for a single target field in the Event Grid
-	//Event schema. This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a
-	//field in the input event schema.
-	EventTime *JsonFieldARM `json:"eventTime,omitempty"`
-
-	//EventType: This is used to express the source of an input schema mapping for a single target field
-	//in the Event Grid Event schema. This is currently used in the mappings for the 'subject',
-	//'eventtype' and 'dataversion' properties. This represents a field in the input event schema
-	//along with a default value to be used, and at least one of these two properties should be provided.
-	EventType *JsonFieldWithDefaultARM `json:"eventType,omitempty"`
-
-	//Id: This is used to express the source of an input schema mapping for a single target field in the Event Grid Event
-	//schema. This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a field
-	//in the input event schema.
-	Id *JsonFieldARM `json:"id,omitempty"`
-
-	//Subject: This is used to express the source of an input schema mapping for a single target field
-	//in the Event Grid Event schema. This is currently used in the mappings for the 'subject',
-	//'eventtype' and 'dataversion' properties. This represents a field in the input event schema
-	//along with a default value to be used, and at least one of these two properties should be provided.
-	Subject *JsonFieldWithDefaultARM `json:"subject,omitempty"`
-
-	//Topic: This is used to express the source of an input schema mapping for a single target field in the Event Grid Event
-	//schema. This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a field
-	//in the input event schema.
-	Topic *JsonFieldARM `json:"topic,omitempty"`
+	EventTime   *JsonFieldARM            `json:"eventTime,omitempty"`
+	EventType   *JsonFieldWithDefaultARM `json:"eventType,omitempty"`
+	Id          *JsonFieldARM            `json:"id,omitempty"`
+	Subject     *JsonFieldWithDefaultARM `json:"subject,omitempty"`
+	Topic       *JsonFieldARM            `json:"topic,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonField
+//Deprecated version of JsonField. Use v1beta20200601.JsonField instead
 type JsonFieldARM struct {
-	//SourceField: Name of a field in the input event schema that's to be used as the source of a mapping.
 	SourceField *string `json:"sourceField,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonFieldWithDefault
+//Deprecated version of JsonFieldWithDefault. Use v1beta20200601.JsonFieldWithDefault instead
 type JsonFieldWithDefaultARM struct {
-	//DefaultValue: The default value to be used for mapping when a SourceField is not provided or if there's no property with
-	//the specified name in the published JSON event payload.
 	DefaultValue *string `json:"defaultValue,omitempty"`
-
-	//SourceField: Name of a field in the input event schema that's to be used as the source of a mapping.
-	SourceField *string `json:"sourceField,omitempty"`
+	SourceField  *string `json:"sourceField,omitempty"`
 }
