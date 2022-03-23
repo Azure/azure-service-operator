@@ -5,27 +5,15 @@ package v1alpha1api20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+//Deprecated version of PublicIPAddresses_Spec. Use v1beta20201101.PublicIPAddresses_Spec instead
 type PublicIPAddresses_SpecARM struct {
-	//ExtendedLocation: The extended location of the public ip address.
-	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	//Name: Name of the resource
-	Name string `json:"name,omitempty"`
-
-	//Properties: Public IP address properties.
-	Properties *PublicIPAddressPropertiesFormatARM `json:"properties,omitempty"`
-
-	//Sku: The public IP address SKU.
-	Sku *PublicIPAddressSkuARM `json:"sku,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.
-	Zones []string `json:"zones,omitempty"`
+	ExtendedLocation *ExtendedLocationARM                `json:"extendedLocation,omitempty"`
+	Location         *string                             `json:"location,omitempty"`
+	Name             string                              `json:"name,omitempty"`
+	Properties       *PublicIPAddressPropertiesFormatARM `json:"properties,omitempty"`
+	Sku              *PublicIPAddressSkuARM              `json:"sku,omitempty"`
+	Tags             map[string]string                   `json:"tags,omitempty"`
+	Zones            []string                            `json:"zones,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &PublicIPAddresses_SpecARM{}
@@ -45,81 +33,45 @@ func (addresses PublicIPAddresses_SpecARM) GetType() string {
 	return "Microsoft.Network/publicIPAddresses"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressPropertiesFormat
+//Deprecated version of PublicIPAddressPropertiesFormat. Use v1beta20201101.PublicIPAddressPropertiesFormat instead
 type PublicIPAddressPropertiesFormatARM struct {
-	//DdosSettings: The DDoS protection custom policy associated with the public IP address.
-	DdosSettings *DdosSettingsARM `json:"ddosSettings,omitempty"`
-
-	//DnsSettings: The FQDN of the DNS record associated with the public IP address.
-	DnsSettings *PublicIPAddressDnsSettingsARM `json:"dnsSettings,omitempty"`
-
-	//IdleTimeoutInMinutes: The idle timeout of the public IP address.
-	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
-
-	//IpAddress: The IP address associated with the public IP address resource.
-	IpAddress *string `json:"ipAddress,omitempty"`
-
-	//IpTags: The list of tags associated with the public IP address.
-	IpTags []IpTagARM `json:"ipTags,omitempty"`
-
-	//PublicIPAddressVersion: The public IP address version.
-	PublicIPAddressVersion *PublicIPAddressPropertiesFormatPublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
-
-	//PublicIPAllocationMethod: The public IP address allocation method.
+	DdosSettings             *DdosSettingsARM                                         `json:"ddosSettings,omitempty"`
+	DnsSettings              *PublicIPAddressDnsSettingsARM                           `json:"dnsSettings,omitempty"`
+	IdleTimeoutInMinutes     *int                                                     `json:"idleTimeoutInMinutes,omitempty"`
+	IpAddress                *string                                                  `json:"ipAddress,omitempty"`
+	IpTags                   []IpTagARM                                               `json:"ipTags,omitempty"`
+	PublicIPAddressVersion   *PublicIPAddressPropertiesFormatPublicIPAddressVersion   `json:"publicIPAddressVersion,omitempty"`
 	PublicIPAllocationMethod *PublicIPAddressPropertiesFormatPublicIPAllocationMethod `json:"publicIPAllocationMethod,omitempty"`
-
-	//PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated from.
-	PublicIPPrefix *SubResourceARM `json:"publicIPPrefix,omitempty"`
+	PublicIPPrefix           *SubResourceARM                                          `json:"publicIPPrefix,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressSku
+//Deprecated version of PublicIPAddressSku. Use v1beta20201101.PublicIPAddressSku instead
 type PublicIPAddressSkuARM struct {
-	//Name: Name of a public IP address SKU.
 	Name *PublicIPAddressSkuName `json:"name,omitempty"`
-
-	//Tier: Tier of a public IP address SKU.
 	Tier *PublicIPAddressSkuTier `json:"tier,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DdosSettings
+//Deprecated version of DdosSettings. Use v1beta20201101.DdosSettings instead
 type DdosSettingsARM struct {
-	//DdosCustomPolicy: The DDoS custom policy associated with the public IP.
-	DdosCustomPolicy *SubResourceARM `json:"ddosCustomPolicy,omitempty"`
-
-	//ProtectedIP: Enables DDoS protection on the public IP.
-	ProtectedIP *bool `json:"protectedIP,omitempty"`
-
-	//ProtectionCoverage: The DDoS protection policy customizability of the public IP. Only standard coverage will have the
-	//ability to be customized.
+	DdosCustomPolicy   *SubResourceARM                 `json:"ddosCustomPolicy,omitempty"`
+	ProtectedIP        *bool                           `json:"protectedIP,omitempty"`
 	ProtectionCoverage *DdosSettingsProtectionCoverage `json:"protectionCoverage,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IpTag
+//Deprecated version of IpTag. Use v1beta20201101.IpTag instead
 type IpTagARM struct {
-	//IpTagType: The IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
-
-	//Tag: The value of the IP tag associated with the public IP. Example: SQL.
-	Tag *string `json:"tag,omitempty"`
+	Tag       *string `json:"tag,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressDnsSettings
+//Deprecated version of PublicIPAddressDnsSettings. Use v1beta20201101.PublicIPAddressDnsSettings instead
 type PublicIPAddressDnsSettingsARM struct {
-	//DomainNameLabel: The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up
-	//the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS
-	//record is created for the public IP in the Microsoft Azure DNS system.
 	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
-
-	//Fqdn: The Fully Qualified Domain Name of the A DNS record associated with the public IP. This is the concatenation of
-	//the domainNameLabel and the regionalized DNS zone.
-	Fqdn *string `json:"fqdn,omitempty"`
-
-	//ReverseFqdn: The reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If
-	//the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain
-	//to the reverse FQDN.
-	ReverseFqdn *string `json:"reverseFqdn,omitempty"`
+	Fqdn            *string `json:"fqdn,omitempty"`
+	ReverseFqdn     *string `json:"reverseFqdn,omitempty"`
 }
 
+//Deprecated version of PublicIPAddressSkuName. Use v1beta20201101.PublicIPAddressSkuName instead
 // +kubebuilder:validation:Enum={"Basic","Standard"}
 type PublicIPAddressSkuName string
 
@@ -128,6 +80,7 @@ const (
 	PublicIPAddressSkuNameStandard = PublicIPAddressSkuName("Standard")
 )
 
+//Deprecated version of PublicIPAddressSkuTier. Use v1beta20201101.PublicIPAddressSkuTier instead
 // +kubebuilder:validation:Enum={"Global","Regional"}
 type PublicIPAddressSkuTier string
 

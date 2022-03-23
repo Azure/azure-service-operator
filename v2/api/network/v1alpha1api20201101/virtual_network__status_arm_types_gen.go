@@ -3,63 +3,32 @@
 // Licensed under the MIT license.
 package v1alpha1api20201101
 
+//Deprecated version of VirtualNetwork_Status. Use v1beta20201101.VirtualNetwork_Status instead
 type VirtualNetwork_StatusARM struct {
-	//Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	//ExtendedLocation: The extended location of the virtual network.
-	ExtendedLocation *ExtendedLocation_StatusARM `json:"extendedLocation,omitempty"`
-
-	//Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	//Location: Resource location.
-	Location *string `json:"location,omitempty"`
-
-	//Name: Resource name.
-	Name *string `json:"name,omitempty"`
-
-	//Properties: Properties of the virtual network.
-	Properties *VirtualNetworkPropertiesFormat_StatusARM `json:"properties,omitempty"`
-
-	//Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type.
-	Type *string `json:"type,omitempty"`
+	Etag             *string                                   `json:"etag,omitempty"`
+	ExtendedLocation *ExtendedLocation_StatusARM               `json:"extendedLocation,omitempty"`
+	Id               *string                                   `json:"id,omitempty"`
+	Location         *string                                   `json:"location,omitempty"`
+	Name             *string                                   `json:"name,omitempty"`
+	Properties       *VirtualNetworkPropertiesFormat_StatusARM `json:"properties,omitempty"`
+	Tags             map[string]string                         `json:"tags,omitempty"`
+	Type             *string                                   `json:"type,omitempty"`
 }
 
+//Deprecated version of VirtualNetworkPropertiesFormat_Status. Use v1beta20201101.VirtualNetworkPropertiesFormat_Status instead
 type VirtualNetworkPropertiesFormat_StatusARM struct {
-	//AddressSpace: The AddressSpace that contains an array of IP address ranges that can be used by subnets.
-	AddressSpace *AddressSpace_StatusARM `json:"addressSpace,omitempty"`
-
-	//BgpCommunities: Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
-	BgpCommunities *VirtualNetworkBgpCommunities_StatusARM `json:"bgpCommunities,omitempty"`
-
-	//DdosProtectionPlan: The DDoS protection plan associated with the virtual network.
-	DdosProtectionPlan *SubResource_StatusARM `json:"ddosProtectionPlan,omitempty"`
-
-	//DhcpOptions: The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.
-	DhcpOptions *DhcpOptions_StatusARM `json:"dhcpOptions,omitempty"`
-
-	//EnableDdosProtection: Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It
-	//requires a DDoS protection plan associated with the resource.
-	EnableDdosProtection *bool `json:"enableDdosProtection,omitempty"`
-
-	//EnableVmProtection: Indicates if VM protection is enabled for all the subnets in the virtual network.
-	EnableVmProtection *bool `json:"enableVmProtection,omitempty"`
-
-	//IpAllocations: Array of IpAllocation which reference this VNET.
-	IpAllocations []SubResource_StatusARM `json:"ipAllocations,omitempty"`
-
-	//ProvisioningState: The provisioning state of the virtual network resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
-
-	//ResourceGuid: The resourceGuid property of the Virtual Network resource.
-	ResourceGuid *string `json:"resourceGuid,omitempty"`
+	AddressSpace         *AddressSpace_StatusARM                 `json:"addressSpace,omitempty"`
+	BgpCommunities       *VirtualNetworkBgpCommunities_StatusARM `json:"bgpCommunities,omitempty"`
+	DdosProtectionPlan   *SubResource_StatusARM                  `json:"ddosProtectionPlan,omitempty"`
+	DhcpOptions          *DhcpOptions_StatusARM                  `json:"dhcpOptions,omitempty"`
+	EnableDdosProtection *bool                                   `json:"enableDdosProtection,omitempty"`
+	EnableVmProtection   *bool                                   `json:"enableVmProtection,omitempty"`
+	IpAllocations        []SubResource_StatusARM                 `json:"ipAllocations,omitempty"`
+	ProvisioningState    *ProvisioningState_Status               `json:"provisioningState,omitempty"`
+	ResourceGuid         *string                                 `json:"resourceGuid,omitempty"`
 }
 
+//Deprecated version of DhcpOptions_Status. Use v1beta20201101.DhcpOptions_Status instead
 type DhcpOptions_StatusARM struct {
-	//DnsServers: The list of DNS servers IP addresses.
 	DnsServers []string `json:"dnsServers,omitempty"`
 }

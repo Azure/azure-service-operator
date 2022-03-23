@@ -5,18 +5,12 @@ package v1alpha1api20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+//Deprecated version of NetworkSecurityGroupsSecurityRules_Spec. Use v1beta20201101.NetworkSecurityGroupsSecurityRules_Spec instead
 type NetworkSecurityGroupsSecurityRules_SpecARM struct {
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	//Name: Name of the resource
-	Name string `json:"name,omitempty"`
-
-	//Properties: Properties of the security rule.
+	Location   *string                          `json:"location,omitempty"`
+	Name       string                           `json:"name,omitempty"`
 	Properties *SecurityRulePropertiesFormatARM `json:"properties,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags       map[string]string                `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NetworkSecurityGroupsSecurityRules_SpecARM{}
@@ -36,56 +30,21 @@ func (rules NetworkSecurityGroupsSecurityRules_SpecARM) GetType() string {
 	return "Microsoft.Network/networkSecurityGroups/securityRules"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/SecurityRulePropertiesFormat
+//Deprecated version of SecurityRulePropertiesFormat. Use v1beta20201101.SecurityRulePropertiesFormat instead
 type SecurityRulePropertiesFormatARM struct {
-	//Access: The network traffic is allowed or denied.
-	Access *SecurityRulePropertiesFormatAccess `json:"access,omitempty"`
-
-	//Description: A description for this rule. Restricted to 140 chars.
-	Description *string `json:"description,omitempty"`
-
-	//DestinationAddressPrefix: The destination address prefix. CIDR or destination IP range. Asterisk '*' can also be used to
-	//match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.
-	DestinationAddressPrefix *string `json:"destinationAddressPrefix,omitempty"`
-
-	//DestinationAddressPrefixes: The destination address prefixes. CIDR or destination IP ranges.
-	DestinationAddressPrefixes []string `json:"destinationAddressPrefixes,omitempty"`
-
-	//DestinationApplicationSecurityGroups: The application security group specified as destination.
-	DestinationApplicationSecurityGroups []SubResourceARM `json:"destinationApplicationSecurityGroups,omitempty"`
-
-	//DestinationPortRange: The destination port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used
-	//to match all ports.
-	DestinationPortRange *string `json:"destinationPortRange,omitempty"`
-
-	//DestinationPortRanges: The destination port ranges.
-	DestinationPortRanges []string `json:"destinationPortRanges,omitempty"`
-
-	//Direction: The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.
-	Direction *SecurityRulePropertiesFormatDirection `json:"direction,omitempty"`
-
-	//Priority: The priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each
-	//rule in the collection. The lower the priority number, the higher the priority of the rule.
-	Priority *int `json:"priority,omitempty"`
-
-	//Protocol: Network protocol this rule applies to.
-	Protocol *SecurityRulePropertiesFormatProtocol `json:"protocol,omitempty"`
-
-	//SourceAddressPrefix: The CIDR or source IP range. Asterisk '*' can also be used to match all source IPs. Default tags
-	//such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies
-	//where network traffic originates from.
-	SourceAddressPrefix *string `json:"sourceAddressPrefix,omitempty"`
-
-	//SourceAddressPrefixes: The CIDR or source IP ranges.
-	SourceAddressPrefixes []string `json:"sourceAddressPrefixes,omitempty"`
-
-	//SourceApplicationSecurityGroups: The application security group specified as source.
-	SourceApplicationSecurityGroups []SubResourceARM `json:"sourceApplicationSecurityGroups,omitempty"`
-
-	//SourcePortRange: The source port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used to match
-	//all ports.
-	SourcePortRange *string `json:"sourcePortRange,omitempty"`
-
-	//SourcePortRanges: The source port ranges.
-	SourcePortRanges []string `json:"sourcePortRanges,omitempty"`
+	Access                               *SecurityRulePropertiesFormatAccess    `json:"access,omitempty"`
+	Description                          *string                                `json:"description,omitempty"`
+	DestinationAddressPrefix             *string                                `json:"destinationAddressPrefix,omitempty"`
+	DestinationAddressPrefixes           []string                               `json:"destinationAddressPrefixes,omitempty"`
+	DestinationApplicationSecurityGroups []SubResourceARM                       `json:"destinationApplicationSecurityGroups,omitempty"`
+	DestinationPortRange                 *string                                `json:"destinationPortRange,omitempty"`
+	DestinationPortRanges                []string                               `json:"destinationPortRanges,omitempty"`
+	Direction                            *SecurityRulePropertiesFormatDirection `json:"direction,omitempty"`
+	Priority                             *int                                   `json:"priority,omitempty"`
+	Protocol                             *SecurityRulePropertiesFormatProtocol  `json:"protocol,omitempty"`
+	SourceAddressPrefix                  *string                                `json:"sourceAddressPrefix,omitempty"`
+	SourceAddressPrefixes                []string                               `json:"sourceAddressPrefixes,omitempty"`
+	SourceApplicationSecurityGroups      []SubResourceARM                       `json:"sourceApplicationSecurityGroups,omitempty"`
+	SourcePortRange                      *string                                `json:"sourcePortRange,omitempty"`
+	SourcePortRanges                     []string                               `json:"sourcePortRanges,omitempty"`
 }
