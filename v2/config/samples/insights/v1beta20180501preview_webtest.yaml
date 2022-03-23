@@ -1,0 +1,24 @@
+apiVersion: insights.azure.com/v1beta20180501preview
+kind: WebTest
+metadata:
+  name: samplewebtest
+  namespace: default
+spec:
+  tags:
+    "hidden-link:/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/microsoft.insights/components/sampleappinsights": Resource
+  location: westcentralus
+  owner:
+    name: aso-sample-rg
+  Name: samplewebtest
+  Enabled: true
+  Frequency: 300
+  Kind: standard
+  Locations:
+    - Id: us-ca-sjc-azr # This is west us
+  Request:
+    HttpVerb: GET
+    RequestUrl: https://my.request.url.com
+  ValidationRules:
+    ExpectedHttpStatusCode: 200
+    SSLCheck: true
+    SSLCertRemainingLifetimeCheck: 7

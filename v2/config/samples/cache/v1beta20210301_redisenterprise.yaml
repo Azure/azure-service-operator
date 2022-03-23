@@ -1,0 +1,13 @@
+apiVersion: cache.azure.com/v1beta20210301
+kind: RedisEnterprise
+metadata:
+  name: sampleredisenterprise
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: aso-sample-rg
+  minimumTlsVersion: "1.2"
+  sku:
+    name: Enterprise_E10
+    capacity: 2
