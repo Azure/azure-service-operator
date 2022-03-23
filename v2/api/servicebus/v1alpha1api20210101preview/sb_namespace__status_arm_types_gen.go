@@ -3,128 +3,71 @@
 // Licensed under the MIT license.
 package v1alpha1api20210101preview
 
+//Deprecated version of SBNamespace_Status. Use v1beta20210101preview.SBNamespace_Status instead
 type SBNamespace_StatusARM struct {
-	//Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	//Identity: Properties of BYOK Identity description
-	Identity *Identity_StatusARM `json:"identity,omitempty"`
-
-	//Location: The Geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	//Name: Resource name
-	Name *string `json:"name,omitempty"`
-
-	//Properties: Properties of the namespace.
+	Id         *string                          `json:"id,omitempty"`
+	Identity   *Identity_StatusARM              `json:"identity,omitempty"`
+	Location   *string                          `json:"location,omitempty"`
+	Name       *string                          `json:"name,omitempty"`
 	Properties *SBNamespaceProperties_StatusARM `json:"properties,omitempty"`
-
-	//Sku: Properties of SKU
-	Sku *SBSku_StatusARM `json:"sku,omitempty"`
-
-	//SystemData: The system meta data relating to this resource.
-	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
-
-	//Tags: Resource tags
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type *string `json:"type,omitempty"`
+	Sku        *SBSku_StatusARM                 `json:"sku,omitempty"`
+	SystemData *SystemData_StatusARM            `json:"systemData,omitempty"`
+	Tags       map[string]string                `json:"tags,omitempty"`
+	Type       *string                          `json:"type,omitempty"`
 }
 
+//Deprecated version of Identity_Status. Use v1beta20210101preview.Identity_Status instead
 type Identity_StatusARM struct {
-	//PrincipalId: ObjectId from the KeyVault
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	//TenantId: TenantId from the KeyVault
-	TenantId *string `json:"tenantId,omitempty"`
-
-	//Type: Type of managed service identity.
-	Type *IdentityStatusType `json:"type,omitempty"`
-
-	//UserAssignedIdentities: Properties for User Assigned Identities
+	PrincipalId            *string                              `json:"principalId,omitempty"`
+	TenantId               *string                              `json:"tenantId,omitempty"`
+	Type                   *IdentityStatusType                  `json:"type,omitempty"`
 	UserAssignedIdentities map[string]DictionaryValue_StatusARM `json:"userAssignedIdentities,omitempty"`
 }
 
+//Deprecated version of SBNamespaceProperties_Status. Use v1beta20210101preview.SBNamespaceProperties_Status instead
 type SBNamespaceProperties_StatusARM struct {
-	//CreatedAt: The time the namespace was created
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	//Encryption: Properties of BYOK Encryption description
-	Encryption *Encryption_StatusARM `json:"encryption,omitempty"`
-
-	//MetricId: Identifier for Azure Insights metrics
-	MetricId *string `json:"metricId,omitempty"`
-
-	//PrivateEndpointConnections: List of private endpoint connections.
+	CreatedAt                  *string                                                   `json:"createdAt,omitempty"`
+	Encryption                 *Encryption_StatusARM                                     `json:"encryption,omitempty"`
+	MetricId                   *string                                                   `json:"metricId,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-
-	//ProvisioningState: Provisioning state of the namespace.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	//ServiceBusEndpoint: Endpoint you can use to perform Service Bus operations.
-	ServiceBusEndpoint *string `json:"serviceBusEndpoint,omitempty"`
-
-	//Status: Status of the namespace.
-	Status *string `json:"status,omitempty"`
-
-	//UpdatedAt: The time the namespace was updated.
-	UpdatedAt *string `json:"updatedAt,omitempty"`
-
-	//ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.
-	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
+	ProvisioningState          *string                                                   `json:"provisioningState,omitempty"`
+	ServiceBusEndpoint         *string                                                   `json:"serviceBusEndpoint,omitempty"`
+	Status                     *string                                                   `json:"status,omitempty"`
+	UpdatedAt                  *string                                                   `json:"updatedAt,omitempty"`
+	ZoneRedundant              *bool                                                     `json:"zoneRedundant,omitempty"`
 }
 
+//Deprecated version of SBSku_Status. Use v1beta20210101preview.SBSku_Status instead
 type SBSku_StatusARM struct {
-	//Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
-	Capacity *int `json:"capacity,omitempty"`
-
-	//Name: Name of this SKU.
-	Name *SBSkuStatusName `json:"name,omitempty"`
-
-	//Tier: The billing tier of this particular SKU.
-	Tier *SBSkuStatusTier `json:"tier,omitempty"`
+	Capacity *int             `json:"capacity,omitempty"`
+	Name     *SBSkuStatusName `json:"name,omitempty"`
+	Tier     *SBSkuStatusTier `json:"tier,omitempty"`
 }
 
+//Deprecated version of SystemData_Status. Use v1beta20210101preview.SystemData_Status instead
 type SystemData_StatusARM struct {
-	//CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	//CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	//CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemDataStatusCreatedByType `json:"createdByType,omitempty"`
-
-	//LastModifiedAt: The type of identity that last modified the resource.
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	//LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	//LastModifiedByType: The type of identity that last modified the resource.
+	CreatedAt          *string                             `json:"createdAt,omitempty"`
+	CreatedBy          *string                             `json:"createdBy,omitempty"`
+	CreatedByType      *SystemDataStatusCreatedByType      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                             `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                             `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
+//Deprecated version of DictionaryValue_Status. Use v1beta20210101preview.DictionaryValue_Status instead
 type DictionaryValue_StatusARM struct {
-	//ClientId: Client Id of user assigned identity
-	ClientId *string `json:"clientId,omitempty"`
-
-	//PrincipalId: Principal Id of user assigned identity
+	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
+//Deprecated version of Encryption_Status. Use v1beta20210101preview.Encryption_Status instead
 type Encryption_StatusARM struct {
-	//KeySource: Enumerates the possible value of keySource for Encryption
-	KeySource *EncryptionStatusKeySource `json:"keySource,omitempty"`
-
-	//KeyVaultProperties: Properties of KeyVault
-	KeyVaultProperties []KeyVaultProperties_StatusARM `json:"keyVaultProperties,omitempty"`
-
-	//RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
-	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
+	KeySource                       *EncryptionStatusKeySource     `json:"keySource,omitempty"`
+	KeyVaultProperties              []KeyVaultProperties_StatusARM `json:"keyVaultProperties,omitempty"`
+	RequireInfrastructureEncryption *bool                          `json:"requireInfrastructureEncryption,omitempty"`
 }
 
+//Deprecated version of IdentityStatusType. Use v1beta20210101preview.IdentityStatusType instead
 type IdentityStatusType string
 
 const (
@@ -134,14 +77,13 @@ const (
 	IdentityStatusTypeUserAssigned               = IdentityStatusType("UserAssigned")
 )
 
+//Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210101preview.PrivateEndpointConnection_Status_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
-	//Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	//SystemData: The system meta data relating to this resource.
+	Id         *string               `json:"id,omitempty"`
 	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
 }
 
+//Deprecated version of SBSkuStatusName. Use v1beta20210101preview.SBSkuStatusName instead
 type SBSkuStatusName string
 
 const (
@@ -150,6 +92,7 @@ const (
 	SBSkuStatusNameStandard = SBSkuStatusName("Standard")
 )
 
+//Deprecated version of SBSkuStatusTier. Use v1beta20210101preview.SBSkuStatusTier instead
 type SBSkuStatusTier string
 
 const (
@@ -158,6 +101,7 @@ const (
 	SBSkuStatusTierStandard = SBSkuStatusTier("Standard")
 )
 
+//Deprecated version of SystemDataStatusCreatedByType. Use v1beta20210101preview.SystemDataStatusCreatedByType instead
 type SystemDataStatusCreatedByType string
 
 const (
@@ -167,6 +111,8 @@ const (
 	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
 )
 
+//Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20210101preview.SystemDataStatusLastModifiedByType
+//instead
 type SystemDataStatusLastModifiedByType string
 
 const (
@@ -176,20 +122,15 @@ const (
 	SystemDataStatusLastModifiedByTypeUser            = SystemDataStatusLastModifiedByType("User")
 )
 
+//Deprecated version of KeyVaultProperties_Status. Use v1beta20210101preview.KeyVaultProperties_Status instead
 type KeyVaultProperties_StatusARM struct {
-	Identity *UserAssignedIdentityProperties_StatusARM `json:"identity,omitempty"`
-
-	//KeyName: Name of the Key from KeyVault
-	KeyName *string `json:"keyName,omitempty"`
-
-	//KeyVaultUri: Uri of KeyVault
-	KeyVaultUri *string `json:"keyVaultUri,omitempty"`
-
-	//KeyVersion: Version of KeyVault
-	KeyVersion *string `json:"keyVersion,omitempty"`
+	Identity    *UserAssignedIdentityProperties_StatusARM `json:"identity,omitempty"`
+	KeyName     *string                                   `json:"keyName,omitempty"`
+	KeyVaultUri *string                                   `json:"keyVaultUri,omitempty"`
+	KeyVersion  *string                                   `json:"keyVersion,omitempty"`
 }
 
+//Deprecated version of UserAssignedIdentityProperties_Status. Use v1beta20210101preview.UserAssignedIdentityProperties_Status instead
 type UserAssignedIdentityProperties_StatusARM struct {
-	//UserAssignedIdentity: ARM ID of user Identity selected for encryption
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }

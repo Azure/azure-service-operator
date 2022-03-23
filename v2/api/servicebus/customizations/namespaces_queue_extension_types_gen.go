@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101preview"
+	servicebusv1alpha1api20210101preview "github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101preview"
 	"github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101previewstorage"
+	servicebusv1beta20210101preview "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview"
+	"github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previewstorage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type NamespacesQueueExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *NamespacesQueueExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&servicebus.NamespacesQueue{},
-		&v1alpha1api20210101previewstorage.NamespacesQueue{}}
+		&servicebusv1alpha1api20210101preview.NamespacesQueue{},
+		&v1alpha1api20210101previewstorage.NamespacesQueue{},
+		&servicebusv1beta20210101preview.NamespacesQueue{},
+		&v1beta20210101previewstorage.NamespacesQueue{}}
 }

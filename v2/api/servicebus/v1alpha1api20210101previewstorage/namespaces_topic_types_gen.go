@@ -4,25 +4,24 @@
 package v1alpha1api20210101previewstorage
 
 import (
+	"fmt"
+	"github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previewstorage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=servicebus.azure.com,resources=namespacestopics,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=servicebus.azure.com,resources={namespacestopics/status,namespacestopics/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Storage version of v1alpha1api20210101preview.NamespacesTopic
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_topics
+//Deprecated version of NamespacesTopic. Use v1beta20210101preview.NamespacesTopic instead
 type NamespacesTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -40,6 +39,28 @@ func (topic *NamespacesTopic) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (topic *NamespacesTopic) SetConditions(conditions conditions.Conditions) {
 	topic.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &NamespacesTopic{}
+
+// ConvertFrom populates our NamespacesTopic from the provided hub NamespacesTopic
+func (topic *NamespacesTopic) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1beta20210101previewstorage.NamespacesTopic)
+	if !ok {
+		return fmt.Errorf("expected servicebus/v1beta20210101previewstorage/NamespacesTopic but received %T instead", hub)
+	}
+
+	return topic.AssignPropertiesFromNamespacesTopic(source)
+}
+
+// ConvertTo populates the provided hub NamespacesTopic from our NamespacesTopic
+func (topic *NamespacesTopic) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1beta20210101previewstorage.NamespacesTopic)
+	if !ok {
+		return fmt.Errorf("expected servicebus/v1beta20210101previewstorage/NamespacesTopic but received %T instead", hub)
+	}
+
+	return topic.AssignPropertiesToNamespacesTopic(destination)
 }
 
 var _ genruntime.KubernetesResource = &NamespacesTopic{}
@@ -108,8 +129,57 @@ func (topic *NamespacesTopic) SetStatus(status genruntime.ConvertibleStatus) err
 	return nil
 }
 
-// Hub marks that this NamespacesTopic is the hub type for conversion
-func (topic *NamespacesTopic) Hub() {}
+// AssignPropertiesFromNamespacesTopic populates our NamespacesTopic from the provided source NamespacesTopic
+func (topic *NamespacesTopic) AssignPropertiesFromNamespacesTopic(source *v1beta20210101previewstorage.NamespacesTopic) error {
+
+	// ObjectMeta
+	topic.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec NamespacesTopics_Spec
+	err := spec.AssignPropertiesFromNamespacesTopicsSpec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesTopicsSpec() to populate field Spec")
+	}
+	topic.Spec = spec
+
+	// Status
+	var status SBTopic_Status
+	err = status.AssignPropertiesFromSBTopicStatus(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromSBTopicStatus() to populate field Status")
+	}
+	topic.Status = status
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToNamespacesTopic populates the provided destination NamespacesTopic from our NamespacesTopic
+func (topic *NamespacesTopic) AssignPropertiesToNamespacesTopic(destination *v1beta20210101previewstorage.NamespacesTopic) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *topic.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v1beta20210101previewstorage.NamespacesTopics_Spec
+	err := topic.Spec.AssignPropertiesToNamespacesTopicsSpec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToNamespacesTopicsSpec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v1beta20210101previewstorage.SBTopic_Status
+	err = topic.Status.AssignPropertiesToSBTopicStatus(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToSBTopicStatus() to populate field Status")
+	}
+	destination.Status = status
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (topic *NamespacesTopic) OriginalGVK() *schema.GroupVersionKind {
@@ -122,7 +192,7 @@ func (topic *NamespacesTopic) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 //Storage version of v1alpha1api20210101preview.NamespacesTopic
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_topics
+//Deprecated version of NamespacesTopic. Use v1beta20210101preview.NamespacesTopic instead
 type NamespacesTopicList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -161,23 +231,230 @@ var _ genruntime.ConvertibleSpec = &NamespacesTopics_Spec{}
 
 // ConvertSpecFrom populates our NamespacesTopics_Spec from the provided source
 func (topics *NamespacesTopics_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == topics {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v1beta20210101previewstorage.NamespacesTopics_Spec)
+	if ok {
+		// Populate our instance from source
+		return topics.AssignPropertiesFromNamespacesTopicsSpec(src)
 	}
 
-	return source.ConvertSpecTo(topics)
+	// Convert to an intermediate form
+	src = &v1beta20210101previewstorage.NamespacesTopics_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = topics.AssignPropertiesFromNamespacesTopicsSpec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our NamespacesTopics_Spec
 func (topics *NamespacesTopics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == topics {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v1beta20210101previewstorage.NamespacesTopics_Spec)
+	if ok {
+		// Populate destination from our instance
+		return topics.AssignPropertiesToNamespacesTopicsSpec(dst)
 	}
 
-	return destination.ConvertSpecFrom(topics)
+	// Convert to an intermediate form
+	dst = &v1beta20210101previewstorage.NamespacesTopics_Spec{}
+	err := topics.AssignPropertiesToNamespacesTopicsSpec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromNamespacesTopicsSpec populates our NamespacesTopics_Spec from the provided source NamespacesTopics_Spec
+func (topics *NamespacesTopics_Spec) AssignPropertiesFromNamespacesTopicsSpec(source *v1beta20210101previewstorage.NamespacesTopics_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AutoDeleteOnIdle
+	topics.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
+
+	// AzureName
+	topics.AzureName = source.AzureName
+
+	// DefaultMessageTimeToLive
+	topics.DefaultMessageTimeToLive = genruntime.ClonePointerToString(source.DefaultMessageTimeToLive)
+
+	// DuplicateDetectionHistoryTimeWindow
+	topics.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(source.DuplicateDetectionHistoryTimeWindow)
+
+	// EnableBatchedOperations
+	if source.EnableBatchedOperations != nil {
+		enableBatchedOperation := *source.EnableBatchedOperations
+		topics.EnableBatchedOperations = &enableBatchedOperation
+	} else {
+		topics.EnableBatchedOperations = nil
+	}
+
+	// EnableExpress
+	if source.EnableExpress != nil {
+		enableExpress := *source.EnableExpress
+		topics.EnableExpress = &enableExpress
+	} else {
+		topics.EnableExpress = nil
+	}
+
+	// EnablePartitioning
+	if source.EnablePartitioning != nil {
+		enablePartitioning := *source.EnablePartitioning
+		topics.EnablePartitioning = &enablePartitioning
+	} else {
+		topics.EnablePartitioning = nil
+	}
+
+	// Location
+	topics.Location = genruntime.ClonePointerToString(source.Location)
+
+	// MaxSizeInMegabytes
+	topics.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
+
+	// OriginalVersion
+	topics.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		topics.Owner = &owner
+	} else {
+		topics.Owner = nil
+	}
+
+	// RequiresDuplicateDetection
+	if source.RequiresDuplicateDetection != nil {
+		requiresDuplicateDetection := *source.RequiresDuplicateDetection
+		topics.RequiresDuplicateDetection = &requiresDuplicateDetection
+	} else {
+		topics.RequiresDuplicateDetection = nil
+	}
+
+	// SupportOrdering
+	if source.SupportOrdering != nil {
+		supportOrdering := *source.SupportOrdering
+		topics.SupportOrdering = &supportOrdering
+	} else {
+		topics.SupportOrdering = nil
+	}
+
+	// Tags
+	topics.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		topics.PropertyBag = propertyBag
+	} else {
+		topics.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToNamespacesTopicsSpec populates the provided destination NamespacesTopics_Spec from our NamespacesTopics_Spec
+func (topics *NamespacesTopics_Spec) AssignPropertiesToNamespacesTopicsSpec(destination *v1beta20210101previewstorage.NamespacesTopics_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(topics.PropertyBag)
+
+	// AutoDeleteOnIdle
+	destination.AutoDeleteOnIdle = genruntime.ClonePointerToString(topics.AutoDeleteOnIdle)
+
+	// AzureName
+	destination.AzureName = topics.AzureName
+
+	// DefaultMessageTimeToLive
+	destination.DefaultMessageTimeToLive = genruntime.ClonePointerToString(topics.DefaultMessageTimeToLive)
+
+	// DuplicateDetectionHistoryTimeWindow
+	destination.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(topics.DuplicateDetectionHistoryTimeWindow)
+
+	// EnableBatchedOperations
+	if topics.EnableBatchedOperations != nil {
+		enableBatchedOperation := *topics.EnableBatchedOperations
+		destination.EnableBatchedOperations = &enableBatchedOperation
+	} else {
+		destination.EnableBatchedOperations = nil
+	}
+
+	// EnableExpress
+	if topics.EnableExpress != nil {
+		enableExpress := *topics.EnableExpress
+		destination.EnableExpress = &enableExpress
+	} else {
+		destination.EnableExpress = nil
+	}
+
+	// EnablePartitioning
+	if topics.EnablePartitioning != nil {
+		enablePartitioning := *topics.EnablePartitioning
+		destination.EnablePartitioning = &enablePartitioning
+	} else {
+		destination.EnablePartitioning = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(topics.Location)
+
+	// MaxSizeInMegabytes
+	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(topics.MaxSizeInMegabytes)
+
+	// OriginalVersion
+	destination.OriginalVersion = topics.OriginalVersion
+
+	// Owner
+	if topics.Owner != nil {
+		owner := topics.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// RequiresDuplicateDetection
+	if topics.RequiresDuplicateDetection != nil {
+		requiresDuplicateDetection := *topics.RequiresDuplicateDetection
+		destination.RequiresDuplicateDetection = &requiresDuplicateDetection
+	} else {
+		destination.RequiresDuplicateDetection = nil
+	}
+
+	// SupportOrdering
+	if topics.SupportOrdering != nil {
+		supportOrdering := *topics.SupportOrdering
+		destination.SupportOrdering = &supportOrdering
+	} else {
+		destination.SupportOrdering = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(topics.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 //Storage version of v1alpha1api20210101preview.SBTopic_Status
+//Deprecated version of SBTopic_Status. Use v1beta20210101preview.SBTopic_Status instead
 type SBTopic_Status struct {
 	AccessedAt                          *string                     `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle                    *string                     `json:"autoDeleteOnIdle,omitempty"`
@@ -207,20 +484,294 @@ var _ genruntime.ConvertibleStatus = &SBTopic_Status{}
 
 // ConvertStatusFrom populates our SBTopic_Status from the provided source
 func (topic *SBTopic_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == topic {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v1beta20210101previewstorage.SBTopic_Status)
+	if ok {
+		// Populate our instance from source
+		return topic.AssignPropertiesFromSBTopicStatus(src)
 	}
 
-	return source.ConvertStatusTo(topic)
+	// Convert to an intermediate form
+	src = &v1beta20210101previewstorage.SBTopic_Status{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = topic.AssignPropertiesFromSBTopicStatus(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our SBTopic_Status
 func (topic *SBTopic_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == topic {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v1beta20210101previewstorage.SBTopic_Status)
+	if ok {
+		// Populate destination from our instance
+		return topic.AssignPropertiesToSBTopicStatus(dst)
 	}
 
-	return destination.ConvertStatusFrom(topic)
+	// Convert to an intermediate form
+	dst = &v1beta20210101previewstorage.SBTopic_Status{}
+	err := topic.AssignPropertiesToSBTopicStatus(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromSBTopicStatus populates our SBTopic_Status from the provided source SBTopic_Status
+func (topic *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *v1beta20210101previewstorage.SBTopic_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AccessedAt
+	topic.AccessedAt = genruntime.ClonePointerToString(source.AccessedAt)
+
+	// AutoDeleteOnIdle
+	topic.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
+
+	// Conditions
+	topic.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// CountDetails
+	if source.CountDetails != nil {
+		var countDetail MessageCountDetails_Status
+		err := countDetail.AssignPropertiesFromMessageCountDetailsStatus(source.CountDetails)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromMessageCountDetailsStatus() to populate field CountDetails")
+		}
+		topic.CountDetails = &countDetail
+	} else {
+		topic.CountDetails = nil
+	}
+
+	// CreatedAt
+	topic.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
+
+	// DefaultMessageTimeToLive
+	topic.DefaultMessageTimeToLive = genruntime.ClonePointerToString(source.DefaultMessageTimeToLive)
+
+	// DuplicateDetectionHistoryTimeWindow
+	topic.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(source.DuplicateDetectionHistoryTimeWindow)
+
+	// EnableBatchedOperations
+	if source.EnableBatchedOperations != nil {
+		enableBatchedOperation := *source.EnableBatchedOperations
+		topic.EnableBatchedOperations = &enableBatchedOperation
+	} else {
+		topic.EnableBatchedOperations = nil
+	}
+
+	// EnableExpress
+	if source.EnableExpress != nil {
+		enableExpress := *source.EnableExpress
+		topic.EnableExpress = &enableExpress
+	} else {
+		topic.EnableExpress = nil
+	}
+
+	// EnablePartitioning
+	if source.EnablePartitioning != nil {
+		enablePartitioning := *source.EnablePartitioning
+		topic.EnablePartitioning = &enablePartitioning
+	} else {
+		topic.EnablePartitioning = nil
+	}
+
+	// Id
+	topic.Id = genruntime.ClonePointerToString(source.Id)
+
+	// MaxSizeInMegabytes
+	topic.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
+
+	// Name
+	topic.Name = genruntime.ClonePointerToString(source.Name)
+
+	// RequiresDuplicateDetection
+	if source.RequiresDuplicateDetection != nil {
+		requiresDuplicateDetection := *source.RequiresDuplicateDetection
+		topic.RequiresDuplicateDetection = &requiresDuplicateDetection
+	} else {
+		topic.RequiresDuplicateDetection = nil
+	}
+
+	// SizeInBytes
+	topic.SizeInBytes = genruntime.ClonePointerToInt(source.SizeInBytes)
+
+	// Status
+	topic.Status = genruntime.ClonePointerToString(source.Status)
+
+	// SubscriptionCount
+	topic.SubscriptionCount = genruntime.ClonePointerToInt(source.SubscriptionCount)
+
+	// SupportOrdering
+	if source.SupportOrdering != nil {
+		supportOrdering := *source.SupportOrdering
+		topic.SupportOrdering = &supportOrdering
+	} else {
+		topic.SupportOrdering = nil
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_Status
+		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+		}
+		topic.SystemData = &systemDatum
+	} else {
+		topic.SystemData = nil
+	}
+
+	// Type
+	topic.Type = genruntime.ClonePointerToString(source.Type)
+
+	// UpdatedAt
+	topic.UpdatedAt = genruntime.ClonePointerToString(source.UpdatedAt)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		topic.PropertyBag = propertyBag
+	} else {
+		topic.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToSBTopicStatus populates the provided destination SBTopic_Status from our SBTopic_Status
+func (topic *SBTopic_Status) AssignPropertiesToSBTopicStatus(destination *v1beta20210101previewstorage.SBTopic_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(topic.PropertyBag)
+
+	// AccessedAt
+	destination.AccessedAt = genruntime.ClonePointerToString(topic.AccessedAt)
+
+	// AutoDeleteOnIdle
+	destination.AutoDeleteOnIdle = genruntime.ClonePointerToString(topic.AutoDeleteOnIdle)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(topic.Conditions)
+
+	// CountDetails
+	if topic.CountDetails != nil {
+		var countDetail v1beta20210101previewstorage.MessageCountDetails_Status
+		err := topic.CountDetails.AssignPropertiesToMessageCountDetailsStatus(&countDetail)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToMessageCountDetailsStatus() to populate field CountDetails")
+		}
+		destination.CountDetails = &countDetail
+	} else {
+		destination.CountDetails = nil
+	}
+
+	// CreatedAt
+	destination.CreatedAt = genruntime.ClonePointerToString(topic.CreatedAt)
+
+	// DefaultMessageTimeToLive
+	destination.DefaultMessageTimeToLive = genruntime.ClonePointerToString(topic.DefaultMessageTimeToLive)
+
+	// DuplicateDetectionHistoryTimeWindow
+	destination.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(topic.DuplicateDetectionHistoryTimeWindow)
+
+	// EnableBatchedOperations
+	if topic.EnableBatchedOperations != nil {
+		enableBatchedOperation := *topic.EnableBatchedOperations
+		destination.EnableBatchedOperations = &enableBatchedOperation
+	} else {
+		destination.EnableBatchedOperations = nil
+	}
+
+	// EnableExpress
+	if topic.EnableExpress != nil {
+		enableExpress := *topic.EnableExpress
+		destination.EnableExpress = &enableExpress
+	} else {
+		destination.EnableExpress = nil
+	}
+
+	// EnablePartitioning
+	if topic.EnablePartitioning != nil {
+		enablePartitioning := *topic.EnablePartitioning
+		destination.EnablePartitioning = &enablePartitioning
+	} else {
+		destination.EnablePartitioning = nil
+	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(topic.Id)
+
+	// MaxSizeInMegabytes
+	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(topic.MaxSizeInMegabytes)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(topic.Name)
+
+	// RequiresDuplicateDetection
+	if topic.RequiresDuplicateDetection != nil {
+		requiresDuplicateDetection := *topic.RequiresDuplicateDetection
+		destination.RequiresDuplicateDetection = &requiresDuplicateDetection
+	} else {
+		destination.RequiresDuplicateDetection = nil
+	}
+
+	// SizeInBytes
+	destination.SizeInBytes = genruntime.ClonePointerToInt(topic.SizeInBytes)
+
+	// Status
+	destination.Status = genruntime.ClonePointerToString(topic.Status)
+
+	// SubscriptionCount
+	destination.SubscriptionCount = genruntime.ClonePointerToInt(topic.SubscriptionCount)
+
+	// SupportOrdering
+	if topic.SupportOrdering != nil {
+		supportOrdering := *topic.SupportOrdering
+		destination.SupportOrdering = &supportOrdering
+	} else {
+		destination.SupportOrdering = nil
+	}
+
+	// SystemData
+	if topic.SystemData != nil {
+		var systemDatum v1beta20210101previewstorage.SystemData_Status
+		err := topic.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(topic.Type)
+
+	// UpdatedAt
+	destination.UpdatedAt = genruntime.ClonePointerToString(topic.UpdatedAt)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 func init() {
