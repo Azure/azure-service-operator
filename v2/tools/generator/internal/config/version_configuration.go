@@ -26,15 +26,17 @@ import (
 // └──────────────────────────┘       └────────────────────┘       ╚══════════════════════╝       └───────────────────┘       └───────────────────────┘
 //
 type VersionConfiguration struct {
-	name  string
-	types map[string]*TypeConfiguration
+	name    string
+	types   map[string]*TypeConfiguration
+	advisor *TypoAdvisor
 }
 
 // NewVersionConfiguration returns a new (empty) VersionConfiguration
 func NewVersionConfiguration(name string) *VersionConfiguration {
 	return &VersionConfiguration{
-		name:  name,
-		types: make(map[string]*TypeConfiguration),
+		name:    name,
+		types:   make(map[string]*TypeConfiguration),
+		advisor: NewTypoAdvisor(),
 	}
 }
 
@@ -48,8 +50,8 @@ func (vc *VersionConfiguration) add(tc *TypeConfiguration) {
 // Returns a NotConfiguredError if the type is not found; otherwise whatever error is returned by the visitor.
 func (vc *VersionConfiguration) visitType(
 	typeName astmodel.TypeName,
-	visitor *configurationVisitor) error {
-
+	visitor *configurationVisitor,
+) error {
 	tc, err := vc.findType(typeName.Name())
 	if err != nil {
 		return err
@@ -62,7 +64,9 @@ func (vc *VersionConfiguration) visitType(
 func (vc *VersionConfiguration) visitTypes(visitor *configurationVisitor) error {
 	var errs []error
 	for _, tc := range vc.types {
-		errs = append(errs, visitor.visitType(tc))
+		err := visitor.visitType(tc)
+		err = vc.advisor.Wrapf(err, tc.name, "type %s not seen", tc.name)
+		errs = append(errs, err)
 	}
 
 	// Both errors.Wrapf() and kerrors.NewAggregate() return nil if nothing went wrong
@@ -74,6 +78,7 @@ func (vc *VersionConfiguration) visitTypes(visitor *configurationVisitor) error 
 
 // findType uses the provided name to work out which nested TypeConfiguration should be used
 func (vc *VersionConfiguration) findType(name string) (*TypeConfiguration, error) {
+	vc.advisor.AddTerm(name)
 	n := strings.ToLower(name)
 	if t, ok := vc.types[n]; ok {
 		return t, nil

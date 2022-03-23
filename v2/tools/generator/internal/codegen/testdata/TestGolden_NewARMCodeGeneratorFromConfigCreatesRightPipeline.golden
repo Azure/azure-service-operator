@@ -11,6 +11,7 @@ propertyRewrites                                     Modify property types using
 removeResourceScope                                  Remove scope from all resources
 makeStatusPropertiesOptional                         Force all status properties to be optional
 removeStatusPropertyValidation                       Remove validation from all status properties
+transformValidatedFloats                             Transform validated 'spec' float type values to validated integer types for compatibility with controller-gen
 unrollRecursiveTypes                                 Unroll directly recursive types since they are not supported by controller-gen
 determineResourceOwnership                           Determine ARM resource relationships
 removeAliases                                        Remove type aliases

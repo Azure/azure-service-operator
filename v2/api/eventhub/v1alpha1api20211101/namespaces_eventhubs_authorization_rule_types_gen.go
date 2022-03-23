@@ -50,7 +50,7 @@ var _ conversion.Convertible = &NamespacesEventhubsAuthorizationRule{}
 func (rule *NamespacesEventhubsAuthorizationRule) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRule)
 	if !ok {
-		return fmt.Errorf("expected storage:eventhub/v1alpha1api20211101storage/NamespacesEventhubsAuthorizationRule but received %T instead", hub)
+		return fmt.Errorf("expected eventhub/v1alpha1api20211101storage/NamespacesEventhubsAuthorizationRule but received %T instead", hub)
 	}
 
 	return rule.AssignPropertiesFromNamespacesEventhubsAuthorizationRule(source)
@@ -60,7 +60,7 @@ func (rule *NamespacesEventhubsAuthorizationRule) ConvertFrom(hub conversion.Hub
 func (rule *NamespacesEventhubsAuthorizationRule) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRule)
 	if !ok {
-		return fmt.Errorf("expected storage:eventhub/v1alpha1api20211101storage/NamespacesEventhubsAuthorizationRule but received %T instead", hub)
+		return fmt.Errorf("expected eventhub/v1alpha1api20211101storage/NamespacesEventhubsAuthorizationRule but received %T instead", hub)
 	}
 
 	return rule.AssignPropertiesToNamespacesEventhubsAuthorizationRule(destination)

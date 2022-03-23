@@ -185,3 +185,30 @@ func Test_GetObjectListItems(t *testing.T) {
 	g.Expect(items).To(HaveLen(1))
 	g.Expect(items[0].GetName()).To(Equal("test-group"))
 }
+
+func Test_SetObjectListItems(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	res := &ResourceWithReferences{
+		Spec: ResourceWithReferencesSpec{
+			AzureName: "azureName",
+			Location:  "westus",
+			Owner: genruntime.KnownResourceReference{
+				Name: "myrg",
+			},
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "test-group",
+			Namespace: "test-namespace",
+		},
+	}
+
+	list := &ResourceWithReferencesList{}
+
+	itemList := []client.Object{res}
+	err := reflecthelpers.SetObjectListItems(list, itemList)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(list.Items).To(HaveLen(1))
+	g.Expect(list.Items[0].GetName()).To(Equal("test-group"))
+}

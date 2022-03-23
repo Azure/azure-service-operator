@@ -34,19 +34,19 @@ typeFilters:
     because: expression is an ARM template construct which doesn't belong in CRDs
   - action: include
     group: servicebus
-    version: v*api20210101preview
+    version: v*20210101preview
     because: We want to export this particular preview version
   - action: include
     group: insights
-    version: v*api20180501preview
+    version: v*20180501preview
     because: We're using webTests from this. There is a "newer" version but it's not actually supported, see https://github.com/Azure/azure-rest-api-specs/issues/14827
   - action: include
     group: authorization
-    version: v*api20200801preview
+    version: v*20200801preview
     because: We want to export this particular preview version
   - action: prune
     version: '*preview'
-    because: preview SDK versions are excluded by default
+    because: preview SDK versions are excluded by default (they often do very strange things)
   - action: prune
     group: compute
     name: VirtualMachineScaleSetsExtensionsChildResource;VirtualMachinesExtensionsChildResource
@@ -56,11 +56,11 @@ typeFilters:
     because: Some types (SitesSlotsConfig) use OneOf in a way we don't currently handle. Exclude the whole set for now.
   - action: prune
     group: network
-    version: '*api201*'
+    version: 'v*api201*'
     because: Pruning all older networking api versions types since we don't use them anyway
   - action: prune
     group: compute
-    version: '*api201*'
+    version: 'v*api201*'
     because: Pruning all older compute api versions types since we don't use them anyway
   - action: prune
     group: kusto
@@ -150,11 +150,6 @@ typeTransformers:
         value:
           name: string
     because: the definition in rest api specs uses additionalProperties + defined fields which we don't support
-  - group: storage
-    name: DateAfterCreation_Status
-    property: DaysAfterCreationGreaterThan
-    target:
-      name: float
   - group: cache
     name: RedisProperties_Status
     property: AccessKeys
@@ -264,7 +259,7 @@ typeTransformers:
     remove: true
     because: This property should be marked readonly
   - group: eventgrid
-    version: v*api20190601
+    version: v*20190601
     name: Domains_Spec
     property: Properties
     remove: true
@@ -900,7 +895,7 @@ objectModelConfiguration:
         ClusterResourceId:
           $armReference: true
   servicebus:
-    2021-0101-preview:
+    2021-01-01-preview:
       Namespace:
         $export: true
       NamespacesQueue:

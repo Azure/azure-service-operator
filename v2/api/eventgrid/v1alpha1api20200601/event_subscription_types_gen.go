@@ -50,7 +50,7 @@ var _ conversion.Convertible = &EventSubscription{}
 func (subscription *EventSubscription) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20200601storage.EventSubscription)
 	if !ok {
-		return fmt.Errorf("expected storage:eventgrid/v1alpha1api20200601storage/EventSubscription but received %T instead", hub)
+		return fmt.Errorf("expected eventgrid/v1alpha1api20200601storage/EventSubscription but received %T instead", hub)
 	}
 
 	return subscription.AssignPropertiesFromEventSubscription(source)
@@ -60,7 +60,7 @@ func (subscription *EventSubscription) ConvertFrom(hub conversion.Hub) error {
 func (subscription *EventSubscription) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20200601storage.EventSubscription)
 	if !ok {
-		return fmt.Errorf("expected storage:eventgrid/v1alpha1api20200601storage/EventSubscription but received %T instead", hub)
+		return fmt.Errorf("expected eventgrid/v1alpha1api20200601storage/EventSubscription but received %T instead", hub)
 	}
 
 	return subscription.AssignPropertiesToEventSubscription(destination)

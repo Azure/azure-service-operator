@@ -50,7 +50,7 @@ var _ conversion.Convertible = &SqlDatabase{}
 func (database *SqlDatabase) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210515storage.SqlDatabase)
 	if !ok {
-		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/SqlDatabase but received %T instead", hub)
+		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/SqlDatabase but received %T instead", hub)
 	}
 
 	return database.AssignPropertiesFromSqlDatabase(source)
@@ -60,7 +60,7 @@ func (database *SqlDatabase) ConvertFrom(hub conversion.Hub) error {
 func (database *SqlDatabase) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210515storage.SqlDatabase)
 	if !ok {
-		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/SqlDatabase but received %T instead", hub)
+		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/SqlDatabase but received %T instead", hub)
 	}
 
 	return database.AssignPropertiesToSqlDatabase(destination)

@@ -50,7 +50,7 @@ var _ conversion.Convertible = &SqlDatabaseContainerUserDefinedFunction{}
 func (function *SqlDatabaseContainerUserDefinedFunction) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210515storage.SqlDatabaseContainerUserDefinedFunction)
 	if !ok {
-		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/SqlDatabaseContainerUserDefinedFunction but received %T instead", hub)
+		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/SqlDatabaseContainerUserDefinedFunction but received %T instead", hub)
 	}
 
 	return function.AssignPropertiesFromSqlDatabaseContainerUserDefinedFunction(source)
@@ -60,7 +60,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) ConvertFrom(hub convers
 func (function *SqlDatabaseContainerUserDefinedFunction) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210515storage.SqlDatabaseContainerUserDefinedFunction)
 	if !ok {
-		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/SqlDatabaseContainerUserDefinedFunction but received %T instead", hub)
+		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/SqlDatabaseContainerUserDefinedFunction but received %T instead", hub)
 	}
 
 	return function.AssignPropertiesToSqlDatabaseContainerUserDefinedFunction(destination)

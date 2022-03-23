@@ -138,7 +138,9 @@ func LoadConfiguration(configurationFile string) (*Configuration, error) {
 		return nil, err
 	}
 
-	result := &Configuration{}
+	// MUST use this to ensure that ObjectModelConfiguration is instantiated correctly
+	// TODO: split Configuration struct so that domain model is not used for serialization!
+	result := NewConfiguration()
 
 	err = yaml.Unmarshal(data, result)
 	if err != nil {

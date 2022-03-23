@@ -51,7 +51,7 @@ var _ conversion.Convertible = &Webtest{}
 func (webtest *Webtest) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20180501previewstorage.Webtest)
 	if !ok {
-		return fmt.Errorf("expected storage:insights/v1alpha1api20180501previewstorage/Webtest but received %T instead", hub)
+		return fmt.Errorf("expected insights/v1alpha1api20180501previewstorage/Webtest but received %T instead", hub)
 	}
 
 	return webtest.AssignPropertiesFromWebtest(source)
@@ -61,7 +61,7 @@ func (webtest *Webtest) ConvertFrom(hub conversion.Hub) error {
 func (webtest *Webtest) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20180501previewstorage.Webtest)
 	if !ok {
-		return fmt.Errorf("expected storage:insights/v1alpha1api20180501previewstorage/Webtest but received %T instead", hub)
+		return fmt.Errorf("expected insights/v1alpha1api20180501previewstorage/Webtest but received %T instead", hub)
 	}
 
 	return webtest.AssignPropertiesToWebtest(destination)

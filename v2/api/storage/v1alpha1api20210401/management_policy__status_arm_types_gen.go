@@ -134,14 +134,14 @@ type TagFilter_StatusARM struct {
 
 type DateAfterCreation_StatusARM struct {
 	//DaysAfterCreationGreaterThan: Value indicating the age in days after creation
-	DaysAfterCreationGreaterThan float64 `json:"daysAfterCreationGreaterThan,omitempty"`
+	DaysAfterCreationGreaterThan *float64 `json:"daysAfterCreationGreaterThan,omitempty"`
 }
 
 type DateAfterModification_StatusARM struct {
 	//DaysAfterLastAccessTimeGreaterThan: Value indicating the age in days after last blob access. This property can only be
 	//used in conjunction with last access time tracking policy
-	DaysAfterLastAccessTimeGreaterThan *int `json:"daysAfterLastAccessTimeGreaterThan,omitempty"`
+	DaysAfterLastAccessTimeGreaterThan *float64 `json:"daysAfterLastAccessTimeGreaterThan,omitempty"`
 
 	//DaysAfterModificationGreaterThan: Value indicating the age in days after last modification
-	DaysAfterModificationGreaterThan *int `json:"daysAfterModificationGreaterThan,omitempty"`
+	DaysAfterModificationGreaterThan *float64 `json:"daysAfterModificationGreaterThan,omitempty"`
 }

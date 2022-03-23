@@ -23,7 +23,7 @@ type CodeGenerationContext struct {
 	generatedPackages map[PackageReference]*PackageDefinition
 }
 
-var _ ReadonlyTypes = &CodeGenerationContext{}
+var _ ReadonlyTypeDefinitions = &CodeGenerationContext{}
 
 // NewCodeGenerationContext creates a new immutable code generation context
 func NewCodeGenerationContext(
@@ -145,7 +145,8 @@ func (ctx *CodeGenerationContext) GetDefinitionsInCurrentPackage() TypeDefinitio
 
 // GetAllReachableDefinitions returns the actual definitions from a specific package
 func (ctx *CodeGenerationContext) GetAllReachableDefinitions() TypeDefinitionSet {
-	result := ctx.GetDefinitionsInCurrentPackage()
+	// Since we modify result, we make sure we're working with a copy of the set
+	result := ctx.GetDefinitionsInCurrentPackage().Copy()
 	for _, pkgImport := range ctx.packageImports.AsSlice() {
 		defs, found := ctx.GetDefinitionsInPackage(pkgImport.packageReference)
 		if found {

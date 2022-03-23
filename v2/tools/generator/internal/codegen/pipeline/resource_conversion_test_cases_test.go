@@ -49,8 +49,8 @@ func TestGolden_InjectResourceConversionTestCases(t *testing.T) {
 	cfg := config.NewConfiguration()
 	initialState, err := RunTestPipeline(
 		NewState().WithDefinitions(defs),
-		CreateStorageTypes(),       // First create the storage types
-		CreateConversionGraph(cfg), // Then, create the conversion graph showing relationships
+		CreateStorageTypes(),            // First create the storage types
+		CreateConversionGraph(cfg, "v"), // Then, create the conversion graph showing relationships
 		InjectPropertyAssignmentFunctions(cfg, idFactory),
 		ImplementConvertibleInterface(idFactory),
 		InjectJsonSerializationTests(idFactory),

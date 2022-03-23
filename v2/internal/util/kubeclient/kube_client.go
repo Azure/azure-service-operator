@@ -10,29 +10,76 @@ import (
 
 	"github.com/pkg/errors"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
+	"k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-type Client struct {
-	Client client.Client
-	Scheme *runtime.Scheme
+type Client interface {
+	client.Client
+
+	// Additional helpers
+
+	GetObject(ctx context.Context, namespacedName types.NamespacedName, gvk schema.GroupVersionKind) (client.Object, error)
+	GetObjectOrDefault(ctx context.Context, namespacedName types.NamespacedName, gvk schema.GroupVersionKind) (client.Object, error)
 }
 
-func NewClient(
-	client client.Client,
-	scheme *runtime.Scheme) *Client {
+type clientHelper struct {
+	client client.Client
+}
 
-	return &Client{
-		Client: client,
-		Scheme: scheme,
+var _ Client = &clientHelper{}
+
+func NewClient(client client.Client) Client {
+	return &clientHelper{
+		client: client,
 	}
 }
 
-func (k *Client) GetObject(ctx context.Context, namespacedName types.NamespacedName, gvk schema.GroupVersionKind) (client.Object, error) {
-	obj, err := k.Scheme.New(gvk)
+func (c *clientHelper) Get(ctx context.Context, key client.ObjectKey, obj client.Object) error {
+	return c.client.Get(ctx, key, obj)
+}
+
+func (c *clientHelper) List(ctx context.Context, list client.ObjectList, opts ...client.ListOption) error {
+	return c.client.List(ctx, list, opts...)
+}
+
+func (c *clientHelper) Create(ctx context.Context, obj client.Object, opts ...client.CreateOption) error {
+	return c.client.Create(ctx, obj, opts...)
+}
+
+func (c *clientHelper) Delete(ctx context.Context, obj client.Object, opts ...client.DeleteOption) error {
+	return c.client.Delete(ctx, obj, opts...)
+}
+
+func (c *clientHelper) Update(ctx context.Context, obj client.Object, opts ...client.UpdateOption) error {
+	return c.client.Update(ctx, obj, opts...)
+}
+
+func (c *clientHelper) Patch(ctx context.Context, obj client.Object, patch client.Patch, opts ...client.PatchOption) error {
+	return c.client.Patch(ctx, obj, patch, opts...)
+}
+
+func (c *clientHelper) DeleteAllOf(ctx context.Context, obj client.Object, opts ...client.DeleteAllOfOption) error {
+	return c.client.DeleteAllOf(ctx, obj, opts...)
+}
+
+func (c *clientHelper) Status() client.StatusWriter {
+	return c.client.Status()
+}
+
+func (c *clientHelper) Scheme() *runtime.Scheme {
+	return c.client.Scheme()
+}
+
+func (c *clientHelper) RESTMapper() meta.RESTMapper {
+	return c.client.RESTMapper()
+}
+
+func (c *clientHelper) GetObject(ctx context.Context, namespacedName types.NamespacedName, gvk schema.GroupVersionKind) (client.Object, error) {
+	obj, err := c.Scheme().New(gvk)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to create object from gvk %s with", gvk)
 	}
@@ -42,7 +89,7 @@ func (k *Client) GetObject(ctx context.Context, namespacedName types.NamespacedN
 		return nil, errors.Errorf("gvk %s doesn't implement client.Object", gvk)
 	}
 
-	if err := k.Client.Get(ctx, namespacedName, clientObj); err != nil {
+	if err := c.Get(ctx, namespacedName, clientObj); err != nil {
 		return nil, err
 	}
 
@@ -52,8 +99,8 @@ func (k *Client) GetObject(ctx context.Context, namespacedName types.NamespacedN
 	return clientObj, nil
 }
 
-func (k *Client) GetObjectOrDefault(ctx context.Context, namespacedName types.NamespacedName, gvk schema.GroupVersionKind) (client.Object, error) {
-	result, err := k.GetObject(ctx, namespacedName, gvk)
+func (c *clientHelper) GetObjectOrDefault(ctx context.Context, namespacedName types.NamespacedName, gvk schema.GroupVersionKind) (client.Object, error) {
+	result, err := c.GetObject(ctx, namespacedName, gvk)
 	if apierrors.IsNotFound(err) {
 		return nil, nil
 	}

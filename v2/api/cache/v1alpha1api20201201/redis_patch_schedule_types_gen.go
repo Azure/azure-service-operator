@@ -50,7 +50,7 @@ var _ conversion.Convertible = &RedisPatchSchedule{}
 func (schedule *RedisPatchSchedule) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20201201storage.RedisPatchSchedule)
 	if !ok {
-		return fmt.Errorf("expected storage:cache/v1alpha1api20201201storage/RedisPatchSchedule but received %T instead", hub)
+		return fmt.Errorf("expected cache/v1alpha1api20201201storage/RedisPatchSchedule but received %T instead", hub)
 	}
 
 	return schedule.AssignPropertiesFromRedisPatchSchedule(source)
@@ -60,7 +60,7 @@ func (schedule *RedisPatchSchedule) ConvertFrom(hub conversion.Hub) error {
 func (schedule *RedisPatchSchedule) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20201201storage.RedisPatchSchedule)
 	if !ok {
-		return fmt.Errorf("expected storage:cache/v1alpha1api20201201storage/RedisPatchSchedule but received %T instead", hub)
+		return fmt.Errorf("expected cache/v1alpha1api20201201storage/RedisPatchSchedule but received %T instead", hub)
 	}
 
 	return schedule.AssignPropertiesToRedisPatchSchedule(destination)

@@ -50,7 +50,7 @@ var _ conversion.Convertible = &RedisLinkedServer{}
 func (server *RedisLinkedServer) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20201201storage.RedisLinkedServer)
 	if !ok {
-		return fmt.Errorf("expected storage:cache/v1alpha1api20201201storage/RedisLinkedServer but received %T instead", hub)
+		return fmt.Errorf("expected cache/v1alpha1api20201201storage/RedisLinkedServer but received %T instead", hub)
 	}
 
 	return server.AssignPropertiesFromRedisLinkedServer(source)
@@ -60,7 +60,7 @@ func (server *RedisLinkedServer) ConvertFrom(hub conversion.Hub) error {
 func (server *RedisLinkedServer) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20201201storage.RedisLinkedServer)
 	if !ok {
-		return fmt.Errorf("expected storage:cache/v1alpha1api20201201storage/RedisLinkedServer but received %T instead", hub)
+		return fmt.Errorf("expected cache/v1alpha1api20201201storage/RedisLinkedServer but received %T instead", hub)
 	}
 
 	return server.AssignPropertiesToRedisLinkedServer(destination)

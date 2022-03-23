@@ -50,7 +50,7 @@ var _ conversion.Convertible = &VirtualNetworksSubnet{}
 func (subnet *VirtualNetworksSubnet) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20201101storage.VirtualNetworksSubnet)
 	if !ok {
-		return fmt.Errorf("expected storage:network/v1alpha1api20201101storage/VirtualNetworksSubnet but received %T instead", hub)
+		return fmt.Errorf("expected network/v1alpha1api20201101storage/VirtualNetworksSubnet but received %T instead", hub)
 	}
 
 	return subnet.AssignPropertiesFromVirtualNetworksSubnet(source)
@@ -60,7 +60,7 @@ func (subnet *VirtualNetworksSubnet) ConvertFrom(hub conversion.Hub) error {
 func (subnet *VirtualNetworksSubnet) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20201101storage.VirtualNetworksSubnet)
 	if !ok {
-		return fmt.Errorf("expected storage:network/v1alpha1api20201101storage/VirtualNetworksSubnet but received %T instead", hub)
+		return fmt.Errorf("expected network/v1alpha1api20201101storage/VirtualNetworksSubnet but received %T instead", hub)
 	}
 
 	return subnet.AssignPropertiesToVirtualNetworksSubnet(destination)

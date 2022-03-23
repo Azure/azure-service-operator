@@ -7,29 +7,19 @@ import (
 
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
+	"github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
-
-// TODO: it doesn't really matter where these are (as long as they're in 'apis', where is where we run controller-gen).
-// These are the permissions required by the generic_controller. They're here because they can't go outside the 'apis'
-// directory.
-
-// +kubebuilder:rbac:groups=core,resources=events,verbs=get;list;watch;create;patch
-// +kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;watch;create;patch
-// +kubebuilder:rbac:groups=coordination.k8s.io,resources=leases,verbs=get;list;watch;create;update;patch;delete
-
-// +kubebuilder:rbac:groups=resources.azure.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=resources.azure.com,resources={resourcegroups/status,resourcegroups/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// +kubebuilder:storageversion
 type ResourceGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -128,6 +118,80 @@ func (rg *ResourceGroup) Location() string {
 	return *rg.Spec.Location
 }
 
+var _ conversion.Convertible = &ResourceGroup{}
+
+// ConvertFrom populates our ResourceGroup from the provided hub ResourceGroup
+func (rg *ResourceGroup) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1beta20200601.ResourceGroup)
+	if !ok {
+		return fmt.Errorf("expected compute/v1beta20200601/ResourceGroup but received %T instead", hub)
+	}
+
+	return rg.AssignPropertiesFromResourceGroup(source)
+}
+
+// ConvertTo populates the provided hub Disk from our Disk
+func (rg *ResourceGroup) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1beta20200601.ResourceGroup)
+	if !ok {
+		return fmt.Errorf("expected compute/v1beta20200601/ResourceGroup but received %T instead", hub)
+	}
+
+	return rg.AssignPropertiesToResourceGroup(destination)
+}
+
+// AssignPropertiesFromResourceGroup populates our ResourceGroup from the provided source ResourceGroup
+func (rg *ResourceGroup) AssignPropertiesFromResourceGroup(source *v1beta20200601.ResourceGroup) error {
+
+	// ObjectMeta
+	rg.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec ResourceGroupSpec
+	err := spec.ConvertSpecFrom(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromResourceGroupSpec() to populate field Spec")
+	}
+	rg.Spec = spec
+
+	// Status
+	var status ResourceGroupStatus
+	err = status.ConvertStatusFrom(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromResourceGroupStatus() to populate field Status")
+	}
+	rg.Status = status
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToResourceGroup populates the provided destination Disk from our Disk
+func (rg *ResourceGroup) AssignPropertiesToResourceGroup(destination *v1beta20200601.ResourceGroup) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *rg.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v1beta20200601.ResourceGroupSpec
+	err := rg.Spec.ConvertSpecTo(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling ConvertSpecTo() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v1beta20200601.ResourceGroupStatus
+	err = rg.Status.ConvertStatusTo(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling ConvertStatusTo() to populate field Status")
+	}
+	destination.Status = status
+
+	// No error
+	return nil
+}
+
 // +kubebuilder:object:root=true
 type ResourceGroupList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -173,7 +237,7 @@ func (status *ResourceGroupStatus) PopulateFromARM(owner genruntime.ArbitraryOwn
 	status.ManagedBy = typedInput.ManagedBy
 	status.Name = typedInput.Name
 	status.Tags = typedInput.Tags
-	// Set property ‘AccessTier’:
+
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		status.ProvisioningState = typedInput.Properties.ProvisioningState
@@ -182,12 +246,12 @@ func (status *ResourceGroupStatus) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-// ConvertSpecTo copies information from the current instance onto the supplied destination
+// ConvertStatusTo copies information from the current instance onto the supplied destination
 func (status *ResourceGroupStatus) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*ResourceGroupStatus)
+	dst, ok := destination.(*v1beta20200601.ResourceGroupStatus)
 	if !ok {
 		return errors.Errorf(
-			"cannot convert ResourceGroupStatus, expected destination to be a *ResourceGroupStatus but received %T",
+			"cannot convert ResourceGroupStatus, expected destination to be a *v1beta20200601.ResourceGroupStatus but received %T",
 			destination)
 	}
 
@@ -209,12 +273,12 @@ func (status *ResourceGroupStatus) ConvertStatusTo(destination genruntime.Conver
 	return nil
 }
 
-// ConvertSpecFrom copies information from the supplied source onto the current instance
+// ConvertStatusFrom copies information from the supplied source onto the current instance
 func (status *ResourceGroupStatus) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*ResourceGroupStatus)
+	src, ok := source.(*v1beta20200601.ResourceGroupStatus)
 	if !ok {
 		return errors.Errorf(
-			"cannot convert ResourceGroupStatus, expected source to be a *ResourceGroupStatus but received %T",
+			"cannot convert ResourceGroupStatus, expected source to be a *v1beta20200601.ResourceGroupStatus but received %T",
 			source)
 	}
 
@@ -293,10 +357,10 @@ func (spec *ResourceGroupSpec) SetAzureName(azureName string) { spec.AzureName =
 
 // ConvertSpecTo copies information from the current instance over to the supplied destination
 func (spec *ResourceGroupSpec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*ResourceGroupSpec)
+	dst, ok := destination.(*v1beta20200601.ResourceGroupSpec)
 	if !ok {
 		return errors.Errorf(
-			"cannot convert ResourceGroupSpec, expected destination to be a *ResouceGroupSpec but received %T",
+			"cannot convert ResourceGroupSpec, expected destination to be a *v1beta20200601.ResouceGroupSpec but received %T",
 			destination)
 	}
 
@@ -314,10 +378,10 @@ func (spec *ResourceGroupSpec) ConvertSpecTo(destination genruntime.ConvertibleS
 
 // ConvertSpecFrom copies information from the supplied source onto the current instance
 func (spec *ResourceGroupSpec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*ResourceGroupSpec)
+	src, ok := source.(*v1beta20200601.ResourceGroupSpec)
 	if !ok {
 		return errors.Errorf(
-			"cannot convert ResourceGroupSpec, expected source to be a *ResourceGroupSpec but received %T",
+			"cannot convert ResourceGroupSpec, expected source to be a *v1beta20200601.ResourceGroupSpec but received %T",
 			source)
 	}
 

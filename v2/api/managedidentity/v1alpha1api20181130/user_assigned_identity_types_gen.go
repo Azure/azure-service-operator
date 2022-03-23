@@ -50,7 +50,7 @@ var _ conversion.Convertible = &UserAssignedIdentity{}
 func (identity *UserAssignedIdentity) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20181130storage.UserAssignedIdentity)
 	if !ok {
-		return fmt.Errorf("expected storage:managedidentity/v1alpha1api20181130storage/UserAssignedIdentity but received %T instead", hub)
+		return fmt.Errorf("expected managedidentity/v1alpha1api20181130storage/UserAssignedIdentity but received %T instead", hub)
 	}
 
 	return identity.AssignPropertiesFromUserAssignedIdentity(source)
@@ -60,7 +60,7 @@ func (identity *UserAssignedIdentity) ConvertFrom(hub conversion.Hub) error {
 func (identity *UserAssignedIdentity) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20181130storage.UserAssignedIdentity)
 	if !ok {
-		return fmt.Errorf("expected storage:managedidentity/v1alpha1api20181130storage/UserAssignedIdentity but received %T instead", hub)
+		return fmt.Errorf("expected managedidentity/v1alpha1api20181130storage/UserAssignedIdentity but received %T instead", hub)
 	}
 
 	return identity.AssignPropertiesToUserAssignedIdentity(destination)

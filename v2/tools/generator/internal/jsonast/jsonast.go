@@ -367,13 +367,13 @@ func numberHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (
 			}
 		}
 
+		result := astmodel.NewValidatedType(t, *v)
 		if len(errs) > 0 {
-			result := astmodel.NewValidatedType(t, *v)
 			return astmodel.NewErroredType(result, errs, nil), nil
 		}
 
 		// we have checked they are all integers:
-		return astmodel.NewValidatedType(astmodel.IntType, *v), nil
+		return result, nil
 	}
 
 	return t, nil

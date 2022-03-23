@@ -903,12 +903,12 @@ func (in *DateAfterModification_Status) DeepCopyInto(out *DateAfterModification_
 	*out = *in
 	if in.DaysAfterLastAccessTimeGreaterThan != nil {
 		in, out := &in.DaysAfterLastAccessTimeGreaterThan, &out.DaysAfterLastAccessTimeGreaterThan
-		*out = new(int)
+		*out = new(float64)
 		**out = **in
 	}
 	if in.DaysAfterModificationGreaterThan != nil {
 		in, out := &in.DaysAfterModificationGreaterThan, &out.DaysAfterModificationGreaterThan
-		*out = new(int)
+		*out = new(float64)
 		**out = **in
 	}
 	if in.PropertyBag != nil {

@@ -26,13 +26,15 @@ import (
 // ╚══════════════════════════╝       └────────────────────┘       └──────────────────────┘       └───────────────────┘       └───────────────────────┘
 //
 type ObjectModelConfiguration struct {
-	groups map[string]*GroupConfiguration
+	groups      map[string]*GroupConfiguration // nested configuration for individual groups
+	typoAdvisor *TypoAdvisor
 }
 
 // NewObjectModelConfiguration returns a new (empty) ObjectModelConfiguration
 func NewObjectModelConfiguration() *ObjectModelConfiguration {
 	return &ObjectModelConfiguration{
-		groups: make(map[string]*GroupConfiguration),
+		groups:      make(map[string]*GroupConfiguration),
+		typoAdvisor: NewTypoAdvisor(),
 	}
 }
 
@@ -221,8 +223,8 @@ func (omc *ObjectModelConfiguration) add(group *GroupConfiguration) {
 // Returns a NotConfiguredError if the group is not found; otherwise whatever error is returned by the visitor.
 func (omc *ObjectModelConfiguration) visitGroup(
 	name astmodel.TypeName,
-	visitor *configurationVisitor) error {
-
+	visitor *configurationVisitor,
+) error {
 	group, err := omc.findGroup(name)
 	if err != nil {
 		return err
@@ -235,7 +237,9 @@ func (omc *ObjectModelConfiguration) visitGroup(
 func (omc *ObjectModelConfiguration) visitGroups(visitor *configurationVisitor) error {
 	var errs []error
 	for _, gc := range omc.groups {
-		errs = append(errs, visitor.visitGroup(gc))
+		err := visitor.visitGroup(gc)
+		err = omc.typoAdvisor.Wrapf(err, gc.name, "group %s not seen", gc.name)
+		errs = append(errs, err)
 	}
 
 	// kerrors.NewAggregate() returns nil if nothing went wrong
@@ -256,6 +260,7 @@ func (omc *ObjectModelConfiguration) findGroup(name astmodel.TypeName) (*GroupCo
 		return nil, NewNotConfiguredError(msg)
 	}
 
+	omc.typoAdvisor.AddTerm(group)
 	if g, ok := omc.groups[group]; ok {
 		return g, nil
 	}

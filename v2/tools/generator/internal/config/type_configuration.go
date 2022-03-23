@@ -32,6 +32,7 @@ type TypeConfiguration struct {
 	export                configurableBool
 	exportAs              configurableString
 	azureGeneratedSecrets configurableStringSlice
+	advisor               *TypoAdvisor
 }
 
 const azureGeneratedSecretsTag = "$azureGeneratedSecrets"
@@ -40,6 +41,7 @@ func NewTypeConfiguration(name string) *TypeConfiguration {
 	return &TypeConfiguration{
 		name:       name,
 		properties: make(map[string]*PropertyConfiguration),
+		advisor:    NewTypoAdvisor(),
 	}
 }
 
@@ -146,8 +148,8 @@ func (tc *TypeConfiguration) add(property *PropertyConfiguration) {
 // Returns a NotConfiguredError if the property is not found; otherwise whatever error is returned by the visitor.
 func (tc *TypeConfiguration) visitProperty(
 	property astmodel.PropertyName,
-	visitor *configurationVisitor) error {
-
+	visitor *configurationVisitor,
+) error {
 	pc, err := tc.findProperty(property)
 	if err != nil {
 		return err
@@ -160,7 +162,9 @@ func (tc *TypeConfiguration) visitProperty(
 func (tc *TypeConfiguration) visitProperties(visitor *configurationVisitor) error {
 	var errs []error
 	for _, pc := range tc.properties {
-		errs = append(errs, visitor.visitProperty(pc))
+		err := visitor.visitProperty(pc)
+		err = tc.advisor.Wrapf(err, pc.name, "property %s not seen", pc.name)
+		errs = append(errs, err)
 	}
 
 	// Both errors.Wrapf() and kerrors.NewAggregate() return nil if nothing went wrong
@@ -175,6 +179,7 @@ func (tc *TypeConfiguration) visitProperties(visitor *configurationVisitor) erro
 func (tc *TypeConfiguration) findProperty(property astmodel.PropertyName) (*PropertyConfiguration, error) {
 	// Store the property id using lowercase,
 	// so we can do case-insensitive lookups later
+	tc.advisor.AddTerm(string(property))
 	p := strings.ToLower(string(property))
 	if pc, ok := tc.properties[p]; ok {
 		return pc, nil

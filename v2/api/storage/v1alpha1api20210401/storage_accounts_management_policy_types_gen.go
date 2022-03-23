@@ -50,7 +50,7 @@ var _ conversion.Convertible = &StorageAccountsManagementPolicy{}
 func (policy *StorageAccountsManagementPolicy) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210401storage.StorageAccountsManagementPolicy)
 	if !ok {
-		return fmt.Errorf("expected storage:storage/v1alpha1api20210401storage/StorageAccountsManagementPolicy but received %T instead", hub)
+		return fmt.Errorf("expected storage/v1alpha1api20210401storage/StorageAccountsManagementPolicy but received %T instead", hub)
 	}
 
 	return policy.AssignPropertiesFromStorageAccountsManagementPolicy(source)
@@ -60,7 +60,7 @@ func (policy *StorageAccountsManagementPolicy) ConvertFrom(hub conversion.Hub) e
 func (policy *StorageAccountsManagementPolicy) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210401storage.StorageAccountsManagementPolicy)
 	if !ok {
-		return fmt.Errorf("expected storage:storage/v1alpha1api20210401storage/StorageAccountsManagementPolicy but received %T instead", hub)
+		return fmt.Errorf("expected storage/v1alpha1api20210401storage/StorageAccountsManagementPolicy but received %T instead", hub)
 	}
 
 	return policy.AssignPropertiesToStorageAccountsManagementPolicy(destination)
@@ -3618,7 +3618,7 @@ func (creation *DateAfterCreation) AssignPropertiesToDateAfterCreation(destinati
 
 type DateAfterCreation_Status struct {
 	//DaysAfterCreationGreaterThan: Value indicating the age in days after creation
-	DaysAfterCreationGreaterThan float64 `json:"daysAfterCreationGreaterThan,omitempty"`
+	DaysAfterCreationGreaterThan *float64 `json:"daysAfterCreationGreaterThan,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DateAfterCreation_Status{}
@@ -3636,7 +3636,10 @@ func (creation *DateAfterCreation_Status) PopulateFromARM(owner genruntime.Arbit
 	}
 
 	// Set property ‘DaysAfterCreationGreaterThan’:
-	creation.DaysAfterCreationGreaterThan = typedInput.DaysAfterCreationGreaterThan
+	if typedInput.DaysAfterCreationGreaterThan != nil {
+		daysAfterCreationGreaterThan := *typedInput.DaysAfterCreationGreaterThan
+		creation.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
+	}
 
 	// No error
 	return nil
@@ -3647,9 +3650,10 @@ func (creation *DateAfterCreation_Status) AssignPropertiesFromDateAfterCreationS
 
 	// DaysAfterCreationGreaterThan
 	if source.DaysAfterCreationGreaterThan != nil {
-		creation.DaysAfterCreationGreaterThan = *source.DaysAfterCreationGreaterThan
+		daysAfterCreationGreaterThan := *source.DaysAfterCreationGreaterThan
+		creation.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
 	} else {
-		creation.DaysAfterCreationGreaterThan = 0
+		creation.DaysAfterCreationGreaterThan = nil
 	}
 
 	// No error
@@ -3662,8 +3666,12 @@ func (creation *DateAfterCreation_Status) AssignPropertiesToDateAfterCreationSta
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DaysAfterCreationGreaterThan
-	daysAfterCreationGreaterThan := creation.DaysAfterCreationGreaterThan
-	destination.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
+	if creation.DaysAfterCreationGreaterThan != nil {
+		daysAfterCreationGreaterThan := *creation.DaysAfterCreationGreaterThan
+		destination.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
+	} else {
+		destination.DaysAfterCreationGreaterThan = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3799,10 +3807,10 @@ func (modification *DateAfterModification) AssignPropertiesToDateAfterModificati
 type DateAfterModification_Status struct {
 	//DaysAfterLastAccessTimeGreaterThan: Value indicating the age in days after last blob access. This property can only be
 	//used in conjunction with last access time tracking policy
-	DaysAfterLastAccessTimeGreaterThan *int `json:"daysAfterLastAccessTimeGreaterThan,omitempty"`
+	DaysAfterLastAccessTimeGreaterThan *float64 `json:"daysAfterLastAccessTimeGreaterThan,omitempty"`
 
 	//DaysAfterModificationGreaterThan: Value indicating the age in days after last modification
-	DaysAfterModificationGreaterThan *int `json:"daysAfterModificationGreaterThan,omitempty"`
+	DaysAfterModificationGreaterThan *float64 `json:"daysAfterModificationGreaterThan,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DateAfterModification_Status{}
@@ -3839,10 +3847,20 @@ func (modification *DateAfterModification_Status) PopulateFromARM(owner genrunti
 func (modification *DateAfterModification_Status) AssignPropertiesFromDateAfterModificationStatus(source *v1alpha1api20210401storage.DateAfterModification_Status) error {
 
 	// DaysAfterLastAccessTimeGreaterThan
-	modification.DaysAfterLastAccessTimeGreaterThan = genruntime.ClonePointerToInt(source.DaysAfterLastAccessTimeGreaterThan)
+	if source.DaysAfterLastAccessTimeGreaterThan != nil {
+		daysAfterLastAccessTimeGreaterThan := *source.DaysAfterLastAccessTimeGreaterThan
+		modification.DaysAfterLastAccessTimeGreaterThan = &daysAfterLastAccessTimeGreaterThan
+	} else {
+		modification.DaysAfterLastAccessTimeGreaterThan = nil
+	}
 
 	// DaysAfterModificationGreaterThan
-	modification.DaysAfterModificationGreaterThan = genruntime.ClonePointerToInt(source.DaysAfterModificationGreaterThan)
+	if source.DaysAfterModificationGreaterThan != nil {
+		daysAfterModificationGreaterThan := *source.DaysAfterModificationGreaterThan
+		modification.DaysAfterModificationGreaterThan = &daysAfterModificationGreaterThan
+	} else {
+		modification.DaysAfterModificationGreaterThan = nil
+	}
 
 	// No error
 	return nil
@@ -3854,10 +3872,20 @@ func (modification *DateAfterModification_Status) AssignPropertiesToDateAfterMod
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DaysAfterLastAccessTimeGreaterThan
-	destination.DaysAfterLastAccessTimeGreaterThan = genruntime.ClonePointerToInt(modification.DaysAfterLastAccessTimeGreaterThan)
+	if modification.DaysAfterLastAccessTimeGreaterThan != nil {
+		daysAfterLastAccessTimeGreaterThan := *modification.DaysAfterLastAccessTimeGreaterThan
+		destination.DaysAfterLastAccessTimeGreaterThan = &daysAfterLastAccessTimeGreaterThan
+	} else {
+		destination.DaysAfterLastAccessTimeGreaterThan = nil
+	}
 
 	// DaysAfterModificationGreaterThan
-	destination.DaysAfterModificationGreaterThan = genruntime.ClonePointerToInt(modification.DaysAfterModificationGreaterThan)
+	if modification.DaysAfterModificationGreaterThan != nil {
+		daysAfterModificationGreaterThan := *modification.DaysAfterModificationGreaterThan
+		destination.DaysAfterModificationGreaterThan = &daysAfterModificationGreaterThan
+	} else {
+		destination.DaysAfterModificationGreaterThan = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

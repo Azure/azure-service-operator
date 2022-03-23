@@ -50,7 +50,7 @@ var _ conversion.Convertible = &DatabaseAccount{}
 func (account *DatabaseAccount) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210515storage.DatabaseAccount)
 	if !ok {
-		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/DatabaseAccount but received %T instead", hub)
+		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/DatabaseAccount but received %T instead", hub)
 	}
 
 	return account.AssignPropertiesFromDatabaseAccount(source)
@@ -60,7 +60,7 @@ func (account *DatabaseAccount) ConvertFrom(hub conversion.Hub) error {
 func (account *DatabaseAccount) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210515storage.DatabaseAccount)
 	if !ok {
-		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/DatabaseAccount but received %T instead", hub)
+		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/DatabaseAccount but received %T instead", hub)
 	}
 
 	return account.AssignPropertiesToDatabaseAccount(destination)

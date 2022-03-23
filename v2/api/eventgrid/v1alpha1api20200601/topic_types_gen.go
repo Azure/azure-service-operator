@@ -50,7 +50,7 @@ var _ conversion.Convertible = &Topic{}
 func (topic *Topic) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20200601storage.Topic)
 	if !ok {
-		return fmt.Errorf("expected storage:eventgrid/v1alpha1api20200601storage/Topic but received %T instead", hub)
+		return fmt.Errorf("expected eventgrid/v1alpha1api20200601storage/Topic but received %T instead", hub)
 	}
 
 	return topic.AssignPropertiesFromTopic(source)
@@ -60,7 +60,7 @@ func (topic *Topic) ConvertFrom(hub conversion.Hub) error {
 func (topic *Topic) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20200601storage.Topic)
 	if !ok {
-		return fmt.Errorf("expected storage:eventgrid/v1alpha1api20200601storage/Topic but received %T instead", hub)
+		return fmt.Errorf("expected eventgrid/v1alpha1api20200601storage/Topic but received %T instead", hub)
 	}
 
 	return topic.AssignPropertiesToTopic(destination)

@@ -26,6 +26,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	armreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
+	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
@@ -95,8 +96,12 @@ func main() {
 			os.Exit(1)
 		}
 
+		kubeClient := kubeclient.NewClient(mgr.GetClient())
+
 		err = controllers.RegisterAll(
 			mgr,
+			mgr.GetFieldIndexer(),
+			kubeClient,
 			clientFactory,
 			controllers.GetKnownStorageTypes(),
 			extensions,

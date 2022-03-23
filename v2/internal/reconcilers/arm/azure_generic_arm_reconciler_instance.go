@@ -650,7 +650,7 @@ func (r *azureDeploymentReconcilerInstance) saveAzureSecrets(ctx context.Context
 		return err
 	}
 
-	results, err := secrets.ApplySecretsAndEnsureOwner(ctx, r.KubeClient.Client, r.Obj, secretSlice)
+	results, err := secrets.ApplySecretsAndEnsureOwner(ctx, r.KubeClient, r.Obj, secretSlice)
 	if err != nil {
 		return err
 	}

@@ -51,7 +51,7 @@ var _ conversion.Convertible = &Component{}
 func (component *Component) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20200202storage.Component)
 	if !ok {
-		return fmt.Errorf("expected storage:insights/v1alpha1api20200202storage/Component but received %T instead", hub)
+		return fmt.Errorf("expected insights/v1alpha1api20200202storage/Component but received %T instead", hub)
 	}
 
 	return component.AssignPropertiesFromComponent(source)
@@ -61,7 +61,7 @@ func (component *Component) ConvertFrom(hub conversion.Hub) error {
 func (component *Component) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20200202storage.Component)
 	if !ok {
-		return fmt.Errorf("expected storage:insights/v1alpha1api20200202storage/Component but received %T instead", hub)
+		return fmt.Errorf("expected insights/v1alpha1api20200202storage/Component but received %T instead", hub)
 	}
 
 	return component.AssignPropertiesToComponent(destination)

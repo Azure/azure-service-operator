@@ -33,12 +33,12 @@ import (
 
 const testNamespace = "testnamespace"
 
-func NewKubeClient(s *runtime.Scheme) *kubeclient.Client {
+func NewKubeClient(s *runtime.Scheme) kubeclient.Client {
 	fakeClient := fake.NewClientBuilder().WithScheme(s).Build()
-	return kubeclient.NewClient(fakeClient, s)
+	return kubeclient.NewClient(fakeClient)
 }
 
-func NewTestResolver(client *kubeclient.Client, reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind) *resolver.Resolver {
+func NewTestResolver(client kubeclient.Client, reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind) *resolver.Resolver {
 	return resolver.NewResolver(client, reconciledResourceLookup)
 }
 
@@ -71,7 +71,7 @@ func MakeResourceGVKLookup(scheme *runtime.Scheme) (map[schema.GroupKind]schema.
 
 type testResources struct {
 	resolver *resolver.Resolver
-	client   *kubeclient.Client
+	client   kubeclient.Client
 }
 
 func testSetup() (*testResources, error) {
@@ -248,7 +248,7 @@ func Test_ResolveResourceHierarchy_ResourceGroup_TopLevelResource(t *testing.T) 
 
 	a, b := createResourceGroupRootedResource(resourceGroupName, resourceName)
 
-	err = test.client.Client.Create(ctx, a)
+	err = test.client.Create(ctx, a)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	hierarchy, err := test.resolver.ResolveResourceHierarchy(ctx, b)
@@ -275,7 +275,7 @@ func Test_ResolveResourceHierarchy_ResourceGroup_NestedResource(t *testing.T) {
 	originalHierarchy := createDeeplyNestedResource(resourceGroupName, resourceName, childResourceName)
 
 	for _, item := range originalHierarchy {
-		err = test.client.Client.Create(ctx, item)
+		err = test.client.Create(ctx, item)
 		g.Expect(err).ToNot(HaveOccurred())
 	}
 
@@ -324,7 +324,7 @@ func Test_ResolveReference_FindsReference(t *testing.T) {
 	resourceGroupName := "myrg"
 
 	resourceGroup := createResourceGroup(resourceGroupName)
-	err = test.client.Client.Create(ctx, resourceGroup)
+	err = test.client.Create(ctx, resourceGroup)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	ref := genruntime.ResourceReference{Group: resolver.ResourceGroupGroup, Kind: resolver.ResourceGroupKind, Name: resourceGroupName}
@@ -364,7 +364,7 @@ func Test_ResolveReferenceToARMID_KubernetesResource_ReturnsExpectedID(t *testin
 	resourceGroup := createResourceGroup(resourceGroupName)
 	genruntime.SetResourceID(resourceGroup, armID)
 
-	err = test.client.Client.Create(ctx, resourceGroup)
+	err = test.client.Create(ctx, resourceGroup)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	ref := genruntime.ResourceReference{Group: resolver.ResourceGroupGroup, Kind: resolver.ResourceGroupKind, Name: resourceGroupName}
@@ -402,7 +402,7 @@ func Test_ResolveSecrets_ReturnsExpectedSecretValue(t *testing.T) {
 	resourceGroup := createResourceGroup(resourceGroupName)
 	genruntime.SetResourceID(resourceGroup, armID) // TODO: Do I actually need this here?
 
-	err = test.client.Client.Create(ctx, resourceGroup)
+	err = test.client.Create(ctx, resourceGroup)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	secretName := "testsecret"
@@ -421,7 +421,7 @@ func Test_ResolveSecrets_ReturnsExpectedSecretValue(t *testing.T) {
 		Type: "Opaque",
 	}
 
-	err = test.client.Client.Create(ctx, secret)
+	err = test.client.Create(ctx, secret)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	ref := genruntime.SecretReference{Name: secretName, Key: secretKey}

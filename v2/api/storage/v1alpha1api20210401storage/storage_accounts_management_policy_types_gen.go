@@ -368,8 +368,8 @@ type DateAfterModification struct {
 
 //Storage version of v1alpha1api20210401.DateAfterModification_Status
 type DateAfterModification_Status struct {
-	DaysAfterLastAccessTimeGreaterThan *int                   `json:"daysAfterLastAccessTimeGreaterThan,omitempty"`
-	DaysAfterModificationGreaterThan   *int                   `json:"daysAfterModificationGreaterThan,omitempty"`
+	DaysAfterLastAccessTimeGreaterThan *float64               `json:"daysAfterLastAccessTimeGreaterThan,omitempty"`
+	DaysAfterModificationGreaterThan   *float64               `json:"daysAfterModificationGreaterThan,omitempty"`
 	PropertyBag                        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 

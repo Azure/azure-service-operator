@@ -50,7 +50,7 @@ var _ conversion.Convertible = &VirtualNetworksVirtualNetworkPeering{}
 func (peering *VirtualNetworksVirtualNetworkPeering) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20201101storage.VirtualNetworksVirtualNetworkPeering)
 	if !ok {
-		return fmt.Errorf("expected storage:network/v1alpha1api20201101storage/VirtualNetworksVirtualNetworkPeering but received %T instead", hub)
+		return fmt.Errorf("expected network/v1alpha1api20201101storage/VirtualNetworksVirtualNetworkPeering but received %T instead", hub)
 	}
 
 	return peering.AssignPropertiesFromVirtualNetworksVirtualNetworkPeering(source)
@@ -60,7 +60,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering) ConvertFrom(hub conversion.
 func (peering *VirtualNetworksVirtualNetworkPeering) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20201101storage.VirtualNetworksVirtualNetworkPeering)
 	if !ok {
-		return fmt.Errorf("expected storage:network/v1alpha1api20201101storage/VirtualNetworksVirtualNetworkPeering but received %T instead", hub)
+		return fmt.Errorf("expected network/v1alpha1api20201101storage/VirtualNetworksVirtualNetworkPeering but received %T instead", hub)
 	}
 
 	return peering.AssignPropertiesToVirtualNetworksVirtualNetworkPeering(destination)

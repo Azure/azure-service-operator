@@ -28,6 +28,7 @@ import (
 type GroupConfiguration struct {
 	name     string
 	versions map[string]*VersionConfiguration
+	advisor  *TypoAdvisor
 }
 
 // NewGroupConfiguration returns a new (empty) GroupConfiguration
@@ -35,6 +36,7 @@ func NewGroupConfiguration(name string) *GroupConfiguration {
 	return &GroupConfiguration{
 		name:     name,
 		versions: make(map[string]*VersionConfiguration),
+		advisor:  NewTypoAdvisor(),
 	}
 }
 
@@ -71,8 +73,8 @@ func (gc *GroupConfiguration) add(version *VersionConfiguration) {
 // Returns a NotConfiguredError if the version is not found; otherwise whatever error is returned by the visitor.
 func (gc *GroupConfiguration) visitVersion(
 	name astmodel.TypeName,
-	visitor *configurationVisitor) error {
-
+	visitor *configurationVisitor,
+) error {
 	vc, err := gc.findVersion(name)
 	if err != nil {
 		return err
@@ -92,7 +94,10 @@ func (gc *GroupConfiguration) visitVersions(visitor *configurationVisitor) error
 			continue
 		}
 
-		errs = append(errs, visitor.visitVersion(v))
+		err := visitor.visitVersion(v)
+		err = gc.advisor.Wrapf(err, v.name, "version %s not seen", v.name)
+		errs = append(errs, err)
+
 		versionsSeen.Add(v.name)
 	}
 
@@ -112,6 +117,7 @@ func (gc *GroupConfiguration) findVersion(name astmodel.TypeName) (*VersionConfi
 		ref = s.Local()
 	}
 
+	gc.advisor.AddTerm(ref.PackageName())
 	v := strings.ToLower(ref.PackageName())
 	if version, ok := gc.versions[v]; ok {
 		return version, nil

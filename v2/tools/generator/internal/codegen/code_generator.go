@@ -108,6 +108,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		pipeline.MakeStatusPropertiesOptional(),
 		pipeline.RemoveStatusValidations(),
+		pipeline.TransformValidatedFloats(),
 		pipeline.UnrollRecursiveTypes(),
 
 		// Figure out resource owners:
@@ -146,6 +147,9 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.AddCrossResourceReferences(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.AddSecrets(configuration).UsedFor(pipeline.ARMTarget),
 
+		// Enable this in the next PR
+		//!!pipeline.CreateBackwardCompatiblityTypes("v1alpha1api").UsedFor(pipeline.ARMTarget),
+
 		pipeline.ReportOnTypesAndVersions(configuration).UsedFor(pipeline.ARMTarget), // TODO: For now only used for ARM
 
 		pipeline.CreateARMTypes(idFactory).UsedFor(pipeline.ARMTarget),
@@ -177,7 +181,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// TODO: For now only used for ARM
 		pipeline.InjectOriginalVersionFunction(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.CreateStorageTypes().UsedFor(pipeline.ARMTarget),
-		pipeline.CreateConversionGraph(configuration).UsedFor(pipeline.ARMTarget),
+		pipeline.CreateConversionGraph(configuration, astmodel.GeneratorVersionPrefix).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectOriginalVersionProperty().UsedFor(pipeline.ARMTarget),
 		pipeline.InjectPropertyAssignmentFunctions(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.ImplementConvertibleSpecInterface(idFactory).UsedFor(pipeline.ARMTarget),
