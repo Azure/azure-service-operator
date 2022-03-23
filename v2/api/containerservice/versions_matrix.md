@@ -1,133 +1,133 @@
-| Type Definitions in package "containerservice"                                               | v1alpha1api20210501 |
-|----------------------------------------------------------------------------------------------|---------------------|
-| AgentPoolMode_Status                                                                         | v1alpha1api20210501 |
-| AgentPoolType_Status                                                                         | v1alpha1api20210501 |
-| AgentPoolUpgradeSettings                                                                     | v1alpha1api20210501 |
-| AgentPoolUpgradeSettings_Status                                                              | v1alpha1api20210501 |
-| AgentPool_Status                                                                             | v1alpha1api20210501 |
-| Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties | v1alpha1api20210501 |
-| ContainerServiceLinuxProfile                                                                 | v1alpha1api20210501 |
-| ContainerServiceLinuxProfile_Status                                                          | v1alpha1api20210501 |
-| ContainerServiceNetworkProfile                                                               | v1alpha1api20210501 |
-| ContainerServiceNetworkProfileLoadBalancerSku                                                | v1alpha1api20210501 |
-| ContainerServiceNetworkProfileNetworkMode                                                    | v1alpha1api20210501 |
-| ContainerServiceNetworkProfileNetworkPlugin                                                  | v1alpha1api20210501 |
-| ContainerServiceNetworkProfileNetworkPolicy                                                  | v1alpha1api20210501 |
-| ContainerServiceNetworkProfileOutboundType                                                   | v1alpha1api20210501 |
-| ContainerServiceNetworkProfileStatusLoadBalancerSku                                          | v1alpha1api20210501 |
-| ContainerServiceNetworkProfileStatusNetworkMode                                              | v1alpha1api20210501 |
-| ContainerServiceNetworkProfileStatusNetworkPlugin                                            | v1alpha1api20210501 |
-| ContainerServiceNetworkProfileStatusNetworkPolicy                                            | v1alpha1api20210501 |
-| ContainerServiceNetworkProfileStatusOutboundType                                             | v1alpha1api20210501 |
-| ContainerServiceNetworkProfile_Status                                                        | v1alpha1api20210501 |
-| ContainerServiceSshConfiguration                                                             | v1alpha1api20210501 |
-| ContainerServiceSshConfiguration_Status                                                      | v1alpha1api20210501 |
-| ContainerServiceSshPublicKey                                                                 | v1alpha1api20210501 |
-| ContainerServiceSshPublicKey_Status                                                          | v1alpha1api20210501 |
-| ExtendedLocation                                                                             | v1alpha1api20210501 |
-| ExtendedLocationType                                                                         | v1alpha1api20210501 |
-| ExtendedLocationType_Status                                                                  | v1alpha1api20210501 |
-| ExtendedLocation_Status                                                                      | v1alpha1api20210501 |
-| GPUInstanceProfile_Status                                                                    | v1alpha1api20210501 |
-| KubeletConfig                                                                                | v1alpha1api20210501 |
-| KubeletConfig_Status                                                                         | v1alpha1api20210501 |
-| KubeletDiskType_Status                                                                       | v1alpha1api20210501 |
-| LinuxOSConfig                                                                                | v1alpha1api20210501 |
-| LinuxOSConfig_Status                                                                         | v1alpha1api20210501 |
-| ManagedCluster                                                                               | v1alpha1api20210501 |
-| ManagedClusterAADProfile                                                                     | v1alpha1api20210501 |
-| ManagedClusterAADProfile_Status                                                              | v1alpha1api20210501 |
-| ManagedClusterAPIServerAccessProfile                                                         | v1alpha1api20210501 |
-| ManagedClusterAPIServerAccessProfile_Status                                                  | v1alpha1api20210501 |
-| ManagedClusterAddonProfile                                                                   | v1alpha1api20210501 |
-| ManagedClusterAgentPoolProfile                                                               | v1alpha1api20210501 |
-| ManagedClusterAgentPoolProfileGpuInstanceProfile                                             | v1alpha1api20210501 |
-| ManagedClusterAgentPoolProfileKubeletDiskType                                                | v1alpha1api20210501 |
-| ManagedClusterAgentPoolProfileMode                                                           | v1alpha1api20210501 |
-| ManagedClusterAgentPoolProfileOsDiskType                                                     | v1alpha1api20210501 |
-| ManagedClusterAgentPoolProfileOsSKU                                                          | v1alpha1api20210501 |
-| ManagedClusterAgentPoolProfileOsType                                                         | v1alpha1api20210501 |
-| ManagedClusterAgentPoolProfileProperties                                                     | v1alpha1api20210501 |
-| ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile                                   | v1alpha1api20210501 |
-| ManagedClusterAgentPoolProfilePropertiesKubeletDiskType                                      | v1alpha1api20210501 |
-| ManagedClusterAgentPoolProfilePropertiesMode                                                 | v1alpha1api20210501 |
-| ManagedClusterAgentPoolProfilePropertiesOsDiskType                                           | v1alpha1api20210501 |
-| ManagedClusterAgentPoolProfilePropertiesOsSKU                                                | v1alpha1api20210501 |
-| ManagedClusterAgentPoolProfilePropertiesOsType                                               | v1alpha1api20210501 |
-| ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy                               | v1alpha1api20210501 |
-| ManagedClusterAgentPoolProfilePropertiesScaleSetPriority                                     | v1alpha1api20210501 |
-| ManagedClusterAgentPoolProfilePropertiesType                                                 | v1alpha1api20210501 |
-| ManagedClusterAgentPoolProfileProperties_Status                                              | v1alpha1api20210501 |
-| ManagedClusterAgentPoolProfileScaleSetEvictionPolicy                                         | v1alpha1api20210501 |
-| ManagedClusterAgentPoolProfileScaleSetPriority                                               | v1alpha1api20210501 |
-| ManagedClusterAgentPoolProfileType                                                           | v1alpha1api20210501 |
-| ManagedClusterAgentPoolProfile_Status                                                        | v1alpha1api20210501 |
-| ManagedClusterAutoUpgradeProfile                                                             | v1alpha1api20210501 |
-| ManagedClusterAutoUpgradeProfileStatusUpgradeChannel                                         | v1alpha1api20210501 |
-| ManagedClusterAutoUpgradeProfileUpgradeChannel                                               | v1alpha1api20210501 |
-| ManagedClusterAutoUpgradeProfile_Status                                                      | v1alpha1api20210501 |
-| ManagedClusterHTTPProxyConfig                                                                | v1alpha1api20210501 |
-| ManagedClusterHTTPProxyConfig_Status                                                         | v1alpha1api20210501 |
-| ManagedClusterIdentity                                                                       | v1alpha1api20210501 |
-| ManagedClusterIdentityStatusType                                                             | v1alpha1api20210501 |
-| ManagedClusterIdentityType                                                                   | v1alpha1api20210501 |
-| ManagedClusterIdentity_Status                                                                | v1alpha1api20210501 |
-| ManagedClusterIdentity_Status_UserAssignedIdentities                                         | v1alpha1api20210501 |
-| ManagedClusterLoadBalancerProfile                                                            | v1alpha1api20210501 |
-| ManagedClusterLoadBalancerProfileManagedOutboundIPs                                          | v1alpha1api20210501 |
-| ManagedClusterLoadBalancerProfileOutboundIPPrefixes                                          | v1alpha1api20210501 |
-| ManagedClusterLoadBalancerProfileOutboundIPs                                                 | v1alpha1api20210501 |
-| ManagedClusterLoadBalancerProfile_Status                                                     | v1alpha1api20210501 |
-| ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs                                  | v1alpha1api20210501 |
-| ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes                                  | v1alpha1api20210501 |
-| ManagedClusterLoadBalancerProfile_Status_OutboundIPs                                         | v1alpha1api20210501 |
-| ManagedClusterPodIdentity                                                                    | v1alpha1api20210501 |
-| ManagedClusterPodIdentityException                                                           | v1alpha1api20210501 |
-| ManagedClusterPodIdentityException_Status                                                    | v1alpha1api20210501 |
-| ManagedClusterPodIdentityProfile                                                             | v1alpha1api20210501 |
-| ManagedClusterPodIdentityProfile_Status                                                      | v1alpha1api20210501 |
-| ManagedClusterPodIdentityProvisioningErrorBody_Status                                        | v1alpha1api20210501 |
-| ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled                               | v1alpha1api20210501 |
-| ManagedClusterPodIdentityProvisioningError_Status                                            | v1alpha1api20210501 |
-| ManagedClusterPodIdentityStatusProvisioningState                                             | v1alpha1api20210501 |
-| ManagedClusterPodIdentity_Status                                                             | v1alpha1api20210501 |
-| ManagedClusterPodIdentity_Status_ProvisioningInfo                                            | v1alpha1api20210501 |
-| ManagedClusterProperties                                                                     | v1alpha1api20210501 |
-| ManagedClusterPropertiesAutoScalerProfile                                                    | v1alpha1api20210501 |
-| ManagedClusterPropertiesAutoScalerProfileExpander                                            | v1alpha1api20210501 |
-| ManagedClusterPropertiesStatusAutoScalerProfileExpander                                      | v1alpha1api20210501 |
-| ManagedClusterProperties_Status                                                              | v1alpha1api20210501 |
-| ManagedClusterProperties_Status_AutoScalerProfile                                            | v1alpha1api20210501 |
-| ManagedClusterSKU                                                                            | v1alpha1api20210501 |
-| ManagedClusterSKUName                                                                        | v1alpha1api20210501 |
-| ManagedClusterSKUStatusName                                                                  | v1alpha1api20210501 |
-| ManagedClusterSKUStatusTier                                                                  | v1alpha1api20210501 |
-| ManagedClusterSKUTier                                                                        | v1alpha1api20210501 |
-| ManagedClusterSKU_Status                                                                     | v1alpha1api20210501 |
-| ManagedClusterServicePrincipalProfile                                                        | v1alpha1api20210501 |
-| ManagedClusterServicePrincipalProfile_Status                                                 | v1alpha1api20210501 |
-| ManagedClusterWindowsProfile                                                                 | v1alpha1api20210501 |
-| ManagedClusterWindowsProfileLicenseType                                                      | v1alpha1api20210501 |
-| ManagedClusterWindowsProfileStatusLicenseType                                                | v1alpha1api20210501 |
-| ManagedClusterWindowsProfile_Status                                                          | v1alpha1api20210501 |
-| ManagedCluster_Status                                                                        | v1alpha1api20210501 |
-| ManagedClustersAgentPool                                                                     | v1alpha1api20210501 |
-| ManagedClustersAgentPoolsSpecAPIVersion                                                      | v1alpha1api20210501 |
-| ManagedClustersAgentPools_Spec                                                               | v1alpha1api20210501 |
-| ManagedClustersSpecAPIVersion                                                                | v1alpha1api20210501 |
-| ManagedClusters_Spec                                                                         | v1alpha1api20210501 |
-| OSDiskType_Status                                                                            | v1alpha1api20210501 |
-| OSSKU_Status                                                                                 | v1alpha1api20210501 |
-| OSType_Status                                                                                | v1alpha1api20210501 |
-| PowerStateStatusCode                                                                         | v1alpha1api20210501 |
-| PowerState_Status                                                                            | v1alpha1api20210501 |
-| PrivateLinkResource                                                                          | v1alpha1api20210501 |
-| PrivateLinkResource_Status                                                                   | v1alpha1api20210501 |
-| ResourceReference                                                                            | v1alpha1api20210501 |
-| ResourceReference_Status                                                                     | v1alpha1api20210501 |
-| ScaleSetEvictionPolicy_Status                                                                | v1alpha1api20210501 |
-| ScaleSetPriority_Status                                                                      | v1alpha1api20210501 |
-| SysctlConfig                                                                                 | v1alpha1api20210501 |
-| SysctlConfig_Status                                                                          | v1alpha1api20210501 |
-| UserAssignedIdentity                                                                         | v1alpha1api20210501 |
-| UserAssignedIdentity_Status                                                                  | v1alpha1api20210501 |
+| Type Definitions in package "containerservice"                                               | v1alpha1api20210501 | v1beta20210501 |
+|----------------------------------------------------------------------------------------------|---------------------|----------------|
+| AgentPoolMode_Status                                                                         | v1alpha1api20210501 | v1beta20210501 |
+| AgentPoolType_Status                                                                         | v1alpha1api20210501 | v1beta20210501 |
+| AgentPoolUpgradeSettings                                                                     | v1alpha1api20210501 | v1beta20210501 |
+| AgentPoolUpgradeSettings_Status                                                              | v1alpha1api20210501 | v1beta20210501 |
+| AgentPool_Status                                                                             | v1alpha1api20210501 | v1beta20210501 |
+| Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties | v1alpha1api20210501 | v1beta20210501 |
+| ContainerServiceLinuxProfile                                                                 | v1alpha1api20210501 | v1beta20210501 |
+| ContainerServiceLinuxProfile_Status                                                          | v1alpha1api20210501 | v1beta20210501 |
+| ContainerServiceNetworkProfile                                                               | v1alpha1api20210501 | v1beta20210501 |
+| ContainerServiceNetworkProfileLoadBalancerSku                                                | v1alpha1api20210501 | v1beta20210501 |
+| ContainerServiceNetworkProfileNetworkMode                                                    | v1alpha1api20210501 | v1beta20210501 |
+| ContainerServiceNetworkProfileNetworkPlugin                                                  | v1alpha1api20210501 | v1beta20210501 |
+| ContainerServiceNetworkProfileNetworkPolicy                                                  | v1alpha1api20210501 | v1beta20210501 |
+| ContainerServiceNetworkProfileOutboundType                                                   | v1alpha1api20210501 | v1beta20210501 |
+| ContainerServiceNetworkProfileStatusLoadBalancerSku                                          | v1alpha1api20210501 | v1beta20210501 |
+| ContainerServiceNetworkProfileStatusNetworkMode                                              | v1alpha1api20210501 | v1beta20210501 |
+| ContainerServiceNetworkProfileStatusNetworkPlugin                                            | v1alpha1api20210501 | v1beta20210501 |
+| ContainerServiceNetworkProfileStatusNetworkPolicy                                            | v1alpha1api20210501 | v1beta20210501 |
+| ContainerServiceNetworkProfileStatusOutboundType                                             | v1alpha1api20210501 | v1beta20210501 |
+| ContainerServiceNetworkProfile_Status                                                        | v1alpha1api20210501 | v1beta20210501 |
+| ContainerServiceSshConfiguration                                                             | v1alpha1api20210501 | v1beta20210501 |
+| ContainerServiceSshConfiguration_Status                                                      | v1alpha1api20210501 | v1beta20210501 |
+| ContainerServiceSshPublicKey                                                                 | v1alpha1api20210501 | v1beta20210501 |
+| ContainerServiceSshPublicKey_Status                                                          | v1alpha1api20210501 | v1beta20210501 |
+| ExtendedLocation                                                                             | v1alpha1api20210501 | v1beta20210501 |
+| ExtendedLocationType                                                                         | v1alpha1api20210501 | v1beta20210501 |
+| ExtendedLocationType_Status                                                                  | v1alpha1api20210501 | v1beta20210501 |
+| ExtendedLocation_Status                                                                      | v1alpha1api20210501 | v1beta20210501 |
+| GPUInstanceProfile_Status                                                                    | v1alpha1api20210501 | v1beta20210501 |
+| KubeletConfig                                                                                | v1alpha1api20210501 | v1beta20210501 |
+| KubeletConfig_Status                                                                         | v1alpha1api20210501 | v1beta20210501 |
+| KubeletDiskType_Status                                                                       | v1alpha1api20210501 | v1beta20210501 |
+| LinuxOSConfig                                                                                | v1alpha1api20210501 | v1beta20210501 |
+| LinuxOSConfig_Status                                                                         | v1alpha1api20210501 | v1beta20210501 |
+| ManagedCluster                                                                               | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAADProfile                                                                     | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAADProfile_Status                                                              | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAPIServerAccessProfile                                                         | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAPIServerAccessProfile_Status                                                  | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAddonProfile                                                                   | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAgentPoolProfile                                                               | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAgentPoolProfileGpuInstanceProfile                                             | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAgentPoolProfileKubeletDiskType                                                | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAgentPoolProfileMode                                                           | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAgentPoolProfileOsDiskType                                                     | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAgentPoolProfileOsSKU                                                          | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAgentPoolProfileOsType                                                         | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAgentPoolProfileProperties                                                     | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile                                   | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAgentPoolProfilePropertiesKubeletDiskType                                      | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAgentPoolProfilePropertiesMode                                                 | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAgentPoolProfilePropertiesOsDiskType                                           | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAgentPoolProfilePropertiesOsSKU                                                | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAgentPoolProfilePropertiesOsType                                               | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy                               | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAgentPoolProfilePropertiesScaleSetPriority                                     | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAgentPoolProfilePropertiesType                                                 | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAgentPoolProfileProperties_Status                                              | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAgentPoolProfileScaleSetEvictionPolicy                                         | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAgentPoolProfileScaleSetPriority                                               | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAgentPoolProfileType                                                           | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAgentPoolProfile_Status                                                        | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAutoUpgradeProfile                                                             | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAutoUpgradeProfileStatusUpgradeChannel                                         | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAutoUpgradeProfileUpgradeChannel                                               | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAutoUpgradeProfile_Status                                                      | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterHTTPProxyConfig                                                                | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterHTTPProxyConfig_Status                                                         | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterIdentity                                                                       | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterIdentityStatusType                                                             | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterIdentityType                                                                   | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterIdentity_Status                                                                | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterIdentity_Status_UserAssignedIdentities                                         | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterLoadBalancerProfile                                                            | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterLoadBalancerProfileManagedOutboundIPs                                          | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterLoadBalancerProfileOutboundIPPrefixes                                          | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterLoadBalancerProfileOutboundIPs                                                 | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterLoadBalancerProfile_Status                                                     | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs                                  | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes                                  | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterLoadBalancerProfile_Status_OutboundIPs                                         | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterPodIdentity                                                                    | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterPodIdentityException                                                           | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterPodIdentityException_Status                                                    | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterPodIdentityProfile                                                             | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterPodIdentityProfile_Status                                                      | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterPodIdentityProvisioningErrorBody_Status                                        | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled                               | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterPodIdentityProvisioningError_Status                                            | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterPodIdentityStatusProvisioningState                                             | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterPodIdentity_Status                                                             | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterPodIdentity_Status_ProvisioningInfo                                            | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterProperties                                                                     | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterPropertiesAutoScalerProfile                                                    | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterPropertiesAutoScalerProfileExpander                                            | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterPropertiesStatusAutoScalerProfileExpander                                      | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterProperties_Status                                                              | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterProperties_Status_AutoScalerProfile                                            | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterSKU                                                                            | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterSKUName                                                                        | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterSKUStatusName                                                                  | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterSKUStatusTier                                                                  | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterSKUTier                                                                        | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterSKU_Status                                                                     | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterServicePrincipalProfile                                                        | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterServicePrincipalProfile_Status                                                 | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterWindowsProfile                                                                 | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterWindowsProfileLicenseType                                                      | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterWindowsProfileStatusLicenseType                                                | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterWindowsProfile_Status                                                          | v1alpha1api20210501 | v1beta20210501 |
+| ManagedCluster_Status                                                                        | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClustersAgentPool                                                                     | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClustersAgentPoolsSpecAPIVersion                                                      | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClustersAgentPools_Spec                                                               | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClustersSpecAPIVersion                                                                | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusters_Spec                                                                         | v1alpha1api20210501 | v1beta20210501 |
+| OSDiskType_Status                                                                            | v1alpha1api20210501 | v1beta20210501 |
+| OSSKU_Status                                                                                 | v1alpha1api20210501 | v1beta20210501 |
+| OSType_Status                                                                                | v1alpha1api20210501 | v1beta20210501 |
+| PowerStateStatusCode                                                                         | v1alpha1api20210501 | v1beta20210501 |
+| PowerState_Status                                                                            | v1alpha1api20210501 | v1beta20210501 |
+| PrivateLinkResource                                                                          | v1alpha1api20210501 | v1beta20210501 |
+| PrivateLinkResource_Status                                                                   | v1alpha1api20210501 | v1beta20210501 |
+| ResourceReference                                                                            | v1alpha1api20210501 | v1beta20210501 |
+| ResourceReference_Status                                                                     | v1alpha1api20210501 | v1beta20210501 |
+| ScaleSetEvictionPolicy_Status                                                                | v1alpha1api20210501 | v1beta20210501 |
+| ScaleSetPriority_Status                                                                      | v1alpha1api20210501 | v1beta20210501 |
+| SysctlConfig                                                                                 | v1alpha1api20210501 | v1beta20210501 |
+| SysctlConfig_Status                                                                          | v1alpha1api20210501 | v1beta20210501 |
+| UserAssignedIdentity                                                                         | v1alpha1api20210501 | v1beta20210501 |
+| UserAssignedIdentity_Status                                                                  | v1alpha1api20210501 | v1beta20210501 |
