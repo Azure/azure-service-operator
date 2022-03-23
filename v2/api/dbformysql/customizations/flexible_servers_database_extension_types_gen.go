@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	dbformysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501"
+	dbformysqlv1alpha1api20210501 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501"
 	"github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501storage"
+	dbformysqlv1beta20210501 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501"
+	"github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type FlexibleServersDatabaseExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *FlexibleServersDatabaseExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&dbformysql.FlexibleServersDatabase{},
-		&v1alpha1api20210501storage.FlexibleServersDatabase{}}
+		&dbformysqlv1alpha1api20210501.FlexibleServersDatabase{},
+		&v1alpha1api20210501storage.FlexibleServersDatabase{},
+		&dbformysqlv1beta20210501.FlexibleServersDatabase{},
+		&v1beta20210501storage.FlexibleServersDatabase{}}
 }
