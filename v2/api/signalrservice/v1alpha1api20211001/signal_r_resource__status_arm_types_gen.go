@@ -3,76 +3,38 @@
 // Licensed under the MIT license.
 package v1alpha1api20211001
 
+//Deprecated version of SignalRResource_Status. Use v1beta20211001.SignalRResource_Status instead
 type SignalRResource_StatusARM struct {
-	//Id: Fully qualified resource Id for the resource.
-	Id *string `json:"id,omitempty"`
-
-	//Identity: The managed identity response
-	Identity *ManagedIdentity_StatusARM `json:"identity,omitempty"`
-
-	//Kind: The kind of the service - e.g. "SignalR" for "Microsoft.SignalRService/SignalR"
-	Kind *ServiceKind_Status `json:"kind,omitempty"`
-
-	//Location: The GEO location of the resource. e.g. West US | East US | North Central US | South Central US.
-	Location *string `json:"location,omitempty"`
-
-	//Name: The name of the resource.
-	Name *string `json:"name,omitempty"`
-
-	//Properties: Settings used to provision or configure the resource
+	Id         *string                      `json:"id,omitempty"`
+	Identity   *ManagedIdentity_StatusARM   `json:"identity,omitempty"`
+	Kind       *ServiceKind_Status          `json:"kind,omitempty"`
+	Location   *string                      `json:"location,omitempty"`
+	Name       *string                      `json:"name,omitempty"`
 	Properties *SignalRProperties_StatusARM `json:"properties,omitempty"`
-
-	//Sku: The billing information of the resource.(e.g. Free, Standard)
-	Sku *ResourceSku_StatusARM `json:"sku,omitempty"`
-
-	//SystemData: Metadata pertaining to creation and last modification of the resource.
-	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
-
-	//Tags: Tags of the service which is a list of key value pairs that describe the resource.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: The type of the resource - e.g. "Microsoft.SignalRService/SignalR"
-	Type *string `json:"type,omitempty"`
+	Sku        *ResourceSku_StatusARM       `json:"sku,omitempty"`
+	SystemData *SystemData_StatusARM        `json:"systemData,omitempty"`
+	Tags       map[string]string            `json:"tags,omitempty"`
+	Type       *string                      `json:"type,omitempty"`
 }
 
+//Deprecated version of ManagedIdentity_Status. Use v1beta20211001.ManagedIdentity_Status instead
 type ManagedIdentity_StatusARM struct {
-	//PrincipalId: Get the principal id for the system assigned identity.
-	//Only be used in response.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	//TenantId: Get the tenant id for the system assigned identity.
-	//Only be used in response
-	TenantId *string `json:"tenantId,omitempty"`
-
-	//Type: Represent the identity type: systemAssigned, userAssigned, None
-	Type *ManagedIdentityType_Status `json:"type,omitempty"`
-
-	//UserAssignedIdentities: Get or set the user assigned identities
+	PrincipalId            *string                                           `json:"principalId,omitempty"`
+	TenantId               *string                                           `json:"tenantId,omitempty"`
+	Type                   *ManagedIdentityType_Status                       `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityProperty_StatusARM `json:"userAssignedIdentities,omitempty"`
 }
 
+//Deprecated version of ResourceSku_Status. Use v1beta20211001.ResourceSku_Status instead
 type ResourceSku_StatusARM struct {
-	//Capacity: Optional, integer. The unit count of the resource. 1 by default.
-	//If present, following values are allowed:
-	//Free: 1
-	//Standard: 1,2,5,10,20,50,100
-	Capacity *int `json:"capacity,omitempty"`
-
-	//Family: Not used. Retained for future use.
-	Family *string `json:"family,omitempty"`
-
-	//Name: The name of the SKU. Required.
-	//Allowed values: Standard_S1, Free_F1
-	Name *string `json:"name,omitempty"`
-
-	//Size: Not used. Retained for future use.
-	Size *string `json:"size,omitempty"`
-
-	//Tier: Optional tier of this particular SKU. 'Standard' or 'Free'.
-	//`Basic` is deprecated, use `Standard` instead.
-	Tier *SignalRSkuTier_Status `json:"tier,omitempty"`
+	Capacity *int                   `json:"capacity,omitempty"`
+	Family   *string                `json:"family,omitempty"`
+	Name     *string                `json:"name,omitempty"`
+	Size     *string                `json:"size,omitempty"`
+	Tier     *SignalRSkuTier_Status `json:"tier,omitempty"`
 }
 
+//Deprecated version of ServiceKind_Status. Use v1beta20211001.ServiceKind_Status instead
 type ServiceKind_Status string
 
 const (
@@ -80,95 +42,39 @@ const (
 	ServiceKind_StatusSignalR       = ServiceKind_Status("SignalR")
 )
 
+//Deprecated version of SignalRProperties_Status. Use v1beta20211001.SignalRProperties_Status instead
 type SignalRProperties_StatusARM struct {
-	//Cors: Cross-Origin Resource Sharing (CORS) settings.
-	Cors *SignalRCorsSettings_StatusARM `json:"cors,omitempty"`
-
-	//DisableAadAuth: DisableLocalAuth
-	//Enable or disable aad auth
-	//When set as true, connection with AuthType=aad won't work.
-	DisableAadAuth *bool `json:"disableAadAuth,omitempty"`
-
-	//DisableLocalAuth: DisableLocalAuth
-	//Enable or disable local auth with AccessKey
-	//When set as true, connection with AccessKey=xxx won't work.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	//ExternalIP: The publicly accessible IP of the resource.
-	ExternalIP *string `json:"externalIP,omitempty"`
-
-	//Features: List of the featureFlags.
-	//FeatureFlags that are not included in the parameters for the update operation will not be modified.
-	//And the response will only include featureFlags that are explicitly set.
-	//When a featureFlag is not explicitly set, its globally default value will be used
-	//But keep in mind, the default value doesn't mean "false". It varies in terms of different FeatureFlags.
-	Features []SignalRFeature_StatusARM `json:"features,omitempty"`
-
-	//HostName: FQDN of the service instance.
-	HostName *string `json:"hostName,omitempty"`
-
-	//HostNamePrefix: Deprecated.
-	HostNamePrefix *string `json:"hostNamePrefix,omitempty"`
-
-	//NetworkACLs: Network ACLs
-	NetworkACLs *SignalRNetworkACLs_StatusARM `json:"networkACLs,omitempty"`
-
-	//PrivateEndpointConnections: Private endpoint connections to the resource.
+	Cors                       *SignalRCorsSettings_StatusARM                                    `json:"cors,omitempty"`
+	DisableAadAuth             *bool                                                             `json:"disableAadAuth,omitempty"`
+	DisableLocalAuth           *bool                                                             `json:"disableLocalAuth,omitempty"`
+	ExternalIP                 *string                                                           `json:"externalIP,omitempty"`
+	Features                   []SignalRFeature_StatusARM                                        `json:"features,omitempty"`
+	HostName                   *string                                                           `json:"hostName,omitempty"`
+	HostNamePrefix             *string                                                           `json:"hostNamePrefix,omitempty"`
+	NetworkACLs                *SignalRNetworkACLs_StatusARM                                     `json:"networkACLs,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SignalR_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-
-	//ProvisioningState: Provisioning state of the resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
-
-	//PublicNetworkAccess: Enable or disable public network access. Default to "Enabled".
-	//When it's Enabled, network ACLs still apply.
-	//When it's Disabled, public network access is always disabled no matter what you set in network ACLs.
-	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
-
-	//PublicPort: The publicly accessible port of the resource which is designed for browser/client side usage.
-	PublicPort *int `json:"publicPort,omitempty"`
-
-	//ResourceLogConfiguration: Resource log configuration of a Microsoft.SignalRService resource.
-	//If resourceLogConfiguration isn't null or empty, it will override options "EnableConnectivityLog" and
-	//"EnableMessagingLogs" in features.
-	//Otherwise, use options "EnableConnectivityLog" and "EnableMessagingLogs" in features.
-	ResourceLogConfiguration *ResourceLogConfiguration_StatusARM `json:"resourceLogConfiguration,omitempty"`
-
-	//ServerPort: The publicly accessible port of the resource which is designed for customer server side usage.
-	ServerPort *int `json:"serverPort,omitempty"`
-
-	//SharedPrivateLinkResources: The list of shared private link resources.
+	ProvisioningState          *ProvisioningState_Status                                         `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *string                                                           `json:"publicNetworkAccess,omitempty"`
+	PublicPort                 *int                                                              `json:"publicPort,omitempty"`
+	ResourceLogConfiguration   *ResourceLogConfiguration_StatusARM                               `json:"resourceLogConfiguration,omitempty"`
+	ServerPort                 *int                                                              `json:"serverPort,omitempty"`
 	SharedPrivateLinkResources []SharedPrivateLinkResource_Status_SignalR_SubResourceEmbeddedARM `json:"sharedPrivateLinkResources,omitempty"`
-
-	//Tls: TLS settings.
-	Tls *SignalRTlsSettings_StatusARM `json:"tls,omitempty"`
-
-	//Upstream: Upstream settings when the service is in server-less mode.
-	Upstream *ServerlessUpstreamSettings_StatusARM `json:"upstream,omitempty"`
-
-	//Version: Version of the resource. Probably you need the same or higher version of client SDKs.
-	Version *string `json:"version,omitempty"`
+	Tls                        *SignalRTlsSettings_StatusARM                                     `json:"tls,omitempty"`
+	Upstream                   *ServerlessUpstreamSettings_StatusARM                             `json:"upstream,omitempty"`
+	Version                    *string                                                           `json:"version,omitempty"`
 }
 
+//Deprecated version of SystemData_Status. Use v1beta20211001.SystemData_Status instead
 type SystemData_StatusARM struct {
-	//CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	//CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	//CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemDataStatusCreatedByType `json:"createdByType,omitempty"`
-
-	//LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	//LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	//LastModifiedByType: The type of identity that last modified the resource.
+	CreatedAt          *string                             `json:"createdAt,omitempty"`
+	CreatedBy          *string                             `json:"createdBy,omitempty"`
+	CreatedByType      *SystemDataStatusCreatedByType      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                             `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                             `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
+//Deprecated version of ManagedIdentityType_Status. Use v1beta20211001.ManagedIdentityType_Status instead
 type ManagedIdentityType_Status string
 
 const (
@@ -177,70 +83,48 @@ const (
 	ManagedIdentityType_StatusUserAssigned   = ManagedIdentityType_Status("UserAssigned")
 )
 
+//Deprecated version of PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded. Use v1beta20211001.PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SignalR_SubResourceEmbeddedARM struct {
-	//Id: Fully qualified resource Id for the resource.
-	Id *string `json:"id,omitempty"`
-
-	//SystemData: Metadata pertaining to creation and last modification of the resource.
+	Id         *string               `json:"id,omitempty"`
 	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
 }
 
+//Deprecated version of ResourceLogConfiguration_Status. Use v1beta20211001.ResourceLogConfiguration_Status instead
 type ResourceLogConfiguration_StatusARM struct {
-	//Categories: Gets or sets the list of category configurations.
 	Categories []ResourceLogCategory_StatusARM `json:"categories,omitempty"`
 }
 
+//Deprecated version of ServerlessUpstreamSettings_Status. Use v1beta20211001.ServerlessUpstreamSettings_Status instead
 type ServerlessUpstreamSettings_StatusARM struct {
-	//Templates: Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects.
 	Templates []UpstreamTemplate_StatusARM `json:"templates,omitempty"`
 }
 
+//Deprecated version of SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded. Use v1beta20211001.SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded instead
 type SharedPrivateLinkResource_Status_SignalR_SubResourceEmbeddedARM struct {
-	//Id: Fully qualified resource Id for the resource.
-	Id *string `json:"id,omitempty"`
-
-	//SystemData: Metadata pertaining to creation and last modification of the resource.
+	Id         *string               `json:"id,omitempty"`
 	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
 }
 
+//Deprecated version of SignalRCorsSettings_Status. Use v1beta20211001.SignalRCorsSettings_Status instead
 type SignalRCorsSettings_StatusARM struct {
-	//AllowedOrigins: Gets or sets the list of origins that should be allowed to make cross-origin calls (for example:
-	//http://example.com:12345). Use "*" to allow all. If omitted, allow all by default.
 	AllowedOrigins []string `json:"allowedOrigins,omitempty"`
 }
 
+//Deprecated version of SignalRFeature_Status. Use v1beta20211001.SignalRFeature_Status instead
 type SignalRFeature_StatusARM struct {
-	//Flag: FeatureFlags is the supported features of Azure SignalR service.
-	//- ServiceMode: Flag for backend server for SignalR service. Values allowed: "Default": have your own backend server;
-	//"Serverless": your application doesn't have a backend server; "Classic": for backward compatibility. Support both
-	//Default and Serverless mode but not recommended; "PredefinedOnly": for future use.
-	//- EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log category respectively.
-	//- EnableMessagingLogs: "true"/"false", to enable/disable the connectivity log category respectively.
-	//- EnableLiveTrace: Live Trace allows you to know what's happening inside Azure SignalR service, it will give you live
-	//traces in real time, it will be helpful when you developing your own Azure SignalR based web application or
-	//self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged.
-	//Values allowed: "true"/"false", to enable/disable live trace feature.
-	Flag *FeatureFlags_Status `json:"flag,omitempty"`
-
-	//Properties: Optional properties related to this feature.
-	Properties map[string]string `json:"properties,omitempty"`
-
-	//Value: Value of the feature flag. See Azure SignalR service document https://docs.microsoft.com/azure/azure-signalr/ for
-	//allowed values.
-	Value *string `json:"value,omitempty"`
+	Flag       *FeatureFlags_Status `json:"flag,omitempty"`
+	Properties map[string]string    `json:"properties,omitempty"`
+	Value      *string              `json:"value,omitempty"`
 }
 
+//Deprecated version of SignalRNetworkACLs_Status. Use v1beta20211001.SignalRNetworkACLs_Status instead
 type SignalRNetworkACLs_StatusARM struct {
-	//DefaultAction: Default action when no other rule matches
-	DefaultAction *ACLAction_Status `json:"defaultAction,omitempty"`
-
-	//PrivateEndpoints: ACLs for requests from private endpoints
+	DefaultAction    *ACLAction_Status              `json:"defaultAction,omitempty"`
 	PrivateEndpoints []PrivateEndpointACL_StatusARM `json:"privateEndpoints,omitempty"`
-
-	//PublicNetwork: ACL for requests from public network
-	PublicNetwork *NetworkACL_StatusARM `json:"publicNetwork,omitempty"`
+	PublicNetwork    *NetworkACL_StatusARM          `json:"publicNetwork,omitempty"`
 }
 
+//Deprecated version of SignalRSkuTier_Status. Use v1beta20211001.SignalRSkuTier_Status instead
 type SignalRSkuTier_Status string
 
 const (
@@ -250,11 +134,12 @@ const (
 	SignalRSkuTier_StatusStandard = SignalRSkuTier_Status("Standard")
 )
 
+//Deprecated version of SignalRTlsSettings_Status. Use v1beta20211001.SignalRTlsSettings_Status instead
 type SignalRTlsSettings_StatusARM struct {
-	//ClientCertEnabled: Request client certificate during TLS handshake if enabled
 	ClientCertEnabled *bool `json:"clientCertEnabled,omitempty"`
 }
 
+//Deprecated version of SystemDataStatusCreatedByType. Use v1beta20211001.SystemDataStatusCreatedByType instead
 type SystemDataStatusCreatedByType string
 
 const (
@@ -264,6 +149,7 @@ const (
 	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
 )
 
+//Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20211001.SystemDataStatusLastModifiedByType instead
 type SystemDataStatusLastModifiedByType string
 
 const (
@@ -273,88 +159,47 @@ const (
 	SystemDataStatusLastModifiedByTypeUser            = SystemDataStatusLastModifiedByType("User")
 )
 
+//Deprecated version of UserAssignedIdentityProperty_Status. Use v1beta20211001.UserAssignedIdentityProperty_Status instead
 type UserAssignedIdentityProperty_StatusARM struct {
-	//ClientId: Get the client id for the user assigned identity
-	ClientId *string `json:"clientId,omitempty"`
-
-	//PrincipalId: Get the principal id for the user assigned identity
+	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
+//Deprecated version of NetworkACL_Status. Use v1beta20211001.NetworkACL_Status instead
 type NetworkACL_StatusARM struct {
-	//Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Allow []SignalRRequestType_Status `json:"allow,omitempty"`
-
-	//Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
-	Deny []SignalRRequestType_Status `json:"deny,omitempty"`
+	Deny  []SignalRRequestType_Status `json:"deny,omitempty"`
 }
 
+//Deprecated version of PrivateEndpointACL_Status. Use v1beta20211001.PrivateEndpointACL_Status instead
 type PrivateEndpointACL_StatusARM struct {
-	//Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Allow []SignalRRequestType_Status `json:"allow,omitempty"`
-
-	//Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
-	Deny []SignalRRequestType_Status `json:"deny,omitempty"`
-
-	//Name: Name of the private endpoint connection
-	Name *string `json:"name,omitempty"`
+	Deny  []SignalRRequestType_Status `json:"deny,omitempty"`
+	Name  *string                     `json:"name,omitempty"`
 }
 
+//Deprecated version of ResourceLogCategory_Status. Use v1beta20211001.ResourceLogCategory_Status instead
 type ResourceLogCategory_StatusARM struct {
-	//Enabled: Indicates whether or the resource log category is enabled.
-	//Available values: true, false.
-	//Case insensitive.
 	Enabled *string `json:"enabled,omitempty"`
-
-	//Name: Gets or sets the resource log category's name.
-	//Available values: ConnectivityLogs, MessagingLogs.
-	//Case insensitive.
-	Name *string `json:"name,omitempty"`
+	Name    *string `json:"name,omitempty"`
 }
 
+//Deprecated version of UpstreamTemplate_Status. Use v1beta20211001.UpstreamTemplate_Status instead
 type UpstreamTemplate_StatusARM struct {
-	//Auth: Gets or sets the auth settings for an upstream. If not set, no auth is used for upstream messages.
-	Auth *UpstreamAuthSettings_StatusARM `json:"auth,omitempty"`
-
-	//CategoryPattern: Gets or sets the matching pattern for category names. If not set, it matches any category.
-	//There are 3 kind of patterns supported:
-	//1. "*", it to matches any category name
-	//2. Combine multiple categories with ",", for example "connections,messages", it matches category "connections" and
-	//"messages"
-	//3. The single category name, for example, "connections", it matches the category "connections"
-	CategoryPattern *string `json:"categoryPattern,omitempty"`
-
-	//EventPattern: Gets or sets the matching pattern for event names. If not set, it matches any event.
-	//There are 3 kind of patterns supported:
-	//1. "*", it to matches any event name
-	//2. Combine multiple events with ",", for example "connect,disconnect", it matches event "connect" and "disconnect"
-	//3. The single event name, for example, "connect", it matches "connect"
-	EventPattern *string `json:"eventPattern,omitempty"`
-
-	//HubPattern: Gets or sets the matching pattern for hub names. If not set, it matches any hub.
-	//There are 3 kind of patterns supported:
-	//1. "*", it to matches any hub name
-	//2. Combine multiple hubs with ",", for example "hub1,hub2", it matches "hub1" and "hub2"
-	//3. The single hub name, for example, "hub1", it matches "hub1"
-	HubPattern *string `json:"hubPattern,omitempty"`
-
-	//UrlTemplate: Gets or sets the Upstream URL template. You can use 3 predefined parameters {hub}, {category} {event}
-	//inside the template, the value of the Upstream URL is dynamically calculated when the client request comes in.
-	//For example, if the urlTemplate is `http://example.com/{hub}/api/{event}`, with a client request from hub `chat`
-	//connects, it will first POST to this URL: `http://example.com/chat/api/connect`.
-	UrlTemplate *string `json:"urlTemplate,omitempty"`
+	Auth            *UpstreamAuthSettings_StatusARM `json:"auth,omitempty"`
+	CategoryPattern *string                         `json:"categoryPattern,omitempty"`
+	EventPattern    *string                         `json:"eventPattern,omitempty"`
+	HubPattern      *string                         `json:"hubPattern,omitempty"`
+	UrlTemplate     *string                         `json:"urlTemplate,omitempty"`
 }
 
+//Deprecated version of UpstreamAuthSettings_Status. Use v1beta20211001.UpstreamAuthSettings_Status instead
 type UpstreamAuthSettings_StatusARM struct {
-	//ManagedIdentity: Gets or sets the managed identity settings. It's required if the auth type is set to ManagedIdentity.
 	ManagedIdentity *ManagedIdentitySettings_StatusARM `json:"managedIdentity,omitempty"`
-
-	//Type: Gets or sets the type of auth. None or ManagedIdentity is supported now.
-	Type *UpstreamAuthType_Status `json:"type,omitempty"`
+	Type            *UpstreamAuthType_Status           `json:"type,omitempty"`
 }
 
+//Deprecated version of ManagedIdentitySettings_Status. Use v1beta20211001.ManagedIdentitySettings_Status instead
 type ManagedIdentitySettings_StatusARM struct {
-	//Resource: The Resource indicating the App ID URI of the target resource.
-	//It also appears in the aud (audience) claim of the issued token.
 	Resource *string `json:"resource,omitempty"`
 }
