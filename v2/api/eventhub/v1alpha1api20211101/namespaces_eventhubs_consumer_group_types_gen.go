@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/resourceDefinitions/namespaces_eventhubs_consumergroups
+//Deprecated version of NamespacesEventhubsConsumerGroup. Use v1beta20211101.NamespacesEventhubsConsumerGroup instead
 type NamespacesEventhubsConsumerGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -48,22 +48,36 @@ var _ conversion.Convertible = &NamespacesEventhubsConsumerGroup{}
 
 // ConvertFrom populates our NamespacesEventhubsConsumerGroup from the provided hub NamespacesEventhubsConsumerGroup
 func (group *NamespacesEventhubsConsumerGroup) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20211101storage.NamespacesEventhubsConsumerGroup)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1alpha1api20211101storage/NamespacesEventhubsConsumerGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20211101storage.NamespacesEventhubsConsumerGroup
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return group.AssignPropertiesFromNamespacesEventhubsConsumerGroup(source)
+	err = group.AssignPropertiesFromNamespacesEventhubsConsumerGroup(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to group")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamespacesEventhubsConsumerGroup from our NamespacesEventhubsConsumerGroup
 func (group *NamespacesEventhubsConsumerGroup) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20211101storage.NamespacesEventhubsConsumerGroup)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1alpha1api20211101storage/NamespacesEventhubsConsumerGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20211101storage.NamespacesEventhubsConsumerGroup
+	err := group.AssignPropertiesToNamespacesEventhubsConsumerGroup(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from group")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return group.AssignPropertiesToNamespacesEventhubsConsumerGroup(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-eventhub-azure-com-v1alpha1api20211101-namespaceseventhubsconsumergroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventhub.azure.com,resources=namespaceseventhubsconsumergroups,verbs=create;update,versions=v1alpha1api20211101,name=default.v1alpha1api20211101.namespaceseventhubsconsumergroups.eventhub.azure.com,admissionReviewVersions=v1beta1
@@ -300,43 +314,25 @@ func (group *NamespacesEventhubsConsumerGroup) OriginalGVK() *schema.GroupVersio
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/resourceDefinitions/namespaces_eventhubs_consumergroups
+//Deprecated version of NamespacesEventhubsConsumerGroup. Use v1beta20211101.NamespacesEventhubsConsumerGroup instead
 type NamespacesEventhubsConsumerGroupList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesEventhubsConsumerGroup `json:"items"`
 }
 
+//Deprecated version of ConsumerGroup_Status. Use v1beta20211101.ConsumerGroup_Status instead
 type ConsumerGroup_Status struct {
 	//Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	//CreatedAt: Exact time the message was created.
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	//Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	//Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	//SystemData: The system meta data relating to this resource.
-	SystemData *SystemData_Status `json:"systemData,omitempty"`
-
-	//Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
-	Type *string `json:"type,omitempty"`
-
-	//UpdatedAt: The exact time the message was updated.
-	UpdatedAt *string `json:"updatedAt,omitempty"`
-
-	//UserMetadata: User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be
-	//used to store descriptive data, such as list of teams and their contact information also user-defined configuration
-	//settings can be stored.
-	UserMetadata *string `json:"userMetadata,omitempty"`
+	Conditions   []conditions.Condition `json:"conditions,omitempty"`
+	CreatedAt    *string                `json:"createdAt,omitempty"`
+	Id           *string                `json:"id,omitempty"`
+	Location     *string                `json:"location,omitempty"`
+	Name         *string                `json:"name,omitempty"`
+	SystemData   *SystemData_Status     `json:"systemData,omitempty"`
+	Type         *string                `json:"type,omitempty"`
+	UpdatedAt    *string                `json:"updatedAt,omitempty"`
+	UserMetadata *string                `json:"userMetadata,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &ConsumerGroup_Status{}
@@ -566,34 +562,21 @@ func (group *ConsumerGroup_Status) AssignPropertiesToConsumerGroupStatus(destina
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-11-01"}
-type NamespacesEventhubsConsumergroupsSpecAPIVersion string
-
-const NamespacesEventhubsConsumergroupsSpecAPIVersion20211101 = NamespacesEventhubsConsumergroupsSpecAPIVersion("2021-11-01")
-
 type NamespacesEventhubsConsumergroups_Spec struct {
 	// +kubebuilder:validation:MaxLength=50
 	// +kubebuilder:validation:MinLength=1
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
+	AzureName string  `json:"azureName,omitempty"`
+	Location  *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a eventhub.azure.com/NamespacesEventhub resource
-	Owner *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"NamespacesEventhub"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//UserMetadata: User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be
-	//used to store descriptive data, such as list of teams and their contact information also user-defined configuration
-	//settings can be stored.
-	UserMetadata *string `json:"userMetadata,omitempty"`
+	Owner        *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"NamespacesEventhub"`
+	Tags         map[string]string                  `json:"tags,omitempty"`
+	UserMetadata *string                            `json:"userMetadata,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NamespacesEventhubsConsumergroups_Spec{}

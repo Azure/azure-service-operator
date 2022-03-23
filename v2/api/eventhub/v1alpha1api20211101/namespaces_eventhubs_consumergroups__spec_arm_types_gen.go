@@ -5,18 +5,12 @@ package v1alpha1api20211101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+//Deprecated version of NamespacesEventhubsConsumergroups_Spec. Use v1beta20211101.NamespacesEventhubsConsumergroups_Spec instead
 type NamespacesEventhubsConsumergroups_SpecARM struct {
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	//Name: The consumer group name
-	Name string `json:"name,omitempty"`
-
-	//Properties: Single item in List or Get Consumer group operation
+	Location   *string                     `json:"location,omitempty"`
+	Name       string                      `json:"name,omitempty"`
 	Properties *ConsumerGroupPropertiesARM `json:"properties,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags       map[string]string           `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NamespacesEventhubsConsumergroups_SpecARM{}
@@ -36,10 +30,7 @@ func (consumergroups NamespacesEventhubsConsumergroups_SpecARM) GetType() string
 	return "Microsoft.EventHub/namespaces/eventhubs/consumergroups"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/ConsumerGroupProperties
+//Deprecated version of ConsumerGroupProperties. Use v1beta20211101.ConsumerGroupProperties instead
 type ConsumerGroupPropertiesARM struct {
-	//UserMetadata: User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be
-	//used to store descriptive data, such as list of teams and their contact information also user-defined configuration
-	//settings can be stored.
 	UserMetadata *string `json:"userMetadata,omitempty"`
 }
