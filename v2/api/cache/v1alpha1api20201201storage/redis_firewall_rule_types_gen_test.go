@@ -5,6 +5,7 @@ package v1alpha1api20201201storage
 
 import (
 	"encoding/json"
+	"github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,90 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_RedisFirewallRule_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisFirewallRule to hub returns original",
+		prop.ForAll(RunResourceConversionTestForRedisFirewallRule, RedisFirewallRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForRedisFirewallRule tests if a specific instance of RedisFirewallRule round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForRedisFirewallRule(subject RedisFirewallRule) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1beta20201201storage.RedisFirewallRule
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual RedisFirewallRule
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_RedisFirewallRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisFirewallRule to RedisFirewallRule via AssignPropertiesToRedisFirewallRule & AssignPropertiesFromRedisFirewallRule returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisFirewallRule, RedisFirewallRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisFirewallRule tests if a specific instance of RedisFirewallRule can be assigned to v1beta20201201storage and back losslessly
+func RunPropertyAssignmentTestForRedisFirewallRule(subject RedisFirewallRule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201201storage.RedisFirewallRule
+	err := copied.AssignPropertiesToRedisFirewallRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisFirewallRule
+	err = actual.AssignPropertiesFromRedisFirewallRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_RedisFirewallRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -75,6 +160,48 @@ func RedisFirewallRuleGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForRedisFirewallRule(gens map[string]gopter.Gen) {
 	gens["Spec"] = RedisFirewallRulesSpecGenerator()
 	gens["Status"] = RedisFirewallRuleStatusGenerator()
+}
+
+func Test_RedisFirewallRule_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisFirewallRule_Status to RedisFirewallRule_Status via AssignPropertiesToRedisFirewallRuleStatus & AssignPropertiesFromRedisFirewallRuleStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisFirewallRuleStatus, RedisFirewallRuleStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisFirewallRuleStatus tests if a specific instance of RedisFirewallRule_Status can be assigned to v1beta20201201storage and back losslessly
+func RunPropertyAssignmentTestForRedisFirewallRuleStatus(subject RedisFirewallRule_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201201storage.RedisFirewallRule_Status
+	err := copied.AssignPropertiesToRedisFirewallRuleStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisFirewallRule_Status
+	err = actual.AssignPropertiesFromRedisFirewallRuleStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_RedisFirewallRule_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -139,6 +266,48 @@ func AddIndependentPropertyGeneratorsForRedisFirewallRuleStatus(gens map[string]
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["StartIP"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_RedisFirewallRules_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisFirewallRules_Spec to RedisFirewallRules_Spec via AssignPropertiesToRedisFirewallRulesSpec & AssignPropertiesFromRedisFirewallRulesSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisFirewallRulesSpec, RedisFirewallRulesSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisFirewallRulesSpec tests if a specific instance of RedisFirewallRules_Spec can be assigned to v1beta20201201storage and back losslessly
+func RunPropertyAssignmentTestForRedisFirewallRulesSpec(subject RedisFirewallRules_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201201storage.RedisFirewallRules_Spec
+	err := copied.AssignPropertiesToRedisFirewallRulesSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisFirewallRules_Spec
+	err = actual.AssignPropertiesFromRedisFirewallRulesSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_RedisFirewallRules_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
