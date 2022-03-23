@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_throughputSettings
+//Deprecated version of SqlDatabaseThroughputSetting. Use v1beta20210515.SqlDatabaseThroughputSetting instead
 type SqlDatabaseThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -48,22 +48,36 @@ var _ conversion.Convertible = &SqlDatabaseThroughputSetting{}
 
 // ConvertFrom populates our SqlDatabaseThroughputSetting from the provided hub SqlDatabaseThroughputSetting
 func (setting *SqlDatabaseThroughputSetting) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20210515storage.SqlDatabaseThroughputSetting)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/SqlDatabaseThroughputSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20210515storage.SqlDatabaseThroughputSetting
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return setting.AssignPropertiesFromSqlDatabaseThroughputSetting(source)
+	err = setting.AssignPropertiesFromSqlDatabaseThroughputSetting(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to setting")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub SqlDatabaseThroughputSetting from our SqlDatabaseThroughputSetting
 func (setting *SqlDatabaseThroughputSetting) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20210515storage.SqlDatabaseThroughputSetting)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/SqlDatabaseThroughputSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20210515storage.SqlDatabaseThroughputSetting
+	err := setting.AssignPropertiesToSqlDatabaseThroughputSetting(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from setting")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return setting.AssignPropertiesToSqlDatabaseThroughputSetting(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1alpha1api20210515-sqldatabasethroughputsetting,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabasethroughputsettings,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.sqldatabasethroughputsettings.documentdb.azure.com,admissionReviewVersions=v1beta1
@@ -293,20 +307,14 @@ func (setting *SqlDatabaseThroughputSetting) OriginalGVK() *schema.GroupVersionK
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_throughputSettings
+//Deprecated version of SqlDatabaseThroughputSetting. Use v1beta20210515.SqlDatabaseThroughputSetting instead
 type SqlDatabaseThroughputSettingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseThroughputSetting `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsSqlDatabasesThroughputSettingsSpecAPIVersion string
-
-const DatabaseAccountsSqlDatabasesThroughputSettingsSpecAPIVersion20210515 = DatabaseAccountsSqlDatabasesThroughputSettingsSpecAPIVersion("2021-05-15")
-
 type DatabaseAccountsSqlDatabasesThroughputSettings_Spec struct {
-	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -316,16 +324,8 @@ type DatabaseAccountsSqlDatabasesThroughputSettings_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabase"`
 
 	// +kubebuilder:validation:Required
-	//Resource: Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not
-	//both.
 	Resource *ThroughputSettingsResource `json:"resource,omitempty"`
-
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	//type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	//"DocumentDB", and "MongoDB".
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags     map[string]string           `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DatabaseAccountsSqlDatabasesThroughputSettings_Spec{}

@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515"
+	documentdbv1alpha1api20210515 "github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515"
 	"github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515storage"
+	documentdbv1beta20210515 "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515"
+	"github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type MongodbDatabaseExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *MongodbDatabaseExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&documentdb.MongodbDatabase{},
-		&v1alpha1api20210515storage.MongodbDatabase{}}
+		&documentdbv1alpha1api20210515.MongodbDatabase{},
+		&v1alpha1api20210515storage.MongodbDatabase{},
+		&documentdbv1beta20210515.MongodbDatabase{},
+		&v1beta20210515storage.MongodbDatabase{}}
 }

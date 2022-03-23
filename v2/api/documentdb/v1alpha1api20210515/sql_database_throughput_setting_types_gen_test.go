@@ -6,6 +6,7 @@ package v1alpha1api20210515
 import (
 	"encoding/json"
 	"github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515storage"
+	"github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunResourceConversionTestForSqlDatabaseThroughputSetting(subject SqlDatabas
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1alpha1api20210515storage.SqlDatabaseThroughputSetting
+	var hub v1beta20210515storage.SqlDatabaseThroughputSetting
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

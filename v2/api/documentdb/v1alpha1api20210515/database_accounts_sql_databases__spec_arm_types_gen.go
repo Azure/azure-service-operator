@@ -5,22 +5,12 @@ package v1alpha1api20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+//Deprecated version of DatabaseAccountsSqlDatabases_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabases_Spec instead
 type DatabaseAccountsSqlDatabases_SpecARM struct {
-	//Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	//Name: Cosmos DB database name.
-	Name string `json:"name,omitempty"`
-
-	//Properties: Properties to create and update Azure Cosmos DB SQL database.
+	Location   *string                               `json:"location,omitempty"`
+	Name       string                                `json:"name,omitempty"`
 	Properties *SqlDatabaseCreateUpdatePropertiesARM `json:"properties,omitempty"`
-
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	//type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	//"DocumentDB", and "MongoDB".
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags       map[string]string                     `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabases_SpecARM{}
@@ -40,18 +30,13 @@ func (databases DatabaseAccountsSqlDatabases_SpecARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlDatabaseCreateUpdateProperties
+//Deprecated version of SqlDatabaseCreateUpdateProperties. Use v1beta20210515.SqlDatabaseCreateUpdateProperties instead
 type SqlDatabaseCreateUpdatePropertiesARM struct {
-	//Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
-	//"If-None-Match", "Session-Token" and "Throughput"
-	Options *CreateUpdateOptionsARM `json:"options,omitempty"`
-
-	//Resource: Cosmos DB SQL database resource object
+	Options  *CreateUpdateOptionsARM `json:"options,omitempty"`
 	Resource *SqlDatabaseResourceARM `json:"resource,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlDatabaseResource
+//Deprecated version of SqlDatabaseResource. Use v1beta20210515.SqlDatabaseResource instead
 type SqlDatabaseResourceARM struct {
-	//Id: Name of the Cosmos DB SQL database
 	Id *string `json:"id,omitempty"`
 }

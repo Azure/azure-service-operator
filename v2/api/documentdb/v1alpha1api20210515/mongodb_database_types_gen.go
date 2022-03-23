@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases
+//Deprecated version of MongodbDatabase. Use v1beta20210515.MongodbDatabase instead
 type MongodbDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -48,22 +48,36 @@ var _ conversion.Convertible = &MongodbDatabase{}
 
 // ConvertFrom populates our MongodbDatabase from the provided hub MongodbDatabase
 func (database *MongodbDatabase) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20210515storage.MongodbDatabase)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/MongodbDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20210515storage.MongodbDatabase
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return database.AssignPropertiesFromMongodbDatabase(source)
+	err = database.AssignPropertiesFromMongodbDatabase(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to database")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub MongodbDatabase from our MongodbDatabase
 func (database *MongodbDatabase) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20210515storage.MongodbDatabase)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/MongodbDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20210515storage.MongodbDatabase
+	err := database.AssignPropertiesToMongodbDatabase(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from database")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return database.AssignPropertiesToMongodbDatabase(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1alpha1api20210515-mongodbdatabase,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbdatabases,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.mongodbdatabases.documentdb.azure.com,admissionReviewVersions=v1beta1
@@ -300,29 +314,19 @@ func (database *MongodbDatabase) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases
+//Deprecated version of MongodbDatabase. Use v1beta20210515.MongodbDatabase instead
 type MongodbDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []MongodbDatabase `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsMongodbDatabasesSpecAPIVersion string
-
-const DatabaseAccountsMongodbDatabasesSpecAPIVersion20210515 = DatabaseAccountsMongodbDatabasesSpecAPIVersion("2021-05-15")
-
 type DatabaseAccountsMongodbDatabases_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	//Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	//Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
-	//"If-None-Match", "Session-Token" and "Throughput"
-	Options *CreateUpdateOptions `json:"options,omitempty"`
+	AzureName string               `json:"azureName,omitempty"`
+	Location  *string              `json:"location,omitempty"`
+	Options   *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -331,15 +335,8 @@ type DatabaseAccountsMongodbDatabases_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"DatabaseAccount"`
 
 	// +kubebuilder:validation:Required
-	//Resource: Cosmos DB MongoDB database resource object
 	Resource *MongoDBDatabaseResource `json:"resource,omitempty"`
-
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	//type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	//"DocumentDB", and "MongoDB".
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags     map[string]string        `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DatabaseAccountsMongodbDatabases_Spec{}
@@ -625,24 +622,17 @@ func (databases *DatabaseAccountsMongodbDatabases_Spec) SetAzureName(azureName s
 	databases.AzureName = azureName
 }
 
+//Deprecated version of MongoDBDatabaseGetResults_Status. Use v1beta20210515.MongoDBDatabaseGetResults_Status instead
 type MongoDBDatabaseGetResults_Status struct {
 	//Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	//Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
-	//Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	//Name: The name of the ARM resource.
-	Name     *string                                       `json:"name,omitempty"`
-	Options  *OptionsResource_Status                       `json:"options,omitempty"`
-	Resource *MongoDBDatabaseGetProperties_Status_Resource `json:"resource,omitempty"`
-	Tags     map[string]string                             `json:"tags,omitempty"`
-
-	//Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
+	Conditions []conditions.Condition                        `json:"conditions,omitempty"`
+	Id         *string                                       `json:"id,omitempty"`
+	Location   *string                                       `json:"location,omitempty"`
+	Name       *string                                       `json:"name,omitempty"`
+	Options    *OptionsResource_Status                       `json:"options,omitempty"`
+	Resource   *MongoDBDatabaseGetProperties_Status_Resource `json:"resource,omitempty"`
+	Tags       map[string]string                             `json:"tags,omitempty"`
+	Type       *string                                       `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &MongoDBDatabaseGetResults_Status{}
@@ -882,12 +872,10 @@ func (results *MongoDBDatabaseGetResults_Status) AssignPropertiesToMongoDBDataba
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CreateUpdateOptions
+//Deprecated version of CreateUpdateOptions. Use v1beta20210515.CreateUpdateOptions instead
 type CreateUpdateOptions struct {
 	AutoscaleSettings *AutoscaleSettings `json:"autoscaleSettings,omitempty"`
-
-	//Throughput: Request Units per second. For example, "throughput": 10000.
-	Throughput *int `json:"throughput,omitempty"`
+	Throughput        *int               `json:"throughput,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &CreateUpdateOptions{}
@@ -1003,18 +991,12 @@ func (options *CreateUpdateOptions) AssignPropertiesToCreateUpdateOptions(destin
 	return nil
 }
 
+//Deprecated version of MongoDBDatabaseGetProperties_Status_Resource. Use v1beta20210515.MongoDBDatabaseGetProperties_Status_Resource instead
 type MongoDBDatabaseGetProperties_Status_Resource struct {
-	//Etag: A system generated property representing the resource etag required for optimistic concurrency control.
-	Etag *string `json:"_etag,omitempty"`
-
-	//Id: Name of the Cosmos DB MongoDB database
-	Id *string `json:"id,omitempty"`
-
-	//Rid: A system generated property. A unique identifier.
-	Rid *string `json:"_rid,omitempty"`
-
-	//Ts: A system generated property that denotes the last updated timestamp of the resource.
-	Ts *float64 `json:"_ts,omitempty"`
+	Etag *string  `json:"_etag,omitempty"`
+	Id   *string  `json:"id,omitempty"`
+	Rid  *string  `json:"_rid,omitempty"`
+	Ts   *float64 `json:"_ts,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &MongoDBDatabaseGetProperties_Status_Resource{}
@@ -1116,10 +1098,9 @@ func (resource *MongoDBDatabaseGetProperties_Status_Resource) AssignPropertiesTo
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBDatabaseResource
+//Deprecated version of MongoDBDatabaseResource. Use v1beta20210515.MongoDBDatabaseResource instead
 type MongoDBDatabaseResource struct {
 	// +kubebuilder:validation:Required
-	//Id: Name of the Cosmos DB MongoDB database
 	Id *string `json:"id,omitempty"`
 }
 
@@ -1191,13 +1172,10 @@ func (resource *MongoDBDatabaseResource) AssignPropertiesToMongoDBDatabaseResour
 	return nil
 }
 
+//Deprecated version of OptionsResource_Status. Use v1beta20210515.OptionsResource_Status instead
 type OptionsResource_Status struct {
-	//AutoscaleSettings: Specifies the Autoscale settings.
 	AutoscaleSettings *AutoscaleSettings_Status `json:"autoscaleSettings,omitempty"`
-
-	//Throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use the ThroughputSetting resource when
-	//retrieving offer details.
-	Throughput *int `json:"throughput,omitempty"`
+	Throughput        *int                      `json:"throughput,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &OptionsResource_Status{}
@@ -1288,9 +1266,8 @@ func (resource *OptionsResource_Status) AssignPropertiesToOptionsResourceStatus(
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettings
+//Deprecated version of AutoscaleSettings. Use v1beta20210515.AutoscaleSettings instead
 type AutoscaleSettings struct {
-	//MaxThroughput: Represents maximum throughput, the resource can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
 }
 
@@ -1362,8 +1339,8 @@ func (settings *AutoscaleSettings) AssignPropertiesToAutoscaleSettings(destinati
 	return nil
 }
 
+//Deprecated version of AutoscaleSettings_Status. Use v1beta20210515.AutoscaleSettings_Status instead
 type AutoscaleSettings_Status struct {
-	//MaxThroughput: Represents maximum throughput, the resource can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
 }
 
