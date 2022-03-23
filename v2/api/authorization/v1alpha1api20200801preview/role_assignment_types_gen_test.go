@@ -6,6 +6,7 @@ package v1alpha1api20200801preview
 import (
 	"encoding/json"
 	"github.com/Azure/azure-service-operator/v2/api/authorization/v1alpha1api20200801previewstorage"
+	"github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801previewstorage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunResourceConversionTestForRoleAssignment(subject RoleAssignment) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1alpha1api20200801previewstorage.RoleAssignment
+	var hub v1beta20200801previewstorage.RoleAssignment
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
