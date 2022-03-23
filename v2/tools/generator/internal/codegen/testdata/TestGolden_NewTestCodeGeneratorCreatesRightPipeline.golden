@@ -24,7 +24,7 @@ verifyNoErroredTypes                                 Verify there are no Errored
 stripUnused                                          Strip unused types for test
 replaceAnyTypeWithJSON                               Replace properties using interface{} with arbitrary JSON
 addSecrets                                azure      Replace properties flagged as secret with genruntime.SecretReference
-pruneResourcesWithLifecycleOwnedByParentStageID     azure      Prune embedded resources whose lifecycle is owned by the parent.
+createTypesForBackwardCompatibility       azure      Create clones of types for backward compatibility with prior ASO versions
 makeOneOfDiscriminantRequired             azure      Fix one of types to a discriminator which is not omitempty/optional
 applyKubernetesResourceInterface          azure      Add the KubernetesResource interface to every resource
 flattenProperties                                    Apply flattening to properties marked for flattening
