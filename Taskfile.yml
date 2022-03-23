@@ -490,6 +490,24 @@ tasks:
       - task: controller:make-aadpodidentity-secret
       - "kubectl wait --for=condition=ready --timeout=2m pod -n azureserviceoperator-system -l control-plane=controller-manager"
 
+  controller:kind-create-multitenant-cluster:
+    desc: Creates a local kind cluster with ASO installed in multitenant configuration.
+    deps: [controller:make-multitenant-files]
+    cmds:
+      - task: controller:kind-create
+      - task: controller:install-cert-manager
+      - task: controller:docker-push-local
+      # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
+      - "cmctl check api --wait=2m"
+      # Install cluster yaml - we need to switch the image to the local one.
+      - "cat v2/bin/multitenant-cluster_{{.VERSION}}.yaml | sed -e 's|image: mcr.microsoft.com/k8s/azureserviceoperator:.*|image: localhost:5000/azureserviceoperator:latest|' | kubectl apply --server-side=true -f -"
+      # Install tenant yaml - with same image switch
+      - "cat v2/bin/multitenant-tenant_{{.VERSION}}.yaml | sed -e 's|image: mcr.microsoft.com/k8s/azureserviceoperator:.*|image: localhost:5000/azureserviceoperator:latest|' | kubectl apply --server-side=true -f -"
+      # Make sp secret for tenant watching some target namespaces.
+      - "{{.SCRIPTS_ROOT}}/deploy_multitenant_testing_secret.sh"
+      - "kubectl wait --for=condition=ready --timeout=2m pod -n azureserviceoperator-system -l control-plane=controller-manager"
+      - "kubectl wait --for=condition=ready --timeout=2m pod -n tenant1-system -l control-plane=controller-manager"
+
   controller:gen-crd-docs:
     desc: Generates API docs for CRDs
     deps: [controller:generate-crds]
