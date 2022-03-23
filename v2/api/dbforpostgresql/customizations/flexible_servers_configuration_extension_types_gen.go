@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	dbforpostgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api20210601"
+	dbforpostgresqlv1alpha1api20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api20210601"
 	"github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api20210601storage"
+	dbforpostgresqlv1beta20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601"
+	"github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type FlexibleServersConfigurationExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *FlexibleServersConfigurationExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&dbforpostgresql.FlexibleServersConfiguration{},
-		&v1alpha1api20210601storage.FlexibleServersConfiguration{}}
+		&dbforpostgresqlv1alpha1api20210601.FlexibleServersConfiguration{},
+		&v1alpha1api20210601storage.FlexibleServersConfiguration{},
+		&dbforpostgresqlv1beta20210601.FlexibleServersConfiguration{},
+		&v1beta20210601storage.FlexibleServersConfiguration{}}
 }
