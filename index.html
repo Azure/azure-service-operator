@@ -1029,7 +1029,7 @@ cert-manager-webhook-c4b5687dc-x66bj      1/1     Running   <span style="color:#
 AZURE_CLIENT_SECRET<span style="color:#f92672">=</span>&lt;your-client-secret&gt; <span style="color:#75715e"># This is the password from the service principal we created.</span>
 </code></pre></div></li>
 <li>
-<p>Install <a href="/v2/charts">the latest <strong>v2+</strong> Helm chart</a>. Alternatively you can install from the <a href="https://azure.github.io/azure-service-operator/installing-from-yaml">release YAML directly</a></p>
+<p>Install <a href="/v2/charts">the latest <strong>v2+</strong> Helm chart</a>. Alternatively you can install from the <a href="https://azure.github.io/azure-service-operator/introduction/installing-from-yaml">release YAML directly</a></p>
 <pre tabindex="0"><code>helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
 </code></pre><pre tabindex="0"><code>helm upgrade --install --devel aso2 aso2/azure-service-operator \
      --create-namespace \
