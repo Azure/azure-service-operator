@@ -3,88 +3,45 @@
 // Licensed under the MIT license.
 package v1alpha1api20200930
 
+//Deprecated version of Snapshot_Status. Use v1beta20200930.Snapshot_Status instead
 type Snapshot_StatusARM struct {
-	//ExtendedLocation: The extended location where the snapshot will be created. Extended location cannot be changed.
-	ExtendedLocation *ExtendedLocation_StatusARM `json:"extendedLocation,omitempty"`
-
-	//Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	//Location: Resource location
-	Location *string `json:"location,omitempty"`
-
-	//ManagedBy: Unused. Always Null.
-	ManagedBy *string `json:"managedBy,omitempty"`
-
-	//Name: Resource name
-	Name       *string                       `json:"name,omitempty"`
-	Properties *SnapshotProperties_StatusARM `json:"properties,omitempty"`
-	Sku        *SnapshotSku_StatusARM        `json:"sku,omitempty"`
-
-	//Tags: Resource tags
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type *string `json:"type,omitempty"`
+	ExtendedLocation *ExtendedLocation_StatusARM   `json:"extendedLocation,omitempty"`
+	Id               *string                       `json:"id,omitempty"`
+	Location         *string                       `json:"location,omitempty"`
+	ManagedBy        *string                       `json:"managedBy,omitempty"`
+	Name             *string                       `json:"name,omitempty"`
+	Properties       *SnapshotProperties_StatusARM `json:"properties,omitempty"`
+	Sku              *SnapshotSku_StatusARM        `json:"sku,omitempty"`
+	Tags             map[string]string             `json:"tags,omitempty"`
+	Type             *string                       `json:"type,omitempty"`
 }
 
+//Deprecated version of SnapshotProperties_Status. Use v1beta20200930.SnapshotProperties_Status instead
 type SnapshotProperties_StatusARM struct {
-	//CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.
-	CreationData *CreationData_StatusARM `json:"creationData,omitempty"`
-
-	//DiskAccessId: ARM id of the DiskAccess resource for using private endpoints on disks.
-	DiskAccessId *string `json:"diskAccessId,omitempty"`
-
-	//DiskSizeBytes: The size of the disk in bytes. This field is read only.
-	DiskSizeBytes *int `json:"diskSizeBytes,omitempty"`
-
-	//DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
-	//create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
-	//allowed if the disk is not attached to a running VM, and can only increase the disk's size.
-	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
-
-	//DiskState: The state of the snapshot.
-	DiskState *DiskState_Status `json:"diskState,omitempty"`
-
-	//Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
-	Encryption *Encryption_StatusARM `json:"encryption,omitempty"`
-
-	//EncryptionSettingsCollection: Encryption settings collection used be Azure Disk Encryption, can contain multiple
-	//encryption settings per disk or snapshot.
-	EncryptionSettingsCollection *EncryptionSettingsCollection_StatusARM `json:"encryptionSettingsCollection,omitempty"`
-
-	//HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
-	HyperVGeneration *SnapshotPropertiesStatusHyperVGeneration `json:"hyperVGeneration,omitempty"`
-
-	//Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
-	//snapshots and can be diffed.
-	Incremental         *bool                       `json:"incremental,omitempty"`
-	NetworkAccessPolicy *NetworkAccessPolicy_Status `json:"networkAccessPolicy,omitempty"`
-
-	//OsType: The Operating System type.
-	OsType *SnapshotPropertiesStatusOsType `json:"osType,omitempty"`
-
-	//ProvisioningState: The disk provisioning state.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	//PurchasePlan: Purchase plan information for the image from which the source disk for the snapshot was originally created.
-	PurchasePlan *PurchasePlan_StatusARM `json:"purchasePlan,omitempty"`
-
-	//TimeCreated: The time when the snapshot was created.
-	TimeCreated *string `json:"timeCreated,omitempty"`
-
-	//UniqueId: Unique Guid identifying the resource.
-	UniqueId *string `json:"uniqueId,omitempty"`
+	CreationData                 *CreationData_StatusARM                   `json:"creationData,omitempty"`
+	DiskAccessId                 *string                                   `json:"diskAccessId,omitempty"`
+	DiskSizeBytes                *int                                      `json:"diskSizeBytes,omitempty"`
+	DiskSizeGB                   *int                                      `json:"diskSizeGB,omitempty"`
+	DiskState                    *DiskState_Status                         `json:"diskState,omitempty"`
+	Encryption                   *Encryption_StatusARM                     `json:"encryption,omitempty"`
+	EncryptionSettingsCollection *EncryptionSettingsCollection_StatusARM   `json:"encryptionSettingsCollection,omitempty"`
+	HyperVGeneration             *SnapshotPropertiesStatusHyperVGeneration `json:"hyperVGeneration,omitempty"`
+	Incremental                  *bool                                     `json:"incremental,omitempty"`
+	NetworkAccessPolicy          *NetworkAccessPolicy_Status               `json:"networkAccessPolicy,omitempty"`
+	OsType                       *SnapshotPropertiesStatusOsType           `json:"osType,omitempty"`
+	ProvisioningState            *string                                   `json:"provisioningState,omitempty"`
+	PurchasePlan                 *PurchasePlan_StatusARM                   `json:"purchasePlan,omitempty"`
+	TimeCreated                  *string                                   `json:"timeCreated,omitempty"`
+	UniqueId                     *string                                   `json:"uniqueId,omitempty"`
 }
 
+//Deprecated version of SnapshotSku_Status. Use v1beta20200930.SnapshotSku_Status instead
 type SnapshotSku_StatusARM struct {
-	//Name: The sku name.
 	Name *SnapshotSkuStatusName `json:"name,omitempty"`
-
-	//Tier: The sku tier.
-	Tier *string `json:"tier,omitempty"`
+	Tier *string                `json:"tier,omitempty"`
 }
 
+//Deprecated version of SnapshotSkuStatusName. Use v1beta20200930.SnapshotSkuStatusName instead
 type SnapshotSkuStatusName string
 
 const (

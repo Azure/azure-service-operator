@@ -6,6 +6,7 @@ package v1alpha1api20201201
 import (
 	"encoding/json"
 	"github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201storage"
+	"github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunResourceConversionTestForVirtualMachine(subject VirtualMachine) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1alpha1api20201201storage.VirtualMachine
+	var hub v1beta20201201storage.VirtualMachine
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
