@@ -159,6 +159,7 @@ tasks:
     cmds:
       - task: cleanup-old-live-azure-resources
       - task: controller:test-integration-kind-ci
+      - task: controller:test-multitenant-integration-kind-ci
 
   controller:ci-live:
     cmds:
@@ -306,6 +307,37 @@ tasks:
       # to keep CI fast
       - go test -timeout 15m -v -run '{{default ".*" .TEST_FILTER}}' ./test
 
+  controller:test-multitenant-integration-kind-ci:
+    desc: Run live multitenant integration tests in kind.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps: [controller:kind-create-multitenant-cluster]
+    cmds:
+      # This timeout is purposefully low - if we find that this job is
+      # taking a long time we may need to think of other ways to keep
+      # CI fast
+      # TODO: Below pattern was taken from
+      # https://github.com/go-task/task/pull/474 to ensure cleanup
+      # runs after the test.
+      - |
+        (go test -timeout 15m -v -run '{{default ".*" .TEST_FILTER}}' ./test/multitenant); # Run the tests in a subshell.
+        TEST_EXIT=$?;
+        kind delete cluster --name=asov2
+        exit $TEST_EXIT
+
+  # Note that this target isn't used in CI and is intended for use
+  # when running locally on a kind cluster that you don't want to
+  # delete (in contrast to test-multitenant-integration-kind which
+  # will delete the kind cluster when it is done.
+  controller:test-multitenant-integration-kind:
+    desc: Run live multitenant integration tests in kind.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps: [controller:kind-create-multitenant-cluster]
+    cmds:
+      # This timeout is purposefully low - if we find that this job is
+      # taking a long time we may need to think of other ways to keep
+      # CI fast
+      - go test -timeout 15m -v -run '{{default ".*" .TEST_FILTER}}' ./test/multitenant
+
   controller:test-integration-ci:
     desc: Run integration tests for CI
     dir: "{{.CONTROLLER_ROOT}}"
@@ -314,7 +346,10 @@ tasks:
   controller:test-integration-ci-live:
     desc: Run integration tests for CI in live mode
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:test-integration-envtest-live, controller:test-integration-kind-ci, cleanup-old-live-azure-resources]
+    deps:
+      - controller:test-integration-envtest-live
+      - controller:test-integration-kind-ci
+      - cleanup-old-live-azure-resources
 
   controller:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CONTROLLER_APP}}.
