@@ -56,5 +56,10 @@ func findMisbehavingResources(configuration *config.Configuration, defs astmodel
 		}
 	}
 
+	err := configuration.VerifyIsResourceLifecycleOwnedByParentConsumed()
+	if err != nil {
+		return nil, err
+	}
+
 	return resources, nil
 }

@@ -196,6 +196,16 @@ func (config *Configuration) IsResourceLifecycleOwnedByParent(name astmodel.Type
 	return config.ObjectModelConfiguration.IsResourceLifecycleOwnedByParent(name, property)
 }
 
+// MarkIsResourceLifecycleOwnedByParentUnconsumed marks all IsResourceLifecycleOwnedByParent as unconsumed
+func (config *Configuration) MarkIsResourceLifecycleOwnedByParentUnconsumed() error {
+	return config.ObjectModelConfiguration.MarkIsResourceLifecycleOwnedByParentUnconsumed()
+}
+
+// VerifyIsResourceLifecycleOwnedByParentConsumed returns an error if any IsResourceLifecycleOwnedByParent flag is not consumed
+func (config *Configuration) VerifyIsResourceLifecycleOwnedByParentConsumed() error {
+	return config.ObjectModelConfiguration.VerifyIsResourceLifecycleOwnedByParentConsumed()
+}
+
 // initialize checks for common errors and initializes structures inside the configuration
 // which need additional setup after json deserialization
 func (config *Configuration) initialize(configPath string) error {

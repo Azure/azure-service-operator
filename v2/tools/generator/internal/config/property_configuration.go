@@ -119,6 +119,11 @@ func (pc *PropertyConfiguration) IsResourceLifecycleOwnedByParent() (bool, error
 	return isResourceLifecycleOwnedByParent, nil
 }
 
+// ClearResourceLifecycleOwnedByParentConsumed clears the consumed bit for this flag so that it can be reused
+func (pc *PropertyConfiguration) ClearResourceLifecycleOwnedByParentConsumed() {
+	pc.isResourceLifecycleOwnedByParent.markUnconsumed()
+}
+
 // VerifyIsResourceLifecycleOwnedByParentConsumed returns an error if our configuration has the
 // misbehavingEmbeddedResource flag and it was not consumed.
 func (pc *PropertyConfiguration) VerifyIsResourceLifecycleOwnedByParentConsumed() error {

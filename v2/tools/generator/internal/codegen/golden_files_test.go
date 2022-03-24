@@ -164,7 +164,10 @@ func NewTestCodeGenerator(
 			pipeline.ReportOnTypesAndVersionsStageID,
 			pipeline.ReportResourceVersionsStageID)
 		if !testConfig.HasARMResources {
-			codegen.RemoveStages(pipeline.CreateARMTypesStageID, pipeline.ApplyARMConversionInterfaceStageID)
+			codegen.RemoveStages(
+				pipeline.CreateARMTypesStageID,
+				pipeline.PruneResourcesWithLifecycleOwnedByParentStageID,
+				pipeline.ApplyARMConversionInterfaceStageID)
 
 			// These stages treat the collection of types as a graph of types rooted by a resource type.
 			// In the degenerate case where there are no resources it behaves the same as stripUnreferenced - removing
