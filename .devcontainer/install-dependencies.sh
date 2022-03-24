@@ -85,7 +85,8 @@ curl -L "https://github.com/kubernetes-sigs/kubebuilder/releases/download/v${kub
 mv "/tmp/kubebuilder_${kubebuilder_version}_${os}_${arch}" "$KUBEBUILDER_DEST"
 
 # Install helm
-curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+echo "Installing helm…"
+curl -sL "https://get.helm.sh/helm-v3.8.0-linux-amd64.tar.gz" | tar -C "$TOOL_DEST" --strip-components=1 -xz linux-amd64/helm
 
 # Install yq
 echo "Installing yq…"
