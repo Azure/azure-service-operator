@@ -13,6 +13,7 @@ import (
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
 type resourceRemovalVisitorContext struct {
@@ -55,16 +56,17 @@ func (e resourceRemovalVisitorContext) WithMoreDepth() resourceRemovalVisitorCon
 // the only difference being that for Status definitions the resource reference in Swagger (the source of the Status definitions)
 // is to the Status type (as opposed to the "Properties" type for Spec).
 type EmbeddedResourceRemover struct {
-	definitions              astmodel.TypeDefinitionSet
-	resourceToSubresourceMap map[astmodel.TypeName]astmodel.TypeNameSet
-	resourcePropertiesTypes  astmodel.TypeNameSet
-	resourceStatusTypes      astmodel.TypeNameSet
-	typeSuffix               string
-	typeFlag                 astmodel.TypeFlag
+	definitions                  astmodel.TypeDefinitionSet
+	resourceToSubresourceMap     map[astmodel.TypeName]astmodel.TypeNameSet
+	resourcePropertiesTypes      astmodel.TypeNameSet
+	resourceStatusTypes          astmodel.TypeNameSet
+	typeSuffix                   string
+	typeFlag                     astmodel.TypeFlag
+	misbehavingEmbeddedResources astmodel.TypeNameSet
 }
 
 // MakeEmbeddedResourceRemover creates an EmbeddedResourceRemover for the specified astmodel.TypeDefinitionSet collection.
-func MakeEmbeddedResourceRemover(definitions astmodel.TypeDefinitionSet) (EmbeddedResourceRemover, error) {
+func MakeEmbeddedResourceRemover(configuration *config.Configuration, definitions astmodel.TypeDefinitionSet) (EmbeddedResourceRemover, error) {
 	resourceStatusTypeNames := findAllResourceStatusTypes(definitions)
 	resourceToSubresourceMap, err := findSubResourcePropertiesTypeNames(definitions)
 	if err != nil {
@@ -76,13 +78,19 @@ func MakeEmbeddedResourceRemover(definitions astmodel.TypeDefinitionSet) (Embedd
 		return EmbeddedResourceRemover{}, errors.Wrap(err, "couldn't find resource \"Properties\" type names")
 	}
 
+	misbehavingResources, err := findMisbehavingResources(configuration, definitions)
+	if err != nil {
+		return EmbeddedResourceRemover{}, errors.Wrap(err, "couldn't find all misbehaving embedded resources")
+	}
+
 	remover := EmbeddedResourceRemover{
-		definitions:              definitions,
-		resourceToSubresourceMap: resourceToSubresourceMap,
-		resourcePropertiesTypes:  resourcePropertiesTypes,
-		resourceStatusTypes:      resourceStatusTypeNames,
-		typeSuffix:               "SubResourceEmbedded",
-		typeFlag:                 astmodel.TypeFlag("embeddedSubResource"), // TODO: Instead of flag we could just use a map here if we wanted
+		definitions:                  definitions,
+		misbehavingEmbeddedResources: misbehavingResources,
+		resourceToSubresourceMap:     resourceToSubresourceMap,
+		resourcePropertiesTypes:      resourcePropertiesTypes,
+		resourceStatusTypes:          resourceStatusTypeNames,
+		typeSuffix:                   "SubResourceEmbedded",
+		typeFlag:                     astmodel.TypeFlag("embeddedSubResource"), // TODO: Instead of flag we could just use a map here if we wanted
 	}
 
 	return remover, nil
@@ -93,23 +101,38 @@ func (e EmbeddedResourceRemover) RemoveEmbeddedResources() (astmodel.TypeDefinit
 	result := make(astmodel.TypeDefinitionSet)
 
 	visitor := e.makeEmbeddedResourceRemovalTypeVisitor()
+	for _, def := range astmodel.FindResourceDefinitions(e.definitions) {
 
-	for _, def := range e.definitions {
-		if astmodel.IsResourceDefinition(def) {
-			typeWalker := e.newResourceRemovalTypeWalker(visitor, def)
-
-			updatedTypes, err := typeWalker.Walk(def)
+		// If this resource has any properties that are flagged as misbehaving embedded resources, we have to skip
+		// validation
+		if e.misbehavingEmbeddedResources.Contains(def.Name()) {
+			tempWalker := astmodel.NewTypeWalker(e.definitions, astmodel.TypeVisitorBuilder{}.Build())
+			updatedTypes, err := tempWalker.Walk(def)
 			if err != nil {
 				return nil, err
 			}
 
-			for _, newDef := range updatedTypes {
-				err := result.AddAllowDuplicates(newDef)
-				if err != nil {
-					return nil, err
-				}
+			err = result.AddTypesAllowDuplicates(updatedTypes)
+			if err != nil {
+				return nil, err
+			}
+			continue
+		}
+
+		typeWalker := e.newResourceRemovalTypeWalker(visitor, def)
+
+		updatedTypes, err := typeWalker.Walk(def)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, newDef := range updatedTypes {
+			err := result.AddAllowDuplicates(newDef)
+			if err != nil {
+				return nil, err
 			}
 		}
+
 	}
 
 	result, err := simplifyTypeNames(result, e.typeFlag)

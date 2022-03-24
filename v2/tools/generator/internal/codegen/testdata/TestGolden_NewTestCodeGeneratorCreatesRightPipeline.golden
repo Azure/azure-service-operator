@@ -1,52 +1,53 @@
 Expected Pipeline Stages for Test Code Generation
 -------------------------------------------------
-loadTestSchema                                       Load and walk schema (test)
-addStatusFromSwagger                                 Add information from Swagger specs for 'status' fields
-allof-anyof-objects                                  Convert allOf and oneOf to object types
-flattenResources                                     Flatten nested resource types
-augmentSpecWithStatus                                Merge information from Status into Spec
-stripUnused                                          Strip unused types for test
-nameTypes                                            Name inner types for CRD
-propertyRewrites                                     Modify property types using configured transforms
-removeResourceScope                                  Remove scope from all resources
-makeStatusPropertiesOptional                         Force all status properties to be optional
-removeStatusPropertyValidation                       Remove validation from all status properties
-transformValidatedFloats                             Transform validated 'spec' float type values to validated integer types for compatibility with controller-gen
-unrollRecursiveTypes                                 Unroll directly recursive types since they are not supported by controller-gen
-determineResourceOwnership                           Determine ARM resource relationships
-removeAliases                                        Remove type aliases
-pluralizeNames                                       Improve resource pluralization
-stripUnused                                          Strip unused types for test
-assertTypesStructureValid                            Verify that all local TypeNames refer to a type
-removeTypeProperty                                   Remove the ARM type property and instead augment the ResourceType with it
-removeAPIVersionProperty                             Remove the ARM API version property and instead augment the ResourceType with it
-verifyNoErroredTypes                                 Verify there are no ErroredType's containing errors
-stripUnused                                          Strip unused types for test
-replaceAnyTypeWithJSON                               Replace properties using interface{} with arbitrary JSON
-addSecrets                                azure      Replace properties flagged as secret with genruntime.SecretReference
-makeOneOfDiscriminantRequired             azure      Fix one of types to a discriminator which is not omitempty/optional
-applyKubernetesResourceInterface          azure      Add the KubernetesResource interface to every resource
-flattenProperties                                    Apply flattening to properties marked for flattening
-stripUnused                                          Strip unused types for test
-addStatusConditions                       azure      Add the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources
-addOperatorSpec                           azure      Adds the property 'OperatorSpec' to all Spec types that require it
-applyDefaulterAndValidatorInterfaces      azure      Add the admission.Defaulter and admission.Validator interfaces to each resource that requires them
-injectOriginalVersionFunction             azure      Inject the function OriginalVersion() into each Spec type
-createStorageTypes                        azure      Create storage versions of CRD types
-createConversionGraph                     azure      Create the graph of conversions between versions of each resource group
-injectOriginalVersionProperty             azure      Inject the property OriginalVersion into each Storage Spec type
-injectPropertyAssignmentFunctions         azure      Inject property assignment functions AssignFrom() and AssignTo() into resources and objects
-implementConvertibleSpecInterface         azure      Inject ConvertSpecTo() and ConvertSpecFrom() to implement genruntime.ConvertibleSpec on each Spec type
-implementConvertibleStatusInterface       azure      Inject ConvertStatusTo() and ConvertStatusFrom() to implement genruntime.ConvertibleStatus on each Status type
-injectOriginalGVKFunction                 azure      Inject the function OriginalGVK() into each Resource type
-markLatestStorageVariantAsHubVersion      azure      Mark the latest GA storage variant of each resource as the hub version
-injectHubFunction                         azure      Inject the function Hub() into each hub resource
-implementConvertibleInterface             azure      Implement the Convertible interface on each non-hub Resource type
-injectJSONTestCases                       azure      Add test cases to verify JSON serialization
-injectPropertyAssignmentTestCases         azure      Add test cases to verify PropertyAssignment functions
-injectResourceConversionTestCases         azure      Add test cases to verify Resource implementations of conversion.Convertible (funcs ConvertTo & ConvertFrom) behave as expected
-simplifyDefinitions                                  Flatten definitions by removing wrapper types
-ensureArmTypeExistsForEveryType           azure      Check that an ARM type exists for both Spec and Status of each resource
-detectSkippingProperties                  azure      Detect properties that skip resource or object versions
-exportTestPackages                                   Export packages for test
-exportControllerResourceRegistrations     azure      Export resource registrations to ""
+loadTestSchema                                                 Load and walk schema (test)
+addStatusFromSwagger                                           Add information from Swagger specs for 'status' fields
+allof-anyof-objects                                            Convert allOf and oneOf to object types
+flattenResources                                               Flatten nested resource types
+augmentSpecWithStatus                                          Merge information from Status into Spec
+stripUnused                                                    Strip unused types for test
+nameTypes                                                      Name inner types for CRD
+propertyRewrites                                               Modify property types using configured transforms
+removeResourceScope                                            Remove scope from all resources
+makeStatusPropertiesOptional                                   Force all status properties to be optional
+removeStatusPropertyValidation                                 Remove validation from all status properties
+transformValidatedFloats                                       Transform validated 'spec' float type values to validated integer types for compatibility with controller-gen
+unrollRecursiveTypes                                           Unroll directly recursive types since they are not supported by controller-gen
+determineResourceOwnership                                     Determine ARM resource relationships
+removeAliases                                                  Remove type aliases
+pluralizeNames                                                 Improve resource pluralization
+stripUnused                                                    Strip unused types for test
+assertTypesStructureValid                                      Verify that all local TypeNames refer to a type
+removeTypeProperty                                             Remove the ARM type property and instead augment the ResourceType with it
+removeAPIVersionProperty                                       Remove the ARM API version property and instead augment the ResourceType with it
+verifyNoErroredTypes                                           Verify there are no ErroredType's containing errors
+stripUnused                                                    Strip unused types for test
+replaceAnyTypeWithJSON                                         Replace properties using interface{} with arbitrary JSON
+addSecrets                                          azure      Replace properties flagged as secret with genruntime.SecretReference
+pruneResourcesWithLifecycleOwnedByParentStageID     azure      Prune embedded resources whose lifecycle is owned by the parent.
+makeOneOfDiscriminantRequired                       azure      Fix one of types to a discriminator which is not omitempty/optional
+applyKubernetesResourceInterface                    azure      Add the KubernetesResource interface to every resource
+flattenProperties                                              Apply flattening to properties marked for flattening
+stripUnused                                                    Strip unused types for test
+addStatusConditions                                 azure      Add the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources
+addOperatorSpec                                     azure      Adds the property 'OperatorSpec' to all Spec types that require it
+applyDefaulterAndValidatorInterfaces                azure      Add the admission.Defaulter and admission.Validator interfaces to each resource that requires them
+injectOriginalVersionFunction                       azure      Inject the function OriginalVersion() into each Spec type
+createStorageTypes                                  azure      Create storage versions of CRD types
+createConversionGraph                               azure      Create the graph of conversions between versions of each resource group
+injectOriginalVersionProperty                       azure      Inject the property OriginalVersion into each Storage Spec type
+injectPropertyAssignmentFunctions                   azure      Inject property assignment functions AssignFrom() and AssignTo() into resources and objects
+implementConvertibleSpecInterface                   azure      Inject ConvertSpecTo() and ConvertSpecFrom() to implement genruntime.ConvertibleSpec on each Spec type
+implementConvertibleStatusInterface                 azure      Inject ConvertStatusTo() and ConvertStatusFrom() to implement genruntime.ConvertibleStatus on each Status type
+injectOriginalGVKFunction                           azure      Inject the function OriginalGVK() into each Resource type
+markLatestStorageVariantAsHubVersion                azure      Mark the latest GA storage variant of each resource as the hub version
+injectHubFunction                                   azure      Inject the function Hub() into each hub resource
+implementConvertibleInterface                       azure      Implement the Convertible interface on each non-hub Resource type
+injectJSONTestCases                                 azure      Add test cases to verify JSON serialization
+injectPropertyAssignmentTestCases                   azure      Add test cases to verify PropertyAssignment functions
+injectResourceConversionTestCases                   azure      Add test cases to verify Resource implementations of conversion.Convertible (funcs ConvertTo & ConvertFrom) behave as expected
+simplifyDefinitions                                            Flatten definitions by removing wrapper types
+ensureArmTypeExistsForEveryType                     azure      Check that an ARM type exists for both Spec and Status of each resource
+detectSkippingProperties                            azure      Detect properties that skip resource or object versions
+exportTestPackages                                             Export packages for test
+exportControllerResourceRegistrations               azure      Export resource registrations to ""
