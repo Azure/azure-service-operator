@@ -453,11 +453,13 @@ tasks:
 
   controller:kind-delete:
     desc: Deletes a kind cluster
+    run: always
     cmds:
       - "kind delete cluster --name=asov2"
 
   controller:kind-create:
     desc: Creates a kind cluster and local Docker registry. Images in the local registry can be pulled in the kind cluster
+    run: always
     cmds:
       - "export KIND_CLUSTER_NAME=asov2 && {{.SCRIPTS_ROOT}}/kind-with-registry.sh"
     status:
@@ -471,6 +473,7 @@ tasks:
 
   controller:install-cert-manager:
     desc: Installs cert manager
+    run: always
     cmds:
       - "kubectl create namespace cert-manager"
       - "kubectl label namespace cert-manager cert-manager.io/disable-validation=true"
