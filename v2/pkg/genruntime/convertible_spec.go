@@ -8,6 +8,7 @@ package genruntime
 import (
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 // ConvertibleSpec is implemented by Spec types to allow conversion among the different versions of a given spec
@@ -47,7 +48,13 @@ type ConvertibleSpec interface {
 // GetVersionedSpec returns a versioned spec for the provided resource; the original API version used when the
 // resource was first created is used to identify the version to return
 func GetVersionedSpec(metaObject MetaObject, scheme *runtime.Scheme) (ConvertibleSpec, error) {
-	rsrc, err := NewEmptyVersionedResource(metaObject, scheme)
+	return GetVersionedSpecFromGVK(metaObject, scheme, GetOriginalGVK(metaObject))
+}
+
+// GetVersionedSpecFromGVK returns a versioned spec for the provided resource; the original API version used when the
+// resource was first created is used to identify the version to return
+func GetVersionedSpecFromGVK(metaObject MetaObject, scheme *runtime.Scheme, gvk schema.GroupVersionKind) (ConvertibleSpec, error) {
+	rsrc, err := NewEmptyVersionedResourceFromGVK(scheme, gvk)
 	if err != nil {
 		return nil, errors.Wrap(err, "getting versioned spec")
 	}
@@ -65,25 +72,4 @@ func GetVersionedSpec(metaObject MetaObject, scheme *runtime.Scheme) (Convertibl
 	}
 
 	return spec, nil
-}
-
-// GetVersionedARMSpec returns a spec object ready for serialization to ARM; the original API version used when the
-// resource was first created is used to create the appropriate version for submission.
-func GetVersionedARMSpec(metaObject MetaObject, resolved ConvertToARMResolvedDetails, scheme *runtime.Scheme) (interface{}, error) {
-	spec, err := GetVersionedSpec(metaObject, scheme)
-	if err != nil {
-		return nil, errors.Wrap(err, "creating ARM spec")
-	}
-
-	converter, ok := spec.(ToARMConverter)
-	if !ok {
-		return nil, errors.Errorf("expected %T to implement genruntime.ToARMConverter", spec)
-	}
-
-	result, err := converter.ConvertToARM(resolved)
-	if err != nil {
-		return nil, errors.Wrapf(err, "creating ARM spec from %T", spec)
-	}
-
-	return result, err
 }

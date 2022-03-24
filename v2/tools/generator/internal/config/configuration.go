@@ -190,6 +190,12 @@ func (config *Configuration) IsSecret(name astmodel.TypeName, property astmodel.
 	return config.ObjectModelConfiguration.IsSecret(name, property)
 }
 
+// IsResourceLifecycleOwnedByParent looks up a property to determine if represents a subresource whose lifecycle is owned
+// by the parent resource.
+func (config *Configuration) IsResourceLifecycleOwnedByParent(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
+	return config.ObjectModelConfiguration.IsResourceLifecycleOwnedByParent(name, property)
+}
+
 // initialize checks for common errors and initializes structures inside the configuration
 // which need additional setup after json deserialization
 func (config *Configuration) initialize(configPath string) error {

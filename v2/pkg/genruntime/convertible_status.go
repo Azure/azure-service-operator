@@ -8,6 +8,7 @@ package genruntime
 import (
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 // ConvertibleStatus is implemented by status types to allow conversion among the different versions of a given status
@@ -48,7 +49,12 @@ func GetVersionedStatus(metaObject MetaObject, scheme *runtime.Scheme) (Converti
 // NewEmptyVersionedStatus returns a blank versioned status for the provided resource; the original API version used
 // when the resource was first created is used to identify the version to return
 func NewEmptyVersionedStatus(metaObject MetaObject, scheme *runtime.Scheme) (ConvertibleStatus, error) {
-	rsrc, err := NewEmptyVersionedResource(metaObject, scheme)
+	return NewEmptyVersionedStatusFromGVK(metaObject, scheme, GetOriginalGVK(metaObject))
+}
+
+// NewEmptyVersionedStatusFromGVK returns a blank versioned status for the provided resource and GVK
+func NewEmptyVersionedStatusFromGVK(metaObject MetaObject, scheme *runtime.Scheme, gvk schema.GroupVersionKind) (ConvertibleStatus, error) {
+	rsrc, err := NewEmptyVersionedResourceFromGVK(scheme, gvk)
 	if err != nil {
 		return nil, errors.Wrap(err, "creating new empty versioned status")
 	}

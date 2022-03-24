@@ -188,7 +188,6 @@ type VirtualNetworksSubnets_Spec struct {
 	AzureName            string                                               `json:"azureName,omitempty"`
 	Delegations          []VirtualNetworksSubnets_Spec_Properties_Delegations `json:"delegations,omitempty"`
 	IpAllocations        []SubResource                                        `json:"ipAllocations,omitempty"`
-	Location             *string                                              `json:"location,omitempty"`
 	NatGateway           *SubResource                                         `json:"natGateway,omitempty"`
 	NetworkSecurityGroup *SubResource                                         `json:"networkSecurityGroup,omitempty"`
 	OriginalVersion      string                                               `json:"originalVersion,omitempty"`
@@ -204,7 +203,6 @@ type VirtualNetworksSubnets_Spec struct {
 	RouteTable                        *SubResource                       `json:"routeTable,omitempty"`
 	ServiceEndpointPolicies           []SubResource                      `json:"serviceEndpointPolicies,omitempty"`
 	ServiceEndpoints                  []ServiceEndpointPropertiesFormat  `json:"serviceEndpoints,omitempty"`
-	Tags                              map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &VirtualNetworksSubnets_Spec{}

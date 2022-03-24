@@ -77,3 +77,61 @@ func Test_Networking_VirtualNetworkPeering_CRUD(t *testing.T) {
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
 }
+
+func Test_Networking_VirtualNetworkPeering_CreatedThenVNETUpdated_PeeringStillExists(t *testing.T) {
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	vnet1 := &network.VirtualNetwork{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
+		Spec: network.VirtualNetworks_Spec{
+			Owner:    testcommon.AsOwner(rg),
+			Location: tc.AzureRegion,
+			AddressSpace: &network.AddressSpace{
+				AddressPrefixes: []string{"10.0.0.0/16"},
+			},
+		},
+	}
+
+	vnet2 := &network.VirtualNetwork{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
+		Spec: network.VirtualNetworks_Spec{
+			Owner:    testcommon.AsOwner(rg),
+			Location: tc.AzureRegion,
+			AddressSpace: &network.AddressSpace{
+				AddressPrefixes: []string{"10.1.0.0/16"},
+			},
+		},
+	}
+
+	tc.CreateResourcesAndWait(vnet1, vnet2)
+
+	peering := &network.VirtualNetworksVirtualNetworkPeering{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vgateway")),
+		Spec: network.VirtualNetworksVirtualNetworkPeerings_Spec{
+			Owner: testcommon.AsOwner(vnet1),
+			RemoteVirtualNetwork: &network.SubResource{
+				Reference: tc.MakeReferenceFromResource(vnet2),
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(peering)
+	tc.Expect(peering.Status.Id).ToNot(BeNil())
+	armId := *peering.Status.Id
+
+	// Now update the VNET
+	old := vnet1.DeepCopy()
+	vnet1.Spec.Tags = map[string]string{
+		"taters": "boil 'em, mash 'em, stick 'em in a stew",
+	}
+	tc.PatchResourceAndWait(old, vnet1)
+
+	// Now ensure that the VirtualNetworkPeering still exists
+	exists, _, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.VirtualNetworksSubnetsSpecAPIVersion20201101))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(exists).To(BeTrue())
+}
