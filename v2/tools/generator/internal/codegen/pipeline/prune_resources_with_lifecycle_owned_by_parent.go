@@ -19,12 +19,19 @@ const PruneResourcesWithLifecycleOwnedByParentStageID = "pruneResourcesWithLifec
 
 // PruneResourcesWithLifecycleOwnedByParent prunes networking embedded types
 func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuration) *Stage {
-	return NewStage(
+	stage := NewStage(
 		PruneResourcesWithLifecycleOwnedByParentStageID,
 		"Prune embedded resources whose lifecycle is owned by the parent.",
 		func(ctx context.Context, state *State) (*State, error) {
 
 			result := make(astmodel.TypeDefinitionSet)
+
+			// A previous stage may have used these flags, but we want to make sure we're using them too so reset
+			// the consumed bit
+			err := configuration.MarkIsResourceLifecycleOwnedByParentUnconsumed()
+			if err != nil {
+				return nil, err
+			}
 
 			visitor := newMisbehavingEmbeddedTypeVisitor(configuration)
 
@@ -43,15 +50,24 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 			}
 
 			for _, def := range state.Definitions() {
-				updatedDef, err := visitor.VisitDefinition(def, def.Name())
+				var updatedDef astmodel.TypeDefinition
+				updatedDef, err = visitor.VisitDefinition(def, def.Name())
 				if err != nil {
 					return nil, errors.Wrapf(err, "failed to visit definition %s", def.Name())
 				}
 				result.Add(updatedDef)
 			}
 
+			err = configuration.VerifyIsResourceLifecycleOwnedByParentConsumed()
+			if err != nil {
+				return nil, err
+			}
+
 			return state.WithDefinitions(result), nil
 		})
+
+	stage.RequiresPrerequisiteStages(CreateARMTypesStageID)
+	return stage
 }
 
 type misbehavingEmbeddedTypePruner struct {

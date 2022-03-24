@@ -30,6 +30,11 @@ func (cb *configurableBool) write(v bool) {
 	cb.consumed = false
 }
 
+// markUnconsumed marks this as unconsumed
+func (cb *configurableBool) markUnconsumed() {
+	cb.consumed = false
+}
+
 // isUnconsumed returns true if we have a configured value that hasn't been consumed
 func (cb *configurableBool) isUnconsumed() bool {
 	return cb.value != nil && !cb.consumed
