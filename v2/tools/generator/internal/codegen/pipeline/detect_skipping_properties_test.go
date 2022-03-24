@@ -35,7 +35,7 @@ func TestSkippingPropertyDetector_AddProperty_CreatesExpectedChain(t *testing.T)
 	defs.AddAll(person2020s, person2021s, person2022s)
 
 	cfg := config.NewObjectModelConfiguration()
-	builder := storage.NewConversionGraphBuilder(cfg)
+	builder := storage.NewConversionGraphBuilder(cfg, "v")
 	builder.Add(test.Pkg2020, test.Pkg2020s)
 	builder.Add(test.Pkg2021, test.Pkg2021s)
 	builder.Add(test.Pkg2022, test.Pkg2022s)
@@ -75,7 +75,7 @@ func TestSkippingPropertyDetector_findBreak_returnsExpectedResults(t *testing.T)
 
 	defs := make(astmodel.TypeDefinitionSet)
 	cfg := config.NewObjectModelConfiguration()
-	graph, _ := storage.NewConversionGraphBuilder(cfg).Build()
+	graph, _ := storage.NewConversionGraphBuilder(cfg, "v").Build()
 	detector := newSkippingPropertyDetector(defs, graph)
 
 	detector.addLink(alphaSeen, betaSeen)
@@ -122,8 +122,8 @@ func TestSkippingPropertyDetector_findBreak_returnsExpectedResults(t *testing.T)
 	}
 }
 
-// Test_DetectSkippingProperties checks that the pipeline stage correctly detects when properties skip versions.
-func Test_DetectSkippingProperties(t *testing.T) {
+// Test_DetectSkippingProperties checks that the pipeline stage correctly skips when properties of identical types skip versions.
+func Test_DetectSkippingProperties_WhenPropertyTypesIdentical_ReturnsNoError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -138,8 +138,40 @@ func Test_DetectSkippingProperties(t *testing.T) {
 	cfg := config.NewConfiguration()
 	initialState, err := RunTestPipeline(
 		NewState().WithDefinitions(defs),
-		CreateStorageTypes(),       // First create the storage types
-		CreateConversionGraph(cfg), // Then, create the conversion graph showing relationships
+		CreateStorageTypes(),            // First create the storage types
+		CreateConversionGraph(cfg, "v"), // Then, create the conversion graph showing relationships
+	)
+	g.Expect(err).To(Succeed())
+
+	_, err = RunTestPipeline(
+		initialState,
+		DetectSkippingProperties(), // and then we get to run the stage we're testing
+	)
+
+	g.Expect(err).To(Succeed())
+}
+
+// Test_DetectSkippingProperties checks that the pipeline stage correctly detects when properties of different types skip versions.
+func Test_DetectSkippingProperties_WhenPropertyTypesDiffer_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	vipNumber := astmodel.NewPropertyDefinition("VIP", "vip", astmodel.IntType)
+	vipID := astmodel.NewPropertyDefinition("VIP", "vip", astmodel.StringType)
+
+	// Create multiple versions of person, with KnownAs missing
+	personV1 := test.CreateSpec(test.Pkg2020, "Person", test.FullNameProperty, test.FamilyNameProperty, vipNumber)
+	personV2 := test.CreateSpec(test.Pkg2021, "Person", test.FullNameProperty, test.FamilyNameProperty)
+	personV3 := test.CreateSpec(test.Pkg2022, "Person", test.FullNameProperty, test.FamilyNameProperty, vipID)
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(personV1, personV2, personV3)
+
+	cfg := config.NewConfiguration()
+	initialState, err := RunTestPipeline(
+		NewState().WithDefinitions(defs),
+		CreateStorageTypes(),            // First create the storage types
+		CreateConversionGraph(cfg, "v"), // Then, create the conversion graph showing relationships
 	)
 	g.Expect(err).To(Succeed())
 
@@ -149,8 +181,8 @@ func Test_DetectSkippingProperties(t *testing.T) {
 	)
 
 	g.Expect(err).To(HaveOccurred())
-	g.Expect(err.Error()).To(ContainSubstring("person/v20200101storage/Person_Spec.KnownAs was discontinued"))
-	g.Expect(err.Error()).To(ContainSubstring("reintroduced as person/v20220630storage/Person_Spec.KnownAs"))
+	g.Expect(err.Error()).To(ContainSubstring("person/v20200101storage/Person_Spec.VIP was discontinued"))
+	g.Expect(err.Error()).To(ContainSubstring("reintroduced as person/v20220630storage/Person_Spec.VIP"))
 	// Make sure the error message links to GitHub
 	g.Expect(err.Error()).To(ContainSubstring("https://github.com/Azure/azure-service-operator/issues/1776"))
 }

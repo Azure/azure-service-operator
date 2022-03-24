@@ -15,15 +15,15 @@ typeFilters:
     group: common
     matchRequired: false # only triggers for Status types
   - action: include
-    version: v*api20201101
+    version: v*20201101
     group: network
     because: Including network for Crossplane
   - action: include
-    version: v*api20200601
+    version: v*20200601
     group: cache
     because: Including cache for Crossplane
   - action: include
-    version: v*api20201101preview
+    version: v*20201101preview
     group: sql
     because: Including sql
   - action: include
