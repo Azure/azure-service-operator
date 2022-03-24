@@ -39,77 +39,45 @@ func (graph *ConversionGraph) LookupTransition(ref astmodel.PackageReference) (a
 }
 
 // FindNextType returns the type name of the next closest type on the path to the hub type.
-// Returns the type name and no error if the next type is found; nil and no error if not; nil and an error if something
-// goes wrong.
+// Returns the type name and no error if the next type is found; empty name and no error if not; empty name and an error if
+// something goes wrong.
 // If the name passed in is for the hub type for the given resource, no next type will be found.
 // This is used to identify the next type needed for property assignment functions, and is a building block for
 // identification of hub definitions.
 func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, definitions astmodel.TypeDefinitionSet) (astmodel.TypeName, error) {
 
-	// Find the next package to consider
-	nextPackage, ok := graph.LookupTransition(name.PackageReference)
-	if !ok {
-		// No next package, return nil. This is not an error condition.
-		return astmodel.EmptyTypeName, nil
+	// Look for a next type with the same name
+	nextType, nextSteps := graph.searchForMatchingType(name, definitions)
+
+	// Look for a renamed type with the same name
+	renamedType, renameSteps, err := graph.searchForRenamedType(name, definitions)
+	if err != nil {
+		return astmodel.EmptyTypeName, errors.Wrapf(err, "searching for type renamed from %s", name)
 	}
 
-	// Look to see if we have a type-rename that's directing us to use a different type
-	//
-	// We only look for type renames if we're starting from a storage package - no renames are needed when converting
-	// from an api package to a storage package because the storage versions are always synthesized with an exact match
-	// on type names.
-	//
-	haveRename := false
-	rename := ""
-	if graph.configuration != nil && astmodel.IsStoragePackageReference(name.PackageReference) {
-		var err error
-		rename, err = graph.configuration.LookupNameInNextVersion(name)
-
-		// If we have any error other than a NotConfiguredError, something went wrong, and we must abort
-		if err != nil && !config.IsNotConfiguredError(err) {
-			return astmodel.EmptyTypeName, errors.Wrapf(
-				err,
-				"finding next type after %s",
-				name)
-		}
-
-		haveRename = err == nil
+	if renamedType.IsEmpty() {
+		// No rename active, return whatever we found from the original name
+		return nextType, nil
 	}
 
-	// Our usual convention is to use the same name as this type, but found in nextPackage
-	nextTypeName := astmodel.MakeTypeName(nextPackage, name.Name())
-
-	// With no configured rename, we can return nextTypeName, as long as it exists
-	if !haveRename {
-		if _, err := definitions.GetDefinition(nextTypeName); err == nil {
-			return nextTypeName, nil
-		}
-
-		return astmodel.EmptyTypeName, nil
+	if nextType.IsEmpty() {
+		// Have a renamed type, and no match on original name, return the renamed type
+		return renamedType, nil
 	}
 
-	// Validity check on the type-rename we found - ensure it specifies a type that's known
-	// If we don't find the type, the configured rename is invalid
-	renamedTypeName := astmodel.MakeTypeName(nextPackage, rename)
-	if _, err := definitions.GetDefinition(renamedTypeName); err != nil {
-		return astmodel.EmptyTypeName, errors.Errorf(
-			"rename of %s invalid because specified type %s does not exist",
-			name,
-			renamedTypeName)
+	if renameSteps < nextSteps {
+		// Rename matched earlier type, no conflict
+		// (this might happen if a different type is introduced with the same name in a later version, or if a type
+		// is renamed in one version and renamed back in a later one)
+		return renamedType, nil
 	}
 
-	// Validity check that the type-rename doesn't conflict
-	// if v1.Foo and v2.Foo both exist, it's illegal to specify a type-rename on v1.Foo
-	if _, err := definitions.GetDefinition(nextTypeName); err == nil {
-		return astmodel.EmptyTypeName, errors.Errorf(
-			"configured rename of %s to %s conflicts with existing type %s",
-			name,
-			renamedTypeName,
-			nextTypeName)
-	}
-
-	// We don't have a conflict, so we can return this rename
-	return renamedTypeName, nil
+	// We have a conflict between the renamed type and the original type
+	return astmodel.EmptyTypeName, errors.Errorf(
+		"configured rename of %s to %s conflicts with existing type %s",
+		name,
+		renamedType,
+		nextType)
 }
 
 // FindHub returns the type name of the hub resource, given the type name of one of the resources that is
@@ -173,4 +141,84 @@ func (graph *ConversionGraph) FindNextProperty(
 	//TODO: property renaming support goes here (when implemented)
 
 	return astmodel.MakePropertyReference(nextType, ref.Property()), nil
+}
+
+// searchForRenamedType walks through the conversion graph looking for a match to our configured rename.
+// If no rename is configured, returns an empty type name and -1. If one is configured, either returns the found type
+// and the number of steps, or an error if not found.
+// We only look for type renames if we're starting from a storage package - no renames are needed when converting
+// from an api package to a storage package because the storage versions are always synthesized with an exact match
+// on type names.
+func (graph *ConversionGraph) searchForRenamedType(
+	name astmodel.TypeName,
+	definitions astmodel.TypeDefinitionSet) (astmodel.TypeName, int, error) {
+
+	// No configuration, or we're not looking at a storage package
+	if graph.configuration == nil || !astmodel.IsStoragePackageReference(name.PackageReference) {
+		return astmodel.EmptyTypeName, -1, nil
+	}
+
+	rename, err := graph.configuration.LookupNameInNextVersion(name)
+	if config.IsNotConfiguredError(err) {
+		// No configured rename, nothing to do
+		return astmodel.EmptyTypeName, -1, nil
+	}
+
+	// If we have any error other than a NotConfiguredError, something went wrong, and we must abort
+	if err != nil {
+		return astmodel.EmptyTypeName, -1, errors.Wrapf(
+			err,
+			"finding next type after %s",
+			name)
+	}
+
+	newType := name.WithName(rename)
+	result, steps := graph.searchForMatchingTypeImpl(newType, definitions, 1)
+
+	// Validity check on the type-rename to verify that it specifies a type that exists.
+	// If we didn't find the type, the configured rename is invalid
+	if result.IsEmpty() {
+		group, version, ok := name.PackageReference.GroupVersion()
+		if !ok {
+			panic(fmt.Sprintf("never expected external reference %s", name.PackageReference))
+		}
+
+		return astmodel.EmptyTypeName, -1, errors.Errorf(
+			"rename of %s/%s/%s invalid because no type with name %s was found in any later version",
+			group,
+			version,
+			name.Name(),
+			rename)
+	}
+
+	return result, steps, nil
+}
+
+// searchForMatchingType walks through the conversion graph looking for the next type with the same name as the one
+// provided. Returns the found type and the number of steps, if found; otherwise returns an empty type name and -1.
+func (graph *ConversionGraph) searchForMatchingType(
+	typeName astmodel.TypeName,
+	definitions astmodel.TypeDefinitionSet) (astmodel.TypeName, int) {
+	return graph.searchForMatchingTypeImpl(typeName, definitions, 1)
+}
+
+// searchForMatchingTypeImpl is the recursive implementation of searchForMatchingType.
+func (graph *ConversionGraph) searchForMatchingTypeImpl(
+	typeName astmodel.TypeName,
+	definitions astmodel.TypeDefinitionSet,
+	steps int) (astmodel.TypeName, int) {
+	nextPackage, ok := graph.LookupTransition(typeName.PackageReference)
+	if !ok {
+		// No next package, we've fallen off the end of the graph
+		return astmodel.EmptyTypeName, -1
+	}
+
+	nextTypeName := astmodel.MakeTypeName(nextPackage, typeName.Name())
+	if definitions.Contains(nextTypeName) {
+		// Found the type we're looking for
+		return nextTypeName, steps
+	}
+
+	// Keep walking to find the next type, if any
+	return graph.searchForMatchingTypeImpl(nextTypeName, definitions, steps+1)
 }
