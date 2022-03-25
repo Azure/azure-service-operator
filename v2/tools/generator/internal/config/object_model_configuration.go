@@ -228,6 +228,16 @@ func (omc *ObjectModelConfiguration) IsResourceLifecycleOwnedByParent(name astmo
 	return result, nil
 }
 
+// MarkIsResourceLifecycleOwnedByParentUnconsumed marks all IsResourceLifecycleOwnedByParent as unconsumed
+func (omc *ObjectModelConfiguration) MarkIsResourceLifecycleOwnedByParentUnconsumed() error {
+	visitor := NewEveryPropertyConfigurationVisitor(
+		func(configuration *PropertyConfiguration) error {
+			configuration.ClearResourceLifecycleOwnedByParentConsumed()
+			return nil
+		})
+	return visitor.Visit(omc)
+}
+
 // VerifyIsResourceLifecycleOwnedByParentConsumed returns an error if any IsResourceLifecycleOwnedByParent configuration
 // was not consumed
 func (omc *ObjectModelConfiguration) VerifyIsResourceLifecycleOwnedByParentConsumed() error {
