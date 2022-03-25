@@ -26,7 +26,7 @@ const (
 const ResourceGroupKind = "ResourceGroup"
 const ResourceGroupGroup = "resources.azure.com"
 
-type ResourceHierarchy []genruntime.MetaObject
+type ResourceHierarchy []genruntime.ARMMetaObject
 
 // ResourceGroup returns the resource group that the hierarchy is in, or an error if the hierarchy is not rooted
 // in a resource group.
@@ -158,7 +158,7 @@ func (h ResourceHierarchy) getAzureNames() []string {
 	return azureNames
 }
 
-func getResourceTypeAndProvider(res genruntime.MetaObject) (string, []string, error) {
+func getResourceTypeAndProvider(res genruntime.ARMMetaObject) (string, []string, error) {
 	rawType := res.GetType()
 
 	split := strings.Split(rawType, "/")

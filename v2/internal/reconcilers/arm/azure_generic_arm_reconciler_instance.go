@@ -32,13 +32,13 @@ import (
 
 type azureDeploymentReconcilerInstance struct {
 	AzureDeploymentReconciler
-	Obj       genruntime.MetaObject
+	Obj       genruntime.ARMMetaObject
 	Log       logr.Logger
 	ARMClient *genericarmclient.GenericClient
 }
 
 func newAzureDeploymentReconcilerInstance(
-	metaObj genruntime.MetaObject,
+	metaObj genruntime.ARMMetaObject,
 	log logr.Logger,
 	armClient *genericarmclient.GenericClient,
 	reconciler AzureDeploymentReconciler) *azureDeploymentReconcilerInstance {
@@ -567,7 +567,7 @@ func (r *azureDeploymentReconcilerInstance) updateStatus(ctx context.Context) er
 }
 
 func (r *azureDeploymentReconcilerInstance) CommitUpdate(ctx context.Context) error {
-	err := CommitObject(ctx, r.KubeClient, r.Obj)
+	err := r.KubeClient.CommitObject(ctx, r.Obj)
 	if err != nil {
 		return err
 	}
@@ -664,7 +664,7 @@ func (r *azureDeploymentReconcilerInstance) saveAzureSecrets(ctx context.Context
 	return nil
 }
 
-// ConvertResourceToARMResource converts a genruntime.MetaObject (a Kubernetes representation of a resource) into
+// ConvertResourceToARMResource converts a genruntime.ARMMetaObject (a Kubernetes representation of a resource) into
 // a genruntime.ARMResourceSpec - a specification which can be submitted to Azure for deployment
 func (r *azureDeploymentReconcilerInstance) ConvertResourceToARMResource(ctx context.Context) (genruntime.ARMResource, error) {
 	metaObject := r.Obj
@@ -683,7 +683,7 @@ func (r *azureDeploymentReconcilerInstance) ConvertResourceToARMResource(ctx con
 // ConvertToARMResourceImpl factored out of AzureDeploymentReconciler.ConvertResourceToARMResource to allow for testing
 func ConvertToARMResourceImpl(
 	ctx context.Context,
-	metaObject genruntime.MetaObject,
+	metaObject genruntime.ARMMetaObject,
 	scheme *runtime.Scheme,
 	resolver *resolver.Resolver,
 	subscriptionID string) (genruntime.ARMResource, error) {

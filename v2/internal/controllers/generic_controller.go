@@ -36,6 +36,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
+	"github.com/Azure/azure-service-operator/v2/internal/util/randextensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
@@ -53,6 +54,7 @@ type GenericReconciler struct {
 	Recorder             record.EventRecorder
 	Name                 string
 	Config               config.Values
+	Rand                 *rand.Rand
 	GVK                  schema.GroupVersionKind
 	RequeueDelayOverride time.Duration
 }
@@ -184,18 +186,18 @@ func register(
 		resolver.NewResolver(kubeClient, reconciledResourceLookup),
 		conditions.NewPositiveConditionBuilder(clock.New()),
 		options.Config,
-		//nolint:gosec // do not want cryptographic randomness here
-		rand.New(lockedrand.NewSource(time.Now().UnixNano())),
 		extension)
 
 	reconciler := &GenericReconciler{
-		Reconciler:           innerReconciler,
-		KubeClient:           kubeClient,
-		Name:                 t.Name(),
-		Config:               options.Config,
-		LoggerFactory:        loggerFactory,
-		Recorder:             eventRecorder,
-		GVK:                  gvk,
+		Reconciler:    innerReconciler,
+		KubeClient:    kubeClient,
+		Name:          t.Name(),
+		Config:        options.Config,
+		LoggerFactory: loggerFactory,
+		Recorder:      eventRecorder,
+		GVK:           gvk,
+		//nolint:gosec // do not want cryptographic randomness here
+		Rand:                 rand.New(lockedrand.NewSource(time.Now().UnixNano())),
 		RequeueDelayOverride: options.RequeueDelay,
 	}
 
@@ -277,7 +279,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		return ctrl.Result{}, errors.Errorf("object is not a genruntime.MetaObject, found type: %T", obj)
 	}
 
-	log := gr.LoggerFactory(metaObj).WithValues("name", req.Name, "namespace", req.Namespace, "azureName", metaObj.AzureName())
+	log := gr.LoggerFactory(metaObj).WithValues("name", req.Name, "namespace", req.Namespace)
 	log.V(Verbose).Info(
 		"Reconcile invoked",
 		"kind", fmt.Sprintf("%T", obj),
@@ -309,6 +311,11 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		return ctrl.Result{}, err
 	}
 
+	if (result == ctrl.Result{}) {
+		// If result is a success, ensure that we requeue for monitoring state in Azure
+		result = gr.makeSuccessResult()
+	}
+
 	// If we have a requeue delay override, set it for all situations where
 	// we are requeueing.
 	hasRequeueDelayOverride := gr.RequeueDelayOverride != time.Duration(0)
@@ -331,4 +338,15 @@ func NewRateLimiter(minBackoff time.Duration, maxBackoff time.Duration) workqueu
 		// 10 rps, 100 bucket (spike) size. This is across all requests (not per item)
 		&workqueue.BucketRateLimiter{Limiter: rate.NewLimiter(rate.Limit(10), 100)},
 	)
+}
+
+func (gr *GenericReconciler) makeSuccessResult() ctrl.Result {
+	result := ctrl.Result{}
+	// This has a RequeueAfter because we want to force a re-sync at some point in the future in order to catch
+	// potential drift from the state in Azure. Note that we cannot use mgr.Options.SyncPeriod for this because we filter
+	// our events by predicate.GenerationChangedPredicate and the generation will not have changed.
+	if gr.Config.SyncPeriod != nil {
+		result.RequeueAfter = randextensions.Jitter(gr.Rand, *gr.Config.SyncPeriod, 0.1)
+	}
+	return result
 }

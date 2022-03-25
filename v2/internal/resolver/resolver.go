@@ -74,8 +74,8 @@ func (r *Resolver) ResolveReferencesToARMIDs(ctx context.Context, refs map[genru
 	return genruntime.MakeResolvedReferences(result), nil
 }
 
-// ResolveResourceReferences resolves every reference found on the specified genruntime.MetaObject to its corresponding ARM ID.
-func (r *Resolver) ResolveResourceReferences(ctx context.Context, metaObject genruntime.MetaObject) (genruntime.ResolvedReferences, error) {
+// ResolveResourceReferences resolves every reference found on the specified genruntime.ARMMetaObject to its corresponding ARM ID.
+func (r *Resolver) ResolveResourceReferences(ctx context.Context, metaObject genruntime.ARMMetaObject) (genruntime.ResolvedReferences, error) {
 	refs, err := reflecthelpers.FindResourceReferences(metaObject)
 	if err != nil {
 		return genruntime.ResolvedReferences{}, errors.Wrapf(err, "finding references on %q", metaObject.GetName())
@@ -98,7 +98,7 @@ func (r *Resolver) ResolveResourceReferences(ctx context.Context, metaObject gen
 
 // ResolveResourceHierarchy gets the resource hierarchy for a given resource. The result is a slice of
 // resources, with the uppermost parent at position 0 and the resource itself at position len(slice)-1
-func (r *Resolver) ResolveResourceHierarchy(ctx context.Context, obj genruntime.MetaObject) (ResourceHierarchy, error) {
+func (r *Resolver) ResolveResourceHierarchy(ctx context.Context, obj genruntime.ARMMetaObject) (ResourceHierarchy, error) {
 	owner := obj.Owner()
 	if owner == nil {
 		return ResourceHierarchy{obj}, nil
@@ -118,7 +118,7 @@ func (r *Resolver) ResolveResourceHierarchy(ctx context.Context, obj genruntime.
 }
 
 // ResolveReference resolves a reference, or returns an error if the reference is not pointing to a KubernetesResource
-func (r *Resolver) ResolveReference(ctx context.Context, ref genruntime.NamespacedResourceReference) (genruntime.MetaObject, error) {
+func (r *Resolver) ResolveReference(ctx context.Context, ref genruntime.NamespacedResourceReference) (genruntime.ARMMetaObject, error) {
 	refGVK, err := r.findGVK(ref)
 	if err != nil {
 		return nil, err
@@ -139,9 +139,9 @@ func (r *Resolver) ResolveReference(ctx context.Context, ref genruntime.Namespac
 		return nil, errors.Wrapf(err, "couldn't resolve reference %s", ref.String())
 	}
 
-	metaObj, ok := refObj.(genruntime.MetaObject)
+	metaObj, ok := refObj.(genruntime.ARMMetaObject)
 	if !ok {
-		return nil, errors.Errorf("reference %s (%s) was not of type genruntime.MetaObject", refNamespacedName, refGVK)
+		return nil, errors.Errorf("reference %s (%s) was not of type genruntime.ARMMetaObject", refNamespacedName, refGVK)
 	}
 
 	return metaObj, nil
@@ -150,7 +150,7 @@ func (r *Resolver) ResolveReference(ctx context.Context, ref genruntime.Namespac
 // ResolveOwner returns the MetaObject for the given resources owner. If the resource is supposed to have
 // an owner but doesn't, this returns an ReferenceNotFound error. If the resource is not supposed
 // to have an owner (for example, ResourceGroup), returns nil.
-func (r *Resolver) ResolveOwner(ctx context.Context, obj genruntime.MetaObject) (genruntime.MetaObject, error) {
+func (r *Resolver) ResolveOwner(ctx context.Context, obj genruntime.ARMMetaObject) (genruntime.ARMMetaObject, error) {
 	owner := obj.Owner()
 
 	if owner == nil {
@@ -198,8 +198,8 @@ func (r *Resolver) ResolveSecretReferences(
 	return r.kubeSecretResolver.ResolveSecretReferences(ctx, refs)
 }
 
-// ResolveResourceSecretReferences resolves all of the specified genruntime.MetaObject's secret references.
-func (r *Resolver) ResolveResourceSecretReferences(ctx context.Context, metaObject genruntime.MetaObject) (genruntime.ResolvedSecrets, error) {
+// ResolveResourceSecretReferences resolves all of the specified genruntime.ARMMetaObject's secret references.
+func (r *Resolver) ResolveResourceSecretReferences(ctx context.Context, metaObject genruntime.ARMMetaObject) (genruntime.ResolvedSecrets, error) {
 	refs, err := reflecthelpers.FindSecretReferences(metaObject)
 	if err != nil {
 		return genruntime.ResolvedSecrets{}, errors.Wrapf(err, "finding secrets on %q", metaObject.GetName())
@@ -220,9 +220,9 @@ func (r *Resolver) ResolveResourceSecretReferences(ctx context.Context, metaObje
 	return resolvedSecrets, nil
 }
 
-// ResolveAll resolves every reference on the provided genruntime.MetaObject.
+// ResolveAll resolves every reference on the provided genruntime.ARMMetaObject.
 // This includes: owner, all resource references, and all secrets.
-func (r *Resolver) ResolveAll(ctx context.Context, metaObject genruntime.MetaObject) (ResourceHierarchy, genruntime.ConvertToARMResolvedDetails, error) {
+func (r *Resolver) ResolveAll(ctx context.Context, metaObject genruntime.ARMMetaObject) (ResourceHierarchy, genruntime.ConvertToARMResolvedDetails, error) {
 	// Resolve the resource hierarchy (owner)
 	resourceHierarchy, err := r.ResolveResourceHierarchy(ctx, metaObject)
 	if err != nil {
