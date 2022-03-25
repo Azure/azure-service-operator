@@ -12,11 +12,11 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
+	"k8s.io/apimachinery/pkg/conversion"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
-	"sigs.k8s.io/controller-runtime/pkg/conversion"
-
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	ctrlconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	"github.com/go-logr/logr"
 	corev1 "k8s.io/api/core/v1"
@@ -30,11 +30,22 @@ import (
 	resourcesalpha "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
 	resourcesbeta "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/internal/resolver"
+	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 )
 
-func GetKnownStorageTypes() []*registration.StorageType {
+func GetKnownStorageTypes(
+	mgr ctrl.Manager,
+	armClientFactory arm.ARMClientFactory,
+	kubeClient kubeclient.Client,
+	positiveConditions *conditions.PositiveConditionBuilder,
+	options Options) ([]*registration.StorageType, error) {
+
 	knownStorageTypes := getKnownStorageTypes()
 
 	knownStorageTypes = append(
@@ -42,7 +53,7 @@ func GetKnownStorageTypes() []*registration.StorageType {
 		registration.NewStorageType(&resourcesbeta.ResourceGroup{}))
 
 	// Verify we're using the hub version of VirtualNetworksSubnet in the loop below
-	var _ conversion.Hub = &networkstorage.VirtualNetworksSubnet{}
+	var _ ctrlconversion.Hub = &networkstorage.VirtualNetworksSubnet{}
 
 	// TODO: Modifying this list would be easier if it were a map
 	for _, t := range knownStorageTypes {
@@ -54,7 +65,96 @@ func GetKnownStorageTypes() []*registration.StorageType {
 		}
 	}
 
-	return knownStorageTypes
+	lookup, err := MakeResourceStorageTypeLookup(mgr.GetScheme(), knownStorageTypes)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to build resource storage type lookup")
+	}
+	resourceResolver := resolver.NewResolver(kubeClient, lookup)
+
+	var extensions map[schema.GroupVersionKind]genruntime.ResourceExtension
+	extensions, err = GetResourceExtensions(mgr.GetScheme())
+	if err != nil {
+		return nil, errors.Wrap(err, "failed getting extensions")
+	}
+
+	for _, t := range knownStorageTypes {
+		// Use the provided GVK to construct a new runtime object of the desired concrete type.
+		var gvk schema.GroupVersionKind
+		gvk, err = apiutil.GVKForObject(t.Obj, mgr.GetScheme())
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating GVK for obj %T", t.Obj)
+		}
+		extension := extensions[gvk]
+
+		err = augmentWithARMReconciler(
+			armClientFactory,
+			kubeClient,
+			resourceResolver,
+			positiveConditions,
+			options,
+			extension,
+			t)
+		if err != nil {
+			return nil, errors.Wrap(err, "couldn't create reconciler")
+		}
+	}
+
+	return knownStorageTypes, nil
+}
+
+func augmentWithARMReconciler(
+	armClientFactory arm.ARMClientFactory,
+	kubeClient kubeclient.Client,
+	resourceResolver *resolver.Resolver,
+	positiveConditions *conditions.PositiveConditionBuilder,
+	options Options,
+	extension genruntime.ResourceExtension,
+	t *registration.StorageType) error {
+
+	v, err := conversion.EnforcePtr(t.Obj)
+	if err != nil {
+		return errors.Wrap(err, "t.Obj was expected to be ptr but was not")
+	}
+
+	typ := v.Type()
+	controllerName := fmt.Sprintf("%sController", typ.Name())
+
+	t.Name = controllerName
+
+	t.Reconciler = arm.NewAzureDeploymentReconciler(
+		armClientFactory,
+		kubeClient,
+		resourceResolver,
+		positiveConditions,
+		options.Config,
+		extension)
+
+	return nil
+}
+
+// MakeResourceStorageTypeLookup creates a map of schema.GroupKind to schema.GroupVersionKind. This can be used to look
+// up the storage version of any resource given the GroupKind that is being reconciled.
+func MakeResourceStorageTypeLookup(scheme *runtime.Scheme, objs []*registration.StorageType) (map[schema.GroupKind]schema.GroupVersionKind, error) {
+	result := make(map[schema.GroupKind]schema.GroupVersionKind)
+
+	for _, obj := range objs {
+		gvk, err := apiutil.GVKForObject(obj.Obj, scheme)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating GVK for obj %T", obj)
+		}
+		groupKind := schema.GroupKind{Group: gvk.Group, Kind: gvk.Kind}
+		if existing, ok := result[groupKind]; ok {
+			return nil, errors.Errorf(
+				"group: %q, kind: %q already has registered storage version %q, but found %q as well",
+				gvk.Group,
+				gvk.Kind,
+				existing.Version,
+				gvk.Version)
+		}
+		result[groupKind] = gvk
+	}
+
+	return result, nil
 }
 
 func indexOwner(rawObj client.Object) []string {

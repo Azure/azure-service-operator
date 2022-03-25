@@ -11,7 +11,6 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/benbjohnson/clock"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"golang.org/x/time/rate"
@@ -33,12 +32,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
-	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
 	"github.com/Azure/azure-service-operator/v2/internal/util/randextensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 )
 
@@ -52,7 +49,6 @@ type GenericReconciler struct {
 	LoggerFactory        LoggerFactory
 	KubeClient           kubeclient.Client
 	Recorder             record.EventRecorder
-	Name                 string
 	Config               config.Values
 	Rand                 *rand.Rand
 	GVK                  schema.GroupVersionKind
@@ -68,13 +64,6 @@ type Options struct {
 	RequeueDelay  time.Duration
 	Config        config.Values
 	LoggerFactory func(obj metav1.Object) logr.Logger
-}
-
-func (options *Options) setDefaults() {
-	// default logger to the controller-runtime logger
-	if options.Log == (logr.Logger{}) || options.Log == logr.Discard() {
-		options.Log = ctrl.Log
-	}
 }
 
 func RegisterWebhooks(mgr ctrl.Manager, objs []client.Object) error {
@@ -102,23 +91,14 @@ func RegisterAll(
 	mgr ctrl.Manager,
 	fieldIndexer client.FieldIndexer,
 	kubeClient kubeclient.Client,
-	clientFactory arm.ARMClientFactory,
 	objs []*registration.StorageType,
-	extensions map[schema.GroupVersionKind]genruntime.ResourceExtension,
-	options Options,
-) error {
-	options.setDefaults()
-
-	reconciledResourceLookup, err := MakeResourceStorageTypeLookup(mgr, objs)
-	if err != nil {
-		return err
-	}
+	options Options) error {
 
 	// pre-register any indexes we need
 	for _, obj := range objs {
 		for _, indexer := range obj.Indexes {
 			options.Log.V(Info).Info("Registering indexer for type", "type", fmt.Sprintf("%T", obj.Obj), "key", indexer.Key)
-			err = fieldIndexer.IndexField(context.Background(), obj.Obj, indexer.Key, indexer.Func)
+			err := fieldIndexer.IndexField(context.Background(), obj.Obj, indexer.Key, indexer.Func)
 			if err != nil {
 				return errors.Wrapf(err, "failed to register indexer for %T, Key: %q", obj.Obj, indexer.Key)
 			}
@@ -129,7 +109,7 @@ func RegisterAll(
 	for _, obj := range objs {
 		// TODO: Consider pulling some of the construction of things out of register (gvk, etc), so that we can pass in just
 		// TODO: the applicable extensions rather than a map of all of them
-		if err := register(mgr, kubeClient, reconciledResourceLookup, clientFactory, obj, extensions, options); err != nil {
+		if err := register(mgr, kubeClient, obj, options); err != nil {
 			errs = append(errs, err)
 		}
 	}
@@ -140,28 +120,14 @@ func RegisterAll(
 func register(
 	mgr ctrl.Manager,
 	kubeClient kubeclient.Client,
-	reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind,
-	clientFactory arm.ARMClientFactory,
 	info *registration.StorageType,
-	extensions map[schema.GroupVersionKind]genruntime.ResourceExtension,
-	options Options,
-) error {
-	v, err := conversion.EnforcePtr(info.Obj)
-	if err != nil {
-		return errors.Wrap(err, "info.Obj was expected to be ptr but was not")
-	}
-
-	t := v.Type()
-	controllerName := fmt.Sprintf("%sController", t.Name())
+	options Options) error {
 
 	// Use the provided GVK to construct a new runtime object of the desired concrete type.
 	gvk, err := apiutil.GVKForObject(info.Obj, mgr.GetScheme())
 	if err != nil {
 		return errors.Wrapf(err, "creating GVK for obj %T", info)
 	}
-
-	options.Log.V(Status).Info("Registering", "GVK", gvk)
-	extension := extensions[gvk]
 
 	loggerFactory := func(mo genruntime.MetaObject) logr.Logger {
 		result := options.Log
@@ -171,27 +137,15 @@ func register(
 			}
 		}
 
-		return result.WithName(controllerName)
+		return result.WithName(info.Name)
 	}
+	eventRecorder := mgr.GetEventRecorderFor(info.Name)
 
-	eventRecorder := mgr.GetEventRecorderFor(controllerName)
-
-	// Make the ARM reconciler
-	// TODO: In the future when we support other reconciler's we may need to construct
-	// TODO: this further up the stack and pass it in
-	innerReconciler := arm.NewAzureDeploymentReconciler(
-		clientFactory,
-		eventRecorder,
-		kubeClient,
-		resolver.NewResolver(kubeClient, reconciledResourceLookup),
-		conditions.NewPositiveConditionBuilder(clock.New()),
-		options.Config,
-		extension)
+	options.Log.V(Status).Info("Registering", "GVK", gvk)
 
 	reconciler := &GenericReconciler{
-		Reconciler:    innerReconciler,
+		Reconciler:    info.Reconciler,
 		KubeClient:    kubeClient,
-		Name:          t.Name(),
 		Config:        options.Config,
 		LoggerFactory: loggerFactory,
 		Recorder:      eventRecorder,
@@ -205,7 +159,7 @@ func register(
 	// to learn more look at https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/predicate#GenerationChangedPredicate
 	filter := predicate.Or(
 		predicate.GenerationChangedPredicate{},
-		arm.ARMReconcilerAnnotationChangedPredicate(options.Log.WithName(controllerName)))
+		arm.ARMReconcilerAnnotationChangedPredicate(options.Log.WithName(info.Name)))
 
 	builder := ctrl.NewControllerManagedBy(mgr).
 		// Note: These predicates prevent status updates from triggering a reconcile.
@@ -214,7 +168,7 @@ func register(
 		WithOptions(options.Options)
 
 	for _, watch := range info.Watches {
-		builder = builder.Watches(watch.Src, watch.MakeEventHandler(mgr.GetClient(), options.Log.WithName(controllerName)))
+		builder = builder.Watches(watch.Src, watch.MakeEventHandler(mgr.GetClient(), options.Log.WithName(info.Name)))
 	}
 
 	err = builder.Complete(reconciler)
@@ -223,31 +177,6 @@ func register(
 	}
 
 	return nil
-}
-
-// MakeResourceStorageTypeLookup creates a map of schema.GroupKind to schema.GroupVersionKind. This can be used to look
-// up the storage version of any resource given the GroupKind that is being reconciled.
-func MakeResourceStorageTypeLookup(mgr ctrl.Manager, objs []*registration.StorageType) (map[schema.GroupKind]schema.GroupVersionKind, error) {
-	result := make(map[schema.GroupKind]schema.GroupVersionKind)
-
-	for _, obj := range objs {
-		gvk, err := apiutil.GVKForObject(obj.Obj, mgr.GetScheme())
-		if err != nil {
-			return nil, errors.Wrapf(err, "creating GVK for obj %T", obj)
-		}
-		groupKind := schema.GroupKind{Group: gvk.Group, Kind: gvk.Kind}
-		if existing, ok := result[groupKind]; ok {
-			return nil, errors.Errorf(
-				"group: %q, kind: %q already has registered storage version %q, but found %q as well",
-				gvk.Group,
-				gvk.Kind,
-				existing.Version,
-				gvk.Version)
-		}
-		result[groupKind] = gvk
-	}
-
-	return result, nil
 }
 
 // NamespaceAnnotation defines the annotation name to use when marking
@@ -306,7 +235,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		return ctrl.Result{Requeue: true}, gr.KubeClient.Update(ctx, obj)
 	}
 
-	result, err := gr.Reconciler.Reconcile(ctx, log, metaObj)
+	result, err := gr.Reconciler.Reconcile(ctx, log, gr.Recorder, metaObj)
 	if err != nil {
 		return ctrl.Result{}, err
 	}

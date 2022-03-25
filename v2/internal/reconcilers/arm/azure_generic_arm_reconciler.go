@@ -54,7 +54,6 @@ type (
 var _ genruntime.Reconciler = &AzureDeploymentReconciler{}
 
 type AzureDeploymentReconciler struct {
-	Recorder           record.EventRecorder
 	ARMClientFactory   ARMClientFactory
 	KubeClient         kubeclient.Client
 	ResourceResolver   *resolver.Resolver
@@ -65,7 +64,6 @@ type AzureDeploymentReconciler struct {
 
 func NewAzureDeploymentReconciler(
 	armClientFactory ARMClientFactory,
-	eventRecorder record.EventRecorder,
 	kubeClient kubeclient.Client,
 	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
@@ -73,7 +71,6 @@ func NewAzureDeploymentReconciler(
 	extension genruntime.ResourceExtension) *AzureDeploymentReconciler {
 
 	return &AzureDeploymentReconciler{
-		Recorder:           eventRecorder,
 		ARMClientFactory:   armClientFactory,
 		KubeClient:         kubeClient,
 		ResourceResolver:   resourceResolver,
@@ -83,7 +80,12 @@ func NewAzureDeploymentReconciler(
 	}
 }
 
-func (r *AzureDeploymentReconciler) Reconcile(ctx context.Context, log logr.Logger, obj genruntime.MetaObject) (ctrl.Result, error) {
+func (r *AzureDeploymentReconciler) Reconcile(
+	ctx context.Context,
+	log logr.Logger,
+	eventRecorder record.EventRecorder,
+	obj genruntime.MetaObject) (ctrl.Result, error) {
+
 	typedObj, ok := obj.(genruntime.ARMMetaObject)
 	if !ok {
 		return ctrl.Result{}, errors.Errorf("cannot modify resource that is not of type ARMMetaObject. Type is %T", obj)
@@ -93,7 +95,7 @@ func (r *AzureDeploymentReconciler) Reconcile(ctx context.Context, log logr.Logg
 	log = log.WithValues("azureName", typedObj.AzureName())
 
 	// TODO: The line between AzureDeploymentReconciler and azureDeploymentReconcilerInstance is still pretty blurry
-	instance := newAzureDeploymentReconcilerInstance(typedObj, log, r.ARMClientFactory(typedObj), *r)
+	instance := newAzureDeploymentReconcilerInstance(typedObj, log, eventRecorder, r.ARMClientFactory(typedObj), *r)
 
 	var result ctrl.Result
 	var err error
