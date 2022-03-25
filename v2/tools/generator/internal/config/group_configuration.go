@@ -108,9 +108,17 @@ func (gc *GroupConfiguration) findVersion(ref astmodel.PackageReference) (*Versi
 // findVersion uses the provided LocalPackageReference to work out which nested VersionConfiguration should be used
 func (gc *GroupConfiguration) findVersionForLocalPackageReference(ref astmodel.LocalPackageReference) (*VersionConfiguration, error) {
 	gc.advisor.AddTerm(ref.ApiVersion())
+	gc.advisor.AddTerm(ref.PackageName())
 
-	v := strings.ToLower(ref.ApiVersion())
-	if version, ok := gc.versions[v]; ok {
+	// Check based on the ApiVersion alone
+	apiKey := strings.ToLower(ref.ApiVersion())
+	if version, ok := gc.versions[apiKey]; ok {
+		return version, nil
+	}
+
+	// Also check the entire package name (allows config to specify just a particular generator version if needed)
+	pkgKey := strings.ToLower(ref.PackageName())
+	if version, ok := gc.versions[pkgKey]; ok {
 		return version, nil
 	}
 
