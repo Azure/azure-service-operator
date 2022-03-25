@@ -10,7 +10,6 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
@@ -74,10 +73,6 @@ func (r *azureDeploymentReconcilerInstance) CreateOrUpdate(ctx context.Context) 
 		return ctrl.Result{}, err
 	}
 
-	if result.Requeue || result.RequeueAfter > 0 {
-		metrics.RecordRequeueTotalPUT(r.Obj.GetName())
-	}
-
 	return result, nil
 }
 
@@ -100,10 +95,6 @@ func (r *azureDeploymentReconcilerInstance) Delete(ctx context.Context) (ctrl.Re
 		r.Log.Error(err, "Error during Delete", "action", action)
 		r.Recorder.Event(r.Obj, v1.EventTypeWarning, "DeleteActionError", err.Error())
 		return ctrl.Result{}, err
-	}
-
-	if result.Requeue || result.RequeueAfter > 0 {
-		metrics.RecordRequeueTotalDELETE(r.Obj.GetName())
 	}
 
 	return result, nil
@@ -230,7 +221,7 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 	}
 
 	// retryAfter = ARM can tell us how long to wait for a DELETE
-	retryAfter, err := r.ARMClient.DeleteByID(ctx, resourceID, r.Obj.GetName(), r.Obj.GetAPIVersion())
+	retryAfter, err := r.ARMClient.DeleteByID(ctx, resourceID, r.Obj.GetType(), r.Obj.GetAPIVersion())
 	if err != nil {
 		return ctrl.Result{}, errors.Wrapf(err, "deleting resource %q", resourceID)
 	}
@@ -308,7 +299,7 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(ctx cont
 	}
 
 	// Try to create the resource
-	pollerResp, err := r.ARMClient.BeginCreateOrUpdateByID(ctx, armResource.GetID(), r.Obj.GetName(), armResource.Spec().GetAPIVersion(), armResource.Spec())
+	pollerResp, err := r.ARMClient.BeginCreateOrUpdateByID(ctx, armResource.GetID(), armResource.Spec().GetType(), armResource.Spec().GetAPIVersion(), armResource.Spec())
 	if err != nil {
 		return ctrl.Result{}, r.handlePollerFailed(err)
 	}
