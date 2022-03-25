@@ -90,8 +90,8 @@ func TestStoragePackageReferenceIsPreview(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			// Using GeneratorVersionPrefix here to make sure IsPreview isn't fooled
-			local := MakeLocalPackageReference("prefix", "microsoft.storage", GeneratorVersionPrefix, c.version)
+			// Using GeneratorVersion here to make sure IsPreview isn't fooled
+			local := MakeLocalPackageReference("prefix", "microsoft.storage", GeneratorVersion, c.version)
 			ref := MakeStoragePackageReference(local)
 
 			g.Expect(ref.IsPreview()).To(Equal(c.isPreview))

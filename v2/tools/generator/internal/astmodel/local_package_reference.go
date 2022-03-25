@@ -13,10 +13,10 @@ import (
 
 // LocalPackageReference specifies a local package name or reference
 type LocalPackageReference struct {
-	localPathPrefix string
-	group           string
-	version         string
-	versionPrefix   string
+	localPathPrefix  string
+	group            string
+	apiVersion       string
+	generatorVersion string
 }
 
 var (
@@ -24,15 +24,15 @@ var (
 	_ fmt.Stringer     = LocalPackageReference{}
 )
 
-const GeneratorVersionPrefix string = "v1alpha1api"
+const GeneratorVersion string = "v1alpha1api"
 
 // MakeLocalPackageReference Creates a new local package reference from a group and version
 func MakeLocalPackageReference(prefix string, group string, versionPrefix string, version string) LocalPackageReference {
 	return LocalPackageReference{
-		localPathPrefix: prefix,
-		group:           group,
-		versionPrefix:   versionPrefix,
-		version:         sanitizePackageName(version),
+		localPathPrefix:  prefix,
+		group:            group,
+		generatorVersion: versionPrefix,
+		apiVersion:       sanitizePackageName(version),
 	}
 }
 
@@ -48,7 +48,7 @@ func (pr LocalPackageReference) Group() string {
 
 // Version returns the version of this local reference
 func (pr LocalPackageReference) Version() string {
-	return pr.versionPrefix + pr.version
+	return pr.generatorVersion + pr.apiVersion
 }
 
 // PackageName returns the package name of this reference
@@ -70,8 +70,8 @@ func (pr LocalPackageReference) Equals(ref PackageReference) bool {
 
 	if other, ok := ref.(LocalPackageReference); ok {
 		return pr.localPathPrefix == other.localPathPrefix &&
-			pr.versionPrefix == other.versionPrefix &&
-			pr.version == other.version &&
+			pr.generatorVersion == other.generatorVersion &&
+			pr.apiVersion == other.apiVersion &&
 			pr.group == other.group
 	}
 
@@ -87,18 +87,26 @@ func (pr LocalPackageReference) String() string {
 // We don't check the version prefix (which contains the version of the generator) as that may contain alpha or beta
 // even if the ARM version is not preview.
 func (pr LocalPackageReference) IsPreview() bool {
-	return containsPreviewVersionLabel(strings.ToLower(pr.version))
+	return containsPreviewVersionLabel(strings.ToLower(pr.apiVersion))
 }
 
 // WithVersionPrefix returns a new LocalPackageReference with a different version prefix
 func (pr LocalPackageReference) WithVersionPrefix(prefix string) LocalPackageReference {
-	pr.versionPrefix = prefix
+	pr.generatorVersion = prefix
 	return pr
 }
 
 // HasVersionPrefix returns true if we have the specified version prefix, false otherwise.
 func (pr LocalPackageReference) HasVersionPrefix(prefix string) bool {
-	return pr.versionPrefix == prefix
+	return pr.generatorVersion == prefix
+}
+
+func (pr LocalPackageReference) GeneratorVersion() string {
+	return pr.generatorVersion
+}
+
+func (pr LocalPackageReference) ApiVersion() string {
+	return pr.apiVersion
 }
 
 // IsLocalPackageReference returns true if the supplied reference is a local one

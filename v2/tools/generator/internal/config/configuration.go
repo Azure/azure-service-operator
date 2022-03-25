@@ -376,7 +376,7 @@ func (config *Configuration) TransformTypeProperties(name astmodel.TypeName, obj
 
 // MakeLocalPackageReference creates a local package reference based on the configured destination location
 func (config *Configuration) MakeLocalPackageReference(group string, version string) astmodel.LocalPackageReference {
-	return astmodel.MakeLocalPackageReference(config.LocalPathPrefix(), group, astmodel.GeneratorVersionPrefix, version)
+	return astmodel.MakeLocalPackageReference(config.LocalPathPrefix(), group, astmodel.GeneratorVersion, version)
 }
 
 func getModulePathFromModFile(modFilePath string) (string, error) {
