@@ -57,25 +57,9 @@ type VirtualNetworkPropertiesFormat_StatusARM struct {
 
 	//ResourceGuid: The resourceGuid property of the Virtual Network resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
-
-	//Subnets: A list of subnets in a Virtual Network.
-	Subnets []Subnet_Status_VirtualNetwork_SubResourceEmbeddedARM `json:"subnets,omitempty"`
-
-	//VirtualNetworkPeerings: A list of peerings in a Virtual Network.
-	VirtualNetworkPeerings []VirtualNetworkPeering_Status_SubResourceEmbeddedARM `json:"virtualNetworkPeerings,omitempty"`
 }
 
 type DhcpOptions_StatusARM struct {
 	//DnsServers: The list of DNS servers IP addresses.
 	DnsServers []string `json:"dnsServers,omitempty"`
-}
-
-type Subnet_Status_VirtualNetwork_SubResourceEmbeddedARM struct {
-	//Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-}
-
-type VirtualNetworkPeering_Status_SubResourceEmbeddedARM struct {
-	//Id: Resource ID.
-	Id *string `json:"id,omitempty"`
 }

@@ -123,13 +123,6 @@ func Test_Subnet_CreatedBeforeVNET(t *testing.T) {
 	subnetAndVNETCreatedProvisionedOutOfOrder(t, waitForOwnerMissingError)
 }
 
-func Test_Subnet_CreatedInParallelWithVNET(t *testing.T) {
-	t.Skip("needs some work to pass consistently in recording mode")
-	t.Parallel()
-	doNotWait := func(_ *testcommon.KubePerTestContext, _ client.Object) { /* do not wait */ }
-	subnetAndVNETCreatedProvisionedOutOfOrder(t, doNotWait)
-}
-
 func Test_CreateResourceGroupThatAlreadyExists_ReconcilesSuccessfully(t *testing.T) {
 	t.Parallel()
 

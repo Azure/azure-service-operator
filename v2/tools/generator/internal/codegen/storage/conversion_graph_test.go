@@ -65,10 +65,17 @@ func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) 
 	address2021 := test.CreateSimpleResource(test.Pkg2021, "Address")
 	address2021s := test.CreateSimpleResource(test.Pkg2021s, "Address")
 
+	// Need two versions of a student resource, ensuring they skip an intermediate version
+	student2020 := test.CreateSimpleResource(test.Pkg2020, "Student")
+	student2020s := test.CreateSimpleResource(test.Pkg2020s, "Student")
+	student2022 := test.CreateSimpleResource(test.Pkg2022, "Student")
+	student2022s := test.CreateSimpleResource(test.Pkg2022s, "Student")
+
 	// Create our set of definitions
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(person2020, person2021, person2022, address2020, address2021)
 	defs.AddAll(person2020s, person2021s, person2022s, address2020s, address2021s)
+	defs.AddAll(student2020, student2020s, student2022, student2022s)
 
 	// Create a builder use it to configure a graph to test
 	omc := config.NewObjectModelConfiguration()
@@ -86,6 +93,9 @@ func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) 
 	// Address resources use this as the hub because Address doesn't exist in Pkg2022
 	addressHub := address2021s.Name()
 
+	// Student resources use this even though Student doesn't exist in Pkg2021
+	studentHub := student2022s.Name()
+
 	cases := []struct {
 		name         string
 		start        astmodel.TypeName
@@ -100,6 +110,8 @@ func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) 
 		{"Hub type returns self even when resource does not exist in latest package", addressHub, addressHub},
 		{"Directly linked api resolves when resource does not exist in latest package", address2021.Name(), addressHub},
 		{"Indirectly linked api resolves when resource does not exist in latest package", address2020.Name(), addressHub},
+		{"Directly linked API resolves when resource doesn't exist in intermediate package", student2022.Name(), studentHub},
+		{"Indirectly linked API resolves when resource doesn't exist in intermediate package", student2020.Name(), studentHub},
 	}
 
 	for _, c := range cases {
