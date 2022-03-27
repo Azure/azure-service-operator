@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Annotations understood by the operator #  Annotations specified by the user #  Note that unless otherwise specified, allowed values are case sensitive and should be provided in lower case.
-serviceoperator.azure.com/reconcile-policy #  Specifies the reconcile policy to use. Allowed values are:
- manage: The operator performs all actions as normal. This is the default if no annotation is specified. skip: All modification actions on the backing Azure resource are skipped.">
+<meta name="description" content="Committing Generated Code #  Context #  We’re aware that common practice avoids committing generated code into source control, treating it as an ephemeral resource that can be regenerated on demand.
+Even so, we are concluding that we want to check in our generated code.
+Upstream changes #  We do not fully control the source definitions from which we are generating our object model and we are concerned about upstream changes that change our generated output in unexpected ways.">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
-<meta property="og:description" content="Annotations understood by the operator #  Annotations specified by the user #  Note that unless otherwise specified, allowed values are case sensitive and should be provided in lower case.
-serviceoperator.azure.com/reconcile-policy #  Specifies the reconcile policy to use. Allowed values are:
- manage: The operator performs all actions as normal. This is the default if no annotation is specified. skip: All modification actions on the backing Azure resource are skipped." />
+<meta property="og:description" content="Committing Generated Code #  Context #  We’re aware that common practice avoids committing generated code into source control, treating it as an ephemeral resource that can be regenerated on demand.
+Even so, we are concluding that we want to check in our generated code.
+Upstream changes #  We do not fully control the source definitions from which we are generating our object model and we are concerned about upstream changes that change our generated output in unexpected ways." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/introduction/annotations/" /><meta property="article:section" content="introduction" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/" /><meta property="article:section" content="architecture-decision-records" />
 
 
 
-<title>Annotations | Azure Service Operator</title>
+<title>Adr 2021 08 Committing Generated Code | Azure Service Operator</title>
 <link rel="manifest" href="/azure-service-operator/manifest.json">
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
@@ -88,7 +88,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/introduction/annotations/" class=" active">Annotations</a>
+    <a href="https://azure.github.io/azure-service-operator/introduction/annotations/" class="">Annotations</a>
   
 
         </li>
@@ -542,7 +542,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/" class="">Adr 2021 08 Committing Generated Code</a>
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/" class=" active">Adr 2021 08 Committing Generated Code</a>
   
 
         </li>
@@ -932,7 +932,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/azure-service-operator/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>Annotations</strong>
+  <strong>Adr 2021 08 Committing Generated Code</strong>
 
   <label for="toc-control">
     
@@ -948,12 +948,18 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#annotations-specified-by-the-user">Annotations specified by the user</a>
+    <li><a href="#context">Context</a>
       <ul>
-        <li><a href="#serviceoperatorazurecomreconcile-policy"><code>serviceoperator.azure.com/reconcile-policy</code></a></li>
+        <li><a href="#upstream-changes">Upstream changes</a></li>
+        <li><a href="#generator-changes">Generator changes</a></li>
+        <li><a href="#generator-awareness">Generator awareness</a></li>
       </ul>
     </li>
-    <li><a href="#annotations-written-by-the-operator">Annotations written by the operator</a></li>
+    <li><a href="#decision">Decision</a></li>
+    <li><a href="#status">Status</a></li>
+    <li><a href="#consequences">Consequences</a></li>
+    <li><a href="#experience-report">Experience Report</a></li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav>
 
@@ -966,41 +972,66 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><h1 id="annotations-understood-by-the-operator">
-  Annotations understood by the operator
-  <a class="anchor" href="#annotations-understood-by-the-operator">#</a>
+  <article class="markdown"><h1 id="committing-generated-code">
+  Committing Generated Code
+  <a class="anchor" href="#committing-generated-code">#</a>
 </h1>
-<h2 id="annotations-specified-by-the-user">
-  Annotations specified by the user
-  <a class="anchor" href="#annotations-specified-by-the-user">#</a>
+<h2 id="context">
+  Context
+  <a class="anchor" href="#context">#</a>
 </h2>
-<p>Note that unless otherwise specified, allowed values are <em>case sensitive</em> and should be provided in lower case.</p>
-<h3 id="serviceoperatorazurecomreconcile-policy">
-  <code>serviceoperator.azure.com/reconcile-policy</code>
-  <a class="anchor" href="#serviceoperatorazurecomreconcile-policy">#</a>
+<p>We’re aware that common practice avoids committing generated code into source control, treating it as an ephemeral resource that can be regenerated on demand.</p>
+<p>Even so, we are concluding that we want to check in our generated code.</p>
+<h3 id="upstream-changes">
+  Upstream changes
+  <a class="anchor" href="#upstream-changes">#</a>
 </h3>
-<p>Specifies the reconcile policy to use. Allowed values are:</p>
-<ul>
-<li><code>manage</code>: The operator performs all actions as normal. This is the default if no annotation is specified.</li>
-<li><code>skip</code>: All modification actions on the backing Azure resource are skipped. GETs are still issued to ensure that the resource
-exists. If the resource doesn&rsquo;t exist, the <code>Ready</code> condition will show a <code>Warning</code> state with the details of the missing resource
-until the resource is created. If the resource is deleted in Kubernetes, it is <em>not</em> deleted in Azure. In REST API terminology,
-PUT and DELETE are skipped while GET is allowed.</li>
-<li><code>detach-on-delete</code>: Modifications are pushed to the backing Azure resource, but if the resource is deleted in Kubernetes,
-it is <em>not</em> deleted in Azure. In REST API terminology, PUT and GET are allowed while DELETE is skipped.</li>
-</ul>
-<p>Unknown values default to <code>manage</code>.</p>
-<h2 id="annotations-written-by-the-operator">
-  Annotations written by the operator
-  <a class="anchor" href="#annotations-written-by-the-operator">#</a>
+<p>We do not fully control the source definitions from which we are generating our object model and we are concerned about upstream changes that change our generated output in unexpected ways.</p>
+<p>While such changes are very unlikely, given the controls that ARM has in place around breaking API changes, exceptions are made, and mistakes do happen.</p>
+<p>As a part of the Kubernetes ecosystem of tooling, we need to adhere to strong guidelines for backward compatibility; inadvertently releasing an incompatible version of ASO would be a significant issue. It’s likely that recovering from such a release would require a second breaking release (to restore compatibility with the original) which would itself cause customer pain.</p>
+<p>Having the generated code committed into our repository gives us an opportunity to detect and address such changes before a new release of ASO.</p>
+<p>It is also useful to have the assurance of knowing exactly what generated code was included in a particular release of ASO. Our ability to reproduce and debug a reported issue would be much reduced if an upstream modification (resulting in a change to our generated code) meant that we could not reproduce the exact code being run by a customer.</p>
+<h3 id="generator-changes">
+  Generator changes
+  <a class="anchor" href="#generator-changes">#</a>
+</h3>
+<p>With so much code being generated, we are starting to become concerned that a simple change to the generator might have unexpected consequences, perhaps due to reuse of a function definition, for example.</p>
+<p>Having the generated code committed into our repository would give an opportunity to review those changes in advance, helping to catch any issues well before any code is merged into our repository.</p>
+<p>We admit that reviewing all the generated code is likely to be infeasible, but we can at least benefit from random sampling of the changes, and by reviewing at least one resource in depth.</p>
+<h3 id="generator-awareness">
+  Generator awareness
+  <a class="anchor" href="#generator-awareness">#</a>
+</h3>
+<p>We want the project to be accessible to outside developers.</p>
+<p>Requiring a new developer to successfully run the code generator before being able to build the operator itself would be a significant barrier to anyone trying to get an understanding of what we’ve built.</p>
+<p>Having the generated code committed into our repository means that a full build of the service operator can be performed without needing to even be aware that the generator exists, reducing the effort required for someone to get started.</p>
+<h2 id="decision">
+  Decision
+  <a class="anchor" href="#decision">#</a>
 </h2>
-<p>These annotations are written by the operator for its own internal use. Their existence and usage may change in the future.
-We recommend users avoid depending upon these annotations:</p>
-<ol>
-<li><code>serviceoperator.azure.com/resource-id</code>: The ARM resource ID.</li>
-<li><code>serviceoperator.azure.com/poller-resume-token</code>: JSON encoded token for polling long running operation.</li>
-<li><code>serviceoperator.azure.com/poller-resume-id</code>: ID describing the poller to use.</li>
-</ol>
+<p>We will commit the generated code in a separate folder.</p>
+<h2 id="status">
+  Status
+  <a class="anchor" href="#status">#</a>
+</h2>
+<p>Adopted.</p>
+<p>First commit of our generated code was in <a href="https://github.com/Azure/azure-service-operator/pull/1741">PR #1741</a>.</p>
+<h2 id="consequences">
+  Consequences
+  <a class="anchor" href="#consequences">#</a>
+</h2>
+<p>We have observed unexpected consequences of generator changes and been able to correct course before creating a PR.</p>
+<p>Some PRs have had a wide reaching impact, resulting in very large PRs with lots of modifications to generated code. To facilitate review, some pieces of work have been split into two PRs: One with a fully tested new feature in disabled form, allowing detailed review of the change, and another to enable the feature and regenerate affected code.</p>
+<h2 id="experience-report">
+  Experience Report
+  <a class="anchor" href="#experience-report">#</a>
+</h2>
+<p>TBC.</p>
+<h2 id="references">
+  References
+  <a class="anchor" href="#references">#</a>
+</h2>
+<p>TBC.</p>
 </article>
  
       
@@ -1042,12 +1073,18 @@ We recommend users avoid depending upon these annotations:</p>
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#annotations-specified-by-the-user">Annotations specified by the user</a>
+    <li><a href="#context">Context</a>
       <ul>
-        <li><a href="#serviceoperatorazurecomreconcile-policy"><code>serviceoperator.azure.com/reconcile-policy</code></a></li>
+        <li><a href="#upstream-changes">Upstream changes</a></li>
+        <li><a href="#generator-changes">Generator changes</a></li>
+        <li><a href="#generator-awareness">Generator awareness</a></li>
       </ul>
     </li>
-    <li><a href="#annotations-written-by-the-operator">Annotations written by the operator</a></li>
+    <li><a href="#decision">Decision</a></li>
+    <li><a href="#status">Status</a></li>
+    <li><a href="#consequences">Consequences</a></li>
+    <li><a href="#experience-report">Experience Report</a></li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav>
 

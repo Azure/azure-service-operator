@@ -33,6 +33,9 @@
     <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/</loc>
     <priority>0</priority>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/</loc>
+    <priority>0</priority>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/</loc>
     <priority>0</priority>
   </url><url>

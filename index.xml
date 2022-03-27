@@ -73,6 +73,17 @@ Revisting the CRM example from the Versioning specification, consider what happe
     
     <item>
       <title></title>
+      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/</guid>
+      <description>Committing Generated Code #  Context #  We’re aware that common practice avoids committing generated code into source control, treating it as an ephemeral resource that can be regenerated on demand.
+Even so, we are concluding that we want to check in our generated code.
+Upstream changes #  We do not fully control the source definitions from which we are generating our object model and we are concerned about upstream changes that change our generated output in unexpected ways.</description>
+    </item>
+    
+    <item>
+      <title></title>
       <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
