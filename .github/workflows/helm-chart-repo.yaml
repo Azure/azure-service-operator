@@ -40,13 +40,6 @@ jobs:
           docker start "$container_id"
           echo "::set-output name=id::$container_id"
 
-      - name: Run devcontainer image
-        id: devcontainer
-        run: |
-          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:latest)
-          docker start "$container_id"
-          echo "::set-output name=id::$container_id"
-
       - name: Generate helm manifest
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
