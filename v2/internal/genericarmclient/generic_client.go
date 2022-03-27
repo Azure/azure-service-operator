@@ -33,18 +33,18 @@ type GenericClient struct {
 	subscriptionID string
 	creds          azcore.TokenCredential
 	opts           *arm.ClientOptions
-	metrics        metrics.ArmClientMetrics
+	metrics        metrics.ARMClientMetrics
 }
 
 // TODO: Need to do retryAfter detection in each call?
 
 // NewGenericClient creates a new instance of GenericClient
-func NewGenericClient(endpoint arm.Endpoint, creds azcore.TokenCredential, subscriptionID string, metrics metrics.ArmClientMetrics) *GenericClient {
+func NewGenericClient(endpoint arm.Endpoint, creds azcore.TokenCredential, subscriptionID string, metrics metrics.ARMClientMetrics) *GenericClient {
 	return NewGenericClientFromHTTPClient(endpoint, creds, nil, subscriptionID, metrics)
 }
 
 // NewGenericClientFromHTTPClient creates a new instance of GenericClient from the provided connection.
-func NewGenericClientFromHTTPClient(endpoint arm.Endpoint, creds azcore.TokenCredential, httpClient *http.Client, subscriptionID string, metrics metrics.ArmClientMetrics) *GenericClient {
+func NewGenericClientFromHTTPClient(endpoint arm.Endpoint, creds azcore.TokenCredential, httpClient *http.Client, subscriptionID string, metrics metrics.ARMClientMetrics) *GenericClient {
 	opts := &arm.ClientOptions{
 		ClientOptions: policy.ClientOptions{
 			Retry: policy.RetryOptions{
@@ -96,11 +96,11 @@ func (client *GenericClient) ClientOptions() *arm.ClientOptions {
 	return client.opts
 }
 
-func (client *GenericClient) BeginCreateOrUpdateByID(ctx context.Context, resourceID, resourceType, apiVersion string, resource interface{}) (*PollerResponse, error) {
+func (client *GenericClient) BeginCreateOrUpdateByID(ctx context.Context, resourceID, apiVersion string, resource interface{}) (*PollerResponse, error) {
 	// The linter doesn't realize that the response is closed in the course of
 	// the autorest.NewPoller call below. Suppressing it as it is a false positive.
 	// nolint:bodyclose
-	resp, err := client.createOrUpdateByID(ctx, resourceID, resourceType, apiVersion, resource)
+	resp, err := client.createOrUpdateByID(ctx, resourceID, apiVersion, resource)
 	if err != nil {
 		return nil, err
 	}
@@ -119,7 +119,6 @@ func (client *GenericClient) BeginCreateOrUpdateByID(ctx context.Context, resour
 func (client *GenericClient) createOrUpdateByID(
 	ctx context.Context,
 	resourceID,
-	resourceType,
 	apiVersion string,
 	resource interface{}) (*http.Response, error) {
 
@@ -131,11 +130,14 @@ func (client *GenericClient) createOrUpdateByID(
 	requestStartTime := time.Now()
 	resp, err := client.pl.Do(req)
 
-	client.metrics.RecordAzureRequestsTime(resourceType, time.Since(requestStartTime), metrics.PutLabel)
-	client.metrics.RecordAzureRequestsTotal(resourceType, resp.StatusCode, metrics.PutLabel)
+	// Ignoring error here as resourceID would always be correct at this stage.
+	resourceType, _ := metrics.GetTypeFromResourceID(resourceID)
+
+	client.metrics.RecordAzureRequestsTime(resourceType, time.Since(requestStartTime), metrics.HttpPut)
+	client.metrics.RecordAzureRequestsTotal(resourceType, resp.StatusCode, metrics.HttpPut)
 
 	if err != nil {
-		client.metrics.RecordAzureFailedRequestsTotal(resourceType, metrics.PutLabel)
+		client.metrics.RecordAzureFailedRequestsTotal(resourceType, metrics.HttpPut)
 		return nil, err
 	}
 	if !runtime.HasStatusCode(resp, http.StatusOK, http.StatusCreated, http.StatusAccepted) {
@@ -223,8 +225,8 @@ func (client *GenericClient) getByIDHandleResponse(resp *http.Response, resource
 
 // DeleteByID - Deletes a resource by ID.
 // If the operation fails it returns the *CloudError error type.
-func (client *GenericClient) DeleteByID(ctx context.Context, resourceID, resourceType, apiVersion string) (time.Duration, error) {
-	resp, err := client.deleteByID(ctx, resourceID, resourceType, apiVersion)
+func (client *GenericClient) DeleteByID(ctx context.Context, resourceID, apiVersion string) (time.Duration, error) {
+	resp, err := client.deleteByID(ctx, resourceID, apiVersion)
 	retryAfter := GetRetryAfter(resp)
 	if err != nil {
 		return retryAfter, err
@@ -235,7 +237,7 @@ func (client *GenericClient) DeleteByID(ctx context.Context, resourceID, resourc
 
 // DeleteByID - Deletes a resource by ID.
 // If the operation fails it returns the *CloudError error type.
-func (client *GenericClient) deleteByID(ctx context.Context, resourceID, resourceType, apiVersion string) (*http.Response, error) {
+func (client *GenericClient) deleteByID(ctx context.Context, resourceID, apiVersion string) (*http.Response, error) {
 	req, err := client.deleteByIDCreateRequest(ctx, resourceID, apiVersion)
 	if err != nil {
 		return nil, err
@@ -244,11 +246,14 @@ func (client *GenericClient) deleteByID(ctx context.Context, resourceID, resourc
 	requestStartTime := time.Now()
 	resp, err := client.pl.Do(req)
 
-	client.metrics.RecordAzureRequestsTime(resourceType, time.Since(requestStartTime), metrics.DeleteLabel)
-	client.metrics.RecordAzureRequestsTotal(resourceType, resp.StatusCode, metrics.DeleteLabel)
+	// Ignoring error here as resourceID would always be correct at this stage.
+	resourceType, _ := metrics.GetTypeFromResourceID(resourceID)
+
+	client.metrics.RecordAzureRequestsTime(resourceType, time.Since(requestStartTime), metrics.HttpDelete)
+	client.metrics.RecordAzureRequestsTotal(resourceType, resp.StatusCode, metrics.HttpDelete)
 
 	if err != nil {
-		client.metrics.RecordAzureFailedRequestsTotal(resourceType, metrics.DeleteLabel)
+		client.metrics.RecordAzureFailedRequestsTotal(resourceType, metrics.HttpDelete)
 		return nil, err
 	}
 

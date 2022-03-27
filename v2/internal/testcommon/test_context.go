@@ -100,7 +100,7 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 		Transport: addCountHeader(translateErrors(recorder, cassetteName, t)),
 	}
 
-	armClient := genericarmclient.NewGenericClientFromHTTPClient(arm.AzurePublicCloud, creds, httpClient, subscriptionID, metrics.NewArmClientMetrics())
+	armClient := genericarmclient.NewGenericClientFromHTTPClient(arm.AzurePublicCloud, creds, httpClient, subscriptionID, metrics.NewARMClientMetrics())
 
 	t.Cleanup(func() {
 		if !t.Failed() {

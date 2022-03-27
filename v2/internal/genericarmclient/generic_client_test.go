@@ -42,7 +42,7 @@ func Test_NewResourceGroup(t *testing.T) {
 
 	id := genericarmclient.MakeResourceGroupID(testContext.AzureSubscription, resourceGroup.Name)
 
-	poller, err := testContext.AzureClient.BeginCreateOrUpdateByID(ctx, id, resourceGroup.GetType(), typedResourceGroupSpec.GetAPIVersion(), typedResourceGroupSpec)
+	poller, err := testContext.AzureClient.BeginCreateOrUpdateByID(ctx, id, typedResourceGroupSpec.GetAPIVersion(), typedResourceGroupSpec)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Eventually(poller).Should(testContext.AzureMatch.BeProvisioned(ctx))
@@ -53,7 +53,7 @@ func Test_NewResourceGroup(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	// Delete the deployment
-	_, err = testContext.AzureClient.DeleteByID(ctx, id, resourceGroup.GetType(), typedResourceGroupSpec.GetAPIVersion())
+	_, err = testContext.AzureClient.DeleteByID(ctx, id, typedResourceGroupSpec.GetAPIVersion())
 	g.Expect(err).ToNot(HaveOccurred())
 
 	// Ensure that the resource group is deleted
@@ -91,7 +91,7 @@ func Test_NewResourceGroup_Error(t *testing.T) {
 
 	id := genericarmclient.MakeResourceGroupID(testContext.AzureSubscription, resourceGroup.Name)
 
-	_, err = testContext.AzureClient.BeginCreateOrUpdateByID(ctx, id, resourceGroup.GetType(), typedResourceGroupSpec.GetAPIVersion(), typedResourceGroupSpec)
+	_, err = testContext.AzureClient.BeginCreateOrUpdateByID(ctx, id, typedResourceGroupSpec.GetAPIVersion(), typedResourceGroupSpec)
 	g.Expect(err).To(HaveOccurred())
 
 	// Some basic assertions about the shape of the error

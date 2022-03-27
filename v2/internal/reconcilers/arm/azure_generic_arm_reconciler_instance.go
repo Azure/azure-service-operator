@@ -220,7 +220,7 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 	}
 
 	// retryAfter = ARM can tell us how long to wait for a DELETE
-	retryAfter, err := r.ARMClient.DeleteByID(ctx, resourceID, r.Obj.GetType(), r.Obj.GetAPIVersion())
+	retryAfter, err := r.ARMClient.DeleteByID(ctx, resourceID, r.Obj.GetAPIVersion())
 	if err != nil {
 		return ctrl.Result{}, errors.Wrapf(err, "deleting resource %q", resourceID)
 	}
@@ -298,7 +298,7 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(ctx cont
 	}
 
 	// Try to create the resource
-	pollerResp, err := r.ARMClient.BeginCreateOrUpdateByID(ctx, armResource.GetID(), armResource.Spec().GetType(), armResource.Spec().GetAPIVersion(), armResource.Spec())
+	pollerResp, err := r.ARMClient.BeginCreateOrUpdateByID(ctx, armResource.GetID(), armResource.Spec().GetAPIVersion(), armResource.Spec())
 	if err != nil {
 		return ctrl.Result{}, r.handlePollerFailed(err)
 	}

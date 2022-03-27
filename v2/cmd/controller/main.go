@@ -40,12 +40,14 @@ func main() {
 
 	var metricsAddr string
 	var enableLeaderElection bool
+
+	// default here for 'metricsAddr' is set to "0", which sets metrics to be disabled if 'metrics-addr' flag is omitted.
 	flagSet.StringVar(&metricsAddr, "metrics-addr", "0", "The address the metric endpoint binds to.")
 	flagSet.BoolVar(&enableLeaderElection, "enable-leader-election", false,
 		"Enable leader election for controllers manager. Enabling this will ensure there is only one active controllers manager.")
 	flagSet.Parse(os.Args[1:]) //nolint:errcheck
 
-	armMetrics := asometrics.NewArmClientMetrics()
+	armMetrics := asometrics.NewARMClientMetrics()
 	asometrics.RegisterMetrics(armMetrics)
 
 	scheme := controllers.CreateScheme()
