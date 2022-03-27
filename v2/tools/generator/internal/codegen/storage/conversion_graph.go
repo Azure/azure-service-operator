@@ -47,10 +47,10 @@ func (graph *ConversionGraph) LookupTransition(ref astmodel.PackageReference) (a
 func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, definitions astmodel.TypeDefinitionSet) (astmodel.TypeName, error) {
 
 	// Look for a next type with the same name
-	nextType, nextSteps := graph.searchForMatchingType(name, definitions)
+	nextType, stepsUntilNextFound := graph.searchForMatchingType(name, definitions)
 
 	// Look for a renamed type with the same name
-	renamedType, renameSteps, err := graph.searchForRenamedType(name, definitions)
+	renamedType, stepsUntilRenameFound, err := graph.searchForRenamedType(name, definitions)
 	if err != nil {
 		return astmodel.EmptyTypeName, errors.Wrapf(err, "searching for type renamed from %s", name)
 	}
@@ -65,7 +65,7 @@ func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, definitions a
 		return renamedType, nil
 	}
 
-	if renameSteps < nextSteps {
+	if stepsUntilRenameFound < stepsUntilNextFound {
 		// Rename matched earlier type, no conflict
 		// (this might happen if a different type is introduced with the same name in a later version, or if a type
 		// is renamed in one version and renamed back in a later one)
@@ -160,7 +160,7 @@ func (graph *ConversionGraph) searchForRenamedType(
 
 	rename, err := graph.configuration.LookupNameInNextVersion(name)
 	if config.IsNotConfiguredError(err) {
-		// No configured rename, nothing to do
+		// We found no configured rename, nothing to do
 		return astmodel.EmptyTypeName, -1, nil
 	}
 
@@ -173,7 +173,7 @@ func (graph *ConversionGraph) searchForRenamedType(
 	}
 
 	newType := name.WithName(rename)
-	result, steps := graph.searchForMatchingTypeImpl(newType, definitions, 1)
+	result, stepsUntilFound := graph.searchForMatchingType(newType, definitions)
 
 	// Validity check on the type-rename to verify that it specifies a type that exists.
 	// If we didn't find the type, the configured rename is invalid
@@ -191,7 +191,7 @@ func (graph *ConversionGraph) searchForRenamedType(
 			rename)
 	}
 
-	return result, steps, nil
+	return result, stepsUntilFound, nil
 }
 
 // searchForMatchingType walks through the conversion graph looking for the next type with the same name as the one
@@ -206,7 +206,7 @@ func (graph *ConversionGraph) searchForMatchingType(
 func (graph *ConversionGraph) searchForMatchingTypeImpl(
 	typeName astmodel.TypeName,
 	definitions astmodel.TypeDefinitionSet,
-	steps int) (astmodel.TypeName, int) {
+	stepsSoFar int) (astmodel.TypeName, int) {
 	nextPackage, ok := graph.LookupTransition(typeName.PackageReference)
 	if !ok {
 		// No next package, we've fallen off the end of the graph
@@ -216,9 +216,9 @@ func (graph *ConversionGraph) searchForMatchingTypeImpl(
 	nextTypeName := astmodel.MakeTypeName(nextPackage, typeName.Name())
 	if definitions.Contains(nextTypeName) {
 		// Found the type we're looking for
-		return nextTypeName, steps
+		return nextTypeName, stepsSoFar
 	}
 
 	// Keep walking to find the next type, if any
-	return graph.searchForMatchingTypeImpl(nextTypeName, definitions, steps+1)
+	return graph.searchForMatchingTypeImpl(nextTypeName, definitions, stepsSoFar+1)
 }
