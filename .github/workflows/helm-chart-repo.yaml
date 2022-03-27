@@ -28,14 +28,29 @@ jobs:
           fetch-depth: 0 # required to access tags
           submodules: 'true'
 
-      - name: Build & run devcontainer image
-        # this always builds a new image from scratch rather than from the build-devcontainer-image workflow output
-        # so that we pick up the latest versions of everything
-        # NB: if you update this also update live-validation.yml
+      - name: Build devcontainer image
+        # We must issue a manual pull before the build so the image gets copied locally, because
+        # docker.pkg.github.com is not a valid Docker registry and doesn't work with --cache-from,
+        # however, `docker pull` will fall back to other methods that do work and get the image loaded.
+        #
+        # This message comes from "docker pull":
+        #
+        # Run docker pull docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest
+        # WARNING: ⚠️ Failed to pull manifest by the resolved digest. This registry does not
+        #  appear to conform to the distribution registry specification; falling back to
+        #  pull by tag.  This fallback is DEPRECATED, and will be removed in a future
+        #  release.  Please contact admins of https://docker.pkg.github.com. ⚠️
+        #
+        # See: https://github.com/moby/moby/issues/41687#issuecomment-733826074 and related issues
+        run: |
+          docker pull docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest
+          docker build --cache-from docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest .devcontainer
+        env:
+          DOCKER_BUILDKIT: 1
+
+      - name: Run devcontainer image
         id: devcontainer
         run: |
-          docker build --tag devcontainer:latest .devcontainer
-          mkdir -p $HOME/.docker # in case it doesn’t exist
           container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:latest)
           docker start "$container_id"
           echo "::set-output name=id::$container_id"
@@ -46,7 +61,7 @@ jobs:
           docker exec "$container_id" task controller:gen-helm-manifest
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@7380612b49221684fefa025244f2ef4008ae50ad # v3.10.1
+        uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.GH_PAT }}
           commit-message: Add helm chart
