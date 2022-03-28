@@ -1355,16 +1355,13 @@ func assignObjectFromObject(
 				astbuilder.CallExpr(reader, functionName, astbuilder.AddrOf(localId)))
 		}
 
-		transition := sourceEndpoint.Name()
-		if sourceEndpoint.Name() != destinationEndpoint.Name() {
-			transition = fmt.Sprintf("%s from %s", destinationEndpoint.Name(), sourceEndpoint.Name())
-		}
-
 		checkForError := astbuilder.ReturnIfNotNil(
 			errLocal,
 			astbuilder.WrappedErrorf(
 				errorsPackageName,
-				"calling %s() to populate field %s", functionName, transition))
+				"calling %s() to %s",
+				functionName,
+				describeAssignment(sourceEndpoint, destinationEndpoint)))
 
 		assignment := writer(dst.NewIdent(copyVar))
 		return astbuilder.Statements(declaration, conversion, checkForError, assignment)
@@ -1552,4 +1549,12 @@ func validateTypeRename(sourceName astmodel.TypeName, destinationName astmodel.T
 			later.Name())
 	}
 	return nil
+}
+
+func describeAssignment(sourceEndpoint *TypedConversionEndpoint, destinationEndpoint *TypedConversionEndpoint) string {
+	if sourceEndpoint.Name() != destinationEndpoint.Name() {
+		return fmt.Sprintf("populate field %s from %s", destinationEndpoint.Name(), sourceEndpoint.Name())
+	}
+
+	return fmt.Sprintf("populate field %s", destinationEndpoint.Name())
 }
