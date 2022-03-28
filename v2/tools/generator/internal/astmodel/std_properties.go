@@ -18,3 +18,8 @@ const (
 	OperatorSpecSecretsProperty = "Secrets"
 	ConditionsProperty          = "Conditions"
 )
+
+// IsKubernetesResourceProperty returns true if the supplied property name is one of our "magical" names
+func IsKubernetesResourceProperty(name PropertyName) bool {
+	return name == AzureNameProperty || name == OwnerProperty
+}
