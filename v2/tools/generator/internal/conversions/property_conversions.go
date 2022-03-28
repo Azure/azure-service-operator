@@ -1337,15 +1337,6 @@ func assignObjectFromObject(
 
 		declaration := astbuilder.LocalVariableDeclaration(copyVar, createTypeDeclaration(destinationName, generationContext), "")
 
-		// If our reader is a dereference, we strip that off (because we need a pointer), else we
-		// take the address of it
-		var actualReader dst.Expr
-		if star, ok := reader.(*dst.StarExpr); ok {
-			actualReader = star.X
-		} else {
-			actualReader = astbuilder.AddrOf(reader)
-		}
-
 		var functionName string
 		var conversion dst.Stmt
 		if conversionContext.direction == ConvertFrom {
@@ -1354,7 +1345,7 @@ func assignObjectFromObject(
 			conversion = astbuilder.AssignmentStatement(
 				errLocal,
 				tok,
-				astbuilder.CallExpr(localId, functionName, actualReader))
+				astbuilder.CallExpr(localId, functionName, astbuilder.AddrOf(reader)))
 		} else {
 			// Destination is another type
 			functionName = NameOfPropertyAssignmentFunction(destinationName, ConvertTo, conversionContext.idFactory)

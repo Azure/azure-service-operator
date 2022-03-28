@@ -283,11 +283,24 @@ func AddrOf(expr dst.Expr) *dst.UnaryExpr {
 	}
 }
 
+// AsReference returns a statement that is a reference to the supplied expression
+//
+//	&<expr>
+//
+// If the expression given is a StarExpr dereference, we unwrap it instead of taking its address
+func AsReference(expr dst.Expr) dst.Expr {
+	if star, ok := expr.(*dst.StarExpr); ok {
+		return star.X
+	}
+
+	return AddrOf(expr)
+}
+
 // Dereference returns a statement that dereferences the pointer returned by the provided expression
 //
 // *<expr>
 //
-func Dereference(expr dst.Expr) *dst.StarExpr {
+func Dereference(expr dst.Expr) dst.Expr {
 	return &dst.StarExpr{
 		X: dst.Clone(expr).(dst.Expr),
 	}
