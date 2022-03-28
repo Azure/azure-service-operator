@@ -1302,6 +1302,19 @@ func assignObjectFromObject(
 		return nil, nil
 	}
 
+	// If our two types are not adjacent in our conversion graph, this is not the conversion you're looking for
+	nextType, err := conversionContext.FindNextType(destinationName)
+	if err != nil {
+		return nil, errors.Wrapf(
+			err,
+			"looking up next type for %s",
+			astmodel.DebugDescription(destinationEndpoint.Type(), conversionContext.Types()))
+	}
+
+	if !nextType.IsEmpty() && !astmodel.TypeEquals(nextType, sourceName) {
+		return nil, nil
+	}
+
 	// If the two definitions have different names, require an explicit rename from one to the other
 	//
 	// Challenge: If we can detect incorrect renaming configuration here, why do we need that configuration at all?
@@ -1333,6 +1346,7 @@ func assignObjectFromObject(
 		declaration := astbuilder.LocalVariableDeclaration(copyVar, createTypeDeclaration(destinationName, generationContext), "")
 
 		functionName := NameOfPropertyAssignmentFunction(sourceName, ConvertFrom, conversionContext.idFactory)
+
 		conversion := astbuilder.AssignmentStatement(
 			errLocal,
 			tok,
@@ -1407,6 +1421,19 @@ func assignObjectToObject(
 	}
 	_, destinationIsObject := astmodel.AsObjectType(destinationType)
 	if !destinationIsObject {
+		return nil, nil
+	}
+
+	// If our two types are not adjacent in our conversion graph, this is not the conversion you're looking for
+	nextType, err := conversionContext.FindNextType(sourceName)
+	if err != nil {
+		return nil, errors.Wrapf(
+			err,
+			"looking up next type for %s",
+			astmodel.DebugDescription(sourceEndpoint.Type(), conversionContext.Types()))
+	}
+
+	if !nextType.IsEmpty() && !astmodel.TypeEquals(nextType, destinationName) {
 		return nil, nil
 	}
 
