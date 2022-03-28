@@ -1314,46 +1314,9 @@ func assignObjectFromObject(
 	// the right information to infer correctly.
 	//
 	if sourceName.Name() != destinationName.Name() {
-		// Work out which name represents the earlier package release
-		// (needed to to do the lookup as the type rename is configured on the last type *before* the rename.)
-		var earlier astmodel.TypeName
-		var later astmodel.TypeName
-		if conversionContext.direction == ConvertTo {
-			earlier = sourceName
-			later = destinationName
-		} else {
-			earlier = destinationName
-			later = sourceName
-		}
-
-		n, err := conversionContext.TypeRename(earlier)
+		err := validateTypeRename(sourceName, destinationName, conversionContext)
 		if err != nil {
-
-			if config.IsNotConfiguredError(err) {
-				// No rename configured, but we can't proceed without one. Return an error - it'll be wrapped with property
-				// details by CreateTypeConversion() so we only need the specific details here
-				return nil, errors.Wrapf(
-					err,
-					"no configuration to rename %s to %s",
-					earlier.Name(),
-					later.Name())
-			}
-
-			// Some other kind of problem, need to report back
-			return nil, errors.Wrapf(
-				err,
-				"looking up type rename of %s",
-				earlier.Name())
-		}
-
-		if later.Name() != n {
-			// Configured rename doesn't match what we found. Return an error - it'll be wrapped with property details
-			// by CreateTypeConversion() so we only need the specific details here
-			return nil, errors.Errorf(
-				"configuration includes rename of %s to %s, but found %s",
-				earlier.Name(),
-				n,
-				later.Name())
+			return nil, err
 		}
 	}
 
@@ -1552,4 +1515,50 @@ func createTypeDeclaration(name astmodel.TypeName, generationContext *astmodel.C
 
 	packageName := generationContext.MustGetImportedPackageName(name.PackageReference)
 	return astbuilder.Selector(dst.NewIdent(packageName), name.Name())
+}
+
+// validateTypeRename is used to validate two types with different names are a properly renamed set
+func validateTypeRename(sourceName astmodel.TypeName, destinationName astmodel.TypeName, conversionContext *PropertyConversionContext) error {
+	// Work out which name represents the earlier package release
+	// (needed in order to do the lookup as the type rename is configured on the last type *before* the rename.)
+	var earlier astmodel.TypeName
+	var later astmodel.TypeName
+	if conversionContext.direction == ConvertTo {
+		earlier = sourceName
+		later = destinationName
+	} else {
+		earlier = destinationName
+		later = sourceName
+	}
+
+	n, err := conversionContext.TypeRename(earlier)
+	if err != nil {
+
+		if config.IsNotConfiguredError(err) {
+			// No rename configured, but we can't proceed without one. Return an error - it'll be wrapped with property
+			// details by CreateTypeConversion() so we only need the specific details here
+			return errors.Wrapf(
+				err,
+				"no configuration to rename %s to %s",
+				earlier.Name(),
+				later.Name())
+		}
+
+		// Some other kind of problem, need to report back
+		return errors.Wrapf(
+			err,
+			"looking up type rename of %s",
+			earlier.Name())
+	}
+
+	if later.Name() != n {
+		// Configured rename doesn't match what we found. Return an error - it'll be wrapped with property details
+		// by CreateTypeConversion() so we only need the specific details here
+		return errors.Errorf(
+			"configuration includes rename of %s to %s, but found %s",
+			earlier.Name(),
+			n,
+			later.Name())
+	}
+	return nil
 }
