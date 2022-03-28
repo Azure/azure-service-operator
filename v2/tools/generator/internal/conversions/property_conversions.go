@@ -74,6 +74,7 @@ func init() {
 		assignPrimitiveFromEnum,
 		// Complex object definitions
 		assignObjectFromObject,
+		assignObjectToObject,
 		// Known definitions
 		copyKnownType(astmodel.KnownResourceReferenceType, "Copy", returnsValue),
 		copyKnownType(astmodel.ResourceReferenceType, "Copy", returnsValue),
@@ -1245,8 +1246,6 @@ func assignPrimitiveFromEnum(
 // assignObjectFromObject will generate a conversion if both properties are TypeNames
 // referencing ObjectType definitions and neither property is optional
 //
-// For ConvertFrom:
-//
 // var <local> <destinationType>
 // err := <local>.ConvertFrom(<source>)
 // if err != nil {
@@ -1254,19 +1253,15 @@ func assignPrimitiveFromEnum(
 // }
 // <destination> = <local>
 //
-// For ConvertTo:
-//
-// var <local> <destinationType>
-// err := <source>.ConvertTo(&<local>)
-// if err != nil {
-//     return errors.Wrap(err, "while calling <local>.ConvertTo(<source>)")
-// }
-// <destination> = <local>
-//
 func assignObjectFromObject(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
+
+	// Require expected direction
+	if conversionContext.direction != ConvertFrom {
+		return nil, nil
+	}
 
 	// Require destination to not be a bag item
 	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
@@ -1337,23 +1332,119 @@ func assignObjectFromObject(
 
 		declaration := astbuilder.LocalVariableDeclaration(copyVar, createTypeDeclaration(destinationName, generationContext), "")
 
-		var functionName string
-		var conversion dst.Stmt
-		if conversionContext.direction == ConvertFrom {
-			// Destination is our current type
-			functionName = NameOfPropertyAssignmentFunction(sourceName, ConvertFrom, conversionContext.idFactory)
-			conversion = astbuilder.AssignmentStatement(
-				errLocal,
-				tok,
-				astbuilder.CallExpr(localId, functionName, astbuilder.AddrOf(reader)))
-		} else {
-			// Destination is another type
-			functionName = NameOfPropertyAssignmentFunction(destinationName, ConvertTo, conversionContext.idFactory)
-			conversion = astbuilder.AssignmentStatement(
-				errLocal,
-				tok,
-				astbuilder.CallExpr(reader, functionName, astbuilder.AddrOf(localId)))
+		functionName := NameOfPropertyAssignmentFunction(sourceName, ConvertFrom, conversionContext.idFactory)
+		conversion := astbuilder.AssignmentStatement(
+			errLocal,
+			tok,
+			astbuilder.CallExpr(localId, functionName, astbuilder.AsReference(reader)))
+
+		checkForError := astbuilder.ReturnIfNotNil(
+			errLocal,
+			astbuilder.WrappedErrorf(
+				errorsPackageName,
+				"calling %s() to %s",
+				functionName,
+				describeAssignment(sourceEndpoint, destinationEndpoint)))
+
+		assignment := writer(dst.NewIdent(copyVar))
+		return astbuilder.Statements(declaration, conversion, checkForError, assignment)
+	}, nil
+}
+
+// assignObjectToObject will generate a conversion if both properties are TypeNames
+// referencing ObjectType definitions and neither property is optional
+//
+// var <local> <destinationType>
+// err := <source>.ConvertTo(&<local>)
+// if err != nil {
+//     return errors.Wrap(err, "while calling <local>.ConvertTo(<source>)")
+// }
+// <destination> = <local>
+//
+func assignObjectToObject(
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
+	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
+
+	// Require expected direction
+	if conversionContext.direction != ConvertTo {
+		return nil, nil
+	}
+
+	// Require destination to not be a bag item
+	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
+		return nil, nil
+	}
+
+	// Require source to not be a bag item
+	if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
+		return nil, nil
+	}
+
+	// Require source to be non-optional
+	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
+		return nil, nil
+	}
+
+	// Require destination to be non-optional
+	if _, destinationIsOptional := astmodel.AsOptionalType(destinationEndpoint.Type()); destinationIsOptional {
+		return nil, nil
+	}
+
+	// Require source to be the name of an object
+	sourceName, sourceType, sourceFound := conversionContext.ResolveType(sourceEndpoint.Type())
+	if !sourceFound {
+		return nil, nil
+	}
+	if _, sourceIsObject := astmodel.AsObjectType(sourceType); !sourceIsObject {
+		return nil, nil
+	}
+
+	// Require destination to be the name of an object
+	destinationName, destinationType, destinationFound := conversionContext.ResolveType(destinationEndpoint.Type())
+	if !destinationFound {
+		return nil, nil
+	}
+	_, destinationIsObject := astmodel.AsObjectType(destinationType)
+	if !destinationIsObject {
+		return nil, nil
+	}
+
+	// If the two definitions have different names, require an explicit rename from one to the other
+	//
+	// Challenge: If we can detect incorrect renaming configuration here, why do we need that configuration at all?
+	// Answer: Because we need to use that configuration other places (such as ConversionGraph) where we don't have
+	// the right information to infer correctly.
+	//
+	if sourceName.Name() != destinationName.Name() {
+		err := validateTypeRename(sourceName, destinationName, conversionContext)
+		if err != nil {
+			return nil, err
 		}
+	}
+
+	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+		copyVar := knownLocals.CreateSingularLocal(destinationEndpoint.Name(), "", "Local", "Copy", "Temp")
+
+		// We have to do this at render time in order to ensure the first conversion generated
+		// declares 'err', not a later one
+		tok := token.ASSIGN
+		if knownLocals.TryCreateLocal("err") {
+			tok = token.DEFINE
+		}
+
+		localId := dst.NewIdent(copyVar)
+		errLocal := dst.NewIdent("err")
+
+		errorsPackageName := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
+
+		declaration := astbuilder.LocalVariableDeclaration(copyVar, createTypeDeclaration(destinationName, generationContext), "")
+
+		functionName := NameOfPropertyAssignmentFunction(destinationName, ConvertTo, conversionContext.idFactory)
+		conversion := astbuilder.AssignmentStatement(
+			errLocal,
+			tok,
+			astbuilder.CallExpr(reader, functionName, astbuilder.AddrOf(localId)))
 
 		checkForError := astbuilder.ReturnIfNotNil(
 			errLocal,
