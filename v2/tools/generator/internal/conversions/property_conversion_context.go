@@ -55,6 +55,13 @@ func (c *PropertyConversionContext) IDFactory() astmodel.IdentifierFactory {
 	return c.idFactory
 }
 
+// WithConfiguration returns a new context with the specified configuration included
+func (c *PropertyConversionContext) WithConfiguration(configuration *config.ObjectModelConfiguration) *PropertyConversionContext {
+	result := c.clone()
+	result.configuration = configuration
+	return result
+}
+
 // WithFunctionName returns a new context with the specified function name included
 func (c *PropertyConversionContext) WithFunctionName(name string) *PropertyConversionContext {
 	result := c.clone()
@@ -100,6 +107,10 @@ func (c *PropertyConversionContext) PropertyBagName() string {
 // TypeRename looks up a type-rename for the specified type, returning the new name and nil if found, or empty string
 // and an error if not.
 func (c *PropertyConversionContext) TypeRename(name astmodel.TypeName) (string, error) {
+	if c.configuration == nil {
+		return name.Name(), nil
+	}
+
 	return c.configuration.LookupNameInNextVersion(name)
 }
 
