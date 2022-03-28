@@ -65,10 +65,10 @@ func (r *azureDeploymentReconcilerInstance) CreateOrUpdate(ctx context.Context) 
 	r.Log.V(Verbose).Info("Reconciling resource", "action", action)
 
 	result, err := actionFunc(ctx)
-
 	if err != nil {
 		r.Log.Error(err, "Error during CreateOrUpdate", "action", action)
 		r.Recorder.Event(r.Obj, v1.EventTypeWarning, "CreateOrUpdateActionError", err.Error())
+
 		return ctrl.Result{}, err
 	}
 

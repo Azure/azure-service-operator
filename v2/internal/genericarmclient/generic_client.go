@@ -96,7 +96,11 @@ func (client *GenericClient) ClientOptions() *arm.ClientOptions {
 	return client.opts
 }
 
-func (client *GenericClient) BeginCreateOrUpdateByID(ctx context.Context, resourceID, apiVersion string, resource interface{}) (*PollerResponse, error) {
+func (client *GenericClient) BeginCreateOrUpdateByID(
+	ctx context.Context,
+	resourceID string,
+	apiVersion string,
+	resource interface{}) (*PollerResponse, error) {
 	// The linter doesn't realize that the response is closed in the course of
 	// the autorest.NewPoller call below. Suppressing it as it is a false positive.
 	// nolint:bodyclose
@@ -118,7 +122,7 @@ func (client *GenericClient) BeginCreateOrUpdateByID(ctx context.Context, resour
 
 func (client *GenericClient) createOrUpdateByID(
 	ctx context.Context,
-	resourceID,
+	resourceID string,
 	apiVersion string,
 	resource interface{}) (*http.Response, error) {
 
@@ -225,7 +229,7 @@ func (client *GenericClient) getByIDHandleResponse(resp *http.Response, resource
 
 // DeleteByID - Deletes a resource by ID.
 // If the operation fails it returns the *CloudError error type.
-func (client *GenericClient) DeleteByID(ctx context.Context, resourceID, apiVersion string) (time.Duration, error) {
+func (client *GenericClient) DeleteByID(ctx context.Context, resourceID string, apiVersion string) (time.Duration, error) {
 	resp, err := client.deleteByID(ctx, resourceID, apiVersion)
 	retryAfter := GetRetryAfter(resp)
 	if err != nil {
@@ -237,7 +241,7 @@ func (client *GenericClient) DeleteByID(ctx context.Context, resourceID, apiVers
 
 // DeleteByID - Deletes a resource by ID.
 // If the operation fails it returns the *CloudError error type.
-func (client *GenericClient) deleteByID(ctx context.Context, resourceID, apiVersion string) (*http.Response, error) {
+func (client *GenericClient) deleteByID(ctx context.Context, resourceID string, apiVersion string) (*http.Response, error) {
 	req, err := client.deleteByIDCreateRequest(ctx, resourceID, apiVersion)
 	if err != nil {
 		return nil, err

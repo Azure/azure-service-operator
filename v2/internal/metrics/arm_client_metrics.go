@@ -14,12 +14,12 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/metrics"
 )
 
-type HttpMethod string
+type HTTPMethod string
 
 const (
-	HttpPut    HttpMethod = http.MethodPut
-	HttpDelete HttpMethod = http.MethodDelete
-	HttpGet    HttpMethod = http.MethodGet
+	HttpPut    HTTPMethod = http.MethodPut
+	HttpDelete HTTPMethod = http.MethodDelete
+	HttpGet    HTTPMethod = http.MethodGet
 )
 
 type ARMClientMetrics struct {
@@ -60,16 +60,16 @@ func (a ARMClientMetrics) RegisterMetrics() {
 }
 
 // RecordAzureRequestsTotal records the total(failed + successful) number requests to ARM by increasing the counter.
-func (a ARMClientMetrics) RecordAzureRequestsTotal(resourceName string, statusCode int, method HttpMethod) {
+func (a ARMClientMetrics) RecordAzureRequestsTotal(resourceName string, statusCode int, method HTTPMethod) {
 	a.azureRequestsTotal.WithLabelValues(resourceName, string(method), strconv.Itoa(statusCode)).Inc()
 }
 
 // RecordAzureFailedRequestsTotal records the number of failed requests to ARM.
-func (a ARMClientMetrics) RecordAzureFailedRequestsTotal(resourceName string, method HttpMethod) {
+func (a ARMClientMetrics) RecordAzureFailedRequestsTotal(resourceName string, method HTTPMethod) {
 	a.azureFailedRequestsTotal.WithLabelValues(resourceName, string(method)).Inc()
 }
 
 // RecordAzureRequestsTime records the round-trip time taken by the request to ARM.
-func (a ARMClientMetrics) RecordAzureRequestsTime(resourceName string, requestTime time.Duration, method HttpMethod) {
+func (a ARMClientMetrics) RecordAzureRequestsTime(resourceName string, requestTime time.Duration, method HTTPMethod) {
 	a.azureRequestsTime.WithLabelValues(resourceName, string(method)).Observe(requestTime.Seconds())
 }
