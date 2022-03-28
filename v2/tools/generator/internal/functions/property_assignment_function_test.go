@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/conversions"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
@@ -374,4 +375,59 @@ func TestGolden_PropertyAssignmentFunction_WhenTypeRenamed(t *testing.T) {
 	// "Where" and "Venue" for the later version. The types are visible in declarations of temporary variables,
 	// and in the name of the Assign*() functions.
 	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "PropertyTypeRenamed", receiverDefinition)
+}
+
+func TestGolden_PropertyAssignmentFunction_WhenSharedObjectVersion(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	idFactory := astmodel.NewIdentifierFactory()
+	injector := astmodel.NewFunctionInjector()
+
+	location2020 := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"Location",
+		test.FullAddressProperty)
+
+	location2021 := test.CreateObjectDefinition(
+		test.Pkg2021,
+		"Location",
+		test.FullAddressProperty)
+
+	location2022 := test.CreateObjectDefinition(
+		test.Pkg2022,
+		"Location",
+		test.FullAddressProperty)
+
+	person2020 := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"Person",
+		astmodel.NewPropertyDefinition("Residence", "residence", location2020.Name()))
+
+	person2022 := test.CreateObjectDefinition(
+		test.Pkg2022,
+		"Person",
+		astmodel.NewPropertyDefinition("Residence", "residence", location2022.Name()))
+
+	definitions := make(astmodel.TypeDefinitionSet)
+	definitions.AddAll(location2020, location2021, location2022)
+	definitions.AddAll(person2020, person2022)
+
+	cfg := config.NewObjectModelConfiguration()
+	builder := storage.NewConversionGraphBuilder(cfg, "v")
+	builder.Add(test.Pkg2020, test.Pkg2021, test.Pkg2022)
+	graph, err := builder.Build()
+	g.Expect(err).To(BeNil())
+
+	conversionContext := conversions.NewPropertyConversionContext(definitions, idFactory).WithConversionGraph(graph)
+
+	assignFrom, err := NewPropertyAssignmentFunction(person2020, person2022, conversionContext, conversions.ConvertFrom)
+	g.Expect(err).To(Succeed())
+
+	assignTo, err := NewPropertyAssignmentFunction(person2020, person2022, conversionContext, conversions.ConvertTo)
+	g.Expect(err).To(Succeed())
+
+	receiverDefinition, err := injector.Inject(person2020, assignFrom, assignTo)
+	g.Expect(err).To(Succeed())
+
+	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "SharedObject", receiverDefinition)
 }
