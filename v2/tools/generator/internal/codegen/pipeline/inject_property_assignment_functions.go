@@ -110,7 +110,8 @@ func (f propertyAssignmentFunctionsFactory) injectBetween(
 
 	// Create conversion functions
 	assignFromContext := conversions.NewPropertyConversionContext(f.definitions, f.idFactory).
-		WithConfiguration(f.configuration.ObjectModelConfiguration)
+		WithConfiguration(f.configuration.ObjectModelConfiguration).
+		WithConversionGraph(f.graph)
 	assignFromFn, err := functions.NewPropertyAssignmentFunction(upstreamDef, downstreamDef, assignFromContext, conversions.ConvertFrom)
 	upstreamName := upstreamDef.Name()
 	if err != nil {
@@ -118,7 +119,8 @@ func (f propertyAssignmentFunctionsFactory) injectBetween(
 	}
 
 	assignToContext := conversions.NewPropertyConversionContext(f.definitions, f.idFactory).
-		WithConfiguration(f.configuration.ObjectModelConfiguration)
+		WithConfiguration(f.configuration.ObjectModelConfiguration).
+		WithConversionGraph(f.graph)
 	assignToFn, err := functions.NewPropertyAssignmentFunction(upstreamDef, downstreamDef, assignToContext, conversions.ConvertTo)
 	if err != nil {
 		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating AssignTo() function for %q", upstreamName)

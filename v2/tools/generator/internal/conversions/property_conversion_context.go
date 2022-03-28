@@ -7,6 +7,7 @@ package conversions
 
 import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
@@ -25,17 +26,17 @@ type PropertyConversionContext struct {
 	configuration *config.ObjectModelConfiguration
 	// idFactory is used for generating method names
 	idFactory astmodel.IdentifierFactory
+	// conversionGraph optionally contains our package conversion graph
+	conversionGraph *storage.ConversionGraph
 }
 
 // NewPropertyConversionContext creates a new instance of a PropertyConversionContext
 func NewPropertyConversionContext(
 	definitions astmodel.TypeDefinitionSet,
-	idFactory astmodel.IdentifierFactory,
-	configuration *config.ObjectModelConfiguration) *PropertyConversionContext {
+	idFactory astmodel.IdentifierFactory) *PropertyConversionContext {
 	return &PropertyConversionContext{
 		definitions:     definitions,
 		idFactory:       idFactory,
-		configuration:   configuration,
 		propertyBagName: "",
 	}
 }
@@ -59,6 +60,13 @@ func (c *PropertyConversionContext) IDFactory() astmodel.IdentifierFactory {
 func (c *PropertyConversionContext) WithConfiguration(configuration *config.ObjectModelConfiguration) *PropertyConversionContext {
 	result := c.clone()
 	result.configuration = configuration
+	return result
+}
+
+// WithConversionGraph returns a new context with the specified conversion graph included
+func (c *PropertyConversionContext) WithConversionGraph(conversionGraph *storage.ConversionGraph) *PropertyConversionContext {
+	result := c.clone()
+	result.conversionGraph = conversionGraph
 	return result
 }
 
@@ -114,6 +122,16 @@ func (c *PropertyConversionContext) TypeRename(name astmodel.TypeName) (string, 
 	return c.configuration.LookupNameInNextVersion(name)
 }
 
+// FindNextType returns the next type in the storage conversion graph, if any.
+// If no conversion graph is available, returns an empty type name and no error.
+func (c *PropertyConversionContext) FindNextType(name astmodel.TypeName) (astmodel.TypeName, error) {
+	if c.conversionGraph == nil {
+		return astmodel.EmptyTypeName, nil
+	}
+
+	return c.conversionGraph.FindNextType(name, c.definitions)
+}
+
 // clone returns a new independent copy of this context
 func (c *PropertyConversionContext) clone() *PropertyConversionContext {
 	return &PropertyConversionContext{
@@ -123,5 +141,6 @@ func (c *PropertyConversionContext) clone() *PropertyConversionContext {
 		propertyBagName: c.propertyBagName,
 		idFactory:       c.idFactory,
 		configuration:   c.configuration,
+		conversionGraph: c.conversionGraph,
 	}
 }
