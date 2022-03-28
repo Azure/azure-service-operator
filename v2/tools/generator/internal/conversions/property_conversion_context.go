@@ -28,6 +28,8 @@ type PropertyConversionContext struct {
 	idFactory astmodel.IdentifierFactory
 	// conversionGraph optionally contains our package conversion graph
 	conversionGraph *storage.ConversionGraph
+	// additionalReferences is a reference to a shared set of additional package references needed by conversions
+	additionalReferences *astmodel.PackageReferenceSet
 }
 
 // NewPropertyConversionContext creates a new instance of a PropertyConversionContext
@@ -35,9 +37,10 @@ func NewPropertyConversionContext(
 	definitions astmodel.TypeDefinitionSet,
 	idFactory astmodel.IdentifierFactory) *PropertyConversionContext {
 	return &PropertyConversionContext{
-		definitions:     definitions,
-		idFactory:       idFactory,
-		propertyBagName: "",
+		definitions:          definitions,
+		idFactory:            idFactory,
+		propertyBagName:      "",
+		additionalReferences: astmodel.NewPackageReferenceSet(),
 	}
 }
 
@@ -91,6 +94,13 @@ func (c *PropertyConversionContext) WithPropertyBag(name string) *PropertyConver
 	return result
 }
 
+// WithPackageReferenceSet returns a new context that collects new package references
+func (c *PropertyConversionContext) WithPackageReferenceSet(set *astmodel.PackageReferenceSet) *PropertyConversionContext {
+	result := c.clone()
+	result.additionalReferences = set
+	return result
+}
+
 // ResolveType resolves a type that might be a type name into both the name and the actual
 // type it references, returning true iff it was a TypeName that could be resolved
 func (c *PropertyConversionContext) ResolveType(t astmodel.Type) (astmodel.TypeName, astmodel.Type, bool) {
@@ -130,6 +140,11 @@ func (c *PropertyConversionContext) FindNextType(name astmodel.TypeName) (astmod
 	}
 
 	return c.conversionGraph.FindNextType(name, c.definitions)
+}
+
+// AddPackageReference adds a new reference that's needed by the given conversion
+func (c *PropertyConversionContext) AddPackageReference(ref astmodel.PackageReference) {
+	c.additionalReferences.AddReference(ref)
 }
 
 // clone returns a new independent copy of this context

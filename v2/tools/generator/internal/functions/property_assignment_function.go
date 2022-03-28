@@ -43,6 +43,8 @@ type PropertyAssignmentFunction struct {
 	readsFromPropertyBag bool
 	// writesToPropertyBag keeps track of whether we will be writing property values into a property bag
 	writesToPropertyBag bool
+	// packageReferences is our set of referenced packages
+	packageReferences *astmodel.PackageReferenceSet
 }
 
 // StoragePropertyConversion represents a function that generates the correct AST to convert a single property value
@@ -88,6 +90,10 @@ func NewPropertyAssignmentFunction(
 		conversions:        make(map[string]StoragePropertyConversion),
 		receiverName:       receiverName,
 		parameterName:      parameterName,
+		packageReferences: astmodel.NewPackageReferenceSet(
+			astmodel.GitHubErrorsReference,
+			astmodel.GenRuntimeReference,
+			otherDefinition.Name().PackageReference),
 	}
 
 	// Flag receiver and parameter names as used
@@ -106,7 +112,8 @@ func NewPropertyAssignmentFunction(
 
 	result.conversionContext = conversionContext.WithFunctionName(result.Name()).
 		WithDirection(direction).
-		WithPropertyBag(propertyBagName)
+		WithPropertyBag(propertyBagName).
+		WithPackageReferenceSet(result.packageReferences)
 
 	err := result.createConversions(sourceEndpoints, destinationEndpoints)
 	if err != nil {
@@ -123,12 +130,7 @@ func (fn *PropertyAssignmentFunction) Name() string {
 
 // RequiredPackageReferences returns the set of package references required by this function
 func (fn *PropertyAssignmentFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
-	result := astmodel.NewPackageReferenceSet(
-		astmodel.GitHubErrorsReference,
-		astmodel.GenRuntimeReference,
-		fn.otherDefinition.Name().PackageReference)
-
-	return result
+	return fn.packageReferences
 }
 
 // References returns the set of types referenced by this function
@@ -389,7 +391,10 @@ func (fn *PropertyAssignmentFunction) createConversion(
 	sourceEndpoint *conversions.ReadableConversionEndpoint,
 	destinationEndpoint *conversions.WritableConversionEndpoint) (StoragePropertyConversion, error) {
 
-	conversion, err := conversions.CreateTypeConversion(sourceEndpoint.Endpoint(), destinationEndpoint.Endpoint(), fn.conversionContext)
+	conversion, err := conversions.CreateTypeConversion(
+		sourceEndpoint.Endpoint(),
+		destinationEndpoint.Endpoint(),
+		fn.conversionContext)
 	if err != nil {
 		return nil, errors.Wrapf(
 			err,
