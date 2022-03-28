@@ -135,7 +135,7 @@ func (client *GenericClient) createOrUpdateByID(
 	resp, err := client.pl.Do(req)
 
 	// Ignoring error here as resourceID would always be correct at this stage.
-	resourceType, _ := metrics.GetTypeFromResourceID(resourceID)
+	resourceType := metrics.GetTypeFromResourceID(resourceID)
 
 	client.metrics.RecordAzureRequestsTime(resourceType, time.Since(requestStartTime), metrics.HttpPut)
 	client.metrics.RecordAzureRequestsTotal(resourceType, resp.StatusCode, metrics.HttpPut)
@@ -251,7 +251,7 @@ func (client *GenericClient) deleteByID(ctx context.Context, resourceID string, 
 	resp, err := client.pl.Do(req)
 
 	// Ignoring error here as resourceID would always be correct at this stage.
-	resourceType, _ := metrics.GetTypeFromResourceID(resourceID)
+	resourceType := metrics.GetTypeFromResourceID(resourceID)
 
 	client.metrics.RecordAzureRequestsTime(resourceType, time.Since(requestStartTime), metrics.HttpDelete)
 	client.metrics.RecordAzureRequestsTotal(resourceType, resp.StatusCode, metrics.HttpDelete)
