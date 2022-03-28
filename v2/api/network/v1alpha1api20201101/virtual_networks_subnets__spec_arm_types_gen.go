@@ -6,17 +6,11 @@ package v1alpha1api20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type VirtualNetworksSubnets_SpecARM struct {
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
 	//Name: Name of the resource
 	Name string `json:"name,omitempty"`
 
 	//Properties: Properties of the subnet.
 	Properties *VirtualNetworksSubnets_Spec_PropertiesARM `json:"properties,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &VirtualNetworksSubnets_SpecARM{}

@@ -23,18 +23,20 @@ import (
 // └──────────────────────────┘       └────────────────────┘       └──────────────────────┘       └───────────────────┘       ╚═══════════════════════╝
 //
 type PropertyConfiguration struct {
-	name              string
-	nameInNextVersion configurableString // Name this property has in the next version
-	armReference      configurableBool   // Specify whether this property is an ARM reference
-	isSecret          configurableBool   // Specify whether this property is a secret
+	name                             string
+	nameInNextVersion                configurableString // Name this property has in the next version
+	armReference                     configurableBool   // Specify whether this property is an ARM reference
+	isSecret                         configurableBool   // Specify whether this property is a secret
+	isResourceLifecycleOwnedByParent configurableBool
 }
 
 const (
-	armReferenceTag      = "$armReference"      // Bool specifying whether a property is an ARM reference
-	exportTag            = "$export"            // Boolean specifying whether a resource type is exported
-	exportAsTag          = "$exportAs"          // String specifying the name to use for a type (implies $export: true)
-	nameInNextVersionTag = "$nameInNextVersion" // String specifying a type or property name change in the next version
-	isSecretTag          = "$isSecret"          // Bool specifying whether a property contains a secret
+	armReferenceTag                     = "$armReference"                     // Bool specifying whether a property is an ARM reference
+	exportTag                           = "$export"                           // Boolean specifying whether a resource type is exported
+	exportAsTag                         = "$exportAs"                         // String specifying the name to use for a type (implies $export: true)
+	nameInNextVersionTag                = "$nameInNextVersion"                // String specifying a type or property name change in the next version
+	isSecretTag                         = "$isSecret"                         // Bool specifying whether a property contains a secret
+	isResourceLifecycleOwnedByParentTag = "$isResourceLifecycleOwnedByParent" // Bool specifying whether a property represents a subresource whose lifecycle is owned by the parent resource
 )
 
 // NewPropertyConfiguration returns a new (empty) property configuration
@@ -69,7 +71,8 @@ func (pc *PropertyConfiguration) VerifyARMReferenceConsumed() error {
 func (pc *PropertyConfiguration) IsSecret() (bool, error) {
 	isSecret, ok := pc.isSecret.read()
 	if !ok {
-		return false, errors.Errorf(isSecretTag+" not specified for property %s", pc.name)
+		msg := fmt.Sprintf(isSecretTag+" not specified for property %s", pc.name)
+		return false, NewNotConfiguredError(msg)
 	}
 
 	return isSecret, nil
@@ -105,6 +108,33 @@ func (pc *PropertyConfiguration) VerifyRenamedInNextVersionConsumed() error {
 	return nil
 }
 
+// IsResourceLifecycleOwnedByParent looks up a property to determine if it's a misbehaving embedded resource
+func (pc *PropertyConfiguration) IsResourceLifecycleOwnedByParent() (bool, error) {
+	isResourceLifecycleOwnedByParent, ok := pc.isResourceLifecycleOwnedByParent.read()
+	if !ok {
+		msg := fmt.Sprintf(isResourceLifecycleOwnedByParentTag+" not specified for property %s", pc.name)
+		return false, NewNotConfiguredError(msg)
+	}
+
+	return isResourceLifecycleOwnedByParent, nil
+}
+
+// ClearResourceLifecycleOwnedByParentConsumed clears the consumed bit for this flag so that it can be reused
+func (pc *PropertyConfiguration) ClearResourceLifecycleOwnedByParentConsumed() {
+	pc.isResourceLifecycleOwnedByParent.markUnconsumed()
+}
+
+// VerifyIsResourceLifecycleOwnedByParentConsumed returns an error if our configuration has the
+// misbehavingEmbeddedResource flag and it was not consumed.
+func (pc *PropertyConfiguration) VerifyIsResourceLifecycleOwnedByParentConsumed() error {
+	if pc.isResourceLifecycleOwnedByParent.isUnconsumed() {
+		v, _ := pc.isResourceLifecycleOwnedByParent.read()
+		return errors.Errorf("property %s: "+isResourceLifecycleOwnedByParentTag+": %t not consumed", pc.name, v)
+	}
+
+	return nil
+}
+
 // UnmarshalYAML populates our instance from the YAML.
 // The slice node.Content contains pairs of nodes, first one for an ID, then one for the value.
 func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
@@ -135,6 +165,18 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			}
 
 			pc.isSecret.write(isSecret)
+			continue
+		}
+
+		// $isResourceLifecycleOwnedByParent: <bool>
+		if strings.EqualFold(lastId, isResourceLifecycleOwnedByParentTag) && c.Kind == yaml.ScalarNode {
+			var isResourceLifecycleOwnedByParent bool
+			err := c.Decode(&isResourceLifecycleOwnedByParent)
+			if err != nil {
+				return errors.Wrapf(err, "decoding %s", isResourceLifecycleOwnedByParentTag)
+			}
+
+			pc.isResourceLifecycleOwnedByParent.write(isResourceLifecycleOwnedByParent)
 			continue
 		}
 

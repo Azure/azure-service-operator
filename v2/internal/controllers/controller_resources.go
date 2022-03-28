@@ -25,6 +25,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
+	networkalphastorage "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101storage"
 	resourcesalpha "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
 	resourcesbeta "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
@@ -39,7 +40,27 @@ func GetKnownStorageTypes() []*registration.StorageType {
 		knownStorageTypes,
 		registration.NewStorageType(&resourcesbeta.ResourceGroup{}))
 
+	// TODO: Modifying this list would be easier if it were a map
+	for _, t := range knownStorageTypes {
+		if _, ok := t.Obj.(*networkalphastorage.VirtualNetworksSubnet); ok {
+			t.Indexes = append(t.Indexes, registration.Index{
+				Key:  ".metadata.ownerReferences[0]",
+				Func: indexOwner,
+			})
+		}
+	}
+
 	return knownStorageTypes
+}
+
+func indexOwner(rawObj client.Object) []string {
+	owners := rawObj.GetOwnerReferences()
+	if len(owners) == 0 {
+		return nil
+	}
+
+	// Only works for 1 owner now but that's fine
+	return []string{string(owners[0].UID)}
 }
 
 func GetKnownTypes() []client.Object {

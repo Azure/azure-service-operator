@@ -48,25 +48,10 @@ func (gc *GroupConfiguration) add(version *VersionConfiguration) {
 	// Convert version.name into a package version
 	// We do this by constructing a local package reference because this avoids replicating the logic here and risking
 	// inconsistency if things are changed in the future.
-	local := astmodel.MakeLocalPackageReference("prefix", "group", astmodel.GeneratorVersionPrefix, version.name)
-	_, lv, ok := local.GroupVersion()
-	if !ok {
-		msg := fmt.Sprintf("local package reference %s unexpectedly failed to return GroupVersion()", local)
-		panic(msg)
-	}
-
-	// Convert version.name into a storage package version
-	// We do this by constructing a storage package reference for reasons similar to above.
-	storage := astmodel.MakeStoragePackageReference(local)
-	_, sv, ok := storage.GroupVersion()
-	if !ok {
-		msg := fmt.Sprintf("storage package reference %s unexpectedly failed to return GroupVersion()", storage)
-		panic(msg)
-	}
+	local := astmodel.MakeLocalPackageReference("prefix", "group", astmodel.GeneratorVersion, version.name)
 
 	gc.versions[strings.ToLower(version.name)] = version
-	gc.versions[strings.ToLower(lv)] = version
-	gc.versions[strings.ToLower(sv)] = version
+	gc.versions[strings.ToLower(local.ApiVersion())] = version
 }
 
 // visitVersion invokes the provided visitor on the specified version if present.
@@ -75,7 +60,7 @@ func (gc *GroupConfiguration) visitVersion(
 	name astmodel.TypeName,
 	visitor *configurationVisitor,
 ) error {
-	vc, err := gc.findVersion(name)
+	vc, err := gc.findVersion(name.PackageReference)
 	if err != nil {
 		return err
 	}
@@ -108,18 +93,32 @@ func (gc *GroupConfiguration) visitVersions(visitor *configurationVisitor) error
 		gc.name)
 }
 
-// findVersion uses the provided TypeName to work out which nested VersionConfiguration should be used
-func (gc *GroupConfiguration) findVersion(name astmodel.TypeName) (*VersionConfiguration, error) {
-	ref := name.PackageReference
-	if s, ok := ref.(astmodel.StoragePackageReference); ok {
-		// If we have a storage package reference, need to unwrap the actual local package reference
-		// as all our configuration is based on API versions, not storage versions
-		ref = s.Local()
+// findVersion uses the provided PackageReference to work out which nested VersionConfiguration should be used
+func (gc *GroupConfiguration) findVersion(ref astmodel.PackageReference) (*VersionConfiguration, error) {
+	switch r := ref.(type) {
+	case astmodel.StoragePackageReference:
+		return gc.findVersion(r.Local())
+	case astmodel.LocalPackageReference:
+		return gc.findVersionForLocalPackageReference(r)
 	}
 
+	panic(fmt.Sprintf("didn't expect PackageReference of type %T", ref))
+}
+
+// findVersion uses the provided LocalPackageReference to work out which nested VersionConfiguration should be used
+func (gc *GroupConfiguration) findVersionForLocalPackageReference(ref astmodel.LocalPackageReference) (*VersionConfiguration, error) {
+	gc.advisor.AddTerm(ref.ApiVersion())
 	gc.advisor.AddTerm(ref.PackageName())
-	v := strings.ToLower(ref.PackageName())
-	if version, ok := gc.versions[v]; ok {
+
+	// Check based on the ApiVersion alone
+	apiKey := strings.ToLower(ref.ApiVersion())
+	if version, ok := gc.versions[apiKey]; ok {
+		return version, nil
+	}
+
+	// Also check the entire package name (allows config to specify just a particular generator version if needed)
+	pkgKey := strings.ToLower(ref.PackageName())
+	if version, ok := gc.versions[pkgKey]; ok {
 		return version, nil
 	}
 
