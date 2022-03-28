@@ -80,7 +80,7 @@ jobs:
           github_token: ${{ secrets.GH_PAT }}
           source_branch: bot/update-helm-chart
           target_branch: main
-          title: [Automated] Add Helm Chart
+          title: "[Automated] Add Helm Chart"
           body: "Add new helm chart for latest release"
           label: "automated pr"
           get_diff: true
