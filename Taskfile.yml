@@ -223,11 +223,14 @@ tasks:
     desc: Builds the {{.CONTROLLER_APP}} Docker image.
     dir: "{{.CONTROLLER_ROOT}}"
     deps: [controller:build]
+    run: always
     sources:
     - Dockerfile
     - ./bin/{{.CONTROLLER_APP}}
     cmds:
     - docker build . -t {{.CONTROLLER_DOCKER_IMAGE}}
+    status:
+    - "docker manifest inspect {{.CONTROLLER_DOCKER_IMAGE}} > /dev/null"
 
   controller:docker-build-and-save:
     desc: Builds the {{.CONTROLLER_APP}} Docker image and saves it using docker save.
@@ -248,9 +251,12 @@ tasks:
     desc: Pushes the controller container image to a local registry
     deps: [controller:docker-build]
     dir: "{{.CONTROLLER_ROOT}}"
+    run: always
     cmds:
     - docker tag {{.CONTROLLER_DOCKER_IMAGE}} {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}}
     - docker push {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}}
+    status:
+    - "docker manifest inspect {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} > /dev/null"
 
   controller:test-integration-envtest:
     desc: Run integration tests with envtest using record/replay.
