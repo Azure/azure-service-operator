@@ -81,8 +81,6 @@ jobs:
           source_branch: bot/update-helm-chart
           target_branch: main
           title: [Automated] Add Helm Chart
-          body: |
-            Add new helm chart for latest release
-          label: |
-            automated pr
+          body: "Add new helm chart for latest release"
+          label: "automated pr"
           get_diff: true
