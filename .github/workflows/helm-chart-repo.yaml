@@ -67,12 +67,11 @@ jobs:
           container_id=${{steps.devcontainer.outputs.id}}
           docker exec "$container_id" task controller:gen-helm-manifest
 
-      - name: Create commits
-        run: |
-          git config user.name 'GH Workflow'
-          git config user.email 'super-harsh@users.noreply.github.com'
-          git add v2/charts
-          git commit -m "Add Helm Chart"
+      - name: Commit and push changes
+        uses: devops-infra/action-commit-push@v0.9.0
+        with:
+          github_token: ${{ secrets.GH_PAT }}
+          commit_message: Add Helm Chart
 
       - name: Create Pull Request
         uses: devops-infra/action-pull-request@v0.4.2
