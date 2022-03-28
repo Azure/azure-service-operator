@@ -2,7 +2,18 @@ apiVersion: v1
 entries:
   azure-service-operator:
   - apiVersion: v2
-    created: "2022-03-03T16:41:18.238942+13:00"
+    created: "2022-03-28T02:15:14.857730784Z"
+    description: Deploy components and dependencies of azure-service-operator
+    digest: 18c46c89ec8d898378568d2f650f810405dbd539b749294b5dcc42cfb8ea19bb
+    home: https://github.com/Azure/azure-service-operator/v2
+    name: azure-service-operator
+    sources:
+    - https://github.com/Azure/azure-service-operator/v2
+    urls:
+    - azure-service-operator-v2.0.0-alpha.6-rev.78.tgz
+    version: v2.0.0-alpha.6-rev.78
+  - apiVersion: v2
+    created: "2022-03-28T02:15:14.874946694Z"
     description: Deploy components and dependencies of azure-service-operator
     digest: 644b1f9e38f7cd868963e52dc449cbb16231c10b3ee0ba303e864f1a392444fb
     home: https://github.com/Azure/azure-service-operator/v2
@@ -12,4 +23,4 @@ entries:
     urls:
     - azure-service-operator-v2.0.0-alpha.6.tgz
     version: v2.0.0-alpha.6
-generated: "2022-03-03T16:41:18.225231+13:00"
+generated: "2022-03-28T02:15:14.836696472Z"

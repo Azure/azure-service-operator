@@ -42,6 +42,6 @@ azureOperatorMode: ""
 # corresponding CRD yaml in the cart (and so no CRD in the k8s
 # repository).
 image:
-  repository: mcr.microsoft.com/k8s/azureserviceoperator:v2.0.0-alpha.6
+  repository: mcr.microsoft.com/k8s/azureserviceoperator:v2.0.0-alpha.6-rev.78
   kubeRBACProxy: gcr.io/kubebuilder/kube-rbac-proxy:v0.4.1 
 
