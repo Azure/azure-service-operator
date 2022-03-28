@@ -34,7 +34,7 @@ jobs:
           registry: docker.pkg.github.com # ghcr.io not yet enabled for Azure org
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: Build devcontainer image
         # We must issue a manual pull before the build so the image gets copied locally, because
         # docker.pkg.github.com is not a valid Docker registry and doesn't work with --cache-from,
@@ -67,11 +67,15 @@ jobs:
           container_id=${{steps.devcontainer.outputs.id}}
           docker exec "$container_id" task controller:gen-helm-manifest
 
+      - name: Create commits
+        run: |
+          git add v2/charts
+          git commit -m "Add Helm Chart"
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.GH_PAT }}
-          commit-message: Add helm chart
           branch: bot/update-helm-chart
           base: main
           delete-branch: true
