@@ -18,7 +18,7 @@ import (
 /*
  * This file contains tests for failures creating property conversions
  *
- * Tests for successfully created property conversions are found in property_conversion_function_test.go as the best
+ * Tests for successfully created property conversions are found in property_assignment_function_test.go as the best
  * way to verify those creations are created properly is to render them as code into a golden file.
  */
 
