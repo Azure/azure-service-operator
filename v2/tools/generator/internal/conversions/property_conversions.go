@@ -73,8 +73,8 @@ func init() {
 		assignEnumFromEnum,
 		assignPrimitiveFromEnum,
 		// Complex object definitions
-		assignObjectFromObject,
-		assignObjectToObject,
+		assignObjectDirectlyFromObject,
+		assignObjectDirectlyToObject,
 		// Known definitions
 		copyKnownType(astmodel.KnownResourceReferenceType, "Copy", returnsValue),
 		copyKnownType(astmodel.ResourceReferenceType, "Copy", returnsValue),
@@ -1243,17 +1243,17 @@ func assignPrimitiveFromEnum(
 	}, nil
 }
 
-// assignObjectFromObject will generate a conversion if both properties are TypeNames
-// referencing ObjectType definitions and neither property is optional
+// assignObjectDirectlyFromObject will generate a conversion if both properties are TypeNames referencing ObjectType
+//// definitions, neither property is optional, and the types are adjacent in our storage conversion graph.
 //
 // var <local> <destinationType>
-// err := <local>.ConvertFrom(<source>)
+// err := <local>.AssignPropertiesFrom(<source>)
 // if err != nil {
-//     return errors.Wrap(err, "while calling <local>.ConvertFrom(<source>)")
+//     return errors.Wrap(err, "while calling <local>.AssignPropertiesFrom(<source>)")
 // }
 // <destination> = <local>
 //
-func assignObjectFromObject(
+func assignObjectDirectlyFromObject(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
@@ -1365,17 +1365,17 @@ func assignObjectFromObject(
 	}, nil
 }
 
-// assignObjectToObject will generate a conversion if both properties are TypeNames
-// referencing ObjectType definitions and neither property is optional
+// assignObjectDirectlyToObject will generate a conversion if both properties are TypeNames referencing ObjectType
+// definitions, neither property is optional, and the types are adjacent in our storage conversion graph.
 //
 // var <local> <destinationType>
-// err := <source>.ConvertTo(&<local>)
+// err := <source>.AssignPropertiesTo(&<local>)
 // if err != nil {
-//     return errors.Wrap(err, "while calling <local>.ConvertTo(<source>)")
+//     return errors.Wrap(err, "while calling <local>.AssignPropertiesTo(<source>)")
 // }
 // <destination> = <local>
 //
-func assignObjectToObject(
+func assignObjectDirectlyToObject(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
