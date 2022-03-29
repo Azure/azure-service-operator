@@ -1,5 +1,3 @@
----
----
 <h2 id="authorization.azure.com/v1alpha1api20200801preview">authorization.azure.com/v1alpha1api20200801preview</h2>
 <div>
 <p>Package v1alpha1api20200801preview contains API Schema definitions for the authorization v1alpha1api20200801preview API group</p>
@@ -125,6 +123,9 @@ genruntime.ArbitraryOwnerReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
+extension resource, which means that any other Azure resource can be its owner.</p>
 </td>
 </tr>
 <tr>
@@ -859,6 +860,9 @@ genruntime.ArbitraryOwnerReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
+extension resource, which means that any other Azure resource can be its owner.</p>
 </td>
 </tr>
 <tr>

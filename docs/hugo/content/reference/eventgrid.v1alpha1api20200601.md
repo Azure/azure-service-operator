@@ -1,5 +1,3 @@
----
----
 <h2 id="eventgrid.azure.com/v1alpha1api20200601">eventgrid.azure.com/v1alpha1api20200601</h2>
 <div>
 <p>Package v1alpha1api20200601 contains API Schema definitions for the eventgrid v1alpha1api20200601 API group</p>
@@ -2317,6 +2315,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -3273,6 +3274,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a eventgrid.azure.com/Domain resource</p>
 </td>
 </tr>
 <tr>
@@ -3366,6 +3370,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a eventgrid.azure.com/Domain resource</p>
 </td>
 </tr>
 <tr>
@@ -3518,6 +3525,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -3921,6 +3931,9 @@ genruntime.ArbitraryOwnerReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
+extension resource, which means that any other Azure resource can be its owner.</p>
 </td>
 </tr>
 <tr>
@@ -5300,6 +5313,9 @@ genruntime.ArbitraryOwnerReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
+extension resource, which means that any other Azure resource can be its owner.</p>
 </td>
 </tr>
 <tr>
@@ -7564,6 +7580,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -8143,6 +8162,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>

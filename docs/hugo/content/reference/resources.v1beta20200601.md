@@ -1,10 +1,10 @@
-<h2 id="resources.azure.com/v1alpha1api20200601">resources.azure.com/v1alpha1api20200601</h2>
+<h2 id="resources.azure.com/v1beta20200601">resources.azure.com/v1beta20200601</h2>
 <div>
-<p>Package v1alpha1api20200601 contains API Schema definitions for the resources v1alpha1api20200601 API group</p>
+<p>Package v1beta20200601 contains API Schema definitions for the resources v1beta20200601 API group</p>
 </div>
 Resource Types:
 <ul></ul>
-<h3 id="resources.azure.com/v1alpha1api20200601.ResourceGroup">ResourceGroup
+<h3 id="resources.azure.com/v1beta20200601.ResourceGroup">ResourceGroup
 </h3>
 <div>
 </div>
@@ -34,7 +34,7 @@ Refer to the Kubernetes API documentation for the fields of the
 <td>
 <code>spec</code><br/>
 <em>
-<a href="#resources.azure.com/v1alpha1api20200601.ResourceGroupSpec">
+<a href="#resources.azure.com/v1beta20200601.ResourceGroupSpec">
 ResourceGroupSpec
 </a>
 </em>
@@ -95,7 +95,7 @@ map[string]string
 <td>
 <code>status</code><br/>
 <em>
-<a href="#resources.azure.com/v1alpha1api20200601.ResourceGroupStatus">
+<a href="#resources.azure.com/v1beta20200601.ResourceGroupStatus">
 ResourceGroupStatus
 </a>
 </em>
@@ -105,10 +105,10 @@ ResourceGroupStatus
 </tr>
 </tbody>
 </table>
-<h3 id="resources.azure.com/v1alpha1api20200601.ResourceGroupSpec">ResourceGroupSpec
+<h3 id="resources.azure.com/v1beta20200601.ResourceGroupSpec">ResourceGroupSpec
 </h3>
 <p>
-(<em>Appears on:</em><a href="#resources.azure.com/v1alpha1api20200601.ResourceGroup">ResourceGroup</a>)
+(<em>Appears on:</em><a href="#resources.azure.com/v1beta20200601.ResourceGroup">ResourceGroup</a>)
 </p>
 <div>
 </div>
@@ -167,7 +167,7 @@ map[string]string
 </tr>
 </tbody>
 </table>
-<h3 id="resources.azure.com/v1alpha1api20200601.ResourceGroupSpecARM">ResourceGroupSpecARM
+<h3 id="resources.azure.com/v1beta20200601.ResourceGroupSpecARM">ResourceGroupSpecARM
 </h3>
 <div>
 </div>
@@ -225,10 +225,10 @@ map[string]string
 </tr>
 </tbody>
 </table>
-<h3 id="resources.azure.com/v1alpha1api20200601.ResourceGroupStatus">ResourceGroupStatus
+<h3 id="resources.azure.com/v1beta20200601.ResourceGroupStatus">ResourceGroupStatus
 </h3>
 <p>
-(<em>Appears on:</em><a href="#resources.azure.com/v1alpha1api20200601.ResourceGroup">ResourceGroup</a>)
+(<em>Appears on:</em><a href="#resources.azure.com/v1beta20200601.ResourceGroup">ResourceGroup</a>)
 </p>
 <div>
 </div>
@@ -317,7 +317,7 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="resources.azure.com/v1alpha1api20200601.ResourceGroupStatusARM">ResourceGroupStatusARM
+<h3 id="resources.azure.com/v1beta20200601.ResourceGroupStatusARM">ResourceGroupStatusARM
 </h3>
 <div>
 </div>
@@ -385,7 +385,7 @@ map[string]string
 <td>
 <code>properties</code><br/>
 <em>
-<a href="#resources.azure.com/v1alpha1api20200601.ResourceGroupStatusPropertiesARM">
+<a href="#resources.azure.com/v1beta20200601.ResourceGroupStatusPropertiesARM">
 ResourceGroupStatusPropertiesARM
 </a>
 </em>
@@ -395,10 +395,10 @@ ResourceGroupStatusPropertiesARM
 </tr>
 </tbody>
 </table>
-<h3 id="resources.azure.com/v1alpha1api20200601.ResourceGroupStatusPropertiesARM">ResourceGroupStatusPropertiesARM
+<h3 id="resources.azure.com/v1beta20200601.ResourceGroupStatusPropertiesARM">ResourceGroupStatusPropertiesARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#resources.azure.com/v1alpha1api20200601.ResourceGroupStatusARM">ResourceGroupStatusARM</a>)
+(<em>Appears on:</em><a href="#resources.azure.com/v1beta20200601.ResourceGroupStatusARM">ResourceGroupStatusARM</a>)
 </p>
 <div>
 </div>
@@ -422,7 +422,7 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="resources.azure.com/v1alpha1api20200601.ResourceGroupType">ResourceGroupType
+<h3 id="resources.azure.com/v1beta20200601.ResourceGroupType">ResourceGroupType
 (<code>string</code> alias)</h3>
 <div>
 </div>

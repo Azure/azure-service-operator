@@ -1,5 +1,3 @@
----
----
 <h2 id="network.azure.com/v1alpha1api20201101">network.azure.com/v1alpha1api20201101</h2>
 <div>
 <p>Package v1alpha1api20201101 contains API Schema definitions for the network v1alpha1api20201101 API group</p>
@@ -5115,6 +5113,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -6140,6 +6141,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -8459,6 +8463,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -10477,6 +10484,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -10924,6 +10934,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -11619,6 +11632,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a network.azure.com/NetworkSecurityGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -11893,6 +11909,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a network.azure.com/NetworkSecurityGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -12116,6 +12135,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -13553,6 +13575,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -15439,6 +15464,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -17463,7 +17491,7 @@ string
 <h3 id="network.azure.com/v1alpha1api20201101.ServiceEndpointPropertiesFormat">ServiceEndpointPropertiesFormat
 </h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksSubnets_Spec">VirtualNetworksSubnets_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_Subnets">VirtualNetworks_Spec_Properties_Subnets</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksSubnets_Spec">VirtualNetworksSubnets_Spec</a>)
 </p>
 <div>
 <p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ServiceEndpointPropertiesFormat">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ServiceEndpointPropertiesFormat</a></p>
@@ -17647,7 +17675,7 @@ string
 <h3 id="network.azure.com/v1alpha1api20201101.SubResource">SubResource
 </h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.DdosSettings">DdosSettings</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses">LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_FrontendIPConfigurations">LoadBalancers_Spec_Properties_FrontendIPConfigurations</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_InboundNatPools">LoadBalancers_Spec_Properties_InboundNatPools</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_LoadBalancingRules">LoadBalancers_Spec_Properties_LoadBalancingRules</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_OutboundRules">LoadBalancers_Spec_Properties_OutboundRules</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaces_Spec">NetworkInterfaces_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaces_Spec_Properties_IpConfigurations">NetworkInterfaces_Spec_Properties_IpConfigurations</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkSecurityGroupsSecurityRules_Spec">NetworkSecurityGroupsSecurityRules_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddresses_Spec">PublicIPAddresses_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec">VirtualNetworkGateways_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_IpConfigurations">VirtualNetworkGateways_Spec_Properties_IpConfigurations</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksSubnets_Spec">VirtualNetworksSubnets_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksVirtualNetworkPeerings_Spec">VirtualNetworksVirtualNetworkPeerings_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec">VirtualNetworks_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_Subnets">VirtualNetworks_Spec_Properties_Subnets</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.DdosSettings">DdosSettings</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses">LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_FrontendIPConfigurations">LoadBalancers_Spec_Properties_FrontendIPConfigurations</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_InboundNatPools">LoadBalancers_Spec_Properties_InboundNatPools</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_LoadBalancingRules">LoadBalancers_Spec_Properties_LoadBalancingRules</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_OutboundRules">LoadBalancers_Spec_Properties_OutboundRules</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaces_Spec">NetworkInterfaces_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaces_Spec_Properties_IpConfigurations">NetworkInterfaces_Spec_Properties_IpConfigurations</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkSecurityGroupsSecurityRules_Spec">NetworkSecurityGroupsSecurityRules_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddresses_Spec">PublicIPAddresses_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec">VirtualNetworkGateways_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_IpConfigurations">VirtualNetworkGateways_Spec_Properties_IpConfigurations</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksSubnets_Spec">VirtualNetworksSubnets_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksVirtualNetworkPeerings_Spec">VirtualNetworksVirtualNetworkPeerings_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec">VirtualNetworks_Spec</a>)
 </p>
 <div>
 <p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/SubResource">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/SubResource</a></p>
@@ -18282,62 +18310,6 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetwork_SubResourceEmbedded">Subnet_Status_VirtualNetwork_SubResourceEmbedded
-</h3>
-<p>
-(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetwork_Status">VirtualNetwork_Status</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Resource ID.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetwork_SubResourceEmbeddedARM">Subnet_Status_VirtualNetwork_SubResourceEmbeddedARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPropertiesFormat_StatusARM">VirtualNetworkPropertiesFormat_StatusARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Resource ID.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded">Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded
 </h3>
 <p>
@@ -18921,19 +18893,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
-</td>
-</tr>
-<tr>
-<td>
-<code>subnets</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_Subnets">
-[]VirtualNetworks_Spec_Properties_Subnets
-</a>
-</em>
-</td>
-<td>
-<p>Subnets: A list of subnets in a Virtual Network.</p>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -19284,6 +19246,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -21128,6 +21093,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -22092,7 +22060,7 @@ VpnClientRootCertificatePropertiesFormatARM
 <h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworkPeeringPropertiesFormatARM">VirtualNetworkPeeringPropertiesFormatARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksVirtualNetworkPeerings_SpecARM">VirtualNetworksVirtualNetworkPeerings_SpecARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksVirtualNetworkPeerings_SpecARM">VirtualNetworksVirtualNetworkPeerings_SpecARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_VirtualNetworkPeeringsARM">VirtualNetworks_Spec_Properties_VirtualNetworkPeeringsARM</a>)
 </p>
 <div>
 <p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkPeeringPropertiesFormat">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkPeeringPropertiesFormat</a></p>
@@ -22692,62 +22660,6 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworkPeering_Status_SubResourceEmbedded">VirtualNetworkPeering_Status_SubResourceEmbedded
-</h3>
-<p>
-(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetwork_Status">VirtualNetwork_Status</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Resource ID.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworkPeering_Status_SubResourceEmbeddedARM">VirtualNetworkPeering_Status_SubResourceEmbeddedARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPropertiesFormat_StatusARM">VirtualNetworkPropertiesFormat_StatusARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Resource ID.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworkPropertiesFormat_StatusARM">VirtualNetworkPropertiesFormat_StatusARM
 </h3>
 <p>
@@ -22873,32 +22785,6 @@ string
 </td>
 <td>
 <p>ResourceGuid: The resourceGuid property of the Virtual Network resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>subnets</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetwork_SubResourceEmbeddedARM">
-[]Subnet_Status_VirtualNetwork_SubResourceEmbeddedARM
-</a>
-</em>
-</td>
-<td>
-<p>Subnets: A list of subnets in a Virtual Network.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>virtualNetworkPeerings</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPeering_Status_SubResourceEmbeddedARM">
-[]VirtualNetworkPeering_Status_SubResourceEmbeddedARM
-</a>
-</em>
-</td>
-<td>
-<p>VirtualNetworkPeerings: A list of peerings in a Virtual Network.</p>
 </td>
 </tr>
 </tbody>
@@ -23158,19 +23044,6 @@ string
 </tr>
 <tr>
 <td>
-<code>subnets</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetwork_SubResourceEmbedded">
-[]Subnet_Status_VirtualNetwork_SubResourceEmbedded
-</a>
-</em>
-</td>
-<td>
-<p>Subnets: A list of subnets in a Virtual Network.</p>
-</td>
-</tr>
-<tr>
-<td>
 <code>tags</code><br/>
 <em>
 map[string]string
@@ -23189,19 +23062,6 @@ string
 </td>
 <td>
 <p>Type: Resource type.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>virtualNetworkPeerings</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPeering_Status_SubResourceEmbedded">
-[]VirtualNetworkPeering_Status_SubResourceEmbedded
-</a>
-</em>
-</td>
-<td>
-<p>VirtualNetworkPeerings: A list of peerings in a Virtual Network.</p>
 </td>
 </tr>
 </tbody>
@@ -23429,17 +23289,6 @@ doesn&rsquo;t have to be.</p>
 </tr>
 <tr>
 <td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Location to deploy resource to</p>
-</td>
-</tr>
-<tr>
-<td>
 <code>natGateway</code><br/>
 <em>
 <a href="#network.azure.com/v1alpha1api20201101.SubResource">
@@ -23474,6 +23323,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a network.azure.com/VirtualNetwork resource</p>
 </td>
 </tr>
 <tr>
@@ -23535,17 +23387,6 @@ SubResource
 </td>
 <td>
 <p>ServiceEndpoints: An array of service endpoints.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -23657,17 +23498,6 @@ doesn&rsquo;t have to be.</p>
 </tr>
 <tr>
 <td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Location to deploy resource to</p>
-</td>
-</tr>
-<tr>
-<td>
 <code>natGateway</code><br/>
 <em>
 <a href="#network.azure.com/v1alpha1api20201101.SubResource">
@@ -23702,6 +23532,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a network.azure.com/VirtualNetwork resource</p>
 </td>
 </tr>
 <tr>
@@ -23765,17 +23598,6 @@ SubResource
 <p>ServiceEndpoints: An array of service endpoints.</p>
 </td>
 </tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Name-value pairs to add to the resource</p>
-</td>
-</tr>
 </tbody>
 </table>
 <h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworksSubnets_SpecARM">VirtualNetworksSubnets_SpecARM
@@ -23790,17 +23612,6 @@ map[string]string
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Location to deploy resource to</p>
-</td>
-</tr>
 <tr>
 <td>
 <code>name</code><br/>
@@ -23823,17 +23634,6 @@ VirtualNetworksSubnets_Spec_PropertiesARM
 </td>
 <td>
 <p>Properties: Properties of the subnet.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -24178,6 +23978,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a network.azure.com/VirtualNetwork resource</p>
 </td>
 </tr>
 <tr>
@@ -24374,6 +24177,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a network.azure.com/VirtualNetwork resource</p>
 </td>
 </tr>
 <tr>
@@ -24666,19 +24472,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
-</td>
-</tr>
-<tr>
-<td>
-<code>subnets</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_Subnets">
-[]VirtualNetworks_Spec_Properties_Subnets
-</a>
-</em>
-</td>
-<td>
-<p>Subnets: A list of subnets in a Virtual Network.</p>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -24883,167 +24679,17 @@ bool
 <p>Subnets: A list of subnets in a Virtual Network.</p>
 </td>
 </tr>
-</tbody>
-</table>
-<h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_Subnets">VirtualNetworks_Spec_Properties_Subnets
-</h3>
-<p>
-(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec">VirtualNetworks_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
 <tr>
 <td>
-<code>addressPrefix</code><br/>
+<code>virtualNetworkPeerings</code><br/>
 <em>
-string
-</em>
-</td>
-<td>
-<p>AddressPrefix: The address prefix for the subnet.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>addressPrefixes</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>AddressPrefixes: List of address prefixes for the subnet.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>delegations</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations">
-[]VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations
+<a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_VirtualNetworkPeeringsARM">
+[]VirtualNetworks_Spec_Properties_VirtualNetworkPeeringsARM
 </a>
 </em>
 </td>
 <td>
-<p>Delegations: An array of references to the delegations on the subnet.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ipAllocations</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.SubResource">
-[]SubResource
-</a>
-</em>
-</td>
-<td>
-<p>IpAllocations: Array of IpAllocation which reference this subnet.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>natGateway</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.SubResource">
-SubResource
-</a>
-</em>
-</td>
-<td>
-<p>NatGateway: Nat gateway associated with this subnet.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkSecurityGroup</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.SubResource">
-SubResource
-</a>
-</em>
-</td>
-<td>
-<p>NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>privateEndpointNetworkPolicies</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on private end point in the subnet.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>privateLinkServiceNetworkPolicies</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on private link service in the subnet.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>routeTable</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.SubResource">
-SubResource
-</a>
-</em>
-</td>
-<td>
-<p>RouteTable: The reference to the RouteTable resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>serviceEndpointPolicies</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.SubResource">
-[]SubResource
-</a>
-</em>
-</td>
-<td>
-<p>ServiceEndpointPolicies: An array of service endpoint policies.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>serviceEndpoints</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.ServiceEndpointPropertiesFormat">
-[]ServiceEndpointPropertiesFormat
-</a>
-</em>
-</td>
-<td>
-<p>ServiceEndpoints: An array of service endpoints.</p>
+<p>VirtualNetworkPeerings: A list of peerings in a Virtual Network.</p>
 </td>
 </tr>
 </tbody>
@@ -25241,45 +24887,6 @@ SubResourceARM
 </tr>
 </tbody>
 </table>
-<h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations">VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations
-</h3>
-<p>
-(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_Subnets">VirtualNetworks_Spec_Properties_Subnets</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource that is unique within a subnet. This name can be used to access the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>serviceName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ServiceName: The name of the service to whom the subnet should be delegated (e.g. Microsoft.Sql/servers).</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM">VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM
 </h3>
 <p>
@@ -25317,6 +24924,47 @@ ServiceDelegationPropertiesFormatARM
 </td>
 <td>
 <p>Properties: Properties of the subnet.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_VirtualNetworkPeeringsARM">VirtualNetworks_Spec_Properties_VirtualNetworkPeeringsARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_PropertiesARM">VirtualNetworks_Spec_PropertiesARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPeeringPropertiesFormatARM">
+VirtualNetworkPeeringPropertiesFormatARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Properties of the virtual network peering.</p>
 </td>
 </tr>
 </tbody>

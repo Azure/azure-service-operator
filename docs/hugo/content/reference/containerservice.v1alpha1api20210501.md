@@ -1,5 +1,3 @@
----
----
 <h2 id="containerservice.azure.com/v1alpha1api20210501">containerservice.azure.com/v1alpha1api20210501</h2>
 <div>
 <p>Package v1alpha1api20210501 contains API Schema definitions for the containerservice v1alpha1api20210501 API group</p>
@@ -3446,6 +3444,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -13274,6 +13275,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a containerservice.azure.com/ManagedCluster resource</p>
 </td>
 </tr>
 <tr>
@@ -13769,6 +13773,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a containerservice.azure.com/ManagedCluster resource</p>
 </td>
 </tr>
 <tr>
@@ -14268,6 +14275,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>

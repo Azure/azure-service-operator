@@ -1,5 +1,3 @@
----
----
 <h2 id="storage.azure.com/v1alpha1api20210401">storage.azure.com/v1alpha1api20210401</h2>
 <div>
 <p>Package v1alpha1api20210401 contains API Schema definitions for the storage v1alpha1api20210401 API group</p>
@@ -3083,6 +3081,282 @@ bool
 <td>
 <p>UseSubDomainName: Indicates whether indirect CName validation is enabled. Default value is false. This should only be
 set on updates.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.DateAfterCreation">DateAfterCreation
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShot">ManagementPolicySnapShot</a>, <a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyVersion">ManagementPolicyVersion</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DateAfterCreation">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DateAfterCreation</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>daysAfterCreationGreaterThan</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>DaysAfterCreationGreaterThan: Value indicating the age in days after creation</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.DateAfterCreationARM">DateAfterCreationARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShotARM">ManagementPolicySnapShotARM</a>, <a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyVersionARM">ManagementPolicyVersionARM</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DateAfterCreation">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DateAfterCreation</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>daysAfterCreationGreaterThan</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>DaysAfterCreationGreaterThan: Value indicating the age in days after creation</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.DateAfterCreation_Status">DateAfterCreation_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShot_Status">ManagementPolicySnapShot_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyVersion_Status">ManagementPolicyVersion_Status</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>daysAfterCreationGreaterThan</code><br/>
+<em>
+float64
+</em>
+</td>
+<td>
+<p>DaysAfterCreationGreaterThan: Value indicating the age in days after creation</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.DateAfterCreation_StatusARM">DateAfterCreation_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShot_StatusARM">ManagementPolicySnapShot_StatusARM</a>, <a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyVersion_StatusARM">ManagementPolicyVersion_StatusARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>daysAfterCreationGreaterThan</code><br/>
+<em>
+float64
+</em>
+</td>
+<td>
+<p>DaysAfterCreationGreaterThan: Value indicating the age in days after creation</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.DateAfterModification">DateAfterModification
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlob">ManagementPolicyBaseBlob</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DateAfterModification">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DateAfterModification</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>daysAfterLastAccessTimeGreaterThan</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>DaysAfterLastAccessTimeGreaterThan: Value indicating the age in days after last blob access. This property can only be
+used in conjunction with last access time tracking policy</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>daysAfterModificationGreaterThan</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>DaysAfterModificationGreaterThan: Value indicating the age in days after last modification</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.DateAfterModificationARM">DateAfterModificationARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlobARM">ManagementPolicyBaseBlobARM</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DateAfterModification">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DateAfterModification</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>daysAfterLastAccessTimeGreaterThan</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>DaysAfterLastAccessTimeGreaterThan: Value indicating the age in days after last blob access. This property can only be
+used in conjunction with last access time tracking policy</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>daysAfterModificationGreaterThan</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>DaysAfterModificationGreaterThan: Value indicating the age in days after last modification</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.DateAfterModification_Status">DateAfterModification_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlob_Status">ManagementPolicyBaseBlob_Status</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>daysAfterLastAccessTimeGreaterThan</code><br/>
+<em>
+float64
+</em>
+</td>
+<td>
+<p>DaysAfterLastAccessTimeGreaterThan: Value indicating the age in days after last blob access. This property can only be
+used in conjunction with last access time tracking policy</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>daysAfterModificationGreaterThan</code><br/>
+<em>
+float64
+</em>
+</td>
+<td>
+<p>DaysAfterModificationGreaterThan: Value indicating the age in days after last modification</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.DateAfterModification_StatusARM">DateAfterModification_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlob_StatusARM">ManagementPolicyBaseBlob_StatusARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>daysAfterLastAccessTimeGreaterThan</code><br/>
+<em>
+float64
+</em>
+</td>
+<td>
+<p>DaysAfterLastAccessTimeGreaterThan: Value indicating the age in days after last blob access. This property can only be
+used in conjunction with last access time tracking policy</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>daysAfterModificationGreaterThan</code><br/>
+<em>
+float64
+</em>
+</td>
+<td>
+<p>DaysAfterModificationGreaterThan: Value indicating the age in days after last modification</p>
 </td>
 </tr>
 </tbody>
@@ -6463,6 +6737,2006 @@ maximum of 1000 blob containers with hasLegalHold=true for a given account.</p>
 </tr>
 </tbody>
 </table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyAction">ManagementPolicyAction
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition">ManagementPolicyDefinition</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyAction">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyAction</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>baseBlob</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlob">
+ManagementPolicyBaseBlob
+</a>
+</em>
+</td>
+<td>
+<p>BaseBlob: Management policy action for base blob.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>snapshot</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShot">
+ManagementPolicySnapShot
+</a>
+</em>
+</td>
+<td>
+<p>Snapshot: Management policy action for snapshot.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>version</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyVersion">
+ManagementPolicyVersion
+</a>
+</em>
+</td>
+<td>
+<p>Version: Management policy action for blob version.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyActionARM">ManagementPolicyActionARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinitionARM">ManagementPolicyDefinitionARM</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyAction">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyAction</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>baseBlob</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlobARM">
+ManagementPolicyBaseBlobARM
+</a>
+</em>
+</td>
+<td>
+<p>BaseBlob: Management policy action for base blob.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>snapshot</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShotARM">
+ManagementPolicySnapShotARM
+</a>
+</em>
+</td>
+<td>
+<p>Snapshot: Management policy action for snapshot.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>version</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyVersionARM">
+ManagementPolicyVersionARM
+</a>
+</em>
+</td>
+<td>
+<p>Version: Management policy action for blob version.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyAction_Status">ManagementPolicyAction_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition_Status">ManagementPolicyDefinition_Status</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>baseBlob</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlob_Status">
+ManagementPolicyBaseBlob_Status
+</a>
+</em>
+</td>
+<td>
+<p>BaseBlob: The management policy action for base blob</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>snapshot</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShot_Status">
+ManagementPolicySnapShot_Status
+</a>
+</em>
+</td>
+<td>
+<p>Snapshot: The management policy action for snapshot</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>version</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyVersion_Status">
+ManagementPolicyVersion_Status
+</a>
+</em>
+</td>
+<td>
+<p>Version: The management policy action for version</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyAction_StatusARM">ManagementPolicyAction_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition_StatusARM">ManagementPolicyDefinition_StatusARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>baseBlob</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlob_StatusARM">
+ManagementPolicyBaseBlob_StatusARM
+</a>
+</em>
+</td>
+<td>
+<p>BaseBlob: The management policy action for base blob</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>snapshot</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShot_StatusARM">
+ManagementPolicySnapShot_StatusARM
+</a>
+</em>
+</td>
+<td>
+<p>Snapshot: The management policy action for snapshot</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>version</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyVersion_StatusARM">
+ManagementPolicyVersion_StatusARM
+</a>
+</em>
+</td>
+<td>
+<p>Version: The management policy action for version</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlob">ManagementPolicyBaseBlob
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction">ManagementPolicyAction</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyBaseBlob">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyBaseBlob</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModification">
+DateAfterModification
+</a>
+</em>
+</td>
+<td>
+<p>Delete: Object to define the number of days after object last modification Or last access. Properties
+daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>enableAutoTierToHotFromCool</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>EnableAutoTierToHotFromCool: This property enables auto tiering of a blob from cool to hot on a blob access. This
+property requires tierToCool.daysAfterLastAccessTimeGreaterThan.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModification">
+DateAfterModification
+</a>
+</em>
+</td>
+<td>
+<p>TierToArchive: Object to define the number of days after object last modification Or last access. Properties
+daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModification">
+DateAfterModification
+</a>
+</em>
+</td>
+<td>
+<p>TierToCool: Object to define the number of days after object last modification Or last access. Properties
+daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlobARM">ManagementPolicyBaseBlobARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyActionARM">ManagementPolicyActionARM</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyBaseBlob">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyBaseBlob</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModificationARM">
+DateAfterModificationARM
+</a>
+</em>
+</td>
+<td>
+<p>Delete: Object to define the number of days after object last modification Or last access. Properties
+daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>enableAutoTierToHotFromCool</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>EnableAutoTierToHotFromCool: This property enables auto tiering of a blob from cool to hot on a blob access. This
+property requires tierToCool.daysAfterLastAccessTimeGreaterThan.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModificationARM">
+DateAfterModificationARM
+</a>
+</em>
+</td>
+<td>
+<p>TierToArchive: Object to define the number of days after object last modification Or last access. Properties
+daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModificationARM">
+DateAfterModificationARM
+</a>
+</em>
+</td>
+<td>
+<p>TierToCool: Object to define the number of days after object last modification Or last access. Properties
+daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlob_Status">ManagementPolicyBaseBlob_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction_Status">ManagementPolicyAction_Status</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModification_Status">
+DateAfterModification_Status
+</a>
+</em>
+</td>
+<td>
+<p>Delete: The function to delete the blob</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>enableAutoTierToHotFromCool</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>EnableAutoTierToHotFromCool: This property enables auto tiering of a blob from cool to hot on a blob access. This
+property requires tierToCool.daysAfterLastAccessTimeGreaterThan.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModification_Status">
+DateAfterModification_Status
+</a>
+</em>
+</td>
+<td>
+<p>TierToArchive: The function to tier blobs to archive storage. Support blobs currently at Hot or Cool tier</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModification_Status">
+DateAfterModification_Status
+</a>
+</em>
+</td>
+<td>
+<p>TierToCool: The function to tier blobs to cool storage. Support blobs currently at Hot tier</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlob_StatusARM">ManagementPolicyBaseBlob_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction_StatusARM">ManagementPolicyAction_StatusARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModification_StatusARM">
+DateAfterModification_StatusARM
+</a>
+</em>
+</td>
+<td>
+<p>Delete: The function to delete the blob</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>enableAutoTierToHotFromCool</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>EnableAutoTierToHotFromCool: This property enables auto tiering of a blob from cool to hot on a blob access. This
+property requires tierToCool.daysAfterLastAccessTimeGreaterThan.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModification_StatusARM">
+DateAfterModification_StatusARM
+</a>
+</em>
+</td>
+<td>
+<p>TierToArchive: The function to tier blobs to archive storage. Support blobs currently at Hot or Cool tier</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModification_StatusARM">
+DateAfterModification_StatusARM
+</a>
+</em>
+</td>
+<td>
+<p>TierToCool: The function to tier blobs to cool storage. Support blobs currently at Hot tier</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition">ManagementPolicyDefinition
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRule">ManagementPolicyRule</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyDefinition">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyDefinition</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>actions</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction">
+ManagementPolicyAction
+</a>
+</em>
+</td>
+<td>
+<p>Actions: Actions are applied to the filtered blobs when the execution condition is met.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>filters</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyFilter">
+ManagementPolicyFilter
+</a>
+</em>
+</td>
+<td>
+<p>Filters: Filters limit rule actions to a subset of blobs within the storage account. If multiple filters are defined, a
+logical AND is performed on all filters.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinitionARM">ManagementPolicyDefinitionARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRuleARM">ManagementPolicyRuleARM</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyDefinition">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyDefinition</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>actions</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyActionARM">
+ManagementPolicyActionARM
+</a>
+</em>
+</td>
+<td>
+<p>Actions: Actions are applied to the filtered blobs when the execution condition is met.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>filters</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyFilterARM">
+ManagementPolicyFilterARM
+</a>
+</em>
+</td>
+<td>
+<p>Filters: Filters limit rule actions to a subset of blobs within the storage account. If multiple filters are defined, a
+logical AND is performed on all filters.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition_Status">ManagementPolicyDefinition_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRule_Status">ManagementPolicyRule_Status</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>actions</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction_Status">
+ManagementPolicyAction_Status
+</a>
+</em>
+</td>
+<td>
+<p>Actions: An object that defines the action set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>filters</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyFilter_Status">
+ManagementPolicyFilter_Status
+</a>
+</em>
+</td>
+<td>
+<p>Filters: An object that defines the filter set.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition_StatusARM">ManagementPolicyDefinition_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRule_StatusARM">ManagementPolicyRule_StatusARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>actions</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction_StatusARM">
+ManagementPolicyAction_StatusARM
+</a>
+</em>
+</td>
+<td>
+<p>Actions: An object that defines the action set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>filters</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyFilter_StatusARM">
+ManagementPolicyFilter_StatusARM
+</a>
+</em>
+</td>
+<td>
+<p>Filters: An object that defines the filter set.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyFilter">ManagementPolicyFilter
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition">ManagementPolicyDefinition</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyFilter">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyFilter</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>blobIndexMatch</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.TagFilter">
+[]TagFilter
+</a>
+</em>
+</td>
+<td>
+<p>BlobIndexMatch: An array of blob index tag based filters, there can be at most 10 tag filters</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>blobTypes</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>BlobTypes: An array of predefined enum values. Currently blockBlob supports all tiering and delete actions. Only delete
+actions are supported for appendBlob.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>prefixMatch</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>PrefixMatch: An array of strings for prefixes to be match.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyFilterARM">ManagementPolicyFilterARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinitionARM">ManagementPolicyDefinitionARM</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyFilter">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyFilter</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>blobIndexMatch</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.TagFilterARM">
+[]TagFilterARM
+</a>
+</em>
+</td>
+<td>
+<p>BlobIndexMatch: An array of blob index tag based filters, there can be at most 10 tag filters</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>blobTypes</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>BlobTypes: An array of predefined enum values. Currently blockBlob supports all tiering and delete actions. Only delete
+actions are supported for appendBlob.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>prefixMatch</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>PrefixMatch: An array of strings for prefixes to be match.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyFilter_Status">ManagementPolicyFilter_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition_Status">ManagementPolicyDefinition_Status</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>blobIndexMatch</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.TagFilter_Status">
+[]TagFilter_Status
+</a>
+</em>
+</td>
+<td>
+<p>BlobIndexMatch: An array of blob index tag based filters, there can be at most 10 tag filters</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>blobTypes</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>BlobTypes: An array of predefined enum values. Currently blockBlob supports all tiering and delete actions. Only delete
+actions are supported for appendBlob.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>prefixMatch</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>PrefixMatch: An array of strings for prefixes to be match.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyFilter_StatusARM">ManagementPolicyFilter_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition_StatusARM">ManagementPolicyDefinition_StatusARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>blobIndexMatch</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.TagFilter_StatusARM">
+[]TagFilter_StatusARM
+</a>
+</em>
+</td>
+<td>
+<p>BlobIndexMatch: An array of blob index tag based filters, there can be at most 10 tag filters</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>blobTypes</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>BlobTypes: An array of predefined enum values. Currently blockBlob supports all tiering and delete actions. Only delete
+actions are supported for appendBlob.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>prefixMatch</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>PrefixMatch: An array of strings for prefixes to be match.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyPropertiesARM">ManagementPolicyPropertiesARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsManagementPolicies_SpecARM">StorageAccountsManagementPolicies_SpecARM</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyProperties">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyProperties</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>policy</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySchemaARM">
+ManagementPolicySchemaARM
+</a>
+</em>
+</td>
+<td>
+<p>Policy: The Storage Account ManagementPolicies Rules. See more details in:
+<a href="https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts">https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyProperties_StatusARM">ManagementPolicyProperties_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicy_StatusARM">ManagementPolicy_StatusARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>lastModifiedTime</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>LastModifiedTime: Returns the date and time the ManagementPolicies was last modified.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>policy</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySchema_StatusARM">
+ManagementPolicySchema_StatusARM
+</a>
+</em>
+</td>
+<td>
+<p>Policy: The Storage Account ManagementPolicy, in JSON format. See more details in:
+<a href="https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts">https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyRule">ManagementPolicyRule
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySchema">ManagementPolicySchema</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyRule">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyRule</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>definition</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition">
+ManagementPolicyDefinition
+</a>
+</em>
+</td>
+<td>
+<p>Definition: An object that defines the Lifecycle rule. Each definition is made up with a filters set and an actions set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>enabled</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>Enabled: Rule is enabled if set to true.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: A rule name can contain any combination of alpha numeric characters. Rule name is case-sensitive. It must be
+unique within a policy.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRuleType">
+ManagementPolicyRuleType
+</a>
+</em>
+</td>
+<td>
+<p>Type: The valid value is Lifecycle</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyRuleARM">ManagementPolicyRuleARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySchemaARM">ManagementPolicySchemaARM</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyRule">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyRule</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>definition</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinitionARM">
+ManagementPolicyDefinitionARM
+</a>
+</em>
+</td>
+<td>
+<p>Definition: An object that defines the Lifecycle rule. Each definition is made up with a filters set and an actions set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>enabled</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>Enabled: Rule is enabled if set to true.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: A rule name can contain any combination of alpha numeric characters. Rule name is case-sensitive. It must be
+unique within a policy.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRuleType">
+ManagementPolicyRuleType
+</a>
+</em>
+</td>
+<td>
+<p>Type: The valid value is Lifecycle</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyRuleStatusType">ManagementPolicyRuleStatusType
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRule_Status">ManagementPolicyRule_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRule_StatusARM">ManagementPolicyRule_StatusARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Lifecycle&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyRuleType">ManagementPolicyRuleType
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRule">ManagementPolicyRule</a>, <a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRuleARM">ManagementPolicyRuleARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Lifecycle&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyRule_Status">ManagementPolicyRule_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySchema_Status">ManagementPolicySchema_Status</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>definition</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition_Status">
+ManagementPolicyDefinition_Status
+</a>
+</em>
+</td>
+<td>
+<p>Definition: An object that defines the Lifecycle rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>enabled</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>Enabled: Rule is enabled if set to true.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: A rule name can contain any combination of alpha numeric characters. Rule name is case-sensitive. It must be
+unique within a policy.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRuleStatusType">
+ManagementPolicyRuleStatusType
+</a>
+</em>
+</td>
+<td>
+<p>Type: The valid value is Lifecycle</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyRule_StatusARM">ManagementPolicyRule_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySchema_StatusARM">ManagementPolicySchema_StatusARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>definition</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition_StatusARM">
+ManagementPolicyDefinition_StatusARM
+</a>
+</em>
+</td>
+<td>
+<p>Definition: An object that defines the Lifecycle rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>enabled</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>Enabled: Rule is enabled if set to true.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: A rule name can contain any combination of alpha numeric characters. Rule name is case-sensitive. It must be
+unique within a policy.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRuleStatusType">
+ManagementPolicyRuleStatusType
+</a>
+</em>
+</td>
+<td>
+<p>Type: The valid value is Lifecycle</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicySchema">ManagementPolicySchema
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsManagementPolicies_Spec">StorageAccountsManagementPolicies_Spec</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicySchema">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicySchema</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>rules</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRule">
+[]ManagementPolicyRule
+</a>
+</em>
+</td>
+<td>
+<p>Rules: The Storage Account ManagementPolicies Rules. See more details in:
+<a href="https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts">https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicySchemaARM">ManagementPolicySchemaARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyPropertiesARM">ManagementPolicyPropertiesARM</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicySchema">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicySchema</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>rules</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRuleARM">
+[]ManagementPolicyRuleARM
+</a>
+</em>
+</td>
+<td>
+<p>Rules: The Storage Account ManagementPolicies Rules. See more details in:
+<a href="https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts">https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicySchema_Status">ManagementPolicySchema_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicy_Status">ManagementPolicy_Status</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>rules</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRule_Status">
+[]ManagementPolicyRule_Status
+</a>
+</em>
+</td>
+<td>
+<p>Rules: The Storage Account ManagementPolicies Rules. See more details in:
+<a href="https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts">https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicySchema_StatusARM">ManagementPolicySchema_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyProperties_StatusARM">ManagementPolicyProperties_StatusARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>rules</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRule_StatusARM">
+[]ManagementPolicyRule_StatusARM
+</a>
+</em>
+</td>
+<td>
+<p>Rules: The Storage Account ManagementPolicies Rules. See more details in:
+<a href="https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts">https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShot">ManagementPolicySnapShot
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction">ManagementPolicyAction</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicySnapShot">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicySnapShot</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation">
+DateAfterCreation
+</a>
+</em>
+</td>
+<td>
+<p>Delete: Object to define the number of days after creation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation">
+DateAfterCreation
+</a>
+</em>
+</td>
+<td>
+<p>TierToArchive: Object to define the number of days after creation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation">
+DateAfterCreation
+</a>
+</em>
+</td>
+<td>
+<p>TierToCool: Object to define the number of days after creation.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShotARM">ManagementPolicySnapShotARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyActionARM">ManagementPolicyActionARM</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicySnapShot">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicySnapShot</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreationARM">
+DateAfterCreationARM
+</a>
+</em>
+</td>
+<td>
+<p>Delete: Object to define the number of days after creation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreationARM">
+DateAfterCreationARM
+</a>
+</em>
+</td>
+<td>
+<p>TierToArchive: Object to define the number of days after creation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreationARM">
+DateAfterCreationARM
+</a>
+</em>
+</td>
+<td>
+<p>TierToCool: Object to define the number of days after creation.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShot_Status">ManagementPolicySnapShot_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction_Status">ManagementPolicyAction_Status</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_Status">
+DateAfterCreation_Status
+</a>
+</em>
+</td>
+<td>
+<p>Delete: The function to delete the blob snapshot</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_Status">
+DateAfterCreation_Status
+</a>
+</em>
+</td>
+<td>
+<p>TierToArchive: The function to tier blob snapshot to archive storage. Support blob snapshot currently at Hot or Cool tier</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_Status">
+DateAfterCreation_Status
+</a>
+</em>
+</td>
+<td>
+<p>TierToCool: The function to tier blob snapshot to cool storage. Support blob snapshot currently at Hot tier</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShot_StatusARM">ManagementPolicySnapShot_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction_StatusARM">ManagementPolicyAction_StatusARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_StatusARM">
+DateAfterCreation_StatusARM
+</a>
+</em>
+</td>
+<td>
+<p>Delete: The function to delete the blob snapshot</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_StatusARM">
+DateAfterCreation_StatusARM
+</a>
+</em>
+</td>
+<td>
+<p>TierToArchive: The function to tier blob snapshot to archive storage. Support blob snapshot currently at Hot or Cool tier</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_StatusARM">
+DateAfterCreation_StatusARM
+</a>
+</em>
+</td>
+<td>
+<p>TierToCool: The function to tier blob snapshot to cool storage. Support blob snapshot currently at Hot tier</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyVersion">ManagementPolicyVersion
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction">ManagementPolicyAction</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyVersion">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyVersion</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation">
+DateAfterCreation
+</a>
+</em>
+</td>
+<td>
+<p>Delete: Object to define the number of days after creation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation">
+DateAfterCreation
+</a>
+</em>
+</td>
+<td>
+<p>TierToArchive: Object to define the number of days after creation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation">
+DateAfterCreation
+</a>
+</em>
+</td>
+<td>
+<p>TierToCool: Object to define the number of days after creation.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyVersionARM">ManagementPolicyVersionARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyActionARM">ManagementPolicyActionARM</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyVersion">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyVersion</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreationARM">
+DateAfterCreationARM
+</a>
+</em>
+</td>
+<td>
+<p>Delete: Object to define the number of days after creation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreationARM">
+DateAfterCreationARM
+</a>
+</em>
+</td>
+<td>
+<p>TierToArchive: Object to define the number of days after creation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreationARM">
+DateAfterCreationARM
+</a>
+</em>
+</td>
+<td>
+<p>TierToCool: Object to define the number of days after creation.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyVersion_Status">ManagementPolicyVersion_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction_Status">ManagementPolicyAction_Status</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_Status">
+DateAfterCreation_Status
+</a>
+</em>
+</td>
+<td>
+<p>Delete: The function to delete the blob version</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_Status">
+DateAfterCreation_Status
+</a>
+</em>
+</td>
+<td>
+<p>TierToArchive: The function to tier blob version to archive storage. Support blob version currently at Hot or Cool tier</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_Status">
+DateAfterCreation_Status
+</a>
+</em>
+</td>
+<td>
+<p>TierToCool: The function to tier blob version to cool storage. Support blob version currently at Hot tier</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyVersion_StatusARM">ManagementPolicyVersion_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction_StatusARM">ManagementPolicyAction_StatusARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_StatusARM">
+DateAfterCreation_StatusARM
+</a>
+</em>
+</td>
+<td>
+<p>Delete: The function to delete the blob version</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_StatusARM">
+DateAfterCreation_StatusARM
+</a>
+</em>
+</td>
+<td>
+<p>TierToArchive: The function to tier blob version to archive storage. Support blob version currently at Hot or Cool tier</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_StatusARM">
+DateAfterCreation_StatusARM
+</a>
+</em>
+</td>
+<td>
+<p>TierToCool: The function to tier blob version to cool storage. Support blob version currently at Hot tier</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicy_Status">ManagementPolicy_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsManagementPolicy">StorageAccountsManagementPolicy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastModifiedTime</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>LastModifiedTime: Returns the date and time the ManagementPolicies was last modified.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>policy</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySchema_Status">
+ManagementPolicySchema_Status
+</a>
+</em>
+</td>
+<td>
+<p>Policy: The Storage Account ManagementPolicy, in JSON format. See more details in:
+<a href="https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts">https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicy_StatusARM">ManagementPolicy_StatusARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyProperties_StatusARM">
+ManagementPolicyProperties_StatusARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Returns the Storage Account Data Policies Rules.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="storage.azure.com/v1alpha1api20210401.NetworkRuleSet">NetworkRuleSet
 </h3>
 <p>
@@ -8570,6 +10844,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -10743,6 +13020,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a storage.azure.com/StorageAccount resource</p>
 </td>
 </tr>
 <tr>
@@ -10905,6 +13185,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a storage.azure.com/StorageAccountsBlobService resource</p>
 </td>
 </tr>
 <tr>
@@ -11057,6 +13340,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a storage.azure.com/StorageAccountsBlobService resource</p>
 </td>
 </tr>
 <tr>
@@ -11297,6 +13583,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a storage.azure.com/StorageAccount resource</p>
 </td>
 </tr>
 <tr>
@@ -11385,6 +13674,224 @@ map[string]string
 </tr>
 </tbody>
 </table>
+<h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsManagementPoliciesSpecAPIVersion">StorageAccountsManagementPoliciesSpecAPIVersion
+(<code>string</code> alias)</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;2021-04-01&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsManagementPolicies_Spec">StorageAccountsManagementPolicies_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsManagementPolicy">StorageAccountsManagementPolicy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a storage.azure.com/StorageAccount resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>policy</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySchema">
+ManagementPolicySchema
+</a>
+</em>
+</td>
+<td>
+<p>Policy: The Storage Account ManagementPolicies Rules. See more details in:
+<a href="https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts">https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Name-value pairs to add to the resource</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsManagementPolicies_SpecARM">StorageAccountsManagementPolicies_SpecARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the Storage Account Management Policy. It should always be &lsquo;default&rsquo;</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyPropertiesARM">
+ManagementPolicyPropertiesARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: The Storage Account ManagementPolicy properties.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Name-value pairs to add to the resource</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsManagementPolicy">StorageAccountsManagementPolicy
+</h3>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_managementPolicies">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_managementPolicies</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsManagementPolicies_Spec">
+StorageAccountsManagementPolicies_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a storage.azure.com/StorageAccount resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>policy</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySchema">
+ManagementPolicySchema
+</a>
+</em>
+</td>
+<td>
+<p>Policy: The Storage Account ManagementPolicies Rules. See more details in:
+<a href="https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts">https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Name-value pairs to add to the resource</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicy_Status">
+ManagementPolicy_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsQueueService">StorageAccountsQueueService
 </h3>
 <div>
@@ -11459,6 +13966,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a storage.azure.com/StorageAccount resource</p>
 </td>
 </tr>
 <tr>
@@ -11573,6 +14083,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a storage.azure.com/StorageAccountsQueueService resource</p>
 </td>
 </tr>
 <tr>
@@ -11677,6 +14190,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a storage.azure.com/StorageAccountsQueueService resource</p>
 </td>
 </tr>
 <tr>
@@ -11817,6 +14333,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a storage.azure.com/StorageAccount resource</p>
 </td>
 </tr>
 <tr>
@@ -12200,6 +14719,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -12530,6 +15052,212 @@ string
 </td>
 <td>
 <p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.TagFilter">TagFilter
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyFilter">ManagementPolicyFilter</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/TagFilter">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/TagFilter</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: This is the filter tag name, it can have 1 - 128 characters</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>op</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Op: This is the comparison operator which is used for object comparison and filtering. Only == (equality operator) is
+currently supported</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: This is the filter tag value field used for tag based filtering, it can have 0 - 256 characters</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.TagFilterARM">TagFilterARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyFilterARM">ManagementPolicyFilterARM</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/TagFilter">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/TagFilter</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: This is the filter tag name, it can have 1 - 128 characters</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>op</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Op: This is the comparison operator which is used for object comparison and filtering. Only == (equality operator) is
+currently supported</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: This is the filter tag value field used for tag based filtering, it can have 0 - 256 characters</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.TagFilter_Status">TagFilter_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyFilter_Status">ManagementPolicyFilter_Status</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: This is the filter tag name, it can have 1 - 128 characters</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>op</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Op: This is the comparison operator which is used for object comparison and filtering. Only == (equality operator) is
+currently supported</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: This is the filter tag value field used for tag based filtering, it can have 0 - 256 characters</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.TagFilter_StatusARM">TagFilter_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyFilter_StatusARM">ManagementPolicyFilter_StatusARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: This is the filter tag name, it can have 1 - 128 characters</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>op</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Op: This is the comparison operator which is used for object comparison and filtering. Only == (equality operator) is
+currently supported</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: This is the filter tag value field used for tag based filtering, it can have 0 - 256 characters</p>
 </td>
 </tr>
 </tbody>

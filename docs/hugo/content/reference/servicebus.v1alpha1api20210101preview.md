@@ -1,5 +1,3 @@
----
----
 <h2 id="servicebus.azure.com/v1alpha1api20210101preview">servicebus.azure.com/v1alpha1api20210101preview</h2>
 <div>
 <p>Package v1alpha1api20210101preview contains API Schema definitions for the servicebus v1alpha1api20210101preview API group</p>
@@ -1105,6 +1103,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -1373,6 +1374,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a servicebus.azure.com/Namespace resource</p>
 </td>
 </tr>
 <tr>
@@ -1629,6 +1633,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a servicebus.azure.com/Namespace resource</p>
 </td>
 </tr>
 <tr>
@@ -1897,6 +1904,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a servicebus.azure.com/Namespace resource</p>
 </td>
 </tr>
 <tr>
@@ -2095,6 +2105,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a servicebus.azure.com/Namespace resource</p>
 </td>
 </tr>
 <tr>
@@ -2266,6 +2279,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>

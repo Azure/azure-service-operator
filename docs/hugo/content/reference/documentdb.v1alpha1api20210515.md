@@ -1,5 +1,3 @@
----
----
 <h2 id="documentdb.azure.com/v1alpha1api20210515">documentdb.azure.com/v1alpha1api20210515</h2>
 <div>
 <p>Package v1alpha1api20210515 contains API Schema definitions for the documentdb v1alpha1api20210515 API group</p>
@@ -2899,6 +2897,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -4502,6 +4503,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/MongodbDatabaseCollection resource</p>
 </td>
 </tr>
 <tr>
@@ -4661,6 +4665,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/MongodbDatabase resource</p>
 </td>
 </tr>
 <tr>
@@ -4823,6 +4830,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/MongodbDatabase resource</p>
 </td>
 </tr>
 <tr>
@@ -4982,6 +4992,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/DatabaseAccount resource</p>
 </td>
 </tr>
 <tr>
@@ -5207,6 +5220,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabaseContainer resource</p>
 </td>
 </tr>
 <tr>
@@ -5354,6 +5370,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabaseContainer resource</p>
 </td>
 </tr>
 <tr>
@@ -5528,6 +5547,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabaseContainer resource</p>
 </td>
 </tr>
 <tr>
@@ -5701,6 +5723,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabaseContainer resource</p>
 </td>
 </tr>
 <tr>
@@ -5859,6 +5884,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabase resource</p>
 </td>
 </tr>
 <tr>
@@ -6021,6 +6049,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabase resource</p>
 </td>
 </tr>
 <tr>
@@ -6180,6 +6211,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/DatabaseAccount resource</p>
 </td>
 </tr>
 <tr>
@@ -6620,6 +6654,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -10200,6 +10237,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/DatabaseAccount resource</p>
 </td>
 </tr>
 <tr>
@@ -10334,6 +10374,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/MongodbDatabase resource</p>
 </td>
 </tr>
 <tr>
@@ -10442,6 +10485,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/MongodbDatabaseCollection resource</p>
 </td>
 </tr>
 <tr>
@@ -10551,6 +10597,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/MongodbDatabase resource</p>
 </td>
 </tr>
 <tr>
@@ -12027,6 +12076,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/DatabaseAccount resource</p>
 </td>
 </tr>
 <tr>
@@ -12161,6 +12213,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabase resource</p>
 </td>
 </tr>
 <tr>
@@ -12295,6 +12350,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabaseContainer resource</p>
 </td>
 </tr>
 <tr>
@@ -12403,6 +12461,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabaseContainer resource</p>
 </td>
 </tr>
 <tr>
@@ -12538,6 +12599,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabaseContainer resource</p>
 </td>
 </tr>
 <tr>
@@ -12672,6 +12736,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabaseContainer resource</p>
 </td>
 </tr>
 <tr>
@@ -13279,6 +13346,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabase resource</p>
 </td>
 </tr>
 <tr>
