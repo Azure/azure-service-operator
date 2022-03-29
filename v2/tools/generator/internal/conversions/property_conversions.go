@@ -277,7 +277,7 @@ func assignToOptional(
 
 	// Require source to be non-optional
 	// (to ensure that assignFromOptional triggers first when handling option to optional conversion)
-	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
+	if sourceEndpoint.IsOptional() {
 		return nil, nil
 	}
 
@@ -508,10 +508,8 @@ func assignToEnumeration(
 		return nil, nil
 	}
 
-	// Require destination to NOT be optional
-	_, dstIsOpt := astmodel.AsOptionalType(destinationEndpoint.Type())
-	if dstIsOpt {
-		// Destination is not optional
+	// Require destination to be non-optional
+	if destinationEndpoint.IsOptional() {
 		return nil, nil
 	}
 
@@ -567,13 +565,8 @@ func assignPrimitiveFromPrimitive(
 		return nil, nil
 	}
 
-	// Require source to be non-optional
-	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
-		return nil, nil
-	}
-
-	// Require destination to be non-optional
-	if _, destinationIsOptional := astmodel.AsOptionalType(destinationEndpoint.Type()); destinationIsOptional {
+	// Require both source and destination to be non-optional
+	if sourceEndpoint.IsOptional() || destinationEndpoint.IsOptional() {
 		return nil, nil
 	}
 
@@ -614,13 +607,8 @@ func assignAliasedPrimitiveFromAliasedPrimitive(
 		return nil, nil
 	}
 
-	// Require source to be non-optional
-	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
-		return nil, nil
-	}
-
-	// Require destination to be non-optional
-	if _, destinationIsOptional := astmodel.AsOptionalType(destinationEndpoint.Type()); destinationIsOptional {
+	// Require both source and destination to be non-optional
+	if sourceEndpoint.IsOptional() || destinationEndpoint.IsOptional() {
 		return nil, nil
 	}
 
@@ -670,7 +658,7 @@ func assignFromAliasedPrimitive(
 	}
 
 	// Require source to be non-optional
-	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
+	if sourceEndpoint.IsOptional() {
 		return nil, nil
 	}
 
@@ -720,7 +708,7 @@ func assignToAliasedPrimitive(
 	}
 
 	// Require destination to be non-optional
-	if _, destinationIsOptional := astmodel.AsOptionalType(destinationEndpoint.Type()); destinationIsOptional {
+	if destinationEndpoint.IsOptional() {
 		return nil, nil
 	}
 
@@ -1107,13 +1095,8 @@ func assignEnumFromEnum(
 		return nil, nil
 	}
 
-	// Require source to be non-optional
-	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
-		return nil, nil
-	}
-
-	// Require destination to be non-optional
-	if _, destinationIsOptional := astmodel.AsOptionalType(destinationEndpoint.Type()); destinationIsOptional {
+	// Require both source and destination to be non-optional
+	if sourceEndpoint.IsOptional() || destinationEndpoint.IsOptional() {
 		return nil, nil
 	}
 
@@ -1173,13 +1156,8 @@ func assignPrimitiveFromEnum(
 		return nil, nil
 	}
 
-	// Require source to be non-optional
-	if _, srcOpt := astmodel.AsOptionalType(sourceEndpoint.Type()); srcOpt {
-		return nil, nil
-	}
-
-	// Require destination to be non-optional
-	if _, dstOpt := astmodel.AsOptionalType(destinationEndpoint.Type()); dstOpt {
+	// Require both source and destination to be non-optional
+	if sourceEndpoint.IsOptional() || destinationEndpoint.IsOptional() {
 		return nil, nil
 	}
 
@@ -1234,13 +1212,8 @@ func assignObjectDirectlyFromObject(
 		return nil, nil
 	}
 
-	// Require source to be non-optional
-	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
-		return nil, nil
-	}
-
-	// Require destination to be non-optional
-	if _, destinationIsOptional := astmodel.AsOptionalType(destinationEndpoint.Type()); destinationIsOptional {
+	// Require both source and destination to be non-optional
+	if sourceEndpoint.IsOptional() || destinationEndpoint.IsOptional() {
 		return nil, nil
 	}
 
@@ -1351,13 +1324,8 @@ func assignObjectDirectlyToObject(
 		return nil, nil
 	}
 
-	// Require source to be non-optional
-	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
-		return nil, nil
-	}
-
-	// Require destination to be non-optional
-	if _, destinationIsOptional := astmodel.AsOptionalType(destinationEndpoint.Type()); destinationIsOptional {
+	// Require both source and destination to be non-optional
+	if sourceEndpoint.IsOptional() || destinationEndpoint.IsOptional() {
 		return nil, nil
 	}
 
@@ -1474,13 +1442,8 @@ func assignObjectsViaIntermediateObject(
 		return nil, nil
 	}
 
-	// Require source to be non-optional
-	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
-		return nil, nil
-	}
-
-	// Require destination to be non-optional
-	if _, destinationIsOptional := astmodel.AsOptionalType(destinationEndpoint.Type()); destinationIsOptional {
+	// Require both source and destination to be non-optional
+	if sourceEndpoint.IsOptional() || destinationEndpoint.IsOptional() {
 		return nil, nil
 	}
 
@@ -1582,13 +1545,8 @@ func assignKnownType(name astmodel.TypeName) func(*TypedConversionEndpoint, *Typ
 			return nil, nil
 		}
 
-		// Require source to be non-optional
-		if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
-			return nil, nil
-		}
-
-		// Require destination to be non-optional
-		if _, destinationIsOptional := astmodel.AsOptionalType(destinationEndpoint.Type()); destinationIsOptional {
+		// Require both source and destination to be non-optional
+		if sourceEndpoint.IsOptional() || destinationEndpoint.IsOptional() {
 			return nil, nil
 		}
 
@@ -1638,13 +1596,8 @@ func copyKnownType(name astmodel.TypeName, methodName string, returnKind knownTy
 			return nil, nil
 		}
 
-		// Require source to be non-optional
-		if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
-			return nil, nil
-		}
-
-		// Require destination to be non-optional
-		if _, destinationIsOptional := astmodel.AsOptionalType(destinationEndpoint.Type()); destinationIsOptional {
+		// Require both source and destination to be non-optional
+		if sourceEndpoint.IsOptional() || destinationEndpoint.IsOptional() {
 			return nil, nil
 		}
 
