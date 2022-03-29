@@ -190,6 +190,22 @@ func (config *Configuration) IsSecret(name astmodel.TypeName, property astmodel.
 	return config.ObjectModelConfiguration.IsSecret(name, property)
 }
 
+// IsResourceLifecycleOwnedByParent looks up a property to determine if represents a subresource whose lifecycle is owned
+// by the parent resource.
+func (config *Configuration) IsResourceLifecycleOwnedByParent(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
+	return config.ObjectModelConfiguration.IsResourceLifecycleOwnedByParent(name, property)
+}
+
+// MarkIsResourceLifecycleOwnedByParentUnconsumed marks all IsResourceLifecycleOwnedByParent as unconsumed
+func (config *Configuration) MarkIsResourceLifecycleOwnedByParentUnconsumed() error {
+	return config.ObjectModelConfiguration.MarkIsResourceLifecycleOwnedByParentUnconsumed()
+}
+
+// VerifyIsResourceLifecycleOwnedByParentConsumed returns an error if any IsResourceLifecycleOwnedByParent flag is not consumed
+func (config *Configuration) VerifyIsResourceLifecycleOwnedByParentConsumed() error {
+	return config.ObjectModelConfiguration.VerifyIsResourceLifecycleOwnedByParentConsumed()
+}
+
 // initialize checks for common errors and initializes structures inside the configuration
 // which need additional setup after json deserialization
 func (config *Configuration) initialize(configPath string) error {
@@ -360,7 +376,7 @@ func (config *Configuration) TransformTypeProperties(name astmodel.TypeName, obj
 
 // MakeLocalPackageReference creates a local package reference based on the configured destination location
 func (config *Configuration) MakeLocalPackageReference(group string, version string) astmodel.LocalPackageReference {
-	return astmodel.MakeLocalPackageReference(config.LocalPathPrefix(), group, astmodel.GeneratorVersionPrefix, version)
+	return astmodel.MakeLocalPackageReference(config.LocalPathPrefix(), group, astmodel.GeneratorVersion, version)
 }
 
 func getModulePathFromModFile(modFilePath string) (string, error) {

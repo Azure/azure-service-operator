@@ -207,6 +207,47 @@ func (omc *ObjectModelConfiguration) VerifyIsSecretConsumed() error {
 	return visitor.Visit(omc)
 }
 
+// IsResourceLifecycleOwnedByParent returns true if the property represents a subresource whose resource lifecycle is owned by the parent resource.
+// False is returned if the property does not represent a subresource whose lifecycle is owned by the parent.
+func (omc *ObjectModelConfiguration) IsResourceLifecycleOwnedByParent(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
+	var result bool
+	visitor := NewSinglePropertyConfigurationVisitor(
+		name,
+		property,
+		func(configuration *PropertyConfiguration) error {
+			isResourceLifecycleOwnedByParent, err := configuration.IsResourceLifecycleOwnedByParent()
+			result = isResourceLifecycleOwnedByParent
+			return err
+		})
+
+	err := visitor.Visit(omc)
+	if err != nil {
+		return false, err
+	}
+
+	return result, nil
+}
+
+// MarkIsResourceLifecycleOwnedByParentUnconsumed marks all IsResourceLifecycleOwnedByParent as unconsumed
+func (omc *ObjectModelConfiguration) MarkIsResourceLifecycleOwnedByParentUnconsumed() error {
+	visitor := NewEveryPropertyConfigurationVisitor(
+		func(configuration *PropertyConfiguration) error {
+			configuration.ClearResourceLifecycleOwnedByParentConsumed()
+			return nil
+		})
+	return visitor.Visit(omc)
+}
+
+// VerifyIsResourceLifecycleOwnedByParentConsumed returns an error if any IsResourceLifecycleOwnedByParent configuration
+// was not consumed
+func (omc *ObjectModelConfiguration) VerifyIsResourceLifecycleOwnedByParentConsumed() error {
+	visitor := NewEveryPropertyConfigurationVisitor(
+		func(configuration *PropertyConfiguration) error {
+			return configuration.VerifyIsResourceLifecycleOwnedByParentConsumed()
+		})
+	return visitor.Visit(omc)
+}
+
 // Add includes the provided GroupConfiguration in this model configuration
 func (omc *ObjectModelConfiguration) add(group *GroupConfiguration) {
 	if omc.groups == nil {

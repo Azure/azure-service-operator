@@ -1,0 +1,200 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+package customizations
+
+import (
+	"context"
+	"encoding/json"
+	"reflect"
+
+	"github.com/go-logr/logr"
+	"github.com/pkg/errors"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
+
+	network "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101storage"
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
+	"github.com/Azure/azure-service-operator/v2/internal/resolver"
+	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
+)
+
+var _ extensions.ARMResourceModifier = &VirtualNetworkExtension{}
+
+func (extension *VirtualNetworkExtension) ModifyARMResource(
+	ctx context.Context,
+	armObj genruntime.ARMResource,
+	obj genruntime.MetaObject,
+	kubeClient kubeclient.Client,
+	resolver *resolver.Resolver,
+	log logr.Logger) (genruntime.ARMResource, error) {
+
+	typedObj, ok := obj.(*network.VirtualNetwork)
+	if !ok {
+		return nil, errors.Errorf("cannot run on unknown resource type %T", obj)
+	}
+
+	// Type assert that we are the hub type. This should fail to compile if
+	// the hub type has been changed but this extension has not been updated to match
+	var _ conversion.Hub = typedObj
+
+	subnetGVK := getSubnetGVK(obj)
+
+	subnets := &network.VirtualNetworksSubnetList{}
+	matchingFields := client.MatchingFields{".metadata.ownerReferences[0]": string(obj.GetUID())}
+	err := kubeClient.List(ctx, subnets, matchingFields)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed listing subnets owned by VNET %s/%s", obj.GetNamespace(), obj.GetName())
+	}
+
+	var armSubnets []genruntime.ARMResourceSpec
+	for _, subnet := range subnets.Items {
+		subnet := subnet
+
+		var transformed genruntime.ARMResourceSpec
+		transformed, err = transformToARM(ctx, &subnet, subnetGVK, kubeClient, resolver)
+		if err != nil {
+			return nil, errors.Wrapf(err, "failed to transform subnet %s/%s", subnet.GetNamespace(), subnet.GetName())
+		}
+		armSubnets = append(armSubnets, transformed)
+	}
+
+	log.V(Info).Info("Found subnets to include on VNET", "count", len(armSubnets), "names", getSubnetNames(armSubnets))
+
+	err = fuzzySetSubnets(armObj.Spec(), armSubnets)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to set subnets")
+	}
+
+	return armObj, nil
+}
+
+func getSubnetNames(subnets []genruntime.ARMResourceSpec) []string {
+	var result []string
+	for _, s := range subnets {
+		result = append(result, s.GetName())
+	}
+
+	return result
+}
+
+func getSubnetGVK(vnet genruntime.MetaObject) schema.GroupVersionKind {
+	gvk := genruntime.GetOriginalGVK(vnet)
+	gvk.Kind = reflect.TypeOf(network.VirtualNetworksSubnet{}).Name() // "VirtualNetworksSubnet"
+
+	return gvk
+}
+
+func transformToARM(
+	ctx context.Context,
+	obj genruntime.MetaObject,
+	gvk schema.GroupVersionKind,
+	kubeClient kubeclient.Client,
+	resolver *resolver.Resolver) (genruntime.ARMResourceSpec, error) {
+
+	spec, err := genruntime.GetVersionedSpecFromGVK(obj, kubeClient.Scheme(), gvk)
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to get spec from %s/%s", obj.GetNamespace(), obj.GetName())
+	}
+
+	armTransformer, ok := spec.(genruntime.ARMTransformer)
+	if !ok {
+		return nil, errors.Errorf("spec was of type %T which doesn't implement genruntime.ArmTransformer", spec)
+	}
+
+	_, resolvedDetails, err := resolver.ResolveAll(ctx, obj)
+	if err != nil {
+		return nil, arm.ClassifyResolverError(err)
+	}
+
+	armSpec, err := armTransformer.ConvertToARM(resolvedDetails)
+	if err != nil {
+		return nil, errors.Wrapf(err, "transforming resource %s to ARM", obj.GetName())
+	}
+
+	typedArmSpec, ok := armSpec.(genruntime.ARMResourceSpec)
+	if !ok {
+		return nil, errors.Errorf("casting armSpec of type %T to genruntime.ARMResourceSpec", armSpec)
+	}
+
+	return typedArmSpec, nil
+}
+
+// TODO: When we move to Swagger as the source of truth, the type for vnet.properties.subnets and subnet.properties
+// TODO: may be the same, so we can do away with the JSON serialization part of this assignment.
+// fuzzySetSubnets assigns a collection of subnets to the subnets property of the vnet. Since there are
+// many possible ARM API versions and we don't know which one we're using, we cannot do this statically.
+// To make matters even more horrible, the type used in the vnet.properties.subnets property is not the same
+// type as used for subnet.properties (although structurally they are basically the same). To overcome this
+// we JSON serialize the subnet and deserialize it into the vnet.properties.subnets field.
+func fuzzySetSubnets(vnet genruntime.ARMResourceSpec, subnets []genruntime.ARMResourceSpec) error {
+	// Here be dragons
+	vnetValue := reflect.ValueOf(vnet)
+	vnetValue = reflect.Indirect(vnetValue)
+	if (vnetValue == reflect.Value{}) {
+		return errors.Errorf("cannot assign to nil vnet")
+	}
+
+	propertiesField := vnetValue.FieldByName("Properties")
+	if (propertiesField == reflect.Value{}) {
+		return errors.Errorf("couldn't find properties field on vnet")
+	}
+	propertiesField = reflect.Indirect(propertiesField)
+	if (propertiesField == reflect.Value{}) {
+		return errors.Errorf("cannot assign to nil vnet properties")
+	}
+
+	subnetsField := propertiesField.FieldByName("Subnets")
+	if (subnetsField == reflect.Value{}) {
+		return errors.Errorf("couldn't find subnets field on vnet")
+	}
+
+	if subnetsField.Type().Kind() != reflect.Slice {
+		return errors.Errorf("subnets field on vnet was not of kind Slice")
+	}
+
+	elemType := subnetsField.Type().Elem()
+	subnetSlice := reflect.MakeSlice(subnetsField.Type(), 0, 0)
+
+	for _, subnet := range subnets {
+		embeddedSubnet := reflect.New(elemType)
+		err := fuzzySetSubnet(subnet, embeddedSubnet)
+		if err != nil {
+			return err
+		}
+
+		subnetSlice = reflect.Append(subnetSlice, reflect.Indirect(embeddedSubnet))
+	}
+
+	// Now do the assignment
+	subnetsField.Set(subnetSlice)
+
+	return nil
+}
+
+func fuzzySetSubnet(subnet genruntime.ARMResourceSpec, embeddedSubnet reflect.Value) error {
+	subnetJSON, err := json.Marshal(subnet)
+	if err != nil {
+		return errors.Wrapf(err, "failed to marshal subnet json")
+	}
+
+	err = json.Unmarshal(subnetJSON, embeddedSubnet.Interface())
+	if err != nil {
+		return errors.Wrapf(err, "failed to unmarshal subnet JSON")
+	}
+
+	// Safety check that these are actually the same:
+	// We can't use reflect.DeepEqual because the types are not the same.
+	embeddedSubnetJSON, err := json.Marshal(embeddedSubnet.Interface())
+	if err != nil {
+		return errors.Wrap(err, "unable to check that embedded subnet is the same as subnet")
+	}
+	if string(embeddedSubnetJSON) != string(subnetJSON) {
+		return errors.Errorf("embeddedSubnetJSON (%s) != subnetJSON (%s)", string(embeddedSubnetJSON), string(subnetJSON))
+	}
+
+	return nil
+}

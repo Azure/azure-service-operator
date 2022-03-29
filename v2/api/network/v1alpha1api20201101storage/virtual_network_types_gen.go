@@ -131,26 +131,24 @@ type VirtualNetworkList struct {
 
 //Storage version of v1alpha1api20201101.VirtualNetwork_Status
 type VirtualNetwork_Status struct {
-	AddressSpace           *AddressSpace_Status                               `json:"addressSpace,omitempty"`
-	BgpCommunities         *VirtualNetworkBgpCommunities_Status               `json:"bgpCommunities,omitempty"`
-	Conditions             []conditions.Condition                             `json:"conditions,omitempty"`
-	DdosProtectionPlan     *SubResource_Status                                `json:"ddosProtectionPlan,omitempty"`
-	DhcpOptions            *DhcpOptions_Status                                `json:"dhcpOptions,omitempty"`
-	EnableDdosProtection   *bool                                              `json:"enableDdosProtection,omitempty"`
-	EnableVmProtection     *bool                                              `json:"enableVmProtection,omitempty"`
-	Etag                   *string                                            `json:"etag,omitempty"`
-	ExtendedLocation       *ExtendedLocation_Status                           `json:"extendedLocation,omitempty"`
-	Id                     *string                                            `json:"id,omitempty"`
-	IpAllocations          []SubResource_Status                               `json:"ipAllocations,omitempty"`
-	Location               *string                                            `json:"location,omitempty"`
-	Name                   *string                                            `json:"name,omitempty"`
-	PropertyBag            genruntime.PropertyBag                             `json:"$propertyBag,omitempty"`
-	ProvisioningState      *string                                            `json:"provisioningState,omitempty"`
-	ResourceGuid           *string                                            `json:"resourceGuid,omitempty"`
-	Subnets                []Subnet_Status_VirtualNetwork_SubResourceEmbedded `json:"subnets,omitempty"`
-	Tags                   map[string]string                                  `json:"tags,omitempty"`
-	Type                   *string                                            `json:"type,omitempty"`
-	VirtualNetworkPeerings []VirtualNetworkPeering_Status_SubResourceEmbedded `json:"virtualNetworkPeerings,omitempty"`
+	AddressSpace         *AddressSpace_Status                 `json:"addressSpace,omitempty"`
+	BgpCommunities       *VirtualNetworkBgpCommunities_Status `json:"bgpCommunities,omitempty"`
+	Conditions           []conditions.Condition               `json:"conditions,omitempty"`
+	DdosProtectionPlan   *SubResource_Status                  `json:"ddosProtectionPlan,omitempty"`
+	DhcpOptions          *DhcpOptions_Status                  `json:"dhcpOptions,omitempty"`
+	EnableDdosProtection *bool                                `json:"enableDdosProtection,omitempty"`
+	EnableVmProtection   *bool                                `json:"enableVmProtection,omitempty"`
+	Etag                 *string                              `json:"etag,omitempty"`
+	ExtendedLocation     *ExtendedLocation_Status             `json:"extendedLocation,omitempty"`
+	Id                   *string                              `json:"id,omitempty"`
+	IpAllocations        []SubResource_Status                 `json:"ipAllocations,omitempty"`
+	Location             *string                              `json:"location,omitempty"`
+	Name                 *string                              `json:"name,omitempty"`
+	PropertyBag          genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
+	ProvisioningState    *string                              `json:"provisioningState,omitempty"`
+	ResourceGuid         *string                              `json:"resourceGuid,omitempty"`
+	Tags                 map[string]string                    `json:"tags,omitempty"`
+	Type                 *string                              `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &VirtualNetwork_Status{}
@@ -194,10 +192,9 @@ type VirtualNetworks_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner       *genruntime.KnownResourceReference        `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
-	Subnets     []VirtualNetworks_Spec_Properties_Subnets `json:"subnets,omitempty"`
-	Tags        map[string]string                         `json:"tags,omitempty"`
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &VirtualNetworks_Spec{}
@@ -246,12 +243,6 @@ type DhcpOptions_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.Subnet_Status_VirtualNetwork_SubResourceEmbedded
-type Subnet_Status_VirtualNetwork_SubResourceEmbedded struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
 //Storage version of v1alpha1api20201101.VirtualNetworkBgpCommunities
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkBgpCommunities
 type VirtualNetworkBgpCommunities struct {
@@ -264,36 +255,6 @@ type VirtualNetworkBgpCommunities_Status struct {
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RegionalCommunity       *string                `json:"regionalCommunity,omitempty"`
 	VirtualNetworkCommunity *string                `json:"virtualNetworkCommunity,omitempty"`
-}
-
-//Storage version of v1alpha1api20201101.VirtualNetworkPeering_Status_SubResourceEmbedded
-type VirtualNetworkPeering_Status_SubResourceEmbedded struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-//Storage version of v1alpha1api20201101.VirtualNetworks_Spec_Properties_Subnets
-type VirtualNetworks_Spec_Properties_Subnets struct {
-	AddressPrefix                     *string                                                          `json:"addressPrefix,omitempty"`
-	AddressPrefixes                   []string                                                         `json:"addressPrefixes,omitempty"`
-	Delegations                       []VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations `json:"delegations,omitempty"`
-	IpAllocations                     []SubResource                                                    `json:"ipAllocations,omitempty"`
-	Name                              *string                                                          `json:"name,omitempty"`
-	NatGateway                        *SubResource                                                     `json:"natGateway,omitempty"`
-	NetworkSecurityGroup              *SubResource                                                     `json:"networkSecurityGroup,omitempty"`
-	PrivateEndpointNetworkPolicies    *string                                                          `json:"privateEndpointNetworkPolicies,omitempty"`
-	PrivateLinkServiceNetworkPolicies *string                                                          `json:"privateLinkServiceNetworkPolicies,omitempty"`
-	PropertyBag                       genruntime.PropertyBag                                           `json:"$propertyBag,omitempty"`
-	RouteTable                        *SubResource                                                     `json:"routeTable,omitempty"`
-	ServiceEndpointPolicies           []SubResource                                                    `json:"serviceEndpointPolicies,omitempty"`
-	ServiceEndpoints                  []ServiceEndpointPropertiesFormat                                `json:"serviceEndpoints,omitempty"`
-}
-
-//Storage version of v1alpha1api20201101.VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations
-type VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations struct {
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ServiceName *string                `json:"serviceName,omitempty"`
 }
 
 func init() {

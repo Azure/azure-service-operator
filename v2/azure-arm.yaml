@@ -298,13 +298,35 @@ typeTransformers:
     remove: true
     because: This property should have been marked readonly but wasn't.
 
-  # Deal with resources that have tags included but shouldn't have (proxy resources, etc).
+  # Remove embedded resource properties
+  - group: network
+    name: VirtualNetworkPropertiesFormat_Status  # This type is subsequently flattened into VirtualNetwork_Status
+    property: Subnets
+    remove: true
+    because: This is an embedded resource
+  - group: network
+    name: VirtualNetworkPropertiesFormat_Status  # This type is subsequently flattened into VirtualNetwork_Status
+    property: VirtualNetworkPeerings
+    remove: true
+    because: This is an embedded resource
+
+  # Deal with resources that have tags or location included but shouldn't have (proxy resources, etc).
   # See https://github.com/Azure/azure-resource-manager-schemas/issues/1850
   - group: containerservice
     name: ManagedClustersAgentPools_Spec
     property: Tags
     remove: true
-    because: This really shouldn't be here (see bug referenced above)
+    because: Tags shouldn't be here (see https://github.com/Azure/azure-resource-manager-schemas/issues/1850)
+  - group: network
+    name: VirtualNetworksSubnets_Spec
+    property: Location
+    remove: true
+    because: Child resource cannot choose location
+  - group: network
+    name: VirtualNetworksSubnets_Spec
+    property: Tags
+    remove: true
+    because: Child resource cannot set tags
 
   # Deal with service Swaggers that are just wrong
   - group: insights
@@ -533,6 +555,12 @@ status:
 #     Establishes a connection between the two properties allowing for proper
 #     forward and backward conversion.
 #
+# isResourceLifecycleOwnedByParent: <bool>
+#     Specifies that the property references a misbehaving embedded resource, one whose parent
+#     resource owns the lifecycle of the child resource.
+#     These resources are embedded resources which are overwritten when their parent resource
+#     is changed. For example see https://github.com/Azure/azure-service-operator/issues/1944.
+#
 objectModelConfiguration: 
   authorization:
     2020-08-01-preview:
@@ -598,13 +626,6 @@ objectModelConfiguration:
         $export: true
       SnapshotProperties:
         DiskAccessId: 
-          $armReference: true
-      SourceVault:
-        Id:
-          $armReference: true
-    2020-12-01:
-      DiskEncryptionSetParameters:
-        Id:
           $armReference: true
       SourceVault:
         Id:
@@ -880,6 +901,13 @@ objectModelConfiguration:
         $export: true
       VirtualNetworkGateway:
         $export: true
+      VirtualNetworks_Spec_Properties:
+        Subnets:
+          $isResourceLifecycleOwnedByParent: true
+        VirtualNetworkPeerings:
+          # Technically this resource behaves fine (updating the vnet doesn't delete these if they
+          # aren't included in the payload). Marking it here so that the pruning takes effect.
+          $isResourceLifecycleOwnedByParent: true
       VirtualNetworksSubnet:
         $export: true
       VirtualNetworksVirtualNetworkPeering:

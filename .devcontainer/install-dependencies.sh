@@ -84,6 +84,10 @@ echo "Installing kubebuilder ${kubebuilder_version} ($os $arch)…"
 curl -L "https://github.com/kubernetes-sigs/kubebuilder/releases/download/v${kubebuilder_version}/kubebuilder_${kubebuilder_version}_${os}_${arch}.tar.gz" | tar -xz -C /tmp/
 mv "/tmp/kubebuilder_${kubebuilder_version}_${os}_${arch}" "$KUBEBUILDER_DEST"
 
+# Install helm
+echo "Installing helm…"
+curl -sL "https://get.helm.sh/helm-v3.8.0-linux-amd64.tar.gz" | tar -C "$TOOL_DEST" --strip-components=1 -xz linux-amd64/helm
+
 # Install yq
 echo "Installing yq…"
 yq_version=v4.13.0

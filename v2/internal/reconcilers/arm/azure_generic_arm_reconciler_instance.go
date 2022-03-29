@@ -669,7 +669,13 @@ func (r *azureDeploymentReconcilerInstance) ConvertResourceToARMResource(ctx con
 	resolver := r.ResourceResolver
 	scheme := resolver.Scheme()
 
-	return ConvertToARMResourceImpl(ctx, metaObject, scheme, resolver, r.ARMClient.SubscriptionID())
+	result, err := ConvertToARMResourceImpl(ctx, metaObject, scheme, resolver, r.ARMClient.SubscriptionID())
+	if err != nil {
+		return nil, err
+	}
+	// Run any resource-specific extensions
+	modifier := extensions.CreateARMResourceModifier(r.Extension, r.KubeClient, resolver, r.Log)
+	return modifier(ctx, metaObject, result)
 }
 
 // ConvertToARMResourceImpl factored out of AzureDeploymentReconciler.ConvertResourceToARMResource to allow for testing
@@ -691,7 +697,7 @@ func ConvertToARMResourceImpl(
 
 	resourceHierarchy, resolvedDetails, err := resolver.ResolveAll(ctx, metaObject)
 	if err != nil {
-		return nil, classifyResolverError(err)
+		return nil, ClassifyResolverError(err)
 	}
 
 	armSpec, err := armTransformer.ConvertToARM(resolvedDetails)
@@ -713,7 +719,7 @@ func ConvertToARMResourceImpl(
 	return result, nil
 }
 
-func classifyResolverError(err error) error {
+func ClassifyResolverError(err error) error {
 	// If it's specifically secret not found, say so
 	var typedErr *resolver.SecretNotFound
 	if errors.As(err, &typedErr) {

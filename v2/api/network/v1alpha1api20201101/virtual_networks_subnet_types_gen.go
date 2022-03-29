@@ -1275,9 +1275,6 @@ type VirtualNetworksSubnets_Spec struct {
 	//IpAllocations: Array of IpAllocation which reference this subnet.
 	IpAllocations []SubResource `json:"ipAllocations,omitempty"`
 
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
 	//NatGateway: Nat gateway associated with this subnet.
 	NatGateway *SubResource `json:"natGateway,omitempty"`
 
@@ -1304,9 +1301,6 @@ type VirtualNetworksSubnets_Spec struct {
 
 	//ServiceEndpoints: An array of service endpoints.
 	ServiceEndpoints []ServiceEndpointPropertiesFormat `json:"serviceEndpoints,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualNetworksSubnets_Spec{}
@@ -1317,12 +1311,6 @@ func (subnets *VirtualNetworksSubnets_Spec) ConvertToARM(resolved genruntime.Con
 		return nil, nil
 	}
 	var result VirtualNetworksSubnets_SpecARM
-
-	// Set property ‘Location’:
-	if subnets.Location != nil {
-		location := *subnets.Location
-		result.Location = &location
-	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -1408,14 +1396,6 @@ func (subnets *VirtualNetworksSubnets_Spec) ConvertToARM(resolved genruntime.Con
 		}
 		result.Properties.ServiceEndpoints = append(result.Properties.ServiceEndpoints, itemARM.(ServiceEndpointPropertiesFormatARM))
 	}
-
-	// Set property ‘Tags’:
-	if subnets.Tags != nil {
-		result.Tags = make(map[string]string)
-		for key, value := range subnets.Tags {
-			result.Tags[key] = value
-		}
-	}
 	return result, nil
 }
 
@@ -1475,12 +1455,6 @@ func (subnets *VirtualNetworksSubnets_Spec) PopulateFromARM(owner genruntime.Arb
 			}
 			subnets.IpAllocations = append(subnets.IpAllocations, item1)
 		}
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		subnets.Location = &location
 	}
 
 	// Set property ‘NatGateway’:
@@ -1571,14 +1545,6 @@ func (subnets *VirtualNetworksSubnets_Spec) PopulateFromARM(owner genruntime.Arb
 				return err
 			}
 			subnets.ServiceEndpoints = append(subnets.ServiceEndpoints, item1)
-		}
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		subnets.Tags = make(map[string]string)
-		for key, value := range typedInput.Tags {
-			subnets.Tags[key] = value
 		}
 	}
 
@@ -1684,9 +1650,6 @@ func (subnets *VirtualNetworksSubnets_Spec) AssignPropertiesFromVirtualNetworksS
 		subnets.IpAllocations = nil
 	}
 
-	// Location
-	subnets.Location = genruntime.ClonePointerToString(source.Location)
-
 	// NatGateway
 	if source.NatGateway != nil {
 		var natGateway SubResource
@@ -1773,9 +1736,6 @@ func (subnets *VirtualNetworksSubnets_Spec) AssignPropertiesFromVirtualNetworksS
 		subnets.ServiceEndpoints = nil
 	}
 
-	// Tags
-	subnets.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
 	// No error
 	return nil
 }
@@ -1829,9 +1789,6 @@ func (subnets *VirtualNetworksSubnets_Spec) AssignPropertiesToVirtualNetworksSub
 	} else {
 		destination.IpAllocations = nil
 	}
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(subnets.Location)
 
 	// NatGateway
 	if subnets.NatGateway != nil {
@@ -1921,9 +1878,6 @@ func (subnets *VirtualNetworksSubnets_Spec) AssignPropertiesToVirtualNetworksSub
 	} else {
 		destination.ServiceEndpoints = nil
 	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(subnets.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

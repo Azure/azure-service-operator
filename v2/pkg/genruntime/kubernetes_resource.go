@@ -8,6 +8,7 @@ package genruntime
 import (
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -57,32 +58,25 @@ type KubernetesResource interface {
 // (if available) from when the resource was first created is used to identify the version to return.
 // Returns an empty resource.
 func NewEmptyVersionedResource(metaObject MetaObject, scheme *runtime.Scheme) (MetaObject, error) {
-	// GVK of our current object
-	currentGVK := metaObject.GetObjectKind().GroupVersionKind()
+	return NewEmptyVersionedResourceFromGVK(scheme, GetOriginalGVK(metaObject))
+}
 
-	// GVK that we'll return
-	resultGVK := currentGVK
-
-	// If our current resource is aware of its original GVK, use that for our result
-	aware, ok := metaObject.(GroupVersionKindAware)
-	if ok {
-		resultGVK = *aware.OriginalGVK()
-	}
-
+// NewEmptyVersionedResourceFromGVK creates a new empty versioned resource from the specified GVK
+func NewEmptyVersionedResourceFromGVK(scheme *runtime.Scheme, gvk schema.GroupVersionKind) (MetaObject, error) {
 	// Create an empty resource at the desired version
-	rsrc, err := scheme.New(resultGVK)
+	rsrc, err := scheme.New(gvk)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to create new %s", resultGVK)
+		return nil, errors.Wrapf(err, "unable to create new %s", gvk)
 	}
 
 	// Convert it to our interface
 	mo, ok := rsrc.(MetaObject)
 	if !ok {
-		return nil, errors.Errorf("expected resource %s to implement genruntime.MetaObject", resultGVK)
+		return nil, errors.Errorf("expected resource %s to implement genruntime.MetaObject", gvk)
 	}
 
 	// Ensure GVK is populated
-	mo.GetObjectKind().SetGroupVersionKind(resultGVK)
+	mo.GetObjectKind().SetGroupVersionKind(gvk)
 
 	// Return the empty resource
 	return mo, nil

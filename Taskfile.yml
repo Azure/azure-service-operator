@@ -20,6 +20,8 @@ vars:
     # Version tags for the v2 controller must start with "v2", e.g. "v2.0.0-alpha.0".
     sh: "{{.SCRIPTS_ROOT}}/build-version.py v2"
 
+  LATEST_VERSION_TAG: $(git describe --tags $(git rev-list --tags --max-count=1))
+
   VERSION_FLAGS: -ldflags "-X {{.PACKAGE}}/internal/version.BuildVersion={{.VERSION}}"
 
   CONTROLLER_DOCKER_IMAGE: azureserviceoperator:{{.VERSION}}
@@ -401,8 +403,9 @@ tasks:
 
   controller:gen-helm-manifest:
     desc: Generate helm manifest using Kustomize for the release
+    deps: [controller:generate-kustomize]
     cmds:
-     - "{{.SCRIPTS_ROOT}}/generate-helm-manifest.sh {{.KUBE_RBAC_PROXY}} {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} {{.PUBLIC_REGISTRY}} {{.VERSION}} `pwd`/{{.CONTROLLER_ROOT}}"
+     - "{{.SCRIPTS_ROOT}}/generate-helm-manifest.sh {{.KUBE_RBAC_PROXY}} {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} {{.PUBLIC_REGISTRY}} {{.LATEST_VERSION_TAG}} `pwd`/{{.CONTROLLER_ROOT}}"
 
 
   controller:kind-delete:

@@ -64,6 +64,9 @@ type VirtualNetworks_Spec_PropertiesARM struct {
 
 	//Subnets: A list of subnets in a Virtual Network.
 	Subnets []VirtualNetworks_Spec_Properties_SubnetsARM `json:"subnets,omitempty"`
+
+	//VirtualNetworkPeerings: A list of peerings in a Virtual Network.
+	VirtualNetworkPeerings []VirtualNetworks_Spec_Properties_VirtualNetworkPeeringsARM `json:"virtualNetworkPeerings,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DhcpOptions
@@ -78,6 +81,14 @@ type VirtualNetworks_Spec_Properties_SubnetsARM struct {
 
 	//Properties: Properties of the subnet.
 	Properties *VirtualNetworks_Spec_Properties_Subnets_PropertiesARM `json:"properties,omitempty"`
+}
+
+type VirtualNetworks_Spec_Properties_VirtualNetworkPeeringsARM struct {
+	//Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+	Name *string `json:"name,omitempty"`
+
+	//Properties: Properties of the virtual network peering.
+	Properties *VirtualNetworkPeeringPropertiesFormatARM `json:"properties,omitempty"`
 }
 
 type VirtualNetworks_Spec_Properties_Subnets_PropertiesARM struct {

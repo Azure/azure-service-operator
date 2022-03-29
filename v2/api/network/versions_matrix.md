@@ -186,7 +186,6 @@
 | Subnet_Status_NetworkInterface_SubResourceEmbedded                                               | v1alpha1api20201101 |
 | Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded                                           | v1alpha1api20201101 |
 | Subnet_Status_PublicIPAddress_SubResourceEmbedded                                                | v1alpha1api20201101 |
-| Subnet_Status_VirtualNetwork_SubResourceEmbedded                                                 | v1alpha1api20201101 |
 | Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded                                          | v1alpha1api20201101 |
 | TransportProtocol_Status                                                                         | v1alpha1api20201101 |
 | VirtualNetwork                                                                                   | v1alpha1api20201101 |
@@ -225,7 +224,6 @@
 | VirtualNetworkPeeringPropertiesFormatStatusPeeringState                                          | v1alpha1api20201101 |
 | VirtualNetworkPeeringPropertiesFormat_Status                                                     | v1alpha1api20201101 |
 | VirtualNetworkPeering_Status                                                                     | v1alpha1api20201101 |
-| VirtualNetworkPeering_Status_SubResourceEmbedded                                                 | v1alpha1api20201101 |
 | VirtualNetworkPropertiesFormat_Status                                                            | v1alpha1api20201101 |
 | VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded                                    | v1alpha1api20201101 |
 | VirtualNetwork_Status                                                                            | v1alpha1api20201101 |
@@ -243,6 +241,7 @@
 | VirtualNetworks_Spec_Properties_Subnets                                                          | v1alpha1api20201101 |
 | VirtualNetworks_Spec_Properties_Subnets_Properties                                               | v1alpha1api20201101 |
 | VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations                                   | v1alpha1api20201101 |
+| VirtualNetworks_Spec_Properties_VirtualNetworkPeerings                                           | v1alpha1api20201101 |
 | VpnClientConfigurationStatusVpnAuthenticationTypes                                               | v1alpha1api20201101 |
 | VpnClientConfigurationStatusVpnClientProtocols                                                   | v1alpha1api20201101 |
 | VpnClientConfiguration_Status                                                                    | v1alpha1api20201101 |
