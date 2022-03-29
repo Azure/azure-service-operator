@@ -10,8 +10,8 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	eventgrid "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401"
+	eventgrid "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 

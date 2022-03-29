@@ -12,9 +12,9 @@ import (
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
 
-	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201"
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
+	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
+	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
