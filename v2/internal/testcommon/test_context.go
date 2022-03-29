@@ -20,6 +20,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
+	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/dnaeon/go-vcr/cassette"
 	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/go-logr/logr"
@@ -99,7 +100,7 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 		Transport: addCountHeader(translateErrors(recorder, cassetteName, t)),
 	}
 
-	armClient := genericarmclient.NewGenericClientFromHTTPClient(arm.AzurePublicCloud, creds, httpClient, subscriptionID)
+	armClient := genericarmclient.NewGenericClientFromHTTPClient(arm.AzurePublicCloud, creds, httpClient, subscriptionID, metrics.NewARMClientMetrics())
 
 	t.Cleanup(func() {
 		if !t.Failed() {

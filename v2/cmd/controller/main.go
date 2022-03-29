@@ -12,6 +12,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
@@ -39,10 +40,15 @@ func main() {
 
 	var metricsAddr string
 	var enableLeaderElection bool
-	flagSet.StringVar(&metricsAddr, "metrics-addr", ":8080", "The address the metric endpoint binds to.")
+
+	// default here for 'metricsAddr' is set to "0", which sets metrics to be disabled if 'metrics-addr' flag is omitted.
+	flagSet.StringVar(&metricsAddr, "metrics-addr", "0", "The address the metric endpoint binds to.")
 	flagSet.BoolVar(&enableLeaderElection, "enable-leader-election", false,
 		"Enable leader election for controllers manager. Enabling this will ensure there is only one active controllers manager.")
 	flagSet.Parse(os.Args[1:]) //nolint:errcheck
+
+	armMetrics := asometrics.NewARMClientMetrics()
+	asometrics.RegisterMetrics(armMetrics)
 
 	scheme := controllers.CreateScheme()
 
@@ -78,7 +84,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	armClient := genericarmclient.NewGenericClient(arm.AzurePublicCloud, creds, cfg.SubscriptionID)
+	armClient := genericarmclient.NewGenericClient(arm.AzurePublicCloud, creds, cfg.SubscriptionID, armMetrics)
 
 	var clientFactory armreconciler.ARMClientFactory = func(_ genruntime.MetaObject) *genericarmclient.GenericClient {
 		// always use the configured ARM client

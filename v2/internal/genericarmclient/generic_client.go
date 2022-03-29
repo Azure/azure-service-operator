@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
@@ -32,17 +33,18 @@ type GenericClient struct {
 	subscriptionID string
 	creds          azcore.TokenCredential
 	opts           *arm.ClientOptions
+	metrics        metrics.ARMClientMetrics
 }
 
 // TODO: Need to do retryAfter detection in each call?
 
 // NewGenericClient creates a new instance of GenericClient
-func NewGenericClient(endpoint arm.Endpoint, creds azcore.TokenCredential, subscriptionID string) *GenericClient {
-	return NewGenericClientFromHTTPClient(endpoint, creds, nil, subscriptionID)
+func NewGenericClient(endpoint arm.Endpoint, creds azcore.TokenCredential, subscriptionID string, metrics metrics.ARMClientMetrics) *GenericClient {
+	return NewGenericClientFromHTTPClient(endpoint, creds, nil, subscriptionID, metrics)
 }
 
 // NewGenericClientFromHTTPClient creates a new instance of GenericClient from the provided connection.
-func NewGenericClientFromHTTPClient(endpoint arm.Endpoint, creds azcore.TokenCredential, httpClient *http.Client, subscriptionID string) *GenericClient {
+func NewGenericClientFromHTTPClient(endpoint arm.Endpoint, creds azcore.TokenCredential, httpClient *http.Client, subscriptionID string, metrics metrics.ARMClientMetrics) *GenericClient {
 	opts := &arm.ClientOptions{
 		ClientOptions: policy.ClientOptions{
 			Retry: policy.RetryOptions{
@@ -73,6 +75,7 @@ func NewGenericClientFromHTTPClient(endpoint arm.Endpoint, creds azcore.TokenCre
 		creds:          creds,
 		subscriptionID: subscriptionID,
 		opts:           opts,
+		metrics:        metrics,
 	}
 }
 
@@ -93,7 +96,11 @@ func (client *GenericClient) ClientOptions() *arm.ClientOptions {
 	return client.opts
 }
 
-func (client *GenericClient) BeginCreateOrUpdateByID(ctx context.Context, resourceID string, apiVersion string, resource interface{}) (*PollerResponse, error) {
+func (client *GenericClient) BeginCreateOrUpdateByID(
+	ctx context.Context,
+	resourceID string,
+	apiVersion string,
+	resource interface{}) (*PollerResponse, error) {
 	// The linter doesn't realize that the response is closed in the course of
 	// the autorest.NewPoller call below. Suppressing it as it is a false positive.
 	// nolint:bodyclose
@@ -123,8 +130,18 @@ func (client *GenericClient) createOrUpdateByID(
 	if err != nil {
 		return nil, err
 	}
+
+	requestStartTime := time.Now()
 	resp, err := client.pl.Do(req)
+
+	// Ignoring error here as resourceID would always be correct at this stage.
+	resourceType := metrics.GetTypeFromResourceID(resourceID)
+
+	client.metrics.RecordAzureRequestsTime(resourceType, time.Since(requestStartTime), metrics.HttpPut)
+	client.metrics.RecordAzureRequestsTotal(resourceType, resp.StatusCode, metrics.HttpPut)
+
 	if err != nil {
+		client.metrics.RecordAzureFailedRequestsTotal(resourceType, metrics.HttpPut)
 		return nil, err
 	}
 	if !runtime.HasStatusCode(resp, http.StatusOK, http.StatusCreated, http.StatusAccepted) {
@@ -229,10 +246,21 @@ func (client *GenericClient) deleteByID(ctx context.Context, resourceID string, 
 	if err != nil {
 		return nil, err
 	}
+
+	requestStartTime := time.Now()
 	resp, err := client.pl.Do(req)
+
+	// Ignoring error here as resourceID would always be correct at this stage.
+	resourceType := metrics.GetTypeFromResourceID(resourceID)
+
+	client.metrics.RecordAzureRequestsTime(resourceType, time.Since(requestStartTime), metrics.HttpDelete)
+	client.metrics.RecordAzureRequestsTotal(resourceType, resp.StatusCode, metrics.HttpDelete)
+
 	if err != nil {
+		client.metrics.RecordAzureFailedRequestsTotal(resourceType, metrics.HttpDelete)
 		return nil, err
 	}
+
 	if !runtime.HasStatusCode(resp, http.StatusOK, http.StatusAccepted, http.StatusNoContent, http.StatusNotFound) {
 		return nil, runtime.NewResponseError(resp)
 	}
