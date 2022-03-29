@@ -1361,7 +1361,7 @@ func assignObjectDirectlyFromObject(
 				functionName,
 				describeAssignment(sourceEndpoint, destinationEndpoint)))
 
-		assignment := writer(dst.NewIdent(copyVar))
+		assignment := writer(localId)
 		return astbuilder.Statements(declaration, conversion, checkForError, assignment)
 	}, nil
 }
