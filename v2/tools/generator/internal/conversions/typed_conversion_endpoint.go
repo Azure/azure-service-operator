@@ -42,3 +42,15 @@ func (endpoint *TypedConversionEndpoint) WithType(theType astmodel.Type) *TypedC
 		name:    endpoint.name,
 	}
 }
+
+// IsOptional returns true if the endpoint contains an optional type, false otherwise
+func (endpoint *TypedConversionEndpoint) IsOptional() bool {
+	_, result := astmodel.AsOptionalType(endpoint.Type())
+	return result
+}
+
+// IsBagItem returns true if the endpoint contains a property bag item, false otherwise
+func (endpoint *TypedConversionEndpoint) IsBagItem() bool {
+	_, result := AsPropertyBagMemberType(endpoint.Type())
+	return result
+}
