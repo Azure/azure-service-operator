@@ -1571,7 +1571,9 @@ func assignObjectsViaIntermediateObject(
 	conversionContext.AddPackageReference(intermediateName.PackageReference)
 
 	// Need a pair of conversions, using our intermediate type
-	intermediateEndpoint := NewTypedConversionEndpoint(intermediateName, intermediateName.Name())
+	intermediateEndpoint := NewTypedConversionEndpoint(
+		intermediateName,
+		intermediateName.Name()+"Stash")
 	firstConversion, err := CreateTypeConversion(sourceEndpoint, intermediateEndpoint, conversionContext)
 	if err != nil {
 		return nil, errors.Wrapf(
@@ -1598,24 +1600,21 @@ func assignObjectsViaIntermediateObject(
 	}
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
-		intermediate := knownLocals.CreateSingularLocal(intermediateName.Name())
-		intermediateId := dst.NewIdent(intermediate)
 
-		declareIntermediate := astbuilder.LocalVariableDeclaration(
-			intermediate,
-			intermediateName.AsType(generationContext),
-			"")
-
-		writeIntermediate := func(expr dst.Expr) []dst.Stmt {
-			assignIntermediate := astbuilder.SimpleAssignment(intermediateId, expr)
-			return astbuilder.Statements(assignIntermediate)
+		// We capture the expression written by the first step pass it to the second step,
+		// allowing us to avoid extra local variable (this is a bit sneaky, as we rely on assignObjectDirectlyFromObject
+		// and assignObjectDirectlyToObject using a local variable themselves.)
+		var capture dst.Expr = nil
+		capturingWriter := func(expr dst.Expr) []dst.Stmt {
+			capture = expr
+			return []dst.Stmt{}
 		}
 
-		firstStep := firstConversion(reader, writeIntermediate, knownLocals, generationContext)
-		secondStep := secondConversion(intermediateId, writer, knownLocals, generationContext)
+		// Capture the first step
+		firstStep := firstConversion(reader, capturingWriter, knownLocals, generationContext)
+		secondStep := secondConversion(capture, writer, knownLocals, generationContext)
 
 		return astbuilder.Statements(
-			declareIntermediate,
 			firstStep,
 			secondStep)
 	}, nil
