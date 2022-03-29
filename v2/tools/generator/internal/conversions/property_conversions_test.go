@@ -11,7 +11,6 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
@@ -66,9 +65,7 @@ func TestCreateTypeConversion_GivenIncompatibleEndpoints_ReturnsExpectedError(t 
 	defs.AddAll(addressObject, locationObject)
 
 	idFactory := astmodel.NewIdentifierFactory()
-	configuration := config.NewObjectModelConfiguration()
-
-	conversionContext := NewPropertyConversionContext(defs, idFactory, configuration).
+	conversionContext := NewPropertyConversionContext(defs, idFactory).
 		WithDirection(ConvertTo)
 
 	for _, c := range cases {

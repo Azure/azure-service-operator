@@ -123,10 +123,11 @@ func (c *PropertyConversionContext) PropertyBagName() string {
 }
 
 // TypeRename looks up a type-rename for the specified type, returning the new name and nil if found, or empty string
-// and an error if not.
+// and an error if not. If no configuration is available, acts as though there is no configuration for this rename,
+// returning "" and a NotConfiguredError
 func (c *PropertyConversionContext) TypeRename(name astmodel.TypeName) (string, error) {
 	if c.configuration == nil {
-		return name.Name(), nil
+		return "", config.NewNotConfiguredError("No configuration available")
 	}
 
 	return c.configuration.LookupNameInNextVersion(name)
