@@ -22,8 +22,9 @@ function all_crds_have_cabundle() {
 SECONDS=0
 
 until all_crds_have_cabundle; do
-    if (( SECONDS > 30 )); then
+    if (( SECONDS > 60 )); then
         echo "Timed out waiting for all CRDs to have CA bundles"
+        exit 1
     fi
 
     echo "Waiting 5s"
