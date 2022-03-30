@@ -30,3 +30,6 @@ until all_crds_have_cabundle; do
     echo "Waiting 5s"
     sleep 5
 done
+
+echo "All CRDs have CA bundles"
+exit 0
