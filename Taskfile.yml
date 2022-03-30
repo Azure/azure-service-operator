@@ -546,7 +546,6 @@ tasks:
       - "kubectl get all -n cert-manager"
       # Install cluster yaml - we need to switch the image to the local one.
       - "cat v2/bin/multitenant-cluster_{{.VERSION}}.yaml | sed -e 's|image: mcr.microsoft.com/k8s/azureserviceoperator:.*|image: localhost:5000/azureserviceoperator:latest|' | kubectl apply --server-side=true -f -"
-      - "sleep 30"
       - "kubectl get -n azureserviceoperator-system certificate azureserviceoperator-serving-cert -o yaml"
       - "kubectl get -n azureserviceoperator-system issuer azureserviceoperator-selfsigned-issuer -o yaml"
       - "kubectl get crd resourcegroups.resources.azure.com -o jsonpath='{.spec.conversion.webhook.clientConfig.caBundle}'"
