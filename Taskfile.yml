@@ -543,7 +543,6 @@ tasks:
       - task: controller:docker-push-local
       # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
       - "cmctl check api --wait=2m"
-      - "kubectl get all -n cert-manager"
       # Install cluster yaml - we need to switch the image to the local one.
       - "cat v2/bin/multitenant-cluster_{{.VERSION}}.yaml | sed -e 's|image: mcr.microsoft.com/k8s/azureserviceoperator:.*|image: localhost:5000/azureserviceoperator:latest|' | kubectl apply --server-side=true -f -"
       # Install tenant yaml - with same image switch
