@@ -533,6 +533,9 @@ tasks:
       - task: controller:install-aad-pod-identity-local
       - task: controller:make-aadpodidentity-secret
       - "kubectl wait --for=condition=ready --timeout=2m pod -n azureserviceoperator-system -l control-plane=controller-manager"
+      # Wait for the webhook client config caBundles to be set on the
+      # ASO CRDs.
+      - "{{.SCRIPTS_ROOT}}/wait-for-ca-bundles.sh"
 
   controller:kind-create-multitenant-cluster:
     desc: Creates a local kind cluster with ASO installed in multitenant configuration.
