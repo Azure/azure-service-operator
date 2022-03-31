@@ -1188,7 +1188,7 @@ func assignPrimitiveFromEnum(
 }
 
 // assignObjectDirectlyFromObject will generate a conversion if both properties are TypeNames referencing ObjectType
-//// definitions, neither property is optional, and the types are adjacent in our storage conversion graph.
+// definitions, neither property is optional, and the types are adjacent in our storage conversion graph.
 //
 // var <local> <destinationType>
 // err := <local>.AssignPropertiesFrom(<source>)
