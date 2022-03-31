@@ -189,7 +189,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		log.Println("Waiting for webhook server to start")
 		// Need to block here until things are actually running
 		chk := mgr.GetWebhookServer().StartedChecker()
-		timeoutAt := time.Now().Add(5 * time.Second)
+		timeoutAt := time.Now().Add(15 * time.Second)
 		for {
 			err = chk(nil)
 			if err == nil {
@@ -197,11 +197,13 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 			}
 
 			if time.Now().After(timeoutAt) {
-				panic("timed out waiting for webhook server to start")
+				err = errors.Wrap(err, "timed out waiting for webhook server to start")
+				panic(err.Error())
 			}
 
 			time.Sleep(100 * time.Millisecond)
 		}
+
 		log.Println("Webhook server started")
 	}
 
