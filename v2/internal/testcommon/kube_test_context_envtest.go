@@ -198,7 +198,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 
 			if time.Now().After(timeoutAt) {
 				err = errors.Wrap(err, "timed out waiting for webhook server to start")
-				panic(err)
+				panic(err.Error())
 			}
 
 			time.Sleep(100 * time.Millisecond)
