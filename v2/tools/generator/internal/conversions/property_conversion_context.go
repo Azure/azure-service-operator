@@ -151,12 +151,13 @@ func (c *PropertyConversionContext) AddPackageReference(ref astmodel.PackageRefe
 // clone returns a new independent copy of this context
 func (c *PropertyConversionContext) clone() *PropertyConversionContext {
 	return &PropertyConversionContext{
-		definitions:     c.definitions,
-		functionName:    c.functionName,
-		direction:       c.direction,
-		propertyBagName: c.propertyBagName,
-		idFactory:       c.idFactory,
-		configuration:   c.configuration,
-		conversionGraph: c.conversionGraph,
+		definitions:          c.definitions,
+		functionName:         c.functionName,
+		direction:            c.direction,
+		propertyBagName:      c.propertyBagName,
+		idFactory:            c.idFactory,
+		configuration:        c.configuration,
+		conversionGraph:      c.conversionGraph,
+		additionalReferences: c.additionalReferences,
 	}
 }

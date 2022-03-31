@@ -19,7 +19,8 @@ const (
 	ConditionsProperty          = "Conditions"
 )
 
-// IsKubernetesResourceProperty returns true if the supplied property name is one of our "magical" names
+// IsKubernetesResourceProperty returns true if the supplied property name is one of the properties required by the
+// KubernetesResource interface.
 func IsKubernetesResourceProperty(name PropertyName) bool {
 	return name == AzureNameProperty || name == OwnerProperty
 }
