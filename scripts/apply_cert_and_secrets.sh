@@ -11,7 +11,7 @@ bins="./hack/tools/bin"
 k="$bins/kubectl"
 
 $k create namespace cert-manager || true
-$k apply -f https://github.com/jetstack/cert-manager/releases/download/v0.13.0/cert-manager.yaml
+$k apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.7.2/cert-manager.yaml
 
 $k create namespace azureoperator-system || true
 cat <<EOF | $k apply -f -
