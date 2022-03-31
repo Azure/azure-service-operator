@@ -37,6 +37,9 @@ type SQLDatabaseProperties struct {
 	// MaxSize - The max size of the database
 	MaxSize *resource.Quantity
 
+	// ElasticPoolID - The resource identifier of the elastic pool containing this database.
+	ElasticPoolID string
+
 	// Sku - The database SKU.
 	//
 	// The list of SKUs may vary by region and support offer. To determine the SKUs (including the SKU name, tier/edition, family, and capacity) that are available to your subscription in an Azure region, use the `Capabilities_ListByLocation` REST API or one of the following commands:
@@ -90,8 +93,15 @@ func SQLDatabasePropertiesToDatabase(properties SQLDatabaseProperties) (result s
 	if properties.MaxSize != nil {
 		maxSizeBytes = to.Int64Ptr(properties.MaxSize.Value())
 	}
+
+	var elasticPoolID *string
+	if properties.ElasticPoolID != "" {
+		elasticPoolID = &properties.ElasticPoolID
+	}
+
 	result = sql.DatabaseProperties{
-		MaxSizeBytes: maxSizeBytes,
+		MaxSizeBytes:  maxSizeBytes,
+		ElasticPoolID: elasticPoolID,
 	}
 
 	return result

@@ -57,9 +57,10 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 	labels := helpers.LabelsToTags(instance.GetLabels())
 
 	azureSQLDatabaseProperties := azuresqlshared.SQLDatabaseProperties{
-		DatabaseName: dbName,
-		MaxSize:      instance.Spec.MaxSize,
-		Sku:          dbSku,
+		DatabaseName:  dbName,
+		MaxSize:       instance.Spec.MaxSize,
+		ElasticPoolID: instance.Spec.ElasticPoolID,
+		Sku:           dbSku,
 	}
 
 	instance.Status.SetProvisioning("")
