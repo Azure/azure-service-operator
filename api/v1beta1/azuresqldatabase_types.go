@@ -75,6 +75,7 @@ type AzureSqlDatabaseSpec struct {
 	YearlyRetention          string                               `json:"yearlyRetention,omitempty"`
 	WeekOfYear               int32                                `json:"weekOfYear,omitempty"`
 	ShortTermRetentionPolicy *SQLDatabaseShortTermRetentionPolicy `json:"shortTermRetentionPolicy,omitempty"`
+	ElasticPoolID            string                               `json:"elasticPoolId,omitempty"`
 }
 
 // AzureSqlDatabase is the Schema for the azuresqldatabases API
