@@ -44,7 +44,7 @@ func TestGolden_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCod
 	defs.AddAll(personSpec2020)
 	defs.AddAll(personSpec2021)
 
-	conversionContext := conversions.NewPropertyConversionContext(defs, idFactory, nil /* ObjectModelConfiguration*/)
+	conversionContext := conversions.NewPropertyConversionContext(defs, idFactory)
 	propertyAssignTo, err := NewPropertyAssignmentFunction(
 		personSpec2020, personSpec2021, conversionContext, conversions.ConvertTo)
 	g.Expect(err).To(Succeed())
@@ -89,7 +89,7 @@ func TestGolden_NewStatusChainedConversionFunction_Conversion_GeneratesExpectedC
 	defs.AddAll(personStatus2020)
 	defs.AddAll(personStatus2021)
 
-	conversionContext := conversions.NewPropertyConversionContext(defs, idFactory, nil /* ObjectModelConfiguration*/)
+	conversionContext := conversions.NewPropertyConversionContext(defs, idFactory)
 	propertyAssignTo, err := NewPropertyAssignmentFunction(
 		personStatus2020, personStatus2021, conversionContext, conversions.ConvertTo)
 	g.Expect(err).To(Succeed())
