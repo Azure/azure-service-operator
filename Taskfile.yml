@@ -429,10 +429,10 @@ tasks:
   controller:test-helm-installation:
     desc: Test helm chart installation and deletion
     cmds:
+      - task: controller:install-cert-manager
       - task: controller:build
       - task: controller:docker-push-local
       - task: controller:gen-helm-manifest
-      - task: controller:install-cert-manager
       - task: controller:install-helm
       - task: controller:delete-helm
 
