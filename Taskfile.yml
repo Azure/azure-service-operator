@@ -432,6 +432,7 @@ tasks:
       - task: controller:build
       - task: controller:docker-push-local
       - task: controller:gen-helm-manifest
+      - task: controller:install-cert-manager
       - task: controller:install-helm
       - task: controller:delete-helm
 
