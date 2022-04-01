@@ -319,7 +319,7 @@ jobs:
       displayName: Deploy to AKS - Install latest Helm
       condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       inputs:
-        helmVersionToInstall: 'latest'
+        helmVersionToInstall: 3.6.3  # Helm 3.7 renamed "hem chart" commands, which we use
     - script: |
         # Replace image repository in values.yaml to the official image in ACR
         img="$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION"
