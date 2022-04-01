@@ -1,4 +1,4 @@
-name: Validate Pull Request
+name: Test helm installation
 on:
   push:
     branches:
