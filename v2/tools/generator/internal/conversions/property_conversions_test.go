@@ -11,14 +11,13 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
 /*
  * This file contains tests for failures creating property conversions
  *
- * Tests for successfully created property conversions are found in property_conversion_function_test.go as the best
+ * Tests for successfully created property conversions are found in property_assignment_function_test.go as the best
  * way to verify those creations are created properly is to render them as code into a golden file.
  */
 
@@ -66,9 +65,7 @@ func TestCreateTypeConversion_GivenIncompatibleEndpoints_ReturnsExpectedError(t 
 	defs.AddAll(addressObject, locationObject)
 
 	idFactory := astmodel.NewIdentifierFactory()
-	configuration := config.NewObjectModelConfiguration()
-
-	conversionContext := NewPropertyConversionContext(defs, idFactory, configuration).
+	conversionContext := NewPropertyConversionContext(defs, idFactory).
 		WithDirection(ConvertTo)
 
 	for _, c := range cases {

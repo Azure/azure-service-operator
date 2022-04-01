@@ -7,6 +7,7 @@ package conversions
 
 import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
@@ -25,18 +26,21 @@ type PropertyConversionContext struct {
 	configuration *config.ObjectModelConfiguration
 	// idFactory is used for generating method names
 	idFactory astmodel.IdentifierFactory
+	// conversionGraph optionally contains our package conversion graph
+	conversionGraph *storage.ConversionGraph
+	// additionalReferences is a reference to a shared set of additional package references needed by conversions
+	additionalReferences *astmodel.PackageReferenceSet
 }
 
 // NewPropertyConversionContext creates a new instance of a PropertyConversionContext
 func NewPropertyConversionContext(
 	definitions astmodel.TypeDefinitionSet,
-	idFactory astmodel.IdentifierFactory,
-	configuration *config.ObjectModelConfiguration) *PropertyConversionContext {
+	idFactory astmodel.IdentifierFactory) *PropertyConversionContext {
 	return &PropertyConversionContext{
-		definitions:     definitions,
-		idFactory:       idFactory,
-		configuration:   configuration,
-		propertyBagName: "",
+		definitions:          definitions,
+		idFactory:            idFactory,
+		propertyBagName:      "",
+		additionalReferences: astmodel.NewPackageReferenceSet(),
 	}
 }
 
@@ -53,6 +57,20 @@ func (c *PropertyConversionContext) Types() astmodel.TypeDefinitionSet {
 // IDFactory returns a reference to our identifier factory
 func (c *PropertyConversionContext) IDFactory() astmodel.IdentifierFactory {
 	return c.idFactory
+}
+
+// WithConfiguration returns a new context with the specified configuration included
+func (c *PropertyConversionContext) WithConfiguration(configuration *config.ObjectModelConfiguration) *PropertyConversionContext {
+	result := c.clone()
+	result.configuration = configuration
+	return result
+}
+
+// WithConversionGraph returns a new context with the specified conversion graph included
+func (c *PropertyConversionContext) WithConversionGraph(conversionGraph *storage.ConversionGraph) *PropertyConversionContext {
+	result := c.clone()
+	result.conversionGraph = conversionGraph
+	return result
 }
 
 // WithFunctionName returns a new context with the specified function name included
@@ -73,6 +91,13 @@ func (c *PropertyConversionContext) WithDirection(dir Direction) *PropertyConver
 func (c *PropertyConversionContext) WithPropertyBag(name string) *PropertyConversionContext {
 	result := c.clone()
 	result.propertyBagName = name
+	return result
+}
+
+// WithPackageReferenceSet returns a new context that collects new package references
+func (c *PropertyConversionContext) WithPackageReferenceSet(set *astmodel.PackageReferenceSet) *PropertyConversionContext {
+	result := c.clone()
+	result.additionalReferences = set
 	return result
 }
 
@@ -98,19 +123,41 @@ func (c *PropertyConversionContext) PropertyBagName() string {
 }
 
 // TypeRename looks up a type-rename for the specified type, returning the new name and nil if found, or empty string
-// and an error if not.
+// and an error if not. If no configuration is available, acts as though there is no configuration for this rename,
+// returning "" and a NotConfiguredError
 func (c *PropertyConversionContext) TypeRename(name astmodel.TypeName) (string, error) {
+	if c.configuration == nil {
+		return "", config.NewNotConfiguredError("No configuration available")
+	}
+
 	return c.configuration.LookupNameInNextVersion(name)
+}
+
+// FindNextType returns the next type in the storage conversion graph, if any.
+// If no conversion graph is available, returns an empty type name and no error.
+func (c *PropertyConversionContext) FindNextType(name astmodel.TypeName) (astmodel.TypeName, error) {
+	if c.conversionGraph == nil {
+		return astmodel.EmptyTypeName, nil
+	}
+
+	return c.conversionGraph.FindNextType(name, c.definitions)
+}
+
+// AddPackageReference adds a new reference that's needed by the given conversion
+func (c *PropertyConversionContext) AddPackageReference(ref astmodel.PackageReference) {
+	c.additionalReferences.AddReference(ref)
 }
 
 // clone returns a new independent copy of this context
 func (c *PropertyConversionContext) clone() *PropertyConversionContext {
 	return &PropertyConversionContext{
-		definitions:     c.definitions,
-		functionName:    c.functionName,
-		direction:       c.direction,
-		propertyBagName: c.propertyBagName,
-		idFactory:       c.idFactory,
-		configuration:   c.configuration,
+		definitions:          c.definitions,
+		functionName:         c.functionName,
+		direction:            c.direction,
+		propertyBagName:      c.propertyBagName,
+		idFactory:            c.idFactory,
+		configuration:        c.configuration,
+		conversionGraph:      c.conversionGraph,
+		additionalReferences: c.additionalReferences,
 	}
 }

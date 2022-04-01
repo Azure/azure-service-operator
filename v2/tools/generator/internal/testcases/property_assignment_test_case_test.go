@@ -42,7 +42,8 @@ func TestGolden_PropertyAssignmentTestCase_AsFunc(t *testing.T) {
 
 	defs := make(astmodel.TypeDefinitionSet)
 	cfg := config.NewObjectModelConfiguration()
-	conversionContext := conversions.NewPropertyConversionContext(defs, idFactory, cfg)
+	conversionContext := conversions.NewPropertyConversionContext(defs, idFactory).
+		WithConfiguration(cfg)
 	convertFrom, err := functions.NewPropertyAssignmentFunction(currentSpec, otherSpec, conversionContext, conversions.ConvertFrom)
 	g.Expect(err).To(Succeed())
 
