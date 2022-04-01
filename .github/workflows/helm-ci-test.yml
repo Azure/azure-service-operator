@@ -85,7 +85,9 @@ jobs:
           echo "::set-output name=id::$container_id"
 
       - name: Spin up a kind cluster
-        run: docker exec "$container_id" task controller:kind-create
+        run: |
+          container_id=${{steps.devcontainer.outputs.id}}
+          docker exec "$container_id" task controller:kind-create
 
       - name: Test Helm Installation
         run: |
