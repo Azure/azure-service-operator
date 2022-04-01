@@ -36,6 +36,7 @@ vars:
   # how long to let tests against live resources run for
   LIVE_TEST_TIMEOUT: 3h
 
+  ASO_NAMESPACE: azureserviceoperator-system
 tasks:
   default:
     desc: Perform all fast local pre-commit tasks.
@@ -407,6 +408,32 @@ tasks:
     cmds:
      - "{{.SCRIPTS_ROOT}}/generate-helm-manifest.sh {{.KUBE_RBAC_PROXY}} {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} {{.PUBLIC_REGISTRY}} {{.LATEST_VERSION_TAG}} `pwd`/{{.CONTROLLER_ROOT}}"
 
+  controller:install-helm:
+    desc: Generate and install helm chart on cluster
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+    - "helm install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+      --set azureTenantID=$AZURE_TENANT_ID \
+      --set azureClientSecret=$AZURE_CLIENT_SECRET \
+      --set azureClientID=$AZURE_CLIENT_ID \
+      --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}}
+      asov22 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
+    - "kubectl rollout status -n {{.ASO_NAMESPACE}} deployment/azureserviceoperator-controller-manager"
+
+
+  controller:delete-helm:
+    desc: Delete helm release
+    cmds:
+      - "helm delete asov22 -n {{.ASO_NAMESPACE}}"
+
+  controller:test-helm-installation:
+    desc: Test helm chart installation and deletion
+    deps:
+      - controller:build
+      - controller:docker-push-local
+      - controller:gen-helm-manifest
+      - controller:install-helm
+      - controller:delete-helm
 
   controller:kind-delete:
     desc: Deletes a kind cluster
@@ -467,7 +494,7 @@ tasks:
       - "cmctl check api --wait=2m"
       - task: controller:install
       - task: controller:make-sp-secret
-      - "kubectl wait --for=condition=ready --timeout=2m pod -n azureserviceoperator-system -l control-plane=controller-manager"
+      - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
 
   controller:kind-create-with-podidentity:
     desc: Creates a local kind cluster with 'AAD Pod Identity' installed alongside ASO.
@@ -480,7 +507,7 @@ tasks:
       - task: controller:install
       - task: controller:install-aad-pod-identity-local
       - task: controller:make-aadpodidentity-secret
-      - "kubectl wait --for=condition=ready --timeout=2m pod -n azureserviceoperator-system -l control-plane=controller-manager"
+      - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
 
   controller:gen-crd-docs:
     desc: Generates API docs for CRDs

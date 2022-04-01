@@ -1,0 +1,99 @@
+name: Validate Pull Request
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-go-get:
+    runs-on: ubuntu-latest
+    steps:
+      - name: '`go get` code'
+        run: |
+          # placeholder module so we can invoke go get
+          go mod init example.com/m
+
+          # note: cannot use github.sha here since that commit doesn't really exist
+          # however, since we require branches to always be up-to-date (GitHub setting),
+          # using the head of the PR branch should provide equivalent behaviour
+          sha='${{ github.event.pull_request.head.sha }}'
+          repo='${{ github.event.pull_request.head.repo.html_url}}'
+          repo=${repo#"https://"} # trim prefix
+
+          if [ "$repo" != "github.com/Azure/azure-service-operator" ]; then
+            echo "Skipping 'go get' check for fork…" 
+            exit 0
+          fi
+
+          if [ -z "$sha" ]; then 
+            # this means we were triggered by push to 'main', 
+            # not a PR, so use the sha that triggered this
+            sha='${{ github.sha }}'
+          fi
+
+          go get "$repo/v2@$sha"
+
+  test-generator:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # required to access tags
+          submodules: 'true'
+
+      - name: Log in to GitHub Docker Registry
+        uses: docker/login-action@v1
+        with:
+          registry: docker.pkg.github.com # ghcr.io not yet enabled for Azure org
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Note: Changes to this step must also be mirrored into pr-validation-with-secrets.yaml
+      - name: Build devcontainer image
+        # We must issue a manual pull before the build so the image gets copied locally, because
+        # docker.pkg.github.com is not a valid Docker registry and doesn't work with --cache-from,
+        # however, `docker pull` will fall back to other methods that do work and get the image loaded.
+        #
+        # This message comes from "docker pull":
+        #
+        # Run docker pull docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest
+        # WARNING: ⚠️ Failed to pull manifest by the resolved digest. This registry does not
+        #  appear to conform to the distribution registry specification; falling back to
+        #  pull by tag.  This fallback is DEPRECATED, and will be removed in a future
+        #  release.  Please contact admins of https://docker.pkg.github.com. ⚠️
+        #
+        # See: https://github.com/moby/moby/issues/41687#issuecomment-733826074 and related issues
+        run: |
+          docker pull docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest
+          docker build --cache-from docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest .devcontainer
+        env:
+          DOCKER_BUILDKIT: 1
+
+      - name: Run devcontainer image
+        id: devcontainer
+        run: |
+          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock --network=host devcontainer:latest)
+          docker start "$container_id"
+          echo "::set-output name=id::$container_id"
+
+      - name: Spin up a kind cluster
+        run: docker exec "$container_id" task controller:kind-create
+
+      - name: Test Helm Installation
+        run: |
+          docker exec -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID "${{steps.devcontainer.outputs.id}}" task controller:test-helm-installation
+        env:
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+
