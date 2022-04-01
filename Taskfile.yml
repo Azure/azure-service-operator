@@ -417,23 +417,23 @@ tasks:
       --set azureClientSecret=$AZURE_CLIENT_SECRET \
       --set azureClientID=$AZURE_CLIENT_ID \
       --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}}
-      asov22 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
+      asov2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
     - "kubectl rollout status -n {{.ASO_NAMESPACE}} deployment/azureserviceoperator-controller-manager"
 
 
   controller:delete-helm:
     desc: Delete helm release
     cmds:
-      - "helm delete asov22 -n {{.ASO_NAMESPACE}}"
+      - "helm delete asov2 -n {{.ASO_NAMESPACE}}"
 
   controller:test-helm-installation:
     desc: Test helm chart installation and deletion
-    deps:
-      - controller:build
-      - controller:docker-push-local
-      - controller:gen-helm-manifest
-      - controller:install-helm
-      - controller:delete-helm
+    cmds:
+      - task: controller:build
+      - task: controller:docker-push-local
+      - task: controller:gen-helm-manifest
+      - task: controller:install-helm
+      - task: controller:delete-helm
 
   controller:kind-delete:
     desc: Deletes a kind cluster
