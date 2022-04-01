@@ -1,14 +1,14 @@
 apiVersion: azure.microsoft.com/v1beta1
 kind: AzureSqlDatabase
 metadata:
-  name:  azuresqldatabase-sample
+  name: azuresqldatabase-sample
   labels: # Provide tags to add to AzureSqlDatabase as labels
     tag1: value1
     tag2: value2
 spec:
   location: westus
   resourceGroup: resourcegroup-azure-operators
-  server:  sqlserver-sample-777
+  server: sqlserver-sample-777
   sku:
     name: Basic
     tier: Basic
@@ -31,6 +31,9 @@ spec:
 
   # The short term retention policy to use
   # shortTermRetentionPolicy:
-      # RetentionDays is the backup retention period in days. This is how many days
-      #	Point-in-Time Restore will be supported.
-  #   retentionDays: 21
+  # RetentionDays is the backup retention period in days. This is how many days
+  # Point-in-Time Restore will be supported.
+  # retentionDays: 21
+
+  # The id of the elastic pool to place this database into. Needs to be matched with an appropriate sku
+  # elasticPoolId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/some-resource-group-name/providers/Microsoft.Sql/servers/some-sql-server-name/elasticPools/some-elastic-pool-name
