@@ -17,6 +17,7 @@ func CreateTypeConversion(
 * `destinationEndpoint` similarly captures the name and type of the destination that needs to be populated;
 * `conversionContext` contains other information about the conversion being generated.
 
+
 The core algorithm works by scanning through the handlers listed in [`propertyConversionFactories`](https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/conversions/property_conversions.go#L51) to find one that can handle the current conversion. Many of those conversions recursively call `CreateTypeConversion` with a simpler conversion, breaking the problem down into simpler steps.
 
 All of the handlers follow a similar structure:
@@ -24,6 +25,11 @@ All of the handlers follow a similar structure:
 * Check prerequisites
 * Preparation
 * Generation
+
+Each handler returns one of the following:
+
+* `(PropertyConversion, nil)` - the hander provided a conversion
+* `(nil, error)` - 
 
 In the examples below we'll see how these play out.
 
@@ -40,9 +46,26 @@ func assignPrimitiveFromPrimitive(
     _ *PropertyConversionContext) (PropertyConversion, error) {
 ```
 
-The function starts with checking prerequisites - the conditions under which this handler will trigger. Each bails out early if we find that the prerequisite is not satisfied.
+For the purposes of illustration, let's work with a sample pair of endpoints, depicted in Go syntax:
 
-The type of an endpoint is typically a composite type - for example, an `*int` is represented by an [`OptionalType`](https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/astmodel/object_type.go#L20) wrapping the underlying primitive type. Our handler prerequisites therefore need to check for these wrapper types to avoid triggering inappropriately.
+``` go
+sourceEndpoint := &TypedConversionEndpoint {
+    name:    "Quantity",
+    theType: IntType,
+}
+
+destinationEndpoint := &TypedConversionEndpoint {
+    name:    "Quantity",
+    theType: &FlaggedType {
+        element: IntType,
+        flags:   // ... elided ...
+    }
+}
+```
+
+Note how the type of `destinationEndpoint` includes some flags. This is a common model, and explains why we use `As*()` conversion methods rather than simple Go casts. Some of the wrapper types - such as `OptionalType` are important for our conversions, so we look out for those as we go.
+
+The function starts with checking prerequisites - the conditions under which this handler will trigger. Each bails out early if we find that the prerequisite is not satisfied.
 
 ``` go
     // Require both source and destination to not be bag items
@@ -55,6 +78,8 @@ The type of an endpoint is typically a composite type - for example, an `*int` i
         return nil, nil
     }
 ```
+
+Neither of our endpoints is a bag item, and neither is optional, so our sample data passes these checks and the handler continues.
 
 Only primitive types can be simply copied across, so we check that both endpoints are the same primitive type.
 
@@ -76,6 +101,8 @@ Only primitive types can be simply copied across, so we check that both endpoint
         return nil, nil
     }
 ```
+
+When applied to `sourceEndPoint.Type()`, the `AsPrimitiveType()` conversion function returns the underlying `IntType`. It also knows how to unwrap our composite types, so when applied to `destinationEndPoint.Type()` it tunnels through the `FlaggedType` and also returns `IntType`. Since both types are the same, the last check passes as well.
 
 We finish by returning a function that creates the required code.
 
@@ -103,7 +130,30 @@ When one or the other values is optional, we can't just copy the pointer across 
 
 A pair of handlers - `assignFromOptional` and `assignToOptional` - work together to handle these cases.
 
-Let's look at how `assignFromOptional` works. We start with the standard function signature required of all handlers:
+Let's look at how `assignFromOptional` works, with another sample pair of endpoints:
+
+``` go
+sourceEndpoint := &TypedConversionEndpoint {
+    name:    "Quantity",
+    theType: &OptionalType {
+        element: IntType,
+    },
+}
+
+destinationEndpoint := &TypedConversionEndpoint {
+    name:    "Quantity",
+    theType: &FlaggedType {
+        element: &OptionalType {
+            element: IntType,
+        },
+        flags:   // ... elided ...
+    }
+}
+```
+
+Again we've included some flags on `destinationEndpoint`. Note how the `OptionalType` is wrapped within the `FlaggedType`.
+
+We start with the standard function signature required of all handlers:
 
 ``` go
 func assignFromOptional(
@@ -127,9 +177,11 @@ For our prerequisites, we require that we aren't reading from a property bag, an
     }
 ```
 
-We need to be able to convert between the non-optional source and our destination.
+When passed our demonstration `sourceEndpoint.Type()`, the helper `AsOptionalType` returns the expected `OptionalType`.
 
-To work out whether this is supported, we make a recursive call to `CreateTypeConversion`. If that doesn't work, we bail out.
+No prerequisite checks are made on `destinationEndpoint` because this particular handler doesn't care.
+
+To proceed, need to be able to convert between the non-optional source and our destination. Finding out whether this is supported, involves a recursive call to `CreateTypeConversion` using a new source endpoint that contains the unwrapped contents from the `OptionalType` returned earlier. If that doesn't work, we bail out.
 
 ``` go
     // Require a conversion between the unwrapped type and our source
@@ -147,7 +199,7 @@ To work out whether this is supported, we make a recursive call to `CreateTypeCo
     }
 ```
 
-Since we have the required conversion, we return our generator function.
+Since we have the necessary conversion, we return our generator function.
 
 ``` go
     return func(
@@ -157,7 +209,7 @@ Since we have the required conversion, we return our generator function.
         generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 ```
 
-We value the quality of our generated code, so we check what kind of `reader` we are given. If it's a local variable or a field selector, we can use it directly and skip creating a local variable.
+One of our guiding principles is that the generated code should look hand written whenever possible, to aid in code-review and debugging. We check what kind of `reader` we are given. If it's a local variable or a field selector, we can use it directly and skip creating a local variable.
 
 ``` go
         var cacheOriginal dst.Stmt
@@ -178,6 +230,8 @@ We value the quality of our generated code, so we check what kind of `reader` we
 
 * `cacheOriginal` is an optional statement that reads our value and stashes it in a local variable.
 * `actualReader` is an expression for use later in the function. It reads from our local variable (if used), or directly from our source (if not).
+
+The `ShortDeclaration` helper method is passed both the name of a local variable, and an expression to use when initializing it.
 
 ``` go
         checkForNil := astbuilder.AreNotEqual(actualReader, astbuilder.Nil())
@@ -216,7 +270,30 @@ From the `astbuilder` package we use `Statements()` to stitch together our fragm
 
 If the property is a container (a list or dictionary), we need to copy all the individual items across. The [`assignArrayFromArray`](https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/conversions/property_conversions.go#L863) and [`assignMapFromMap`](https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/conversions/property_conversions.go#L990) handlers do this.
 
-The `assignArrayFromArray` handler is representative. As usual, we start with the standard function signature.
+The `assignArrayFromArray` handler is representative. As usual, here are two sample endpoints:
+
+``` go
+sourceEndpoint := &TypedConversionEndpoint {
+    name:    "Aliases",
+    theType: &ArrayType {
+        element: StringType,
+    }
+}
+
+destinationEndpoint := &TypedConversionEndpoint {
+    name:    "Aliases",
+    theType: &ValidatedType {
+        element: &ArrayType {
+            element: StringType,
+        },
+        validations: // ... elided ...
+    }
+}
+```
+
+Our destination endpoint is a validated array.
+
+We begin with the standard function signature.
 
 ``` go 
 func assignArrayFromArray(
@@ -224,7 +301,8 @@ func assignArrayFromArray(
     destinationEndpoint *TypedConversionEndpoint,
     conversionContext *PropertyConversionContext) (PropertyConversion, error) {
 ```
-We don't support bag items here.
+
+We don't support bag items here, so we check for them up front.
 
 ``` go
     // Require both source and destination to not be bag items
@@ -234,6 +312,7 @@ We don't support bag items here.
 ```
 
 Both the source and destination must be array types.
+
 ``` go
     // Require source to be an array type
     sourceArray, sourceIsArray := 
@@ -250,7 +329,9 @@ Both the source and destination must be array types.
     }
 ```
 
-We must have a way to convert each item from the source array into an item for the destination array. 
+As we've seen before with other helper methods, `AsArrayType()` will unwrap the `ValidatedType`, returning the array within.
+
+It's not enough to have two arrays. We must also have a way to convert each item from the source array into an item for the destination array.
 
 To find such a conversion we create a pair of endpoints by unwrapping the array definitions, and then recursively call `CreateTypeConversion`.
 
@@ -266,7 +347,9 @@ To find such a conversion we create a pair of endpoints by unwrapping the array 
         conversionContext)
 ```
 
-Returning a high quality error message is critical to anyone trying to debug conversion failures.
+For our sample endpoints, you'd correctly predict that `assignPrimitiveFromPrimitive` will be involved here. We don't try and do that directly because there are too many possibilities to handle - recursively calling `CreateTypeConversion` with a smaller problem both gives us greatest flexiblity, and helps keep each handler relatively simple.
+
+Returning a high quality error message is critical to anyone trying to debug conversion failures, so we construct a useful one here. The `DebugDescription()` handler returns a string that contains a comprehensive breakdown of the type. If it encounters a `TypeName`, the definition is looked up and a description of that type is included as well.
 
 ``` go
     if err != nil {
@@ -330,12 +413,6 @@ Our array may be nil, so we need to check and avoid dereferencing it if so.
 
 Using `knownLocals`, we create three obviously related identifiers to use for the array conversion. Each uses the name of our source as a base, with a different suffix.
 
-* `List` is the final list we're creating
-* `Item` is an item from the source list
-* `Index` is the index of the item we're converting
-
-Clones of `knownLocals` are used for each nested scope so that definitions don't leak out.
-
 We use different suffixes here to those used in `assignMapFromMap` in order to keep the code easy to read if the two are nested.
 
 ``` go
@@ -350,7 +427,13 @@ We use different suffixes here to those used in `assignMapFromMap` in order to k
             CreateSingularLocal(sourceEndpoint.Name(), "Index")
 ```
 
-Our declaration intializes a new list of the correct final size.
+* `List` is the final list we're creating
+* `Item` is a single item from the source list
+* `Index` is the integer index of the item we're converting
+
+Clones of `knownLocals` are used for each nested scope (one inside our **if** statement, see below; the other inside our loop) so that definitions don't leak out.
+
+Our declaration initializes a new list of the correct final size.
 
 ``` go
         declaration := astbuilder.ShortDeclaration(
@@ -360,7 +443,7 @@ Our declaration intializes a new list of the correct final size.
                 astbuilder.CallFunc("len", actualReader)))
 ```
 
-We create a custom writer to assign values into our list by index.
+We create a custom writer to store values into our at a given index.
 
 ``` go
         writeToElement := func(expr dst.Expr) []dst.Stmt {
@@ -375,7 +458,7 @@ We create a custom writer to assign values into our list by index.
         }
 ```
 
-Within our loop we create a copy of the item variable, to avoid aliasing between loops. We don't know what our inner conversions are going to do, so this is a safety precaution.
+Within our loop we create a copy of the item variable, to avoid aliasing between loops. We know for our sample case that an alias isn't necessary - but we don't know generally know what an conversions might do, so this is a safety precaution.
 
 ``` go
         avoidAliasing := astbuilder.ShortDeclaration(itemId, dst.NewIdent(itemId))
@@ -384,7 +467,7 @@ Within our loop we create a copy of the item variable, to avoid aliasing between
         avoidAliasing.Decs.Before = dst.NewLine
 ```
 
-The loop body copies one item across to the final array.
+The loop body copies one item across to the final array using the nested conversion we obtained earlier.
 
 ``` go
         loopBody := astbuilder.Statements(
@@ -396,14 +479,30 @@ The loop body copies one item across to the final array.
                 generationContext))
 ```
 
+We build the loop itself by iterating over that body once for each item in the list. Fortunately, we have a helper for that:
+
+``` go
+        loop := astbuilder.IterateOverSliceWithIndex(
+            indexId, 
+            itemId, 
+            reader, 
+            loopBody...)
+```
+
+* `indexId` is a **string** with the name to use for our integer index
+* `itemId` is a **string** with the name to use for each item
+* `reader` is an **Expr** detailing how to retrieve the slice for iteration
+* `loopBody` is the set of statements to put within the loop
+
 After iterating through all the items, we assign the final list to the destination by calling `writer`.
 
 ``` go
-        loop := astbuilder.IterateOverSliceWithIndex(indexId, itemId, reader, loopBody...)
         assignValue := writer(dst.NewIdent(tempId))
 ```
 
-Remember our test for **nil** earlier? If the source array exists, we use the loop to copy the items across. If not, we assign an explicit **nil**.
+Finally, we wrap that loop within an **if** statement. 
+
+Earlier we created a test to see if the source array is present at all. If it's present (not **nil**), we copy across all the items. If not, we explicitly assign **nil** using `writer` to ensure we don't leave any debris lying around.
 
 ``` go
         trueBranch := astbuilder.Statements(
@@ -422,3 +521,9 @@ Remember our test for **nil** earlier? If the source array exists, we use the lo
     }, nil
 }
 ```
+
+## Conclusion
+
+There are a bunch of other property conversion handlers, but they all follow the same structure as the ones detailed here, each handling a specific scenario and recursively calling `CreateTypeConversion()` to handle anything else needed.
+
+
