@@ -125,6 +125,12 @@ We finish by returning a function that creates the required code.
 
 For a simple property assignment, we don't need any intermediate transformation, so we can just write the value directly.
 
+Our final generated code does what you expect:
+
+``` go
+destination.Quantity = source.Quantity
+```
+
 ## Optional Values
 
 When one or the other values is optional, we can't just copy the pointer across - we'd end up sharing the contents between the source and destination. This may not be safe as changes made to one object would be visible to another.
@@ -234,11 +240,9 @@ One of our guiding principles is that the generated code should look hand writte
 
 The `ShortDeclaration` helper method is passed both the name of a local variable, and an expression to use when initializing it.
 
-``` go
-        checkForNil := astbuilder.AreNotEqual(actualReader, astbuilder.Nil())
-```
+For the purposes of our demonstration, we'll assume we're reading directly from a field, so no local cache is necessary.
 
-If our source value is nil, we are going to write a zero value (to ensure we always assign *something*); otherwise we use the nested conversion we found earlier to write the value.
+Writing the actual value uses our nested conversion. We pass in dereference of the expression to reveal the actual value.
 
 ``` go
         writeActualValue := conversion(
@@ -246,18 +250,27 @@ If our source value is nil, we are going to write a zero value (to ensure we alw
             writer,
             knownLocals.Clone(),
             generationContext)
+```
+We use a clone of `knownLocals` as any local variables created by the nested conversion will be scoped within our **if** statement and won't be visible to later code.
 
+If no value is available, we still want to write something - so we'll write a zero value.
+
+``` go
         writeZeroValue := writer(
             destinationEndpoint.Type().
                 AsZero(conversionContext.Types(), generationContext))
+```
+
+We can now build the final statement, checking to see if we have a value at all and then assigning either it or zero.
+
+``` go
+        checkForNil := astbuilder.AreNotEqual(actualReader, astbuilder.Nil())
 
         stmt := astbuilder.SimpleIfElse(
             checkForNil,
             writeActualValue,
             writeZeroValue)
 ```
-
-We use a clone of `knownLocals` as any local variables created by the nested conversion will be scoped within our **if** statement and won't be visible to later code.
 
 From the `astbuilder` package we use `Statements()` to stitch together our fragments into a sequence of statements that we return. This helper is smart enough to omit any missing fragments (as when we don't need `cacheOriginal`) and to flatten any passed statement slices.
 
@@ -266,6 +279,18 @@ From the `astbuilder` package we use `Statements()` to stitch together our fragm
     }, nil
 }
 ```
+
+Our final generated code:
+
+``` go
+if source.Quantity != nil {
+    destination.Quantity = *source.Quantity
+} else {
+    destination.Quantity = 0
+}
+```
+
+We assign `0` in the else branch because that's the zero value for an integer.
 
 ## Container types
 
@@ -523,8 +548,21 @@ Earlier we created a test to see if the source array is present at all. If it's 
 }
 ```
 
+The final generated code.
+
+``` go
+if source.Aliases != nil {
+    aliasList := make([]string, len(source.Aliases))
+    for aliasIndex, aliasItem := range source.Aliases {
+        aliasItem := aliasItem
+        aliasList[aliasIndex] = aliasItem
+    }
+
+    destination.Aliases = aliasList
+} else {
+    destination.Aliases = nil
+}
+```
 ## Conclusion
 
-There are a bunch of other property conversion handlers, but they all follow the same structure as the ones detailed here, each handling a specific scenario and recursively calling `CreateTypeConversion()` to handle anything else needed.
-
-
+There many other property conversion handlers, but they all follow the same structure as the ones detailed here, each handling a specific scenario and recursively calling `CreateTypeConversion()` to handle anything else needed.
