@@ -28,8 +28,9 @@ All of the handlers follow a similar structure:
 
 Each handler returns one of the following:
 
-* `(PropertyConversion, nil)` - the hander provided a conversion
-* `(nil, error)` - 
+* `(PropertyConversion, nil)` - the handler successfully provided a conversion.
+* `(nil, error)` - the handler tried to provide a conversion, but something went wrong.
+* `(nil, nil)` - the handler doesn't apply to this situation.
 
 In the examples below we'll see how these play out.
 
