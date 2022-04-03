@@ -1,10 +1,7 @@
 name: Publish API docs
 on:
-  # run when a release is published,
-  # which creates a new tag
-  push:
-    tags:
-      - v2*
+  workflow_dispatch:
+  # no content, allows manual triggering
 
 jobs:
   generate:
