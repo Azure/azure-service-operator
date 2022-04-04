@@ -23,7 +23,9 @@ jobs:
           sha='${{ github.event.pull_request.head.sha }}'
           repo='${{ github.event.pull_request.head.repo.html_url}}'
           repo=${repo#"https://"} # trim prefix
-
+          
+          # Skip the check when its a fork, as it doesn't work for PRs from forks,
+          # the URL in the 'go.mod' has to match the URL of the repo.
           if [ "$repo" != "github.com/Azure/azure-service-operator" ]; then
             echo "Skipping 'go get' check for fork…" 
             exit 0
