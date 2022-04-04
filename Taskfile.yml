@@ -159,6 +159,7 @@ tasks:
     cmds:
       - task: cleanup-old-live-azure-resources
       - task: controller:test-integration-kind-ci
+      - task: controller:test-multitenant-integration-kind-ci
 
   controller:ci-live:
     cmds:
@@ -222,11 +223,14 @@ tasks:
     desc: Builds the {{.CONTROLLER_APP}} Docker image.
     dir: "{{.CONTROLLER_ROOT}}"
     deps: [controller:build]
+    run: always
     sources:
     - Dockerfile
     - ./bin/{{.CONTROLLER_APP}}
     cmds:
     - docker build . -t {{.CONTROLLER_DOCKER_IMAGE}}
+    status:
+    - "docker manifest inspect {{.CONTROLLER_DOCKER_IMAGE}} > /dev/null"
 
   controller:docker-build-and-save:
     desc: Builds the {{.CONTROLLER_APP}} Docker image and saves it using docker save.
@@ -247,9 +251,12 @@ tasks:
     desc: Pushes the controller container image to a local registry
     deps: [controller:docker-build]
     dir: "{{.CONTROLLER_ROOT}}"
+    run: always
     cmds:
     - docker tag {{.CONTROLLER_DOCKER_IMAGE}} {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}}
     - docker push {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}}
+    status:
+    - "docker manifest inspect {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} > /dev/null"
 
   controller:test-integration-envtest:
     desc: Run integration tests with envtest using record/replay.
@@ -306,6 +313,37 @@ tasks:
       # to keep CI fast
       - go test -timeout 15m -v -run '{{default ".*" .TEST_FILTER}}' ./test
 
+  controller:test-multitenant-integration-kind-ci:
+    desc: Run live multitenant integration tests in kind.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps: [controller:kind-create-multitenant-cluster]
+    cmds:
+      # This timeout is purposefully low - if we find that this job is
+      # taking a long time we may need to think of other ways to keep
+      # CI fast
+      # TODO: Below pattern was taken from
+      # https://github.com/go-task/task/pull/474 to ensure cleanup
+      # runs after the test.
+      - |
+        (go test -timeout 15m -v -run '{{default ".*" .TEST_FILTER}}' ./test/multitenant); # Run the tests in a subshell.
+        TEST_EXIT=$?;
+        kind delete cluster --name=asov2
+        exit $TEST_EXIT
+
+  # Note that this target isn't used in CI and is intended for use
+  # when running locally on a kind cluster that you don't want to
+  # delete (in contrast to test-multitenant-integration-kind which
+  # will delete the kind cluster when it is done.
+  controller:test-multitenant-integration-kind:
+    desc: Run live multitenant integration tests in kind.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps: [controller:kind-create-multitenant-cluster]
+    cmds:
+      # This timeout is purposefully low - if we find that this job is
+      # taking a long time we may need to think of other ways to keep
+      # CI fast
+      - go test -timeout 15m -v -run '{{default ".*" .TEST_FILTER}}' ./test/multitenant
+
   controller:test-integration-ci:
     desc: Run integration tests for CI
     dir: "{{.CONTROLLER_ROOT}}"
@@ -314,7 +352,10 @@ tasks:
   controller:test-integration-ci-live:
     desc: Run integration tests for CI in live mode
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:test-integration-envtest-live, controller:test-integration-kind-ci, cleanup-old-live-azure-resources]
+    deps:
+      - controller:test-integration-envtest-live
+      - controller:test-integration-kind-ci
+      - cleanup-old-live-azure-resources
 
   controller:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CONTROLLER_APP}}.
@@ -385,6 +426,14 @@ tasks:
       - mkdir -p bin # in case it doesn't exist
       - kustomize build config/default | sed -e 's@localhost:5000/azureserviceoperator:latest@{{.PUBLIC_REGISTRY}}{{.CONTROLLER_DOCKER_IMAGE}}@g' > bin/azureserviceoperator_{{.VERSION}}.yaml
 
+  controller:make-multitenant-files:
+    desc: Splits the deployment yaml into cluster and tenant files for multitenant deployment
+    deps: [controller:run-kustomize]
+    dir: "v2/bin"
+    cmds:
+      - '../../{{.SCRIPTS_ROOT}}/make-multitenant-cluster.sh "{{.VERSION}}" "azureserviceoperator_{{.VERSION}}.yaml"'
+      - '../../{{.SCRIPTS_ROOT}}/make-multitenant-tenant.sh "{{.VERSION}}" "azureserviceoperator_{{.VERSION}}.yaml"'
+
   controller:run-kustomize-for-envtest:
     desc: Generates the CRDs for use in envtest
     deps: [controller:generate-kustomize]
@@ -410,11 +459,13 @@ tasks:
 
   controller:kind-delete:
     desc: Deletes a kind cluster
+    run: always
     cmds:
       - "kind delete cluster --name=asov2"
 
   controller:kind-create:
     desc: Creates a kind cluster and local Docker registry. Images in the local registry can be pulled in the kind cluster
+    run: always
     cmds:
       - "export KIND_CLUSTER_NAME=asov2 && {{.SCRIPTS_ROOT}}/kind-with-registry.sh"
     status:
@@ -428,6 +479,7 @@ tasks:
 
   controller:install-cert-manager:
     desc: Installs cert manager
+    run: always
     cmds:
       - "kubectl create namespace cert-manager"
       - "kubectl label namespace cert-manager cert-manager.io/disable-validation=true"
@@ -481,6 +533,34 @@ tasks:
       - task: controller:install-aad-pod-identity-local
       - task: controller:make-aadpodidentity-secret
       - "kubectl wait --for=condition=ready --timeout=2m pod -n azureserviceoperator-system -l control-plane=controller-manager"
+      # Wait for the webhook client config caBundles to be set on the
+      # ASO CRDs.
+      - "{{.SCRIPTS_ROOT}}/wait-for-ca-bundles.sh"
+
+  controller:kind-create-multitenant-cluster:
+    desc: Creates a local kind cluster with ASO installed in multitenant configuration.
+    deps: [controller:make-multitenant-files]
+    cmds:
+      - task: controller:kind-create
+      - task: controller:install-cert-manager
+      - task: controller:docker-push-local
+      # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
+      - "cmctl check api --wait=2m"
+      # Install cluster yaml - we need to switch the image to the local one.
+      - "cat v2/bin/multitenant-cluster_{{.VERSION}}.yaml | sed -e 's|image: mcr.microsoft.com/k8s/azureserviceoperator:.*|image: localhost:5000/azureserviceoperator:latest|' | kubectl apply --server-side=true -f -"
+      # Install tenant yaml - with same image switch
+      - "cat v2/bin/multitenant-tenant_{{.VERSION}}.yaml | sed -e 's|image: mcr.microsoft.com/k8s/azureserviceoperator:.*|image: localhost:5000/azureserviceoperator:latest|' | kubectl apply --server-side=true -f -"
+      # Make sp secret for tenant watching some target namespaces.
+      - "{{.SCRIPTS_ROOT}}/deploy_multitenant_testing_secret.sh"
+      # Create the namespaces that the tenant is watching.
+      - "kubectl create namespace t1-items"
+      - "kubectl create namespace t1-more"
+      # Wait for all the operator pods to be ready.
+      - "kubectl wait --for=condition=ready --timeout=2m pod -n azureserviceoperator-system -l control-plane=controller-manager"
+      - "kubectl wait --for=condition=ready --timeout=2m pod -n tenant1-system -l control-plane=controller-manager"
+      # Wait for the webhook client config caBundles to be set on the
+      # ASO CRDs.
+      - "{{.SCRIPTS_ROOT}}/wait-for-ca-bundles.sh"
 
   controller:gen-crd-docs:
     desc: Generates API docs for CRDs
