@@ -31,9 +31,9 @@ To deploy the operator in multi-tenant mode the release YAML has been split into
    * A cluster role binding enabling the per-tenant operator's service account to manage the Azure resources.
 
 ## Example files
-Examples of the deployment YAML files are available on the release page for ASO v2 releases from [v2.0.0-alpha.5](https://github.com/Azure/azure-service-operator/releases/tag/v2.0.0-alpha.5).
-The cluster-wide file `multitenant-cluster_v2.0.0-alpha.5.yaml` can be used as-is (the webhook deployment namespace is fixed as `azureserviceoperator-system`),
-but the namespaces and cluster role binding in the per-tenant file `multitenant-tenant_v2.0.0-alpha.5.yaml` will need to be customised in each tenant's YAML file from `tenant1` to the desired name for that tenant.
+Examples of the deployment YAML files are available on the release page for ASO v2 releases from [v2.0.0-alpha.6](https://github.com/Azure/azure-service-operator/releases/tag/v2.0.0-alpha.6).
+The cluster-wide file `multitenant-cluster_v2.0.0-alpha.6.yaml` can be used as-is (the webhook deployment namespace is fixed as `azureserviceoperator-system`),
+but the namespaces and cluster role binding in the per-tenant file `multitenant-tenant_v2.0.0-alpha.6.yaml` will need to be customised in each tenant's YAML file from `tenant1` to the desired name for that tenant.
 
 ## Per-tenant configuration
 Create the `aso-controller-settings` secret as described in the [authentication docs](https://azure.github.io/azure-service-operator/introduction/authentication/),
