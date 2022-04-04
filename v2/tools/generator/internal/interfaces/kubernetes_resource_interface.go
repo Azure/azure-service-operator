@@ -266,11 +266,6 @@ func fixedValueGetAzureNameFunction(fixedValue string) functions.ObjectFunctionH
 	}
 }
 
-// IsKubernetesResourceProperty returns true if the supplied property name is one of our "magical" names
-func IsKubernetesResourceProperty(name astmodel.PropertyName) bool {
-	return name == astmodel.AzureNameProperty || name == astmodel.OwnerProperty
-}
-
 // newOwnerFunction creates the Owner function declaration. This has two possible formats.
 // For normal resources:
 //	func (<receiver> *<receiver>) Owner() *genruntime.ResourceReference {

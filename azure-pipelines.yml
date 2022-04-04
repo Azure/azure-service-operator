@@ -292,7 +292,7 @@ jobs:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
-          az resource list --tag freeforpipeline=true --query '[].{Name:name}' -o table > clusters.txt
+          az resource list --tag freeforpipeline=true --query "[?type=='Microsoft.ContainerService/managedClusters'].{Name:name}" -o table > clusters.txt
           clustername=$(tail -n 1 clusters.txt)
           if [ "$clustername" == "" ]; then
             echo AKS clusters unavailable
@@ -311,7 +311,7 @@ jobs:
     - script: |
         kubectl create namespace cert-manager
         kubectl label namespace cert-manager cert-manager.io/disable-validation=true
-        kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
+        kubectl apply --validate=false -f https://github.com/cert-manager/cert-manager/releases/download/v1.7.2/cert-manager.yaml
       displayName: Deploy to AKS - Install Cert Manager
       condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
 
@@ -319,7 +319,7 @@ jobs:
       displayName: Deploy to AKS - Install latest Helm
       condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       inputs:
-        helmVersionToInstall: 'latest'
+        helmVersionToInstall: 3.6.3  # Helm 3.7 renamed "hem chart" commands, which we use
     - script: |
         # Replace image repository in values.yaml to the official image in ACR
         img="$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION"
@@ -352,7 +352,8 @@ jobs:
               --set aad-pod-identity.azureIdentities.aso-identity.resourceID="/subscriptions/$(AZURE_SUBSCRIPTION_ID)/resourcegroups/resourcegroup-azure-operators/providers/Microsoft.ManagedIdentity/userAssignedIdentities/$(ASO-DEVOPS-MI)" \
               --set aad-pod-identity.azureIdentities.aso-identity.clientID=$(POD-IDENTITY-CLIENTID) \
               --set aad-pod-identity.nmi.allowNetworkPluginKubenet=true \
-              --set image.repository=$imagename
+              --set image.repository=$imagename \
+              --set certManagerResourcesAPIVersion=cert-manager.io/v1
           # Verify namespace and pods
           kubectl get namespace
           kubectl get pods -n $(OPERATOR_NAMESPACE)
