@@ -140,16 +140,21 @@ func (client *GenericClient) createOrUpdateByID(
 
 	client.metrics.RecordAzureRequestsTime(resourceType, time.Since(requestStartTime), metrics.HttpPut)
 
+	statusCode := 0
+	if resp != nil {
+		statusCode = resp.StatusCode
+	}
+	client.metrics.RecordAzureRequestsTotal(resourceType, statusCode, metrics.HttpPut)
+
 	if err != nil {
 		client.metrics.RecordAzureFailedRequestsTotal(resourceType, metrics.HttpPut)
 		return nil, err
 	}
 
-	client.metrics.RecordAzureRequestsTotal(resourceType, resp.StatusCode, metrics.HttpPut)
-
 	if !runtime.HasStatusCode(resp, http.StatusOK, http.StatusCreated, http.StatusAccepted) {
 		return nil, client.createOrUpdateByIDHandleError(resp)
 	}
+
 	return resp, nil
 }
 
