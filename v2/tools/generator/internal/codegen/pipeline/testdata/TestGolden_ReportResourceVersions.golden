@@ -4,6 +4,16 @@ These are the resources with Azure Service Operator support committed to our **m
 
 ## person
 
+| Name    | Description                                     | ARM Version | CRD Version | Sample                                                                                                                       |
+|---------|-------------------------------------------------|-------------|-------------|------------------------------------------------------------------------------------------------------------------------------|
+| Address |                                                 | v20211231   | v20211231   | [Address sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/person/v20211231_address.yaml)
+ |
+| Address |                                                 | v20200101   | v20200101   | [Address sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/person/v20200101_address.yaml)
+ |
+| Person  | This is a newer version of the Person resource  | v20211231   | v20211231   | [Person sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/person/v20211231_person.yaml)
+   |
+| Person  | This is an older version of the Person resource | v20200101   | v20200101   | [Person sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/person/v20200101_person.yaml)
+   |
 
 ### ARM version v20200101
 

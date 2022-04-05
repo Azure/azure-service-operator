@@ -18,6 +18,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/reporting"
 )
 
 // ReportResourceVersionsStageID is the unique identifier of this stage
@@ -68,7 +69,7 @@ func (r *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinitionSe
 		set, ok := r.kinds[grp]
 		if !ok {
 			set = make(astmodel.TypeDefinitionSet)
-			r.kinds[grp]=set
+			r.kinds[grp] = set
 		}
 
 		set.Add(rsrc)
@@ -118,6 +119,9 @@ func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, samplesU
 		if lastService != svc {
 			buffer.WriteString(fmt.Sprintf("## %s\n\n", svc))
 			lastService = svc
+
+			table := r.createTable(r.kinds[svc], svc, samplesURL)
+			table.WriteTo(buffer)
 		}
 
 		// For each version, write a header
@@ -168,4 +172,65 @@ func (r *ResourceVersionsReport) serviceName(ref astmodel.PackageReference) stri
 	}
 
 	return pathBits[index]
+}
+
+func (report *ResourceVersionsReport) createTable(
+	resources astmodel.TypeDefinitionSet,
+	group string,
+	samplesURL string) *reporting.MarkdownTable {
+	const (
+		name        = "Name"
+		description = "Description"
+		armVersion  = "ARM Version"
+		crdVersion  = "CRD Version"
+		sample      = "Sample"
+	)
+
+	result := reporting.NewMarkdownTable(
+		name,
+		description,
+		armVersion,
+		crdVersion,
+		sample)
+
+	toIterate := resources.AsSlice()
+	sort.Slice(toIterate, func(i, j int) bool {
+		left := toIterate[i].Name()
+		right := toIterate[j].Name()
+		if left.Name() != right.Name() {
+			return left.Name() < right.Name()
+		}
+
+		// Reversed parameters because we want more recent versions listed first
+		return astmodel.ComparePathAndVersion(right.PackageReference.PackagePath(), left.PackageReference.PackagePath())
+	})
+
+	for _, rsrc := range toIterate {
+		resourceType := astmodel.MustBeResourceType(rsrc.Type())
+
+		desc := strings.Join(rsrc.Description(), " ")
+		crdVersion := rsrc.Name().PackageReference.PackageName()
+		armVersion := strings.Trim(resourceType.APIVersionEnumValue().Value, "\"")
+		if armVersion == "" {
+			armVersion = crdVersion
+		}
+
+		var sample string
+		if samplesURL != "" {
+			// Note: These links are guaranteed to work because of the Taskfile 'controller:verify-samples' target
+			samplePath := fmt.Sprintf("%s/%s/%s_%s.yaml", samplesURL, group, crdVersion, strings.ToLower(rsrc.Name().Name()))
+			sample = fmt.Sprintf("[%s sample](%s)\n", rsrc.Name().Name(), samplePath)
+		} else {
+			sample = "-"
+		}
+
+		result.AddRow(
+			rsrc.Name().Name(),
+			desc,
+			armVersion,
+			crdVersion,
+			sample)
+	}
+
+	return result
 }
