@@ -368,10 +368,10 @@ install-test-tools: install-tools
 .PHONY: install-tools
 install-tools: TEMP_DIR := $(shell mktemp -d -t goinstall_XXXXXXXXXX)
 install-tools:
-	go install github.com/mikefarah/yq/v4 
-	go install k8s.io/code-generator/cmd/conversion-gen@v0.18.2 
-	go install sigs.k8s.io/kustomize/kustomize/v3@v3.8.6 
-	go install sigs.k8s.io/controller-tools/cmd/controller-gen@v0.4.0
+	go install github.com/mikefarah/yq/v4@v4.23.1
+	go install k8s.io/code-generator/cmd/conversion-gen@v0.23.5
+	go install sigs.k8s.io/kustomize/kustomize/v4@v4.5.4 
+	go install sigs.k8s.io/controller-tools/cmd/controller-gen@v0.8.0
     CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
 
 # Operator-sdk release version
