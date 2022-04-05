@@ -507,12 +507,7 @@ func (resource *FakeResource_Spec) SetAzureName(azureName string) { resource.Azu
 
 //Deprecated version of FakeResourceProperties. Use v1beta20200101.FakeResourceProperties instead
 type FakeResourceProperties struct {
-	//Reference: A string of the form
-	///subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-
-	//SubnetReference: A string of the form
-	///SUBSCRIPTIONS/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
+	Reference       *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 	SubnetReference *genruntime.ResourceReference `armReference:"SubnetId" json:"subnetReference,omitempty"`
 }
 

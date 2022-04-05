@@ -502,13 +502,8 @@ func (resource *FakeResource_Spec) SetAzureName(azureName string) { resource.Azu
 
 //Deprecated version of Properties. Use v1beta20200101.Properties instead
 type PropertiesARM struct {
-	//Bar: Mutually exclusive with all other properties
 	Bar *BarARM `json:"bar,omitempty"`
-
-	//Baz: Mutually exclusive with all other properties
 	Baz *BazARM `json:"baz,omitempty"`
-
-	//Foo: Mutually exclusive with all other properties
 	Foo *FooARM `json:"foo,omitempty"`
 }
 
@@ -571,13 +566,8 @@ type FooARM struct {
 
 //Deprecated version of Properties. Use v1beta20200101.Properties instead
 type Properties struct {
-	//Bar: Mutually exclusive with all other properties
 	Bar *Bar `json:"bar,omitempty"`
-
-	//Baz: Mutually exclusive with all other properties
 	Baz *Baz `json:"baz,omitempty"`
-
-	//Foo: Mutually exclusive with all other properties
 	Foo *Foo `json:"foo,omitempty"`
 }
 

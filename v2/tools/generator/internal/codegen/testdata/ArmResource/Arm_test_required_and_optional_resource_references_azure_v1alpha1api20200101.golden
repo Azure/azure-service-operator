@@ -507,13 +507,9 @@ func (resource *FakeResource_Spec) SetAzureName(azureName string) { resource.Azu
 
 //Deprecated version of FakeResourceProperties. Use v1beta20200101.FakeResourceProperties instead
 type FakeResourceProperties struct {
-	//OptionalVNetReference: A string of the form
-	///subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
 	OptionalVNetReference *genruntime.ResourceReference `armReference:"OptionalVNet" json:"optionalVNetReference,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//RequiredVNetReference: A string of the form
-	///subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
 	RequiredVNetReference *genruntime.ResourceReference `armReference:"RequiredVNet" json:"requiredVNetReference,omitempty"`
 }
 

@@ -5,12 +5,7 @@ package vPrefix20200101
 
 //Deprecated version of Person_Spec. Use v20200101.Person_Spec instead
 type Person_Spec struct {
-	//FamilyName: Shared name of the family
 	FamilyName string `json:"familyName,omitempty"`
-
-	//FullName: As would be used to address mail
-	FullName string `json:"fullName,omitempty"`
-
-	//KnownAs: How the person is generally known
-	KnownAs string `json:"knownAs,omitempty"`
+	FullName   string `json:"fullName,omitempty"`
+	KnownAs    string `json:"knownAs,omitempty"`
 }
