@@ -1,6 +1,6 @@
 module github.com/Azure/azure-service-operator/v2/tools/generator
 
-go 1.17
+go 1.18
 
 // Needed to reference shared version numbering:
 replace github.com/Azure/azure-service-operator/v2 => ../../
@@ -17,6 +17,7 @@ require (
 	github.com/go-openapi/spec v0.20.4
 	github.com/gobuffalo/flect v0.2.3
 	github.com/google/go-cmp v0.5.6
+	github.com/hbollon/go-edlib v1.6.0
 	github.com/kylelemons/godebug v1.1.0
 	github.com/leanovate/gopter v0.2.9
 	github.com/onsi/gomega v1.16.0
@@ -26,7 +27,7 @@ require (
 	github.com/spf13/pflag v1.0.5
 	github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415
 	github.com/xeipuuv/gojsonschema v1.2.0
-	golang.org/x/mod v0.5.1
+	golang.org/x/mod v0.6.0-dev.0.20211013180041-c96bc1413d57
 	golang.org/x/net v0.0.0-20211015210444-4f30a5c0130f
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
@@ -40,7 +41,6 @@ require (
 	github.com/go-logr/logr v1.0.0 // indirect
 	github.com/go-openapi/jsonreference v0.19.6 // indirect
 	github.com/go-openapi/swag v0.19.15 // indirect
-	github.com/hbollon/go-edlib v1.6.0 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/mailru/easyjson v0.7.6 // indirect
@@ -49,7 +49,7 @@ require (
 	github.com/xeipuuv/gojsonpointer v0.0.0-20180127040702-4e3ac2762d5f // indirect
 	golang.org/x/sys v0.0.0-20211019181941-9d821ace8654 // indirect
 	golang.org/x/text v0.3.7 // indirect
-	golang.org/x/tools v0.1.2 // indirect
+	golang.org/x/tools v0.1.8-0.20211029000441-d6a9af8af023 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
