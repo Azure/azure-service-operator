@@ -7,17 +7,17 @@ These are the resources with Azure Service Operator support committed to our **m
 
 ### ARM version 2020-06-01
 
-- github.com/Azure/azure-service-operator/hack/crossplane/apis/cache/v1alpha1api20200601/Redis
+- github.com/Azure/azure-service-operator/hack/crossplane/apis/cache/v1beta20200601/Redis
 
-Use CRD version `v1alpha1api20200601`
+Use CRD version `v1beta20200601`
 
 ## sql
 
 
 ### ARM version 2020-11-01-preview
 
-- github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1alpha1api20201101preview/Server
-- github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1alpha1api20201101preview/ServersDatabase
+- github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101preview/Server
+- github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101preview/ServersDatabase
 
-Use CRD version `v1alpha1api20201101preview`
+Use CRD version `v1beta20201101preview`
 
