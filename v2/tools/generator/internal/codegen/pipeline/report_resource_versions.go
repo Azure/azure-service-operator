@@ -36,12 +36,15 @@ func ReportResourceVersions(configuration *config.Configuration) *Stage {
 }
 
 type ResourceVersionsReport struct {
+	groups []string                              // A sorted slice of all our groups
+	kinds  map[string]astmodel.TypeDefinitionSet // For each group, the set of all available resources
 	// A separate list of resources for each package
 	lists map[astmodel.PackageReference][]astmodel.TypeDefinition
 }
 
 func NewResourceVersionsReport(definitions astmodel.TypeDefinitionSet) *ResourceVersionsReport {
 	result := &ResourceVersionsReport{
+		kinds: make(map[string]astmodel.TypeDefinitionSet),
 		lists: make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
 	}
 
@@ -55,7 +58,20 @@ func (r *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinitionSe
 	for _, rsrc := range resources {
 		name := rsrc.Name()
 		pkg := name.PackageReference
+		grp, _, ok := pkg.GroupVersion()
+		if !ok {
+			panic(fmt.Sprintf("external package reference not expected on definition"))
+		}
+
 		r.lists[pkg] = append(r.lists[pkg], rsrc)
+
+		set, ok := r.kinds[grp]
+		if !ok {
+			set = make(astmodel.TypeDefinitionSet)
+			r.kinds[grp]=set
+		}
+
+		set.Add(rsrc)
 	}
 }
 
