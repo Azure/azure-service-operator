@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_queueServices
+//Deprecated version of StorageAccountsQueueService. Use v1beta20210401.StorageAccountsQueueService instead
 type StorageAccountsQueueService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -48,22 +48,36 @@ var _ conversion.Convertible = &StorageAccountsQueueService{}
 
 // ConvertFrom populates our StorageAccountsQueueService from the provided hub StorageAccountsQueueService
 func (service *StorageAccountsQueueService) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20210401storage.StorageAccountsQueueService)
-	if !ok {
-		return fmt.Errorf("expected storage/v1alpha1api20210401storage/StorageAccountsQueueService but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20210401storage.StorageAccountsQueueService
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return service.AssignPropertiesFromStorageAccountsQueueService(source)
+	err = service.AssignPropertiesFromStorageAccountsQueueService(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to service")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccountsQueueService from our StorageAccountsQueueService
 func (service *StorageAccountsQueueService) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20210401storage.StorageAccountsQueueService)
-	if !ok {
-		return fmt.Errorf("expected storage/v1alpha1api20210401storage/StorageAccountsQueueService but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20210401storage.StorageAccountsQueueService
+	err := service.AssignPropertiesToStorageAccountsQueueService(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from service")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return service.AssignPropertiesToStorageAccountsQueueService(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-storage-azure-com-v1alpha1api20210401-storageaccountsqueueservice,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=storage.azure.com,resources=storageaccountsqueueservices,verbs=create;update,versions=v1alpha1api20210401,name=default.v1alpha1api20210401.storageaccountsqueueservices.storage.azure.com,admissionReviewVersions=v1beta1
@@ -293,31 +307,21 @@ func (service *StorageAccountsQueueService) OriginalGVK() *schema.GroupVersionKi
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_queueServices
+//Deprecated version of StorageAccountsQueueService. Use v1beta20210401.StorageAccountsQueueService instead
 type StorageAccountsQueueServiceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []StorageAccountsQueueService `json:"items"`
 }
 
+//Deprecated version of QueueServiceProperties_Status. Use v1beta20210401.QueueServiceProperties_Status instead
 type QueueServiceProperties_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	//Cors: Specifies CORS rules for the Queue service. You can include up to five CorsRule elements in the request. If no
-	//CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the
-	//Queue service.
-	Cors *CorsRules_Status `json:"cors,omitempty"`
-
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	//Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Cors       *CorsRules_Status      `json:"cors,omitempty"`
+	Id         *string                `json:"id,omitempty"`
+	Name       *string                `json:"name,omitempty"`
+	Type       *string                `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &QueueServiceProperties_Status{}
@@ -493,26 +497,16 @@ func (properties *QueueServiceProperties_Status) AssignPropertiesToQueueServiceP
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-04-01"}
-type StorageAccountsQueueServicesSpecAPIVersion string
-
-const StorageAccountsQueueServicesSpecAPIVersion20210401 = StorageAccountsQueueServicesSpecAPIVersion("2021-04-01")
-
 type StorageAccountsQueueServices_Spec struct {
-	//Cors: Sets the CORS rules. You can include up to five CorsRule elements in the request.
-	Cors *CorsRules `json:"cors,omitempty"`
-
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
+	Cors     *CorsRules `json:"cors,omitempty"`
+	Location *string    `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a storage.azure.com/StorageAccount resource
 	Owner *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccount"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags  map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &StorageAccountsQueueServices_Spec{}

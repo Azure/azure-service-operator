@@ -24,7 +24,7 @@ var (
 	_ fmt.Stringer     = LocalPackageReference{}
 )
 
-const GeneratorVersion string = "v1alpha1api"
+const GeneratorVersion string = "v1beta"
 
 // MakeLocalPackageReference Creates a new local package reference from a group and version
 func MakeLocalPackageReference(prefix string, group string, versionPrefix string, version string) LocalPackageReference {

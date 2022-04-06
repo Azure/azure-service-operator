@@ -5,22 +5,12 @@ package v1alpha1api20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+//Deprecated version of DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec. Use v1beta20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec instead
 type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM struct {
-	//Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	//Name: Name of the resource
-	Name string `json:"name,omitempty"`
-
-	//Properties: Properties to update Azure Cosmos DB resource throughput.
+	Location   *string                                `json:"location,omitempty"`
+	Name       string                                 `json:"name,omitempty"`
 	Properties *ThroughputSettingsUpdatePropertiesARM `json:"properties,omitempty"`
-
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	//type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	//"DocumentDB", and "MongoDB".
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags       map[string]string                      `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM{}
@@ -40,43 +30,30 @@ func (settings DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spe
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputSettingsUpdateProperties
+//Deprecated version of ThroughputSettingsUpdateProperties. Use v1beta20210515.ThroughputSettingsUpdateProperties instead
 type ThroughputSettingsUpdatePropertiesARM struct {
-	//Resource: Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not
-	//both.
 	Resource *ThroughputSettingsResourceARM `json:"resource,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputSettingsResource
+//Deprecated version of ThroughputSettingsResource. Use v1beta20210515.ThroughputSettingsResource instead
 type ThroughputSettingsResourceARM struct {
-	//AutoscaleSettings: Cosmos DB provisioned throughput settings object
 	AutoscaleSettings *AutoscaleSettingsResourceARM `json:"autoscaleSettings,omitempty"`
-
-	//Throughput: Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings is required,
-	//but not both.
-	Throughput *int `json:"throughput,omitempty"`
+	Throughput        *int                          `json:"throughput,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettingsResource
+//Deprecated version of AutoscaleSettingsResource. Use v1beta20210515.AutoscaleSettingsResource instead
 type AutoscaleSettingsResourceARM struct {
-	//AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy
 	AutoUpgradePolicy *AutoUpgradePolicyResourceARM `json:"autoUpgradePolicy,omitempty"`
-
-	//MaxThroughput: Represents maximum throughput container can scale up to.
-	MaxThroughput *int `json:"maxThroughput,omitempty"`
+	MaxThroughput     *int                          `json:"maxThroughput,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoUpgradePolicyResource
+//Deprecated version of AutoUpgradePolicyResource. Use v1beta20210515.AutoUpgradePolicyResource instead
 type AutoUpgradePolicyResourceARM struct {
-	//ThroughputPolicy: Cosmos DB resource throughput policy
 	ThroughputPolicy *ThroughputPolicyResourceARM `json:"throughputPolicy,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputPolicyResource
+//Deprecated version of ThroughputPolicyResource. Use v1beta20210515.ThroughputPolicyResource instead
 type ThroughputPolicyResourceARM struct {
-	//IncrementPercent: Represents the percentage by which throughput can increase every time throughput policy kicks in.
-	IncrementPercent *int `json:"incrementPercent,omitempty"`
-
-	//IsEnabled: Determines whether the ThroughputPolicy is active or not
-	IsEnabled *bool `json:"isEnabled,omitempty"`
+	IncrementPercent *int  `json:"incrementPercent,omitempty"`
+	IsEnabled        *bool `json:"isEnabled,omitempty"`
 }

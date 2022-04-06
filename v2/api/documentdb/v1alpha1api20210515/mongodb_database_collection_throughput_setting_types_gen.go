@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections_throughputSettings
+//Deprecated version of MongodbDatabaseCollectionThroughputSetting. Use v1beta20210515.MongodbDatabaseCollectionThroughputSetting instead
 type MongodbDatabaseCollectionThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -48,22 +48,36 @@ var _ conversion.Convertible = &MongodbDatabaseCollectionThroughputSetting{}
 
 // ConvertFrom populates our MongodbDatabaseCollectionThroughputSetting from the provided hub MongodbDatabaseCollectionThroughputSetting
 func (setting *MongodbDatabaseCollectionThroughputSetting) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20210515storage.MongodbDatabaseCollectionThroughputSetting)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/MongodbDatabaseCollectionThroughputSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20210515storage.MongodbDatabaseCollectionThroughputSetting
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return setting.AssignPropertiesFromMongodbDatabaseCollectionThroughputSetting(source)
+	err = setting.AssignPropertiesFromMongodbDatabaseCollectionThroughputSetting(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to setting")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub MongodbDatabaseCollectionThroughputSetting from our MongodbDatabaseCollectionThroughputSetting
 func (setting *MongodbDatabaseCollectionThroughputSetting) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20210515storage.MongodbDatabaseCollectionThroughputSetting)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/MongodbDatabaseCollectionThroughputSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20210515storage.MongodbDatabaseCollectionThroughputSetting
+	err := setting.AssignPropertiesToMongodbDatabaseCollectionThroughputSetting(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from setting")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return setting.AssignPropertiesToMongodbDatabaseCollectionThroughputSetting(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1alpha1api20210515-mongodbdatabasecollectionthroughputsetting,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbdatabasecollectionthroughputsettings,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.mongodbdatabasecollectionthroughputsettings.documentdb.azure.com,admissionReviewVersions=v1beta1
@@ -293,20 +307,14 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) OriginalGVK() *schema
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections_throughputSettings
+//Deprecated version of MongodbDatabaseCollectionThroughputSetting. Use v1beta20210515.MongodbDatabaseCollectionThroughputSetting instead
 type MongodbDatabaseCollectionThroughputSettingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []MongodbDatabaseCollectionThroughputSetting `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecAPIVersion string
-
-const DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecAPIVersion20210515 = DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecAPIVersion("2021-05-15")
-
 type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec struct {
-	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -316,16 +324,8 @@ type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"MongodbDatabaseCollection"`
 
 	// +kubebuilder:validation:Required
-	//Resource: Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not
-	//both.
 	Resource *ThroughputSettingsResource `json:"resource,omitempty"`
-
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	//type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	//"DocumentDB", and "MongoDB".
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags     map[string]string           `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec{}
@@ -551,23 +551,16 @@ func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Sp
 	return GroupVersion.Version
 }
 
+//Deprecated version of ThroughputSettingsGetResults_Status. Use v1beta20210515.ThroughputSettingsGetResults_Status instead
 type ThroughputSettingsGetResults_Status struct {
 	//Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	//Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
-	//Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	//Name: The name of the ARM resource.
-	Name     *string                                          `json:"name,omitempty"`
-	Resource *ThroughputSettingsGetProperties_Status_Resource `json:"resource,omitempty"`
-	Tags     map[string]string                                `json:"tags,omitempty"`
-
-	//Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
+	Conditions []conditions.Condition                           `json:"conditions,omitempty"`
+	Id         *string                                          `json:"id,omitempty"`
+	Location   *string                                          `json:"location,omitempty"`
+	Name       *string                                          `json:"name,omitempty"`
+	Resource   *ThroughputSettingsGetProperties_Status_Resource `json:"resource,omitempty"`
+	Tags       map[string]string                                `json:"tags,omitempty"`
+	Type       *string                                          `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &ThroughputSettingsGetResults_Status{}
@@ -769,29 +762,15 @@ func (results *ThroughputSettingsGetResults_Status) AssignPropertiesToThroughput
 	return nil
 }
 
+//Deprecated version of ThroughputSettingsGetProperties_Status_Resource. Use v1beta20210515.ThroughputSettingsGetProperties_Status_Resource instead
 type ThroughputSettingsGetProperties_Status_Resource struct {
-	//AutoscaleSettings: Cosmos DB resource for autoscale settings. Either throughput is required or autoscaleSettings is
-	//required, but not both.
-	AutoscaleSettings *AutoscaleSettingsResource_Status `json:"autoscaleSettings,omitempty"`
-
-	//Etag: A system generated property representing the resource etag required for optimistic concurrency control.
-	Etag *string `json:"_etag,omitempty"`
-
-	//MinimumThroughput: The minimum throughput of the resource
-	MinimumThroughput *string `json:"minimumThroughput,omitempty"`
-
-	//OfferReplacePending: The throughput replace is pending
-	OfferReplacePending *string `json:"offerReplacePending,omitempty"`
-
-	//Rid: A system generated property. A unique identifier.
-	Rid *string `json:"_rid,omitempty"`
-
-	//Throughput: Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings is required,
-	//but not both.
-	Throughput *int `json:"throughput,omitempty"`
-
-	//Ts: A system generated property that denotes the last updated timestamp of the resource.
-	Ts *float64 `json:"_ts,omitempty"`
+	AutoscaleSettings   *AutoscaleSettingsResource_Status `json:"autoscaleSettings,omitempty"`
+	Etag                *string                           `json:"_etag,omitempty"`
+	MinimumThroughput   *string                           `json:"minimumThroughput,omitempty"`
+	OfferReplacePending *string                           `json:"offerReplacePending,omitempty"`
+	Rid                 *string                           `json:"_rid,omitempty"`
+	Throughput          *int                              `json:"throughput,omitempty"`
+	Ts                  *float64                          `json:"_ts,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ThroughputSettingsGetProperties_Status_Resource{}
@@ -952,14 +931,10 @@ func (resource *ThroughputSettingsGetProperties_Status_Resource) AssignPropertie
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputSettingsResource
+//Deprecated version of ThroughputSettingsResource. Use v1beta20210515.ThroughputSettingsResource instead
 type ThroughputSettingsResource struct {
-	//AutoscaleSettings: Cosmos DB provisioned throughput settings object
 	AutoscaleSettings *AutoscaleSettingsResource `json:"autoscaleSettings,omitempty"`
-
-	//Throughput: Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings is required,
-	//but not both.
-	Throughput *int `json:"throughput,omitempty"`
+	Throughput        *int                       `json:"throughput,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ThroughputSettingsResource{}
@@ -1075,13 +1050,11 @@ func (resource *ThroughputSettingsResource) AssignPropertiesToThroughputSettings
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettingsResource
+//Deprecated version of AutoscaleSettingsResource. Use v1beta20210515.AutoscaleSettingsResource instead
 type AutoscaleSettingsResource struct {
-	//AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy
 	AutoUpgradePolicy *AutoUpgradePolicyResource `json:"autoUpgradePolicy,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//MaxThroughput: Represents maximum throughput container can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
 }
 
@@ -1198,16 +1171,11 @@ func (resource *AutoscaleSettingsResource) AssignPropertiesToAutoscaleSettingsRe
 	return nil
 }
 
+//Deprecated version of AutoscaleSettingsResource_Status. Use v1beta20210515.AutoscaleSettingsResource_Status instead
 type AutoscaleSettingsResource_Status struct {
-	//AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy
-	AutoUpgradePolicy *AutoUpgradePolicyResource_Status `json:"autoUpgradePolicy,omitempty"`
-
-	//MaxThroughput: Represents maximum throughput container can scale up to.
-	MaxThroughput *int `json:"maxThroughput,omitempty"`
-
-	//TargetMaxThroughput: Represents target maximum throughput container can scale up to once offer is no longer in pending
-	//state.
-	TargetMaxThroughput *int `json:"targetMaxThroughput,omitempty"`
+	AutoUpgradePolicy   *AutoUpgradePolicyResource_Status `json:"autoUpgradePolicy,omitempty"`
+	MaxThroughput       *int                              `json:"maxThroughput,omitempty"`
+	TargetMaxThroughput *int                              `json:"targetMaxThroughput,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AutoscaleSettingsResource_Status{}
@@ -1310,9 +1278,8 @@ func (resource *AutoscaleSettingsResource_Status) AssignPropertiesToAutoscaleSet
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoUpgradePolicyResource
+//Deprecated version of AutoUpgradePolicyResource. Use v1beta20210515.AutoUpgradePolicyResource instead
 type AutoUpgradePolicyResource struct {
-	//ThroughputPolicy: Cosmos DB resource throughput policy
 	ThroughputPolicy *ThroughputPolicyResource `json:"throughputPolicy,omitempty"`
 }
 
@@ -1411,8 +1378,8 @@ func (resource *AutoUpgradePolicyResource) AssignPropertiesToAutoUpgradePolicyRe
 	return nil
 }
 
+//Deprecated version of AutoUpgradePolicyResource_Status. Use v1beta20210515.AutoUpgradePolicyResource_Status instead
 type AutoUpgradePolicyResource_Status struct {
-	//ThroughputPolicy: Represents throughput policy which service must adhere to for auto-upgrade
 	ThroughputPolicy *ThroughputPolicyResource_Status `json:"throughputPolicy,omitempty"`
 }
 
@@ -1492,13 +1459,10 @@ func (resource *AutoUpgradePolicyResource_Status) AssignPropertiesToAutoUpgradeP
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputPolicyResource
+//Deprecated version of ThroughputPolicyResource. Use v1beta20210515.ThroughputPolicyResource instead
 type ThroughputPolicyResource struct {
-	//IncrementPercent: Represents the percentage by which throughput can increase every time throughput policy kicks in.
-	IncrementPercent *int `json:"incrementPercent,omitempty"`
-
-	//IsEnabled: Determines whether the ThroughputPolicy is active or not
-	IsEnabled *bool `json:"isEnabled,omitempty"`
+	IncrementPercent *int  `json:"incrementPercent,omitempty"`
+	IsEnabled        *bool `json:"isEnabled,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ThroughputPolicyResource{}
@@ -1597,12 +1561,10 @@ func (resource *ThroughputPolicyResource) AssignPropertiesToThroughputPolicyReso
 	return nil
 }
 
+//Deprecated version of ThroughputPolicyResource_Status. Use v1beta20210515.ThroughputPolicyResource_Status instead
 type ThroughputPolicyResource_Status struct {
-	//IncrementPercent: Represents the percentage by which throughput can increase every time throughput policy kicks in.
-	IncrementPercent *int `json:"incrementPercent,omitempty"`
-
-	//IsEnabled: Determines whether the ThroughputPolicy is active or not
-	IsEnabled *bool `json:"isEnabled,omitempty"`
+	IncrementPercent *int  `json:"incrementPercent,omitempty"`
+	IsEnabled        *bool `json:"isEnabled,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ThroughputPolicyResource_Status{}

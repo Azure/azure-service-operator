@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2020-02-02/Microsoft.Insights.Application.json#/resourceDefinitions/components
+//Deprecated version of Component. Use v1beta20200202.Component instead
 type Component struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -49,22 +49,36 @@ var _ conversion.Convertible = &Component{}
 
 // ConvertFrom populates our Component from the provided hub Component
 func (component *Component) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20200202storage.Component)
-	if !ok {
-		return fmt.Errorf("expected insights/v1alpha1api20200202storage/Component but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20200202storage.Component
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return component.AssignPropertiesFromComponent(source)
+	err = component.AssignPropertiesFromComponent(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to component")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Component from our Component
 func (component *Component) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20200202storage.Component)
-	if !ok {
-		return fmt.Errorf("expected insights/v1alpha1api20200202storage/Component but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20200202storage.Component
+	err := component.AssignPropertiesToComponent(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from component")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return component.AssignPropertiesToComponent(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-insights-azure-com-v1alpha1api20200202-component,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=insights.azure.com,resources=components,verbs=create;update,versions=v1alpha1api20200202,name=default.v1alpha1api20200202.components.insights.azure.com,admissionReviewVersions=v1beta1
@@ -301,122 +315,50 @@ func (component *Component) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2020-02-02/Microsoft.Insights.Application.json#/resourceDefinitions/components
+//Deprecated version of Component. Use v1beta20200202.Component instead
 type ComponentList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Component `json:"items"`
 }
 
+//Deprecated version of ApplicationInsightsComponent_Status. Use v1beta20200202.ApplicationInsightsComponent_Status instead
 type ApplicationInsightsComponent_Status struct {
-	//AppId: Application Insights Unique ID for your Application.
-	AppId *string `json:"AppId,omitempty"`
-
-	//ApplicationId: The unique ID of your application. This field mirrors the 'Name' field and cannot be changed.
-	ApplicationId *string `json:"ApplicationId,omitempty"`
-
-	//ApplicationType: Type of application being monitored.
+	AppId           *string                                                      `json:"AppId,omitempty"`
+	ApplicationId   *string                                                      `json:"ApplicationId,omitempty"`
 	ApplicationType *ApplicationInsightsComponentPropertiesStatusApplicationType `json:"Application_Type,omitempty"`
 
 	//Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	//ConnectionString: Application Insights component connection string.
-	ConnectionString *string `json:"ConnectionString,omitempty"`
-
-	//CreationDate: Creation Date for the Application Insights component, in ISO 8601 format.
-	CreationDate *string `json:"CreationDate,omitempty"`
-
-	//DisableIpMasking: Disable IP masking.
-	DisableIpMasking *bool `json:"DisableIpMasking,omitempty"`
-
-	//DisableLocalAuth: Disable Non-AAD based Auth.
-	DisableLocalAuth *bool `json:"DisableLocalAuth,omitempty"`
-
-	//Etag: Resource etag
-	Etag *string `json:"etag,omitempty"`
-
-	//FlowType: Used by the Application Insights system to determine what kind of flow this component was created by. This is
-	//to be set to 'Bluefield' when creating/updating a component via the REST API.
-	FlowType *ApplicationInsightsComponentPropertiesStatusFlowType `json:"Flow_Type,omitempty"`
-
-	//ForceCustomerStorageForProfiler: Force users to create their own storage account for profiler and debugger.
-	ForceCustomerStorageForProfiler *bool `json:"ForceCustomerStorageForProfiler,omitempty"`
-
-	//HockeyAppId: The unique application ID created when a new application is added to HockeyApp, used for communications
-	//with HockeyApp.
-	HockeyAppId *string `json:"HockeyAppId,omitempty"`
-
-	//HockeyAppToken: Token used to authenticate communications with between Application Insights and HockeyApp.
-	HockeyAppToken *string `json:"HockeyAppToken,omitempty"`
-
-	//Id: Azure resource Id
-	Id *string `json:"id,omitempty"`
-
-	//ImmediatePurgeDataOn30Days: Purge data immediately after 30 days.
-	ImmediatePurgeDataOn30Days *bool `json:"ImmediatePurgeDataOn30Days,omitempty"`
-
-	//IngestionMode: Indicates the flow of the ingestion.
-	IngestionMode *ApplicationInsightsComponentPropertiesStatusIngestionMode `json:"IngestionMode,omitempty"`
-
-	//InstrumentationKey: Application Insights Instrumentation key. A read-only value that applications can use to identify
-	//the destination for all telemetry sent to Azure Application Insights. This value will be supplied upon construction of
-	//each new Application Insights component.
-	InstrumentationKey *string `json:"InstrumentationKey,omitempty"`
-
-	//Kind: The kind of application that this component refers to, used to customize UI. This value is a freeform string,
-	//values should typically be one of the following: web, ios, other, store, java, phone.
-	Kind *string `json:"kind,omitempty"`
-
-	//LaMigrationDate: The date which the component got migrated to LA, in ISO 8601 format.
-	LaMigrationDate *string `json:"LaMigrationDate,omitempty"`
-
-	//Location: Resource location
-	Location *string `json:"location,omitempty"`
-
-	//Name: Azure resource name
-	Name *string `json:"name,omitempty"`
-
-	//PrivateLinkScopedResources: List of linked private link scope resources.
-	PrivateLinkScopedResources []PrivateLinkScopedResource_Status `json:"PrivateLinkScopedResources,omitempty"`
-
-	//PropertiesName: Application name.
-	PropertiesName *string `json:"properties_name,omitempty"`
-
-	//ProvisioningState: Current state of this component: whether or not is has been provisioned within the resource group it
-	//is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying,
-	//Canceled, and Failed.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	//PublicNetworkAccessForIngestion: The network access type for accessing Application Insights ingestion.
-	PublicNetworkAccessForIngestion *PublicNetworkAccessType_Status `json:"publicNetworkAccessForIngestion,omitempty"`
-
-	//PublicNetworkAccessForQuery: The network access type for accessing Application Insights query.
-	PublicNetworkAccessForQuery *PublicNetworkAccessType_Status `json:"publicNetworkAccessForQuery,omitempty"`
-
-	//RequestSource: Describes what tool created this Application Insights component. Customers using this API should set this
-	//to the default 'rest'.
-	RequestSource *ApplicationInsightsComponentPropertiesStatusRequestSource `json:"Request_Source,omitempty"`
-
-	//RetentionInDays: Retention period in days.
-	RetentionInDays *int `json:"RetentionInDays,omitempty"`
-
-	//SamplingPercentage: Percentage of the data produced by the application being monitored that is being sampled for
-	//Application Insights telemetry.
-	SamplingPercentage *float64 `json:"SamplingPercentage,omitempty"`
-
-	//Tags: Resource tags
-	Tags *v1.JSON `json:"tags,omitempty"`
-
-	//TenantId: Azure Tenant Id.
-	TenantId *string `json:"TenantId,omitempty"`
-
-	//Type: Azure resource type
-	Type *string `json:"type,omitempty"`
-
-	//WorkspaceResourceId: Resource Id of the log analytics workspace which the data will be ingested to. This property is
-	//required to create an application with this API version. Applications from older versions will not have this property.
-	WorkspaceResourceId *string `json:"WorkspaceResourceId,omitempty"`
+	Conditions                      []conditions.Condition                                     `json:"conditions,omitempty"`
+	ConnectionString                *string                                                    `json:"ConnectionString,omitempty"`
+	CreationDate                    *string                                                    `json:"CreationDate,omitempty"`
+	DisableIpMasking                *bool                                                      `json:"DisableIpMasking,omitempty"`
+	DisableLocalAuth                *bool                                                      `json:"DisableLocalAuth,omitempty"`
+	Etag                            *string                                                    `json:"etag,omitempty"`
+	FlowType                        *ApplicationInsightsComponentPropertiesStatusFlowType      `json:"Flow_Type,omitempty"`
+	ForceCustomerStorageForProfiler *bool                                                      `json:"ForceCustomerStorageForProfiler,omitempty"`
+	HockeyAppId                     *string                                                    `json:"HockeyAppId,omitempty"`
+	HockeyAppToken                  *string                                                    `json:"HockeyAppToken,omitempty"`
+	Id                              *string                                                    `json:"id,omitempty"`
+	ImmediatePurgeDataOn30Days      *bool                                                      `json:"ImmediatePurgeDataOn30Days,omitempty"`
+	IngestionMode                   *ApplicationInsightsComponentPropertiesStatusIngestionMode `json:"IngestionMode,omitempty"`
+	InstrumentationKey              *string                                                    `json:"InstrumentationKey,omitempty"`
+	Kind                            *string                                                    `json:"kind,omitempty"`
+	LaMigrationDate                 *string                                                    `json:"LaMigrationDate,omitempty"`
+	Location                        *string                                                    `json:"location,omitempty"`
+	Name                            *string                                                    `json:"name,omitempty"`
+	PrivateLinkScopedResources      []PrivateLinkScopedResource_Status                         `json:"PrivateLinkScopedResources,omitempty"`
+	PropertiesName                  *string                                                    `json:"properties_name,omitempty"`
+	ProvisioningState               *string                                                    `json:"provisioningState,omitempty"`
+	PublicNetworkAccessForIngestion *PublicNetworkAccessType_Status                            `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForQuery     *PublicNetworkAccessType_Status                            `json:"publicNetworkAccessForQuery,omitempty"`
+	RequestSource                   *ApplicationInsightsComponentPropertiesStatusRequestSource `json:"Request_Source,omitempty"`
+	RetentionInDays                 *int                                                       `json:"RetentionInDays,omitempty"`
+	SamplingPercentage              *float64                                                   `json:"SamplingPercentage,omitempty"`
+	Tags                            *v1.JSON                                                   `json:"tags,omitempty"`
+	TenantId                        *string                                                    `json:"TenantId,omitempty"`
+	Type                            *string                                                    `json:"type,omitempty"`
+	WorkspaceResourceId             *string                                                    `json:"WorkspaceResourceId,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &ApplicationInsightsComponent_Status{}
@@ -1131,83 +1073,38 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesToApplicat
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2020-02-02"}
-type ComponentsSpecAPIVersion string
-
-const ComponentsSpecAPIVersion20200202 = ComponentsSpecAPIVersion("2020-02-02")
-
 type Components_Spec struct {
 	// +kubebuilder:validation:Required
-	//ApplicationType: Type of application being monitored.
 	ApplicationType *ApplicationInsightsComponentPropertiesApplicationType `json:"Application_Type,omitempty"`
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	//DisableIpMasking: Disable IP masking.
-	DisableIpMasking *bool `json:"DisableIpMasking,omitempty"`
-
-	//DisableLocalAuth: Disable Non-AAD based Auth.
-	DisableLocalAuth *bool `json:"DisableLocalAuth,omitempty"`
-
-	//Etag: Resource etag
-	Etag *string `json:"etag,omitempty"`
-
-	//FlowType: Used by the Application Insights system to determine what kind of flow this component was created by. This is
-	//to be set to 'Bluefield' when creating/updating a component via the REST API.
-	FlowType *ApplicationInsightsComponentPropertiesFlowType `json:"Flow_Type,omitempty"`
-
-	//ForceCustomerStorageForProfiler: Force users to create their own storage account for profiler and debugger.
-	ForceCustomerStorageForProfiler *bool `json:"ForceCustomerStorageForProfiler,omitempty"`
-
-	//HockeyAppId: The unique application ID created when a new application is added to HockeyApp, used for communications
-	//with HockeyApp.
-	HockeyAppId *string `json:"HockeyAppId,omitempty"`
-
-	//ImmediatePurgeDataOn30Days: Purge data immediately after 30 days.
-	ImmediatePurgeDataOn30Days *bool `json:"ImmediatePurgeDataOn30Days,omitempty"`
-
-	//IngestionMode: Indicates the flow of the ingestion.
-	IngestionMode *ApplicationInsightsComponentPropertiesIngestionMode `json:"IngestionMode,omitempty"`
+	AzureName                       string                                               `json:"azureName,omitempty"`
+	DisableIpMasking                *bool                                                `json:"DisableIpMasking,omitempty"`
+	DisableLocalAuth                *bool                                                `json:"DisableLocalAuth,omitempty"`
+	Etag                            *string                                              `json:"etag,omitempty"`
+	FlowType                        *ApplicationInsightsComponentPropertiesFlowType      `json:"Flow_Type,omitempty"`
+	ForceCustomerStorageForProfiler *bool                                                `json:"ForceCustomerStorageForProfiler,omitempty"`
+	HockeyAppId                     *string                                              `json:"HockeyAppId,omitempty"`
+	ImmediatePurgeDataOn30Days      *bool                                                `json:"ImmediatePurgeDataOn30Days,omitempty"`
+	IngestionMode                   *ApplicationInsightsComponentPropertiesIngestionMode `json:"IngestionMode,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Kind: The kind of application that this component refers to, used to customize UI. This value is a freeform string,
-	//values should typically be one of the following: web, ios, other, store, java, phone.
-	Kind *string `json:"kind,omitempty"`
-
-	//Location: Location to deploy resource to
+	Kind     *string `json:"kind,omitempty"`
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	//PublicNetworkAccessForIngestion: The network access type for accessing Application Insights ingestion.
+	Owner                           *genruntime.KnownResourceReference                                     `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PublicNetworkAccessForIngestion *ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion `json:"publicNetworkAccessForIngestion,omitempty"`
-
-	//PublicNetworkAccessForQuery: The network access type for accessing Application Insights query.
-	PublicNetworkAccessForQuery *ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery `json:"publicNetworkAccessForQuery,omitempty"`
-
-	//RequestSource: Describes what tool created this Application Insights component. Customers using this API should set this
-	//to the default 'rest'.
-	RequestSource *ApplicationInsightsComponentPropertiesRequestSource `json:"Request_Source,omitempty"`
-
-	//RetentionInDays: Retention period in days.
-	RetentionInDays *int `json:"RetentionInDays,omitempty"`
-
-	//SamplingPercentage: Percentage of the data produced by the application being monitored that is being sampled for
-	//Application Insights telemetry.
-	SamplingPercentage *float64 `json:"SamplingPercentage,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//WorkspaceResourceReference: Resource Id of the log analytics workspace which the data will be ingested to. This property
-	//is required to create an application with this API version. Applications from older versions will not have this property.
-	WorkspaceResourceReference *genruntime.ResourceReference `armReference:"WorkspaceResourceId" json:"workspaceResourceReference,omitempty"`
+	PublicNetworkAccessForQuery     *ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery     `json:"publicNetworkAccessForQuery,omitempty"`
+	RequestSource                   *ApplicationInsightsComponentPropertiesRequestSource                   `json:"Request_Source,omitempty"`
+	RetentionInDays                 *int                                                                   `json:"RetentionInDays,omitempty"`
+	SamplingPercentage              *float64                                                               `json:"SamplingPercentage,omitempty"`
+	Tags                            map[string]string                                                      `json:"tags,omitempty"`
+	WorkspaceResourceReference      *genruntime.ResourceReference                                          `armReference:"WorkspaceResourceId" json:"workspaceResourceReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Components_Spec{}
@@ -1831,6 +1728,8 @@ func (components *Components_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (components *Components_Spec) SetAzureName(azureName string) { components.AzureName = azureName }
 
+//Deprecated version of ApplicationInsightsComponentPropertiesApplicationType. Use
+//v1beta20200202.ApplicationInsightsComponentPropertiesApplicationType instead
 // +kubebuilder:validation:Enum={"other","web"}
 type ApplicationInsightsComponentPropertiesApplicationType string
 
@@ -1839,11 +1738,15 @@ const (
 	ApplicationInsightsComponentPropertiesApplicationTypeWeb   = ApplicationInsightsComponentPropertiesApplicationType("web")
 )
 
+//Deprecated version of ApplicationInsightsComponentPropertiesFlowType. Use
+//v1beta20200202.ApplicationInsightsComponentPropertiesFlowType instead
 // +kubebuilder:validation:Enum={"Bluefield"}
 type ApplicationInsightsComponentPropertiesFlowType string
 
 const ApplicationInsightsComponentPropertiesFlowTypeBluefield = ApplicationInsightsComponentPropertiesFlowType("Bluefield")
 
+//Deprecated version of ApplicationInsightsComponentPropertiesIngestionMode. Use
+//v1beta20200202.ApplicationInsightsComponentPropertiesIngestionMode instead
 // +kubebuilder:validation:Enum={"ApplicationInsights","ApplicationInsightsWithDiagnosticSettings","LogAnalytics"}
 type ApplicationInsightsComponentPropertiesIngestionMode string
 
@@ -1853,6 +1756,8 @@ const (
 	ApplicationInsightsComponentPropertiesIngestionModeLogAnalytics                              = ApplicationInsightsComponentPropertiesIngestionMode("LogAnalytics")
 )
 
+//Deprecated version of ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion. Use
+//v1beta20200202.ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion string
 
@@ -1861,6 +1766,8 @@ const (
 	ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestionEnabled  = ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion("Enabled")
 )
 
+//Deprecated version of ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery. Use
+//v1beta20200202.ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery string
 
@@ -1869,17 +1776,17 @@ const (
 	ApplicationInsightsComponentPropertiesPublicNetworkAccessForQueryEnabled  = ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery("Enabled")
 )
 
+//Deprecated version of ApplicationInsightsComponentPropertiesRequestSource. Use
+//v1beta20200202.ApplicationInsightsComponentPropertiesRequestSource instead
 // +kubebuilder:validation:Enum={"rest"}
 type ApplicationInsightsComponentPropertiesRequestSource string
 
 const ApplicationInsightsComponentPropertiesRequestSourceRest = ApplicationInsightsComponentPropertiesRequestSource("rest")
 
+//Deprecated version of PrivateLinkScopedResource_Status. Use v1beta20200202.PrivateLinkScopedResource_Status instead
 type PrivateLinkScopedResource_Status struct {
-	//ResourceId: The full resource Id of the private link scope resource.
 	ResourceId *string `json:"ResourceId,omitempty"`
-
-	//ScopeId: The private link scope unique Identifier.
-	ScopeId *string `json:"ScopeId,omitempty"`
+	ScopeId    *string `json:"ScopeId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PrivateLinkScopedResource_Status{}

@@ -15,7 +15,7 @@ import (
 )
 
 // PruneResourcesWithLifecycleOwnedByParentStageID is the unique identifier for this pipeline stage
-const PruneResourcesWithLifecycleOwnedByParentStageID = "pruneResourcesWithLifecycleOwnedByParentStageID"
+const PruneResourcesWithLifecycleOwnedByParentStageID = "pruneResourcesWithLifecycleOwnedByParentStage"
 
 // PruneResourcesWithLifecycleOwnedByParent prunes networking embedded types
 func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuration) *Stage {

@@ -5,11 +5,9 @@ package v1alpha1api20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+//Deprecated version of VirtualNetworksSubnets_Spec. Use v1beta20201101.VirtualNetworksSubnets_Spec instead
 type VirtualNetworksSubnets_SpecARM struct {
-	//Name: Name of the resource
-	Name string `json:"name,omitempty"`
-
-	//Properties: Properties of the subnet.
+	Name       string                                     `json:"name,omitempty"`
 	Properties *VirtualNetworksSubnets_Spec_PropertiesARM `json:"properties,omitempty"`
 }
 
@@ -30,60 +28,34 @@ func (subnets VirtualNetworksSubnets_SpecARM) GetType() string {
 	return "Microsoft.Network/virtualNetworks/subnets"
 }
 
+//Deprecated version of VirtualNetworksSubnets_Spec_Properties. Use v1beta20201101.VirtualNetworksSubnets_Spec_Properties instead
 type VirtualNetworksSubnets_Spec_PropertiesARM struct {
-	//AddressPrefix: The address prefix for the subnet.
-	AddressPrefix *string `json:"addressPrefix,omitempty"`
-
-	//AddressPrefixes: List of address prefixes for the subnet.
-	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
-
-	//Delegations: An array of references to the delegations on the subnet.
-	Delegations []VirtualNetworksSubnets_Spec_Properties_DelegationsARM `json:"delegations,omitempty"`
-
-	//IpAllocations: Array of IpAllocation which reference this subnet.
-	IpAllocations []SubResourceARM `json:"ipAllocations,omitempty"`
-
-	//NatGateway: Nat gateway associated with this subnet.
-	NatGateway *SubResourceARM `json:"natGateway,omitempty"`
-
-	//NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
-	NetworkSecurityGroup *SubResourceARM `json:"networkSecurityGroup,omitempty"`
-
-	//PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on private end point in the subnet.
-	PrivateEndpointNetworkPolicies *string `json:"privateEndpointNetworkPolicies,omitempty"`
-
-	//PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on private link service in the subnet.
-	PrivateLinkServiceNetworkPolicies *string `json:"privateLinkServiceNetworkPolicies,omitempty"`
-
-	//RouteTable: The reference to the RouteTable resource.
-	RouteTable *SubResourceARM `json:"routeTable,omitempty"`
-
-	//ServiceEndpointPolicies: An array of service endpoint policies.
-	ServiceEndpointPolicies []SubResourceARM `json:"serviceEndpointPolicies,omitempty"`
-
-	//ServiceEndpoints: An array of service endpoints.
-	ServiceEndpoints []ServiceEndpointPropertiesFormatARM `json:"serviceEndpoints,omitempty"`
+	AddressPrefix                     *string                                                 `json:"addressPrefix,omitempty"`
+	AddressPrefixes                   []string                                                `json:"addressPrefixes,omitempty"`
+	Delegations                       []VirtualNetworksSubnets_Spec_Properties_DelegationsARM `json:"delegations,omitempty"`
+	IpAllocations                     []SubResourceARM                                        `json:"ipAllocations,omitempty"`
+	NatGateway                        *SubResourceARM                                         `json:"natGateway,omitempty"`
+	NetworkSecurityGroup              *SubResourceARM                                         `json:"networkSecurityGroup,omitempty"`
+	PrivateEndpointNetworkPolicies    *string                                                 `json:"privateEndpointNetworkPolicies,omitempty"`
+	PrivateLinkServiceNetworkPolicies *string                                                 `json:"privateLinkServiceNetworkPolicies,omitempty"`
+	RouteTable                        *SubResourceARM                                         `json:"routeTable,omitempty"`
+	ServiceEndpointPolicies           []SubResourceARM                                        `json:"serviceEndpointPolicies,omitempty"`
+	ServiceEndpoints                  []ServiceEndpointPropertiesFormatARM                    `json:"serviceEndpoints,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ServiceEndpointPropertiesFormat
+//Deprecated version of ServiceEndpointPropertiesFormat. Use v1beta20201101.ServiceEndpointPropertiesFormat instead
 type ServiceEndpointPropertiesFormatARM struct {
-	//Locations: A list of locations.
 	Locations []string `json:"locations,omitempty"`
-
-	//Service: The type of the endpoint service.
-	Service *string `json:"service,omitempty"`
+	Service   *string  `json:"service,omitempty"`
 }
 
+//Deprecated version of VirtualNetworksSubnets_Spec_Properties_Delegations. Use v1beta20201101.VirtualNetworksSubnets_Spec_Properties_Delegations instead
 type VirtualNetworksSubnets_Spec_Properties_DelegationsARM struct {
-	//Name: The name of the resource that is unique within a subnet. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	//Properties: Properties of the subnet.
+	Name       *string                               `json:"name,omitempty"`
 	Properties *ServiceDelegationPropertiesFormatARM `json:"properties,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ServiceDelegationPropertiesFormat
+//Deprecated version of ServiceDelegationPropertiesFormat. Use v1beta20201101.ServiceDelegationPropertiesFormat instead
 type ServiceDelegationPropertiesFormatARM struct {
-	//ServiceName: The name of the service to whom the subnet should be delegated (e.g. Microsoft.Sql/servers).
 	ServiceName *string `json:"serviceName,omitempty"`
 }

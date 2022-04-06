@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1alpha1api20181130"
+	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 

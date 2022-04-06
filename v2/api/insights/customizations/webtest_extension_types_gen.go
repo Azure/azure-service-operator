@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	insights "github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501preview"
+	insightsv1alpha1api20180501preview "github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501preview"
 	"github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501previewstorage"
+	insightsv1beta20180501preview "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501preview"
+	"github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501previewstorage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type WebtestExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *WebtestExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&insights.Webtest{},
-		&v1alpha1api20180501previewstorage.Webtest{}}
+		&insightsv1alpha1api20180501preview.Webtest{},
+		&v1alpha1api20180501previewstorage.Webtest{},
+		&insightsv1beta20180501preview.Webtest{},
+		&v1beta20180501previewstorage.Webtest{}}
 }

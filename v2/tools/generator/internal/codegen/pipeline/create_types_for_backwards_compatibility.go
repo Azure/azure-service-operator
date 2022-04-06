@@ -74,12 +74,9 @@ func CreateTypesForBackwardCompatibility(prefix string) *Stage {
 }
 
 func addCompatibilityComments(defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-	//TODO: Enable filtering of property descriptions in a later PR to reduce the size of our CRDs
-	//TODO: It's currently disabled to reduce the size of the PR creating our v1beta packages
-
-	//visitor := astmodel.TypeVisitorBuilder{
-	//	VisitObjectType: removePropertyDescriptions,
-	//}.Build()
+	visitor := astmodel.TypeVisitorBuilder{
+		VisitObjectType: removePropertyDescriptions,
+	}.Build()
 
 	result := make(astmodel.TypeDefinitionSet)
 
@@ -94,14 +91,13 @@ func addCompatibilityComments(defs astmodel.TypeDefinitionSet) (astmodel.TypeDef
 				name.Name()),
 		}
 
-		//t, err := visitor.Visit(def.Type(), nil)
-		//if err != nil {
-		//	errs = append(errs, err)
-		//	continue
-		//}
+		t, err := visitor.Visit(def.Type(), nil)
+		if err != nil {
+			errs = append(errs, err)
+			continue
+		}
 
-		//result.Add(def.WithType(t).WithDescription(desc))
-		result.Add(def.WithDescription(desc))
+		result.Add(def.WithType(t).WithDescription(desc))
 	}
 
 	if len(errs) > 0 {
@@ -111,14 +107,14 @@ func addCompatibilityComments(defs astmodel.TypeDefinitionSet) (astmodel.TypeDef
 	return result, nil
 }
 
-//func removePropertyDescriptions(ot *astmodel.ObjectType) astmodel.Type {
-//	result := ot
-//	for _, property := range ot.Properties() {
-//		result = result.WithProperty(property.WithDescription(""))
-//	}
-//
-//	return result
-//}
+func removePropertyDescriptions(ot *astmodel.ObjectType) astmodel.Type {
+	result := ot
+	for _, property := range ot.Properties() {
+		result = result.WithProperty(property.WithDescription(""))
+	}
+
+	return result
+}
 
 func createBackwardCompatibilityRenameMap(
 	set astmodel.TypeDefinitionSet,

@@ -5,6 +5,7 @@ package v1alpha1api20210601storage
 
 import (
 	"encoding/json"
+	"github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta20210601storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,90 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_Workspace_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Workspace to hub returns original",
+		prop.ForAll(RunResourceConversionTestForWorkspace, WorkspaceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForWorkspace tests if a specific instance of Workspace round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForWorkspace(subject Workspace) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1beta20210601storage.Workspace
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual Workspace
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Workspace_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Workspace to Workspace via AssignPropertiesToWorkspace & AssignPropertiesFromWorkspace returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWorkspace, WorkspaceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWorkspace tests if a specific instance of Workspace can be assigned to v1beta20210601storage and back losslessly
+func RunPropertyAssignmentTestForWorkspace(subject Workspace) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210601storage.Workspace
+	err := copied.AssignPropertiesToWorkspace(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Workspace
+	err = actual.AssignPropertiesFromWorkspace(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_Workspace_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -75,6 +160,48 @@ func WorkspaceGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForWorkspace(gens map[string]gopter.Gen) {
 	gens["Spec"] = WorkspacesSpecGenerator()
 	gens["Status"] = WorkspaceStatusGenerator()
+}
+
+func Test_Workspace_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Workspace_Status to Workspace_Status via AssignPropertiesToWorkspaceStatus & AssignPropertiesFromWorkspaceStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWorkspaceStatus, WorkspaceStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWorkspaceStatus tests if a specific instance of Workspace_Status can be assigned to v1beta20210601storage and back losslessly
+func RunPropertyAssignmentTestForWorkspaceStatus(subject Workspace_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210601storage.Workspace_Status
+	err := copied.AssignPropertiesToWorkspaceStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Workspace_Status
+	err = actual.AssignPropertiesFromWorkspaceStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Workspace_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -166,6 +293,48 @@ func AddRelatedPropertyGeneratorsForWorkspaceStatus(gens map[string]gopter.Gen) 
 	gens["WorkspaceCapping"] = gen.PtrOf(WorkspaceCappingStatusGenerator())
 }
 
+func Test_Workspaces_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Workspaces_Spec to Workspaces_Spec via AssignPropertiesToWorkspacesSpec & AssignPropertiesFromWorkspacesSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWorkspacesSpec, WorkspacesSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWorkspacesSpec tests if a specific instance of Workspaces_Spec can be assigned to v1beta20210601storage and back losslessly
+func RunPropertyAssignmentTestForWorkspacesSpec(subject Workspaces_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210601storage.Workspaces_Spec
+	err := copied.AssignPropertiesToWorkspacesSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Workspaces_Spec
+	err = actual.AssignPropertiesFromWorkspacesSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Workspaces_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -250,6 +419,48 @@ func AddRelatedPropertyGeneratorsForWorkspacesSpec(gens map[string]gopter.Gen) {
 	gens["WorkspaceCapping"] = gen.PtrOf(WorkspaceCappingGenerator())
 }
 
+func Test_PrivateLinkScopedResource_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PrivateLinkScopedResource_Status to PrivateLinkScopedResource_Status via AssignPropertiesToPrivateLinkScopedResourceStatus & AssignPropertiesFromPrivateLinkScopedResourceStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPrivateLinkScopedResourceStatus, PrivateLinkScopedResourceStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPrivateLinkScopedResourceStatus tests if a specific instance of PrivateLinkScopedResource_Status can be assigned to v1beta20210601storage and back losslessly
+func RunPropertyAssignmentTestForPrivateLinkScopedResourceStatus(subject PrivateLinkScopedResource_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210601storage.PrivateLinkScopedResource_Status
+	err := copied.AssignPropertiesToPrivateLinkScopedResourceStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PrivateLinkScopedResource_Status
+	err = actual.AssignPropertiesFromPrivateLinkScopedResourceStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_PrivateLinkScopedResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -311,6 +522,48 @@ func AddIndependentPropertyGeneratorsForPrivateLinkScopedResourceStatus(gens map
 	gens["ScopeId"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_WorkspaceCapping_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WorkspaceCapping to WorkspaceCapping via AssignPropertiesToWorkspaceCapping & AssignPropertiesFromWorkspaceCapping returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWorkspaceCapping, WorkspaceCappingGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWorkspaceCapping tests if a specific instance of WorkspaceCapping can be assigned to v1beta20210601storage and back losslessly
+func RunPropertyAssignmentTestForWorkspaceCapping(subject WorkspaceCapping) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210601storage.WorkspaceCapping
+	err := copied.AssignPropertiesToWorkspaceCapping(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual WorkspaceCapping
+	err = actual.AssignPropertiesFromWorkspaceCapping(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_WorkspaceCapping_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -368,6 +621,48 @@ func WorkspaceCappingGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWorkspaceCapping is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspaceCapping(gens map[string]gopter.Gen) {
 	gens["DailyQuotaGb"] = gen.PtrOf(gen.Float64())
+}
+
+func Test_WorkspaceCapping_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WorkspaceCapping_Status to WorkspaceCapping_Status via AssignPropertiesToWorkspaceCappingStatus & AssignPropertiesFromWorkspaceCappingStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWorkspaceCappingStatus, WorkspaceCappingStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWorkspaceCappingStatus tests if a specific instance of WorkspaceCapping_Status can be assigned to v1beta20210601storage and back losslessly
+func RunPropertyAssignmentTestForWorkspaceCappingStatus(subject WorkspaceCapping_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210601storage.WorkspaceCapping_Status
+	err := copied.AssignPropertiesToWorkspaceCappingStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual WorkspaceCapping_Status
+	err = actual.AssignPropertiesFromWorkspaceCappingStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_WorkspaceCapping_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -432,6 +727,48 @@ func AddIndependentPropertyGeneratorsForWorkspaceCappingStatus(gens map[string]g
 	gens["QuotaNextResetTime"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_WorkspaceFeatures_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WorkspaceFeatures to WorkspaceFeatures via AssignPropertiesToWorkspaceFeatures & AssignPropertiesFromWorkspaceFeatures returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWorkspaceFeatures, WorkspaceFeaturesGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWorkspaceFeatures tests if a specific instance of WorkspaceFeatures can be assigned to v1beta20210601storage and back losslessly
+func RunPropertyAssignmentTestForWorkspaceFeatures(subject WorkspaceFeatures) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210601storage.WorkspaceFeatures
+	err := copied.AssignPropertiesToWorkspaceFeatures(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual WorkspaceFeatures
+	err = actual.AssignPropertiesFromWorkspaceFeatures(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_WorkspaceFeatures_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -492,6 +829,48 @@ func AddIndependentPropertyGeneratorsForWorkspaceFeatures(gens map[string]gopter
 	gens["EnableDataExport"] = gen.PtrOf(gen.Bool())
 	gens["EnableLogAccessUsingOnlyResourcePermissions"] = gen.PtrOf(gen.Bool())
 	gens["ImmediatePurgeDataOn30Days"] = gen.PtrOf(gen.Bool())
+}
+
+func Test_WorkspaceFeatures_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WorkspaceFeatures_Status to WorkspaceFeatures_Status via AssignPropertiesToWorkspaceFeaturesStatus & AssignPropertiesFromWorkspaceFeaturesStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWorkspaceFeaturesStatus, WorkspaceFeaturesStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWorkspaceFeaturesStatus tests if a specific instance of WorkspaceFeatures_Status can be assigned to v1beta20210601storage and back losslessly
+func RunPropertyAssignmentTestForWorkspaceFeaturesStatus(subject WorkspaceFeatures_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210601storage.WorkspaceFeatures_Status
+	err := copied.AssignPropertiesToWorkspaceFeaturesStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual WorkspaceFeatures_Status
+	err = actual.AssignPropertiesFromWorkspaceFeaturesStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_WorkspaceFeatures_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -558,6 +937,48 @@ func AddIndependentPropertyGeneratorsForWorkspaceFeaturesStatus(gens map[string]
 	gens["ImmediatePurgeDataOn30Days"] = gen.PtrOf(gen.Bool())
 }
 
+func Test_WorkspaceSku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WorkspaceSku to WorkspaceSku via AssignPropertiesToWorkspaceSku & AssignPropertiesFromWorkspaceSku returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWorkspaceSku, WorkspaceSkuGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWorkspaceSku tests if a specific instance of WorkspaceSku can be assigned to v1beta20210601storage and back losslessly
+func RunPropertyAssignmentTestForWorkspaceSku(subject WorkspaceSku) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210601storage.WorkspaceSku
+	err := copied.AssignPropertiesToWorkspaceSku(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual WorkspaceSku
+	err = actual.AssignPropertiesFromWorkspaceSku(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_WorkspaceSku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -616,6 +1037,48 @@ func WorkspaceSkuGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForWorkspaceSku(gens map[string]gopter.Gen) {
 	gens["CapacityReservationLevel"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_WorkspaceSku_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WorkspaceSku_Status to WorkspaceSku_Status via AssignPropertiesToWorkspaceSkuStatus & AssignPropertiesFromWorkspaceSkuStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWorkspaceSkuStatus, WorkspaceSkuStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWorkspaceSkuStatus tests if a specific instance of WorkspaceSku_Status can be assigned to v1beta20210601storage and back losslessly
+func RunPropertyAssignmentTestForWorkspaceSkuStatus(subject WorkspaceSku_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210601storage.WorkspaceSku_Status
+	err := copied.AssignPropertiesToWorkspaceSkuStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual WorkspaceSku_Status
+	err = actual.AssignPropertiesFromWorkspaceSkuStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_WorkspaceSku_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

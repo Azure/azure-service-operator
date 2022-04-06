@@ -5,21 +5,13 @@ package v1alpha1api20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+//Deprecated version of VirtualNetworks_Spec. Use v1beta20201101.VirtualNetworks_Spec instead
 type VirtualNetworks_SpecARM struct {
-	//ExtendedLocation: The extended location of the virtual network.
-	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	//Name: Name of the resource
-	Name string `json:"name,omitempty"`
-
-	//Properties: Properties of the virtual network.
-	Properties *VirtualNetworks_Spec_PropertiesARM `json:"properties,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	ExtendedLocation *ExtendedLocationARM                `json:"extendedLocation,omitempty"`
+	Location         *string                             `json:"location,omitempty"`
+	Name             string                              `json:"name,omitempty"`
+	Properties       *VirtualNetworks_Spec_PropertiesARM `json:"properties,omitempty"`
+	Tags             map[string]string                   `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &VirtualNetworks_SpecARM{}
@@ -39,97 +31,53 @@ func (networks VirtualNetworks_SpecARM) GetType() string {
 	return "Microsoft.Network/virtualNetworks"
 }
 
+//Deprecated version of VirtualNetworks_Spec_Properties. Use v1beta20201101.VirtualNetworks_Spec_Properties instead
 type VirtualNetworks_Spec_PropertiesARM struct {
-	//AddressSpace: The AddressSpace that contains an array of IP address ranges that can be used by subnets.
-	AddressSpace *AddressSpaceARM `json:"addressSpace,omitempty"`
-
-	//BgpCommunities: Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
-	BgpCommunities *VirtualNetworkBgpCommunitiesARM `json:"bgpCommunities,omitempty"`
-
-	//DdosProtectionPlan: The DDoS protection plan associated with the virtual network.
-	DdosProtectionPlan *SubResourceARM `json:"ddosProtectionPlan,omitempty"`
-
-	//DhcpOptions: The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.
-	DhcpOptions *DhcpOptionsARM `json:"dhcpOptions,omitempty"`
-
-	//EnableDdosProtection: Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It
-	//requires a DDoS protection plan associated with the resource.
-	EnableDdosProtection *bool `json:"enableDdosProtection,omitempty"`
-
-	//EnableVmProtection: Indicates if VM protection is enabled for all the subnets in the virtual network.
-	EnableVmProtection *bool `json:"enableVmProtection,omitempty"`
-
-	//IpAllocations: Array of IpAllocation which reference this VNET.
-	IpAllocations []SubResourceARM `json:"ipAllocations,omitempty"`
-
-	//Subnets: A list of subnets in a Virtual Network.
-	Subnets []VirtualNetworks_Spec_Properties_SubnetsARM `json:"subnets,omitempty"`
-
-	//VirtualNetworkPeerings: A list of peerings in a Virtual Network.
+	AddressSpace           *AddressSpaceARM                                            `json:"addressSpace,omitempty"`
+	BgpCommunities         *VirtualNetworkBgpCommunitiesARM                            `json:"bgpCommunities,omitempty"`
+	DdosProtectionPlan     *SubResourceARM                                             `json:"ddosProtectionPlan,omitempty"`
+	DhcpOptions            *DhcpOptionsARM                                             `json:"dhcpOptions,omitempty"`
+	EnableDdosProtection   *bool                                                       `json:"enableDdosProtection,omitempty"`
+	EnableVmProtection     *bool                                                       `json:"enableVmProtection,omitempty"`
+	IpAllocations          []SubResourceARM                                            `json:"ipAllocations,omitempty"`
+	Subnets                []VirtualNetworks_Spec_Properties_SubnetsARM                `json:"subnets,omitempty"`
 	VirtualNetworkPeerings []VirtualNetworks_Spec_Properties_VirtualNetworkPeeringsARM `json:"virtualNetworkPeerings,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DhcpOptions
+//Deprecated version of DhcpOptions. Use v1beta20201101.DhcpOptions instead
 type DhcpOptionsARM struct {
-	//DnsServers: The list of DNS servers IP addresses.
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
+//Deprecated version of VirtualNetworks_Spec_Properties_Subnets. Use v1beta20201101.VirtualNetworks_Spec_Properties_Subnets instead
 type VirtualNetworks_Spec_Properties_SubnetsARM struct {
-	//Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	//Properties: Properties of the subnet.
+	Name       *string                                                `json:"name,omitempty"`
 	Properties *VirtualNetworks_Spec_Properties_Subnets_PropertiesARM `json:"properties,omitempty"`
 }
 
+//Deprecated version of VirtualNetworks_Spec_Properties_VirtualNetworkPeerings. Use v1beta20201101.VirtualNetworks_Spec_Properties_VirtualNetworkPeerings instead
 type VirtualNetworks_Spec_Properties_VirtualNetworkPeeringsARM struct {
-	//Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	//Properties: Properties of the virtual network peering.
+	Name       *string                                   `json:"name,omitempty"`
 	Properties *VirtualNetworkPeeringPropertiesFormatARM `json:"properties,omitempty"`
 }
 
+//Deprecated version of VirtualNetworks_Spec_Properties_Subnets_Properties. Use v1beta20201101.VirtualNetworks_Spec_Properties_Subnets_Properties instead
 type VirtualNetworks_Spec_Properties_Subnets_PropertiesARM struct {
-	//AddressPrefix: The address prefix for the subnet.
-	AddressPrefix *string `json:"addressPrefix,omitempty"`
-
-	//AddressPrefixes: List of address prefixes for the subnet.
-	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
-
-	//Delegations: An array of references to the delegations on the subnet.
-	Delegations []VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM `json:"delegations,omitempty"`
-
-	//IpAllocations: Array of IpAllocation which reference this subnet.
-	IpAllocations []SubResourceARM `json:"ipAllocations,omitempty"`
-
-	//NatGateway: Nat gateway associated with this subnet.
-	NatGateway *SubResourceARM `json:"natGateway,omitempty"`
-
-	//NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
-	NetworkSecurityGroup *SubResourceARM `json:"networkSecurityGroup,omitempty"`
-
-	//PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on private end point in the subnet.
-	PrivateEndpointNetworkPolicies *string `json:"privateEndpointNetworkPolicies,omitempty"`
-
-	//PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on private link service in the subnet.
-	PrivateLinkServiceNetworkPolicies *string `json:"privateLinkServiceNetworkPolicies,omitempty"`
-
-	//RouteTable: The reference to the RouteTable resource.
-	RouteTable *SubResourceARM `json:"routeTable,omitempty"`
-
-	//ServiceEndpointPolicies: An array of service endpoint policies.
-	ServiceEndpointPolicies []SubResourceARM `json:"serviceEndpointPolicies,omitempty"`
-
-	//ServiceEndpoints: An array of service endpoints.
-	ServiceEndpoints []ServiceEndpointPropertiesFormatARM `json:"serviceEndpoints,omitempty"`
+	AddressPrefix                     *string                                                             `json:"addressPrefix,omitempty"`
+	AddressPrefixes                   []string                                                            `json:"addressPrefixes,omitempty"`
+	Delegations                       []VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM `json:"delegations,omitempty"`
+	IpAllocations                     []SubResourceARM                                                    `json:"ipAllocations,omitempty"`
+	NatGateway                        *SubResourceARM                                                     `json:"natGateway,omitempty"`
+	NetworkSecurityGroup              *SubResourceARM                                                     `json:"networkSecurityGroup,omitempty"`
+	PrivateEndpointNetworkPolicies    *string                                                             `json:"privateEndpointNetworkPolicies,omitempty"`
+	PrivateLinkServiceNetworkPolicies *string                                                             `json:"privateLinkServiceNetworkPolicies,omitempty"`
+	RouteTable                        *SubResourceARM                                                     `json:"routeTable,omitempty"`
+	ServiceEndpointPolicies           []SubResourceARM                                                    `json:"serviceEndpointPolicies,omitempty"`
+	ServiceEndpoints                  []ServiceEndpointPropertiesFormatARM                                `json:"serviceEndpoints,omitempty"`
 }
 
+//Deprecated version of VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations. Use v1beta20201101.VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations instead
 type VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM struct {
-	//Name: The name of the resource that is unique within a subnet. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	//Properties: Properties of the subnet.
+	Name       *string                               `json:"name,omitempty"`
 	Properties *ServiceDelegationPropertiesFormatARM `json:"properties,omitempty"`
 }

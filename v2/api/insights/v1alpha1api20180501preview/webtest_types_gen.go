@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/resourceDefinitions/webtests
+//Deprecated version of Webtest. Use v1beta20180501preview.Webtest instead
 type Webtest struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -49,22 +49,36 @@ var _ conversion.Convertible = &Webtest{}
 
 // ConvertFrom populates our Webtest from the provided hub Webtest
 func (webtest *Webtest) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20180501previewstorage.Webtest)
-	if !ok {
-		return fmt.Errorf("expected insights/v1alpha1api20180501previewstorage/Webtest but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20180501previewstorage.Webtest
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return webtest.AssignPropertiesFromWebtest(source)
+	err = webtest.AssignPropertiesFromWebtest(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to webtest")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Webtest from our Webtest
 func (webtest *Webtest) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20180501previewstorage.Webtest)
-	if !ok {
-		return fmt.Errorf("expected insights/v1alpha1api20180501previewstorage/Webtest but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20180501previewstorage.Webtest
+	err := webtest.AssignPropertiesToWebtest(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from webtest")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return webtest.AssignPropertiesToWebtest(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-insights-azure-com-v1alpha1api20180501preview-webtest,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=insights.azure.com,resources=webtests,verbs=create;update,versions=v1alpha1api20180501preview,name=default.v1alpha1api20180501preview.webtests.insights.azure.com,admissionReviewVersions=v1beta1
@@ -301,73 +315,35 @@ func (webtest *Webtest) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/resourceDefinitions/webtests
+//Deprecated version of Webtest. Use v1beta20180501preview.Webtest instead
 type WebtestList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Webtest `json:"items"`
 }
 
+//Deprecated version of WebTest_Status. Use v1beta20180501preview.WebTest_Status instead
 type WebTest_Status struct {
 	//Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	//Configuration: An XML configuration specification for a WebTest.
-	Configuration *WebTestProperties_Status_Configuration `json:"Configuration,omitempty"`
-
-	//Description: User defined description for this WebTest.
-	Description *string `json:"Description,omitempty"`
-
-	//Enabled: Is the test actively being monitored.
-	Enabled *bool `json:"Enabled,omitempty"`
-
-	//Frequency: Interval in seconds between test runs for this WebTest. Default value is 300.
-	Frequency *int `json:"Frequency,omitempty"`
-
-	//Id: Azure resource Id
-	Id *string `json:"id,omitempty"`
-
-	//Kind: The kind of web test this is, valid choices are ping, multistep, basic, and standard.
-	Kind *WebTestPropertiesStatusKind `json:"Kind,omitempty"`
-
-	//Location: Resource location
-	Location *string `json:"location,omitempty"`
-
-	//Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
-	//application.
-	Locations []WebTestGeolocation_Status `json:"Locations,omitempty"`
-
-	//Name: Azure resource name
-	Name *string `json:"name,omitempty"`
-
-	//PropertiesName: User defined name if this WebTest.
-	PropertiesName *string `json:"properties_name,omitempty"`
-
-	//ProvisioningState: Current state of this component, whether or not is has been provisioned within the resource group it
-	//is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying,
-	//Canceled, and Failed.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	//Request: The collection of request properties
-	Request *WebTestProperties_Status_Request `json:"Request,omitempty"`
-
-	//RetryEnabled: Allow for retries should this WebTest fail.
-	RetryEnabled *bool `json:"RetryEnabled,omitempty"`
-
-	//SyntheticMonitorId: Unique ID of this WebTest. This is typically the same value as the Name field.
-	SyntheticMonitorId *string `json:"SyntheticMonitorId,omitempty"`
-
-	//Tags: Resource tags
-	Tags *v1.JSON `json:"tags,omitempty"`
-
-	//Timeout: Seconds until this WebTest will timeout and fail. Default value is 30.
-	Timeout *int `json:"Timeout,omitempty"`
-
-	//Type: Azure resource type
-	Type *string `json:"type,omitempty"`
-
-	//ValidationRules: The collection of validation rule properties
-	ValidationRules *WebTestProperties_Status_ValidationRules `json:"ValidationRules,omitempty"`
+	Conditions         []conditions.Condition                    `json:"conditions,omitempty"`
+	Configuration      *WebTestProperties_Status_Configuration   `json:"Configuration,omitempty"`
+	Description        *string                                   `json:"Description,omitempty"`
+	Enabled            *bool                                     `json:"Enabled,omitempty"`
+	Frequency          *int                                      `json:"Frequency,omitempty"`
+	Id                 *string                                   `json:"id,omitempty"`
+	Kind               *WebTestPropertiesStatusKind              `json:"Kind,omitempty"`
+	Location           *string                                   `json:"location,omitempty"`
+	Locations          []WebTestGeolocation_Status               `json:"Locations,omitempty"`
+	Name               *string                                   `json:"name,omitempty"`
+	PropertiesName     *string                                   `json:"properties_name,omitempty"`
+	ProvisioningState  *string                                   `json:"provisioningState,omitempty"`
+	Request            *WebTestProperties_Status_Request         `json:"Request,omitempty"`
+	RetryEnabled       *bool                                     `json:"RetryEnabled,omitempty"`
+	SyntheticMonitorId *string                                   `json:"SyntheticMonitorId,omitempty"`
+	Tags               *v1.JSON                                  `json:"tags,omitempty"`
+	Timeout            *int                                      `json:"Timeout,omitempty"`
+	Type               *string                                   `json:"type,omitempty"`
+	ValidationRules    *WebTestProperties_Status_ValidationRules `json:"ValidationRules,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &WebTest_Status{}
@@ -867,68 +843,38 @@ func (test *WebTest_Status) AssignPropertiesToWebTestStatus(destination *v1alpha
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2018-05-01-preview"}
-type WebtestsSpecAPIVersion string
-
-const WebtestsSpecAPIVersion20180501Preview = WebtestsSpecAPIVersion("2018-05-01-preview")
-
 type Webtests_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	//Configuration: An XML configuration specification for a WebTest.
+	AzureName     string                          `json:"azureName,omitempty"`
 	Configuration *WebTestPropertiesConfiguration `json:"Configuration,omitempty"`
-
-	//Description: User defined description for this WebTest.
-	Description *string `json:"Description,omitempty"`
-
-	//Enabled: Is the test actively being monitored.
-	Enabled *bool `json:"Enabled,omitempty"`
-
-	//Frequency: Interval in seconds between test runs for this WebTest. Default value is 300.
-	Frequency *int `json:"Frequency,omitempty"`
+	Description   *string                         `json:"Description,omitempty"`
+	Enabled       *bool                           `json:"Enabled,omitempty"`
+	Frequency     *int                            `json:"Frequency,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Kind: The kind of web test this is, valid choices are ping, multistep, basic, and standard.
-	Kind *WebTestPropertiesKind `json:"Kind,omitempty"`
-
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
+	Kind     *WebTestPropertiesKind `json:"Kind,omitempty"`
+	Location *string                `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
-	//application.
 	Locations []WebTestGeolocation `json:"Locations,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Name: User defined name if this WebTest.
 	Name *string `json:"Name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	//Request: The collection of request properties
-	Request *WebTestPropertiesRequest `json:"Request,omitempty"`
-
-	//RetryEnabled: Allow for retries should this WebTest fail.
-	RetryEnabled *bool `json:"RetryEnabled,omitempty"`
+	Owner        *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Request      *WebTestPropertiesRequest          `json:"Request,omitempty"`
+	RetryEnabled *bool                              `json:"RetryEnabled,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//SyntheticMonitorId: Unique ID of this WebTest. This is typically the same value as the Name field.
-	SyntheticMonitorId *string `json:"SyntheticMonitorId,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//Timeout: Seconds until this WebTest will timeout and fail. Default value is 30.
-	Timeout *int `json:"Timeout,omitempty"`
-
-	//ValidationRules: The collection of validation rule properties
-	ValidationRules *WebTestPropertiesValidationRules `json:"ValidationRules,omitempty"`
+	SyntheticMonitorId *string                           `json:"SyntheticMonitorId,omitempty"`
+	Tags               map[string]string                 `json:"tags,omitempty"`
+	Timeout            *int                              `json:"Timeout,omitempty"`
+	ValidationRules    *WebTestPropertiesValidationRules `json:"ValidationRules,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Webtests_Spec{}
@@ -1507,9 +1453,8 @@ func (webtests *Webtests_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (webtests *Webtests_Spec) SetAzureName(azureName string) { webtests.AzureName = azureName }
 
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestGeolocation
+//Deprecated version of WebTestGeolocation. Use v1beta20180501preview.WebTestGeolocation instead
 type WebTestGeolocation struct {
-	//Id: Location ID for the WebTest to run from.
 	Id *string `json:"Id,omitempty"`
 }
 
@@ -1581,8 +1526,8 @@ func (geolocation *WebTestGeolocation) AssignPropertiesToWebTestGeolocation(dest
 	return nil
 }
 
+//Deprecated version of WebTestGeolocation_Status. Use v1beta20180501preview.WebTestGeolocation_Status instead
 type WebTestGeolocation_Status struct {
-	//Id: Location ID for the WebTest to run from.
 	Id *string `json:"Id,omitempty"`
 }
 
@@ -1639,9 +1584,8 @@ func (geolocation *WebTestGeolocation_Status) AssignPropertiesToWebTestGeolocati
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesConfiguration
+//Deprecated version of WebTestPropertiesConfiguration. Use v1beta20180501preview.WebTestPropertiesConfiguration instead
 type WebTestPropertiesConfiguration struct {
-	//WebTest: The XML specification of a WebTest to run against an application.
 	WebTest *string `json:"WebTest,omitempty"`
 }
 
@@ -1713,6 +1657,7 @@ func (configuration *WebTestPropertiesConfiguration) AssignPropertiesToWebTestPr
 	return nil
 }
 
+//Deprecated version of WebTestPropertiesKind. Use v1beta20180501preview.WebTestPropertiesKind instead
 // +kubebuilder:validation:Enum={"basic","multistep","ping","standard"}
 type WebTestPropertiesKind string
 
@@ -1723,25 +1668,14 @@ const (
 	WebTestPropertiesKindStandard  = WebTestPropertiesKind("standard")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesRequest
+//Deprecated version of WebTestPropertiesRequest. Use v1beta20180501preview.WebTestPropertiesRequest instead
 type WebTestPropertiesRequest struct {
-	//FollowRedirects: Follow redirects for this web test.
-	FollowRedirects *bool `json:"FollowRedirects,omitempty"`
-
-	//Headers: List of headers and their values to add to the WebTest call.
-	Headers []HeaderField `json:"Headers,omitempty"`
-
-	//HttpVerb: Http verb to use for this web test.
-	HttpVerb *string `json:"HttpVerb,omitempty"`
-
-	//ParseDependentRequests: Parse Dependent request for this WebTest.
-	ParseDependentRequests *bool `json:"ParseDependentRequests,omitempty"`
-
-	//RequestBody: Base64 encoded string body to send with this web test.
-	RequestBody *string `json:"RequestBody,omitempty"`
-
-	//RequestUrl: Url location to test.
-	RequestUrl *string `json:"RequestUrl,omitempty"`
+	FollowRedirects        *bool         `json:"FollowRedirects,omitempty"`
+	Headers                []HeaderField `json:"Headers,omitempty"`
+	HttpVerb               *string       `json:"HttpVerb,omitempty"`
+	ParseDependentRequests *bool         `json:"ParseDependentRequests,omitempty"`
+	RequestBody            *string       `json:"RequestBody,omitempty"`
+	RequestUrl             *string       `json:"RequestUrl,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &WebTestPropertiesRequest{}
@@ -1959,23 +1893,13 @@ func (request *WebTestPropertiesRequest) AssignPropertiesToWebTestPropertiesRequ
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRules
+//Deprecated version of WebTestPropertiesValidationRules. Use v1beta20180501preview.WebTestPropertiesValidationRules instead
 type WebTestPropertiesValidationRules struct {
-	//ContentValidation: The collection of content validation properties
-	ContentValidation *WebTestPropertiesValidationRulesContentValidation `json:"ContentValidation,omitempty"`
-
-	//ExpectedHttpStatusCode: Validate that the WebTest returns the http status code provided.
-	ExpectedHttpStatusCode *int `json:"ExpectedHttpStatusCode,omitempty"`
-
-	//IgnoreHttpsStatusCode: When set, validation will ignore the status code.
-	IgnoreHttpsStatusCode *bool `json:"IgnoreHttpsStatusCode,omitempty"`
-
-	//SSLCertRemainingLifetimeCheck: A number of days to check still remain before the the existing SSL cert expires.  Value
-	//must be positive and the SSLCheck must be set to true.
-	SSLCertRemainingLifetimeCheck *int `json:"SSLCertRemainingLifetimeCheck,omitempty"`
-
-	//SSLCheck: Checks to see if the SSL cert is still valid.
-	SSLCheck *bool `json:"SSLCheck,omitempty"`
+	ContentValidation             *WebTestPropertiesValidationRulesContentValidation `json:"ContentValidation,omitempty"`
+	ExpectedHttpStatusCode        *int                                               `json:"ExpectedHttpStatusCode,omitempty"`
+	IgnoreHttpsStatusCode         *bool                                              `json:"IgnoreHttpsStatusCode,omitempty"`
+	SSLCertRemainingLifetimeCheck *int                                               `json:"SSLCertRemainingLifetimeCheck,omitempty"`
+	SSLCheck                      *bool                                              `json:"SSLCheck,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &WebTestPropertiesValidationRules{}
@@ -2165,8 +2089,8 @@ func (rules *WebTestPropertiesValidationRules) AssignPropertiesToWebTestProperti
 	return nil
 }
 
+//Deprecated version of WebTestProperties_Status_Configuration. Use v1beta20180501preview.WebTestProperties_Status_Configuration instead
 type WebTestProperties_Status_Configuration struct {
-	//WebTest: The XML specification of a WebTest to run against an application.
 	WebTest *string `json:"WebTest,omitempty"`
 }
 
@@ -2223,24 +2147,14 @@ func (configuration *WebTestProperties_Status_Configuration) AssignPropertiesToW
 	return nil
 }
 
+//Deprecated version of WebTestProperties_Status_Request. Use v1beta20180501preview.WebTestProperties_Status_Request instead
 type WebTestProperties_Status_Request struct {
-	//FollowRedirects: Follow redirects for this web test.
-	FollowRedirects *bool `json:"FollowRedirects,omitempty"`
-
-	//Headers: List of headers and their values to add to the WebTest call.
-	Headers []HeaderField_Status `json:"Headers,omitempty"`
-
-	//HttpVerb: Http verb to use for this web test.
-	HttpVerb *string `json:"HttpVerb,omitempty"`
-
-	//ParseDependentRequests: Parse Dependent request for this WebTest.
-	ParseDependentRequests *bool `json:"ParseDependentRequests,omitempty"`
-
-	//RequestBody: Base64 encoded string body to send with this web test.
-	RequestBody *string `json:"RequestBody,omitempty"`
-
-	//RequestUrl: Url location to test.
-	RequestUrl *string `json:"RequestUrl,omitempty"`
+	FollowRedirects        *bool                `json:"FollowRedirects,omitempty"`
+	Headers                []HeaderField_Status `json:"Headers,omitempty"`
+	HttpVerb               *string              `json:"HttpVerb,omitempty"`
+	ParseDependentRequests *bool                `json:"ParseDependentRequests,omitempty"`
+	RequestBody            *string              `json:"RequestBody,omitempty"`
+	RequestUrl             *string              `json:"RequestUrl,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WebTestProperties_Status_Request{}
@@ -2410,22 +2324,13 @@ func (request *WebTestProperties_Status_Request) AssignPropertiesToWebTestProper
 	return nil
 }
 
+//Deprecated version of WebTestProperties_Status_ValidationRules. Use v1beta20180501preview.WebTestProperties_Status_ValidationRules instead
 type WebTestProperties_Status_ValidationRules struct {
-	//ContentValidation: The collection of content validation properties
-	ContentValidation *WebTestProperties_Status_ValidationRules_ContentValidation `json:"ContentValidation,omitempty"`
-
-	//ExpectedHttpStatusCode: Validate that the WebTest returns the http status code provided.
-	ExpectedHttpStatusCode *int `json:"ExpectedHttpStatusCode,omitempty"`
-
-	//IgnoreHttpsStatusCode: When set, validation will ignore the status code.
-	IgnoreHttpsStatusCode *bool `json:"IgnoreHttpsStatusCode,omitempty"`
-
-	//SSLCertRemainingLifetimeCheck: A number of days to check still remain before the the existing SSL cert expires.  Value
-	//must be positive and the SSLCheck must be set to true.
-	SSLCertRemainingLifetimeCheck *int `json:"SSLCertRemainingLifetimeCheck,omitempty"`
-
-	//SSLCheck: Checks to see if the SSL cert is still valid.
-	SSLCheck *bool `json:"SSLCheck,omitempty"`
+	ContentValidation             *WebTestProperties_Status_ValidationRules_ContentValidation `json:"ContentValidation,omitempty"`
+	ExpectedHttpStatusCode        *int                                                        `json:"ExpectedHttpStatusCode,omitempty"`
+	IgnoreHttpsStatusCode         *bool                                                       `json:"IgnoreHttpsStatusCode,omitempty"`
+	SSLCertRemainingLifetimeCheck *int                                                        `json:"SSLCertRemainingLifetimeCheck,omitempty"`
+	SSLCheck                      *bool                                                       `json:"SSLCheck,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WebTestProperties_Status_ValidationRules{}
@@ -2572,12 +2477,9 @@ func (rules *WebTestProperties_Status_ValidationRules) AssignPropertiesToWebTest
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/HeaderField
+//Deprecated version of HeaderField. Use v1beta20180501preview.HeaderField instead
 type HeaderField struct {
-	//Key: The name of the header.
-	Key *string `json:"key,omitempty"`
-
-	//Value: The value of the header.
+	Key   *string `json:"key,omitempty"`
 	Value *string `json:"value,omitempty"`
 }
 
@@ -2667,11 +2569,9 @@ func (field *HeaderField) AssignPropertiesToHeaderField(destination *v1alpha1api
 	return nil
 }
 
+//Deprecated version of HeaderField_Status. Use v1beta20180501preview.HeaderField_Status instead
 type HeaderField_Status struct {
-	//Key: The name of the header.
-	Key *string `json:"key,omitempty"`
-
-	//Value: The value of the header.
+	Key   *string `json:"key,omitempty"`
 	Value *string `json:"value,omitempty"`
 }
 
@@ -2740,17 +2640,11 @@ func (field *HeaderField_Status) AssignPropertiesToHeaderFieldStatus(destination
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRulesContentValidation
+//Deprecated version of WebTestPropertiesValidationRulesContentValidation. Use v1beta20180501preview.WebTestPropertiesValidationRulesContentValidation instead
 type WebTestPropertiesValidationRulesContentValidation struct {
-	//ContentMatch: Content to look for in the return of the WebTest.  Must not be null or empty.
-	ContentMatch *string `json:"ContentMatch,omitempty"`
-
-	//IgnoreCase: When set, this value makes the ContentMatch validation case insensitive.
-	IgnoreCase *bool `json:"IgnoreCase,omitempty"`
-
-	//PassIfTextFound: When true, validation will pass if there is a match for the ContentMatch string.  If false, validation
-	//will fail if there is a match
-	PassIfTextFound *bool `json:"PassIfTextFound,omitempty"`
+	ContentMatch    *string `json:"ContentMatch,omitempty"`
+	IgnoreCase      *bool   `json:"IgnoreCase,omitempty"`
+	PassIfTextFound *bool   `json:"PassIfTextFound,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &WebTestPropertiesValidationRulesContentValidation{}
@@ -2877,16 +2771,11 @@ func (validation *WebTestPropertiesValidationRulesContentValidation) AssignPrope
 	return nil
 }
 
+//Deprecated version of WebTestProperties_Status_ValidationRules_ContentValidation. Use v1beta20180501preview.WebTestProperties_Status_ValidationRules_ContentValidation instead
 type WebTestProperties_Status_ValidationRules_ContentValidation struct {
-	//ContentMatch: Content to look for in the return of the WebTest.  Must not be null or empty.
-	ContentMatch *string `json:"ContentMatch,omitempty"`
-
-	//IgnoreCase: When set, this value makes the ContentMatch validation case insensitive.
-	IgnoreCase *bool `json:"IgnoreCase,omitempty"`
-
-	//PassIfTextFound: When true, validation will pass if there is a match for the ContentMatch string.  If false, validation
-	//will fail if there is a match
-	PassIfTextFound *bool `json:"PassIfTextFound,omitempty"`
+	ContentMatch    *string `json:"ContentMatch,omitempty"`
+	IgnoreCase      *bool   `json:"IgnoreCase,omitempty"`
+	PassIfTextFound *bool   `json:"PassIfTextFound,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WebTestProperties_Status_ValidationRules_ContentValidation{}

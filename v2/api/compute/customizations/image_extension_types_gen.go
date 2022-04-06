@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20210701"
+	computev1alpha1api20210701 "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20210701"
 	"github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20210701storage"
+	computev1beta20210701 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701"
+	"github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type ImageExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *ImageExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&compute.Image{},
-		&v1alpha1api20210701storage.Image{}}
+		&computev1alpha1api20210701.Image{},
+		&v1alpha1api20210701storage.Image{},
+		&computev1beta20210701.Image{},
+		&v1beta20210701storage.Image{}}
 }

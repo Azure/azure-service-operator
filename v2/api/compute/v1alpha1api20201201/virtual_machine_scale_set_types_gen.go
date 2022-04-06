@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/resourceDefinitions/virtualMachineScaleSets
+//Deprecated version of VirtualMachineScaleSet. Use v1beta20201201.VirtualMachineScaleSet instead
 type VirtualMachineScaleSet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -49,22 +49,36 @@ var _ conversion.Convertible = &VirtualMachineScaleSet{}
 
 // ConvertFrom populates our VirtualMachineScaleSet from the provided hub VirtualMachineScaleSet
 func (scaleSet *VirtualMachineScaleSet) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20201201storage.VirtualMachineScaleSet)
-	if !ok {
-		return fmt.Errorf("expected compute/v1alpha1api20201201storage/VirtualMachineScaleSet but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20201201storage.VirtualMachineScaleSet
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return scaleSet.AssignPropertiesFromVirtualMachineScaleSet(source)
+	err = scaleSet.AssignPropertiesFromVirtualMachineScaleSet(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to scaleSet")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub VirtualMachineScaleSet from our VirtualMachineScaleSet
 func (scaleSet *VirtualMachineScaleSet) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20201201storage.VirtualMachineScaleSet)
-	if !ok {
-		return fmt.Errorf("expected compute/v1alpha1api20201201storage/VirtualMachineScaleSet but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20201201storage.VirtualMachineScaleSet
+	err := scaleSet.AssignPropertiesToVirtualMachineScaleSet(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from scaleSet")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return scaleSet.AssignPropertiesToVirtualMachineScaleSet(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-compute-azure-com-v1alpha1api20201201-virtualmachinescaleset,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=compute.azure.com,resources=virtualmachinescalesets,verbs=create;update,versions=v1alpha1api20201201,name=default.v1alpha1api20201201.virtualmachinescalesets.compute.azure.com,admissionReviewVersions=v1beta1
@@ -301,104 +315,43 @@ func (scaleSet *VirtualMachineScaleSet) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/resourceDefinitions/virtualMachineScaleSets
+//Deprecated version of VirtualMachineScaleSet. Use v1beta20201201.VirtualMachineScaleSet instead
 type VirtualMachineScaleSetList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []VirtualMachineScaleSet `json:"items"`
 }
 
+//Deprecated version of VirtualMachineScaleSet_Status. Use v1beta20201201.VirtualMachineScaleSet_Status instead
 type VirtualMachineScaleSet_Status struct {
-	//AdditionalCapabilities: Specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual
-	//Machine Scale Set. For instance: whether the Virtual Machines have the capability to support attaching managed data
-	//disks with UltraSSD_LRS storage account type.
 	AdditionalCapabilities *AdditionalCapabilities_Status `json:"additionalCapabilities,omitempty"`
-
-	//AutomaticRepairsPolicy: Policy for automatic repairs.
 	AutomaticRepairsPolicy *AutomaticRepairsPolicy_Status `json:"automaticRepairsPolicy,omitempty"`
 
 	//Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	//DoNotRunExtensionsOnOverprovisionedVMs: When Overprovision is enabled, extensions are launched only on the requested
-	//number of VMs which are finally kept. This property will hence ensure that the extensions do not run on the extra
-	//overprovisioned VMs.
-	DoNotRunExtensionsOnOverprovisionedVMs *bool `json:"doNotRunExtensionsOnOverprovisionedVMs,omitempty"`
-
-	//ExtendedLocation: The extended location of the Virtual Machine Scale Set.
-	ExtendedLocation *ExtendedLocation_Status `json:"extendedLocation,omitempty"`
-
-	//HostGroup: Specifies information about the dedicated host group that the virtual machine scale set resides in.
-	//Minimum api-version: 2020-06-01.
-	HostGroup *SubResource_Status `json:"hostGroup,omitempty"`
-
-	//Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	//Identity: The identity of the virtual machine scale set, if configured.
-	Identity *VirtualMachineScaleSetIdentity_Status `json:"identity,omitempty"`
-
-	//Location: Resource location
-	Location *string `json:"location,omitempty"`
-
-	//Name: Resource name
-	Name *string `json:"name,omitempty"`
-
-	//OrchestrationMode: Specifies the orchestration mode for the virtual machine scale set.
-	OrchestrationMode *OrchestrationMode_Status `json:"orchestrationMode,omitempty"`
-
-	//Overprovision: Specifies whether the Virtual Machine Scale Set should be overprovisioned.
-	Overprovision *bool `json:"overprovision,omitempty"`
-
-	//Plan: Specifies information about the marketplace image used to create the virtual machine. This element is only used
-	//for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic
-	//use.  In the Azure portal, find the marketplace image that you want to use and then click Want to deploy
-	//programmatically, Get Started ->. Enter any required information and then click Save.
-	Plan *Plan_Status `json:"plan,omitempty"`
-
-	//PlatformFaultDomainCount: Fault Domain count for each placement group.
-	PlatformFaultDomainCount *int `json:"platformFaultDomainCount,omitempty"`
-
-	//ProvisioningState: The provisioning state, which only appears in the response.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	//ProximityPlacementGroup: Specifies information about the proximity placement group that the virtual machine scale set
-	//should be assigned to.
-	//Minimum api-version: 2018-04-01.
-	ProximityPlacementGroup *SubResource_Status `json:"proximityPlacementGroup,omitempty"`
-
-	//ScaleInPolicy: Specifies the scale-in policy that decides which virtual machines are chosen for removal when a Virtual
-	//Machine Scale Set is scaled-in.
-	ScaleInPolicy *ScaleInPolicy_Status `json:"scaleInPolicy,omitempty"`
-
-	//SinglePlacementGroup: When true this limits the scale set to a single placement group, of max size 100 virtual machines.
-	//NOTE: If singlePlacementGroup is true, it may be modified to false. However, if singlePlacementGroup is false, it may
-	//not be modified to true.
-	SinglePlacementGroup *bool `json:"singlePlacementGroup,omitempty"`
-
-	//Sku: The virtual machine scale set sku.
-	Sku *Sku_Status `json:"sku,omitempty"`
-
-	//Tags: Resource tags
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type *string `json:"type,omitempty"`
-
-	//UniqueId: Specifies the ID which uniquely identifies a Virtual Machine Scale Set.
-	UniqueId *string `json:"uniqueId,omitempty"`
-
-	//UpgradePolicy: The upgrade policy.
-	UpgradePolicy *UpgradePolicy_Status `json:"upgradePolicy,omitempty"`
-
-	//VirtualMachineProfile: The virtual machine profile.
-	VirtualMachineProfile *VirtualMachineScaleSetVMProfile_Status `json:"virtualMachineProfile,omitempty"`
-
-	//ZoneBalance: Whether to force strictly even Virtual Machine distribution cross x-zones in case there is zone outage.
-	ZoneBalance *bool `json:"zoneBalance,omitempty"`
-
-	//Zones: The virtual machine scale set zones. NOTE: Availability zones can only be set when you create the scale set
-	Zones []string `json:"zones,omitempty"`
+	Conditions                             []conditions.Condition                  `json:"conditions,omitempty"`
+	DoNotRunExtensionsOnOverprovisionedVMs *bool                                   `json:"doNotRunExtensionsOnOverprovisionedVMs,omitempty"`
+	ExtendedLocation                       *ExtendedLocation_Status                `json:"extendedLocation,omitempty"`
+	HostGroup                              *SubResource_Status                     `json:"hostGroup,omitempty"`
+	Id                                     *string                                 `json:"id,omitempty"`
+	Identity                               *VirtualMachineScaleSetIdentity_Status  `json:"identity,omitempty"`
+	Location                               *string                                 `json:"location,omitempty"`
+	Name                                   *string                                 `json:"name,omitempty"`
+	OrchestrationMode                      *OrchestrationMode_Status               `json:"orchestrationMode,omitempty"`
+	Overprovision                          *bool                                   `json:"overprovision,omitempty"`
+	Plan                                   *Plan_Status                            `json:"plan,omitempty"`
+	PlatformFaultDomainCount               *int                                    `json:"platformFaultDomainCount,omitempty"`
+	ProvisioningState                      *string                                 `json:"provisioningState,omitempty"`
+	ProximityPlacementGroup                *SubResource_Status                     `json:"proximityPlacementGroup,omitempty"`
+	ScaleInPolicy                          *ScaleInPolicy_Status                   `json:"scaleInPolicy,omitempty"`
+	SinglePlacementGroup                   *bool                                   `json:"singlePlacementGroup,omitempty"`
+	Sku                                    *Sku_Status                             `json:"sku,omitempty"`
+	Tags                                   map[string]string                       `json:"tags,omitempty"`
+	Type                                   *string                                 `json:"type,omitempty"`
+	UniqueId                               *string                                 `json:"uniqueId,omitempty"`
+	UpgradePolicy                          *UpgradePolicy_Status                   `json:"upgradePolicy,omitempty"`
+	VirtualMachineProfile                  *VirtualMachineScaleSetVMProfile_Status `json:"virtualMachineProfile,omitempty"`
+	ZoneBalance                            *bool                                   `json:"zoneBalance,omitempty"`
+	Zones                                  []string                                `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &VirtualMachineScaleSet_Status{}
@@ -1149,85 +1102,37 @@ func (scaleSet *VirtualMachineScaleSet_Status) AssignPropertiesToVirtualMachineS
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2020-12-01"}
-type VirtualMachineScaleSetsSpecAPIVersion string
-
-const VirtualMachineScaleSetsSpecAPIVersion20201201 = VirtualMachineScaleSetsSpecAPIVersion("2020-12-01")
-
 type VirtualMachineScaleSets_Spec struct {
-	//AdditionalCapabilities: Enables or disables a capability on the virtual machine or virtual machine scale set.
 	AdditionalCapabilities *AdditionalCapabilities `json:"additionalCapabilities,omitempty"`
-
-	//AutomaticRepairsPolicy: Specifies the configuration parameters for automatic repairs on the virtual machine scale set.
 	AutomaticRepairsPolicy *AutomaticRepairsPolicy `json:"automaticRepairsPolicy,omitempty"`
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	//DoNotRunExtensionsOnOverprovisionedVMs: When Overprovision is enabled, extensions are launched only on the requested
-	//number of VMs which are finally kept. This property will hence ensure that the extensions do not run on the extra
-	//overprovisioned VMs.
-	DoNotRunExtensionsOnOverprovisionedVMs *bool `json:"doNotRunExtensionsOnOverprovisionedVMs,omitempty"`
-
-	//ExtendedLocation: The complex type of the extended location.
-	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
-	HostGroup        *SubResource      `json:"hostGroup,omitempty"`
-
-	//Identity: Identity for the virtual machine scale set.
-	Identity *VirtualMachineScaleSetIdentity `json:"identity,omitempty"`
-
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	//OrchestrationMode: Specifies the orchestration mode for the virtual machine scale set.
-	OrchestrationMode *VirtualMachineScaleSetsSpecPropertiesOrchestrationMode `json:"orchestrationMode,omitempty"`
-
-	//Overprovision: Specifies whether the Virtual Machine Scale Set should be overprovisioned.
-	Overprovision *bool `json:"overprovision,omitempty"`
+	AzureName                              string                                                  `json:"azureName,omitempty"`
+	DoNotRunExtensionsOnOverprovisionedVMs *bool                                                   `json:"doNotRunExtensionsOnOverprovisionedVMs,omitempty"`
+	ExtendedLocation                       *ExtendedLocation                                       `json:"extendedLocation,omitempty"`
+	HostGroup                              *SubResource                                            `json:"hostGroup,omitempty"`
+	Identity                               *VirtualMachineScaleSetIdentity                         `json:"identity,omitempty"`
+	Location                               *string                                                 `json:"location,omitempty"`
+	OrchestrationMode                      *VirtualMachineScaleSetsSpecPropertiesOrchestrationMode `json:"orchestrationMode,omitempty"`
+	Overprovision                          *bool                                                   `json:"overprovision,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	//Plan: Specifies information about the marketplace image used to create the virtual machine. This element is only used
-	//for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic
-	//use.  In the Azure portal, find the marketplace image that you want to use and then click Want to deploy
-	//programmatically, Get Started ->. Enter any required information and then click Save.
-	Plan *Plan `json:"plan,omitempty"`
-
-	//PlatformFaultDomainCount: Fault Domain count for each placement group.
-	PlatformFaultDomainCount *int         `json:"platformFaultDomainCount,omitempty"`
-	ProximityPlacementGroup  *SubResource `json:"proximityPlacementGroup,omitempty"`
-
-	//ScaleInPolicy: Describes a scale-in policy for a virtual machine scale set.
-	ScaleInPolicy *ScaleInPolicy `json:"scaleInPolicy,omitempty"`
-
-	//SinglePlacementGroup: When true this limits the scale set to a single placement group, of max size 100 virtual machines.
-	//NOTE: If singlePlacementGroup is true, it may be modified to false. However, if singlePlacementGroup is false, it may
-	//not be modified to true.
-	SinglePlacementGroup *bool `json:"singlePlacementGroup,omitempty"`
-
-	//Sku: Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not supported on the hardware the scale set
-	//is currently on, you need to deallocate the VMs in the scale set before you modify the SKU name.
-	Sku *Sku `json:"sku,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//UpgradePolicy: Describes an upgrade policy - automatic, manual, or rolling.
-	UpgradePolicy *UpgradePolicy `json:"upgradePolicy,omitempty"`
-
-	//VirtualMachineProfile: Describes a virtual machine scale set virtual machine profile.
-	VirtualMachineProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile `json:"virtualMachineProfile,omitempty"`
-
-	//ZoneBalance: Whether to force strictly even Virtual Machine distribution cross x-zones in case there is zone outage.
-	ZoneBalance *bool `json:"zoneBalance,omitempty"`
-
-	//Zones: The virtual machine scale set zones. NOTE: Availability zones can only be set when you create the scale set
-	Zones []string `json:"zones,omitempty"`
+	Owner                    *genruntime.KnownResourceReference                             `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Plan                     *Plan                                                          `json:"plan,omitempty"`
+	PlatformFaultDomainCount *int                                                           `json:"platformFaultDomainCount,omitempty"`
+	ProximityPlacementGroup  *SubResource                                                   `json:"proximityPlacementGroup,omitempty"`
+	ScaleInPolicy            *ScaleInPolicy                                                 `json:"scaleInPolicy,omitempty"`
+	SinglePlacementGroup     *bool                                                          `json:"singlePlacementGroup,omitempty"`
+	Sku                      *Sku                                                           `json:"sku,omitempty"`
+	Tags                     map[string]string                                              `json:"tags,omitempty"`
+	UpgradePolicy            *UpgradePolicy                                                 `json:"upgradePolicy,omitempty"`
+	VirtualMachineProfile    *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile `json:"virtualMachineProfile,omitempty"`
+	ZoneBalance              *bool                                                          `json:"zoneBalance,omitempty"`
+	Zones                    []string                                                       `json:"zones,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSets_Spec{}
@@ -2113,16 +2018,9 @@ func (sets *VirtualMachineScaleSets_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (sets *VirtualMachineScaleSets_Spec) SetAzureName(azureName string) { sets.AzureName = azureName }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/AutomaticRepairsPolicy
+//Deprecated version of AutomaticRepairsPolicy. Use v1beta20201201.AutomaticRepairsPolicy instead
 type AutomaticRepairsPolicy struct {
-	//Enabled: Specifies whether automatic repairs should be enabled on the virtual machine scale set. The default value is
-	//false.
-	Enabled *bool `json:"enabled,omitempty"`
-
-	//GracePeriod: The amount of time for which automatic repairs are suspended due to a state change on VM. The grace time
-	//starts after the state change has completed. This helps avoid premature or accidental repairs. The time duration should
-	//be specified in ISO 8601 format. The minimum allowed grace period is 30 minutes (PT30M), which is also the default
-	//value. The maximum allowed grace period is 90 minutes (PT90M).
+	Enabled     *bool   `json:"enabled,omitempty"`
 	GracePeriod *string `json:"gracePeriod,omitempty"`
 }
 
@@ -2222,15 +2120,9 @@ func (policy *AutomaticRepairsPolicy) AssignPropertiesToAutomaticRepairsPolicy(d
 	return nil
 }
 
+//Deprecated version of AutomaticRepairsPolicy_Status. Use v1beta20201201.AutomaticRepairsPolicy_Status instead
 type AutomaticRepairsPolicy_Status struct {
-	//Enabled: Specifies whether automatic repairs should be enabled on the virtual machine scale set. The default value is
-	//false.
-	Enabled *bool `json:"enabled,omitempty"`
-
-	//GracePeriod: The amount of time for which automatic repairs are suspended due to a state change on VM. The grace time
-	//starts after the state change has completed. This helps avoid premature or accidental repairs. The time duration should
-	//be specified in ISO 8601 format. The minimum allowed grace period is 30 minutes (PT30M), which is also the default
-	//value. The maximum allowed grace period is 90 minutes (PT90M).
+	Enabled     *bool   `json:"enabled,omitempty"`
 	GracePeriod *string `json:"gracePeriod,omitempty"`
 }
 
@@ -2309,6 +2201,7 @@ func (policy *AutomaticRepairsPolicy_Status) AssignPropertiesToAutomaticRepairsP
 	return nil
 }
 
+//Deprecated version of OrchestrationMode_Status. Use v1beta20201201.OrchestrationMode_Status instead
 type OrchestrationMode_Status string
 
 const (
@@ -2316,19 +2209,8 @@ const (
 	OrchestrationMode_StatusUniform  = OrchestrationMode_Status("Uniform")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ScaleInPolicy
+//Deprecated version of ScaleInPolicy. Use v1beta20201201.ScaleInPolicy instead
 type ScaleInPolicy struct {
-	//Rules: The rules to be followed when scaling-in a virtual machine scale set.
-	//Possible values are:
-	//Default When a virtual machine scale set is scaled in, the scale set will first be balanced across zones if it is a
-	//zonal scale set. Then, it will be balanced across Fault Domains as far as possible. Within each Fault Domain, the
-	//virtual machines chosen for removal will be the newest ones that are not protected from scale-in.
-	//OldestVM When a virtual machine scale set is being scaled-in, the oldest virtual machines that are not protected from
-	//scale-in will be chosen for removal. For zonal virtual machine scale sets, the scale set will first be balanced across
-	//zones. Within each zone, the oldest virtual machines that are not protected will be chosen for removal.
-	//NewestVM When a virtual machine scale set is being scaled-in, the newest virtual machines that are not protected from
-	//scale-in will be chosen for removal. For zonal virtual machine scale sets, the scale set will first be balanced across
-	//zones. Within each zone, the newest virtual machines that are not protected will be chosen for removal.
 	Rules []ScaleInPolicyRules `json:"rules,omitempty"`
 }
 
@@ -2418,18 +2300,8 @@ func (policy *ScaleInPolicy) AssignPropertiesToScaleInPolicy(destination *v1alph
 	return nil
 }
 
+//Deprecated version of ScaleInPolicy_Status. Use v1beta20201201.ScaleInPolicy_Status instead
 type ScaleInPolicy_Status struct {
-	//Rules: The rules to be followed when scaling-in a virtual machine scale set.
-	//Possible values are:
-	//Default When a virtual machine scale set is scaled in, the scale set will first be balanced across zones if it is a
-	//zonal scale set. Then, it will be balanced across Fault Domains as far as possible. Within each Fault Domain, the
-	//virtual machines chosen for removal will be the newest ones that are not protected from scale-in.
-	//OldestVM When a virtual machine scale set is being scaled-in, the oldest virtual machines that are not protected from
-	//scale-in will be chosen for removal. For zonal virtual machine scale sets, the scale set will first be balanced across
-	//zones. Within each zone, the oldest virtual machines that are not protected will be chosen for removal.
-	//NewestVM When a virtual machine scale set is being scaled-in, the newest virtual machines that are not protected from
-	//scale-in will be chosen for removal. For zonal virtual machine scale sets, the scale set will first be balanced across
-	//zones. Within each zone, the newest virtual machines that are not protected will be chosen for removal.
 	Rules []ScaleInPolicyStatusRules `json:"rules,omitempty"`
 }
 
@@ -2505,19 +2377,11 @@ func (policy *ScaleInPolicy_Status) AssignPropertiesToScaleInPolicyStatus(destin
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/Sku
+//Deprecated version of Sku. Use v1beta20201201.Sku instead
 type Sku struct {
-	//Capacity: Specifies the number of virtual machines in the scale set.
-	Capacity *int `json:"capacity,omitempty"`
-
-	//Name: The sku name.
-	Name *string `json:"name,omitempty"`
-
-	//Tier: Specifies the tier of virtual machines in a scale set.
-	//Possible Values:
-	//Standard
-	//Basic
-	Tier *string `json:"tier,omitempty"`
+	Capacity *int    `json:"capacity,omitempty"`
+	Name     *string `json:"name,omitempty"`
+	Tier     *string `json:"tier,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Sku{}
@@ -2624,18 +2488,11 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20201201storage.Sk
 	return nil
 }
 
+//Deprecated version of Sku_Status. Use v1beta20201201.Sku_Status instead
 type Sku_Status struct {
-	//Capacity: Specifies the number of virtual machines in the scale set.
-	Capacity *int `json:"capacity,omitempty"`
-
-	//Name: The sku name.
-	Name *string `json:"name,omitempty"`
-
-	//Tier: Specifies the tier of virtual machines in a scale set.
-	//Possible Values:
-	//Standard
-	//Basic
-	Tier *string `json:"tier,omitempty"`
+	Capacity *int    `json:"capacity,omitempty"`
+	Name     *string `json:"name,omitempty"`
+	Tier     *string `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_Status{}
@@ -2715,20 +2572,11 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1api20201
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/UpgradePolicy
+//Deprecated version of UpgradePolicy. Use v1beta20201201.UpgradePolicy instead
 type UpgradePolicy struct {
-	//AutomaticOSUpgradePolicy: The configuration parameters used for performing automatic OS upgrade.
 	AutomaticOSUpgradePolicy *AutomaticOSUpgradePolicy `json:"automaticOSUpgradePolicy,omitempty"`
-
-	//Mode: Specifies the mode of an upgrade to virtual machines in the scale set.
-	//Possible values are:
-	//Manual - You  control the application of updates to virtual machines in the scale set. You do this by using the
-	//manualUpgrade action.
-	//Automatic - All virtual machines in the scale set are  automatically updated at the same time.
-	Mode *UpgradePolicyMode `json:"mode,omitempty"`
-
-	//RollingUpgradePolicy: The configuration parameters used while performing a rolling upgrade.
-	RollingUpgradePolicy *RollingUpgradePolicy `json:"rollingUpgradePolicy,omitempty"`
+	Mode                     *UpgradePolicyMode        `json:"mode,omitempty"`
+	RollingUpgradePolicy     *RollingUpgradePolicy     `json:"rollingUpgradePolicy,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &UpgradePolicy{}
@@ -2899,19 +2747,11 @@ func (policy *UpgradePolicy) AssignPropertiesToUpgradePolicy(destination *v1alph
 	return nil
 }
 
+//Deprecated version of UpgradePolicy_Status. Use v1beta20201201.UpgradePolicy_Status instead
 type UpgradePolicy_Status struct {
-	//AutomaticOSUpgradePolicy: Configuration parameters used for performing automatic OS Upgrade.
 	AutomaticOSUpgradePolicy *AutomaticOSUpgradePolicy_Status `json:"automaticOSUpgradePolicy,omitempty"`
-
-	//Mode: Specifies the mode of an upgrade to virtual machines in the scale set.
-	//Possible values are:
-	//Manual - You  control the application of updates to virtual machines in the scale set. You do this by using the
-	//manualUpgrade action.
-	//Automatic - All virtual machines in the scale set are  automatically updated at the same time.
-	Mode *UpgradePolicyStatusMode `json:"mode,omitempty"`
-
-	//RollingUpgradePolicy: The configuration parameters used while performing a rolling upgrade.
-	RollingUpgradePolicy *RollingUpgradePolicy_Status `json:"rollingUpgradePolicy,omitempty"`
+	Mode                     *UpgradePolicyStatusMode         `json:"mode,omitempty"`
+	RollingUpgradePolicy     *RollingUpgradePolicy_Status     `json:"rollingUpgradePolicy,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &UpgradePolicy_Status{}
@@ -3047,11 +2887,8 @@ func (policy *UpgradePolicy_Status) AssignPropertiesToUpgradePolicyStatus(destin
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetIdentity
+//Deprecated version of VirtualMachineScaleSetIdentity. Use v1beta20201201.VirtualMachineScaleSetIdentity instead
 type VirtualMachineScaleSetIdentity struct {
-	//Type: The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both
-	//an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from
-	//the virtual machine scale set.
 	Type *VirtualMachineScaleSetIdentityType `json:"type,omitempty"`
 }
 
@@ -3133,23 +2970,11 @@ func (identity *VirtualMachineScaleSetIdentity) AssignPropertiesToVirtualMachine
 	return nil
 }
 
+//Deprecated version of VirtualMachineScaleSetIdentity_Status. Use v1beta20201201.VirtualMachineScaleSetIdentity_Status instead
 type VirtualMachineScaleSetIdentity_Status struct {
-	//PrincipalId: The principal id of virtual machine scale set identity. This property will only be provided for a system
-	//assigned identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	//TenantId: The tenant id associated with the virtual machine scale set. This property will only be provided for a system
-	//assigned identity.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	//Type: The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both
-	//an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from
-	//the virtual machine scale set.
-	Type *VirtualMachineScaleSetIdentityStatusType `json:"type,omitempty"`
-
-	//UserAssignedIdentities: The list of user identities associated with the virtual machine scale set. The user identity
-	//dictionary key references will be ARM resource ids in the form:
-	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+	PrincipalId            *string                                                                 `json:"principalId,omitempty"`
+	TenantId               *string                                                                 `json:"tenantId,omitempty"`
+	Type                   *VirtualMachineScaleSetIdentityStatusType                               `json:"type,omitempty"`
 	UserAssignedIdentities map[string]VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -3289,56 +3114,19 @@ func (identity *VirtualMachineScaleSetIdentity_Status) AssignPropertiesToVirtual
 	return nil
 }
 
+//Deprecated version of VirtualMachineScaleSetVMProfile_Status. Use v1beta20201201.VirtualMachineScaleSetVMProfile_Status instead
 type VirtualMachineScaleSetVMProfile_Status struct {
-	//BillingProfile: Specifies the billing related details of a Azure Spot VMSS.
-	//Minimum api-version: 2019-03-01.
-	BillingProfile *BillingProfile_Status `json:"billingProfile,omitempty"`
-
-	//DiagnosticsProfile: Specifies the boot diagnostic settings state.
-	//Minimum api-version: 2015-06-15.
-	DiagnosticsProfile *DiagnosticsProfile_Status `json:"diagnosticsProfile,omitempty"`
-
-	//EvictionPolicy: Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set.
-	//For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01.
-	//For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is
-	//2017-10-30-preview.
-	EvictionPolicy *EvictionPolicy_Status `json:"evictionPolicy,omitempty"`
-
-	//ExtensionProfile: Specifies a collection of settings for extensions installed on virtual machines in the scale set.
-	ExtensionProfile *VirtualMachineScaleSetExtensionProfile_Status `json:"extensionProfile,omitempty"`
-
-	//LicenseType: Specifies that the image or disk that is being used was licensed on-premises.
-	//Possible values for Windows Server operating system are:
-	//Windows_Client
-	//Windows_Server
-	//Possible values for Linux Server operating system are:
-	//RHEL_BYOS (for RHEL)
-	//SLES_BYOS (for SUSE)
-	//For more information, see [Azure Hybrid Use Benefit for Windows
-	//Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing)
-	//[Azure Hybrid Use Benefit for Linux
-	//Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux)
-	//Minimum api-version: 2015-06-15
-	LicenseType *string `json:"licenseType,omitempty"`
-
-	//NetworkProfile: Specifies properties of the network interfaces of the virtual machines in the scale set.
-	NetworkProfile *VirtualMachineScaleSetNetworkProfile_Status `json:"networkProfile,omitempty"`
-
-	//OsProfile: Specifies the operating system settings for the virtual machines in the scale set.
-	OsProfile *VirtualMachineScaleSetOSProfile_Status `json:"osProfile,omitempty"`
-
-	//Priority: Specifies the priority for the virtual machines in the scale set.
-	//Minimum api-version: 2017-10-30-preview
-	Priority *Priority_Status `json:"priority,omitempty"`
-
-	//ScheduledEventsProfile: Specifies Scheduled Event related configurations.
-	ScheduledEventsProfile *ScheduledEventsProfile_Status `json:"scheduledEventsProfile,omitempty"`
-
-	//SecurityProfile: Specifies the Security related profile settings for the virtual machines in the scale set.
-	SecurityProfile *SecurityProfile_Status `json:"securityProfile,omitempty"`
-
-	//StorageProfile: Specifies the storage settings for the virtual machine disks.
-	StorageProfile *VirtualMachineScaleSetStorageProfile_Status `json:"storageProfile,omitempty"`
+	BillingProfile         *BillingProfile_Status                         `json:"billingProfile,omitempty"`
+	DiagnosticsProfile     *DiagnosticsProfile_Status                     `json:"diagnosticsProfile,omitempty"`
+	EvictionPolicy         *EvictionPolicy_Status                         `json:"evictionPolicy,omitempty"`
+	ExtensionProfile       *VirtualMachineScaleSetExtensionProfile_Status `json:"extensionProfile,omitempty"`
+	LicenseType            *string                                        `json:"licenseType,omitempty"`
+	NetworkProfile         *VirtualMachineScaleSetNetworkProfile_Status   `json:"networkProfile,omitempty"`
+	OsProfile              *VirtualMachineScaleSetOSProfile_Status        `json:"osProfile,omitempty"`
+	Priority               *Priority_Status                               `json:"priority,omitempty"`
+	ScheduledEventsProfile *ScheduledEventsProfile_Status                 `json:"scheduledEventsProfile,omitempty"`
+	SecurityProfile        *SecurityProfile_Status                        `json:"securityProfile,omitempty"`
+	StorageProfile         *VirtualMachineScaleSetStorageProfile_Status   `json:"storageProfile,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetVMProfile_Status{}
@@ -3718,6 +3506,8 @@ func (profile *VirtualMachineScaleSetVMProfile_Status) AssignPropertiesToVirtual
 	return nil
 }
 
+//Deprecated version of VirtualMachineScaleSetsSpecPropertiesOrchestrationMode. Use
+//v1beta20201201.VirtualMachineScaleSetsSpecPropertiesOrchestrationMode instead
 // +kubebuilder:validation:Enum={"Flexible","Uniform"}
 type VirtualMachineScaleSetsSpecPropertiesOrchestrationMode string
 
@@ -3726,54 +3516,19 @@ const (
 	VirtualMachineScaleSetsSpecPropertiesOrchestrationModeUniform  = VirtualMachineScaleSetsSpecPropertiesOrchestrationMode("Uniform")
 )
 
+//Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile instead
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile struct {
-	//BillingProfile: Specifies the billing related details of a Azure Spot VM or VMSS.
-	//Minimum api-version: 2019-03-01.
-	BillingProfile *BillingProfile `json:"billingProfile,omitempty"`
-
-	//DiagnosticsProfile: Specifies the boot diagnostic settings state.
-	//Minimum api-version: 2015-06-15.
-	DiagnosticsProfile *DiagnosticsProfile `json:"diagnosticsProfile,omitempty"`
-
-	//EvictionPolicy: Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set.
-	//For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01.
-	//For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is
-	//2017-10-30-preview.
-	EvictionPolicy *VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileEvictionPolicy `json:"evictionPolicy,omitempty"`
-
-	//ExtensionProfile: Describes a virtual machine scale set extension profile.
-	ExtensionProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile `json:"extensionProfile,omitempty"`
-
-	//LicenseType: Specifies that the image or disk that is being used was licensed on-premises.
-	//Possible values for Windows Server operating system are:
-	//Windows_Client
-	//Windows_Server
-	//Possible values for Linux Server operating system are:
-	//RHEL_BYOS (for RHEL)
-	//SLES_BYOS (for SUSE)
-	//For more information, see [Azure Hybrid Use Benefit for Windows
-	//Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing)
-	//[Azure Hybrid Use Benefit for Linux
-	//Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux)
-	//Minimum api-version: 2015-06-15
-	LicenseType *string `json:"licenseType,omitempty"`
-
-	//NetworkProfile: Describes a virtual machine scale set network profile.
-	NetworkProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile `json:"networkProfile,omitempty"`
-
-	//OsProfile: Describes a virtual machine scale set OS profile.
-	OsProfile *VirtualMachineScaleSetOSProfile `json:"osProfile,omitempty"`
-
-	//Priority: Specifies the priority for the virtual machines in the scale set.
-	//Minimum api-version: 2017-10-30-preview.
-	Priority               *VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePriority `json:"priority,omitempty"`
-	ScheduledEventsProfile *ScheduledEventsProfile                                             `json:"scheduledEventsProfile,omitempty"`
-
-	//SecurityProfile: Specifies the Security profile settings for the virtual machine or virtual machine scale set.
-	SecurityProfile *SecurityProfile `json:"securityProfile,omitempty"`
-
-	//StorageProfile: Describes a virtual machine scale set storage profile.
-	StorageProfile *VirtualMachineScaleSetStorageProfile `json:"storageProfile,omitempty"`
+	BillingProfile         *BillingProfile                                                                 `json:"billingProfile,omitempty"`
+	DiagnosticsProfile     *DiagnosticsProfile                                                             `json:"diagnosticsProfile,omitempty"`
+	EvictionPolicy         *VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileEvictionPolicy       `json:"evictionPolicy,omitempty"`
+	ExtensionProfile       *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile `json:"extensionProfile,omitempty"`
+	LicenseType            *string                                                                         `json:"licenseType,omitempty"`
+	NetworkProfile         *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile   `json:"networkProfile,omitempty"`
+	OsProfile              *VirtualMachineScaleSetOSProfile                                                `json:"osProfile,omitempty"`
+	Priority               *VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePriority             `json:"priority,omitempty"`
+	ScheduledEventsProfile *ScheduledEventsProfile                                                         `json:"scheduledEventsProfile,omitempty"`
+	SecurityProfile        *SecurityProfile                                                                `json:"securityProfile,omitempty"`
+	StorageProfile         *VirtualMachineScaleSetStorageProfile                                           `json:"storageProfile,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile{}
@@ -4260,16 +4015,9 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) As
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/AutomaticOSUpgradePolicy
+//Deprecated version of AutomaticOSUpgradePolicy. Use v1beta20201201.AutomaticOSUpgradePolicy instead
 type AutomaticOSUpgradePolicy struct {
-	//DisableAutomaticRollback: Whether OS image rollback feature should be disabled. Default value is false.
 	DisableAutomaticRollback *bool `json:"disableAutomaticRollback,omitempty"`
-
-	//EnableAutomaticOSUpgrade: Indicates whether OS upgrades should automatically be applied to scale set instances in a
-	//rolling fashion when a newer version of the OS image becomes available. Default value is false.
-	//If this is set to true for Windows based scale sets,
-	//[enableAutomaticUpdates](https://docs.microsoft.com/dotnet/api/microsoft.azure.management.compute.models.windowsconfiguration.enableautomaticupdates?view=azure-dotnet)
-	//is automatically set to false and cannot be set to true.
 	EnableAutomaticOSUpgrade *bool `json:"enableAutomaticOSUpgrade,omitempty"`
 }
 
@@ -4379,15 +4127,9 @@ func (policy *AutomaticOSUpgradePolicy) AssignPropertiesToAutomaticOSUpgradePoli
 	return nil
 }
 
+//Deprecated version of AutomaticOSUpgradePolicy_Status. Use v1beta20201201.AutomaticOSUpgradePolicy_Status instead
 type AutomaticOSUpgradePolicy_Status struct {
-	//DisableAutomaticRollback: Whether OS image rollback feature should be disabled. Default value is false.
 	DisableAutomaticRollback *bool `json:"disableAutomaticRollback,omitempty"`
-
-	//EnableAutomaticOSUpgrade: Indicates whether OS upgrades should automatically be applied to scale set instances in a
-	//rolling fashion when a newer version of the OS image becomes available. Default value is false.
-	//If this is set to true for Windows based scale sets,
-	//[enableAutomaticUpdates](https://docs.microsoft.com/dotnet/api/microsoft.azure.management.compute.models.windowsconfiguration.enableautomaticupdates?view=azure-dotnet)
-	//is automatically set to false and cannot be set to true.
 	EnableAutomaticOSUpgrade *bool `json:"enableAutomaticOSUpgrade,omitempty"`
 }
 
@@ -4476,40 +4218,23 @@ func (policy *AutomaticOSUpgradePolicy_Status) AssignPropertiesToAutomaticOSUpgr
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/RollingUpgradePolicy
+//Deprecated version of RollingUpgradePolicy. Use v1beta20201201.RollingUpgradePolicy instead
 type RollingUpgradePolicy struct {
-	//EnableCrossZoneUpgrade: Allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration
-	//the Update Domain and maxBatchInstancePercent to determine the batch size.
 	EnableCrossZoneUpgrade *bool `json:"enableCrossZoneUpgrade,omitempty"`
 
 	// +kubebuilder:validation:Maximum=100
 	// +kubebuilder:validation:Minimum=5
-	//MaxBatchInstancePercent: The maximum percent of total virtual machine instances that will be upgraded simultaneously by
-	//the rolling upgrade in one batch. As this is a maximum, unhealthy instances in previous or future batches can cause the
-	//percentage of instances in a batch to decrease to ensure higher reliability. The default value for this parameter is 20%.
 	MaxBatchInstancePercent *int `json:"maxBatchInstancePercent,omitempty"`
 
 	// +kubebuilder:validation:Maximum=100
 	// +kubebuilder:validation:Minimum=5
-	//MaxUnhealthyInstancePercent: The maximum percentage of the total virtual machine instances in the scale set that can be
-	//simultaneously unhealthy, either as a result of being upgraded, or by being found in an unhealthy state by the virtual
-	//machine health checks before the rolling upgrade aborts. This constraint will be checked prior to starting any batch.
-	//The default value for this parameter is 20%.
 	MaxUnhealthyInstancePercent *int `json:"maxUnhealthyInstancePercent,omitempty"`
 
 	// +kubebuilder:validation:Maximum=100
 	// +kubebuilder:validation:Minimum=0
-	//MaxUnhealthyUpgradedInstancePercent: The maximum percentage of upgraded virtual machine instances that can be found to
-	//be in an unhealthy state. This check will happen after each batch is upgraded. If this percentage is ever exceeded, the
-	//rolling update aborts. The default value for this parameter is 20%.
-	MaxUnhealthyUpgradedInstancePercent *int `json:"maxUnhealthyUpgradedInstancePercent,omitempty"`
-
-	//PauseTimeBetweenBatches: The wait time between completing the update for all virtual machines in one batch and starting
-	//the next batch. The time duration should be specified in ISO 8601 format. The default value is 0 seconds (PT0S).
-	PauseTimeBetweenBatches *string `json:"pauseTimeBetweenBatches,omitempty"`
-
-	//PrioritizeUnhealthyInstances: Upgrade all unhealthy instances in a scale set before any healthy instances.
-	PrioritizeUnhealthyInstances *bool `json:"prioritizeUnhealthyInstances,omitempty"`
+	MaxUnhealthyUpgradedInstancePercent *int    `json:"maxUnhealthyUpgradedInstancePercent,omitempty"`
+	PauseTimeBetweenBatches             *string `json:"pauseTimeBetweenBatches,omitempty"`
+	PrioritizeUnhealthyInstances        *bool   `json:"prioritizeUnhealthyInstances,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RollingUpgradePolicy{}
@@ -4720,33 +4445,14 @@ func (policy *RollingUpgradePolicy) AssignPropertiesToRollingUpgradePolicy(desti
 	return nil
 }
 
+//Deprecated version of RollingUpgradePolicy_Status. Use v1beta20201201.RollingUpgradePolicy_Status instead
 type RollingUpgradePolicy_Status struct {
-	//EnableCrossZoneUpgrade: Allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration
-	//the Update Domain and maxBatchInstancePercent to determine the batch size.
-	EnableCrossZoneUpgrade *bool `json:"enableCrossZoneUpgrade,omitempty"`
-
-	//MaxBatchInstancePercent: The maximum percent of total virtual machine instances that will be upgraded simultaneously by
-	//the rolling upgrade in one batch. As this is a maximum, unhealthy instances in previous or future batches can cause the
-	//percentage of instances in a batch to decrease to ensure higher reliability. The default value for this parameter is 20%.
-	MaxBatchInstancePercent *int `json:"maxBatchInstancePercent,omitempty"`
-
-	//MaxUnhealthyInstancePercent: The maximum percentage of the total virtual machine instances in the scale set that can be
-	//simultaneously unhealthy, either as a result of being upgraded, or by being found in an unhealthy state by the virtual
-	//machine health checks before the rolling upgrade aborts. This constraint will be checked prior to starting any batch.
-	//The default value for this parameter is 20%.
-	MaxUnhealthyInstancePercent *int `json:"maxUnhealthyInstancePercent,omitempty"`
-
-	//MaxUnhealthyUpgradedInstancePercent: The maximum percentage of upgraded virtual machine instances that can be found to
-	//be in an unhealthy state. This check will happen after each batch is upgraded. If this percentage is ever exceeded, the
-	//rolling update aborts. The default value for this parameter is 20%.
-	MaxUnhealthyUpgradedInstancePercent *int `json:"maxUnhealthyUpgradedInstancePercent,omitempty"`
-
-	//PauseTimeBetweenBatches: The wait time between completing the update for all virtual machines in one batch and starting
-	//the next batch. The time duration should be specified in ISO 8601 format. The default value is 0 seconds (PT0S).
-	PauseTimeBetweenBatches *string `json:"pauseTimeBetweenBatches,omitempty"`
-
-	//PrioritizeUnhealthyInstances: Upgrade all unhealthy instances in a scale set before any healthy instances.
-	PrioritizeUnhealthyInstances *bool `json:"prioritizeUnhealthyInstances,omitempty"`
+	EnableCrossZoneUpgrade              *bool   `json:"enableCrossZoneUpgrade,omitempty"`
+	MaxBatchInstancePercent             *int    `json:"maxBatchInstancePercent,omitempty"`
+	MaxUnhealthyInstancePercent         *int    `json:"maxUnhealthyInstancePercent,omitempty"`
+	MaxUnhealthyUpgradedInstancePercent *int    `json:"maxUnhealthyUpgradedInstancePercent,omitempty"`
+	PauseTimeBetweenBatches             *string `json:"pauseTimeBetweenBatches,omitempty"`
+	PrioritizeUnhealthyInstances        *bool   `json:"prioritizeUnhealthyInstances,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &RollingUpgradePolicy_Status{}
@@ -4882,6 +4588,7 @@ func (policy *RollingUpgradePolicy_Status) AssignPropertiesToRollingUpgradePolic
 	return nil
 }
 
+//Deprecated version of ScaleInPolicyRules. Use v1beta20201201.ScaleInPolicyRules instead
 // +kubebuilder:validation:Enum={"Default","NewestVM","OldestVM"}
 type ScaleInPolicyRules string
 
@@ -4891,6 +4598,7 @@ const (
 	ScaleInPolicyRulesOldestVM = ScaleInPolicyRules("OldestVM")
 )
 
+//Deprecated version of ScaleInPolicyStatusRules. Use v1beta20201201.ScaleInPolicyStatusRules instead
 type ScaleInPolicyStatusRules string
 
 const (
@@ -4899,7 +4607,7 @@ const (
 	ScaleInPolicyStatusRulesOldestVM = ScaleInPolicyStatusRules("OldestVM")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ScheduledEventsProfile
+//Deprecated version of ScheduledEventsProfile. Use v1beta20201201.ScheduledEventsProfile instead
 type ScheduledEventsProfile struct {
 	TerminateNotificationProfile *TerminateNotificationProfile `json:"terminateNotificationProfile,omitempty"`
 }
@@ -4999,8 +4707,8 @@ func (profile *ScheduledEventsProfile) AssignPropertiesToScheduledEventsProfile(
 	return nil
 }
 
+//Deprecated version of ScheduledEventsProfile_Status. Use v1beta20201201.ScheduledEventsProfile_Status instead
 type ScheduledEventsProfile_Status struct {
-	//TerminateNotificationProfile: Specifies Terminate Scheduled Event related configurations.
 	TerminateNotificationProfile *TerminateNotificationProfile_Status `json:"terminateNotificationProfile,omitempty"`
 }
 
@@ -5080,6 +4788,7 @@ func (profile *ScheduledEventsProfile_Status) AssignPropertiesToScheduledEventsP
 	return nil
 }
 
+//Deprecated version of UpgradePolicyMode. Use v1beta20201201.UpgradePolicyMode instead
 // +kubebuilder:validation:Enum={"Automatic","Manual","Rolling"}
 type UpgradePolicyMode string
 
@@ -5089,6 +4798,7 @@ const (
 	UpgradePolicyModeRolling   = UpgradePolicyMode("Rolling")
 )
 
+//Deprecated version of UpgradePolicyStatusMode. Use v1beta20201201.UpgradePolicyStatusMode instead
 type UpgradePolicyStatusMode string
 
 const (
@@ -5097,15 +4807,10 @@ const (
 	UpgradePolicyStatusModeRolling   = UpgradePolicyStatusMode("Rolling")
 )
 
+//Deprecated version of VirtualMachineScaleSetExtensionProfile_Status. Use v1beta20201201.VirtualMachineScaleSetExtensionProfile_Status instead
 type VirtualMachineScaleSetExtensionProfile_Status struct {
-	//Extensions: The virtual machine scale set child extension resources.
-	Extensions []VirtualMachineScaleSetExtension_Status `json:"extensions,omitempty"`
-
-	//ExtensionsTimeBudget: Specifies the time alloted for all extensions to start. The time duration should be between 15
-	//minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes
-	//(PT1H30M).
-	//Minimum api-version: 2020-06-01
-	ExtensionsTimeBudget *string `json:"extensionsTimeBudget,omitempty"`
+	Extensions           []VirtualMachineScaleSetExtension_Status `json:"extensions,omitempty"`
+	ExtensionsTimeBudget *string                                  `json:"extensionsTimeBudget,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetExtensionProfile_Status{}
@@ -5207,11 +4912,9 @@ func (profile *VirtualMachineScaleSetExtensionProfile_Status) AssignPropertiesTo
 	return nil
 }
 
+//Deprecated version of VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities. Use v1beta20201201.VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities instead
 type VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities struct {
-	//ClientId: The client id of user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	//PrincipalId: The principal id of user assigned identity.
+	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
@@ -5280,13 +4983,9 @@ func (identities *VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities) 
 	return nil
 }
 
+//Deprecated version of VirtualMachineScaleSetNetworkProfile_Status. Use v1beta20201201.VirtualMachineScaleSetNetworkProfile_Status instead
 type VirtualMachineScaleSetNetworkProfile_Status struct {
-	//HealthProbe: A reference to a load balancer probe used to determine the health of an instance in the virtual machine
-	//scale set. The reference will be in the form:
-	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}'.
-	HealthProbe *ApiEntityReference_Status `json:"healthProbe,omitempty"`
-
-	//NetworkInterfaceConfigurations: The list of network configurations.
+	HealthProbe                    *ApiEntityReference_Status                          `json:"healthProbe,omitempty"`
 	NetworkInterfaceConfigurations []VirtualMachineScaleSetNetworkConfiguration_Status `json:"networkInterfaceConfigurations,omitempty"`
 }
 
@@ -5412,63 +5111,15 @@ func (profile *VirtualMachineScaleSetNetworkProfile_Status) AssignPropertiesToVi
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetOSProfile
+//Deprecated version of VirtualMachineScaleSetOSProfile. Use v1beta20201201.VirtualMachineScaleSetOSProfile instead
 type VirtualMachineScaleSetOSProfile struct {
-	//AdminPassword: Specifies the password of the administrator account.
-	//Minimum-length (Windows): 8 characters
-	//Minimum-length (Linux): 6 characters
-	//Max-length (Windows): 123 characters
-	//Max-length (Linux): 72 characters
-	//Complexity requirements: 3 out of 4 conditions below need to be fulfilled
-	//Has lower characters
-	//Has upper characters
-	//Has a digit
-	//Has a special character (Regex match [\W_])
-	//Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1",
-	//"Password22", "iloveyou!"
-	//For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows
-	//VM](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-reset-rdp?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
-	//For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess
-	//Extension](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-vmaccess-extension?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#reset-root-password)
-	AdminPassword *genruntime.SecretReference `json:"adminPassword,omitempty"`
-
-	//AdminUsername: Specifies the name of the administrator account.
-	//Windows-only restriction: Cannot end in "."
-	//Disallowed values: "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123",
-	//"a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server",
-	//"sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5".
-	//Minimum-length (Linux): 1  character
-	//Max-length (Linux): 64 characters
-	//Max-length (Windows): 20 characters
-	//<li> For root access to the Linux VM, see [Using root privileges on Linux virtual machines in
-	//Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-use-root-privileges?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-	//<li> For a list of built-in system users on Linux that should not be used in this field, see [Selecting User Names for
-	//Linux on
-	//Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-usernames?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-	AdminUsername *string `json:"adminUsername,omitempty"`
-
-	//ComputerNamePrefix: Specifies the computer name prefix for all of the virtual machines in the scale set. Computer name
-	//prefixes must be 1 to 15 characters long.
-	ComputerNamePrefix *string `json:"computerNamePrefix,omitempty"`
-
-	//CustomData: Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array
-	//that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes.
-	//For using cloud-init for your VM, see [Using cloud-init to customize a Linux VM during
-	//creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-	CustomData *string `json:"customData,omitempty"`
-
-	//LinuxConfiguration: Specifies the Linux operating system settings on the virtual machine.
-	//For a list of supported Linux distributions, see [Linux on Azure-Endorsed
-	//Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-	//For running non-endorsed distributions, see [Information for Non-Endorsed
-	//Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
-	LinuxConfiguration *LinuxConfiguration `json:"linuxConfiguration,omitempty"`
-
-	//Secrets: Specifies set of certificates that should be installed onto the virtual machines in the scale set.
-	Secrets []VaultSecretGroup `json:"secrets,omitempty"`
-
-	//WindowsConfiguration: Specifies Windows operating system settings on the virtual machine.
-	WindowsConfiguration *WindowsConfiguration `json:"windowsConfiguration,omitempty"`
+	AdminPassword        *genruntime.SecretReference `json:"adminPassword,omitempty"`
+	AdminUsername        *string                     `json:"adminUsername,omitempty"`
+	ComputerNamePrefix   *string                     `json:"computerNamePrefix,omitempty"`
+	CustomData           *string                     `json:"customData,omitempty"`
+	LinuxConfiguration   *LinuxConfiguration         `json:"linuxConfiguration,omitempty"`
+	Secrets              []VaultSecretGroup          `json:"secrets,omitempty"`
+	WindowsConfiguration *WindowsConfiguration       `json:"windowsConfiguration,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetOSProfile{}
@@ -5748,61 +5399,14 @@ func (profile *VirtualMachineScaleSetOSProfile) AssignPropertiesToVirtualMachine
 	return nil
 }
 
+//Deprecated version of VirtualMachineScaleSetOSProfile_Status. Use v1beta20201201.VirtualMachineScaleSetOSProfile_Status instead
 type VirtualMachineScaleSetOSProfile_Status struct {
-	//AdminPassword: Specifies the password of the administrator account.
-	//Minimum-length (Windows): 8 characters
-	//Minimum-length (Linux): 6 characters
-	//Max-length (Windows): 123 characters
-	//Max-length (Linux): 72 characters
-	//Complexity requirements: 3 out of 4 conditions below need to be fulfilled
-	//Has lower characters
-	//Has upper characters
-	//Has a digit
-	//Has a special character (Regex match [\W_])
-	//Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1",
-	//"Password22", "iloveyou!"
-	//For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows
-	//VM](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-reset-rdp?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
-	//For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess
-	//Extension](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-vmaccess-extension?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#reset-root-password)
-	AdminPassword *string `json:"adminPassword,omitempty"`
-
-	//AdminUsername: Specifies the name of the administrator account.
-	//Windows-only restriction: Cannot end in "."
-	//Disallowed values: "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123",
-	//"a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server",
-	//"sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5".
-	//Minimum-length (Linux): 1  character
-	//Max-length (Linux): 64 characters
-	//Max-length (Windows): 20 characters
-	//<li> For root access to the Linux VM, see [Using root privileges on Linux virtual machines in
-	//Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-use-root-privileges?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-	//<li> For a list of built-in system users on Linux that should not be used in this field, see [Selecting User Names for
-	//Linux on
-	//Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-usernames?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-	AdminUsername *string `json:"adminUsername,omitempty"`
-
-	//ComputerNamePrefix: Specifies the computer name prefix for all of the virtual machines in the scale set. Computer name
-	//prefixes must be 1 to 15 characters long.
-	ComputerNamePrefix *string `json:"computerNamePrefix,omitempty"`
-
-	//CustomData: Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array
-	//that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes.
-	//For using cloud-init for your VM, see [Using cloud-init to customize a Linux VM during
-	//creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-	CustomData *string `json:"customData,omitempty"`
-
-	//LinuxConfiguration: Specifies the Linux operating system settings on the virtual machine.
-	//For a list of supported Linux distributions, see [Linux on Azure-Endorsed
-	//Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-	//For running non-endorsed distributions, see [Information for Non-Endorsed
-	//Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
-	LinuxConfiguration *LinuxConfiguration_Status `json:"linuxConfiguration,omitempty"`
-
-	//Secrets: Specifies set of certificates that should be installed onto the virtual machines in the scale set.
-	Secrets []VaultSecretGroup_Status `json:"secrets,omitempty"`
-
-	//WindowsConfiguration: Specifies Windows operating system settings on the virtual machine.
+	AdminPassword        *string                      `json:"adminPassword,omitempty"`
+	AdminUsername        *string                      `json:"adminUsername,omitempty"`
+	ComputerNamePrefix   *string                      `json:"computerNamePrefix,omitempty"`
+	CustomData           *string                      `json:"customData,omitempty"`
+	LinuxConfiguration   *LinuxConfiguration_Status   `json:"linuxConfiguration,omitempty"`
+	Secrets              []VaultSecretGroup_Status    `json:"secrets,omitempty"`
 	WindowsConfiguration *WindowsConfiguration_Status `json:"windowsConfiguration,omitempty"`
 }
 
@@ -6011,21 +5615,11 @@ func (profile *VirtualMachineScaleSetOSProfile_Status) AssignPropertiesToVirtual
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetStorageProfile
+//Deprecated version of VirtualMachineScaleSetStorageProfile. Use v1beta20201201.VirtualMachineScaleSetStorageProfile instead
 type VirtualMachineScaleSetStorageProfile struct {
-	//DataDisks: Specifies the parameters that are used to add data disks to the virtual machines in the scale set.
-	//For more information about disks, see [About disks and VHDs for Azure virtual
-	//machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
-	DataDisks []VirtualMachineScaleSetDataDisk `json:"dataDisks,omitempty"`
-
-	//ImageReference: Specifies information about the image to use. You can specify information about platform images,
-	//marketplace images, or virtual machine images. This element is required when you want to use a platform image,
-	//marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference
-	//publisher and offer can only be set when you create the scale set.
-	ImageReference *ImageReference `json:"imageReference,omitempty"`
-
-	//OsDisk: Describes a virtual machine scale set operating system disk.
-	OsDisk *VirtualMachineScaleSetOSDisk `json:"osDisk,omitempty"`
+	DataDisks      []VirtualMachineScaleSetDataDisk `json:"dataDisks,omitempty"`
+	ImageReference *ImageReference                  `json:"imageReference,omitempty"`
+	OsDisk         *VirtualMachineScaleSetOSDisk    `json:"osDisk,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetStorageProfile{}
@@ -6223,21 +5817,11 @@ func (profile *VirtualMachineScaleSetStorageProfile) AssignPropertiesToVirtualMa
 	return nil
 }
 
+//Deprecated version of VirtualMachineScaleSetStorageProfile_Status. Use v1beta20201201.VirtualMachineScaleSetStorageProfile_Status instead
 type VirtualMachineScaleSetStorageProfile_Status struct {
-	//DataDisks: Specifies the parameters that are used to add data disks to the virtual machines in the scale set.
-	//For more information about disks, see [About disks and VHDs for Azure virtual
-	//machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
-	DataDisks []VirtualMachineScaleSetDataDisk_Status `json:"dataDisks,omitempty"`
-
-	//ImageReference: Specifies information about the image to use. You can specify information about platform images,
-	//marketplace images, or virtual machine images. This element is required when you want to use a platform image,
-	//marketplace image, or virtual machine image, but is not used in other creation operations.
-	ImageReference *ImageReference_Status `json:"imageReference,omitempty"`
-
-	//OsDisk: Specifies information about the operating system disk used by the virtual machines in the scale set.
-	//For more information about disks, see [About disks and VHDs for Azure virtual
-	//machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
-	OsDisk *VirtualMachineScaleSetOSDisk_Status `json:"osDisk,omitempty"`
+	DataDisks      []VirtualMachineScaleSetDataDisk_Status `json:"dataDisks,omitempty"`
+	ImageReference *ImageReference_Status                  `json:"imageReference,omitempty"`
+	OsDisk         *VirtualMachineScaleSetOSDisk_Status    `json:"osDisk,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetStorageProfile_Status{}
@@ -6397,6 +5981,8 @@ func (profile *VirtualMachineScaleSetStorageProfile_Status) AssignPropertiesToVi
 	return nil
 }
 
+//Deprecated version of VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileEvictionPolicy. Use
+//v1beta20201201.VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileEvictionPolicy instead
 // +kubebuilder:validation:Enum={"Deallocate","Delete"}
 type VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileEvictionPolicy string
 
@@ -6405,6 +5991,8 @@ const (
 	VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileEvictionPolicyDelete     = VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileEvictionPolicy("Delete")
 )
 
+//Deprecated version of VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePriority. Use
+//v1beta20201201.VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePriority instead
 // +kubebuilder:validation:Enum={"Low","Regular","Spot"}
 type VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePriority string
 
@@ -6414,15 +6002,10 @@ const (
 	VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePrioritySpot    = VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePriority("Spot")
 )
 
+//Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile instead
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile struct {
-	//Extensions: The virtual machine scale set child extension resources.
-	Extensions []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions `json:"extensions,omitempty"`
-
-	//ExtensionsTimeBudget: Specifies the time alloted for all extensions to start. The time duration should be between 15
-	//minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes
-	//(PT1H30M).
-	//Minimum api-version: 2020-06-01
-	ExtensionsTimeBudget *string `json:"extensionsTimeBudget,omitempty"`
+	Extensions           []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions `json:"extensions,omitempty"`
+	ExtensionsTimeBudget *string                                                                                     `json:"extensionsTimeBudget,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile{}
@@ -6548,11 +6131,9 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_Ext
 	return nil
 }
 
+//Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile instead
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile struct {
-	//HealthProbe: The API entity reference.
-	HealthProbe *ApiEntityReference `json:"healthProbe,omitempty"`
-
-	//NetworkInterfaceConfigurations: The list of network configurations.
+	HealthProbe                    *ApiEntityReference                                                                                           `json:"healthProbe,omitempty"`
 	NetworkInterfaceConfigurations []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations `json:"networkInterfaceConfigurations,omitempty"`
 }
 
@@ -6706,9 +6287,8 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_Net
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ApiEntityReference
+//Deprecated version of ApiEntityReference. Use v1beta20201201.ApiEntityReference instead
 type ApiEntityReference struct {
-	//Reference: The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -6790,8 +6370,8 @@ func (reference *ApiEntityReference) AssignPropertiesToApiEntityReference(destin
 	return nil
 }
 
+//Deprecated version of ApiEntityReference_Status. Use v1beta20201201.ApiEntityReference_Status instead
 type ApiEntityReference_Status struct {
-	//Id: The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
 	Id *string `json:"id,omitempty"`
 }
 
@@ -6848,14 +6428,9 @@ func (reference *ApiEntityReference_Status) AssignPropertiesToApiEntityReference
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/TerminateNotificationProfile
+//Deprecated version of TerminateNotificationProfile. Use v1beta20201201.TerminateNotificationProfile instead
 type TerminateNotificationProfile struct {
-	//Enable: Specifies whether the Terminate Scheduled event is enabled or disabled.
-	Enable *bool `json:"enable,omitempty"`
-
-	//NotBeforeTimeout: Configurable length of time a Virtual Machine being deleted will have to potentially approve the
-	//Terminate Scheduled Event before the event is auto approved (timed out). The configuration must be specified in ISO 8601
-	//format, the default value is 5 minutes (PT5M)
+	Enable           *bool   `json:"enable,omitempty"`
 	NotBeforeTimeout *string `json:"notBeforeTimeout,omitempty"`
 }
 
@@ -6955,13 +6530,9 @@ func (profile *TerminateNotificationProfile) AssignPropertiesToTerminateNotifica
 	return nil
 }
 
+//Deprecated version of TerminateNotificationProfile_Status. Use v1beta20201201.TerminateNotificationProfile_Status instead
 type TerminateNotificationProfile_Status struct {
-	//Enable: Specifies whether the Terminate Scheduled event is enabled or disabled.
-	Enable *bool `json:"enable,omitempty"`
-
-	//NotBeforeTimeout: Configurable length of time a Virtual Machine being deleted will have to potentially approve the
-	//Terminate Scheduled Event before the event is auto approved (timed out). The configuration must be specified in ISO 8601
-	//format, the default value is 5 minutes (PT5M)
+	Enable           *bool   `json:"enable,omitempty"`
 	NotBeforeTimeout *string `json:"notBeforeTimeout,omitempty"`
 }
 
@@ -7040,46 +6611,21 @@ func (profile *TerminateNotificationProfile_Status) AssignPropertiesToTerminateN
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetDataDisk
+//Deprecated version of VirtualMachineScaleSetDataDisk. Use v1beta20201201.VirtualMachineScaleSetDataDisk instead
 type VirtualMachineScaleSetDataDisk struct {
-	//Caching: Specifies the caching requirements.
-	//Possible values are:
-	//None
-	//ReadOnly
-	//ReadWrite
-	//Default: None for Standard storage. ReadOnly for Premium storage.
 	Caching *VirtualMachineScaleSetDataDiskCaching `json:"caching,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//CreateOption: The create option.
-	CreateOption *VirtualMachineScaleSetDataDiskCreateOption `json:"createOption,omitempty"`
-
-	//DiskIOPSReadWrite: Specifies the Read-Write IOPS for the managed disk. Should be used only when StorageAccountType is
-	//UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
-	DiskIOPSReadWrite *int `json:"diskIOPSReadWrite,omitempty"`
-
-	//DiskMBpsReadWrite: Specifies the bandwidth in MB per second for the managed disk. Should be used only when
-	//StorageAccountType is UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
-	DiskMBpsReadWrite *int `json:"diskMBpsReadWrite,omitempty"`
-
-	//DiskSizeGB: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the
-	//disk in a virtual machine image.
-	//This value cannot be larger than 1023 GB
-	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
+	CreateOption      *VirtualMachineScaleSetDataDiskCreateOption `json:"createOption,omitempty"`
+	DiskIOPSReadWrite *int                                        `json:"diskIOPSReadWrite,omitempty"`
+	DiskMBpsReadWrite *int                                        `json:"diskMBpsReadWrite,omitempty"`
+	DiskSizeGB        *int                                        `json:"diskSizeGB,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Lun: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and
-	//therefore must be unique for each data disk attached to a VM.
-	Lun *int `json:"lun,omitempty"`
-
-	//ManagedDisk: Describes the parameters of a ScaleSet managed disk.
-	ManagedDisk *VirtualMachineScaleSetManagedDiskParameters `json:"managedDisk,omitempty"`
-
-	//Name: The disk name.
-	Name *string `json:"name,omitempty"`
-
-	//WriteAcceleratorEnabled: Specifies whether writeAccelerator should be enabled or disabled on the disk.
-	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
+	Lun                     *int                                         `json:"lun,omitempty"`
+	ManagedDisk             *VirtualMachineScaleSetManagedDiskParameters `json:"managedDisk,omitempty"`
+	Name                    *string                                      `json:"name,omitempty"`
+	WriteAcceleratorEnabled *bool                                        `json:"writeAcceleratorEnabled,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetDataDisk{}
@@ -7351,43 +6897,17 @@ func (disk *VirtualMachineScaleSetDataDisk) AssignPropertiesToVirtualMachineScal
 	return nil
 }
 
+//Deprecated version of VirtualMachineScaleSetDataDisk_Status. Use v1beta20201201.VirtualMachineScaleSetDataDisk_Status instead
 type VirtualMachineScaleSetDataDisk_Status struct {
-	//Caching: Specifies the caching requirements.
-	//Possible values are:
-	//None
-	//ReadOnly
-	//ReadWrite
-	//Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *Caching_Status `json:"caching,omitempty"`
-
-	//CreateOption: The create option.
-	CreateOption *CreateOption_Status `json:"createOption,omitempty"`
-
-	//DiskIOPSReadWrite: Specifies the Read-Write IOPS for the managed disk. Should be used only when StorageAccountType is
-	//UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
-	DiskIOPSReadWrite *int `json:"diskIOPSReadWrite,omitempty"`
-
-	//DiskMBpsReadWrite: Specifies the bandwidth in MB per second for the managed disk. Should be used only when
-	//StorageAccountType is UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
-	DiskMBpsReadWrite *int `json:"diskMBpsReadWrite,omitempty"`
-
-	//DiskSizeGB: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the
-	//disk in a virtual machine image.
-	//This value cannot be larger than 1023 GB
-	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
-
-	//Lun: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and
-	//therefore must be unique for each data disk attached to a VM.
-	Lun *int `json:"lun,omitempty"`
-
-	//ManagedDisk: The managed disk parameters.
-	ManagedDisk *VirtualMachineScaleSetManagedDiskParameters_Status `json:"managedDisk,omitempty"`
-
-	//Name: The disk name.
-	Name *string `json:"name,omitempty"`
-
-	//WriteAcceleratorEnabled: Specifies whether writeAccelerator should be enabled or disabled on the disk.
-	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
+	Caching                 *Caching_Status                                     `json:"caching,omitempty"`
+	CreateOption            *CreateOption_Status                                `json:"createOption,omitempty"`
+	DiskIOPSReadWrite       *int                                                `json:"diskIOPSReadWrite,omitempty"`
+	DiskMBpsReadWrite       *int                                                `json:"diskMBpsReadWrite,omitempty"`
+	DiskSizeGB              *int                                                `json:"diskSizeGB,omitempty"`
+	Lun                     *int                                                `json:"lun,omitempty"`
+	ManagedDisk             *VirtualMachineScaleSetManagedDiskParameters_Status `json:"managedDisk,omitempty"`
+	Name                    *string                                             `json:"name,omitempty"`
+	WriteAcceleratorEnabled *bool                                               `json:"writeAcceleratorEnabled,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetDataDisk_Status{}
@@ -7592,50 +7112,21 @@ func (disk *VirtualMachineScaleSetDataDisk_Status) AssignPropertiesToVirtualMach
 	return nil
 }
 
+//Deprecated version of VirtualMachineScaleSetExtension_Status. Use v1beta20201201.VirtualMachineScaleSetExtension_Status instead
 type VirtualMachineScaleSetExtension_Status struct {
-	//AutoUpgradeMinorVersion: Indicates whether the extension should use a newer minor version if one is available at
-	//deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this
-	//property set to true.
-	AutoUpgradeMinorVersion *bool `json:"autoUpgradeMinorVersion,omitempty"`
-
-	//EnableAutomaticUpgrade: Indicates whether the extension should be automatically upgraded by the platform if there is a
-	//newer version of the extension available.
-	EnableAutomaticUpgrade *bool `json:"enableAutomaticUpgrade,omitempty"`
-
-	//ForceUpdateTag: If a value is provided and is different from the previous value, the extension handler will be forced to
-	//update even if the extension configuration has not changed.
-	ForceUpdateTag *string `json:"forceUpdateTag,omitempty"`
-
-	//Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	//Name: The name of the extension.
-	Name *string `json:"name,omitempty"`
-
-	//PropertiesType: Specifies the type of the extension; an example is "CustomScriptExtension".
-	PropertiesType *string `json:"properties_type,omitempty"`
-
-	//ProtectedSettings: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected
-	//settings at all.
-	ProtectedSettings map[string]v1.JSON `json:"protectedSettings,omitempty"`
-
-	//ProvisionAfterExtensions: Collection of extension names after which this extension needs to be provisioned.
-	ProvisionAfterExtensions []string `json:"provisionAfterExtensions,omitempty"`
-
-	//ProvisioningState: The provisioning state, which only appears in the response.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	//Publisher: The name of the extension handler publisher.
-	Publisher *string `json:"publisher,omitempty"`
-
-	//Settings: Json formatted public settings for the extension.
-	Settings map[string]v1.JSON `json:"settings,omitempty"`
-
-	//Type: Resource type
-	Type *string `json:"type,omitempty"`
-
-	//TypeHandlerVersion: Specifies the version of the script handler.
-	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
+	AutoUpgradeMinorVersion  *bool              `json:"autoUpgradeMinorVersion,omitempty"`
+	EnableAutomaticUpgrade   *bool              `json:"enableAutomaticUpgrade,omitempty"`
+	ForceUpdateTag           *string            `json:"forceUpdateTag,omitempty"`
+	Id                       *string            `json:"id,omitempty"`
+	Name                     *string            `json:"name,omitempty"`
+	PropertiesType           *string            `json:"properties_type,omitempty"`
+	ProtectedSettings        map[string]v1.JSON `json:"protectedSettings,omitempty"`
+	ProvisionAfterExtensions []string           `json:"provisionAfterExtensions,omitempty"`
+	ProvisioningState        *string            `json:"provisioningState,omitempty"`
+	Publisher                *string            `json:"publisher,omitempty"`
+	Settings                 map[string]v1.JSON `json:"settings,omitempty"`
+	Type                     *string            `json:"type,omitempty"`
+	TypeHandlerVersion       *string            `json:"typeHandlerVersion,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetExtension_Status{}
@@ -7928,33 +7419,17 @@ func (extension *VirtualMachineScaleSetExtension_Status) AssignPropertiesToVirtu
 	return nil
 }
 
+//Deprecated version of VirtualMachineScaleSetNetworkConfiguration_Status. Use v1beta20201201.VirtualMachineScaleSetNetworkConfiguration_Status instead
 type VirtualMachineScaleSetNetworkConfiguration_Status struct {
-	//DnsSettings: The dns settings to be applied on the network interfaces.
-	DnsSettings *VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status `json:"dnsSettings,omitempty"`
-
-	//EnableAcceleratedNetworking: Specifies whether the network interface is accelerated networking-enabled.
-	EnableAcceleratedNetworking *bool `json:"enableAcceleratedNetworking,omitempty"`
-
-	//EnableFpga: Specifies whether the network interface is FPGA networking-enabled.
-	EnableFpga *bool `json:"enableFpga,omitempty"`
-
-	//EnableIPForwarding: Whether IP forwarding enabled on this NIC.
-	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
-
-	//Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	//IpConfigurations: Specifies the IP configurations of the network interface.
-	IpConfigurations []VirtualMachineScaleSetIPConfiguration_Status `json:"ipConfigurations,omitempty"`
-
-	//Name: The network configuration name.
-	Name *string `json:"name,omitempty"`
-
-	//NetworkSecurityGroup: The network security group.
-	NetworkSecurityGroup *SubResource_Status `json:"networkSecurityGroup,omitempty"`
-
-	//Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
-	Primary *bool `json:"primary,omitempty"`
+	DnsSettings                 *VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status `json:"dnsSettings,omitempty"`
+	EnableAcceleratedNetworking *bool                                                         `json:"enableAcceleratedNetworking,omitempty"`
+	EnableFpga                  *bool                                                         `json:"enableFpga,omitempty"`
+	EnableIPForwarding          *bool                                                         `json:"enableIPForwarding,omitempty"`
+	Id                          *string                                                       `json:"id,omitempty"`
+	IpConfigurations            []VirtualMachineScaleSetIPConfiguration_Status                `json:"ipConfigurations,omitempty"`
+	Name                        *string                                                       `json:"name,omitempty"`
+	NetworkSecurityGroup        *SubResource_Status                                           `json:"networkSecurityGroup,omitempty"`
+	Primary                     *bool                                                         `json:"primary,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetNetworkConfiguration_Status{}
@@ -8247,53 +7722,20 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration_Status) AssignPr
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetOSDisk
+//Deprecated version of VirtualMachineScaleSetOSDisk. Use v1beta20201201.VirtualMachineScaleSetOSDisk instead
 type VirtualMachineScaleSetOSDisk struct {
-	//Caching: Specifies the caching requirements.
-	//Possible values are:
-	//None
-	//ReadOnly
-	//ReadWrite
-	//Default: None for Standard storage. ReadOnly for Premium storage.
 	Caching *VirtualMachineScaleSetOSDiskCaching `json:"caching,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//CreateOption: Specifies how the virtual machines in the scale set should be created.
-	//The only allowed value is: FromImage \u2013 This value is used when you are using an image to create the virtual
-	//machine. If you are using a platform image, you also use the imageReference element described above. If you are using a
-	//marketplace image, you  also use the plan element previously described.
-	CreateOption *VirtualMachineScaleSetOSDiskCreateOption `json:"createOption,omitempty"`
-
-	//DiffDiskSettings: Describes the parameters of ephemeral disk settings that can be specified for operating system disk.
-	//NOTE: The ephemeral disk settings can only be specified for managed disk.
-	DiffDiskSettings *DiffDiskSettings `json:"diffDiskSettings,omitempty"`
-
-	//DiskSizeGB: Specifies the size of the operating system disk in gigabytes. This element can be used to overwrite the size
-	//of the disk in a virtual machine image.
-	//This value cannot be larger than 1023 GB
-	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
-
-	//Image: Describes the uri of a disk.
-	Image *VirtualHardDisk `json:"image,omitempty"`
-
-	//ManagedDisk: Describes the parameters of a ScaleSet managed disk.
-	ManagedDisk *VirtualMachineScaleSetManagedDiskParameters `json:"managedDisk,omitempty"`
-
-	//Name: The disk name.
-	Name *string `json:"name,omitempty"`
-
-	//OsType: This property allows you to specify the type of the OS that is included in the disk if creating a VM from
-	//user-image or a specialized VHD.
-	//Possible values are:
-	//Windows
-	//Linux.
-	OsType *VirtualMachineScaleSetOSDiskOsType `json:"osType,omitempty"`
-
-	//VhdContainers: Specifies the container urls that are used to store operating system disks for the scale set.
-	VhdContainers []string `json:"vhdContainers,omitempty"`
-
-	//WriteAcceleratorEnabled: Specifies whether writeAccelerator should be enabled or disabled on the disk.
-	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
+	CreateOption            *VirtualMachineScaleSetOSDiskCreateOption    `json:"createOption,omitempty"`
+	DiffDiskSettings        *DiffDiskSettings                            `json:"diffDiskSettings,omitempty"`
+	DiskSizeGB              *int                                         `json:"diskSizeGB,omitempty"`
+	Image                   *VirtualHardDisk                             `json:"image,omitempty"`
+	ManagedDisk             *VirtualMachineScaleSetManagedDiskParameters `json:"managedDisk,omitempty"`
+	Name                    *string                                      `json:"name,omitempty"`
+	OsType                  *VirtualMachineScaleSetOSDiskOsType          `json:"osType,omitempty"`
+	VhdContainers           []string                                     `json:"vhdContainers,omitempty"`
+	WriteAcceleratorEnabled *bool                                        `json:"writeAcceleratorEnabled,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetOSDisk{}
@@ -8645,51 +8087,18 @@ func (disk *VirtualMachineScaleSetOSDisk) AssignPropertiesToVirtualMachineScaleS
 	return nil
 }
 
+//Deprecated version of VirtualMachineScaleSetOSDisk_Status. Use v1beta20201201.VirtualMachineScaleSetOSDisk_Status instead
 type VirtualMachineScaleSetOSDisk_Status struct {
-	//Caching: Specifies the caching requirements.
-	//Possible values are:
-	//None
-	//ReadOnly
-	//ReadWrite
-	//Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *Caching_Status `json:"caching,omitempty"`
-
-	//CreateOption: Specifies how the virtual machines in the scale set should be created.
-	//The only allowed value is: FromImage \u2013 This value is used when you are using an image to create the virtual
-	//machine. If you are using a platform image, you also use the imageReference element described above. If you are using a
-	//marketplace image, you  also use the plan element previously described.
-	CreateOption *CreateOption_Status `json:"createOption,omitempty"`
-
-	//DiffDiskSettings: Specifies the ephemeral disk Settings for the operating system disk used by the virtual machine scale
-	//set.
-	DiffDiskSettings *DiffDiskSettings_Status `json:"diffDiskSettings,omitempty"`
-
-	//DiskSizeGB: Specifies the size of the operating system disk in gigabytes. This element can be used to overwrite the size
-	//of the disk in a virtual machine image.
-	//This value cannot be larger than 1023 GB
-	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
-
-	//Image: Specifies information about the unmanaged user image to base the scale set on.
-	Image *VirtualHardDisk_Status `json:"image,omitempty"`
-
-	//ManagedDisk: The managed disk parameters.
-	ManagedDisk *VirtualMachineScaleSetManagedDiskParameters_Status `json:"managedDisk,omitempty"`
-
-	//Name: The disk name.
-	Name *string `json:"name,omitempty"`
-
-	//OsType: This property allows you to specify the type of the OS that is included in the disk if creating a VM from
-	//user-image or a specialized VHD.
-	//Possible values are:
-	//Windows
-	//Linux
-	OsType *VirtualMachineScaleSetOSDiskStatusOsType `json:"osType,omitempty"`
-
-	//VhdContainers: Specifies the container urls that are used to store operating system disks for the scale set.
-	VhdContainers []string `json:"vhdContainers,omitempty"`
-
-	//WriteAcceleratorEnabled: Specifies whether writeAccelerator should be enabled or disabled on the disk.
-	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
+	Caching                 *Caching_Status                                     `json:"caching,omitempty"`
+	CreateOption            *CreateOption_Status                                `json:"createOption,omitempty"`
+	DiffDiskSettings        *DiffDiskSettings_Status                            `json:"diffDiskSettings,omitempty"`
+	DiskSizeGB              *int                                                `json:"diskSizeGB,omitempty"`
+	Image                   *VirtualHardDisk_Status                             `json:"image,omitempty"`
+	ManagedDisk             *VirtualMachineScaleSetManagedDiskParameters_Status `json:"managedDisk,omitempty"`
+	Name                    *string                                             `json:"name,omitempty"`
+	OsType                  *VirtualMachineScaleSetOSDiskStatusOsType           `json:"osType,omitempty"`
+	VhdContainers           []string                                            `json:"vhdContainers,omitempty"`
+	WriteAcceleratorEnabled *bool                                               `json:"writeAcceleratorEnabled,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetOSDisk_Status{}
@@ -8961,27 +8370,23 @@ func (disk *VirtualMachineScaleSetOSDisk_Status) AssignPropertiesToVirtualMachin
 	return nil
 }
 
+//Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions instead
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions struct {
-	//Name: The name of the extension.
 	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MinLength=1
-	//Publisher: Microsoft.Compute/extensions - Publisher
 	Publisher *string `json:"publisher,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Settings: Microsoft.Compute/extensions - Settings
 	Settings map[string]v1.JSON `json:"settings,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MinLength=1
-	//Type: Microsoft.Compute/extensions - Type
 	Type *string `json:"type,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MinLength=1
-	//TypeHandlerVersion: Microsoft.Compute/extensions - Type handler version
 	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
 }
 
@@ -9191,33 +8596,21 @@ func (extensions *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_
 	return nil
 }
 
+//Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations instead
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations struct {
-	//DnsSettings: Describes a virtual machines scale sets network configuration's DNS settings.
-	DnsSettings *VirtualMachineScaleSetNetworkConfigurationDnsSettings `json:"dnsSettings,omitempty"`
-
-	//EnableAcceleratedNetworking: Specifies whether the network interface is accelerated networking-enabled.
-	EnableAcceleratedNetworking *bool `json:"enableAcceleratedNetworking,omitempty"`
-
-	//EnableFpga: Specifies whether the network interface is FPGA networking-enabled.
-	EnableFpga *bool `json:"enableFpga,omitempty"`
-
-	//EnableIPForwarding: Whether IP forwarding enabled on this NIC.
-	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
-
-	//Id: Resource Id
-	Id *string `json:"id,omitempty"`
+	DnsSettings                 *VirtualMachineScaleSetNetworkConfigurationDnsSettings `json:"dnsSettings,omitempty"`
+	EnableAcceleratedNetworking *bool                                                  `json:"enableAcceleratedNetworking,omitempty"`
+	EnableFpga                  *bool                                                  `json:"enableFpga,omitempty"`
+	EnableIPForwarding          *bool                                                  `json:"enableIPForwarding,omitempty"`
+	Id                          *string                                                `json:"id,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//IpConfigurations: Specifies the IP configurations of the network interface.
 	IpConfigurations []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations `json:"ipConfigurations,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Name: The network configuration name.
 	Name                 *string      `json:"name,omitempty"`
 	NetworkSecurityGroup *SubResource `json:"networkSecurityGroup,omitempty"`
-
-	//Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
-	Primary *bool `json:"primary,omitempty"`
+	Primary              *bool        `json:"primary,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations{}
@@ -9581,6 +8974,8 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 	return nil
 }
 
+//Deprecated version of VirtualMachineScaleSetDataDiskCaching. Use v1beta20201201.VirtualMachineScaleSetDataDiskCaching
+//instead
 // +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
 type VirtualMachineScaleSetDataDiskCaching string
 
@@ -9590,6 +8985,8 @@ const (
 	VirtualMachineScaleSetDataDiskCachingReadWrite = VirtualMachineScaleSetDataDiskCaching("ReadWrite")
 )
 
+//Deprecated version of VirtualMachineScaleSetDataDiskCreateOption. Use
+//v1beta20201201.VirtualMachineScaleSetDataDiskCreateOption instead
 // +kubebuilder:validation:Enum={"Attach","Empty","FromImage"}
 type VirtualMachineScaleSetDataDiskCreateOption string
 
@@ -9599,43 +8996,18 @@ const (
 	VirtualMachineScaleSetDataDiskCreateOptionFromImage = VirtualMachineScaleSetDataDiskCreateOption("FromImage")
 )
 
+//Deprecated version of VirtualMachineScaleSetIPConfiguration_Status. Use v1beta20201201.VirtualMachineScaleSetIPConfiguration_Status instead
 type VirtualMachineScaleSetIPConfiguration_Status struct {
-	//ApplicationGatewayBackendAddressPools: Specifies an array of references to backend address pools of application
-	//gateways. A scale set can reference backend address pools of multiple application gateways. Multiple scale sets cannot
-	//use the same application gateway.
-	ApplicationGatewayBackendAddressPools []SubResource_Status `json:"applicationGatewayBackendAddressPools,omitempty"`
-
-	//ApplicationSecurityGroups: Specifies an array of references to application security group.
-	ApplicationSecurityGroups []SubResource_Status `json:"applicationSecurityGroups,omitempty"`
-
-	//Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	//LoadBalancerBackendAddressPools: Specifies an array of references to backend address pools of load balancers. A scale
-	//set can reference backend address pools of one public and one internal load balancer. Multiple scale sets cannot use the
-	//same basic sku load balancer.
-	LoadBalancerBackendAddressPools []SubResource_Status `json:"loadBalancerBackendAddressPools,omitempty"`
-
-	//LoadBalancerInboundNatPools: Specifies an array of references to inbound Nat pools of the load balancers. A scale set
-	//can reference inbound nat pools of one public and one internal load balancer. Multiple scale sets cannot use the same
-	//basic sku load balancer.
-	LoadBalancerInboundNatPools []SubResource_Status `json:"loadBalancerInboundNatPools,omitempty"`
-
-	//Name: The IP configuration name.
-	Name *string `json:"name,omitempty"`
-
-	//Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
-	Primary *bool `json:"primary,omitempty"`
-
-	//PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it represents whether the specific
-	//ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
-	PrivateIPAddressVersion *VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
-
-	//PublicIPAddressConfiguration: The publicIPAddressConfiguration.
-	PublicIPAddressConfiguration *VirtualMachineScaleSetPublicIPAddressConfiguration_Status `json:"publicIPAddressConfiguration,omitempty"`
-
-	//Subnet: Specifies the identifier of the subnet.
-	Subnet *ApiEntityReference_Status `json:"subnet,omitempty"`
+	ApplicationGatewayBackendAddressPools []SubResource_Status                                                          `json:"applicationGatewayBackendAddressPools,omitempty"`
+	ApplicationSecurityGroups             []SubResource_Status                                                          `json:"applicationSecurityGroups,omitempty"`
+	Id                                    *string                                                                       `json:"id,omitempty"`
+	LoadBalancerBackendAddressPools       []SubResource_Status                                                          `json:"loadBalancerBackendAddressPools,omitempty"`
+	LoadBalancerInboundNatPools           []SubResource_Status                                                          `json:"loadBalancerInboundNatPools,omitempty"`
+	Name                                  *string                                                                       `json:"name,omitempty"`
+	Primary                               *bool                                                                         `json:"primary,omitempty"`
+	PrivateIPAddressVersion               *VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
+	PublicIPAddressConfiguration          *VirtualMachineScaleSetPublicIPAddressConfiguration_Status                    `json:"publicIPAddressConfiguration,omitempty"`
+	Subnet                                *ApiEntityReference_Status                                                    `json:"subnet,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetIPConfiguration_Status{}
@@ -10025,16 +9397,9 @@ func (configuration *VirtualMachineScaleSetIPConfiguration_Status) AssignPropert
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetManagedDiskParameters
+//Deprecated version of VirtualMachineScaleSetManagedDiskParameters. Use v1beta20201201.VirtualMachineScaleSetManagedDiskParameters instead
 type VirtualMachineScaleSetManagedDiskParameters struct {
-	//DiskEncryptionSet: Describes the parameter of customer managed disk encryption set resource id that can be specified for
-	//disk.
-	//NOTE: The disk encryption set resource id can only be specified for managed disk. Please refer
-	//https://aka.ms/mdssewithcmkoverview for more details.
-	DiskEncryptionSet *DiskEncryptionSetParameters `json:"diskEncryptionSet,omitempty"`
-
-	//StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
-	//data disks, it cannot be used with OS Disk.
+	DiskEncryptionSet  *DiskEncryptionSetParameters                                   `json:"diskEncryptionSet,omitempty"`
 	StorageAccountType *VirtualMachineScaleSetManagedDiskParametersStorageAccountType `json:"storageAccountType,omitempty"`
 }
 
@@ -10161,12 +9526,9 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters) AssignPropertiesT
 	return nil
 }
 
+//Deprecated version of VirtualMachineScaleSetManagedDiskParameters_Status. Use v1beta20201201.VirtualMachineScaleSetManagedDiskParameters_Status instead
 type VirtualMachineScaleSetManagedDiskParameters_Status struct {
-	//DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed disk.
-	DiskEncryptionSet *SubResource_Status `json:"diskEncryptionSet,omitempty"`
-
-	//StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
-	//data disks, it cannot be used with OS Disk.
+	DiskEncryptionSet  *SubResource_Status        `json:"diskEncryptionSet,omitempty"`
 	StorageAccountType *StorageAccountType_Status `json:"storageAccountType,omitempty"`
 }
 
@@ -10268,9 +9630,8 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters_Status) AssignProp
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetNetworkConfigurationDnsSettings
+//Deprecated version of VirtualMachineScaleSetNetworkConfigurationDnsSettings. Use v1beta20201201.VirtualMachineScaleSetNetworkConfigurationDnsSettings instead
 type VirtualMachineScaleSetNetworkConfigurationDnsSettings struct {
-	//DnsServers: List of DNS servers IP addresses
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
@@ -10340,8 +9701,8 @@ func (settings *VirtualMachineScaleSetNetworkConfigurationDnsSettings) AssignPro
 	return nil
 }
 
+//Deprecated version of VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status. Use v1beta20201201.VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status instead
 type VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status struct {
-	//DnsServers: List of DNS servers IP addresses
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
@@ -10397,6 +9758,7 @@ func (settings *VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status) As
 	return nil
 }
 
+//Deprecated version of VirtualMachineScaleSetOSDiskCaching. Use v1beta20201201.VirtualMachineScaleSetOSDiskCaching instead
 // +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
 type VirtualMachineScaleSetOSDiskCaching string
 
@@ -10406,6 +9768,8 @@ const (
 	VirtualMachineScaleSetOSDiskCachingReadWrite = VirtualMachineScaleSetOSDiskCaching("ReadWrite")
 )
 
+//Deprecated version of VirtualMachineScaleSetOSDiskCreateOption. Use
+//v1beta20201201.VirtualMachineScaleSetOSDiskCreateOption instead
 // +kubebuilder:validation:Enum={"Attach","Empty","FromImage"}
 type VirtualMachineScaleSetOSDiskCreateOption string
 
@@ -10415,6 +9779,7 @@ const (
 	VirtualMachineScaleSetOSDiskCreateOptionFromImage = VirtualMachineScaleSetOSDiskCreateOption("FromImage")
 )
 
+//Deprecated version of VirtualMachineScaleSetOSDiskOsType. Use v1beta20201201.VirtualMachineScaleSetOSDiskOsType instead
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type VirtualMachineScaleSetOSDiskOsType string
 
@@ -10423,6 +9788,8 @@ const (
 	VirtualMachineScaleSetOSDiskOsTypeWindows = VirtualMachineScaleSetOSDiskOsType("Windows")
 )
 
+//Deprecated version of VirtualMachineScaleSetOSDiskStatusOsType. Use
+//v1beta20201201.VirtualMachineScaleSetOSDiskStatusOsType instead
 type VirtualMachineScaleSetOSDiskStatusOsType string
 
 const (
@@ -10430,44 +9797,20 @@ const (
 	VirtualMachineScaleSetOSDiskStatusOsTypeWindows = VirtualMachineScaleSetOSDiskStatusOsType("Windows")
 )
 
+//Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations instead
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations struct {
-	//ApplicationGatewayBackendAddressPools: Specifies an array of references to backend address pools of application
-	//gateways. A scale set can reference backend address pools of multiple application gateways. Multiple scale sets cannot
-	//use the same application gateway.
 	ApplicationGatewayBackendAddressPools []SubResource `json:"applicationGatewayBackendAddressPools,omitempty"`
-
-	//ApplicationSecurityGroups: Specifies an array of references to application security group.
-	ApplicationSecurityGroups []SubResource `json:"applicationSecurityGroups,omitempty"`
-
-	//Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	//LoadBalancerBackendAddressPools: Specifies an array of references to backend address pools of load balancers. A scale
-	//set can reference backend address pools of one public and one internal load balancer. Multiple scale sets cannot use the
-	//same basic sku load balancer.
-	LoadBalancerBackendAddressPools []SubResource `json:"loadBalancerBackendAddressPools,omitempty"`
-
-	//LoadBalancerInboundNatPools: Specifies an array of references to inbound Nat pools of the load balancers. A scale set
-	//can reference inbound nat pools of one public and one internal load balancer. Multiple scale sets cannot use the same
-	//basic sku load balancer.
-	LoadBalancerInboundNatPools []SubResource `json:"loadBalancerInboundNatPools,omitempty"`
+	ApplicationSecurityGroups             []SubResource `json:"applicationSecurityGroups,omitempty"`
+	Id                                    *string       `json:"id,omitempty"`
+	LoadBalancerBackendAddressPools       []SubResource `json:"loadBalancerBackendAddressPools,omitempty"`
+	LoadBalancerInboundNatPools           []SubResource `json:"loadBalancerInboundNatPools,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Name: The IP configuration name.
-	Name *string `json:"name,omitempty"`
-
-	//Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
-	Primary *bool `json:"primary,omitempty"`
-
-	//PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it represents whether the specific
-	//ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
-	PrivateIPAddressVersion *VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
-
-	//PublicIPAddressConfiguration: Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration
+	Name                         *string                                                                                                                                                                          `json:"name,omitempty"`
+	Primary                      *bool                                                                                                                                                                            `json:"primary,omitempty"`
+	PrivateIPAddressVersion      *VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPrivateIPAddressVersion               `json:"privateIPAddressVersion,omitempty"`
 	PublicIPAddressConfiguration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration `json:"publicIPAddressConfiguration,omitempty"`
-
-	//Subnet: The API entity reference.
-	Subnet *ApiEntityReference `json:"subnet,omitempty"`
+	Subnet                       *ApiEntityReference                                                                                                                                                              `json:"subnet,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations{}
@@ -10942,6 +10285,8 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 	return nil
 }
 
+//Deprecated version of VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersion. Use
+//v1beta20201201.VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersion instead
 type VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersion string
 
 const (
@@ -10949,6 +10294,8 @@ const (
 	VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersionIPv6 = VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersion("IPv6")
 )
 
+//Deprecated version of VirtualMachineScaleSetManagedDiskParametersStorageAccountType. Use
+//v1beta20201201.VirtualMachineScaleSetManagedDiskParametersStorageAccountType instead
 // +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","Standard_LRS","StandardSSD_LRS","StandardSSD_ZRS","UltraSSD_LRS"}
 type VirtualMachineScaleSetManagedDiskParametersStorageAccountType string
 
@@ -10961,25 +10308,14 @@ const (
 	VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeUltraSSDLRS    = VirtualMachineScaleSetManagedDiskParametersStorageAccountType("UltraSSD_LRS")
 )
 
+//Deprecated version of VirtualMachineScaleSetPublicIPAddressConfiguration_Status. Use v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfiguration_Status instead
 type VirtualMachineScaleSetPublicIPAddressConfiguration_Status struct {
-	//DnsSettings: The dns settings to be applied on the publicIP addresses .
-	DnsSettings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status `json:"dnsSettings,omitempty"`
-
-	//IdleTimeoutInMinutes: The idle timeout of the public IP address.
-	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
-
-	//IpTags: The list of IP tags associated with the public IP address.
-	IpTags []VirtualMachineScaleSetIpTag_Status `json:"ipTags,omitempty"`
-
-	//Name: The publicIP address configuration name.
-	Name *string `json:"name,omitempty"`
-
-	//PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it represents whether the specific
-	//ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
+	DnsSettings            *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status                     `json:"dnsSettings,omitempty"`
+	IdleTimeoutInMinutes   *int                                                                                      `json:"idleTimeoutInMinutes,omitempty"`
+	IpTags                 []VirtualMachineScaleSetIpTag_Status                                                      `json:"ipTags,omitempty"`
+	Name                   *string                                                                                   `json:"name,omitempty"`
 	PublicIPAddressVersion *VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
-
-	//PublicIPPrefix: The PublicIPPrefix from which to allocate publicIP addresses.
-	PublicIPPrefix *SubResource_Status `json:"publicIPPrefix,omitempty"`
+	PublicIPPrefix         *SubResource_Status                                                                       `json:"publicIPPrefix,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetPublicIPAddressConfiguration_Status{}
@@ -11200,6 +10536,11 @@ func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration_Status) 
 	return nil
 }
 
+//Deprecated version of
+//VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPrivateIPAddressVersion.
+//Use
+//v1beta20201201.VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPrivateIPAddressVersion
+//instead
 // +kubebuilder:validation:Enum={"IPv4","IPv6"}
 type VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPrivateIPAddressVersion string
 
@@ -11208,22 +10549,14 @@ const (
 	VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPrivateIPAddressVersionIPv6 = VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPrivateIPAddressVersion("IPv6")
 )
 
+//Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration instead
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration struct {
-	//DnsSettings: Describes a virtual machines scale sets network configuration's DNS settings.
-	DnsSettings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings `json:"dnsSettings,omitempty"`
-
-	//IdleTimeoutInMinutes: The idle timeout of the public IP address.
-	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
-
-	//IpTags: The list of IP tags associated with the public IP address.
-	IpTags []VirtualMachineScaleSetIpTag `json:"ipTags,omitempty"`
+	DnsSettings          *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings `json:"dnsSettings,omitempty"`
+	IdleTimeoutInMinutes *int                                                           `json:"idleTimeoutInMinutes,omitempty"`
+	IpTags               []VirtualMachineScaleSetIpTag                                  `json:"ipTags,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Name: The publicIP address configuration name.
-	Name *string `json:"name,omitempty"`
-
-	//PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it represents whether the specific
-	//ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
+	Name                   *string                                                                             `json:"name,omitempty"`
 	PublicIPAddressVersion *VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesPublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
 	PublicIPPrefix         *SubResource                                                                        `json:"publicIPPrefix,omitempty"`
 }
@@ -11501,13 +10834,10 @@ func (configuration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfi
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetIpTag
+//Deprecated version of VirtualMachineScaleSetIpTag. Use v1beta20201201.VirtualMachineScaleSetIpTag instead
 type VirtualMachineScaleSetIpTag struct {
-	//IpTagType: IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
-
-	//Tag: IP tag associated with the public IP. Example: SQL, Storage etc.
-	Tag *string `json:"tag,omitempty"`
+	Tag       *string `json:"tag,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetIpTag{}
@@ -11596,12 +10926,10 @@ func (ipTag *VirtualMachineScaleSetIpTag) AssignPropertiesToVirtualMachineScaleS
 	return nil
 }
 
+//Deprecated version of VirtualMachineScaleSetIpTag_Status. Use v1beta20201201.VirtualMachineScaleSetIpTag_Status instead
 type VirtualMachineScaleSetIpTag_Status struct {
-	//IpTagType: IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
-
-	//Tag: IP tag associated with the public IP. Example: SQL, Storage etc.
-	Tag *string `json:"tag,omitempty"`
+	Tag       *string `json:"tag,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetIpTag_Status{}
@@ -11669,11 +10997,9 @@ func (ipTag *VirtualMachineScaleSetIpTag_Status) AssignPropertiesToVirtualMachin
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
+//Deprecated version of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings. Use v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings instead
 type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings struct {
 	// +kubebuilder:validation:Required
-	//DomainNameLabel: The Domain name label.The concatenation of the domain name label and vm index will be the domain name
-	//labels of the PublicIPAddress resources that will be created
 	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
 }
 
@@ -11745,9 +11071,8 @@ func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) A
 	return nil
 }
 
+//Deprecated version of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status. Use v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status instead
 type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status struct {
-	//DomainNameLabel: The Domain name label.The concatenation of the domain name label and vm index will be the domain name
-	//labels of the PublicIPAddress resources that will be created
 	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
 }
 
@@ -11804,6 +11129,8 @@ func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_St
 	return nil
 }
 
+//Deprecated version of VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesPublicIPAddressVersion. Use
+//v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesPublicIPAddressVersion instead
 // +kubebuilder:validation:Enum={"IPv4","IPv6"}
 type VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesPublicIPAddressVersion string
 
@@ -11812,6 +11139,8 @@ const (
 	VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesPublicIPAddressVersionIPv6 = VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesPublicIPAddressVersion("IPv6")
 )
 
+//Deprecated version of VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersion. Use
+//v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersion instead
 type VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersion string
 
 const (

@@ -8,7 +8,7 @@ package test
 import (
 	"testing"
 
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101"
+	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 

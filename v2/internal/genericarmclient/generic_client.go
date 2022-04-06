@@ -11,8 +11,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
@@ -138,12 +139,14 @@ func (client *GenericClient) createOrUpdateByID(
 	resourceType := metrics.GetTypeFromResourceID(resourceID)
 
 	client.metrics.RecordAzureRequestsTime(resourceType, time.Since(requestStartTime), metrics.HttpPut)
-	client.metrics.RecordAzureRequestsTotal(resourceType, resp.StatusCode, metrics.HttpPut)
 
 	if err != nil {
 		client.metrics.RecordAzureFailedRequestsTotal(resourceType, metrics.HttpPut)
 		return nil, err
 	}
+
+	client.metrics.RecordAzureRequestsTotal(resourceType, resp.StatusCode, metrics.HttpPut)
+
 	if !runtime.HasStatusCode(resp, http.StatusOK, http.StatusCreated, http.StatusAccepted) {
 		return nil, client.createOrUpdateByIDHandleError(resp)
 	}

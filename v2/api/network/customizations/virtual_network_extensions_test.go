@@ -15,13 +15,14 @@ import (
 	"github.com/leanovate/gopter/arbitrary"
 	. "github.com/onsi/gomega"
 
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101"
+	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_FuzzySetSubnets(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
+
 	vnet := &network.VirtualNetworks_SpecARM{
 		Location: to.StringPtr("westus"),
 		Properties: &network.VirtualNetworks_Spec_PropertiesARM{

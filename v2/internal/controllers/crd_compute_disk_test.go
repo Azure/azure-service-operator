@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20200930"
+	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 

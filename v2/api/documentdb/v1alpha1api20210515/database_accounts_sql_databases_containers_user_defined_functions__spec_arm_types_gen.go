@@ -5,22 +5,12 @@ package v1alpha1api20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+//Deprecated version of DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec instead
 type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM struct {
-	//Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	//Name: Cosmos DB userDefinedFunction name.
-	Name string `json:"name,omitempty"`
-
-	//Properties: Properties to create and update Azure Cosmos DB userDefinedFunction.
+	Location   *string                                          `json:"location,omitempty"`
+	Name       string                                           `json:"name,omitempty"`
 	Properties *SqlUserDefinedFunctionCreateUpdatePropertiesARM `json:"properties,omitempty"`
-
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	//type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	//"DocumentDB", and "MongoDB".
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags       map[string]string                                `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM{}
@@ -40,21 +30,14 @@ func (functions DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecA
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlUserDefinedFunctionCreateUpdateProperties
+//Deprecated version of SqlUserDefinedFunctionCreateUpdateProperties. Use v1beta20210515.SqlUserDefinedFunctionCreateUpdateProperties instead
 type SqlUserDefinedFunctionCreateUpdatePropertiesARM struct {
-	//Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
-	//"If-None-Match", "Session-Token" and "Throughput"
-	Options *CreateUpdateOptionsARM `json:"options,omitempty"`
-
-	//Resource: Cosmos DB SQL userDefinedFunction resource object
+	Options  *CreateUpdateOptionsARM            `json:"options,omitempty"`
 	Resource *SqlUserDefinedFunctionResourceARM `json:"resource,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlUserDefinedFunctionResource
+//Deprecated version of SqlUserDefinedFunctionResource. Use v1beta20210515.SqlUserDefinedFunctionResource instead
 type SqlUserDefinedFunctionResourceARM struct {
-	//Body: Body of the User Defined Function
 	Body *string `json:"body,omitempty"`
-
-	//Id: Name of the Cosmos DB SQL userDefinedFunction
-	Id *string `json:"id,omitempty"`
+	Id   *string `json:"id,omitempty"`
 }

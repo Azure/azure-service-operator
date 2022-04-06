@@ -12,9 +12,9 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
-	insightswebtest "github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501preview"
-	insights "github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20200202"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
+	insightswebtest "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501preview"
+	insights "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 

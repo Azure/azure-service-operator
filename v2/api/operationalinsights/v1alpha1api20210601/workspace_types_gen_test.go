@@ -6,6 +6,7 @@ package v1alpha1api20210601
 import (
 	"encoding/json"
 	"github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1alpha1api20210601storage"
+	"github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta20210601storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunResourceConversionTestForWorkspace(subject Workspace) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1alpha1api20210601storage.Workspace
+	var hub v1beta20210601storage.Workspace
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

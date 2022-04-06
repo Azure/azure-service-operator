@@ -5,6 +5,7 @@ package v1alpha1api20200601storage
 
 import (
 	"encoding/json"
+	"github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,90 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_DomainsTopic_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DomainsTopic to hub returns original",
+		prop.ForAll(RunResourceConversionTestForDomainsTopic, DomainsTopicGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForDomainsTopic tests if a specific instance of DomainsTopic round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForDomainsTopic(subject DomainsTopic) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1beta20200601storage.DomainsTopic
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual DomainsTopic
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_DomainsTopic_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DomainsTopic to DomainsTopic via AssignPropertiesToDomainsTopic & AssignPropertiesFromDomainsTopic returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDomainsTopic, DomainsTopicGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDomainsTopic tests if a specific instance of DomainsTopic can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForDomainsTopic(subject DomainsTopic) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20200601storage.DomainsTopic
+	err := copied.AssignPropertiesToDomainsTopic(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DomainsTopic
+	err = actual.AssignPropertiesFromDomainsTopic(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_DomainsTopic_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -75,6 +160,48 @@ func DomainsTopicGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForDomainsTopic(gens map[string]gopter.Gen) {
 	gens["Spec"] = DomainsTopicsSpecGenerator()
 	gens["Status"] = DomainTopicStatusGenerator()
+}
+
+func Test_DomainTopic_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DomainTopic_Status to DomainTopic_Status via AssignPropertiesToDomainTopicStatus & AssignPropertiesFromDomainTopicStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDomainTopicStatus, DomainTopicStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDomainTopicStatus tests if a specific instance of DomainTopic_Status can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForDomainTopicStatus(subject DomainTopic_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20200601storage.DomainTopic_Status
+	err := copied.AssignPropertiesToDomainTopicStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DomainTopic_Status
+	err = actual.AssignPropertiesFromDomainTopicStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_DomainTopic_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -151,6 +278,48 @@ func AddIndependentPropertyGeneratorsForDomainTopicStatus(gens map[string]gopter
 // AddRelatedPropertyGeneratorsForDomainTopicStatus is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDomainTopicStatus(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemDataStatusGenerator())
+}
+
+func Test_DomainsTopics_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DomainsTopics_Spec to DomainsTopics_Spec via AssignPropertiesToDomainsTopicsSpec & AssignPropertiesFromDomainsTopicsSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDomainsTopicsSpec, DomainsTopicsSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDomainsTopicsSpec tests if a specific instance of DomainsTopics_Spec can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForDomainsTopicsSpec(subject DomainsTopics_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20200601storage.DomainsTopics_Spec
+	err := copied.AssignPropertiesToDomainsTopicsSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DomainsTopics_Spec
+	err = actual.AssignPropertiesFromDomainsTopicsSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_DomainsTopics_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -18,7 +18,7 @@ import (
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
 
-	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501"
+	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )

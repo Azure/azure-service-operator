@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/resourceDefinitions/batchAccounts
+//Deprecated version of BatchAccount. Use v1beta20210101.BatchAccount instead
 type BatchAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -48,22 +48,36 @@ var _ conversion.Convertible = &BatchAccount{}
 
 // ConvertFrom populates our BatchAccount from the provided hub BatchAccount
 func (account *BatchAccount) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20210101storage.BatchAccount)
-	if !ok {
-		return fmt.Errorf("expected batch/v1alpha1api20210101storage/BatchAccount but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20210101storage.BatchAccount
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return account.AssignPropertiesFromBatchAccount(source)
+	err = account.AssignPropertiesFromBatchAccount(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to account")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub BatchAccount from our BatchAccount
 func (account *BatchAccount) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20210101storage.BatchAccount)
-	if !ok {
-		return fmt.Errorf("expected batch/v1alpha1api20210101storage/BatchAccount but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20210101storage.BatchAccount
+	err := account.AssignPropertiesToBatchAccount(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from account")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return account.AssignPropertiesToBatchAccount(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-batch-azure-com-v1alpha1api20210101-batchaccount,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=batch.azure.com,resources=batchaccounts,verbs=create;update,versions=v1alpha1api20210101,name=default.v1alpha1api20210101.batchaccounts.batch.azure.com,admissionReviewVersions=v1beta1
@@ -300,75 +314,38 @@ func (account *BatchAccount) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/resourceDefinitions/batchAccounts
+//Deprecated version of BatchAccount. Use v1beta20210101.BatchAccount instead
 type BatchAccountList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []BatchAccount `json:"items"`
 }
 
+//Deprecated version of BatchAccount_Status. Use v1beta20210101.BatchAccount_Status instead
 type BatchAccount_Status struct {
-	//AccountEndpoint: The account endpoint used to interact with the Batch service.
 	AccountEndpoint              *string                       `json:"accountEndpoint,omitempty"`
 	ActiveJobAndJobScheduleQuota *int                          `json:"activeJobAndJobScheduleQuota,omitempty"`
 	AutoStorage                  *AutoStorageProperties_Status `json:"autoStorage,omitempty"`
 
 	//Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	//DedicatedCoreQuota: For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription
-	//so this value is not returned.
-	DedicatedCoreQuota *int `json:"dedicatedCoreQuota,omitempty"`
-
-	//DedicatedCoreQuotaPerVMFamily: A list of the dedicated core quota per Virtual Machine family for the Batch account. For
-	//accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not
-	//returned.
-	DedicatedCoreQuotaPerVMFamily []VirtualMachineFamilyCoreQuota_Status `json:"dedicatedCoreQuotaPerVMFamily,omitempty"`
-
-	//DedicatedCoreQuotaPerVMFamilyEnforced: Batch is transitioning its core quota system for dedicated cores to be enforced
-	//per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not
-	//yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the
-	//account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the
-	//dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply.
-	DedicatedCoreQuotaPerVMFamilyEnforced *bool `json:"dedicatedCoreQuotaPerVMFamilyEnforced,omitempty"`
-
-	//Encryption: Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using
-	//a Microsoft managed key. For additional control, a customer-managed key can be used instead.
-	Encryption *EncryptionProperties_Status `json:"encryption,omitempty"`
-
-	//Id: The ID of the resource.
-	Id *string `json:"id,omitempty"`
-
-	//Identity: The identity of the Batch account.
-	Identity          *BatchAccountIdentity_Status `json:"identity,omitempty"`
-	KeyVaultReference *KeyVaultReference_Status    `json:"keyVaultReference,omitempty"`
-
-	//Location: The location of the resource.
-	Location *string `json:"location,omitempty"`
-
-	//LowPriorityCoreQuota: For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription
-	//so this value is not returned.
-	LowPriorityCoreQuota *int `json:"lowPriorityCoreQuota,omitempty"`
-
-	//Name: The name of the resource.
-	Name               *string                    `json:"name,omitempty"`
-	PoolAllocationMode *PoolAllocationMode_Status `json:"poolAllocationMode,omitempty"`
-	PoolQuota          *int                       `json:"poolQuota,omitempty"`
-
-	//PrivateEndpointConnections: List of private endpoint connections associated with the Batch account
-	PrivateEndpointConnections []PrivateEndpointConnection_Status `json:"privateEndpointConnections,omitempty"`
-
-	//ProvisioningState: The provisioned state of the resource
-	ProvisioningState *BatchAccountPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
-
-	//PublicNetworkAccess: If not specified, the default value is 'enabled'.
-	PublicNetworkAccess *PublicNetworkAccessType_Status `json:"publicNetworkAccess,omitempty"`
-
-	//Tags: The tags of the resource.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: The type of the resource.
-	Type *string `json:"type,omitempty"`
+	Conditions                            []conditions.Condition                         `json:"conditions,omitempty"`
+	DedicatedCoreQuota                    *int                                           `json:"dedicatedCoreQuota,omitempty"`
+	DedicatedCoreQuotaPerVMFamily         []VirtualMachineFamilyCoreQuota_Status         `json:"dedicatedCoreQuotaPerVMFamily,omitempty"`
+	DedicatedCoreQuotaPerVMFamilyEnforced *bool                                          `json:"dedicatedCoreQuotaPerVMFamilyEnforced,omitempty"`
+	Encryption                            *EncryptionProperties_Status                   `json:"encryption,omitempty"`
+	Id                                    *string                                        `json:"id,omitempty"`
+	Identity                              *BatchAccountIdentity_Status                   `json:"identity,omitempty"`
+	KeyVaultReference                     *KeyVaultReference_Status                      `json:"keyVaultReference,omitempty"`
+	Location                              *string                                        `json:"location,omitempty"`
+	LowPriorityCoreQuota                  *int                                           `json:"lowPriorityCoreQuota,omitempty"`
+	Name                                  *string                                        `json:"name,omitempty"`
+	PoolAllocationMode                    *PoolAllocationMode_Status                     `json:"poolAllocationMode,omitempty"`
+	PoolQuota                             *int                                           `json:"poolQuota,omitempty"`
+	PrivateEndpointConnections            []PrivateEndpointConnection_Status             `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState                     *BatchAccountPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	PublicNetworkAccess                   *PublicNetworkAccessType_Status                `json:"publicNetworkAccess,omitempty"`
+	Tags                                  map[string]string                              `json:"tags,omitempty"`
+	Type                                  *string                                        `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &BatchAccount_Status{}
@@ -954,13 +931,7 @@ func (account *BatchAccount_Status) AssignPropertiesToBatchAccountStatus(destina
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-01-01"}
-type BatchAccountsSpecAPIVersion string
-
-const BatchAccountsSpecAPIVersion20210101 = BatchAccountsSpecAPIVersion("2021-01-01")
-
 type BatchAccounts_Spec struct {
-	//AutoStorage: The properties related to the auto-storage account.
 	AutoStorage *AutoStorageBaseProperties `json:"autoStorage,omitempty"`
 
 	// +kubebuilder:validation:MaxLength=24
@@ -968,38 +939,20 @@ type BatchAccounts_Spec struct {
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]+$"
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	//Encryption: Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using
-	//a Microsoft managed key. For additional control, a customer-managed key can be used instead.
-	Encryption *EncryptionProperties `json:"encryption,omitempty"`
-
-	//Identity: The identity of the Batch account, if configured. This is only used when the user specifies
-	//'Microsoft.KeyVault' as their Batch account encryption configuration.
-	Identity *BatchAccountIdentity `json:"identity,omitempty"`
-
-	//KeyVaultReference: Identifies the Azure key vault associated with a Batch account.
-	KeyVaultReference *KeyVaultReference `json:"keyVaultReference,omitempty"`
-
-	//Location: The region in which to create the account.
-	Location *string `json:"location,omitempty"`
+	AzureName         string                `json:"azureName,omitempty"`
+	Encryption        *EncryptionProperties `json:"encryption,omitempty"`
+	Identity          *BatchAccountIdentity `json:"identity,omitempty"`
+	KeyVaultReference *KeyVaultReference    `json:"keyVaultReference,omitempty"`
+	Location          *string               `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	//PoolAllocationMode: The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the
-	//mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is
-	//UserSubscription, clients must use Azure Active Directory. The default is BatchService.
-	PoolAllocationMode *BatchAccountCreatePropertiesPoolAllocationMode `json:"poolAllocationMode,omitempty"`
-
-	//PublicNetworkAccess: If not specified, the default value is 'enabled'.
+	Owner               *genruntime.KnownResourceReference               `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PoolAllocationMode  *BatchAccountCreatePropertiesPoolAllocationMode  `json:"poolAllocationMode,omitempty"`
 	PublicNetworkAccess *BatchAccountCreatePropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	//Tags: The user-specified tags associated with the account.
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags                map[string]string                                `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &BatchAccounts_Spec{}
@@ -1436,10 +1389,9 @@ func (accounts *BatchAccounts_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (accounts *BatchAccounts_Spec) SetAzureName(azureName string) { accounts.AzureName = azureName }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/AutoStorageBaseProperties
+//Deprecated version of AutoStorageBaseProperties. Use v1beta20210101.AutoStorageBaseProperties instead
 type AutoStorageBaseProperties struct {
 	// +kubebuilder:validation:Required
-	//StorageAccountReference: The resource ID of the storage account to be used for auto-storage account.
 	StorageAccountReference *genruntime.ResourceReference `armReference:"StorageAccountId" json:"storageAccountReference,omitempty"`
 }
 
@@ -1521,11 +1473,9 @@ func (properties *AutoStorageBaseProperties) AssignPropertiesToAutoStorageBasePr
 	return nil
 }
 
+//Deprecated version of AutoStorageProperties_Status. Use v1beta20210101.AutoStorageProperties_Status instead
 type AutoStorageProperties_Status struct {
-	//LastKeySync: The UTC time at which storage keys were last synchronized with the Batch account.
-	LastKeySync *string `json:"lastKeySync,omitempty"`
-
-	//StorageAccountId: The resource ID of the storage account to be used for auto-storage account.
+	LastKeySync      *string `json:"lastKeySync,omitempty"`
 	StorageAccountId *string `json:"storageAccountId,omitempty"`
 }
 
@@ -1594,6 +1544,8 @@ func (properties *AutoStorageProperties_Status) AssignPropertiesToAutoStoragePro
 	return nil
 }
 
+//Deprecated version of BatchAccountCreatePropertiesPoolAllocationMode. Use
+//v1beta20210101.BatchAccountCreatePropertiesPoolAllocationMode instead
 // +kubebuilder:validation:Enum={"BatchService","UserSubscription"}
 type BatchAccountCreatePropertiesPoolAllocationMode string
 
@@ -1602,6 +1554,8 @@ const (
 	BatchAccountCreatePropertiesPoolAllocationModeUserSubscription = BatchAccountCreatePropertiesPoolAllocationMode("UserSubscription")
 )
 
+//Deprecated version of BatchAccountCreatePropertiesPublicNetworkAccess. Use
+//v1beta20210101.BatchAccountCreatePropertiesPublicNetworkAccess instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type BatchAccountCreatePropertiesPublicNetworkAccess string
 
@@ -1610,10 +1564,9 @@ const (
 	BatchAccountCreatePropertiesPublicNetworkAccessEnabled  = BatchAccountCreatePropertiesPublicNetworkAccess("Enabled")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/BatchAccountIdentity
+//Deprecated version of BatchAccountIdentity. Use v1beta20210101.BatchAccountIdentity instead
 type BatchAccountIdentity struct {
 	// +kubebuilder:validation:Required
-	//Type: The type of identity used for the Batch account.
 	Type *BatchAccountIdentityType `json:"type,omitempty"`
 }
 
@@ -1695,20 +1648,11 @@ func (identity *BatchAccountIdentity) AssignPropertiesToBatchAccountIdentity(des
 	return nil
 }
 
+//Deprecated version of BatchAccountIdentity_Status. Use v1beta20210101.BatchAccountIdentity_Status instead
 type BatchAccountIdentity_Status struct {
-	//PrincipalId: The principal id of the Batch account. This property will only be provided for a system assigned identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	//TenantId: The tenant id associated with the Batch account. This property will only be provided for a system assigned
-	//identity.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	//Type: The type of identity used for the Batch account.
-	Type *BatchAccountIdentityStatusType `json:"type,omitempty"`
-
-	//UserAssignedIdentities: The list of user identities associated with the Batch account. The user identity dictionary key
-	//references will be ARM resource ids in the form:
-	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+	PrincipalId            *string                                                       `json:"principalId,omitempty"`
+	TenantId               *string                                                       `json:"tenantId,omitempty"`
+	Type                   *BatchAccountIdentityStatusType                               `json:"type,omitempty"`
 	UserAssignedIdentities map[string]BatchAccountIdentity_Status_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -1848,6 +1792,8 @@ func (identity *BatchAccountIdentity_Status) AssignPropertiesToBatchAccountIdent
 	return nil
 }
 
+//Deprecated version of BatchAccountPropertiesStatusProvisioningState. Use
+//v1beta20210101.BatchAccountPropertiesStatusProvisioningState instead
 type BatchAccountPropertiesStatusProvisioningState string
 
 const (
@@ -1859,13 +1805,10 @@ const (
 	BatchAccountPropertiesStatusProvisioningStateSucceeded = BatchAccountPropertiesStatusProvisioningState("Succeeded")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/EncryptionProperties
+//Deprecated version of EncryptionProperties. Use v1beta20210101.EncryptionProperties instead
 type EncryptionProperties struct {
-	//KeySource: Type of the key source.
-	KeySource *EncryptionPropertiesKeySource `json:"keySource,omitempty"`
-
-	//KeyVaultProperties: KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault.
-	KeyVaultProperties *KeyVaultProperties `json:"keyVaultProperties,omitempty"`
+	KeySource          *EncryptionPropertiesKeySource `json:"keySource,omitempty"`
+	KeyVaultProperties *KeyVaultProperties            `json:"keyVaultProperties,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &EncryptionProperties{}
@@ -1991,12 +1934,10 @@ func (properties *EncryptionProperties) AssignPropertiesToEncryptionProperties(d
 	return nil
 }
 
+//Deprecated version of EncryptionProperties_Status. Use v1beta20210101.EncryptionProperties_Status instead
 type EncryptionProperties_Status struct {
-	//KeySource: Type of the key source.
-	KeySource *EncryptionPropertiesStatusKeySource `json:"keySource,omitempty"`
-
-	//KeyVaultProperties: Additional details when using Microsoft.KeyVault
-	KeyVaultProperties *KeyVaultProperties_Status `json:"keyVaultProperties,omitempty"`
+	KeySource          *EncryptionPropertiesStatusKeySource `json:"keySource,omitempty"`
+	KeyVaultProperties *KeyVaultProperties_Status           `json:"keyVaultProperties,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &EncryptionProperties_Status{}
@@ -2097,14 +2038,12 @@ func (properties *EncryptionProperties_Status) AssignPropertiesToEncryptionPrope
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/KeyVaultReference
+//Deprecated version of KeyVaultReference. Use v1beta20210101.KeyVaultReference instead
 type KeyVaultReference struct {
 	// +kubebuilder:validation:Required
-	//Reference: The resource ID of the Azure key vault associated with the Batch account.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Url: The URL of the Azure key vault associated with the Batch account.
 	Url *string `json:"url,omitempty"`
 }
 
@@ -2204,11 +2143,9 @@ func (reference *KeyVaultReference) AssignPropertiesToKeyVaultReference(destinat
 	return nil
 }
 
+//Deprecated version of KeyVaultReference_Status. Use v1beta20210101.KeyVaultReference_Status instead
 type KeyVaultReference_Status struct {
-	//Id: The resource ID of the Azure key vault associated with the Batch account.
-	Id *string `json:"id,omitempty"`
-
-	//Url: The URL of the Azure key vault associated with the Batch account.
+	Id  *string `json:"id,omitempty"`
 	Url *string `json:"url,omitempty"`
 }
 
@@ -2277,6 +2214,7 @@ func (reference *KeyVaultReference_Status) AssignPropertiesToKeyVaultReferenceSt
 	return nil
 }
 
+//Deprecated version of PoolAllocationMode_Status. Use v1beta20210101.PoolAllocationMode_Status instead
 type PoolAllocationMode_Status string
 
 const (
@@ -2284,21 +2222,15 @@ const (
 	PoolAllocationMode_StatusUserSubscription = PoolAllocationMode_Status("UserSubscription")
 )
 
+//Deprecated version of PrivateEndpointConnection_Status. Use v1beta20210101.PrivateEndpointConnection_Status instead
 type PrivateEndpointConnection_Status struct {
-	//Etag: The ETag of the resource, used for concurrency statements.
-	Etag *string `json:"etag,omitempty"`
-
-	//Id: The ID of the resource.
-	Id *string `json:"id,omitempty"`
-
-	//Name: The name of the resource.
+	Etag                              *string                                                     `json:"etag,omitempty"`
+	Id                                *string                                                     `json:"id,omitempty"`
 	Name                              *string                                                     `json:"name,omitempty"`
 	PrivateEndpoint                   *PrivateEndpoint_Status                                     `json:"privateEndpoint,omitempty"`
 	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_Status                   `json:"privateLinkServiceConnectionState,omitempty"`
 	ProvisioningState                 *PrivateEndpointConnectionPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
-
-	//Type: The type of the resource.
-	Type *string `json:"type,omitempty"`
+	Type                              *string                                                     `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PrivateEndpointConnection_Status{}
@@ -2491,6 +2423,7 @@ func (connection *PrivateEndpointConnection_Status) AssignPropertiesToPrivateEnd
 	return nil
 }
 
+//Deprecated version of PublicNetworkAccessType_Status. Use v1beta20210101.PublicNetworkAccessType_Status instead
 type PublicNetworkAccessType_Status string
 
 const (
@@ -2498,12 +2431,10 @@ const (
 	PublicNetworkAccessType_StatusEnabled  = PublicNetworkAccessType_Status("Enabled")
 )
 
+//Deprecated version of VirtualMachineFamilyCoreQuota_Status. Use v1beta20210101.VirtualMachineFamilyCoreQuota_Status instead
 type VirtualMachineFamilyCoreQuota_Status struct {
-	//CoreQuota: The core quota for the VM family for the Batch account.
-	CoreQuota *int `json:"coreQuota,omitempty"`
-
-	//Name: The Virtual Machine family name.
-	Name *string `json:"name,omitempty"`
+	CoreQuota *int    `json:"coreQuota,omitempty"`
+	Name      *string `json:"name,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineFamilyCoreQuota_Status{}
@@ -2571,11 +2502,9 @@ func (quota *VirtualMachineFamilyCoreQuota_Status) AssignPropertiesToVirtualMach
 	return nil
 }
 
+//Deprecated version of BatchAccountIdentity_Status_UserAssignedIdentities. Use v1beta20210101.BatchAccountIdentity_Status_UserAssignedIdentities instead
 type BatchAccountIdentity_Status_UserAssignedIdentities struct {
-	//ClientId: The client id of user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	//PrincipalId: The principal id of user assigned identity.
+	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
@@ -2644,6 +2573,7 @@ func (identities *BatchAccountIdentity_Status_UserAssignedIdentities) AssignProp
 	return nil
 }
 
+//Deprecated version of EncryptionPropertiesKeySource. Use v1beta20210101.EncryptionPropertiesKeySource instead
 // +kubebuilder:validation:Enum={"Microsoft.Batch","Microsoft.KeyVault"}
 type EncryptionPropertiesKeySource string
 
@@ -2652,6 +2582,7 @@ const (
 	EncryptionPropertiesKeySourceMicrosoftKeyVault = EncryptionPropertiesKeySource("Microsoft.KeyVault")
 )
 
+//Deprecated version of EncryptionPropertiesStatusKeySource. Use v1beta20210101.EncryptionPropertiesStatusKeySource instead
 type EncryptionPropertiesStatusKeySource string
 
 const (
@@ -2659,14 +2590,8 @@ const (
 	EncryptionPropertiesStatusKeySourceMicrosoftKeyVault = EncryptionPropertiesStatusKeySource("Microsoft.KeyVault")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/KeyVaultProperties
+//Deprecated version of KeyVaultProperties. Use v1beta20210101.KeyVaultProperties instead
 type KeyVaultProperties struct {
-	//KeyIdentifier: Full path to the versioned secret. Example
-	//https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053. To be usable the following
-	//prerequisites must be met:
-	//The Batch Account has a System Assigned identity
-	//The account identity has been granted Key/Get, Key/Unwrap and Key/Wrap permissions
-	//The KeyVault has soft-delete and purge protection enabled
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 }
 
@@ -2738,13 +2663,8 @@ func (properties *KeyVaultProperties) AssignPropertiesToKeyVaultProperties(desti
 	return nil
 }
 
+//Deprecated version of KeyVaultProperties_Status. Use v1beta20210101.KeyVaultProperties_Status instead
 type KeyVaultProperties_Status struct {
-	//KeyIdentifier: Full path to the versioned secret. Example
-	//https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053. To be usable the following
-	//prerequisites must be met:
-	//The Batch Account has a System Assigned identity
-	//The account identity has been granted Key/Get, Key/Unwrap and Key/Wrap permissions
-	//The KeyVault has soft-delete and purge protection enabled
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 }
 
@@ -2801,6 +2721,8 @@ func (properties *KeyVaultProperties_Status) AssignPropertiesToKeyVaultPropertie
 	return nil
 }
 
+//Deprecated version of PrivateEndpointConnectionPropertiesStatusProvisioningState. Use
+//v1beta20210101.PrivateEndpointConnectionPropertiesStatusProvisioningState instead
 type PrivateEndpointConnectionPropertiesStatusProvisioningState string
 
 const (
@@ -2809,6 +2731,7 @@ const (
 	PrivateEndpointConnectionPropertiesStatusProvisioningStateUpdating  = PrivateEndpointConnectionPropertiesStatusProvisioningState("Updating")
 )
 
+//Deprecated version of PrivateEndpoint_Status. Use v1beta20210101.PrivateEndpoint_Status instead
 type PrivateEndpoint_Status struct {
 	Id *string `json:"id,omitempty"`
 }
@@ -2866,6 +2789,7 @@ func (endpoint *PrivateEndpoint_Status) AssignPropertiesToPrivateEndpointStatus(
 	return nil
 }
 
+//Deprecated version of PrivateLinkServiceConnectionState_Status. Use v1beta20210101.PrivateLinkServiceConnectionState_Status instead
 type PrivateLinkServiceConnectionState_Status struct {
 	ActionRequired *string                                    `json:"actionRequired,omitempty"`
 	Description    *string                                    `json:"description,omitempty"`
@@ -2959,6 +2883,8 @@ func (state *PrivateLinkServiceConnectionState_Status) AssignPropertiesToPrivate
 	return nil
 }
 
+//Deprecated version of PrivateLinkServiceConnectionStatus_Status. Use
+//v1beta20210101.PrivateLinkServiceConnectionStatus_Status instead
 type PrivateLinkServiceConnectionStatus_Status string
 
 const (

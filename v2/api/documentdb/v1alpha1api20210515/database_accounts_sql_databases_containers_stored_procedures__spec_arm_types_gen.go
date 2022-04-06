@@ -5,22 +5,12 @@ package v1alpha1api20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+//Deprecated version of DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec instead
 type DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM struct {
-	//Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	//Name: Cosmos DB storedProcedure name.
-	Name string `json:"name,omitempty"`
-
-	//Properties: Properties to create and update Azure Cosmos DB storedProcedure.
+	Location   *string                                      `json:"location,omitempty"`
+	Name       string                                       `json:"name,omitempty"`
 	Properties *SqlStoredProcedureCreateUpdatePropertiesARM `json:"properties,omitempty"`
-
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	//type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	//"DocumentDB", and "MongoDB".
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags       map[string]string                            `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM{}
@@ -40,21 +30,14 @@ func (procedures DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM)
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlStoredProcedureCreateUpdateProperties
+//Deprecated version of SqlStoredProcedureCreateUpdateProperties. Use v1beta20210515.SqlStoredProcedureCreateUpdateProperties instead
 type SqlStoredProcedureCreateUpdatePropertiesARM struct {
-	//Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
-	//"If-None-Match", "Session-Token" and "Throughput"
-	Options *CreateUpdateOptionsARM `json:"options,omitempty"`
-
-	//Resource: Cosmos DB SQL storedProcedure resource object
+	Options  *CreateUpdateOptionsARM        `json:"options,omitempty"`
 	Resource *SqlStoredProcedureResourceARM `json:"resource,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlStoredProcedureResource
+//Deprecated version of SqlStoredProcedureResource. Use v1beta20210515.SqlStoredProcedureResource instead
 type SqlStoredProcedureResourceARM struct {
-	//Body: Body of the Stored Procedure
 	Body *string `json:"body,omitempty"`
-
-	//Id: Name of the Cosmos DB SQL storedProcedure
-	Id *string `json:"id,omitempty"`
+	Id   *string `json:"id,omitempty"`
 }

@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/resourceDefinitions/domains_topics
+//Deprecated version of DomainsTopic. Use v1beta20200601.DomainsTopic instead
 type DomainsTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -48,22 +48,36 @@ var _ conversion.Convertible = &DomainsTopic{}
 
 // ConvertFrom populates our DomainsTopic from the provided hub DomainsTopic
 func (topic *DomainsTopic) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20200601storage.DomainsTopic)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v1alpha1api20200601storage/DomainsTopic but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20200601storage.DomainsTopic
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return topic.AssignPropertiesFromDomainsTopic(source)
+	err = topic.AssignPropertiesFromDomainsTopic(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to topic")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub DomainsTopic from our DomainsTopic
 func (topic *DomainsTopic) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20200601storage.DomainsTopic)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v1alpha1api20200601storage/DomainsTopic but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20200601storage.DomainsTopic
+	err := topic.AssignPropertiesToDomainsTopic(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from topic")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return topic.AssignPropertiesToDomainsTopic(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-eventgrid-azure-com-v1alpha1api20200601-domainstopic,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventgrid.azure.com,resources=domainstopics,verbs=create;update,versions=v1alpha1api20200601,name=default.v1alpha1api20200601.domainstopics.eventgrid.azure.com,admissionReviewVersions=v1beta1
@@ -300,31 +314,22 @@ func (topic *DomainsTopic) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/resourceDefinitions/domains_topics
+//Deprecated version of DomainsTopic. Use v1beta20200601.DomainsTopic instead
 type DomainsTopicList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []DomainsTopic `json:"items"`
 }
 
+//Deprecated version of DomainTopic_Status. Use v1beta20200601.DomainTopic_Status instead
 type DomainTopic_Status struct {
 	//Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	//Id: Fully qualified identifier of the resource.
-	Id *string `json:"id,omitempty"`
-
-	//Name: Name of the resource.
-	Name *string `json:"name,omitempty"`
-
-	//ProvisioningState: Provisioning state of the domain topic.
+	Conditions        []conditions.Condition                        `json:"conditions,omitempty"`
+	Id                *string                                       `json:"id,omitempty"`
+	Name              *string                                       `json:"name,omitempty"`
 	ProvisioningState *DomainTopicPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
-
-	//SystemData: The system metadata relating to Domain Topic resource.
-	SystemData *SystemData_Status `json:"systemData,omitempty"`
-
-	//Type: Type of the resource.
-	Type *string `json:"type,omitempty"`
+	SystemData        *SystemData_Status                            `json:"systemData,omitempty"`
+	Type              *string                                       `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DomainTopic_Status{}
@@ -522,27 +527,18 @@ func (topic *DomainTopic_Status) AssignPropertiesToDomainTopicStatus(destination
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type DomainsTopicsSpecAPIVersion string
-
-const DomainsTopicsSpecAPIVersion20200601 = DomainsTopicsSpecAPIVersion("2020-06-01")
-
 type DomainsTopics_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
+	AzureName string  `json:"azureName,omitempty"`
+	Location  *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a eventgrid.azure.com/Domain resource
 	Owner *genruntime.KnownResourceReference `group:"eventgrid.azure.com" json:"owner,omitempty" kind:"Domain"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags  map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DomainsTopics_Spec{}

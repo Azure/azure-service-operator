@@ -5,15 +5,11 @@ package v1alpha1api20181130
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+//Deprecated version of UserAssignedIdentities_Spec. Use v1beta20181130.UserAssignedIdentities_Spec instead
 type UserAssignedIdentities_SpecARM struct {
-	//Location: The Azure region where the identity lives.
-	Location *string `json:"location,omitempty"`
-
-	//Name: The name of the identity resource.
-	Name string `json:"name,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	Location *string           `json:"location,omitempty"`
+	Name     string            `json:"name,omitempty"`
+	Tags     map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &UserAssignedIdentities_SpecARM{}

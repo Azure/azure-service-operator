@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/networkSecurityGroups
+//Deprecated version of NetworkSecurityGroup. Use v1beta20201101.NetworkSecurityGroup instead
 type NetworkSecurityGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -48,22 +48,36 @@ var _ conversion.Convertible = &NetworkSecurityGroup{}
 
 // ConvertFrom populates our NetworkSecurityGroup from the provided hub NetworkSecurityGroup
 func (group *NetworkSecurityGroup) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20201101storage.NetworkSecurityGroup)
-	if !ok {
-		return fmt.Errorf("expected network/v1alpha1api20201101storage/NetworkSecurityGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20201101storage.NetworkSecurityGroup
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return group.AssignPropertiesFromNetworkSecurityGroup(source)
+	err = group.AssignPropertiesFromNetworkSecurityGroup(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to group")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NetworkSecurityGroup from our NetworkSecurityGroup
 func (group *NetworkSecurityGroup) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20201101storage.NetworkSecurityGroup)
-	if !ok {
-		return fmt.Errorf("expected network/v1alpha1api20201101storage/NetworkSecurityGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20201101storage.NetworkSecurityGroup
+	err := group.AssignPropertiesToNetworkSecurityGroup(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from group")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return group.AssignPropertiesToNetworkSecurityGroup(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1alpha1api20201101-networksecuritygroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=networksecuritygroups,verbs=create;update,versions=v1alpha1api20201101,name=default.v1alpha1api20201101.networksecuritygroups.network.azure.com,admissionReviewVersions=v1beta1
@@ -300,55 +314,30 @@ func (group *NetworkSecurityGroup) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/networkSecurityGroups
+//Deprecated version of NetworkSecurityGroup. Use v1beta20201101.NetworkSecurityGroup instead
 type NetworkSecurityGroupList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NetworkSecurityGroup `json:"items"`
 }
 
+//Deprecated version of NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded instead
 type NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
 	//Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	//DefaultSecurityRules: The default security rules of network security group.
-	DefaultSecurityRules []SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded `json:"defaultSecurityRules,omitempty"`
-
-	//Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	//FlowLogs: A collection of references to flow log resources.
-	FlowLogs []FlowLog_Status_SubResourceEmbedded `json:"flowLogs,omitempty"`
-
-	//Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	//Location: Resource location.
-	Location *string `json:"location,omitempty"`
-
-	//Name: Resource name.
-	Name *string `json:"name,omitempty"`
-
-	//NetworkInterfaces: A collection of references to network interfaces.
-	NetworkInterfaces []NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded `json:"networkInterfaces,omitempty"`
-
-	//ProvisioningState: The provisioning state of the network security group resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
-
-	//ResourceGuid: The resource GUID property of the network security group resource.
-	ResourceGuid *string `json:"resourceGuid,omitempty"`
-
-	//SecurityRules: A collection of security rules of the network security group.
-	SecurityRules []SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded `json:"securityRules,omitempty"`
-
-	//Subnets: A collection of references to subnets.
-	Subnets []Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded `json:"subnets,omitempty"`
-
-	//Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type.
-	Type *string `json:"type,omitempty"`
+	Conditions           []conditions.Condition                                             `json:"conditions,omitempty"`
+	DefaultSecurityRules []SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded     `json:"defaultSecurityRules,omitempty"`
+	Etag                 *string                                                            `json:"etag,omitempty"`
+	FlowLogs             []FlowLog_Status_SubResourceEmbedded                               `json:"flowLogs,omitempty"`
+	Id                   *string                                                            `json:"id,omitempty"`
+	Location             *string                                                            `json:"location,omitempty"`
+	Name                 *string                                                            `json:"name,omitempty"`
+	NetworkInterfaces    []NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded `json:"networkInterfaces,omitempty"`
+	ProvisioningState    *ProvisioningState_Status                                          `json:"provisioningState,omitempty"`
+	ResourceGuid         *string                                                            `json:"resourceGuid,omitempty"`
+	SecurityRules        []SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded     `json:"securityRules,omitempty"`
+	Subnets              []Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded           `json:"subnets,omitempty"`
+	Tags                 map[string]string                                                  `json:"tags,omitempty"`
+	Type                 *string                                                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded{}
@@ -809,27 +798,18 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2020-11-01"}
-type NetworkSecurityGroupsSpecAPIVersion string
-
-const NetworkSecurityGroupsSpecAPIVersion20201101 = NetworkSecurityGroupsSpecAPIVersion("2020-11-01")
-
 type NetworkSecurityGroups_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
+	AzureName string  `json:"azureName,omitempty"`
+	Location  *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags  map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NetworkSecurityGroups_Spec{}
@@ -1018,8 +998,8 @@ func (groups *NetworkSecurityGroups_Spec) SetAzureName(azureName string) {
 	groups.AzureName = azureName
 }
 
+//Deprecated version of FlowLog_Status_SubResourceEmbedded. Use v1beta20201101.FlowLog_Status_SubResourceEmbedded instead
 type FlowLog_Status_SubResourceEmbedded struct {
-	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -1076,12 +1056,10 @@ func (embedded *FlowLog_Status_SubResourceEmbedded) AssignPropertiesToFlowLogSta
 	return nil
 }
 
+//Deprecated version of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded instead
 type NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
-	//ExtendedLocation: The extended location of the network interface.
 	ExtendedLocation *ExtendedLocation_Status `json:"extendedLocation,omitempty"`
-
-	//Id: Resource ID.
-	Id *string `json:"id,omitempty"`
+	Id               *string                  `json:"id,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded{}
@@ -1172,8 +1150,8 @@ func (embedded *NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded
 	return nil
 }
 
+//Deprecated version of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded instead
 type SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
-	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -1230,8 +1208,8 @@ func (embedded *SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded) As
 	return nil
 }
 
+//Deprecated version of Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded instead
 type Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
-	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 

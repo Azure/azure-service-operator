@@ -3,52 +3,33 @@
 // Licensed under the MIT license.
 package v1alpha1api20211101
 
+//Deprecated version of AuthorizationRule_Status. Use v1beta20211101.AuthorizationRule_Status instead
 type AuthorizationRule_StatusARM struct {
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	//Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	//Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	//Properties: Properties supplied to create or update AuthorizationRule
+	Id         *string                                 `json:"id,omitempty"`
+	Location   *string                                 `json:"location,omitempty"`
+	Name       *string                                 `json:"name,omitempty"`
 	Properties *AuthorizationRule_Status_PropertiesARM `json:"properties,omitempty"`
-
-	//SystemData: The system meta data relating to this resource.
-	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
-
-	//Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
-	Type *string `json:"type,omitempty"`
+	SystemData *SystemData_StatusARM                   `json:"systemData,omitempty"`
+	Type       *string                                 `json:"type,omitempty"`
 }
 
+//Deprecated version of AuthorizationRule_Status_Properties. Use v1beta20211101.AuthorizationRule_Status_Properties instead
 type AuthorizationRule_Status_PropertiesARM struct {
-	//Rights: The rights associated with the rule.
 	Rights []AuthorizationRuleStatusPropertiesRights `json:"rights,omitempty"`
 }
 
+//Deprecated version of SystemData_Status. Use v1beta20211101.SystemData_Status instead
 type SystemData_StatusARM struct {
-	//CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	//CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	//CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemDataStatusCreatedByType `json:"createdByType,omitempty"`
-
-	//LastModifiedAt: The type of identity that last modified the resource.
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	//LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	//LastModifiedByType: The type of identity that last modified the resource.
+	CreatedAt          *string                             `json:"createdAt,omitempty"`
+	CreatedBy          *string                             `json:"createdBy,omitempty"`
+	CreatedByType      *SystemDataStatusCreatedByType      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                             `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                             `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
+//Deprecated version of AuthorizationRuleStatusPropertiesRights. Use
+//v1beta20211101.AuthorizationRuleStatusPropertiesRights instead
 type AuthorizationRuleStatusPropertiesRights string
 
 const (
@@ -57,6 +38,7 @@ const (
 	AuthorizationRuleStatusPropertiesRightsSend   = AuthorizationRuleStatusPropertiesRights("Send")
 )
 
+//Deprecated version of SystemDataStatusCreatedByType. Use v1beta20211101.SystemDataStatusCreatedByType instead
 type SystemDataStatusCreatedByType string
 
 const (
@@ -66,6 +48,7 @@ const (
 	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
 )
 
+//Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20211101.SystemDataStatusLastModifiedByType instead
 type SystemDataStatusLastModifiedByType string
 
 const (
