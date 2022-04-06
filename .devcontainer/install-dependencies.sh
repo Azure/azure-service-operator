@@ -53,7 +53,7 @@ echo "Installing Go tools…"
 
 # go tools for vscode are preinstalled by base image (see first comment in Dockerfile)
 go install k8s.io/code-generator/cmd/conversion-gen@v0.22.2 
-go install sigs.k8s.io/controller-tools/cmd/controller-gen@v0.7.0 
+go install sigs.k8s.io/controller-tools/cmd/controller-gen@v0.8.0 
 go install sigs.k8s.io/kind@v0.11.1 
 go install sigs.k8s.io/kustomize/kustomize/v4@v4.5.2 
 
@@ -69,20 +69,22 @@ if [ "$1" != "devcontainer" ]; then
     echo "Installing golangci-lint…"
     # golangci-lint is provided by base image if in devcontainer
     # this command copied from there
-    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v1.44.2 2>&1
+    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v1.45.2 2>&1
 fi
 
 # Install go-task (task runner)
 echo "Installing go-task…"
 curl -sL "https://github.com/go-task/task/releases/download/v3.7.0/task_linux_amd64.tar.gz" | tar xz -C "$TOOL_DEST" task
 
-# Install kubebuilder
+# Install binaries for envtest
 os=$(go env GOOS)
 arch=$(go env GOARCH)
-kubebuilder_version=2.3.1
-echo "Installing kubebuilder ${kubebuilder_version} ($os $arch)…"
-curl -L "https://github.com/kubernetes-sigs/kubebuilder/releases/download/v${kubebuilder_version}/kubebuilder_${kubebuilder_version}_${os}_${arch}.tar.gz" | tar -xz -C /tmp/
-mv "/tmp/kubebuilder_${kubebuilder_version}_${os}_${arch}" "$KUBEBUILDER_DEST"
+K8S_VERSION=1.23.3
+echo "Installing envtest binaries (kubectl, etcd, kube-apiserver) for ${K8S_VERSION} ($os $arch)…"
+curl -sSLo envtest-bins.tar.gz "https://go.kubebuilder.io/test-tools/${K8S_VERSION}/${os}/${arch}"
+mkdir -p "/usr/local/kubebuilder"
+tar -C /usr/local/kubebuilder --strip-components=1 -zvxf envtest-bins.tar.gz
+rm envtest-bins.tar.gz
 
 # Install helm
 echo "Installing helm…"
