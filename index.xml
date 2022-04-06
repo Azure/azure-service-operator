@@ -547,6 +547,7 @@ How to provide secrets to Azure #  Resources may have fields in their spec that 
       <guid>https://azure.github.io/azure-service-operator/introduction/resources/</guid>
       <description>Supported Resources #  These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
 authorization #  ARM version 2020-08-01-preview #   RoleAssignment (sample)  Use CRD version v1alpha1api20200801preview
+ARM version 2020-08-01-preview #   RoleAssignment (sample)  Use CRD version v1beta20200801preview
 batch #  ARM version 2021-01-01 #   BatchAccount (sample)  Use CRD version v1alpha1api20210101</description>
     </item>
     

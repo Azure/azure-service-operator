@@ -5,11 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Supported Resources #  These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
 authorization #  ARM version 2020-08-01-preview #   RoleAssignment (sample)  Use CRD version v1alpha1api20200801preview
+ARM version 2020-08-01-preview #   RoleAssignment (sample)  Use CRD version v1beta20200801preview
 batch #  ARM version 2021-01-01 #   BatchAccount (sample)  Use CRD version v1alpha1api20210101">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
 <meta property="og:description" content="Supported Resources #  These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
 authorization #  ARM version 2020-08-01-preview #   RoleAssignment (sample)  Use CRD version v1alpha1api20200801preview
+ARM version 2020-08-01-preview #   RoleAssignment (sample)  Use CRD version v1beta20200801preview
 batch #  ARM version 2021-01-01 #   BatchAccount (sample)  Use CRD version v1alpha1api20210101" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/introduction/resources/" /><meta property="article:section" content="introduction" />
@@ -21,7 +23,7 @@ batch #  ARM version 2021-01-01 #   BatchAccount (sample)  Use CRD version v1alp
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.cc74537875927f3a653a8fc8938c40f98689d4ce91d9c41ed3fe0ba346a2ae39.js" integrity="sha256-zHRTeHWSfzplOo/Ik4xA&#43;YaJ1M6R2cQe0/4Lo0airjk=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.6e668daec14f6e4400ae97ec01693cde39e7d19d75e05f6d10c8b7147fb26dda.js" integrity="sha256-bmaNrsFPbkQArpfsAWk83jnn0Z114F9tEMi3FH&#43;ybdo=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -951,95 +953,117 @@ https://github.com/alex-shpak/hugo-book
     <li><a href="#authorization">authorization</a>
       <ul>
         <li><a href="#arm-version-2020-08-01-preview">ARM version 2020-08-01-preview</a></li>
+        <li><a href="#arm-version-2020-08-01-preview-1">ARM version 2020-08-01-preview</a></li>
       </ul>
     </li>
     <li><a href="#batch">batch</a>
       <ul>
         <li><a href="#arm-version-2021-01-01">ARM version 2021-01-01</a></li>
+        <li><a href="#arm-version-2021-01-01-1">ARM version 2021-01-01</a></li>
       </ul>
     </li>
     <li><a href="#cache">cache</a>
       <ul>
         <li><a href="#arm-version-2020-12-01">ARM version 2020-12-01</a></li>
         <li><a href="#arm-version-2021-03-01">ARM version 2021-03-01</a></li>
+        <li><a href="#arm-version-2020-12-01-1">ARM version 2020-12-01</a></li>
+        <li><a href="#arm-version-2021-03-01-1">ARM version 2021-03-01</a></li>
       </ul>
     </li>
     <li><a href="#compute">compute</a>
       <ul>
         <li><a href="#arm-version-2020-09-30">ARM version 2020-09-30</a></li>
-        <li><a href="#arm-version-2020-12-01-1">ARM version 2020-12-01</a></li>
+        <li><a href="#arm-version-2020-12-01-2">ARM version 2020-12-01</a></li>
         <li><a href="#arm-version-2021-07-01">ARM version 2021-07-01</a></li>
+        <li><a href="#arm-version-2020-09-30-1">ARM version 2020-09-30</a></li>
+        <li><a href="#arm-version-2020-12-01-3">ARM version 2020-12-01</a></li>
+        <li><a href="#arm-version-2021-07-01-1">ARM version 2021-07-01</a></li>
       </ul>
     </li>
     <li><a href="#containerregistry">containerregistry</a>
       <ul>
         <li><a href="#arm-version-2021-09-01">ARM version 2021-09-01</a></li>
+        <li><a href="#arm-version-2021-09-01-1">ARM version 2021-09-01</a></li>
       </ul>
     </li>
     <li><a href="#containerservice">containerservice</a>
       <ul>
         <li><a href="#arm-version-2021-05-01">ARM version 2021-05-01</a></li>
+        <li><a href="#arm-version-2021-05-01-1">ARM version 2021-05-01</a></li>
       </ul>
     </li>
     <li><a href="#dbformysql">dbformysql</a>
       <ul>
-        <li><a href="#arm-version-2021-05-01-1">ARM version 2021-05-01</a></li>
+        <li><a href="#arm-version-2021-05-01-2">ARM version 2021-05-01</a></li>
+        <li><a href="#arm-version-2021-05-01-3">ARM version 2021-05-01</a></li>
       </ul>
     </li>
     <li><a href="#dbforpostgresql">dbforpostgresql</a>
       <ul>
         <li><a href="#arm-version-2021-06-01">ARM version 2021-06-01</a></li>
+        <li><a href="#arm-version-2021-06-01-1">ARM version 2021-06-01</a></li>
       </ul>
     </li>
     <li><a href="#documentdb">documentdb</a>
       <ul>
         <li><a href="#arm-version-2021-05-15">ARM version 2021-05-15</a></li>
+        <li><a href="#arm-version-2021-05-15-1">ARM version 2021-05-15</a></li>
       </ul>
     </li>
     <li><a href="#eventgrid">eventgrid</a>
       <ul>
         <li><a href="#arm-version-2020-06-01">ARM version 2020-06-01</a></li>
+        <li><a href="#arm-version-2020-06-01-1">ARM version 2020-06-01</a></li>
       </ul>
     </li>
     <li><a href="#eventhub">eventhub</a>
       <ul>
         <li><a href="#arm-version-2021-11-01">ARM version 2021-11-01</a></li>
+        <li><a href="#arm-version-2021-11-01-1">ARM version 2021-11-01</a></li>
       </ul>
     </li>
     <li><a href="#insights">insights</a>
       <ul>
         <li><a href="#arm-version-2018-05-01-preview">ARM version 2018-05-01-preview</a></li>
         <li><a href="#arm-version-2020-02-02">ARM version 2020-02-02</a></li>
+        <li><a href="#arm-version-2018-05-01-preview-1">ARM version 2018-05-01-preview</a></li>
+        <li><a href="#arm-version-2020-02-02-1">ARM version 2020-02-02</a></li>
       </ul>
     </li>
     <li><a href="#managedidentity">managedidentity</a>
       <ul>
         <li><a href="#arm-version-2018-11-30">ARM version 2018-11-30</a></li>
+        <li><a href="#arm-version-2018-11-30-1">ARM version 2018-11-30</a></li>
       </ul>
     </li>
     <li><a href="#network">network</a>
       <ul>
         <li><a href="#arm-version-2020-11-01">ARM version 2020-11-01</a></li>
+        <li><a href="#arm-version-2020-11-01-1">ARM version 2020-11-01</a></li>
       </ul>
     </li>
     <li><a href="#operationalinsights">operationalinsights</a>
       <ul>
-        <li><a href="#arm-version-2021-06-01-1">ARM version 2021-06-01</a></li>
+        <li><a href="#arm-version-2021-06-01-2">ARM version 2021-06-01</a></li>
+        <li><a href="#arm-version-2021-06-01-3">ARM version 2021-06-01</a></li>
       </ul>
     </li>
     <li><a href="#servicebus">servicebus</a>
       <ul>
         <li><a href="#arm-version-2021-01-01-preview">ARM version 2021-01-01-preview</a></li>
+        <li><a href="#arm-version-2021-01-01-preview-1">ARM version 2021-01-01-preview</a></li>
       </ul>
     </li>
     <li><a href="#signalrservice">signalrservice</a>
       <ul>
         <li><a href="#arm-version-2021-10-01">ARM version 2021-10-01</a></li>
+        <li><a href="#arm-version-2021-10-01-1">ARM version 2021-10-01</a></li>
       </ul>
     </li>
     <li><a href="#storage">storage</a>
       <ul>
         <li><a href="#arm-version-2021-04-01">ARM version 2021-04-01</a></li>
+        <li><a href="#arm-version-2021-04-01-1">ARM version 2021-04-01</a></li>
       </ul>
     </li>
   </ul>
@@ -1071,6 +1095,14 @@ https://github.com/alex-shpak/hugo-book
 <li>RoleAssignment (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/authorization/v1alpha1api20200801preview_roleassignment.yaml">sample</a>)</li>
 </ul>
 <p>Use CRD version <code>v1alpha1api20200801preview</code></p>
+<h3 id="arm-version-2020-08-01-preview-1">
+  ARM version 2020-08-01-preview
+  <a class="anchor" href="#arm-version-2020-08-01-preview-1">#</a>
+</h3>
+<ul>
+<li>RoleAssignment (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/authorization/v1beta20200801preview_roleassignment.yaml">sample</a>)</li>
+</ul>
+<p>Use CRD version <code>v1beta20200801preview</code></p>
 <h2 id="batch">
   batch
   <a class="anchor" href="#batch">#</a>
@@ -1083,6 +1115,14 @@ https://github.com/alex-shpak/hugo-book
 <li>BatchAccount (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/batch/v1alpha1api20210101_batchaccount.yaml">sample</a>)</li>
 </ul>
 <p>Use CRD version <code>v1alpha1api20210101</code></p>
+<h3 id="arm-version-2021-01-01-1">
+  ARM version 2021-01-01
+  <a class="anchor" href="#arm-version-2021-01-01-1">#</a>
+</h3>
+<ul>
+<li>BatchAccount (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/batch/v1beta20210101_batchaccount.yaml">sample</a>)</li>
+</ul>
+<p>Use CRD version <code>v1beta20210101</code></p>
 <h2 id="cache">
   cache
   <a class="anchor" href="#cache">#</a>
@@ -1107,6 +1147,26 @@ https://github.com/alex-shpak/hugo-book
 <li>RedisEnterpriseDatabase (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cache/v1alpha1api20210301_redisenterprisedatabase.yaml">sample</a>)</li>
 </ul>
 <p>Use CRD version <code>v1alpha1api20210301</code></p>
+<h3 id="arm-version-2020-12-01-1">
+  ARM version 2020-12-01
+  <a class="anchor" href="#arm-version-2020-12-01-1">#</a>
+</h3>
+<ul>
+<li>Redis (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cache/v1beta20201201_redis.yaml">sample</a>)</li>
+<li>RedisFirewallRule (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cache/v1beta20201201_redisfirewallrule.yaml">sample</a>)</li>
+<li>RedisLinkedServer (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cache/v1beta20201201_redislinkedserver.yaml">sample</a>)</li>
+<li>RedisPatchSchedule (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cache/v1beta20201201_redispatchschedule.yaml">sample</a>)</li>
+</ul>
+<p>Use CRD version <code>v1beta20201201</code></p>
+<h3 id="arm-version-2021-03-01-1">
+  ARM version 2021-03-01
+  <a class="anchor" href="#arm-version-2021-03-01-1">#</a>
+</h3>
+<ul>
+<li>RedisEnterprise (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cache/v1beta20210301_redisenterprise.yaml">sample</a>)</li>
+<li>RedisEnterpriseDatabase (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cache/v1beta20210301_redisenterprisedatabase.yaml">sample</a>)</li>
+</ul>
+<p>Use CRD version <code>v1beta20210301</code></p>
 <h2 id="compute">
   compute
   <a class="anchor" href="#compute">#</a>
@@ -1120,9 +1180,9 @@ https://github.com/alex-shpak/hugo-book
 <li>Snapshot (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1alpha1api20200930_snapshot.yaml">sample</a>)</li>
 </ul>
 <p>Use CRD version <code>v1alpha1api20200930</code></p>
-<h3 id="arm-version-2020-12-01-1">
+<h3 id="arm-version-2020-12-01-2">
   ARM version 2020-12-01
-  <a class="anchor" href="#arm-version-2020-12-01-1">#</a>
+  <a class="anchor" href="#arm-version-2020-12-01-2">#</a>
 </h3>
 <ul>
 <li>VirtualMachine (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1alpha1api20201201_virtualmachine.yaml">sample</a>)</li>
@@ -1137,6 +1197,32 @@ https://github.com/alex-shpak/hugo-book
 <li>Image (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1alpha1api20210701_image.yaml">sample</a>)</li>
 </ul>
 <p>Use CRD version <code>v1alpha1api20210701</code></p>
+<h3 id="arm-version-2020-09-30-1">
+  ARM version 2020-09-30
+  <a class="anchor" href="#arm-version-2020-09-30-1">#</a>
+</h3>
+<ul>
+<li>Disk (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1beta20200930_disk.yaml">sample</a>)</li>
+<li>Snapshot (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1beta20200930_snapshot.yaml">sample</a>)</li>
+</ul>
+<p>Use CRD version <code>v1beta20200930</code></p>
+<h3 id="arm-version-2020-12-01-3">
+  ARM version 2020-12-01
+  <a class="anchor" href="#arm-version-2020-12-01-3">#</a>
+</h3>
+<ul>
+<li>VirtualMachine (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1beta20201201_virtualmachine.yaml">sample</a>)</li>
+<li>VirtualMachineScaleSet (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1beta20201201_virtualmachinescaleset.yaml">sample</a>)</li>
+</ul>
+<p>Use CRD version <code>v1beta20201201</code></p>
+<h3 id="arm-version-2021-07-01-1">
+  ARM version 2021-07-01
+  <a class="anchor" href="#arm-version-2021-07-01-1">#</a>
+</h3>
+<ul>
+<li>Image (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1beta20210701_image.yaml">sample</a>)</li>
+</ul>
+<p>Use CRD version <code>v1beta20210701</code></p>
 <h2 id="containerregistry">
   containerregistry
   <a class="anchor" href="#containerregistry">#</a>
@@ -1149,6 +1235,14 @@ https://github.com/alex-shpak/hugo-book
 <li>Registry (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/containerregistry/v1alpha1api20210901_registry.yaml">sample</a>)</li>
 </ul>
 <p>Use CRD version <code>v1alpha1api20210901</code></p>
+<h3 id="arm-version-2021-09-01-1">
+  ARM version 2021-09-01
+  <a class="anchor" href="#arm-version-2021-09-01-1">#</a>
+</h3>
+<ul>
+<li>Registry (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/containerregistry/v1beta20210901_registry.yaml">sample</a>)</li>
+</ul>
+<p>Use CRD version <code>v1beta20210901</code></p>
 <h2 id="containerservice">
   containerservice
   <a class="anchor" href="#containerservice">#</a>
@@ -1162,13 +1256,22 @@ https://github.com/alex-shpak/hugo-book
 <li>ManagedClustersAgentPool (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/containerservice/v1alpha1api20210501_managedclustersagentpool.yaml">sample</a>)</li>
 </ul>
 <p>Use CRD version <code>v1alpha1api20210501</code></p>
+<h3 id="arm-version-2021-05-01-1">
+  ARM version 2021-05-01
+  <a class="anchor" href="#arm-version-2021-05-01-1">#</a>
+</h3>
+<ul>
+<li>ManagedCluster (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/containerservice/v1beta20210501_managedcluster.yaml">sample</a>)</li>
+<li>ManagedClustersAgentPool (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/containerservice/v1beta20210501_managedclustersagentpool.yaml">sample</a>)</li>
+</ul>
+<p>Use CRD version <code>v1beta20210501</code></p>
 <h2 id="dbformysql">
   dbformysql
   <a class="anchor" href="#dbformysql">#</a>
 </h2>
-<h3 id="arm-version-2021-05-01-1">
+<h3 id="arm-version-2021-05-01-2">
   ARM version 2021-05-01
-  <a class="anchor" href="#arm-version-2021-05-01-1">#</a>
+  <a class="anchor" href="#arm-version-2021-05-01-2">#</a>
 </h3>
 <ul>
 <li>FlexibleServer (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbformysql/v1alpha1api20210501_flexibleserver.yaml">sample</a>)</li>
@@ -1176,6 +1279,16 @@ https://github.com/alex-shpak/hugo-book
 <li>FlexibleServersFirewallRule (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbformysql/v1alpha1api20210501_flexibleserversfirewallrule.yaml">sample</a>)</li>
 </ul>
 <p>Use CRD version <code>v1alpha1api20210501</code></p>
+<h3 id="arm-version-2021-05-01-3">
+  ARM version 2021-05-01
+  <a class="anchor" href="#arm-version-2021-05-01-3">#</a>
+</h3>
+<ul>
+<li>FlexibleServer (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbformysql/v1beta20210501_flexibleserver.yaml">sample</a>)</li>
+<li>FlexibleServersDatabase (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbformysql/v1beta20210501_flexibleserversdatabase.yaml">sample</a>)</li>
+<li>FlexibleServersFirewallRule (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbformysql/v1beta20210501_flexibleserversfirewallrule.yaml">sample</a>)</li>
+</ul>
+<p>Use CRD version <code>v1beta20210501</code></p>
 <h2 id="dbforpostgresql">
   dbforpostgresql
   <a class="anchor" href="#dbforpostgresql">#</a>
@@ -1191,6 +1304,17 @@ https://github.com/alex-shpak/hugo-book
 <li>FlexibleServersFirewallRule (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbforpostgresql/v1alpha1api20210601_flexibleserversfirewallrule.yaml">sample</a>)</li>
 </ul>
 <p>Use CRD version <code>v1alpha1api20210601</code></p>
+<h3 id="arm-version-2021-06-01-1">
+  ARM version 2021-06-01
+  <a class="anchor" href="#arm-version-2021-06-01-1">#</a>
+</h3>
+<ul>
+<li>FlexibleServer (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbforpostgresql/v1beta20210601_flexibleserver.yaml">sample</a>)</li>
+<li>FlexibleServersConfiguration (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbforpostgresql/v1beta20210601_flexibleserversconfiguration.yaml">sample</a>)</li>
+<li>FlexibleServersDatabase (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbforpostgresql/v1beta20210601_flexibleserversdatabase.yaml">sample</a>)</li>
+<li>FlexibleServersFirewallRule (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbforpostgresql/v1beta20210601_flexibleserversfirewallrule.yaml">sample</a>)</li>
+</ul>
+<p>Use CRD version <code>v1beta20210601</code></p>
 <h2 id="documentdb">
   documentdb
   <a class="anchor" href="#documentdb">#</a>
@@ -1214,6 +1338,25 @@ https://github.com/alex-shpak/hugo-book
 <li>SqlDatabaseThroughputSetting (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/documentdb/v1alpha1api20210515_sqldatabasethroughputsetting.yaml">sample</a>)</li>
 </ul>
 <p>Use CRD version <code>v1alpha1api20210515</code></p>
+<h3 id="arm-version-2021-05-15-1">
+  ARM version 2021-05-15
+  <a class="anchor" href="#arm-version-2021-05-15-1">#</a>
+</h3>
+<ul>
+<li>DatabaseAccount (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/documentdb/v1beta20210515_databaseaccount.yaml">sample</a>)</li>
+<li>MongodbDatabase (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/documentdb/v1beta20210515_mongodbdatabase.yaml">sample</a>)</li>
+<li>MongodbDatabaseCollection (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/documentdb/v1beta20210515_mongodbdatabasecollection.yaml">sample</a>)</li>
+<li>MongodbDatabaseCollectionThroughputSetting (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/documentdb/v1beta20210515_mongodbdatabasecollectionthroughputsetting.yaml">sample</a>)</li>
+<li>MongodbDatabaseThroughputSetting (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/documentdb/v1beta20210515_mongodbdatabasethroughputsetting.yaml">sample</a>)</li>
+<li>SqlDatabase (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/documentdb/v1beta20210515_sqldatabase.yaml">sample</a>)</li>
+<li>SqlDatabaseContainer (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/documentdb/v1beta20210515_sqldatabasecontainer.yaml">sample</a>)</li>
+<li>SqlDatabaseContainerStoredProcedure (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/documentdb/v1beta20210515_sqldatabasecontainerstoredprocedure.yaml">sample</a>)</li>
+<li>SqlDatabaseContainerThroughputSetting (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/documentdb/v1beta20210515_sqldatabasecontainerthroughputsetting.yaml">sample</a>)</li>
+<li>SqlDatabaseContainerTrigger (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/documentdb/v1beta20210515_sqldatabasecontainertrigger.yaml">sample</a>)</li>
+<li>SqlDatabaseContainerUserDefinedFunction (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/documentdb/v1beta20210515_sqldatabasecontaineruserdefinedfunction.yaml">sample</a>)</li>
+<li>SqlDatabaseThroughputSetting (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/documentdb/v1beta20210515_sqldatabasethroughputsetting.yaml">sample</a>)</li>
+</ul>
+<p>Use CRD version <code>v1beta20210515</code></p>
 <h2 id="eventgrid">
   eventgrid
   <a class="anchor" href="#eventgrid">#</a>
@@ -1229,6 +1372,17 @@ https://github.com/alex-shpak/hugo-book
 <li>Topic (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/eventgrid/v1alpha1api20200601_topic.yaml">sample</a>)</li>
 </ul>
 <p>Use CRD version <code>v1alpha1api20200601</code></p>
+<h3 id="arm-version-2020-06-01-1">
+  ARM version 2020-06-01
+  <a class="anchor" href="#arm-version-2020-06-01-1">#</a>
+</h3>
+<ul>
+<li>Domain (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/eventgrid/v1beta20200601_domain.yaml">sample</a>)</li>
+<li>DomainsTopic (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/eventgrid/v1beta20200601_domainstopic.yaml">sample</a>)</li>
+<li>EventSubscription (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/eventgrid/v1beta20200601_eventsubscription.yaml">sample</a>)</li>
+<li>Topic (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/eventgrid/v1beta20200601_topic.yaml">sample</a>)</li>
+</ul>
+<p>Use CRD version <code>v1beta20200601</code></p>
 <h2 id="eventhub">
   eventhub
   <a class="anchor" href="#eventhub">#</a>
@@ -1245,6 +1399,18 @@ https://github.com/alex-shpak/hugo-book
 <li>NamespacesEventhubsConsumerGroup (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/eventhub/v1alpha1api20211101_namespaceseventhubsconsumergroup.yaml">sample</a>)</li>
 </ul>
 <p>Use CRD version <code>v1alpha1api20211101</code></p>
+<h3 id="arm-version-2021-11-01-1">
+  ARM version 2021-11-01
+  <a class="anchor" href="#arm-version-2021-11-01-1">#</a>
+</h3>
+<ul>
+<li>Namespace (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/eventhub/v1beta20211101_namespace.yaml">sample</a>)</li>
+<li>NamespacesAuthorizationRule (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/eventhub/v1beta20211101_namespacesauthorizationrule.yaml">sample</a>)</li>
+<li>NamespacesEventhub (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/eventhub/v1beta20211101_namespaceseventhub.yaml">sample</a>)</li>
+<li>NamespacesEventhubsAuthorizationRule (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/eventhub/v1beta20211101_namespaceseventhubsauthorizationrule.yaml">sample</a>)</li>
+<li>NamespacesEventhubsConsumerGroup (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/eventhub/v1beta20211101_namespaceseventhubsconsumergroup.yaml">sample</a>)</li>
+</ul>
+<p>Use CRD version <code>v1beta20211101</code></p>
 <h2 id="insights">
   insights
   <a class="anchor" href="#insights">#</a>
@@ -1265,6 +1431,22 @@ https://github.com/alex-shpak/hugo-book
 <li>Component (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/insights/v1alpha1api20200202_component.yaml">sample</a>)</li>
 </ul>
 <p>Use CRD version <code>v1alpha1api20200202</code></p>
+<h3 id="arm-version-2018-05-01-preview-1">
+  ARM version 2018-05-01-preview
+  <a class="anchor" href="#arm-version-2018-05-01-preview-1">#</a>
+</h3>
+<ul>
+<li>Webtest (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/insights/v1beta20180501preview_webtest.yaml">sample</a>)</li>
+</ul>
+<p>Use CRD version <code>v1beta20180501preview</code></p>
+<h3 id="arm-version-2020-02-02-1">
+  ARM version 2020-02-02
+  <a class="anchor" href="#arm-version-2020-02-02-1">#</a>
+</h3>
+<ul>
+<li>Component (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/insights/v1beta20200202_component.yaml">sample</a>)</li>
+</ul>
+<p>Use CRD version <code>v1beta20200202</code></p>
 <h2 id="managedidentity">
   managedidentity
   <a class="anchor" href="#managedidentity">#</a>
@@ -1277,6 +1459,14 @@ https://github.com/alex-shpak/hugo-book
 <li>UserAssignedIdentity (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/managedidentity/v1alpha1api20181130_userassignedidentity.yaml">sample</a>)</li>
 </ul>
 <p>Use CRD version <code>v1alpha1api20181130</code></p>
+<h3 id="arm-version-2018-11-30-1">
+  ARM version 2018-11-30
+  <a class="anchor" href="#arm-version-2018-11-30-1">#</a>
+</h3>
+<ul>
+<li>UserAssignedIdentity (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/managedidentity/v1beta20181130_userassignedidentity.yaml">sample</a>)</li>
+</ul>
+<p>Use CRD version <code>v1beta20181130</code></p>
 <h2 id="network">
   network
   <a class="anchor" href="#network">#</a>
@@ -1297,18 +1487,42 @@ https://github.com/alex-shpak/hugo-book
 <li>VirtualNetworksVirtualNetworkPeering (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/network/v1alpha1api20201101_virtualnetworksvirtualnetworkpeering.yaml">sample</a>)</li>
 </ul>
 <p>Use CRD version <code>v1alpha1api20201101</code></p>
+<h3 id="arm-version-2020-11-01-1">
+  ARM version 2020-11-01
+  <a class="anchor" href="#arm-version-2020-11-01-1">#</a>
+</h3>
+<ul>
+<li>LoadBalancer (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/network/v1beta20201101_loadbalancer.yaml">sample</a>)</li>
+<li>NetworkInterface (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/network/v1beta20201101_networkinterface.yaml">sample</a>)</li>
+<li>NetworkSecurityGroup (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/network/v1beta20201101_networksecuritygroup.yaml">sample</a>)</li>
+<li>NetworkSecurityGroupsSecurityRule (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/network/v1beta20201101_networksecuritygroupssecurityrule.yaml">sample</a>)</li>
+<li>PublicIPAddress (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/network/v1beta20201101_publicipaddress.yaml">sample</a>)</li>
+<li>VirtualNetwork (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/network/v1beta20201101_virtualnetwork.yaml">sample</a>)</li>
+<li>VirtualNetworkGateway (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/network/v1beta20201101_virtualnetworkgateway.yaml">sample</a>)</li>
+<li>VirtualNetworksSubnet (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/network/v1beta20201101_virtualnetworkssubnet.yaml">sample</a>)</li>
+<li>VirtualNetworksVirtualNetworkPeering (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/network/v1beta20201101_virtualnetworksvirtualnetworkpeering.yaml">sample</a>)</li>
+</ul>
+<p>Use CRD version <code>v1beta20201101</code></p>
 <h2 id="operationalinsights">
   operationalinsights
   <a class="anchor" href="#operationalinsights">#</a>
 </h2>
-<h3 id="arm-version-2021-06-01-1">
+<h3 id="arm-version-2021-06-01-2">
   ARM version 2021-06-01
-  <a class="anchor" href="#arm-version-2021-06-01-1">#</a>
+  <a class="anchor" href="#arm-version-2021-06-01-2">#</a>
 </h3>
 <ul>
 <li>Workspace (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/operationalinsights/v1alpha1api20210601_workspace.yaml">sample</a>)</li>
 </ul>
 <p>Use CRD version <code>v1alpha1api20210601</code></p>
+<h3 id="arm-version-2021-06-01-3">
+  ARM version 2021-06-01
+  <a class="anchor" href="#arm-version-2021-06-01-3">#</a>
+</h3>
+<ul>
+<li>Workspace (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/operationalinsights/v1beta20210601_workspace.yaml">sample</a>)</li>
+</ul>
+<p>Use CRD version <code>v1beta20210601</code></p>
 <h2 id="servicebus">
   servicebus
   <a class="anchor" href="#servicebus">#</a>
@@ -1323,6 +1537,16 @@ https://github.com/alex-shpak/hugo-book
 <li>NamespacesTopic (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/servicebus/v1alpha1api20210101preview_namespacestopic.yaml">sample</a>)</li>
 </ul>
 <p>Use CRD version <code>v1alpha1api20210101preview</code></p>
+<h3 id="arm-version-2021-01-01-preview-1">
+  ARM version 2021-01-01-preview
+  <a class="anchor" href="#arm-version-2021-01-01-preview-1">#</a>
+</h3>
+<ul>
+<li>Namespace (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/servicebus/v1beta20210101preview_namespace.yaml">sample</a>)</li>
+<li>NamespacesQueue (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/servicebus/v1beta20210101preview_namespacesqueue.yaml">sample</a>)</li>
+<li>NamespacesTopic (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/servicebus/v1beta20210101preview_namespacestopic.yaml">sample</a>)</li>
+</ul>
+<p>Use CRD version <code>v1beta20210101preview</code></p>
 <h2 id="signalrservice">
   signalrservice
   <a class="anchor" href="#signalrservice">#</a>
@@ -1335,6 +1559,14 @@ https://github.com/alex-shpak/hugo-book
 <li>SignalR (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/signalrservice/v1alpha1api20211001_signalr.yaml">sample</a>)</li>
 </ul>
 <p>Use CRD version <code>v1alpha1api20211001</code></p>
+<h3 id="arm-version-2021-10-01-1">
+  ARM version 2021-10-01
+  <a class="anchor" href="#arm-version-2021-10-01-1">#</a>
+</h3>
+<ul>
+<li>SignalR (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/signalrservice/v1beta20211001_signalr.yaml">sample</a>)</li>
+</ul>
+<p>Use CRD version <code>v1beta20211001</code></p>
 <h2 id="storage">
   storage
   <a class="anchor" href="#storage">#</a>
@@ -1352,6 +1584,19 @@ https://github.com/alex-shpak/hugo-book
 <li>StorageAccountsQueueServicesQueue (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1alpha1api20210401_storageaccountsqueueservicesqueue.yaml">sample</a>)</li>
 </ul>
 <p>Use CRD version <code>v1alpha1api20210401</code></p>
+<h3 id="arm-version-2021-04-01-1">
+  ARM version 2021-04-01
+  <a class="anchor" href="#arm-version-2021-04-01-1">#</a>
+</h3>
+<ul>
+<li>StorageAccount (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1beta20210401_storageaccount.yaml">sample</a>)</li>
+<li>StorageAccountsBlobService (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1beta20210401_storageaccountsblobservice.yaml">sample</a>)</li>
+<li>StorageAccountsBlobServicesContainer (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1beta20210401_storageaccountsblobservicescontainer.yaml">sample</a>)</li>
+<li>StorageAccountsManagementPolicy (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1beta20210401_storageaccountsmanagementpolicy.yaml">sample</a>)</li>
+<li>StorageAccountsQueueService (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1beta20210401_storageaccountsqueueservice.yaml">sample</a>)</li>
+<li>StorageAccountsQueueServicesQueue (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1beta20210401_storageaccountsqueueservicesqueue.yaml">sample</a>)</li>
+</ul>
+<p>Use CRD version <code>v1beta20210401</code></p>
 </article>
  
       
@@ -1396,95 +1641,117 @@ https://github.com/alex-shpak/hugo-book
     <li><a href="#authorization">authorization</a>
       <ul>
         <li><a href="#arm-version-2020-08-01-preview">ARM version 2020-08-01-preview</a></li>
+        <li><a href="#arm-version-2020-08-01-preview-1">ARM version 2020-08-01-preview</a></li>
       </ul>
     </li>
     <li><a href="#batch">batch</a>
       <ul>
         <li><a href="#arm-version-2021-01-01">ARM version 2021-01-01</a></li>
+        <li><a href="#arm-version-2021-01-01-1">ARM version 2021-01-01</a></li>
       </ul>
     </li>
     <li><a href="#cache">cache</a>
       <ul>
         <li><a href="#arm-version-2020-12-01">ARM version 2020-12-01</a></li>
         <li><a href="#arm-version-2021-03-01">ARM version 2021-03-01</a></li>
+        <li><a href="#arm-version-2020-12-01-1">ARM version 2020-12-01</a></li>
+        <li><a href="#arm-version-2021-03-01-1">ARM version 2021-03-01</a></li>
       </ul>
     </li>
     <li><a href="#compute">compute</a>
       <ul>
         <li><a href="#arm-version-2020-09-30">ARM version 2020-09-30</a></li>
-        <li><a href="#arm-version-2020-12-01-1">ARM version 2020-12-01</a></li>
+        <li><a href="#arm-version-2020-12-01-2">ARM version 2020-12-01</a></li>
         <li><a href="#arm-version-2021-07-01">ARM version 2021-07-01</a></li>
+        <li><a href="#arm-version-2020-09-30-1">ARM version 2020-09-30</a></li>
+        <li><a href="#arm-version-2020-12-01-3">ARM version 2020-12-01</a></li>
+        <li><a href="#arm-version-2021-07-01-1">ARM version 2021-07-01</a></li>
       </ul>
     </li>
     <li><a href="#containerregistry">containerregistry</a>
       <ul>
         <li><a href="#arm-version-2021-09-01">ARM version 2021-09-01</a></li>
+        <li><a href="#arm-version-2021-09-01-1">ARM version 2021-09-01</a></li>
       </ul>
     </li>
     <li><a href="#containerservice">containerservice</a>
       <ul>
         <li><a href="#arm-version-2021-05-01">ARM version 2021-05-01</a></li>
+        <li><a href="#arm-version-2021-05-01-1">ARM version 2021-05-01</a></li>
       </ul>
     </li>
     <li><a href="#dbformysql">dbformysql</a>
       <ul>
-        <li><a href="#arm-version-2021-05-01-1">ARM version 2021-05-01</a></li>
+        <li><a href="#arm-version-2021-05-01-2">ARM version 2021-05-01</a></li>
+        <li><a href="#arm-version-2021-05-01-3">ARM version 2021-05-01</a></li>
       </ul>
     </li>
     <li><a href="#dbforpostgresql">dbforpostgresql</a>
       <ul>
         <li><a href="#arm-version-2021-06-01">ARM version 2021-06-01</a></li>
+        <li><a href="#arm-version-2021-06-01-1">ARM version 2021-06-01</a></li>
       </ul>
     </li>
     <li><a href="#documentdb">documentdb</a>
       <ul>
         <li><a href="#arm-version-2021-05-15">ARM version 2021-05-15</a></li>
+        <li><a href="#arm-version-2021-05-15-1">ARM version 2021-05-15</a></li>
       </ul>
     </li>
     <li><a href="#eventgrid">eventgrid</a>
       <ul>
         <li><a href="#arm-version-2020-06-01">ARM version 2020-06-01</a></li>
+        <li><a href="#arm-version-2020-06-01-1">ARM version 2020-06-01</a></li>
       </ul>
     </li>
     <li><a href="#eventhub">eventhub</a>
       <ul>
         <li><a href="#arm-version-2021-11-01">ARM version 2021-11-01</a></li>
+        <li><a href="#arm-version-2021-11-01-1">ARM version 2021-11-01</a></li>
       </ul>
     </li>
     <li><a href="#insights">insights</a>
       <ul>
         <li><a href="#arm-version-2018-05-01-preview">ARM version 2018-05-01-preview</a></li>
         <li><a href="#arm-version-2020-02-02">ARM version 2020-02-02</a></li>
+        <li><a href="#arm-version-2018-05-01-preview-1">ARM version 2018-05-01-preview</a></li>
+        <li><a href="#arm-version-2020-02-02-1">ARM version 2020-02-02</a></li>
       </ul>
     </li>
     <li><a href="#managedidentity">managedidentity</a>
       <ul>
         <li><a href="#arm-version-2018-11-30">ARM version 2018-11-30</a></li>
+        <li><a href="#arm-version-2018-11-30-1">ARM version 2018-11-30</a></li>
       </ul>
     </li>
     <li><a href="#network">network</a>
       <ul>
         <li><a href="#arm-version-2020-11-01">ARM version 2020-11-01</a></li>
+        <li><a href="#arm-version-2020-11-01-1">ARM version 2020-11-01</a></li>
       </ul>
     </li>
     <li><a href="#operationalinsights">operationalinsights</a>
       <ul>
-        <li><a href="#arm-version-2021-06-01-1">ARM version 2021-06-01</a></li>
+        <li><a href="#arm-version-2021-06-01-2">ARM version 2021-06-01</a></li>
+        <li><a href="#arm-version-2021-06-01-3">ARM version 2021-06-01</a></li>
       </ul>
     </li>
     <li><a href="#servicebus">servicebus</a>
       <ul>
         <li><a href="#arm-version-2021-01-01-preview">ARM version 2021-01-01-preview</a></li>
+        <li><a href="#arm-version-2021-01-01-preview-1">ARM version 2021-01-01-preview</a></li>
       </ul>
     </li>
     <li><a href="#signalrservice">signalrservice</a>
       <ul>
         <li><a href="#arm-version-2021-10-01">ARM version 2021-10-01</a></li>
+        <li><a href="#arm-version-2021-10-01-1">ARM version 2021-10-01</a></li>
       </ul>
     </li>
     <li><a href="#storage">storage</a>
       <ul>
         <li><a href="#arm-version-2021-04-01">ARM version 2021-04-01</a></li>
+        <li><a href="#arm-version-2021-04-01-1">ARM version 2021-04-01</a></li>
       </ul>
     </li>
   </ul>
