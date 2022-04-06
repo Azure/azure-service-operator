@@ -19,7 +19,7 @@ func TestGolden_ReportResourceVersions(t *testing.T) {
 	t.Parallel()
 	g := goldie.New(t)
 
-	person2020desc := []string {
+	person2020desc := []string{
 		"This is an older version",
 		"of the Person resource",
 	}
@@ -36,7 +36,7 @@ func TestGolden_ReportResourceVersions(t *testing.T) {
 		test.CreateSpec(test.Pkg2020, "Address"),
 		test.CreateStatus(test.Pkg2020, "Address"))
 
-	person2021desc := []string {
+	person2021desc := []string{
 		"This is a newer version",
 		"of the Person resource",
 	}

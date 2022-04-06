@@ -119,16 +119,6 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, sam
 	}
 }
 
-func (report *ResourceVersionsReport) serviceName(ref astmodel.PackageReference) string {
-	pathBits := strings.Split(ref.PackagePath(), "/")
-	index := len(pathBits) - 1
-	if index > 0 {
-		index--
-	}
-
-	return pathBits[index]
-}
-
 func (report *ResourceVersionsReport) createTable(
 	resources astmodel.TypeDefinitionSet,
 	group string,

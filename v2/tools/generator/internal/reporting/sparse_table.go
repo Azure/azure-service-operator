@@ -96,7 +96,9 @@ func (table *SparseTable) SetCell(row string, col string, cell string) {
 }
 
 func (table *SparseTable) WriteTo(buffer *strings.Builder) {
-	headings := []string {table.title}
+	headings := []string{
+		table.title,
+	}
 	headings = append(headings, table.cols...)
 
 	mt := NewMarkdownTable(headings...)
