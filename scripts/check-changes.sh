@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-IGNORE_FILTERS=("docs/" "README.md" "hack/" "v2/" "Taskfile.yml" "scripts/check-changes.sh" "scripts/gen-api-docs.sh" "scripts/generate-helm-manifest.sh" ".github/" ".devcontainer/" "workspace.code-workspace" ".golangci.yml")
+IGNORE_FILTERS=("docs/" "README.md" "hack/" "v2/" "Taskfile.yml" "scripts/check-changes.sh" "scripts/gen-api-docs.sh" "scripts/generate-helm-manifest.sh" ".github/" ".devcontainer/" "workspace.code-workspace" ".golangci.yml" "scripts/wait-for-ca-bundles.sh")
 CHANGED_FILES=$(git diff HEAD HEAD~ --name-only)
 IGNORED_COUNT=0
 NON_IGNORED_COUNT=0
