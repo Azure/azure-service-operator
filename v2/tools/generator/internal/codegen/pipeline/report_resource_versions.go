@@ -134,7 +134,7 @@ func (report *ResourceVersionsReport) createTable(
 	group string,
 	samplesURL string) *reporting.MarkdownTable {
 	const (
-		name       = "Name"
+		name       = "Resource"
 		armVersion = "ARM Version"
 		crdVersion = "CRD Version"
 		sample     = "Sample"
@@ -171,7 +171,7 @@ func (report *ResourceVersionsReport) createTable(
 		if samplesURL != "" {
 			// Note: These links are guaranteed to work because of the Taskfile 'controller:verify-samples' target
 			samplePath := fmt.Sprintf("%s/%s/%s_%s.yaml", samplesURL, group, crdVersion, strings.ToLower(rsrc.Name().Name()))
-			sample = fmt.Sprintf("[%s sample](%s)", rsrc.Name().Name(), samplePath)
+			sample = fmt.Sprintf("[View](%s)", samplePath)
 		} else {
 			sample = "-"
 		}
