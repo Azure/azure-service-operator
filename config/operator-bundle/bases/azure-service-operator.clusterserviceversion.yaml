@@ -287,21 +287,21 @@ spec:
 
     ## Supported Azure Services
 
-    - [Resource Group](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/resourcegroup/resourcegroup.md)
-    - [Event Hubs](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/eventhub/eventhub.md)
-    - [Azure SQL](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/azuresql/azuresql.md)
-    - [Azure Database for PostgreSQL](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/postgresql/postgresql.md)
-    - [Azure Database for MySQL](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/mysql/mysql.md)
-    - [Azure Key Vault](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/keyvault/keyvault.md)
-    - [Azure Cache for Redis](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/rediscache/rediscache.md)
-    - [Storage Account](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/storage/storageaccount.md)
-    - [Blob Storage](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/storage/blobcontainer.md)
-    - [Virtual Network](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/virtualnetwork/virtualnetwork.md)
-    - [Application Insights](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/appinsights/appinsights.md)
-    - [API Management](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/apimgmt/apimgmt.md)
-    - [Cosmos DB](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/cosmosdb/cosmosdb.md)
-    - [Virtual Machine](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/virtualmachine/virtualmachine.md)
-    - [Virtual Machine Scale Set](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/vmscaleset/vmscaleset.md)
+    - [Resource Group](https://github.com/Azure/azure-service-operator/tree/main/docs/v1/services/resourcegroup/resourcegroup.md)
+    - [Event Hubs](https://github.com/Azure/azure-service-operator/tree/main/docs/v1/services/eventhub/eventhub.md)
+    - [Azure SQL](https://github.com/Azure/azure-service-operator/tree/main/docs/v1/services/azuresql/azuresql.md)
+    - [Azure Database for PostgreSQL](https://github.com/Azure/azure-service-operator/tree/main/docs/v1/services/postgresql/postgresql.md)
+    - [Azure Database for MySQL](https://github.com/Azure/azure-service-operator/tree/main/docs/v1/services/mysql/mysql.md)
+    - [Azure Key Vault](https://github.com/Azure/azure-service-operator/tree/main/docs/v1/services/keyvault/keyvault.md)
+    - [Azure Cache for Redis](https://github.com/Azure/azure-service-operator/tree/main/docs/v1/services/rediscache/rediscache.md)
+    - [Storage Account](https://github.com/Azure/azure-service-operator/tree/main/docs/v1/services/storage/storageaccount.md)
+    - [Blob Storage](https://github.com/Azure/azure-service-operator/tree/main/docs/v1/services/storage/blobcontainer.md)
+    - [Virtual Network](https://github.com/Azure/azure-service-operator/tree/main/docs/v1/services/virtualnetwork/virtualnetwork.md)
+    - [Application Insights](https://github.com/Azure/azure-service-operator/tree/main/docs/v1/services/appinsights/appinsights.md)
+    - [API Management](https://github.com/Azure/azure-service-operator/tree/main/docs/v1/services/apimgmt/apimgmt.md)
+    - [Cosmos DB](https://github.com/Azure/azure-service-operator/tree/main/docs/v1/services/cosmosdb/cosmosdb.md)
+    - [Virtual Machine](https://github.com/Azure/azure-service-operator/tree/main/docs/v1/services/virtualmachine/virtualmachine.md)
+    - [Virtual Machine Scale Set](https://github.com/Azure/azure-service-operator/tree/main/docs/v1/services/vmscaleset/vmscaleset.md)
 
     ## Instructions - Please read before installing
 
