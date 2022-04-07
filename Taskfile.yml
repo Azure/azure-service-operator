@@ -284,7 +284,7 @@ tasks:
   controller:test-integration-kind-ci:
     desc: Run live integration tests in kind and deletes the kind cluster afterwards.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:kind-create-with-podidentity]
+    deps: [controller:kind-create-helm-podidentity]
     cmds:
       # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
       # to keep CI fast
@@ -301,7 +301,7 @@ tasks:
   controller:test-integration-kind:
     desc: Run live integration tests in kind.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:kind-create-with-podidentity]
+    deps: [controller:kind-create-helm-podidentity]
     cmds:
       # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
       # to keep CI fast
@@ -416,25 +416,33 @@ tasks:
       --set azureTenantID=$AZURE_TENANT_ID \
       --set azureClientSecret=$AZURE_CLIENT_SECRET \
       --set azureClientID=$AZURE_CLIENT_ID \
-      --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}}
+      --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
       asov2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
-    - "kubectl rollout status -n {{.ASO_NAMESPACE}} deployment/azureserviceoperator-controller-manager"
-
+    - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
 
   controller:delete-helm:
     desc: Delete helm release
     cmds:
       - "helm delete asov2 -n {{.ASO_NAMESPACE}}"
 
-  controller:test-helm-installation:
-    desc: Test helm chart installation and deletion
+  controller:kind-create-helm:
+    desc: Creates a local kind cluster with ASO helm chart built and installed.
     cmds:
+      - task: controller:kind-create
       - task: controller:install-cert-manager
-      - task: controller:build
       - task: controller:docker-push-local
       - task: controller:gen-helm-manifest
+      # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
+      - "cmctl check api --wait=2m"
       - task: controller:install-helm
-      - task: controller:delete-helm
+
+  controller:kind-create-helm-podidentity:
+    desc: Creates a local kind cluster with 'AAD Pod Identity' installed alongside ASO helm chart.
+    deps: [controller:kind-create-helm]
+    cmds:
+      - task: controller:install-aad-pod-identity-local
+      - task: controller:make-aadpodidentity-secret
+      - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
 
   controller:kind-delete:
     desc: Deletes a kind cluster
