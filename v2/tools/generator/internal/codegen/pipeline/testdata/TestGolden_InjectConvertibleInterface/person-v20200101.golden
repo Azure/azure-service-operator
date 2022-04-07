@@ -4,7 +4,7 @@
  package v20200101
  
  import (
- 	"github.com/Azure/azure-service-operator/testing/person/v20200101storage"
+ 	v20200101s "github.com/Azure/azure-service-operator/testing/person/v20200101storage"
  	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
  	"github.com/pkg/errors"
  	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -25,7 +25,7 @@
 +// ConvertFrom populates our Person from the provided hub Person
 +func (person *Person) ConvertFrom(hub conversion.Hub) error {
 +	// intermediate variable for conversion
-+	var source v20200101storage.Person
++	var source v20200101s.Person
 +
 +	err := source.ConvertFrom(hub)
 +	if err != nil {
@@ -43,7 +43,7 @@
 +// ConvertTo populates the provided hub Person from our Person
 +func (person *Person) ConvertTo(hub conversion.Hub) error {
 +	// intermediate variable for conversion
-+	var destination v20200101storage.Person
++	var destination v20200101s.Person
 +	err := person.AssignPropertiesToPerson(&destination)
 +	if err != nil {
 +		return errors.Wrap(err, "converting to destination from person")
@@ -57,7 +57,7 @@
 +}
 +
  // AssignPropertiesFromPerson populates our Person from the provided source Person
- func (person *Person) AssignPropertiesFromPerson(source *v20200101storage.Person) error {
+ func (person *Person) AssignPropertiesFromPerson(source *v20200101s.Person) error {
  
  	// ObjectMeta
  	person.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -83,13 +83,13 @@
  }
  
  // AssignPropertiesToPerson populates the provided destination Person from our Person
- func (person *Person) AssignPropertiesToPerson(destination *v20200101storage.Person) error {
+ func (person *Person) AssignPropertiesToPerson(destination *v20200101s.Person) error {
  
  	// ObjectMeta
  	destination.ObjectMeta = *person.ObjectMeta.DeepCopy()
  
  	// Spec
- 	var spec v20200101storage.Person_Spec
+ 	var spec v20200101s.Person_Spec
  	err := person.Spec.AssignPropertiesToPersonSpec(&spec)
  	if err != nil {
  		return errors.Wrap(err, "calling AssignPropertiesToPersonSpec() to populate field Spec")
@@ -97,7 +97,7 @@
  	destination.Spec = spec
  
  	// Status
- 	var status v20200101storage.Person_Status
+ 	var status v20200101s.Person_Status
  	err = person.Status.AssignPropertiesToPersonStatus(&status)
  	if err != nil {
  		return errors.Wrap(err, "calling AssignPropertiesToPersonStatus() to populate field Status")
@@ -121,7 +121,7 @@
  }
  
  // AssignPropertiesFromPersonSpec populates our Person_Spec from the provided source Person_Spec
- func (person *Person_Spec) AssignPropertiesFromPersonSpec(source *v20200101storage.Person_Spec) error {
+ func (person *Person_Spec) AssignPropertiesFromPersonSpec(source *v20200101s.Person_Spec) error {
  
  	// FullName
  	person.FullName = genruntime.GetOptionalStringValue(source.FullName)
@@ -131,7 +131,7 @@
  }
  
  // AssignPropertiesToPersonSpec populates the provided destination Person_Spec from our Person_Spec
- func (person *Person_Spec) AssignPropertiesToPersonSpec(destination *v20200101storage.Person_Spec) error {
+ func (person *Person_Spec) AssignPropertiesToPersonSpec(destination *v20200101s.Person_Spec) error {
  	// Create a new property bag
  	propertyBag := genruntime.NewPropertyBag()
  
@@ -155,7 +155,7 @@
  }
  
  // AssignPropertiesFromPersonStatus populates our Person_Status from the provided source Person_Status
- func (person *Person_Status) AssignPropertiesFromPersonStatus(source *v20200101storage.Person_Status) error {
+ func (person *Person_Status) AssignPropertiesFromPersonStatus(source *v20200101s.Person_Status) error {
  
  	// Status
  	person.Status = genruntime.GetOptionalStringValue(source.Status)
@@ -165,7 +165,7 @@
  }
  
  // AssignPropertiesToPersonStatus populates the provided destination Person_Status from our Person_Status
- func (person *Person_Status) AssignPropertiesToPersonStatus(destination *v20200101storage.Person_Status) error {
+ func (person *Person_Status) AssignPropertiesToPersonStatus(destination *v20200101s.Person_Status) error {
  	// Create a new property bag
  	propertyBag := genruntime.NewPropertyBag()
  

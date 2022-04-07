@@ -3,14 +3,14 @@
 // Licensed under the MIT license.
 package vcurrent
 
-import verification "github.com/Azure/azure-service-operator/testing/verification/vnext"
+import vnext "github.com/Azure/azure-service-operator/testing/verification/vnext"
 
 type Person struct {
 	Sku string `json:"sku,omitempty"`
 }
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person
-func (person *Person) AssignPropertiesFromPerson(source *verification.Person) error {
+func (person *Person) AssignPropertiesFromPerson(source *vnext.Person) error {
 
 	// Sku
 	person.Sku = string(source.Sku)
@@ -20,10 +20,10 @@ func (person *Person) AssignPropertiesFromPerson(source *verification.Person) er
 }
 
 // AssignPropertiesToPerson populates the provided destination Person from our Person
-func (person *Person) AssignPropertiesToPerson(destination *verification.Person) error {
+func (person *Person) AssignPropertiesToPerson(destination *vnext.Person) error {
 
 	// Sku
-	destination.Sku = verification.Bucket(person.Sku)
+	destination.Sku = vnext.Bucket(person.Sku)
 
 	// No error
 	return nil

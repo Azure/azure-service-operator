@@ -4,7 +4,7 @@
 package vcurrent
 
 import (
-	verification "github.com/Azure/azure-service-operator/testing/verification/vnext"
+	vnext "github.com/Azure/azure-service-operator/testing/verification/vnext"
 	"github.com/pkg/errors"
 )
 
@@ -13,7 +13,7 @@ type Person struct {
 }
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person
-func (person *Person) AssignPropertiesFromPerson(source *verification.Person) error {
+func (person *Person) AssignPropertiesFromPerson(source *vnext.Person) error {
 
 	// Keys
 	if source.Keys != nil {
@@ -38,15 +38,15 @@ func (person *Person) AssignPropertiesFromPerson(source *verification.Person) er
 }
 
 // AssignPropertiesToPerson populates the provided destination Person from our Person
-func (person *Person) AssignPropertiesToPerson(destination *verification.Person) error {
+func (person *Person) AssignPropertiesToPerson(destination *vnext.Person) error {
 
 	// Keys
 	if person.Keys != nil {
-		keyMap := make(map[string]verification.Release, len(person.Keys))
+		keyMap := make(map[string]vnext.Release, len(person.Keys))
 		for key, keyValue := range person.Keys {
 			// Shadow the loop variable to avoid aliasing
 			keyValue := keyValue
-			var keyLocal verification.Release
+			var keyLocal vnext.Release
 			err := keyValue.AssignPropertiesToRelease(&keyLocal)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToRelease() to populate field Keys")

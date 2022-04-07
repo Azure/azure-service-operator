@@ -4,7 +4,7 @@
 package v1beta20200101
 
 import (
-	"github.com/Azure/azure-service-operator/testing/test/v1beta20200101storage"
+	v20200101s "github.com/Azure/azure-service-operator/testing/test/v1beta20200101storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -14,7 +14,7 @@ type Test struct {
 }
 
 // AssignPropertiesFromTest populates our Test from the provided source Test
-func (test *Test) AssignPropertiesFromTest(source *v1beta20200101storage.Test) error {
+func (test *Test) AssignPropertiesFromTest(source *v20200101s.Test) error {
 
 	// MyEnum
 	if source.MyEnum != nil {
@@ -29,7 +29,7 @@ func (test *Test) AssignPropertiesFromTest(source *v1beta20200101storage.Test) e
 }
 
 // AssignPropertiesToTest populates the provided destination Test from our Test
-func (test *Test) AssignPropertiesToTest(destination *v1beta20200101storage.Test) error {
+func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

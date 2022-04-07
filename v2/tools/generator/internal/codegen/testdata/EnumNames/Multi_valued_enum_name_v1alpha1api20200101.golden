@@ -5,7 +5,7 @@ package v1alpha1api20200101
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/testing/test/v1alpha1api20200101storage"
+	v20200101s "github.com/Azure/azure-service-operator/testing/test/v1alpha1api20200101storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -47,7 +47,7 @@ var _ conversion.Convertible = &AResource{}
 // ConvertFrom populates our AResource from the provided hub AResource
 func (resource *AResource) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v1alpha1api20200101storage.AResource
+	var source v20200101s.AResource
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -65,7 +65,7 @@ func (resource *AResource) ConvertFrom(hub conversion.Hub) error {
 // ConvertTo populates the provided hub AResource from our AResource
 func (resource *AResource) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v1alpha1api20200101storage.AResource
+	var destination v20200101s.AResource
 	err := resource.AssignPropertiesToAResource(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from resource")
@@ -222,7 +222,7 @@ func (resource *AResource) validateResourceReferences() error {
 }
 
 // AssignPropertiesFromAResource populates our AResource from the provided source AResource
-func (resource *AResource) AssignPropertiesFromAResource(source *v1alpha1api20200101storage.AResource) error {
+func (resource *AResource) AssignPropertiesFromAResource(source *v20200101s.AResource) error {
 
 	// ObjectMeta
 	resource.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -240,13 +240,13 @@ func (resource *AResource) AssignPropertiesFromAResource(source *v1alpha1api2020
 }
 
 // AssignPropertiesToAResource populates the provided destination AResource from our AResource
-func (resource *AResource) AssignPropertiesToAResource(destination *v1alpha1api20200101storage.AResource) error {
+func (resource *AResource) AssignPropertiesToAResource(destination *v20200101s.AResource) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *resource.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1alpha1api20200101storage.AResource_Spec
+	var spec v20200101s.AResource_Spec
 	err := resource.Spec.AssignPropertiesToAResourceSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToAResourceSpec() to populate field Spec")
@@ -350,14 +350,14 @@ var _ genruntime.ConvertibleSpec = &AResource_Spec{}
 
 // ConvertSpecFrom populates our AResource_Spec from the provided source
 func (resource *AResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1alpha1api20200101storage.AResource_Spec)
+	src, ok := source.(*v20200101s.AResource_Spec)
 	if ok {
 		// Populate our instance from source
 		return resource.AssignPropertiesFromAResourceSpec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20200101storage.AResource_Spec{}
+	src = &v20200101s.AResource_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -374,14 +374,14 @@ func (resource *AResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpe
 
 // ConvertSpecTo populates the provided destination from our AResource_Spec
 func (resource *AResource_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1alpha1api20200101storage.AResource_Spec)
+	dst, ok := destination.(*v20200101s.AResource_Spec)
 	if ok {
 		// Populate destination from our instance
 		return resource.AssignPropertiesToAResourceSpec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20200101storage.AResource_Spec{}
+	dst = &v20200101s.AResource_Spec{}
 	err := resource.AssignPropertiesToAResourceSpec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -397,7 +397,7 @@ func (resource *AResource_Spec) ConvertSpecTo(destination genruntime.Convertible
 }
 
 // AssignPropertiesFromAResourceSpec populates our AResource_Spec from the provided source AResource_Spec
-func (resource *AResource_Spec) AssignPropertiesFromAResourceSpec(source *v1alpha1api20200101storage.AResource_Spec) error {
+func (resource *AResource_Spec) AssignPropertiesFromAResourceSpec(source *v20200101s.AResource_Spec) error {
 
 	// AzureName
 	azureName := AResourceSpecName(source.AzureName)
@@ -416,7 +416,7 @@ func (resource *AResource_Spec) AssignPropertiesFromAResourceSpec(source *v1alph
 }
 
 // AssignPropertiesToAResourceSpec populates the provided destination AResource_Spec from our AResource_Spec
-func (resource *AResource_Spec) AssignPropertiesToAResourceSpec(destination *v1alpha1api20200101storage.AResource_Spec) error {
+func (resource *AResource_Spec) AssignPropertiesToAResourceSpec(destination *v20200101s.AResource_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

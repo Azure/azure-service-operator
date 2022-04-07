@@ -4,7 +4,7 @@
 package v1beta20200101
 
 import (
-	"github.com/Azure/azure-service-operator/testing/test/v1beta20200101storage"
+	v20200101s "github.com/Azure/azure-service-operator/testing/test/v1beta20200101storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/pkg/errors"
 )
@@ -22,7 +22,7 @@ type Test struct {
 }
 
 // AssignPropertiesFromTest populates our Test from the provided source Test
-func (test *Test) AssignPropertiesFromTest(source *v1beta20200101storage.Test) error {
+func (test *Test) AssignPropertiesFromTest(source *v20200101s.Test) error {
 
 	// Bool1
 	if source.Bool1 != nil {
@@ -61,7 +61,7 @@ func (test *Test) AssignPropertiesFromTest(source *v1beta20200101storage.Test) e
 }
 
 // AssignPropertiesToTest populates the provided destination Test from our Test
-func (test *Test) AssignPropertiesToTest(destination *v1beta20200101storage.Test) error {
+func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -75,7 +75,7 @@ func (test *Test) AssignPropertiesToTest(destination *v1beta20200101storage.Test
 
 	// Foo
 	if test.Foo != nil {
-		var foo v1beta20200101storage.Foo
+		var foo v20200101s.Foo
 		err := test.Foo.AssignPropertiesToFoo(&foo)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToFoo() to populate field Foo")
@@ -87,7 +87,7 @@ func (test *Test) AssignPropertiesToTest(destination *v1beta20200101storage.Test
 
 	// Object2
 	if test.Object2 != nil {
-		var object2 v1beta20200101storage.Test_Object2
+		var object2 v20200101s.Test_Object2
 		err := test.Object2.AssignPropertiesToTestObject2(&object2)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToTestObject2() to populate field Object2")
@@ -114,7 +114,7 @@ type Foo struct {
 }
 
 // AssignPropertiesFromFoo populates our Foo from the provided source Foo
-func (foo *Foo) AssignPropertiesFromFoo(source *v1beta20200101storage.Foo) error {
+func (foo *Foo) AssignPropertiesFromFoo(source *v20200101s.Foo) error {
 
 	// Name
 	foo.Name = genruntime.ClonePointerToString(source.Name)
@@ -124,7 +124,7 @@ func (foo *Foo) AssignPropertiesFromFoo(source *v1beta20200101storage.Foo) error
 }
 
 // AssignPropertiesToFoo populates the provided destination Foo from our Foo
-func (foo *Foo) AssignPropertiesToFoo(destination *v1beta20200101storage.Foo) error {
+func (foo *Foo) AssignPropertiesToFoo(destination *v20200101s.Foo) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -147,7 +147,7 @@ type Test_Object2 struct {
 }
 
 // AssignPropertiesFromTestObject2 populates our Test_Object2 from the provided source Test_Object2
-func (object2 *Test_Object2) AssignPropertiesFromTestObject2(source *v1beta20200101storage.Test_Object2) error {
+func (object2 *Test_Object2) AssignPropertiesFromTestObject2(source *v20200101s.Test_Object2) error {
 
 	// Foo
 	object2.Foo = genruntime.ClonePointerToString(source.Foo)
@@ -157,7 +157,7 @@ func (object2 *Test_Object2) AssignPropertiesFromTestObject2(source *v1beta20200
 }
 
 // AssignPropertiesToTestObject2 populates the provided destination Test_Object2 from our Test_Object2
-func (object2 *Test_Object2) AssignPropertiesToTestObject2(destination *v1beta20200101storage.Test_Object2) error {
+func (object2 *Test_Object2) AssignPropertiesToTestObject2(destination *v20200101s.Test_Object2) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -4,7 +4,7 @@
 package v20200101
 
 import (
-	person "github.com/Azure/azure-service-operator/testing/person/v20211231"
+	v20211231 "github.com/Azure/azure-service-operator/testing/person/v20211231"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/pkg/errors"
 )
@@ -21,7 +21,7 @@ type Person struct {
 }
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person
-func (person *Person) AssignPropertiesFromPerson(source *person.Person) error {
+func (person *Person) AssignPropertiesFromPerson(source *v20211231.Person) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -59,7 +59,7 @@ func (person *Person) AssignPropertiesFromPerson(source *person.Person) error {
 }
 
 // AssignPropertiesToPerson populates the provided destination Person from our Person
-func (person *Person) AssignPropertiesToPerson(destination *person.Person) error {
+func (person *Person) AssignPropertiesToPerson(destination *v20211231.Person) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

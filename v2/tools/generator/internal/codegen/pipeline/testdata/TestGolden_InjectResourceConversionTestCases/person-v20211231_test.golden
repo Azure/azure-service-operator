@@ -5,7 +5,7 @@ package v20211231
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/testing/person/v20211231storage"
+	v20211231s "github.com/Azure/azure-service-operator/testing/person/v20211231storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +35,7 @@ func RunResourceConversionTestForPerson(subject Person) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20211231storage.Person
+	var hub v20211231s.Person
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -77,7 +77,7 @@ func RunPropertyAssignmentTestForPerson(subject Person) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211231storage.Person
+	var other v20211231s.Person
 	err := copied.AssignPropertiesToPerson(&other)
 	if err != nil {
 		return err.Error()
@@ -179,7 +179,7 @@ func RunPropertyAssignmentTestForPersonSpec(subject Person_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211231storage.Person_Spec
+	var other v20211231s.Person_Spec
 	err := copied.AssignPropertiesToPersonSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -297,7 +297,7 @@ func RunPropertyAssignmentTestForPersonStatus(subject Person_Status) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211231storage.Person_Status
+	var other v20211231s.Person_Status
 	err := copied.AssignPropertiesToPersonStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -398,7 +398,7 @@ func RunPropertyAssignmentTestForAddress(subject Address) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211231storage.Address
+	var other v20211231s.Address
 	err := copied.AssignPropertiesToAddress(&other)
 	if err != nil {
 		return err.Error()
