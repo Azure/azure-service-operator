@@ -1,6 +1,9 @@
 # Build the manager binary
 FROM golang:1.18 as builder
 
+# need jq for running the Makefile
+RUN curl -o /usr/local/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && chmod +x /usr/local/bin/jq
+
 WORKDIR /workspace/
 # Copy the Go Modules manifests
 COPY go.mod go.mod
