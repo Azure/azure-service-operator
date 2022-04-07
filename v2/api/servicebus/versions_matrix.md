@@ -1,45 +1,45 @@
-| Type Definitions in package "servicebus"             | v1alpha1api20210101preview |
-|------------------------------------------------------|----------------------------|
-| DictionaryValue_Status                               | v1alpha1api20210101preview |
-| Encryption                                           | v1alpha1api20210101preview |
-| EncryptionKeySource                                  | v1alpha1api20210101preview |
-| EncryptionStatusKeySource                            | v1alpha1api20210101preview |
-| Encryption_Status                                    | v1alpha1api20210101preview |
-| EntityStatus_Status                                  | v1alpha1api20210101preview |
-| Identity                                             | v1alpha1api20210101preview |
-| IdentityStatusType                                   | v1alpha1api20210101preview |
-| IdentityType                                         | v1alpha1api20210101preview |
-| Identity_Status                                      | v1alpha1api20210101preview |
-| KeyVaultProperties                                   | v1alpha1api20210101preview |
-| KeyVaultProperties_Status                            | v1alpha1api20210101preview |
-| MessageCountDetails_Status                           | v1alpha1api20210101preview |
-| Namespace                                            | v1alpha1api20210101preview |
-| NamespacesQueue                                      | v1alpha1api20210101preview |
-| NamespacesQueuesSpecAPIVersion                       | v1alpha1api20210101preview |
-| NamespacesQueues_Spec                                | v1alpha1api20210101preview |
-| NamespacesSpecAPIVersion                             | v1alpha1api20210101preview |
-| NamespacesTopic                                      | v1alpha1api20210101preview |
-| NamespacesTopicsSpecAPIVersion                       | v1alpha1api20210101preview |
-| NamespacesTopics_Spec                                | v1alpha1api20210101preview |
-| Namespaces_Spec                                      | v1alpha1api20210101preview |
-| Namespaces_Spec_Properties                           | v1alpha1api20210101preview |
-| PrivateEndpointConnection_Status_SubResourceEmbedded | v1alpha1api20210101preview |
-| SBNamespaceProperties_Status                         | v1alpha1api20210101preview |
-| SBNamespace_Status                                   | v1alpha1api20210101preview |
-| SBQueueProperties                                    | v1alpha1api20210101preview |
-| SBQueueProperties_Status                             | v1alpha1api20210101preview |
-| SBQueue_Status                                       | v1alpha1api20210101preview |
-| SBSku                                                | v1alpha1api20210101preview |
-| SBSkuName                                            | v1alpha1api20210101preview |
-| SBSkuStatusName                                      | v1alpha1api20210101preview |
-| SBSkuStatusTier                                      | v1alpha1api20210101preview |
-| SBSkuTier                                            | v1alpha1api20210101preview |
-| SBSku_Status                                         | v1alpha1api20210101preview |
-| SBTopicProperties                                    | v1alpha1api20210101preview |
-| SBTopicProperties_Status                             | v1alpha1api20210101preview |
-| SBTopic_Status                                       | v1alpha1api20210101preview |
-| SystemDataStatusCreatedByType                        | v1alpha1api20210101preview |
-| SystemDataStatusLastModifiedByType                   | v1alpha1api20210101preview |
-| SystemData_Status                                    | v1alpha1api20210101preview |
-| UserAssignedIdentityProperties                       | v1alpha1api20210101preview |
-| UserAssignedIdentityProperties_Status                | v1alpha1api20210101preview |
+| Type Definitions in package "servicebus"             | v1alpha1api20210101preview | v1beta20210101preview |
+|------------------------------------------------------|----------------------------|-----------------------|
+| DictionaryValue_Status                               | v1alpha1api20210101preview | v1beta20210101preview |
+| Encryption                                           | v1alpha1api20210101preview | v1beta20210101preview |
+| EncryptionKeySource                                  | v1alpha1api20210101preview | v1beta20210101preview |
+| EncryptionStatusKeySource                            | v1alpha1api20210101preview | v1beta20210101preview |
+| Encryption_Status                                    | v1alpha1api20210101preview | v1beta20210101preview |
+| EntityStatus_Status                                  | v1alpha1api20210101preview | v1beta20210101preview |
+| Identity                                             | v1alpha1api20210101preview | v1beta20210101preview |
+| IdentityStatusType                                   | v1alpha1api20210101preview | v1beta20210101preview |
+| IdentityType                                         | v1alpha1api20210101preview | v1beta20210101preview |
+| Identity_Status                                      | v1alpha1api20210101preview | v1beta20210101preview |
+| KeyVaultProperties                                   | v1alpha1api20210101preview | v1beta20210101preview |
+| KeyVaultProperties_Status                            | v1alpha1api20210101preview | v1beta20210101preview |
+| MessageCountDetails_Status                           | v1alpha1api20210101preview | v1beta20210101preview |
+| Namespace                                            | v1alpha1api20210101preview | v1beta20210101preview |
+| NamespacesQueue                                      | v1alpha1api20210101preview | v1beta20210101preview |
+| NamespacesQueuesSpecAPIVersion                       | v1alpha1api20210101preview | v1beta20210101preview |
+| NamespacesQueues_Spec                                | v1alpha1api20210101preview | v1beta20210101preview |
+| NamespacesSpecAPIVersion                             | v1alpha1api20210101preview | v1beta20210101preview |
+| NamespacesTopic                                      | v1alpha1api20210101preview | v1beta20210101preview |
+| NamespacesTopicsSpecAPIVersion                       | v1alpha1api20210101preview | v1beta20210101preview |
+| NamespacesTopics_Spec                                | v1alpha1api20210101preview | v1beta20210101preview |
+| Namespaces_Spec                                      | v1alpha1api20210101preview | v1beta20210101preview |
+| Namespaces_Spec_Properties                           | v1alpha1api20210101preview | v1beta20210101preview |
+| PrivateEndpointConnection_Status_SubResourceEmbedded | v1alpha1api20210101preview | v1beta20210101preview |
+| SBNamespaceProperties_Status                         | v1alpha1api20210101preview | v1beta20210101preview |
+| SBNamespace_Status                                   | v1alpha1api20210101preview | v1beta20210101preview |
+| SBQueueProperties                                    | v1alpha1api20210101preview | v1beta20210101preview |
+| SBQueueProperties_Status                             | v1alpha1api20210101preview | v1beta20210101preview |
+| SBQueue_Status                                       | v1alpha1api20210101preview | v1beta20210101preview |
+| SBSku                                                | v1alpha1api20210101preview | v1beta20210101preview |
+| SBSkuName                                            | v1alpha1api20210101preview | v1beta20210101preview |
+| SBSkuStatusName                                      | v1alpha1api20210101preview | v1beta20210101preview |
+| SBSkuStatusTier                                      | v1alpha1api20210101preview | v1beta20210101preview |
+| SBSkuTier                                            | v1alpha1api20210101preview | v1beta20210101preview |
+| SBSku_Status                                         | v1alpha1api20210101preview | v1beta20210101preview |
+| SBTopicProperties                                    | v1alpha1api20210101preview | v1beta20210101preview |
+| SBTopicProperties_Status                             | v1alpha1api20210101preview | v1beta20210101preview |
+| SBTopic_Status                                       | v1alpha1api20210101preview | v1beta20210101preview |
+| SystemDataStatusCreatedByType                        | v1alpha1api20210101preview | v1beta20210101preview |
+| SystemDataStatusLastModifiedByType                   | v1alpha1api20210101preview | v1beta20210101preview |
+| SystemData_Status                                    | v1alpha1api20210101preview | v1beta20210101preview |
+| UserAssignedIdentityProperties                       | v1alpha1api20210101preview | v1beta20210101preview |
+| UserAssignedIdentityProperties_Status                | v1alpha1api20210101preview | v1beta20210101preview |

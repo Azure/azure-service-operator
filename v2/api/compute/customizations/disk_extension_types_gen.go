@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20200930"
+	computev1alpha1api20200930 "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20200930"
 	"github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20200930storage"
+	computev1beta20200930 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930"
+	"github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type DiskExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *DiskExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&compute.Disk{},
-		&v1alpha1api20200930storage.Disk{}}
+		&computev1alpha1api20200930.Disk{},
+		&v1alpha1api20200930storage.Disk{},
+		&computev1beta20200930.Disk{},
+		&v1beta20200930storage.Disk{}}
 }

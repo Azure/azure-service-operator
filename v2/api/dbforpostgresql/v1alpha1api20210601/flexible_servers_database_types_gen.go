@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers_databases
+//Deprecated version of FlexibleServersDatabase. Use v1beta20210601.FlexibleServersDatabase instead
 type FlexibleServersDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -48,22 +48,36 @@ var _ conversion.Convertible = &FlexibleServersDatabase{}
 
 // ConvertFrom populates our FlexibleServersDatabase from the provided hub FlexibleServersDatabase
 func (database *FlexibleServersDatabase) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20210601storage.FlexibleServersDatabase)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1alpha1api20210601storage/FlexibleServersDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20210601storage.FlexibleServersDatabase
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return database.AssignPropertiesFromFlexibleServersDatabase(source)
+	err = database.AssignPropertiesFromFlexibleServersDatabase(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to database")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FlexibleServersDatabase from our FlexibleServersDatabase
 func (database *FlexibleServersDatabase) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20210601storage.FlexibleServersDatabase)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1alpha1api20210601storage/FlexibleServersDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20210601storage.FlexibleServersDatabase
+	err := database.AssignPropertiesToFlexibleServersDatabase(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from database")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return database.AssignPropertiesToFlexibleServersDatabase(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-dbforpostgresql-azure-com-v1alpha1api20210601-flexibleserversdatabase,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbforpostgresql.azure.com,resources=flexibleserversdatabases,verbs=create;update,versions=v1alpha1api20210601,name=default.v1alpha1api20210601.flexibleserversdatabases.dbforpostgresql.azure.com,admissionReviewVersions=v1beta1
@@ -300,35 +314,24 @@ func (database *FlexibleServersDatabase) OriginalGVK() *schema.GroupVersionKind 
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers_databases
+//Deprecated version of FlexibleServersDatabase. Use v1beta20210601.FlexibleServersDatabase instead
 type FlexibleServersDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []FlexibleServersDatabase `json:"items"`
 }
 
+//Deprecated version of Database_Status. Use v1beta20210601.Database_Status instead
 type Database_Status struct {
-	//Charset: The charset of the database.
-	Charset *string `json:"charset,omitempty"`
-
-	//Collation: The collation of the database.
+	Charset   *string `json:"charset,omitempty"`
 	Collation *string `json:"collation,omitempty"`
 
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	//Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	//SystemData: The system metadata relating to this resource.
-	SystemData *SystemData_Status `json:"systemData,omitempty"`
-
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Id         *string                `json:"id,omitempty"`
+	Name       *string                `json:"name,omitempty"`
+	SystemData *SystemData_Status     `json:"systemData,omitempty"`
+	Type       *string                `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Database_Status{}
@@ -531,33 +534,20 @@ func (database *Database_Status) AssignPropertiesToDatabaseStatus(destination *v
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-06-01"}
-type FlexibleServersDatabasesSpecAPIVersion string
-
-const FlexibleServersDatabasesSpecAPIVersion20210601 = FlexibleServersDatabasesSpecAPIVersion("2021-06-01")
-
 type FlexibleServersDatabases_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	//Charset: The charset of the database.
-	Charset *string `json:"charset,omitempty"`
-
-	//Collation: The collation of the database.
+	AzureName string  `json:"azureName,omitempty"`
+	Charset   *string `json:"charset,omitempty"`
 	Collation *string `json:"collation,omitempty"`
-
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
+	Location  *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a dbforpostgresql.azure.com/FlexibleServer resource
 	Owner *genruntime.KnownResourceReference `group:"dbforpostgresql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags  map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &FlexibleServersDatabases_Spec{}

@@ -5,21 +5,13 @@ package v1alpha1api20210501
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+//Deprecated version of FlexibleServers_Spec. Use v1beta20210501.FlexibleServers_Spec instead
 type FlexibleServers_SpecARM struct {
-	//Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	//Name: The name of the server.
-	Name string `json:"name,omitempty"`
-
-	//Properties: The properties of a server.
+	Location   *string              `json:"location,omitempty"`
+	Name       string               `json:"name,omitempty"`
 	Properties *ServerPropertiesARM `json:"properties,omitempty"`
-
-	//Sku: Billing information related properties of a server.
-	Sku *SkuARM `json:"sku,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	Sku        *SkuARM              `json:"sku,omitempty"`
+	Tags       map[string]string    `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &FlexibleServers_SpecARM{}
@@ -39,97 +31,56 @@ func (servers FlexibleServers_SpecARM) GetType() string {
 	return "Microsoft.DBforMySQL/flexibleServers"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/ServerProperties
+//Deprecated version of ServerProperties. Use v1beta20210501.ServerProperties instead
 type ServerPropertiesARM struct {
-	//AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
-	//(and is required for creation).
-	AdministratorLogin *string `json:"administratorLogin,omitempty"`
-
-	//AdministratorLoginPassword: The password of the administrator login (required for server creation).
-	AdministratorLoginPassword *string `json:"administratorLoginPassword,omitempty"`
-
-	//AvailabilityZone: availability Zone information of the server.
-	AvailabilityZone *string `json:"availabilityZone,omitempty"`
-
-	//Backup: Storage Profile properties of a server
-	Backup *BackupARM `json:"backup,omitempty"`
-
-	//CreateMode: The mode to create a new MySQL server.
-	CreateMode *ServerPropertiesCreateMode `json:"createMode,omitempty"`
-
-	//HighAvailability: Network related properties of a server
-	HighAvailability *HighAvailabilityARM `json:"highAvailability,omitempty"`
-
-	//MaintenanceWindow: Maintenance window of a server.
-	MaintenanceWindow *MaintenanceWindowARM `json:"maintenanceWindow,omitempty"`
-
-	//Network: Network related properties of a server
-	Network *NetworkARM `json:"network,omitempty"`
-
-	//ReplicationRole: The replication role.
-	ReplicationRole *ServerPropertiesReplicationRole `json:"replicationRole,omitempty"`
-
-	//RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.
-	RestorePointInTime *string `json:"restorePointInTime,omitempty"`
-
-	//SourceServerResourceId: The source MySQL server id.
-	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
-
-	//Storage: Storage Profile properties of a server
-	Storage *StorageARM `json:"storage,omitempty"`
-
-	//Version: Server version.
-	Version *ServerPropertiesVersion `json:"version,omitempty"`
+	AdministratorLogin         *string                          `json:"administratorLogin,omitempty"`
+	AdministratorLoginPassword *string                          `json:"administratorLoginPassword,omitempty"`
+	AvailabilityZone           *string                          `json:"availabilityZone,omitempty"`
+	Backup                     *BackupARM                       `json:"backup,omitempty"`
+	CreateMode                 *ServerPropertiesCreateMode      `json:"createMode,omitempty"`
+	HighAvailability           *HighAvailabilityARM             `json:"highAvailability,omitempty"`
+	MaintenanceWindow          *MaintenanceWindowARM            `json:"maintenanceWindow,omitempty"`
+	Network                    *NetworkARM                      `json:"network,omitempty"`
+	ReplicationRole            *ServerPropertiesReplicationRole `json:"replicationRole,omitempty"`
+	RestorePointInTime         *string                          `json:"restorePointInTime,omitempty"`
+	SourceServerResourceId     *string                          `json:"sourceServerResourceId,omitempty"`
+	Storage                    *StorageARM                      `json:"storage,omitempty"`
+	Version                    *ServerPropertiesVersion         `json:"version,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Sku
+//Deprecated version of Sku. Use v1beta20210501.Sku instead
 type SkuARM struct {
-	//Name: The name of the sku, e.g. Standard_D32s_v3.
-	Name *string `json:"name,omitempty"`
-
-	//Tier: The tier of the particular SKU, e.g. GeneralPurpose.
+	Name *string  `json:"name,omitempty"`
 	Tier *SkuTier `json:"tier,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup
+//Deprecated version of Backup. Use v1beta20210501.Backup instead
 type BackupARM struct {
-	//BackupRetentionDays: Backup retention days for the server.
-	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
-
-	//GeoRedundantBackup: Whether or not geo redundant backup is enabled.
-	GeoRedundantBackup *BackupGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+	BackupRetentionDays *int                      `json:"backupRetentionDays,omitempty"`
+	GeoRedundantBackup  *BackupGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability
+//Deprecated version of HighAvailability. Use v1beta20210501.HighAvailability instead
 type HighAvailabilityARM struct {
-	//Mode: High availability mode for a server.
-	Mode *HighAvailabilityMode `json:"mode,omitempty"`
-
-	//StandbyAvailabilityZone: Availability zone of the standby server.
-	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
+	Mode                    *HighAvailabilityMode `json:"mode,omitempty"`
+	StandbyAvailabilityZone *string               `json:"standbyAvailabilityZone,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/MaintenanceWindow
+//Deprecated version of MaintenanceWindow. Use v1beta20210501.MaintenanceWindow instead
 type MaintenanceWindowARM struct {
-	//CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
-
-	//DayOfWeek: day of week for maintenance window
-	DayOfWeek *int `json:"dayOfWeek,omitempty"`
-
-	//StartHour: start hour for maintenance window
-	StartHour *int `json:"startHour,omitempty"`
-
-	//StartMinute: start minute for maintenance window
-	StartMinute *int `json:"startMinute,omitempty"`
+	DayOfWeek    *int    `json:"dayOfWeek,omitempty"`
+	StartHour    *int    `json:"startHour,omitempty"`
+	StartMinute  *int    `json:"startMinute,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Network
+//Deprecated version of Network. Use v1beta20210501.Network instead
 type NetworkARM struct {
 	DelegatedSubnetResourceId *string `json:"delegatedSubnetResourceId,omitempty"`
 	PrivateDnsZoneResourceId  *string `json:"privateDnsZoneResourceId,omitempty"`
 }
 
+//Deprecated version of SkuTier. Use v1beta20210501.SkuTier instead
 // +kubebuilder:validation:Enum={"Burstable","GeneralPurpose","MemoryOptimized"}
 type SkuTier string
 
@@ -139,14 +90,9 @@ const (
 	SkuTierMemoryOptimized = SkuTier("MemoryOptimized")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Storage
+//Deprecated version of Storage. Use v1beta20210501.Storage instead
 type StorageARM struct {
-	//AutoGrow: Enable Storage Auto Grow or not.
-	AutoGrow *StorageAutoGrow `json:"autoGrow,omitempty"`
-
-	//Iops: Storage IOPS for a server.
-	Iops *int `json:"iops,omitempty"`
-
-	//StorageSizeGB: Max storage size allowed for a server.
-	StorageSizeGB *int `json:"storageSizeGB,omitempty"`
+	AutoGrow      *StorageAutoGrow `json:"autoGrow,omitempty"`
+	Iops          *int             `json:"iops,omitempty"`
+	StorageSizeGB *int             `json:"storageSizeGB,omitempty"`
 }

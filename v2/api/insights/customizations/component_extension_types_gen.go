@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	insights "github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20200202"
+	insightsv1alpha1api20200202 "github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20200202"
 	"github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20200202storage"
+	insightsv1beta20200202 "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202"
+	"github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type ComponentExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *ComponentExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&insights.Component{},
-		&v1alpha1api20200202storage.Component{}}
+		&insightsv1alpha1api20200202.Component{},
+		&v1alpha1api20200202storage.Component{},
+		&insightsv1beta20200202.Component{},
+		&v1beta20200202storage.Component{}}
 }

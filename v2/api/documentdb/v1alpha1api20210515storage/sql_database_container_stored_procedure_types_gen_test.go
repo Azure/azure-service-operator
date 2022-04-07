@@ -5,6 +5,7 @@ package v1alpha1api20210515storage
 
 import (
 	"encoding/json"
+	"github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,90 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_SqlDatabaseContainerStoredProcedure_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlDatabaseContainerStoredProcedure to hub returns original",
+		prop.ForAll(RunResourceConversionTestForSqlDatabaseContainerStoredProcedure, SqlDatabaseContainerStoredProcedureGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForSqlDatabaseContainerStoredProcedure tests if a specific instance of SqlDatabaseContainerStoredProcedure round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForSqlDatabaseContainerStoredProcedure(subject SqlDatabaseContainerStoredProcedure) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1beta20210515storage.SqlDatabaseContainerStoredProcedure
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual SqlDatabaseContainerStoredProcedure
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SqlDatabaseContainerStoredProcedure_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlDatabaseContainerStoredProcedure to SqlDatabaseContainerStoredProcedure via AssignPropertiesToSqlDatabaseContainerStoredProcedure & AssignPropertiesFromSqlDatabaseContainerStoredProcedure returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlDatabaseContainerStoredProcedure, SqlDatabaseContainerStoredProcedureGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlDatabaseContainerStoredProcedure tests if a specific instance of SqlDatabaseContainerStoredProcedure can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForSqlDatabaseContainerStoredProcedure(subject SqlDatabaseContainerStoredProcedure) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.SqlDatabaseContainerStoredProcedure
+	err := copied.AssignPropertiesToSqlDatabaseContainerStoredProcedure(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlDatabaseContainerStoredProcedure
+	err = actual.AssignPropertiesFromSqlDatabaseContainerStoredProcedure(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_SqlDatabaseContainerStoredProcedure_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -76,6 +161,48 @@ func SqlDatabaseContainerStoredProcedureGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForSqlDatabaseContainerStoredProcedure(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecGenerator()
 	gens["Status"] = SqlStoredProcedureGetResultsStatusGenerator()
+}
+
+func Test_DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec to DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec via AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec & AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec, DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec tests if a specific instance of DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(subject DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec
+	err := copied.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec
+	err = actual.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -156,6 +283,48 @@ func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStored
 	gens["Resource"] = gen.PtrOf(SqlStoredProcedureResourceGenerator())
 }
 
+func Test_SqlStoredProcedureGetResults_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlStoredProcedureGetResults_Status to SqlStoredProcedureGetResults_Status via AssignPropertiesToSqlStoredProcedureGetResultsStatus & AssignPropertiesFromSqlStoredProcedureGetResultsStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlStoredProcedureGetResultsStatus, SqlStoredProcedureGetResultsStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlStoredProcedureGetResultsStatus tests if a specific instance of SqlStoredProcedureGetResults_Status can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForSqlStoredProcedureGetResultsStatus(subject SqlStoredProcedureGetResults_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.SqlStoredProcedureGetResults_Status
+	err := copied.AssignPropertiesToSqlStoredProcedureGetResultsStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlStoredProcedureGetResults_Status
+	err = actual.AssignPropertiesFromSqlStoredProcedureGetResultsStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SqlStoredProcedureGetResults_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -234,6 +403,48 @@ func AddRelatedPropertyGeneratorsForSqlStoredProcedureGetResultsStatus(gens map[
 	gens["Resource"] = gen.PtrOf(SqlStoredProcedureGetPropertiesStatusResourceGenerator())
 }
 
+func Test_SqlStoredProcedureGetProperties_Status_Resource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlStoredProcedureGetProperties_Status_Resource to SqlStoredProcedureGetProperties_Status_Resource via AssignPropertiesToSqlStoredProcedureGetPropertiesStatusResource & AssignPropertiesFromSqlStoredProcedureGetPropertiesStatusResource returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlStoredProcedureGetPropertiesStatusResource, SqlStoredProcedureGetPropertiesStatusResourceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlStoredProcedureGetPropertiesStatusResource tests if a specific instance of SqlStoredProcedureGetProperties_Status_Resource can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForSqlStoredProcedureGetPropertiesStatusResource(subject SqlStoredProcedureGetProperties_Status_Resource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.SqlStoredProcedureGetProperties_Status_Resource
+	err := copied.AssignPropertiesToSqlStoredProcedureGetPropertiesStatusResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlStoredProcedureGetProperties_Status_Resource
+	err = actual.AssignPropertiesFromSqlStoredProcedureGetPropertiesStatusResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SqlStoredProcedureGetProperties_Status_Resource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -296,6 +507,48 @@ func AddIndependentPropertyGeneratorsForSqlStoredProcedureGetPropertiesStatusRes
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Rid"] = gen.PtrOf(gen.AlphaString())
 	gens["Ts"] = gen.PtrOf(gen.Float64())
+}
+
+func Test_SqlStoredProcedureResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlStoredProcedureResource to SqlStoredProcedureResource via AssignPropertiesToSqlStoredProcedureResource & AssignPropertiesFromSqlStoredProcedureResource returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlStoredProcedureResource, SqlStoredProcedureResourceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlStoredProcedureResource tests if a specific instance of SqlStoredProcedureResource can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForSqlStoredProcedureResource(subject SqlStoredProcedureResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.SqlStoredProcedureResource
+	err := copied.AssignPropertiesToSqlStoredProcedureResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlStoredProcedureResource
+	err = actual.AssignPropertiesFromSqlStoredProcedureResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SqlStoredProcedureResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_managementPolicies
+//Deprecated version of StorageAccountsManagementPolicy. Use v1beta20210401.StorageAccountsManagementPolicy instead
 type StorageAccountsManagementPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -48,22 +48,36 @@ var _ conversion.Convertible = &StorageAccountsManagementPolicy{}
 
 // ConvertFrom populates our StorageAccountsManagementPolicy from the provided hub StorageAccountsManagementPolicy
 func (policy *StorageAccountsManagementPolicy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20210401storage.StorageAccountsManagementPolicy)
-	if !ok {
-		return fmt.Errorf("expected storage/v1alpha1api20210401storage/StorageAccountsManagementPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20210401storage.StorageAccountsManagementPolicy
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return policy.AssignPropertiesFromStorageAccountsManagementPolicy(source)
+	err = policy.AssignPropertiesFromStorageAccountsManagementPolicy(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to policy")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccountsManagementPolicy from our StorageAccountsManagementPolicy
 func (policy *StorageAccountsManagementPolicy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20210401storage.StorageAccountsManagementPolicy)
-	if !ok {
-		return fmt.Errorf("expected storage/v1alpha1api20210401storage/StorageAccountsManagementPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20210401storage.StorageAccountsManagementPolicy
+	err := policy.AssignPropertiesToStorageAccountsManagementPolicy(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from policy")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return policy.AssignPropertiesToStorageAccountsManagementPolicy(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-storage-azure-com-v1alpha1api20210401-storageaccountsmanagementpolicy,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=storage.azure.com,resources=storageaccountsmanagementpolicies,verbs=create;update,versions=v1alpha1api20210401,name=default.v1alpha1api20210401.storageaccountsmanagementpolicies.storage.azure.com,admissionReviewVersions=v1beta1
@@ -293,33 +307,22 @@ func (policy *StorageAccountsManagementPolicy) OriginalGVK() *schema.GroupVersio
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_managementPolicies
+//Deprecated version of StorageAccountsManagementPolicy. Use v1beta20210401.StorageAccountsManagementPolicy instead
 type StorageAccountsManagementPolicyList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []StorageAccountsManagementPolicy `json:"items"`
 }
 
+//Deprecated version of ManagementPolicy_Status. Use v1beta20210401.ManagementPolicy_Status instead
 type ManagementPolicy_Status struct {
 	//Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	//LastModifiedTime: Returns the date and time the ManagementPolicies was last modified.
-	LastModifiedTime *string `json:"lastModifiedTime,omitempty"`
-
-	//Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	//Policy: The Storage Account ManagementPolicy, in JSON format. See more details in:
-	//https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
-	Policy *ManagementPolicySchema_Status `json:"policy,omitempty"`
-
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Conditions       []conditions.Condition         `json:"conditions,omitempty"`
+	Id               *string                        `json:"id,omitempty"`
+	LastModifiedTime *string                        `json:"lastModifiedTime,omitempty"`
+	Name             *string                        `json:"name,omitempty"`
+	Policy           *ManagementPolicySchema_Status `json:"policy,omitempty"`
+	Type             *string                        `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &ManagementPolicy_Status{}
@@ -510,11 +513,6 @@ func (policy *ManagementPolicy_Status) AssignPropertiesToManagementPolicyStatus(
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-04-01"}
-type StorageAccountsManagementPoliciesSpecAPIVersion string
-
-const StorageAccountsManagementPoliciesSpecAPIVersion20210401 = StorageAccountsManagementPoliciesSpecAPIVersion("2021-04-01")
-
 type StorageAccountsManagementPolicies_Spec struct {
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -523,12 +521,8 @@ type StorageAccountsManagementPolicies_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccount"`
 
 	// +kubebuilder:validation:Required
-	//Policy: The Storage Account ManagementPolicies Rules. See more details in:
-	//https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
 	Policy *ManagementPolicySchema `json:"policy,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags   map[string]string       `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &StorageAccountsManagementPolicies_Spec{}
@@ -736,11 +730,9 @@ func (policies *StorageAccountsManagementPolicies_Spec) OriginalVersion() string
 	return GroupVersion.Version
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicySchema
+//Deprecated version of ManagementPolicySchema. Use v1beta20210401.ManagementPolicySchema instead
 type ManagementPolicySchema struct {
 	// +kubebuilder:validation:Required
-	//Rules: The Storage Account ManagementPolicies Rules. See more details in:
-	//https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
 	Rules []ManagementPolicyRule `json:"rules,omitempty"`
 }
 
@@ -849,9 +841,8 @@ func (schema *ManagementPolicySchema) AssignPropertiesToManagementPolicySchema(d
 	return nil
 }
 
+//Deprecated version of ManagementPolicySchema_Status. Use v1beta20210401.ManagementPolicySchema_Status instead
 type ManagementPolicySchema_Status struct {
-	//Rules: The Storage Account ManagementPolicies Rules. See more details in:
-	//https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
 	Rules []ManagementPolicyRule_Status `json:"rules,omitempty"`
 }
 
@@ -942,22 +933,16 @@ func (schema *ManagementPolicySchema_Status) AssignPropertiesToManagementPolicyS
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyRule
+//Deprecated version of ManagementPolicyRule. Use v1beta20210401.ManagementPolicyRule instead
 type ManagementPolicyRule struct {
 	// +kubebuilder:validation:Required
-	//Definition: An object that defines the Lifecycle rule. Each definition is made up with a filters set and an actions set.
 	Definition *ManagementPolicyDefinition `json:"definition,omitempty"`
-
-	//Enabled: Rule is enabled if set to true.
-	Enabled *bool `json:"enabled,omitempty"`
+	Enabled    *bool                       `json:"enabled,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Name: A rule name can contain any combination of alpha numeric characters. Rule name is case-sensitive. It must be
-	//unique within a policy.
 	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Type: The valid value is Lifecycle
 	Type *ManagementPolicyRuleType `json:"type,omitempty"`
 }
 
@@ -1130,19 +1115,12 @@ func (rule *ManagementPolicyRule) AssignPropertiesToManagementPolicyRule(destina
 	return nil
 }
 
+//Deprecated version of ManagementPolicyRule_Status. Use v1beta20210401.ManagementPolicyRule_Status instead
 type ManagementPolicyRule_Status struct {
-	//Definition: An object that defines the Lifecycle rule.
 	Definition *ManagementPolicyDefinition_Status `json:"definition,omitempty"`
-
-	//Enabled: Rule is enabled if set to true.
-	Enabled *bool `json:"enabled,omitempty"`
-
-	//Name: A rule name can contain any combination of alpha numeric characters. Rule name is case-sensitive. It must be
-	//unique within a policy.
-	Name *string `json:"name,omitempty"`
-
-	//Type: The valid value is Lifecycle
-	Type *ManagementPolicyRuleStatusType `json:"type,omitempty"`
+	Enabled    *bool                              `json:"enabled,omitempty"`
+	Name       *string                            `json:"name,omitempty"`
+	Type       *ManagementPolicyRuleStatusType    `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagementPolicyRule_Status{}
@@ -1277,14 +1255,10 @@ func (rule *ManagementPolicyRule_Status) AssignPropertiesToManagementPolicyRuleS
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyDefinition
+//Deprecated version of ManagementPolicyDefinition. Use v1beta20210401.ManagementPolicyDefinition instead
 type ManagementPolicyDefinition struct {
 	// +kubebuilder:validation:Required
-	//Actions: Actions are applied to the filtered blobs when the execution condition is met.
 	Actions *ManagementPolicyAction `json:"actions,omitempty"`
-
-	//Filters: Filters limit rule actions to a subset of blobs within the storage account. If multiple filters are defined, a
-	//logical AND is performed on all filters.
 	Filters *ManagementPolicyFilter `json:"filters,omitempty"`
 }
 
@@ -1428,11 +1402,9 @@ func (definition *ManagementPolicyDefinition) AssignPropertiesToManagementPolicy
 	return nil
 }
 
+//Deprecated version of ManagementPolicyDefinition_Status. Use v1beta20210401.ManagementPolicyDefinition_Status instead
 type ManagementPolicyDefinition_Status struct {
-	//Actions: An object that defines the action set.
 	Actions *ManagementPolicyAction_Status `json:"actions,omitempty"`
-
-	//Filters: An object that defines the filter set.
 	Filters *ManagementPolicyFilter_Status `json:"filters,omitempty"`
 }
 
@@ -1547,16 +1519,11 @@ func (definition *ManagementPolicyDefinition_Status) AssignPropertiesToManagemen
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyAction
+//Deprecated version of ManagementPolicyAction. Use v1beta20210401.ManagementPolicyAction instead
 type ManagementPolicyAction struct {
-	//BaseBlob: Management policy action for base blob.
 	BaseBlob *ManagementPolicyBaseBlob `json:"baseBlob,omitempty"`
-
-	//Snapshot: Management policy action for snapshot.
 	Snapshot *ManagementPolicySnapShot `json:"snapshot,omitempty"`
-
-	//Version: Management policy action for blob version.
-	Version *ManagementPolicyVersion `json:"version,omitempty"`
+	Version  *ManagementPolicyVersion  `json:"version,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagementPolicyAction{}
@@ -1744,15 +1711,11 @@ func (action *ManagementPolicyAction) AssignPropertiesToManagementPolicyAction(d
 	return nil
 }
 
+//Deprecated version of ManagementPolicyAction_Status. Use v1beta20210401.ManagementPolicyAction_Status instead
 type ManagementPolicyAction_Status struct {
-	//BaseBlob: The management policy action for base blob
 	BaseBlob *ManagementPolicyBaseBlob_Status `json:"baseBlob,omitempty"`
-
-	//Snapshot: The management policy action for snapshot
 	Snapshot *ManagementPolicySnapShot_Status `json:"snapshot,omitempty"`
-
-	//Version: The management policy action for version
-	Version *ManagementPolicyVersion_Status `json:"version,omitempty"`
+	Version  *ManagementPolicyVersion_Status  `json:"version,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagementPolicyAction_Status{}
@@ -1901,17 +1864,12 @@ func (action *ManagementPolicyAction_Status) AssignPropertiesToManagementPolicyA
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyFilter
+//Deprecated version of ManagementPolicyFilter. Use v1beta20210401.ManagementPolicyFilter instead
 type ManagementPolicyFilter struct {
-	//BlobIndexMatch: An array of blob index tag based filters, there can be at most 10 tag filters
 	BlobIndexMatch []TagFilter `json:"blobIndexMatch,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//BlobTypes: An array of predefined enum values. Currently blockBlob supports all tiering and delete actions. Only delete
-	//actions are supported for appendBlob.
-	BlobTypes []string `json:"blobTypes,omitempty"`
-
-	//PrefixMatch: An array of strings for prefixes to be match.
+	BlobTypes   []string `json:"blobTypes,omitempty"`
 	PrefixMatch []string `json:"prefixMatch,omitempty"`
 }
 
@@ -2052,16 +2010,11 @@ func (filter *ManagementPolicyFilter) AssignPropertiesToManagementPolicyFilter(d
 	return nil
 }
 
+//Deprecated version of ManagementPolicyFilter_Status. Use v1beta20210401.ManagementPolicyFilter_Status instead
 type ManagementPolicyFilter_Status struct {
-	//BlobIndexMatch: An array of blob index tag based filters, there can be at most 10 tag filters
 	BlobIndexMatch []TagFilter_Status `json:"blobIndexMatch,omitempty"`
-
-	//BlobTypes: An array of predefined enum values. Currently blockBlob supports all tiering and delete actions. Only delete
-	//actions are supported for appendBlob.
-	BlobTypes []string `json:"blobTypes,omitempty"`
-
-	//PrefixMatch: An array of strings for prefixes to be match.
-	PrefixMatch []string `json:"prefixMatch,omitempty"`
+	BlobTypes      []string           `json:"blobTypes,omitempty"`
+	PrefixMatch    []string           `json:"prefixMatch,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagementPolicyFilter_Status{}
@@ -2173,23 +2126,12 @@ func (filter *ManagementPolicyFilter_Status) AssignPropertiesToManagementPolicyF
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyBaseBlob
+//Deprecated version of ManagementPolicyBaseBlob. Use v1beta20210401.ManagementPolicyBaseBlob instead
 type ManagementPolicyBaseBlob struct {
-	//Delete: Object to define the number of days after object last modification Or last access. Properties
-	//daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.
-	Delete *DateAfterModification `json:"delete,omitempty"`
-
-	//EnableAutoTierToHotFromCool: This property enables auto tiering of a blob from cool to hot on a blob access. This
-	//property requires tierToCool.daysAfterLastAccessTimeGreaterThan.
-	EnableAutoTierToHotFromCool *bool `json:"enableAutoTierToHotFromCool,omitempty"`
-
-	//TierToArchive: Object to define the number of days after object last modification Or last access. Properties
-	//daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.
-	TierToArchive *DateAfterModification `json:"tierToArchive,omitempty"`
-
-	//TierToCool: Object to define the number of days after object last modification Or last access. Properties
-	//daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.
-	TierToCool *DateAfterModification `json:"tierToCool,omitempty"`
+	Delete                      *DateAfterModification `json:"delete,omitempty"`
+	EnableAutoTierToHotFromCool *bool                  `json:"enableAutoTierToHotFromCool,omitempty"`
+	TierToArchive               *DateAfterModification `json:"tierToArchive,omitempty"`
+	TierToCool                  *DateAfterModification `json:"tierToCool,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagementPolicyBaseBlob{}
@@ -2405,19 +2347,12 @@ func (blob *ManagementPolicyBaseBlob) AssignPropertiesToManagementPolicyBaseBlob
 	return nil
 }
 
+//Deprecated version of ManagementPolicyBaseBlob_Status. Use v1beta20210401.ManagementPolicyBaseBlob_Status instead
 type ManagementPolicyBaseBlob_Status struct {
-	//Delete: The function to delete the blob
-	Delete *DateAfterModification_Status `json:"delete,omitempty"`
-
-	//EnableAutoTierToHotFromCool: This property enables auto tiering of a blob from cool to hot on a blob access. This
-	//property requires tierToCool.daysAfterLastAccessTimeGreaterThan.
-	EnableAutoTierToHotFromCool *bool `json:"enableAutoTierToHotFromCool,omitempty"`
-
-	//TierToArchive: The function to tier blobs to archive storage. Support blobs currently at Hot or Cool tier
-	TierToArchive *DateAfterModification_Status `json:"tierToArchive,omitempty"`
-
-	//TierToCool: The function to tier blobs to cool storage. Support blobs currently at Hot tier
-	TierToCool *DateAfterModification_Status `json:"tierToCool,omitempty"`
+	Delete                      *DateAfterModification_Status `json:"delete,omitempty"`
+	EnableAutoTierToHotFromCool *bool                         `json:"enableAutoTierToHotFromCool,omitempty"`
+	TierToArchive               *DateAfterModification_Status `json:"tierToArchive,omitempty"`
+	TierToCool                  *DateAfterModification_Status `json:"tierToCool,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagementPolicyBaseBlob_Status{}
@@ -2588,16 +2523,11 @@ func (blob *ManagementPolicyBaseBlob_Status) AssignPropertiesToManagementPolicyB
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicySnapShot
+//Deprecated version of ManagementPolicySnapShot. Use v1beta20210401.ManagementPolicySnapShot instead
 type ManagementPolicySnapShot struct {
-	//Delete: Object to define the number of days after creation.
-	Delete *DateAfterCreation `json:"delete,omitempty"`
-
-	//TierToArchive: Object to define the number of days after creation.
+	Delete        *DateAfterCreation `json:"delete,omitempty"`
 	TierToArchive *DateAfterCreation `json:"tierToArchive,omitempty"`
-
-	//TierToCool: Object to define the number of days after creation.
-	TierToCool *DateAfterCreation `json:"tierToCool,omitempty"`
+	TierToCool    *DateAfterCreation `json:"tierToCool,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagementPolicySnapShot{}
@@ -2785,15 +2715,11 @@ func (shot *ManagementPolicySnapShot) AssignPropertiesToManagementPolicySnapShot
 	return nil
 }
 
+//Deprecated version of ManagementPolicySnapShot_Status. Use v1beta20210401.ManagementPolicySnapShot_Status instead
 type ManagementPolicySnapShot_Status struct {
-	//Delete: The function to delete the blob snapshot
-	Delete *DateAfterCreation_Status `json:"delete,omitempty"`
-
-	//TierToArchive: The function to tier blob snapshot to archive storage. Support blob snapshot currently at Hot or Cool tier
+	Delete        *DateAfterCreation_Status `json:"delete,omitempty"`
 	TierToArchive *DateAfterCreation_Status `json:"tierToArchive,omitempty"`
-
-	//TierToCool: The function to tier blob snapshot to cool storage. Support blob snapshot currently at Hot tier
-	TierToCool *DateAfterCreation_Status `json:"tierToCool,omitempty"`
+	TierToCool    *DateAfterCreation_Status `json:"tierToCool,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagementPolicySnapShot_Status{}
@@ -2942,16 +2868,11 @@ func (shot *ManagementPolicySnapShot_Status) AssignPropertiesToManagementPolicyS
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyVersion
+//Deprecated version of ManagementPolicyVersion. Use v1beta20210401.ManagementPolicyVersion instead
 type ManagementPolicyVersion struct {
-	//Delete: Object to define the number of days after creation.
-	Delete *DateAfterCreation `json:"delete,omitempty"`
-
-	//TierToArchive: Object to define the number of days after creation.
+	Delete        *DateAfterCreation `json:"delete,omitempty"`
 	TierToArchive *DateAfterCreation `json:"tierToArchive,omitempty"`
-
-	//TierToCool: Object to define the number of days after creation.
-	TierToCool *DateAfterCreation `json:"tierToCool,omitempty"`
+	TierToCool    *DateAfterCreation `json:"tierToCool,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagementPolicyVersion{}
@@ -3139,15 +3060,11 @@ func (version *ManagementPolicyVersion) AssignPropertiesToManagementPolicyVersio
 	return nil
 }
 
+//Deprecated version of ManagementPolicyVersion_Status. Use v1beta20210401.ManagementPolicyVersion_Status instead
 type ManagementPolicyVersion_Status struct {
-	//Delete: The function to delete the blob version
-	Delete *DateAfterCreation_Status `json:"delete,omitempty"`
-
-	//TierToArchive: The function to tier blob version to archive storage. Support blob version currently at Hot or Cool tier
+	Delete        *DateAfterCreation_Status `json:"delete,omitempty"`
 	TierToArchive *DateAfterCreation_Status `json:"tierToArchive,omitempty"`
-
-	//TierToCool: The function to tier blob version to cool storage. Support blob version currently at Hot tier
-	TierToCool *DateAfterCreation_Status `json:"tierToCool,omitempty"`
+	TierToCool    *DateAfterCreation_Status `json:"tierToCool,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagementPolicyVersion_Status{}
@@ -3296,23 +3213,19 @@ func (version *ManagementPolicyVersion_Status) AssignPropertiesToManagementPolic
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/TagFilter
+//Deprecated version of TagFilter. Use v1beta20210401.TagFilter instead
 type TagFilter struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MaxLength=128
 	// +kubebuilder:validation:MinLength=1
-	//Name: This is the filter tag name, it can have 1 - 128 characters
 	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Op: This is the comparison operator which is used for object comparison and filtering. Only == (equality operator) is
-	//currently supported
 	Op *string `json:"op,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MaxLength=256
 	// +kubebuilder:validation:MinLength=0
-	//Value: This is the filter tag value field used for tag based filtering, it can have 0 - 256 characters
 	Value *string `json:"value,omitempty"`
 }
 
@@ -3440,15 +3353,10 @@ func (filter *TagFilter) AssignPropertiesToTagFilter(destination *v1alpha1api202
 	return nil
 }
 
+//Deprecated version of TagFilter_Status. Use v1beta20210401.TagFilter_Status instead
 type TagFilter_Status struct {
-	//Name: This is the filter tag name, it can have 1 - 128 characters
-	Name *string `json:"name,omitempty"`
-
-	//Op: This is the comparison operator which is used for object comparison and filtering. Only == (equality operator) is
-	//currently supported
-	Op *string `json:"op,omitempty"`
-
-	//Value: This is the filter tag value field used for tag based filtering, it can have 0 - 256 characters
+	Name  *string `json:"name,omitempty"`
+	Op    *string `json:"op,omitempty"`
 	Value *string `json:"value,omitempty"`
 }
 
@@ -3529,12 +3437,11 @@ func (filter *TagFilter_Status) AssignPropertiesToTagFilterStatus(destination *v
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DateAfterCreation
+//Deprecated version of DateAfterCreation. Use v1beta20210401.DateAfterCreation instead
 type DateAfterCreation struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Minimum=0
 	// +kubebuilder:validation:MultipleOf=1
-	//DaysAfterCreationGreaterThan: Value indicating the age in days after creation
 	DaysAfterCreationGreaterThan *int `json:"daysAfterCreationGreaterThan,omitempty"`
 }
 
@@ -3616,8 +3523,8 @@ func (creation *DateAfterCreation) AssignPropertiesToDateAfterCreation(destinati
 	return nil
 }
 
+//Deprecated version of DateAfterCreation_Status. Use v1beta20210401.DateAfterCreation_Status instead
 type DateAfterCreation_Status struct {
-	//DaysAfterCreationGreaterThan: Value indicating the age in days after creation
 	DaysAfterCreationGreaterThan *float64 `json:"daysAfterCreationGreaterThan,omitempty"`
 }
 
@@ -3684,17 +3591,14 @@ func (creation *DateAfterCreation_Status) AssignPropertiesToDateAfterCreationSta
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DateAfterModification
+//Deprecated version of DateAfterModification. Use v1beta20210401.DateAfterModification instead
 type DateAfterModification struct {
 	// +kubebuilder:validation:Minimum=0
 	// +kubebuilder:validation:MultipleOf=1
-	//DaysAfterLastAccessTimeGreaterThan: Value indicating the age in days after last blob access. This property can only be
-	//used in conjunction with last access time tracking policy
 	DaysAfterLastAccessTimeGreaterThan *int `json:"daysAfterLastAccessTimeGreaterThan,omitempty"`
 
 	// +kubebuilder:validation:Minimum=0
 	// +kubebuilder:validation:MultipleOf=1
-	//DaysAfterModificationGreaterThan: Value indicating the age in days after last modification
 	DaysAfterModificationGreaterThan *int `json:"daysAfterModificationGreaterThan,omitempty"`
 }
 
@@ -3804,13 +3708,10 @@ func (modification *DateAfterModification) AssignPropertiesToDateAfterModificati
 	return nil
 }
 
+//Deprecated version of DateAfterModification_Status. Use v1beta20210401.DateAfterModification_Status instead
 type DateAfterModification_Status struct {
-	//DaysAfterLastAccessTimeGreaterThan: Value indicating the age in days after last blob access. This property can only be
-	//used in conjunction with last access time tracking policy
 	DaysAfterLastAccessTimeGreaterThan *float64 `json:"daysAfterLastAccessTimeGreaterThan,omitempty"`
-
-	//DaysAfterModificationGreaterThan: Value indicating the age in days after last modification
-	DaysAfterModificationGreaterThan *float64 `json:"daysAfterModificationGreaterThan,omitempty"`
+	DaysAfterModificationGreaterThan   *float64 `json:"daysAfterModificationGreaterThan,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DateAfterModification_Status{}

@@ -5,6 +5,7 @@ package v1alpha1api20210515storage
 
 import (
 	"encoding/json"
+	"github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,90 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_SqlDatabaseContainerTrigger_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlDatabaseContainerTrigger to hub returns original",
+		prop.ForAll(RunResourceConversionTestForSqlDatabaseContainerTrigger, SqlDatabaseContainerTriggerGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForSqlDatabaseContainerTrigger tests if a specific instance of SqlDatabaseContainerTrigger round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForSqlDatabaseContainerTrigger(subject SqlDatabaseContainerTrigger) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1beta20210515storage.SqlDatabaseContainerTrigger
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual SqlDatabaseContainerTrigger
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SqlDatabaseContainerTrigger_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlDatabaseContainerTrigger to SqlDatabaseContainerTrigger via AssignPropertiesToSqlDatabaseContainerTrigger & AssignPropertiesFromSqlDatabaseContainerTrigger returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlDatabaseContainerTrigger, SqlDatabaseContainerTriggerGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlDatabaseContainerTrigger tests if a specific instance of SqlDatabaseContainerTrigger can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForSqlDatabaseContainerTrigger(subject SqlDatabaseContainerTrigger) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.SqlDatabaseContainerTrigger
+	err := copied.AssignPropertiesToSqlDatabaseContainerTrigger(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlDatabaseContainerTrigger
+	err = actual.AssignPropertiesFromSqlDatabaseContainerTrigger(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_SqlDatabaseContainerTrigger_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -76,6 +161,48 @@ func SqlDatabaseContainerTriggerGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForSqlDatabaseContainerTrigger(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccountsSqlDatabasesContainersTriggersSpecGenerator()
 	gens["Status"] = SqlTriggerGetResultsStatusGenerator()
+}
+
+func Test_DatabaseAccountsSqlDatabasesContainersTriggers_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DatabaseAccountsSqlDatabasesContainersTriggers_Spec to DatabaseAccountsSqlDatabasesContainersTriggers_Spec via AssignPropertiesToDatabaseAccountsSqlDatabasesContainersTriggersSpec & AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersTriggersSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersTriggersSpec, DatabaseAccountsSqlDatabasesContainersTriggersSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersTriggersSpec tests if a specific instance of DatabaseAccountsSqlDatabasesContainersTriggers_Spec can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersTriggersSpec(subject DatabaseAccountsSqlDatabasesContainersTriggers_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.DatabaseAccountsSqlDatabasesContainersTriggers_Spec
+	err := copied.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersTriggersSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DatabaseAccountsSqlDatabasesContainersTriggers_Spec
+	err = actual.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersTriggersSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_DatabaseAccountsSqlDatabasesContainersTriggers_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -156,6 +283,48 @@ func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTrigge
 	gens["Resource"] = gen.PtrOf(SqlTriggerResourceGenerator())
 }
 
+func Test_SqlTriggerGetResults_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlTriggerGetResults_Status to SqlTriggerGetResults_Status via AssignPropertiesToSqlTriggerGetResultsStatus & AssignPropertiesFromSqlTriggerGetResultsStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlTriggerGetResultsStatus, SqlTriggerGetResultsStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlTriggerGetResultsStatus tests if a specific instance of SqlTriggerGetResults_Status can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForSqlTriggerGetResultsStatus(subject SqlTriggerGetResults_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.SqlTriggerGetResults_Status
+	err := copied.AssignPropertiesToSqlTriggerGetResultsStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlTriggerGetResults_Status
+	err = actual.AssignPropertiesFromSqlTriggerGetResultsStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SqlTriggerGetResults_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -234,6 +403,48 @@ func AddRelatedPropertyGeneratorsForSqlTriggerGetResultsStatus(gens map[string]g
 	gens["Resource"] = gen.PtrOf(SqlTriggerGetPropertiesStatusResourceGenerator())
 }
 
+func Test_SqlTriggerGetProperties_Status_Resource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlTriggerGetProperties_Status_Resource to SqlTriggerGetProperties_Status_Resource via AssignPropertiesToSqlTriggerGetPropertiesStatusResource & AssignPropertiesFromSqlTriggerGetPropertiesStatusResource returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlTriggerGetPropertiesStatusResource, SqlTriggerGetPropertiesStatusResourceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlTriggerGetPropertiesStatusResource tests if a specific instance of SqlTriggerGetProperties_Status_Resource can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForSqlTriggerGetPropertiesStatusResource(subject SqlTriggerGetProperties_Status_Resource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.SqlTriggerGetProperties_Status_Resource
+	err := copied.AssignPropertiesToSqlTriggerGetPropertiesStatusResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlTriggerGetProperties_Status_Resource
+	err = actual.AssignPropertiesFromSqlTriggerGetPropertiesStatusResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SqlTriggerGetProperties_Status_Resource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -298,6 +509,48 @@ func AddIndependentPropertyGeneratorsForSqlTriggerGetPropertiesStatusResource(ge
 	gens["TriggerOperation"] = gen.PtrOf(gen.AlphaString())
 	gens["TriggerType"] = gen.PtrOf(gen.AlphaString())
 	gens["Ts"] = gen.PtrOf(gen.Float64())
+}
+
+func Test_SqlTriggerResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlTriggerResource to SqlTriggerResource via AssignPropertiesToSqlTriggerResource & AssignPropertiesFromSqlTriggerResource returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlTriggerResource, SqlTriggerResourceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlTriggerResource tests if a specific instance of SqlTriggerResource can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForSqlTriggerResource(subject SqlTriggerResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.SqlTriggerResource
+	err := copied.AssignPropertiesToSqlTriggerResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlTriggerResource
+	err = actual.AssignPropertiesFromSqlTriggerResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SqlTriggerResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

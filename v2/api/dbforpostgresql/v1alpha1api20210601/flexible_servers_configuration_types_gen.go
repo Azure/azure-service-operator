@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers_configurations
+//Deprecated version of FlexibleServersConfiguration. Use v1beta20210601.FlexibleServersConfiguration instead
 type FlexibleServersConfiguration struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -48,22 +48,36 @@ var _ conversion.Convertible = &FlexibleServersConfiguration{}
 
 // ConvertFrom populates our FlexibleServersConfiguration from the provided hub FlexibleServersConfiguration
 func (configuration *FlexibleServersConfiguration) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20210601storage.FlexibleServersConfiguration)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1alpha1api20210601storage/FlexibleServersConfiguration but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20210601storage.FlexibleServersConfiguration
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return configuration.AssignPropertiesFromFlexibleServersConfiguration(source)
+	err = configuration.AssignPropertiesFromFlexibleServersConfiguration(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to configuration")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FlexibleServersConfiguration from our FlexibleServersConfiguration
 func (configuration *FlexibleServersConfiguration) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20210601storage.FlexibleServersConfiguration)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1alpha1api20210601storage/FlexibleServersConfiguration but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20210601storage.FlexibleServersConfiguration
+	err := configuration.AssignPropertiesToFlexibleServersConfiguration(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from configuration")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return configuration.AssignPropertiesToFlexibleServersConfiguration(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-dbforpostgresql-azure-com-v1alpha1api20210601-flexibleserversconfiguration,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbforpostgresql.azure.com,resources=flexibleserversconfigurations,verbs=create;update,versions=v1alpha1api20210601,name=default.v1alpha1api20210601.flexibleserversconfigurations.dbforpostgresql.azure.com,admissionReviewVersions=v1beta1
@@ -300,62 +314,33 @@ func (configuration *FlexibleServersConfiguration) OriginalGVK() *schema.GroupVe
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers_configurations
+//Deprecated version of FlexibleServersConfiguration. Use v1beta20210601.FlexibleServersConfiguration instead
 type FlexibleServersConfigurationList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []FlexibleServersConfiguration `json:"items"`
 }
 
+//Deprecated version of Configuration_Status. Use v1beta20210601.Configuration_Status instead
 type Configuration_Status struct {
-	//AllowedValues: Allowed values of the configuration.
 	AllowedValues *string `json:"allowedValues,omitempty"`
 
 	//Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	//DataType: Data type of the configuration.
-	DataType *ConfigurationPropertiesStatusDataType `json:"dataType,omitempty"`
-
-	//DefaultValue: Default value of the configuration.
-	DefaultValue *string `json:"defaultValue,omitempty"`
-
-	//Description: Description of the configuration.
-	Description *string `json:"description,omitempty"`
-
-	//DocumentationLink: Configuration documentation link.
-	DocumentationLink *string `json:"documentationLink,omitempty"`
-
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	//IsConfigPendingRestart: Configuration is pending restart or not.
-	IsConfigPendingRestart *bool `json:"isConfigPendingRestart,omitempty"`
-
-	//IsDynamicConfig: Configuration dynamic or static.
-	IsDynamicConfig *bool `json:"isDynamicConfig,omitempty"`
-
-	//IsReadOnly: Configuration read-only or not.
-	IsReadOnly *bool `json:"isReadOnly,omitempty"`
-
-	//Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	//Source: Source of the configuration.
-	Source *string `json:"source,omitempty"`
-
-	//SystemData: The system metadata relating to this resource.
-	SystemData *SystemData_Status `json:"systemData,omitempty"`
-
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
-
-	//Unit: Configuration unit.
-	Unit *string `json:"unit,omitempty"`
-
-	//Value: Value of the configuration.
-	Value *string `json:"value,omitempty"`
+	Conditions             []conditions.Condition                 `json:"conditions,omitempty"`
+	DataType               *ConfigurationPropertiesStatusDataType `json:"dataType,omitempty"`
+	DefaultValue           *string                                `json:"defaultValue,omitempty"`
+	Description            *string                                `json:"description,omitempty"`
+	DocumentationLink      *string                                `json:"documentationLink,omitempty"`
+	Id                     *string                                `json:"id,omitempty"`
+	IsConfigPendingRestart *bool                                  `json:"isConfigPendingRestart,omitempty"`
+	IsDynamicConfig        *bool                                  `json:"isDynamicConfig,omitempty"`
+	IsReadOnly             *bool                                  `json:"isReadOnly,omitempty"`
+	Name                   *string                                `json:"name,omitempty"`
+	Source                 *string                                `json:"source,omitempty"`
+	SystemData             *SystemData_Status                     `json:"systemData,omitempty"`
+	Type                   *string                                `json:"type,omitempty"`
+	Unit                   *string                                `json:"unit,omitempty"`
+	Value                  *string                                `json:"value,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Configuration_Status{}
@@ -733,33 +718,20 @@ func (configuration *Configuration_Status) AssignPropertiesToConfigurationStatus
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-06-01"}
-type FlexibleServersConfigurationsSpecAPIVersion string
-
-const FlexibleServersConfigurationsSpecAPIVersion20210601 = FlexibleServersConfigurationsSpecAPIVersion("2021-06-01")
-
 type FlexibleServersConfigurations_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
+	AzureName string  `json:"azureName,omitempty"`
+	Location  *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a dbforpostgresql.azure.com/FlexibleServer resource
-	Owner *genruntime.KnownResourceReference `group:"dbforpostgresql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
-
-	//Source: Source of the configuration.
-	Source *string `json:"source,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//Value: Value of the configuration.
-	Value *string `json:"value,omitempty"`
+	Owner  *genruntime.KnownResourceReference `group:"dbforpostgresql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
+	Source *string                            `json:"source,omitempty"`
+	Tags   map[string]string                  `json:"tags,omitempty"`
+	Value  *string                            `json:"value,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &FlexibleServersConfigurations_Spec{}

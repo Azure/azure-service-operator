@@ -1,0 +1,29 @@
+apiVersion: network.azure.com/v1beta20201101
+kind: VirtualNetworkGateway
+metadata:
+  name: samplevnetgateway
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: aso-sample-rg
+  gatewayType: Vpn
+  vpnType: RouteBased
+  vpnGatewayGeneration: Generation2
+  sku:
+    name: VpnGw2
+    tier: VpnGw2
+  ipConfigurations:
+    - name: config1
+      publicIPAddress:
+        reference:
+          group: network.azure.com
+          kind: PublicIPAddress
+          name: samplepublicip
+      subnet:
+        reference:
+          group: network.azure.com
+          kind: VirtualNetworksSubnet
+          name: gatewaysubnet
+
+

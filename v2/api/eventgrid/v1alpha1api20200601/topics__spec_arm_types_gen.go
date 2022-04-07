@@ -5,15 +5,11 @@ package v1alpha1api20200601
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+//Deprecated version of Topics_Spec. Use v1beta20200601.Topics_Spec instead
 type Topics_SpecARM struct {
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	//Name: Name of the resource
-	Name string `json:"name,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	Location *string           `json:"location,omitempty"`
+	Name     string            `json:"name,omitempty"`
+	Tags     map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Topics_SpecARM{}

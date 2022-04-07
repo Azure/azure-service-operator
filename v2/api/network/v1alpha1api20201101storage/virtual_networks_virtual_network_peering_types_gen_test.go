@@ -5,6 +5,7 @@ package v1alpha1api20201101storage
 
 import (
 	"encoding/json"
+	"github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,90 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_VirtualNetworksVirtualNetworkPeering_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetworksVirtualNetworkPeering to hub returns original",
+		prop.ForAll(RunResourceConversionTestForVirtualNetworksVirtualNetworkPeering, VirtualNetworksVirtualNetworkPeeringGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForVirtualNetworksVirtualNetworkPeering tests if a specific instance of VirtualNetworksVirtualNetworkPeering round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForVirtualNetworksVirtualNetworkPeering(subject VirtualNetworksVirtualNetworkPeering) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1beta20201101storage.VirtualNetworksVirtualNetworkPeering
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual VirtualNetworksVirtualNetworkPeering
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualNetworksVirtualNetworkPeering_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetworksVirtualNetworkPeering to VirtualNetworksVirtualNetworkPeering via AssignPropertiesToVirtualNetworksVirtualNetworkPeering & AssignPropertiesFromVirtualNetworksVirtualNetworkPeering returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeering, VirtualNetworksVirtualNetworkPeeringGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeering tests if a specific instance of VirtualNetworksVirtualNetworkPeering can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeering(subject VirtualNetworksVirtualNetworkPeering) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.VirtualNetworksVirtualNetworkPeering
+	err := copied.AssignPropertiesToVirtualNetworksVirtualNetworkPeering(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualNetworksVirtualNetworkPeering
+	err = actual.AssignPropertiesFromVirtualNetworksVirtualNetworkPeering(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_VirtualNetworksVirtualNetworkPeering_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -76,6 +161,48 @@ func VirtualNetworksVirtualNetworkPeeringGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForVirtualNetworksVirtualNetworkPeering(gens map[string]gopter.Gen) {
 	gens["Spec"] = VirtualNetworksVirtualNetworkPeeringsSpecGenerator()
 	gens["Status"] = VirtualNetworkPeeringStatusGenerator()
+}
+
+func Test_VirtualNetworkPeering_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetworkPeering_Status to VirtualNetworkPeering_Status via AssignPropertiesToVirtualNetworkPeeringStatus & AssignPropertiesFromVirtualNetworkPeeringStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkPeeringStatus, VirtualNetworkPeeringStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualNetworkPeeringStatus tests if a specific instance of VirtualNetworkPeering_Status can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworkPeeringStatus(subject VirtualNetworkPeering_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.VirtualNetworkPeering_Status
+	err := copied.AssignPropertiesToVirtualNetworkPeeringStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualNetworkPeering_Status
+	err = actual.AssignPropertiesFromVirtualNetworkPeeringStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_VirtualNetworkPeering_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -163,6 +290,48 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkPeeringStatus(gens map[string]
 	gens["RemoteAddressSpace"] = gen.PtrOf(AddressSpaceStatusGenerator())
 	gens["RemoteBgpCommunities"] = gen.PtrOf(VirtualNetworkBgpCommunitiesStatusGenerator())
 	gens["RemoteVirtualNetwork"] = gen.PtrOf(SubResourceStatusGenerator())
+}
+
+func Test_VirtualNetworksVirtualNetworkPeerings_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetworksVirtualNetworkPeerings_Spec to VirtualNetworksVirtualNetworkPeerings_Spec via AssignPropertiesToVirtualNetworksVirtualNetworkPeeringsSpec & AssignPropertiesFromVirtualNetworksVirtualNetworkPeeringsSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeeringsSpec, VirtualNetworksVirtualNetworkPeeringsSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeeringsSpec tests if a specific instance of VirtualNetworksVirtualNetworkPeerings_Spec can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeeringsSpec(subject VirtualNetworksVirtualNetworkPeerings_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.VirtualNetworksVirtualNetworkPeerings_Spec
+	err := copied.AssignPropertiesToVirtualNetworksVirtualNetworkPeeringsSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualNetworksVirtualNetworkPeerings_Spec
+	err = actual.AssignPropertiesFromVirtualNetworksVirtualNetworkPeeringsSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_VirtualNetworksVirtualNetworkPeerings_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

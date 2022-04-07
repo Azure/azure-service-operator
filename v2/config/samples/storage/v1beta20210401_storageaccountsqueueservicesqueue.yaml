@@ -1,0 +1,8 @@
+apiVersion: microsoft.storage.azure.com/v1beta20210401
+kind: StorageAccountsQueueServicesQueue
+metadata:
+  name: samplequeue
+  namespace: default
+spec:
+  owner:
+    name: samplekubestoragequeues

@@ -34,6 +34,11 @@ jobs:
           container_id=${{steps.devcontainer.outputs.id}}
           docker exec "$container_id" task controller:run-kustomize
 
+      - name: Make multitenant files
+        run: |
+          container_id=${{steps.devcontainer.outputs.id}}
+          docker exec "$container_id" task controller:make-multitenant-files
+
       - name: Build & tag Docker image
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
@@ -46,7 +51,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref }}
-          file: v2/bin/azureserviceoperator_*.yaml
+          file: "v2/bin/{azureserviceoperator,multitenant-cluster,multitenant-tenant}_*.yaml"
           file_glob: true
 
       - name: Login to registry

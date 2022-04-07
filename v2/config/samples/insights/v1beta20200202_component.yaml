@@ -1,0 +1,11 @@
+apiVersion: insights.azure.com/v1beta20200202
+kind: Component
+metadata:
+  name: sampleappinsights
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: aso-sample-rg
+  Application_Type: other
+  kind: web

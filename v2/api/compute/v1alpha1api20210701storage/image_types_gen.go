@@ -4,25 +4,26 @@
 package v1alpha1api20210701storage
 
 import (
+	"fmt"
+	"github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage"
+	"github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage"
+	"github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=compute.azure.com,resources=images,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=compute.azure.com,resources={images/status,images/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Storage version of v1alpha1api20210701.Image
-//Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/resourceDefinitions/images
+//Deprecated version of Image. Use v1beta20210701.Image instead
 type Image struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -40,6 +41,28 @@ func (image *Image) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (image *Image) SetConditions(conditions conditions.Conditions) {
 	image.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &Image{}
+
+// ConvertFrom populates our Image from the provided hub Image
+func (image *Image) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1beta20210701storage.Image)
+	if !ok {
+		return fmt.Errorf("expected compute/v1beta20210701storage/Image but received %T instead", hub)
+	}
+
+	return image.AssignPropertiesFromImage(source)
+}
+
+// ConvertTo populates the provided hub Image from our Image
+func (image *Image) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1beta20210701storage.Image)
+	if !ok {
+		return fmt.Errorf("expected compute/v1beta20210701storage/Image but received %T instead", hub)
+	}
+
+	return image.AssignPropertiesToImage(destination)
 }
 
 var _ genruntime.KubernetesResource = &Image{}
@@ -108,8 +131,57 @@ func (image *Image) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// Hub marks that this Image is the hub type for conversion
-func (image *Image) Hub() {}
+// AssignPropertiesFromImage populates our Image from the provided source Image
+func (image *Image) AssignPropertiesFromImage(source *v1beta20210701storage.Image) error {
+
+	// ObjectMeta
+	image.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec Images_Spec
+	err := spec.AssignPropertiesFromImagesSpec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromImagesSpec() to populate field Spec")
+	}
+	image.Spec = spec
+
+	// Status
+	var status Image_Status
+	err = status.AssignPropertiesFromImageStatus(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromImageStatus() to populate field Status")
+	}
+	image.Status = status
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToImage populates the provided destination Image from our Image
+func (image *Image) AssignPropertiesToImage(destination *v1beta20210701storage.Image) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *image.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v1beta20210701storage.Images_Spec
+	err := image.Spec.AssignPropertiesToImagesSpec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToImagesSpec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v1beta20210701storage.Image_Status
+	err = image.Status.AssignPropertiesToImageStatus(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToImageStatus() to populate field Status")
+	}
+	destination.Status = status
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (image *Image) OriginalGVK() *schema.GroupVersionKind {
@@ -122,7 +194,7 @@ func (image *Image) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 //Storage version of v1alpha1api20210701.Image
-//Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/resourceDefinitions/images
+//Deprecated version of Image. Use v1beta20210701.Image instead
 type ImageList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -130,6 +202,7 @@ type ImageList struct {
 }
 
 //Storage version of v1alpha1api20210701.Image_Status
+//Deprecated version of Image_Status. Use v1beta20210701.Image_Status instead
 type Image_Status struct {
 	Conditions           []conditions.Condition      `json:"conditions,omitempty"`
 	ExtendedLocation     *ExtendedLocation_Status    `json:"extendedLocation,omitempty"`
@@ -149,20 +222,232 @@ var _ genruntime.ConvertibleStatus = &Image_Status{}
 
 // ConvertStatusFrom populates our Image_Status from the provided source
 func (image *Image_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == image {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v1beta20210701storage.Image_Status)
+	if ok {
+		// Populate our instance from source
+		return image.AssignPropertiesFromImageStatus(src)
 	}
 
-	return source.ConvertStatusTo(image)
+	// Convert to an intermediate form
+	src = &v1beta20210701storage.Image_Status{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = image.AssignPropertiesFromImageStatus(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our Image_Status
 func (image *Image_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == image {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v1beta20210701storage.Image_Status)
+	if ok {
+		// Populate destination from our instance
+		return image.AssignPropertiesToImageStatus(dst)
 	}
 
-	return destination.ConvertStatusFrom(image)
+	// Convert to an intermediate form
+	dst = &v1beta20210701storage.Image_Status{}
+	err := image.AssignPropertiesToImageStatus(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromImageStatus populates our Image_Status from the provided source Image_Status
+func (image *Image_Status) AssignPropertiesFromImageStatus(source *v1beta20210701storage.Image_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	image.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// ExtendedLocation
+	if source.ExtendedLocation != nil {
+		var extendedLocationStatusStash v1beta20201201storage.ExtendedLocation_Status
+		err := extendedLocationStatusStash.AssignPropertiesFromExtendedLocationStatus(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation_StatusStash from ExtendedLocation")
+		}
+		var extendedLocationStatusStashLocal v1beta20200930storage.ExtendedLocation_Status
+		err = extendedLocationStatusStashLocal.AssignPropertiesFromExtendedLocationStatus(&extendedLocationStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation_StatusStash")
+		}
+		var extendedLocation ExtendedLocation_Status
+		err = extendedLocation.AssignPropertiesFromExtendedLocationStatus(&extendedLocationStatusStashLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation from ExtendedLocation_StatusStash")
+		}
+		image.ExtendedLocation = &extendedLocation
+	} else {
+		image.ExtendedLocation = nil
+	}
+
+	// HyperVGeneration
+	image.HyperVGeneration = genruntime.ClonePointerToString(source.HyperVGeneration)
+
+	// Id
+	image.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Location
+	image.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	image.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ProvisioningState
+	image.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// SourceVirtualMachine
+	if source.SourceVirtualMachine != nil {
+		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.SourceVirtualMachine)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from SourceVirtualMachine")
+		}
+		var sourceVirtualMachine SubResource_Status
+		err = sourceVirtualMachine.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SourceVirtualMachine from SubResource_StatusStash")
+		}
+		image.SourceVirtualMachine = &sourceVirtualMachine
+	} else {
+		image.SourceVirtualMachine = nil
+	}
+
+	// StorageProfile
+	if source.StorageProfile != nil {
+		var storageProfile ImageStorageProfile_Status
+		err := storageProfile.AssignPropertiesFromImageStorageProfileStatus(source.StorageProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromImageStorageProfileStatus() to populate field StorageProfile")
+		}
+		image.StorageProfile = &storageProfile
+	} else {
+		image.StorageProfile = nil
+	}
+
+	// Tags
+	image.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	image.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		image.PropertyBag = propertyBag
+	} else {
+		image.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToImageStatus populates the provided destination Image_Status from our Image_Status
+func (image *Image_Status) AssignPropertiesToImageStatus(destination *v1beta20210701storage.Image_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(image.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(image.Conditions)
+
+	// ExtendedLocation
+	if image.ExtendedLocation != nil {
+		var extendedLocationStatusStash v1beta20200930storage.ExtendedLocation_Status
+		err := image.ExtendedLocation.AssignPropertiesToExtendedLocationStatus(&extendedLocationStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation_StatusStash from ExtendedLocation")
+		}
+		var extendedLocationStatusStashLocal v1beta20201201storage.ExtendedLocation_Status
+		err = extendedLocationStatusStash.AssignPropertiesToExtendedLocationStatus(&extendedLocationStatusStashLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation_StatusStash")
+		}
+		var extendedLocation v1beta20210701storage.ExtendedLocation_Status
+		err = extendedLocationStatusStashLocal.AssignPropertiesToExtendedLocationStatus(&extendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation from ExtendedLocation_StatusStash")
+		}
+		destination.ExtendedLocation = &extendedLocation
+	} else {
+		destination.ExtendedLocation = nil
+	}
+
+	// HyperVGeneration
+	destination.HyperVGeneration = genruntime.ClonePointerToString(image.HyperVGeneration)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(image.Id)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(image.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(image.Name)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(image.ProvisioningState)
+
+	// SourceVirtualMachine
+	if image.SourceVirtualMachine != nil {
+		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		err := image.SourceVirtualMachine.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from SourceVirtualMachine")
+		}
+		var sourceVirtualMachine v1beta20210701storage.SubResource_Status
+		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&sourceVirtualMachine)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SourceVirtualMachine from SubResource_StatusStash")
+		}
+		destination.SourceVirtualMachine = &sourceVirtualMachine
+	} else {
+		destination.SourceVirtualMachine = nil
+	}
+
+	// StorageProfile
+	if image.StorageProfile != nil {
+		var storageProfile v1beta20210701storage.ImageStorageProfile_Status
+		err := image.StorageProfile.AssignPropertiesToImageStorageProfileStatus(&storageProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToImageStorageProfileStatus() to populate field StorageProfile")
+		}
+		destination.StorageProfile = &storageProfile
+	} else {
+		destination.StorageProfile = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(image.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(image.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 //Storage version of v1alpha1api20210701.Images_Spec
@@ -190,39 +475,338 @@ var _ genruntime.ConvertibleSpec = &Images_Spec{}
 
 // ConvertSpecFrom populates our Images_Spec from the provided source
 func (images *Images_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == images {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v1beta20210701storage.Images_Spec)
+	if ok {
+		// Populate our instance from source
+		return images.AssignPropertiesFromImagesSpec(src)
 	}
 
-	return source.ConvertSpecTo(images)
+	// Convert to an intermediate form
+	src = &v1beta20210701storage.Images_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = images.AssignPropertiesFromImagesSpec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our Images_Spec
 func (images *Images_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == images {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v1beta20210701storage.Images_Spec)
+	if ok {
+		// Populate destination from our instance
+		return images.AssignPropertiesToImagesSpec(dst)
 	}
 
-	return destination.ConvertSpecFrom(images)
+	// Convert to an intermediate form
+	dst = &v1beta20210701storage.Images_Spec{}
+	err := images.AssignPropertiesToImagesSpec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromImagesSpec populates our Images_Spec from the provided source Images_Spec
+func (images *Images_Spec) AssignPropertiesFromImagesSpec(source *v1beta20210701storage.Images_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	images.AzureName = source.AzureName
+
+	// ExtendedLocation
+	if source.ExtendedLocation != nil {
+		var extendedLocationStash v1beta20201201storage.ExtendedLocation
+		err := extendedLocationStash.AssignPropertiesFromExtendedLocation(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation() to populate field ExtendedLocationStash from ExtendedLocation")
+		}
+		var extendedLocationStashLocal v1beta20200930storage.ExtendedLocation
+		err = extendedLocationStashLocal.AssignPropertiesFromExtendedLocation(&extendedLocationStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation() to populate field ExtendedLocationStash")
+		}
+		var extendedLocation ExtendedLocation
+		err = extendedLocation.AssignPropertiesFromExtendedLocation(&extendedLocationStashLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation() to populate field ExtendedLocation from ExtendedLocationStash")
+		}
+		images.ExtendedLocation = &extendedLocation
+	} else {
+		images.ExtendedLocation = nil
+	}
+
+	// HyperVGeneration
+	images.HyperVGeneration = genruntime.ClonePointerToString(source.HyperVGeneration)
+
+	// Location
+	images.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OriginalVersion
+	images.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		images.Owner = &owner
+	} else {
+		images.Owner = nil
+	}
+
+	// SourceVirtualMachine
+	if source.SourceVirtualMachine != nil {
+		var subResourceStash v1beta20201201storage.SubResource
+		err := subResourceStash.AssignPropertiesFromSubResource(source.SourceVirtualMachine)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SubResourceStash from SourceVirtualMachine")
+		}
+		var sourceVirtualMachine SubResource
+		err = sourceVirtualMachine.AssignPropertiesFromSubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SourceVirtualMachine from SubResourceStash")
+		}
+		images.SourceVirtualMachine = &sourceVirtualMachine
+	} else {
+		images.SourceVirtualMachine = nil
+	}
+
+	// StorageProfile
+	if source.StorageProfile != nil {
+		var storageProfile ImageStorageProfile
+		err := storageProfile.AssignPropertiesFromImageStorageProfile(source.StorageProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromImageStorageProfile() to populate field StorageProfile")
+		}
+		images.StorageProfile = &storageProfile
+	} else {
+		images.StorageProfile = nil
+	}
+
+	// Tags
+	images.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		images.PropertyBag = propertyBag
+	} else {
+		images.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToImagesSpec populates the provided destination Images_Spec from our Images_Spec
+func (images *Images_Spec) AssignPropertiesToImagesSpec(destination *v1beta20210701storage.Images_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(images.PropertyBag)
+
+	// AzureName
+	destination.AzureName = images.AzureName
+
+	// ExtendedLocation
+	if images.ExtendedLocation != nil {
+		var extendedLocationStash v1beta20200930storage.ExtendedLocation
+		err := images.ExtendedLocation.AssignPropertiesToExtendedLocation(&extendedLocationStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation() to populate field ExtendedLocationStash from ExtendedLocation")
+		}
+		var extendedLocationStashLocal v1beta20201201storage.ExtendedLocation
+		err = extendedLocationStash.AssignPropertiesToExtendedLocation(&extendedLocationStashLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation() to populate field ExtendedLocationStash")
+		}
+		var extendedLocation v1beta20210701storage.ExtendedLocation
+		err = extendedLocationStashLocal.AssignPropertiesToExtendedLocation(&extendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation() to populate field ExtendedLocation from ExtendedLocationStash")
+		}
+		destination.ExtendedLocation = &extendedLocation
+	} else {
+		destination.ExtendedLocation = nil
+	}
+
+	// HyperVGeneration
+	destination.HyperVGeneration = genruntime.ClonePointerToString(images.HyperVGeneration)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(images.Location)
+
+	// OriginalVersion
+	destination.OriginalVersion = images.OriginalVersion
+
+	// Owner
+	if images.Owner != nil {
+		owner := images.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// SourceVirtualMachine
+	if images.SourceVirtualMachine != nil {
+		var subResourceStash v1beta20201201storage.SubResource
+		err := images.SourceVirtualMachine.AssignPropertiesToSubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from SourceVirtualMachine")
+		}
+		var sourceVirtualMachine v1beta20210701storage.SubResource
+		err = subResourceStash.AssignPropertiesToSubResource(&sourceVirtualMachine)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SourceVirtualMachine from SubResourceStash")
+		}
+		destination.SourceVirtualMachine = &sourceVirtualMachine
+	} else {
+		destination.SourceVirtualMachine = nil
+	}
+
+	// StorageProfile
+	if images.StorageProfile != nil {
+		var storageProfile v1beta20210701storage.ImageStorageProfile
+		err := images.StorageProfile.AssignPropertiesToImageStorageProfile(&storageProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToImageStorageProfile() to populate field StorageProfile")
+		}
+		destination.StorageProfile = &storageProfile
+	} else {
+		destination.StorageProfile = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(images.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 //Storage version of v1alpha1api20210701.ExtendedLocation
-//Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/definitions/ExtendedLocation
+//Deprecated version of ExtendedLocation. Use v1beta20210701.ExtendedLocation instead
 type ExtendedLocation struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
+// AssignPropertiesFromExtendedLocation populates our ExtendedLocation from the provided source ExtendedLocation
+func (location *ExtendedLocation) AssignPropertiesFromExtendedLocation(source *v1beta20200930storage.ExtendedLocation) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Name
+	location.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Type
+	location.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		location.PropertyBag = propertyBag
+	} else {
+		location.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToExtendedLocation populates the provided destination ExtendedLocation from our ExtendedLocation
+func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination *v1beta20200930storage.ExtendedLocation) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(location.Name)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(location.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210701.ExtendedLocation_Status
+//Deprecated version of ExtendedLocation_Status. Use v1beta20210701.ExtendedLocation_Status instead
 type ExtendedLocation_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
+// AssignPropertiesFromExtendedLocationStatus populates our ExtendedLocation_Status from the provided source ExtendedLocation_Status
+func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationStatus(source *v1beta20200930storage.ExtendedLocation_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Name
+	location.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Type
+	location.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		location.PropertyBag = propertyBag
+	} else {
+		location.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToExtendedLocationStatus populates the provided destination ExtendedLocation_Status from our ExtendedLocation_Status
+func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatus(destination *v1beta20200930storage.ExtendedLocation_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(location.Name)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(location.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210701.ImageStorageProfile
-//Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/definitions/ImageStorageProfile
+//Deprecated version of ImageStorageProfile. Use v1beta20210701.ImageStorageProfile instead
 type ImageStorageProfile struct {
 	DataDisks     []ImageDataDisk        `json:"dataDisks,omitempty"`
 	OsDisk        *ImageOSDisk           `json:"osDisk,omitempty"`
@@ -230,7 +814,116 @@ type ImageStorageProfile struct {
 	ZoneResilient *bool                  `json:"zoneResilient,omitempty"`
 }
 
+// AssignPropertiesFromImageStorageProfile populates our ImageStorageProfile from the provided source ImageStorageProfile
+func (profile *ImageStorageProfile) AssignPropertiesFromImageStorageProfile(source *v1beta20210701storage.ImageStorageProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DataDisks
+	if source.DataDisks != nil {
+		dataDiskList := make([]ImageDataDisk, len(source.DataDisks))
+		for dataDiskIndex, dataDiskItem := range source.DataDisks {
+			// Shadow the loop variable to avoid aliasing
+			dataDiskItem := dataDiskItem
+			var dataDisk ImageDataDisk
+			err := dataDisk.AssignPropertiesFromImageDataDisk(&dataDiskItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromImageDataDisk() to populate field DataDisks")
+			}
+			dataDiskList[dataDiskIndex] = dataDisk
+		}
+		profile.DataDisks = dataDiskList
+	} else {
+		profile.DataDisks = nil
+	}
+
+	// OsDisk
+	if source.OsDisk != nil {
+		var osDisk ImageOSDisk
+		err := osDisk.AssignPropertiesFromImageOSDisk(source.OsDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromImageOSDisk() to populate field OsDisk")
+		}
+		profile.OsDisk = &osDisk
+	} else {
+		profile.OsDisk = nil
+	}
+
+	// ZoneResilient
+	if source.ZoneResilient != nil {
+		zoneResilient := *source.ZoneResilient
+		profile.ZoneResilient = &zoneResilient
+	} else {
+		profile.ZoneResilient = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToImageStorageProfile populates the provided destination ImageStorageProfile from our ImageStorageProfile
+func (profile *ImageStorageProfile) AssignPropertiesToImageStorageProfile(destination *v1beta20210701storage.ImageStorageProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// DataDisks
+	if profile.DataDisks != nil {
+		dataDiskList := make([]v1beta20210701storage.ImageDataDisk, len(profile.DataDisks))
+		for dataDiskIndex, dataDiskItem := range profile.DataDisks {
+			// Shadow the loop variable to avoid aliasing
+			dataDiskItem := dataDiskItem
+			var dataDisk v1beta20210701storage.ImageDataDisk
+			err := dataDiskItem.AssignPropertiesToImageDataDisk(&dataDisk)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToImageDataDisk() to populate field DataDisks")
+			}
+			dataDiskList[dataDiskIndex] = dataDisk
+		}
+		destination.DataDisks = dataDiskList
+	} else {
+		destination.DataDisks = nil
+	}
+
+	// OsDisk
+	if profile.OsDisk != nil {
+		var osDisk v1beta20210701storage.ImageOSDisk
+		err := profile.OsDisk.AssignPropertiesToImageOSDisk(&osDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToImageOSDisk() to populate field OsDisk")
+		}
+		destination.OsDisk = &osDisk
+	} else {
+		destination.OsDisk = nil
+	}
+
+	// ZoneResilient
+	if profile.ZoneResilient != nil {
+		zoneResilient := *profile.ZoneResilient
+		destination.ZoneResilient = &zoneResilient
+	} else {
+		destination.ZoneResilient = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210701.ImageStorageProfile_Status
+//Deprecated version of ImageStorageProfile_Status. Use v1beta20210701.ImageStorageProfile_Status instead
 type ImageStorageProfile_Status struct {
 	DataDisks     []ImageDataDisk_Status `json:"dataDisks,omitempty"`
 	OsDisk        *ImageOSDisk_Status    `json:"osDisk,omitempty"`
@@ -238,23 +931,216 @@ type ImageStorageProfile_Status struct {
 	ZoneResilient *bool                  `json:"zoneResilient,omitempty"`
 }
 
-//Storage version of v1alpha1api20210701.SubResource
-//Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/definitions/SubResource
-type SubResource struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+// AssignPropertiesFromImageStorageProfileStatus populates our ImageStorageProfile_Status from the provided source ImageStorageProfile_Status
+func (profile *ImageStorageProfile_Status) AssignPropertiesFromImageStorageProfileStatus(source *v1beta20210701storage.ImageStorageProfile_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	//Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	// DataDisks
+	if source.DataDisks != nil {
+		dataDiskList := make([]ImageDataDisk_Status, len(source.DataDisks))
+		for dataDiskIndex, dataDiskItem := range source.DataDisks {
+			// Shadow the loop variable to avoid aliasing
+			dataDiskItem := dataDiskItem
+			var dataDisk ImageDataDisk_Status
+			err := dataDisk.AssignPropertiesFromImageDataDiskStatus(&dataDiskItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromImageDataDiskStatus() to populate field DataDisks")
+			}
+			dataDiskList[dataDiskIndex] = dataDisk
+		}
+		profile.DataDisks = dataDiskList
+	} else {
+		profile.DataDisks = nil
+	}
+
+	// OsDisk
+	if source.OsDisk != nil {
+		var osDisk ImageOSDisk_Status
+		err := osDisk.AssignPropertiesFromImageOSDiskStatus(source.OsDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromImageOSDiskStatus() to populate field OsDisk")
+		}
+		profile.OsDisk = &osDisk
+	} else {
+		profile.OsDisk = nil
+	}
+
+	// ZoneResilient
+	if source.ZoneResilient != nil {
+		zoneResilient := *source.ZoneResilient
+		profile.ZoneResilient = &zoneResilient
+	} else {
+		profile.ZoneResilient = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToImageStorageProfileStatus populates the provided destination ImageStorageProfile_Status from our ImageStorageProfile_Status
+func (profile *ImageStorageProfile_Status) AssignPropertiesToImageStorageProfileStatus(destination *v1beta20210701storage.ImageStorageProfile_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// DataDisks
+	if profile.DataDisks != nil {
+		dataDiskList := make([]v1beta20210701storage.ImageDataDisk_Status, len(profile.DataDisks))
+		for dataDiskIndex, dataDiskItem := range profile.DataDisks {
+			// Shadow the loop variable to avoid aliasing
+			dataDiskItem := dataDiskItem
+			var dataDisk v1beta20210701storage.ImageDataDisk_Status
+			err := dataDiskItem.AssignPropertiesToImageDataDiskStatus(&dataDisk)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToImageDataDiskStatus() to populate field DataDisks")
+			}
+			dataDiskList[dataDiskIndex] = dataDisk
+		}
+		destination.DataDisks = dataDiskList
+	} else {
+		destination.DataDisks = nil
+	}
+
+	// OsDisk
+	if profile.OsDisk != nil {
+		var osDisk v1beta20210701storage.ImageOSDisk_Status
+		err := profile.OsDisk.AssignPropertiesToImageOSDiskStatus(&osDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToImageOSDiskStatus() to populate field OsDisk")
+		}
+		destination.OsDisk = &osDisk
+	} else {
+		destination.OsDisk = nil
+	}
+
+	// ZoneResilient
+	if profile.ZoneResilient != nil {
+		zoneResilient := *profile.ZoneResilient
+		destination.ZoneResilient = &zoneResilient
+	} else {
+		destination.ZoneResilient = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+//Storage version of v1alpha1api20210701.SubResource
+//Deprecated version of SubResource. Use v1beta20210701.SubResource instead
+type SubResource struct {
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
+// AssignPropertiesFromSubResource populates our SubResource from the provided source SubResource
+func (resource *SubResource) AssignPropertiesFromSubResource(source *v1beta20201201storage.SubResource) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		resource.Reference = &reference
+	} else {
+		resource.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		resource.PropertyBag = propertyBag
+	} else {
+		resource.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToSubResource populates the provided destination SubResource from our SubResource
+func (resource *SubResource) AssignPropertiesToSubResource(destination *v1beta20201201storage.SubResource) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
+
+	// Reference
+	if resource.Reference != nil {
+		reference := resource.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 //Storage version of v1alpha1api20210701.SubResource_Status
+//Deprecated version of SubResource_Status. Use v1beta20210701.SubResource_Status instead
 type SubResource_Status struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromSubResourceStatus populates our SubResource_Status from the provided source SubResource_Status
+func (resource *SubResource_Status) AssignPropertiesFromSubResourceStatus(source *v1beta20201201storage.SubResource_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	resource.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		resource.PropertyBag = propertyBag
+	} else {
+		resource.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToSubResourceStatus populates the provided destination SubResource_Status from our SubResource_Status
+func (resource *SubResource_Status) AssignPropertiesToSubResourceStatus(destination *v1beta20201201storage.SubResource_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210701.ImageDataDisk
-//Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/definitions/ImageDataDisk
+//Deprecated version of ImageDataDisk. Use v1beta20210701.ImageDataDisk instead
 type ImageDataDisk struct {
 	BlobUri            *string                      `json:"blobUri,omitempty"`
 	Caching            *string                      `json:"caching,omitempty"`
@@ -267,7 +1153,172 @@ type ImageDataDisk struct {
 	StorageAccountType *string                      `json:"storageAccountType,omitempty"`
 }
 
+// AssignPropertiesFromImageDataDisk populates our ImageDataDisk from the provided source ImageDataDisk
+func (disk *ImageDataDisk) AssignPropertiesFromImageDataDisk(source *v1beta20210701storage.ImageDataDisk) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// BlobUri
+	disk.BlobUri = genruntime.ClonePointerToString(source.BlobUri)
+
+	// Caching
+	disk.Caching = genruntime.ClonePointerToString(source.Caching)
+
+	// DiskEncryptionSet
+	if source.DiskEncryptionSet != nil {
+		var diskEncryptionSetParametersStash v1beta20201201storage.DiskEncryptionSetParameters
+		err := diskEncryptionSetParametersStash.AssignPropertiesFromDiskEncryptionSetParameters(source.DiskEncryptionSet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDiskEncryptionSetParameters() to populate field DiskEncryptionSetParametersStash from DiskEncryptionSet")
+		}
+		var diskEncryptionSet DiskEncryptionSetParameters
+		err = diskEncryptionSet.AssignPropertiesFromDiskEncryptionSetParameters(&diskEncryptionSetParametersStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDiskEncryptionSetParameters() to populate field DiskEncryptionSet from DiskEncryptionSetParametersStash")
+		}
+		disk.DiskEncryptionSet = &diskEncryptionSet
+	} else {
+		disk.DiskEncryptionSet = nil
+	}
+
+	// DiskSizeGB
+	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
+
+	// Lun
+	disk.Lun = genruntime.ClonePointerToInt(source.Lun)
+
+	// ManagedDisk
+	if source.ManagedDisk != nil {
+		var subResourceStash v1beta20201201storage.SubResource
+		err := subResourceStash.AssignPropertiesFromSubResource(source.ManagedDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SubResourceStash from ManagedDisk")
+		}
+		var managedDisk SubResource
+		err = managedDisk.AssignPropertiesFromSubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field ManagedDisk from SubResourceStash")
+		}
+		disk.ManagedDisk = &managedDisk
+	} else {
+		disk.ManagedDisk = nil
+	}
+
+	// Snapshot
+	if source.Snapshot != nil {
+		var subResourceStash v1beta20201201storage.SubResource
+		err := subResourceStash.AssignPropertiesFromSubResource(source.Snapshot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SubResourceStash from Snapshot")
+		}
+		var snapshot SubResource
+		err = snapshot.AssignPropertiesFromSubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field Snapshot from SubResourceStash")
+		}
+		disk.Snapshot = &snapshot
+	} else {
+		disk.Snapshot = nil
+	}
+
+	// StorageAccountType
+	disk.StorageAccountType = genruntime.ClonePointerToString(source.StorageAccountType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		disk.PropertyBag = propertyBag
+	} else {
+		disk.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToImageDataDisk populates the provided destination ImageDataDisk from our ImageDataDisk
+func (disk *ImageDataDisk) AssignPropertiesToImageDataDisk(destination *v1beta20210701storage.ImageDataDisk) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(disk.PropertyBag)
+
+	// BlobUri
+	destination.BlobUri = genruntime.ClonePointerToString(disk.BlobUri)
+
+	// Caching
+	destination.Caching = genruntime.ClonePointerToString(disk.Caching)
+
+	// DiskEncryptionSet
+	if disk.DiskEncryptionSet != nil {
+		var diskEncryptionSetParametersStash v1beta20201201storage.DiskEncryptionSetParameters
+		err := disk.DiskEncryptionSet.AssignPropertiesToDiskEncryptionSetParameters(&diskEncryptionSetParametersStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSetParameters() to populate field DiskEncryptionSetParametersStash from DiskEncryptionSet")
+		}
+		var diskEncryptionSet v1beta20210701storage.DiskEncryptionSetParameters
+		err = diskEncryptionSetParametersStash.AssignPropertiesToDiskEncryptionSetParameters(&diskEncryptionSet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSetParameters() to populate field DiskEncryptionSet from DiskEncryptionSetParametersStash")
+		}
+		destination.DiskEncryptionSet = &diskEncryptionSet
+	} else {
+		destination.DiskEncryptionSet = nil
+	}
+
+	// DiskSizeGB
+	destination.DiskSizeGB = genruntime.ClonePointerToInt(disk.DiskSizeGB)
+
+	// Lun
+	destination.Lun = genruntime.ClonePointerToInt(disk.Lun)
+
+	// ManagedDisk
+	if disk.ManagedDisk != nil {
+		var subResourceStash v1beta20201201storage.SubResource
+		err := disk.ManagedDisk.AssignPropertiesToSubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from ManagedDisk")
+		}
+		var managedDisk v1beta20210701storage.SubResource
+		err = subResourceStash.AssignPropertiesToSubResource(&managedDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field ManagedDisk from SubResourceStash")
+		}
+		destination.ManagedDisk = &managedDisk
+	} else {
+		destination.ManagedDisk = nil
+	}
+
+	// Snapshot
+	if disk.Snapshot != nil {
+		var subResourceStash v1beta20201201storage.SubResource
+		err := disk.Snapshot.AssignPropertiesToSubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from Snapshot")
+		}
+		var snapshot v1beta20210701storage.SubResource
+		err = subResourceStash.AssignPropertiesToSubResource(&snapshot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field Snapshot from SubResourceStash")
+		}
+		destination.Snapshot = &snapshot
+	} else {
+		destination.Snapshot = nil
+	}
+
+	// StorageAccountType
+	destination.StorageAccountType = genruntime.ClonePointerToString(disk.StorageAccountType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210701.ImageDataDisk_Status
+//Deprecated version of ImageDataDisk_Status. Use v1beta20210701.ImageDataDisk_Status instead
 type ImageDataDisk_Status struct {
 	BlobUri            *string                `json:"blobUri,omitempty"`
 	Caching            *string                `json:"caching,omitempty"`
@@ -280,8 +1331,172 @@ type ImageDataDisk_Status struct {
 	StorageAccountType *string                `json:"storageAccountType,omitempty"`
 }
 
+// AssignPropertiesFromImageDataDiskStatus populates our ImageDataDisk_Status from the provided source ImageDataDisk_Status
+func (disk *ImageDataDisk_Status) AssignPropertiesFromImageDataDiskStatus(source *v1beta20210701storage.ImageDataDisk_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// BlobUri
+	disk.BlobUri = genruntime.ClonePointerToString(source.BlobUri)
+
+	// Caching
+	disk.Caching = genruntime.ClonePointerToString(source.Caching)
+
+	// DiskEncryptionSet
+	if source.DiskEncryptionSet != nil {
+		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.DiskEncryptionSet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from DiskEncryptionSet")
+		}
+		var diskEncryptionSet SubResource_Status
+		err = diskEncryptionSet.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field DiskEncryptionSet from SubResource_StatusStash")
+		}
+		disk.DiskEncryptionSet = &diskEncryptionSet
+	} else {
+		disk.DiskEncryptionSet = nil
+	}
+
+	// DiskSizeGB
+	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
+
+	// Lun
+	disk.Lun = genruntime.ClonePointerToInt(source.Lun)
+
+	// ManagedDisk
+	if source.ManagedDisk != nil {
+		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.ManagedDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from ManagedDisk")
+		}
+		var managedDisk SubResource_Status
+		err = managedDisk.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field ManagedDisk from SubResource_StatusStash")
+		}
+		disk.ManagedDisk = &managedDisk
+	} else {
+		disk.ManagedDisk = nil
+	}
+
+	// Snapshot
+	if source.Snapshot != nil {
+		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.Snapshot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from Snapshot")
+		}
+		var snapshot SubResource_Status
+		err = snapshot.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field Snapshot from SubResource_StatusStash")
+		}
+		disk.Snapshot = &snapshot
+	} else {
+		disk.Snapshot = nil
+	}
+
+	// StorageAccountType
+	disk.StorageAccountType = genruntime.ClonePointerToString(source.StorageAccountType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		disk.PropertyBag = propertyBag
+	} else {
+		disk.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToImageDataDiskStatus populates the provided destination ImageDataDisk_Status from our ImageDataDisk_Status
+func (disk *ImageDataDisk_Status) AssignPropertiesToImageDataDiskStatus(destination *v1beta20210701storage.ImageDataDisk_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(disk.PropertyBag)
+
+	// BlobUri
+	destination.BlobUri = genruntime.ClonePointerToString(disk.BlobUri)
+
+	// Caching
+	destination.Caching = genruntime.ClonePointerToString(disk.Caching)
+
+	// DiskEncryptionSet
+	if disk.DiskEncryptionSet != nil {
+		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		err := disk.DiskEncryptionSet.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from DiskEncryptionSet")
+		}
+		var diskEncryptionSet v1beta20210701storage.SubResource_Status
+		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&diskEncryptionSet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field DiskEncryptionSet from SubResource_StatusStash")
+		}
+		destination.DiskEncryptionSet = &diskEncryptionSet
+	} else {
+		destination.DiskEncryptionSet = nil
+	}
+
+	// DiskSizeGB
+	destination.DiskSizeGB = genruntime.ClonePointerToInt(disk.DiskSizeGB)
+
+	// Lun
+	destination.Lun = genruntime.ClonePointerToInt(disk.Lun)
+
+	// ManagedDisk
+	if disk.ManagedDisk != nil {
+		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		err := disk.ManagedDisk.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from ManagedDisk")
+		}
+		var managedDisk v1beta20210701storage.SubResource_Status
+		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&managedDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field ManagedDisk from SubResource_StatusStash")
+		}
+		destination.ManagedDisk = &managedDisk
+	} else {
+		destination.ManagedDisk = nil
+	}
+
+	// Snapshot
+	if disk.Snapshot != nil {
+		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		err := disk.Snapshot.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from Snapshot")
+		}
+		var snapshot v1beta20210701storage.SubResource_Status
+		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&snapshot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field Snapshot from SubResource_StatusStash")
+		}
+		destination.Snapshot = &snapshot
+	} else {
+		destination.Snapshot = nil
+	}
+
+	// StorageAccountType
+	destination.StorageAccountType = genruntime.ClonePointerToString(disk.StorageAccountType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210701.ImageOSDisk
-//Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/definitions/ImageOSDisk
+//Deprecated version of ImageOSDisk. Use v1beta20210701.ImageOSDisk instead
 type ImageOSDisk struct {
 	BlobUri            *string                      `json:"blobUri,omitempty"`
 	Caching            *string                      `json:"caching,omitempty"`
@@ -295,7 +1510,178 @@ type ImageOSDisk struct {
 	StorageAccountType *string                      `json:"storageAccountType,omitempty"`
 }
 
+// AssignPropertiesFromImageOSDisk populates our ImageOSDisk from the provided source ImageOSDisk
+func (disk *ImageOSDisk) AssignPropertiesFromImageOSDisk(source *v1beta20210701storage.ImageOSDisk) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// BlobUri
+	disk.BlobUri = genruntime.ClonePointerToString(source.BlobUri)
+
+	// Caching
+	disk.Caching = genruntime.ClonePointerToString(source.Caching)
+
+	// DiskEncryptionSet
+	if source.DiskEncryptionSet != nil {
+		var diskEncryptionSetParametersStash v1beta20201201storage.DiskEncryptionSetParameters
+		err := diskEncryptionSetParametersStash.AssignPropertiesFromDiskEncryptionSetParameters(source.DiskEncryptionSet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDiskEncryptionSetParameters() to populate field DiskEncryptionSetParametersStash from DiskEncryptionSet")
+		}
+		var diskEncryptionSet DiskEncryptionSetParameters
+		err = diskEncryptionSet.AssignPropertiesFromDiskEncryptionSetParameters(&diskEncryptionSetParametersStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDiskEncryptionSetParameters() to populate field DiskEncryptionSet from DiskEncryptionSetParametersStash")
+		}
+		disk.DiskEncryptionSet = &diskEncryptionSet
+	} else {
+		disk.DiskEncryptionSet = nil
+	}
+
+	// DiskSizeGB
+	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
+
+	// ManagedDisk
+	if source.ManagedDisk != nil {
+		var subResourceStash v1beta20201201storage.SubResource
+		err := subResourceStash.AssignPropertiesFromSubResource(source.ManagedDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SubResourceStash from ManagedDisk")
+		}
+		var managedDisk SubResource
+		err = managedDisk.AssignPropertiesFromSubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field ManagedDisk from SubResourceStash")
+		}
+		disk.ManagedDisk = &managedDisk
+	} else {
+		disk.ManagedDisk = nil
+	}
+
+	// OsState
+	disk.OsState = genruntime.ClonePointerToString(source.OsState)
+
+	// OsType
+	disk.OsType = genruntime.ClonePointerToString(source.OsType)
+
+	// Snapshot
+	if source.Snapshot != nil {
+		var subResourceStash v1beta20201201storage.SubResource
+		err := subResourceStash.AssignPropertiesFromSubResource(source.Snapshot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SubResourceStash from Snapshot")
+		}
+		var snapshot SubResource
+		err = snapshot.AssignPropertiesFromSubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field Snapshot from SubResourceStash")
+		}
+		disk.Snapshot = &snapshot
+	} else {
+		disk.Snapshot = nil
+	}
+
+	// StorageAccountType
+	disk.StorageAccountType = genruntime.ClonePointerToString(source.StorageAccountType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		disk.PropertyBag = propertyBag
+	} else {
+		disk.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToImageOSDisk populates the provided destination ImageOSDisk from our ImageOSDisk
+func (disk *ImageOSDisk) AssignPropertiesToImageOSDisk(destination *v1beta20210701storage.ImageOSDisk) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(disk.PropertyBag)
+
+	// BlobUri
+	destination.BlobUri = genruntime.ClonePointerToString(disk.BlobUri)
+
+	// Caching
+	destination.Caching = genruntime.ClonePointerToString(disk.Caching)
+
+	// DiskEncryptionSet
+	if disk.DiskEncryptionSet != nil {
+		var diskEncryptionSetParametersStash v1beta20201201storage.DiskEncryptionSetParameters
+		err := disk.DiskEncryptionSet.AssignPropertiesToDiskEncryptionSetParameters(&diskEncryptionSetParametersStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSetParameters() to populate field DiskEncryptionSetParametersStash from DiskEncryptionSet")
+		}
+		var diskEncryptionSet v1beta20210701storage.DiskEncryptionSetParameters
+		err = diskEncryptionSetParametersStash.AssignPropertiesToDiskEncryptionSetParameters(&diskEncryptionSet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSetParameters() to populate field DiskEncryptionSet from DiskEncryptionSetParametersStash")
+		}
+		destination.DiskEncryptionSet = &diskEncryptionSet
+	} else {
+		destination.DiskEncryptionSet = nil
+	}
+
+	// DiskSizeGB
+	destination.DiskSizeGB = genruntime.ClonePointerToInt(disk.DiskSizeGB)
+
+	// ManagedDisk
+	if disk.ManagedDisk != nil {
+		var subResourceStash v1beta20201201storage.SubResource
+		err := disk.ManagedDisk.AssignPropertiesToSubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from ManagedDisk")
+		}
+		var managedDisk v1beta20210701storage.SubResource
+		err = subResourceStash.AssignPropertiesToSubResource(&managedDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field ManagedDisk from SubResourceStash")
+		}
+		destination.ManagedDisk = &managedDisk
+	} else {
+		destination.ManagedDisk = nil
+	}
+
+	// OsState
+	destination.OsState = genruntime.ClonePointerToString(disk.OsState)
+
+	// OsType
+	destination.OsType = genruntime.ClonePointerToString(disk.OsType)
+
+	// Snapshot
+	if disk.Snapshot != nil {
+		var subResourceStash v1beta20201201storage.SubResource
+		err := disk.Snapshot.AssignPropertiesToSubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from Snapshot")
+		}
+		var snapshot v1beta20210701storage.SubResource
+		err = subResourceStash.AssignPropertiesToSubResource(&snapshot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field Snapshot from SubResourceStash")
+		}
+		destination.Snapshot = &snapshot
+	} else {
+		destination.Snapshot = nil
+	}
+
+	// StorageAccountType
+	destination.StorageAccountType = genruntime.ClonePointerToString(disk.StorageAccountType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210701.ImageOSDisk_Status
+//Deprecated version of ImageOSDisk_Status. Use v1beta20210701.ImageOSDisk_Status instead
 type ImageOSDisk_Status struct {
 	BlobUri            *string                `json:"blobUri,omitempty"`
 	Caching            *string                `json:"caching,omitempty"`
@@ -309,13 +1695,229 @@ type ImageOSDisk_Status struct {
 	StorageAccountType *string                `json:"storageAccountType,omitempty"`
 }
 
-//Storage version of v1alpha1api20210701.DiskEncryptionSetParameters
-//Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/definitions/DiskEncryptionSetParameters
-type DiskEncryptionSetParameters struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+// AssignPropertiesFromImageOSDiskStatus populates our ImageOSDisk_Status from the provided source ImageOSDisk_Status
+func (disk *ImageOSDisk_Status) AssignPropertiesFromImageOSDiskStatus(source *v1beta20210701storage.ImageOSDisk_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	//Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	// BlobUri
+	disk.BlobUri = genruntime.ClonePointerToString(source.BlobUri)
+
+	// Caching
+	disk.Caching = genruntime.ClonePointerToString(source.Caching)
+
+	// DiskEncryptionSet
+	if source.DiskEncryptionSet != nil {
+		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.DiskEncryptionSet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from DiskEncryptionSet")
+		}
+		var diskEncryptionSet SubResource_Status
+		err = diskEncryptionSet.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field DiskEncryptionSet from SubResource_StatusStash")
+		}
+		disk.DiskEncryptionSet = &diskEncryptionSet
+	} else {
+		disk.DiskEncryptionSet = nil
+	}
+
+	// DiskSizeGB
+	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
+
+	// ManagedDisk
+	if source.ManagedDisk != nil {
+		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.ManagedDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from ManagedDisk")
+		}
+		var managedDisk SubResource_Status
+		err = managedDisk.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field ManagedDisk from SubResource_StatusStash")
+		}
+		disk.ManagedDisk = &managedDisk
+	} else {
+		disk.ManagedDisk = nil
+	}
+
+	// OsState
+	disk.OsState = genruntime.ClonePointerToString(source.OsState)
+
+	// OsType
+	disk.OsType = genruntime.ClonePointerToString(source.OsType)
+
+	// Snapshot
+	if source.Snapshot != nil {
+		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.Snapshot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from Snapshot")
+		}
+		var snapshot SubResource_Status
+		err = snapshot.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field Snapshot from SubResource_StatusStash")
+		}
+		disk.Snapshot = &snapshot
+	} else {
+		disk.Snapshot = nil
+	}
+
+	// StorageAccountType
+	disk.StorageAccountType = genruntime.ClonePointerToString(source.StorageAccountType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		disk.PropertyBag = propertyBag
+	} else {
+		disk.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToImageOSDiskStatus populates the provided destination ImageOSDisk_Status from our ImageOSDisk_Status
+func (disk *ImageOSDisk_Status) AssignPropertiesToImageOSDiskStatus(destination *v1beta20210701storage.ImageOSDisk_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(disk.PropertyBag)
+
+	// BlobUri
+	destination.BlobUri = genruntime.ClonePointerToString(disk.BlobUri)
+
+	// Caching
+	destination.Caching = genruntime.ClonePointerToString(disk.Caching)
+
+	// DiskEncryptionSet
+	if disk.DiskEncryptionSet != nil {
+		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		err := disk.DiskEncryptionSet.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from DiskEncryptionSet")
+		}
+		var diskEncryptionSet v1beta20210701storage.SubResource_Status
+		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&diskEncryptionSet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field DiskEncryptionSet from SubResource_StatusStash")
+		}
+		destination.DiskEncryptionSet = &diskEncryptionSet
+	} else {
+		destination.DiskEncryptionSet = nil
+	}
+
+	// DiskSizeGB
+	destination.DiskSizeGB = genruntime.ClonePointerToInt(disk.DiskSizeGB)
+
+	// ManagedDisk
+	if disk.ManagedDisk != nil {
+		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		err := disk.ManagedDisk.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from ManagedDisk")
+		}
+		var managedDisk v1beta20210701storage.SubResource_Status
+		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&managedDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field ManagedDisk from SubResource_StatusStash")
+		}
+		destination.ManagedDisk = &managedDisk
+	} else {
+		destination.ManagedDisk = nil
+	}
+
+	// OsState
+	destination.OsState = genruntime.ClonePointerToString(disk.OsState)
+
+	// OsType
+	destination.OsType = genruntime.ClonePointerToString(disk.OsType)
+
+	// Snapshot
+	if disk.Snapshot != nil {
+		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		err := disk.Snapshot.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from Snapshot")
+		}
+		var snapshot v1beta20210701storage.SubResource_Status
+		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&snapshot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field Snapshot from SubResource_StatusStash")
+		}
+		destination.Snapshot = &snapshot
+	} else {
+		destination.Snapshot = nil
+	}
+
+	// StorageAccountType
+	destination.StorageAccountType = genruntime.ClonePointerToString(disk.StorageAccountType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+//Storage version of v1alpha1api20210701.DiskEncryptionSetParameters
+//Deprecated version of DiskEncryptionSetParameters. Use v1beta20210701.DiskEncryptionSetParameters instead
+type DiskEncryptionSetParameters struct {
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
+// AssignPropertiesFromDiskEncryptionSetParameters populates our DiskEncryptionSetParameters from the provided source DiskEncryptionSetParameters
+func (parameters *DiskEncryptionSetParameters) AssignPropertiesFromDiskEncryptionSetParameters(source *v1beta20201201storage.DiskEncryptionSetParameters) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		parameters.Reference = &reference
+	} else {
+		parameters.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		parameters.PropertyBag = propertyBag
+	} else {
+		parameters.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDiskEncryptionSetParameters populates the provided destination DiskEncryptionSetParameters from our DiskEncryptionSetParameters
+func (parameters *DiskEncryptionSetParameters) AssignPropertiesToDiskEncryptionSetParameters(destination *v1beta20201201storage.DiskEncryptionSetParameters) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
+
+	// Reference
+	if parameters.Reference != nil {
+		reference := parameters.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 func init() {

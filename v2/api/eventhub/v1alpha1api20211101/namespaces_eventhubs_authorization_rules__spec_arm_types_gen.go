@@ -5,18 +5,12 @@ package v1alpha1api20211101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+//Deprecated version of NamespacesEventhubsAuthorizationRules_Spec. Use v1beta20211101.NamespacesEventhubsAuthorizationRules_Spec instead
 type NamespacesEventhubsAuthorizationRules_SpecARM struct {
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	//Name: The authorization rule name.
-	Name string `json:"name,omitempty"`
-
-	//Properties: Properties supplied to create or update AuthorizationRule
+	Location   *string                         `json:"location,omitempty"`
+	Name       string                          `json:"name,omitempty"`
 	Properties *AuthorizationRulePropertiesARM `json:"properties,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags       map[string]string               `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NamespacesEventhubsAuthorizationRules_SpecARM{}

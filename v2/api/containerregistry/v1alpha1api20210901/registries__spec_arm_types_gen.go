@@ -5,24 +5,14 @@ package v1alpha1api20210901
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+//Deprecated version of Registries_Spec. Use v1beta20210901.Registries_Spec instead
 type Registries_SpecARM struct {
-	//Identity: Managed identity for the resource.
-	Identity *IdentityPropertiesARM `json:"identity,omitempty"`
-
-	//Location: The location of the resource. This cannot be changed after the resource is created.
-	Location *string `json:"location,omitempty"`
-
-	//Name: The name of the container registry.
-	Name string `json:"name,omitempty"`
-
-	//Properties: The properties of a container registry.
+	Identity   *IdentityPropertiesARM `json:"identity,omitempty"`
+	Location   *string                `json:"location,omitempty"`
+	Name       string                 `json:"name,omitempty"`
 	Properties *RegistryPropertiesARM `json:"properties,omitempty"`
-
-	//Sku: The SKU of a container registry.
-	Sku *SkuARM `json:"sku,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	Sku        *SkuARM                `json:"sku,omitempty"`
+	Tags       map[string]string      `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Registries_SpecARM{}
@@ -42,63 +32,38 @@ func (registries Registries_SpecARM) GetType() string {
 	return "Microsoft.ContainerRegistry/registries"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IdentityProperties
+//Deprecated version of IdentityProperties. Use v1beta20210901.IdentityProperties instead
 type IdentityPropertiesARM struct {
-	//PrincipalId: The principal ID of resource identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	//TenantId: The tenant ID of resource.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	//Type: The identity type.
-	Type *IdentityPropertiesType `json:"type,omitempty"`
-
-	//UserAssignedIdentities: The list of user identities associated with the resource. The user identity
-	//dictionary key references will be ARM resource ids in the form:
-	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
-	//providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+	PrincipalId            *string                              `json:"principalId,omitempty"`
+	TenantId               *string                              `json:"tenantId,omitempty"`
+	Type                   *IdentityPropertiesType              `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserIdentityPropertiesARM `json:"userAssignedIdentities,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/RegistryProperties
+//Deprecated version of RegistryProperties. Use v1beta20210901.RegistryProperties instead
 type RegistryPropertiesARM struct {
-	//AdminUserEnabled: The value that indicates whether the admin user is enabled.
-	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
-
-	//DataEndpointEnabled: Enable a single data endpoint per region for serving data.
-	DataEndpointEnabled *bool                  `json:"dataEndpointEnabled,omitempty"`
-	Encryption          *EncryptionPropertyARM `json:"encryption,omitempty"`
-
-	//NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.
+	AdminUserEnabled         *bool                                       `json:"adminUserEnabled,omitempty"`
+	DataEndpointEnabled      *bool                                       `json:"dataEndpointEnabled,omitempty"`
+	Encryption               *EncryptionPropertyARM                      `json:"encryption,omitempty"`
 	NetworkRuleBypassOptions *RegistryPropertiesNetworkRuleBypassOptions `json:"networkRuleBypassOptions,omitempty"`
-
-	//NetworkRuleSet: The network rule set for a container registry.
-	NetworkRuleSet *NetworkRuleSetARM `json:"networkRuleSet,omitempty"`
-
-	//Policies: The policies for a container registry.
-	Policies *PoliciesARM `json:"policies,omitempty"`
-
-	//PublicNetworkAccess: Whether or not public network access is allowed for the container registry.
-	PublicNetworkAccess *RegistryPropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	//ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry.
-	ZoneRedundancy *RegistryPropertiesZoneRedundancy `json:"zoneRedundancy,omitempty"`
+	NetworkRuleSet           *NetworkRuleSetARM                          `json:"networkRuleSet,omitempty"`
+	Policies                 *PoliciesARM                                `json:"policies,omitempty"`
+	PublicNetworkAccess      *RegistryPropertiesPublicNetworkAccess      `json:"publicNetworkAccess,omitempty"`
+	ZoneRedundancy           *RegistryPropertiesZoneRedundancy           `json:"zoneRedundancy,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Sku
+//Deprecated version of Sku. Use v1beta20210901.Sku instead
 type SkuARM struct {
-	//Name: The SKU name of the container registry. Required for registry creation.
 	Name *SkuName `json:"name,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/EncryptionProperty
+//Deprecated version of EncryptionProperty. Use v1beta20210901.EncryptionProperty instead
 type EncryptionPropertyARM struct {
-	KeyVaultProperties *KeyVaultPropertiesARM `json:"keyVaultProperties,omitempty"`
-
-	//Status: Indicates whether or not the encryption is enabled for container registry.
-	Status *EncryptionPropertyStatus `json:"status,omitempty"`
+	KeyVaultProperties *KeyVaultPropertiesARM    `json:"keyVaultProperties,omitempty"`
+	Status             *EncryptionPropertyStatus `json:"status,omitempty"`
 }
 
+//Deprecated version of IdentityPropertiesType. Use v1beta20210901.IdentityPropertiesType instead
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
 type IdentityPropertiesType string
 
@@ -109,30 +74,22 @@ const (
 	IdentityPropertiesTypeUserAssigned               = IdentityPropertiesType("UserAssigned")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/NetworkRuleSet
+//Deprecated version of NetworkRuleSet. Use v1beta20210901.NetworkRuleSet instead
 type NetworkRuleSetARM struct {
-	//DefaultAction: The default action of allow or deny when no other rules match.
 	DefaultAction *NetworkRuleSetDefaultAction `json:"defaultAction,omitempty"`
-
-	//IpRules: The IP ACL rules.
-	IpRules []IPRuleARM `json:"ipRules,omitempty"`
+	IpRules       []IPRuleARM                  `json:"ipRules,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Policies
+//Deprecated version of Policies. Use v1beta20210901.Policies instead
 type PoliciesARM struct {
-	//ExportPolicy: The export policy for a container registry.
-	ExportPolicy *ExportPolicyARM `json:"exportPolicy,omitempty"`
-
-	//QuarantinePolicy: The quarantine policy for a container registry.
+	ExportPolicy     *ExportPolicyARM     `json:"exportPolicy,omitempty"`
 	QuarantinePolicy *QuarantinePolicyARM `json:"quarantinePolicy,omitempty"`
-
-	//RetentionPolicy: The retention policy for a container registry.
-	RetentionPolicy *RetentionPolicyARM `json:"retentionPolicy,omitempty"`
-
-	//TrustPolicy: The content trust policy for a container registry.
-	TrustPolicy *TrustPolicyARM `json:"trustPolicy,omitempty"`
+	RetentionPolicy  *RetentionPolicyARM  `json:"retentionPolicy,omitempty"`
+	TrustPolicy      *TrustPolicyARM      `json:"trustPolicy,omitempty"`
 }
 
+//Deprecated version of RegistryPropertiesNetworkRuleBypassOptions. Use
+//v1beta20210901.RegistryPropertiesNetworkRuleBypassOptions instead
 // +kubebuilder:validation:Enum={"AzureServices","None"}
 type RegistryPropertiesNetworkRuleBypassOptions string
 
@@ -141,6 +98,8 @@ const (
 	RegistryPropertiesNetworkRuleBypassOptionsNone          = RegistryPropertiesNetworkRuleBypassOptions("None")
 )
 
+//Deprecated version of RegistryPropertiesPublicNetworkAccess. Use v1beta20210901.RegistryPropertiesPublicNetworkAccess
+//instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type RegistryPropertiesPublicNetworkAccess string
 
@@ -149,6 +108,7 @@ const (
 	RegistryPropertiesPublicNetworkAccessEnabled  = RegistryPropertiesPublicNetworkAccess("Enabled")
 )
 
+//Deprecated version of RegistryPropertiesZoneRedundancy. Use v1beta20210901.RegistryPropertiesZoneRedundancy instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type RegistryPropertiesZoneRedundancy string
 
@@ -157,6 +117,7 @@ const (
 	RegistryPropertiesZoneRedundancyEnabled  = RegistryPropertiesZoneRedundancy("Enabled")
 )
 
+//Deprecated version of SkuName. Use v1beta20210901.SkuName instead
 // +kubebuilder:validation:Enum={"Basic","Classic","Premium","Standard"}
 type SkuName string
 
@@ -167,15 +128,13 @@ const (
 	SkuNameStandard = SkuName("Standard")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/UserIdentityProperties
+//Deprecated version of UserIdentityProperties. Use v1beta20210901.UserIdentityProperties instead
 type UserIdentityPropertiesARM struct {
-	//ClientId: The client id of user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	//PrincipalId: The principal id of user assigned identity.
+	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
+//Deprecated version of EncryptionPropertyStatus. Use v1beta20210901.EncryptionPropertyStatus instead
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type EncryptionPropertyStatus string
 
@@ -184,30 +143,24 @@ const (
 	EncryptionPropertyStatusEnabled  = EncryptionPropertyStatus("enabled")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/ExportPolicy
+//Deprecated version of ExportPolicy. Use v1beta20210901.ExportPolicy instead
 type ExportPolicyARM struct {
-	//Status: The value that indicates whether the policy is enabled or not.
 	Status *ExportPolicyStatus `json:"status,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IPRule
+//Deprecated version of IPRule. Use v1beta20210901.IPRule instead
 type IPRuleARM struct {
-	//Action: The action of IP ACL rule.
 	Action *IPRuleAction `json:"action,omitempty"`
-
-	//Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
-	Value *string `json:"value,omitempty"`
+	Value  *string       `json:"value,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/KeyVaultProperties
+//Deprecated version of KeyVaultProperties. Use v1beta20210901.KeyVaultProperties instead
 type KeyVaultPropertiesARM struct {
-	//Identity: The client id of the identity which will be used to access key vault.
-	Identity *string `json:"identity,omitempty"`
-
-	//KeyIdentifier: Key vault uri to access the encryption key.
+	Identity      *string `json:"identity,omitempty"`
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 }
 
+//Deprecated version of NetworkRuleSetDefaultAction. Use v1beta20210901.NetworkRuleSetDefaultAction instead
 // +kubebuilder:validation:Enum={"Allow","Deny"}
 type NetworkRuleSetDefaultAction string
 
@@ -216,30 +169,24 @@ const (
 	NetworkRuleSetDefaultActionDeny  = NetworkRuleSetDefaultAction("Deny")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/QuarantinePolicy
+//Deprecated version of QuarantinePolicy. Use v1beta20210901.QuarantinePolicy instead
 type QuarantinePolicyARM struct {
-	//Status: The value that indicates whether the policy is enabled or not.
 	Status *QuarantinePolicyStatus `json:"status,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/RetentionPolicy
+//Deprecated version of RetentionPolicy. Use v1beta20210901.RetentionPolicy instead
 type RetentionPolicyARM struct {
-	//Days: The number of days to retain an untagged manifest after which it gets purged.
-	Days *int `json:"days,omitempty"`
-
-	//Status: The value that indicates whether the policy is enabled or not.
+	Days   *int                   `json:"days,omitempty"`
 	Status *RetentionPolicyStatus `json:"status,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/TrustPolicy
+//Deprecated version of TrustPolicy. Use v1beta20210901.TrustPolicy instead
 type TrustPolicyARM struct {
-	//Status: The value that indicates whether the policy is enabled or not.
 	Status *TrustPolicyStatus `json:"status,omitempty"`
-
-	//Type: The type of trust policy.
-	Type *TrustPolicyType `json:"type,omitempty"`
+	Type   *TrustPolicyType   `json:"type,omitempty"`
 }
 
+//Deprecated version of ExportPolicyStatus. Use v1beta20210901.ExportPolicyStatus instead
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type ExportPolicyStatus string
 
@@ -248,11 +195,13 @@ const (
 	ExportPolicyStatusEnabled  = ExportPolicyStatus("enabled")
 )
 
+//Deprecated version of IPRuleAction. Use v1beta20210901.IPRuleAction instead
 // +kubebuilder:validation:Enum={"Allow"}
 type IPRuleAction string
 
 const IPRuleActionAllow = IPRuleAction("Allow")
 
+//Deprecated version of QuarantinePolicyStatus. Use v1beta20210901.QuarantinePolicyStatus instead
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type QuarantinePolicyStatus string
 
@@ -261,6 +210,7 @@ const (
 	QuarantinePolicyStatusEnabled  = QuarantinePolicyStatus("enabled")
 )
 
+//Deprecated version of RetentionPolicyStatus. Use v1beta20210901.RetentionPolicyStatus instead
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type RetentionPolicyStatus string
 
@@ -269,6 +219,7 @@ const (
 	RetentionPolicyStatusEnabled  = RetentionPolicyStatus("enabled")
 )
 
+//Deprecated version of TrustPolicyStatus. Use v1beta20210901.TrustPolicyStatus instead
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type TrustPolicyStatus string
 
@@ -277,6 +228,7 @@ const (
 	TrustPolicyStatusEnabled  = TrustPolicyStatus("enabled")
 )
 
+//Deprecated version of TrustPolicyType. Use v1beta20210901.TrustPolicyType instead
 // +kubebuilder:validation:Enum={"Notary"}
 type TrustPolicyType string
 

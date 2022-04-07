@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts
+//Deprecated version of DatabaseAccount. Use v1beta20210515.DatabaseAccount instead
 type DatabaseAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -48,22 +48,36 @@ var _ conversion.Convertible = &DatabaseAccount{}
 
 // ConvertFrom populates our DatabaseAccount from the provided hub DatabaseAccount
 func (account *DatabaseAccount) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20210515storage.DatabaseAccount)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/DatabaseAccount but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20210515storage.DatabaseAccount
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return account.AssignPropertiesFromDatabaseAccount(source)
+	err = account.AssignPropertiesFromDatabaseAccount(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to account")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub DatabaseAccount from our DatabaseAccount
 func (account *DatabaseAccount) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20210515storage.DatabaseAccount)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/DatabaseAccount but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20210515storage.DatabaseAccount
+	err := account.AssignPropertiesToDatabaseAccount(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from account")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return account.AssignPropertiesToDatabaseAccount(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1alpha1api20210515-databaseaccount,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=databaseaccounts,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.databaseaccounts.documentdb.azure.com,admissionReviewVersions=v1beta1
@@ -321,122 +335,54 @@ func (account *DatabaseAccount) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts
+//Deprecated version of DatabaseAccount. Use v1beta20210515.DatabaseAccount instead
 type DatabaseAccountList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []DatabaseAccount `json:"items"`
 }
 
+//Deprecated version of DatabaseAccountGetResults_Status. Use v1beta20210515.DatabaseAccountGetResults_Status instead
 type DatabaseAccountGetResults_Status struct {
-	//AnalyticalStorageConfiguration: Analytical storage specific properties.
 	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration_Status `json:"analyticalStorageConfiguration,omitempty"`
-
-	//ApiProperties: API specific properties.
-	ApiProperties *ApiProperties_Status `json:"apiProperties,omitempty"`
-
-	//BackupPolicy: The object representing the policy for taking backups on an account.
-	BackupPolicy *BackupPolicy_Status `json:"backupPolicy,omitempty"`
-
-	//Capabilities: List of Cosmos DB capabilities for the account
-	Capabilities []Capability_Status `json:"capabilities,omitempty"`
+	ApiProperties                  *ApiProperties_Status                  `json:"apiProperties,omitempty"`
+	BackupPolicy                   *BackupPolicy_Status                   `json:"backupPolicy,omitempty"`
+	Capabilities                   []Capability_Status                    `json:"capabilities,omitempty"`
 
 	//Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	//ConnectorOffer: The cassandra connector offer type for the Cosmos DB database C* account.
-	ConnectorOffer *ConnectorOffer_Status `json:"connectorOffer,omitempty"`
-
-	//ConsistencyPolicy: The consistency policy for the Cosmos DB database account.
-	ConsistencyPolicy *ConsistencyPolicy_Status `json:"consistencyPolicy,omitempty"`
-
-	//Cors: The CORS policy for the Cosmos DB database account.
-	Cors []CorsPolicy_Status `json:"cors,omitempty"`
-
-	//DatabaseAccountOfferType: The offer type for the Cosmos DB database account. Default value: Standard.
-	DatabaseAccountOfferType *DatabaseAccountOfferType_Status `json:"databaseAccountOfferType,omitempty"`
-
-	//DefaultIdentity: The default identity for accessing key vault used in features like customer managed keys. The default
-	//identity needs to be explicitly set by the users. It can be "FirstPartyIdentity", "SystemAssignedIdentity" and more.
-	DefaultIdentity *string `json:"defaultIdentity,omitempty"`
-
-	//DisableKeyBasedMetadataWriteAccess: Disable write operations on metadata resources (databases, containers, throughput)
-	//via account keys
-	DisableKeyBasedMetadataWriteAccess *bool `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
-
-	//DocumentEndpoint: The connection endpoint for the Cosmos DB database account.
-	DocumentEndpoint *string `json:"documentEndpoint,omitempty"`
-
-	//EnableAnalyticalStorage: Flag to indicate whether to enable storage analytics.
-	EnableAnalyticalStorage *bool `json:"enableAnalyticalStorage,omitempty"`
-
-	//EnableAutomaticFailover: Enables automatic failover of the write region in the rare event that the region is unavailable
-	//due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the
-	//failover priorities configured for the account.
-	EnableAutomaticFailover *bool `json:"enableAutomaticFailover,omitempty"`
-
-	//EnableCassandraConnector: Enables the cassandra connector on the Cosmos DB C* account
-	EnableCassandraConnector *bool `json:"enableCassandraConnector,omitempty"`
-
-	//EnableFreeTier: Flag to indicate whether Free Tier is enabled.
-	EnableFreeTier *bool `json:"enableFreeTier,omitempty"`
-
-	//EnableMultipleWriteLocations: Enables the account to write in multiple locations
-	EnableMultipleWriteLocations *bool `json:"enableMultipleWriteLocations,omitempty"`
-
-	//FailoverPolicies: An array that contains the regions ordered by their failover priorities.
-	FailoverPolicies []FailoverPolicy_Status `json:"failoverPolicies,omitempty"`
-
-	//Id: The unique resource identifier of the ARM resource.
-	Id       *string                        `json:"id,omitempty"`
-	Identity *ManagedServiceIdentity_Status `json:"identity,omitempty"`
-
-	//IpRules: List of IpRules.
-	IpRules []IpAddressOrRange_Status `json:"ipRules,omitempty"`
-
-	//IsVirtualNetworkFilterEnabled: Flag to indicate whether to enable/disable Virtual Network ACL rules.
-	IsVirtualNetworkFilterEnabled *bool `json:"isVirtualNetworkFilterEnabled,omitempty"`
-
-	//KeyVaultKeyUri: The URI of the key vault
-	KeyVaultKeyUri *string `json:"keyVaultKeyUri,omitempty"`
-
-	//Kind: Indicates the type of database account. This can only be set at database account creation.
-	Kind *DatabaseAccountGetResultsStatusKind `json:"kind,omitempty"`
-
-	//Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	//Locations: An array that contains all of the locations enabled for the Cosmos DB account.
-	Locations []Location_Status `json:"locations,omitempty"`
-
-	//Name: The name of the ARM resource.
-	Name *string `json:"name,omitempty"`
-
-	//NetworkAclBypass: Indicates what services are allowed to bypass firewall checks.
-	NetworkAclBypass *NetworkAclBypass_Status `json:"networkAclBypass,omitempty"`
-
-	//NetworkAclBypassResourceIds: An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.
-	NetworkAclBypassResourceIds []string `json:"networkAclBypassResourceIds,omitempty"`
-
-	//PrivateEndpointConnections: List of Private Endpoint Connections configured for the Cosmos DB account.
-	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *string                                                `json:"provisioningState,omitempty"`
-
-	//PublicNetworkAccess: Whether requests from Public Network are allowed
-	PublicNetworkAccess *PublicNetworkAccess_Status `json:"publicNetworkAccess,omitempty"`
-
-	//ReadLocations: An array that contains of the read locations enabled for the Cosmos DB account.
-	ReadLocations []Location_Status `json:"readLocations,omitempty"`
-	Tags          map[string]string `json:"tags,omitempty"`
-
-	//Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
-
-	//VirtualNetworkRules: List of Virtual Network ACL rules configured for the Cosmos DB account.
-	VirtualNetworkRules []VirtualNetworkRule_Status `json:"virtualNetworkRules,omitempty"`
-
-	//WriteLocations: An array that contains the write location for the Cosmos DB account.
-	WriteLocations []Location_Status `json:"writeLocations,omitempty"`
+	Conditions                         []conditions.Condition                                 `json:"conditions,omitempty"`
+	ConnectorOffer                     *ConnectorOffer_Status                                 `json:"connectorOffer,omitempty"`
+	ConsistencyPolicy                  *ConsistencyPolicy_Status                              `json:"consistencyPolicy,omitempty"`
+	Cors                               []CorsPolicy_Status                                    `json:"cors,omitempty"`
+	DatabaseAccountOfferType           *DatabaseAccountOfferType_Status                       `json:"databaseAccountOfferType,omitempty"`
+	DefaultIdentity                    *string                                                `json:"defaultIdentity,omitempty"`
+	DisableKeyBasedMetadataWriteAccess *bool                                                  `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
+	DocumentEndpoint                   *string                                                `json:"documentEndpoint,omitempty"`
+	EnableAnalyticalStorage            *bool                                                  `json:"enableAnalyticalStorage,omitempty"`
+	EnableAutomaticFailover            *bool                                                  `json:"enableAutomaticFailover,omitempty"`
+	EnableCassandraConnector           *bool                                                  `json:"enableCassandraConnector,omitempty"`
+	EnableFreeTier                     *bool                                                  `json:"enableFreeTier,omitempty"`
+	EnableMultipleWriteLocations       *bool                                                  `json:"enableMultipleWriteLocations,omitempty"`
+	FailoverPolicies                   []FailoverPolicy_Status                                `json:"failoverPolicies,omitempty"`
+	Id                                 *string                                                `json:"id,omitempty"`
+	Identity                           *ManagedServiceIdentity_Status                         `json:"identity,omitempty"`
+	IpRules                            []IpAddressOrRange_Status                              `json:"ipRules,omitempty"`
+	IsVirtualNetworkFilterEnabled      *bool                                                  `json:"isVirtualNetworkFilterEnabled,omitempty"`
+	KeyVaultKeyUri                     *string                                                `json:"keyVaultKeyUri,omitempty"`
+	Kind                               *DatabaseAccountGetResultsStatusKind                   `json:"kind,omitempty"`
+	Location                           *string                                                `json:"location,omitempty"`
+	Locations                          []Location_Status                                      `json:"locations,omitempty"`
+	Name                               *string                                                `json:"name,omitempty"`
+	NetworkAclBypass                   *NetworkAclBypass_Status                               `json:"networkAclBypass,omitempty"`
+	NetworkAclBypassResourceIds        []string                                               `json:"networkAclBypassResourceIds,omitempty"`
+	PrivateEndpointConnections         []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState                  *string                                                `json:"provisioningState,omitempty"`
+	PublicNetworkAccess                *PublicNetworkAccess_Status                            `json:"publicNetworkAccess,omitempty"`
+	ReadLocations                      []Location_Status                                      `json:"readLocations,omitempty"`
+	Tags                               map[string]string                                      `json:"tags,omitempty"`
+	Type                               *string                                                `json:"type,omitempty"`
+	VirtualNetworkRules                []VirtualNetworkRule_Status                            `json:"virtualNetworkRules,omitempty"`
+	WriteLocations                     []Location_Status                                      `json:"writeLocations,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DatabaseAccountGetResults_Status{}
@@ -1599,13 +1545,7 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesToDatabaseAccou
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsSpecAPIVersion string
-
-const DatabaseAccountsSpecAPIVersion20210515 = DatabaseAccountsSpecAPIVersion("2021-05-15")
-
 type DatabaseAccounts_Spec struct {
-	//AnalyticalStorageConfiguration: Analytical storage specific properties.
 	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration `json:"analyticalStorageConfiguration,omitempty"`
 	ApiProperties                  *ApiProperties                  `json:"apiProperties,omitempty"`
 
@@ -1614,79 +1554,33 @@ type DatabaseAccounts_Spec struct {
 	// +kubebuilder:validation:Pattern="^[a-z0-9]+(-[a-z0-9]+)*"
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	//BackupPolicy: The object representing the policy for taking backups on an account.
-	BackupPolicy *BackupPolicy `json:"backupPolicy,omitempty"`
-
-	//Capabilities: List of Cosmos DB capabilities for the account
-	Capabilities []Capability `json:"capabilities,omitempty"`
-
-	//ConnectorOffer: The cassandra connector offer type for the Cosmos DB database C* account.
-	ConnectorOffer *DatabaseAccountCreateUpdatePropertiesConnectorOffer `json:"connectorOffer,omitempty"`
-
-	//ConsistencyPolicy: The consistency policy for the Cosmos DB database account.
-	ConsistencyPolicy *ConsistencyPolicy `json:"consistencyPolicy,omitempty"`
-
-	//Cors: The CORS policy for the Cosmos DB database account.
-	Cors []CorsPolicy `json:"cors,omitempty"`
+	AzureName         string                                               `json:"azureName,omitempty"`
+	BackupPolicy      *BackupPolicy                                        `json:"backupPolicy,omitempty"`
+	Capabilities      []Capability                                         `json:"capabilities,omitempty"`
+	ConnectorOffer    *DatabaseAccountCreateUpdatePropertiesConnectorOffer `json:"connectorOffer,omitempty"`
+	ConsistencyPolicy *ConsistencyPolicy                                   `json:"consistencyPolicy,omitempty"`
+	Cors              []CorsPolicy                                         `json:"cors,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//DatabaseAccountOfferType: The offer type for the database
-	DatabaseAccountOfferType *DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType `json:"databaseAccountOfferType,omitempty"`
-
-	//DefaultIdentity: The default identity for accessing key vault used in features like customer managed keys. The default
-	//identity needs to be explicitly set by the users. It can be "FirstPartyIdentity", "SystemAssignedIdentity" and more.
-	DefaultIdentity *string `json:"defaultIdentity,omitempty"`
-
-	//DisableKeyBasedMetadataWriteAccess: Disable write operations on metadata resources (databases, containers, throughput)
-	//via account keys
-	DisableKeyBasedMetadataWriteAccess *bool `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
-
-	//EnableAnalyticalStorage: Flag to indicate whether to enable storage analytics.
-	EnableAnalyticalStorage *bool `json:"enableAnalyticalStorage,omitempty"`
-
-	//EnableAutomaticFailover: Enables automatic failover of the write region in the rare event that the region is unavailable
-	//due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the
-	//failover priorities configured for the account.
-	EnableAutomaticFailover *bool `json:"enableAutomaticFailover,omitempty"`
-
-	//EnableCassandraConnector: Enables the cassandra connector on the Cosmos DB C* account
-	EnableCassandraConnector *bool `json:"enableCassandraConnector,omitempty"`
-
-	//EnableFreeTier: Flag to indicate whether Free Tier is enabled.
-	EnableFreeTier *bool `json:"enableFreeTier,omitempty"`
-
-	//EnableMultipleWriteLocations: Enables the account to write in multiple locations
-	EnableMultipleWriteLocations *bool `json:"enableMultipleWriteLocations,omitempty"`
-
-	//Identity: Identity for the resource.
-	Identity *ManagedServiceIdentity `json:"identity,omitempty"`
-
-	//IpRules: Array of IpAddressOrRange objects.
-	IpRules []IpAddressOrRange `json:"ipRules,omitempty"`
-
-	//IsVirtualNetworkFilterEnabled: Flag to indicate whether to enable/disable Virtual Network ACL rules.
-	IsVirtualNetworkFilterEnabled *bool `json:"isVirtualNetworkFilterEnabled,omitempty"`
-
-	//KeyVaultKeyUri: The URI of the key vault
-	KeyVaultKeyUri *string `json:"keyVaultKeyUri,omitempty"`
-
-	//Kind: Indicates the type of database account. This can only be set at database account creation.
-	Kind *DatabaseAccountsSpecKind `json:"kind,omitempty"`
-
-	//Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
+	DatabaseAccountOfferType           *DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType `json:"databaseAccountOfferType,omitempty"`
+	DefaultIdentity                    *string                                                        `json:"defaultIdentity,omitempty"`
+	DisableKeyBasedMetadataWriteAccess *bool                                                          `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
+	EnableAnalyticalStorage            *bool                                                          `json:"enableAnalyticalStorage,omitempty"`
+	EnableAutomaticFailover            *bool                                                          `json:"enableAutomaticFailover,omitempty"`
+	EnableCassandraConnector           *bool                                                          `json:"enableCassandraConnector,omitempty"`
+	EnableFreeTier                     *bool                                                          `json:"enableFreeTier,omitempty"`
+	EnableMultipleWriteLocations       *bool                                                          `json:"enableMultipleWriteLocations,omitempty"`
+	Identity                           *ManagedServiceIdentity                                        `json:"identity,omitempty"`
+	IpRules                            []IpAddressOrRange                                             `json:"ipRules,omitempty"`
+	IsVirtualNetworkFilterEnabled      *bool                                                          `json:"isVirtualNetworkFilterEnabled,omitempty"`
+	KeyVaultKeyUri                     *string                                                        `json:"keyVaultKeyUri,omitempty"`
+	Kind                               *DatabaseAccountsSpecKind                                      `json:"kind,omitempty"`
+	Location                           *string                                                        `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Locations: An array that contains the georeplication locations enabled for the Cosmos DB account.
-	Locations []Location `json:"locations,omitempty"`
-
-	//NetworkAclBypass: Indicates what services are allowed to bypass firewall checks.
-	NetworkAclBypass *DatabaseAccountCreateUpdatePropertiesNetworkAclBypass `json:"networkAclBypass,omitempty"`
-
-	//NetworkAclBypassResourceIds: An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.
-	NetworkAclBypassResourceIds []string `json:"networkAclBypassResourceIds,omitempty"`
+	Locations                   []Location                                             `json:"locations,omitempty"`
+	NetworkAclBypass            *DatabaseAccountCreateUpdatePropertiesNetworkAclBypass `json:"networkAclBypass,omitempty"`
+	NetworkAclBypassResourceIds []string                                               `json:"networkAclBypassResourceIds,omitempty"`
 
 	//OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
 	//passed directly to Azure
@@ -1696,20 +1590,10 @@ type DatabaseAccounts_Spec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	//PublicNetworkAccess: Whether requests from Public Network are allowed.
+	Owner               *genruntime.KnownResourceReference                        `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PublicNetworkAccess *DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	//type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	//"DocumentDB", and "MongoDB".
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//VirtualNetworkRules: List of Virtual Network ACL rules configured for the Cosmos DB account.
-	VirtualNetworkRules []VirtualNetworkRule `json:"virtualNetworkRules,omitempty"`
+	Tags                map[string]string                                         `json:"tags,omitempty"`
+	VirtualNetworkRules []VirtualNetworkRule                                      `json:"virtualNetworkRules,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DatabaseAccounts_Spec{}
@@ -2860,7 +2744,7 @@ func (accounts *DatabaseAccounts_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (accounts *DatabaseAccounts_Spec) SetAzureName(azureName string) { accounts.AzureName = azureName }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AnalyticalStorageConfiguration
+//Deprecated version of AnalyticalStorageConfiguration. Use v1beta20210515.AnalyticalStorageConfiguration instead
 type AnalyticalStorageConfiguration struct {
 	SchemaType *AnalyticalStorageConfigurationSchemaType `json:"schemaType,omitempty"`
 }
@@ -2943,6 +2827,7 @@ func (configuration *AnalyticalStorageConfiguration) AssignPropertiesToAnalytica
 	return nil
 }
 
+//Deprecated version of AnalyticalStorageConfiguration_Status. Use v1beta20210515.AnalyticalStorageConfiguration_Status instead
 type AnalyticalStorageConfiguration_Status struct {
 	SchemaType *AnalyticalStorageSchemaType_Status `json:"schemaType,omitempty"`
 }
@@ -3010,9 +2895,8 @@ func (configuration *AnalyticalStorageConfiguration_Status) AssignPropertiesToAn
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ApiProperties
+//Deprecated version of ApiProperties. Use v1beta20210515.ApiProperties instead
 type ApiProperties struct {
-	//ServerVersion: Describes the ServerVersion of an a MongoDB account.
 	ServerVersion *ApiPropertiesServerVersion `json:"serverVersion,omitempty"`
 }
 
@@ -3094,8 +2978,8 @@ func (properties *ApiProperties) AssignPropertiesToApiProperties(destination *v1
 	return nil
 }
 
+//Deprecated version of ApiProperties_Status. Use v1beta20210515.ApiProperties_Status instead
 type ApiProperties_Status struct {
-	//ServerVersion: Describes the ServerVersion of an a MongoDB account.
 	ServerVersion *ApiPropertiesStatusServerVersion `json:"serverVersion,omitempty"`
 }
 
@@ -3162,13 +3046,10 @@ func (properties *ApiProperties_Status) AssignPropertiesToApiPropertiesStatus(de
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/BackupPolicy
+//Deprecated version of BackupPolicy. Use v1beta20210515.BackupPolicy instead
 type BackupPolicy struct {
-	//Continuous: Mutually exclusive with all other properties
 	Continuous *ContinuousModeBackupPolicy `json:"continuousModeBackupPolicy,omitempty"`
-
-	//Periodic: Mutually exclusive with all other properties
-	Periodic *PeriodicModeBackupPolicy `json:"periodicModeBackupPolicy,omitempty"`
+	Periodic   *PeriodicModeBackupPolicy   `json:"periodicModeBackupPolicy,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &BackupPolicy{}
@@ -3311,6 +3192,7 @@ func (policy *BackupPolicy) AssignPropertiesToBackupPolicy(destination *v1alpha1
 	return nil
 }
 
+//Deprecated version of BackupPolicy_Status. Use v1beta20210515.BackupPolicy_Status instead
 type BackupPolicy_Status struct {
 	Type *BackupPolicyType_Status `json:"type,omitempty"`
 }
@@ -3378,10 +3260,8 @@ func (policy *BackupPolicy_Status) AssignPropertiesToBackupPolicyStatus(destinat
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Capability
+//Deprecated version of Capability. Use v1beta20210515.Capability instead
 type Capability struct {
-	//Name: Name of the Cosmos DB capability. For example, "name": "EnableCassandra". Current values also include
-	//"EnableTable" and "EnableGremlin".
 	Name *string `json:"name,omitempty"`
 }
 
@@ -3453,9 +3333,8 @@ func (capability *Capability) AssignPropertiesToCapability(destination *v1alpha1
 	return nil
 }
 
+//Deprecated version of Capability_Status. Use v1beta20210515.Capability_Status instead
 type Capability_Status struct {
-	//Name: Name of the Cosmos DB capability. For example, "name": "EnableCassandra". Current values also include
-	//"EnableTable" and "EnableGremlin".
 	Name *string `json:"name,omitempty"`
 }
 
@@ -3512,28 +3391,22 @@ func (capability *Capability_Status) AssignPropertiesToCapabilityStatus(destinat
 	return nil
 }
 
+//Deprecated version of ConnectorOffer_Status. Use v1beta20210515.ConnectorOffer_Status instead
 type ConnectorOffer_Status string
 
 const ConnectorOffer_StatusSmall = ConnectorOffer_Status("Small")
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConsistencyPolicy
+//Deprecated version of ConsistencyPolicy. Use v1beta20210515.ConsistencyPolicy instead
 type ConsistencyPolicy struct {
 	// +kubebuilder:validation:Required
-	//DefaultConsistencyLevel: The default consistency level and configuration settings of the Cosmos DB account.
 	DefaultConsistencyLevel *ConsistencyPolicyDefaultConsistencyLevel `json:"defaultConsistencyLevel,omitempty"`
 
 	// +kubebuilder:validation:Maximum=86400
 	// +kubebuilder:validation:Minimum=5
-	//MaxIntervalInSeconds: When used with the Bounded Staleness consistency level, this value represents the time amount of
-	//staleness (in seconds) tolerated. Accepted range for this value is 5 - 86400. Required when defaultConsistencyPolicy is
-	//set to 'BoundedStaleness'.
 	MaxIntervalInSeconds *int `json:"maxIntervalInSeconds,omitempty"`
 
 	// +kubebuilder:validation:Maximum=2147483647
 	// +kubebuilder:validation:Minimum=1
-	//MaxStalenessPrefix: When used with the Bounded Staleness consistency level, this value represents the number of stale
-	//requests tolerated. Accepted range for this value is 1 – 2,147,483,647. Required when defaultConsistencyPolicy is set
-	//to 'BoundedStaleness'.
 	MaxStalenessPrefix *int `json:"maxStalenessPrefix,omitempty"`
 }
 
@@ -3671,19 +3544,11 @@ func (policy *ConsistencyPolicy) AssignPropertiesToConsistencyPolicy(destination
 	return nil
 }
 
+//Deprecated version of ConsistencyPolicy_Status. Use v1beta20210515.ConsistencyPolicy_Status instead
 type ConsistencyPolicy_Status struct {
-	//DefaultConsistencyLevel: The default consistency level and configuration settings of the Cosmos DB account.
 	DefaultConsistencyLevel *ConsistencyPolicyStatusDefaultConsistencyLevel `json:"defaultConsistencyLevel,omitempty"`
-
-	//MaxIntervalInSeconds: When used with the Bounded Staleness consistency level, this value represents the time amount of
-	//staleness (in seconds) tolerated. Accepted range for this value is 5 - 86400. Required when defaultConsistencyPolicy is
-	//set to 'BoundedStaleness'.
-	MaxIntervalInSeconds *int `json:"maxIntervalInSeconds,omitempty"`
-
-	//MaxStalenessPrefix: When used with the Bounded Staleness consistency level, this value represents the number of stale
-	//requests tolerated. Accepted range for this value is 1 – 2,147,483,647. Required when defaultConsistencyPolicy is set
-	//to 'BoundedStaleness'.
-	MaxStalenessPrefix *int `json:"maxStalenessPrefix,omitempty"`
+	MaxIntervalInSeconds    *int                                            `json:"maxIntervalInSeconds,omitempty"`
+	MaxStalenessPrefix      *int                                            `json:"maxStalenessPrefix,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ConsistencyPolicy_Status{}
@@ -3773,25 +3638,17 @@ func (policy *ConsistencyPolicy_Status) AssignPropertiesToConsistencyPolicyStatu
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CorsPolicy
+//Deprecated version of CorsPolicy. Use v1beta20210515.CorsPolicy instead
 type CorsPolicy struct {
-	//AllowedHeaders: The request headers that the origin domain may specify on the CORS request.
 	AllowedHeaders *string `json:"allowedHeaders,omitempty"`
-
-	//AllowedMethods: The methods (HTTP request verbs) that the origin domain may use for a CORS request.
 	AllowedMethods *string `json:"allowedMethods,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//AllowedOrigins: The origin domains that are permitted to make a request against the service via CORS.
 	AllowedOrigins *string `json:"allowedOrigins,omitempty"`
-
-	//ExposedHeaders: The response headers that may be sent in the response to the CORS request and exposed by the browser to
-	//the request issuer.
 	ExposedHeaders *string `json:"exposedHeaders,omitempty"`
 
 	// +kubebuilder:validation:Maximum=2147483647
 	// +kubebuilder:validation:Minimum=1
-	//MaxAgeInSeconds: The maximum amount time that a browser should cache the preflight OPTIONS request.
 	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }
 
@@ -3945,22 +3802,13 @@ func (policy *CorsPolicy) AssignPropertiesToCorsPolicy(destination *v1alpha1api2
 	return nil
 }
 
+//Deprecated version of CorsPolicy_Status. Use v1beta20210515.CorsPolicy_Status instead
 type CorsPolicy_Status struct {
-	//AllowedHeaders: The request headers that the origin domain may specify on the CORS request.
-	AllowedHeaders *string `json:"allowedHeaders,omitempty"`
-
-	//AllowedMethods: The methods (HTTP request verbs) that the origin domain may use for a CORS request.
-	AllowedMethods *string `json:"allowedMethods,omitempty"`
-
-	//AllowedOrigins: The origin domains that are permitted to make a request against the service via CORS.
-	AllowedOrigins *string `json:"allowedOrigins,omitempty"`
-
-	//ExposedHeaders: The response headers that may be sent in the response to the CORS request and exposed by the browser to
-	//the request issuer.
-	ExposedHeaders *string `json:"exposedHeaders,omitempty"`
-
-	//MaxAgeInSeconds: The maximum amount time that a browser should cache the preflight OPTIONS request.
-	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
+	AllowedHeaders  *string `json:"allowedHeaders,omitempty"`
+	AllowedMethods  *string `json:"allowedMethods,omitempty"`
+	AllowedOrigins  *string `json:"allowedOrigins,omitempty"`
+	ExposedHeaders  *string `json:"exposedHeaders,omitempty"`
+	MaxAgeInSeconds *int    `json:"maxAgeInSeconds,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &CorsPolicy_Status{}
@@ -4064,16 +3912,22 @@ func (policy *CorsPolicy_Status) AssignPropertiesToCorsPolicyStatus(destination 
 	return nil
 }
 
+//Deprecated version of DatabaseAccountCreateUpdatePropertiesConnectorOffer. Use
+//v1beta20210515.DatabaseAccountCreateUpdatePropertiesConnectorOffer instead
 // +kubebuilder:validation:Enum={"Small"}
 type DatabaseAccountCreateUpdatePropertiesConnectorOffer string
 
 const DatabaseAccountCreateUpdatePropertiesConnectorOfferSmall = DatabaseAccountCreateUpdatePropertiesConnectorOffer("Small")
 
+//Deprecated version of DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType. Use
+//v1beta20210515.DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType instead
 // +kubebuilder:validation:Enum={"Standard"}
 type DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType string
 
 const DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferTypeStandard = DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType("Standard")
 
+//Deprecated version of DatabaseAccountCreateUpdatePropertiesNetworkAclBypass. Use
+//v1beta20210515.DatabaseAccountCreateUpdatePropertiesNetworkAclBypass instead
 // +kubebuilder:validation:Enum={"AzureServices","None"}
 type DatabaseAccountCreateUpdatePropertiesNetworkAclBypass string
 
@@ -4082,6 +3936,8 @@ const (
 	DatabaseAccountCreateUpdatePropertiesNetworkAclBypassNone          = DatabaseAccountCreateUpdatePropertiesNetworkAclBypass("None")
 )
 
+//Deprecated version of DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess. Use
+//v1beta20210515.DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess string
 
@@ -4090,6 +3946,7 @@ const (
 	DatabaseAccountCreateUpdatePropertiesPublicNetworkAccessEnabled  = DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess("Enabled")
 )
 
+//Deprecated version of DatabaseAccountOfferType_Status. Use v1beta20210515.DatabaseAccountOfferType_Status instead
 type DatabaseAccountOfferType_Status string
 
 const DatabaseAccountOfferType_StatusStandard = DatabaseAccountOfferType_Status("Standard")
@@ -4147,18 +4004,11 @@ func (operator *DatabaseAccountOperatorSpec) AssignPropertiesToDatabaseAccountOp
 	return nil
 }
 
+//Deprecated version of FailoverPolicy_Status. Use v1beta20210515.FailoverPolicy_Status instead
 type FailoverPolicy_Status struct {
-	//FailoverPriority: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum
-	//value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the
-	//regions in which the database account exists.
-	FailoverPriority *int `json:"failoverPriority,omitempty"`
-
-	//Id: The unique identifier of the region in which the database account replicates to. Example:
-	//&lt;accountName&gt;-&lt;locationName&gt;.
-	Id *string `json:"id,omitempty"`
-
-	//LocationName: The name of the region in which the database account exists.
-	LocationName *string `json:"locationName,omitempty"`
+	FailoverPriority *int    `json:"failoverPriority,omitempty"`
+	Id               *string `json:"id,omitempty"`
+	LocationName     *string `json:"locationName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &FailoverPolicy_Status{}
@@ -4238,12 +4088,8 @@ func (policy *FailoverPolicy_Status) AssignPropertiesToFailoverPolicyStatus(dest
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IpAddressOrRange
+//Deprecated version of IpAddressOrRange. Use v1beta20210515.IpAddressOrRange instead
 type IpAddressOrRange struct {
-	//IpAddressOrRange: A single IPv4 address or a single IPv4 address range in CIDR format. Provided IPs must be
-	//well-formatted and cannot be contained in one of the following ranges: 10.0.0.0/8, 100.64.0.0/10, 172.16.0.0/12,
-	//192.168.0.0/16, since these are not enforceable by the IP address filter. Example of valid inputs: “23.40.210.245”
-	//or “23.40.210.0/8”.
 	IpAddressOrRange *string `json:"ipAddressOrRange,omitempty"`
 }
 
@@ -4315,11 +4161,8 @@ func (orRange *IpAddressOrRange) AssignPropertiesToIpAddressOrRange(destination 
 	return nil
 }
 
+//Deprecated version of IpAddressOrRange_Status. Use v1beta20210515.IpAddressOrRange_Status instead
 type IpAddressOrRange_Status struct {
-	//IpAddressOrRange: A single IPv4 address or a single IPv4 address range in CIDR format. Provided IPs must be
-	//well-formatted and cannot be contained in one of the following ranges: 10.0.0.0/8, 100.64.0.0/10, 172.16.0.0/12,
-	//192.168.0.0/16, since these are not enforceable by the IP address filter. Example of valid inputs: “23.40.210.245”
-	//or “23.40.210.0/8”.
 	IpAddressOrRange *string `json:"ipAddressOrRange,omitempty"`
 }
 
@@ -4376,19 +4219,12 @@ func (orRange *IpAddressOrRange_Status) AssignPropertiesToIpAddressOrRangeStatus
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Location
+//Deprecated version of Location. Use v1beta20210515.Location instead
 type Location struct {
 	// +kubebuilder:validation:Minimum=0
-	//FailoverPriority: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum
-	//value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the
-	//regions in which the database account exists.
-	FailoverPriority *int `json:"failoverPriority,omitempty"`
-
-	//IsZoneRedundant: Flag to indicate whether or not this region is an AvailabilityZone region
-	IsZoneRedundant *bool `json:"isZoneRedundant,omitempty"`
-
-	//LocationName: The name of the region.
-	LocationName *string `json:"locationName,omitempty"`
+	FailoverPriority *int    `json:"failoverPriority,omitempty"`
+	IsZoneRedundant  *bool   `json:"isZoneRedundant,omitempty"`
+	LocationName     *string `json:"locationName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Location{}
@@ -4515,23 +4351,12 @@ func (location *Location) AssignPropertiesToLocation(destination *v1alpha1api202
 	return nil
 }
 
+//Deprecated version of Location_Status. Use v1beta20210515.Location_Status instead
 type Location_Status struct {
-	//DocumentEndpoint: The connection endpoint for the specific region. Example:
-	//https://&lt;accountName&gt;-&lt;locationName&gt;.documents.azure.com:443/
-	DocumentEndpoint *string `json:"documentEndpoint,omitempty"`
-
-	//FailoverPriority: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum
-	//value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the
-	//regions in which the database account exists.
-	FailoverPriority *int `json:"failoverPriority,omitempty"`
-
-	//Id: The unique identifier of the region within the database account. Example: &lt;accountName&gt;-&lt;locationName&gt;.
-	Id *string `json:"id,omitempty"`
-
-	//IsZoneRedundant: Flag to indicate whether or not this region is an AvailabilityZone region
-	IsZoneRedundant *bool `json:"isZoneRedundant,omitempty"`
-
-	//LocationName: The name of the region.
+	DocumentEndpoint  *string `json:"documentEndpoint,omitempty"`
+	FailoverPriority  *int    `json:"failoverPriority,omitempty"`
+	Id                *string `json:"id,omitempty"`
+	IsZoneRedundant   *bool   `json:"isZoneRedundant,omitempty"`
 	LocationName      *string `json:"locationName,omitempty"`
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
@@ -4659,10 +4484,8 @@ func (location *Location_Status) AssignPropertiesToLocationStatus(destination *v
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ManagedServiceIdentity
+//Deprecated version of ManagedServiceIdentity. Use v1beta20210515.ManagedServiceIdentity instead
 type ManagedServiceIdentity struct {
-	//Type: The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly
-	//created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.
 	Type *ManagedServiceIdentityType `json:"type,omitempty"`
 }
 
@@ -4744,22 +4567,11 @@ func (identity *ManagedServiceIdentity) AssignPropertiesToManagedServiceIdentity
 	return nil
 }
 
+//Deprecated version of ManagedServiceIdentity_Status. Use v1beta20210515.ManagedServiceIdentity_Status instead
 type ManagedServiceIdentity_Status struct {
-	//PrincipalId: The principal id of the system assigned identity. This property will only be provided for a system assigned
-	//identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	//TenantId: The tenant id of the system assigned identity. This property will only be provided for a system assigned
-	//identity.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	//Type: The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly
-	//created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.
-	Type *ManagedServiceIdentityStatusType `json:"type,omitempty"`
-
-	//UserAssignedIdentities: The list of user identities associated with resource. The user identity dictionary key
-	//references will be ARM resource ids in the form:
-	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+	PrincipalId            *string                                                         `json:"principalId,omitempty"`
+	TenantId               *string                                                         `json:"tenantId,omitempty"`
+	Type                   *ManagedServiceIdentityStatusType                               `json:"type,omitempty"`
 	UserAssignedIdentities map[string]ManagedServiceIdentity_Status_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -4899,6 +4711,7 @@ func (identity *ManagedServiceIdentity_Status) AssignPropertiesToManagedServiceI
 	return nil
 }
 
+//Deprecated version of NetworkAclBypass_Status. Use v1beta20210515.NetworkAclBypass_Status instead
 type NetworkAclBypass_Status string
 
 const (
@@ -4906,9 +4719,8 @@ const (
 	NetworkAclBypass_StatusNone          = NetworkAclBypass_Status("None")
 )
 
+//Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210515.PrivateEndpointConnection_Status_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 }
 
@@ -4965,6 +4777,7 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 	return nil
 }
 
+//Deprecated version of PublicNetworkAccess_Status. Use v1beta20210515.PublicNetworkAccess_Status instead
 type PublicNetworkAccess_Status string
 
 const (
@@ -4972,14 +4785,10 @@ const (
 	PublicNetworkAccess_StatusEnabled  = PublicNetworkAccess_Status("Enabled")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/VirtualNetworkRule
+//Deprecated version of VirtualNetworkRule. Use v1beta20210515.VirtualNetworkRule instead
 type VirtualNetworkRule struct {
-	//IgnoreMissingVNetServiceEndpoint: Create firewall rule before the virtual network has vnet service endpoint enabled.
-	IgnoreMissingVNetServiceEndpoint *bool `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
-
-	//Reference: Resource ID of a subnet, for example:
-	///subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	IgnoreMissingVNetServiceEndpoint *bool                         `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
+	Reference                        *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualNetworkRule{}
@@ -5088,13 +4897,10 @@ func (rule *VirtualNetworkRule) AssignPropertiesToVirtualNetworkRule(destination
 	return nil
 }
 
+//Deprecated version of VirtualNetworkRule_Status. Use v1beta20210515.VirtualNetworkRule_Status instead
 type VirtualNetworkRule_Status struct {
-	//Id: Resource ID of a subnet, for example:
-	///subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.
-	Id *string `json:"id,omitempty"`
-
-	//IgnoreMissingVNetServiceEndpoint: Create firewall rule before the virtual network has vnet service endpoint enabled.
-	IgnoreMissingVNetServiceEndpoint *bool `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
+	Id                               *string `json:"id,omitempty"`
+	IgnoreMissingVNetServiceEndpoint *bool   `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualNetworkRule_Status{}
@@ -5172,6 +4978,8 @@ func (rule *VirtualNetworkRule_Status) AssignPropertiesToVirtualNetworkRuleStatu
 	return nil
 }
 
+//Deprecated version of AnalyticalStorageConfigurationSchemaType. Use
+//v1beta20210515.AnalyticalStorageConfigurationSchemaType instead
 // +kubebuilder:validation:Enum={"FullFidelity","WellDefined"}
 type AnalyticalStorageConfigurationSchemaType string
 
@@ -5180,6 +4988,7 @@ const (
 	AnalyticalStorageConfigurationSchemaTypeWellDefined  = AnalyticalStorageConfigurationSchemaType("WellDefined")
 )
 
+//Deprecated version of AnalyticalStorageSchemaType_Status. Use v1beta20210515.AnalyticalStorageSchemaType_Status instead
 type AnalyticalStorageSchemaType_Status string
 
 const (
@@ -5187,6 +4996,7 @@ const (
 	AnalyticalStorageSchemaType_StatusWellDefined  = AnalyticalStorageSchemaType_Status("WellDefined")
 )
 
+//Deprecated version of ApiPropertiesServerVersion. Use v1beta20210515.ApiPropertiesServerVersion instead
 // +kubebuilder:validation:Enum={"3.2","3.6","4.0"}
 type ApiPropertiesServerVersion string
 
@@ -5196,6 +5006,7 @@ const (
 	ApiPropertiesServerVersion40 = ApiPropertiesServerVersion("4.0")
 )
 
+//Deprecated version of ApiPropertiesStatusServerVersion. Use v1beta20210515.ApiPropertiesStatusServerVersion instead
 type ApiPropertiesStatusServerVersion string
 
 const (
@@ -5204,6 +5015,7 @@ const (
 	ApiPropertiesStatusServerVersion40 = ApiPropertiesStatusServerVersion("4.0")
 )
 
+//Deprecated version of BackupPolicyType_Status. Use v1beta20210515.BackupPolicyType_Status instead
 type BackupPolicyType_Status string
 
 const (
@@ -5211,6 +5023,8 @@ const (
 	BackupPolicyType_StatusPeriodic   = BackupPolicyType_Status("Periodic")
 )
 
+//Deprecated version of ConsistencyPolicyDefaultConsistencyLevel. Use
+//v1beta20210515.ConsistencyPolicyDefaultConsistencyLevel instead
 // +kubebuilder:validation:Enum={"BoundedStaleness","ConsistentPrefix","Eventual","Session","Strong"}
 type ConsistencyPolicyDefaultConsistencyLevel string
 
@@ -5222,6 +5036,8 @@ const (
 	ConsistencyPolicyDefaultConsistencyLevelStrong           = ConsistencyPolicyDefaultConsistencyLevel("Strong")
 )
 
+//Deprecated version of ConsistencyPolicyStatusDefaultConsistencyLevel. Use
+//v1beta20210515.ConsistencyPolicyStatusDefaultConsistencyLevel instead
 type ConsistencyPolicyStatusDefaultConsistencyLevel string
 
 const (
@@ -5232,7 +5048,7 @@ const (
 	ConsistencyPolicyStatusDefaultConsistencyLevelStrong           = ConsistencyPolicyStatusDefaultConsistencyLevel("Strong")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContinuousModeBackupPolicy
+//Deprecated version of ContinuousModeBackupPolicy. Use v1beta20210515.ContinuousModeBackupPolicy instead
 type ContinuousModeBackupPolicy struct {
 	// +kubebuilder:validation:Required
 	Type *ContinuousModeBackupPolicyType `json:"type,omitempty"`
@@ -5437,11 +5253,9 @@ func (secrets *DatabaseAccountOperatorSecrets) AssignPropertiesToDatabaseAccount
 	return nil
 }
 
+//Deprecated version of ManagedServiceIdentity_Status_UserAssignedIdentities. Use v1beta20210515.ManagedServiceIdentity_Status_UserAssignedIdentities instead
 type ManagedServiceIdentity_Status_UserAssignedIdentities struct {
-	//ClientId: The client id of user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	//PrincipalId: The principal id of user assigned identity.
+	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
@@ -5510,9 +5324,8 @@ func (identities *ManagedServiceIdentity_Status_UserAssignedIdentities) AssignPr
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/PeriodicModeBackupPolicy
+//Deprecated version of PeriodicModeBackupPolicy. Use v1beta20210515.PeriodicModeBackupPolicy instead
 type PeriodicModeBackupPolicy struct {
-	//PeriodicModeProperties: Configuration values for periodic mode backup
 	PeriodicModeProperties *PeriodicModeProperties `json:"periodicModeProperties,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -5638,24 +5451,24 @@ func (policy *PeriodicModeBackupPolicy) AssignPropertiesToPeriodicModeBackupPoli
 	return nil
 }
 
+//Deprecated version of ContinuousModeBackupPolicyType. Use v1beta20210515.ContinuousModeBackupPolicyType instead
 // +kubebuilder:validation:Enum={"Continuous"}
 type ContinuousModeBackupPolicyType string
 
 const ContinuousModeBackupPolicyTypeContinuous = ContinuousModeBackupPolicyType("Continuous")
 
+//Deprecated version of PeriodicModeBackupPolicyType. Use v1beta20210515.PeriodicModeBackupPolicyType instead
 // +kubebuilder:validation:Enum={"Periodic"}
 type PeriodicModeBackupPolicyType string
 
 const PeriodicModeBackupPolicyTypePeriodic = PeriodicModeBackupPolicyType("Periodic")
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/PeriodicModeProperties
+//Deprecated version of PeriodicModeProperties. Use v1beta20210515.PeriodicModeProperties instead
 type PeriodicModeProperties struct {
 	// +kubebuilder:validation:Minimum=0
-	//BackupIntervalInMinutes: An integer representing the interval in minutes between two backups
 	BackupIntervalInMinutes *int `json:"backupIntervalInMinutes,omitempty"`
 
 	// +kubebuilder:validation:Minimum=0
-	//BackupRetentionIntervalInHours: An integer representing the time (in hours) that each backup is retained
 	BackupRetentionIntervalInHours *int `json:"backupRetentionIntervalInHours,omitempty"`
 }
 

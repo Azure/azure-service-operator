@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20200930"
+	computev1alpha1api20200930 "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20200930"
 	"github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20200930storage"
+	computev1beta20200930 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930"
+	"github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type SnapshotExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *SnapshotExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&compute.Snapshot{},
-		&v1alpha1api20200930storage.Snapshot{}}
+		&computev1alpha1api20200930.Snapshot{},
+		&v1alpha1api20200930storage.Snapshot{},
+		&computev1beta20200930.Snapshot{},
+		&v1beta20200930storage.Snapshot{}}
 }

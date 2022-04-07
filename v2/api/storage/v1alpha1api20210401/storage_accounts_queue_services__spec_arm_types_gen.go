@@ -5,18 +5,12 @@ package v1alpha1api20210401
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+//Deprecated version of StorageAccountsQueueServices_Spec. Use v1beta20210401.StorageAccountsQueueServices_Spec instead
 type StorageAccountsQueueServices_SpecARM struct {
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	//Name: The name of the Queue Service within the specified storage account. Queue Service Name must be 'default'
-	Name string `json:"name,omitempty"`
-
-	//Properties: The properties of a storage account’s Queue service.
+	Location   *string                              `json:"location,omitempty"`
+	Name       string                               `json:"name,omitempty"`
 	Properties *QueueServicePropertiesPropertiesARM `json:"properties,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags       map[string]string                    `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccountsQueueServices_SpecARM{}
@@ -36,8 +30,7 @@ func (services StorageAccountsQueueServices_SpecARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts/queueServices"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/QueueServicePropertiesProperties
+//Deprecated version of QueueServicePropertiesProperties. Use v1beta20210401.QueueServicePropertiesProperties instead
 type QueueServicePropertiesPropertiesARM struct {
-	//Cors: Sets the CORS rules. You can include up to five CorsRule elements in the request.
 	Cors *CorsRulesARM `json:"cors,omitempty"`
 }

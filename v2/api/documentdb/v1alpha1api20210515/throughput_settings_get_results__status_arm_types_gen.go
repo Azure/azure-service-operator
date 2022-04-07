@@ -3,74 +3,46 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
+//Deprecated version of ThroughputSettingsGetResults_Status. Use v1beta20210515.ThroughputSettingsGetResults_Status instead
 type ThroughputSettingsGetResults_StatusARM struct {
-	//Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
-	//Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	//Name: The name of the ARM resource.
-	Name *string `json:"name,omitempty"`
-
-	//Properties: The properties of an Azure Cosmos DB resource throughput
+	Id         *string                                    `json:"id,omitempty"`
+	Location   *string                                    `json:"location,omitempty"`
+	Name       *string                                    `json:"name,omitempty"`
 	Properties *ThroughputSettingsGetProperties_StatusARM `json:"properties,omitempty"`
 	Tags       map[string]string                          `json:"tags,omitempty"`
-
-	//Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
+	Type       *string                                    `json:"type,omitempty"`
 }
 
+//Deprecated version of ThroughputSettingsGetProperties_Status. Use v1beta20210515.ThroughputSettingsGetProperties_Status instead
 type ThroughputSettingsGetProperties_StatusARM struct {
 	Resource *ThroughputSettingsGetProperties_Status_ResourceARM `json:"resource,omitempty"`
 }
 
+//Deprecated version of ThroughputSettingsGetProperties_Status_Resource. Use v1beta20210515.ThroughputSettingsGetProperties_Status_Resource instead
 type ThroughputSettingsGetProperties_Status_ResourceARM struct {
-	//AutoscaleSettings: Cosmos DB resource for autoscale settings. Either throughput is required or autoscaleSettings is
-	//required, but not both.
-	AutoscaleSettings *AutoscaleSettingsResource_StatusARM `json:"autoscaleSettings,omitempty"`
-
-	//Etag: A system generated property representing the resource etag required for optimistic concurrency control.
-	Etag *string `json:"_etag,omitempty"`
-
-	//MinimumThroughput: The minimum throughput of the resource
-	MinimumThroughput *string `json:"minimumThroughput,omitempty"`
-
-	//OfferReplacePending: The throughput replace is pending
-	OfferReplacePending *string `json:"offerReplacePending,omitempty"`
-
-	//Rid: A system generated property. A unique identifier.
-	Rid *string `json:"_rid,omitempty"`
-
-	//Throughput: Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings is required,
-	//but not both.
-	Throughput *int `json:"throughput,omitempty"`
-
-	//Ts: A system generated property that denotes the last updated timestamp of the resource.
-	Ts *float64 `json:"_ts,omitempty"`
+	AutoscaleSettings   *AutoscaleSettingsResource_StatusARM `json:"autoscaleSettings,omitempty"`
+	Etag                *string                              `json:"_etag,omitempty"`
+	MinimumThroughput   *string                              `json:"minimumThroughput,omitempty"`
+	OfferReplacePending *string                              `json:"offerReplacePending,omitempty"`
+	Rid                 *string                              `json:"_rid,omitempty"`
+	Throughput          *int                                 `json:"throughput,omitempty"`
+	Ts                  *float64                             `json:"_ts,omitempty"`
 }
 
+//Deprecated version of AutoscaleSettingsResource_Status. Use v1beta20210515.AutoscaleSettingsResource_Status instead
 type AutoscaleSettingsResource_StatusARM struct {
-	//AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy
-	AutoUpgradePolicy *AutoUpgradePolicyResource_StatusARM `json:"autoUpgradePolicy,omitempty"`
-
-	//MaxThroughput: Represents maximum throughput container can scale up to.
-	MaxThroughput *int `json:"maxThroughput,omitempty"`
-
-	//TargetMaxThroughput: Represents target maximum throughput container can scale up to once offer is no longer in pending
-	//state.
-	TargetMaxThroughput *int `json:"targetMaxThroughput,omitempty"`
+	AutoUpgradePolicy   *AutoUpgradePolicyResource_StatusARM `json:"autoUpgradePolicy,omitempty"`
+	MaxThroughput       *int                                 `json:"maxThroughput,omitempty"`
+	TargetMaxThroughput *int                                 `json:"targetMaxThroughput,omitempty"`
 }
 
+//Deprecated version of AutoUpgradePolicyResource_Status. Use v1beta20210515.AutoUpgradePolicyResource_Status instead
 type AutoUpgradePolicyResource_StatusARM struct {
-	//ThroughputPolicy: Represents throughput policy which service must adhere to for auto-upgrade
 	ThroughputPolicy *ThroughputPolicyResource_StatusARM `json:"throughputPolicy,omitempty"`
 }
 
+//Deprecated version of ThroughputPolicyResource_Status. Use v1beta20210515.ThroughputPolicyResource_Status instead
 type ThroughputPolicyResource_StatusARM struct {
-	//IncrementPercent: Represents the percentage by which throughput can increase every time throughput policy kicks in.
-	IncrementPercent *int `json:"incrementPercent,omitempty"`
-
-	//IsEnabled: Determines whether the ThroughputPolicy is active or not
-	IsEnabled *bool `json:"isEnabled,omitempty"`
+	IncrementPercent *int  `json:"incrementPercent,omitempty"`
+	IsEnabled        *bool `json:"isEnabled,omitempty"`
 }

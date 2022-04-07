@@ -5,24 +5,14 @@ package v1alpha1api20211101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+//Deprecated version of Namespaces_Spec. Use v1beta20211101.Namespaces_Spec instead
 type Namespaces_SpecARM struct {
-	//Identity: Properties to configure Identity for Bring your Own Keys
-	Identity *IdentityARM `json:"identity,omitempty"`
-
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	//Name: Name of the resource
-	Name string `json:"name,omitempty"`
-
-	//Properties: Namespace properties supplied for create namespace operation.
+	Identity   *IdentityARM                   `json:"identity,omitempty"`
+	Location   *string                        `json:"location,omitempty"`
+	Name       string                         `json:"name,omitempty"`
 	Properties *Namespaces_Spec_PropertiesARM `json:"properties,omitempty"`
-
-	//Sku: SKU parameters supplied to the create namespace operation
-	Sku *SkuARM `json:"sku,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	Sku        *SkuARM                        `json:"sku,omitempty"`
+	Tags       map[string]string              `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Namespaces_SpecARM{}
@@ -42,65 +32,39 @@ func (namespaces Namespaces_SpecARM) GetType() string {
 	return "Microsoft.EventHub/namespaces"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/Identity
+//Deprecated version of Identity. Use v1beta20211101.Identity instead
 type IdentityARM struct {
-	//Type: Type of managed service identity.
 	Type *IdentityType `json:"type,omitempty"`
 }
 
+//Deprecated version of Namespaces_Spec_Properties. Use v1beta20211101.Namespaces_Spec_Properties instead
 type Namespaces_Spec_PropertiesARM struct {
-	//AlternateName: Alternate name specified when alias and namespace names are same.
-	AlternateName *string `json:"alternateName,omitempty"`
-	ClusterArmId  *string `json:"clusterArmId,omitempty"`
-
-	//DisableLocalAuth: This property disables SAS authentication for the Event Hubs namespace.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	//Encryption: Properties to configure Encryption
-	Encryption *EncryptionARM `json:"encryption,omitempty"`
-
-	//IsAutoInflateEnabled: Value that indicates whether AutoInflate is enabled for eventhub namespace.
-	IsAutoInflateEnabled *bool `json:"isAutoInflateEnabled,omitempty"`
-
-	//KafkaEnabled: Value that indicates whether Kafka is enabled for eventhub namespace.
-	KafkaEnabled *bool `json:"kafkaEnabled,omitempty"`
-
-	//MaximumThroughputUnits: Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20
-	//throughput units. ( '0' if AutoInflateEnabled = true)
-	MaximumThroughputUnits *int `json:"maximumThroughputUnits,omitempty"`
-
-	//PrivateEndpointConnections: List of private endpoint connections.
+	AlternateName              *string                                                    `json:"alternateName,omitempty"`
+	ClusterArmId               *string                                                    `json:"clusterArmId,omitempty"`
+	DisableLocalAuth           *bool                                                      `json:"disableLocalAuth,omitempty"`
+	Encryption                 *EncryptionARM                                             `json:"encryption,omitempty"`
+	IsAutoInflateEnabled       *bool                                                      `json:"isAutoInflateEnabled,omitempty"`
+	KafkaEnabled               *bool                                                      `json:"kafkaEnabled,omitempty"`
+	MaximumThroughputUnits     *int                                                       `json:"maximumThroughputUnits,omitempty"`
 	PrivateEndpointConnections []Namespaces_Spec_Properties_PrivateEndpointConnectionsARM `json:"privateEndpointConnections,omitempty"`
-
-	//ZoneRedundant: Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones.
-	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
+	ZoneRedundant              *bool                                                      `json:"zoneRedundant,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/Sku
+//Deprecated version of Sku. Use v1beta20211101.Sku instead
 type SkuARM struct {
-	//Capacity: The Event Hubs throughput units for Basic or Standard tiers, where value should be 0 to 20 throughput units.
-	//The Event Hubs premium units for Premium tier, where value should be 0 to 10 premium units.
-	Capacity *int `json:"capacity,omitempty"`
-
-	//Name: Name of this SKU.
-	Name *SkuName `json:"name,omitempty"`
-
-	//Tier: The billing tier of this particular SKU.
-	Tier *SkuTier `json:"tier,omitempty"`
+	Capacity *int     `json:"capacity,omitempty"`
+	Name     *SkuName `json:"name,omitempty"`
+	Tier     *SkuTier `json:"tier,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/Encryption
+//Deprecated version of Encryption. Use v1beta20211101.Encryption instead
 type EncryptionARM struct {
-	//KeySource: Enumerates the possible value of keySource for Encryption.
-	KeySource *EncryptionKeySource `json:"keySource,omitempty"`
-
-	//KeyVaultProperties: Properties of KeyVault
-	KeyVaultProperties []KeyVaultPropertiesARM `json:"keyVaultProperties,omitempty"`
-
-	//RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
-	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
+	KeySource                       *EncryptionKeySource    `json:"keySource,omitempty"`
+	KeyVaultProperties              []KeyVaultPropertiesARM `json:"keyVaultProperties,omitempty"`
+	RequireInfrastructureEncryption *bool                   `json:"requireInfrastructureEncryption,omitempty"`
 }
 
+//Deprecated version of IdentityType. Use v1beta20211101.IdentityType instead
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
 type IdentityType string
 
@@ -111,11 +75,12 @@ const (
 	IdentityTypeUserAssigned               = IdentityType("UserAssigned")
 )
 
+//Deprecated version of Namespaces_Spec_Properties_PrivateEndpointConnections. Use v1beta20211101.Namespaces_Spec_Properties_PrivateEndpointConnections instead
 type Namespaces_Spec_Properties_PrivateEndpointConnectionsARM struct {
-	//Properties: Properties of the private endpoint connection resource.
 	Properties *PrivateEndpointConnectionPropertiesARM `json:"properties,omitempty"`
 }
 
+//Deprecated version of SkuName. Use v1beta20211101.SkuName instead
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type SkuName string
 
@@ -125,6 +90,7 @@ const (
 	SkuNameStandard = SkuName("Standard")
 )
 
+//Deprecated version of SkuTier. Use v1beta20211101.SkuTier instead
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type SkuTier string
 
@@ -134,32 +100,25 @@ const (
 	SkuTierStandard = SkuTier("Standard")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/KeyVaultProperties
+//Deprecated version of KeyVaultProperties. Use v1beta20211101.KeyVaultProperties instead
 type KeyVaultPropertiesARM struct {
-	Identity *UserAssignedIdentityPropertiesARM `json:"identity,omitempty"`
-
-	//KeyName: Name of the Key from KeyVault
-	KeyName *string `json:"keyName,omitempty"`
-
-	//KeyVaultUri: Uri of KeyVault
-	KeyVaultUri *string `json:"keyVaultUri,omitempty"`
-
-	//KeyVersion: Key Version
-	KeyVersion *string `json:"keyVersion,omitempty"`
+	Identity    *UserAssignedIdentityPropertiesARM `json:"identity,omitempty"`
+	KeyName     *string                            `json:"keyName,omitempty"`
+	KeyVaultUri *string                            `json:"keyVaultUri,omitempty"`
+	KeyVersion  *string                            `json:"keyVersion,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/PrivateEndpointConnectionProperties
+//Deprecated version of PrivateEndpointConnectionProperties. Use v1beta20211101.PrivateEndpointConnectionProperties instead
 type PrivateEndpointConnectionPropertiesARM struct {
-	//PrivateEndpoint: PrivateEndpoint information.
 	PrivateEndpoint *PrivateEndpointARM `json:"privateEndpoint,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/PrivateEndpoint
+//Deprecated version of PrivateEndpoint. Use v1beta20211101.PrivateEndpoint instead
 type PrivateEndpointARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/UserAssignedIdentityProperties
+//Deprecated version of UserAssignedIdentityProperties. Use v1beta20211101.UserAssignedIdentityProperties instead
 type UserAssignedIdentityPropertiesARM struct {
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }

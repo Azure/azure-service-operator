@@ -5,22 +5,12 @@ package v1alpha1api20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+//Deprecated version of DatabaseAccountsSqlDatabasesContainersTriggers_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainersTriggers_Spec instead
 type DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM struct {
-	//Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	//Name: Cosmos DB trigger name.
-	Name string `json:"name,omitempty"`
-
-	//Properties: Properties to create and update Azure Cosmos DB trigger.
+	Location   *string                              `json:"location,omitempty"`
+	Name       string                               `json:"name,omitempty"`
 	Properties *SqlTriggerCreateUpdatePropertiesARM `json:"properties,omitempty"`
-
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	//type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	//"DocumentDB", and "MongoDB".
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags       map[string]string                    `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM{}
@@ -40,31 +30,21 @@ func (triggers DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM) GetType()
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlTriggerCreateUpdateProperties
+//Deprecated version of SqlTriggerCreateUpdateProperties. Use v1beta20210515.SqlTriggerCreateUpdateProperties instead
 type SqlTriggerCreateUpdatePropertiesARM struct {
-	//Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
-	//"If-None-Match", "Session-Token" and "Throughput"
-	Options *CreateUpdateOptionsARM `json:"options,omitempty"`
-
-	//Resource: Cosmos DB SQL trigger resource object
-	Resource *SqlTriggerResourceARM `json:"resource,omitempty"`
+	Options  *CreateUpdateOptionsARM `json:"options,omitempty"`
+	Resource *SqlTriggerResourceARM  `json:"resource,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlTriggerResource
+//Deprecated version of SqlTriggerResource. Use v1beta20210515.SqlTriggerResource instead
 type SqlTriggerResourceARM struct {
-	//Body: Body of the Trigger
-	Body *string `json:"body,omitempty"`
-
-	//Id: Name of the Cosmos DB SQL trigger
-	Id *string `json:"id,omitempty"`
-
-	//TriggerOperation: The operation the trigger is associated with.
+	Body             *string                             `json:"body,omitempty"`
+	Id               *string                             `json:"id,omitempty"`
 	TriggerOperation *SqlTriggerResourceTriggerOperation `json:"triggerOperation,omitempty"`
-
-	//TriggerType: Type of the Trigger.
-	TriggerType *SqlTriggerResourceTriggerType `json:"triggerType,omitempty"`
+	TriggerType      *SqlTriggerResourceTriggerType      `json:"triggerType,omitempty"`
 }
 
+//Deprecated version of SqlTriggerResourceTriggerOperation. Use v1beta20210515.SqlTriggerResourceTriggerOperation instead
 // +kubebuilder:validation:Enum={"All","Create","Delete","Replace","Update"}
 type SqlTriggerResourceTriggerOperation string
 
@@ -76,6 +56,7 @@ const (
 	SqlTriggerResourceTriggerOperationUpdate  = SqlTriggerResourceTriggerOperation("Update")
 )
 
+//Deprecated version of SqlTriggerResourceTriggerType. Use v1beta20210515.SqlTriggerResourceTriggerType instead
 // +kubebuilder:validation:Enum={"Post","Pre"}
 type SqlTriggerResourceTriggerType string
 

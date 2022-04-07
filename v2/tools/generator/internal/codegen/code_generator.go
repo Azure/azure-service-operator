@@ -147,8 +147,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.AddCrossResourceReferences(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.AddSecrets(configuration).UsedFor(pipeline.ARMTarget),
 
-		// Enable this in the next PR
-		//!!pipeline.CreateBackwardCompatiblityTypes("v1alpha1api").UsedFor(pipeline.ARMTarget),
+		pipeline.CreateTypesForBackwardCompatibility("v1alpha1api").UsedFor(pipeline.ARMTarget),
 
 		pipeline.ReportOnTypesAndVersions(configuration).UsedFor(pipeline.ARMTarget), // TODO: For now only used for ARM
 

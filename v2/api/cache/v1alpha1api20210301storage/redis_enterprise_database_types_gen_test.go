@@ -5,6 +5,7 @@ package v1alpha1api20210301storage
 
 import (
 	"encoding/json"
+	"github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,90 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_RedisEnterpriseDatabase_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisEnterpriseDatabase to hub returns original",
+		prop.ForAll(RunResourceConversionTestForRedisEnterpriseDatabase, RedisEnterpriseDatabaseGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForRedisEnterpriseDatabase tests if a specific instance of RedisEnterpriseDatabase round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForRedisEnterpriseDatabase(subject RedisEnterpriseDatabase) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1beta20210301storage.RedisEnterpriseDatabase
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual RedisEnterpriseDatabase
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_RedisEnterpriseDatabase_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisEnterpriseDatabase to RedisEnterpriseDatabase via AssignPropertiesToRedisEnterpriseDatabase & AssignPropertiesFromRedisEnterpriseDatabase returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisEnterpriseDatabase, RedisEnterpriseDatabaseGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisEnterpriseDatabase tests if a specific instance of RedisEnterpriseDatabase can be assigned to v1beta20210301storage and back losslessly
+func RunPropertyAssignmentTestForRedisEnterpriseDatabase(subject RedisEnterpriseDatabase) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210301storage.RedisEnterpriseDatabase
+	err := copied.AssignPropertiesToRedisEnterpriseDatabase(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisEnterpriseDatabase
+	err = actual.AssignPropertiesFromRedisEnterpriseDatabase(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_RedisEnterpriseDatabase_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -76,6 +161,48 @@ func RedisEnterpriseDatabaseGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase(gens map[string]gopter.Gen) {
 	gens["Spec"] = RedisEnterpriseDatabasesSpecGenerator()
 	gens["Status"] = DatabaseStatusGenerator()
+}
+
+func Test_Database_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Database_Status to Database_Status via AssignPropertiesToDatabaseStatus & AssignPropertiesFromDatabaseStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDatabaseStatus, DatabaseStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDatabaseStatus tests if a specific instance of Database_Status can be assigned to v1beta20210301storage and back losslessly
+func RunPropertyAssignmentTestForDatabaseStatus(subject Database_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210301storage.Database_Status
+	err := copied.AssignPropertiesToDatabaseStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Database_Status
+	err = actual.AssignPropertiesFromDatabaseStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Database_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -160,6 +287,48 @@ func AddRelatedPropertyGeneratorsForDatabaseStatus(gens map[string]gopter.Gen) {
 	gens["Persistence"] = gen.PtrOf(PersistenceStatusGenerator())
 }
 
+func Test_RedisEnterpriseDatabases_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisEnterpriseDatabases_Spec to RedisEnterpriseDatabases_Spec via AssignPropertiesToRedisEnterpriseDatabasesSpec & AssignPropertiesFromRedisEnterpriseDatabasesSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisEnterpriseDatabasesSpec, RedisEnterpriseDatabasesSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisEnterpriseDatabasesSpec tests if a specific instance of RedisEnterpriseDatabases_Spec can be assigned to v1beta20210301storage and back losslessly
+func RunPropertyAssignmentTestForRedisEnterpriseDatabasesSpec(subject RedisEnterpriseDatabases_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210301storage.RedisEnterpriseDatabases_Spec
+	err := copied.AssignPropertiesToRedisEnterpriseDatabasesSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisEnterpriseDatabases_Spec
+	err = actual.AssignPropertiesFromRedisEnterpriseDatabasesSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_RedisEnterpriseDatabases_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -242,6 +411,48 @@ func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabasesSpec(gens map[string
 	gens["Persistence"] = gen.PtrOf(PersistenceGenerator())
 }
 
+func Test_Module_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Module to Module via AssignPropertiesToModule & AssignPropertiesFromModule returns original",
+		prop.ForAll(RunPropertyAssignmentTestForModule, ModuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForModule tests if a specific instance of Module can be assigned to v1beta20210301storage and back losslessly
+func RunPropertyAssignmentTestForModule(subject Module) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210301storage.Module
+	err := copied.AssignPropertiesToModule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Module
+	err = actual.AssignPropertiesFromModule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Module_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -300,6 +511,48 @@ func ModuleGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForModule(gens map[string]gopter.Gen) {
 	gens["Args"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_Module_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Module_Status to Module_Status via AssignPropertiesToModuleStatus & AssignPropertiesFromModuleStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForModuleStatus, ModuleStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForModuleStatus tests if a specific instance of Module_Status can be assigned to v1beta20210301storage and back losslessly
+func RunPropertyAssignmentTestForModuleStatus(subject Module_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210301storage.Module_Status
+	err := copied.AssignPropertiesToModuleStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Module_Status
+	err = actual.AssignPropertiesFromModuleStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Module_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -363,6 +616,48 @@ func AddIndependentPropertyGeneratorsForModuleStatus(gens map[string]gopter.Gen)
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_Persistence_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Persistence to Persistence via AssignPropertiesToPersistence & AssignPropertiesFromPersistence returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPersistence, PersistenceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPersistence tests if a specific instance of Persistence can be assigned to v1beta20210301storage and back losslessly
+func RunPropertyAssignmentTestForPersistence(subject Persistence) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210301storage.Persistence
+	err := copied.AssignPropertiesToPersistence(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Persistence
+	err = actual.AssignPropertiesFromPersistence(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Persistence_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -423,6 +718,48 @@ func AddIndependentPropertyGeneratorsForPersistence(gens map[string]gopter.Gen) 
 	gens["AofFrequency"] = gen.PtrOf(gen.AlphaString())
 	gens["RdbEnabled"] = gen.PtrOf(gen.Bool())
 	gens["RdbFrequency"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_Persistence_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Persistence_Status to Persistence_Status via AssignPropertiesToPersistenceStatus & AssignPropertiesFromPersistenceStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPersistenceStatus, PersistenceStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPersistenceStatus tests if a specific instance of Persistence_Status can be assigned to v1beta20210301storage and back losslessly
+func RunPropertyAssignmentTestForPersistenceStatus(subject Persistence_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210301storage.Persistence_Status
+	err := copied.AssignPropertiesToPersistenceStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Persistence_Status
+	err = actual.AssignPropertiesFromPersistenceStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Persistence_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

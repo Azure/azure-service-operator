@@ -5,6 +5,7 @@ package v1alpha1api20210515storage
 
 import (
 	"encoding/json"
+	"github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,90 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_MongodbDatabaseCollectionThroughputSetting_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MongodbDatabaseCollectionThroughputSetting to hub returns original",
+		prop.ForAll(RunResourceConversionTestForMongodbDatabaseCollectionThroughputSetting, MongodbDatabaseCollectionThroughputSettingGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForMongodbDatabaseCollectionThroughputSetting tests if a specific instance of MongodbDatabaseCollectionThroughputSetting round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForMongodbDatabaseCollectionThroughputSetting(subject MongodbDatabaseCollectionThroughputSetting) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1beta20210515storage.MongodbDatabaseCollectionThroughputSetting
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual MongodbDatabaseCollectionThroughputSetting
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_MongodbDatabaseCollectionThroughputSetting_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MongodbDatabaseCollectionThroughputSetting to MongodbDatabaseCollectionThroughputSetting via AssignPropertiesToMongodbDatabaseCollectionThroughputSetting & AssignPropertiesFromMongodbDatabaseCollectionThroughputSetting returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMongodbDatabaseCollectionThroughputSetting, MongodbDatabaseCollectionThroughputSettingGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForMongodbDatabaseCollectionThroughputSetting tests if a specific instance of MongodbDatabaseCollectionThroughputSetting can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForMongodbDatabaseCollectionThroughputSetting(subject MongodbDatabaseCollectionThroughputSetting) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.MongodbDatabaseCollectionThroughputSetting
+	err := copied.AssignPropertiesToMongodbDatabaseCollectionThroughputSetting(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual MongodbDatabaseCollectionThroughputSetting
+	err = actual.AssignPropertiesFromMongodbDatabaseCollectionThroughputSetting(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_MongodbDatabaseCollectionThroughputSetting_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -76,6 +161,48 @@ func MongodbDatabaseCollectionThroughputSettingGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForMongodbDatabaseCollectionThroughputSetting(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecGenerator()
 	gens["Status"] = ThroughputSettingsGetResultsStatusGenerator()
+}
+
+func Test_DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec to DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec via AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec & AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec, DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec tests if a specific instance of DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(subject DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec
+	err := copied.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec
+	err = actual.AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -154,6 +281,48 @@ func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsT
 	gens["Resource"] = gen.PtrOf(ThroughputSettingsResourceGenerator())
 }
 
+func Test_ThroughputSettingsGetResults_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ThroughputSettingsGetResults_Status to ThroughputSettingsGetResults_Status via AssignPropertiesToThroughputSettingsGetResultsStatus & AssignPropertiesFromThroughputSettingsGetResultsStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForThroughputSettingsGetResultsStatus, ThroughputSettingsGetResultsStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForThroughputSettingsGetResultsStatus tests if a specific instance of ThroughputSettingsGetResults_Status can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForThroughputSettingsGetResultsStatus(subject ThroughputSettingsGetResults_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.ThroughputSettingsGetResults_Status
+	err := copied.AssignPropertiesToThroughputSettingsGetResultsStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ThroughputSettingsGetResults_Status
+	err = actual.AssignPropertiesFromThroughputSettingsGetResultsStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ThroughputSettingsGetResults_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -230,6 +399,48 @@ func AddIndependentPropertyGeneratorsForThroughputSettingsGetResultsStatus(gens 
 // AddRelatedPropertyGeneratorsForThroughputSettingsGetResultsStatus is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForThroughputSettingsGetResultsStatus(gens map[string]gopter.Gen) {
 	gens["Resource"] = gen.PtrOf(ThroughputSettingsGetPropertiesStatusResourceGenerator())
+}
+
+func Test_ThroughputSettingsGetProperties_Status_Resource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ThroughputSettingsGetProperties_Status_Resource to ThroughputSettingsGetProperties_Status_Resource via AssignPropertiesToThroughputSettingsGetPropertiesStatusResource & AssignPropertiesFromThroughputSettingsGetPropertiesStatusResource returns original",
+		prop.ForAll(RunPropertyAssignmentTestForThroughputSettingsGetPropertiesStatusResource, ThroughputSettingsGetPropertiesStatusResourceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForThroughputSettingsGetPropertiesStatusResource tests if a specific instance of ThroughputSettingsGetProperties_Status_Resource can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForThroughputSettingsGetPropertiesStatusResource(subject ThroughputSettingsGetProperties_Status_Resource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.ThroughputSettingsGetProperties_Status_Resource
+	err := copied.AssignPropertiesToThroughputSettingsGetPropertiesStatusResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ThroughputSettingsGetProperties_Status_Resource
+	err = actual.AssignPropertiesFromThroughputSettingsGetPropertiesStatusResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ThroughputSettingsGetProperties_Status_Resource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -311,6 +522,48 @@ func AddRelatedPropertyGeneratorsForThroughputSettingsGetPropertiesStatusResourc
 	gens["AutoscaleSettings"] = gen.PtrOf(AutoscaleSettingsResourceStatusGenerator())
 }
 
+func Test_ThroughputSettingsResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ThroughputSettingsResource to ThroughputSettingsResource via AssignPropertiesToThroughputSettingsResource & AssignPropertiesFromThroughputSettingsResource returns original",
+		prop.ForAll(RunPropertyAssignmentTestForThroughputSettingsResource, ThroughputSettingsResourceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForThroughputSettingsResource tests if a specific instance of ThroughputSettingsResource can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForThroughputSettingsResource(subject ThroughputSettingsResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.ThroughputSettingsResource
+	err := copied.AssignPropertiesToThroughputSettingsResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ThroughputSettingsResource
+	err = actual.AssignPropertiesFromThroughputSettingsResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ThroughputSettingsResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -385,6 +638,48 @@ func AddRelatedPropertyGeneratorsForThroughputSettingsResource(gens map[string]g
 	gens["AutoscaleSettings"] = gen.PtrOf(AutoscaleSettingsResourceGenerator())
 }
 
+func Test_AutoscaleSettingsResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AutoscaleSettingsResource to AutoscaleSettingsResource via AssignPropertiesToAutoscaleSettingsResource & AssignPropertiesFromAutoscaleSettingsResource returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAutoscaleSettingsResource, AutoscaleSettingsResourceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAutoscaleSettingsResource tests if a specific instance of AutoscaleSettingsResource can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForAutoscaleSettingsResource(subject AutoscaleSettingsResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.AutoscaleSettingsResource
+	err := copied.AssignPropertiesToAutoscaleSettingsResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AutoscaleSettingsResource
+	err = actual.AssignPropertiesFromAutoscaleSettingsResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AutoscaleSettingsResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -457,6 +752,48 @@ func AddIndependentPropertyGeneratorsForAutoscaleSettingsResource(gens map[strin
 // AddRelatedPropertyGeneratorsForAutoscaleSettingsResource is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForAutoscaleSettingsResource(gens map[string]gopter.Gen) {
 	gens["AutoUpgradePolicy"] = gen.PtrOf(AutoUpgradePolicyResourceGenerator())
+}
+
+func Test_AutoscaleSettingsResource_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AutoscaleSettingsResource_Status to AutoscaleSettingsResource_Status via AssignPropertiesToAutoscaleSettingsResourceStatus & AssignPropertiesFromAutoscaleSettingsResourceStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAutoscaleSettingsResourceStatus, AutoscaleSettingsResourceStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAutoscaleSettingsResourceStatus tests if a specific instance of AutoscaleSettingsResource_Status can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForAutoscaleSettingsResourceStatus(subject AutoscaleSettingsResource_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.AutoscaleSettingsResource_Status
+	err := copied.AssignPropertiesToAutoscaleSettingsResourceStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AutoscaleSettingsResource_Status
+	err = actual.AssignPropertiesFromAutoscaleSettingsResourceStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AutoscaleSettingsResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -534,6 +871,48 @@ func AddRelatedPropertyGeneratorsForAutoscaleSettingsResourceStatus(gens map[str
 	gens["AutoUpgradePolicy"] = gen.PtrOf(AutoUpgradePolicyResourceStatusGenerator())
 }
 
+func Test_AutoUpgradePolicyResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AutoUpgradePolicyResource to AutoUpgradePolicyResource via AssignPropertiesToAutoUpgradePolicyResource & AssignPropertiesFromAutoUpgradePolicyResource returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAutoUpgradePolicyResource, AutoUpgradePolicyResourceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAutoUpgradePolicyResource tests if a specific instance of AutoUpgradePolicyResource can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForAutoUpgradePolicyResource(subject AutoUpgradePolicyResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.AutoUpgradePolicyResource
+	err := copied.AssignPropertiesToAutoUpgradePolicyResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AutoUpgradePolicyResource
+	err = actual.AssignPropertiesFromAutoUpgradePolicyResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AutoUpgradePolicyResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -592,6 +971,48 @@ func AutoUpgradePolicyResourceGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForAutoUpgradePolicyResource is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForAutoUpgradePolicyResource(gens map[string]gopter.Gen) {
 	gens["ThroughputPolicy"] = gen.PtrOf(ThroughputPolicyResourceGenerator())
+}
+
+func Test_AutoUpgradePolicyResource_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AutoUpgradePolicyResource_Status to AutoUpgradePolicyResource_Status via AssignPropertiesToAutoUpgradePolicyResourceStatus & AssignPropertiesFromAutoUpgradePolicyResourceStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAutoUpgradePolicyResourceStatus, AutoUpgradePolicyResourceStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAutoUpgradePolicyResourceStatus tests if a specific instance of AutoUpgradePolicyResource_Status can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForAutoUpgradePolicyResourceStatus(subject AutoUpgradePolicyResource_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.AutoUpgradePolicyResource_Status
+	err := copied.AssignPropertiesToAutoUpgradePolicyResourceStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AutoUpgradePolicyResource_Status
+	err = actual.AssignPropertiesFromAutoUpgradePolicyResourceStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AutoUpgradePolicyResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -654,6 +1075,48 @@ func AddRelatedPropertyGeneratorsForAutoUpgradePolicyResourceStatus(gens map[str
 	gens["ThroughputPolicy"] = gen.PtrOf(ThroughputPolicyResourceStatusGenerator())
 }
 
+func Test_ThroughputPolicyResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ThroughputPolicyResource to ThroughputPolicyResource via AssignPropertiesToThroughputPolicyResource & AssignPropertiesFromThroughputPolicyResource returns original",
+		prop.ForAll(RunPropertyAssignmentTestForThroughputPolicyResource, ThroughputPolicyResourceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForThroughputPolicyResource tests if a specific instance of ThroughputPolicyResource can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForThroughputPolicyResource(subject ThroughputPolicyResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.ThroughputPolicyResource
+	err := copied.AssignPropertiesToThroughputPolicyResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ThroughputPolicyResource
+	err = actual.AssignPropertiesFromThroughputPolicyResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ThroughputPolicyResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -713,6 +1176,48 @@ func ThroughputPolicyResourceGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForThroughputPolicyResource(gens map[string]gopter.Gen) {
 	gens["IncrementPercent"] = gen.PtrOf(gen.Int())
 	gens["IsEnabled"] = gen.PtrOf(gen.Bool())
+}
+
+func Test_ThroughputPolicyResource_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ThroughputPolicyResource_Status to ThroughputPolicyResource_Status via AssignPropertiesToThroughputPolicyResourceStatus & AssignPropertiesFromThroughputPolicyResourceStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForThroughputPolicyResourceStatus, ThroughputPolicyResourceStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForThroughputPolicyResourceStatus tests if a specific instance of ThroughputPolicyResource_Status can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForThroughputPolicyResourceStatus(subject ThroughputPolicyResource_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.ThroughputPolicyResource_Status
+	err := copied.AssignPropertiesToThroughputPolicyResourceStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ThroughputPolicyResource_Status
+	err = actual.AssignPropertiesFromThroughputPolicyResourceStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ThroughputPolicyResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

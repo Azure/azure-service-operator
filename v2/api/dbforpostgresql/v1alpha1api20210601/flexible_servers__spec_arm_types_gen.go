@@ -5,21 +5,13 @@ package v1alpha1api20210601
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+//Deprecated version of FlexibleServers_Spec. Use v1beta20210601.FlexibleServers_Spec instead
 type FlexibleServers_SpecARM struct {
-	//Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	//Name: The name of the server.
-	Name string `json:"name,omitempty"`
-
-	//Properties: The properties of a server.
+	Location   *string              `json:"location,omitempty"`
+	Name       string               `json:"name,omitempty"`
 	Properties *ServerPropertiesARM `json:"properties,omitempty"`
-
-	//Sku: Sku information related properties of a server.
-	Sku *SkuARM `json:"sku,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	Sku        *SkuARM              `json:"sku,omitempty"`
+	Tags       map[string]string    `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &FlexibleServers_SpecARM{}
@@ -39,93 +31,55 @@ func (servers FlexibleServers_SpecARM) GetType() string {
 	return "Microsoft.DBforPostgreSQL/flexibleServers"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/ServerProperties
+//Deprecated version of ServerProperties. Use v1beta20210601.ServerProperties instead
 type ServerPropertiesARM struct {
-	//AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
-	//(and is required for creation).
-	AdministratorLogin *string `json:"administratorLogin,omitempty"`
-
-	//AdministratorLoginPassword: The administrator login password (required for server creation).
-	AdministratorLoginPassword *string `json:"administratorLoginPassword,omitempty"`
-
-	//AvailabilityZone: availability zone information of the server.
-	AvailabilityZone *string `json:"availabilityZone,omitempty"`
-
-	//Backup: Backup properties of a server
-	Backup *BackupARM `json:"backup,omitempty"`
-
-	//CreateMode: The mode to create a new PostgreSQL server.
-	CreateMode *ServerPropertiesCreateMode `json:"createMode,omitempty"`
-
-	//HighAvailability: High availability properties of a server
-	HighAvailability *HighAvailabilityARM `json:"highAvailability,omitempty"`
-
-	//MaintenanceWindow: Maintenance window properties of a server.
-	MaintenanceWindow *MaintenanceWindowARM `json:"maintenanceWindow,omitempty"`
-
-	//Network: Network properties of a server
-	Network *NetworkARM `json:"network,omitempty"`
-
-	//PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the time to restore from. It's required when
-	//'createMode' is 'PointInTimeRestore'.
-	PointInTimeUTC         *string `json:"pointInTimeUTC,omitempty"`
-	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
-
-	//Storage: Storage properties of a server
-	Storage *StorageARM `json:"storage,omitempty"`
-
-	//Version: PostgreSQL Server version.
-	Version *ServerPropertiesVersion `json:"version,omitempty"`
+	AdministratorLogin         *string                     `json:"administratorLogin,omitempty"`
+	AdministratorLoginPassword *string                     `json:"administratorLoginPassword,omitempty"`
+	AvailabilityZone           *string                     `json:"availabilityZone,omitempty"`
+	Backup                     *BackupARM                  `json:"backup,omitempty"`
+	CreateMode                 *ServerPropertiesCreateMode `json:"createMode,omitempty"`
+	HighAvailability           *HighAvailabilityARM        `json:"highAvailability,omitempty"`
+	MaintenanceWindow          *MaintenanceWindowARM       `json:"maintenanceWindow,omitempty"`
+	Network                    *NetworkARM                 `json:"network,omitempty"`
+	PointInTimeUTC             *string                     `json:"pointInTimeUTC,omitempty"`
+	SourceServerResourceId     *string                     `json:"sourceServerResourceId,omitempty"`
+	Storage                    *StorageARM                 `json:"storage,omitempty"`
+	Version                    *ServerPropertiesVersion    `json:"version,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Sku
+//Deprecated version of Sku. Use v1beta20210601.Sku instead
 type SkuARM struct {
-	//Name: The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.
-	Name *string `json:"name,omitempty"`
-
-	//Tier: The tier of the particular SKU, e.g. Burstable.
+	Name *string  `json:"name,omitempty"`
 	Tier *SkuTier `json:"tier,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Backup
+//Deprecated version of Backup. Use v1beta20210601.Backup instead
 type BackupARM struct {
-	//BackupRetentionDays: Backup retention days for the server.
-	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
-
-	//GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server.
-	GeoRedundantBackup *BackupGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+	BackupRetentionDays *int                      `json:"backupRetentionDays,omitempty"`
+	GeoRedundantBackup  *BackupGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/HighAvailability
+//Deprecated version of HighAvailability. Use v1beta20210601.HighAvailability instead
 type HighAvailabilityARM struct {
-	//Mode: The HA mode for the server.
-	Mode *HighAvailabilityMode `json:"mode,omitempty"`
-
-	//StandbyAvailabilityZone: availability zone information of the standby.
-	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
+	Mode                    *HighAvailabilityMode `json:"mode,omitempty"`
+	StandbyAvailabilityZone *string               `json:"standbyAvailabilityZone,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/MaintenanceWindow
+//Deprecated version of MaintenanceWindow. Use v1beta20210601.MaintenanceWindow instead
 type MaintenanceWindowARM struct {
-	//CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
-
-	//DayOfWeek: day of week for maintenance window
-	DayOfWeek *int `json:"dayOfWeek,omitempty"`
-
-	//StartHour: start hour for maintenance window
-	StartHour *int `json:"startHour,omitempty"`
-
-	//StartMinute: start minute for maintenance window
-	StartMinute *int `json:"startMinute,omitempty"`
+	DayOfWeek    *int    `json:"dayOfWeek,omitempty"`
+	StartHour    *int    `json:"startHour,omitempty"`
+	StartMinute  *int    `json:"startMinute,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Network
+//Deprecated version of Network. Use v1beta20210601.Network instead
 type NetworkARM struct {
 	DelegatedSubnetResourceId   *string `json:"delegatedSubnetResourceId,omitempty"`
 	PrivateDnsZoneArmResourceId *string `json:"privateDnsZoneArmResourceId,omitempty"`
 }
 
+//Deprecated version of SkuTier. Use v1beta20210601.SkuTier instead
 // +kubebuilder:validation:Enum={"Burstable","GeneralPurpose","MemoryOptimized"}
 type SkuTier string
 
@@ -135,8 +89,7 @@ const (
 	SkuTierMemoryOptimized = SkuTier("MemoryOptimized")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Storage
+//Deprecated version of Storage. Use v1beta20210601.Storage instead
 type StorageARM struct {
-	//StorageSizeGB: Max storage allowed for a server.
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`
 }

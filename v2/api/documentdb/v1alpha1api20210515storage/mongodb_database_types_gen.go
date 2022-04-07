@@ -4,25 +4,24 @@
 package v1alpha1api20210515storage
 
 import (
+	"fmt"
+	"github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=documentdb.azure.com,resources=mongodbdatabases,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=documentdb.azure.com,resources={mongodbdatabases/status,mongodbdatabases/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Storage version of v1alpha1api20210515.MongodbDatabase
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases
+//Deprecated version of MongodbDatabase. Use v1beta20210515.MongodbDatabase instead
 type MongodbDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -40,6 +39,28 @@ func (database *MongodbDatabase) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (database *MongodbDatabase) SetConditions(conditions conditions.Conditions) {
 	database.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &MongodbDatabase{}
+
+// ConvertFrom populates our MongodbDatabase from the provided hub MongodbDatabase
+func (database *MongodbDatabase) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1beta20210515storage.MongodbDatabase)
+	if !ok {
+		return fmt.Errorf("expected documentdb/v1beta20210515storage/MongodbDatabase but received %T instead", hub)
+	}
+
+	return database.AssignPropertiesFromMongodbDatabase(source)
+}
+
+// ConvertTo populates the provided hub MongodbDatabase from our MongodbDatabase
+func (database *MongodbDatabase) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1beta20210515storage.MongodbDatabase)
+	if !ok {
+		return fmt.Errorf("expected documentdb/v1beta20210515storage/MongodbDatabase but received %T instead", hub)
+	}
+
+	return database.AssignPropertiesToMongodbDatabase(destination)
 }
 
 var _ genruntime.KubernetesResource = &MongodbDatabase{}
@@ -108,8 +129,57 @@ func (database *MongodbDatabase) SetStatus(status genruntime.ConvertibleStatus) 
 	return nil
 }
 
-// Hub marks that this MongodbDatabase is the hub type for conversion
-func (database *MongodbDatabase) Hub() {}
+// AssignPropertiesFromMongodbDatabase populates our MongodbDatabase from the provided source MongodbDatabase
+func (database *MongodbDatabase) AssignPropertiesFromMongodbDatabase(source *v1beta20210515storage.MongodbDatabase) error {
+
+	// ObjectMeta
+	database.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec DatabaseAccountsMongodbDatabases_Spec
+	err := spec.AssignPropertiesFromDatabaseAccountsMongodbDatabasesSpec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsMongodbDatabasesSpec() to populate field Spec")
+	}
+	database.Spec = spec
+
+	// Status
+	var status MongoDBDatabaseGetResults_Status
+	err = status.AssignPropertiesFromMongoDBDatabaseGetResultsStatus(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromMongoDBDatabaseGetResultsStatus() to populate field Status")
+	}
+	database.Status = status
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToMongodbDatabase populates the provided destination MongodbDatabase from our MongodbDatabase
+func (database *MongodbDatabase) AssignPropertiesToMongodbDatabase(destination *v1beta20210515storage.MongodbDatabase) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *database.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v1beta20210515storage.DatabaseAccountsMongodbDatabases_Spec
+	err := database.Spec.AssignPropertiesToDatabaseAccountsMongodbDatabasesSpec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsMongodbDatabasesSpec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v1beta20210515storage.MongoDBDatabaseGetResults_Status
+	err = database.Status.AssignPropertiesToMongoDBDatabaseGetResultsStatus(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToMongoDBDatabaseGetResultsStatus() to populate field Status")
+	}
+	destination.Status = status
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (database *MongodbDatabase) OriginalGVK() *schema.GroupVersionKind {
@@ -122,7 +192,7 @@ func (database *MongodbDatabase) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 //Storage version of v1alpha1api20210515.MongodbDatabase
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases
+//Deprecated version of MongodbDatabase. Use v1beta20210515.MongodbDatabase instead
 type MongodbDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -152,23 +222,174 @@ var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabases_Spec{}
 
 // ConvertSpecFrom populates our DatabaseAccountsMongodbDatabases_Spec from the provided source
 func (databases *DatabaseAccountsMongodbDatabases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == databases {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v1beta20210515storage.DatabaseAccountsMongodbDatabases_Spec)
+	if ok {
+		// Populate our instance from source
+		return databases.AssignPropertiesFromDatabaseAccountsMongodbDatabasesSpec(src)
 	}
 
-	return source.ConvertSpecTo(databases)
+	// Convert to an intermediate form
+	src = &v1beta20210515storage.DatabaseAccountsMongodbDatabases_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = databases.AssignPropertiesFromDatabaseAccountsMongodbDatabasesSpec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabases_Spec
 func (databases *DatabaseAccountsMongodbDatabases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == databases {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v1beta20210515storage.DatabaseAccountsMongodbDatabases_Spec)
+	if ok {
+		// Populate destination from our instance
+		return databases.AssignPropertiesToDatabaseAccountsMongodbDatabasesSpec(dst)
 	}
 
-	return destination.ConvertSpecFrom(databases)
+	// Convert to an intermediate form
+	dst = &v1beta20210515storage.DatabaseAccountsMongodbDatabases_Spec{}
+	err := databases.AssignPropertiesToDatabaseAccountsMongodbDatabasesSpec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromDatabaseAccountsMongodbDatabasesSpec populates our DatabaseAccountsMongodbDatabases_Spec from the provided source DatabaseAccountsMongodbDatabases_Spec
+func (databases *DatabaseAccountsMongodbDatabases_Spec) AssignPropertiesFromDatabaseAccountsMongodbDatabasesSpec(source *v1beta20210515storage.DatabaseAccountsMongodbDatabases_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	databases.AzureName = source.AzureName
+
+	// Location
+	databases.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Options
+	if source.Options != nil {
+		var option CreateUpdateOptions
+		err := option.AssignPropertiesFromCreateUpdateOptions(source.Options)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions() to populate field Options")
+		}
+		databases.Options = &option
+	} else {
+		databases.Options = nil
+	}
+
+	// OriginalVersion
+	databases.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		databases.Owner = &owner
+	} else {
+		databases.Owner = nil
+	}
+
+	// Resource
+	if source.Resource != nil {
+		var resource MongoDBDatabaseResource
+		err := resource.AssignPropertiesFromMongoDBDatabaseResource(source.Resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromMongoDBDatabaseResource() to populate field Resource")
+		}
+		databases.Resource = &resource
+	} else {
+		databases.Resource = nil
+	}
+
+	// Tags
+	databases.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		databases.PropertyBag = propertyBag
+	} else {
+		databases.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDatabaseAccountsMongodbDatabasesSpec populates the provided destination DatabaseAccountsMongodbDatabases_Spec from our DatabaseAccountsMongodbDatabases_Spec
+func (databases *DatabaseAccountsMongodbDatabases_Spec) AssignPropertiesToDatabaseAccountsMongodbDatabasesSpec(destination *v1beta20210515storage.DatabaseAccountsMongodbDatabases_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(databases.PropertyBag)
+
+	// AzureName
+	destination.AzureName = databases.AzureName
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(databases.Location)
+
+	// Options
+	if databases.Options != nil {
+		var option v1beta20210515storage.CreateUpdateOptions
+		err := databases.Options.AssignPropertiesToCreateUpdateOptions(&option)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions() to populate field Options")
+		}
+		destination.Options = &option
+	} else {
+		destination.Options = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = databases.OriginalVersion
+
+	// Owner
+	if databases.Owner != nil {
+		owner := databases.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Resource
+	if databases.Resource != nil {
+		var resource v1beta20210515storage.MongoDBDatabaseResource
+		err := databases.Resource.AssignPropertiesToMongoDBDatabaseResource(&resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToMongoDBDatabaseResource() to populate field Resource")
+		}
+		destination.Resource = &resource
+	} else {
+		destination.Resource = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(databases.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 //Storage version of v1alpha1api20210515.MongoDBDatabaseGetResults_Status
+//Deprecated version of MongoDBDatabaseGetResults_Status. Use v1beta20210515.MongoDBDatabaseGetResults_Status instead
 type MongoDBDatabaseGetResults_Status struct {
 	Conditions  []conditions.Condition                        `json:"conditions,omitempty"`
 	Id          *string                                       `json:"id,omitempty"`
@@ -185,31 +406,240 @@ var _ genruntime.ConvertibleStatus = &MongoDBDatabaseGetResults_Status{}
 
 // ConvertStatusFrom populates our MongoDBDatabaseGetResults_Status from the provided source
 func (results *MongoDBDatabaseGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == results {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v1beta20210515storage.MongoDBDatabaseGetResults_Status)
+	if ok {
+		// Populate our instance from source
+		return results.AssignPropertiesFromMongoDBDatabaseGetResultsStatus(src)
 	}
 
-	return source.ConvertStatusTo(results)
+	// Convert to an intermediate form
+	src = &v1beta20210515storage.MongoDBDatabaseGetResults_Status{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = results.AssignPropertiesFromMongoDBDatabaseGetResultsStatus(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our MongoDBDatabaseGetResults_Status
 func (results *MongoDBDatabaseGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == results {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v1beta20210515storage.MongoDBDatabaseGetResults_Status)
+	if ok {
+		// Populate destination from our instance
+		return results.AssignPropertiesToMongoDBDatabaseGetResultsStatus(dst)
 	}
 
-	return destination.ConvertStatusFrom(results)
+	// Convert to an intermediate form
+	dst = &v1beta20210515storage.MongoDBDatabaseGetResults_Status{}
+	err := results.AssignPropertiesToMongoDBDatabaseGetResultsStatus(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromMongoDBDatabaseGetResultsStatus populates our MongoDBDatabaseGetResults_Status from the provided source MongoDBDatabaseGetResults_Status
+func (results *MongoDBDatabaseGetResults_Status) AssignPropertiesFromMongoDBDatabaseGetResultsStatus(source *v1beta20210515storage.MongoDBDatabaseGetResults_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	results.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	results.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Location
+	results.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	results.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Options
+	if source.Options != nil {
+		var option OptionsResource_Status
+		err := option.AssignPropertiesFromOptionsResourceStatus(source.Options)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromOptionsResourceStatus() to populate field Options")
+		}
+		results.Options = &option
+	} else {
+		results.Options = nil
+	}
+
+	// Resource
+	if source.Resource != nil {
+		var resource MongoDBDatabaseGetProperties_Status_Resource
+		err := resource.AssignPropertiesFromMongoDBDatabaseGetPropertiesStatusResource(source.Resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromMongoDBDatabaseGetPropertiesStatusResource() to populate field Resource")
+		}
+		results.Resource = &resource
+	} else {
+		results.Resource = nil
+	}
+
+	// Tags
+	results.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	results.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		results.PropertyBag = propertyBag
+	} else {
+		results.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToMongoDBDatabaseGetResultsStatus populates the provided destination MongoDBDatabaseGetResults_Status from our MongoDBDatabaseGetResults_Status
+func (results *MongoDBDatabaseGetResults_Status) AssignPropertiesToMongoDBDatabaseGetResultsStatus(destination *v1beta20210515storage.MongoDBDatabaseGetResults_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(results.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(results.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(results.Id)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(results.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(results.Name)
+
+	// Options
+	if results.Options != nil {
+		var option v1beta20210515storage.OptionsResource_Status
+		err := results.Options.AssignPropertiesToOptionsResourceStatus(&option)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToOptionsResourceStatus() to populate field Options")
+		}
+		destination.Options = &option
+	} else {
+		destination.Options = nil
+	}
+
+	// Resource
+	if results.Resource != nil {
+		var resource v1beta20210515storage.MongoDBDatabaseGetProperties_Status_Resource
+		err := results.Resource.AssignPropertiesToMongoDBDatabaseGetPropertiesStatusResource(&resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToMongoDBDatabaseGetPropertiesStatusResource() to populate field Resource")
+		}
+		destination.Resource = &resource
+	} else {
+		destination.Resource = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(results.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(results.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 //Storage version of v1alpha1api20210515.CreateUpdateOptions
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CreateUpdateOptions
+//Deprecated version of CreateUpdateOptions. Use v1beta20210515.CreateUpdateOptions instead
 type CreateUpdateOptions struct {
 	AutoscaleSettings *AutoscaleSettings     `json:"autoscaleSettings,omitempty"`
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Throughput        *int                   `json:"throughput,omitempty"`
 }
 
+// AssignPropertiesFromCreateUpdateOptions populates our CreateUpdateOptions from the provided source CreateUpdateOptions
+func (options *CreateUpdateOptions) AssignPropertiesFromCreateUpdateOptions(source *v1beta20210515storage.CreateUpdateOptions) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AutoscaleSettings
+	if source.AutoscaleSettings != nil {
+		var autoscaleSetting AutoscaleSettings
+		err := autoscaleSetting.AssignPropertiesFromAutoscaleSettings(source.AutoscaleSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromAutoscaleSettings() to populate field AutoscaleSettings")
+		}
+		options.AutoscaleSettings = &autoscaleSetting
+	} else {
+		options.AutoscaleSettings = nil
+	}
+
+	// Throughput
+	options.Throughput = genruntime.ClonePointerToInt(source.Throughput)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		options.PropertyBag = propertyBag
+	} else {
+		options.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToCreateUpdateOptions populates the provided destination CreateUpdateOptions from our CreateUpdateOptions
+func (options *CreateUpdateOptions) AssignPropertiesToCreateUpdateOptions(destination *v1beta20210515storage.CreateUpdateOptions) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(options.PropertyBag)
+
+	// AutoscaleSettings
+	if options.AutoscaleSettings != nil {
+		var autoscaleSetting v1beta20210515storage.AutoscaleSettings
+		err := options.AutoscaleSettings.AssignPropertiesToAutoscaleSettings(&autoscaleSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToAutoscaleSettings() to populate field AutoscaleSettings")
+		}
+		destination.AutoscaleSettings = &autoscaleSetting
+	} else {
+		destination.AutoscaleSettings = nil
+	}
+
+	// Throughput
+	destination.Throughput = genruntime.ClonePointerToInt(options.Throughput)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.MongoDBDatabaseGetProperties_Status_Resource
+//Deprecated version of MongoDBDatabaseGetProperties_Status_Resource. Use v1beta20210515.MongoDBDatabaseGetProperties_Status_Resource instead
 type MongoDBDatabaseGetProperties_Status_Resource struct {
 	Etag        *string                `json:"_etag,omitempty"`
 	Id          *string                `json:"id,omitempty"`
@@ -218,31 +648,275 @@ type MongoDBDatabaseGetProperties_Status_Resource struct {
 	Ts          *float64               `json:"_ts,omitempty"`
 }
 
+// AssignPropertiesFromMongoDBDatabaseGetPropertiesStatusResource populates our MongoDBDatabaseGetProperties_Status_Resource from the provided source MongoDBDatabaseGetProperties_Status_Resource
+func (resource *MongoDBDatabaseGetProperties_Status_Resource) AssignPropertiesFromMongoDBDatabaseGetPropertiesStatusResource(source *v1beta20210515storage.MongoDBDatabaseGetProperties_Status_Resource) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Etag
+	resource.Etag = genruntime.ClonePointerToString(source.Etag)
+
+	// Id
+	resource.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Rid
+	resource.Rid = genruntime.ClonePointerToString(source.Rid)
+
+	// Ts
+	if source.Ts != nil {
+		t := *source.Ts
+		resource.Ts = &t
+	} else {
+		resource.Ts = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		resource.PropertyBag = propertyBag
+	} else {
+		resource.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToMongoDBDatabaseGetPropertiesStatusResource populates the provided destination MongoDBDatabaseGetProperties_Status_Resource from our MongoDBDatabaseGetProperties_Status_Resource
+func (resource *MongoDBDatabaseGetProperties_Status_Resource) AssignPropertiesToMongoDBDatabaseGetPropertiesStatusResource(destination *v1beta20210515storage.MongoDBDatabaseGetProperties_Status_Resource) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
+
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(resource.Etag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
+
+	// Rid
+	destination.Rid = genruntime.ClonePointerToString(resource.Rid)
+
+	// Ts
+	if resource.Ts != nil {
+		t := *resource.Ts
+		destination.Ts = &t
+	} else {
+		destination.Ts = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.MongoDBDatabaseResource
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBDatabaseResource
+//Deprecated version of MongoDBDatabaseResource. Use v1beta20210515.MongoDBDatabaseResource instead
 type MongoDBDatabaseResource struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromMongoDBDatabaseResource populates our MongoDBDatabaseResource from the provided source MongoDBDatabaseResource
+func (resource *MongoDBDatabaseResource) AssignPropertiesFromMongoDBDatabaseResource(source *v1beta20210515storage.MongoDBDatabaseResource) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	resource.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		resource.PropertyBag = propertyBag
+	} else {
+		resource.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToMongoDBDatabaseResource populates the provided destination MongoDBDatabaseResource from our MongoDBDatabaseResource
+func (resource *MongoDBDatabaseResource) AssignPropertiesToMongoDBDatabaseResource(destination *v1beta20210515storage.MongoDBDatabaseResource) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.OptionsResource_Status
+//Deprecated version of OptionsResource_Status. Use v1beta20210515.OptionsResource_Status instead
 type OptionsResource_Status struct {
 	AutoscaleSettings *AutoscaleSettings_Status `json:"autoscaleSettings,omitempty"`
 	PropertyBag       genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
 	Throughput        *int                      `json:"throughput,omitempty"`
 }
 
+// AssignPropertiesFromOptionsResourceStatus populates our OptionsResource_Status from the provided source OptionsResource_Status
+func (resource *OptionsResource_Status) AssignPropertiesFromOptionsResourceStatus(source *v1beta20210515storage.OptionsResource_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AutoscaleSettings
+	if source.AutoscaleSettings != nil {
+		var autoscaleSetting AutoscaleSettings_Status
+		err := autoscaleSetting.AssignPropertiesFromAutoscaleSettingsStatus(source.AutoscaleSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromAutoscaleSettingsStatus() to populate field AutoscaleSettings")
+		}
+		resource.AutoscaleSettings = &autoscaleSetting
+	} else {
+		resource.AutoscaleSettings = nil
+	}
+
+	// Throughput
+	resource.Throughput = genruntime.ClonePointerToInt(source.Throughput)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		resource.PropertyBag = propertyBag
+	} else {
+		resource.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToOptionsResourceStatus populates the provided destination OptionsResource_Status from our OptionsResource_Status
+func (resource *OptionsResource_Status) AssignPropertiesToOptionsResourceStatus(destination *v1beta20210515storage.OptionsResource_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
+
+	// AutoscaleSettings
+	if resource.AutoscaleSettings != nil {
+		var autoscaleSetting v1beta20210515storage.AutoscaleSettings_Status
+		err := resource.AutoscaleSettings.AssignPropertiesToAutoscaleSettingsStatus(&autoscaleSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToAutoscaleSettingsStatus() to populate field AutoscaleSettings")
+		}
+		destination.AutoscaleSettings = &autoscaleSetting
+	} else {
+		destination.AutoscaleSettings = nil
+	}
+
+	// Throughput
+	destination.Throughput = genruntime.ClonePointerToInt(resource.Throughput)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.AutoscaleSettings
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettings
+//Deprecated version of AutoscaleSettings. Use v1beta20210515.AutoscaleSettings instead
 type AutoscaleSettings struct {
 	MaxThroughput *int                   `json:"maxThroughput,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromAutoscaleSettings populates our AutoscaleSettings from the provided source AutoscaleSettings
+func (settings *AutoscaleSettings) AssignPropertiesFromAutoscaleSettings(source *v1beta20210515storage.AutoscaleSettings) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// MaxThroughput
+	settings.MaxThroughput = genruntime.ClonePointerToInt(source.MaxThroughput)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		settings.PropertyBag = propertyBag
+	} else {
+		settings.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToAutoscaleSettings populates the provided destination AutoscaleSettings from our AutoscaleSettings
+func (settings *AutoscaleSettings) AssignPropertiesToAutoscaleSettings(destination *v1beta20210515storage.AutoscaleSettings) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
+
+	// MaxThroughput
+	destination.MaxThroughput = genruntime.ClonePointerToInt(settings.MaxThroughput)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.AutoscaleSettings_Status
+//Deprecated version of AutoscaleSettings_Status. Use v1beta20210515.AutoscaleSettings_Status instead
 type AutoscaleSettings_Status struct {
 	MaxThroughput *int                   `json:"maxThroughput,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromAutoscaleSettingsStatus populates our AutoscaleSettings_Status from the provided source AutoscaleSettings_Status
+func (settings *AutoscaleSettings_Status) AssignPropertiesFromAutoscaleSettingsStatus(source *v1beta20210515storage.AutoscaleSettings_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// MaxThroughput
+	settings.MaxThroughput = genruntime.ClonePointerToInt(source.MaxThroughput)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		settings.PropertyBag = propertyBag
+	} else {
+		settings.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToAutoscaleSettingsStatus populates the provided destination AutoscaleSettings_Status from our AutoscaleSettings_Status
+func (settings *AutoscaleSettings_Status) AssignPropertiesToAutoscaleSettingsStatus(destination *v1beta20210515storage.AutoscaleSettings_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
+
+	// MaxThroughput
+	destination.MaxThroughput = genruntime.ClonePointerToInt(settings.MaxThroughput)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 func init() {

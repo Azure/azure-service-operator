@@ -5,6 +5,7 @@ package v1alpha1api20201101storage
 
 import (
 	"encoding/json"
+	"github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,90 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_NetworkInterface_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkInterface to hub returns original",
+		prop.ForAll(RunResourceConversionTestForNetworkInterface, NetworkInterfaceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForNetworkInterface tests if a specific instance of NetworkInterface round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForNetworkInterface(subject NetworkInterface) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1beta20201101storage.NetworkInterface
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual NetworkInterface
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_NetworkInterface_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkInterface to NetworkInterface via AssignPropertiesToNetworkInterface & AssignPropertiesFromNetworkInterface returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkInterface, NetworkInterfaceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkInterface tests if a specific instance of NetworkInterface can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkInterface(subject NetworkInterface) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.NetworkInterface
+	err := copied.AssignPropertiesToNetworkInterface(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkInterface
+	err = actual.AssignPropertiesFromNetworkInterface(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_NetworkInterface_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -75,6 +160,48 @@ func NetworkInterfaceGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForNetworkInterface(gens map[string]gopter.Gen) {
 	gens["Spec"] = NetworkInterfacesSpecGenerator()
 	gens["Status"] = NetworkInterfaceStatusNetworkInterfaceSubResourceEmbeddedGenerator()
+}
+
+func Test_NetworkInterface_Status_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkInterface_Status_NetworkInterface_SubResourceEmbedded to NetworkInterface_Status_NetworkInterface_SubResourceEmbedded via AssignPropertiesToNetworkInterfaceStatusNetworkInterfaceSubResourceEmbedded & AssignPropertiesFromNetworkInterfaceStatusNetworkInterfaceSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkInterfaceStatusNetworkInterfaceSubResourceEmbedded, NetworkInterfaceStatusNetworkInterfaceSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkInterfaceStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of NetworkInterface_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkInterfaceStatusNetworkInterfaceSubResourceEmbedded(subject NetworkInterface_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.NetworkInterface_Status_NetworkInterface_SubResourceEmbedded
+	err := copied.AssignPropertiesToNetworkInterfaceStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkInterface_Status_NetworkInterface_SubResourceEmbedded
+	err = actual.AssignPropertiesFromNetworkInterfaceStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_NetworkInterface_Status_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -173,6 +300,48 @@ func AddRelatedPropertyGeneratorsForNetworkInterfaceStatusNetworkInterfaceSubRes
 	gens["VirtualMachine"] = gen.PtrOf(SubResourceStatusGenerator())
 }
 
+func Test_NetworkInterfaces_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkInterfaces_Spec to NetworkInterfaces_Spec via AssignPropertiesToNetworkInterfacesSpec & AssignPropertiesFromNetworkInterfacesSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkInterfacesSpec, NetworkInterfacesSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkInterfacesSpec tests if a specific instance of NetworkInterfaces_Spec can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkInterfacesSpec(subject NetworkInterfaces_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.NetworkInterfaces_Spec
+	err := copied.AssignPropertiesToNetworkInterfacesSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkInterfaces_Spec
+	err = actual.AssignPropertiesFromNetworkInterfacesSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_NetworkInterfaces_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -255,6 +424,48 @@ func AddRelatedPropertyGeneratorsForNetworkInterfacesSpec(gens map[string]gopter
 	gens["NetworkSecurityGroup"] = gen.PtrOf(SubResourceGenerator())
 }
 
+func Test_NetworkInterfaceDnsSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkInterfaceDnsSettings to NetworkInterfaceDnsSettings via AssignPropertiesToNetworkInterfaceDnsSettings & AssignPropertiesFromNetworkInterfaceDnsSettings returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkInterfaceDnsSettings, NetworkInterfaceDnsSettingsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkInterfaceDnsSettings tests if a specific instance of NetworkInterfaceDnsSettings can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkInterfaceDnsSettings(subject NetworkInterfaceDnsSettings) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.NetworkInterfaceDnsSettings
+	err := copied.AssignPropertiesToNetworkInterfaceDnsSettings(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkInterfaceDnsSettings
+	err = actual.AssignPropertiesFromNetworkInterfaceDnsSettings(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_NetworkInterfaceDnsSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -314,6 +525,48 @@ func NetworkInterfaceDnsSettingsGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForNetworkInterfaceDnsSettings(gens map[string]gopter.Gen) {
 	gens["DnsServers"] = gen.SliceOf(gen.AlphaString())
 	gens["InternalDnsNameLabel"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_NetworkInterfaceDnsSettings_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkInterfaceDnsSettings_Status to NetworkInterfaceDnsSettings_Status via AssignPropertiesToNetworkInterfaceDnsSettingsStatus & AssignPropertiesFromNetworkInterfaceDnsSettingsStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkInterfaceDnsSettingsStatus, NetworkInterfaceDnsSettingsStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkInterfaceDnsSettingsStatus tests if a specific instance of NetworkInterfaceDnsSettings_Status can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkInterfaceDnsSettingsStatus(subject NetworkInterfaceDnsSettings_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.NetworkInterfaceDnsSettings_Status
+	err := copied.AssignPropertiesToNetworkInterfaceDnsSettingsStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkInterfaceDnsSettings_Status
+	err = actual.AssignPropertiesFromNetworkInterfaceDnsSettingsStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_NetworkInterfaceDnsSettings_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -378,6 +631,48 @@ func AddIndependentPropertyGeneratorsForNetworkInterfaceDnsSettingsStatus(gens m
 	gens["InternalDnsNameLabel"] = gen.PtrOf(gen.AlphaString())
 	gens["InternalDomainNameSuffix"] = gen.PtrOf(gen.AlphaString())
 	gens["InternalFqdn"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded to NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded via AssignPropertiesToNetworkInterfaceIPConfigurationStatusNetworkInterfaceSubResourceEmbedded & AssignPropertiesFromNetworkInterfaceIPConfigurationStatusNetworkInterfaceSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationStatusNetworkInterfaceSubResourceEmbedded, NetworkInterfaceIPConfigurationStatusNetworkInterfaceSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationStatusNetworkInterfaceSubResourceEmbedded(subject NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded
+	err := copied.AssignPropertiesToNetworkInterfaceIPConfigurationStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded
+	err = actual.AssignPropertiesFromNetworkInterfaceIPConfigurationStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -469,6 +764,48 @@ func AddRelatedPropertyGeneratorsForNetworkInterfaceIPConfigurationStatusNetwork
 	gens["VirtualNetworkTaps"] = gen.SliceOf(VirtualNetworkTapStatusNetworkInterfaceSubResourceEmbeddedGenerator())
 }
 
+func Test_NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded to NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded via AssignPropertiesToNetworkInterfaceTapConfigurationStatusNetworkInterfaceSubResourceEmbedded & AssignPropertiesFromNetworkInterfaceTapConfigurationStatusNetworkInterfaceSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkInterfaceTapConfigurationStatusNetworkInterfaceSubResourceEmbedded, NetworkInterfaceTapConfigurationStatusNetworkInterfaceSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkInterfaceTapConfigurationStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkInterfaceTapConfigurationStatusNetworkInterfaceSubResourceEmbedded(subject NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded
+	err := copied.AssignPropertiesToNetworkInterfaceTapConfigurationStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded
+	err = actual.AssignPropertiesFromNetworkInterfaceTapConfigurationStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -527,6 +864,48 @@ func NetworkInterfaceTapConfigurationStatusNetworkInterfaceSubResourceEmbeddedGe
 // AddIndependentPropertyGeneratorsForNetworkInterfaceTapConfigurationStatusNetworkInterfaceSubResourceEmbedded is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkInterfaceTapConfigurationStatusNetworkInterfaceSubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_NetworkInterfaces_Spec_Properties_IpConfigurations_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkInterfaces_Spec_Properties_IpConfigurations to NetworkInterfaces_Spec_Properties_IpConfigurations via AssignPropertiesToNetworkInterfacesSpecPropertiesIpConfigurations & AssignPropertiesFromNetworkInterfacesSpecPropertiesIpConfigurations returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkInterfacesSpecPropertiesIpConfigurations, NetworkInterfacesSpecPropertiesIpConfigurationsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkInterfacesSpecPropertiesIpConfigurations tests if a specific instance of NetworkInterfaces_Spec_Properties_IpConfigurations can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkInterfacesSpecPropertiesIpConfigurations(subject NetworkInterfaces_Spec_Properties_IpConfigurations) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.NetworkInterfaces_Spec_Properties_IpConfigurations
+	err := copied.AssignPropertiesToNetworkInterfacesSpecPropertiesIpConfigurations(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkInterfaces_Spec_Properties_IpConfigurations
+	err = actual.AssignPropertiesFromNetworkInterfacesSpecPropertiesIpConfigurations(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_NetworkInterfaces_Spec_Properties_IpConfigurations_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -613,6 +992,48 @@ func AddRelatedPropertyGeneratorsForNetworkInterfacesSpecPropertiesIpConfigurati
 	gens["VirtualNetworkTaps"] = gen.SliceOf(SubResourceGenerator())
 }
 
+func Test_NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded to NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded via AssignPropertiesToNetworkSecurityGroupStatusNetworkInterfaceSubResourceEmbedded & AssignPropertiesFromNetworkSecurityGroupStatusNetworkInterfaceSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkSecurityGroupStatusNetworkInterfaceSubResourceEmbedded, NetworkSecurityGroupStatusNetworkInterfaceSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkSecurityGroupStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkSecurityGroupStatusNetworkInterfaceSubResourceEmbedded(subject NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded
+	err := copied.AssignPropertiesToNetworkSecurityGroupStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded
+	err = actual.AssignPropertiesFromNetworkSecurityGroupStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -671,6 +1092,48 @@ func NetworkSecurityGroupStatusNetworkInterfaceSubResourceEmbeddedGenerator() go
 // AddIndependentPropertyGeneratorsForNetworkSecurityGroupStatusNetworkInterfaceSubResourceEmbedded is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkSecurityGroupStatusNetworkInterfaceSubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded to PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded via AssignPropertiesToPrivateEndpointStatusNetworkInterfaceSubResourceEmbedded & AssignPropertiesFromPrivateEndpointStatusNetworkInterfaceSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpointStatusNetworkInterfaceSubResourceEmbedded, PrivateEndpointStatusNetworkInterfaceSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPrivateEndpointStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForPrivateEndpointStatusNetworkInterfaceSubResourceEmbedded(subject PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded
+	err := copied.AssignPropertiesToPrivateEndpointStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded
+	err = actual.AssignPropertiesFromPrivateEndpointStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -747,6 +1210,48 @@ func AddRelatedPropertyGeneratorsForPrivateEndpointStatusNetworkInterfaceSubReso
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationStatusGenerator())
 }
 
+func Test_PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded to PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded via AssignPropertiesToPrivateLinkServiceStatusNetworkInterfaceSubResourceEmbedded & AssignPropertiesFromPrivateLinkServiceStatusNetworkInterfaceSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPrivateLinkServiceStatusNetworkInterfaceSubResourceEmbedded, PrivateLinkServiceStatusNetworkInterfaceSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPrivateLinkServiceStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForPrivateLinkServiceStatusNetworkInterfaceSubResourceEmbedded(subject PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded
+	err := copied.AssignPropertiesToPrivateLinkServiceStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded
+	err = actual.AssignPropertiesFromPrivateLinkServiceStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -821,6 +1326,48 @@ func AddRelatedPropertyGeneratorsForPrivateLinkServiceStatusNetworkInterfaceSubR
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationStatusGenerator())
 }
 
+func Test_SubResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SubResource to SubResource via AssignPropertiesToSubResource & AssignPropertiesFromSubResource returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSubResource, SubResourceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSubResource tests if a specific instance of SubResource can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.SubResource
+	err := copied.AssignPropertiesToSubResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SubResource
+	err = actual.AssignPropertiesFromSubResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SubResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -872,6 +1419,48 @@ func SubResourceGenerator() gopter.Gen {
 	subResourceGenerator = gen.Struct(reflect.TypeOf(SubResource{}), generators)
 
 	return subResourceGenerator
+}
+
+func Test_SubResource_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SubResource_Status to SubResource_Status via AssignPropertiesToSubResourceStatus & AssignPropertiesFromSubResourceStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSubResourceStatus, SubResourceStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSubResourceStatus tests if a specific instance of SubResource_Status can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForSubResourceStatus(subject SubResource_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.SubResource_Status
+	err := copied.AssignPropertiesToSubResourceStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SubResource_Status
+	err = actual.AssignPropertiesFromSubResourceStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SubResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -931,6 +1520,48 @@ func SubResourceStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSubResourceStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSubResourceStatus(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded to ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded via AssignPropertiesToApplicationGatewayBackendAddressPoolStatusNetworkInterfaceSubResourceEmbedded & AssignPropertiesFromApplicationGatewayBackendAddressPoolStatusNetworkInterfaceSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayBackendAddressPoolStatusNetworkInterfaceSubResourceEmbedded, ApplicationGatewayBackendAddressPoolStatusNetworkInterfaceSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayBackendAddressPoolStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayBackendAddressPoolStatusNetworkInterfaceSubResourceEmbedded(subject ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded
+	err := copied.AssignPropertiesToApplicationGatewayBackendAddressPoolStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded
+	err = actual.AssignPropertiesFromApplicationGatewayBackendAddressPoolStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1011,6 +1642,48 @@ func AddRelatedPropertyGeneratorsForApplicationGatewayBackendAddressPoolStatusNe
 	gens["BackendAddresses"] = gen.SliceOf(ApplicationGatewayBackendAddressStatusGenerator())
 }
 
+func Test_ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded to ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded via AssignPropertiesToApplicationSecurityGroupStatusNetworkInterfaceSubResourceEmbedded & AssignPropertiesFromApplicationSecurityGroupStatusNetworkInterfaceSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationSecurityGroupStatusNetworkInterfaceSubResourceEmbedded, ApplicationSecurityGroupStatusNetworkInterfaceSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationSecurityGroupStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForApplicationSecurityGroupStatusNetworkInterfaceSubResourceEmbedded(subject ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded
+	err := copied.AssignPropertiesToApplicationSecurityGroupStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded
+	err = actual.AssignPropertiesFromApplicationSecurityGroupStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1069,6 +1742,48 @@ func ApplicationSecurityGroupStatusNetworkInterfaceSubResourceEmbeddedGenerator(
 // AddIndependentPropertyGeneratorsForApplicationSecurityGroupStatusNetworkInterfaceSubResourceEmbedded is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationSecurityGroupStatusNetworkInterfaceSubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded to BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded via AssignPropertiesToBackendAddressPoolStatusNetworkInterfaceSubResourceEmbedded & AssignPropertiesFromBackendAddressPoolStatusNetworkInterfaceSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForBackendAddressPoolStatusNetworkInterfaceSubResourceEmbedded, BackendAddressPoolStatusNetworkInterfaceSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForBackendAddressPoolStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForBackendAddressPoolStatusNetworkInterfaceSubResourceEmbedded(subject BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded
+	err := copied.AssignPropertiesToBackendAddressPoolStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded
+	err = actual.AssignPropertiesFromBackendAddressPoolStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1131,6 +1846,48 @@ func AddIndependentPropertyGeneratorsForBackendAddressPoolStatusNetworkInterface
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_InboundNatRule_Status_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from InboundNatRule_Status_NetworkInterface_SubResourceEmbedded to InboundNatRule_Status_NetworkInterface_SubResourceEmbedded via AssignPropertiesToInboundNatRuleStatusNetworkInterfaceSubResourceEmbedded & AssignPropertiesFromInboundNatRuleStatusNetworkInterfaceSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForInboundNatRuleStatusNetworkInterfaceSubResourceEmbedded, InboundNatRuleStatusNetworkInterfaceSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForInboundNatRuleStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of InboundNatRule_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForInboundNatRuleStatusNetworkInterfaceSubResourceEmbedded(subject InboundNatRule_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.InboundNatRule_Status_NetworkInterface_SubResourceEmbedded
+	err := copied.AssignPropertiesToInboundNatRuleStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual InboundNatRule_Status_NetworkInterface_SubResourceEmbedded
+	err = actual.AssignPropertiesFromInboundNatRuleStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_InboundNatRule_Status_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1189,6 +1946,48 @@ func InboundNatRuleStatusNetworkInterfaceSubResourceEmbeddedGenerator() gopter.G
 // AddIndependentPropertyGeneratorsForInboundNatRuleStatusNetworkInterfaceSubResourceEmbedded is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInboundNatRuleStatusNetworkInterfaceSubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status to NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status via AssignPropertiesToNetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatus & AssignPropertiesFromNetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatus, NetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatus tests if a specific instance of NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatus(subject NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status
+	err := copied.AssignPropertiesToNetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status
+	err = actual.AssignPropertiesFromNetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1251,6 +2050,48 @@ func AddIndependentPropertyGeneratorsForNetworkInterfaceIPConfigurationPrivateLi
 	gens["Fqdns"] = gen.SliceOf(gen.AlphaString())
 	gens["GroupId"] = gen.PtrOf(gen.AlphaString())
 	gens["RequiredMemberName"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded to PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded via AssignPropertiesToPublicIPAddressStatusNetworkInterfaceSubResourceEmbedded & AssignPropertiesFromPublicIPAddressStatusNetworkInterfaceSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPublicIPAddressStatusNetworkInterfaceSubResourceEmbedded, PublicIPAddressStatusNetworkInterfaceSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPublicIPAddressStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForPublicIPAddressStatusNetworkInterfaceSubResourceEmbedded(subject PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded
+	err := copied.AssignPropertiesToPublicIPAddressStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded
+	err = actual.AssignPropertiesFromPublicIPAddressStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1329,6 +2170,48 @@ func AddRelatedPropertyGeneratorsForPublicIPAddressStatusNetworkInterfaceSubReso
 	gens["Sku"] = gen.PtrOf(PublicIPAddressSkuStatusGenerator())
 }
 
+func Test_Subnet_Status_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Subnet_Status_NetworkInterface_SubResourceEmbedded to Subnet_Status_NetworkInterface_SubResourceEmbedded via AssignPropertiesToSubnetStatusNetworkInterfaceSubResourceEmbedded & AssignPropertiesFromSubnetStatusNetworkInterfaceSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSubnetStatusNetworkInterfaceSubResourceEmbedded, SubnetStatusNetworkInterfaceSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSubnetStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of Subnet_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForSubnetStatusNetworkInterfaceSubResourceEmbedded(subject Subnet_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.Subnet_Status_NetworkInterface_SubResourceEmbedded
+	err := copied.AssignPropertiesToSubnetStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Subnet_Status_NetworkInterface_SubResourceEmbedded
+	err = actual.AssignPropertiesFromSubnetStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Subnet_Status_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1389,6 +2272,48 @@ func AddIndependentPropertyGeneratorsForSubnetStatusNetworkInterfaceSubResourceE
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded to VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded via AssignPropertiesToVirtualNetworkTapStatusNetworkInterfaceSubResourceEmbedded & AssignPropertiesFromVirtualNetworkTapStatusNetworkInterfaceSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkTapStatusNetworkInterfaceSubResourceEmbedded, VirtualNetworkTapStatusNetworkInterfaceSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualNetworkTapStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworkTapStatusNetworkInterfaceSubResourceEmbedded(subject VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded
+	err := copied.AssignPropertiesToVirtualNetworkTapStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded
+	err = actual.AssignPropertiesFromVirtualNetworkTapStatusNetworkInterfaceSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1447,6 +2372,48 @@ func VirtualNetworkTapStatusNetworkInterfaceSubResourceEmbeddedGenerator() gopte
 // AddIndependentPropertyGeneratorsForVirtualNetworkTapStatusNetworkInterfaceSubResourceEmbedded is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkTapStatusNetworkInterfaceSubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ApplicationGatewayBackendAddress_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayBackendAddress_Status to ApplicationGatewayBackendAddress_Status via AssignPropertiesToApplicationGatewayBackendAddressStatus & AssignPropertiesFromApplicationGatewayBackendAddressStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayBackendAddressStatus, ApplicationGatewayBackendAddressStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayBackendAddressStatus tests if a specific instance of ApplicationGatewayBackendAddress_Status can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayBackendAddressStatus(subject ApplicationGatewayBackendAddress_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.ApplicationGatewayBackendAddress_Status
+	err := copied.AssignPropertiesToApplicationGatewayBackendAddressStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayBackendAddress_Status
+	err = actual.AssignPropertiesFromApplicationGatewayBackendAddressStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ApplicationGatewayBackendAddress_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

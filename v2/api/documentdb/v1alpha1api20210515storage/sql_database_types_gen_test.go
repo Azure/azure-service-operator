@@ -5,6 +5,7 @@ package v1alpha1api20210515storage
 
 import (
 	"encoding/json"
+	"github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,90 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_SqlDatabase_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlDatabase to hub returns original",
+		prop.ForAll(RunResourceConversionTestForSqlDatabase, SqlDatabaseGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForSqlDatabase tests if a specific instance of SqlDatabase round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForSqlDatabase(subject SqlDatabase) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1beta20210515storage.SqlDatabase
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual SqlDatabase
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SqlDatabase_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlDatabase to SqlDatabase via AssignPropertiesToSqlDatabase & AssignPropertiesFromSqlDatabase returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlDatabase, SqlDatabaseGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlDatabase tests if a specific instance of SqlDatabase can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForSqlDatabase(subject SqlDatabase) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.SqlDatabase
+	err := copied.AssignPropertiesToSqlDatabase(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlDatabase
+	err = actual.AssignPropertiesFromSqlDatabase(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_SqlDatabase_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -75,6 +160,48 @@ func SqlDatabaseGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForSqlDatabase(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccountsSqlDatabasesSpecGenerator()
 	gens["Status"] = SqlDatabaseGetResultsStatusGenerator()
+}
+
+func Test_DatabaseAccountsSqlDatabases_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DatabaseAccountsSqlDatabases_Spec to DatabaseAccountsSqlDatabases_Spec via AssignPropertiesToDatabaseAccountsSqlDatabasesSpec & AssignPropertiesFromDatabaseAccountsSqlDatabasesSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesSpec, DatabaseAccountsSqlDatabasesSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesSpec tests if a specific instance of DatabaseAccountsSqlDatabases_Spec can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesSpec(subject DatabaseAccountsSqlDatabases_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.DatabaseAccountsSqlDatabases_Spec
+	err := copied.AssignPropertiesToDatabaseAccountsSqlDatabasesSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DatabaseAccountsSqlDatabases_Spec
+	err = actual.AssignPropertiesFromDatabaseAccountsSqlDatabasesSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_DatabaseAccountsSqlDatabases_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -153,6 +280,48 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesSpec(gens ma
 func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesSpec(gens map[string]gopter.Gen) {
 	gens["Options"] = gen.PtrOf(CreateUpdateOptionsGenerator())
 	gens["Resource"] = gen.PtrOf(SqlDatabaseResourceGenerator())
+}
+
+func Test_SqlDatabaseGetResults_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlDatabaseGetResults_Status to SqlDatabaseGetResults_Status via AssignPropertiesToSqlDatabaseGetResultsStatus & AssignPropertiesFromSqlDatabaseGetResultsStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlDatabaseGetResultsStatus, SqlDatabaseGetResultsStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlDatabaseGetResultsStatus tests if a specific instance of SqlDatabaseGetResults_Status can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForSqlDatabaseGetResultsStatus(subject SqlDatabaseGetResults_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.SqlDatabaseGetResults_Status
+	err := copied.AssignPropertiesToSqlDatabaseGetResultsStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlDatabaseGetResults_Status
+	err = actual.AssignPropertiesFromSqlDatabaseGetResultsStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SqlDatabaseGetResults_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -234,6 +403,48 @@ func AddRelatedPropertyGeneratorsForSqlDatabaseGetResultsStatus(gens map[string]
 	gens["Resource"] = gen.PtrOf(SqlDatabaseGetPropertiesStatusResourceGenerator())
 }
 
+func Test_SqlDatabaseGetProperties_Status_Resource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlDatabaseGetProperties_Status_Resource to SqlDatabaseGetProperties_Status_Resource via AssignPropertiesToSqlDatabaseGetPropertiesStatusResource & AssignPropertiesFromSqlDatabaseGetPropertiesStatusResource returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlDatabaseGetPropertiesStatusResource, SqlDatabaseGetPropertiesStatusResourceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlDatabaseGetPropertiesStatusResource tests if a specific instance of SqlDatabaseGetProperties_Status_Resource can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForSqlDatabaseGetPropertiesStatusResource(subject SqlDatabaseGetProperties_Status_Resource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.SqlDatabaseGetProperties_Status_Resource
+	err := copied.AssignPropertiesToSqlDatabaseGetPropertiesStatusResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlDatabaseGetProperties_Status_Resource
+	err = actual.AssignPropertiesFromSqlDatabaseGetPropertiesStatusResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SqlDatabaseGetProperties_Status_Resource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -297,6 +508,48 @@ func AddIndependentPropertyGeneratorsForSqlDatabaseGetPropertiesStatusResource(g
 	gens["Rid"] = gen.PtrOf(gen.AlphaString())
 	gens["Ts"] = gen.PtrOf(gen.Float64())
 	gens["Users"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_SqlDatabaseResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlDatabaseResource to SqlDatabaseResource via AssignPropertiesToSqlDatabaseResource & AssignPropertiesFromSqlDatabaseResource returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlDatabaseResource, SqlDatabaseResourceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlDatabaseResource tests if a specific instance of SqlDatabaseResource can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForSqlDatabaseResource(subject SqlDatabaseResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20210515storage.SqlDatabaseResource
+	err := copied.AssignPropertiesToSqlDatabaseResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlDatabaseResource
+	err = actual.AssignPropertiesFromSqlDatabaseResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SqlDatabaseResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

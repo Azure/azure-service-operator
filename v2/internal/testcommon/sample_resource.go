@@ -15,7 +15,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-var SimpleExtensionResourceGroupVersion = schema.GroupVersion{Group: "microsoft.test.azure.com", Version: "v1alpha1apitest"}
+var SimpleExtensionResourceGroupVersion = schema.GroupVersion{Group: "microsoft.test.azure.com", Version: "v1betatest"}
 
 type SimpleExtensionResource struct {
 	metav1.TypeMeta   `json:",inline"`

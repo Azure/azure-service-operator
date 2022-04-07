@@ -4,25 +4,24 @@
 package v1alpha1api20210401storage
 
 import (
+	"fmt"
+	"github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=storage.azure.com,resources=storageaccountsblobservices,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=storage.azure.com,resources={storageaccountsblobservices/status,storageaccountsblobservices/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Storage version of v1alpha1api20210401.StorageAccountsBlobService
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_blobServices
+//Deprecated version of StorageAccountsBlobService. Use v1beta20210401.StorageAccountsBlobService instead
 type StorageAccountsBlobService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -40,6 +39,28 @@ func (service *StorageAccountsBlobService) GetConditions() conditions.Conditions
 // SetConditions sets the conditions on the resource status
 func (service *StorageAccountsBlobService) SetConditions(conditions conditions.Conditions) {
 	service.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &StorageAccountsBlobService{}
+
+// ConvertFrom populates our StorageAccountsBlobService from the provided hub StorageAccountsBlobService
+func (service *StorageAccountsBlobService) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1beta20210401storage.StorageAccountsBlobService)
+	if !ok {
+		return fmt.Errorf("expected storage/v1beta20210401storage/StorageAccountsBlobService but received %T instead", hub)
+	}
+
+	return service.AssignPropertiesFromStorageAccountsBlobService(source)
+}
+
+// ConvertTo populates the provided hub StorageAccountsBlobService from our StorageAccountsBlobService
+func (service *StorageAccountsBlobService) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1beta20210401storage.StorageAccountsBlobService)
+	if !ok {
+		return fmt.Errorf("expected storage/v1beta20210401storage/StorageAccountsBlobService but received %T instead", hub)
+	}
+
+	return service.AssignPropertiesToStorageAccountsBlobService(destination)
 }
 
 var _ genruntime.KubernetesResource = &StorageAccountsBlobService{}
@@ -108,8 +129,57 @@ func (service *StorageAccountsBlobService) SetStatus(status genruntime.Convertib
 	return nil
 }
 
-// Hub marks that this StorageAccountsBlobService is the hub type for conversion
-func (service *StorageAccountsBlobService) Hub() {}
+// AssignPropertiesFromStorageAccountsBlobService populates our StorageAccountsBlobService from the provided source StorageAccountsBlobService
+func (service *StorageAccountsBlobService) AssignPropertiesFromStorageAccountsBlobService(source *v1beta20210401storage.StorageAccountsBlobService) error {
+
+	// ObjectMeta
+	service.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec StorageAccountsBlobServices_Spec
+	err := spec.AssignPropertiesFromStorageAccountsBlobServicesSpec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountsBlobServicesSpec() to populate field Spec")
+	}
+	service.Spec = spec
+
+	// Status
+	var status BlobServiceProperties_Status
+	err = status.AssignPropertiesFromBlobServicePropertiesStatus(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromBlobServicePropertiesStatus() to populate field Status")
+	}
+	service.Status = status
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToStorageAccountsBlobService populates the provided destination StorageAccountsBlobService from our StorageAccountsBlobService
+func (service *StorageAccountsBlobService) AssignPropertiesToStorageAccountsBlobService(destination *v1beta20210401storage.StorageAccountsBlobService) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *service.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v1beta20210401storage.StorageAccountsBlobServices_Spec
+	err := service.Spec.AssignPropertiesToStorageAccountsBlobServicesSpec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsBlobServicesSpec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v1beta20210401storage.BlobServiceProperties_Status
+	err = service.Status.AssignPropertiesToBlobServicePropertiesStatus(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToBlobServicePropertiesStatus() to populate field Status")
+	}
+	destination.Status = status
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (service *StorageAccountsBlobService) OriginalGVK() *schema.GroupVersionKind {
@@ -122,7 +192,7 @@ func (service *StorageAccountsBlobService) OriginalGVK() *schema.GroupVersionKin
 
 // +kubebuilder:object:root=true
 //Storage version of v1alpha1api20210401.StorageAccountsBlobService
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_blobServices
+//Deprecated version of StorageAccountsBlobService. Use v1beta20210401.StorageAccountsBlobService instead
 type StorageAccountsBlobServiceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -130,6 +200,7 @@ type StorageAccountsBlobServiceList struct {
 }
 
 //Storage version of v1alpha1api20210401.BlobServiceProperties_Status
+//Deprecated version of BlobServiceProperties_Status. Use v1beta20210401.BlobServiceProperties_Status instead
 type BlobServiceProperties_Status struct {
 	AutomaticSnapshotPolicyEnabled *bool                                `json:"automaticSnapshotPolicyEnabled,omitempty"`
 	ChangeFeed                     *ChangeFeed_Status                   `json:"changeFeed,omitempty"`
@@ -152,20 +223,312 @@ var _ genruntime.ConvertibleStatus = &BlobServiceProperties_Status{}
 
 // ConvertStatusFrom populates our BlobServiceProperties_Status from the provided source
 func (properties *BlobServiceProperties_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == properties {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v1beta20210401storage.BlobServiceProperties_Status)
+	if ok {
+		// Populate our instance from source
+		return properties.AssignPropertiesFromBlobServicePropertiesStatus(src)
 	}
 
-	return source.ConvertStatusTo(properties)
+	// Convert to an intermediate form
+	src = &v1beta20210401storage.BlobServiceProperties_Status{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = properties.AssignPropertiesFromBlobServicePropertiesStatus(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our BlobServiceProperties_Status
 func (properties *BlobServiceProperties_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == properties {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v1beta20210401storage.BlobServiceProperties_Status)
+	if ok {
+		// Populate destination from our instance
+		return properties.AssignPropertiesToBlobServicePropertiesStatus(dst)
 	}
 
-	return destination.ConvertStatusFrom(properties)
+	// Convert to an intermediate form
+	dst = &v1beta20210401storage.BlobServiceProperties_Status{}
+	err := properties.AssignPropertiesToBlobServicePropertiesStatus(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromBlobServicePropertiesStatus populates our BlobServiceProperties_Status from the provided source BlobServiceProperties_Status
+func (properties *BlobServiceProperties_Status) AssignPropertiesFromBlobServicePropertiesStatus(source *v1beta20210401storage.BlobServiceProperties_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AutomaticSnapshotPolicyEnabled
+	if source.AutomaticSnapshotPolicyEnabled != nil {
+		automaticSnapshotPolicyEnabled := *source.AutomaticSnapshotPolicyEnabled
+		properties.AutomaticSnapshotPolicyEnabled = &automaticSnapshotPolicyEnabled
+	} else {
+		properties.AutomaticSnapshotPolicyEnabled = nil
+	}
+
+	// ChangeFeed
+	if source.ChangeFeed != nil {
+		var changeFeed ChangeFeed_Status
+		err := changeFeed.AssignPropertiesFromChangeFeedStatus(source.ChangeFeed)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromChangeFeedStatus() to populate field ChangeFeed")
+		}
+		properties.ChangeFeed = &changeFeed
+	} else {
+		properties.ChangeFeed = nil
+	}
+
+	// Conditions
+	properties.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// ContainerDeleteRetentionPolicy
+	if source.ContainerDeleteRetentionPolicy != nil {
+		var containerDeleteRetentionPolicy DeleteRetentionPolicy_Status
+		err := containerDeleteRetentionPolicy.AssignPropertiesFromDeleteRetentionPolicyStatus(source.ContainerDeleteRetentionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDeleteRetentionPolicyStatus() to populate field ContainerDeleteRetentionPolicy")
+		}
+		properties.ContainerDeleteRetentionPolicy = &containerDeleteRetentionPolicy
+	} else {
+		properties.ContainerDeleteRetentionPolicy = nil
+	}
+
+	// Cors
+	if source.Cors != nil {
+		var cor CorsRules_Status
+		err := cor.AssignPropertiesFromCorsRulesStatus(source.Cors)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromCorsRulesStatus() to populate field Cors")
+		}
+		properties.Cors = &cor
+	} else {
+		properties.Cors = nil
+	}
+
+	// DefaultServiceVersion
+	properties.DefaultServiceVersion = genruntime.ClonePointerToString(source.DefaultServiceVersion)
+
+	// DeleteRetentionPolicy
+	if source.DeleteRetentionPolicy != nil {
+		var deleteRetentionPolicy DeleteRetentionPolicy_Status
+		err := deleteRetentionPolicy.AssignPropertiesFromDeleteRetentionPolicyStatus(source.DeleteRetentionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDeleteRetentionPolicyStatus() to populate field DeleteRetentionPolicy")
+		}
+		properties.DeleteRetentionPolicy = &deleteRetentionPolicy
+	} else {
+		properties.DeleteRetentionPolicy = nil
+	}
+
+	// Id
+	properties.Id = genruntime.ClonePointerToString(source.Id)
+
+	// IsVersioningEnabled
+	if source.IsVersioningEnabled != nil {
+		isVersioningEnabled := *source.IsVersioningEnabled
+		properties.IsVersioningEnabled = &isVersioningEnabled
+	} else {
+		properties.IsVersioningEnabled = nil
+	}
+
+	// LastAccessTimeTrackingPolicy
+	if source.LastAccessTimeTrackingPolicy != nil {
+		var lastAccessTimeTrackingPolicy LastAccessTimeTrackingPolicy_Status
+		err := lastAccessTimeTrackingPolicy.AssignPropertiesFromLastAccessTimeTrackingPolicyStatus(source.LastAccessTimeTrackingPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromLastAccessTimeTrackingPolicyStatus() to populate field LastAccessTimeTrackingPolicy")
+		}
+		properties.LastAccessTimeTrackingPolicy = &lastAccessTimeTrackingPolicy
+	} else {
+		properties.LastAccessTimeTrackingPolicy = nil
+	}
+
+	// Name
+	properties.Name = genruntime.ClonePointerToString(source.Name)
+
+	// RestorePolicy
+	if source.RestorePolicy != nil {
+		var restorePolicy RestorePolicyProperties_Status
+		err := restorePolicy.AssignPropertiesFromRestorePolicyPropertiesStatus(source.RestorePolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromRestorePolicyPropertiesStatus() to populate field RestorePolicy")
+		}
+		properties.RestorePolicy = &restorePolicy
+	} else {
+		properties.RestorePolicy = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku_Status
+		err := sku.AssignPropertiesFromSkuStatus(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSkuStatus() to populate field Sku")
+		}
+		properties.Sku = &sku
+	} else {
+		properties.Sku = nil
+	}
+
+	// Type
+	properties.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToBlobServicePropertiesStatus populates the provided destination BlobServiceProperties_Status from our BlobServiceProperties_Status
+func (properties *BlobServiceProperties_Status) AssignPropertiesToBlobServicePropertiesStatus(destination *v1beta20210401storage.BlobServiceProperties_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// AutomaticSnapshotPolicyEnabled
+	if properties.AutomaticSnapshotPolicyEnabled != nil {
+		automaticSnapshotPolicyEnabled := *properties.AutomaticSnapshotPolicyEnabled
+		destination.AutomaticSnapshotPolicyEnabled = &automaticSnapshotPolicyEnabled
+	} else {
+		destination.AutomaticSnapshotPolicyEnabled = nil
+	}
+
+	// ChangeFeed
+	if properties.ChangeFeed != nil {
+		var changeFeed v1beta20210401storage.ChangeFeed_Status
+		err := properties.ChangeFeed.AssignPropertiesToChangeFeedStatus(&changeFeed)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToChangeFeedStatus() to populate field ChangeFeed")
+		}
+		destination.ChangeFeed = &changeFeed
+	} else {
+		destination.ChangeFeed = nil
+	}
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(properties.Conditions)
+
+	// ContainerDeleteRetentionPolicy
+	if properties.ContainerDeleteRetentionPolicy != nil {
+		var containerDeleteRetentionPolicy v1beta20210401storage.DeleteRetentionPolicy_Status
+		err := properties.ContainerDeleteRetentionPolicy.AssignPropertiesToDeleteRetentionPolicyStatus(&containerDeleteRetentionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDeleteRetentionPolicyStatus() to populate field ContainerDeleteRetentionPolicy")
+		}
+		destination.ContainerDeleteRetentionPolicy = &containerDeleteRetentionPolicy
+	} else {
+		destination.ContainerDeleteRetentionPolicy = nil
+	}
+
+	// Cors
+	if properties.Cors != nil {
+		var cor v1beta20210401storage.CorsRules_Status
+		err := properties.Cors.AssignPropertiesToCorsRulesStatus(&cor)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToCorsRulesStatus() to populate field Cors")
+		}
+		destination.Cors = &cor
+	} else {
+		destination.Cors = nil
+	}
+
+	// DefaultServiceVersion
+	destination.DefaultServiceVersion = genruntime.ClonePointerToString(properties.DefaultServiceVersion)
+
+	// DeleteRetentionPolicy
+	if properties.DeleteRetentionPolicy != nil {
+		var deleteRetentionPolicy v1beta20210401storage.DeleteRetentionPolicy_Status
+		err := properties.DeleteRetentionPolicy.AssignPropertiesToDeleteRetentionPolicyStatus(&deleteRetentionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDeleteRetentionPolicyStatus() to populate field DeleteRetentionPolicy")
+		}
+		destination.DeleteRetentionPolicy = &deleteRetentionPolicy
+	} else {
+		destination.DeleteRetentionPolicy = nil
+	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(properties.Id)
+
+	// IsVersioningEnabled
+	if properties.IsVersioningEnabled != nil {
+		isVersioningEnabled := *properties.IsVersioningEnabled
+		destination.IsVersioningEnabled = &isVersioningEnabled
+	} else {
+		destination.IsVersioningEnabled = nil
+	}
+
+	// LastAccessTimeTrackingPolicy
+	if properties.LastAccessTimeTrackingPolicy != nil {
+		var lastAccessTimeTrackingPolicy v1beta20210401storage.LastAccessTimeTrackingPolicy_Status
+		err := properties.LastAccessTimeTrackingPolicy.AssignPropertiesToLastAccessTimeTrackingPolicyStatus(&lastAccessTimeTrackingPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToLastAccessTimeTrackingPolicyStatus() to populate field LastAccessTimeTrackingPolicy")
+		}
+		destination.LastAccessTimeTrackingPolicy = &lastAccessTimeTrackingPolicy
+	} else {
+		destination.LastAccessTimeTrackingPolicy = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(properties.Name)
+
+	// RestorePolicy
+	if properties.RestorePolicy != nil {
+		var restorePolicy v1beta20210401storage.RestorePolicyProperties_Status
+		err := properties.RestorePolicy.AssignPropertiesToRestorePolicyPropertiesStatus(&restorePolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToRestorePolicyPropertiesStatus() to populate field RestorePolicy")
+		}
+		destination.RestorePolicy = &restorePolicy
+	} else {
+		destination.RestorePolicy = nil
+	}
+
+	// Sku
+	if properties.Sku != nil {
+		var sku v1beta20210401storage.Sku_Status
+		err := properties.Sku.AssignPropertiesToSkuStatus(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSkuStatus() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(properties.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 //Storage version of v1alpha1api20210401.StorageAccountsBlobServices_Spec
@@ -195,67 +558,700 @@ var _ genruntime.ConvertibleSpec = &StorageAccountsBlobServices_Spec{}
 
 // ConvertSpecFrom populates our StorageAccountsBlobServices_Spec from the provided source
 func (services *StorageAccountsBlobServices_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == services {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v1beta20210401storage.StorageAccountsBlobServices_Spec)
+	if ok {
+		// Populate our instance from source
+		return services.AssignPropertiesFromStorageAccountsBlobServicesSpec(src)
 	}
 
-	return source.ConvertSpecTo(services)
+	// Convert to an intermediate form
+	src = &v1beta20210401storage.StorageAccountsBlobServices_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = services.AssignPropertiesFromStorageAccountsBlobServicesSpec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our StorageAccountsBlobServices_Spec
 func (services *StorageAccountsBlobServices_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == services {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v1beta20210401storage.StorageAccountsBlobServices_Spec)
+	if ok {
+		// Populate destination from our instance
+		return services.AssignPropertiesToStorageAccountsBlobServicesSpec(dst)
 	}
 
-	return destination.ConvertSpecFrom(services)
+	// Convert to an intermediate form
+	dst = &v1beta20210401storage.StorageAccountsBlobServices_Spec{}
+	err := services.AssignPropertiesToStorageAccountsBlobServicesSpec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromStorageAccountsBlobServicesSpec populates our StorageAccountsBlobServices_Spec from the provided source StorageAccountsBlobServices_Spec
+func (services *StorageAccountsBlobServices_Spec) AssignPropertiesFromStorageAccountsBlobServicesSpec(source *v1beta20210401storage.StorageAccountsBlobServices_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AutomaticSnapshotPolicyEnabled
+	if source.AutomaticSnapshotPolicyEnabled != nil {
+		automaticSnapshotPolicyEnabled := *source.AutomaticSnapshotPolicyEnabled
+		services.AutomaticSnapshotPolicyEnabled = &automaticSnapshotPolicyEnabled
+	} else {
+		services.AutomaticSnapshotPolicyEnabled = nil
+	}
+
+	// ChangeFeed
+	if source.ChangeFeed != nil {
+		var changeFeed ChangeFeed
+		err := changeFeed.AssignPropertiesFromChangeFeed(source.ChangeFeed)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromChangeFeed() to populate field ChangeFeed")
+		}
+		services.ChangeFeed = &changeFeed
+	} else {
+		services.ChangeFeed = nil
+	}
+
+	// ContainerDeleteRetentionPolicy
+	if source.ContainerDeleteRetentionPolicy != nil {
+		var containerDeleteRetentionPolicy DeleteRetentionPolicy
+		err := containerDeleteRetentionPolicy.AssignPropertiesFromDeleteRetentionPolicy(source.ContainerDeleteRetentionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDeleteRetentionPolicy() to populate field ContainerDeleteRetentionPolicy")
+		}
+		services.ContainerDeleteRetentionPolicy = &containerDeleteRetentionPolicy
+	} else {
+		services.ContainerDeleteRetentionPolicy = nil
+	}
+
+	// Cors
+	if source.Cors != nil {
+		var cor CorsRules
+		err := cor.AssignPropertiesFromCorsRules(source.Cors)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromCorsRules() to populate field Cors")
+		}
+		services.Cors = &cor
+	} else {
+		services.Cors = nil
+	}
+
+	// DefaultServiceVersion
+	services.DefaultServiceVersion = genruntime.ClonePointerToString(source.DefaultServiceVersion)
+
+	// DeleteRetentionPolicy
+	if source.DeleteRetentionPolicy != nil {
+		var deleteRetentionPolicy DeleteRetentionPolicy
+		err := deleteRetentionPolicy.AssignPropertiesFromDeleteRetentionPolicy(source.DeleteRetentionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDeleteRetentionPolicy() to populate field DeleteRetentionPolicy")
+		}
+		services.DeleteRetentionPolicy = &deleteRetentionPolicy
+	} else {
+		services.DeleteRetentionPolicy = nil
+	}
+
+	// IsVersioningEnabled
+	if source.IsVersioningEnabled != nil {
+		isVersioningEnabled := *source.IsVersioningEnabled
+		services.IsVersioningEnabled = &isVersioningEnabled
+	} else {
+		services.IsVersioningEnabled = nil
+	}
+
+	// LastAccessTimeTrackingPolicy
+	if source.LastAccessTimeTrackingPolicy != nil {
+		var lastAccessTimeTrackingPolicy LastAccessTimeTrackingPolicy
+		err := lastAccessTimeTrackingPolicy.AssignPropertiesFromLastAccessTimeTrackingPolicy(source.LastAccessTimeTrackingPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromLastAccessTimeTrackingPolicy() to populate field LastAccessTimeTrackingPolicy")
+		}
+		services.LastAccessTimeTrackingPolicy = &lastAccessTimeTrackingPolicy
+	} else {
+		services.LastAccessTimeTrackingPolicy = nil
+	}
+
+	// Location
+	services.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OriginalVersion
+	services.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		services.Owner = &owner
+	} else {
+		services.Owner = nil
+	}
+
+	// RestorePolicy
+	if source.RestorePolicy != nil {
+		var restorePolicy RestorePolicyProperties
+		err := restorePolicy.AssignPropertiesFromRestorePolicyProperties(source.RestorePolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromRestorePolicyProperties() to populate field RestorePolicy")
+		}
+		services.RestorePolicy = &restorePolicy
+	} else {
+		services.RestorePolicy = nil
+	}
+
+	// Tags
+	services.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		services.PropertyBag = propertyBag
+	} else {
+		services.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToStorageAccountsBlobServicesSpec populates the provided destination StorageAccountsBlobServices_Spec from our StorageAccountsBlobServices_Spec
+func (services *StorageAccountsBlobServices_Spec) AssignPropertiesToStorageAccountsBlobServicesSpec(destination *v1beta20210401storage.StorageAccountsBlobServices_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(services.PropertyBag)
+
+	// AutomaticSnapshotPolicyEnabled
+	if services.AutomaticSnapshotPolicyEnabled != nil {
+		automaticSnapshotPolicyEnabled := *services.AutomaticSnapshotPolicyEnabled
+		destination.AutomaticSnapshotPolicyEnabled = &automaticSnapshotPolicyEnabled
+	} else {
+		destination.AutomaticSnapshotPolicyEnabled = nil
+	}
+
+	// ChangeFeed
+	if services.ChangeFeed != nil {
+		var changeFeed v1beta20210401storage.ChangeFeed
+		err := services.ChangeFeed.AssignPropertiesToChangeFeed(&changeFeed)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToChangeFeed() to populate field ChangeFeed")
+		}
+		destination.ChangeFeed = &changeFeed
+	} else {
+		destination.ChangeFeed = nil
+	}
+
+	// ContainerDeleteRetentionPolicy
+	if services.ContainerDeleteRetentionPolicy != nil {
+		var containerDeleteRetentionPolicy v1beta20210401storage.DeleteRetentionPolicy
+		err := services.ContainerDeleteRetentionPolicy.AssignPropertiesToDeleteRetentionPolicy(&containerDeleteRetentionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDeleteRetentionPolicy() to populate field ContainerDeleteRetentionPolicy")
+		}
+		destination.ContainerDeleteRetentionPolicy = &containerDeleteRetentionPolicy
+	} else {
+		destination.ContainerDeleteRetentionPolicy = nil
+	}
+
+	// Cors
+	if services.Cors != nil {
+		var cor v1beta20210401storage.CorsRules
+		err := services.Cors.AssignPropertiesToCorsRules(&cor)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToCorsRules() to populate field Cors")
+		}
+		destination.Cors = &cor
+	} else {
+		destination.Cors = nil
+	}
+
+	// DefaultServiceVersion
+	destination.DefaultServiceVersion = genruntime.ClonePointerToString(services.DefaultServiceVersion)
+
+	// DeleteRetentionPolicy
+	if services.DeleteRetentionPolicy != nil {
+		var deleteRetentionPolicy v1beta20210401storage.DeleteRetentionPolicy
+		err := services.DeleteRetentionPolicy.AssignPropertiesToDeleteRetentionPolicy(&deleteRetentionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDeleteRetentionPolicy() to populate field DeleteRetentionPolicy")
+		}
+		destination.DeleteRetentionPolicy = &deleteRetentionPolicy
+	} else {
+		destination.DeleteRetentionPolicy = nil
+	}
+
+	// IsVersioningEnabled
+	if services.IsVersioningEnabled != nil {
+		isVersioningEnabled := *services.IsVersioningEnabled
+		destination.IsVersioningEnabled = &isVersioningEnabled
+	} else {
+		destination.IsVersioningEnabled = nil
+	}
+
+	// LastAccessTimeTrackingPolicy
+	if services.LastAccessTimeTrackingPolicy != nil {
+		var lastAccessTimeTrackingPolicy v1beta20210401storage.LastAccessTimeTrackingPolicy
+		err := services.LastAccessTimeTrackingPolicy.AssignPropertiesToLastAccessTimeTrackingPolicy(&lastAccessTimeTrackingPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToLastAccessTimeTrackingPolicy() to populate field LastAccessTimeTrackingPolicy")
+		}
+		destination.LastAccessTimeTrackingPolicy = &lastAccessTimeTrackingPolicy
+	} else {
+		destination.LastAccessTimeTrackingPolicy = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(services.Location)
+
+	// OriginalVersion
+	destination.OriginalVersion = services.OriginalVersion
+
+	// Owner
+	if services.Owner != nil {
+		owner := services.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// RestorePolicy
+	if services.RestorePolicy != nil {
+		var restorePolicy v1beta20210401storage.RestorePolicyProperties
+		err := services.RestorePolicy.AssignPropertiesToRestorePolicyProperties(&restorePolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToRestorePolicyProperties() to populate field RestorePolicy")
+		}
+		destination.RestorePolicy = &restorePolicy
+	} else {
+		destination.RestorePolicy = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(services.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 //Storage version of v1alpha1api20210401.ChangeFeed
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ChangeFeed
+//Deprecated version of ChangeFeed. Use v1beta20210401.ChangeFeed instead
 type ChangeFeed struct {
 	Enabled         *bool                  `json:"enabled,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RetentionInDays *int                   `json:"retentionInDays,omitempty"`
 }
 
+// AssignPropertiesFromChangeFeed populates our ChangeFeed from the provided source ChangeFeed
+func (feed *ChangeFeed) AssignPropertiesFromChangeFeed(source *v1beta20210401storage.ChangeFeed) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		feed.Enabled = &enabled
+	} else {
+		feed.Enabled = nil
+	}
+
+	// RetentionInDays
+	feed.RetentionInDays = genruntime.ClonePointerToInt(source.RetentionInDays)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		feed.PropertyBag = propertyBag
+	} else {
+		feed.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToChangeFeed populates the provided destination ChangeFeed from our ChangeFeed
+func (feed *ChangeFeed) AssignPropertiesToChangeFeed(destination *v1beta20210401storage.ChangeFeed) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(feed.PropertyBag)
+
+	// Enabled
+	if feed.Enabled != nil {
+		enabled := *feed.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// RetentionInDays
+	destination.RetentionInDays = genruntime.ClonePointerToInt(feed.RetentionInDays)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.ChangeFeed_Status
+//Deprecated version of ChangeFeed_Status. Use v1beta20210401.ChangeFeed_Status instead
 type ChangeFeed_Status struct {
 	Enabled         *bool                  `json:"enabled,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RetentionInDays *int                   `json:"retentionInDays,omitempty"`
 }
 
+// AssignPropertiesFromChangeFeedStatus populates our ChangeFeed_Status from the provided source ChangeFeed_Status
+func (feed *ChangeFeed_Status) AssignPropertiesFromChangeFeedStatus(source *v1beta20210401storage.ChangeFeed_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		feed.Enabled = &enabled
+	} else {
+		feed.Enabled = nil
+	}
+
+	// RetentionInDays
+	feed.RetentionInDays = genruntime.ClonePointerToInt(source.RetentionInDays)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		feed.PropertyBag = propertyBag
+	} else {
+		feed.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToChangeFeedStatus populates the provided destination ChangeFeed_Status from our ChangeFeed_Status
+func (feed *ChangeFeed_Status) AssignPropertiesToChangeFeedStatus(destination *v1beta20210401storage.ChangeFeed_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(feed.PropertyBag)
+
+	// Enabled
+	if feed.Enabled != nil {
+		enabled := *feed.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// RetentionInDays
+	destination.RetentionInDays = genruntime.ClonePointerToInt(feed.RetentionInDays)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.CorsRules
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CorsRules
+//Deprecated version of CorsRules. Use v1beta20210401.CorsRules instead
 type CorsRules struct {
 	CorsRules   []CorsRule             `json:"corsRules,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromCorsRules populates our CorsRules from the provided source CorsRules
+func (rules *CorsRules) AssignPropertiesFromCorsRules(source *v1beta20210401storage.CorsRules) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// CorsRules
+	if source.CorsRules != nil {
+		corsRuleList := make([]CorsRule, len(source.CorsRules))
+		for corsRuleIndex, corsRuleItem := range source.CorsRules {
+			// Shadow the loop variable to avoid aliasing
+			corsRuleItem := corsRuleItem
+			var corsRule CorsRule
+			err := corsRule.AssignPropertiesFromCorsRule(&corsRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromCorsRule() to populate field CorsRules")
+			}
+			corsRuleList[corsRuleIndex] = corsRule
+		}
+		rules.CorsRules = corsRuleList
+	} else {
+		rules.CorsRules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rules.PropertyBag = propertyBag
+	} else {
+		rules.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToCorsRules populates the provided destination CorsRules from our CorsRules
+func (rules *CorsRules) AssignPropertiesToCorsRules(destination *v1beta20210401storage.CorsRules) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rules.PropertyBag)
+
+	// CorsRules
+	if rules.CorsRules != nil {
+		corsRuleList := make([]v1beta20210401storage.CorsRule, len(rules.CorsRules))
+		for corsRuleIndex, corsRuleItem := range rules.CorsRules {
+			// Shadow the loop variable to avoid aliasing
+			corsRuleItem := corsRuleItem
+			var corsRule v1beta20210401storage.CorsRule
+			err := corsRuleItem.AssignPropertiesToCorsRule(&corsRule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToCorsRule() to populate field CorsRules")
+			}
+			corsRuleList[corsRuleIndex] = corsRule
+		}
+		destination.CorsRules = corsRuleList
+	} else {
+		destination.CorsRules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.CorsRules_Status
+//Deprecated version of CorsRules_Status. Use v1beta20210401.CorsRules_Status instead
 type CorsRules_Status struct {
 	CorsRules   []CorsRule_Status      `json:"corsRules,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromCorsRulesStatus populates our CorsRules_Status from the provided source CorsRules_Status
+func (rules *CorsRules_Status) AssignPropertiesFromCorsRulesStatus(source *v1beta20210401storage.CorsRules_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// CorsRules
+	if source.CorsRules != nil {
+		corsRuleList := make([]CorsRule_Status, len(source.CorsRules))
+		for corsRuleIndex, corsRuleItem := range source.CorsRules {
+			// Shadow the loop variable to avoid aliasing
+			corsRuleItem := corsRuleItem
+			var corsRule CorsRule_Status
+			err := corsRule.AssignPropertiesFromCorsRuleStatus(&corsRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromCorsRuleStatus() to populate field CorsRules")
+			}
+			corsRuleList[corsRuleIndex] = corsRule
+		}
+		rules.CorsRules = corsRuleList
+	} else {
+		rules.CorsRules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rules.PropertyBag = propertyBag
+	} else {
+		rules.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToCorsRulesStatus populates the provided destination CorsRules_Status from our CorsRules_Status
+func (rules *CorsRules_Status) AssignPropertiesToCorsRulesStatus(destination *v1beta20210401storage.CorsRules_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rules.PropertyBag)
+
+	// CorsRules
+	if rules.CorsRules != nil {
+		corsRuleList := make([]v1beta20210401storage.CorsRule_Status, len(rules.CorsRules))
+		for corsRuleIndex, corsRuleItem := range rules.CorsRules {
+			// Shadow the loop variable to avoid aliasing
+			corsRuleItem := corsRuleItem
+			var corsRule v1beta20210401storage.CorsRule_Status
+			err := corsRuleItem.AssignPropertiesToCorsRuleStatus(&corsRule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToCorsRuleStatus() to populate field CorsRules")
+			}
+			corsRuleList[corsRuleIndex] = corsRule
+		}
+		destination.CorsRules = corsRuleList
+	} else {
+		destination.CorsRules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.DeleteRetentionPolicy
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DeleteRetentionPolicy
+//Deprecated version of DeleteRetentionPolicy. Use v1beta20210401.DeleteRetentionPolicy instead
 type DeleteRetentionPolicy struct {
 	Days        *int                   `json:"days,omitempty"`
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromDeleteRetentionPolicy populates our DeleteRetentionPolicy from the provided source DeleteRetentionPolicy
+func (policy *DeleteRetentionPolicy) AssignPropertiesFromDeleteRetentionPolicy(source *v1beta20210401storage.DeleteRetentionPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Days
+	policy.Days = genruntime.ClonePointerToInt(source.Days)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		policy.Enabled = &enabled
+	} else {
+		policy.Enabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDeleteRetentionPolicy populates the provided destination DeleteRetentionPolicy from our DeleteRetentionPolicy
+func (policy *DeleteRetentionPolicy) AssignPropertiesToDeleteRetentionPolicy(destination *v1beta20210401storage.DeleteRetentionPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// Days
+	destination.Days = genruntime.ClonePointerToInt(policy.Days)
+
+	// Enabled
+	if policy.Enabled != nil {
+		enabled := *policy.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.DeleteRetentionPolicy_Status
+//Deprecated version of DeleteRetentionPolicy_Status. Use v1beta20210401.DeleteRetentionPolicy_Status instead
 type DeleteRetentionPolicy_Status struct {
 	Days        *int                   `json:"days,omitempty"`
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromDeleteRetentionPolicyStatus populates our DeleteRetentionPolicy_Status from the provided source DeleteRetentionPolicy_Status
+func (policy *DeleteRetentionPolicy_Status) AssignPropertiesFromDeleteRetentionPolicyStatus(source *v1beta20210401storage.DeleteRetentionPolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Days
+	policy.Days = genruntime.ClonePointerToInt(source.Days)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		policy.Enabled = &enabled
+	} else {
+		policy.Enabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDeleteRetentionPolicyStatus populates the provided destination DeleteRetentionPolicy_Status from our DeleteRetentionPolicy_Status
+func (policy *DeleteRetentionPolicy_Status) AssignPropertiesToDeleteRetentionPolicyStatus(destination *v1beta20210401storage.DeleteRetentionPolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// Days
+	destination.Days = genruntime.ClonePointerToInt(policy.Days)
+
+	// Enabled
+	if policy.Enabled != nil {
+		enabled := *policy.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.LastAccessTimeTrackingPolicy
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/LastAccessTimeTrackingPolicy
+//Deprecated version of LastAccessTimeTrackingPolicy. Use v1beta20210401.LastAccessTimeTrackingPolicy instead
 type LastAccessTimeTrackingPolicy struct {
 	BlobType                  []string               `json:"blobType,omitempty"`
 	Enable                    *bool                  `json:"enable,omitempty"`
@@ -264,7 +1260,74 @@ type LastAccessTimeTrackingPolicy struct {
 	TrackingGranularityInDays *int                   `json:"trackingGranularityInDays,omitempty"`
 }
 
+// AssignPropertiesFromLastAccessTimeTrackingPolicy populates our LastAccessTimeTrackingPolicy from the provided source LastAccessTimeTrackingPolicy
+func (policy *LastAccessTimeTrackingPolicy) AssignPropertiesFromLastAccessTimeTrackingPolicy(source *v1beta20210401storage.LastAccessTimeTrackingPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// BlobType
+	policy.BlobType = genruntime.CloneSliceOfString(source.BlobType)
+
+	// Enable
+	if source.Enable != nil {
+		enable := *source.Enable
+		policy.Enable = &enable
+	} else {
+		policy.Enable = nil
+	}
+
+	// Name
+	policy.Name = genruntime.ClonePointerToString(source.Name)
+
+	// TrackingGranularityInDays
+	policy.TrackingGranularityInDays = genruntime.ClonePointerToInt(source.TrackingGranularityInDays)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToLastAccessTimeTrackingPolicy populates the provided destination LastAccessTimeTrackingPolicy from our LastAccessTimeTrackingPolicy
+func (policy *LastAccessTimeTrackingPolicy) AssignPropertiesToLastAccessTimeTrackingPolicy(destination *v1beta20210401storage.LastAccessTimeTrackingPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// BlobType
+	destination.BlobType = genruntime.CloneSliceOfString(policy.BlobType)
+
+	// Enable
+	if policy.Enable != nil {
+		enable := *policy.Enable
+		destination.Enable = &enable
+	} else {
+		destination.Enable = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(policy.Name)
+
+	// TrackingGranularityInDays
+	destination.TrackingGranularityInDays = genruntime.ClonePointerToInt(policy.TrackingGranularityInDays)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.LastAccessTimeTrackingPolicy_Status
+//Deprecated version of LastAccessTimeTrackingPolicy_Status. Use v1beta20210401.LastAccessTimeTrackingPolicy_Status instead
 type LastAccessTimeTrackingPolicy_Status struct {
 	BlobType                  []string               `json:"blobType,omitempty"`
 	Enable                    *bool                  `json:"enable,omitempty"`
@@ -273,15 +1336,136 @@ type LastAccessTimeTrackingPolicy_Status struct {
 	TrackingGranularityInDays *int                   `json:"trackingGranularityInDays,omitempty"`
 }
 
+// AssignPropertiesFromLastAccessTimeTrackingPolicyStatus populates our LastAccessTimeTrackingPolicy_Status from the provided source LastAccessTimeTrackingPolicy_Status
+func (policy *LastAccessTimeTrackingPolicy_Status) AssignPropertiesFromLastAccessTimeTrackingPolicyStatus(source *v1beta20210401storage.LastAccessTimeTrackingPolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// BlobType
+	policy.BlobType = genruntime.CloneSliceOfString(source.BlobType)
+
+	// Enable
+	if source.Enable != nil {
+		enable := *source.Enable
+		policy.Enable = &enable
+	} else {
+		policy.Enable = nil
+	}
+
+	// Name
+	policy.Name = genruntime.ClonePointerToString(source.Name)
+
+	// TrackingGranularityInDays
+	policy.TrackingGranularityInDays = genruntime.ClonePointerToInt(source.TrackingGranularityInDays)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToLastAccessTimeTrackingPolicyStatus populates the provided destination LastAccessTimeTrackingPolicy_Status from our LastAccessTimeTrackingPolicy_Status
+func (policy *LastAccessTimeTrackingPolicy_Status) AssignPropertiesToLastAccessTimeTrackingPolicyStatus(destination *v1beta20210401storage.LastAccessTimeTrackingPolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// BlobType
+	destination.BlobType = genruntime.CloneSliceOfString(policy.BlobType)
+
+	// Enable
+	if policy.Enable != nil {
+		enable := *policy.Enable
+		destination.Enable = &enable
+	} else {
+		destination.Enable = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(policy.Name)
+
+	// TrackingGranularityInDays
+	destination.TrackingGranularityInDays = genruntime.ClonePointerToInt(policy.TrackingGranularityInDays)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.RestorePolicyProperties
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/RestorePolicyProperties
+//Deprecated version of RestorePolicyProperties. Use v1beta20210401.RestorePolicyProperties instead
 type RestorePolicyProperties struct {
 	Days        *int                   `json:"days,omitempty"`
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromRestorePolicyProperties populates our RestorePolicyProperties from the provided source RestorePolicyProperties
+func (properties *RestorePolicyProperties) AssignPropertiesFromRestorePolicyProperties(source *v1beta20210401storage.RestorePolicyProperties) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Days
+	properties.Days = genruntime.ClonePointerToInt(source.Days)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		properties.Enabled = &enabled
+	} else {
+		properties.Enabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToRestorePolicyProperties populates the provided destination RestorePolicyProperties from our RestorePolicyProperties
+func (properties *RestorePolicyProperties) AssignPropertiesToRestorePolicyProperties(destination *v1beta20210401storage.RestorePolicyProperties) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// Days
+	destination.Days = genruntime.ClonePointerToInt(properties.Days)
+
+	// Enabled
+	if properties.Enabled != nil {
+		enabled := *properties.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.RestorePolicyProperties_Status
+//Deprecated version of RestorePolicyProperties_Status. Use v1beta20210401.RestorePolicyProperties_Status instead
 type RestorePolicyProperties_Status struct {
 	Days            *int                   `json:"days,omitempty"`
 	Enabled         *bool                  `json:"enabled,omitempty"`
@@ -290,8 +1474,74 @@ type RestorePolicyProperties_Status struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromRestorePolicyPropertiesStatus populates our RestorePolicyProperties_Status from the provided source RestorePolicyProperties_Status
+func (properties *RestorePolicyProperties_Status) AssignPropertiesFromRestorePolicyPropertiesStatus(source *v1beta20210401storage.RestorePolicyProperties_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Days
+	properties.Days = genruntime.ClonePointerToInt(source.Days)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		properties.Enabled = &enabled
+	} else {
+		properties.Enabled = nil
+	}
+
+	// LastEnabledTime
+	properties.LastEnabledTime = genruntime.ClonePointerToString(source.LastEnabledTime)
+
+	// MinRestoreTime
+	properties.MinRestoreTime = genruntime.ClonePointerToString(source.MinRestoreTime)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToRestorePolicyPropertiesStatus populates the provided destination RestorePolicyProperties_Status from our RestorePolicyProperties_Status
+func (properties *RestorePolicyProperties_Status) AssignPropertiesToRestorePolicyPropertiesStatus(destination *v1beta20210401storage.RestorePolicyProperties_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// Days
+	destination.Days = genruntime.ClonePointerToInt(properties.Days)
+
+	// Enabled
+	if properties.Enabled != nil {
+		enabled := *properties.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// LastEnabledTime
+	destination.LastEnabledTime = genruntime.ClonePointerToString(properties.LastEnabledTime)
+
+	// MinRestoreTime
+	destination.MinRestoreTime = genruntime.ClonePointerToString(properties.MinRestoreTime)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.CorsRule
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CorsRule
+//Deprecated version of CorsRule. Use v1beta20210401.CorsRule instead
 type CorsRule struct {
 	AllowedHeaders  []string               `json:"allowedHeaders,omitempty"`
 	AllowedMethods  []string               `json:"allowedMethods,omitempty"`
@@ -301,7 +1551,70 @@ type CorsRule struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromCorsRule populates our CorsRule from the provided source CorsRule
+func (rule *CorsRule) AssignPropertiesFromCorsRule(source *v1beta20210401storage.CorsRule) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AllowedHeaders
+	rule.AllowedHeaders = genruntime.CloneSliceOfString(source.AllowedHeaders)
+
+	// AllowedMethods
+	rule.AllowedMethods = genruntime.CloneSliceOfString(source.AllowedMethods)
+
+	// AllowedOrigins
+	rule.AllowedOrigins = genruntime.CloneSliceOfString(source.AllowedOrigins)
+
+	// ExposedHeaders
+	rule.ExposedHeaders = genruntime.CloneSliceOfString(source.ExposedHeaders)
+
+	// MaxAgeInSeconds
+	rule.MaxAgeInSeconds = genruntime.ClonePointerToInt(source.MaxAgeInSeconds)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToCorsRule populates the provided destination CorsRule from our CorsRule
+func (rule *CorsRule) AssignPropertiesToCorsRule(destination *v1beta20210401storage.CorsRule) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// AllowedHeaders
+	destination.AllowedHeaders = genruntime.CloneSliceOfString(rule.AllowedHeaders)
+
+	// AllowedMethods
+	destination.AllowedMethods = genruntime.CloneSliceOfString(rule.AllowedMethods)
+
+	// AllowedOrigins
+	destination.AllowedOrigins = genruntime.CloneSliceOfString(rule.AllowedOrigins)
+
+	// ExposedHeaders
+	destination.ExposedHeaders = genruntime.CloneSliceOfString(rule.ExposedHeaders)
+
+	// MaxAgeInSeconds
+	destination.MaxAgeInSeconds = genruntime.ClonePointerToInt(rule.MaxAgeInSeconds)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.CorsRule_Status
+//Deprecated version of CorsRule_Status. Use v1beta20210401.CorsRule_Status instead
 type CorsRule_Status struct {
 	AllowedHeaders  []string               `json:"allowedHeaders,omitempty"`
 	AllowedMethods  []string               `json:"allowedMethods,omitempty"`
@@ -309,6 +1622,68 @@ type CorsRule_Status struct {
 	ExposedHeaders  []string               `json:"exposedHeaders,omitempty"`
 	MaxAgeInSeconds *int                   `json:"maxAgeInSeconds,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromCorsRuleStatus populates our CorsRule_Status from the provided source CorsRule_Status
+func (rule *CorsRule_Status) AssignPropertiesFromCorsRuleStatus(source *v1beta20210401storage.CorsRule_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AllowedHeaders
+	rule.AllowedHeaders = genruntime.CloneSliceOfString(source.AllowedHeaders)
+
+	// AllowedMethods
+	rule.AllowedMethods = genruntime.CloneSliceOfString(source.AllowedMethods)
+
+	// AllowedOrigins
+	rule.AllowedOrigins = genruntime.CloneSliceOfString(source.AllowedOrigins)
+
+	// ExposedHeaders
+	rule.ExposedHeaders = genruntime.CloneSliceOfString(source.ExposedHeaders)
+
+	// MaxAgeInSeconds
+	rule.MaxAgeInSeconds = genruntime.ClonePointerToInt(source.MaxAgeInSeconds)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToCorsRuleStatus populates the provided destination CorsRule_Status from our CorsRule_Status
+func (rule *CorsRule_Status) AssignPropertiesToCorsRuleStatus(destination *v1beta20210401storage.CorsRule_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// AllowedHeaders
+	destination.AllowedHeaders = genruntime.CloneSliceOfString(rule.AllowedHeaders)
+
+	// AllowedMethods
+	destination.AllowedMethods = genruntime.CloneSliceOfString(rule.AllowedMethods)
+
+	// AllowedOrigins
+	destination.AllowedOrigins = genruntime.CloneSliceOfString(rule.AllowedOrigins)
+
+	// ExposedHeaders
+	destination.ExposedHeaders = genruntime.CloneSliceOfString(rule.ExposedHeaders)
+
+	// MaxAgeInSeconds
+	destination.MaxAgeInSeconds = genruntime.ClonePointerToInt(rule.MaxAgeInSeconds)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 func init() {

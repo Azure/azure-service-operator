@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/resourceDefinitions/domains
+//Deprecated version of Domain. Use v1beta20200601.Domain instead
 type Domain struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -48,22 +48,36 @@ var _ conversion.Convertible = &Domain{}
 
 // ConvertFrom populates our Domain from the provided hub Domain
 func (domain *Domain) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20200601storage.Domain)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v1alpha1api20200601storage/Domain but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20200601storage.Domain
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return domain.AssignPropertiesFromDomain(source)
+	err = domain.AssignPropertiesFromDomain(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to domain")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Domain from our Domain
 func (domain *Domain) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20200601storage.Domain)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v1alpha1api20200601storage/Domain but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20200601storage.Domain
+	err := domain.AssignPropertiesToDomain(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from domain")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return domain.AssignPropertiesToDomain(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-eventgrid-azure-com-v1alpha1api20200601-domain,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventgrid.azure.com,resources=domains,verbs=create;update,versions=v1alpha1api20200601,name=default.v1alpha1api20200601.domains.eventgrid.azure.com,admissionReviewVersions=v1beta1
@@ -300,61 +314,31 @@ func (domain *Domain) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/resourceDefinitions/domains
+//Deprecated version of Domain. Use v1beta20200601.Domain instead
 type DomainList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Domain `json:"items"`
 }
 
+//Deprecated version of Domain_Status. Use v1beta20200601.Domain_Status instead
 type Domain_Status struct {
 	//Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	//Endpoint: Endpoint for the domain.
-	Endpoint *string `json:"endpoint,omitempty"`
-
-	//Id: Fully qualified identifier of the resource.
-	Id *string `json:"id,omitempty"`
-
-	//InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
-	//only if PublicNetworkAccess is enabled.
-	InboundIpRules []InboundIpRule_Status `json:"inboundIpRules,omitempty"`
-
-	//InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.
-	InputSchema *DomainPropertiesStatusInputSchema `json:"inputSchema,omitempty"`
-
-	//InputSchemaMapping: Information about the InputSchemaMapping which specified the info about mapping event payload.
-	InputSchemaMapping *InputSchemaMapping_Status `json:"inputSchemaMapping,omitempty"`
-
-	//Location: Location of the resource.
-	Location *string `json:"location,omitempty"`
-
-	//MetricResourceId: Metric resource id for the domain.
-	MetricResourceId *string `json:"metricResourceId,omitempty"`
-
-	//Name: Name of the resource.
-	Name *string `json:"name,omitempty"`
-
-	//PrivateEndpointConnections: List of private endpoint connections.
+	Conditions                 []conditions.Condition                                        `json:"conditions,omitempty"`
+	Endpoint                   *string                                                       `json:"endpoint,omitempty"`
+	Id                         *string                                                       `json:"id,omitempty"`
+	InboundIpRules             []InboundIpRule_Status                                        `json:"inboundIpRules,omitempty"`
+	InputSchema                *DomainPropertiesStatusInputSchema                            `json:"inputSchema,omitempty"`
+	InputSchemaMapping         *InputSchemaMapping_Status                                    `json:"inputSchemaMapping,omitempty"`
+	Location                   *string                                                       `json:"location,omitempty"`
+	MetricResourceId           *string                                                       `json:"metricResourceId,omitempty"`
+	Name                       *string                                                       `json:"name,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_Domain_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-
-	//ProvisioningState: Provisioning state of the domain.
-	ProvisioningState *DomainPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
-
-	//PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
-	//You can further restrict to specific IPs by configuring <seealso
-	//cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />
-	PublicNetworkAccess *DomainPropertiesStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	//SystemData: The system metadata relating to Domain resource.
-	SystemData *SystemData_Status `json:"systemData,omitempty"`
-
-	//Tags: Tags of the resource.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Type of the resource.
-	Type *string `json:"type,omitempty"`
+	ProvisioningState          *DomainPropertiesStatusProvisioningState                      `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *DomainPropertiesStatusPublicNetworkAccess                    `json:"publicNetworkAccess,omitempty"`
+	SystemData                 *SystemData_Status                                            `json:"systemData,omitempty"`
+	Tags                       map[string]string                                             `json:"tags,omitempty"`
+	Type                       *string                                                       `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Domain_Status{}
@@ -794,44 +778,22 @@ func (domain *Domain_Status) AssignPropertiesToDomainStatus(destination *v1alpha
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type DomainsSpecAPIVersion string
-
-const DomainsSpecAPIVersion20200601 = DomainsSpecAPIVersion("2020-06-01")
-
 type Domains_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	//InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
-	//only if PublicNetworkAccess is enabled.
-	InboundIpRules []InboundIpRule `json:"inboundIpRules,omitempty"`
-
-	//InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.
-	InputSchema *DomainPropertiesInputSchema `json:"inputSchema,omitempty"`
-
-	//InputSchemaMapping: By default, Event Grid expects events to be in the Event Grid event schema. Specifying an input
-	//schema mapping enables publishing to Event Grid using a custom input schema. Currently, the only supported type of
-	//InputSchemaMapping is 'JsonInputSchemaMapping'.
-	InputSchemaMapping *JsonInputSchemaMapping `json:"inputSchemaMapping,omitempty"`
-
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
+	AzureName          string                       `json:"azureName,omitempty"`
+	InboundIpRules     []InboundIpRule              `json:"inboundIpRules,omitempty"`
+	InputSchema        *DomainPropertiesInputSchema `json:"inputSchema,omitempty"`
+	InputSchemaMapping *JsonInputSchemaMapping      `json:"inputSchemaMapping,omitempty"`
+	Location           *string                      `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	//PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
-	//You can further restrict to specific IPs by configuring <seealso
-	//cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />.
+	Owner               *genruntime.KnownResourceReference   `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PublicNetworkAccess *DomainPropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags                map[string]string                    `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Domains_Spec{}
@@ -1186,6 +1148,7 @@ func (domains *Domains_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (domains *Domains_Spec) SetAzureName(azureName string) { domains.AzureName = azureName }
 
+//Deprecated version of DomainPropertiesInputSchema. Use v1beta20200601.DomainPropertiesInputSchema instead
 // +kubebuilder:validation:Enum={"CloudEventSchemaV1_0","CustomEventSchema","EventGridSchema"}
 type DomainPropertiesInputSchema string
 
@@ -1195,6 +1158,7 @@ const (
 	DomainPropertiesInputSchemaEventGridSchema     = DomainPropertiesInputSchema("EventGridSchema")
 )
 
+//Deprecated version of DomainPropertiesPublicNetworkAccess. Use v1beta20200601.DomainPropertiesPublicNetworkAccess instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type DomainPropertiesPublicNetworkAccess string
 
@@ -1203,6 +1167,7 @@ const (
 	DomainPropertiesPublicNetworkAccessEnabled  = DomainPropertiesPublicNetworkAccess("Enabled")
 )
 
+//Deprecated version of DomainPropertiesStatusInputSchema. Use v1beta20200601.DomainPropertiesStatusInputSchema instead
 type DomainPropertiesStatusInputSchema string
 
 const (
@@ -1211,6 +1176,8 @@ const (
 	DomainPropertiesStatusInputSchemaEventGridSchema     = DomainPropertiesStatusInputSchema("EventGridSchema")
 )
 
+//Deprecated version of DomainPropertiesStatusProvisioningState. Use
+//v1beta20200601.DomainPropertiesStatusProvisioningState instead
 type DomainPropertiesStatusProvisioningState string
 
 const (
@@ -1222,6 +1189,8 @@ const (
 	DomainPropertiesStatusProvisioningStateUpdating  = DomainPropertiesStatusProvisioningState("Updating")
 )
 
+//Deprecated version of DomainPropertiesStatusPublicNetworkAccess. Use
+//v1beta20200601.DomainPropertiesStatusPublicNetworkAccess instead
 type DomainPropertiesStatusPublicNetworkAccess string
 
 const (
@@ -1229,13 +1198,10 @@ const (
 	DomainPropertiesStatusPublicNetworkAccessEnabled  = DomainPropertiesStatusPublicNetworkAccess("Enabled")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/InboundIpRule
+//Deprecated version of InboundIpRule. Use v1beta20200601.InboundIpRule instead
 type InboundIpRule struct {
-	//Action: Action to perform based on the match or no match of the IpMask.
 	Action *InboundIpRuleAction `json:"action,omitempty"`
-
-	//IpMask: IP Address in CIDR notation e.g., 10.0.0.0/8.
-	IpMask *string `json:"ipMask,omitempty"`
+	IpMask *string              `json:"ipMask,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &InboundIpRule{}
@@ -1334,12 +1300,10 @@ func (rule *InboundIpRule) AssignPropertiesToInboundIpRule(destination *v1alpha1
 	return nil
 }
 
+//Deprecated version of InboundIpRule_Status. Use v1beta20200601.InboundIpRule_Status instead
 type InboundIpRule_Status struct {
-	//Action: Action to perform based on the match or no match of the IpMask.
 	Action *InboundIpRuleStatusAction `json:"action,omitempty"`
-
-	//IpMask: IP Address in CIDR notation e.g., 10.0.0.0/8.
-	IpMask *string `json:"ipMask,omitempty"`
+	IpMask *string                    `json:"ipMask,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &InboundIpRule_Status{}
@@ -1417,8 +1381,8 @@ func (rule *InboundIpRule_Status) AssignPropertiesToInboundIpRuleStatus(destinat
 	return nil
 }
 
+//Deprecated version of InputSchemaMapping_Status. Use v1beta20200601.InputSchemaMapping_Status instead
 type InputSchemaMapping_Status struct {
-	//InputSchemaMappingType: Type of the custom mapping
 	InputSchemaMappingType *InputSchemaMappingStatusInputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
 }
 
@@ -1485,14 +1449,11 @@ func (mapping *InputSchemaMapping_Status) AssignPropertiesToInputSchemaMappingSt
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonInputSchemaMapping
+//Deprecated version of JsonInputSchemaMapping. Use v1beta20200601.JsonInputSchemaMapping instead
 type JsonInputSchemaMapping struct {
 	// +kubebuilder:validation:Required
 	InputSchemaMappingType *JsonInputSchemaMappingInputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
-
-	//Properties: This can be used to map properties of a source schema (or default values, for certain supported properties)
-	//to properties of the EventGridEvent schema.
-	Properties *JsonInputSchemaMappingProperties `json:"properties,omitempty"`
+	Properties             *JsonInputSchemaMappingProperties             `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &JsonInputSchemaMapping{}
@@ -1618,8 +1579,8 @@ func (mapping *JsonInputSchemaMapping) AssignPropertiesToJsonInputSchemaMapping(
 	return nil
 }
 
+//Deprecated version of PrivateEndpointConnection_Status_Domain_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_Domain_SubResourceEmbedded struct {
-	//Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -1676,23 +1637,13 @@ func (embedded *PrivateEndpointConnection_Status_Domain_SubResourceEmbedded) Ass
 	return nil
 }
 
+//Deprecated version of SystemData_Status. Use v1beta20200601.SystemData_Status instead
 type SystemData_Status struct {
-	//CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	//CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	//CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemDataStatusCreatedByType `json:"createdByType,omitempty"`
-
-	//LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	//LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	//LastModifiedByType: The type of identity that last modified the resource.
+	CreatedAt          *string                             `json:"createdAt,omitempty"`
+	CreatedBy          *string                             `json:"createdBy,omitempty"`
+	CreatedByType      *SystemDataStatusCreatedByType      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                             `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                             `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
@@ -1829,58 +1780,38 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v
 	return nil
 }
 
+//Deprecated version of InboundIpRuleAction. Use v1beta20200601.InboundIpRuleAction instead
 // +kubebuilder:validation:Enum={"Allow"}
 type InboundIpRuleAction string
 
 const InboundIpRuleActionAllow = InboundIpRuleAction("Allow")
 
+//Deprecated version of InboundIpRuleStatusAction. Use v1beta20200601.InboundIpRuleStatusAction instead
 type InboundIpRuleStatusAction string
 
 const InboundIpRuleStatusActionAllow = InboundIpRuleStatusAction("Allow")
 
+//Deprecated version of InputSchemaMappingStatusInputSchemaMappingType. Use
+//v1beta20200601.InputSchemaMappingStatusInputSchemaMappingType instead
 type InputSchemaMappingStatusInputSchemaMappingType string
 
 const InputSchemaMappingStatusInputSchemaMappingTypeJson = InputSchemaMappingStatusInputSchemaMappingType("Json")
 
+//Deprecated version of JsonInputSchemaMappingInputSchemaMappingType. Use
+//v1beta20200601.JsonInputSchemaMappingInputSchemaMappingType instead
 // +kubebuilder:validation:Enum={"Json"}
 type JsonInputSchemaMappingInputSchemaMappingType string
 
 const JsonInputSchemaMappingInputSchemaMappingTypeJson = JsonInputSchemaMappingInputSchemaMappingType("Json")
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonInputSchemaMappingProperties
+//Deprecated version of JsonInputSchemaMappingProperties. Use v1beta20200601.JsonInputSchemaMappingProperties instead
 type JsonInputSchemaMappingProperties struct {
-	//DataVersion: This is used to express the source of an input schema mapping for a single target field
-	//in the Event Grid Event schema. This is currently used in the mappings for the 'subject',
-	//'eventtype' and 'dataversion' properties. This represents a field in the input event schema
-	//along with a default value to be used, and at least one of these two properties should be provided.
 	DataVersion *JsonFieldWithDefault `json:"dataVersion,omitempty"`
-
-	//EventTime: This is used to express the source of an input schema mapping for a single target field in the Event Grid
-	//Event schema. This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a
-	//field in the input event schema.
-	EventTime *JsonField `json:"eventTime,omitempty"`
-
-	//EventType: This is used to express the source of an input schema mapping for a single target field
-	//in the Event Grid Event schema. This is currently used in the mappings for the 'subject',
-	//'eventtype' and 'dataversion' properties. This represents a field in the input event schema
-	//along with a default value to be used, and at least one of these two properties should be provided.
-	EventType *JsonFieldWithDefault `json:"eventType,omitempty"`
-
-	//Id: This is used to express the source of an input schema mapping for a single target field in the Event Grid Event
-	//schema. This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a field
-	//in the input event schema.
-	Id *JsonField `json:"id,omitempty"`
-
-	//Subject: This is used to express the source of an input schema mapping for a single target field
-	//in the Event Grid Event schema. This is currently used in the mappings for the 'subject',
-	//'eventtype' and 'dataversion' properties. This represents a field in the input event schema
-	//along with a default value to be used, and at least one of these two properties should be provided.
-	Subject *JsonFieldWithDefault `json:"subject,omitempty"`
-
-	//Topic: This is used to express the source of an input schema mapping for a single target field in the Event Grid Event
-	//schema. This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a field
-	//in the input event schema.
-	Topic *JsonField `json:"topic,omitempty"`
+	EventTime   *JsonField            `json:"eventTime,omitempty"`
+	EventType   *JsonFieldWithDefault `json:"eventType,omitempty"`
+	Id          *JsonField            `json:"id,omitempty"`
+	Subject     *JsonFieldWithDefault `json:"subject,omitempty"`
+	Topic       *JsonField            `json:"topic,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &JsonInputSchemaMappingProperties{}
@@ -2203,9 +2134,8 @@ func (properties *JsonInputSchemaMappingProperties) AssignPropertiesToJsonInputS
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonField
+//Deprecated version of JsonField. Use v1beta20200601.JsonField instead
 type JsonField struct {
-	//SourceField: Name of a field in the input event schema that's to be used as the source of a mapping.
 	SourceField *string `json:"sourceField,omitempty"`
 }
 
@@ -2277,14 +2207,10 @@ func (field *JsonField) AssignPropertiesToJsonField(destination *v1alpha1api2020
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonFieldWithDefault
+//Deprecated version of JsonFieldWithDefault. Use v1beta20200601.JsonFieldWithDefault instead
 type JsonFieldWithDefault struct {
-	//DefaultValue: The default value to be used for mapping when a SourceField is not provided or if there's no property with
-	//the specified name in the published JSON event payload.
 	DefaultValue *string `json:"defaultValue,omitempty"`
-
-	//SourceField: Name of a field in the input event schema that's to be used as the source of a mapping.
-	SourceField *string `json:"sourceField,omitempty"`
+	SourceField  *string `json:"sourceField,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &JsonFieldWithDefault{}

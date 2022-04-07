@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise
+//Deprecated version of RedisEnterprise. Use v1beta20210301.RedisEnterprise instead
 type RedisEnterprise struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -48,22 +48,36 @@ var _ conversion.Convertible = &RedisEnterprise{}
 
 // ConvertFrom populates our RedisEnterprise from the provided hub RedisEnterprise
 func (enterprise *RedisEnterprise) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20210301storage.RedisEnterprise)
-	if !ok {
-		return fmt.Errorf("expected cache/v1alpha1api20210301storage/RedisEnterprise but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20210301storage.RedisEnterprise
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return enterprise.AssignPropertiesFromRedisEnterprise(source)
+	err = enterprise.AssignPropertiesFromRedisEnterprise(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to enterprise")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisEnterprise from our RedisEnterprise
 func (enterprise *RedisEnterprise) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20210301storage.RedisEnterprise)
-	if !ok {
-		return fmt.Errorf("expected cache/v1alpha1api20210301storage/RedisEnterprise but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20210301storage.RedisEnterprise
+	err := enterprise.AssignPropertiesToRedisEnterprise(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from enterprise")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return enterprise.AssignPropertiesToRedisEnterprise(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-cache-azure-com-v1alpha1api20210301-redisenterprise,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redisenterprises,verbs=create;update,versions=v1alpha1api20210301,name=default.v1alpha1api20210301.redisenterprises.cache.azure.com,admissionReviewVersions=v1beta1
@@ -300,56 +314,30 @@ func (enterprise *RedisEnterprise) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise
+//Deprecated version of RedisEnterprise. Use v1beta20210301.RedisEnterprise instead
 type RedisEnterpriseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RedisEnterprise `json:"items"`
 }
 
+//Deprecated version of Cluster_Status. Use v1beta20210301.Cluster_Status instead
 type Cluster_Status struct {
 	//Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	//HostName: DNS name of the cluster endpoint
-	HostName *string `json:"hostName,omitempty"`
-
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	//Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	//MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'
-	MinimumTlsVersion *ClusterPropertiesStatusMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
-
-	//Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	//PrivateEndpointConnections: List of private endpoint connections associated with the specified RedisEnterprise cluster
+	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
+	HostName                   *string                                                `json:"hostName,omitempty"`
+	Id                         *string                                                `json:"id,omitempty"`
+	Location                   *string                                                `json:"location,omitempty"`
+	MinimumTlsVersion          *ClusterPropertiesStatusMinimumTlsVersion              `json:"minimumTlsVersion,omitempty"`
+	Name                       *string                                                `json:"name,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-
-	//ProvisioningState: Current provisioning status of the cluster
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
-
-	//RedisVersion: Version of redis the cluster supports, e.g. '6'
-	RedisVersion *string `json:"redisVersion,omitempty"`
-
-	//ResourceState: Current resource status of the cluster
-	ResourceState *ResourceState_Status `json:"resourceState,omitempty"`
-
-	//Sku: The SKU to create, which affects price, performance, and features.
-	Sku *Sku_Status `json:"sku,omitempty"`
-
-	//Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
-
-	//Zones: The Availability Zones where this cluster will be deployed.
-	Zones []string `json:"zones,omitempty"`
+	ProvisioningState          *ProvisioningState_Status                              `json:"provisioningState,omitempty"`
+	RedisVersion               *string                                                `json:"redisVersion,omitempty"`
+	ResourceState              *ResourceState_Status                                  `json:"resourceState,omitempty"`
+	Sku                        *Sku_Status                                            `json:"sku,omitempty"`
+	Tags                       map[string]string                                      `json:"tags,omitempty"`
+	Type                       *string                                                `json:"type,omitempty"`
+	Zones                      []string                                               `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Cluster_Status{}
@@ -713,20 +701,11 @@ func (cluster *Cluster_Status) AssignPropertiesToClusterStatus(destination *v1al
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-03-01"}
-type RedisEnterpriseSpecAPIVersion string
-
-const RedisEnterpriseSpecAPIVersion20210301 = RedisEnterpriseSpecAPIVersion("2021-03-01")
-
 type RedisEnterprise_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	//Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	//MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'.
+	AzureName         string                              `json:"azureName,omitempty"`
+	Location          *string                             `json:"location,omitempty"`
 	MinimumTlsVersion *ClusterPropertiesMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -736,14 +715,9 @@ type RedisEnterprise_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// +kubebuilder:validation:Required
-	//Sku: SKU parameters supplied to the create RedisEnterprise operation.
-	Sku *Sku `json:"sku,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//Zones: The Availability Zones where this cluster will be deployed.
-	Zones []string `json:"zones,omitempty"`
+	Sku   *Sku              `json:"sku,omitempty"`
+	Tags  map[string]string `json:"tags,omitempty"`
+	Zones []string          `json:"zones,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RedisEnterprise_Spec{}
@@ -1027,6 +1001,7 @@ func (enterprise *RedisEnterprise_Spec) SetAzureName(azureName string) {
 	enterprise.AzureName = azureName
 }
 
+//Deprecated version of ClusterPropertiesMinimumTlsVersion. Use v1beta20210301.ClusterPropertiesMinimumTlsVersion instead
 // +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
 type ClusterPropertiesMinimumTlsVersion string
 
@@ -1036,9 +1011,8 @@ const (
 	ClusterPropertiesMinimumTlsVersion12 = ClusterPropertiesMinimumTlsVersion("1.2")
 )
 
+//Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210301.PrivateEndpointConnection_Status_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 }
 
@@ -1095,14 +1069,11 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Sku
+//Deprecated version of Sku. Use v1beta20210301.Sku instead
 type Sku struct {
-	//Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, ...)
-	//for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
 	Capacity *int `json:"capacity,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.).
 	Name *SkuName `json:"name,omitempty"`
 }
 
@@ -1202,13 +1173,10 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20210301storage.Sk
 	return nil
 }
 
+//Deprecated version of Sku_Status. Use v1beta20210301.Sku_Status instead
 type Sku_Status struct {
-	//Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, ...)
-	//for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
-	Capacity *int `json:"capacity,omitempty"`
-
-	//Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.)
-	Name *SkuStatusName `json:"name,omitempty"`
+	Capacity *int           `json:"capacity,omitempty"`
+	Name     *SkuStatusName `json:"name,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_Status{}

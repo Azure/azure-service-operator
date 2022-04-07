@@ -14,6 +14,7 @@ import (
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
@@ -25,7 +26,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
-	networkalphastorage "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101storage"
+	networkstorage "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	resourcesalpha "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
 	resourcesbeta "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
@@ -40,9 +41,12 @@ func GetKnownStorageTypes() []*registration.StorageType {
 		knownStorageTypes,
 		registration.NewStorageType(&resourcesbeta.ResourceGroup{}))
 
+	// Verify we're using the hub version of VirtualNetworksSubnet in the loop below
+	var _ conversion.Hub = &networkstorage.VirtualNetworksSubnet{}
+
 	// TODO: Modifying this list would be easier if it were a map
 	for _, t := range knownStorageTypes {
-		if _, ok := t.Obj.(*networkalphastorage.VirtualNetworksSubnet); ok {
+		if _, ok := t.Obj.(*networkstorage.VirtualNetworksSubnet); ok {
 			t.Indexes = append(t.Indexes, registration.Index{
 				Key:  ".metadata.ownerReferences[0]",
 				Func: indexOwner,

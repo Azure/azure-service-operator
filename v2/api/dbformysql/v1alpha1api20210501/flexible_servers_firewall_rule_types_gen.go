@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers_firewallRules
+//Deprecated version of FlexibleServersFirewallRule. Use v1beta20210501.FlexibleServersFirewallRule instead
 type FlexibleServersFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -48,22 +48,36 @@ var _ conversion.Convertible = &FlexibleServersFirewallRule{}
 
 // ConvertFrom populates our FlexibleServersFirewallRule from the provided hub FlexibleServersFirewallRule
 func (rule *FlexibleServersFirewallRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20210501storage.FlexibleServersFirewallRule)
-	if !ok {
-		return fmt.Errorf("expected dbformysql/v1alpha1api20210501storage/FlexibleServersFirewallRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20210501storage.FlexibleServersFirewallRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignPropertiesFromFlexibleServersFirewallRule(source)
+	err = rule.AssignPropertiesFromFlexibleServersFirewallRule(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FlexibleServersFirewallRule from our FlexibleServersFirewallRule
 func (rule *FlexibleServersFirewallRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20210501storage.FlexibleServersFirewallRule)
-	if !ok {
-		return fmt.Errorf("expected dbformysql/v1alpha1api20210501storage/FlexibleServersFirewallRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20210501storage.FlexibleServersFirewallRule
+	err := rule.AssignPropertiesToFlexibleServersFirewallRule(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignPropertiesToFlexibleServersFirewallRule(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-dbformysql-azure-com-v1alpha1api20210501-flexibleserversfirewallrule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=flexibleserversfirewallrules,verbs=create;update,versions=v1alpha1api20210501,name=default.v1alpha1api20210501.flexibleserversfirewallrules.dbformysql.azure.com,admissionReviewVersions=v1beta1
@@ -300,35 +314,23 @@ func (rule *FlexibleServersFirewallRule) OriginalGVK() *schema.GroupVersionKind 
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers_firewallRules
+//Deprecated version of FlexibleServersFirewallRule. Use v1beta20210501.FlexibleServersFirewallRule instead
 type FlexibleServersFirewallRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []FlexibleServersFirewallRule `json:"items"`
 }
 
+//Deprecated version of FirewallRule_Status. Use v1beta20210501.FirewallRule_Status instead
 type FirewallRule_Status struct {
 	//Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	//EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.
-	EndIpAddress *string `json:"endIpAddress,omitempty"`
-
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	//Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	//StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.
-	StartIpAddress *string `json:"startIpAddress,omitempty"`
-
-	//SystemData: The system metadata relating to this resource.
-	SystemData *SystemData_Status `json:"systemData,omitempty"`
-
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Conditions     []conditions.Condition `json:"conditions,omitempty"`
+	EndIpAddress   *string                `json:"endIpAddress,omitempty"`
+	Id             *string                `json:"id,omitempty"`
+	Name           *string                `json:"name,omitempty"`
+	StartIpAddress *string                `json:"startIpAddress,omitempty"`
+	SystemData     *SystemData_Status     `json:"systemData,omitempty"`
+	Type           *string                `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &FirewallRule_Status{}
@@ -531,11 +533,6 @@ func (rule *FirewallRule_Status) AssignPropertiesToFirewallRuleStatus(destinatio
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-05-01"}
-type FlexibleServersFirewallRulesSpecAPIVersion string
-
-const FlexibleServersFirewallRulesSpecAPIVersion20210501 = FlexibleServersFirewallRulesSpecAPIVersion("2021-05-01")
-
 type FlexibleServersFirewallRules_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
@@ -543,11 +540,8 @@ type FlexibleServersFirewallRules_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
-	//EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.
 	EndIpAddress *string `json:"endIpAddress,omitempty"`
-
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
+	Location     *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -557,11 +551,8 @@ type FlexibleServersFirewallRules_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
-	//StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.
-	StartIpAddress *string `json:"startIpAddress,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	StartIpAddress *string           `json:"startIpAddress,omitempty"`
+	Tags           map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &FlexibleServersFirewallRules_Spec{}

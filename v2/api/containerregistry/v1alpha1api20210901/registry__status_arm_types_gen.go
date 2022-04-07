@@ -3,132 +3,68 @@
 // Licensed under the MIT license.
 package v1alpha1api20210901
 
+//Deprecated version of Registry_Status. Use v1beta20210901.Registry_Status instead
 type Registry_StatusARM struct {
-	//Id: The resource ID.
-	Id *string `json:"id,omitempty"`
-
-	//Identity: The identity of the container registry.
-	Identity *IdentityProperties_StatusARM `json:"identity,omitempty"`
-
-	//Location: The location of the resource. This cannot be changed after the resource is created.
-	Location *string `json:"location,omitempty"`
-
-	//Name: The name of the resource.
-	Name *string `json:"name,omitempty"`
-
-	//Properties: The properties of the container registry.
+	Id         *string                       `json:"id,omitempty"`
+	Identity   *IdentityProperties_StatusARM `json:"identity,omitempty"`
+	Location   *string                       `json:"location,omitempty"`
+	Name       *string                       `json:"name,omitempty"`
 	Properties *RegistryProperties_StatusARM `json:"properties,omitempty"`
-
-	//Sku: The SKU of the container registry.
-	Sku *Sku_StatusARM `json:"sku,omitempty"`
-
-	//SystemData: Metadata pertaining to creation and last modification of the resource.
-	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
-
-	//Tags: The tags of the resource.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: The type of the resource.
-	Type *string `json:"type,omitempty"`
+	Sku        *Sku_StatusARM                `json:"sku,omitempty"`
+	SystemData *SystemData_StatusARM         `json:"systemData,omitempty"`
+	Tags       map[string]string             `json:"tags,omitempty"`
+	Type       *string                       `json:"type,omitempty"`
 }
 
+//Deprecated version of IdentityProperties_Status. Use v1beta20210901.IdentityProperties_Status instead
 type IdentityProperties_StatusARM struct {
-	//PrincipalId: The principal ID of resource identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	//TenantId: The tenant ID of resource.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	//Type: The identity type.
-	Type *IdentityPropertiesStatusType `json:"type,omitempty"`
-
-	//UserAssignedIdentities: The list of user identities associated with the resource. The user identity
-	//dictionary key references will be ARM resource ids in the form:
-	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
-	//providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+	PrincipalId            *string                                     `json:"principalId,omitempty"`
+	TenantId               *string                                     `json:"tenantId,omitempty"`
+	Type                   *IdentityPropertiesStatusType               `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserIdentityProperties_StatusARM `json:"userAssignedIdentities,omitempty"`
 }
 
+//Deprecated version of RegistryProperties_Status. Use v1beta20210901.RegistryProperties_Status instead
 type RegistryProperties_StatusARM struct {
-	//AdminUserEnabled: The value that indicates whether the admin user is enabled.
-	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
-
-	//CreationDate: The creation date of the container registry in ISO8601 format.
-	CreationDate *string `json:"creationDate,omitempty"`
-
-	//DataEndpointEnabled: Enable a single data endpoint per region for serving data.
-	DataEndpointEnabled *bool `json:"dataEndpointEnabled,omitempty"`
-
-	//DataEndpointHostNames: List of host names that will serve data when dataEndpointEnabled is true.
-	DataEndpointHostNames []string `json:"dataEndpointHostNames,omitempty"`
-
-	//Encryption: The encryption settings of container registry.
-	Encryption *EncryptionProperty_StatusARM `json:"encryption,omitempty"`
-
-	//LoginServer: The URL that can be used to log into the container registry.
-	LoginServer *string `json:"loginServer,omitempty"`
-
-	//NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.
-	NetworkRuleBypassOptions *RegistryPropertiesStatusNetworkRuleBypassOptions `json:"networkRuleBypassOptions,omitempty"`
-
-	//NetworkRuleSet: The network rule set for a container registry.
-	NetworkRuleSet *NetworkRuleSet_StatusARM `json:"networkRuleSet,omitempty"`
-
-	//Policies: The policies for a container registry.
-	Policies *Policies_StatusARM `json:"policies,omitempty"`
-
-	//PrivateEndpointConnections: List of private endpoint connections for a container registry.
+	AdminUserEnabled           *bool                                                     `json:"adminUserEnabled,omitempty"`
+	CreationDate               *string                                                   `json:"creationDate,omitempty"`
+	DataEndpointEnabled        *bool                                                     `json:"dataEndpointEnabled,omitempty"`
+	DataEndpointHostNames      []string                                                  `json:"dataEndpointHostNames,omitempty"`
+	Encryption                 *EncryptionProperty_StatusARM                             `json:"encryption,omitempty"`
+	LoginServer                *string                                                   `json:"loginServer,omitempty"`
+	NetworkRuleBypassOptions   *RegistryPropertiesStatusNetworkRuleBypassOptions         `json:"networkRuleBypassOptions,omitempty"`
+	NetworkRuleSet             *NetworkRuleSet_StatusARM                                 `json:"networkRuleSet,omitempty"`
+	Policies                   *Policies_StatusARM                                       `json:"policies,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-
-	//ProvisioningState: The provisioning state of the container registry at the time the operation was called.
-	ProvisioningState *RegistryPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
-
-	//PublicNetworkAccess: Whether or not public network access is allowed for the container registry.
-	PublicNetworkAccess *RegistryPropertiesStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	//Status: The status of the container registry at the time the operation was called.
-	Status *Status_StatusARM `json:"status,omitempty"`
-
-	//ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry
-	ZoneRedundancy *RegistryPropertiesStatusZoneRedundancy `json:"zoneRedundancy,omitempty"`
+	ProvisioningState          *RegistryPropertiesStatusProvisioningState                `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *RegistryPropertiesStatusPublicNetworkAccess              `json:"publicNetworkAccess,omitempty"`
+	Status                     *Status_StatusARM                                         `json:"status,omitempty"`
+	ZoneRedundancy             *RegistryPropertiesStatusZoneRedundancy                   `json:"zoneRedundancy,omitempty"`
 }
 
+//Deprecated version of Sku_Status. Use v1beta20210901.Sku_Status instead
 type Sku_StatusARM struct {
-	//Name: The SKU name of the container registry. Required for registry creation.
 	Name *SkuStatusName `json:"name,omitempty"`
-
-	//Tier: The SKU tier based on the SKU name.
 	Tier *SkuStatusTier `json:"tier,omitempty"`
 }
 
+//Deprecated version of SystemData_Status. Use v1beta20210901.SystemData_Status instead
 type SystemData_StatusARM struct {
-	//CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	//CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	//CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemDataStatusCreatedByType `json:"createdByType,omitempty"`
-
-	//LastModifiedAt: The timestamp of resource modification (UTC).
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	//LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	//LastModifiedByType: The type of identity that last modified the resource.
+	CreatedAt          *string                             `json:"createdAt,omitempty"`
+	CreatedBy          *string                             `json:"createdBy,omitempty"`
+	CreatedByType      *SystemDataStatusCreatedByType      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                             `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                             `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
+//Deprecated version of EncryptionProperty_Status. Use v1beta20210901.EncryptionProperty_Status instead
 type EncryptionProperty_StatusARM struct {
-	//KeyVaultProperties: Key vault properties.
-	KeyVaultProperties *KeyVaultProperties_StatusARM `json:"keyVaultProperties,omitempty"`
-
-	//Status: Indicates whether or not the encryption is enabled for container registry.
-	Status *EncryptionPropertyStatusStatus `json:"status,omitempty"`
+	KeyVaultProperties *KeyVaultProperties_StatusARM   `json:"keyVaultProperties,omitempty"`
+	Status             *EncryptionPropertyStatusStatus `json:"status,omitempty"`
 }
 
+//Deprecated version of IdentityPropertiesStatusType. Use v1beta20210901.IdentityPropertiesStatusType instead
 type IdentityPropertiesStatusType string
 
 const (
@@ -138,36 +74,27 @@ const (
 	IdentityPropertiesStatusTypeUserAssigned               = IdentityPropertiesStatusType("UserAssigned")
 )
 
+//Deprecated version of NetworkRuleSet_Status. Use v1beta20210901.NetworkRuleSet_Status instead
 type NetworkRuleSet_StatusARM struct {
-	//DefaultAction: The default action of allow or deny when no other rules match.
 	DefaultAction *NetworkRuleSetStatusDefaultAction `json:"defaultAction,omitempty"`
-
-	//IpRules: The IP ACL rules.
-	IpRules []IPRule_StatusARM `json:"ipRules,omitempty"`
+	IpRules       []IPRule_StatusARM                 `json:"ipRules,omitempty"`
 }
 
+//Deprecated version of Policies_Status. Use v1beta20210901.Policies_Status instead
 type Policies_StatusARM struct {
-	//ExportPolicy: The export policy for a container registry.
-	ExportPolicy *ExportPolicy_StatusARM `json:"exportPolicy,omitempty"`
-
-	//QuarantinePolicy: The quarantine policy for a container registry.
+	ExportPolicy     *ExportPolicy_StatusARM     `json:"exportPolicy,omitempty"`
 	QuarantinePolicy *QuarantinePolicy_StatusARM `json:"quarantinePolicy,omitempty"`
-
-	//RetentionPolicy: The retention policy for a container registry.
-	RetentionPolicy *RetentionPolicy_StatusARM `json:"retentionPolicy,omitempty"`
-
-	//TrustPolicy: The content trust policy for a container registry.
-	TrustPolicy *TrustPolicy_StatusARM `json:"trustPolicy,omitempty"`
+	RetentionPolicy  *RetentionPolicy_StatusARM  `json:"retentionPolicy,omitempty"`
+	TrustPolicy      *TrustPolicy_StatusARM      `json:"trustPolicy,omitempty"`
 }
 
+//Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210901.PrivateEndpointConnection_Status_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
-	//Id: The resource ID.
-	Id *string `json:"id,omitempty"`
-
-	//SystemData: Metadata pertaining to creation and last modification of the resource.
+	Id         *string               `json:"id,omitempty"`
 	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
 }
 
+//Deprecated version of SkuStatusName. Use v1beta20210901.SkuStatusName instead
 type SkuStatusName string
 
 const (
@@ -177,6 +104,7 @@ const (
 	SkuStatusNameStandard = SkuStatusName("Standard")
 )
 
+//Deprecated version of SkuStatusTier. Use v1beta20210901.SkuStatusTier instead
 type SkuStatusTier string
 
 const (
@@ -186,17 +114,14 @@ const (
 	SkuStatusTierStandard = SkuStatusTier("Standard")
 )
 
+//Deprecated version of Status_Status. Use v1beta20210901.Status_Status instead
 type Status_StatusARM struct {
-	//DisplayStatus: The short label for the status.
 	DisplayStatus *string `json:"displayStatus,omitempty"`
-
-	//Message: The detailed message for the status, including alerts and error messages.
-	Message *string `json:"message,omitempty"`
-
-	//Timestamp: The timestamp when the status was changed to the current value.
-	Timestamp *string `json:"timestamp,omitempty"`
+	Message       *string `json:"message,omitempty"`
+	Timestamp     *string `json:"timestamp,omitempty"`
 }
 
+//Deprecated version of SystemDataStatusCreatedByType. Use v1beta20210901.SystemDataStatusCreatedByType instead
 type SystemDataStatusCreatedByType string
 
 const (
@@ -206,6 +131,7 @@ const (
 	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
 )
 
+//Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20210901.SystemDataStatusLastModifiedByType instead
 type SystemDataStatusLastModifiedByType string
 
 const (
@@ -215,65 +141,46 @@ const (
 	SystemDataStatusLastModifiedByTypeUser            = SystemDataStatusLastModifiedByType("User")
 )
 
+//Deprecated version of UserIdentityProperties_Status. Use v1beta20210901.UserIdentityProperties_Status instead
 type UserIdentityProperties_StatusARM struct {
-	//ClientId: The client id of user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	//PrincipalId: The principal id of user assigned identity.
+	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
+//Deprecated version of ExportPolicy_Status. Use v1beta20210901.ExportPolicy_Status instead
 type ExportPolicy_StatusARM struct {
-	//Status: The value that indicates whether the policy is enabled or not.
 	Status *ExportPolicyStatusStatus `json:"status,omitempty"`
 }
 
+//Deprecated version of IPRule_Status. Use v1beta20210901.IPRule_Status instead
 type IPRule_StatusARM struct {
-	//Action: The action of IP ACL rule.
 	Action *IPRuleStatusAction `json:"action,omitempty"`
-
-	//Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
-	Value *string `json:"value,omitempty"`
+	Value  *string             `json:"value,omitempty"`
 }
 
+//Deprecated version of KeyVaultProperties_Status. Use v1beta20210901.KeyVaultProperties_Status instead
 type KeyVaultProperties_StatusARM struct {
-	//Identity: The client id of the identity which will be used to access key vault.
-	Identity *string `json:"identity,omitempty"`
-
-	//KeyIdentifier: Key vault uri to access the encryption key.
-	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
-
-	//KeyRotationEnabled: Auto key rotation status for a CMK enabled registry.
-	KeyRotationEnabled *bool `json:"keyRotationEnabled,omitempty"`
-
-	//LastKeyRotationTimestamp: Timestamp of the last successful key rotation.
+	Identity                 *string `json:"identity,omitempty"`
+	KeyIdentifier            *string `json:"keyIdentifier,omitempty"`
+	KeyRotationEnabled       *bool   `json:"keyRotationEnabled,omitempty"`
 	LastKeyRotationTimestamp *string `json:"lastKeyRotationTimestamp,omitempty"`
-
-	//VersionedKeyIdentifier: The fully qualified key identifier that includes the version of the key that is actually used
-	//for encryption.
-	VersionedKeyIdentifier *string `json:"versionedKeyIdentifier,omitempty"`
+	VersionedKeyIdentifier   *string `json:"versionedKeyIdentifier,omitempty"`
 }
 
+//Deprecated version of QuarantinePolicy_Status. Use v1beta20210901.QuarantinePolicy_Status instead
 type QuarantinePolicy_StatusARM struct {
-	//Status: The value that indicates whether the policy is enabled or not.
 	Status *QuarantinePolicyStatusStatus `json:"status,omitempty"`
 }
 
+//Deprecated version of RetentionPolicy_Status. Use v1beta20210901.RetentionPolicy_Status instead
 type RetentionPolicy_StatusARM struct {
-	//Days: The number of days to retain an untagged manifest after which it gets purged.
-	Days *int `json:"days,omitempty"`
-
-	//LastUpdatedTime: The timestamp when the policy was last updated.
-	LastUpdatedTime *string `json:"lastUpdatedTime,omitempty"`
-
-	//Status: The value that indicates whether the policy is enabled or not.
-	Status *RetentionPolicyStatusStatus `json:"status,omitempty"`
+	Days            *int                         `json:"days,omitempty"`
+	LastUpdatedTime *string                      `json:"lastUpdatedTime,omitempty"`
+	Status          *RetentionPolicyStatusStatus `json:"status,omitempty"`
 }
 
+//Deprecated version of TrustPolicy_Status. Use v1beta20210901.TrustPolicy_Status instead
 type TrustPolicy_StatusARM struct {
-	//Status: The value that indicates whether the policy is enabled or not.
 	Status *TrustPolicyStatusStatus `json:"status,omitempty"`
-
-	//Type: The type of trust policy.
-	Type *TrustPolicyStatusType `json:"type,omitempty"`
+	Type   *TrustPolicyStatusType   `json:"type,omitempty"`
 }

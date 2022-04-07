@@ -5,6 +5,7 @@ package v1alpha1api20201101storage
 
 import (
 	"encoding/json"
+	"github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,90 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_LoadBalancer_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LoadBalancer to hub returns original",
+		prop.ForAll(RunResourceConversionTestForLoadBalancer, LoadBalancerGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForLoadBalancer tests if a specific instance of LoadBalancer round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForLoadBalancer(subject LoadBalancer) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1beta20201101storage.LoadBalancer
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual LoadBalancer
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_LoadBalancer_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LoadBalancer to LoadBalancer via AssignPropertiesToLoadBalancer & AssignPropertiesFromLoadBalancer returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancer, LoadBalancerGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLoadBalancer tests if a specific instance of LoadBalancer can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancer(subject LoadBalancer) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.LoadBalancer
+	err := copied.AssignPropertiesToLoadBalancer(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LoadBalancer
+	err = actual.AssignPropertiesFromLoadBalancer(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_LoadBalancer_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -75,6 +160,48 @@ func LoadBalancerGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForLoadBalancer(gens map[string]gopter.Gen) {
 	gens["Spec"] = LoadBalancersSpecGenerator()
 	gens["Status"] = LoadBalancerStatusGenerator()
+}
+
+func Test_LoadBalancer_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LoadBalancer_Status to LoadBalancer_Status via AssignPropertiesToLoadBalancerStatus & AssignPropertiesFromLoadBalancerStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancerStatus, LoadBalancerStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLoadBalancerStatus tests if a specific instance of LoadBalancer_Status can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancerStatus(subject LoadBalancer_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.LoadBalancer_Status
+	err := copied.AssignPropertiesToLoadBalancerStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LoadBalancer_Status
+	err = actual.AssignPropertiesFromLoadBalancerStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_LoadBalancer_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -165,6 +292,48 @@ func AddRelatedPropertyGeneratorsForLoadBalancerStatus(gens map[string]gopter.Ge
 	gens["Sku"] = gen.PtrOf(LoadBalancerSkuStatusGenerator())
 }
 
+func Test_LoadBalancers_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LoadBalancers_Spec to LoadBalancers_Spec via AssignPropertiesToLoadBalancersSpec & AssignPropertiesFromLoadBalancersSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancersSpec, LoadBalancersSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLoadBalancersSpec tests if a specific instance of LoadBalancers_Spec can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancersSpec(subject LoadBalancers_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.LoadBalancers_Spec
+	err := copied.AssignPropertiesToLoadBalancersSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LoadBalancers_Spec
+	err = actual.AssignPropertiesFromLoadBalancersSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_LoadBalancers_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -248,6 +417,48 @@ func AddRelatedPropertyGeneratorsForLoadBalancersSpec(gens map[string]gopter.Gen
 	gens["Sku"] = gen.PtrOf(LoadBalancerSkuGenerator())
 }
 
+func Test_BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded to BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded via AssignPropertiesToBackendAddressPoolStatusLoadBalancerSubResourceEmbedded & AssignPropertiesFromBackendAddressPoolStatusLoadBalancerSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForBackendAddressPoolStatusLoadBalancerSubResourceEmbedded, BackendAddressPoolStatusLoadBalancerSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForBackendAddressPoolStatusLoadBalancerSubResourceEmbedded tests if a specific instance of BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForBackendAddressPoolStatusLoadBalancerSubResourceEmbedded(subject BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded
+	err := copied.AssignPropertiesToBackendAddressPoolStatusLoadBalancerSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded
+	err = actual.AssignPropertiesFromBackendAddressPoolStatusLoadBalancerSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -306,6 +517,48 @@ func BackendAddressPoolStatusLoadBalancerSubResourceEmbeddedGenerator() gopter.G
 // AddIndependentPropertyGeneratorsForBackendAddressPoolStatusLoadBalancerSubResourceEmbedded is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBackendAddressPoolStatusLoadBalancerSubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ExtendedLocation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ExtendedLocation to ExtendedLocation via AssignPropertiesToExtendedLocation & AssignPropertiesFromExtendedLocation returns original",
+		prop.ForAll(RunPropertyAssignmentTestForExtendedLocation, ExtendedLocationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForExtendedLocation tests if a specific instance of ExtendedLocation can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.ExtendedLocation
+	err := copied.AssignPropertiesToExtendedLocation(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ExtendedLocation
+	err = actual.AssignPropertiesFromExtendedLocation(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ExtendedLocation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -368,6 +621,48 @@ func AddIndependentPropertyGeneratorsForExtendedLocation(gens map[string]gopter.
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ExtendedLocation_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ExtendedLocation_Status to ExtendedLocation_Status via AssignPropertiesToExtendedLocationStatus & AssignPropertiesFromExtendedLocationStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForExtendedLocationStatus, ExtendedLocationStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForExtendedLocationStatus tests if a specific instance of ExtendedLocation_Status can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForExtendedLocationStatus(subject ExtendedLocation_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.ExtendedLocation_Status
+	err := copied.AssignPropertiesToExtendedLocationStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ExtendedLocation_Status
+	err = actual.AssignPropertiesFromExtendedLocationStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ExtendedLocation_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -427,6 +722,48 @@ func ExtendedLocationStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForExtendedLocationStatus(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded to FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded via AssignPropertiesToFrontendIPConfigurationStatusLoadBalancerSubResourceEmbedded & AssignPropertiesFromFrontendIPConfigurationStatusLoadBalancerSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFrontendIPConfigurationStatusLoadBalancerSubResourceEmbedded, FrontendIPConfigurationStatusLoadBalancerSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFrontendIPConfigurationStatusLoadBalancerSubResourceEmbedded tests if a specific instance of FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForFrontendIPConfigurationStatusLoadBalancerSubResourceEmbedded(subject FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded
+	err := copied.AssignPropertiesToFrontendIPConfigurationStatusLoadBalancerSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded
+	err = actual.AssignPropertiesFromFrontendIPConfigurationStatusLoadBalancerSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -517,6 +854,48 @@ func AddRelatedPropertyGeneratorsForFrontendIPConfigurationStatusLoadBalancerSub
 	gens["Subnet"] = gen.PtrOf(SubnetStatusLoadBalancerSubResourceEmbeddedGenerator())
 }
 
+func Test_InboundNatPool_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from InboundNatPool_Status to InboundNatPool_Status via AssignPropertiesToInboundNatPoolStatus & AssignPropertiesFromInboundNatPoolStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForInboundNatPoolStatus, InboundNatPoolStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForInboundNatPoolStatus tests if a specific instance of InboundNatPool_Status can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForInboundNatPoolStatus(subject InboundNatPool_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.InboundNatPool_Status
+	err := copied.AssignPropertiesToInboundNatPoolStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual InboundNatPool_Status
+	err = actual.AssignPropertiesFromInboundNatPoolStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_InboundNatPool_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -602,6 +981,48 @@ func AddRelatedPropertyGeneratorsForInboundNatPoolStatus(gens map[string]gopter.
 	gens["FrontendIPConfiguration"] = gen.PtrOf(SubResourceStatusGenerator())
 }
 
+func Test_InboundNatRule_Status_LoadBalancer_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from InboundNatRule_Status_LoadBalancer_SubResourceEmbedded to InboundNatRule_Status_LoadBalancer_SubResourceEmbedded via AssignPropertiesToInboundNatRuleStatusLoadBalancerSubResourceEmbedded & AssignPropertiesFromInboundNatRuleStatusLoadBalancerSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForInboundNatRuleStatusLoadBalancerSubResourceEmbedded, InboundNatRuleStatusLoadBalancerSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForInboundNatRuleStatusLoadBalancerSubResourceEmbedded tests if a specific instance of InboundNatRule_Status_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForInboundNatRuleStatusLoadBalancerSubResourceEmbedded(subject InboundNatRule_Status_LoadBalancer_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.InboundNatRule_Status_LoadBalancer_SubResourceEmbedded
+	err := copied.AssignPropertiesToInboundNatRuleStatusLoadBalancerSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual InboundNatRule_Status_LoadBalancer_SubResourceEmbedded
+	err = actual.AssignPropertiesFromInboundNatRuleStatusLoadBalancerSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_InboundNatRule_Status_LoadBalancer_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -660,6 +1081,48 @@ func InboundNatRuleStatusLoadBalancerSubResourceEmbeddedGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForInboundNatRuleStatusLoadBalancerSubResourceEmbedded is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInboundNatRuleStatusLoadBalancerSubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_LoadBalancerSku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LoadBalancerSku to LoadBalancerSku via AssignPropertiesToLoadBalancerSku & AssignPropertiesFromLoadBalancerSku returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancerSku, LoadBalancerSkuGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLoadBalancerSku tests if a specific instance of LoadBalancerSku can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancerSku(subject LoadBalancerSku) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.LoadBalancerSku
+	err := copied.AssignPropertiesToLoadBalancerSku(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LoadBalancerSku
+	err = actual.AssignPropertiesFromLoadBalancerSku(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_LoadBalancerSku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -722,6 +1185,48 @@ func AddIndependentPropertyGeneratorsForLoadBalancerSku(gens map[string]gopter.G
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_LoadBalancerSku_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LoadBalancerSku_Status to LoadBalancerSku_Status via AssignPropertiesToLoadBalancerSkuStatus & AssignPropertiesFromLoadBalancerSkuStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancerSkuStatus, LoadBalancerSkuStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLoadBalancerSkuStatus tests if a specific instance of LoadBalancerSku_Status can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancerSkuStatus(subject LoadBalancerSku_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.LoadBalancerSku_Status
+	err := copied.AssignPropertiesToLoadBalancerSkuStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LoadBalancerSku_Status
+	err = actual.AssignPropertiesFromLoadBalancerSkuStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_LoadBalancerSku_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -781,6 +1286,48 @@ func LoadBalancerSkuStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForLoadBalancerSkuStatus(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_LoadBalancers_Spec_Properties_BackendAddressPools_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LoadBalancers_Spec_Properties_BackendAddressPools to LoadBalancers_Spec_Properties_BackendAddressPools via AssignPropertiesToLoadBalancersSpecPropertiesBackendAddressPools & AssignPropertiesFromLoadBalancersSpecPropertiesBackendAddressPools returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancersSpecPropertiesBackendAddressPools, LoadBalancersSpecPropertiesBackendAddressPoolsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLoadBalancersSpecPropertiesBackendAddressPools tests if a specific instance of LoadBalancers_Spec_Properties_BackendAddressPools can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesBackendAddressPools(subject LoadBalancers_Spec_Properties_BackendAddressPools) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.LoadBalancers_Spec_Properties_BackendAddressPools
+	err := copied.AssignPropertiesToLoadBalancersSpecPropertiesBackendAddressPools(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LoadBalancers_Spec_Properties_BackendAddressPools
+	err = actual.AssignPropertiesFromLoadBalancersSpecPropertiesBackendAddressPools(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_LoadBalancers_Spec_Properties_BackendAddressPools_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -856,6 +1403,48 @@ func AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddres
 // AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPools is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPools(gens map[string]gopter.Gen) {
 	gens["LoadBalancerBackendAddresses"] = gen.SliceOf(LoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesGenerator())
+}
+
+func Test_LoadBalancers_Spec_Properties_FrontendIPConfigurations_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LoadBalancers_Spec_Properties_FrontendIPConfigurations to LoadBalancers_Spec_Properties_FrontendIPConfigurations via AssignPropertiesToLoadBalancersSpecPropertiesFrontendIPConfigurations & AssignPropertiesFromLoadBalancersSpecPropertiesFrontendIPConfigurations returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancersSpecPropertiesFrontendIPConfigurations, LoadBalancersSpecPropertiesFrontendIPConfigurationsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLoadBalancersSpecPropertiesFrontendIPConfigurations tests if a specific instance of LoadBalancers_Spec_Properties_FrontendIPConfigurations can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesFrontendIPConfigurations(subject LoadBalancers_Spec_Properties_FrontendIPConfigurations) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.LoadBalancers_Spec_Properties_FrontendIPConfigurations
+	err := copied.AssignPropertiesToLoadBalancersSpecPropertiesFrontendIPConfigurations(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LoadBalancers_Spec_Properties_FrontendIPConfigurations
+	err = actual.AssignPropertiesFromLoadBalancersSpecPropertiesFrontendIPConfigurations(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_LoadBalancers_Spec_Properties_FrontendIPConfigurations_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -938,6 +1527,48 @@ func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesFrontendIPConfigu
 	gens["Subnet"] = gen.PtrOf(SubResourceGenerator())
 }
 
+func Test_LoadBalancers_Spec_Properties_InboundNatPools_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LoadBalancers_Spec_Properties_InboundNatPools to LoadBalancers_Spec_Properties_InboundNatPools via AssignPropertiesToLoadBalancersSpecPropertiesInboundNatPools & AssignPropertiesFromLoadBalancersSpecPropertiesInboundNatPools returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancersSpecPropertiesInboundNatPools, LoadBalancersSpecPropertiesInboundNatPoolsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLoadBalancersSpecPropertiesInboundNatPools tests if a specific instance of LoadBalancers_Spec_Properties_InboundNatPools can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesInboundNatPools(subject LoadBalancers_Spec_Properties_InboundNatPools) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.LoadBalancers_Spec_Properties_InboundNatPools
+	err := copied.AssignPropertiesToLoadBalancersSpecPropertiesInboundNatPools(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LoadBalancers_Spec_Properties_InboundNatPools
+	err = actual.AssignPropertiesFromLoadBalancersSpecPropertiesInboundNatPools(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_LoadBalancers_Spec_Properties_InboundNatPools_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1017,6 +1648,48 @@ func AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesInboundNatPoo
 // AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesInboundNatPools is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesInboundNatPools(gens map[string]gopter.Gen) {
 	gens["FrontendIPConfiguration"] = gen.PtrOf(SubResourceGenerator())
+}
+
+func Test_LoadBalancers_Spec_Properties_LoadBalancingRules_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LoadBalancers_Spec_Properties_LoadBalancingRules to LoadBalancers_Spec_Properties_LoadBalancingRules via AssignPropertiesToLoadBalancersSpecPropertiesLoadBalancingRules & AssignPropertiesFromLoadBalancersSpecPropertiesLoadBalancingRules returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancersSpecPropertiesLoadBalancingRules, LoadBalancersSpecPropertiesLoadBalancingRulesGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLoadBalancersSpecPropertiesLoadBalancingRules tests if a specific instance of LoadBalancers_Spec_Properties_LoadBalancingRules can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesLoadBalancingRules(subject LoadBalancers_Spec_Properties_LoadBalancingRules) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.LoadBalancers_Spec_Properties_LoadBalancingRules
+	err := copied.AssignPropertiesToLoadBalancersSpecPropertiesLoadBalancingRules(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LoadBalancers_Spec_Properties_LoadBalancingRules
+	err = actual.AssignPropertiesFromLoadBalancersSpecPropertiesLoadBalancingRules(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_LoadBalancers_Spec_Properties_LoadBalancingRules_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1103,6 +1776,48 @@ func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesLoadBalancingRule
 	gens["Probe"] = gen.PtrOf(SubResourceGenerator())
 }
 
+func Test_LoadBalancers_Spec_Properties_OutboundRules_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LoadBalancers_Spec_Properties_OutboundRules to LoadBalancers_Spec_Properties_OutboundRules via AssignPropertiesToLoadBalancersSpecPropertiesOutboundRules & AssignPropertiesFromLoadBalancersSpecPropertiesOutboundRules returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancersSpecPropertiesOutboundRules, LoadBalancersSpecPropertiesOutboundRulesGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLoadBalancersSpecPropertiesOutboundRules tests if a specific instance of LoadBalancers_Spec_Properties_OutboundRules can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesOutboundRules(subject LoadBalancers_Spec_Properties_OutboundRules) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.LoadBalancers_Spec_Properties_OutboundRules
+	err := copied.AssignPropertiesToLoadBalancersSpecPropertiesOutboundRules(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LoadBalancers_Spec_Properties_OutboundRules
+	err = actual.AssignPropertiesFromLoadBalancersSpecPropertiesOutboundRules(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_LoadBalancers_Spec_Properties_OutboundRules_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1182,6 +1897,48 @@ func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesOutboundRules(gen
 	gens["FrontendIPConfigurations"] = gen.SliceOf(SubResourceGenerator())
 }
 
+func Test_LoadBalancers_Spec_Properties_Probes_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LoadBalancers_Spec_Properties_Probes to LoadBalancers_Spec_Properties_Probes via AssignPropertiesToLoadBalancersSpecPropertiesProbes & AssignPropertiesFromLoadBalancersSpecPropertiesProbes returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancersSpecPropertiesProbes, LoadBalancersSpecPropertiesProbesGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLoadBalancersSpecPropertiesProbes tests if a specific instance of LoadBalancers_Spec_Properties_Probes can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesProbes(subject LoadBalancers_Spec_Properties_Probes) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.LoadBalancers_Spec_Properties_Probes
+	err := copied.AssignPropertiesToLoadBalancersSpecPropertiesProbes(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LoadBalancers_Spec_Properties_Probes
+	err = actual.AssignPropertiesFromLoadBalancersSpecPropertiesProbes(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_LoadBalancers_Spec_Properties_Probes_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1245,6 +2002,48 @@ func AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesProbes(gens m
 	gens["Port"] = gen.PtrOf(gen.Int())
 	gens["Protocol"] = gen.PtrOf(gen.AlphaString())
 	gens["RequestPath"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_LoadBalancingRule_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LoadBalancingRule_Status to LoadBalancingRule_Status via AssignPropertiesToLoadBalancingRuleStatus & AssignPropertiesFromLoadBalancingRuleStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancingRuleStatus, LoadBalancingRuleStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLoadBalancingRuleStatus tests if a specific instance of LoadBalancingRule_Status can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancingRuleStatus(subject LoadBalancingRule_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.LoadBalancingRule_Status
+	err := copied.AssignPropertiesToLoadBalancingRuleStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LoadBalancingRule_Status
+	err = actual.AssignPropertiesFromLoadBalancingRuleStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_LoadBalancingRule_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1335,6 +2134,48 @@ func AddRelatedPropertyGeneratorsForLoadBalancingRuleStatus(gens map[string]gopt
 	gens["Probe"] = gen.PtrOf(SubResourceStatusGenerator())
 }
 
+func Test_OutboundRule_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from OutboundRule_Status to OutboundRule_Status via AssignPropertiesToOutboundRuleStatus & AssignPropertiesFromOutboundRuleStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForOutboundRuleStatus, OutboundRuleStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForOutboundRuleStatus tests if a specific instance of OutboundRule_Status can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForOutboundRuleStatus(subject OutboundRule_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.OutboundRule_Status
+	err := copied.AssignPropertiesToOutboundRuleStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual OutboundRule_Status
+	err = actual.AssignPropertiesFromOutboundRuleStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_OutboundRule_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1415,6 +2256,48 @@ func AddIndependentPropertyGeneratorsForOutboundRuleStatus(gens map[string]gopte
 func AddRelatedPropertyGeneratorsForOutboundRuleStatus(gens map[string]gopter.Gen) {
 	gens["BackendAddressPool"] = gen.PtrOf(SubResourceStatusGenerator())
 	gens["FrontendIPConfigurations"] = gen.SliceOf(SubResourceStatusGenerator())
+}
+
+func Test_Probe_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Probe_Status to Probe_Status via AssignPropertiesToProbeStatus & AssignPropertiesFromProbeStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForProbeStatus, ProbeStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForProbeStatus tests if a specific instance of Probe_Status can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForProbeStatus(subject Probe_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.Probe_Status
+	err := copied.AssignPropertiesToProbeStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Probe_Status
+	err = actual.AssignPropertiesFromProbeStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Probe_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1499,6 +2382,48 @@ func AddRelatedPropertyGeneratorsForProbeStatus(gens map[string]gopter.Gen) {
 	gens["LoadBalancingRules"] = gen.SliceOf(SubResourceStatusGenerator())
 }
 
+func Test_LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses to LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses via AssignPropertiesToLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses & AssignPropertiesFromLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses, LoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses tests if a specific instance of LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses(subject LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses
+	err := copied.AssignPropertiesToLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses
+	err = actual.AssignPropertiesFromLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1577,6 +2502,48 @@ func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPoo
 	gens["VirtualNetwork"] = gen.PtrOf(SubResourceGenerator())
 }
 
+func Test_PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded to PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded via AssignPropertiesToPublicIPAddressStatusLoadBalancerSubResourceEmbedded & AssignPropertiesFromPublicIPAddressStatusLoadBalancerSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPublicIPAddressStatusLoadBalancerSubResourceEmbedded, PublicIPAddressStatusLoadBalancerSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPublicIPAddressStatusLoadBalancerSubResourceEmbedded tests if a specific instance of PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForPublicIPAddressStatusLoadBalancerSubResourceEmbedded(subject PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded
+	err := copied.AssignPropertiesToPublicIPAddressStatusLoadBalancerSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded
+	err = actual.AssignPropertiesFromPublicIPAddressStatusLoadBalancerSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1651,6 +2618,48 @@ func AddIndependentPropertyGeneratorsForPublicIPAddressStatusLoadBalancerSubReso
 func AddRelatedPropertyGeneratorsForPublicIPAddressStatusLoadBalancerSubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationStatusGenerator())
 	gens["Sku"] = gen.PtrOf(PublicIPAddressSkuStatusGenerator())
+}
+
+func Test_Subnet_Status_LoadBalancer_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Subnet_Status_LoadBalancer_SubResourceEmbedded to Subnet_Status_LoadBalancer_SubResourceEmbedded via AssignPropertiesToSubnetStatusLoadBalancerSubResourceEmbedded & AssignPropertiesFromSubnetStatusLoadBalancerSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSubnetStatusLoadBalancerSubResourceEmbedded, SubnetStatusLoadBalancerSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSubnetStatusLoadBalancerSubResourceEmbedded tests if a specific instance of Subnet_Status_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForSubnetStatusLoadBalancerSubResourceEmbedded(subject Subnet_Status_LoadBalancer_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.Subnet_Status_LoadBalancer_SubResourceEmbedded
+	err := copied.AssignPropertiesToSubnetStatusLoadBalancerSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Subnet_Status_LoadBalancer_SubResourceEmbedded
+	err = actual.AssignPropertiesFromSubnetStatusLoadBalancerSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Subnet_Status_LoadBalancer_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

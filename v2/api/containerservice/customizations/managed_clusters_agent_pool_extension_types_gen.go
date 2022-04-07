@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	containerservice "github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210501"
+	containerservicev1alpha1api20210501 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210501"
 	"github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210501storage"
+	containerservicev1beta20210501 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501"
+	"github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type ManagedClustersAgentPoolExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *ManagedClustersAgentPoolExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&containerservice.ManagedClustersAgentPool{},
-		&v1alpha1api20210501storage.ManagedClustersAgentPool{}}
+		&containerservicev1alpha1api20210501.ManagedClustersAgentPool{},
+		&v1alpha1api20210501storage.ManagedClustersAgentPool{},
+		&containerservicev1beta20210501.ManagedClustersAgentPool{},
+		&v1beta20210501storage.ManagedClustersAgentPool{}}
 }
