@@ -127,7 +127,7 @@ kubectl rollout status -n cert-manager deploy/cert-manager-webhook
 
 ### Install Azure Service Operator
 ```
-helm upgrade --install aso https://github.com/Azure/azure-service-operator/raw/master/charts/azure-service-operator-0.1.0.tgz \
+helm upgrade --install aso https://github.com/Azure/azure-service-operator/raw/main/charts/azure-service-operator-0.1.0.tgz \
     --namespace=azureoperator-system \
     --create-namespace \
     --set azureSubscriptionID=$SUBSCRIPTION_ID \
