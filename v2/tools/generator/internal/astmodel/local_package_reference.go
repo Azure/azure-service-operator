@@ -150,7 +150,7 @@ func (pr LocalPackageReference) simplifiedGeneratorVersion(version string) strin
 
 var generatorVersionSimplifications = map[string]string{
 	"v1alpha1api": "alpha",
-	"v1beta":   "v",
+	"v1beta":      "v",
 }
 
 func (pr LocalPackageReference) simplify(result string, simplifications map[string]string) string {
