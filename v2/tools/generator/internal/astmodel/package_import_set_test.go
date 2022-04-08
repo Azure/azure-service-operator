@@ -254,6 +254,7 @@ func Test_PackageSet_OrderImports(t *testing.T) {
  */
 
 func TestPackageImportSet_GivenSet_AssignsExpectedAliases(t *testing.T) {
+	t.Parallel()
 
 	batch_v2020 := makeTestLocalPackageReference("batch", "2020-01-01")
 	batch_v2021 := makeTestLocalPackageReference("batch", "2021-01-01")
