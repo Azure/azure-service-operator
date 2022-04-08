@@ -158,6 +158,7 @@ func NewTestCodeGenerator(
 			pipeline.DeleteGeneratedCodeStageID,
 			pipeline.CheckForAnyTypeStageID,
 			pipeline.CreateResourceExtensionsStageID,
+			pipeline.CreateTypesForBackwardCompatibilityID,
 			// TODO: Once the stage is enabled in the pipeline, we may need to remove it here for testing
 			// pipeline.InjectHubFunctionStageID,
 			// pipeline.ImplementConvertibleInterfaceStageId,
