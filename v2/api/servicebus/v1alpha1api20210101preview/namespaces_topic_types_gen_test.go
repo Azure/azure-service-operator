@@ -5,8 +5,8 @@ package v1alpha1api20210101preview
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101previewstorage"
-	"github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previewstorage"
+	alpha20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101previewstorage"
+	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previewstorage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForNamespacesTopic(subject NamespacesTopic) string
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20210101previewstorage.NamespacesTopic
+	var hub v20210101ps.NamespacesTopic
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForNamespacesTopic(subject NamespacesTopic) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210101previewstorage.NamespacesTopic
+	var other alpha20210101ps.NamespacesTopic
 	err := copied.AssignPropertiesToNamespacesTopic(&other)
 	if err != nil {
 		return err.Error()
@@ -180,7 +180,7 @@ func RunPropertyAssignmentTestForNamespacesTopicsSpec(subject NamespacesTopics_S
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210101previewstorage.NamespacesTopics_Spec
+	var other alpha20210101ps.NamespacesTopics_Spec
 	err := copied.AssignPropertiesToNamespacesTopicsSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -293,7 +293,7 @@ func RunPropertyAssignmentTestForSBTopicStatus(subject SBTopic_Status) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210101previewstorage.SBTopic_Status
+	var other alpha20210101ps.SBTopic_Status
 	err := copied.AssignPropertiesToSBTopicStatus(&other)
 	if err != nil {
 		return err.Error()

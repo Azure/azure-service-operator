@@ -5,7 +5,7 @@ package v1alpha1api20210515storage
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
+	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +35,7 @@ func RunResourceConversionTestForSqlDatabaseContainerThroughputSetting(subject S
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20210515storage.SqlDatabaseContainerThroughputSetting
+	var hub v20210515s.SqlDatabaseContainerThroughputSetting
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -77,7 +77,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerThroughputSetting(subject S
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210515storage.SqlDatabaseContainerThroughputSetting
+	var other v20210515s.SqlDatabaseContainerThroughputSetting
 	err := copied.AssignPropertiesToSqlDatabaseContainerThroughputSetting(&other)
 	if err != nil {
 		return err.Error()
@@ -180,7 +180,7 @@ func RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersThroughpu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec
+	var other v20210515s.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec
 	err := copied.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(&other)
 	if err != nil {
 		return err.Error()

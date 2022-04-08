@@ -4,10 +4,10 @@
 package customizations
 
 import (
-	cachev1alpha1api20210301 "github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20210301"
-	"github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20210301storage"
-	cachev1beta20210301 "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301"
-	"github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301storage"
+	alpha20210301 "github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20210301"
+	alpha20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20210301storage"
+	v20210301 "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301"
+	v20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -17,8 +17,8 @@ type RedisEnterpriseExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *RedisEnterpriseExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&cachev1alpha1api20210301.RedisEnterprise{},
-		&v1alpha1api20210301storage.RedisEnterprise{},
-		&cachev1beta20210301.RedisEnterprise{},
-		&v1beta20210301storage.RedisEnterprise{}}
+		&alpha20210301.RedisEnterprise{},
+		&alpha20210301s.RedisEnterprise{},
+		&v20210301.RedisEnterprise{},
+		&v20210301s.RedisEnterprise{}}
 }

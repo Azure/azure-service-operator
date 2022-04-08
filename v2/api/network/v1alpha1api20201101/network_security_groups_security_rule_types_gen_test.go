@@ -5,8 +5,8 @@ package v1alpha1api20201101
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101storage"
-	"github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
+	alpha20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForNetworkSecurityGroupsSecurityRule(subject Netwo
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20201101storage.NetworkSecurityGroupsSecurityRule
+	var hub v20201101s.NetworkSecurityGroupsSecurityRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForNetworkSecurityGroupsSecurityRule(subject Netwo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20201101storage.NetworkSecurityGroupsSecurityRule
+	var other alpha20201101s.NetworkSecurityGroupsSecurityRule
 	err := copied.AssignPropertiesToNetworkSecurityGroupsSecurityRule(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForNetworkSecurityGroupsSecurityRulesSpec(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20201101storage.NetworkSecurityGroupsSecurityRules_Spec
+	var other alpha20201101s.NetworkSecurityGroupsSecurityRules_Spec
 	err := copied.AssignPropertiesToNetworkSecurityGroupsSecurityRulesSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -319,7 +319,7 @@ func RunPropertyAssignmentTestForSecurityRuleStatusNetworkSecurityGroupsSecurity
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20201101storage.SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+	var other alpha20201101s.SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
 	err := copied.AssignPropertiesToSecurityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -463,7 +463,7 @@ func RunPropertyAssignmentTestForApplicationSecurityGroupStatusNetworkSecurityGr
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20201101storage.ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+	var other alpha20201101s.ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
 	err := copied.AssignPropertiesToApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()

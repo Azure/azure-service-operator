@@ -5,7 +5,7 @@ package v1alpha1api20210601storage
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601storage"
+	v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -45,7 +45,7 @@ var _ conversion.Convertible = &FlexibleServer{}
 
 // ConvertFrom populates our FlexibleServer from the provided hub FlexibleServer
 func (server *FlexibleServer) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1beta20210601storage.FlexibleServer)
+	source, ok := hub.(*v20210601s.FlexibleServer)
 	if !ok {
 		return fmt.Errorf("expected dbforpostgresql/v1beta20210601storage/FlexibleServer but received %T instead", hub)
 	}
@@ -55,7 +55,7 @@ func (server *FlexibleServer) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub FlexibleServer from our FlexibleServer
 func (server *FlexibleServer) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1beta20210601storage.FlexibleServer)
+	destination, ok := hub.(*v20210601s.FlexibleServer)
 	if !ok {
 		return fmt.Errorf("expected dbforpostgresql/v1beta20210601storage/FlexibleServer but received %T instead", hub)
 	}
@@ -130,7 +130,7 @@ func (server *FlexibleServer) SetStatus(status genruntime.ConvertibleStatus) err
 }
 
 // AssignPropertiesFromFlexibleServer populates our FlexibleServer from the provided source FlexibleServer
-func (server *FlexibleServer) AssignPropertiesFromFlexibleServer(source *v1beta20210601storage.FlexibleServer) error {
+func (server *FlexibleServer) AssignPropertiesFromFlexibleServer(source *v20210601s.FlexibleServer) error {
 
 	// ObjectMeta
 	server.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -156,13 +156,13 @@ func (server *FlexibleServer) AssignPropertiesFromFlexibleServer(source *v1beta2
 }
 
 // AssignPropertiesToFlexibleServer populates the provided destination FlexibleServer from our FlexibleServer
-func (server *FlexibleServer) AssignPropertiesToFlexibleServer(destination *v1beta20210601storage.FlexibleServer) error {
+func (server *FlexibleServer) AssignPropertiesToFlexibleServer(destination *v20210601s.FlexibleServer) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *server.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1beta20210601storage.FlexibleServers_Spec
+	var spec v20210601s.FlexibleServers_Spec
 	err := server.Spec.AssignPropertiesToFlexibleServersSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersSpec() to populate field Spec")
@@ -170,7 +170,7 @@ func (server *FlexibleServer) AssignPropertiesToFlexibleServer(destination *v1be
 	destination.Spec = spec
 
 	// Status
-	var status v1beta20210601storage.Server_Status
+	var status v20210601s.Server_Status
 	err = server.Status.AssignPropertiesToServerStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToServerStatus() to populate field Status")
@@ -234,14 +234,14 @@ var _ genruntime.ConvertibleSpec = &FlexibleServers_Spec{}
 
 // ConvertSpecFrom populates our FlexibleServers_Spec from the provided source
 func (servers *FlexibleServers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1beta20210601storage.FlexibleServers_Spec)
+	src, ok := source.(*v20210601s.FlexibleServers_Spec)
 	if ok {
 		// Populate our instance from source
 		return servers.AssignPropertiesFromFlexibleServersSpec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1beta20210601storage.FlexibleServers_Spec{}
+	src = &v20210601s.FlexibleServers_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -258,14 +258,14 @@ func (servers *FlexibleServers_Spec) ConvertSpecFrom(source genruntime.Convertib
 
 // ConvertSpecTo populates the provided destination from our FlexibleServers_Spec
 func (servers *FlexibleServers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1beta20210601storage.FlexibleServers_Spec)
+	dst, ok := destination.(*v20210601s.FlexibleServers_Spec)
 	if ok {
 		// Populate destination from our instance
 		return servers.AssignPropertiesToFlexibleServersSpec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1beta20210601storage.FlexibleServers_Spec{}
+	dst = &v20210601s.FlexibleServers_Spec{}
 	err := servers.AssignPropertiesToFlexibleServersSpec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -281,7 +281,7 @@ func (servers *FlexibleServers_Spec) ConvertSpecTo(destination genruntime.Conver
 }
 
 // AssignPropertiesFromFlexibleServersSpec populates our FlexibleServers_Spec from the provided source FlexibleServers_Spec
-func (servers *FlexibleServers_Spec) AssignPropertiesFromFlexibleServersSpec(source *v1beta20210601storage.FlexibleServers_Spec) error {
+func (servers *FlexibleServers_Spec) AssignPropertiesFromFlexibleServersSpec(source *v20210601s.FlexibleServers_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -420,7 +420,7 @@ func (servers *FlexibleServers_Spec) AssignPropertiesFromFlexibleServersSpec(sou
 }
 
 // AssignPropertiesToFlexibleServersSpec populates the provided destination FlexibleServers_Spec from our FlexibleServers_Spec
-func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(destination *v1beta20210601storage.FlexibleServers_Spec) error {
+func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(destination *v20210601s.FlexibleServers_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(servers.PropertyBag)
 
@@ -443,7 +443,7 @@ func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(desti
 
 	// Backup
 	if servers.Backup != nil {
-		var backup v1beta20210601storage.Backup
+		var backup v20210601s.Backup
 		err := servers.Backup.AssignPropertiesToBackup(&backup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToBackup() to populate field Backup")
@@ -458,7 +458,7 @@ func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(desti
 
 	// HighAvailability
 	if servers.HighAvailability != nil {
-		var highAvailability v1beta20210601storage.HighAvailability
+		var highAvailability v20210601s.HighAvailability
 		err := servers.HighAvailability.AssignPropertiesToHighAvailability(&highAvailability)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToHighAvailability() to populate field HighAvailability")
@@ -473,7 +473,7 @@ func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(desti
 
 	// MaintenanceWindow
 	if servers.MaintenanceWindow != nil {
-		var maintenanceWindow v1beta20210601storage.MaintenanceWindow
+		var maintenanceWindow v20210601s.MaintenanceWindow
 		err := servers.MaintenanceWindow.AssignPropertiesToMaintenanceWindow(&maintenanceWindow)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToMaintenanceWindow() to populate field MaintenanceWindow")
@@ -485,7 +485,7 @@ func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(desti
 
 	// Network
 	if servers.Network != nil {
-		var network v1beta20210601storage.Network
+		var network v20210601s.Network
 		err := servers.Network.AssignPropertiesToNetwork(&network)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToNetwork() to populate field Network")
@@ -511,7 +511,7 @@ func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(desti
 
 	// Sku
 	if servers.Sku != nil {
-		var sku v1beta20210601storage.Sku
+		var sku v20210601s.Sku
 		err := servers.Sku.AssignPropertiesToSku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSku() to populate field Sku")
@@ -531,7 +531,7 @@ func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(desti
 
 	// Storage
 	if servers.Storage != nil {
-		var storage v1beta20210601storage.Storage
+		var storage v20210601s.Storage
 		err := servers.Storage.AssignPropertiesToStorage(&storage)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToStorage() to populate field Storage")
@@ -590,14 +590,14 @@ var _ genruntime.ConvertibleStatus = &Server_Status{}
 
 // ConvertStatusFrom populates our Server_Status from the provided source
 func (server *Server_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1beta20210601storage.Server_Status)
+	src, ok := source.(*v20210601s.Server_Status)
 	if ok {
 		// Populate our instance from source
 		return server.AssignPropertiesFromServerStatus(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1beta20210601storage.Server_Status{}
+	src = &v20210601s.Server_Status{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -614,14 +614,14 @@ func (server *Server_Status) ConvertStatusFrom(source genruntime.ConvertibleStat
 
 // ConvertStatusTo populates the provided destination from our Server_Status
 func (server *Server_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1beta20210601storage.Server_Status)
+	dst, ok := destination.(*v20210601s.Server_Status)
 	if ok {
 		// Populate destination from our instance
 		return server.AssignPropertiesToServerStatus(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1beta20210601storage.Server_Status{}
+	dst = &v20210601s.Server_Status{}
 	err := server.AssignPropertiesToServerStatus(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -637,7 +637,7 @@ func (server *Server_Status) ConvertStatusTo(destination genruntime.ConvertibleS
 }
 
 // AssignPropertiesFromServerStatus populates our Server_Status from the provided source Server_Status
-func (server *Server_Status) AssignPropertiesFromServerStatus(source *v1beta20210601storage.Server_Status) error {
+func (server *Server_Status) AssignPropertiesFromServerStatus(source *v20210601s.Server_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -782,7 +782,7 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v1beta2021
 }
 
 // AssignPropertiesToServerStatus populates the provided destination Server_Status from our Server_Status
-func (server *Server_Status) AssignPropertiesToServerStatus(destination *v1beta20210601storage.Server_Status) error {
+func (server *Server_Status) AssignPropertiesToServerStatus(destination *v20210601s.Server_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(server.PropertyBag)
 
@@ -794,7 +794,7 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v1beta2
 
 	// Backup
 	if server.Backup != nil {
-		var backup v1beta20210601storage.Backup_Status
+		var backup v20210601s.Backup_Status
 		err := server.Backup.AssignPropertiesToBackupStatus(&backup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToBackupStatus() to populate field Backup")
@@ -815,7 +815,7 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v1beta2
 
 	// HighAvailability
 	if server.HighAvailability != nil {
-		var highAvailability v1beta20210601storage.HighAvailability_Status
+		var highAvailability v20210601s.HighAvailability_Status
 		err := server.HighAvailability.AssignPropertiesToHighAvailabilityStatus(&highAvailability)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToHighAvailabilityStatus() to populate field HighAvailability")
@@ -833,7 +833,7 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v1beta2
 
 	// MaintenanceWindow
 	if server.MaintenanceWindow != nil {
-		var maintenanceWindow v1beta20210601storage.MaintenanceWindow_Status
+		var maintenanceWindow v20210601s.MaintenanceWindow_Status
 		err := server.MaintenanceWindow.AssignPropertiesToMaintenanceWindowStatus(&maintenanceWindow)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToMaintenanceWindowStatus() to populate field MaintenanceWindow")
@@ -851,7 +851,7 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v1beta2
 
 	// Network
 	if server.Network != nil {
-		var network v1beta20210601storage.Network_Status
+		var network v20210601s.Network_Status
 		err := server.Network.AssignPropertiesToNetworkStatus(&network)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToNetworkStatus() to populate field Network")
@@ -866,7 +866,7 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v1beta2
 
 	// Sku
 	if server.Sku != nil {
-		var sku v1beta20210601storage.Sku_Status
+		var sku v20210601s.Sku_Status
 		err := server.Sku.AssignPropertiesToSkuStatus(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSkuStatus() to populate field Sku")
@@ -884,7 +884,7 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v1beta2
 
 	// Storage
 	if server.Storage != nil {
-		var storage v1beta20210601storage.Storage_Status
+		var storage v20210601s.Storage_Status
 		err := server.Storage.AssignPropertiesToStorageStatus(&storage)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToStorageStatus() to populate field Storage")
@@ -896,7 +896,7 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v1beta2
 
 	// SystemData
 	if server.SystemData != nil {
-		var systemDatum v1beta20210601storage.SystemData_Status
+		var systemDatum v20210601s.SystemData_Status
 		err := server.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
@@ -935,7 +935,7 @@ type Backup struct {
 }
 
 // AssignPropertiesFromBackup populates our Backup from the provided source Backup
-func (backup *Backup) AssignPropertiesFromBackup(source *v1beta20210601storage.Backup) error {
+func (backup *Backup) AssignPropertiesFromBackup(source *v20210601s.Backup) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -957,7 +957,7 @@ func (backup *Backup) AssignPropertiesFromBackup(source *v1beta20210601storage.B
 }
 
 // AssignPropertiesToBackup populates the provided destination Backup from our Backup
-func (backup *Backup) AssignPropertiesToBackup(destination *v1beta20210601storage.Backup) error {
+func (backup *Backup) AssignPropertiesToBackup(destination *v20210601s.Backup) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(backup.PropertyBag)
 
@@ -988,7 +988,7 @@ type Backup_Status struct {
 }
 
 // AssignPropertiesFromBackupStatus populates our Backup_Status from the provided source Backup_Status
-func (backup *Backup_Status) AssignPropertiesFromBackupStatus(source *v1beta20210601storage.Backup_Status) error {
+func (backup *Backup_Status) AssignPropertiesFromBackupStatus(source *v20210601s.Backup_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1013,7 +1013,7 @@ func (backup *Backup_Status) AssignPropertiesFromBackupStatus(source *v1beta2021
 }
 
 // AssignPropertiesToBackupStatus populates the provided destination Backup_Status from our Backup_Status
-func (backup *Backup_Status) AssignPropertiesToBackupStatus(destination *v1beta20210601storage.Backup_Status) error {
+func (backup *Backup_Status) AssignPropertiesToBackupStatus(destination *v20210601s.Backup_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(backup.PropertyBag)
 
@@ -1046,7 +1046,7 @@ type HighAvailability struct {
 }
 
 // AssignPropertiesFromHighAvailability populates our HighAvailability from the provided source HighAvailability
-func (availability *HighAvailability) AssignPropertiesFromHighAvailability(source *v1beta20210601storage.HighAvailability) error {
+func (availability *HighAvailability) AssignPropertiesFromHighAvailability(source *v20210601s.HighAvailability) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1068,7 +1068,7 @@ func (availability *HighAvailability) AssignPropertiesFromHighAvailability(sourc
 }
 
 // AssignPropertiesToHighAvailability populates the provided destination HighAvailability from our HighAvailability
-func (availability *HighAvailability) AssignPropertiesToHighAvailability(destination *v1beta20210601storage.HighAvailability) error {
+func (availability *HighAvailability) AssignPropertiesToHighAvailability(destination *v20210601s.HighAvailability) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(availability.PropertyBag)
 
@@ -1099,7 +1099,7 @@ type HighAvailability_Status struct {
 }
 
 // AssignPropertiesFromHighAvailabilityStatus populates our HighAvailability_Status from the provided source HighAvailability_Status
-func (availability *HighAvailability_Status) AssignPropertiesFromHighAvailabilityStatus(source *v1beta20210601storage.HighAvailability_Status) error {
+func (availability *HighAvailability_Status) AssignPropertiesFromHighAvailabilityStatus(source *v20210601s.HighAvailability_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1124,7 +1124,7 @@ func (availability *HighAvailability_Status) AssignPropertiesFromHighAvailabilit
 }
 
 // AssignPropertiesToHighAvailabilityStatus populates the provided destination HighAvailability_Status from our HighAvailability_Status
-func (availability *HighAvailability_Status) AssignPropertiesToHighAvailabilityStatus(destination *v1beta20210601storage.HighAvailability_Status) error {
+func (availability *HighAvailability_Status) AssignPropertiesToHighAvailabilityStatus(destination *v20210601s.HighAvailability_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(availability.PropertyBag)
 
@@ -1159,7 +1159,7 @@ type MaintenanceWindow struct {
 }
 
 // AssignPropertiesFromMaintenanceWindow populates our MaintenanceWindow from the provided source MaintenanceWindow
-func (window *MaintenanceWindow) AssignPropertiesFromMaintenanceWindow(source *v1beta20210601storage.MaintenanceWindow) error {
+func (window *MaintenanceWindow) AssignPropertiesFromMaintenanceWindow(source *v20210601s.MaintenanceWindow) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1187,7 +1187,7 @@ func (window *MaintenanceWindow) AssignPropertiesFromMaintenanceWindow(source *v
 }
 
 // AssignPropertiesToMaintenanceWindow populates the provided destination MaintenanceWindow from our MaintenanceWindow
-func (window *MaintenanceWindow) AssignPropertiesToMaintenanceWindow(destination *v1beta20210601storage.MaintenanceWindow) error {
+func (window *MaintenanceWindow) AssignPropertiesToMaintenanceWindow(destination *v20210601s.MaintenanceWindow) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(window.PropertyBag)
 
@@ -1225,7 +1225,7 @@ type MaintenanceWindow_Status struct {
 }
 
 // AssignPropertiesFromMaintenanceWindowStatus populates our MaintenanceWindow_Status from the provided source MaintenanceWindow_Status
-func (window *MaintenanceWindow_Status) AssignPropertiesFromMaintenanceWindowStatus(source *v1beta20210601storage.MaintenanceWindow_Status) error {
+func (window *MaintenanceWindow_Status) AssignPropertiesFromMaintenanceWindowStatus(source *v20210601s.MaintenanceWindow_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1253,7 +1253,7 @@ func (window *MaintenanceWindow_Status) AssignPropertiesFromMaintenanceWindowSta
 }
 
 // AssignPropertiesToMaintenanceWindowStatus populates the provided destination MaintenanceWindow_Status from our MaintenanceWindow_Status
-func (window *MaintenanceWindow_Status) AssignPropertiesToMaintenanceWindowStatus(destination *v1beta20210601storage.MaintenanceWindow_Status) error {
+func (window *MaintenanceWindow_Status) AssignPropertiesToMaintenanceWindowStatus(destination *v20210601s.MaintenanceWindow_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(window.PropertyBag)
 
@@ -1289,7 +1289,7 @@ type Network struct {
 }
 
 // AssignPropertiesFromNetwork populates our Network from the provided source Network
-func (network *Network) AssignPropertiesFromNetwork(source *v1beta20210601storage.Network) error {
+func (network *Network) AssignPropertiesFromNetwork(source *v20210601s.Network) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1321,7 +1321,7 @@ func (network *Network) AssignPropertiesFromNetwork(source *v1beta20210601storag
 }
 
 // AssignPropertiesToNetwork populates the provided destination Network from our Network
-func (network *Network) AssignPropertiesToNetwork(destination *v1beta20210601storage.Network) error {
+func (network *Network) AssignPropertiesToNetwork(destination *v20210601s.Network) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(network.PropertyBag)
 
@@ -1362,7 +1362,7 @@ type Network_Status struct {
 }
 
 // AssignPropertiesFromNetworkStatus populates our Network_Status from the provided source Network_Status
-func (network *Network_Status) AssignPropertiesFromNetworkStatus(source *v1beta20210601storage.Network_Status) error {
+func (network *Network_Status) AssignPropertiesFromNetworkStatus(source *v20210601s.Network_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1387,7 +1387,7 @@ func (network *Network_Status) AssignPropertiesFromNetworkStatus(source *v1beta2
 }
 
 // AssignPropertiesToNetworkStatus populates the provided destination Network_Status from our Network_Status
-func (network *Network_Status) AssignPropertiesToNetworkStatus(destination *v1beta20210601storage.Network_Status) error {
+func (network *Network_Status) AssignPropertiesToNetworkStatus(destination *v20210601s.Network_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(network.PropertyBag)
 
@@ -1420,7 +1420,7 @@ type Sku struct {
 }
 
 // AssignPropertiesFromSku populates our Sku from the provided source Sku
-func (sku *Sku) AssignPropertiesFromSku(source *v1beta20210601storage.Sku) error {
+func (sku *Sku) AssignPropertiesFromSku(source *v20210601s.Sku) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1442,7 +1442,7 @@ func (sku *Sku) AssignPropertiesFromSku(source *v1beta20210601storage.Sku) error
 }
 
 // AssignPropertiesToSku populates the provided destination Sku from our Sku
-func (sku *Sku) AssignPropertiesToSku(destination *v1beta20210601storage.Sku) error {
+func (sku *Sku) AssignPropertiesToSku(destination *v20210601s.Sku) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(sku.PropertyBag)
 
@@ -1472,7 +1472,7 @@ type Sku_Status struct {
 }
 
 // AssignPropertiesFromSkuStatus populates our Sku_Status from the provided source Sku_Status
-func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v1beta20210601storage.Sku_Status) error {
+func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v20210601s.Sku_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1494,7 +1494,7 @@ func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v1beta20210601stora
 }
 
 // AssignPropertiesToSkuStatus populates the provided destination Sku_Status from our Sku_Status
-func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v1beta20210601storage.Sku_Status) error {
+func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v20210601s.Sku_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(sku.PropertyBag)
 
@@ -1523,7 +1523,7 @@ type Storage struct {
 }
 
 // AssignPropertiesFromStorage populates our Storage from the provided source Storage
-func (storage *Storage) AssignPropertiesFromStorage(source *v1beta20210601storage.Storage) error {
+func (storage *Storage) AssignPropertiesFromStorage(source *v20210601s.Storage) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1542,7 +1542,7 @@ func (storage *Storage) AssignPropertiesFromStorage(source *v1beta20210601storag
 }
 
 // AssignPropertiesToStorage populates the provided destination Storage from our Storage
-func (storage *Storage) AssignPropertiesToStorage(destination *v1beta20210601storage.Storage) error {
+func (storage *Storage) AssignPropertiesToStorage(destination *v20210601s.Storage) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(storage.PropertyBag)
 
@@ -1568,7 +1568,7 @@ type Storage_Status struct {
 }
 
 // AssignPropertiesFromStorageStatus populates our Storage_Status from the provided source Storage_Status
-func (storage *Storage_Status) AssignPropertiesFromStorageStatus(source *v1beta20210601storage.Storage_Status) error {
+func (storage *Storage_Status) AssignPropertiesFromStorageStatus(source *v20210601s.Storage_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1587,7 +1587,7 @@ func (storage *Storage_Status) AssignPropertiesFromStorageStatus(source *v1beta2
 }
 
 // AssignPropertiesToStorageStatus populates the provided destination Storage_Status from our Storage_Status
-func (storage *Storage_Status) AssignPropertiesToStorageStatus(destination *v1beta20210601storage.Storage_Status) error {
+func (storage *Storage_Status) AssignPropertiesToStorageStatus(destination *v20210601s.Storage_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(storage.PropertyBag)
 
@@ -1618,7 +1618,7 @@ type SystemData_Status struct {
 }
 
 // AssignPropertiesFromSystemDataStatus populates our SystemData_Status from the provided source SystemData_Status
-func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v1beta20210601storage.SystemData_Status) error {
+func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v20210601s.SystemData_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1652,7 +1652,7 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v1be
 }
 
 // AssignPropertiesToSystemDataStatus populates the provided destination SystemData_Status from our SystemData_Status
-func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v1beta20210601storage.SystemData_Status) error {
+func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v20210601s.SystemData_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
 

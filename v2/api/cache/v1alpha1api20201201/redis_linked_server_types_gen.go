@@ -5,7 +5,7 @@ package v1alpha1api20201201
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201storage"
+	alpha20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &RedisLinkedServer{}
 // ConvertFrom populates our RedisLinkedServer from the provided hub RedisLinkedServer
 func (server *RedisLinkedServer) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v1alpha1api20201201storage.RedisLinkedServer
+	var source alpha20201201s.RedisLinkedServer
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -67,7 +67,7 @@ func (server *RedisLinkedServer) ConvertFrom(hub conversion.Hub) error {
 // ConvertTo populates the provided hub RedisLinkedServer from our RedisLinkedServer
 func (server *RedisLinkedServer) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v1alpha1api20201201storage.RedisLinkedServer
+	var destination alpha20201201s.RedisLinkedServer
 	err := server.AssignPropertiesToRedisLinkedServer(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from server")
@@ -253,7 +253,7 @@ func (server *RedisLinkedServer) validateResourceReferences() error {
 }
 
 // AssignPropertiesFromRedisLinkedServer populates our RedisLinkedServer from the provided source RedisLinkedServer
-func (server *RedisLinkedServer) AssignPropertiesFromRedisLinkedServer(source *v1alpha1api20201201storage.RedisLinkedServer) error {
+func (server *RedisLinkedServer) AssignPropertiesFromRedisLinkedServer(source *alpha20201201s.RedisLinkedServer) error {
 
 	// ObjectMeta
 	server.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -279,13 +279,13 @@ func (server *RedisLinkedServer) AssignPropertiesFromRedisLinkedServer(source *v
 }
 
 // AssignPropertiesToRedisLinkedServer populates the provided destination RedisLinkedServer from our RedisLinkedServer
-func (server *RedisLinkedServer) AssignPropertiesToRedisLinkedServer(destination *v1alpha1api20201201storage.RedisLinkedServer) error {
+func (server *RedisLinkedServer) AssignPropertiesToRedisLinkedServer(destination *alpha20201201s.RedisLinkedServer) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *server.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1alpha1api20201201storage.RedisLinkedServers_Spec
+	var spec alpha20201201s.RedisLinkedServers_Spec
 	err := server.Spec.AssignPropertiesToRedisLinkedServersSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToRedisLinkedServersSpec() to populate field Spec")
@@ -293,7 +293,7 @@ func (server *RedisLinkedServer) AssignPropertiesToRedisLinkedServer(destination
 	destination.Spec = spec
 
 	// Status
-	var status v1alpha1api20201201storage.RedisLinkedServerWithProperties_Status
+	var status alpha20201201s.RedisLinkedServerWithProperties_Status
 	err = server.Status.AssignPropertiesToRedisLinkedServerWithPropertiesStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToRedisLinkedServerWithPropertiesStatus() to populate field Status")
@@ -338,14 +338,14 @@ var _ genruntime.ConvertibleStatus = &RedisLinkedServerWithProperties_Status{}
 
 // ConvertStatusFrom populates our RedisLinkedServerWithProperties_Status from the provided source
 func (properties *RedisLinkedServerWithProperties_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1alpha1api20201201storage.RedisLinkedServerWithProperties_Status)
+	src, ok := source.(*alpha20201201s.RedisLinkedServerWithProperties_Status)
 	if ok {
 		// Populate our instance from source
 		return properties.AssignPropertiesFromRedisLinkedServerWithPropertiesStatus(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20201201storage.RedisLinkedServerWithProperties_Status{}
+	src = &alpha20201201s.RedisLinkedServerWithProperties_Status{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -362,14 +362,14 @@ func (properties *RedisLinkedServerWithProperties_Status) ConvertStatusFrom(sour
 
 // ConvertStatusTo populates the provided destination from our RedisLinkedServerWithProperties_Status
 func (properties *RedisLinkedServerWithProperties_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1alpha1api20201201storage.RedisLinkedServerWithProperties_Status)
+	dst, ok := destination.(*alpha20201201s.RedisLinkedServerWithProperties_Status)
 	if ok {
 		// Populate destination from our instance
 		return properties.AssignPropertiesToRedisLinkedServerWithPropertiesStatus(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20201201storage.RedisLinkedServerWithProperties_Status{}
+	dst = &alpha20201201s.RedisLinkedServerWithProperties_Status{}
 	err := properties.AssignPropertiesToRedisLinkedServerWithPropertiesStatus(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -459,7 +459,7 @@ func (properties *RedisLinkedServerWithProperties_Status) PopulateFromARM(owner 
 }
 
 // AssignPropertiesFromRedisLinkedServerWithPropertiesStatus populates our RedisLinkedServerWithProperties_Status from the provided source RedisLinkedServerWithProperties_Status
-func (properties *RedisLinkedServerWithProperties_Status) AssignPropertiesFromRedisLinkedServerWithPropertiesStatus(source *v1alpha1api20201201storage.RedisLinkedServerWithProperties_Status) error {
+func (properties *RedisLinkedServerWithProperties_Status) AssignPropertiesFromRedisLinkedServerWithPropertiesStatus(source *alpha20201201s.RedisLinkedServerWithProperties_Status) error {
 
 	// Conditions
 	properties.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -495,7 +495,7 @@ func (properties *RedisLinkedServerWithProperties_Status) AssignPropertiesFromRe
 }
 
 // AssignPropertiesToRedisLinkedServerWithPropertiesStatus populates the provided destination RedisLinkedServerWithProperties_Status from our RedisLinkedServerWithProperties_Status
-func (properties *RedisLinkedServerWithProperties_Status) AssignPropertiesToRedisLinkedServerWithPropertiesStatus(destination *v1alpha1api20201201storage.RedisLinkedServerWithProperties_Status) error {
+func (properties *RedisLinkedServerWithProperties_Status) AssignPropertiesToRedisLinkedServerWithPropertiesStatus(destination *alpha20201201s.RedisLinkedServerWithProperties_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -675,14 +675,14 @@ var _ genruntime.ConvertibleSpec = &RedisLinkedServers_Spec{}
 
 // ConvertSpecFrom populates our RedisLinkedServers_Spec from the provided source
 func (servers *RedisLinkedServers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1alpha1api20201201storage.RedisLinkedServers_Spec)
+	src, ok := source.(*alpha20201201s.RedisLinkedServers_Spec)
 	if ok {
 		// Populate our instance from source
 		return servers.AssignPropertiesFromRedisLinkedServersSpec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20201201storage.RedisLinkedServers_Spec{}
+	src = &alpha20201201s.RedisLinkedServers_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -699,14 +699,14 @@ func (servers *RedisLinkedServers_Spec) ConvertSpecFrom(source genruntime.Conver
 
 // ConvertSpecTo populates the provided destination from our RedisLinkedServers_Spec
 func (servers *RedisLinkedServers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1alpha1api20201201storage.RedisLinkedServers_Spec)
+	dst, ok := destination.(*alpha20201201s.RedisLinkedServers_Spec)
 	if ok {
 		// Populate destination from our instance
 		return servers.AssignPropertiesToRedisLinkedServersSpec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20201201storage.RedisLinkedServers_Spec{}
+	dst = &alpha20201201s.RedisLinkedServers_Spec{}
 	err := servers.AssignPropertiesToRedisLinkedServersSpec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -722,7 +722,7 @@ func (servers *RedisLinkedServers_Spec) ConvertSpecTo(destination genruntime.Con
 }
 
 // AssignPropertiesFromRedisLinkedServersSpec populates our RedisLinkedServers_Spec from the provided source RedisLinkedServers_Spec
-func (servers *RedisLinkedServers_Spec) AssignPropertiesFromRedisLinkedServersSpec(source *v1alpha1api20201201storage.RedisLinkedServers_Spec) error {
+func (servers *RedisLinkedServers_Spec) AssignPropertiesFromRedisLinkedServersSpec(source *alpha20201201s.RedisLinkedServers_Spec) error {
 
 	// AzureName
 	servers.AzureName = source.AzureName
@@ -765,7 +765,7 @@ func (servers *RedisLinkedServers_Spec) AssignPropertiesFromRedisLinkedServersSp
 }
 
 // AssignPropertiesToRedisLinkedServersSpec populates the provided destination RedisLinkedServers_Spec from our RedisLinkedServers_Spec
-func (servers *RedisLinkedServers_Spec) AssignPropertiesToRedisLinkedServersSpec(destination *v1alpha1api20201201storage.RedisLinkedServers_Spec) error {
+func (servers *RedisLinkedServers_Spec) AssignPropertiesToRedisLinkedServersSpec(destination *alpha20201201s.RedisLinkedServers_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -5,7 +5,7 @@ package v1beta20200601
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +35,7 @@ func RunResourceConversionTestForTopic(subject Topic) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20200601storage.Topic
+	var hub v20200601s.Topic
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -77,7 +77,7 @@ func RunPropertyAssignmentTestForTopic(subject Topic) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.Topic
+	var other v20200601s.Topic
 	err := copied.AssignPropertiesToTopic(&other)
 	if err != nil {
 		return err.Error()
@@ -179,7 +179,7 @@ func RunPropertyAssignmentTestForTopicStatus(subject Topic_Status) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.Topic_Status
+	var other v20200601s.Topic_Status
 	err := copied.AssignPropertiesToTopicStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -312,7 +312,7 @@ func RunPropertyAssignmentTestForTopicsSpec(subject Topics_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.Topics_Spec
+	var other v20200601s.Topics_Spec
 	err := copied.AssignPropertiesToTopicsSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -415,7 +415,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnectionStatusTopicSubResource
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.PrivateEndpointConnection_Status_Topic_SubResourceEmbedded
+	var other v20200601s.PrivateEndpointConnection_Status_Topic_SubResourceEmbedded
 	err := copied.AssignPropertiesToPrivateEndpointConnectionStatusTopicSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()

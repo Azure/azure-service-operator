@@ -5,7 +5,7 @@ package v1alpha1api20180501previewstorage
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501previewstorage"
+	v20180501ps "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501previewstorage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -46,7 +46,7 @@ var _ conversion.Convertible = &Webtest{}
 
 // ConvertFrom populates our Webtest from the provided hub Webtest
 func (webtest *Webtest) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1beta20180501previewstorage.Webtest)
+	source, ok := hub.(*v20180501ps.Webtest)
 	if !ok {
 		return fmt.Errorf("expected insights/v1beta20180501previewstorage/Webtest but received %T instead", hub)
 	}
@@ -56,7 +56,7 @@ func (webtest *Webtest) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub Webtest from our Webtest
 func (webtest *Webtest) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1beta20180501previewstorage.Webtest)
+	destination, ok := hub.(*v20180501ps.Webtest)
 	if !ok {
 		return fmt.Errorf("expected insights/v1beta20180501previewstorage/Webtest but received %T instead", hub)
 	}
@@ -131,7 +131,7 @@ func (webtest *Webtest) SetStatus(status genruntime.ConvertibleStatus) error {
 }
 
 // AssignPropertiesFromWebtest populates our Webtest from the provided source Webtest
-func (webtest *Webtest) AssignPropertiesFromWebtest(source *v1beta20180501previewstorage.Webtest) error {
+func (webtest *Webtest) AssignPropertiesFromWebtest(source *v20180501ps.Webtest) error {
 
 	// ObjectMeta
 	webtest.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -157,13 +157,13 @@ func (webtest *Webtest) AssignPropertiesFromWebtest(source *v1beta20180501previe
 }
 
 // AssignPropertiesToWebtest populates the provided destination Webtest from our Webtest
-func (webtest *Webtest) AssignPropertiesToWebtest(destination *v1beta20180501previewstorage.Webtest) error {
+func (webtest *Webtest) AssignPropertiesToWebtest(destination *v20180501ps.Webtest) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *webtest.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1beta20180501previewstorage.Webtests_Spec
+	var spec v20180501ps.Webtests_Spec
 	err := webtest.Spec.AssignPropertiesToWebtestsSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToWebtestsSpec() to populate field Spec")
@@ -171,7 +171,7 @@ func (webtest *Webtest) AssignPropertiesToWebtest(destination *v1beta20180501pre
 	destination.Spec = spec
 
 	// Status
-	var status v1beta20180501previewstorage.WebTest_Status
+	var status v20180501ps.WebTest_Status
 	err = webtest.Status.AssignPropertiesToWebTestStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToWebTestStatus() to populate field Status")
@@ -229,14 +229,14 @@ var _ genruntime.ConvertibleStatus = &WebTest_Status{}
 
 // ConvertStatusFrom populates our WebTest_Status from the provided source
 func (test *WebTest_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1beta20180501previewstorage.WebTest_Status)
+	src, ok := source.(*v20180501ps.WebTest_Status)
 	if ok {
 		// Populate our instance from source
 		return test.AssignPropertiesFromWebTestStatus(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1beta20180501previewstorage.WebTest_Status{}
+	src = &v20180501ps.WebTest_Status{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -253,14 +253,14 @@ func (test *WebTest_Status) ConvertStatusFrom(source genruntime.ConvertibleStatu
 
 // ConvertStatusTo populates the provided destination from our WebTest_Status
 func (test *WebTest_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1beta20180501previewstorage.WebTest_Status)
+	dst, ok := destination.(*v20180501ps.WebTest_Status)
 	if ok {
 		// Populate destination from our instance
 		return test.AssignPropertiesToWebTestStatus(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1beta20180501previewstorage.WebTest_Status{}
+	dst = &v20180501ps.WebTest_Status{}
 	err := test.AssignPropertiesToWebTestStatus(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -276,7 +276,7 @@ func (test *WebTest_Status) ConvertStatusTo(destination genruntime.ConvertibleSt
 }
 
 // AssignPropertiesFromWebTestStatus populates our WebTest_Status from the provided source WebTest_Status
-func (test *WebTest_Status) AssignPropertiesFromWebTestStatus(source *v1beta20180501previewstorage.WebTest_Status) error {
+func (test *WebTest_Status) AssignPropertiesFromWebTestStatus(source *v20180501ps.WebTest_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -406,7 +406,7 @@ func (test *WebTest_Status) AssignPropertiesFromWebTestStatus(source *v1beta2018
 }
 
 // AssignPropertiesToWebTestStatus populates the provided destination WebTest_Status from our WebTest_Status
-func (test *WebTest_Status) AssignPropertiesToWebTestStatus(destination *v1beta20180501previewstorage.WebTest_Status) error {
+func (test *WebTest_Status) AssignPropertiesToWebTestStatus(destination *v20180501ps.WebTest_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(test.PropertyBag)
 
@@ -415,7 +415,7 @@ func (test *WebTest_Status) AssignPropertiesToWebTestStatus(destination *v1beta2
 
 	// Configuration
 	if test.Configuration != nil {
-		var configuration v1beta20180501previewstorage.WebTestProperties_Status_Configuration
+		var configuration v20180501ps.WebTestProperties_Status_Configuration
 		err := test.Configuration.AssignPropertiesToWebTestPropertiesStatusConfiguration(&configuration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesStatusConfiguration() to populate field Configuration")
@@ -450,11 +450,11 @@ func (test *WebTest_Status) AssignPropertiesToWebTestStatus(destination *v1beta2
 
 	// Locations
 	if test.Locations != nil {
-		locationList := make([]v1beta20180501previewstorage.WebTestGeolocation_Status, len(test.Locations))
+		locationList := make([]v20180501ps.WebTestGeolocation_Status, len(test.Locations))
 		for locationIndex, locationItem := range test.Locations {
 			// Shadow the loop variable to avoid aliasing
 			locationItem := locationItem
-			var location v1beta20180501previewstorage.WebTestGeolocation_Status
+			var location v20180501ps.WebTestGeolocation_Status
 			err := locationItem.AssignPropertiesToWebTestGeolocationStatus(&location)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToWebTestGeolocationStatus() to populate field Locations")
@@ -477,7 +477,7 @@ func (test *WebTest_Status) AssignPropertiesToWebTestStatus(destination *v1beta2
 
 	// Request
 	if test.Request != nil {
-		var request v1beta20180501previewstorage.WebTestProperties_Status_Request
+		var request v20180501ps.WebTestProperties_Status_Request
 		err := test.Request.AssignPropertiesToWebTestPropertiesStatusRequest(&request)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesStatusRequest() to populate field Request")
@@ -514,7 +514,7 @@ func (test *WebTest_Status) AssignPropertiesToWebTestStatus(destination *v1beta2
 
 	// ValidationRules
 	if test.ValidationRules != nil {
-		var validationRule v1beta20180501previewstorage.WebTestProperties_Status_ValidationRules
+		var validationRule v20180501ps.WebTestProperties_Status_ValidationRules
 		err := test.ValidationRules.AssignPropertiesToWebTestPropertiesStatusValidationRules(&validationRule)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesStatusValidationRules() to populate field ValidationRules")
@@ -568,14 +568,14 @@ var _ genruntime.ConvertibleSpec = &Webtests_Spec{}
 
 // ConvertSpecFrom populates our Webtests_Spec from the provided source
 func (webtests *Webtests_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1beta20180501previewstorage.Webtests_Spec)
+	src, ok := source.(*v20180501ps.Webtests_Spec)
 	if ok {
 		// Populate our instance from source
 		return webtests.AssignPropertiesFromWebtestsSpec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1beta20180501previewstorage.Webtests_Spec{}
+	src = &v20180501ps.Webtests_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -592,14 +592,14 @@ func (webtests *Webtests_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec
 
 // ConvertSpecTo populates the provided destination from our Webtests_Spec
 func (webtests *Webtests_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1beta20180501previewstorage.Webtests_Spec)
+	dst, ok := destination.(*v20180501ps.Webtests_Spec)
 	if ok {
 		// Populate destination from our instance
 		return webtests.AssignPropertiesToWebtestsSpec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1beta20180501previewstorage.Webtests_Spec{}
+	dst = &v20180501ps.Webtests_Spec{}
 	err := webtests.AssignPropertiesToWebtestsSpec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -615,7 +615,7 @@ func (webtests *Webtests_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 }
 
 // AssignPropertiesFromWebtestsSpec populates our Webtests_Spec from the provided source Webtests_Spec
-func (webtests *Webtests_Spec) AssignPropertiesFromWebtestsSpec(source *v1beta20180501previewstorage.Webtests_Spec) error {
+func (webtests *Webtests_Spec) AssignPropertiesFromWebtestsSpec(source *v20180501ps.Webtests_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -739,7 +739,7 @@ func (webtests *Webtests_Spec) AssignPropertiesFromWebtestsSpec(source *v1beta20
 }
 
 // AssignPropertiesToWebtestsSpec populates the provided destination Webtests_Spec from our Webtests_Spec
-func (webtests *Webtests_Spec) AssignPropertiesToWebtestsSpec(destination *v1beta20180501previewstorage.Webtests_Spec) error {
+func (webtests *Webtests_Spec) AssignPropertiesToWebtestsSpec(destination *v20180501ps.Webtests_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(webtests.PropertyBag)
 
@@ -748,7 +748,7 @@ func (webtests *Webtests_Spec) AssignPropertiesToWebtestsSpec(destination *v1bet
 
 	// Configuration
 	if webtests.Configuration != nil {
-		var configuration v1beta20180501previewstorage.WebTestPropertiesConfiguration
+		var configuration v20180501ps.WebTestPropertiesConfiguration
 		err := webtests.Configuration.AssignPropertiesToWebTestPropertiesConfiguration(&configuration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesConfiguration() to populate field Configuration")
@@ -780,11 +780,11 @@ func (webtests *Webtests_Spec) AssignPropertiesToWebtestsSpec(destination *v1bet
 
 	// Locations
 	if webtests.Locations != nil {
-		locationList := make([]v1beta20180501previewstorage.WebTestGeolocation, len(webtests.Locations))
+		locationList := make([]v20180501ps.WebTestGeolocation, len(webtests.Locations))
 		for locationIndex, locationItem := range webtests.Locations {
 			// Shadow the loop variable to avoid aliasing
 			locationItem := locationItem
-			var location v1beta20180501previewstorage.WebTestGeolocation
+			var location v20180501ps.WebTestGeolocation
 			err := locationItem.AssignPropertiesToWebTestGeolocation(&location)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToWebTestGeolocation() to populate field Locations")
@@ -812,7 +812,7 @@ func (webtests *Webtests_Spec) AssignPropertiesToWebtestsSpec(destination *v1bet
 
 	// Request
 	if webtests.Request != nil {
-		var request v1beta20180501previewstorage.WebTestPropertiesRequest
+		var request v20180501ps.WebTestPropertiesRequest
 		err := webtests.Request.AssignPropertiesToWebTestPropertiesRequest(&request)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesRequest() to populate field Request")
@@ -841,7 +841,7 @@ func (webtests *Webtests_Spec) AssignPropertiesToWebtestsSpec(destination *v1bet
 
 	// ValidationRules
 	if webtests.ValidationRules != nil {
-		var validationRule v1beta20180501previewstorage.WebTestPropertiesValidationRules
+		var validationRule v20180501ps.WebTestPropertiesValidationRules
 		err := webtests.ValidationRules.AssignPropertiesToWebTestPropertiesValidationRules(&validationRule)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesValidationRules() to populate field ValidationRules")
@@ -870,7 +870,7 @@ type WebTestGeolocation struct {
 }
 
 // AssignPropertiesFromWebTestGeolocation populates our WebTestGeolocation from the provided source WebTestGeolocation
-func (geolocation *WebTestGeolocation) AssignPropertiesFromWebTestGeolocation(source *v1beta20180501previewstorage.WebTestGeolocation) error {
+func (geolocation *WebTestGeolocation) AssignPropertiesFromWebTestGeolocation(source *v20180501ps.WebTestGeolocation) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -889,7 +889,7 @@ func (geolocation *WebTestGeolocation) AssignPropertiesFromWebTestGeolocation(so
 }
 
 // AssignPropertiesToWebTestGeolocation populates the provided destination WebTestGeolocation from our WebTestGeolocation
-func (geolocation *WebTestGeolocation) AssignPropertiesToWebTestGeolocation(destination *v1beta20180501previewstorage.WebTestGeolocation) error {
+func (geolocation *WebTestGeolocation) AssignPropertiesToWebTestGeolocation(destination *v20180501ps.WebTestGeolocation) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(geolocation.PropertyBag)
 
@@ -915,7 +915,7 @@ type WebTestGeolocation_Status struct {
 }
 
 // AssignPropertiesFromWebTestGeolocationStatus populates our WebTestGeolocation_Status from the provided source WebTestGeolocation_Status
-func (geolocation *WebTestGeolocation_Status) AssignPropertiesFromWebTestGeolocationStatus(source *v1beta20180501previewstorage.WebTestGeolocation_Status) error {
+func (geolocation *WebTestGeolocation_Status) AssignPropertiesFromWebTestGeolocationStatus(source *v20180501ps.WebTestGeolocation_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -934,7 +934,7 @@ func (geolocation *WebTestGeolocation_Status) AssignPropertiesFromWebTestGeoloca
 }
 
 // AssignPropertiesToWebTestGeolocationStatus populates the provided destination WebTestGeolocation_Status from our WebTestGeolocation_Status
-func (geolocation *WebTestGeolocation_Status) AssignPropertiesToWebTestGeolocationStatus(destination *v1beta20180501previewstorage.WebTestGeolocation_Status) error {
+func (geolocation *WebTestGeolocation_Status) AssignPropertiesToWebTestGeolocationStatus(destination *v20180501ps.WebTestGeolocation_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(geolocation.PropertyBag)
 
@@ -960,7 +960,7 @@ type WebTestPropertiesConfiguration struct {
 }
 
 // AssignPropertiesFromWebTestPropertiesConfiguration populates our WebTestPropertiesConfiguration from the provided source WebTestPropertiesConfiguration
-func (configuration *WebTestPropertiesConfiguration) AssignPropertiesFromWebTestPropertiesConfiguration(source *v1beta20180501previewstorage.WebTestPropertiesConfiguration) error {
+func (configuration *WebTestPropertiesConfiguration) AssignPropertiesFromWebTestPropertiesConfiguration(source *v20180501ps.WebTestPropertiesConfiguration) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -979,7 +979,7 @@ func (configuration *WebTestPropertiesConfiguration) AssignPropertiesFromWebTest
 }
 
 // AssignPropertiesToWebTestPropertiesConfiguration populates the provided destination WebTestPropertiesConfiguration from our WebTestPropertiesConfiguration
-func (configuration *WebTestPropertiesConfiguration) AssignPropertiesToWebTestPropertiesConfiguration(destination *v1beta20180501previewstorage.WebTestPropertiesConfiguration) error {
+func (configuration *WebTestPropertiesConfiguration) AssignPropertiesToWebTestPropertiesConfiguration(destination *v20180501ps.WebTestPropertiesConfiguration) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
@@ -1010,7 +1010,7 @@ type WebTestPropertiesRequest struct {
 }
 
 // AssignPropertiesFromWebTestPropertiesRequest populates our WebTestPropertiesRequest from the provided source WebTestPropertiesRequest
-func (request *WebTestPropertiesRequest) AssignPropertiesFromWebTestPropertiesRequest(source *v1beta20180501previewstorage.WebTestPropertiesRequest) error {
+func (request *WebTestPropertiesRequest) AssignPropertiesFromWebTestPropertiesRequest(source *v20180501ps.WebTestPropertiesRequest) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1069,7 +1069,7 @@ func (request *WebTestPropertiesRequest) AssignPropertiesFromWebTestPropertiesRe
 }
 
 // AssignPropertiesToWebTestPropertiesRequest populates the provided destination WebTestPropertiesRequest from our WebTestPropertiesRequest
-func (request *WebTestPropertiesRequest) AssignPropertiesToWebTestPropertiesRequest(destination *v1beta20180501previewstorage.WebTestPropertiesRequest) error {
+func (request *WebTestPropertiesRequest) AssignPropertiesToWebTestPropertiesRequest(destination *v20180501ps.WebTestPropertiesRequest) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(request.PropertyBag)
 
@@ -1083,11 +1083,11 @@ func (request *WebTestPropertiesRequest) AssignPropertiesToWebTestPropertiesRequ
 
 	// Headers
 	if request.Headers != nil {
-		headerList := make([]v1beta20180501previewstorage.HeaderField, len(request.Headers))
+		headerList := make([]v20180501ps.HeaderField, len(request.Headers))
 		for headerIndex, headerItem := range request.Headers {
 			// Shadow the loop variable to avoid aliasing
 			headerItem := headerItem
-			var header v1beta20180501previewstorage.HeaderField
+			var header v20180501ps.HeaderField
 			err := headerItem.AssignPropertiesToHeaderField(&header)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToHeaderField() to populate field Headers")
@@ -1139,7 +1139,7 @@ type WebTestPropertiesValidationRules struct {
 }
 
 // AssignPropertiesFromWebTestPropertiesValidationRules populates our WebTestPropertiesValidationRules from the provided source WebTestPropertiesValidationRules
-func (rules *WebTestPropertiesValidationRules) AssignPropertiesFromWebTestPropertiesValidationRules(source *v1beta20180501previewstorage.WebTestPropertiesValidationRules) error {
+func (rules *WebTestPropertiesValidationRules) AssignPropertiesFromWebTestPropertiesValidationRules(source *v20180501ps.WebTestPropertiesValidationRules) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1189,13 +1189,13 @@ func (rules *WebTestPropertiesValidationRules) AssignPropertiesFromWebTestProper
 }
 
 // AssignPropertiesToWebTestPropertiesValidationRules populates the provided destination WebTestPropertiesValidationRules from our WebTestPropertiesValidationRules
-func (rules *WebTestPropertiesValidationRules) AssignPropertiesToWebTestPropertiesValidationRules(destination *v1beta20180501previewstorage.WebTestPropertiesValidationRules) error {
+func (rules *WebTestPropertiesValidationRules) AssignPropertiesToWebTestPropertiesValidationRules(destination *v20180501ps.WebTestPropertiesValidationRules) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(rules.PropertyBag)
 
 	// ContentValidation
 	if rules.ContentValidation != nil {
-		var contentValidation v1beta20180501previewstorage.WebTestPropertiesValidationRulesContentValidation
+		var contentValidation v20180501ps.WebTestPropertiesValidationRulesContentValidation
 		err := rules.ContentValidation.AssignPropertiesToWebTestPropertiesValidationRulesContentValidation(&contentValidation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesValidationRulesContentValidation() to populate field ContentValidation")
@@ -1246,7 +1246,7 @@ type WebTestProperties_Status_Configuration struct {
 }
 
 // AssignPropertiesFromWebTestPropertiesStatusConfiguration populates our WebTestProperties_Status_Configuration from the provided source WebTestProperties_Status_Configuration
-func (configuration *WebTestProperties_Status_Configuration) AssignPropertiesFromWebTestPropertiesStatusConfiguration(source *v1beta20180501previewstorage.WebTestProperties_Status_Configuration) error {
+func (configuration *WebTestProperties_Status_Configuration) AssignPropertiesFromWebTestPropertiesStatusConfiguration(source *v20180501ps.WebTestProperties_Status_Configuration) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1265,7 +1265,7 @@ func (configuration *WebTestProperties_Status_Configuration) AssignPropertiesFro
 }
 
 // AssignPropertiesToWebTestPropertiesStatusConfiguration populates the provided destination WebTestProperties_Status_Configuration from our WebTestProperties_Status_Configuration
-func (configuration *WebTestProperties_Status_Configuration) AssignPropertiesToWebTestPropertiesStatusConfiguration(destination *v1beta20180501previewstorage.WebTestProperties_Status_Configuration) error {
+func (configuration *WebTestProperties_Status_Configuration) AssignPropertiesToWebTestPropertiesStatusConfiguration(destination *v20180501ps.WebTestProperties_Status_Configuration) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
@@ -1296,7 +1296,7 @@ type WebTestProperties_Status_Request struct {
 }
 
 // AssignPropertiesFromWebTestPropertiesStatusRequest populates our WebTestProperties_Status_Request from the provided source WebTestProperties_Status_Request
-func (request *WebTestProperties_Status_Request) AssignPropertiesFromWebTestPropertiesStatusRequest(source *v1beta20180501previewstorage.WebTestProperties_Status_Request) error {
+func (request *WebTestProperties_Status_Request) AssignPropertiesFromWebTestPropertiesStatusRequest(source *v20180501ps.WebTestProperties_Status_Request) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1355,7 +1355,7 @@ func (request *WebTestProperties_Status_Request) AssignPropertiesFromWebTestProp
 }
 
 // AssignPropertiesToWebTestPropertiesStatusRequest populates the provided destination WebTestProperties_Status_Request from our WebTestProperties_Status_Request
-func (request *WebTestProperties_Status_Request) AssignPropertiesToWebTestPropertiesStatusRequest(destination *v1beta20180501previewstorage.WebTestProperties_Status_Request) error {
+func (request *WebTestProperties_Status_Request) AssignPropertiesToWebTestPropertiesStatusRequest(destination *v20180501ps.WebTestProperties_Status_Request) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(request.PropertyBag)
 
@@ -1369,11 +1369,11 @@ func (request *WebTestProperties_Status_Request) AssignPropertiesToWebTestProper
 
 	// Headers
 	if request.Headers != nil {
-		headerList := make([]v1beta20180501previewstorage.HeaderField_Status, len(request.Headers))
+		headerList := make([]v20180501ps.HeaderField_Status, len(request.Headers))
 		for headerIndex, headerItem := range request.Headers {
 			// Shadow the loop variable to avoid aliasing
 			headerItem := headerItem
-			var header v1beta20180501previewstorage.HeaderField_Status
+			var header v20180501ps.HeaderField_Status
 			err := headerItem.AssignPropertiesToHeaderFieldStatus(&header)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToHeaderFieldStatus() to populate field Headers")
@@ -1425,7 +1425,7 @@ type WebTestProperties_Status_ValidationRules struct {
 }
 
 // AssignPropertiesFromWebTestPropertiesStatusValidationRules populates our WebTestProperties_Status_ValidationRules from the provided source WebTestProperties_Status_ValidationRules
-func (rules *WebTestProperties_Status_ValidationRules) AssignPropertiesFromWebTestPropertiesStatusValidationRules(source *v1beta20180501previewstorage.WebTestProperties_Status_ValidationRules) error {
+func (rules *WebTestProperties_Status_ValidationRules) AssignPropertiesFromWebTestPropertiesStatusValidationRules(source *v20180501ps.WebTestProperties_Status_ValidationRules) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1475,13 +1475,13 @@ func (rules *WebTestProperties_Status_ValidationRules) AssignPropertiesFromWebTe
 }
 
 // AssignPropertiesToWebTestPropertiesStatusValidationRules populates the provided destination WebTestProperties_Status_ValidationRules from our WebTestProperties_Status_ValidationRules
-func (rules *WebTestProperties_Status_ValidationRules) AssignPropertiesToWebTestPropertiesStatusValidationRules(destination *v1beta20180501previewstorage.WebTestProperties_Status_ValidationRules) error {
+func (rules *WebTestProperties_Status_ValidationRules) AssignPropertiesToWebTestPropertiesStatusValidationRules(destination *v20180501ps.WebTestProperties_Status_ValidationRules) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(rules.PropertyBag)
 
 	// ContentValidation
 	if rules.ContentValidation != nil {
-		var contentValidation v1beta20180501previewstorage.WebTestProperties_Status_ValidationRules_ContentValidation
+		var contentValidation v20180501ps.WebTestProperties_Status_ValidationRules_ContentValidation
 		err := rules.ContentValidation.AssignPropertiesToWebTestPropertiesStatusValidationRulesContentValidation(&contentValidation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesStatusValidationRulesContentValidation() to populate field ContentValidation")
@@ -1533,7 +1533,7 @@ type HeaderField struct {
 }
 
 // AssignPropertiesFromHeaderField populates our HeaderField from the provided source HeaderField
-func (field *HeaderField) AssignPropertiesFromHeaderField(source *v1beta20180501previewstorage.HeaderField) error {
+func (field *HeaderField) AssignPropertiesFromHeaderField(source *v20180501ps.HeaderField) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1555,7 +1555,7 @@ func (field *HeaderField) AssignPropertiesFromHeaderField(source *v1beta20180501
 }
 
 // AssignPropertiesToHeaderField populates the provided destination HeaderField from our HeaderField
-func (field *HeaderField) AssignPropertiesToHeaderField(destination *v1beta20180501previewstorage.HeaderField) error {
+func (field *HeaderField) AssignPropertiesToHeaderField(destination *v20180501ps.HeaderField) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(field.PropertyBag)
 
@@ -1585,7 +1585,7 @@ type HeaderField_Status struct {
 }
 
 // AssignPropertiesFromHeaderFieldStatus populates our HeaderField_Status from the provided source HeaderField_Status
-func (field *HeaderField_Status) AssignPropertiesFromHeaderFieldStatus(source *v1beta20180501previewstorage.HeaderField_Status) error {
+func (field *HeaderField_Status) AssignPropertiesFromHeaderFieldStatus(source *v20180501ps.HeaderField_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1607,7 +1607,7 @@ func (field *HeaderField_Status) AssignPropertiesFromHeaderFieldStatus(source *v
 }
 
 // AssignPropertiesToHeaderFieldStatus populates the provided destination HeaderField_Status from our HeaderField_Status
-func (field *HeaderField_Status) AssignPropertiesToHeaderFieldStatus(destination *v1beta20180501previewstorage.HeaderField_Status) error {
+func (field *HeaderField_Status) AssignPropertiesToHeaderFieldStatus(destination *v20180501ps.HeaderField_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(field.PropertyBag)
 
@@ -1638,7 +1638,7 @@ type WebTestPropertiesValidationRulesContentValidation struct {
 }
 
 // AssignPropertiesFromWebTestPropertiesValidationRulesContentValidation populates our WebTestPropertiesValidationRulesContentValidation from the provided source WebTestPropertiesValidationRulesContentValidation
-func (validation *WebTestPropertiesValidationRulesContentValidation) AssignPropertiesFromWebTestPropertiesValidationRulesContentValidation(source *v1beta20180501previewstorage.WebTestPropertiesValidationRulesContentValidation) error {
+func (validation *WebTestPropertiesValidationRulesContentValidation) AssignPropertiesFromWebTestPropertiesValidationRulesContentValidation(source *v20180501ps.WebTestPropertiesValidationRulesContentValidation) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1673,7 +1673,7 @@ func (validation *WebTestPropertiesValidationRulesContentValidation) AssignPrope
 }
 
 // AssignPropertiesToWebTestPropertiesValidationRulesContentValidation populates the provided destination WebTestPropertiesValidationRulesContentValidation from our WebTestPropertiesValidationRulesContentValidation
-func (validation *WebTestPropertiesValidationRulesContentValidation) AssignPropertiesToWebTestPropertiesValidationRulesContentValidation(destination *v1beta20180501previewstorage.WebTestPropertiesValidationRulesContentValidation) error {
+func (validation *WebTestPropertiesValidationRulesContentValidation) AssignPropertiesToWebTestPropertiesValidationRulesContentValidation(destination *v20180501ps.WebTestPropertiesValidationRulesContentValidation) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(validation.PropertyBag)
 
@@ -1717,7 +1717,7 @@ type WebTestProperties_Status_ValidationRules_ContentValidation struct {
 }
 
 // AssignPropertiesFromWebTestPropertiesStatusValidationRulesContentValidation populates our WebTestProperties_Status_ValidationRules_ContentValidation from the provided source WebTestProperties_Status_ValidationRules_ContentValidation
-func (validation *WebTestProperties_Status_ValidationRules_ContentValidation) AssignPropertiesFromWebTestPropertiesStatusValidationRulesContentValidation(source *v1beta20180501previewstorage.WebTestProperties_Status_ValidationRules_ContentValidation) error {
+func (validation *WebTestProperties_Status_ValidationRules_ContentValidation) AssignPropertiesFromWebTestPropertiesStatusValidationRulesContentValidation(source *v20180501ps.WebTestProperties_Status_ValidationRules_ContentValidation) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1752,7 +1752,7 @@ func (validation *WebTestProperties_Status_ValidationRules_ContentValidation) As
 }
 
 // AssignPropertiesToWebTestPropertiesStatusValidationRulesContentValidation populates the provided destination WebTestProperties_Status_ValidationRules_ContentValidation from our WebTestProperties_Status_ValidationRules_ContentValidation
-func (validation *WebTestProperties_Status_ValidationRules_ContentValidation) AssignPropertiesToWebTestPropertiesStatusValidationRulesContentValidation(destination *v1beta20180501previewstorage.WebTestProperties_Status_ValidationRules_ContentValidation) error {
+func (validation *WebTestProperties_Status_ValidationRules_ContentValidation) AssignPropertiesToWebTestPropertiesStatusValidationRulesContentValidation(destination *v20180501ps.WebTestProperties_Status_ValidationRules_ContentValidation) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(validation.PropertyBag)
 

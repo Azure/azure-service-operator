@@ -4,10 +4,10 @@
 package customizations
 
 import (
-	containerregistryv1alpha1api20210901 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1alpha1api20210901"
-	"github.com/Azure/azure-service-operator/v2/api/containerregistry/v1alpha1api20210901storage"
-	containerregistryv1beta20210901 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901"
-	"github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901storage"
+	alpha20210901 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1alpha1api20210901"
+	alpha20210901s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1alpha1api20210901storage"
+	v20210901 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901"
+	v20210901s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -17,8 +17,8 @@ type RegistryExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *RegistryExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&containerregistryv1alpha1api20210901.Registry{},
-		&v1alpha1api20210901storage.Registry{},
-		&containerregistryv1beta20210901.Registry{},
-		&v1beta20210901storage.Registry{}}
+		&alpha20210901.Registry{},
+		&alpha20210901s.Registry{},
+		&v20210901.Registry{},
+		&v20210901s.Registry{}}
 }

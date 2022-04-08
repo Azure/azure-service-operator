@@ -5,8 +5,8 @@ package v1alpha1api20211001
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/signalrservice/v1alpha1api20211001storage"
-	"github.com/Azure/azure-service-operator/v2/api/signalrservice/v1beta20211001storage"
+	alpha20211001s "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1alpha1api20211001storage"
+	v20211001s "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1beta20211001storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForSignalR(subject SignalR) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20211001storage.SignalR
+	var hub v20211001s.SignalR
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForSignalR(subject SignalR) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.SignalR
+	var other alpha20211001s.SignalR
 	err := copied.AssignPropertiesToSignalR(&other)
 	if err != nil {
 		return err.Error()
@@ -180,7 +180,7 @@ func RunPropertyAssignmentTestForSignalRResourceStatus(subject SignalRResource_S
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.SignalRResource_Status
+	var other alpha20211001s.SignalRResource_Status
 	err := copied.AssignPropertiesToSignalRResourceStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -330,7 +330,7 @@ func RunPropertyAssignmentTestForSignalRSpec(subject SignalR_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.SignalR_Spec
+	var other alpha20211001s.SignalR_Spec
 	err := copied.AssignPropertiesToSignalRSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -458,7 +458,7 @@ func RunPropertyAssignmentTestForManagedIdentity(subject ManagedIdentity) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.ManagedIdentity
+	var other alpha20211001s.ManagedIdentity
 	err := copied.AssignPropertiesToManagedIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -559,7 +559,7 @@ func RunPropertyAssignmentTestForManagedIdentityStatus(subject ManagedIdentity_S
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.ManagedIdentity_Status
+	var other alpha20211001s.ManagedIdentity_Status
 	err := copied.AssignPropertiesToManagedIdentityStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -677,7 +677,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnectionStatusSignalRSubResour
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded
+	var other alpha20211001s.PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded
 	err := copied.AssignPropertiesToPrivateEndpointConnectionStatusSignalRSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -793,7 +793,7 @@ func RunPropertyAssignmentTestForResourceLogConfiguration(subject ResourceLogCon
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.ResourceLogConfiguration
+	var other alpha20211001s.ResourceLogConfiguration
 	err := copied.AssignPropertiesToResourceLogConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -895,7 +895,7 @@ func RunPropertyAssignmentTestForResourceLogConfigurationStatus(subject Resource
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.ResourceLogConfiguration_Status
+	var other alpha20211001s.ResourceLogConfiguration_Status
 	err := copied.AssignPropertiesToResourceLogConfigurationStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -997,7 +997,7 @@ func RunPropertyAssignmentTestForResourceSku(subject ResourceSku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.ResourceSku
+	var other alpha20211001s.ResourceSku
 	err := copied.AssignPropertiesToResourceSku(&other)
 	if err != nil {
 		return err.Error()
@@ -1104,7 +1104,7 @@ func RunPropertyAssignmentTestForResourceSkuStatus(subject ResourceSku_Status) s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.ResourceSku_Status
+	var other alpha20211001s.ResourceSku_Status
 	err := copied.AssignPropertiesToResourceSkuStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1213,7 +1213,7 @@ func RunPropertyAssignmentTestForServerlessUpstreamSettings(subject ServerlessUp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.ServerlessUpstreamSettings
+	var other alpha20211001s.ServerlessUpstreamSettings
 	err := copied.AssignPropertiesToServerlessUpstreamSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -1315,7 +1315,7 @@ func RunPropertyAssignmentTestForServerlessUpstreamSettingsStatus(subject Server
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.ServerlessUpstreamSettings_Status
+	var other alpha20211001s.ServerlessUpstreamSettings_Status
 	err := copied.AssignPropertiesToServerlessUpstreamSettingsStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1417,7 +1417,7 @@ func RunPropertyAssignmentTestForSharedPrivateLinkResourceStatusSignalRSubResour
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded
+	var other alpha20211001s.SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded
 	err := copied.AssignPropertiesToSharedPrivateLinkResourceStatusSignalRSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1533,7 +1533,7 @@ func RunPropertyAssignmentTestForSignalRCorsSettings(subject SignalRCorsSettings
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.SignalRCorsSettings
+	var other alpha20211001s.SignalRCorsSettings
 	err := copied.AssignPropertiesToSignalRCorsSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -1635,7 +1635,7 @@ func RunPropertyAssignmentTestForSignalRCorsSettingsStatus(subject SignalRCorsSe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.SignalRCorsSettings_Status
+	var other alpha20211001s.SignalRCorsSettings_Status
 	err := copied.AssignPropertiesToSignalRCorsSettingsStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1737,7 +1737,7 @@ func RunPropertyAssignmentTestForSignalRFeature(subject SignalRFeature) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.SignalRFeature
+	var other alpha20211001s.SignalRFeature
 	err := copied.AssignPropertiesToSignalRFeature(&other)
 	if err != nil {
 		return err.Error()
@@ -1844,7 +1844,7 @@ func RunPropertyAssignmentTestForSignalRFeatureStatus(subject SignalRFeature_Sta
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.SignalRFeature_Status
+	var other alpha20211001s.SignalRFeature_Status
 	err := copied.AssignPropertiesToSignalRFeatureStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1952,7 +1952,7 @@ func RunPropertyAssignmentTestForSignalRNetworkACLs(subject SignalRNetworkACLs) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.SignalRNetworkACLs
+	var other alpha20211001s.SignalRNetworkACLs
 	err := copied.AssignPropertiesToSignalRNetworkACLs(&other)
 	if err != nil {
 		return err.Error()
@@ -2068,7 +2068,7 @@ func RunPropertyAssignmentTestForSignalRNetworkACLsStatus(subject SignalRNetwork
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.SignalRNetworkACLs_Status
+	var other alpha20211001s.SignalRNetworkACLs_Status
 	err := copied.AssignPropertiesToSignalRNetworkACLsStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -2185,7 +2185,7 @@ func RunPropertyAssignmentTestForSignalRTlsSettings(subject SignalRTlsSettings) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.SignalRTlsSettings
+	var other alpha20211001s.SignalRTlsSettings
 	err := copied.AssignPropertiesToSignalRTlsSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -2286,7 +2286,7 @@ func RunPropertyAssignmentTestForSignalRTlsSettingsStatus(subject SignalRTlsSett
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.SignalRTlsSettings_Status
+	var other alpha20211001s.SignalRTlsSettings_Status
 	err := copied.AssignPropertiesToSignalRTlsSettingsStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -2388,7 +2388,7 @@ func RunPropertyAssignmentTestForSystemDataStatus(subject SystemData_Status) str
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.SystemData_Status
+	var other alpha20211001s.SystemData_Status
 	err := copied.AssignPropertiesToSystemDataStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -2502,7 +2502,7 @@ func RunPropertyAssignmentTestForNetworkACL(subject NetworkACL) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.NetworkACL
+	var other alpha20211001s.NetworkACL
 	err := copied.AssignPropertiesToNetworkACL(&other)
 	if err != nil {
 		return err.Error()
@@ -2612,7 +2612,7 @@ func RunPropertyAssignmentTestForNetworkACLStatus(subject NetworkACL_Status) str
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.NetworkACL_Status
+	var other alpha20211001s.NetworkACL_Status
 	err := copied.AssignPropertiesToNetworkACLStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -2722,7 +2722,7 @@ func RunPropertyAssignmentTestForPrivateEndpointACL(subject PrivateEndpointACL) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.PrivateEndpointACL
+	var other alpha20211001s.PrivateEndpointACL
 	err := copied.AssignPropertiesToPrivateEndpointACL(&other)
 	if err != nil {
 		return err.Error()
@@ -2833,7 +2833,7 @@ func RunPropertyAssignmentTestForPrivateEndpointACLStatus(subject PrivateEndpoin
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.PrivateEndpointACL_Status
+	var other alpha20211001s.PrivateEndpointACL_Status
 	err := copied.AssignPropertiesToPrivateEndpointACLStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -2945,7 +2945,7 @@ func RunPropertyAssignmentTestForResourceLogCategory(subject ResourceLogCategory
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.ResourceLogCategory
+	var other alpha20211001s.ResourceLogCategory
 	err := copied.AssignPropertiesToResourceLogCategory(&other)
 	if err != nil {
 		return err.Error()
@@ -3048,7 +3048,7 @@ func RunPropertyAssignmentTestForResourceLogCategoryStatus(subject ResourceLogCa
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.ResourceLogCategory_Status
+	var other alpha20211001s.ResourceLogCategory_Status
 	err := copied.AssignPropertiesToResourceLogCategoryStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -3151,7 +3151,7 @@ func RunPropertyAssignmentTestForUpstreamTemplate(subject UpstreamTemplate) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.UpstreamTemplate
+	var other alpha20211001s.UpstreamTemplate
 	err := copied.AssignPropertiesToUpstreamTemplate(&other)
 	if err != nil {
 		return err.Error()
@@ -3269,7 +3269,7 @@ func RunPropertyAssignmentTestForUpstreamTemplateStatus(subject UpstreamTemplate
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.UpstreamTemplate_Status
+	var other alpha20211001s.UpstreamTemplate_Status
 	err := copied.AssignPropertiesToUpstreamTemplateStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -3388,7 +3388,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityPropertyStatus(subject User
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.UserAssignedIdentityProperty_Status
+	var other alpha20211001s.UserAssignedIdentityProperty_Status
 	err := copied.AssignPropertiesToUserAssignedIdentityPropertyStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -3491,7 +3491,7 @@ func RunPropertyAssignmentTestForUpstreamAuthSettings(subject UpstreamAuthSettin
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.UpstreamAuthSettings
+	var other alpha20211001s.UpstreamAuthSettings
 	err := copied.AssignPropertiesToUpstreamAuthSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -3607,7 +3607,7 @@ func RunPropertyAssignmentTestForUpstreamAuthSettingsStatus(subject UpstreamAuth
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.UpstreamAuthSettings_Status
+	var other alpha20211001s.UpstreamAuthSettings_Status
 	err := copied.AssignPropertiesToUpstreamAuthSettingsStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -3723,7 +3723,7 @@ func RunPropertyAssignmentTestForManagedIdentitySettings(subject ManagedIdentity
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.ManagedIdentitySettings
+	var other alpha20211001s.ManagedIdentitySettings
 	err := copied.AssignPropertiesToManagedIdentitySettings(&other)
 	if err != nil {
 		return err.Error()
@@ -3825,7 +3825,7 @@ func RunPropertyAssignmentTestForManagedIdentitySettingsStatus(subject ManagedId
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211001storage.ManagedIdentitySettings_Status
+	var other alpha20211001s.ManagedIdentitySettings_Status
 	err := copied.AssignPropertiesToManagedIdentitySettingsStatus(&other)
 	if err != nil {
 		return err.Error()

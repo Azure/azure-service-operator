@@ -5,7 +5,7 @@ package v1alpha1api20210401
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storage"
+	alpha20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &StorageAccountsQueueServicesQueue{}
 // ConvertFrom populates our StorageAccountsQueueServicesQueue from the provided hub StorageAccountsQueueServicesQueue
 func (queue *StorageAccountsQueueServicesQueue) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v1alpha1api20210401storage.StorageAccountsQueueServicesQueue
+	var source alpha20210401s.StorageAccountsQueueServicesQueue
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -67,7 +67,7 @@ func (queue *StorageAccountsQueueServicesQueue) ConvertFrom(hub conversion.Hub) 
 // ConvertTo populates the provided hub StorageAccountsQueueServicesQueue from our StorageAccountsQueueServicesQueue
 func (queue *StorageAccountsQueueServicesQueue) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v1alpha1api20210401storage.StorageAccountsQueueServicesQueue
+	var destination alpha20210401s.StorageAccountsQueueServicesQueue
 	err := queue.AssignPropertiesToStorageAccountsQueueServicesQueue(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from queue")
@@ -253,7 +253,7 @@ func (queue *StorageAccountsQueueServicesQueue) validateResourceReferences() err
 }
 
 // AssignPropertiesFromStorageAccountsQueueServicesQueue populates our StorageAccountsQueueServicesQueue from the provided source StorageAccountsQueueServicesQueue
-func (queue *StorageAccountsQueueServicesQueue) AssignPropertiesFromStorageAccountsQueueServicesQueue(source *v1alpha1api20210401storage.StorageAccountsQueueServicesQueue) error {
+func (queue *StorageAccountsQueueServicesQueue) AssignPropertiesFromStorageAccountsQueueServicesQueue(source *alpha20210401s.StorageAccountsQueueServicesQueue) error {
 
 	// ObjectMeta
 	queue.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -279,13 +279,13 @@ func (queue *StorageAccountsQueueServicesQueue) AssignPropertiesFromStorageAccou
 }
 
 // AssignPropertiesToStorageAccountsQueueServicesQueue populates the provided destination StorageAccountsQueueServicesQueue from our StorageAccountsQueueServicesQueue
-func (queue *StorageAccountsQueueServicesQueue) AssignPropertiesToStorageAccountsQueueServicesQueue(destination *v1alpha1api20210401storage.StorageAccountsQueueServicesQueue) error {
+func (queue *StorageAccountsQueueServicesQueue) AssignPropertiesToStorageAccountsQueueServicesQueue(destination *alpha20210401s.StorageAccountsQueueServicesQueue) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *queue.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1alpha1api20210401storage.StorageAccountsQueueServicesQueues_Spec
+	var spec alpha20210401s.StorageAccountsQueueServicesQueues_Spec
 	err := queue.Spec.AssignPropertiesToStorageAccountsQueueServicesQueuesSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsQueueServicesQueuesSpec() to populate field Spec")
@@ -293,7 +293,7 @@ func (queue *StorageAccountsQueueServicesQueue) AssignPropertiesToStorageAccount
 	destination.Spec = spec
 
 	// Status
-	var status v1alpha1api20210401storage.StorageQueue_Status
+	var status alpha20210401s.StorageQueue_Status
 	err = queue.Status.AssignPropertiesToStorageQueueStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToStorageQueueStatus() to populate field Status")
@@ -430,14 +430,14 @@ var _ genruntime.ConvertibleSpec = &StorageAccountsQueueServicesQueues_Spec{}
 
 // ConvertSpecFrom populates our StorageAccountsQueueServicesQueues_Spec from the provided source
 func (queues *StorageAccountsQueueServicesQueues_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1alpha1api20210401storage.StorageAccountsQueueServicesQueues_Spec)
+	src, ok := source.(*alpha20210401s.StorageAccountsQueueServicesQueues_Spec)
 	if ok {
 		// Populate our instance from source
 		return queues.AssignPropertiesFromStorageAccountsQueueServicesQueuesSpec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210401storage.StorageAccountsQueueServicesQueues_Spec{}
+	src = &alpha20210401s.StorageAccountsQueueServicesQueues_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -454,14 +454,14 @@ func (queues *StorageAccountsQueueServicesQueues_Spec) ConvertSpecFrom(source ge
 
 // ConvertSpecTo populates the provided destination from our StorageAccountsQueueServicesQueues_Spec
 func (queues *StorageAccountsQueueServicesQueues_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1alpha1api20210401storage.StorageAccountsQueueServicesQueues_Spec)
+	dst, ok := destination.(*alpha20210401s.StorageAccountsQueueServicesQueues_Spec)
 	if ok {
 		// Populate destination from our instance
 		return queues.AssignPropertiesToStorageAccountsQueueServicesQueuesSpec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210401storage.StorageAccountsQueueServicesQueues_Spec{}
+	dst = &alpha20210401s.StorageAccountsQueueServicesQueues_Spec{}
 	err := queues.AssignPropertiesToStorageAccountsQueueServicesQueuesSpec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -477,7 +477,7 @@ func (queues *StorageAccountsQueueServicesQueues_Spec) ConvertSpecTo(destination
 }
 
 // AssignPropertiesFromStorageAccountsQueueServicesQueuesSpec populates our StorageAccountsQueueServicesQueues_Spec from the provided source StorageAccountsQueueServicesQueues_Spec
-func (queues *StorageAccountsQueueServicesQueues_Spec) AssignPropertiesFromStorageAccountsQueueServicesQueuesSpec(source *v1alpha1api20210401storage.StorageAccountsQueueServicesQueues_Spec) error {
+func (queues *StorageAccountsQueueServicesQueues_Spec) AssignPropertiesFromStorageAccountsQueueServicesQueuesSpec(source *alpha20210401s.StorageAccountsQueueServicesQueues_Spec) error {
 
 	// AzureName
 	queues.AzureName = source.AzureName
@@ -504,7 +504,7 @@ func (queues *StorageAccountsQueueServicesQueues_Spec) AssignPropertiesFromStora
 }
 
 // AssignPropertiesToStorageAccountsQueueServicesQueuesSpec populates the provided destination StorageAccountsQueueServicesQueues_Spec from our StorageAccountsQueueServicesQueues_Spec
-func (queues *StorageAccountsQueueServicesQueues_Spec) AssignPropertiesToStorageAccountsQueueServicesQueuesSpec(destination *v1alpha1api20210401storage.StorageAccountsQueueServicesQueues_Spec) error {
+func (queues *StorageAccountsQueueServicesQueues_Spec) AssignPropertiesToStorageAccountsQueueServicesQueuesSpec(destination *alpha20210401s.StorageAccountsQueueServicesQueues_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -568,14 +568,14 @@ var _ genruntime.ConvertibleStatus = &StorageQueue_Status{}
 
 // ConvertStatusFrom populates our StorageQueue_Status from the provided source
 func (queue *StorageQueue_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1alpha1api20210401storage.StorageQueue_Status)
+	src, ok := source.(*alpha20210401s.StorageQueue_Status)
 	if ok {
 		// Populate our instance from source
 		return queue.AssignPropertiesFromStorageQueueStatus(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210401storage.StorageQueue_Status{}
+	src = &alpha20210401s.StorageQueue_Status{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -592,14 +592,14 @@ func (queue *StorageQueue_Status) ConvertStatusFrom(source genruntime.Convertibl
 
 // ConvertStatusTo populates the provided destination from our StorageQueue_Status
 func (queue *StorageQueue_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1alpha1api20210401storage.StorageQueue_Status)
+	dst, ok := destination.(*alpha20210401s.StorageQueue_Status)
 	if ok {
 		// Populate destination from our instance
 		return queue.AssignPropertiesToStorageQueueStatus(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210401storage.StorageQueue_Status{}
+	dst = &alpha20210401s.StorageQueue_Status{}
 	err := queue.AssignPropertiesToStorageQueueStatus(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -673,7 +673,7 @@ func (queue *StorageQueue_Status) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignPropertiesFromStorageQueueStatus populates our StorageQueue_Status from the provided source StorageQueue_Status
-func (queue *StorageQueue_Status) AssignPropertiesFromStorageQueueStatus(source *v1alpha1api20210401storage.StorageQueue_Status) error {
+func (queue *StorageQueue_Status) AssignPropertiesFromStorageQueueStatus(source *alpha20210401s.StorageQueue_Status) error {
 
 	// ApproximateMessageCount
 	queue.ApproximateMessageCount = genruntime.ClonePointerToInt(source.ApproximateMessageCount)
@@ -698,7 +698,7 @@ func (queue *StorageQueue_Status) AssignPropertiesFromStorageQueueStatus(source 
 }
 
 // AssignPropertiesToStorageQueueStatus populates the provided destination StorageQueue_Status from our StorageQueue_Status
-func (queue *StorageQueue_Status) AssignPropertiesToStorageQueueStatus(destination *v1alpha1api20210401storage.StorageQueue_Status) error {
+func (queue *StorageQueue_Status) AssignPropertiesToStorageQueueStatus(destination *alpha20210401s.StorageQueue_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

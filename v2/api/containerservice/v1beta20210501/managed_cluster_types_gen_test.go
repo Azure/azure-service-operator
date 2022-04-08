@@ -5,7 +5,7 @@ package v1beta20210501
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501storage"
+	v20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +35,7 @@ func RunResourceConversionTestForManagedCluster(subject ManagedCluster) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20210501storage.ManagedCluster
+	var hub v20210501s.ManagedCluster
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -77,7 +77,7 @@ func RunPropertyAssignmentTestForManagedCluster(subject ManagedCluster) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedCluster
+	var other v20210501s.ManagedCluster
 	err := copied.AssignPropertiesToManagedCluster(&other)
 	if err != nil {
 		return err.Error()
@@ -179,7 +179,7 @@ func RunPropertyAssignmentTestForManagedClusterStatus(subject ManagedCluster_Sta
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedCluster_Status
+	var other v20210501s.ManagedCluster_Status
 	err := copied.AssignPropertiesToManagedClusterStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -327,7 +327,7 @@ func RunPropertyAssignmentTestForManagedClustersSpec(subject ManagedClusters_Spe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusters_Spec
+	var other v20210501s.ManagedClusters_Spec
 	err := copied.AssignPropertiesToManagedClustersSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -468,7 +468,7 @@ func RunPropertyAssignmentTestForComponentsqit0Etschemasmanagedclusterproperties
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
+	var other v20210501s.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
 	err := copied.AssignPropertiesToComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(&other)
 	if err != nil {
 		return err.Error()
@@ -572,7 +572,7 @@ func RunPropertyAssignmentTestForContainerServiceLinuxProfile(subject ContainerS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ContainerServiceLinuxProfile
+	var other v20210501s.ContainerServiceLinuxProfile
 	err := copied.AssignPropertiesToContainerServiceLinuxProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -688,7 +688,7 @@ func RunPropertyAssignmentTestForContainerServiceLinuxProfileStatus(subject Cont
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ContainerServiceLinuxProfile_Status
+	var other v20210501s.ContainerServiceLinuxProfile_Status
 	err := copied.AssignPropertiesToContainerServiceLinuxProfileStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -804,7 +804,7 @@ func RunPropertyAssignmentTestForContainerServiceNetworkProfile(subject Containe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ContainerServiceNetworkProfile
+	var other v20210501s.ContainerServiceNetworkProfile
 	err := copied.AssignPropertiesToContainerServiceNetworkProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -928,7 +928,7 @@ func RunPropertyAssignmentTestForContainerServiceNetworkProfileStatus(subject Co
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ContainerServiceNetworkProfile_Status
+	var other v20210501s.ContainerServiceNetworkProfile_Status
 	err := copied.AssignPropertiesToContainerServiceNetworkProfileStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1052,7 +1052,7 @@ func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ExtendedLocation
+	var other v20210501s.ExtendedLocation
 	err := copied.AssignPropertiesToExtendedLocation(&other)
 	if err != nil {
 		return err.Error()
@@ -1154,7 +1154,7 @@ func RunPropertyAssignmentTestForExtendedLocationStatus(subject ExtendedLocation
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ExtendedLocation_Status
+	var other v20210501s.ExtendedLocation_Status
 	err := copied.AssignPropertiesToExtendedLocationStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1257,7 +1257,7 @@ func RunPropertyAssignmentTestForManagedClusterAADProfile(subject ManagedCluster
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterAADProfile
+	var other v20210501s.ManagedClusterAADProfile
 	err := copied.AssignPropertiesToManagedClusterAADProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -1365,7 +1365,7 @@ func RunPropertyAssignmentTestForManagedClusterAADProfileStatus(subject ManagedC
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterAADProfile_Status
+	var other v20210501s.ManagedClusterAADProfile_Status
 	err := copied.AssignPropertiesToManagedClusterAADProfileStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1473,7 +1473,7 @@ func RunPropertyAssignmentTestForManagedClusterAPIServerAccessProfile(subject Ma
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterAPIServerAccessProfile
+	var other v20210501s.ManagedClusterAPIServerAccessProfile
 	err := copied.AssignPropertiesToManagedClusterAPIServerAccessProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -1578,7 +1578,7 @@ func RunPropertyAssignmentTestForManagedClusterAPIServerAccessProfileStatus(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterAPIServerAccessProfile_Status
+	var other v20210501s.ManagedClusterAPIServerAccessProfile_Status
 	err := copied.AssignPropertiesToManagedClusterAPIServerAccessProfileStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1683,7 +1683,7 @@ func RunPropertyAssignmentTestForManagedClusterAddonProfile(subject ManagedClust
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterAddonProfile
+	var other v20210501s.ManagedClusterAddonProfile
 	err := copied.AssignPropertiesToManagedClusterAddonProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -1786,7 +1786,7 @@ func RunPropertyAssignmentTestForManagedClusterAgentPoolProfile(subject ManagedC
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterAgentPoolProfile
+	var other v20210501s.ManagedClusterAgentPoolProfile
 	err := copied.AssignPropertiesToManagedClusterAgentPoolProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -1936,7 +1936,7 @@ func RunPropertyAssignmentTestForManagedClusterAgentPoolProfileStatus(subject Ma
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterAgentPoolProfile_Status
+	var other v20210501s.ManagedClusterAgentPoolProfile_Status
 	err := copied.AssignPropertiesToManagedClusterAgentPoolProfileStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -2092,7 +2092,7 @@ func RunPropertyAssignmentTestForManagedClusterAutoUpgradeProfile(subject Manage
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterAutoUpgradeProfile
+	var other v20210501s.ManagedClusterAutoUpgradeProfile
 	err := copied.AssignPropertiesToManagedClusterAutoUpgradeProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -2199,7 +2199,7 @@ func RunPropertyAssignmentTestForManagedClusterAutoUpgradeProfileStatus(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterAutoUpgradeProfile_Status
+	var other v20210501s.ManagedClusterAutoUpgradeProfile_Status
 	err := copied.AssignPropertiesToManagedClusterAutoUpgradeProfileStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -2306,7 +2306,7 @@ func RunPropertyAssignmentTestForManagedClusterHTTPProxyConfig(subject ManagedCl
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterHTTPProxyConfig
+	var other v20210501s.ManagedClusterHTTPProxyConfig
 	err := copied.AssignPropertiesToManagedClusterHTTPProxyConfig(&other)
 	if err != nil {
 		return err.Error()
@@ -2411,7 +2411,7 @@ func RunPropertyAssignmentTestForManagedClusterHTTPProxyConfigStatus(subject Man
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterHTTPProxyConfig_Status
+	var other v20210501s.ManagedClusterHTTPProxyConfig_Status
 	err := copied.AssignPropertiesToManagedClusterHTTPProxyConfigStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -2516,7 +2516,7 @@ func RunPropertyAssignmentTestForManagedClusterIdentity(subject ManagedClusterId
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterIdentity
+	var other v20210501s.ManagedClusterIdentity
 	err := copied.AssignPropertiesToManagedClusterIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -2618,7 +2618,7 @@ func RunPropertyAssignmentTestForManagedClusterIdentityStatus(subject ManagedClu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterIdentity_Status
+	var other v20210501s.ManagedClusterIdentity_Status
 	err := copied.AssignPropertiesToManagedClusterIdentityStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -2736,7 +2736,7 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityProfile(subject Manage
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterPodIdentityProfile
+	var other v20210501s.ManagedClusterPodIdentityProfile
 	err := copied.AssignPropertiesToManagedClusterPodIdentityProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -2854,7 +2854,7 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityProfileStatus(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterPodIdentityProfile_Status
+	var other v20210501s.ManagedClusterPodIdentityProfile_Status
 	err := copied.AssignPropertiesToManagedClusterPodIdentityProfileStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -2972,7 +2972,7 @@ func RunPropertyAssignmentTestForManagedClusterPropertiesAutoScalerProfile(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterPropertiesAutoScalerProfile
+	var other v20210501s.ManagedClusterPropertiesAutoScalerProfile
 	err := copied.AssignPropertiesToManagedClusterPropertiesAutoScalerProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -3094,7 +3094,7 @@ func RunPropertyAssignmentTestForManagedClusterPropertiesStatusAutoScalerProfile
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterProperties_Status_AutoScalerProfile
+	var other v20210501s.ManagedClusterProperties_Status_AutoScalerProfile
 	err := copied.AssignPropertiesToManagedClusterPropertiesStatusAutoScalerProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -3216,7 +3216,7 @@ func RunPropertyAssignmentTestForManagedClusterSKU(subject ManagedClusterSKU) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterSKU
+	var other v20210501s.ManagedClusterSKU
 	err := copied.AssignPropertiesToManagedClusterSKU(&other)
 	if err != nil {
 		return err.Error()
@@ -3318,7 +3318,7 @@ func RunPropertyAssignmentTestForManagedClusterSKUStatus(subject ManagedClusterS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterSKU_Status
+	var other v20210501s.ManagedClusterSKU_Status
 	err := copied.AssignPropertiesToManagedClusterSKUStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -3421,7 +3421,7 @@ func RunPropertyAssignmentTestForManagedClusterServicePrincipalProfile(subject M
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterServicePrincipalProfile
+	var other v20210501s.ManagedClusterServicePrincipalProfile
 	err := copied.AssignPropertiesToManagedClusterServicePrincipalProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -3524,7 +3524,7 @@ func RunPropertyAssignmentTestForManagedClusterServicePrincipalProfileStatus(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterServicePrincipalProfile_Status
+	var other v20210501s.ManagedClusterServicePrincipalProfile_Status
 	err := copied.AssignPropertiesToManagedClusterServicePrincipalProfileStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -3627,7 +3627,7 @@ func RunPropertyAssignmentTestForManagedClusterWindowsProfile(subject ManagedClu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterWindowsProfile
+	var other v20210501s.ManagedClusterWindowsProfile
 	err := copied.AssignPropertiesToManagedClusterWindowsProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -3732,7 +3732,7 @@ func RunPropertyAssignmentTestForManagedClusterWindowsProfileStatus(subject Mana
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterWindowsProfile_Status
+	var other v20210501s.ManagedClusterWindowsProfile_Status
 	err := copied.AssignPropertiesToManagedClusterWindowsProfileStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -3837,7 +3837,7 @@ func RunPropertyAssignmentTestForPowerStateStatus(subject PowerState_Status) str
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.PowerState_Status
+	var other v20210501s.PowerState_Status
 	err := copied.AssignPropertiesToPowerStateStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -3938,7 +3938,7 @@ func RunPropertyAssignmentTestForPrivateLinkResource(subject PrivateLinkResource
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.PrivateLinkResource
+	var other v20210501s.PrivateLinkResource
 	err := copied.AssignPropertiesToPrivateLinkResource(&other)
 	if err != nil {
 		return err.Error()
@@ -4043,7 +4043,7 @@ func RunPropertyAssignmentTestForPrivateLinkResourceStatus(subject PrivateLinkRe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.PrivateLinkResource_Status
+	var other v20210501s.PrivateLinkResource_Status
 	err := copied.AssignPropertiesToPrivateLinkResourceStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -4150,7 +4150,7 @@ func RunPropertyAssignmentTestForContainerServiceSshConfiguration(subject Contai
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ContainerServiceSshConfiguration
+	var other v20210501s.ContainerServiceSshConfiguration
 	err := copied.AssignPropertiesToContainerServiceSshConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -4252,7 +4252,7 @@ func RunPropertyAssignmentTestForContainerServiceSshConfigurationStatus(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ContainerServiceSshConfiguration_Status
+	var other v20210501s.ContainerServiceSshConfiguration_Status
 	err := copied.AssignPropertiesToContainerServiceSshConfigurationStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -4354,7 +4354,7 @@ func RunPropertyAssignmentTestForManagedClusterIdentityStatusUserAssignedIdentit
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterIdentity_Status_UserAssignedIdentities
+	var other v20210501s.ManagedClusterIdentity_Status_UserAssignedIdentities
 	err := copied.AssignPropertiesToManagedClusterIdentityStatusUserAssignedIdentities(&other)
 	if err != nil {
 		return err.Error()
@@ -4457,7 +4457,7 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile(subject Manag
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterLoadBalancerProfile
+	var other v20210501s.ManagedClusterLoadBalancerProfile
 	err := copied.AssignPropertiesToManagedClusterLoadBalancerProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -4577,7 +4577,7 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileStatus(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterLoadBalancerProfile_Status
+	var other v20210501s.ManagedClusterLoadBalancerProfile_Status
 	err := copied.AssignPropertiesToManagedClusterLoadBalancerProfileStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -4697,7 +4697,7 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentity(subject ManagedCluste
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterPodIdentity
+	var other v20210501s.ManagedClusterPodIdentity
 	err := copied.AssignPropertiesToManagedClusterPodIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -4815,7 +4815,7 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityException(subject Mana
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterPodIdentityException
+	var other v20210501s.ManagedClusterPodIdentityException
 	err := copied.AssignPropertiesToManagedClusterPodIdentityException(&other)
 	if err != nil {
 		return err.Error()
@@ -4919,7 +4919,7 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityExceptionStatus(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterPodIdentityException_Status
+	var other v20210501s.ManagedClusterPodIdentityException_Status
 	err := copied.AssignPropertiesToManagedClusterPodIdentityExceptionStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -5023,7 +5023,7 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityStatus(subject Managed
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterPodIdentity_Status
+	var other v20210501s.ManagedClusterPodIdentity_Status
 	err := copied.AssignPropertiesToManagedClusterPodIdentityStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -5147,7 +5147,7 @@ func RunPropertyAssignmentTestForContainerServiceSshPublicKey(subject ContainerS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ContainerServiceSshPublicKey
+	var other v20210501s.ContainerServiceSshPublicKey
 	err := copied.AssignPropertiesToContainerServiceSshPublicKey(&other)
 	if err != nil {
 		return err.Error()
@@ -5249,7 +5249,7 @@ func RunPropertyAssignmentTestForContainerServiceSshPublicKeyStatus(subject Cont
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ContainerServiceSshPublicKey_Status
+	var other v20210501s.ContainerServiceSshPublicKey_Status
 	err := copied.AssignPropertiesToContainerServiceSshPublicKeyStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -5351,7 +5351,7 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileManagedOutboun
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterLoadBalancerProfileManagedOutboundIPs
+	var other v20210501s.ManagedClusterLoadBalancerProfileManagedOutboundIPs
 	err := copied.AssignPropertiesToManagedClusterLoadBalancerProfileManagedOutboundIPs(&other)
 	if err != nil {
 		return err.Error()
@@ -5453,7 +5453,7 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileOutboundIPPref
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterLoadBalancerProfileOutboundIPPrefixes
+	var other v20210501s.ManagedClusterLoadBalancerProfileOutboundIPPrefixes
 	err := copied.AssignPropertiesToManagedClusterLoadBalancerProfileOutboundIPPrefixes(&other)
 	if err != nil {
 		return err.Error()
@@ -5555,7 +5555,7 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileOutboundIPs(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterLoadBalancerProfileOutboundIPs
+	var other v20210501s.ManagedClusterLoadBalancerProfileOutboundIPs
 	err := copied.AssignPropertiesToManagedClusterLoadBalancerProfileOutboundIPs(&other)
 	if err != nil {
 		return err.Error()
@@ -5657,7 +5657,7 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileStatusManagedO
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs
+	var other v20210501s.ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs
 	err := copied.AssignPropertiesToManagedClusterLoadBalancerProfileStatusManagedOutboundIPs(&other)
 	if err != nil {
 		return err.Error()
@@ -5759,7 +5759,7 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileStatusOutbound
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes
+	var other v20210501s.ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes
 	err := copied.AssignPropertiesToManagedClusterLoadBalancerProfileStatusOutboundIPPrefixes(&other)
 	if err != nil {
 		return err.Error()
@@ -5861,7 +5861,7 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileStatusOutbound
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterLoadBalancerProfile_Status_OutboundIPs
+	var other v20210501s.ManagedClusterLoadBalancerProfile_Status_OutboundIPs
 	err := copied.AssignPropertiesToManagedClusterLoadBalancerProfileStatusOutboundIPs(&other)
 	if err != nil {
 		return err.Error()
@@ -5963,7 +5963,7 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityStatusProvisioningInfo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterPodIdentity_Status_ProvisioningInfo
+	var other v20210501s.ManagedClusterPodIdentity_Status_ProvisioningInfo
 	err := copied.AssignPropertiesToManagedClusterPodIdentityStatusProvisioningInfo(&other)
 	if err != nil {
 		return err.Error()
@@ -6065,7 +6065,7 @@ func RunPropertyAssignmentTestForResourceReference(subject ResourceReference) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ResourceReference
+	var other v20210501s.ResourceReference
 	err := copied.AssignPropertiesToResourceReference(&other)
 	if err != nil {
 		return err.Error()
@@ -6160,7 +6160,7 @@ func RunPropertyAssignmentTestForResourceReferenceStatus(subject ResourceReferen
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ResourceReference_Status
+	var other v20210501s.ResourceReference_Status
 	err := copied.AssignPropertiesToResourceReferenceStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -6262,7 +6262,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentity(subject UserAssignedIdenti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.UserAssignedIdentity
+	var other v20210501s.UserAssignedIdentity
 	err := copied.AssignPropertiesToUserAssignedIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -6365,7 +6365,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityStatus(subject UserAssigned
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.UserAssignedIdentity_Status
+	var other v20210501s.UserAssignedIdentity_Status
 	err := copied.AssignPropertiesToUserAssignedIdentityStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -6469,7 +6469,7 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityProvisioningErrorStatu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterPodIdentityProvisioningError_Status
+	var other v20210501s.ManagedClusterPodIdentityProvisioningError_Status
 	err := copied.AssignPropertiesToManagedClusterPodIdentityProvisioningErrorStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -6571,7 +6571,7 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityProvisioningErrorBodyS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterPodIdentityProvisioningErrorBody_Status
+	var other v20210501s.ManagedClusterPodIdentityProvisioningErrorBody_Status
 	err := copied.AssignPropertiesToManagedClusterPodIdentityProvisioningErrorBodyStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -6689,7 +6689,7 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityProvisioningErrorBodyS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210501storage.ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled
+	var other v20210501s.ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled
 	err := copied.AssignPropertiesToManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolled(&other)
 	if err != nil {
 		return err.Error()

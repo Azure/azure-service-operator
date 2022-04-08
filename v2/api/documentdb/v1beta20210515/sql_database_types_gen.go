@@ -5,7 +5,7 @@ package v1beta20210515
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
+	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -48,7 +48,7 @@ var _ conversion.Convertible = &SqlDatabase{}
 
 // ConvertFrom populates our SqlDatabase from the provided hub SqlDatabase
 func (database *SqlDatabase) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1beta20210515storage.SqlDatabase)
+	source, ok := hub.(*v20210515s.SqlDatabase)
 	if !ok {
 		return fmt.Errorf("expected documentdb/v1beta20210515storage/SqlDatabase but received %T instead", hub)
 	}
@@ -58,7 +58,7 @@ func (database *SqlDatabase) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub SqlDatabase from our SqlDatabase
 func (database *SqlDatabase) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1beta20210515storage.SqlDatabase)
+	destination, ok := hub.(*v20210515s.SqlDatabase)
 	if !ok {
 		return fmt.Errorf("expected documentdb/v1beta20210515storage/SqlDatabase but received %T instead", hub)
 	}
@@ -239,7 +239,7 @@ func (database *SqlDatabase) validateResourceReferences() error {
 }
 
 // AssignPropertiesFromSqlDatabase populates our SqlDatabase from the provided source SqlDatabase
-func (database *SqlDatabase) AssignPropertiesFromSqlDatabase(source *v1beta20210515storage.SqlDatabase) error {
+func (database *SqlDatabase) AssignPropertiesFromSqlDatabase(source *v20210515s.SqlDatabase) error {
 
 	// ObjectMeta
 	database.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -265,13 +265,13 @@ func (database *SqlDatabase) AssignPropertiesFromSqlDatabase(source *v1beta20210
 }
 
 // AssignPropertiesToSqlDatabase populates the provided destination SqlDatabase from our SqlDatabase
-func (database *SqlDatabase) AssignPropertiesToSqlDatabase(destination *v1beta20210515storage.SqlDatabase) error {
+func (database *SqlDatabase) AssignPropertiesToSqlDatabase(destination *v20210515s.SqlDatabase) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *database.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1beta20210515storage.DatabaseAccountsSqlDatabases_Spec
+	var spec v20210515s.DatabaseAccountsSqlDatabases_Spec
 	err := database.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesSpec() to populate field Spec")
@@ -279,7 +279,7 @@ func (database *SqlDatabase) AssignPropertiesToSqlDatabase(destination *v1beta20
 	destination.Spec = spec
 
 	// Status
-	var status v1beta20210515storage.SqlDatabaseGetResults_Status
+	var status v20210515s.SqlDatabaseGetResults_Status
 	err = database.Status.AssignPropertiesToSqlDatabaseGetResultsStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToSqlDatabaseGetResultsStatus() to populate field Status")
@@ -461,14 +461,14 @@ var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabases_Spec{}
 
 // ConvertSpecFrom populates our DatabaseAccountsSqlDatabases_Spec from the provided source
 func (databases *DatabaseAccountsSqlDatabases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1beta20210515storage.DatabaseAccountsSqlDatabases_Spec)
+	src, ok := source.(*v20210515s.DatabaseAccountsSqlDatabases_Spec)
 	if ok {
 		// Populate our instance from source
 		return databases.AssignPropertiesFromDatabaseAccountsSqlDatabasesSpec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1beta20210515storage.DatabaseAccountsSqlDatabases_Spec{}
+	src = &v20210515s.DatabaseAccountsSqlDatabases_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -485,14 +485,14 @@ func (databases *DatabaseAccountsSqlDatabases_Spec) ConvertSpecFrom(source genru
 
 // ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabases_Spec
 func (databases *DatabaseAccountsSqlDatabases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1beta20210515storage.DatabaseAccountsSqlDatabases_Spec)
+	dst, ok := destination.(*v20210515s.DatabaseAccountsSqlDatabases_Spec)
 	if ok {
 		// Populate destination from our instance
 		return databases.AssignPropertiesToDatabaseAccountsSqlDatabasesSpec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1beta20210515storage.DatabaseAccountsSqlDatabases_Spec{}
+	dst = &v20210515s.DatabaseAccountsSqlDatabases_Spec{}
 	err := databases.AssignPropertiesToDatabaseAccountsSqlDatabasesSpec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -508,7 +508,7 @@ func (databases *DatabaseAccountsSqlDatabases_Spec) ConvertSpecTo(destination ge
 }
 
 // AssignPropertiesFromDatabaseAccountsSqlDatabasesSpec populates our DatabaseAccountsSqlDatabases_Spec from the provided source DatabaseAccountsSqlDatabases_Spec
-func (databases *DatabaseAccountsSqlDatabases_Spec) AssignPropertiesFromDatabaseAccountsSqlDatabasesSpec(source *v1beta20210515storage.DatabaseAccountsSqlDatabases_Spec) error {
+func (databases *DatabaseAccountsSqlDatabases_Spec) AssignPropertiesFromDatabaseAccountsSqlDatabasesSpec(source *v20210515s.DatabaseAccountsSqlDatabases_Spec) error {
 
 	// AzureName
 	databases.AzureName = source.AzureName
@@ -556,7 +556,7 @@ func (databases *DatabaseAccountsSqlDatabases_Spec) AssignPropertiesFromDatabase
 }
 
 // AssignPropertiesToDatabaseAccountsSqlDatabasesSpec populates the provided destination DatabaseAccountsSqlDatabases_Spec from our DatabaseAccountsSqlDatabases_Spec
-func (databases *DatabaseAccountsSqlDatabases_Spec) AssignPropertiesToDatabaseAccountsSqlDatabasesSpec(destination *v1beta20210515storage.DatabaseAccountsSqlDatabases_Spec) error {
+func (databases *DatabaseAccountsSqlDatabases_Spec) AssignPropertiesToDatabaseAccountsSqlDatabasesSpec(destination *v20210515s.DatabaseAccountsSqlDatabases_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -568,7 +568,7 @@ func (databases *DatabaseAccountsSqlDatabases_Spec) AssignPropertiesToDatabaseAc
 
 	// Options
 	if databases.Options != nil {
-		var option v1beta20210515storage.CreateUpdateOptions
+		var option v20210515s.CreateUpdateOptions
 		err := databases.Options.AssignPropertiesToCreateUpdateOptions(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions() to populate field Options")
@@ -591,7 +591,7 @@ func (databases *DatabaseAccountsSqlDatabases_Spec) AssignPropertiesToDatabaseAc
 
 	// Resource
 	if databases.Resource != nil {
-		var resource v1beta20210515storage.SqlDatabaseResource
+		var resource v20210515s.SqlDatabaseResource
 		err := databases.Resource.AssignPropertiesToSqlDatabaseResource(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSqlDatabaseResource() to populate field Resource")
@@ -649,14 +649,14 @@ var _ genruntime.ConvertibleStatus = &SqlDatabaseGetResults_Status{}
 
 // ConvertStatusFrom populates our SqlDatabaseGetResults_Status from the provided source
 func (results *SqlDatabaseGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1beta20210515storage.SqlDatabaseGetResults_Status)
+	src, ok := source.(*v20210515s.SqlDatabaseGetResults_Status)
 	if ok {
 		// Populate our instance from source
 		return results.AssignPropertiesFromSqlDatabaseGetResultsStatus(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1beta20210515storage.SqlDatabaseGetResults_Status{}
+	src = &v20210515s.SqlDatabaseGetResults_Status{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -673,14 +673,14 @@ func (results *SqlDatabaseGetResults_Status) ConvertStatusFrom(source genruntime
 
 // ConvertStatusTo populates the provided destination from our SqlDatabaseGetResults_Status
 func (results *SqlDatabaseGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1beta20210515storage.SqlDatabaseGetResults_Status)
+	dst, ok := destination.(*v20210515s.SqlDatabaseGetResults_Status)
 	if ok {
 		// Populate destination from our instance
 		return results.AssignPropertiesToSqlDatabaseGetResultsStatus(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1beta20210515storage.SqlDatabaseGetResults_Status{}
+	dst = &v20210515s.SqlDatabaseGetResults_Status{}
 	err := results.AssignPropertiesToSqlDatabaseGetResultsStatus(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -776,7 +776,7 @@ func (results *SqlDatabaseGetResults_Status) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignPropertiesFromSqlDatabaseGetResultsStatus populates our SqlDatabaseGetResults_Status from the provided source SqlDatabaseGetResults_Status
-func (results *SqlDatabaseGetResults_Status) AssignPropertiesFromSqlDatabaseGetResultsStatus(source *v1beta20210515storage.SqlDatabaseGetResults_Status) error {
+func (results *SqlDatabaseGetResults_Status) AssignPropertiesFromSqlDatabaseGetResultsStatus(source *v20210515s.SqlDatabaseGetResults_Status) error {
 
 	// Conditions
 	results.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -825,7 +825,7 @@ func (results *SqlDatabaseGetResults_Status) AssignPropertiesFromSqlDatabaseGetR
 }
 
 // AssignPropertiesToSqlDatabaseGetResultsStatus populates the provided destination SqlDatabaseGetResults_Status from our SqlDatabaseGetResults_Status
-func (results *SqlDatabaseGetResults_Status) AssignPropertiesToSqlDatabaseGetResultsStatus(destination *v1beta20210515storage.SqlDatabaseGetResults_Status) error {
+func (results *SqlDatabaseGetResults_Status) AssignPropertiesToSqlDatabaseGetResultsStatus(destination *v20210515s.SqlDatabaseGetResults_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -843,7 +843,7 @@ func (results *SqlDatabaseGetResults_Status) AssignPropertiesToSqlDatabaseGetRes
 
 	// Options
 	if results.Options != nil {
-		var option v1beta20210515storage.OptionsResource_Status
+		var option v20210515s.OptionsResource_Status
 		err := results.Options.AssignPropertiesToOptionsResourceStatus(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToOptionsResourceStatus() to populate field Options")
@@ -855,7 +855,7 @@ func (results *SqlDatabaseGetResults_Status) AssignPropertiesToSqlDatabaseGetRes
 
 	// Resource
 	if results.Resource != nil {
-		var resource v1beta20210515storage.SqlDatabaseGetProperties_Status_Resource
+		var resource v20210515s.SqlDatabaseGetProperties_Status_Resource
 		err := results.Resource.AssignPropertiesToSqlDatabaseGetPropertiesStatusResource(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSqlDatabaseGetPropertiesStatusResource() to populate field Resource")
@@ -957,7 +957,7 @@ func (resource *SqlDatabaseGetProperties_Status_Resource) PopulateFromARM(owner 
 }
 
 // AssignPropertiesFromSqlDatabaseGetPropertiesStatusResource populates our SqlDatabaseGetProperties_Status_Resource from the provided source SqlDatabaseGetProperties_Status_Resource
-func (resource *SqlDatabaseGetProperties_Status_Resource) AssignPropertiesFromSqlDatabaseGetPropertiesStatusResource(source *v1beta20210515storage.SqlDatabaseGetProperties_Status_Resource) error {
+func (resource *SqlDatabaseGetProperties_Status_Resource) AssignPropertiesFromSqlDatabaseGetPropertiesStatusResource(source *v20210515s.SqlDatabaseGetProperties_Status_Resource) error {
 
 	// Colls
 	resource.Colls = genruntime.ClonePointerToString(source.Colls)
@@ -987,7 +987,7 @@ func (resource *SqlDatabaseGetProperties_Status_Resource) AssignPropertiesFromSq
 }
 
 // AssignPropertiesToSqlDatabaseGetPropertiesStatusResource populates the provided destination SqlDatabaseGetProperties_Status_Resource from our SqlDatabaseGetProperties_Status_Resource
-func (resource *SqlDatabaseGetProperties_Status_Resource) AssignPropertiesToSqlDatabaseGetPropertiesStatusResource(destination *v1beta20210515storage.SqlDatabaseGetProperties_Status_Resource) error {
+func (resource *SqlDatabaseGetProperties_Status_Resource) AssignPropertiesToSqlDatabaseGetPropertiesStatusResource(destination *v20210515s.SqlDatabaseGetProperties_Status_Resource) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1072,7 +1072,7 @@ func (resource *SqlDatabaseResource) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignPropertiesFromSqlDatabaseResource populates our SqlDatabaseResource from the provided source SqlDatabaseResource
-func (resource *SqlDatabaseResource) AssignPropertiesFromSqlDatabaseResource(source *v1beta20210515storage.SqlDatabaseResource) error {
+func (resource *SqlDatabaseResource) AssignPropertiesFromSqlDatabaseResource(source *v20210515s.SqlDatabaseResource) error {
 
 	// Id
 	resource.Id = genruntime.ClonePointerToString(source.Id)
@@ -1082,7 +1082,7 @@ func (resource *SqlDatabaseResource) AssignPropertiesFromSqlDatabaseResource(sou
 }
 
 // AssignPropertiesToSqlDatabaseResource populates the provided destination SqlDatabaseResource from our SqlDatabaseResource
-func (resource *SqlDatabaseResource) AssignPropertiesToSqlDatabaseResource(destination *v1beta20210515storage.SqlDatabaseResource) error {
+func (resource *SqlDatabaseResource) AssignPropertiesToSqlDatabaseResource(destination *v20210515s.SqlDatabaseResource) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
