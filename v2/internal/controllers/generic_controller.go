@@ -31,7 +31,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
 	"github.com/Azure/azure-service-operator/v2/internal/util/randextensions"
@@ -159,7 +159,7 @@ func register(
 	// to learn more look at https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/predicate#GenerationChangedPredicate
 	filter := predicate.Or(
 		predicate.GenerationChangedPredicate{},
-		arm.ARMReconcilerAnnotationChangedPredicate(options.Log.WithName(info.Name)))
+		reconcilers.ARMReconcilerAnnotationChangedPredicate(options.Log.WithName(info.Name)))
 
 	builder := ctrl.NewControllerManagedBy(mgr).
 		// Note: These predicates prevent status updates from triggering a reconcile.

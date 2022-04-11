@@ -65,11 +65,10 @@ func GetKnownStorageTypes(
 		}
 	}
 
-	lookup, err := MakeResourceStorageTypeLookup(mgr.GetScheme(), knownStorageTypes)
+	err := resourceResolver.IndexStorageTypes(mgr.GetScheme(), knownStorageTypes)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to build resource storage type lookup")
+		return nil, errors.Wrap(err, "failed add storage types to resource resolver")
 	}
-	resourceResolver := resolver.NewResolver(kubeClient, lookup)
 
 	var extensions map[schema.GroupVersionKind]genruntime.ResourceExtension
 	extensions, err = GetResourceExtensions(mgr.GetScheme())
@@ -110,17 +109,6 @@ func augmentWithARMReconciler(
 	options Options,
 	extension genruntime.ResourceExtension,
 	t *registration.StorageType) error {
-
-	v, err := conversion.EnforcePtr(t.Obj)
-	if err != nil {
-		return errors.Wrap(err, "t.Obj was expected to be ptr but was not")
-	}
-
-	typ := v.Type()
-	controllerName := fmt.Sprintf("%sController", typ.Name())
-
-	t.Name = controllerName
-
 	t.Reconciler = arm.NewAzureDeploymentReconciler(
 		armClientFactory,
 		kubeClient,
@@ -132,29 +120,25 @@ func augmentWithARMReconciler(
 	return nil
 }
 
-// MakeResourceStorageTypeLookup creates a map of schema.GroupKind to schema.GroupVersionKind. This can be used to look
-// up the storage version of any resource given the GroupKind that is being reconciled.
-func MakeResourceStorageTypeLookup(scheme *runtime.Scheme, objs []*registration.StorageType) (map[schema.GroupKind]schema.GroupVersionKind, error) {
-	result := make(map[schema.GroupKind]schema.GroupVersionKind)
-
-	for _, obj := range objs {
-		gvk, err := apiutil.GVKForObject(obj.Obj, scheme)
-		if err != nil {
-			return nil, errors.Wrapf(err, "creating GVK for obj %T", obj)
-		}
-		groupKind := schema.GroupKind{Group: gvk.Group, Kind: gvk.Kind}
-		if existing, ok := result[groupKind]; ok {
-			return nil, errors.Errorf(
-				"group: %q, kind: %q already has registered storage version %q, but found %q as well",
-				gvk.Group,
-				gvk.Kind,
-				existing.Version,
-				gvk.Version)
-		}
-		result[groupKind] = gvk
+func augmentWithControllerName(t *registration.StorageType) error {
+	controllerName, err := getControllerName(t.Obj)
+	if err != nil {
+		return errors.Wrapf(err, "failed to get controller name for obj %T", t.Obj)
 	}
 
-	return result, nil
+	t.Name = controllerName
+
+	return nil
+}
+
+func getControllerName(obj client.Object) (string, error) {
+	v, err := conversion.EnforcePtr(obj)
+	if err != nil {
+		return "", errors.Wrap(err, "t.Obj was expected to be ptr but was not")
+	}
+
+	typ := v.Type()
+	return fmt.Sprintf("%sController", typ.Name()), nil
 }
 
 func indexOwner(rawObj client.Object) []string {

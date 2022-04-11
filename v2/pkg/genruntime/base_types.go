@@ -40,12 +40,16 @@ type MetaObject interface {
 	conditions.Conditioner
 }
 
-// ARMMetaObject represents an arbitrary ASO resource that is
+// ARMMetaObject represents an arbitrary ASO resource that is an ARM resource
 type ARMMetaObject interface {
-	runtime.Object
-	metav1.Object
-	conditions.Conditioner
+	MetaObject
 	KubernetesResource
+}
+
+// ARMOwnedMetaObject represents an arbitrary ASO resource that is owned by an ARM resource
+type ARMOwnedMetaObject interface {
+	MetaObject
+	ARMOwned
 }
 
 type Reconciler interface {

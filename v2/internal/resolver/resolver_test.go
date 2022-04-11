@@ -16,8 +16,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
-
 	//nolint:staticcheck // ignoring deprecation (SA1019) to unblock CI builds
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
@@ -31,6 +29,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 )
 
 const testNamespace = "testnamespace"
@@ -40,35 +39,22 @@ func NewKubeClient(s *runtime.Scheme) kubeclient.Client {
 	return kubeclient.NewClient(fakeClient)
 }
 
-func NewTestResolver(client kubeclient.Client, reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind) *resolver.Resolver {
-	return resolver.NewResolver(client, reconciledResourceLookup)
-}
-
-func MakeResourceGVKLookup(scheme *runtime.Scheme) (map[schema.GroupKind]schema.GroupVersionKind, error) {
-	result := make(map[schema.GroupKind]schema.GroupVersionKind)
-
+func NewTestResolver(client kubeclient.Client) (*resolver.Resolver, error) {
+	res := resolver.NewResolver(client)
 	// Register all types used in these tests
-	objs := []runtime.Object{
-		new(resources.ResourceGroup),
-		new(batch.BatchAccount),
-		new(storage.StorageAccount),
-		new(storage.StorageAccountsBlobService),
-		new(mysql.FlexibleServer),
+	objs := []*registration.StorageType{
+		registration.NewStorageType(new(resources.ResourceGroup)),
+		registration.NewStorageType(new(batch.BatchAccount)),
+		registration.NewStorageType(new(storage.StorageAccount)),
+		registration.NewStorageType(new(storage.StorageAccountsBlobService)),
+		registration.NewStorageType(new(mysql.FlexibleServer)),
+	}
+	err := res.IndexStorageTypes(client.Scheme(), objs)
+	if err != nil {
+		return nil, err
 	}
 
-	for _, obj := range objs {
-		gvk, err := apiutil.GVKForObject(obj, scheme)
-		if err != nil {
-			return nil, errors.Wrapf(err, "creating GVK for obj %T", obj)
-		}
-		groupKind := schema.GroupKind{Group: gvk.Group, Kind: gvk.Kind}
-		if existing, ok := result[groupKind]; ok {
-			return nil, errors.Errorf("somehow group: %q, kind: %q was already registered with version %q", gvk.Group, gvk.Kind, existing.Version)
-		}
-		result[groupKind] = gvk
-	}
-
-	return result, nil
+	return res, nil
 }
 
 type testResources struct {
@@ -79,12 +65,11 @@ type testResources struct {
 func testSetup() (*testResources, error) {
 	s := createTestScheme()
 
-	reconciledResourceLookup, err := MakeResourceGVKLookup(s)
+	client := NewKubeClient(s)
+	res, err := NewTestResolver(client)
 	if err != nil {
 		return nil, err
 	}
-	client := NewKubeClient(s)
-	res := NewTestResolver(client, reconciledResourceLookup)
 
 	return &testResources{
 		resolver: res,

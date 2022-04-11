@@ -13,11 +13,13 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/types"
+	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 )
 
 type Resolver struct {
@@ -26,12 +28,37 @@ type Resolver struct {
 	reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind
 }
 
-func NewResolver(client kubeclient.Client, reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind) *Resolver {
+func NewResolver(client kubeclient.Client) *Resolver {
 	return &Resolver{
 		client:                   client,
 		kubeSecretResolver:       NewKubeSecretResolver(client),
-		reconciledResourceLookup: reconciledResourceLookup,
+		reconciledResourceLookup: make(map[schema.GroupKind]schema.GroupVersionKind),
 	}
+}
+
+func (r *Resolver) IndexStorageTypes(scheme *runtime.Scheme, objs []*registration.StorageType) error {
+	for _, obj := range objs {
+		gvk, err := apiutil.GVKForObject(obj.Obj, scheme)
+		if err != nil {
+			return errors.Wrapf(err, "creating GVK for obj %T", obj)
+		}
+		groupKind := schema.GroupKind{Group: gvk.Group, Kind: gvk.Kind}
+		if existing, ok := r.reconciledResourceLookup[groupKind]; ok {
+			if existing == gvk {
+				continue
+			}
+
+			return errors.Errorf(
+				"group: %q, kind: %q already has registered storage version %q, but found %q as well",
+				gvk.Group,
+				gvk.Kind,
+				existing.Version,
+				gvk.Version)
+		}
+		r.reconciledResourceLookup[groupKind] = gvk
+	}
+
+	return nil
 }
 
 // ResolveReferenceToARMID gets a references ARM ID. If the reference is just pointing to an ARM resource then the ARMID is returned.
@@ -147,10 +174,10 @@ func (r *Resolver) ResolveReference(ctx context.Context, ref genruntime.Namespac
 	return metaObj, nil
 }
 
-// ResolveOwner returns the MetaObject for the given resources owner. If the resource is supposed to have
+// ResolveOwner returns the MetaObject for the given resource's owner. If the resource is supposed to have
 // an owner but doesn't, this returns an ReferenceNotFound error. If the resource is not supposed
 // to have an owner (for example, ResourceGroup), returns nil.
-func (r *Resolver) ResolveOwner(ctx context.Context, obj genruntime.ARMMetaObject) (genruntime.ARMMetaObject, error) {
+func (r *Resolver) ResolveOwner(ctx context.Context, obj genruntime.ARMOwnedMetaObject) (genruntime.ARMMetaObject, error) {
 	owner := obj.Owner()
 
 	if owner == nil {
