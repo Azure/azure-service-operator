@@ -2,9 +2,13 @@ apiVersion: v1
 entries:
   azure-service-operator:
   - apiVersion: v2
-    created: "2022-03-03T16:41:18.238942+13:00"
+    created: "2022-04-11T17:42:39.319757+12:00"
+    dependencies:
+    - name: azure-service-operator-resources
+      repository: file://../azure-service-operator-resources
+      version: v2.0.0-alpha.6
     description: Deploy components and dependencies of azure-service-operator
-    digest: 644b1f9e38f7cd868963e52dc449cbb16231c10b3ee0ba303e864f1a392444fb
+    digest: 47ad95fb6e472e6e1d5d37474408988e167a8e3854c1ff817cdbffbbc9e50923
     home: https://github.com/Azure/azure-service-operator/v2
     name: azure-service-operator
     sources:
@@ -12,4 +16,13 @@ entries:
     urls:
     - azure-service-operator-v2.0.0-alpha.6.tgz
     version: v2.0.0-alpha.6
-generated: "2022-03-03T16:41:18.225231+13:00"
+  azure-service-operator-resources:
+  - apiVersion: v2
+    created: "2022-04-11T17:42:39.302379+12:00"
+    description: Install Custom Resources for Azure Service Operator v2
+    digest: e7daa4926941ed5313cd92572134d62b31951c39418215b82b76d98581cdbf14
+    name: azure-service-operator-resources
+    urls:
+    - azure-service-operator-resources-v2.0.0-alpha.6.tgz
+    version: v2.0.0-alpha.6
+generated: "2022-04-11T17:42:39.281327+12:00"

@@ -5,3 +5,8 @@ description: Deploy components and dependencies of azure-service-operator
 home: https://github.com/Azure/azure-service-operator/v2
 sources:
   - https://github.com/Azure/azure-service-operator/v2
+dependencies:
+  - name: azure-service-operator-resources
+    version: v2.0.0-alpha.6
+    repository: "file://../azure-service-operator-resources"
+    condition: installCRDs

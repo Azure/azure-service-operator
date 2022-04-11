@@ -50,3 +50,6 @@ image:
 metrics:
   enable: true
   address: 127.0.0.1:8080
+
+# installCRDs determines if the CRDs subchart should be installed.
+installCRDs: true
