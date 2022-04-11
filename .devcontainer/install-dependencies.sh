@@ -1,8 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
+# -e immediate exit on error
+# -u treat unset variables as an error
 set -eu
 
-# This script must run in two modes:
+# This may be run in two modes:
 #
 # - When being used to set up a devcontainer.
 #   In this mode the code is not checked out yet,
@@ -13,9 +15,58 @@ set -eu
 #   and we do not want to pollute the user’s system.
 #
 # To distinguish between these modes we will
-# have the devcontainer script pass an argument:
+# have the devcontainer script pass the argument 
+# `devcontainer`
+#
+# -v --verbose : Generate more logging
+# -f --force   : Force installation
 
-if [ "$1" = "devcontainer" ]; then 
+VERBOSE=false
+FORCE=false
+DEVCONTAINER=false
+
+while [[ $# -gt 0 ]]; do 
+  case $1 in 
+    -v | --verbose)
+      VERBOSE=true
+      shift
+      ;;
+    -f | --force)
+      FORCE=true
+      shift
+      ;;
+    -* | --*)
+      echo "Unknown option $1"
+      exit 1
+      ;;
+    devcontainer)
+      DEVCONTAINER=true
+      shift
+      ;;
+    *)
+      echo "Unknown parameter $1"
+      exit 1
+      ;;
+  esac
+done
+
+write-verbose() {
+    if [ "$VERBOSE" = true ]; then
+      echo "[VER] $1"
+    fi
+}
+
+write-info() {
+      echo "[INF] $1"
+}
+
+write-error() {
+    echo "[ERR] $1"
+}
+
+# Configure behaviour for devcontainer mode or not
+
+if [ "$DEVCONTAINER" = true ]; then 
     TOOL_DEST=/usr/local/bin
     KUBEBUILDER_DEST=/usr/local/kubebuilder
 else
@@ -24,17 +75,28 @@ else
     KUBEBUILDER_DEST="$TOOL_DEST/kubebuilder"
 fi
 
+# Ensure we have the right version of GO
+
 if ! command -v go > /dev/null 2>&1; then
-    echo "Go must be installed manually: https://golang.org/doc/install"
+    write-error "Go must be installed manually; see https://golang.org/doc/install"
     exit 1
 fi
+
+GOVERREQUIRED="go1.18"
+GOVERACTUAL=`go version | { read _ _ ver _; echo $ver; }`
+if [ "$GOVERREQUIRED" != "$GOVERACTUAL" ]; then
+    write-error "Go must be version $GOVERREQUIRED, not $GOVERACTUAL; see : https://golang.org/doc/install"
+    exit 1
+fi
+
+# Ensure we have AZ
 
 if ! command -v az > /dev/null 2>&1; then
-    echo "Azure CLI must be installed manually: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli"
+    write-error "Azure CLI must be installed manually: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli"
     exit 1
 fi
 
-echo "Installing tools to $TOOL_DEST"
+write-verbose "Installing tools to $TOOL_DEST"
 
 # Install Go tools
 TMPDIR=$(mktemp -d)
@@ -49,62 +111,95 @@ export GOPATH=$TMPDIR
 export GOCACHE=$TMPDIR/cache
 export GO111MODULE=on
 
-echo "Installing Go tools…"
+write-verbose "Installing Go tools…"
 
 # go tools for vscode are preinstalled by base image (see first comment in Dockerfile)
-go install k8s.io/code-generator/cmd/conversion-gen@v0.22.2 
-go install sigs.k8s.io/controller-tools/cmd/controller-gen@v0.8.0 
-go install sigs.k8s.io/kind@v0.11.1 
-go install sigs.k8s.io/kustomize/kustomize/v4@v4.5.2 
+
+# go-install() is a helper function to trigger `go install` 
+# if a command is missing OR if we're using --force
+go-install() {
+    write-verbose "Checking for $1"
+    if [ "$FORCE" == true ] || [ ! -f "$GOBIN/$1" ]; then 
+        write-info "Installing $1"
+        shift # Discard the command name so we can pass the remaining arguments to GO
+        go install $@
+    fi
+}
+
+go-install conversion-gen k8s.io/code-generator/cmd/conversion-gen@v0.22.2 
+go-install controller-gen sigs.k8s.io/controller-tools/cmd/controller-gen@v0.8.0 
+go-install kind sigs.k8s.io/kind@v0.11.1 
+go-install kustomize sigs.k8s.io/kustomize/kustomize/v4@v4.5.2 
 
 # for docs site
-go install -tags extended github.com/gohugoio/hugo@v0.88.1
-go install github.com/wjdp/htmltest@v0.15.0
+go-install hugo -tags extended github.com/gohugoio/hugo@v0.88.1
+go-install htmltest github.com/wjdp/htmltest@v0.15.0
 
 # for api docs 
 # TODO: Replace this with the new release tag.
-go install github.com/ahmetb/gen-crd-api-reference-docs@v0.3.1-0.20220223025230-af7c5e0048a3
+go-install gen-crd-api-reference-docs github.com/ahmetb/gen-crd-api-reference-docs@v0.3.1-0.20220223025230-af7c5e0048a3
 
-if [ "$1" != "devcontainer" ]; then 
-    echo "Installing golangci-lint…"
-    # golangci-lint is provided by base image if in devcontainer
-    # this command copied from there
-    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v1.45.2 2>&1
+# Install golangci-lint
+if [ "$DEVCONTAINER" != true ]; then 
+    write-verbose "Checking for golangci-lint"
+    if [ "$FORCE" == true ] || [ ! -f "$TOOL_DEST/golangci-lint" ]; then 
+        write-info "Installing golangci-lint"
+        # golangci-lint is provided by base image if in devcontainer
+        # this command copied from there
+        curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v1.45.2 2>&1
+    fi
 fi
 
-# Install go-task (task runner)
-echo "Installing go-task…"
-curl -sL "https://github.com/go-task/task/releases/download/v3.7.0/task_linux_amd64.tar.gz" | tar xz -C "$TOOL_DEST" task
+# Install Task
+write-verbose "Checking for go-task"
+if [ "$FORCE" == true ] || [ ! -f "$TOOL_DEST/task" ]; then 
+    write-info "Installing go-task"
+    curl -sL "https://github.com/go-task/task/releases/download/v3.7.0/task_linux_amd64.tar.gz" | tar xz -C "$TOOL_DEST" task
+fi
 
 # Install binaries for envtest
 os=$(go env GOOS)
 arch=$(go env GOARCH)
 K8S_VERSION=1.23.3
-echo "Installing envtest binaries (kubectl, etcd, kube-apiserver) for ${K8S_VERSION} ($os $arch)…"
-curl -sSLo envtest-bins.tar.gz "https://go.kubebuilder.io/test-tools/${K8S_VERSION}/${os}/${arch}"
-mkdir -p "$KUBEBUILDER_DEST"
-tar -C "$KUBEBUILDER_DEST" --strip-components=1 -zvxf envtest-bins.tar.gz
-rm envtest-bins.tar.gz
+write-verbose "Checking for envtest binaries"
+if [ "$FORCE" == true ] || [ ! -f "$KUBEBUILDER_DEST/bin/kubebuilder" ]; then 
+    write-info "Installing envtest binaries (kubectl, etcd, kube-apiserver) for ${K8S_VERSION} ($os $arch)…"
+    curl -sSLo envtest-bins.tar.gz "https://go.kubebuilder.io/test-tools/${K8S_VERSION}/${os}/${arch}"
+    mkdir -p "$KUBEBUILDER_DEST"
+    tar -C "$KUBEBUILDER_DEST" --strip-components=1 -zvxf envtest-bins.tar.gz
+    rm envtest-bins.tar.gz
+fi
 
 # Install helm
-echo "Installing helm…"
-curl -sL "https://get.helm.sh/helm-v3.8.0-linux-amd64.tar.gz" | tar -C "$TOOL_DEST" --strip-components=1 -xz linux-amd64/helm
+write-verbose "Checking for helm"
+if [ "$FORCE" == true ] || [ ! -f "$TOOL_DEST/helm" ]; then 
+    write-info "Installing helm…"
+    curl -sL "https://get.helm.sh/helm-v3.8.0-linux-amd64.tar.gz" | tar -C "$TOOL_DEST" --strip-components=1 -xz linux-amd64/helm
+fi
 
 # Install yq
-echo "Installing yq…"
 yq_version=v4.13.0
 yq_binary=yq_linux_amd64
-wget "https://github.com/mikefarah/yq/releases/download/${yq_version}/${yq_binary}.tar.gz" -O - | tar -xz -C "$TOOL_DEST" && mv "$TOOL_DEST/$yq_binary" "$TOOL_DEST/yq"
+write-verbose "Checking for yq"
+if [ "$FORCE" == true ] || [ ! -f "$TOOL_DEST/yq" ]; then 
+    write-info "Installing yq…"
+    rm -f "$TOOL_DEST/yq" # remove yq in case we're forcing the install
+    wget "https://github.com/mikefarah/yq/releases/download/${yq_version}/${yq_binary}.tar.gz" -O - | tar -xz -C "$TOOL_DEST" && mv "$TOOL_DEST/$yq_binary" "$TOOL_DEST/yq"
+fi
 
 # Install cmctl, used to wait for cert manager installation during some tests cases
-echo "Installing cmctl-${os}_${arch}…"
-curl -L "https://github.com/jetstack/cert-manager/releases/latest/download/cmctl-${os}-${arch}.tar.gz" | tar -xz -C "$TOOL_DEST"
+write-verbose "Checking for cmctl"
+if [ "$FORCE" == true ] || [ ! -f "$TOOL_DEST/cmctl" ]; then 
+    write-info "Installing cmctl-${os}_${arch}…"
+    curl -L "https://github.com/jetstack/cert-manager/releases/latest/download/cmctl-${os}-${arch}.tar.gz" | tar -xz -C "$TOOL_DEST"
+fi
 
-echo "Installed tools: $(ls "$TOOL_DEST")"
+if [ "$VERBOSE" == true ]; then 
+    echo "Installed tools: $(ls "$TOOL_DEST")"
+fi
 
-
-if [ "$1" = "devcontainer" ]; then 
-    echo "Setting up k8s webhook certificates"
+if [ "$DEVCONTAINER" == true ]; then 
+    write-info "Setting up k8s webhook certificates"
 
     mkdir -p /tmp/k8s-webhook-server/serving-certs
     openssl genrsa 2048 > tls.key
