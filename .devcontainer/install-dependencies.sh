@@ -18,11 +18,14 @@ set -eu
 # have the devcontainer script pass the argument 
 # `devcontainer`
 #
-# -v --verbose : Generate more logging
-# -f --force   : Force installation
+# Other available arguments
+#
+# -v --verbose          : Generate more logging
+# -s --skip-installed   : Skip anything that's already installed
+#
 
 VERBOSE=false
-FORCE=false
+SKIP=false
 DEVCONTAINER=false
 
 while [[ $# -gt 0 ]]; do 
@@ -31,8 +34,8 @@ while [[ $# -gt 0 ]]; do
       VERBOSE=true
       shift
       ;;
-    -f | --force)
-      FORCE=true
+    -s | --skip-installed)
+      SKIP=true
       shift
       ;;
     -* | --*)
@@ -118,20 +121,18 @@ write-verbose "Installing Go tools…"
 # should-install() is a helper function for deciding whether 
 # a given installation is necessary
 should-install() {
-    if [ "$FORCE" == true ] || [ ! -f "$1" ]; then 
-        # Yes, installation is necessary
-        return 0
+    if [ "$SKIP" == true ] && [ -f "$1" ]; then 
+        # We can skip installation
+        return 1
     fi
 
-    # No, installation is not
-    return 1
+    # Installation is needed
+    return 0
 }
 
-
 # go-install() is a helper function to trigger `go install` 
-# if a command is missing OR if we're using --force
 go-install() {
-    write-verbose "Checking for $1"
+    write-verbose "Checking for $GOBIN/$1"
     if should-install "$GOBIN/$1"; then 
         write-info "Installing $1"
         shift # Discard the command name so we can pass the remaining arguments to GO
@@ -154,7 +155,7 @@ go-install gen-crd-api-reference-docs github.com/ahmetb/gen-crd-api-reference-do
 
 # Install golangci-lint
 if [ "$DEVCONTAINER" != true ]; then 
-    write-verbose "Checking for golangci-lint"
+    write-verbose "Checking for $TOOL_DEST/golangci-lint"
     if should-install "$TOOL_DEST/golangci-lint"; then 
         write-info "Installing golangci-lint"
         # golangci-lint is provided by base image if in devcontainer
@@ -164,7 +165,7 @@ if [ "$DEVCONTAINER" != true ]; then
 fi
 
 # Install Task
-write-verbose "Checking for go-task"
+write-verbose "Checking for $TOOL_DEST/go-task"
 if should-install "$TOOL_DEST/task"; then 
     write-info "Installing go-task"
     curl -sL "https://github.com/go-task/task/releases/download/v3.7.0/task_linux_amd64.tar.gz" | tar xz -C "$TOOL_DEST" task
@@ -174,7 +175,7 @@ fi
 os=$(go env GOOS)
 arch=$(go env GOARCH)
 K8S_VERSION=1.23.3
-write-verbose "Checking for envtest binaries"
+write-verbose "Checking for envtest binaries in $KUBEBUILDER_DEST/bin/kubebuilder"
 if should-install "$KUBEBUILDER_DEST/bin/kubebuilder"; then 
     write-info "Installing envtest binaries (kubectl, etcd, kube-apiserver) for ${K8S_VERSION} ($os $arch)…"
     curl -sSLo envtest-bins.tar.gz "https://go.kubebuilder.io/test-tools/${K8S_VERSION}/${os}/${arch}"
@@ -184,7 +185,7 @@ if should-install "$KUBEBUILDER_DEST/bin/kubebuilder"; then
 fi
 
 # Install helm
-write-verbose "Checking for helm"
+write-verbose "Checking for $TOOL_DEST/helm"
 if should-install "$TOOL_DEST/helm"; then 
     write-info "Installing helm…"
     curl -sL "https://get.helm.sh/helm-v3.8.0-linux-amd64.tar.gz" | tar -C "$TOOL_DEST" --strip-components=1 -xz linux-amd64/helm
@@ -193,7 +194,7 @@ fi
 # Install yq
 yq_version=v4.13.0
 yq_binary=yq_linux_amd64
-write-verbose "Checking for yq"
+write-verbose "Checking for $TOOL_DEST/yq"
 if should-install "$TOOL_DEST/yq"; then 
     write-info "Installing yq…"
     rm -f "$TOOL_DEST/yq" # remove yq in case we're forcing the install
@@ -201,7 +202,7 @@ if should-install "$TOOL_DEST/yq"; then
 fi
 
 # Install cmctl, used to wait for cert manager installation during some tests cases
-write-verbose "Checking for cmctl"
+write-verbose "Checking for $TOOL_DEST/cmctl"
 if should-install "$TOOL_DEST/cmctl"; then 
     write-info "Installing cmctl-${os}_${arch}…"
     curl -L "https://github.com/jetstack/cert-manager/releases/latest/download/cmctl-${os}-${arch}.tar.gz" | tar -xz -C "$TOOL_DEST"
