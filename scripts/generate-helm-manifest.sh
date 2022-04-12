@@ -36,7 +36,6 @@ mkdir "$DIR"charts/azure-service-operator-resources/templates
 find "$DIR"charts/azure-service-operator/templates/generated/*_customresourcedefinition_* -exec mv '{}' "$DIR"charts/azure-service-operator-resources/templates \; # move CRD definitions to resources chart folder
 sed -i "1,/version:.*/s/\(version: \)\(.*\)/\1$VERSION/g" "$DIR"charts/azure-service-operator-resources/Chart.yaml  # find version key and update the value with the current version for resources chart
 
-
 # Helm chart packaging, indexing and updating dependencies
 echo "Packaging helm charts"
 helm package "$DIR"charts/azure-service-operator-resources -d "$DIR"charts # package the CRD helm files into a tar file
