@@ -15,6 +15,7 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
+	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -68,6 +69,7 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 		grp, _, ok := pkg.GroupVersion()
 		if !ok {
 			// Any external packages we encounter here  are odd, but not worth aborting our run over
+			klog.V(3).Infof("Skipping external package %s while generating resource version report", pkg.String())
 			continue
 		}
 
