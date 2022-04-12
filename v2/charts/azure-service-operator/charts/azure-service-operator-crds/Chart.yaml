@@ -1,4 +1,4 @@
 apiVersion: v2
-name: azure-service-operator-resources
+name: azure-service-operator-crds
 description: Install Custom Resources for Azure Service Operator v2
 version: v2.0.0-alpha.6
