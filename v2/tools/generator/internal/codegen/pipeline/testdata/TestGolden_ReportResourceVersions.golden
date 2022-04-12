@@ -2,21 +2,12 @@
 
 These are the resources with Azure Service Operator support committed to our **main** branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
 
-## person
+## Person
 
-
-### ARM version v20200101
-
-- Address ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/person/v20200101_address.yaml))
-- Person ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/person/v20200101_person.yaml))
-
-Use CRD version `v20200101`
-
-
-### ARM version v20211231
-
-- Address ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/person/v20211231_address.yaml))
-- Person ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/person/v20211231_person.yaml))
-
-Use CRD version `v20211231`
+| Resource | ARM Version | CRD Version | Sample                                                                                                            |
+|----------|-------------|-------------|-------------------------------------------------------------------------------------------------------------------|
+| Address  | v20211231   | v20211231   | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/person/v20211231_address.yaml) |
+| Address  | v20200101   | v20200101   | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/person/v20200101_address.yaml) |
+| Person   | v20211231   | v20211231   | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/person/v20211231_person.yaml)  |
+| Person   | v20200101   | v20200101   | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/person/v20200101_person.yaml)  |
 
