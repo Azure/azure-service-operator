@@ -115,11 +115,24 @@ write-verbose "Installing Go tools…"
 
 # go tools for vscode are preinstalled by base image (see first comment in Dockerfile)
 
+# should-install() is a helper function for deciding whether 
+# a given installation is necessary
+should-install() {
+    if [ "$FORCE" == true ] || [ ! -f "$1" ]; then 
+        # Yes, installation is necessary
+        return 0
+    fi
+
+    # No, installation is not
+    return 1
+}
+
+
 # go-install() is a helper function to trigger `go install` 
 # if a command is missing OR if we're using --force
 go-install() {
     write-verbose "Checking for $1"
-    if [ "$FORCE" == true ] || [ ! -f "$GOBIN/$1" ]; then 
+    if should-install "$GOBIN/$1"; then 
         write-info "Installing $1"
         shift # Discard the command name so we can pass the remaining arguments to GO
         go install $@
@@ -142,7 +155,7 @@ go-install gen-crd-api-reference-docs github.com/ahmetb/gen-crd-api-reference-do
 # Install golangci-lint
 if [ "$DEVCONTAINER" != true ]; then 
     write-verbose "Checking for golangci-lint"
-    if [ "$FORCE" == true ] || [ ! -f "$TOOL_DEST/golangci-lint" ]; then 
+    if should-install "$TOOL_DEST/golangci-lint"; then 
         write-info "Installing golangci-lint"
         # golangci-lint is provided by base image if in devcontainer
         # this command copied from there
@@ -152,7 +165,7 @@ fi
 
 # Install Task
 write-verbose "Checking for go-task"
-if [ "$FORCE" == true ] || [ ! -f "$TOOL_DEST/task" ]; then 
+if should-install "$TOOL_DEST/task"; then 
     write-info "Installing go-task"
     curl -sL "https://github.com/go-task/task/releases/download/v3.7.0/task_linux_amd64.tar.gz" | tar xz -C "$TOOL_DEST" task
 fi
@@ -162,7 +175,7 @@ os=$(go env GOOS)
 arch=$(go env GOARCH)
 K8S_VERSION=1.23.3
 write-verbose "Checking for envtest binaries"
-if [ "$FORCE" == true ] || [ ! -f "$KUBEBUILDER_DEST/bin/kubebuilder" ]; then 
+if should-install "$KUBEBUILDER_DEST/bin/kubebuilder"; then 
     write-info "Installing envtest binaries (kubectl, etcd, kube-apiserver) for ${K8S_VERSION} ($os $arch)…"
     curl -sSLo envtest-bins.tar.gz "https://go.kubebuilder.io/test-tools/${K8S_VERSION}/${os}/${arch}"
     mkdir -p "$KUBEBUILDER_DEST"
@@ -172,7 +185,7 @@ fi
 
 # Install helm
 write-verbose "Checking for helm"
-if [ "$FORCE" == true ] || [ ! -f "$TOOL_DEST/helm" ]; then 
+if should-install "$TOOL_DEST/helm"; then 
     write-info "Installing helm…"
     curl -sL "https://get.helm.sh/helm-v3.8.0-linux-amd64.tar.gz" | tar -C "$TOOL_DEST" --strip-components=1 -xz linux-amd64/helm
 fi
@@ -181,7 +194,7 @@ fi
 yq_version=v4.13.0
 yq_binary=yq_linux_amd64
 write-verbose "Checking for yq"
-if [ "$FORCE" == true ] || [ ! -f "$TOOL_DEST/yq" ]; then 
+if should-install "$TOOL_DEST/yq"; then 
     write-info "Installing yq…"
     rm -f "$TOOL_DEST/yq" # remove yq in case we're forcing the install
     wget "https://github.com/mikefarah/yq/releases/download/${yq_version}/${yq_binary}.tar.gz" -O - | tar -xz -C "$TOOL_DEST" && mv "$TOOL_DEST/$yq_binary" "$TOOL_DEST/yq"
@@ -189,7 +202,7 @@ fi
 
 # Install cmctl, used to wait for cert manager installation during some tests cases
 write-verbose "Checking for cmctl"
-if [ "$FORCE" == true ] || [ ! -f "$TOOL_DEST/cmctl" ]; then 
+if should-install "$TOOL_DEST/cmctl"; then 
     write-info "Installing cmctl-${os}_${arch}…"
     curl -L "https://github.com/jetstack/cert-manager/releases/latest/download/cmctl-${os}-${arch}.tar.gz" | tar -xz -C "$TOOL_DEST"
 fi
