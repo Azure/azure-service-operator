@@ -1,6 +1,0 @@
-dependencies:
-- name: azure-service-operator-resources
-  repository: file://../azure-service-operator-resources
-  version: v2.0.0-alpha.6
-digest: sha256:07fae1242fb3796128d2397b55cbe2fc73aee1070af03407a42804d072019b49
-generated: "2022-04-11T13:29:47.615811+12:00"

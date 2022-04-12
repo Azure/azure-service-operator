@@ -8,5 +8,4 @@ sources:
 dependencies:
   - name: azure-service-operator-resources
     version: v2.0.0-alpha.6
-    repository: "file://../azure-service-operator-resources"
     condition: installCRDs
