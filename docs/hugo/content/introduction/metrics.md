@@ -14,8 +14,8 @@ While installing the Helm chart, we can turn the metrics _**on**_ and _**off**_ 
 below settings. Also, we can change the settings inside `values.yaml` file for ASOv2 Helm chart.
 
    ```
-   --set metrics.enable=true/false (default: true)
-   --set metrics.address=127.0.0.1:8080 (default)
+    --set metrics.enable=true/false (default: true)
+    --set metrics.address=127.0.0.1:8080 (default)
    ```
 
 ### Deployment Yaml
@@ -42,4 +42,13 @@ a different metrics-addr by changing the default value of that same flag.
 | `azure_failed_requests_total`                  | A prometheus counter metric with total number of failed requests to Azure                                    | ResourceName | RequestType |              |
 | `azure_requests_time_seconds`                  | A prometheus histogram metric which keeps track of the duration of round-trip time taken by request to Azure | ResourceName | RequestType |              |
 
+### Labels
 
+Labels are used to differentiate the characteristics of the metric that is being measured. Each metric with distinct labels
+is an independent metric. Below are the labels used in ASOv2 metrics:
+
+- **Controller**: Each resource being reconciled against Azure ARM has a separate dedicated controller
+- **Result**: Reconcile result returned by controller ( error | requeue | requeue_after | success )
+- **ResourceName**: Resource name for which the request is sent
+- **RequestType**: Http request method ( GET | PUT | DELETE )
+- **ResponseCode**: Http code in response from Azure
