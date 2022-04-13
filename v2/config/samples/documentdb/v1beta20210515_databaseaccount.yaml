@@ -11,3 +11,15 @@ spec:
   databaseAccountOfferType: Standard
   locations:
     - locationName: westcentralus
+  # Optional: Save the connection details for this DatabaseAccount into a Kubernetes secret
+  operatorSpec:
+    secrets:
+      primaryMasterKey:
+        name: db-secret
+        key: primarymasterkey
+      secondaryMasterKey:
+        name: db-secret
+        key: secondarymasterkey
+      documentEndpoint:
+        name: db-secret
+        key: endpoint
